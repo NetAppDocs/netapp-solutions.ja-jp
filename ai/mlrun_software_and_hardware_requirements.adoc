@@ -1,0 +1,89 @@
+---
+sidebar: sidebar 
+permalink: ai/mlrun_software_and_hardware_requirements.html 
+keywords: NetApp, Software, Hardware, Network, Requirements 
+summary:  
+---
+= ソフトウェアとハードウェアの要件
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== ネットワーク構成：
+
+クラウドにセットアップするためのネットワーク構成の要件は次のとおりです。
+
+* Iguazio クラスタと NetApp Cloud Volume は、同じ仮想プライベートクラウドに存在する必要があります。
+* クラウドマネージャは、 Iguazio アプリノードのポート 443 にアクセスできる必要があります。
+* 本テクニカルレポートでは Amazon Web Services を使用しました。ただし、任意のクラウドプロバイダに解決策を導入することもできます。 ONTAP AI で NVIDIA DGX-1 を使用したオンプレミステストの場合は、便宜のために Iguazio ホスト DNS サービスを使用しました。
+
+
+クライアントは、動的に作成される DNS ドメインにアクセスできる必要があります。お客様は必要に応じて独自の DNS を使用できます。
+
+
+
+== ハードウェア要件
+
+イグアスは、ご使用のクラスタにオンプレミスでインストールできます。ネットアップでは、 NVIDIA DGX-1 システムで NetApp ONTAP AI の解決策を検証しました。次の表に、この解決策のテストに使用したハードウェアを示します。
+
+|===
+| ハードウェア | 数量 
+
+
+| DGX-1 システム | 1. 
+
+
+| NetApp AFF A800 システム | ハイアベイラビリティ（ HA ）ペア × 1 、コントローラ × 2 、 NVMe SSD × 48 （ 3.8TB 以上） 
+
+
+| Cisco Nexus 3232C ネットワークスイッチ | 2. 
+|===
+次の表に、オンプレミステストに必要なソフトウェアコンポーネントを示します。
+
+|===
+| ソフトウェア | バージョンまたはその他の情報 
+
+
+| NetApp ONTAP データ管理ソフトウェア | 9.7 
+
+
+| Cisco NX-OS スイッチのファームウェア | 7.0 （ 3 ） I6 （ 1 ） 
+
+
+| NVIDIA DGX OS | 4.4 - Ubuntu 18.04 LTS 
+
+
+| Docker コンテナプラットフォーム | 19.03.5 
+
+
+| コンテナバージョン | 20.01-tF1 - py2 
+
+
+| 機械学習フレームワーク | TensorFlow 1.15.0 
+
+
+| イグアテオ | バージョン 2.8 以降 
+
+
+| ESX サーバ | 6.5 
+|===
+この解決策は、 Iguazio バージョン 2.5 および NetApp Cloud Volumes ONTAP for AWS で完全にテストされています。Iguazio クラスタとネットアップのソフトウェアは、どちらも AWS で実行されています。
+
+|===
+| ソフトウェア | [ バージョン ] または [ タイプ ] 
+
+
+| イグアテオ | バージョン 2.8 以降 
+
+
+| アプリケーションノード | m5.mc 
+
+
+| データノード | I3.と は、および 
+|===
+link:mlrun_network_device_failure_prediction_use_case_summary.html["次の例：ネットワークデバイスの障害予測ユースケースの概要"]

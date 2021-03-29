@@ -1,0 +1,90 @@
+---
+sidebar: sidebar 
+permalink: vdi-vds/hcvdivds_data_management.html 
+keywords: File services, Azure, TestvDC, SMB, Global File Cache, SaaS Backup 
+summary: 導入の一環として、ユーザプロファイル、共有データ、およびホームドライブフォルダをホストするファイルサービス方式を選択できます。使用可能なオプションは、ファイルサーバ、 Azure ファイル、 Azure NetApp Files です。ただし、導入後に TestvDC ツールを使用してこのオプションを変更すると、任意の SMB 共有を指定できます。NetApp ONTAP を使用してホストすると、さまざまなメリットがあります。 
+---
+= データ管理
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+導入の一環として、ユーザプロファイル、共有データ、およびホームドライブフォルダをホストするファイルサービス方式を選択できます。使用可能なオプションは、ファイルサーバ、 Azure ファイル、 Azure NetApp Files です。ただし、導入後に TestvDC ツールを使用してこのオプションを変更すると、任意の SMB 共有を指定できます。NetApp ONTAP を使用してホストすると、さまざまなメリットがあります。詳細については、を参照してください https://docs.netapp.com/us-en/virtual-desktop-service/guide_change_storage.html["NetApp Redirecting Storage Platform ページ"^]。
+
+
+
+== グローバルファイルキャッシュ
+
+グローバルネームスペース内の複数のサイトにユーザが分散している場合、グローバルファイルキャッシュを使用すると、頻繁にアクセスされるデータのレイテンシを低減できます。グローバルファイルキャッシュの導入は、プロビジョニングコレクションとスクリプト化されたイベントを使用して自動化できます。グローバルファイルキャッシュは、読み取りキャッシュと書き込みキャッシュをローカルで処理し、場所を問わずファイルのロックを維持します。グローバルファイルキャッシュは、 Azure NetApp Files を含む任意の SMB ファイルサーバと連携できます。
+
+image:hcvdivds_image13.png["エラー：グラフィックイメージがありません"]
+
+グローバルファイルキャッシュには次のものが必要です。
+
+* 管理サーバ（ライセンス管理サーバ）
+* コア
+* データをキャッシュするための十分なディスク容量を備えたエッジ
+
+
+ソフトウェアをダウンロードして、 Edge 用のディスクキャッシュ容量を計算するには、を参照してください https://docs.netapp.com/us-en/occm/download_gfc_resources.html#download-required-resources["GFC のドキュメント"^]。
+
+今回の検証では、コアリソースと管理リソースを Azure 上の同じ VM に導入し、エッジリソースを NetApp HCI 上に配置しました。コアは大量のデータアクセスが必要な領域であり、エッジはコアのサブセットであることに注意してください。ソフトウェアをインストールしたら、使用する前にライセンスをアクティブ化する必要があります。[ ライセンスの設定 ] セクションで、 [ ここをクリックしてライセンスの有効化を完了します ] リンクを使用します。次に、コアを登録します。
+
+image:hcvdivds_image27.png["エラー：グラフィックイメージがありません"]
+
+グローバルファイルキャッシュに使用するサービスアカウントを指定します。このアカウントに必要な権限については、を参照してください https://docs.netapp.com/us-en/occm/download_gfc_resources.html#download-required-resources["GFC のドキュメント"^]。
+
+image:hcvdivds_image28.png["エラー：グラフィックイメージがありません"]
+
+新しいバックエンドファイルサーバを追加し、ファイルサーバ名または IP を指定します。
+
+image:hcvdivds_image29.png["エラー：グラフィックイメージがありません"]
+
+エッジでは、キャッシュドライブのドライブ文字は D にする必要があります表示されない場合は、 diskpart.exe を使用してボリュームを選択し、ドライブレターを変更します。エッジとしてライセンスサーバーに登録します。
+
+image:hcvdivds_image30.png["エラー：グラフィックイメージがありません"]
+
+コアの自動構成が有効になっている場合は、コア情報がライセンス管理サーバから自動的に取得されます。
+
+image:hcvdivds_image31.png["エラー：グラフィックイメージがありません"]
+
+任意のクライアントマシンから、ファイルサーバ上の共有にアクセスするために使用する管理者は、 UNC パス \\<edge サーバ名 >\FASTDATA/<core サーバ名 >\< バックエンドファイルサーバ名 >\< 共有名 >` を使用して GFC エッジ経由でアクセスできます。管理者は、このパスをエッジロケーションのユーザードライブマッピング用のユーザーログオンスクリプトまたは GPO に含めることができます。
+
+管理者は、世界中のユーザーに透過的なアクセスを提供するために、ファイルサーバーの共有とエッジの場所を指すリンクを使用して、 Microsoft Distributed Filesystem (DFS) を設定できます。
+
+image:hcvdivds_image32.png["エラー：グラフィックイメージがありません"]
+
+ユーザがサイトに関連付けられたサブネットに基づいて Active Directory クレデンシャルでログインすると、 DFS クライアントがデータにアクセスするために適切なリンクが使用されます。
+
+image:hcvdivds_image33.png["エラー：グラフィックイメージがありません"]
+
+ファイルアイコンは、ファイルがキャッシュされているかどうかに応じて変化します。キャッシュされていないファイルの場合は、アイコンの左下隅にグレーの X が表示されます。エッジの場所にいるユーザーがファイルにアクセスすると、そのファイルがキャッシュされ、アイコンが変化します。
+
+image:hcvdivds_image34.png["エラー：グラフィックイメージがありません"]
+
+ファイルが開いているときに、別のユーザーがエッジの場所から同じファイルを開こうとすると、次の選択を求めるプロンプトが表示されます。
+
+image:hcvdivds_image35.png["エラー：グラフィックイメージがありません"]
+
+ユーザが元のコピーが使用可能になったときに通知を受け取るオプションを選択した場合、ユーザには次のように通知されます。
+
+image:hcvdivds_image36.png["エラー：グラフィックイメージがありません"]
+
+詳細については、を参照してください https://www.youtube.com/watch?v=91LKb1qsLIM["Talon と Azure NetApp Files の導入に関するビデオ"^]。
+
+
+
+== SaaS バックアップ
+
+NetApp VDS は、 Exchange 、 SharePoint 、 Microsoft OneDrive など、 Salesforce と Microsoft Office 365 のデータ保護を提供します。次の図は、これらのデータサービス用に NetApp VDS で SaaS Backup を提供する方法を示しています。
+
+image:hcvdivds_image14.png["エラー：グラフィックイメージがありません"]
+
+Microsoft Office 365 のデータ保護のデモについては、を参照してください https://www.youtube.com/watch?v=MRPBSu8RaC0&ab_channel=NetApp["このビデオでは"^]。
+
+Salesforce のデータ保護のデモについては、を参照してください https://www.youtube.com/watch?v=1j1l3Qwo9nw&ab_channel=NetApp["このビデオでは"^]。
+
+link:hcvdivds_operation_management.html["次：運用管理"]

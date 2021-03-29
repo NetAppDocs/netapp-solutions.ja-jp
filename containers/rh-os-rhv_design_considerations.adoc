@@ -1,0 +1,54 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-rhv_design_considerations.html 
+keywords: network, VLAN, IPMI, OCP 
+summary:  
+---
+= 設計上の考慮事項： RHV 上で Red Hat OpenShift を使用する NetApp HCI
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+=== ネットワーク設計
+
+HCI 解決策上の RHV 上の Red Hat OpenShift は、 2 つのデータスイッチを使用して、 25Gbps でプライマリデータ接続を提供します。また、ストレージノードのインバンド管理用に 1Gbps で接続を提供する管理スイッチをさらに 2 台使用し、 IPMI 機能のアウトオブバンド管理も行います。OCP は、クラスタ管理用に RHV 上の論理ネットワークを使用します。このセクションでは、解決策で使用される各仮想ネットワークセグメントの配置と目的について説明し、解決策を導入するための前提条件を概説します。
+
+
+
+==== VLAN の要件
+
+RHV 解決策上の NetApp HCI OpenShift は、仮想ローカルエリアネットワーク（ VLAN ）を使用して、ネットワークトラフィックを論理的に分離するように設計されています。NetApp HCI には、少なくとも 3 つのネットワークセグメントが必要です。ただし、この構成は、お客様のニーズに合わせて拡張したり、特定のネットワークサービスをさらに分離したりするために拡張できます。次の表に、解決策の実装に必要な VLAN 、および検証済みアーキテクチャの導入で使用される特定の VLAN ID を示します。
+
+|===
+| VLAN | 目的 | VLAN ID 
+
+
+| アウトオブバンド管理ネットワーク | HCI ノードと IPMI の管理に使用します | 16 
+
+
+| インバンド管理ネットワーク | HCI ノード、 ovirtmgmt 、 VM の管理 | 1172 
+
+
+| ストレージネットワーク | NetApp Element 用のストレージネットワーク | 3343 
+
+
+| 移行用ネットワーク | 仮想ゲスト移行用のネットワーク | 3345 
+|===
+
+
+==== ネットワークインフラストラクチャサポートリソース
+
+NetApp HCI 解決策上の Red Hat 仮想化に OpenShift Container Platform （ OCP ）を導入する前に、次のインフラを用意する必要があります。
+
+* インバンド管理ネットワークおよび VM ネットワークからアクセス可能な完全なホスト名解決を提供する DNS サーバが少なくとも 1 台あります。
+* インバンド管理ネットワークおよび VM ネットワークからアクセスできる NTP サーバが少なくとも 1 台必要です。
+* （オプション）インバンド管理ネットワークと VM ネットワークの両方のアウトバウンドインターネット接続。
+* RHV クラスタには、（本番ワークロードの要件に応じて）少なくとも 28 個の vCPU 、 112GB の RAM 、および 840GB の使用可能なストレージが必要です。
+
+
+link:rh-os-rhv_deployment_summary.html["次は、 RHV に Red Hat OpenShift 用 NetApp HCI を導入することです"]

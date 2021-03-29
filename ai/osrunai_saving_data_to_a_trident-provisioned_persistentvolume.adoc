@@ -1,0 +1,42 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_saving_data_to_a_trident-provisioned_persistentvolume.html 
+keywords:  
+summary:  
+---
+= Trident でプロビジョニングされた永続的ボリュームにデータを保存する
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+NetApp Trident は、コンテナ化されたアプリケーションが求める高度な永続性のニーズに対応できるように設計された、完全にサポートされているオープンソースプロジェクトです。Trident でプロビジョニングされた Kubernetes PersistentVolume （ PV ）に対してデータの読み取りと書き込みを行うことができ、データ階層化、暗号化、 NetApp Snapshot テクノロジ、コンプライアンス、 NetApp ONTAP データ管理ソフトウェアが提供する高パフォーマンスといったメリットも活用できます。
+
+
+
+== 既存の名前空間での PVC の再利用
+
+大規模な AI プロジェクトでは、異なるコンテナで同じ Kubernetes PV に対してデータの読み取りや書き込みを行う方が効率的な場合があります。Kubernetes Persistent Volume Claim （ PVC ；永続ボリューム要求）を再利用するには、ユーザが PVC を作成しておく必要があります。を参照してください https://netapp-trident.readthedocs.io/["NetApp Trident のドキュメント"^] PVC 作成の詳細については、を参照してください。次に、既存の PVC を再利用する例を示します。
+
+....
+$ runai submit pvc-test -p team-a --pvc test:/tmp/pvc1mount -i gcr.io/run-ai-demo/quickstart -g 1
+....
+次のコマンドを実行して ' プロジェクト 'team -a' のジョブ pvc-test' のステータスを表示します
+
+....
+$ runai get pvc-test -p team-a
+....
+'team -a' ジョブ 'pvctest' にマウントされた PV /tmp/pvc1mount が表示されますこのようにして、複数のコンテナが同じボリュームから読み取ることができるため、開発中または本番環境で競合する複数のモデルが存在する場合に便利です。データサイエンティストは、モデルのアンサンブルを構築し、大多数の投票またはその他の技術によって予測結果を組み合わせることができます。
+
+次のコマンドを使用してコンテナシェルにアクセスします。
+
+....
+$ runai bash pvc-test -p team-a
+....
+その後、マウントされたボリュームを確認し、コンテナ内のデータにアクセスできます。
+
+PVC の再利用というこの機能は、 NetApp FlexVol ボリュームと NetApp ONTAP FlexGroup ボリュームと連携します。そのため、データエンジニアは、より柔軟で堅牢なデータ管理オプションを利用して、ネットアップのデータファブリックを活用できます。
+
+link:osrunai_conclusion.html["次は終わりです"]

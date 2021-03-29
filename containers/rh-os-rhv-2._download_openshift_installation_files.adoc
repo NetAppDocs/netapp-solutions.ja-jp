@@ -1,0 +1,39 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-rhv-2._download_openshift_installation_files.html 
+keywords: OpenShift, Installation, Cluster, Container, Platform 
+summary:  
+---
+= 2. OpenShift インストールファイルのダウンロード： RHV 上の Red Hat OpenShift 用 NetApp HCI
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+OpenShift インストールファイルをダウンロードするには、次の手順を実行します。
+
+. にアクセスします  https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/auth?client_id=cloud-services&redirect_uri=https%3A%2F%2Fcloud.redhat.com%2Fopenshift%2F&state=7be5f758-0b45-46e1-8a93-2efc39c9ed42&response_mode=fragment&response_type=code&scope=openid&nonce=39d07745-2f43-41cb-8d79-621b50ad0d76["Red Hat のログインページです"^]をクリックし、 Red Hat クレデンシャルでログインします。
+. [ クラスタ ] ページで、 [ クラスタの作成 ] をクリックします。
++
+image:redhat_openshift_image6.jpeg["エラー：グラフィックイメージがありません"]
+
+. OpenShift Container Platform を選択します。
++
+image:redhat_openshift_image7.jpeg["エラー：グラフィックイメージがありません"]
+
+. Red Hat Virtualization で実行を選択します。
++
+image:redhat_openshift_image8.jpeg["エラー：グラフィックイメージがありません"]
+
+. 次のページでは、 OpenShift インストーラ（ Linux および MacOS で利用可能）をダウンロードできます。これは、「 install-config 」ファイルと「 OC 」コマンドラインツール（ Linux 、 Windows 、 MacOS で利用可能）を作成するために必要な、ユニークなプルシークレットです。
++
+ファイルをダウンロードし、 RHEL 管理ワークステーションに転送します。このワークステーションから OpenShift インストールを実行できます。または、 RHEL 管理ワークステーションで wget または curl を使用して、これらのファイルを直接ダウンロードします。
+
+
+
+image:redhat_openshift_image9.jpeg["エラー：グラフィックイメージがありません"]
+
+link:rh-os-rhv-3._download_ca_certificate_from_rhv.html["次へ： 3.RHV から CA 証明書をダウンロードします"]

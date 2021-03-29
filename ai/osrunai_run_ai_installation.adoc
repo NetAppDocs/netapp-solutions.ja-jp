@@ -1,0 +1,44 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_run_ai_installation.html 
+keywords:  
+summary:  
+---
+= 「 AI Installation 」を実行します
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Run ： AI をインストールするには、次の手順を実行します。
+
+. DeepOps を使用して Kubernetes クラスタをインストールし、ネットアップのデフォルトストレージクラスを設定します。
+. GPU ノードの準備：
++
+.. NVIDIA ドライバが GPU ノードにインストールされていることを確認します。
+.. 「 nvidia - Docker 」がインストールされ、デフォルトの Docker ランタイムとして設定されていることを確認します。
+
+
+. インストール実行： AI ：
++
+.. にログインします https://app.run.ai["AI 管理 UI を実行"^] クラスタを作成できます。
+.. 作成した「 runai-operator-<clustername> .yaml 」ファイルをダウンロードします。
+.. オペレータ設定を Kubernetes クラスタに適用します。
++
+....
+kubectl apply -f runai-operator-<clustername>.yaml
+....
+
+
+. インストールを確認します。
++
+.. に進みます https://app.run.ai/["https://app.run.ai/[""]"^]。
+.. 概要ダッシュボードに移動します。
+.. 右上の GPU の数が、想定される GPU の数と GPU ノードの数をすべてサーバのリストに表示していることを確認します。実行： AI 導入の詳細については、を参照してください https://docs.run.ai/Administrator/Cluster-Setup/Installing-Run-AI-on-an-on-premise-Kubernetes-Cluster/["Run ： AI をオンプレミスの Kubernetes クラスタにインストール"^] および https://docs.run.ai/Administrator/Researcher-Setup/Installing-the-Run-AI-Command-Line-Interface/["Run ： AI CLI のインストール"^]。
+
+
+
+
+link:osrunai_run_ai_dashboards_and_views.html["次の手順： AI ダッシュボードとビューを実行します"]

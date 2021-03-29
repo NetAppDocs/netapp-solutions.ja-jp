@@ -1,0 +1,114 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_submitting_jobs_in_run_ai_cli.html 
+keywords:  
+summary:  
+---
+= 実行中のジョブの送信： AI CLI
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+このセクションでは、 Kubernetes ジョブの実行に使用できる基本的な Run ： AI コマンドについて詳しく説明します。ワークロードの種類に応じて 3 つの要素に分割されます。AI / ML / DL のワークロードは、次の 2 つの汎用タイプに分けることができます。
+
+* * 無人トレーニングセッション * 。このようなタイプのワークロードを扱うことで、データサイエンティストは自己実行ワークロードを準備し、実行のためにワークロードを送信します。実行中に、お客様は結果を確認できます。このタイプのワークロードは、多くの場合、本番環境で使用されます。また、モデル開発が段階で行われるため、手動操作は必要ありません。
+* * インタラクティブビルドセッション * 。このようなワークロードの場合、データサイエンティストは Bash 、 Jupyter Notebook 、リモート PyCharm などの IDE を使用した対話型セッションを開始し、 GPU リソースに直接アクセスします。次に、対話型のワークロードを実行してポートを接続し、コンテナユーザに内部ポートを表示するシナリオを紹介します。
+
+
+
+
+== 無人トレーニングのワークロード
+
+プロジェクトをセットアップして GPU を割り当てたら、コマンドラインで次のコマンドを使用して Kubernetes のワークロードを実行できます。
+
+....
+$ runai project set team-a runai submit hyper1 -i gcr.io/run-ai-demo/quickstart -g 1
+....
+このコマンドは、単一の GPU を割り当てたチーム A の無人トレーニングジョブを開始します。このジョブは、サンプルの Docker イメージである「 gcr.io/run-ai-demo/QuickStart 」に基づいています。私たちはジョブ「 hyper1 」と名付けました。その後、次のコマンドを実行して、ジョブの進捗状況を監視します。
+
+....
+$ runai list
+....
+次の図に 'runai list' コマンドの結果を示します一般的なステータスは次のとおりです。
+
+* 「 ContainerCreating 」を参照してください。Docker コンテナをクラウドリポジトリからダウンロードしています。
+* 「保留中」。ジョブはスケジュールされるのを待っています。
+* 「ランニング」。ジョブが実行中です。
+
+
+image:osrunai_image5.png["エラー：グラフィックイメージがありません"]
+
+ジョブのステータスをさらに表示するには、次のコマンドを実行します。
+
+....
+$ runai get hyper1
+....
+ジョブのログを表示するには、「 runai logs <job-name> 」コマンドを実行します。
+
+....
+$ runai logs hyper1
+....
+この例では、現在のトレーニングエポック、 ETA 、損失関数値、精度、および各ステップの経過時間を含む、実行中の DL セッションのログを確認する必要があります。
+
+クラスタのステータスは、 Run ： AI UI で確認できます から https://app.run.ai/["https://app.run.ai/[""]"^]。[ ダッシュボード ]>[ 概要 ] で、 GPU 利用率を監視できます。
+
+このワークロードを停止するには、次のコマンドを実行します。
+
+....
+$ runai delte hyper1
+....
+このコマンドを実行すると、トレーニングワークロードが停止します。このアクションを確認するには 'runai list' をもう一度実行します詳細については、を参照してください https://docs.run.ai/Researcher/Walkthroughs/Walkthrough-Launch-Unattended-Training-Workloads-/["無人トレーニングワークロードの開始"^]。
+
+
+
+== ワークロードを対話型に構築
+
+プロジェクトをセットアップして GPU を割り当てたら、コマンドラインで次のコマンドを使用して対話型ビルドワークロードを実行できます。
+
+....
+$ runai submit build1 -i python -g 1 --interactive --command sleep --args infinity
+....
+このジョブは、サンプルの Docker イメージ Python に基づいています。ジョブ build1 という名前を付けました。
+
+
+NOTE: 「 --interactive 」フラグは、ジョブが開始または終了していないことを意味します研究者の責任で業務を終了してください。管理者は、対話型ジョブがシステムによって終了されるまでの時間制限を定義できます。
+
+--g 1' フラグは ' このジョブに 1 つの GPU を割り当てます与えられたコマンドと引数は、「 --command sleep -- args インフィニティ」です。コマンドを指定するか、コンテナを開始してすぐに終了する必要があります。
+
+次のコマンドは、で説明したコマンドと同様に機能します <<Unattended Training Workloads>>：
+
+* runai list` ：名前、ステータス、経過時間、ノード、イメージ、 プロジェクト、ユーザ、 GPU によるジョブの処理
+* runai get build1`: ジョブ build1 の追加ステータスを表示します。
+* runai delete build1`: 対話型のワークロード build1 を停止しますコンテナに bash シェルを取得するには ' 次のコマンドを実行します
+
+
+....
+$ runai bash build1
+....
+これにより、コンピュータにシェルが直接挿入されます。データサイエンティストは、コンテナ内でモデルを開発または微調整できます。
+
+クラスタのステータスは、 Run ： AI UI で確認できます から https://app.run.ai["https://app.run.ai[""]"^]。詳細については、を参照してください https://docs.run.ai/Researcher/Walkthroughs/Walkthrough-Start-and-Use-Interactive-Build-Workloads-/["対話型ビルドワークロードの開始と使用"^]。
+
+
+
+== ポートが接続された対話型のワークロード
+
+Run ： AI CLI でコンテナを開始する際に、対話型ビルドワークロードを拡張することで、コンテナユーザに内部ポートを公開できます。これは、クラウド環境、 Jupyter Notebook の操作、その他のマイクロサービスへの接続に役立ちます。 https://kubernetes.io/docs/concepts/services-networking/ingress/["入力"^] Kubernetes クラスタの外部から Kubernetes サービスへのアクセスを許可します。アクセスを設定するには、どのインバウンド接続がどのサービスに到達するかを定義する一連のルールを作成します。
+
+クラスタ内のサービスへの外部アクセスを適切に管理するには、クラスタ管理者がインストールすることを推奨します https://kubernetes.io/docs/concepts/services-networking/ingress/["入力"^] ロードバランサを設定します。
+
+入力をサービスタイプとして使用するには、次のコマンドを実行して、ワークロード送信時にメソッドタイプとポートを設定します。
+
+....
+$ runai submit test-ingress -i jupyter/base-notebook -g 1 \
+  --interactive --service-type=ingress --port 8888 \
+  --args="--NotebookApp.base_url=test-ingress" --command=start-notebook.sh
+....
+コンテナが正常に起動したら、「 runai list 」を実行して、 Jupyter Notebook にアクセスする「サービス URL (S) 」を確認します。URL は、入力エンドポイント、ジョブ名、およびポートで構成されます。たとえば、を参照してください https://10.255.174.13/test-ingress-8888[""]。
+
+詳細については、を参照してください https://docs.run.ai/Researcher/Walkthroughs/Walkthrough-Launch-an-Interactive-Build-Workload-with-Connected-Ports/["ポートが接続されている対話型のビルドワークロードを起動する"^]。
+
+link:osrunai_achieving_high_cluster_utilization.html["次は、高いクラスタ利用率を達成することです"]

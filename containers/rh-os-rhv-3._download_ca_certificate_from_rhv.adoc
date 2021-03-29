@@ -1,0 +1,35 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-rhv-3._download_ca_certificate_from_rhv.html 
+keywords: CA, Certificate, Authority, RHV, RHV-M 
+summary:  
+---
+= 3. RHV から CA 証明書をダウンロード： RHV 上の Red Hat OpenShift 用 NetApp HCI
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+RHV から CA 証明書をダウンロードするには、次の手順を実行します。
+
+. 導入プロセス中に RHEL マシンから RHV マネージャにアクセスするには、 RHV - M への接続を信頼するために、マシン上で CA 証明書の信頼を更新する必要がありますRHV マネージャの CA 証明書をダウンロードするには、次のコマンドを実行します。
++
+....
+sudo curl -k 'https://<engine-fqdn>/ovirt-engine/services/pki-resource?resource=ca-certificate&format=X509-PEM-CA' -o /tmp/ca.pem
+[user@rhel7 ~]$  sudo curl -k 'https://rhv-m.cie.netapp.com/ovirt-engine/services/pki-resource?resource=ca-certificate&format=X509-PEM-CA' -o /tmp/ca.pem
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  1376  100  1376    0     0   9685      0 --:--:-- --:--:-- --:--:--  9690
+....
+. サーバ証明書のディレクトリに CA 証明書をコピーし、 CA 信頼を更新します。
++
+....
+[user@rhel7 ~]$  sudo cp /tmp/ca.pem /etc/pki/ca-trust/source/anchors/ca.pem
+[user@rhel7 ~]$ sudo update-ca-trust
+....
+
+
+link:rh-os-rhv-4._register_api_apps_in_dns.html["次へ： 4.DNS に API / アプリを登録します"]

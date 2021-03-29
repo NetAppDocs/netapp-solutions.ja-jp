@@ -1,0 +1,166 @@
+---
+sidebar: sidebar 
+permalink: infra/rhv-5._deploy_rhv_manager.html 
+keywords: install, virtualization manager, self-hosted, hosted engine, RHV 
+summary:  
+---
+= 5. RHV マネージャを自己ホスト型エンジンとして展開する： RHV を搭載した NetApp HCI
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+ここでは、 Red Hat Virtualization Manager を自己ホスト型エンジンとしてインストールする手順について説明します。これらの手順は、 RHV ホストが登録され、 Cockpit GUI にアクセスできる状態で開始されます。
+
+. ルートクレデンシャルを使用して、 RHV ホストの 1 つの Cockpit GUI に「 https://<HostFQDN/IP>:9090` 」からログインします。Virtualization サブタブに移動し、 Hosted Engine をクリックします。次に、 Hosted Engine コンテンツの下にある [ スタート ] ボタンをクリックして、エンジンの展開を開始します。
++
+image:redhat_virtualization_image41.png["エラー：グラフィックイメージがありません"]
+
+. エンジンの導入の最初の画面で、エンジン VM の RHV - M FQDN 、ネットワーク関連の設定、ルートパスワード、およびリソース（少なくとも 4 CPU と 16GB メモリ）を設定します。必要に応じて、他の設定を確認し、 Next （次へ）をクリックします。
++
+image:redhat_virtualization_image42.jpg["エラー：グラフィックイメージがありません"]
+
++
+
+NOTE: 指定した DNS サーバがエンジン VM FQDN に解決できることを確認します。
+
+. 次の画面で、管理ポータルのパスワードを入力します。必要に応じて、 E メールで送信されるアラートの通知設定を入力します。[ 次へ ] をクリックします。
++
+image:redhat_virtualization_image43.jpg["エラー：グラフィックイメージがありません"]
+
+. 次の画面で、エンジン VM の設定を確認します。必要に応じて、この時点に戻って変更を行います。情報が正しい場合は、 [VM の準備 ] をクリックします。
++
+image:redhat_virtualization_image44.jpg["エラー：グラフィックイメージがありません"]
+
+. VM のインストールが開始されます。マシンイメージがダウンロードされ、ローカルにステージングされるため、完了までにしばらく時間がかかることがあります。完了すると、「実行は正常に完了しました」というメッセージが表示されます。次へをクリックします。
++
+image:redhat_virtualization_image45.jpg["エラー：グラフィックイメージがありません"]
+
+. RHV-M がインストールされた後、高可用性エンジンクォーラムを促進するために、ホストされたエンジンストレージドメインの詳細を入力します。ここでは、 VM をローカルストレージから共有ストレージドメインにコピーします。
+. ストレージ・タイプを iSCSI として入力し 'iSCSI ポータルの詳細を入力して ［ ターゲット・リストの取得 ］ をクリックしますこれにより ' ポータルに対応する iSCSI ターゲット・リストが取得され ' ホストされているエンジン・ストレージ・ドメインにマッピングするボリュームと LUN が選択されます次へをクリックします。
++
+image:redhat_virtualization_image46.jpeg["エラー：グラフィックイメージがありません"]
+
++
+
+NOTE: Hosted Engine のセットアップでストレージを検出できない場合は、ノードへの対話型 SSH セッションを開き、ノードのストレージインターフェイスから SVIP IP アドレスにアクセスできることを確認します。ネットワークに到達できる場合は、 Hosted Engine のインストール対象の iSCSI LUN を手動で検出またはログインする必要があります。
+
+. 次の画面でストレージ構成を確認し、必要に応じて元に戻して変更を加えます。情報が正しい場合は、 [ 展開の終了 ] をクリックします。VM がストレージドメインにコピーされるまでにしばらく時間がかかります。展開が完了したら、 [ 閉じる ] をクリックします。
++
+image:redhat_virtualization_image47.jpg["エラー：グラフィックイメージがありません"]
+
+. 次の手順では、 Red Hat Virtualization Manager リポジトリを登録して有効にします。SSH を使用して RHV-M VM にログインし、 Subscription Manager に登録します。
++
+....
+# subscription-manager register
+Registering to: subscription.rhsm.redhat.com:443/subscription
+Username: redhat_user
+Password:  redhat_password
+The system has been registered with ID: 99d06fcb-a3fd74-41230f-bad583-0ae61264f9a3
+The registered system name is: rhv-m.cie.netapp.com
+....
+. 登録後、使用可能なサブスクリプションを一覧表示し、 RHV - M のプール ID を記録します
++
+....
+# subscription-manager list --available
+<snip>
+Subscription Name:   Red Hat Virtualization Manager
+Provides:            Red Hat Beta
+                     Red Hat Enterprise Linux Server
+                     Red Hat CodeReady Linux Builder for x86_64
+                     Red Hat Enterprise Linux for x86_64
+                     Red Hat Virtualization Manager
+                     Red Hat OpenShift Container Platform
+                     Red Hat Ansible Engine
+                     Red Hat Enterprise Linux Fast Datapath
+                     Red Hat JBoss Core Services
+                     JBoss Enterprise Application Platform
+SKU:                 RV00045
+Contract:
+Pool ID:             8a85f9937a1a2a57c0171a366b5682540112a313 ß Pool ID
+Provides Management: No
+Available:           6
+Suggested:           0
+Service Type:        L1-L3
+Roles:
+Service Level:       Layered
+Usage:
+Add-ons:
+Subscription Type:   Stackable
+Starts:              04/22/2020
+Ends:                04/21/2021
+Entitlement Type:    Physical
+<snip>
+....
+. 記録されたプール ID を使用して、 RHV-M サブスクリプションを接続します。
++
+....
+# subscription-manager attach --pool=8a85f9937a1a2a57c0171a366b5682540112a313
+Successfully attached a subscription for: Red Hat Virtualization Manager
+....
+. 必要な RHV - M リポジトリを有効にします。
++
+....
+# subscription-manager repos \
+    --disable='*' \
+    --enable=rhel-7-server-rpms \
+    --enable=rhel-7-server-supplementary-rpms \
+    --enable=rhel-7-server-rhv-4.3-manager-rpms \
+    --enable=rhel-7-server-rhv-4-manager-tools-rpms \
+    --enable=rhel-7-server-ansible-2-rpms \
+    --enable=jb-eap-7.2-for-rhel-7-server-rpms
+Repository 'rhel-7-server-ansible-2-rpms' is enabled for this system.
+Repository 'rhel-7-server-rhv-4-manager-tools-rpms' is enabled for this system.
+Repository 'rhel-7-server-rhv-4.3-manager-rpms' is enabled for this system.
+Repository 'rhel-7-server-rpms' is enabled for this system.
+Repository 'jb-eap-7.2-for-rhel-7-server-rpms' is enabled for this system.
+Repository 'rhel-7-server-supplementary-rpms' is enabled for this system.
+....
+. 次に、ホストと同じデータセンター内のすべての VM について、 VM ディスクまたは OVF ファイルを保存するストレージドメインを作成します。
+. ブラウザを使用して RHV-M 管理ポータルにログインするには、「 https://<ManagerFQDN>/ovirt-engine` 」にログインし、「管理ポータル」を選択して「 admin 」「 @' 内部」ユーザとしてログインします。
+. [ ストレージ ] → [ ストレージドメイン ] に移動し '[ 新しいドメイン ] をクリックします
+. ドロップダウン・メニューから Data for the Domain Function を選択し、ストレージ・タイプとして iSCSI を選択し、ボリュームをマッピングするホストを選択し、任意の名前を入力して、データ・センターが正しいことを確認し、データ・ドメイン iSCSI ターゲットを展開して LUN を追加します。[OK] をクリックして、ドメインを作成します。
++
+image:redhat_virtualization_image48.jpg["エラー：グラフィックイメージがありません"]
+
++
+
+NOTE: Hosted Engine のセットアップでストレージを検出できない場合は、データドメイン用の iSCSI LUN を手動で検出またはログインする必要があります。
+
+. ホストされているエンジンクォーラムに 2 番目のホストを追加します。[ 計算（ Compute ） ] > [ ホスト（ Hosts ） ] に移動し、 [ 新規New Host ペインで、適切なクラスタを選択し、 2 番目のホストの詳細を入力して、 Activate Host After Install チェックボックスをオンにします。
++
+image:redhat_virtualization_image49.jpg["エラー：グラフィックイメージがありません"]
+
+. [New Host] ペインの [Hosted Engine] サブタブをクリックし、ホストされたエンジン展開アクションから [Deploy] を選択します。OK をクリックして、ホストをクォーラムに追加します。これにより、ホストされているエンジンをサポートし、ホストをアクティブにするために必要なパッケージのインストールが開始されます。このプロセスには時間がかかることがあります。
++
+image:redhat_virtualization_image50.png["エラー：グラフィックイメージがありません"]
+
+. 次に、ホスト用の Storage Virtual Network を作成します。[ ネットワーク ]>[ ネットワーク ] の順に移動し、 [ 新規 ] をクリックします。任意の名前を入力し、 VLAN タギングを有効にして、ストレージネットワークの VLAN ID を入力します。VM Network チェックボックスがオンになっていて、 MTU が 9000 に設定されていることを確認します。[ クラスタ（ Cluster ） ] サブタブに移動し、 [ 接続（ Attach ） ] および [ 必須（ Require ） ] がチェックされていることを確認[OK] をクリックして、ストレージネットワークを作成します。
++
+image:redhat_virtualization_image51.png["エラー：グラフィックイメージがありません"]
+
+. ストレージ論理ネットワークをクラスタ内の 2 番目のホスト、またはホストされているエンジン VM を現在ホストしていないホストに割り当てます。
+. [ 計算（ Compute ） ] > [ ホスト（ Hosts ） ] に移動し、 2 番目の列に銀冠があるホストをクリックする。次に、 [Network Interfaces] サブタブに移動し、 [Setup] [Host Networks] をクリックして、ストレージ論理ネットワークを bond0 の右側の [Assigned Logical Networks] 列にドラッグアンドドロップします。
++
+image:redhat_virtualization_image52.png["エラー：グラフィックイメージがありません"]
+
+. 「 bond0 」の下のストレージネットワークインタフェースでペンの記号をクリックします。IP アドレスとネットマスクを設定し、 OK をクリックします。ホストネットワークのセットアップペインで、もう一度 OK をクリックします。
++
+image:redhat_virtualization_image53.png["エラー：グラフィックイメージがありません"]
+
+. ストレージ論理ネットワークを 2 番目のホストで設定できるように、ホストされているエンジン VM を構成したホストに移行します。[ 計算 ] > [ 仮想マシン ] の順に選択し、 [HostedEngine] をクリックして、 [ 移行 ] をクリックします。ドロップダウン・メニューから 2 番目のホストを選択し ' 移行をクリックします
++
+image:redhat_virtualization_image54.png["エラー：グラフィックイメージがありません"]
+
++
+移行が成功し、ホストされたエンジン VM が 2 番目のホストに移行されたら、現在銀冠を所有しているホストに対して手順 21 と 22 を繰り返します。
+
+. このプロセスが完了すると、両方のホストが動作していることがわかります。ホストの 1 つにはゴールデンクラウンがあり、ホストされているエンジン VM をホストしていることを示している。もう 1 つのホストには、ホストされているエンジン VM をホストできることを示す銀色のクラウンがある。
+
+
+image:redhat_virtualization_image55.png["エラー：グラフィックイメージがありません"]
+
+link:rhv-6._configure_rhv-m_infrastructure.html["次へ： 6.RHV-M インフラストラクチャを設定します"]

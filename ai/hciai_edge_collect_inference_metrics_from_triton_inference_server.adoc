@@ -1,0 +1,28 @@
+---
+sidebar: sidebar 
+permalink: ai/hciai_edge_collect_inference_metrics_from_triton_inference_server.html 
+keywords:  
+summary:  
+---
+= Triton Inference Server から推論指標を収集します
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Triton Inference Server は、 GPU と要求の統計を示す Prometheus 指標を提供します。
+
+デフォルトでは、これらの指標はにあります "http://<triton_inference_server_IP>:8002/metrics"[""]。
+
+Triton Inference Server IP は、以前に記録されたロードバランサ IP です。
+
+指標はエンドポイントにアクセスすることでのみ使用でき、リモートサーバにプッシュされたり公開されたりすることはありません。
+
+image:hciaiedge_image22.png["エラー：グラフィックイメージがありません"]
+
+image:hciaiedge_image23.png["エラー：グラフィックイメージがありません"]
+
+link:hciai_edge_validation_results.html["次の例は、検証結果です"]

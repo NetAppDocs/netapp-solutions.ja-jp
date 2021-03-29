@@ -1,0 +1,44 @@
+---
+sidebar: sidebar 
+permalink: ai/mlrun_configuring_kubernetes_cluster.html 
+keywords: NetApp, Kubernetes, Cluster, Configuring 
+summary:  
+---
+= Kubernetes クラスタを設定しています
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+このセクションは、クラウドとオンプレミスのそれぞれの導入について、 2 つの部分に分かれています。
+
+
+
+== Cloud Deployment Kubernetes Configuration を参照してください
+
+NetApp Cloud Manager を使用して、イグアス Kubernetes クラスタへの接続を定義できます。Trident では、ボリュームを使用できるようにするために、クラスタ内の複数のリソースにアクセスする必要があります。
+
+. アクセスを有効にするには、 1 つの Iguazio ノードから Kubernetes 構成ファイルを取得します。ファイルは、「 /home/Iguazio/.kube/config. 」の下にあります このファイルをデスクトップにダウンロードします。
+. 設定するクラスタの検出に進みます。
++
+image:mlrun_image9.png["エラー：グラフィックイメージがありません"]
+
+. Kubernetes 構成ファイルをアップロードします。次の図を参照してください。
++
+image:mlrun_image10.PNG["エラー：グラフィックイメージがありません"]
+
+. Trident を導入し、ボリュームをクラスタに関連付けます。Iguazio クラスタへの持続ボリュームの定義と割り当てについては、次の図を参照してください。このプロセスにより、 Iguazio の Kubernetes クラスタに永続ボリューム（ PV ）が作成されます。使用する前に、永続的ボリューム要求（ PVC ）を定義する必要があります。
+
+
+image:mlrun_image5.png["エラー：グラフィックイメージがありません"]
+
+
+
+== オンプレミス導入の Kubernetes 構成
+
+NetApp Trident のオンプレミスインストールについては、を参照してください https://www.netapp.com/us/media/tr-4798.pdf["TR-4798"^] を参照してください。Kubernetes クラスタを設定して NetApp Trident をインストールしたら、 Trident を Iguazio クラスタに接続して、データやモデルの Snapshot コピーの作成などのネットアップのデータ管理機能を利用できます。
+
+link:mlrun_define_persistent_volume_claim.html["次のステップ：永続的ボリューム要求を定義します"]

@@ -1,0 +1,52 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_testing_details_for_section_4.9.html 
+keywords:  
+summary:  
+---
+= セクション 4.9 のテストの詳細
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+ここでは、のテストについて詳しく説明します link:osrunai_basic_resource_allocation_fairness.html["基本的な資源配分フェアネス"]。
+
+次の順序でジョブを送信します。
+
+|===
+| プロジェクト | GPU の数 | 合計 | コメント（ Comment ） 
+
+
+| チーム -d | 2. | 6 月 8 日 | team -b/c ワークロードが一時停止し、「 pending 」に移動します。 
+
+
+| チーム -d | 2. | 8 月 8 日 | 他のチーム (b/c) のワークロードは一時停止し、「保留中」に移動します。 
+|===
+実行される次のコマンドシーケンスを参照してください。
+
+....
+$ runai submit d-2-gg -i gcr.io/run-ai-demo/quickstart -g 2 -p team-d$ runai submit d-3-gg -i gcr.io/run-ai-demo/quickstart -g 2 -p team-d
+....
+この時点で、次の状態になります。
+
+|===
+| プロジェクト | GPU が割り当てられました | ワークロードキュー 
+
+
+| チーム A | 4 月 4 日 | なし 
+
+
+| チーム - b | 2/2. | なし 
+
+
+| チーム -c | 2/2. | なし 
+
+
+| チーム -d | 8 月 8 日 | なし 
+|===
+を参照してください link:osrunai_basic_resource_allocation_fairness.html["基本的な資源配分フェアネス"] を参照してください。
+
+link:osrunai_testing_details_for_section_4.10.html["次のセクション 4.10 のテストの詳細"]

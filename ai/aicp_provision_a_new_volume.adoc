@@ -1,0 +1,42 @@
+---
+sidebar: sidebar 
+permalink: ai/aicp_provision_a_new_volume.html 
+keywords: New Volume, FlexVol, StorageClass, PVC 
+summary: Trident を使用して、ネットアップストレージシステムまたはプラットフォームで新しいボリュームをプロビジョニングできます。このページに表示されるコマンド例には、新しい FlexVol ボリュームのプロビジョニングを示すコマンドが含まれています。 
+---
+= 新しいボリュームをプロビジョニングします
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Trident を使用して、ネットアップストレージシステムまたはプラットフォームで新しいボリュームをプロビジョニングできます。次のコマンド例は、新しい FlexVol ボリュームのプロビジョニングを表示します。この例では、セクションの例で作成した StorageClass を使用してボリュームがプロビジョニングされます link:aicp_netapp_trident_deployment_and_configuration_overview.html["Trident の導入と設定： overview.html"]、ステップ 2 。
+
+次の PVC 定義ファイル例では 'accessModes' の値 ReadWriteMany が指定されていますこの値は、複数のコンテナがこの PVC を同時にマウントでき、アクセスが読み書き可能であることを意味します。「 accessMode 」フィールドの詳細については、を参照してください https://kubernetes.io/docs/concepts/storage/persistent-volumes/["Kubernetes の公式ドキュメント"^]。
+
+....
+$ cat << EOF > ./pvc-tensorflow-results.yaml
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: tensorflow-results
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: ontap-ai-flexvols-retain
+EOF
+$ kubectl create -f ./pvc-tensorflow-results.yaml
+persistentvolumeclaim/tensorflow-results created
+$ kubectl get pvc
+NAME                              STATUS    VOLUME                             CAPACITY         ACCESS MODES   STORAGECLASS                        AGE
+pb-fg-all-iface1                  Bound     default-pb-fg-all-iface1-7d9f1     10995116277760   ROX            ontap-ai-flexgroups-retain-iface1   26h
+pb-fg-all-iface2                  Bound     default-pb-fg-all-iface2-85aee     10995116277760   ROX            ontap-ai-flexgroups-retain-iface2   26h
+tensorflow-results                Bound     default-tensorflow-results-2fd60   1073741824       RWX            ontap-ai-flexvols-retain            25h
+....
+link:aicp_example_high-aicp_example_kubeflow_operations_and_tasks_overview.html["次の例： ONTAP AI 導入向けハイパフォーマンスジョブの概要"]

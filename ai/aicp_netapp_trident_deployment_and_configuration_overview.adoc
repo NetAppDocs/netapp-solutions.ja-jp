@@ -1,0 +1,40 @@
+---
+sidebar: sidebar 
+permalink: ai/aicp_netapp_trident_deployment_and_configuration_overview.html 
+keywords: Trident, Kubernetes, Storageclass 
+summary: このページでは、 Kubernetes クラスタに NetApp Trident をインストールして設定するために必要な作業について説明します。 
+---
+= 概要
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+このセクションでは、 Kubernetes クラスタに NetApp Trident をインストールして設定するために必要な作業について説明します。
+
+
+
+== 前提条件
+
+このセクションで説明する導入の演習を行う前に、次の作業をすでに実行していることを前提としています。
+
+. Kubernetes クラスタはすでに稼働しており、 Trident でサポートされるバージョンの Kubernetes を実行している。サポートされているバージョンの一覧については、を参照してください https://netapp-trident.readthedocs.io/["Trident のドキュメント"^]。
+. すでにネットアップストレージアプライアンス、ソフトウェア定義インスタンス、または NFS プロトコルをサポートするクラウドストレージサービスが動作している。
+
+
+
+
+== Trident をインストール
+
+Kubernetes クラスタに NetApp Trident をインストールして設定するには、導入ジャンプホストから次のタスクを実行します。
+
+. Trident for Kubernetes をクラスタに導入するには、次の手順を実行します https://netapp-trident.readthedocs.io/["導入手順"^] Trident のドキュメントTrident バックエンドと Kubernetes StorageClass を少なくとも 1 つずつ作成してください。Backends と StorageClasses の詳細については、を参照してください https://netapp-trident.readthedocs.io/["Trident のドキュメント"^]。
+
+
+
+NOTE: 解決策 AI ポッドにネットアップ AI コントロールプレーン ONTAP を導入する場合は、を参照してください link:aicp_netapp_trident_deployment_and_configuration_overview.html["Trident の導入と設定"] たとえば、必要に応じて別の Trident バックエンドを作成したり、作成する Kubernetes StorageClasses が異なる場合があります。
+
+link:aicp_example_trident_backends_for_ontap_ai_deployments.html["次の例： ONTAP AI 導入向けの Trident バックエンド"]

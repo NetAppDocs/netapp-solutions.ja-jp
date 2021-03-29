@@ -1,0 +1,29 @@
+---
+sidebar: sidebar 
+permalink: automation/deploy_mellanox_awx.html 
+summary: ネットアップのソリューションを自動化すれば、多くの一般的なインフラタスクやアプリケーションタスクの導入、設定、実行を自動化できます。 
+keywords: netapp, mellanox, solutions, automation, ansible 
+---
+= NetApp 解決策の自動化
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:table-stripes: odd
+:imagesdir: ./media/
+
+
+
+
+=== 手順
+
+AWX/Ansible タワーを介して Ansible プレイブックを使用して Mellanox スイッチを設定するには、次の手順を実行します。
+
+. ガイドに従って AWX/Tower パラメータを設定します link:setup_awx.html["こちらをご覧ください"^]
+. 提示された推奨事項 / 推奨事項に基づいて、以下の変数に値を入力してください。すべての変数が要件に従って入力されたら、上部の [ コピー（ Copy ） ] ボタンをクリックして内容をコピーします。
+
+
+
+. AWX/Tower にログインし、 [ リソース ] -> [ テンプレート ] に移動して、該当する Mellanox ジョブテンプレートの [ 起動 ] ボタンをクリックします。
+. コピーしたコンテンツを入力を求められた変数フィールドに貼り付け、 [ 次へ ] をクリックしてから、 [ 起動 ] をクリックしてジョブテンプレートを実行します。
+

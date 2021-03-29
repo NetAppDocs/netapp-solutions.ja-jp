@@ -1,0 +1,62 @@
+---
+sidebar: sidebar 
+permalink: ai/hcaios_hardware_and_software_requirements.html 
+keywords: Hardware, Software, Requirements, NVIDIA, Kubernetes, cnvrg.io, ONTAP 
+summary:  
+---
+= ハードウェアとソフトウェアの要件
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+このセクションでは、 ONTAP AI 解決策のテクノロジ要件について説明します。
+
+
+
+== ハードウェア要件
+
+ハードウェア要件はお客様のワークロードによって異なりますが、 ONTAP AI は、大規模な ML/DL 運用向けに、単一の GPU からラックスケール構成まで、あらゆる規模のデータエンジニアリング、モデルトレーニング、本番環境推論に導入できます。ONTAP AI の詳細については、を参照してください https://www.netapp.com/us/products/ontap-ai.aspx["ONTAP AI Web サイト"^]。
+
+この解決策は、コンピューティングには DGX-1 システム、ネットワーク接続には NetApp AFF A800 ストレージシステム、 Cisco Nexus 3232C を使用して検証しました。この検証で使用される AFF A800 は、ほとんどの ML/DL ワークロードで最大 10 台の DGX-1 システムをサポートできます。次の図に、この検証でモデルのトレーニングに使用する ONTAP AI トポロジを示します。
+
+image:hcaios_image6.png["エラー：グラフィックイメージがありません"]
+
+この解決策をパブリッククラウドに拡張するために、 Cloud Volumes ONTAP をクラウド GPU コンピューティングリソースと一緒に導入し、ハイブリッドクラウドデータファブリックに統合することで、お客様は特定のワークロードに適したリソースを自由に使用できます。
+
+
+
+== ソフトウェア要件
+
+次の表に、この解決策検証で使用されるソフトウェアのバージョンを示します。
+
+|===
+| コンポーネント | バージョン 
+
+
+| Ubuntu | 18.04.4 LTS 
+
+
+| NVIDIA DGX OS | 4.4.0 
+
+
+| NVIDIA DeepOps のことです | 20.02.1 
+
+
+| Kubernetes | 1.15 
+
+
+| Helm | 3.1.0 
+
+
+| cnvrg.io | 3.0.0 
+
+
+| NetApp ONTAP | 9.6P4 
+|===
+この解決策検証では、 Kubernetes を DGX-1 システム上にシングルノードクラスタとして導入しました。大規模な導入の場合は、管理サービスの高可用性を実現し、 ML ワークロードと DL ワークロードに貴重な DGX リソースを確保するために、独立した Kubernetes マスターノードを導入する必要があります。
+
+link:hcaios_solution_deployment_and_validation_details.html["次のステップ：解決策の導入と検証の詳細"]

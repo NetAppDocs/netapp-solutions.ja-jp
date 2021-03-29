@@ -1,0 +1,172 @@
+---
+sidebar: sidebar 
+permalink: containers/anthos_task_configure_management_switches.html 
+summary: この構成手順では、 Cisco Nexus 3048 スイッチを使用して、コンピューティングノードとストレージノードのインバンド管理とアウトオブバンド管理を 1Gbps で行います。これらの手順は、スイッチがラックに設置されて電力が供給され、初期セットアッププロセスが開始されたあとに開始されます。インフラへの管理接続を提供するようにスイッチを設定するには、このページに記載されている手順を実行します。 
+keywords: Cisco Nexus, IPMI, vPC 
+---
+= 1. 管理スイッチを設定します
+
+
+この構成手順では、 Cisco Nexus 3048 スイッチを使用して、コンピューティングノードとストレージノードのインバンド管理とアウトオブバンド管理を 1Gbps で行います。これらの手順は、スイッチがラックに設置されて電力が供給され、初期セットアッププロセスが開始されたあとに開始されます。インフラへの管理接続を提供するようにスイッチを設定するには、次の手順を実行します。
+
+
+
+== Cisco Nexus の高度な機能を有効にする
+
+高度な機能を設定するには、各 Cisco Nexus 3048 スイッチで次のコマンドを実行します。
+
+. コンフィギュレーションモードを開始します。
++
+[listing]
+----
+Switch-01# configure terminal
+----
+. VLAN 機能を有効にします。
++
+[listing]
+----
+Switch-01(config)# feature interface-vlan
+----
+. LACP を有効にします。
++
+[listing]
+----
+Switch-01(config)# feature lacp
+----
+. 仮想ポートチャネル（ vPC ）をイネーブルにします。
++
+[listing]
+----
+Switch-01(config)# feature vpc
+----
+. ポートチャネルのグローバルロードバランシング設定を行います。
++
+[listing]
+----
+Switch-01(config)# port-channel load-balance src-dst ip-l4port
+----
+. グローバルスパニングツリー設定を実行します。
++
+[listing]
+----
+Switch-01(config)# spanning-tree port type network default
+Switch-01(config)# spanning-tree port type edge bpduguard default
+----
+
+
+
+
+== インバンド管理用にスイッチのポートを設定します
+
+. 管理用の VLAN を作成するには、次のコマンドを実行します。
++
+[listing]
+----
+Switch-01(config)# vlan 2
+Switch-01(config-vlan)# Name Native_VLAN
+Switch-01(config-vlan)# vlan 16
+Switch-01(config-vlan)# Name OOB_Network
+Switch-01(config-vlan)# vlan 3480
+Switch-01(config-vlan)# Name MGMT_Network
+Switch-01(config-vlan)# exit
+----
+. 各 HCI ストレージノードの管理インターフェイスに接続する VLAN トランクポートとして、ポート Eth1/29-32 を設定します。
++
+[listing]
+----
+Switch-01(config)# int eth 1/29
+Switch-01(config-if)# description HCI-STG-01 PortA
+Switch-01(config-if)# switchport mode trunk
+Switch-01(config-if)# switchport trunk native vlan 2
+Switch-01(config-if)# switchport trunk allowed vlan 3480
+Switch-01(config-if)# spanning tree port type edge trunk
+Switch-01(config-if)# int eth 1/30
+Switch-01(config-if)# description HCI-STG-02 PortA
+Switch-01(config-if)# switchport mode trunk
+Switch-01(config-if)# switchport trunk native vlan 2
+Switch-01(config-if)# switchport trunk allowed vlan 3480
+Switch-01(config-if)# spanning tree port type edge trunk
+Switch-01(config-if)# int eth 1/31
+Switch-01(config-if)# description HCI-STG-03 PortA
+Switch-01(config-if)# switchport mode trunk
+Switch-01(config-if)# switchport trunk native vlan 2
+Switch-01(config-if)# switchport trunk allowed vlan 3480
+Switch-01(config-if)# spanning tree port type edge trunk
+Switch-01(config-if)# int eth 1/32
+Switch-01(config-if)# description HCI-STG-04 PortA
+Switch-01(config-if)# switchport mode trunk
+Switch-01(config-if)# switchport trunk native vlan 2
+Switch-01(config-if)# switchport trunk allowed vlan 3480
+Switch-01(config-if)# spanning tree port type edge trunk
+Switch-01(config-if)# exit
+----
+
+
+
+
+== アウトオブバンド管理用にスイッチのポートを設定します
+
+. 次のコマンドを実行して、各 HCI ノードの IPMI インターフェイスをケーブル接続するためのポートを設定します。
++
+[listing]
+----
+Switch-01(config)# int eth 1/13
+Switch-01(config-if)# description HCI-CMP-01 IPMI
+Switch-01(config-if)# switchport mode access
+Switch-01(config-if)# switchport access vlan 16
+Switch-01(config-if)# spanning-tree port type edge
+Switch-01(config-if)# int eth 1/14
+Switch-01(config-if)# description HCI-STG-01 IPMI
+Switch-01(config-if)# switchport mode access
+Switch-01(config-if)# switchport access vlan 16
+Switch-01(config-if)# spanning-tree port type edge
+Switch-01(config-if)# int eth 1/15
+Switch-01(config-if)# description HCI-STG-03 IPMI
+Switch-01(config-if)# switchport mode access
+Switch-01(config-if)# switchport access vlan 16
+Switch-01(config-if)# spanning-tree port type edge
+Switch-01(config-if)# exit
+----
+
+
+
+NOTE: 検証済みの構成では、奇数ノードの IPMI インターフェイスを Switch-01 に、偶数ノードの IPMI インターフェイスを Switch-02 にケーブル接続しました。
+
+
+
+== フォールトトレランスを確保するために vPC ドメインを作成します
+
+. 2 つのスイッチ間の vPC ピアリンクに使用されるポートをアクティブにします。
++
+[listing]
+----
+Switch-01(config)# int eth 1/1
+Switch-01(config-if)# description vPC peer-link Switch-02 1/1
+Switch-01(config-if)# int eth 1/2
+Switch-01(config-if)# description vPC peer-link Switch-02 1/2
+Switch-01(config-if)# exit
+----
+. vPC グローバルコンフィギュレーションを実行します。
++
+[listing]
+----
+Switch-01(config)# vpc domain 1
+Switch-01(config-vpc-domain)# role priority 10
+Switch-01(config-vpc-domain)# peer-keepalive destination <switch-02_mgmt_address> source <switch-01_mgmt_address> vrf managment
+Switch-01(config-vpc-domain)# peer-gateway
+Switch-01(config-vpc-domain)# auto recovery
+Switch-01(config-vpc-domain)# ip arp synchronize
+Switch-01(config-vpc-domain)# int eth 1/1-2
+Switch-01(config-vpc-domain)# channel-group 10 mode active
+Switch-01(config-vpc-domain)# int Po10
+Switch-01(config-if)# description vPC peer-link
+Switch-01(config-if)# switchport mode trunk
+Switch-01(config-if)# switchport trunk native vlan 2
+Switch-01(config-if)# switchport trunk allowed vlan 16,3480
+Switch-01(config-if)# spanning-tree port type network
+Switch-01(config-if)# vpc peer-link
+Switch-01(config-if)# exit
+----
+
+
+link:anthos_task_configure_data_switches.html["次の手順：データスイッチを設定します"]

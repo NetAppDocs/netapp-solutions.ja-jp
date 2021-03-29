@@ -1,0 +1,26 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_achieving_high_cluster_utilization.html 
+keywords:  
+summary:  
+---
+= 高いクラスタ利用率の達成
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+このセクションでは、 4 つのデータサイエンスチームがそれぞれ独自のワークロードを送信して実行： AI オーケストレーション解決策を実証する現実的なシナリオをエミュレートしています。このシナリオでは、 GPU リソースの優先順位付けとバランシングを維持しながら、クラスタの利用率を高めることができますまず、で説明した ResNet-50 ベンチマークを使用します セクション link:osrunai_resnet-50_with_imagenet_dataset_benchmark_summary.html["ResNet-50 と ImageNet データセットベンチマークの概要"]：
+
+....
+$ runai submit netapp1 -i netapp/tensorflow-tf1-py3:20.01.0 --local-image --large-shm  -v /mnt:/mnt -v /tmp:/tmp --command python --args "/netapp/scripts/run.py" --args "--dataset_dir=/mnt/mount_0/dataset/imagenet/imagenet_original/" --args "--num_mounts=2"  --args "--dgx_version=dgx1" --args "--num_devices=1" -g 1
+....
+ResNet-50 ベンチマークを実行しました（を参照） https://www.netapp.com/us/media/nva-1121-design.pdf["NVA-1121."^]。パブリック Docker リポジトリに存在しないコンテナには、フラグ「 --local-image 」を使用しました。ディレクトリ「 /mnt/' 」と「 /tmp' 」をホスト DGX-1 ノード上の「 /mnt/' 」と「 /tmp' 」にそれぞれコンテナにマウントしました。データセットは、ディレクトリを指す「 dataset_dir 」引数を持つ NetApp AFFA800 にあります。どちらの場合も '--num_devices =1' と '-g 1' は ' このジョブに 1 つの GPU を割り当てていることを意味します前者は「 run.py 」スクリプトの引数で、後者は「 runai submit 」コマンドのフラグです。
+
+次の図は、 97% の GPU 利用率を備え、 16 個の使用可能な GPU が割り当てられたシステム概要ダッシュボードを示しています。GPU / プロジェクトの棒グラフでは、各チームに割り当てられている GPU の数を簡単に確認できます。[ 実行中のジョブ ] ウィンドウ枠には、現在実行中のジョブ名、プロジェクト、ユーザー、タイプ、ノード、 GPU の消費、実行時間、進捗状況、利用率の詳細。キューに登録されているワークロードとその待機時間のリストが「保留中のジョブ」に表示されます。さらに、 Nodes ボックスは、クラスタ内の個々の DGX-1 ノードの GPU 番号と利用率を表示します。
+
+image:osrunai_image6.png["エラー：グラフィックイメージがありません"]
+
+link:osrunai_fractional_gpu_allocation_for_less_demanding_or_interactive_workloads.html["次の例：要件の低いワークロードやインタラクティブなワークロードに適した、フラクショナルな GPU 割り当て"]

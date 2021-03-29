@@ -1,0 +1,29 @@
+---
+sidebar: sidebar 
+permalink: ai/hcaios_kubernetes_deployment.html 
+keywords: Kubernetes, Deployment, NVIDIA, DeepOps 
+summary:  
+---
+= Kubernetes の導入
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+NVIDIA DeepOps で Kubernetes クラスタを導入および設定するには、導入ジャンプホストから次のタスクを実行します。
+
+. の手順に従って、 NVIDIA DeepOps をダウンロードします https://github.com/NVIDIA/deepops/blob/master/docs/getting-started.md["「はじめに」ページ"^] NVIDIA DeepOps GitHub サイトで入手できます。
+. の手順に従って、クラスタに Kubernetes を導入します 。 https://github.com/NVIDIA/deepops/blob/master/docs/kubernetes-cluster.md["Kubernetes 導入ガイド"^] NVIDIA DeepOps GitHub サイトで入手できます。
+
+
+
+NOTE: DeepOps Kubernetes 環境を使用するには、 Kubernetes マスターノードとワーカーノードがすべて同じユーザである必要があります。
+
+配備に失敗した場合は 'kubectl_localhost' の値を 'd eepops/config/group_vars/k8s-cluster.yml' で false に変更し ' 手順 2 を繰り返します'Copy kubectl binary to Ansible host' タスクは 'kubectl_localhost' の値が true の場合にのみ実行され ' メモリ使用に関する既知の問題がある FETCH Ansible モジュールに依存しますこのようなメモリ使用の問題により、原因がタスクを失敗させることがあります。メモリ問題が原因でタスクが失敗した場合は、以降の導入処理は正常に完了しません。
+
+「 kubectl_localhost 」の値を「 false 」に変更した後で展開が正常に完了した場合、「 kubectl binary 」を Kubernetes マスターノードから配備ジャンプホストに手動でコピーする必要があります。特定のマスター・ノード上で 'kubectl binary' の場所を確認するには 'which kubectl' コマンドをそのノード上で直接実行します
+
+link:hcaios_cnvrg.io_deployment.html["次の例： Cnvrg.io の導入"]

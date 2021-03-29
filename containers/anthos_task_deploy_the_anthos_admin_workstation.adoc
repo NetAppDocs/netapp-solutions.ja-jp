@@ -1,0 +1,113 @@
+---
+sidebar: sidebar 
+permalink: containers/anthos_task_deploy_the_anthos_admin_workstation.html 
+summary: 管理ワークステーションは、 NetApp HCI 環境に導入される vSphere VM で、 VMware 解決策上での Anthos の管理に必要なすべてのツールがあらかじめインストールされています。Anthos 管理ワークステーションを導入するには、このセクションの手順に従います。 
+keywords: virtual appliance, vCenter, vDS, gkectl, DHCP 
+---
+= 7. Anthos 管理ワークステーションを導入します
+
+
+管理ワークステーションは、 NetApp HCI 環境に導入される vSphere VM で、 VMware 解決策上での Anthos の管理に必要なすべてのツールがあらかじめインストールされています。Anthos 管理ワークステーションを導入するには、このセクションの手順に従います。
+
+Anthos 管理ワークステーションを導入するには、次の手順を実行します。
+
+. gkeadm バイナリを作業ディレクトリにダウンロードします
++
+[listing]
+----
+[user@rhel7 anthos-install]$ gsutil cp gs://gke-on-prem-release/gkeadm/1.6.1-gke.1/linux/gkeadm ./
+[user@rhel7 anthos-install]$ chmod +x gkeadm
+----
+. gkeadm ツールを使用して管理ワークステーションの構成ファイルを作成します
++
+[listing]
+----
+[user@rhel7 anthos-install]$ ./gkeadm create config
+----
+. 作成されるファイルは、「 credential .yaml 」と「 admin-ws-config.yaml 」の 2 つです。これらの各ファイルに記入してください。
++
+.. credential .yaml VMware vCenter サーバのユーザ名とパスワードを指定します。
++
+[listing]
+----
+kind: CredentialFile
+items:
+- name: vCenter
+  username: "administrator@vsphere.local"
+  password: "vSphereAdminPassword"
+----
+.. admin-ws-config .yaml には、 vSphere 環境に関するその他の情報、および admin ワークステーション VM の物理オプションとネットワークオプションが含まれます。
++
+[listing]
+----
+gcp:
+  # Path of the whitelisted service account's JSON key file
+  whitelistedServiceAccountKeyPath: "/home/anthos-install/service-keys/access-key.json"
+# Specify which vCenter resources to use
+vCenter:
+  # The credentials and address GKE On-Prem should use to connect to vCenter
+  credentials:
+    address: "anthos-vc.cie.netapp.com"
+    datacenter: "NetApp-HCI-Datacenter-01"
+    datastore: "VM_Datastore"
+    cluster: "NetApp-HCI-Cluster-01"
+    network: "VM_Network"
+    resourcePool: "Anthos-Resource-Pool"
+# Provide the path to vCenter CA certificate pub key for SSL verification
+    caCertPath: "/home/anthos-install/vcenter.pem"
+# The URL of the proxy for the jump host
+proxyUrl: ""
+adminWorkstation:
+  name: gke-admin-ws-200915-151421
+  cpus: 4
+  memoryMB: 8192
+#The boot disk size of the admin workstation in GB. It is recommended to use a disk with at least 50 GB to host images decompressed from the bundle.
+  diskGB: 50
+# Name for the persistent disk to be mounted to the home directory (ending in
+.vmdk).
+# Any directory in the supplied path must be created before deployment.
+  dataDiskName: gke-on-prem-admin-workstation-data-disk/gke-admin-ws-200915-151421-data-disk.vmdk
+# The size of the data disk in MB.
+  dataDiskMB: 512
+  network:
+# The IP allocation mode: 'dhcp' or 'static'
+    ipAllocationMode: "dhcp"
+# # The host config in static IP mode. Do not include if using DHCP
+  # hostConfig:
+    #   # The IPv4 static IP address for the admin workstation
+    #   ip: ""
+    #   # The IP address of the default gateway of the subnet in which the admin workstation
+    #   # is to be created
+    #   gateway: ""
+    #   # The subnet mask of the network where you want to create your admin workstation
+    #   netmask: ""
+    #   # The list of DNS nameservers to be used by the admin workstation
+    #   dns:
+    #   - ""
+  # The URL of the proxy for the admin workstation
+  proxyUrl: ""
+  ntpServer: ntp.ubuntu.com
+----
+
+
+. 管理ワークステーションを作成します。
++
+[listing]
+----
+[user@rhel7 anthos-install]$ ./gkeadm create admin-workstation
+The output will be verbose as the workstation is created. In the end you will be prompted with the IP address to login to the workstation if you chose DHCP.
+...
+Getting ... service account...
+...
+********************************************************************
+Admin workstation is ready to use.
+
+Admin workstation information saved to /usr/local/google/home/me/my-admin-workstation
+This file is required for future upgrades
+SSH into the admin workstation with the following command:
+ssh -i /home/user/.ssh/gke-admin-workstation ubuntu@10.63.172.10
+********************************************************************
+----
+
+
+link:anthos_task_deploy_the_admin.html["次のステップ：管理者と最初のユーザクラスタを導入します"]

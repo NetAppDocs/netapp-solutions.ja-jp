@@ -1,0 +1,43 @@
+---
+sidebar: sidebar 
+permalink: infra/hcicaci_ontap_select_with_vmware_vsphere.html 
+keywords: ONTAP Select, SDS, software-defined storage, IoT, tactical, 
+summary: TR-4857 
+---
+= ONTAP Select と VMware vSphere ： NetApp HCI と Cisco ACI
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+NetApp ONTAP Select は、 Software-Defined Storage （ SDS ）向けの NetApp 解決策であり、 Software-Defined Data Center にエンタープライズクラスのストレージ管理機能を提供します。ONTAP Select は、 ONTAP の機能を、 IoT や戦術的サーバを含む最先端のユースケースにまで拡張し、フルストレージシステムとして機能する Software-Defined Storage アプライアンスとして機能します。シンプルな VM として仮想環境上で稼働することで、柔軟性と拡張性に優れたストレージ解決策を実現します。
+
+ONTAP を別のソフトウェアアプリケーションの上でソフトウェアとして実行すると、ハイパーバイザーが行う条件適合確認作業の多くを活用できます。この機能は、サポート対象プラットフォームのリストを迅速に拡張するために不可欠です。また、 ONTAP を仮想マシン（ VM ）として配置することでユーザは既存の管理フレームワークやオーケストレーションフレームワークを使用できるため、迅速なプロビジョニングや、導入から廃止までのエンドツーエンドの自動化が可能です。次の図は、 4 ノード ONTAP Select インスタンスの概要を示しています。
+
+image:hcicaci_image24.png["エラー：グラフィックイメージがありません"]
+
+NetApp HCI が提供するストレージを使用する環境に ONTAP Select を導入すると、 NetApp Element の機能が拡張されます。
+
+
+
+== ワークフロー
+
+次のワークフローを使用して環境をセットアップしました。この解決策では、 2 ノードの ONTAP Select クラスタを導入しました。それぞれの手順で、複数のタスクを実行する必要があります。
+
+. OTS クラスタの内部通信用に L2 BD および EPG を作成し、ネイティブスイッチングモード（ Cisco AVE 仮想スイッチの場合）で VMM ドメインを EPG に事前プロビジョニング解決の即時性で接続します。
++
+image:hcicaci_image25.png["エラー：グラフィックイメージがありません"]
+
+. VMware vSphere ライセンスがあることを確認します。
+. OTS をホストするデータストアを作成します。
+. に従って、 ONTAP Select を導入して設定します https://docs.netapp.com/us-en/ontap-select/["ONTAP Select のドキュメント"^]。
++
+image:hcicaci_image26.png["エラー：グラフィックイメージがありません"]
+
+. ONTAP Select を使用して追加のデータストアを作成し、追加の機能を利用できるようにします。
+
+
+link:hcicaci_storagegrid_with_vmware_vsphere.html["次のセクション： StorageGRID with VMware vSphere ： NetApp HCI and Cisco ACI"]

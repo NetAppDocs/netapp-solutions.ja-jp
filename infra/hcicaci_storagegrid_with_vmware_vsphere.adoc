@@ -1,0 +1,34 @@
+---
+sidebar: sidebar 
+permalink: infra/hcicaci_storagegrid_with_vmware_vsphere.html 
+keywords: StorageGRID, storage tiering 
+summary: TR-4857 
+---
+= StorageGRID と VMware vSphere ： NetApp HCI と Cisco ACI
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+StorageGRID は、ソフトウェアで定義される堅牢なオブジェクトベースのストレージプラットフォームであり、階層化されたアプローチとインテリジェントなポリシーベースの管理によって、非構造化データを格納および管理します。データの保持方法、保護方法、パフォーマンスを最適化しながら、データを管理できます。StorageGRID は、ハードウェアとして導入することも、仮想環境上にアプライアンスとして導入することもできます。これにより、ストレージ管理ソフトウェアが基盤のハードウェアから切り離されます。StorageGRID は、新たにサポートされるストレージプラットフォーム領域をオープンし、柔軟性と拡張性を向上させます。StorageGRID プラットフォームサービスは、ハイブリッドクラウドならではのメリットを実現するための基盤でもあり、パブリッククラウドや他の S3 対応クラウドへのデータの階層化やレプリケーションを可能にします。を参照してください https://docs.netapp.com/sgws-113/index.jsp["StorageGRID"^] 詳細については、ドキュメントを参照してください。次の図は、 StorageGRID ノードの概要を示しています。
+
+image:hcicaci_image27.png["エラー：グラフィックイメージがありません"]
+
+
+
+== ワークフロー
+
+次のワークフローを使用して環境をセットアップしました。それぞれの手順で、複数のタスクを実行する必要があります。
+
+. StorageGRID システムのノード間の内部通信に使用するグリッドネットワークの L2 BD と EPG を作成します。ただし、 StorageGRID のネットワーク設計が複数のグリッドネットワークで構成されている場合は、 L2 BD ではなく L3 BD を作成します。ネイティブスイッチングモード（ Cisco AVE 仮想スイッチの場合）および事前プロビジョニング解決の即時性を使用して、 VMM ドメインを EPG に接続します。対応するポートグループが StorageGRID ノードのグリッドネットワークに使用されます。
++
+image:hcicaci_image28.png["エラー：グラフィックイメージがありません"]
+
+. StorageGRID ノードをホストするデータストアを作成します。
+. StorageGRID を導入して設定インストールと設定の詳細については、を参照してください https://docs.netapp.com/sgws-113/index.jsp["StorageGRID のドキュメント"^]。環境にすでに ONTAP または ONTAP Select がインストールされている場合は、ネットアップファブリックプール機能を使用できます。Fabric Pool は、アクティブなデータがローカルのハイパフォーマンスなソリッドステートドライブ（ SSD ）に格納され、アクセス頻度の低いデータが低コストのオブジェクトストレージに階層化される自動ストレージ階層化機能です。これは、 NetApp ONTAP 9.2 で初めて導入された機能です。Fabric Pool の詳細については、のマニュアルを参照してください https://www.netapp.com/us/media/tr-4598.pdf["こちらをご覧ください"^]。
+
+
+link:hcicaci_validation_results.html["次の例は、検証結果です"]

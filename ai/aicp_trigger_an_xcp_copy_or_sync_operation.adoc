@@ -1,0 +1,102 @@
+---
+sidebar: sidebar 
+permalink: ai/aicp_trigger_an_xcp_copy_or_sync_operation.html 
+keywords: prerequisites, DAG definition, XCP, model training, hadoop, data lake 
+summary: このページで説明する DAG の例では、 NetApp XCP を呼び出して NFS エンドポイント間でデータを迅速かつ確実にレプリケートするワークフローを実装しています。 
+---
+= XCP Copy または Sync 処理をトリガーします
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+このセクションで説明する DAG の例では、 NFS エンドポイント間でデータを迅速かつ確実にレプリケートするために NetApp XCP を呼び出すワークフローを実装しています。考えられるユースケースとしては、次のようなものがあります
+
+* 新たに取得したセンサーデータをエッジで収集してコアデータセンターやクラウドにレプリケートし、 AI / ML モデルのトレーニングや再トレーニングに使用できます。
+* トレーニングを受けた、または新しく更新されたモデルを、推論アプリケーションの一部として導入するコアデータセンターからエッジまたはクラウドにレプリケートします。
+* Hadoop データレイクから（ Hadoop NFS ゲートウェイ経由で） AI / ML モデルのトレーニング用のハイパフォーマンス AI / ML トレーニング環境にデータをコピーする。
+* NFS からアクセス可能なデータを、実績のある従来型システムやネットアップ以外のシステムから、 AI / ML モデルのトレーニングに使用するハイパフォーマンスな AI / ML トレーニング環境にコピーする。
+
+
+
+
+=== 前提条件
+
+この DAG を正しく機能させるには、次の前提条件を満たしている必要があります。
+
+. SSH 経由でアクセスでき、 NetApp XCP がインストールおよび設定されているホストの通気で接続を作成しておく必要があります。NetApp XCP のインストールおよび設定方法の詳細については、を参照してください http://xcp.netapp.com/["NetApp XCP のホームページ"^] および https://mysupport.netapp.com/documentation/productlibrary/index.html?productID=63064["NetApp XCP の公式ドキュメント"^]。
++
+通気で接続を管理するには、 Web サービス UI で Admin > Connections に移動します。次のスクリーンショットは、 NetApp XCP がインストールおよび設定されている特定のホストへの接続の作成を示しています。次の値が必要です。
+
++
+** * 接続 ID 。 * 接続の一意の名前。
+** * Conn タイプ。* SSH に設定する必要があります。
+** * ホスト。 * ホストのホスト名または IP アドレス。
+** * ログイン。* SSH 経由でホストにアクセスする際に使用するユーザ名。
+** * パスワード。 * SSH でホストにアクセスする際に使用するパスワード。
+
+
+
+
+image:aicp_imageaa5.png["エラー：グラフィックイメージがありません"]
+
+
+
+=== DAG の定義
+
+以下の Python コードの抜粋には、 DAG の例の定義が含まれています。ご使用の環境でこの DAG の例を実行する前に、「定義パラメータ」セクションのパラメータ値を変更して、ご使用の環境に合わせてください。
+
+....
+# Airflow DAG Definition: Replicate Data - XCP
+#
+# Steps:
+#   1. Invoke NetApp XCP copy or sync operation
+from airflow.utils.dates import days_ago
+from airflow.secrets import get_connections
+from airflow.models import DAG
+from airflow.operators.python_operator import PythonOperator
+from airflow.contrib.operators.ssh_operator import SSHOperator
+from datetime import datetime
+##### DEFINE PARAMETERS: Modify parameter values in this section to match your environment #####
+## Define default args for DAG
+replicate_data_xcp_dag_default_args = {
+    'owner': 'NetApp'
+}
+## Define DAG details
+replicate_data_xcp_dag = DAG(
+    dag_id='replicate_data_xcp',
+    default_args=replicate_data_xcp_dag_default_args,
+    schedule_interval=None,
+    start_date=days_ago(2),
+    tags=['data-movement']
+)
+## Define xcp operation details (change values as necessary to match your environment and desired operation)
+# Define xcp operation to perform
+xcpOperation = 'sync' # Must be 'copy' or 'sync'
+# Define source and destination for copy operation
+xcpCopySource = '192.168.200.41:/trident_pvc_957318e1_9b73_4e16_b857_dca7819dd263'
+xcpCopyDestination = '192.168.200.41:/trident_pvc_9e7607c2_29c8_4dbf_9b08_551ba72d0273'
+# Define catalog id for sync operation
+xcpSyncId = 'autoname_copy_2020-10-06_16.37.44.963391'
+## Define xcp host details (change values as necessary to match your environment)
+xcpAirflowConnectionName = 'xcp_host' # Name of the Airflow connection of type 'ssh' that contains connection details for a host on which xcp is installed, configured, and accessible within $PATH
+################################################################################################
+# Construct xcp command
+xcpCommand = 'xcp help'
+if xcpOperation == 'copy' :
+    xcpCommand = 'xcp copy ' + xcpCopySource + ' ' + xcpCopyDestination
+elif xcpOperation == 'sync' :
+    xcpCommand = 'xcp sync -id ' + xcpSyncId
+# Define DAG steps/workflow
+with replicate_data_xcp_dag as dag :
+    # Define step to invoke a NetApp XCP copy or sync operation
+    invoke_xcp = SSHOperator(
+        task_id="invoke-xcp",
+        command=xcpCommand,
+        ssh_conn_id=xcpAirflowConnectionName
+    )
+....
+link:aicp_example_trident_operations_overview.html["次の例： Trident の処理"]

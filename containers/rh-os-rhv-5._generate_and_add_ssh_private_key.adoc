@@ -1,0 +1,36 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-rhv-5._generate_and_add_ssh_private_key.html 
+keywords: SSH, Private Key 
+summary:  
+---
+= 5. SSH 秘密鍵を生成して追加： RHV 上の Red Hat OpenShift 用 NetApp HCI
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+SSH 秘密鍵を生成して追加するには、次の手順を実行します。
+
+. OpenShift クラスタでのインストールのデバッグまたはディザスタリカバリには、 SSH キーを「 sh-agent 」とインストールプログラムの両方に提供する必要があります。RHEL マシンでパスワードなしの認証を行うために SSH キーがまだ存在していない場合は作成します。
++
+....
+[user@rhel7 ~]$  ssh-keygen -t rsa -b 4096 -N '' -f ~/.ssh/id_rsa
+....
+. 'sh-agent' プロセスを開始し ' バックグラウンド実行タスクとして構成します
++
+....
+[user@rhel7 ~]$  eval "$(ssh-agent -s)"
+Agent pid 31874
+....
+. 手順 2 で作成した SSH 秘密鍵を「 sh-agent 」に追加します。これにより、対話的に鍵を渡すことなく、直接ノードに SSH 接続できます。
++
+....
+[user@rhel7 ~]$  ssh-add ~/.ssh/id_rsa
+....
+
+
+link:rh-os-rhv-6._install_openshift_container_platform.html["次へ： 6.OpenShift Container Platform をインストールします"]

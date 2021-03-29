@@ -1,0 +1,65 @@
+---
+sidebar: sidebar 
+permalink: infra/hcicaci_validation_results.html 
+keywords: Validation, iPerf, IOmeter, VMware, RHV, KVM 
+summary: TR-4857 
+---
+= 検証結果
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+ネットワークのスループットをテストするために iPerf ツールを使用しましたが、ベースラインの予測は、テストシステムが最大ラインレートの 10% 以内にスループットを達成することでした。次の表に、異なる仮想スイッチのテスト結果を示します。
+
+ストレージ IOPS サブシステムの測定には、 IOmeter ツールを使用しました。テストシステムでは、最大スループットの 10% 以内に読み取り / 書き込みスループットを達成することが基本的な想定でした。次の表に、さまざまなハイパーバイザーのテスト結果を示します。
+
+ネットワーク回線速度とストレージ IOPS のテストについては、次のシナリオを考慮しました。
+
+
+
+== VMware
+
+* NetApp HCI データストア上の VM （マイクロセグメンテーションあり / なし）
+* NetApp ONTAP データストア上の VM
+* NetApp ONTAP Select データストア上の VM
+
+
+
+
+== Red Hat 仮想化
+
+* NetApp HCI データストア上の VM
+* NetApp ONTAP データストア上の VM
+
+
+
+
+== KVM （ RHEL ）
+
+* NetApp HCI データストア上の VM
+
+
+
+
+== その他
+
+* NetApp HCI データストアを使用する RHV 上の VM 1 台と、 NetApp ONTAP データストアを使用する VMware vSphere 上の VM 1 台
+
+
+|===
+| ハイパーバイザー | 仮想スイッチ | Iperf | Iometer | マイクロセグメンテーション 
+
+
+| VMware | VDS | 合格 | 合格 | 合格 
+
+
+| RHV | Linux ブリッジ | 合格 | 合格 | 該当なし 
+
+
+| RHEL-KVM の略 | Open vSwitch の場合 | 合格 | 合格 | 該当なし 
+|===
+link:hcicaci_additional_information.html["次へ：追加情報の検索場所"]

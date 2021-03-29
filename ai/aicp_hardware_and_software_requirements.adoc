@@ -1,0 +1,80 @@
+---
+sidebar: sidebar 
+permalink: ai/aicp_hardware_and_software_requirements.html 
+keywords: Hardware, Software, Requirements, Trident, DeepOps, ONTAP, Ubuntu 
+summary: この検証済みアーキテクチャでは、 Cisco Nexus ネットワーキングを使用して、 NetApp AFF A800 オールフラッシュストレージシステムと NVIDIA DGX-1 ディープラーニングシステムがペアリングされます。 
+---
+= ハードウェアとソフトウェアの要件
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+本ドキュメントに記載されているすべての手順がで検証されました NetApp ONTAP AI 統合インフラ解決策については、を参照してください https://www.netapp.com/us/media/nva-1121-design.pdf["NVA-1121."^]。この検証済みアーキテクチャでは、 Cisco Nexus ネットワーキングを使用して、 NetApp AFF A800 オールフラッシュストレージシステムと NVIDIA DGX-1 ディープラーニングシステムがペアリングされます。この検証では、 2 つのベアメタル NVIDIA DGX-1 システムそれぞれに 8 つの NVIDIA V100 GPU を搭載し、 Kubernetes ワーカーノードとして使用しました。NetApp AFF A800 オールフラッシュストレージシステムは、ノード全体に永続的ストレージネームスペースを 1 つ、ネットワーク接続に Cisco Nexus 3232C スイッチを 2 つ提供しました。Kubernetes マスターノードとしては、 ONTAP AI ポッドの外部にある別の物理サーバで実行された 3 つの仮想マシン（ VM ）を使用しました。
+
+ただし、このドキュメントで概説しているネットアップの AI コントロールプレーン解決策は、このハードウェアに依存しません。解決策は、 NFS プロトコルをサポートする任意のネットアップ物理ストレージアプライアンス、ソフトウェア定義インスタンス、またはクラウドサービスと互換性があります。例としては、ネットアップ AFF ストレージシステム、 Azure NetApp Files 、ネットアップ Cloud Volumes Service 、ネットアップ ONTAP Select ソフトウェアで定義されるストレージインスタンス、ネットアップ Cloud Volumes ONTAP インスタンスなどがあります。また、使用する Kubernetes のバージョンが Kubeflow および NetApp Trident でサポートされていれば、どの Kubernetes クラスタにも解決策を実装できます。Kubeflow でサポートされる Kubernetes バージョンの一覧については、を参照してください https://www.kubeflow.org/docs/started/getting-started/["Kubeflow の公式ドキュメント"^]。Trident でサポートされている Kubernetes のバージョンのリストについては、を参照してください https://netapp-trident.readthedocs.io/["Trident のドキュメント"^]。検証環境のインフラとソフトウェアバージョンの詳細については、次の表を参照してください。
+
+|===
+| インフラストラクチャコンポーネント | 数量 | 詳細 | オペレーティングシステム 
+
+
+| 展開ジャンプホスト | 1. | VM | Ubuntu 18.04.3 LTS 
+
+
+| Kubernetes マスターノード | 3. | VM | Ubuntu 18.04.3 LTS 
+
+
+| Kubernetes ワーカーノード | 2. | NVIDIA DGX-1 （ベアメタル） | NVIDIA DGX OS 4.0.5 （ Ubuntu 18.04.2 LTS に基づく） 
+
+
+| ストレージ | 1 つの HA ペア | NetApp AFF A800 | NetApp ONTAP 9.5 P1 
+
+
+| ネットワーク接続 | 2. | Cisco Nexus 3232C | Cisco NX-OS 7.0(3) I6 （ 1 ） 
+|===
+|===
+| ソフトウェアコンポーネント | バージョン 
+
+
+| Apache の通気 | 1.10.12 
+
+
+| Apache Airflow Helm チャート | 7.10.1 
+
+
+| Cisco NX-OS | 7.0 （ 3 ） I6 （ 1 ） 
+
+
+| Docker です | 18.09.7 - CE 
+
+
+| クビフロー | 0.7.0 
+
+
+| Kubernetes | 1.15.3 
+
+
+| NetApp ONTAP | 9.6 P1 
+
+
+| NetApp Trident | 20.01 
+
+
+| NVIDIA DeepOps のことです | 2030 年 1 月 28 日に GitHub リポジトリ () から取得 
+
+
+| NVIDIA DGX OS | 4.0.5 （ Ubuntu 18.04.2 LTS に基づく） 
+
+
+| Ubuntu | 18.04.4 LTS 
+|===
+
+
+=== サポート
+
+ネットアップは、 Apache Airflow 、 Docker 、 Kubeflow 、 Kubernetes 、 NVIDIA DeepOps のエンタープライズサポートを提供していません。ネットアップの AI コントロールプレーン解決策と同様の機能を備えた、完全にサポートされている解決策に関心がある場合： link:https://www.netapp.com/us/contact-us/index.aspx?for_cr=us["ネットアップにお問い合わせください"] ネットアップがパートナー様と共同で提供する、完全にサポートされている AI / ML ソリューションについて説明します。
+
+link:aicp_kubernetes_deployment.html["次： Kubernetes の導入"]。

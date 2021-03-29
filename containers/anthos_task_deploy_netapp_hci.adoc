@@ -1,0 +1,83 @@
+---
+sidebar: sidebar 
+permalink: containers/anthos_task_deploy_netapp_hci.html 
+summary: NDE により、シンプルで合理的な NetApp HCI 解決策導入が実現します。以下の手順は、ノードがラックに設置されてケーブル接続され、コンソールを使用して各ノードに IPMI ポートが設定されたあとに開始されます。NDE を使用して NetApp HCI 解決策を導入するには、このページに記載されている手順を実行します。 
+keywords: NDE, vCenter, vSphere, Active IQ 
+---
+= 3. NetApp HCI を NetApp Deployment Engine に導入します
+
+
+NDE により、シンプルで合理的な NetApp HCI 解決策導入が実現します。NDE 1.6 を使用してを導入するための詳細なガイドです NetApp HCI システムが見つかりました link:https://library.netapp.com/ecm/ecm_download_file/ECMLP2856899["こちらをご覧ください"^]。
+
+以下の手順は、ノードがラックに設置されてケーブル接続され、コンソールを使用して各ノードに IPMI ポートが設定されたあとに開始されます。NDE を使用して NetApp HCI 解決策を導入するには、次の手順を実行します。
+
+. クラスタ内のいずれかのストレージノードのアウトオブバンド管理コンソールにアクセスし、デフォルトのクレデンシャルである Admin/Admin を使用してログインします。
++
+image::nde_login.PNG[NDE ログイン]
+
+. 画面の中央にある Remote Console Preview 画像をクリックして、 Java Web Start で起動された JNLP ファイルをダウンロードします。これにより、システムへの対話型コンソールが起動します。
+. 仮想コンソールを起動した状態で、ユーザは Admin と Admin のユーザ名とパスワードの組み合わせを使用して HCI ストレージノードにログインできます。
+. Bond1G インターフェイスには、 IP 、ネットマスク、ゲートウェイが静的に設定されている必要があります。 VLAN を 3480 に設定し、環境用に DNS サーバを定義しておく必要があります。
++
+image::nde_bond10g_MTU_config.PNG[Bond1G インターフェイス構成]
+
++
+
+NOTE: インバンド管理に使用するが、本番環境で使用する IP ではないサブネット内の IP を選択してください。NDE は、最初のアクセス後にノードを本番用 IP で再構成します。
+
++
+
+NOTE: このタスクは最初のストレージノードでのみ実行する必要があります。その後、未設定のままの状態で、インフラ内の他のノードは、各ストレージインターフェイスに割り当てられた Automatic Private IP Address （ APIPA ）のアドレスによって検出されます。
+
+. ジャンボフレームを有効にしてボンディングモードを LACP に変更するには、 Bond 10G インターフェイスの MTU 設定を変更する必要があります。
++
+image::nde_bond10g_MTU_config.PNG[Bond10G MTU 設定]
+
++
+
+NOTE: この方法で、 4 つの各ストレージノードを NetApp HCI 解決策に設定します。これで、 NDE プロセスで解決策内のすべてのノードを検出して設定できるようになります。2 つのコンピューティングノード上の Bond10g インターフェイスを変更する必要はありません。
+
+. 完了したら、 Web ブラウザを開き、管理ポート用に設定した IP アドレスにアクセスして、 NDE を使用した NetApp HCI の設定を開始します。
+. NetApp HCI へようこそページで、「はじめに」ボタンをクリックします。
+. [ 前提条件 ] ページの関連する各ボックスをオンにして、 [ 続行 ] をクリックします。
+. 次のページには、 NetApp HCI と VMware vSphere のエンドユーザライセンスが表示されます。条項に同意する場合は、各契約の最後にある [I Accept] をクリックし、 [Continue] をクリックします。
+. Configure a New vSphere Deployment （新しい vSphere 導入の設定）をクリックし、 vSphere 6.5U2 を選択して、 vCenter Server の Fully Qualified Domain Name （ FQDN ；完全修飾ドメイン名）を入力します。[ 続行 ] をクリックします。
++
+image::nde_vsphere_config.JPG[vSphere の設定]
+
+. 環境で使用するクレデンシャルを入力するよう求められます。この機能は、 VMware vSphere 、 NetApp Element ストレージクラスタ、およびクラスタの管理機能を提供する NetApp Mnode で使用されます。完了したら、 [ 続行 ] をクリックします。
++
+image::nde_credentials.JPG[vSphere クレデンシャル]
+
+. 次に、 NetApp HCI 環境のケーブル接続に使用するネットワークトポロジを入力するように求められます。本ドキュメントで検証済みの解決策は、コンピューティングノードにケーブル 2 本のオプションを使用して導入され、ストレージノードにはケーブル 4 本のオプションを使用して導入されています。Continue をクリックします。 .
++
+image::nde_network_topology.JPG[ネットワークトポロジ]
+
+. NDE が表示する次のページは、ストレージネットワーク上でアドレス指定された APIPA によって検出された環境のインベントリです。NDE を現在実行しているストレージノードは、すでに緑のチェックマークで選択されています。対応するボックスを選択して、 NetApp HCI 環境にノードを追加します。Continue をクリックします。 .
++
+image::nda_inventory.JPG[NDA インベントリ]
+
++
+
+NOTE: インベントリ画面に不足しているノードがある場合は、数分待ってからインベントリの更新をクリックします。それでもノードが表示されない場合は、環境ネットワークについての詳しい調査が必要になることがあります。
+
+. 次に、 NetApp HCI 環境の永続的なネットワーク設定を行う必要があります。最初のページでは、インフラストラクチャサービス（ DNS および NTP ）、 vCenter ネットワーキング、 Mnode ネットワーキングを構成します。
++
+image::nda_network_settings.JPG[Network Settings （ネットワーク設定）]
+
+. 次のページでは、環境内の各ノードを設定できます。コンピューティングノードについては、ホスト名、管理ネットワーク、 vMotion ネットワーク、およびストレージネットワークを設定できます。ストレージノードについて、ストレージクラスタに名前を付け、各ノードで使用される管理ネットワークとストレージネットワークを設定します。Continue をクリックします。 .
++
+image::nda_compute_node_networking.JPG[コンピューティングノードのネットワーク]
+
+. 次のページで、各セクションを展開して環境に定義されているすべての設定を確認し、必要に応じて [ 編集 ] をクリックして修正します。このページには、 Mnode から NetApp Active IQ へのリアルタイムの健常性情報と診断情報の送信を有効または無効にするチェックボックスもあります。すべての情報が正しい場合は、 [Start Deployment] をクリックします。
++
+
+NOTE: Active IQ を有効にする場合は、管理ネットワークがインターネットにアクセスできることを確認します。NDE が Active IQ に到達できない場合、導入が失敗する可能性があります。
+
+. 概要ページに加え、 NetApp HCI 解決策の各コンポーネントの進捗状況バー、および解決策全体が表示されます。完了すると、 vSphere Client を起動して環境の操作を開始するオプションが表示されます。
++
+image::nda_setup_complete.PNG[セットアップが完了しました]
+
+
+
+link:anthos_task_configure_the_vcenter_server.html["次の手順： vCenter Server を設定します"]

@@ -1,0 +1,103 @@
+---
+sidebar: sidebar 
+permalink: ai/aicp_provision_a_jupyter_notebook_workspace_for_data_scientist_or_developer_use.html 
+keywords: Jupyter, Notebook, Workspace, Kubeflow 
+summary: Kubeflow は、データサイエンティストのワークスペースとして機能する、新しい Jupyter Notebook サーバの迅速なプロビジョニングを可能にします。Kubeflow を使用して新しい Jupyter Notebook サーバをプロビジョニングするには、このページに記載されているタスクを実行します。 
+---
+= データサイエンティストまたは開発者向けに Jupyter Notebook Workspace をプロビジョニングします 使用
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Kubeflow は、データサイエンティストのワークスペースとして機能する、新しい Jupyter Notebook サーバの迅速なプロビジョニングを可能にします。Kubeflow を使用して新しい Jupyter Notebook サーバをプロビジョニングするには、次のタスクを実行します。Kubeflow コンテキスト内の Jupyter Notebook の詳細については、を参照してください https://www.kubeflow.org/docs/components/jupyter/["Kubeflow の公式ドキュメント"^]。
+
+. * オプション：新しい Jupyter Notebook サーバにマウントする既存のボリュームが、新しいサーバを作成するネームスペース内の PersistentVolumeクレーム （ PVC ）に関連付けられていない場合（手順 4 を参照）、ネットアップストレージシステムに既存のボリュームがあるとします。 その後、それらのボリュームをそのネームスペースにインポートする必要があります。これらのボリュームは、 Trident のボリュームインポート機能を使用してインポートできます。
++
+以降のコマンド例では、「 pb_fg_all 」という名前の既存のボリュームを「 kubeflow-anonymous 」ネームスペースにインポートしています。これらのコマンドは、ネットアップストレージシステム上のボリュームに関連付けられた「 kubeflow-anonymous 」ネームスペースに PVC を作成します。PVC の詳細については、を参照してください https://kubernetes.io/docs/concepts/storage/persistent-volumes/["Kubernetes の公式ドキュメント"^]。ボリュームインポート機能の詳細については、を参照してください https://netapp-trident.readthedocs.io/["Trident のドキュメント"^]。Trident を使用したボリュームのインポートの詳細な例については、を参照してください link:aicp_import_an_existing_volume.html["既存のボリュームをインポートします"]。
+
++
+
+NOTE: ボリュームは、手順 4 で新しい Jupyter Notebook サーバが作成された名前空間であるため、「 kubeflow-anonymous 」名前空間にインポートされます。Kubeflow を使用してこの既存のボリュームを新しい Jupyter Notebook サーバにマウントするには、同じネームスペース内のボリュームに PVC が存在している必要があります。
+
++
+....
+$ cat << EOF > ./pvc-import-pb_fg_all-kubeflow-anonymous.yaml
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pb-fg-all
+  namespace: kubeflow-anonymous
+spec:
+  accessModes:
+    - ReadOnlyMany
+  storageClassName: ontap-ai-flexgroups-retain
+EOF
+$ tridentctl import volume ontap-ai-flexgroups-iface1 pb_fg_all -f ./pvc-import-pb_fg_all-kubeflow-anonymous.yaml -n trident
++------------------------------------------+--------+----------------------------+----------+--------------------------------------+--------+---------+
+|                   NAME                   |  SIZE  |       STORAGE CLASS        | PROTOCOL |             BACKEND UUID             | STATE  | MANAGED |
++------------------------------------------+--------+----------------------------+----------+--------------------------------------+--------+---------+
+| pvc-1ed071be-d5a6-11e9-8278-00505681feb6 | 10 TiB | ontap-ai-flexgroups-retain | file     | 12f4f8fa-0500-4710-a023-d9b47e86a2ec | online | true    |
++------------------------------------------+--------+----------------------------+----------+--------------------------------------+--------+---------+
+$ kubectl get pvc -n kubeflow-anonymous
+NAME        STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS                 AGE
+pb-fg-all   Bound    pvc-1ed071be-d5a6-11e9-8278-00505681feb6   10Ti       ROX            ontap-ai-flexgroups-retain   14s
+....
+. Kubeflow 中央ダッシュボードのメインメニューで Notebook Servers をクリックして、 Jupyter Notebook サーバ管理ページに移動します。
++
+image:aicp_image9.png["エラー：グラフィックイメージがありません"]
+
+. 新しい Jupyter Notebook サーバをプロビジョニングするには、 New Server をクリックします。
++
+image:aicp_image10.png["エラー：グラフィックイメージがありません"]
+
+. 新しいサーバに名前を付け、サーバのベースにする Docker イメージを選択し、サーバで予約する CPU と RAM の容量を指定します。[ 名前空間 ] フィールドが空白の場合は、ページヘッダーの [ 名前空間の選択 ] メニューを使用して名前空間を選択します。選択したネームスペースがネームスペースフィールドに自動的に入力されます。
++
+次の例では 'kubeflow-anonymous' ネームスペースが選択されていますまた、 Docker イメージ、 CPU 、 RAM のデフォルト値も使用できます。
+
++
+image:aicp_image11.png["エラー：グラフィックイメージがありません"]
+
+. ワークスペースボリュームの詳細を指定します。新しいボリュームを作成するように選択した場合は、そのボリュームまたは PVC がデフォルトの StorageClass を使用してプロビジョニングされます。Trident を利用するストレージクラスがデフォルトとして指定されているため ストレージクラスイン link:aicp_set_default_kubernetes_storageclass.html["デフォルトの Kubernetes StorageClass を設定します"]を指定した場合、ボリュームまたは PVC は Trident でプロビジョニングされます。このボリュームは、 Jupyter Notebook Server コンテナ内のデフォルトワークスペースとして自動的にマウントされます。別のデータボリュームに保存されていないユーザーがサーバー上に作成したノートブックは、自動的にこのワークスペースボリュームに保存されます。そのため、ノートブックは再起動後も維持されます。
++
+image:aicp_image12.png["エラー：グラフィックイメージがありません"]
+
+. データボリュームを追加次の例は、手順 1 のコマンド例でインポートした既存のボリュームを指定し、デフォルトのマウントポイントをそのまま使用します。
++
+image:aicp_image13.png["エラー：グラフィックイメージがありません"]
+
+. * オプション： * 希望する数の GPU をノートブックサーバーに割り当てるよう要求します。次の例では、 GPU が 1 つ要求されています。
++
+image:aicp_image14.png["エラー：グラフィックイメージがありません"]
+
+. [ 起動 ] をクリックして、新しいノートブックサーバーをプロビジョニングします。
+. ノートブックサーバーが完全にプロビジョニングされるまで待ちます。手順 4 で指定した Docker イメージを使用してサーバをプロビジョニングしたことがない場合は、イメージをダウンロードする必要があるため、この処理に数分かかることがあります。サーバーが完全にプロビジョニングされると、 Jupyter Notebook サーバー管理ページの [ ステータス ] 列に緑色のチェックマークが表示されます。
++
+image:aicp_image15.png["エラー：グラフィックイメージがありません"]
+
+. [ 接続 ] をクリックして、新しいサーバー Web インターフェイスに接続します。
+. 手順 6 で指定したデータセットボリュームがサーバにマウントされていることを確認します。デフォルトでは、このボリュームはデフォルトのワークスペース内にマウントされます。ユーザーの観点から見ると、これはワークスペース内の別のフォルダーにすぎません。データサイエンティストで、インフラのエキスパートではないユーザは、このボリュームを使用するためにストレージの専門知識を持っている必要はありません。
++
+image:aicp_image16.png["エラー：グラフィックイメージがありません"]
+
++
+image:aicp_image17.png["エラー：グラフィックイメージがありません"]
+
+. ターミナルを開き、手順 5 で新しいボリュームが要求された場合は、「 d f -h 」を実行して、 Trident でプロビジョニングされた新しい永続ボリュームがデフォルトのワークスペースとしてマウントされていることを確認します。
++
+デフォルトのワークスペースディレクトリは、サーバーの Web インターフェイスに最初にアクセスしたときに表示されるベースディレクトリです。そのため、 Web インターフェイスを使用して作成したアーティファクトは、 Trident でプロビジョニングされた永続ボリュームに保存されます。
+
++
+image:aicp_image18.png["エラー：グラフィックイメージがありません"]
+
++
+image:aicp_image19.png["エラー：グラフィックイメージがありません"]
+
+. ターミナルを使用して「 nvidia-smi 」を実行し、ノートブックサーバーに正しい数の GPU が割り当てられていることを確認します。次の例では、手順 7 で要求されたように、 1 つの GPU がノートブックサーバーに割り当てられています。
+
+
+image:aicp_image20.png["エラー：グラフィックイメージがありません"]
+
+link:aicp_create_a_snapshot_of_an_ontap_volume_from_within_a_jupyter_notebook.html["次に、 Jupyter Notebook 内から ONTAP ボリュームの Snapshot を作成します"]

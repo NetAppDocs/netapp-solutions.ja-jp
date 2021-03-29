@@ -1,0 +1,132 @@
+---
+sidebar: sidebar 
+permalink: ai/hciai_edge_architecture.html 
+keywords:  
+summary:  
+---
+= アーキテクチャ
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== 解決策テクノロジ
+
+この解決策は、次のコンポーネントを含む NetApp HCI システムで設計されています。
+
+* NVIDIA T4 GPU を搭載した 2 つの H615c コンピューティングノード
+* H410c コンピューティングノード × 2
+* H410s ストレージノード × 2
+* Mellanox SN2010 10GbE / 25GbE スイッチが 2 台構成されています
+
+
+
+
+== アーキテクチャ図
+
+次の図は、 NetApp HCI AI 推論解決策の解決策アーキテクチャを示しています。
+
+image:hciaiedge_image2.png["エラー：グラフィックイメージがありません"]
+
+次の図は、この解決策の仮想要素と物理要素を示しています。
+
+image:hciaiedge_image3.png["エラー：グラフィックイメージがありません"]
+
+VMware インフラは、この推論解決策に必要な管理サービスのホストに使用されます。これらのサービスは専用のインフラに導入する必要はなく、既存のワークロードと共存できます。NetApp Deployment Engine （ NDE ）では、 H410c ノードと H410s ノードを使用して VMware インフラを導入します。
+
+NDE の設定が完了すると、次のコンポーネントが仮想インフラに VM として導入されます。
+
+* * Deployment Jump VM. * NVIDIA DeepOps の導入を自動化するために使用します。を参照してください link:hciaiedge_design_considerations.html#nvidia-deepops["NVIDIA DeepOps のことです"] NetApp Trident を使用したストレージ管理
+* * ONTAP Select * 。 ONTAP Select のインスタンスを導入して、 Kubernetes で実行される AI ワークロードに NFS ファイルサービスと永続的ストレージを提供します。
+* * Kubernetes Masters. * 導入時に、 3 台の VM がインストールされ、サポートされる Linux ディストリビューションで構成され、 Kubernetes マスターノードとして構成されます。管理サービスのセットアップ後、 NVIDIA T4 GPU を搭載した 2 つの H615c コンピューティングノードをサポート対象の Linux ディストリビューションとともにインストールします。これらの 2 つのノードは Kubernetes ワーカーノードとして機能し、推論プラットフォームのインフラを提供します。
+
+
+
+
+== ハードウェア要件
+
+次の表に、解決策の実装に必要なハードウェアコンポーネントを示します。解決策の特定の実装で使用されるハードウェアコンポーネントは、お客様の要件に応じて異なる場合があります。
+
+|===
+| レイヤー（ Layer ） | 製品ファミリー | 数量 | 詳細 
+
+
+| コンピューティング | H615C | 2. | ノードごとに 3 つの NVIDIA Tesla T4 GPU 
+
+
+|  | H410C | 2. | 管理インフラ用のコンピューティングノード 
+
+
+| ストレージ | H410S | 2. | OS およびワークロード用のストレージ 
+
+
+| ネットワーク | Mellanox SN2010 | 2. | 10G / 25G スイッチ 
+|===
+
+
+== ソフトウェア要件
+
+次の表に、解決策の実装に必要なソフトウェアコンポーネントを示します。解決策の特定の実装で使用されるソフトウェアコンポーネントは、お客様の要件に応じて異なる場合があります。
+
+|===
+| レイヤー（ Layer ） | ソフトウェア | バージョン 
+
+
+| ストレージ | NetApp Element ソフトウェア | 12.0.0.333 
+
+
+|  | ONTAP Select の場合 | 9.7 
+
+
+|  | NetApp Trident | 20.07 
+
+
+| NetApp HCI エンジン | NDE | 1.8 
+
+
+| ハイパーバイザー | ハイパーバイザー | VMware vSphere ESXi 6.7U1 
+
+
+|  | ハイパーバイザー管理システム | VMware vCenter Server 6.7U1 
+
+
+| 推論プラットフォーム | NVIDIA DeepOps のことです | 20.08 
+
+
+|  | NVIDIA GPU Operator （ NVIDIA GPU オペレータ） | 1.1.7 
+
+
+|  | Ansible | 2.9.5 
+
+
+|  | Kubernetes | 1.17.9 
+
+
+|  | Docker です | Docker CE 18.09.7 
+
+
+|  | CUDA バージョン | 10.2 
+
+
+|  | GPU デバイスプラグイン | 0.6.0 
+
+
+|  | Helm | 3.1.2 
+
+
+|  | NVIDIA Tesla ドライバ | 440.64.00 
+
+
+|  | NVIDIA Triton 推論サーバ | 2.1.0 – NGC コンテナ v20.07 
+
+
+| K8 マスター VM | Linux の場合 | この解決策カーネルバージョン 4.15 では、 NetApp IMT 、 NVIDIA DeepOps 、 GPUOperator Ubuntu 18.04.4 LTS をサポートするディストリビューションがすべて使用されています 
+
+
+| ホスト OS / K8 ワーカーノード | Linux の場合 | この解決策カーネルバージョン 4.15 では、 NetApp IMT 、 NVIDIA DeepOps 、 GPUOperator Ubuntu 18.04.4 LTS をサポートするディストリビューションがすべて使用されています 
+|===
+link:hciai_edge_design_considerations.html["次：設計上の考慮事項"]

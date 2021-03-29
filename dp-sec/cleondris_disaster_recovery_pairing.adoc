@@ -1,0 +1,53 @@
+---
+sidebar: sidebar 
+permalink: dp-sec/cleondris_disaster_recovery_pairing.html 
+keywords: protection, replication wizard, protected volumes, DR site 
+summary:  
+---
+= ディザスタリカバリペアリング： NetApp HCI DR と Cleondris
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+. Failover ページを表示します。
+. vCenter Server とストレージの図で、 Protection タブを選択します。
++
+image:cleondris_image13.png["エラー：グラフィックイメージがありません"]
+
++
+画面の反対側には、保護されている VM の数など、役立つ情報がいくつか表示されます。（この例では、今は何もありません）。 ここからレプリケーションウィザードにアクセスすることもできます。
+
++
+image:cleondris_image14.png["エラー：グラフィックイメージがありません"]
+
++
+このウィザードを使用すると、レプリケーションのセットアップが簡単になります。
+
++
+image:cleondris_image15.png["エラー：グラフィックイメージがありません"]
+
+. 重要なボリュームを選択することもできますが、クラスタフィールドの上部で適切な vCenter Server を選択していることを確認してください。
++
+右端にペアリングタイプが表示され、 Sync のみが許可またはサポートされています。
+
++
+[ 次へ ] をクリックすると、宛先領域が表示されます。
+
++
+image:cleondris_image16.png["エラー：グラフィックイメージがありません"]
+
+. デフォルトの情報は正常ですが、チェックする価値はあります。[ 次へ ] をクリックします。
++
+image:cleondris_image17.png["エラー：グラフィックイメージがありません"]
+
++
+ディザスタリカバリサイトの vCenter Server が表示され、すべてのホストが選択されていることを確認することが重要です。これが完了したら、 [ プレビュー ] ボタンを使用します。
+
+. 次に、概要が表示されます。Create DR （ DR の作成）をクリックしてボリュームペアリングを設定し、レプリケーションを開始できます。
++
+設定によっては、レプリケーションに時間がかかることがあります。私は一晩待つことを提案する。
+
+

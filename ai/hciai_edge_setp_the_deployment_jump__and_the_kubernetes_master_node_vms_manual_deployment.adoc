@@ -1,0 +1,98 @@
+---
+sidebar: sidebar 
+permalink: ai/hciai_edge_setp_the_deployment_jump__and_the_kubernetes_master_node_vms_manual_deployment.html 
+keywords:  
+summary:  
+---
+= Deployment Jump VM と Kubernetes Master をセットアップします ノード VM （手動導入）
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Linux ディストリビューションを実行する Deployment Jump VM は、次の目的で使用されます。
+
+* Ansible プレイブックを使用した ONTAP Select の導入
+* NVIDIA DeepOps と GPU Operator を使用した Kubernetes インフラの導入
+* NetApp Trident のインストールと設定
+
+
+Linux を実行する残りの 3 つの VM がセットアップされ、この解決策ではこれらの VM が Kubernetes マスターノードとして設定されます。
+
+この解決策環境では、 Ubuntu 18.04.4 LTS が使用されています。
+
+. Ubuntu 18.04.4 LTS VM と VMware ツールを導入します
++
+セクションで説明する手順の概要を参照してください link:hciaiedge_netapp_h615cmanual_deployment.html#install-ubuntu-18.04.4-lts["Ubuntu 18.04.4 LTS をインストールします"]。
+
+. VM のインバンド管理ネットワークを設定します。次のサンプル netplan テンプレートを参照してください。
++
+....
+# This file describes the network interfaces available on your system
+# For more information, see netplan(5).
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    ens160:
+      dhcp4: false
+      addresses: [ipv4_address/subnet]
+      routes:
+      - to: 0.0.0.0/0
+        via: 172.21.232.111
+        metric: 100
+        table: 3488
+      routing-policy:
+      - from: 0.0.0.0/0
+        priority: 32768
+        table: 3488
+      nameservers:
+        addresses: [nameserver_ip]
+        search: [ search_domain ]
+      mtu: 1500
+....
++
+このテンプレートは、ネットワークをセットアップする唯一の方法ではありません。他の方法も自由に使用できます。
+
+. netplan を適用します。
++
+....
+sudo netplan –-debug apply
+....
+. Network Manager が実行されている場合は、停止して無効にします。
++
+....
+systemctl stop NetworkManager
+systemctl disable NetworkManager
+....
+. VI エディタを開き '/etc/iproute2/RT_tables' にテーブルエントリを追加します
++
+....
+#
+# reserved values
+#
+255     local
+254     main
+253     default
+0       unspec
+#
+# local
+#
+#1      inr.ruhep
+101     3488
+....
+. DNS に VM のホストレコードを追加します。
+. アウトバウンドのインターネットアクセスを確認します。
+. システムをアップデートします。
++
+....
+sudo apt-get update && sudo apt-get upgrade
+....
+. システムをリブートします。
+. 手順 1~9 を繰り返して、残りの 3 つの VM をセットアップします。
+
+
+link:hciai_edge_deploy_a_kubernetes_cluster_with_nvidia_deepops_automated_deployment.html["次のステップ： NVIDIA DeepOps （自動導入）で Kubernetes クラスタを導入"]

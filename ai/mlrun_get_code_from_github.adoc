@@ -1,0 +1,32 @@
+---
+sidebar: sidebar 
+permalink: ai/mlrun_get_code_from_github.html 
+keywords: NetApp GitHub Cloud Volume 
+summary:  
+---
+= GitHub からコードを取得します
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+これで、 Iguazio クラスタおよび開発者環境で NetApp Cloud Volume または NetApp Trident ボリュームを使用できるようになりました。アプリケーションの確認を開始できます。
+
+ユーザは独自のワークスペース（ディレクトリ）を持ちます。すべてのノートブックで ' ユーザー・ディレクトリへのパスは '/User' ですIguazio プラットフォームは、ディレクトリを管理します。上記の手順に従った場合、 NetApp Cloud ボリュームは「 /NetApp 」ディレクトリにあります。
+
+Jupyter 端子を使用して GitHub からコードを取得します。
+
+image:mlrun_image12.png["エラー：グラフィックイメージがありません"]
+
+Jupyter ターミナルのプロンプトで、プロジェクトのクローンを作成します。
+
+....
+cd /User
+git clone .
+....
+Jupyter ワークスペースのファイルツリーには、「 NetOps - NetApp 」フォルダが表示されます。
+
+link:mlrun_configure_working_environment.html["次の手順：作業環境を構成します"]

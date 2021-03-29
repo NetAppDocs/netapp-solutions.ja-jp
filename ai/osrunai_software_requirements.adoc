@@ -1,0 +1,50 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_software_requirements.html 
+keywords:  
+summary:  
+---
+= ソフトウェア要件
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+この解決策は、 Run ： AI オペレータがインストールされた基本的な Kubernetes 環境で検証されました。Kubernetes はを使用して導入されました https://github.com/NVIDIA/deepops["NVIDIA DeepOps のことです"^] 導入エンジン：本番環境に必要なすべてのコンポーネントを導入します。DeepOps は自動的に導入されます https://netapp.io/persistent-storage-provisioner-for-kubernetes/["NetApp Trident"^] Kubernetes 環境との永続的なストレージ統合のために、デフォルトのストレージクラスが作成されました。これにより、コンテナは AFF A800 ストレージシステムのストレージを活用できます。Trident と ONTAP AI の Kubernetes の詳細については、を参照してください https://www.netapp.com/us/media/tr-4798.pdf["TR-4798"^]。
+
+....
+The following table lists the software components that are required to implement the solution as tested.
+....
+|===
+| ソフトウェア | バージョンまたはその他の情報 
+
+
+| NetApp ONTAP データ管理ソフトウェア | 9.6p4 
+
+
+| Cisco NX-OS スイッチのファームウェア | 7.0 （ 3 ） I6 （ 1 ） 
+
+
+| NVIDIA DGX OS | 4.0.4 - Ubuntu 18.04 LTS 
+
+
+| Kubernetes のバージョン | 1.17 
+
+
+| Trident のバージョン | 20.04.0 
+
+
+| AI CLI を実行 | v2.1.13 
+
+
+| 実行： AI Orchestration Kubernetes Operator バージョン | 1.0.39 
+
+
+| Docker コンテナプラットフォーム | 18.06.1-CE [e68fc7a] 
+|===
+実行に必要なその他のソフトウェア要件： AI は、から入手できます https://docs.run.ai/Administrator/Cluster-Setup/Run-AI-GPU-Cluster-Prerequisites/["AI GPU クラスタの前提条件を実行します"^]。
+
+link:osrunai_optimal_cluster_and_gpu_utilization_with_run_ai_overview.html["次のステップ： AI を実行することでクラスタと GPU の利用率を最適化"]。

@@ -1,0 +1,407 @@
+---
+sidebar: sidebar 
+permalink: ai/aicp_create_a_kubeflow_pipeline_to_execute_an_end-to-end_ai_training_workflow_with_built-in_traceability_and_versioning.html 
+keywords: Kubeflow, Pipeline, SDK, AI, 
+summary: ネットアップの Snapshot テクノロジを活用した新しい Kubeflow Pipeline を定義して実行し、迅速で効率的なデータセットとモデルのバージョン管理とトレーサビリティをエンドツーエンドの AI / ML モデルトレーニングワークフローに統合するには、このページに記載されているタスクを実行します。 
+---
+= エンドツーエンドの AI トレーニングを実行するための Kubeflow パイプラインを作成します トレーサビリティとバージョン管理が組み込まれたワークフロー
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+ネットアップの Snapshot テクノロジを活用して、データセットとモデルのバージョン管理とトレーサビリティをエンドツーエンドの AI / ML モデルトレーニングワークフローに統合する新しい Kubeflow Pipeline を定義して実行するには、次のタスクを実行します。Kubeflow パイプラインの詳細については、を参照してください https://www.kubeflow.org/docs/components/pipelines/pipelines/["Kubeflow の公式ドキュメント"^]。このセクションで示すパイプラインの例は、 ONTAP ストレージシステムまたはソフトウェア定義インスタンス上にあるボリュームのみで機能します。
+
+. ボリュームが配置されている ONTAP クラスタのクラスタ管理者アカウントのユーザ名とパスワードを含む Kubernetes シークレットを作成します。このシークレットは ' パイプラインが実行される名前空間であるため 'kubeflow' 名前空間に作成する必要がありますこれらのコマンドを実行するときは 'userName' と 'password' をユーザ名とパスワードに置き換える必要がありますまた 'base64 コマンドの出力 ( 強調表示されたテキストを参照 ) を ' それに応じてシークレット定義で使用する必要があります
++
+....
+$ echo -n 'username' | base64
+dXNlcm5hbWU=
+$ echo -n 'password' | base64
+cGFzc3dvcmQ=
+$ cat << EOF > ./secret-ontap-cluster-mgmt-account.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ontap-cluster-mgmt-account
+  namespace: kubeflow
+data:
+  username: dXNlcm5hbWU=
+  password: cGFzc3dvcmQ=
+EOF
+$ kubectl create -f ./secret-ontap-cluster-mgmt-account.yaml
+secret/ontap-cluster-mgmt-account created
+....
+. モデルのトレーニングに使用するデータを含むボリュームが「 kubeflow 」ネームスペース内の PVC に関連付けられていない場合は、このボリュームをそのネームスペースにインポートする必要があります。Trident のボリュームインポート機能を使用して、このボリュームをインポートしてください。このボリュームはパイプラインが実行される名前空間であるため 'kubeflow' 名前空間にインポートする必要があります
++
+データセットボリュームがすでに「 kubeflow 」ネームスペース内の PVC に関連付けられている場合は、この手順を省略できます。データセットボリュームがない場合は、ボリュームをプロビジョニングしてからそのボリュームにデータを転送する必要があります。を参照してください link:aicp_provision_a_new_volume.html["新しいボリュームをプロビジョニングします"] Trident で新しいボリュームをプロビジョニングする方法を例に説明します。
+
++
+次に示すコマンド例では、「 dataset_vol 」という名前の既存の FlexVol ボリュームを「 kubeflow」 ネームスペースにインポートしています。PVC の詳細については、を参照してください https://kubernetes.io/docs/concepts/storage/persistent-volumes/["Kubernetes の公式ドキュメント"^]。ボリュームインポート機能の詳細については、を参照してください https://netapp-trident.readthedocs.io/["Trident のドキュメント"^]。Trident を使用したボリュームのインポートの詳細な例については、を参照してください link:aicp_import_an_existing_volume.adoc["既存のボリュームをインポートします"]。
+
++
+....
+$ cat << EOF > ./pvc-import- dataset-vol-kubeflow.yaml
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: dataset-vol
+  namespace: kubeflow
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: ontap-ai-flexvols-retain
+EOF
+$ tridentctl import volume ontap-ai-flexvols dataset_vol -f ./pvc-import- dataset-vol- kubeflow.yaml -n trident
++------------------------------------------+--------+--------------------------+----------+--------------------------------------+--------+---------+
+|                   NAME                   |  SIZE  |      STORAGE CLASS       | PROTOCOL |             BACKEND UUID             | STATE  | MANAGED |
++------------------------------------------+--------+--------------------------+----------+--------------------------------------+--------+---------+
+| pvc-3c70ad14-d88f-11e9-b5e2-00505681f3d9 | 10 TiB | ontap-ai-flexvols-retain | file     | 2942d386-afcf-462e-bf89-1d2aa3376a7b | online | true    |
++------------------------------------------+--------+--------------------------+----------+--------------------------------------+--------+---------+
+$ kubectl get pvc -n kubeflow
+NAME                                      STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS               AGE
+imagenet-benchmark-job-gblgq-kfpresults   Bound    pvc-a4e32212-d65c-11e9-a043-00505681a82d   1Gi        RWX            ontap-ai-flexvols-retain   2d19h
+katib-mysql                               Bound    pvc-b07f293e-d028-11e9-9b9d-00505681a82d   10Gi       RWO            ontap-ai-flexvols-retain   10d
+dataset-vol                               Bound    pvc-43b12235-f32e-4dc4-a7b8-88e90d935a12   10Ti       ROX            ontap-ai-flexvols-retain   8s
+metadata-mysql                            Bound    pvc-b0f3f032-d028-11e9-9b9d-00505681a82d   10Gi       RWO            ontap-ai-flexvols-retain   10d
+minio-pv-claim                            Bound    pvc-b22727ee-d028-11e9-9b9d-00505681a82d   20Gi       RWO            ontap-ai-flexvols-retain   10d
+mysql-pv-claim                            Bound    pvc-b2429afd-d028-11e9-9b9d-00505681a82d   20Gi       RWO            ontap-ai-flexvols-retain   10d
+....
+. トレーニング済みモデルを保存するボリュームが「 kubeflow 」ネームスペース内の PVC に関連付けられていない場合は、このボリュームをそのネームスペースにインポートする必要があります。Trident のボリュームインポート機能を使用して、このボリュームをインポートしてください。このボリュームはパイプラインが実行される名前空間であるため 'kubeflow' 名前空間にインポートする必要があります
++
+トレーニング済みのモデルボリュームがすでに「 kubeflow 」名前空間の PVC に関連付けられている場合は、この手順を省略できます。トレーニング済みのモデルボリュームがない場合は、ボリュームをプロビジョニングする必要があります。を参照してください link:aicp_provision_a_new_volume.html["新しいボリュームをプロビジョニングします"] Trident で新しいボリュームをプロビジョニングする方法を例に説明します。
+
++
+次に示すコマンド例では 'kfp_model_vol という名前の既存の FlexVol ボリュームを 'kubeflow' ネームスペースにインポートしていますPVC の詳細については、を参照してください https://kubernetes.io/docs/concepts/storage/persistent-volumes/["Kubernetes の公式ドキュメント"^]。ボリュームインポート機能の詳細については、を参照してください https://netapp-trident.readthedocs.io/["Trident のドキュメント"^]。Trident を使用したボリュームのインポートの詳細な例については、を参照してください link:aicp_import_an_existing_volume.adoc["既存のボリュームをインポートします"]。
+
++
+....
+$ cat << EOF > ./pvc-import-dataset-vol-kubeflow.yaml
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: kfp-model-vol
+  namespace: kubeflow
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: ontap-ai-flexvols-retain
+EOF
+$ tridentctl import volume ontap-ai-flexvols kfp_model_vol -f ./pvc-import- kfp-model-vol-kubeflow.yaml -n trident
++------------------------------------------+--------+--------------------------+----------+--------------------------------------+--------+---------+
+|                   NAME                   |  SIZE  |      STORAGE CLASS       | PROTOCOL |             BACKEND UUID             | STATE  | MANAGED |
++------------------------------------------+--------+--------------------------+----------+--------------------------------------+--------+---------+
+| pvc-3c70ad14-d88f-11e9-b5e2-00505681f3d9 | 10 TiB | ontap-ai-flexvols-retain | file     | 2942d386-afcf-462e-bf89-1d2aa3376a7b | online | true    |
++------------------------------------------+--------+--------------------------+----------+--------------------------------------+--------+---------+
+$ kubectl get pvc -n kubeflow
+NAME                                      STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS               AGE
+imagenet-benchmark-job-gblgq-kfpresults   Bound    pvc-a4e32212-d65c-11e9-a043-00505681a82d   1Gi        RWX            ontap-ai-flexvols-retain   2d19h
+katib-mysql                               Bound    pvc-b07f293e-d028-11e9-9b9d-00505681a82d   10Gi       RWO            ontap-ai-flexvols-retain   10d
+kfp-model-vol                             Bound    pvc-236e893b-63b4-40d3-963b-e709b9b2816b   10Ti       ROX            ontap-ai-flexvols-retain   8s
+metadata-mysql                            Bound    pvc-b0f3f032-d028-11e9-9b9d-00505681a82d   10Gi       RWO            ontap-ai-flexvols-retain   10d
+minio-pv-claim                            Bound    pvc-b22727ee-d028-11e9-9b9d-00505681a82d   20Gi       RWO            ontap-ai-flexvols-retain   10d
+mysql-pv-claim                            Bound    pvc-b2429afd-d028-11e9-9b9d-00505681a82d   20Gi       RWO            ontap-ai-flexvols-retain   10d
+....
+. まだインストールしていない場合は、 Kubeflow Pipelines SDK をインストールする必要があります。を参照してください https://www.kubeflow.org/docs/pipelines/sdk/install-sdk/["Kubeflow の公式ドキュメント"^] を参照してください。
+. Kubeflow Pipelines SDK を使用して、 Python で Kubeflow パイプラインを定義します。以下のコマンド例では、実行時に以下のパラメータを受け入れるパイプラインのパイプライン定義を作成し、次の手順を実行します。特定のプロセスに応じて、必要に応じてパイプライン定義を変更します。
++
+* ランタイムパラメータ： *
+
++
+** 「 ONTAP_cluster_mgmt_hostname 」：データセットとモデルボリュームが格納されている ONTAP クラスタのホスト名または IP アドレス。
+** `ONTAP_cluster_admin_acct_k8s_secret` ：手順 1 で作成した Kubernetes シークレットの名前
+** 'ONTAP_verify_ssl_cert` ： ONTAP API と通信するときにクラスタの SSL 証明書を検証するかどうかを指定します (True/False) 。
+** `kubeflow' 名前空間内の Kubernetes PersistentVolumeClaim (PVVC) の名前モデルのトレーニングに使用するデータが含まれているボリュームに関連付けられています
+** `d ataset_volume_pv_exist` ：データセットボリューム PVC に対応する Kubernetes PersistentVolume （ PV ）オブジェクトの名前。PV の名前を取得するには 'kubectl-n kubeflow get pvc' を実行します指定された PVC に対応する PV の名前は 'volume' 列に表示されます
+** 「熟練したモデル」「体積」「 PVC_EXISTING 」：トレーニング済みモデルを格納するボリュームに関連付けられた「 kubeflow 」ネームスペース内の Kubernetes PersistentVolumeClaim （ PVC; 永続的ボリューム要求）の名前。
+** `p訓練 されたモデルのボリューム PVC に対応する Kubernetes PersistentVolume (PV) オブジェクトの名前PV の名前を取得するには 'kubectl-n kubeflow get pvc' を実行します指定された PVC に対応する PV の名前は 'volume' 列に表示されます
+** 'execute_data_prep_step_ys_or_no': この特定のパイプライン実行の一部としてデータ前処理ステップを実行するかどうかを示します ( はい / いいえ )
+** 「 ATA_PREPER_STEP_container_image` ：データ前処理を実行するコンテナイメージ。
+** 「データの前処理のステップとして実行する ATA_PREP_STEP_COMMAND 」コマンド。
+** 「 ATA_PREP_STEP_dataset_volume_mountpoint 」：データ前処理の手順でデータセットボリュームをマウントするマウントポイントです。
+** 'train _step_container_image': トレーニング・ステップを実行するコンテナ・イメージ
+** 'train _step_command': トレーニング・ステップとして実行するコマンド
+** 'train step_dataset_volume_mountpoint` ：トレーニング・ステップ用にデータセット・ボリュームをマウントするマウントポイント
+** 'train _step_model_volume_mountpoint': トレーニング・ステップ用にモデル・ボリュームをマウントするマウントポイント
+** 'validation_step_container_image': 検証ステップを実行するコンテナイメージ
+** 検証ステップとして実行するコマンド 'validation_step_command':
+** 'validation_step_dataset_volume_mountpoint': 検証手順用にデータセットボリュームをマウントするマウントポイント
+** 'validation_step_model_volume_mountpoint': 検証ステップ用にモデルボリュームをマウントするマウントポイント
++
+* パイプラインステップ： *
+
++
+... オプション：データの前処理を実行します。
+... データセットボリュームの Snapshot コピー作成処理をトリガーします。 NetApp Snapshot テクノロジを使用します。
++
+この Snapshot コピーは追跡用に作成されます。このパイプラインワークフローが実行されるたびに、 Snapshot コピーが作成されます。したがって、 Snapshot コピーが削除されないかぎり、特定のトレーニングを実行して、その実行に使用された正確なトレーニングデータセットまでトレースすることは常に可能です。
+
+... トレーニングステップを実行します。
+... トレーニングを受けたモデルボリュームの、ネットアップの Snapshot テクノロジを使用して Snapshot コピーを作成します。
++
+この Snapshot コピーは、バージョン管理のために作成されます。このパイプラインワークフローが実行されるたびに、 Snapshot コピーが作成されます。したがって、トレーニングを実行するたびに、トレーニングされたモデルの読み取り専用バージョンのコピーが自動的に保存されます。
+
+... 検証ステップを実行します。
++
+....
+$ cat << EOF > ./ai-training-run.py
+# Kubeflow Pipeline Definition: AI Training Run
+import kfp.dsl as dsl
+import kfp.onprem as onprem
+import kfp.components as comp
+from kubernetes import client as k8s_client
+# Define function that triggers the creation of a NetApp snapshot
+def netappSnapshot(
+    ontapClusterMgmtHostname: str,
+    pvName: str,
+    verifySSLCert: bool = True
+) -> str :
+    # Install netapp_ontap package
+    import sys, subprocess;
+    subprocess.run([sys.executable, '-m', 'pip', 'install', 'netapp_ontap'])
+
+    # Import needed functions/classes
+    from netapp_ontap import config as netappConfig
+    from netapp_ontap.host_connection import HostConnection as NetAppHostConnection
+    from netapp_ontap.resources import Volume, Snapshot
+    from datetime import datetime
+    import json
+    # Retrieve ONTAP cluster admin account details from mounted K8s secrets
+    usernameSecret = open('/mnt/secret/username', 'r')
+    ontapClusterAdminUsername = usernameSecret.read().strip()
+    passwordSecret = open('/mnt/secret/password', 'r')
+    ontapClusterAdminPassword = passwordSecret.read().strip()
+
+    # Configure connection to ONTAP cluster/instance
+    netappConfig.CONNECTION = NetAppHostConnection(
+        host = ontapClusterMgmtHostname,
+        username = ontapClusterAdminUsername,
+        password = ontapClusterAdminPassword,
+        verify = verifySSLCert
+    )
+
+    # Convert pv name to ONTAP volume name
+    # The following will not work if you specified a custom storagePrefix when creating your
+    #   Trident backend. If you specified a custom storagePrefix, you will need to update this
+    #   code to match your prefix.
+    volumeName = 'trident_%s' % pvName.replace("-", "_")
+    print('\npv name: ', pvName)
+    print('ONTAP volume name: ', volumeName)
+    # Create snapshot; print API response
+    volume = Volume.find(name = volumeName)
+    timestamp = datetime.today().strftime("%Y%m%d_%H%M%S")
+    snapshot = Snapshot.from_dict({
+        'name': 'kfp_%s' % timestamp,
+        'comment': 'Snapshot created by a Kubeflow pipeline',
+        'volume': volume.to_dict()
+    })
+    response = snapshot.post()
+    print("\nAPI Response:")
+    print(response.http_response.text)
+    # Retrieve snapshot details
+    snapshot.get()
+    # Convert snapshot details to JSON string and print
+    snapshotDetails = snapshot.to_dict()
+    print("\nSnapshot Details:")
+    print(json.dumps(snapshotDetails, indent=2))
+    # Return name of newly created snapshot
+    return snapshotDetails['name']
+# Convert netappSnapshot function to Kubeflow Pipeline ContainerOp named 'NetappSnapshotOp'
+NetappSnapshotOp = comp.func_to_container_op(netappSnapshot, base_image='python:3')
+# Define Kubeflow Pipeline
+@dsl.pipeline(
+    # Define pipeline metadata
+    name="AI Training Run",
+    description="Template for executing an AI training run with built-in training dataset traceability and trained model versioning"
+)
+def ai_training_run(
+    # Define variables that the user can set in the pipelines UI; set default values
+    ontap_cluster_mgmt_hostname: str = "10.61.188.40",
+    ontap_cluster_admin_acct_k8s_secret: str = "ontap-cluster-mgmt-account",
+    ontap_api_verify_ssl_cert: bool = True,
+    dataset_volume_pvc_existing: str = "dataset-vol",
+    dataset_volume_pv_existing: str = "pvc-43b12235-f32e-4dc4-a7b8-88e90d935a12",
+    trained_model_volume_pvc_existing: str = "kfp-model-vol",
+    trained_model_volume_pv_existing: str = "pvc-236e893b-63b4-40d3-963b-e709b9b2816b",
+    execute_data_prep_step__yes_or_no: str = "yes",
+    data_prep_step_container_image: str = "ubuntu:bionic",
+    data_prep_step_command: str = "<insert command here>",
+    data_prep_step_dataset_volume_mountpoint: str = "/mnt/dataset",
+    train_step_container_image: str = "nvcr.io/nvidia/tensorflow:19.12-tf1-py3",
+    train_step_command: str = "<insert command here>",
+    train_step_dataset_volume_mountpoint: str = "/mnt/dataset",
+    train_step_model_volume_mountpoint: str = "/mnt/model",
+    validation_step_container_image: str = "nvcr.io/nvidia/tensorflow:19.12-tf1-py3",
+    validation_step_command: str = "<insert command here>",
+    validation_step_dataset_volume_mountpoint: str = "/mnt/dataset",
+    validation_step_model_volume_mountpoint: str = "/mnt/model"
+) :
+    # Set GPU limits; Due to SDK limitations, this must be hardcoded
+    train_step_num_gpu = 0
+    validation_step_num_gpu = 0
+    # Pipeline Steps:
+    # Execute data prep step
+    with dsl.Condition(execute_data_prep_step__yes_or_no == "yes") :
+        data_prep = dsl.ContainerOp(
+            name="data-prep",
+            image=data_prep_step_container_image,
+            command=["sh", "-c"],
+            arguments=[data_prep_step_command]
+        )
+        # Mount dataset volume/pvc
+        data_prep.apply(
+            onprem.mount_pvc(dataset_volume_pvc_existing, 'dataset', data_prep_step_dataset_volume_mountpoint)
+        )
+    # Create a snapshot of the dataset volume/pvc for traceability
+    dataset_snapshot = NetappSnapshotOp(
+        ontap_cluster_mgmt_hostname,
+        dataset_volume_pv_existing,
+        ontap_api_verify_ssl_cert
+    )
+    # Mount k8s secret containing ONTAP cluster admin account details
+    dataset_snapshot.add_pvolumes({
+        '/mnt/secret': k8s_client.V1Volume(
+            name='ontap-cluster-admin',
+            secret=k8s_client.V1SecretVolumeSource(
+                secret_name=ontap_cluster_admin_acct_k8s_secret
+            )
+        )
+    })
+    # State that snapshot should be created after the data prep job completes
+    dataset_snapshot.after(data_prep)
+    # Execute training step
+    train = dsl.ContainerOp(
+        name="train-model",
+        image=train_step_container_image,
+        command=["sh", "-c"],
+        arguments=[train_step_command]
+    )
+    # Mount dataset volume/pvc
+    train.apply(
+        onprem.mount_pvc(dataset_volume_pvc_existing, 'datavol', train_step_dataset_volume_mountpoint)
+    )
+    # Mount model volume/pvc
+    train.apply(
+        onprem.mount_pvc(trained_model_volume_pvc_existing, 'modelvol', train_step_model_volume_mountpoint)
+    )
+    # Request that GPUs be allocated to training job pod
+    if train_step_num_gpu > 0 :
+        train.set_gpu_limit(train_step_num_gpu, 'nvidia')
+    # State that training job should be executed after dataset volume snapshot is taken
+    train.after(dataset_snapshot)
+    # Create a snapshot of the model volume/pvc for model versioning
+    model_snapshot = NetappSnapshotOp(
+        ontap_cluster_mgmt_hostname,
+        trained_model_volume_pv_existing,
+        ontap_api_verify_ssl_cert
+    )
+    # Mount k8s secret containing ONTAP cluster admin account details
+    model_snapshot.add_pvolumes({
+        '/mnt/secret': k8s_client.V1Volume(
+            name='ontap-cluster-admin',
+            secret=k8s_client.V1SecretVolumeSource(
+                secret_name=ontap_cluster_admin_acct_k8s_secret
+            )
+        )
+    })
+    # State that snapshot should be created after the training job completes
+    model_snapshot.after(train)
+    # Execute inference validation job
+    inference_validation = dsl.ContainerOp(
+        name="validate-model",
+        image=validation_step_container_image,
+        command=["sh", "-c"],
+        arguments=[validation_step_command]
+    )
+    # Mount dataset volume/pvc
+    inference_validation.apply(
+        onprem.mount_pvc(dataset_volume_pvc_existing, 'datavol', validation_step_dataset_volume_mountpoint)
+    )
+    # Mount model volume/pvc
+    inference_validation.apply(
+        onprem.mount_pvc(trained_model_volume_pvc_existing, 'modelvol', validation_step_model_volume_mountpoint)
+    )
+    # Request that GPUs be allocated to pod
+    if validation_step_num_gpu > 0 :
+        inference_validation.set_gpu_limit(validation_step_num_gpu, 'nvidia')
+    # State that inference validation job should be executed after model volume snapshot is taken
+    inference_validation.after(model_snapshot)
+if __name__ == "__main__" :
+    import kfp.compiler as compiler
+    compiler.Compiler().compile(ai_training_run, __file__ + ".yaml")
+EOF
+$ python3 ai-training-run.py
+$ ls ai-training-run. py. yaml
+ai-training-run. py. yaml
+....
+
+
+
+
+. Kubeflow 中央ダッシュボードで、メインメニューのパイプライン（ Pipelines ）をクリックし、 Kubeflow Pipelines 管理ページに移動します。
++
+image:aicp_image29.png["エラー：グラフィックイメージがありません"]
+
+. パイプラインのアップロードをクリックして ' パイプライン定義をアップロードします
++
+image:aicp_image30.png["エラー：グラフィックイメージがありません"]
+
+. 「」を選択します。YAML - 手順 5 で作成したパイプライン定義を含むアーカイブで ' パイプラインに名前を付け ' アップロードをクリックします
++
+image:aicp_image31.png["エラー：グラフィックイメージがありません"]
+
+. パイプライン管理ページのパイプラインのリストに ' 新しいパイプラインが表示されますパイプラインの名前をクリックすると、その名前が表示されます。
++
+image:aicp_image32.png["エラー：グラフィックイメージがありません"]
+
+. パイプラインを見直し、正しく見えることを確認します。
++
+image:aicp_image33.png["エラー：グラフィックイメージがありません"]
+
+. Create run をクリックしてパイプラインを実行します
++
+image:aicp_image34.png["エラー：グラフィックイメージがありません"]
+
+. パイプラインの実行を開始できる画面が表示されます。ランの名前を作成し、概要を入力し、ランをファイルする実験を選択して、 1 回限りのランを開始するか、定期的なランをスケジュールするかを選択します。
++
+image:aicp_image35.png["エラー：グラフィックイメージがありません"]
+
+. 実行のパラメータを定義し、 [ 開始 ] をクリックします。
++
+次の例では、ほとんどのパラメータにデフォルト値が適用されます。ステップ 2 で「 kubeflow 」ネームスペースにインポートされたボリュームの詳細は、「 d ataset_volume_pv_exist` 」および「 d ataset_volume_pv_exist's 」に入力されます。ステップ 3 で 'kubeflow' 名前空間にインポートされたボリュームの詳細は 'Trained_model_volume_pv_exist'' および 'Trained_model_volume_pv_exist'.パイプラインの機能を明確に示すために 'd ata_prep_step_command' ' 'train step_command' ' および 'validation_step_command' パラメータには ' 非 AI 関連のコマンドが入力されますパイプライン定義内でパラメータのデフォルト値を定義したことに注意してください ( 手順 5 を参照 )
+
++
+image:aicp_image36.png["エラー：グラフィックイメージがありません"]
+
++
+image:aicp_image37.png["エラー：グラフィックイメージがありません"]
+
+. これで、特定の実験の下にあるすべてのランを一覧表示する画面が表示されます。開始したランの名前をクリックして表示します。
++
+image:aicp_image38.png["エラー：グラフィックイメージがありません"]
+
++
+この時点では、実行中である可能性があります。
+
++
+image:aicp_image39.png["エラー：グラフィックイメージがありません"]
+
+. 実行が正常に完了したことを確認します。実行が完了すると、パイプラインのすべてのステージに緑のチェックマークアイコンが表示されます。
++
+image:aicp_image40.png["エラー：グラフィックイメージがありません"]
+
+. 特定のステージをクリックし、ログをクリックすると、そのステージの出力が表示されます。
+
+
+image:aicp_image41.png["エラー：グラフィックイメージがありません"]
+
+image:aicp_image42.png["エラー：グラフィックイメージがありません"]
+
+image:aicp_image43.png["エラー：グラフィックイメージがありません"]
+
+image:aicp_image44.png["エラー：グラフィックイメージがありません"]
+
+link:aicp_create_a_kubeflow_pipeline_to_rapidly_clone_a_dataset_for_a_data_scientist_workspace.html["次の例： Kubeflow パイプラインを作成して、データサイエンティストのワークスペースのデータセットを迅速にクローニングします"]

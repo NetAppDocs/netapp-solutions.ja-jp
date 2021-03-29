@@ -1,0 +1,33 @@
+---
+sidebar: sidebar 
+permalink: vdi-vds/citrix_access_layer.html 
+keywords: storefront, citrix workspace, unified gateway, firewall, dmz network, Application Delivery Controller, ADC 
+summary: Storefront は、複数のデリバリコントローラから発行されたリソースを統合し、ユーザーに固有の項目を提供します。ユーザーは Storefront に接続し、バックエンドのインフラの変更を非表示にします。 
+---
+= アクセスレイヤ
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+=== Storefront
+
+Storefront は、複数のデリバリコントローラから発行されたリソースを統合し、ユーザーに固有の項目を提供します。ユーザーは Storefront に接続し、バックエンドのインフラの変更を非表示にします。
+
+image:citrix_image40.png["エラー：グラフィックイメージがありません"]
+
+ユーザーは、 Citrix Workspace アプリケーションまたは Web ブラウザを使用して Storefront に接続します。ユーザエクスペリエンスは変わりません。管理者は、 Microsoft 管理コンソールを使用して Storefront を管理できます。Storefront ポータルは、顧客のブランディングの要求に合わせてカスタマイズできます。アプリケーションをカテゴリにグループ化して、新しいアプリケーションをプロモートできます。デスクトップとアプリケーションは、簡単にアクセスできるようにお気に入りに登録できます。また、タグを使用してトラブルシューティングを簡単にしたり、マルチテナント環境でリソースを追跡したりすることもできます。次のスクリーンショットは、主なアプリケーショングループを示しています。
+
+image:citrix_image41.png["エラー：グラフィックイメージがありません"]
+
+
+
+=== Unified Gateway の場合
+
+パブリックインターネットから企業ファイアウォールの内側にホストされたリソースへの Citrix 仮想アプリケーションおよびデスクトップへのセキュアなアクセスを提供するために、 Unified Gateway は DMZ ネットワークに配置されます。Unified Gateway では、 SSL VPN 、イントラネットリソースへのリバースプロキシ、ロードバランサなどの複数のサービスに、 1 つの IP アドレスまたは URL を使用してアクセスできます。
+
+ユーザは、社内でリソースにアクセスする場合も、社外からアクセスする場合も、同じエクスペリエンスを得られます。Application Delivery Controller （ ADC ）は仮想アプリケーションとデスクトップのネットワーク機能を強化し、 HDX Network Insights は Citrix Director で HDX の監視情報を強化します。

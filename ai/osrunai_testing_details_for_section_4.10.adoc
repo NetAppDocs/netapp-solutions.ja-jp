@@ -1,0 +1,63 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_testing_details_for_section_4.10.html 
+keywords:  
+summary:  
+---
+= セクション 4.10 のテストの詳細
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+ここでは、のテストについて詳しく説明します link:osrunai_over-quota_fairness.html["オーバークォータフェアネス"]。
+
+「 team -a 」、「 team -b 」、「 team -c 」の順にジョブを送信します。
+
+|===
+| プロジェクト | GPU の数 | 合計 | コメント（ Comment ） 
+
+
+| チーム A | 2. | 4 月 4 日 | 1 個のワークロードをキューに登録 
+
+
+| チーム A | 2. | 4 月 4 日 | 2 個のワークロードがキューに登録 
+
+
+| チーム - b | 2. | 2/2. | 2 個のワークロードがキューに登録 
+
+
+| チーム -c | 2. | 2/2. | 2 個のワークロードがキューに登録 
+|===
+実行される次のコマンドシーケンスを参照してください。
+
+....
+$ runai submit a-3-gg -i gcr.io/run-ai-demo/quickstart -g 2 -p team-a$ runai submit a-4-gg -i gcr.io/run-ai-demo/quickstart -g 2 -p team-a$ runai submit b-5-gg -i gcr.io/run-ai-demo/quickstart -g 2 -p team-b$ runai submit c-6-gg -i gcr.io/run-ai-demo/quickstart -g 2 -p team-c
+....
+この時点で、次の状態になります。
+
+|===
+| プロジェクト | GPU が割り当てられました | ワークロードキュー 
+
+
+| チーム A | 4 月 4 日 | 2 つのワークロードがそれぞれ 2 つの GPU を必要とします 
+
+
+| チーム - b | 2/2. | 2 つのワークロードがそれぞれ 2 つの GPU を必要とします 
+
+
+| チーム -c | 2/2. | 2 つのワークロードがそれぞれ 2 つの GPU を必要とします 
+
+
+| チーム -d | 8 月 8 日 | なし 
+|===
+次に 'team -d のすべてのワークロードを削除します
+
+....
+$ runai delete -p team-d d-1-gggg d-2-gg d-3-gg
+....
+を参照してください link:osrunai_over-quota_fairness.html["オーバークォータフェアネス"]を参照してください。
+
+link:osrunai_where_to_find_additional_information.html["次へ：追加情報の検索場所"]

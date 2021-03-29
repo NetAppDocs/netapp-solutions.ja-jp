@@ -1,0 +1,208 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-rhv-9._download_and_install_netapp_trident.html 
+keywords: Installation, Trident, OCP Cluster, storage backend 
+summary:  
+---
+= 9. NetApp Trident のダウンロードとインストール： RHV 上で Red Hat OpenShift を使用する NetApp HCI
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+NetApp Trident をダウンロードしてインストールするには、次の手順を実行します。
+
+. OCP クラスタにログインしているユーザに Trident をインストールするための十分な権限があることを確認します。
++
+....
+[user@rhel7 openshift-deploy]$ oc auth can-i '*' '*' --all-namespaces
+ yes
+....
+. レジストリからイメージをダウンロードし、 NetApp Element クラスタの MVIP にアクセスできることを確認します。
++
+....
+[user@rhel7 openshift-deploy]$ oc run -i --tty ping --image=busybox --restart=Never --rm -- ping 10.63.172.140
+If you don't see a command prompt, try pressing enter.
+64 bytes from 10.63.172.140: seq=1 ttl=63 time=0.312 ms
+64 bytes from 10.63.172.140: seq=2 ttl=63 time=0.271 ms
+64 bytes from 10.63.172.140: seq=3 ttl=63 time=0.254 ms
+64 bytes from 10.63.172.140: seq=4 ttl=63 time=0.309 ms
+64 bytes from 10.63.172.140: seq=5 ttl=63 time=0.319 ms
+64 bytes from 10.63.172.140: seq=6 ttl=63 time=0.303 ms
+^C
+--- 10.63.172.140 ping statistics ---
+7 packets transmitted, 7 packets received, 0% packet loss
+round-trip min/avg/max = 0.254/0.387/0.946 ms
+pod "ping" deleted
+....
+. 次のコマンドを使用して Trident インストーラバンドルをダウンロードし、ディレクトリに展開します。
++
+....
+[user@rhel7 ~]$ wget
+[user@rhel7 ~]$ tar -xf trident-installer-20.04.0.tar.gz
+[user@rhel7 ~]$ cd trident-installer
+....
+. Trident インストーラには、必要なリソースをすべて定義するマニフェストが含まれています。適切なマニフェストを使用して、 TridentProvisioner カスタムリソース定義を作成します。
++
+....
+[user@rhel7 trident-installer]$ oc create -f deploy/crds/trident.netapp.io_tridentprovisioners_crd_post1.16.yaml
+
+customresourcedefinition.apiextensions.k8s.io/tridentprovisioners.trident.netapp.io created
+....
+. Trident のオペレータに必要な Trident ネームスペースを作成します。
++
+....
+[user@rhel7 trident-installer]$ oc create namespace trident
+namespace/trident created
+....
+. Trident のオペレータ環境に必要なリソースを作成します。たとえば、オペレータの ServiceAccount 、 ClusterRole および ClusterRoleBinding をサービスアカウント、専用の PodSecurityPolicy 、オペレータ自身などです。
++
+....
+[user@rhel7 trident-installer]$ oc kustomize deploy/ > deploy/bundle.yaml
+[user@rhel7 trident-installer]$ oc create -f deploy/bundle.yaml
+serviceaccount/trident-operator created
+clusterrole.rbac.authorization.k8s.io/trident-operator created
+clusterrolebinding.rbac.authorization.k8s.io/trident-operator created
+deployment.apps/trident-operator created
+podsecuritypolicy.policy/tridentoperatorpods created
+....
+. Trident のオペレータが導入されていることを確認します。
++
+....
+[user@rhel7 trident-installer]$ oc get deployment -n trident
+NAME               READY   UP-TO-DATE   AVAILABLE   AGE
+trident-operator   1/1     1            1           56s
+[user@rhel7 trident-installer]$ oc get pods -n trident
+NAME                               READY   STATUS    RESTARTS   AGE
+trident-operator-564d7d66f-qrz7v   1/1     Running   0          71s
+....
+. Trident のオペレータがインストールされたら、このオペレータを使用して Trident をインストールします。この例では、 TridentProvisioner カスタムリソース（ CR ）が作成されています。Trident インストーラには、 TridentProvisioner CR を作成するための定義が付属しています。これらは要件に基づいて変更できます。
++
+....
+[user@rhel7 trident-installer]$ oc create -f deploy/crds/tridentprovisioner_cr.yaml
+tridentprovisioner.trident.netapp.io/trident created
+....
+. OC get CSR-o name|xargs OC adm certificate approve を使用して、 CSR 証明書を提供する Trident を承認します。
++
+....
+[user@rhel7 trident-installer]$ oc get csr -o name | xargs oc adm certificate approve
+certificatesigningrequest.certificates.k8s.io/csr-4b7zh approved
+certificatesigningrequest.certificates.k8s.io/csr-4hkwc approved
+certificatesigningrequest.certificates.k8s.io/csr-5bgh5 approved
+certificatesigningrequest.certificates.k8s.io/csr-5g4d6 approved
+certificatesigningrequest.certificates.k8s.io/csr-5j9hz approved
+certificatesigningrequest.certificates.k8s.io/csr-5m8qb approved
+certificatesigningrequest.certificates.k8s.io/csr-66hv2 approved
+certificatesigningrequest.certificates.k8s.io/csr-6rdgg approved
+certificatesigningrequest.certificates.k8s.io/csr-6t24f approved
+certificatesigningrequest.certificates.k8s.io/csr-76wgv approved
+certificatesigningrequest.certificates.k8s.io/csr-78qsq approved
+certificatesigningrequest.certificates.k8s.io/csr-7r58n approved
+certificatesigningrequest.certificates.k8s.io/csr-8ghmk approved
+certificatesigningrequest.certificates.k8s.io/csr-8sn5q approved
+....
+. Trident 20.04 が TridentProvisioner CR を使用してインストールされていることを確認し、 Trident に関連するポッドがであることを確認します。
++
+....
+[user@rhel7 trident-installer]$ oc get tprov -n trident
+NAME      AGE
+trident   9m49s
+
+[user@rhel7 trident-installer]$ oc describe tprov trident -n trident
+Name:         trident
+Namespace:    trident
+Labels:       <none>
+Annotations:  <none>
+API Version:  trident.netapp.io/v1
+Kind:         TridentProvisioner
+Metadata:
+  Creation Timestamp:  2020-05-26T18:49:19Z
+  Generation:          1
+  Resource Version:    640347
+  Self Link:           /apis/trident.netapp.io/v1/namespaces/trident/tridentprovisioners/trident
+  UID:                 52656806-0414-4ed8-b355-fc123fafbf4e
+Spec:
+  Debug:  true
+Status:
+  Message:  Trident installed
+  Status:   Installed
+  Version:  v20.04
+Events:
+  Type    Reason      Age                    From                        Message
+  ----    ------      ----                   ----                        -------
+  Normal  Installing  9m32s                  trident-operator.netapp.io  Installing Trident
+  Normal  Installed   3m47s (x5 over 8m56s)  trident-operator.netapp.io  Trident installed
+[user@rhel7 trident-installer]$ oc get pods -n trident
+NAME                               READY   STATUS    RESTARTS   AGE
+trident-csi-7f769c7875-s6fmt       5/5     Running   0          10m
+trident-csi-cp7wg                  2/2     Running   0          10m
+trident-csi-hhx94                  2/2     Running   0          10m
+trident-csi-l72bt                  2/2     Running   0          10m
+trident-csi-xfl9d                  2/2     Running   0          10m
+trident-csi-xrhqx                  2/2     Running   0          10m
+trident-csi-zb7ws                  2/2     Running   0          10m
+trident-operator-564d7d66f-qrz7v   1/1     Running   0          27m
+
+[user@rhel7 trident-installer]$ ./tridentctl -n trident version
++----------------+----------------+
+| SERVER VERSION | CLIENT VERSION |
++----------------+----------------+
+| 20.04.0        | 20.04.0        |
++----------------+----------------+
+....
+. Trident がボリュームのプロビジョニングに使用するストレージバックエンドを作成します。ストレージバックエンドは、 NetApp HCI で Element クラスタを指定します。また、対応する QoS 仕様を使用して、サンプルの bronze 、 silver 、 gold タイプを指定することもできます。
++
+....
+[user@rhel7 trident-installer]$ vi backend.json
+{
+    "version": 1,
+    "storageDriverName": "solidfire-san",
+    "Endpoint": "https://admin: admin- password@10.63.172.140/json-rpc/8.0",
+    "SVIP": "10.61.185.205:3260",
+    "TenantName": "trident",
+    "Types": [{"Type": "Bronze", "Qos": {"minIOPS": 1000, "maxIOPS": 2000, "burstIOPS": 4000}},
+              {"Type": "Silver", "Qos": {"minIOPS": 4000, "maxIOPS": 6000, "burstIOPS": 8000}},
+              {"Type": "Gold", "Qos": {"minIOPS": 6000, "maxIOPS": 8000, "burstIOPS": 10000}}]
+}
+[user@rhel7 trident-installer]$ ./tridentctl -n trident create backend -f backend.json
++-------------------------+----------------+--------------------------------------+--------+---------+
+|          NAME           | STORAGE DRIVER |                 UUID                 | STATE  | VOLUMES |
++-------------------------+----------------+--------------------------------------+--------+---------+
+| solidfire_10.61.185.205 | solidfire-san  | 40f48d99-5d2e-4f6c-89ab-8aee2be71255 | online |       0 |
++-------------------------+----------------+--------------------------------------+--------+---------+
+....
++
+「 backend.json 」を変更して、次の値について、環境の詳細や要件に対応します。
+
++
+** Endpoint は、 NetApp HCI Element クラスタのクレデンシャルと MVIP に対応します。
+** SVIP は、 VM ネットワーク経由で設定された SVIP に対応します 」を参照してください link:redhat_openshift_1._create_storage_network_vlan__netapp_hci_for_red_hat_openshift_on_rhv.html["ストレージネットワークの VLAN を作成します"]。
+** タイプは、さまざまな QoS 帯域に対応します。新しい永続ボリュームは、正確なストレージプールを指定することで、特定の QoS 設定で作成できます。
+
+
+. プロビジョニングツールとして Trident を指定し、ストレージバックエンドに「 olidfire -san 」を指定する StorageClass を作成します。
+
+
+....
+[user@rhel7 trident-installer]$ vi storage-class-basic.yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: basic-csi
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: csi.trident.netapp.io
+parameters:
+  backendType: "solidfire-san"
+  provisioningType: "thin"
+
+[user@rhel7 trident-installer]$ oc create -f storage-class-basic.yaml
+storageclass.storage.k8s.io/basic created
+....
+
+NOTE: この例では、作成したストレージクラスがデフォルトとして設定されていますが、 OpenShift 管理者は、それぞれのアプリケーションに基づいて、異なる QoS 要件およびその他の要因に対応する複数のストレージクラスを定義できます。Trident は、ストレージクラスの定義のパラメータセクションで指定されたすべての条件を満たすストレージバックエンドを選択します。エンドユーザは、管理者の手を煩わせることなく、必要に応じてストレージをプロビジョニングできます。
+
+link:rh-os-rhv_validation_results.html["次のテスト結果： RHV 上で Red Hat OpenShift を使用する NetApp HCI"]

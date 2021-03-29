@@ -1,0 +1,108 @@
+---
+sidebar: sidebar 
+permalink: infra/hcicaci_RHV.html 
+keywords: Red Hat Virtualization, RHV, virtualization, workflow, ESXi, 
+summary: TR-4857 
+---
+= Red Hat Virtualization ： NetApp HCI with Cisco ACI
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Red Hat Virtualization （ RHV ）は、 KVM ハイパーバイザーを使用する Red Hat Enterprise Linux で実行されるエンタープライズ仮想データセンタープラットフォームです。RHV の主要なコンポーネントには、 Red Hat Virtualization Hosts （ RHV-H ）と Red Hat Virtualization Manager （ RHV-M ）があります。RHV-M は、仮想化された RHV 環境内の物理リソースと論理リソースに対して、エンタープライズクラスの一元管理を提供します。RHV-H は、 RHV ハイパーバイザとしての物理サーバのセットアップを容易にするために最適化された、 Red Hat Enterprise Linux ベースの最小限の軽量オペレーティングシステムです。RHV の詳細については、のマニュアルを参照してください https://access.redhat.com/documentation/en-us/red_hat_virtualization/4.3/["こちらをご覧ください"^]。次の図は、 RHV の概要を示しています。
+
+image:hcicaci_image16.png["エラー：グラフィックイメージがありません"]
+
+Cisco APIC リリース 3.1 から、 Cisco ACI は VMM と Red Hat Virtualization 環境との統合をサポートしています。Cisco APIC の RHV VMM ドメインは、 RHV-M に接続され、データセンターオブジェクトに直接関連付けられます。このデータセンターの下にあるすべての RHV-H クラスタは VMM ドメインの一部と見なされます。Cisco ACI では、 EPG が ACI の RHV VMM ドメインに接続されると、 RHV-M に論理ネットワークが自動的に作成されます。Red Hat VMM ドメインの一部である RHV ホストは、 Linux ブリッジまたは Open vSwitch をその仮想スイッチとして使用できます。この統合により、 RHV-M 上のネットワーク設定が簡素化および自動化され、システム管理者およびネットワーク管理者の多くの手作業が削減されます。
+
+
+
+== ワークフロー
+
+次のワークフローを使用して、仮想環境をセットアップします。それぞれの手順で、複数のタスクを実行する必要があります。
+
+. UCS C シリーズサーバに Nexus 9000 スイッチを ACI モードで、 APIC ソフトウェアをインストールして設定します。インストールとアップグレードを参照してください https://www.cisco.com/c/en/us/support/cloud-systems-management/application-policy-infrastructure-controller-apic/tsd-products-support-series-home.html["ドキュメント"^] を参照してください。
+. を参照して ACI ファブリックの設定とセットアップを行います https://www.cisco.com/c/en/us/td/docs/switches/datacenter/aci/apic/sw/3-x/getting_started/b_APIC_Getting_Started_Guide_Rel_3_x.html["ドキュメント"^]。
+. NetApp HCI ノードに必要なテナント、アプリケーションプロファイル、ブリッジドメイン、および PG を設定します。iSCSI を除き、 BD to One EPG フレームワークを 1 つ使用することを推奨します。のドキュメントを参照してください https://www.cisco.com/c/en/us/td/docs/switches/datacenter/aci/apic/sw/2-x/L2_config/b_Cisco_APIC_Layer_2_Configuration_Guide.html["こちらをご覧ください"^] 詳細：必要な最小限の EPG は、インバンド管理、 iSCSI 、 VM モーション、 VM データネットワーク、ネイティブです。
+. 要件に基づいて、 VLAN プール、物理ドメイン、および AEP を作成します。vPC と個々のポートのスイッチおよびインターフェイスプロファイルとポリシーを作成します。次に、物理ドメインを接続し、静的パスを EPG に設定します。を参照してください https://www.cisco.com/c/en/us/td/docs/switches/datacenter/aci/apic/sw/2-x/L2_config/b_Cisco_APIC_Layer_2_Configuration_Guide.html["コンフィギュレーションガイド"^] 詳細：次の表に、 ACI と RHV 上の Linux ブリッジを統合するためのベストプラクティスを示します。
++
+image:hcicaci_image17.png["エラー：グラフィックイメージがありません"]
+
++
+
+NOTE: NetApp HCI ストレージおよびコンピューティングノードに接続するインターフェイスには、 vPC ポリシーグループを使用します。
+
+. ワークロード間のアクセスを厳密に制御するための契約を作成して割り当てます。契約の設定の詳細については、ガイドを参照してください https://www.cisco.com/c/en/us/td/docs/switches/datacenter/aci/apic/sw/1-x/Operating_ACI/guide/b_Cisco_Operating_ACI/b_Cisco_Operating_ACI_chapter_01000.html["こちらをご覧ください"^]。
+. NetApp HCI Element クラスタをインストールして設定します。このインストールでは NDE を使用しないでください。代わりに、 HCI ストレージノードにスタンドアロンの Element クラスタをインストールします。次に、 RHV を取り付けるために必要なボリュームを構成します。NetApp HCI に RHV を取り付ける。を参照してください https://docs.netapp.com/us-en/hci-solutions/redhat_virtualization_solution_overview__netapp_hci_with_rhv.html["NetApp HCI NVA の RHV"^] 詳細：
+. RHV インストールでは、 ovirtmgmt というデフォルトの管理ネットワークが作成されます。VMM は、 Cisco ACI と RHV をオプションで統合することができますが、 VMM の統合を活用することが推奨されます。他の論理ネットワークを手動で作成しないでください。Cisco ACI VMM 統合を使用するには、事前プロビジョニングの即時性を使用して、 Red Hat VMM ドメインを作成し、必要なすべての EPG に VMM ドメインを接続します。このプロセスにより、対応する論理ネットワークと vNIC プロファイルが自動的に作成されます。vNIC プロファイルを直接使用して、通信用のホストおよび VM に接続できます。Cisco ACI によって管理されるネットワークは、「 <tenant-name> | <application-profile-name> | <EPG-name> 」という形式で、「 ACI _ <rhv-mvm-domain-name> 」という形式のラベルでタグ付けされます。を参照してください https://www.cisco.com/c/en/us/solutions/collateral/data-center-virtualization/application-centric-infrastructure/white-paper-c11-740535.html["シスコのホワイトペーパー"^] RHV 用の VMM ドメインの作成および構成用。また、 NetApp HCI で RHV を Cisco ACI に統合する際のベストプラクティスについては、次の表を参照してください。
++
+
+NOTE: virtmgmt を除き、他のすべての論理ネットワークは Cisco ACI で管理できます。
+
++
+image:hcicaci_image18.jpeg["エラー：グラフィックイメージがありません"]
+
++
+image:hcicaci_image19.jpg["エラー：グラフィックイメージがありません"]
+
++
+この解決策の RHVH ホストのネットワーク機能は、 Linux ブリッジによって提供されます。
+
+
+
+
+
+== Linux ブリッジ
+
+Linux Bridge は、通常 KVM/QEMU ベースのハイパーバイザーで使用されるすべての Linux ディストリビューション上のデフォルトの仮想スイッチです。MAC アドレスに基づいてネットワーク間でトラフィックを転送するように指定されているため、レイヤ 2 仮想スイッチと見なされます。詳細については、のドキュメントを参照してください https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_network_bridging["こちらをご覧ください"^]。次の図は、 RHV-H 上の Linux Bridge の内部ネットワークを示しています（テスト済み）。
+
+image:hcicaci_image20.png["エラー：グラフィックイメージがありません"]
+
+次の表に、 Cisco ACI と RHV ホスト上の Linux ブリッジの設定と統合に必要なパラメータとベストプラクティスを示します。
+
+|===
+| リソース | 設定に関する考慮事項 | ベストプラクティス 
+
+
+| エンドポイントグループ  a| 
+* ネイティブ VLAN 用の個別の EPG
+* HCI ストレージノードおよびコンピューティングノードへのインターフェイスの静的バインド ネイティブ VLAN EPG を 802.1P モードにする
+* インバンド管理 EPG およびで必要な vPC のスタティックバインディング RHV を取り付ける前の iSCSI EPG
+
+ a| 
+* ダイナミック割り当てを有効にして VMM ドメインの VLAN プールを分離します オン
+* EPG 間の契約を明確に定義する。通信に必要なポートのみを許可します。
+* Element クラスタの形成時に検出に一意のネイティブ VLAN を使用します
+* VMkernel ポートに接続されているポートグループに対応する EPG の場合、 VMM ドメインは、「事前プロビジョニング」を使用してただちに接続されます
+
+
+
+
+| インターフェイスポリシー  a| 
+* RHV-H ホストごとに 1 つの vPC ポリシーグループ
+* NetApp HCI ストレージノードごとに 1 つの vPC ポリシーグループ
+* LLDP が有効、 CDP が無効
+
+ a| 
+* RHV-H ホストへの vPC の使用を推奨します
+* ポートチャネルポリシーには「 LACP Active 」を使用します
+* には、「グレースフルコンバージェンス」および「対称ハッシング」コントロールビットのみを使用してください ポートチャネルポリシーでは、の「 layer4 src-port 」ロードバランシングハッシュ方式を使用します LACP アクティブポートチャネルで vPC を使用する場合に推奨されるポートチャネルポリシー NetApp HCI ストレージノードへのインターフェイスに関するポリシー
+
+
+
+
+| VMM の統合  a| 
+* ホスト管理論理インターフェイスを、 odvirtmgmt からに移行しないでください その他の論理ネットワーク
+
+ a| 
+* iSCSI 論理に移行する iSCSI ホスト論理インターフェイス ACI VMM 統合によって管理されるネットワーク
+
+
+|===
+
+NOTE: virtmgmt 論理ネットワークを除き、他のすべてのインフラストラクチャ論理ネットワークを Cisco APIC 上に作成して VMM ドメインにマッピングすることができます。「 ovirtmgmt 」論理ネットワークは、物理ドメインに接続された帯域内管理 EPG 上のスタティックパスバインディングを使用します。
+
+link:hcicaci_kvm_on_rhel.html["次の例： RHEL での KVM ： NetApp HCI with Cisco ACI"]

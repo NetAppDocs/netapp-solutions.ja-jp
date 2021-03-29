@@ -1,0 +1,48 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-rhv-8._configure_worker_nodes_to_run_storage_services.html 
+keywords: Element, iSCSI, worker nodes, storage services 
+summary:  
+---
+= 8. ストレージサービスを実行するようにワーカーノードを設定します。 RHV 上で Red Hat OpenShift を使用する NetApp HCI
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+ワーカーノードでストレージサービスを実行するように設定するには、次の手順を実行します。
+
+. Element システムからストレージにアクセスするには、ワーカーノードごとに iSCSI を利用してサービスとして実行する必要があります。iscisd サービスを有効にして開始できるマシン設定を作成するには、 OCP Web コンソールにログインして、 [ 計算 ] > [ マシン構成 ] の順に選択し、 [ マシン構成の作成 ] をクリックします。YAML ファイルを貼り付けて、 [ 作成 ] をクリックします。
++
+image:redhat_openshift_image14.png["エラー：グラフィックイメージがありません"]
+
+. 構成の作成後、約 20~30 分かかり、構成をワーカーノードに適用してリロードします。「 OC GET MCP 」を使用してマシン構成が適用されているかどうかを確認し、ワーカーのマシン構成プールが更新されていることを確認します。また、ワーカーノードにログインして、 iscsid サービスが実行されていることを確認することもできます。
++
+....
+[user@rhel7 openshift-deploy]$ oc get mcp
+NAME     CONFIG                                    UPDATED   UPDATING   DEGRADED
+master   rendered-master-a520ae930e1d135e0dee7168   True      False      False
+worker   rendered-worker-de321b36eeba62df41feb7bc   True      False      False
+[user@rhel7 openshift-deploy]$ ssh core@10.63. 172.22 sudo systemctl status iscsid
+● iscsid.service - Open-iSCSI
+   Loaded: loaded (/usr/lib/systemd/system/iscsid.service; enabled; vendor preset: disabled)
+   Active: active (running) since Tue 2020-05-26 13:36:22 UTC; 3 min ago
+     Docs: man:iscsid(8)
+           man:iscsiadm(8)
+ Main PID: 1242 (iscsid)
+   Status: "Ready to process requests"
+    Tasks: 1
+   Memory: 4.9M
+      CPU: 9ms
+   CGroup: /system.slice/iscsid.service
+           └─1242 /usr/sbin/iscsid -f
+....
+
+
+
+NOTE: また、適切なフラグを指定して「 OC debug 」コマンドを実行することにより、 MachineConfig が正常に適用され、サービスが正常に開始されたことを確認することもできます。
+
+link:rh-os-rhv-9._download_and_install_netapp_trident.html["次へ： 9.NetApp Trident をダウンロードしてインストール"]

@@ -1,0 +1,30 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-rhv-1._create_storage_network_vlan.html 
+keywords: Storage, Network, VLAN, Element, Trident, SVIP 
+summary:  
+---
+= 1. ストレージネットワーク VLAN の作成： RHV 上の Red Hat OpenShift 用 NetApp HCI
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+ストレージネットワーク VLAN を作成するには、次の手順を実行します。
+
+NetApp Trident で Element ストレージアクセスをサポートし、 OpenShift で導入されたポッドに永続ボリュームを接続するためには、 OCP 環境の各ワーカーが使用するマシンネットワークがストレージリソースにアクセスできる必要があります。マシンのネットワークが Element ストレージネットワークにデフォルトでアクセスできない場合は、 Element クラスタにネットワーク / VLAN を追加で作成してアクセスを許可できます。
+
+. 任意のブラウザを使用して、クラスタの MVIP で Element クラスタにログインします。
+. クラスタ > ネットワークと進み、 VLAN の作成をクリックします。
+. 詳細を入力する前に、 OCP ネットワークから到達できるネットワーク（仮想ネットワークストレージ VIP 用と各ストレージノードの仮想ネットワーク IP 用に 1 つ）から少なくとも 5 つの IP アドレスを予約してください。
++
+任意の VLAN 名を入力し、 VLAN ID 、 SVIP 、およびネットマスクを入力し、 Enable VRF オプションを選択して、ネットワークのゲートウェイ IP を入力します。IP アドレスブロックに、ストレージノード用に予約されている他のアドレスの開始 IP を入力します。この例では、このクラスタに 4 つのストレージノードがあるため、サイズは 4 です。Create VLAN をクリックします。
+
+
+
+image:redhat_openshift_image5.png["エラー：グラフィックイメージがありません"]
+
+link:rh-os-rhv-2._download_openshift_installation_files.html["次へ： 2.OpenShift Installation Files をダウンロードします"]

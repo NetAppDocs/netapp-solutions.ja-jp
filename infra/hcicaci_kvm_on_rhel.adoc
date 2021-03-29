@@ -1,0 +1,80 @@
+---
+sidebar: sidebar 
+permalink: infra/hcicaci_kvm_on_rhel.html 
+keywords: KVM, Kernel-based, Virtual Machine, linux, workflow 
+summary: TR-4857 
+---
+= RHEL 上の KVM ： NetApp HCI と Cisco ACI
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+KVM （ Kernel-Based Virtual Machine ）は、 Intel VT や AMD-V などの x86 ハードウェア上の Linux 向けのオープンソースの完全仮想化解決策ですつまり、 KVM によって Linux マシンをハイパーバイザーに変えることができるため、ホストは複数の分離された VM を実行できます。
+
+KVM は、すべての Linux マシンをタイプ 1 （ベアメタル）ハイパーバイザーに変換します。KVM はどの Linux ディストリビューションにも実装できますが、 Red Hat Enterprise Linux のように、サポートされている Linux ディストリビューションに KVM を実装すると KVM の機能が拡張されます。ゲスト間でリソースを交換したり、共通ライブラリを共有したり、システムパフォーマンスを最適化したりできます。
+
+
+
+== ワークフロー
+
+仮想環境のセットアップでは、次のワークフローを使用しました。それぞれの手順で、複数のタスクを実行する必要があります。
+
+. ACI モードで Nexus 9000 スイッチをインストールして設定し、 UCS C シリーズサーバに APIC ソフトウェアをインストールして設定します。インストールとアップグレードを参照してください https://www.cisco.com/c/en/us/support/cloud-systems-management/application-policy-infrastructure-controller-apic/tsd-products-support-series-home.html["ドキュメント"^] を参照してください。
+. を参照し、 ACI ファブリックの設定とセットアップを行います 。 https://www.cisco.com/c/en/us/td/docs/switches/datacenter/aci/apic/sw/3-x/getting_started/b_APIC_Getting_Started_Guide_Rel_3_x.html["ドキュメント"^]。
+. NetApp HCI ノードに必要なテナント、アプリケーションプロファイル、ブリッジドメイン、および PG を設定します。iSCSI を除き、 BD--to-One-EPG フレームワークを使用することを推奨します。のドキュメントを参照してください https://www.cisco.com/c/en/us/td/docs/switches/datacenter/aci/apic/sw/2-x/L2_config/b_Cisco_APIC_Layer_2_Configuration_Guide.html["こちらをご覧ください"^] 詳細：必要な EPG の最小セットは、インバンド管理、 iSCSI 、 VM Motion 、 VM データネットワーク、ネイティブです。
+. 要件に基づいて、 VLAN プール、物理ドメイン、および AEP を作成します。vPC と個々のポートのスイッチおよびインターフェイスプロファイルとポリシーを作成します。次に、物理ドメインを接続し、静的パスを EPG に設定します。を参照してください https://www.cisco.com/c/en/us/td/docs/switches/datacenter/aci/apic/sw/2-x/L2_config/b_Cisco_APIC_Layer_2_Configuration_Guide.html["コンフィギュレーションガイド"^] 詳細：また、 RHEL – KVM ハイパーバイザーで ACI と Open vSwitch を統合する際のベストプラクティスについても、この表を参照してください。
++
+
+NOTE: NetApp HCI ストレージおよびコンピューティングノードに接続するインターフェイスには、 vPC ポリシーグループを使用します。
+
+. ワークロード間のアクセスを厳密に制御するための契約を作成して割り当てます。契約の設定の詳細については、ガイドを参照してください https://www.cisco.com/c/en/us/td/docs/switches/datacenter/aci/apic/sw/1-x/Operating_ACI/guide/b_Cisco_Operating_ACI/b_Cisco_Operating_ACI_chapter_01000.html["こちらをご覧ください"^]。
+. NetApp HCI Element クラスタをインストールして設定このインストールでは NDE を使用しないでください。代わりに、 HCI ストレージノードにスタンドアロンの Element クラスタをインストールします。次に、 RHEL のインストールに必要なボリュームを設定します。NetApp HCI コンピューティングノードに RHEL 、 KVM 、および Open vSwitch をインストールします。ホストと VM の共有ストレージサービスとして Element ボリュームを使用して、ハイパーバイザー上のストレージプールを設定します。RHEL での KVM のインストールと設定の詳細については、を参照してください https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html-single/virtualization_deployment_and_administration_guide/index["Red Hat のドキュメント"^]。を参照してください https://docs.openvswitch.org/en/latest/["OVS のドキュメント"^] Open vSwitch の設定の詳細については、を参照してください。
+. RHEL KVM ハイパーバイザーの Open vSwitch は、 VMM を Cisco ACI と統合できません。ACI のリーフスイッチと RHEL ホストを接続するインターフェイスで必要な VLAN を許可するために、必要なすべての EPG で物理ドメインと静的パスを設定する必要があります。また、 RHEL ホストに対応する OVS ブリッジを設定し、これらのブリッジを使用するように VM を設定します。この解決策の RHEL KVM ホストのネットワーク機能は、 Open vSwitch 仮想スイッチを使用して実現されます。
+
+
+
+
+== Open vSwitch の場合
+
+Open vSwitch は、オープンソースのエンタープライズクラスの仮想スイッチプラットフォームです。仮想ネットワークブリッジとフロールールを使用して、ホスト間でパケットを転送します。プログラミングフロールールは、 OVS では標準の Linux ブリッジとは動作が異なります。OVS プラグインは、 VLAN を使用してトラフィックをタグ付けしません。代わりに、仮想スイッチ上のフロールールをプログラムして、出口インターフェイスに転送する前にトラフィックを操作する方法を指定します。フロールールは、着信トラフィックと発信トラフィックの処理方法を決定します。次の図は、 RHEL ベースの KVM ホスト上の Open vSwitch の内部ネットワークを示しています。
+
+image:hcicaci_image21.jpeg["エラー：グラフィックイメージがありません"]
+
+次の表に、 RHEL ベースの KVM ホストに Cisco ACI と Open vSwitch を設定するための必須パラメータとベストプラクティスを示します。
+
+|===
+| リソース | 構成に関する考慮事項 | ベストプラクティス 
+
+
+| エンドポイントグループ  a| 
+* ネイティブ VLAN 用の個別の EPG
+* HCI ストレージノードおよびコンピューティングノードへのインターフェイスの静的バインド ネイティブ VLAN EPG を 802.1P モードにする
+* インバンド管理 EPG およびで必要な vPC のスタティックバインディング KVM をインストールする前の iSCSI EPG
+
+ a| 
+* 静的割り当てを有効にして、物理ドメイン用の VLAN プールを分離します オン
+* EPG 間の契約を明確に定義する。通信に必要なポートのみを許可します。
+* Element クラスタの形成時に検出に一意のネイティブ VLAN を使用します
+
+
+
+
+| インターフェイスポリシー  a| 
+* RHEL ホストごとに 1 つの vPC ポリシーグループ
+* NetApp HCI ストレージノードごとに 1 つの vPC ポリシーグループ
+* LLDP が有効、 CDP が無効
+
+ a| 
+* ネットアップでは、 vPC を Rhv_H ホストに使用することを推奨します
+* ポートチャネルポリシーには LACP Active を使用します
+* にはグレースフルコンバージェンスおよび対称ハッシングコントロールビットのみを使用します ポートチャネルポリシー
+* ポートチャネルポリシーには、 layer4 src-port ロードバランシングハッシュ方式を使用します
+* ネットアップでは、 LACP のアクティブポートチャネルポリシーで vPC を使用することを推奨します NetApp HCI ストレージノードへのインターフェイス
+
+
+|===
+link:hcicaci_ontap_on_aff.html["次のページ： AFF の ONTAP ： NetApp HCI と Cisco ACI"]

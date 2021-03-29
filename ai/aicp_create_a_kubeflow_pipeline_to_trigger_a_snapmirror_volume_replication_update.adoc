@@ -1,0 +1,183 @@
+---
+sidebar: sidebar 
+permalink: ai/aicp_create_a_kubeflow_pipeline_to_trigger_a_snapmirror_volume_replication_update.html 
+keywords: Kubeflow, Pipeline, SnapMirror, Replication 
+summary: NetApp SnapMirror データレプリケーションテクノロジを活用して、新しい Kubeflow パイプラインを定義して実行することで、異なる ONTAP クラスタ間でボリュームの内容をレプリケートできます。 
+---
+= SnapMirror ボリュームレプリケーションをトリガーする Kubeflow パイプラインを作成します 更新
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+NetApp SnapMirror データレプリケーションテクノロジを活用して、新しい Kubeflow パイプラインを定義して実行することで、異なる ONTAP クラスタ間でボリュームの内容をレプリケートできます。
+
+このパイプラインを使用すると、異なるサイトやリージョンに配置されているデータや配置されていないデータを ONTAP クラスタ間でレプリケートできます。想定されるユースケースは次のとおりです。
+
+* 新たに収集したセンサーデータをエッジでコアデータセンターやクラウドにレプリケートして、 AI / ML モデルのトレーニングや再トレーニングに使用できます。
+* 推論アプリケーションの一部として導入されるコアデータセンターからエッジまたはクラウドに、新しくトレーニングされたモデルまたは新しく更新されたモデルをレプリケートする。 Kubeflow パイプラインの詳細については、を参照してください https://www.kubeflow.org/docs/components/pipelines/pipelines/["Kubeflow の公式ドキュメント"^]。このセクションで示すパイプラインの例は、 ONTAP ストレージシステムまたはソフトウェア定義インスタンス上にあるボリュームのみで機能します。
+
+
+SnapMirror ボリュームレプリケーションの更新をトリガーする新しい Kubeflow パイプラインを作成するには、次の手順を実行します。
+
+
+NOTE: このセクションで説明する演習を行う前に、標準の設定手順に従って、ソースボリュームとデスティネーションボリュームの間で非同期 SnapMirror 関係をすでに開始していることを前提としています。詳細については、を参照してください http://docs.netapp.com/["ネットアップの公式ドキュメント"^]。
+
+. デスティネーションボリュームが配置されている ONTAP クラスタのクラスタ管理者アカウントのユーザ名とパスワードを含む Kubernetes シークレットをまだ作成していない場合は作成します
+. このシークレットは ' パイプラインが実行される名前空間であるため 'kubeflow' 名前空間に作成する必要がありますこれらのコマンドを実行して 'userName' と 'password' をユーザ名とパスワードに置き換え ' それに応じてシークレット定義で base64 コマンドの出力 ( 強調表示されたテキストを参照 ) を使用します
++
+....
+$ echo -n 'username' | base64
+dXNlcm5hbWU=
+$ echo -n 'password' | base64
+cGFzc3dvcmQ=
+$ cat << EOF > ./secret-ontap-cluster-mgmt-account.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ontap-cluster-mgmt-account
+  namespace: kubeflow
+data:
+  username: dXNlcm5hbWU=
+  password: cGFzc3dvcmQ=
+EOF
+$ kubectl create -f ./secret-ontap-cluster-mgmt-account.yaml
+secret/ontap-cluster-mgmt-account created
+....
+. まだインストールしていない場合は、 Kubeflow Pipelines SDK をインストールします。を参照してください https://www.kubeflow.org/docs/pipelines/sdk/install-sdk/["Kubeflow の公式ドキュメント"^] を参照してください。
+. Kubeflow Pipelines SDK を使用して、 Python で Kubeflow パイプラインを定義します。
++
+* パイプラインステップ： *
+
++
+.. 指定した非同期 SnapMirror 関係に対してレプリケーションの更新をトリガーします。
++
+以下のコマンド例は、実行時に以下のパラメータを受け入れるパイプラインのパイプライン定義の作成を示しています。特定のプロセスに応じて、必要に応じてパイプライン定義を変更します。
+
++
+* ランタイムパラメータ： *
+
++
+*** ONTAP_cluster_mgmt_hostname ：デスティネーションボリュームが配置されている ONTAP クラスタのホスト名または IP アドレス。
+*** ONTAP_cluster_admin_acct_k8s_secret ：手順 1 で作成した Kubernetes シークレットの名前
+*** ONTAP_API_verify_ssl_cert ： ONTAP API との通信時にクラスタの SSL 証明書を確認するかどうかを指定します（ yes/no ）。
+*** source_svm ：ソースボリュームが配置されている SVM の名前。
+*** source_volume ：ソースクラスタ上のソースボリューム（レプリケート元のボリューム）の名前
+*** destination_svm ：デスティネーションボリュームが配置されている SVM の名前。
+*** destination_volume ：デスティネーションクラスタ上のデスティネーションボリューム（レプリケート先のボリューム）の名前。
++
+....
+$ cat << EOF > ./replicate-data-snapmirror.py
+# Kubeflow Pipeline Definition: Replicate data - SnapMirror
+import kfp.dsl as dsl
+import kfp.components as comp
+from kubernetes import client as k8s_client
+# Define function that triggers the creation of a NetApp snapshot
+def netappSnapMirrorUpdate(
+    ontapClusterMgmtHostname: str,
+    sourceSvm: str,
+    sourceVolume: str,
+    destinationSvm: str,
+    destinationVolume: str,
+    verifySSLCert: str = 'no'
+) -> int :
+    # Install ansible package
+    import sys, subprocess
+    print("Installing required Python modules:\n")
+    subprocess.run([sys.executable, '-m', 'pip', 'install', 'ansible', 'netapp-lib'])
+
+    # Retrieve ONTAP cluster admin account details from mounted K8s secrets
+    usernameSecret = open('/mnt/secret/username', 'r')
+    ontapClusterAdminUsername = usernameSecret.read().strip()
+    passwordSecret = open('/mnt/secret/password', 'r')
+    ontapClusterAdminPassword = passwordSecret.read().strip()
+
+    # Define Ansible playbook for triggering SnapMirror update
+    snapMirrorPlaybookContent = """
+---
+- name: "Trigger SnapMirror Update"
+  hosts: localhost
+  tasks:
+  - name: update snapmirror
+    na_ontap_snapmirror:
+      state: present
+      source_path: '%s:%s'
+      destination_path: '%s:%s'
+      hostname: '%s'
+      username: '%s'
+      password: '%s'
+      https: 'yes'
+      validate_certs: '%s'""" % (sourceSvm, sourceVolume, destinationSvm, destinationVolume, ontapClusterMgmtHostname,
+        ontapClusterAdminUsername, ontapClusterAdminPassword, verifySSLCert)
+    print("\nCreating Ansible playbook:")
+    print(snapMirrorPlaybookContent, "\n")
+    snapMirrorPlaybookFile = open("/root/snapmirror-update.yaml", "w")
+    snapMirrorPlaybookFile.write(snapMirrorPlaybookContent)
+    snapMirrorPlaybookFile.close()
+    # Trigger SnapMirror update
+    print("Executing Ansible playbook to trigger SnapMirror update:\n")
+    try :
+        subprocess.run(['ansible-playbook', '/root/snapmirror-update.yaml'])
+    except Exception as e :
+        print(str(e).strip())
+        raise
+    # Return success code
+    return 0
+# Convert netappSnapMirrorUpdate function to Kubeflow Pipeline ContainerOp named 'NetappSnapMirrorUpdateOp'
+NetappSnapMirrorUpdateOp = comp.func_to_container_op(netappSnapMirrorUpdate, base_image='python:3')
+# Define Kubeflow Pipeline
+@dsl.pipeline(
+    name="Replicate Data",
+    description="Template for triggering a NetApp SnapMirror update in order to replicate data across environments"
+)
+def replicate_data(
+    # Define variables that the user can set in the pipelines UI; set default values
+    ontap_cluster_mgmt_hostname: str = "10.61.188.40",
+    ontap_cluster_admin_acct_k8s_secret: str = "ontap-cluster-mgmt-account",
+    ontap_api_verify_ssl_cert: str = "yes",
+    source_svm: str = "ailab",
+    source_volume: str = "sm",
+    destination_svm: str = "ai221_data",
+    destination_volume: str = "sm_dest"
+) :
+    # Pipeline Steps:
+    # Trigger SnapMirror replication
+    replicate = NetappSnapMirrorUpdateOp(
+        ontap_cluster_mgmt_hostname,
+        source_svm,
+        source_volume,
+        destination_svm,
+        destination_volume,
+        ontap_api_verify_ssl_cert
+    )
+    # Mount k8s secret containing ONTAP cluster admin account details
+    replicate.add_pvolumes({
+        '/mnt/secret': k8s_client.V1Volume(
+            name='ontap-cluster-admin',
+            secret=k8s_client.V1SecretVolumeSource(
+                secret_name=ontap_cluster_admin_acct_k8s_secret
+            )
+        )
+    })
+if __name__ == '__main__' :
+    import kfp.compiler as compiler
+    compiler.Compiler().compile(replicate_data, __file__ + '.yaml')
+EOF
+$ python3 replicate-data-snapmirror.py
+$ ls replicate-data-snapmirror.py.yaml
+replicate-data-snapmirror.py.yaml
+....
+
+
+
+
+. セクションの手順 6 ~ 17 を実行します link:aicp_create_a_kubeflow_pipeline_to_execute_an_end-to-end_ai_training_workflow_with_built-in_traceability_and_versioning.html["エンドツーエンドの AI トレーニングを実行するための Kubeflow パイプラインを作成します トレーサビリティとバージョン管理が組み込まれたワークフロー"] を参照してください。
++
+作成したパイプライン定義を必ず使用してください 前の手順（ステップ 3 ） を参照してください で作成されます link:aicp_create_a_kubeflow_pipeline_to_execute_an_end-to-end_ai_training_workflow_with_built-in_traceability_and_versioning.html["エンドツーエンドの AI トレーニングを実行するための Kubeflow パイプラインを作成します トレーサビリティとバージョン管理が組み込まれたワークフロー"]。
+
+
+
+link:aicp_apache_airflow_deployment.html["次の例： Apache Airflow の導入"]
