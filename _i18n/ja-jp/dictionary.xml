@@ -4205,7 +4205,6 @@
   <block id="c6aaad7e04b9605d83a2a2aa661fc1b4" category="summary">ネットアップの VDS を使用して、管理者はタスクを他のユーザに委譲できます。導入したサーバに接続して、トラブルシューティングを行ったり、ログを表示したり、監査レポートを実行したりできます。お客様をサポートしながら、ヘルプデスクまたはレベル 3 の技術者は、ユーザセッションのシャドウイング、プロセスリストの表示、必要に応じたプロセスの強制終了を行うことができます。</block>
   <block id="3a1e041969ddc2d8e0e399260d9159a7" category="doc">Login VSI を使用した単一サーバの負荷テスト</block>
   <block id="12d80b6f529069c8b2bc8d45947a0379" category="paragraph">NetApp Virtual Desktop Service は、 Microsoft Remote Desktop Protocol を使用して仮想デスクトップのセッションとアプリケーションにアクセスし、 Login VSI ツールは特定のサーバモデルでホストできるユーザの最大数を決定します。Login VSI は、特定の間隔でのユーザログインをシミュレートし、ドキュメントのオープン、メールの読み書き、 Excel および PowerPoint での作業、ドキュメントの印刷、ファイルの圧縮、ランダムな切断などのユーザ操作を実行します。その後、応答時間を測定します。サーバの使用率が低い場合はユーザの応答時間が短く、ユーザセッションが追加されると応答時間が長くなります。Login VSI は、初回のユーザログインセッションに基づいてベースラインを決定し、ベースラインからのユーザ応答が 2 秒を超えると最大ユーザセッション数を報告します。</block>
-  <block id="d443da3b4d918ee30a4035c4c5274180" category="paragraph">ネットアップの仮想デスクトップサービスは、 Microsoft のリモートデスクトッププロトコルを使用して仮想デスクトップのセッションとアプリケーションにアクセスします。特定のサーバモデルでホストできる最大ユーザ数を把握するために、 Login VSI ツールを使用しました。Login VSI は、特定の間隔でのユーザログインをシミュレートし、開いているドキュメントの読み取りと作成、 Excel 、 PowerPoint での作業、ドキュメントの印刷、ファイルの圧縮、 ランダムな休憩などを取ると、応答時間が測定されます。サーバの使用率が低い場合はユーザの応答時間が短くなり、ユーザセッションが追加されると応答時間が長くなります。Login VSI は、最初のユーザログインセッションに基づいてベースラインを決定し、ベースラインからのユーザ応答が 2 秒を超えると最大ユーザセッション数を報告します。</block>
   <block id="481e9968651d6bd0d36d67a776a0f32a" category="paragraph">次の表に、この検証で使用したハードウェアを示します。</block>
   <block id="e93f994f01c537c4e2f7d8528c3eb5e9" category="cell">カウント</block>
   <block id="8417ade953d75aa6fa3c64813e005e17" category="cell">NetApp HCI H610C</block>
@@ -4240,9 +4239,7 @@
   <block id="ad1351ac01d5fe0ac5546c8a2fd2d170" category="paragraph"><block ref="ad1351ac01d5fe0ac5546c8a2fd2d170" category="inline-image-macro-rx" type="image"></block></block>
   <block id="1dba4e8b5ffc06c0ccce673fd6f48159" category="paragraph">次の図は、 H610C の Login VSI の応答時間とアクティブなセッションを示しています。</block>
   <block id="8d58d21e6be9e4be37d3c42935a380b5" category="paragraph"><block ref="8d58d21e6be9e4be37d3c42935a380b5" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="622bd1f0cdfb793f56f7af07c094657b" category="paragraph">次の図は、 Login VSI の応答時間と H615C のアクティブなセッションを示しています。</block>
   <block id="72cce33d21386089f9a521f893c14d41" category="paragraph"><block ref="72cce33d21386089f9a521f893c14d41" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="cda966a04c86095868640baa31f5f73c" category="paragraph">H615C Login VSI テストにおける vSphere ホストおよび VM の Cloud Insights からのパフォーマンス指標を次の図に示します。</block>
   <block id="d64755ae2a4094876fbaf88a161ddec2" category="paragraph"><block ref="d64755ae2a4094876fbaf88a161ddec2" category="inline-image-macro-rx" type="image"></block></block>
   <block id="1ab628831ed501803e9da2a64f12dd6e" category="inline-link-macro">次のページ：管理ポータル</block>
   <block id="20fcc4e371ed448b0d5ffee3f4aecb43" category="paragraph"><block ref="20fcc4e371ed448b0d5ffee3f4aecb43" category="inline-link-macro-rx"></block></block>
@@ -4362,10 +4359,7 @@
   <block id="f9644f693d775c7ab6b076517ac3e823" category="paragraph">Mellanox スイッチは、オープンイーサネットスイッチであり、ネットワークオペレーティングシステムを選択できます。Mellanox Onyx OS 、または Cumulus - Linux 、 Linux Switch などのさまざまな Linux OS を選択できます。Mellanox スイッチは、スイッチソフトウェア開発キット、スイッチ抽象化インターフェイス（ SAI 、 Open Compute Project の一部）、クラウド環境でのオープンネットワーク用ソフトウェア（ Sonic ）もサポートしています。</block>
   <block id="cbb4496379858ad3d0c7de349b2d2395" category="paragraph">Mellanox スイッチは低レイテンシを実現し、従来のデータセンタープロトコルと VXLAN のようなトンネリングプロトコルをサポートします。VXLAN ハードウェア VTEP は、 L2 ゲートウェイとして機能します。これらのスイッチは、 UC API 、 FIPS 140-2 （ System Secure Mode ）、 NIST 800-181A （ SSH Server Strict Mode ）、 CoPP （ IP Filter ）などのさまざまな認定セキュリティ標準をサポートします。</block>
   <block id="4822d73efc192dd2d4eb627ccc3c1066" category="paragraph">Mellanox スイッチは、 Ansible 、 Salt Stack 、 Puppet などの自動化ツールをサポートしています。Web 管理インターフェイスには、複数行の CLI コマンドを実行するオプションがあります。</block>
-  <block id="9074d732638f8ef0675e5d8cdd87faa4" category="summary">導入の一環として、ユーザプロファイル、共有データ、およびホームドライブフォルダをホストするファイルサービス方式を選択できます。使用可能なオプションは、ファイルサーバ、 Azure ファイル、 Azure NetApp Files です。ただし、導入後に TestvDC ツールを使用してこのオプションを変更すると、任意の SMB 共有を指定できます。NetApp ONTAP を使用してホストすると、さまざまなメリットがあります。</block>
   <block id="568483e9bd85504f3c9dcef24ecd3235" category="doc">データ管理</block>
-  <block id="c0623266b9caf958ec1ef93513130576" category="inline-link">NetApp Redirecting Storage Platform ページ</block>
-  <block id="b65bb0f349bb966ab0203c90cc7d33b0" category="paragraph">導入の一環として、ユーザプロファイル、共有データ、およびホームドライブフォルダをホストするファイルサービス方式を選択できます。使用可能なオプションは、ファイルサーバ、 Azure ファイル、 Azure NetApp Files です。ただし、導入後に TestvDC ツールを使用してこのオプションを変更すると、任意の SMB 共有を指定できます。NetApp ONTAP を使用してホストすると、さまざまなメリットがあります。詳細については、を参照してください<block ref="4d9c8c176222c7077ae8106e4b721469" category="inline-link-rx"></block>。</block>
   <block id="24e6e2f6171b43a847fe194a9a9b5cd0" category="section-title">グローバルファイルキャッシュ</block>
   <block id="ce29b83c61cdf6a56b49dbde9a4d57e0" category="paragraph">グローバルネームスペース内の複数のサイトにユーザが分散している場合、グローバルファイルキャッシュを使用すると、頻繁にアクセスされるデータのレイテンシを低減できます。グローバルファイルキャッシュの導入は、プロビジョニングコレクションとスクリプト化されたイベントを使用して自動化できます。グローバルファイルキャッシュは、読み取りキャッシュと書き込みキャッシュをローカルで処理し、場所を問わずファイルのロックを維持します。グローバルファイルキャッシュは、 Azure NetApp Files を含む任意の SMB ファイルサーバと連携できます。</block>
   <block id="87db7a122a37ab4a28f2223fa123a5be" category="paragraph"><block ref="87db7a122a37ab4a28f2223fa123a5be" category="inline-image-macro-rx" type="image"></block></block>
@@ -4375,7 +4369,6 @@
   <block id="e7704357fe6a312ecafae725be93b8c2" category="list-text">データをキャッシュするための十分なディスク容量を備えたエッジ</block>
   <block id="d70c88e6a13ca1af40b966d8d7d831c4" category="inline-link">GFC のドキュメント</block>
   <block id="154c48fd725e7207d36baa74bba5fd7a" category="paragraph">ソフトウェアをダウンロードして、 Edge 用のディスクキャッシュ容量を計算するには、を参照してください<block ref="83d5530c5afeb5a227ac8c2985566e4d" category="inline-link-rx"></block>。</block>
-  <block id="ee2bbff52eaca67cedc4fd50b9583e18" category="paragraph">今回の検証では、コアリソースと管理リソースを Azure 上の同じ VM に導入し、エッジリソースを NetApp HCI 上に配置しました。コアは大量のデータアクセスが必要な領域であり、エッジはコアのサブセットであることに注意してください。ソフトウェアをインストールしたら、使用する前にライセンスをアクティブ化する必要があります。[ ライセンスの設定 ] セクションで、 [ ここをクリックしてライセンスの有効化を完了します ] リンクを使用します。次に、コアを登録します。</block>
   <block id="a51a182b58a11b12770fbd2bd9643852" category="paragraph"><block ref="a51a182b58a11b12770fbd2bd9643852" category="inline-image-macro-rx" type="image"></block></block>
   <block id="d666527802938c89b9f895300aea220b" category="paragraph">グローバルファイルキャッシュに使用するサービスアカウントを指定します。このアカウントに必要な権限については、を参照してください<block ref="83d5530c5afeb5a227ac8c2985566e4d" category="inline-link-rx"></block>。</block>
   <block id="ab698dd081619e8f6dc264df6c99b73e" category="paragraph"><block ref="ab698dd081619e8f6dc264df6c99b73e" category="inline-image-macro-rx" type="image"></block></block>
@@ -4385,7 +4378,6 @@
   <block id="e9b41aa1ac49113064748a9c6e0f48a9" category="paragraph"><block ref="e9b41aa1ac49113064748a9c6e0f48a9" category="inline-image-macro-rx" type="image"></block></block>
   <block id="156666d997fd17a94bed67fe95334273" category="paragraph">コアの自動構成が有効になっている場合は、コア情報がライセンス管理サーバから自動的に取得されます。</block>
   <block id="891d862f33aaeafcd8ecc43e102febd3" category="paragraph"><block ref="891d862f33aaeafcd8ecc43e102febd3" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="c587effed5d8b23b4f6f24c8749fb477" category="paragraph">任意のクライアントマシンから、ファイルサーバ上の共有にアクセスするために使用する管理者は、 UNC パス \\&lt;edge サーバ名 &gt;\FASTDATA/&lt;core サーバ名 &gt;\&lt; バックエンドファイルサーバ名 &gt;\&lt; 共有名 &gt;` を使用して GFC エッジ経由でアクセスできます。管理者は、このパスをエッジロケーションのユーザードライブマッピング用のユーザーログオンスクリプトまたは GPO に含めることができます。</block>
   <block id="a08e5ca253097ac5ad7741e20d9dd090" category="paragraph">管理者は、世界中のユーザーに透過的なアクセスを提供するために、ファイルサーバーの共有とエッジの場所を指すリンクを使用して、 Microsoft Distributed Filesystem (DFS) を設定できます。</block>
   <block id="0c9f570b7b5b34f0fbdab873e122d432" category="paragraph"><block ref="0c9f570b7b5b34f0fbdab873e122d432" category="inline-image-macro-rx" type="image"></block></block>
   <block id="b9e8ad2bf50c8da3a637a8858d3a1391" category="paragraph">ユーザがサイトに関連付けられたサブネットに基づいて Active Directory クレデンシャルでログインすると、 DFS クライアントがデータにアクセスするために適切なリンクが使用されます。</block>
@@ -4403,7 +4395,6 @@
   <block id="0e3aff181138166393e5e5e698c994d2" category="paragraph"><block ref="0e3aff181138166393e5e5e698c994d2" category="inline-image-macro-rx" type="image"></block></block>
   <block id="201e09e85ad81db8a19ef9f20c05d1a5" category="inline-link">このビデオでは</block>
   <block id="4cde65566156674196c087d89ded5c3b" category="paragraph">Microsoft Office 365 のデータ保護のデモについては、を参照してください<block ref="158107d7e819a2ef8c2e8f24519fc9a9" category="inline-link-rx"></block>。</block>
-  <block id="19c12b72a9caf27bc5f957c1c1f14ff0" category="paragraph">Salesforce のデータ保護のデモについては、を参照してください<block ref="dd6e5767407887626a36af7b68defda9" category="inline-link-rx"></block>。</block>
   <block id="2cb2b89213bccd89f81cfbb17b2e070b" category="inline-link-macro">次：運用管理</block>
   <block id="1f3d3eae36241941c6f7a1eaf3615eac" category="paragraph"><block ref="1f3d3eae36241941c6f7a1eaf3615eac" category="inline-link-macro-rx"></block></block>
   <block id="1d0a3bc5138799a21269d2e718800d6f" category="summary">TR-4852 概要</block>
@@ -4519,7 +4510,6 @@
   <block id="e98fdb0b8697a2cf005527be51872d0d" category="paragraph"><block ref="e98fdb0b8697a2cf005527be51872d0d" category="inline-link-macro-rx"></block></block>
   <block id="57eae0e26c1c0bbaec9110d010f68f7a" category="summary">NetApp HCI は、ストレージノードとコンピューティングノードが混在するハイブリッドクラウドインフラです。モデルに応じて、 2 ラックユニットまたはシングルラックユニットのいずれかとして使用できます。VM の導入に必要なインストールと設定は、 NetApp Deployment Engine （ NDE ）で自動化されています。コンピューティングクラスタは VMware vCenter で管理され、ストレージクラスタは NDE で導入された vCenter Plug-in で管理されます。</block>
   <block id="855faa205a8f23993f1a0fe1ac2cde2f" category="doc">NetApp HCI の概要</block>
-  <block id="0d16c44221981f48f6d714cb570bba09" category="paragraph">NetApp HCI は、ストレージノードとコンピューティングノードが混在するハイブリッドクラウドインフラです。モデルに応じて、 2 ラックユニットまたはシングルラックユニットのいずれかとして使用できます。VM の導入に必要なインストールと設定は、 NetApp Deployment Engine （ NDE ）で自動化されています。コンピューティングクラスタは VMware vCenter で管理され、ストレージクラスタは NDE で導入された vCenter Plug-in で管理されます。mNode と呼ばれる管理 VM が NDE の一部として導入されます。</block>
   <block id="b6ab683d50d83f639ae697569117a54b" category="paragraph">NetApp HCI は次の機能を処理します。</block>
   <block id="d15278d453245d004f8fd55cff421171" category="list-text">バージョンのアップグレード</block>
   <block id="b783caf332f2c3190dcb6ced64290f5a" category="list-text">イベントを vCenter にプッシュしています</block>
@@ -4537,7 +4527,6 @@
   <block id="1f99f286804bf2f5a91a1cdd1733decf" category="paragraph">次の図に、 NVIDIA GPU カードとその機能の比較を示します。</block>
   <block id="67c0c3f98979352a9ed10f0de3d551f3" category="paragraph"><block ref="67c0c3f98979352a9ed10f0de3d551f3" category="inline-image-macro-rx" type="image"></block></block>
   <block id="b3b4fc2931642829391b479ea5fb1e9d" category="paragraph">M10 GPU は、現在でもナレッジワーカーのユースケースに最適な TCO 解決策です。ただし、仮想ワークステーション、グラフィックスパフォーマンス、リアルタイムのインタラクティブレンダリング、推論など、さまざまなユースケースに使用できる GPU での標準化を希望する場合には、 T4 が最良の代替ソリューションです。T4 では、同じ GPU リソースを使用して異なるワークロードを実行できます。たとえば、日中は VDI を実行し、同じリソースを使用して夜間にコンピューティングワークロードを実行できます。</block>
-  <block id="bb5de517fde8c2c376364280ef0b4fd3" category="paragraph">H610C コンピューティングノードは 2 ラックユニットで、 H615C は 1 ラックユニットのサイズで、消費電力は少なくなります。H615C は、 H.264 および H.265 （ High Efficiency Video Coding [HEVC] ） 4 ： 4 ： 4 のエンコードとデコードをサポートします。また、 VP9 デコーダもサポートしています。 YouTube が提供する WebM コンテナパッケージでもビデオに VP9 コーデックを使用しています。</block>
   <block id="fe046fc197d12a64da1ea78423a2a809" category="paragraph">コンピューティングクラスタ内のノード数は VMware によって決まります。現在は VMware vSphere 7.0 Update 1 で 96 です。Enhanced vMotion Compatibility （ EVC ）が有効な場合、クラスタ内に異なるモデルのコンピューティングノードを混在させることができます。</block>
   <block id="f0bee2b90db3a99440b1a724c49ce1a2" category="inline-link-macro">次は NVIDIA ライセンスです</block>
   <block id="e0bca2831f4cccfcaebc75e9555a1719" category="paragraph"><block ref="e0bca2831f4cccfcaebc75e9555a1719" category="inline-link-macro-rx"></block></block>
@@ -4558,9 +4547,6 @@
   <block id="ba5e495048f0fa35302184aa505386a9" category="inline-link-macro">次のステップ：データ管理</block>
   <block id="51688bc4609022e20e8c1cb051fb4489" category="paragraph"><block ref="51688bc4609022e20e8c1cb051fb4489" category="inline-link-macro-rx"></block></block>
   <block id="91af64270656f51ceebeabc4b79ecb07" category="summary">ネットアップ VDS は、必要なコードベースに基づいて利用可能なセットアップアプリケーションを使用して Microsoft Azure に導入できます。</block>
-  <block id="e95bc2ac4c5245d6acfac76806228d6a" category="inline-link"><block ref="e95bc2ac4c5245d6acfac76806228d6a" category="inline-link-rx"></block></block>
-  <block id="a8d573eaea8176e39c10717b8e8554e8" category="inline-link"><block ref="a8d573eaea8176e39c10717b8e8554e8" category="inline-link-rx"></block></block>
-  <block id="fb8428a3cd9056492f8327412678fe82" category="paragraph">ネットアップ VDS は、必要なコードベースに基づいて利用可能なセットアップアプリケーションを使用して Microsoft Azure に導入できます。現在のリリースは、で入手できます<block ref="6bebf0b33c3ad148b822229b4f751fde" category="inline-link-rx"></block> また、今後リリースされる製品のプレビュー版もご用意しています から<block ref="657e298a5ef111af6cbd99c99fd8dd7c" category="inline-link-rx"></block>。</block>
   <block id="c4e1987e3c1416cefd772fd61f28dfb4" category="paragraph">を参照してください<block ref="f8270911b627accef36841f0608bc58d" category="inline-link-rx"></block> 導入手順については、を参照して</block>
   <block id="4c9affd9b517fc81a601ea0861dc5399" category="inline-link-macro">次のステップ：ハイブリッドクラウド環境</block>
   <block id="2045518eb8a77a5284f073d0387f9a58" category="paragraph"><block ref="2045518eb8a77a5284f073d0387f9a58" category="inline-link-macro-rx"></block></block>
@@ -4604,7 +4590,6 @@
   <block id="241b56b7a6bc1e22810cfcb30324baab" category="paragraph">ユーザーは、タスクワーカー、オフィスワーカー、ナレッジワーカー、パワーユーザに分類できます。タスクワーカーは、主に事前定義されたアプリケーションを 1 日中使用して作業を行います。ホストされている Windows アプリケーションは、ニーズに対応できます。Office ワーカーには、オフィスアプリケーションや Web ブラウザなどを実行するデスクトップインターフェイスが必要です。通常、ワークスペースにアプリケーションをインストールすることはできません。サーバ OS 上でマルチセッションを実行できる共有デスクトップとプールデスクトップのどちらにも最適です。</block>
   <block id="0689dc58169e7f0ba60f8ed6ca5acb6f" category="paragraph">ナレッジワーカーは、通常、複数のアプリケーションを同時に操作するデスクトップ環境を必要とし、ワークスペースにインストールされているアプリケーションを維持できる必要があります。これは、静的デスクトップ（個人用デスクトップとも呼ばれます）で可能です。パワーユーザは通常、グラフィックを多用するアプリケーションや、より多くのハードウェアリソースを必要とするその他のアプリケーションで作業します。適切なマスターイメージを使用して作成された静的デスクトップは、パワーユーザのニーズに対応します。</block>
   <block id="0581202e42d61d6dfe4875c70d00cdac" category="summary">NetApp Virtual Desktop Service は、仮想デスクトップおよびアプリケーション環境を消費しやすくするだけでなく、ビジネス上の課題にも重点的に対応します。NetApp HCI で VDS を拡張することで、インラインの重複排除、コンパクション、シンプロビジョニング、圧縮など、 VDS 環境でネットアップの強力な機能を使用できます。</block>
-  <block id="b1116fa0dabbf950d092b432a4171187" category="paragraph">NetApp Virtual Desktop Service は、仮想デスクトップおよびアプリケーション環境を消費しやすくするだけでなく、ビジネス上の課題にも重点的に対応します。NetApp HCI で VDS を拡張することで、インラインの重複排除、コンパクション、シンプロビジョニング、圧縮など、 VDS 環境でネットアップの強力な機能を使用できます。これらの機能により、オールフラッシュストレージでストレージコストを削減し、パフォーマンスを向上させることができます。NetApp HCI は、ハイパフォーマンスコンピューティング、 GPU リソースの選択肢、 VMware vSphere ハイパーバイザーを提供し、 vSphere API によるアレイ統合によるサーバプロビジョニング時間を最小限に抑えます。ハイブリッドクラウドを使用すれば、要件の厳しいワークロードに最適な環境を選択してコストを削減できます。オンプレミスで実行されているデスクトップセッションは、ポリシーに基づいてクラウドリソースにアクセスできます。</block>
   <block id="df6f0981c6f92ef3adb9059f5b387e4a" category="paragraph"><block ref="df6f0981c6f92ef3adb9059f5b387e4a" category="inline-link-macro-rx"></block></block>
   <block id="a3af49b9146a6a36e8bea4c525797782" category="summary">このページでは、 DCConfig Tool 、 TestVdc Tools 、およびログファイルについて説明します。</block>
   <block id="d56ee3058d1c4ab634cd3e1e606f2064" category="doc">ツールとログ</block>
@@ -4612,17 +4597,12 @@
   <block id="65bbb1c25836b86f699bd2141a545958" category="paragraph">DCCconfig ツールは、サイトを追加するための次のハイパーバイザーオプションをサポートしています。</block>
   <block id="2c76e52255da65e5fcf88143f91aa431" category="paragraph"><block ref="2c76e52255da65e5fcf88143f91aa431" category="inline-image-macro-rx" type="image"></block></block>
   <block id="da2595b668536baaea606e674ade5181" category="paragraph"><block ref="da2595b668536baaea606e674ade5181" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="acbf53c51ffeffbb8c8844bb00bbcf20" category="paragraph">共有データのワークスペース固有のドライブレターマッピングは、 GPO を使用して処理できます。プロフェッショナルサービスまたはサポートチームは、 Active Directory OU 名、 FSLogix の導入を有効または無効にするオプション、さまざまなタイムアウト値などの詳細タブを使用して設定をカスタマイズできます。</block>
   <block id="8688a5dde644921ea673f5bc2dde55c3" category="paragraph"><block ref="8688a5dde644921ea673f5bc2dde55c3" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="cba449888f406a4443d946318e62d990" category="section-title">TestVdc ツール</block>
-  <block id="b29f2d8089fa69ee3559faaa2171b6e0" category="paragraph">TestVdc ツールは、「 C:\Program Files\CloudWorkspace\TestVdcTools\` 」フォルダにあります。</block>
-  <block id="d37e696546c28a23ac52cf1cd8d32abc" category="paragraph">プロフェッショナルサービスまたは管理者は、次の操作を実行できます。</block>
   <block id="b462233b13790bce7e4c6449d02cf930" category="list-text">ワークスペースの SMB パスを変更します。</block>
   <block id="ee347a7998de9774369e6853f1ed7bcc" category="paragraph"><block ref="ee347a7998de9774369e6853f1ed7bcc" category="inline-image-macro-rx" type="image"></block></block>
   <block id="c524c01ee30f2f1597bb3e90c721dd8c" category="list-text">プロビジョニングコレクションのサイトを変更します。</block>
   <block id="ccb9931a262a0b169576103526fa2ab2" category="paragraph"><block ref="ccb9931a262a0b169576103526fa2ab2" category="inline-image-macro-rx" type="image"></block></block>
   <block id="af6ba12de0b8c93d5f768c83143c7d99" category="section-title">ログファイル</block>
-  <block id="5f6615a18cd0f2f0bcfb7578db5d1c9e" category="paragraph"><block ref="5f6615a18cd0f2f0bcfb7578db5d1c9e" category="inline-image-macro-rx" type="image"></block></block>
   <block id="881784d32d0ec795e6fd477e7c0fe8f7" category="paragraph"><block ref="881784d32d0ec795e6fd477e7c0fe8f7" category="inline-link-macro-rx"></block></block>
   <block id="e94ab56b32737c81695f017945a054b3" category="summary">Citrix Hypervisor （旧称 XenServer ）は、デスクトップ仮想化インフラ向けの、業界をリードする、コスト効率の高いオープンソースプラットフォームです。XenCenter は、 Citrix ハイパーバイザーサーバ用の軽量グラフィカルな管理インターフェイスです。</block>
   <block id="4f816a671e4a36b2d1af857a7ec2f10e" category="doc">Citrix ハイパーバイザー</block>
@@ -4720,8 +4700,6 @@
   <block id="32e49e2645f559763ede8e346bbcb816" category="paragraph">次の図は、 Cloud Insights VDS ダッシュボードを示しています。</block>
   <block id="cb9ecf4f0010c9ec12b73a00e06a9237" category="paragraph"><block ref="cb9ecf4f0010c9ec12b73a00e06a9237" category="inline-image-macro-rx" type="image"></block></block>
   <block id="3bd1406c323c740b5b2f2a7615ad62ca" category="paragraph">NetApp Cloud Insights の詳細については、を参照してください<block ref="5fdb6e8524eb99916602753c65f2f24e" category="inline-link-rx"></block>。</block>
-  <block id="7829a0899bdc7018b1cb8d4cc6ddb2e7" category="inline-link-macro">次の手順：ツールとログ</block>
-  <block id="6479db76c174b0b7134665dc6adfe80a" category="paragraph"><block ref="6479db76c174b0b7134665dc6adfe80a" category="inline-link-macro-rx"></block></block>
   <block id="b1ddba924db1a2d8e49d71fd109e98f8" category="summary">Citrix コントロールレイヤーは、アプリケーションレイヤー、配信コントローラー、データベース、ディレクター、ライセンス、 Provisioning Services 、 Studio 、および Workspace Environment Management 。</block>
   <block id="edc82f98ad780e546b97d593d1442890" category="doc">コントロールレイヤ</block>
   <block id="370087408c6dd0077f640ef4289b7daf" category="section-title">アプリケーションの階層化</block>
@@ -4775,37 +4753,30 @@
   <block id="6344a4c74735c010473a7461c6392e01" category="list-text">さまざまなフィルタに基づいてポリシーを制御します</block>
   <block id="48a2bc9c10adbea95074594015793272" category="summary">ワークスペースはデスクトップ環境で構成されます。この環境は、オンプレミスまたは任意のサポートクラウド環境でホストされる共有リモートデスクトップセッションにすることができます。Microsoft Azure では、 Windows 仮想デスクトップを使用してデスクトップ環境を永続化できます。各ワークスペースは、特定の組織またはクライアントに関連付けられます。</block>
   <block id="1da2374b50f497e208c8dab11e6b2c98" category="doc">ワークスペース管理</block>
-  <block id="15e95eb6b03de929a63836fb85e48067" category="paragraph">ワークスペースはデスクトップ環境で構成されます。この環境は、オンプレミスまたは任意のサポートクラウド環境でホストされる共有リモートデスクトップセッションにすることができます。Microsoft Azure では、 Windows 仮想デスクトップを使用してデスクトップ環境を永続化できます。各ワークスペースは、特定の組織またはクライアントに関連付けられます。新しいワークスペースを作成するときに使用できるオプションを次の図に示します。</block>
   <block id="42a6c6312ce8b92836d9e74d89998e89" category="paragraph"><block ref="42a6c6312ce8b92836d9e74d89998e89" category="inline-image-macro-rx" type="image"></block></block>
   <block id="2d49083c2604eac2881e01b4acea428e" category="admonition">各ワークスペースは、特定の配置に関連付けられます。</block>
   <block id="2a1fdca12b05c0f5292a8670b24cb478" category="paragraph">ワークスペースには、関連するアプリケーションとアプリケーションサービス、共有データフォルダ、サーバ、 WVD インスタンスが含まれます。各ワークスペースでは、パスワードの複雑さの適用、多要素認証、ファイル監査などのセキュリティオプションを制御できます。</block>
   <block id="f29490b04a344e19674ee8d1db337d14" category="paragraph">ワークスペースでは、追加のサーバの電源投入、サーバあたりのユーザ数の制限、または特定の期間に使用可能なリソースのスケジュールの設定（常にオン / オフ）を行うためのワークロードスケジュールを制御できます。リソースは、オンデマンドでウェイクアップするように設定することもできます。</block>
   <block id="421b47ffd946ca083b65cd668c6b17e6" category="inline-link">ビデオ</block>
-  <block id="1d92fa3cee63b387b1d72ca636518e49" category="paragraph">必要に応じて、配置 VM リソースのデフォルト設定をワークスペースで上書きできます。WVD の場合、 WVD ホストプール（セッションホストとアプリケーショングループを含む）および WVD ワークスペースは、クラウドワークスペース管理スイートポータルから管理することもできます。WVD ホストプールの詳細については、こちらを参照してください<block ref="283c24f69dac0d05b60b041138870b19" category="inline-link-rx"></block>。</block>
   <block id="ff13351bb4dc0c877064ec1672d6723f" category="inline-link-macro">次の例は、アプリケーション管理です</block>
   <block id="bb974af58c318849f0fce8f7c3ecdf37" category="paragraph"><block ref="bb974af58c318849f0fce8f7c3ecdf37" category="inline-link-macro-rx"></block></block>
   <block id="7d37fde7375502ef1013412159477502" category="summary">ネットアップは、 WVD やリモートアプリケーションによる仮想デスクトップの高速プロビジョニングなどの多くのクラウドサービスを提供し、 Azure NetApp Files との迅速な統合も実現しています。</block>
   <block id="28850fd0c108cc5f990fc4b4b52ab60d" category="doc">ネットアップ仮想デスクトップサービスの概要</block>
-  <block id="e463224bb7122735dd8c3af6cddf36ab" category="paragraph">従来、 IT 部門はリモートデスクトップサービスのプロビジョニングと顧客への提供に数週間かかっていました。プロビジョニングとは別に、アプリケーション、ユーザプロファイル、共有データ、グループポリシーオブジェクトを管理してポリシーを適用することは困難です。ファイアウォールルールを使用すると、複雑さが増し、別のスキルセットとツールが必要になります。</block>
   <block id="0276a1f5f692f2e9635f3733b371cf70" category="paragraph">Microsoft Azure Windows Virtual Desktop サービスを使用すると、リモートデスクトップサービスコンポーネントのメンテナンスを Microsoft が行い、お客様はクラウド内でのワークスペースのプロビジョニングに集中できます。お客様は、 VDI 環境を管理するために特別なスキルを必要とする完全なスタックをプロビジョニングして管理する必要があります。</block>
   <block id="51db16f7b26a08952beb43836ad3f31d" category="paragraph">NetApp VDS を使用すると、ブローカー、ゲートウェイ、エージェントなどのアーキテクチャコンポーネントのインストール場所を気にすることなく、仮想デスクトップを迅速に導入できます。環境を完全に管理する必要があるお客様は、プロフェッショナルサービスチームと協力して目標を達成できます。お客様は VDS をサービスとして利用するため、主なビジネス上の課題に注力できます。</block>
   <block id="139562ef7df2deed82d586ebe297a082" category="paragraph">ネットアップの VDS は、 AWS 、 Azure 、 GCP 、プライベートクラウド環境の複数の導入を一元管理するソフトウェアサービスです。Microsoft Windows Virtual Desktop は、 Microsoft Azure でのみ使用できます。NetApp VDS は、他の環境で Microsoft リモートデスクトップサービスのオーケストレーションを行います。</block>
-  <block id="43d87019de9a37a7eaff6d71944bfa0d" category="paragraph">Microsoft では、 Windows 10 のマルチセッションを、 Azure 上の Windows Virtual Desktop 環境専用に提供しています。認証と ID は仮想デスクトップテクノロジによって処理されます。 WVD を使用するには、 Azure Active Directory と（ AD Connect との間で）同期された Azure Active Directory と、 Active Directory に参加したセッション VM が必要です。RDS では、ユーザ ID と認証、および VM ドメインの参加と管理に Active Directory が必要</block>
   <block id="416feb9f77def2ffedaab40a538d47e5" category="paragraph">次の図に、導入トポロジの例を示します。</block>
   <block id="e377917f3505cdb9fc72b74164df5928" category="paragraph"><block ref="e377917f3505cdb9fc72b74164df5928" category="inline-image-macro-rx" type="image"></block></block>
   <block id="d271ca257d56879fcc9ed95d82aabaa7" category="paragraph">各展開は、 Active Directory ドメインに関連付けられ、ワークスペースおよびアプリケーションのアクセスエントリポイントをクライアントに提供します。複数の Active Directory ドメインを持つサービスプロバイダまたは企業は、通常、より多くの導入環境を持っています。複数のリージョンにまたがる単一の Active Directory ドメインには、通常、複数のサイトを含む単一の導入環境があります。</block>
-  <block id="3544363eff595943b3ca0f97f1a1333e" category="paragraph">Azure の WVD の場合、 Microsoft は NetApp VDS で消費されるプラットフォームサービスを提供します。他の環境では、 NetApp VDS は Microsoft リモートデスクトップサービスの導入と構成をオーケストレーションします。NetApp VDS は、 WVD Classic と WVD ARM の両方をサポートし、既存のバージョンのアップグレードにも使用できます。</block>
   <block id="3e8cd47ad0ab71d0b3891f85212ccdbc" category="paragraph">各導入環境には独自のプラットフォームサービスがあり、 Cloud Workspace Manager （ REST API エンドポイント）、 HTML 5 ゲートウェイ（ VDS 管理ポータルから VM に接続）、 RDS ゲートウェイ（クライアントのアクセスポイント）、およびドメインコントローラで構成されます。次の図は、 RDS 実装用の VDS コントロールプレーンアーキテクチャを示しています。</block>
   <block id="38606818aeffd06d174e51013afc23a1" category="paragraph"><block ref="38606818aeffd06d174e51013afc23a1" category="inline-image-macro-rx" type="image"></block></block>
   <block id="e58cad6a2c8c8ff1a585bf8d6ca94560" category="paragraph">RDS 環境では、 Windows とブラウザから NetApp VDS にクライアントソフトウェアを使用して簡単にアクセスできます。クライアントソフトウェアを使用して、顧客のロゴとイメージを含めるようにカスタマイズできます。ユーザーの資格情報に基づいて、承認されたワークスペースとアプリケーションへのユーザーアクセスを提供します。ゲートウェイの詳細を設定する必要はありません。</block>
   <block id="c2dcf4d443be38a737d1e580fb4b86ec" category="paragraph">次の図は、 NetApp VDS クライアントを示しています。</block>
   <block id="8e7d56f1d99fdc8080a747bf8b1eda75" category="paragraph"><block ref="8e7d56f1d99fdc8080a747bf8b1eda75" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="f30107562d1e4380b72201851c5db9e4" category="paragraph">Azure WVD の実装では、 Microsoft がクライアントのアクセスエントリポイントを処理し、さまざまな OS でネイティブに使用できる Microsoft WVD クライアントによって使用できます。Web ベースのポータルからもアクセスできます。クライアントソフトウェアの構成は、グループポリシーオブジェクト (GPO) または顧客が優先するその他の方法で処理する必要があります。</block>
   <block id="9e4318c1c6ae62544ba67e7c0fe55649" category="paragraph">次の図は、 Azure WVD 実装用の VDS コントロールプレーンアーキテクチャを示しています。</block>
   <block id="ba9e4c82a95db68279bffa8ca8a8803f" category="paragraph"><block ref="ba9e4c82a95db68279bffa8ca8a8803f" category="inline-image-macro-rx" type="image"></block></block>
   <block id="1d648a5d4acf66674fb86cc7be05bd5e" category="paragraph">必要なコンポーネントの導入と構成に加えて、ネットアップ VDS はユーザ管理、アプリケーション管理、リソースの拡張、最適化も行います。</block>
   <block id="3ea30729e0e7f0d666400ccc1a6f7bc3" category="paragraph">ネットアップの VDS では、ユーザを作成したり、既存のユーザアカウントにクラウドワークスペースやアプリケーションサービスへのアクセスを許可したりできます。ポータルは、パスワードのリセットや、一部のコンポーネントの管理の委譲にも使用できます。ヘルプデスク管理者またはレベル 3 の技術者は、トラブルシューティングのためのユーザーセッションをシャドウイングしたり、ポータル内からサーバーに接続したりすることができます。</block>
-  <block id="060dc4aa02ff3d556cfa696d5be32034" category="paragraph">ネットアップの VDS では、作成したイメージテンプレートを使用することも、クラウドベースのプロビジョニングの市場にある既存のテンプレートを使用することもできます。管理するイメージの数を減らすために、ベースイメージを使用できます。また、付属のフレームワークを使用して、必要な追加アプリケーションをプロビジョニングし、 chocolatey 、 MSIX アプリケーションアタッチ、 PowerShell などのコマンドラインツールを含めることができます。カスタムスクリプトでも、マシンライフサイクルイベントの一部として使用できます。</block>
   <block id="91d75bd7e517ef4b563021e6d23d8cb9" category="inline-link-macro">次の手順： NetApp HCI の概要</block>
   <block id="3806ab54895f78b6c34b626314f84e6e" category="paragraph"><block ref="3806ab54895f78b6c34b626314f84e6e" category="inline-link-macro-rx"></block></block>
   <block id="2cdacde3c74a59c779ff64324954b86f" category="summary">ネットアップの仮想デスクトップサービス（ VDS ）は、主要なパブリッククラウドとプライベートクラウドで Remote Desktop Services （ RDS ）のオーケストレーションを実現します。VDS は、 Microsoft Azure で Windows Virtual Desktop （ WVD ）をサポートします。VDS は、 WVD または RDS の導入後に実行する必要がある多くのタスクを自動化します。たとえば、 SMB ファイル共有（ユーザプロファイル、共有データ、およびユーザホームドライブ用）の設定、 Windows の機能、アプリケーションとエージェントのインストール、ファイアウォール、ポリシーなどを有効にします。</block>
@@ -5818,7 +5789,6 @@
   <block id="f93781578174ca3309bd3ac126884af4" category="sidebar">VMware for 3D Graphics によるエンドユーザコンピューティング</block>
   <block id="ebf53884ddd18d15090d564ab3097375" category="sidebar">Citrix 仮想アプリケーションおよびデスクトップ</block>
   <block id="c1bb130d09609411739543a23ed6b32d" category="sidebar">VMware vSphere を使用した Citrix 仮想アプリケーションおよびデスクトップ（設計ガイド）</block>
-  <block id="022f5fda43321f2a4055550672238ddc" category="sidebar">NetApp HCI for Citrix 仮想アプリケーション</block>
   <block id="3ab8a12f3e63c2e181a28237725b32e9" category="sidebar">付録 - iSCSI デバイスの構成</block>
   <block id="e7859d97d3394c17d9e7e2116aeed494" category="sidebar">仮想デスクトップアプリケーション</block>
   <block id="dc6df49c87ca4afd24c9ff150a3c1a59" category="sidebar">NetApp HCI for Dassault Syst è mes CATIA</block>
@@ -5879,4 +5849,60 @@
   <block id="bb4dda4fa291954ccde8b20b40e6389c" category="cell">NVA-1157 が追加されました。ネットアップストレージ解決策を使用した Apache Spark ワークロードです</block>
   <block id="3523ec156cfc8217bb64d1273e5663fa" category="sidebar">ネットアップのソリューションについて</block>
   <block id="04ae8c17e9bb9281470b546d459555d3" category="sidebar">エッジでの AI 推論： Lenovo ThinkSystem 解決策 Design を使用した NetApp ONTAP</block>
+  <block id="4be1d7a9b1a8d85ed7d1cf5c72b23928" category="paragraph">ネットアップの仮想デスクトップサービスは、 Microsoft のリモートデスクトッププロトコルを使用して仮想デスクトップのセッションとアプリケーションにアクセスします。特定のサーバモデルでホストできる最大ユーザ数を決定するために、 Login VSI ツールを使用しました。Login VSI は、特定の間隔でのユーザログインをシミュレートし、ドキュメントのオープン、メールの読み書き、 Excel や PowerPoint での作業、ドキュメントの印刷、ファイルの圧縮、ランダムな休憩などのユーザ操作を実行します。また、応答時間も測定します。サーバの使用率が低い場合はユーザの応答時間が短く、ユーザセッションが追加されると応答時間が長くなります。Login VSI は、初回のユーザログインセッションに基づいてベースラインを決定し、ベースラインからのユーザ応答が 2 秒を超えると最大ユーザセッション数を報告します。</block>
+  <block id="65f671ed80b2c6f0cc371ab295230a3a" category="paragraph">次の図は、 H615C の Login VSI の応答時間とアクティブなセッションを示しています。</block>
+  <block id="5c29ae1e9123280c1975dbc407f3eca3" category="paragraph">次の図に、 vSphere ホストおよび VM に対する H615C Login VSI テスト中の Cloud Insights のパフォーマンス指標を示します。</block>
+  <block id="ca32c5a534baaf5f6dc3e6e6fed62450" category="doc">GPU に関する考慮事項</block>
+  <block id="aaca2e6fe88c6861582a8d1a20acfd4f" category="summary">仮想デスクトップサービスの ONTAP 機能。</block>
+  <block id="bc9c47c8423d4537fdbf118b09a80084" category="doc">仮想デスクトップサービスの ONTAP 機能</block>
+  <block id="472986236003195075a1428fe6103f4c" category="paragraph">次の ONTAP 機能は、仮想デスクトップサービスでの使用に適しています。</block>
+  <block id="6128a47ce6baa55dbad9293234f2f65c" category="list-text">* スケールアウトファイルシステム。 * ONTAP FlexGroup ボリュームは 20PB 以上のサイズに拡張でき、 1 つのネームスペースに 4 、 000 億を超えるファイルを格納できます。クラスタには最大 24 個のストレージノードを含めることができ、各ノードには、使用するモデルに応じた柔軟な数のネットワークインターフェイスカードを使用できます。</block>
+  <block id="960f11687b64143d44db7f4ffcb33ef2" category="paragraph">ユーザの仮想デスクトップ、ホームフォルダ、ユーザプロファイルコンテナ、共有データなどは、ファイルシステムの制限を気にせずに、必要に応じて拡張できます。</block>
+  <block id="ab7ad572d2251b9b27fa0213fde8531f" category="list-text">* ファイルシステム分析。 * XCP ツールを使用して、共有データの分析情報を取得できます。ONTAP 9.8+ と ActiveIQ の Unified Manager を使用すると、ファイルのメタデータ情報の照会と取得、コールドデータの特定を簡単に実行できます。</block>
+  <block id="885f3e34ca03dc8ff35c0bac51b384f7" category="list-text">* クラウドの階層化。 * コールドデータをクラウド内のオブジェクトストアや、データセンター内の任意の S3 互換ストレージに移行できます。</block>
+  <block id="fb38ee94b865e67571a08316a3baac38" category="list-text">* ファイルバージョン。 * ユーザは、 NetApp ONTAP Snapshot コピーで保護されているファイルをリカバリできます。ONTAP の Snapshot コピーでは変更されたブロックのみが記録されるため、スペース効率に優れています。</block>
+  <block id="9b7db1dd6f422e5f07ded1d3b7b04d90" category="list-text">* グローバル・ネームスペース。 * ONTAP FlexCache テクノロジーにより、ファイル・ストレージのリモート・キャッシュが可能になり、 ONTAP ストレージ・システムを含む複数の場所で共有データを容易に管理できます。</block>
+  <block id="827aa7cb1ad6ddbf99e040efe34725a8" category="list-text">* セキュアマルチテナンシーのサポート。 * 1 つの物理ストレージクラスタを、それぞれ独自のボリューム、ストレージプロトコル、論理ネットワークインターフェイス、 ID および認証ドメイン、管理ユーザなどを持つ複数の仮想ストレージアレイとして提供できます。そのため、テスト、開発、本番環境など、複数のビジネスユニットや環境でストレージアレイを共有することができます。</block>
+  <block id="6c36afe01468d888b334a4432dcac4b2" category="paragraph">パフォーマンスを保証するために、アダプティブ QoS を使用して使用済みスペースまたは割り当て済みスペースに基づいてパフォーマンスレベルを設定し、クォータを使用してストレージ容量を制御することができます。</block>
+  <block id="b1a678f5f86de8ff8a5b9b1c4b3772b8" category="list-text">* VMware 統合。 * VMware vSphere 用 ONTAP ツールは、データストアのプロビジョニング、 vSphere ホストのベストプラクティスの実装、および ONTAP リソースの監視を行うための vCenter プラグインを提供します。</block>
+  <block id="9b12997ae1d332c9003c444a6ff8918a" category="paragraph">ONTAP は、 SCSI / ファイルの処理をストレージアレイにオフロードするための vStorage API for Array Integration （ VAAI ）をサポートしています。ONTAP は、 vStorage APIs for Storage Awareness （ VASA ）もサポートしており、ブロックプロトコルとファイルプロトコルの両方をサポートしています。</block>
+  <block id="025e05e390f2d7ef7708bb42d81e1eeb" category="paragraph">SnapCenter Plug-in for VMware vSphere を使用すると、ストレージアレイの Snapshot 機能を使用して仮想マシンのバックアップとリストアを簡単に実行できます。</block>
+  <block id="3452f822915108b5d640f3288959e7fd" category="paragraph">ActiveIQ Unified Manager は、 vSphere 環境でストレージネットワークをエンドツーエンドで可視化できる機能を提供します。管理者は、 ONTAP でホストされている仮想デスクトップ環境で発生する可能性のあるレイテンシの問題を簡単に特定できます。</block>
+  <block id="c9559fb9abb51cf76cc973d06c7e730c" category="list-text">* セキュリティコンプライアンス。 * ActiveIQ Unified Manager では、複数の ONTAP システムを監視し、ポリシー違反のアラートを通知できます。</block>
+  <block id="875c0a88cb08e888c642bbcc19cb33a2" category="list-text">* マルチプロトコル対応。 * ONTAP はブロック（ iSCSI 、 FC 、 FCoE 、 NVMe/FC ）、ファイル（ NFSv3 、 NFSv4.1 、 SMB2.x 、および smb3.x ）のストレージプロトコル、およびオブジェクト（ S3 ）ストレージプロトコル。</block>
+  <block id="4ac79aa8e1431a96a08ba58c1e17a104" category="list-text">* 自動化のサポート。 * ONTAP は、 VDS 管理ポータルでタスクを自動化する REST API 、 Ansible 、 PowerShell モジュールを提供します。</block>
+  <block id="60ece3fee8421729100872ec44f1cda9" category="summary">導入の一環として、ユーザプロファイル、共有データ、およびホームドライブフォルダをホストするファイルサービス方式を選択できます。使用可能なオプションは、ファイルサーバ、 Azure ファイル、 Azure NetApp Files です。ただし、導入後に、 Command Center ツールを使用してこの選択を変更し、任意の SMB 共有を参照することができます。NetApp ONTAP を使用してホストすると、さまざまなメリットがあります。</block>
+  <block id="ef9fd867f3eaed93e0806bd027825218" category="inline-link">データ層を変更します</block>
+  <block id="1b8c33cc721641b8b0555f2d7b5c2773" category="inline-link-macro">NetApp ONTAP を使用してホストすると、さまざまなメリットがあります。</block>
+  <block id="698e77d7e678617a2ae27ca2525bfbf7" category="paragraph">導入の一環として、ユーザプロファイル、共有データ、およびホームドライブフォルダをホストするファイルサービス方式を選択できます。使用可能なオプションは、ファイルサーバ、 Azure ファイル、 Azure NetApp Files です。ただし、導入後に、 Command Center ツールを使用してこの選択を変更し、任意の SMB 共有を参照することができます。 <block ref="50056d02f0a90e2e837160c093f1b22b" category="inline-link-macro-rx"></block>。SMB 共有を変更する方法については、を参照してください<block ref="336429df384a16f14c12cbc8dba62525" category="inline-link-rx"></block>。</block>
+  <block id="1afc494dd7d35016d9524e06b68dbf2a" category="paragraph">今回の検証では、コアリソースと管理リソースを Azure 上の同じ VM に導入し、エッジリソースを NetApp HCI 上に配置しました。コアは大量のデータアクセスが必要な領域であり、エッジはコアのサブセットであることに注意してください。ソフトウェアをインストールしたら、使用前にライセンスをアクティブ化する必要があります。これには、次の手順を実行します。</block>
+  <block id="70366038f1d44fef6c71f615b677b9cf" category="list-text">[ ライセンスの設定 ] セクションで、 [ ここをクリックしてライセンスの有効化を完了します ] リンクを使用します。次に、コアを登録します。</block>
+  <block id="a2184b1f206fd35eeb448e9937bdabe7" category="paragraph">任意のクライアントマシンから、ファイルサーバ上の共有にアクセスするために使用した管理者は、 UNC パス \\&lt;edge サーバ名 &gt;\FASTDATA\&lt;core サーバ名 &gt;\&lt; バックエンドファイルサーバ名 &gt;\&lt; 共有名 &gt;` を使用して GFC エッジからアクセスできます。管理者は、このパスをエッジロケーションのユーザードライブマッピング用のユーザーログオンスクリプトまたは GPO に含めることができます。</block>
+  <block id="a067b7082c28e7dbf856ab55b29d1acb" category="paragraph">Salesforce のデータ保護のデモについては、を参照してください<block ref="dd6e5767407887626a36af7b68defda9" category="inline-link-rx"></block>。</block>
+  <block id="0fe8a299bf61a0d1bbca5d975dc94fcc" category="paragraph">NetApp VDS を使用したハイブリッド VDI により、サービスプロバイダとエンタープライズ仮想デスクトップ管理者は、ユーザに影響を与えることなく、簡単にリソースを他のクラウド環境に拡張できます。オンプレミスのリソースを使用することで、リソースをより効率的に管理でき、需要に応じて幅広い選択肢（コンピューティング、 GPU 、ストレージ、ネットワーク）を選択できます。</block>
+  <block id="95404d16cb98456e438a61d79a0a31d9" category="paragraph">NetApp HCI は、ストレージノードとコンピューティングノードが混在するハイブリッドクラウドインフラです。モデルに応じて、 2 ラックユニットまたはシングルラックユニットのいずれかとして使用できます。VM の導入に必要なインストールと設定は、 NetApp Deployment Engine （ NDE ）で自動化されています。コンピューティングクラスタは VMware vCenter で管理され、ストレージクラスタは NDE で導入された vCenter Plug-in で管理されます。mNode と呼ばれる管理 VM が NDE の一部として導入されます。</block>
+  <block id="449aaf51a6dfa9c0e17423ae5938d674" category="inline-link">VMware との互換性ガイド</block>
+  <block id="1046a3e2377d26c40f75eb2cd2f268da" category="admonition">ネットアップでは、表示されているコンピューティングサーバに接続されたストレージをサポートしてい を参照してください<block ref="72cc7e3e2b2d7f777e05aa309ef5f733" category="inline-link-rx"></block>。</block>
+  <block id="bdced20c33601e0149aecb44114cfdc5" category="paragraph">H610C コンピューティングノードは 2 ラックユニットで、 H615C は 1 ラックユニットのサイズで、消費電力は少なくなります。H615C は、 H.264 および H.265 （ High Efficiency Video Coding [HEVC] ） 4 ： 4 ： 4 のエンコードとデコードをサポートします。また、 VP9 デコーダの主流化が進む中、 YouTube が提供する WebM コンテナパッケージでもビデオに VP9 コーデックを使用しています。</block>
+  <block id="29707848401dd26f02baed07b9a416c1" category="paragraph">ネットアップ VDS は、必要なコードベースに基づいて利用可能なセットアップアプリケーションを使用して Microsoft Azure に導入できます。現在のリリースが利用可能です<block ref="deb5bc0c1293f06a53a77d04b921abbd" category="inline-link-rx"></block> また、今後リリースされる製品のプレビュー版もご用意しています<block ref="b5073644bfe6db36c388c6bdbca64b49" category="inline-link-rx"></block>。</block>
+  <block id="33491606222aecbfbdfa3fc8f13ffded" category="paragraph">NetApp Virtual Desktop Service は、仮想デスクトップおよびアプリケーション環境を消費しやすくするだけでなく、ビジネス上の課題にも重点的に対応します。VDS をオンプレミスの ONTAP 環境で拡張することで、高速クローン、インライン重複排除、コンパクション、シンプロビジョニングなど、 VDS 環境でネットアップの強力な機能を使用できます。 圧縮機能を使用できます。これらの機能により、オールフラッシュストレージでストレージコストを削減し、パフォーマンスを向上させることができます。VMware vSphere ハイパーバイザーでは、仮想ボリュームと vSphere API を使用してアレイを統合することで、サーバのプロビジョニング時間を最小限に抑えることができます。お客様は、ハイブリッドクラウドを使用して、要件の厳しいワークロードに適した環境を選択し、コストを削減できます。オンプレミスで実行されるデスクトップセッションは、ポリシーに基づいてクラウドリソースにアクセスできます。</block>
+  <block id="2eb34c5311117b56d2c8eb33494052a3" category="paragraph">共有データのワークスペース固有のドライブレターマッピングは、 GPO を使用して処理できます。プロフェッショナルサービスまたはサポートチームは、 Active Directory OU 名、 FSLogix の導入を有効または無効にするオプション、さまざまなタイムアウト値などの詳細タブを使用して設定をカスタマイズできます。</block>
+  <block id="f6c93f3609bb3be799ed32b6a601d5fc" category="section-title">コマンドセンター（以前は TestVdc ツールと呼ばれていました）</block>
+  <block id="46433f623976c5af8ebdc7ab92816a48" category="inline-link">コマンドセンターの概要</block>
+  <block id="bf69b43c185864d35a461d8f1c3ea56e" category="paragraph">Command Center と必要なロールを起動するには、を参照してください <block ref="d7ce3bd63a8a34b9b1630abb82acb951" category="inline-link-rx"></block>。</block>
+  <block id="b425cca2998cc4a7041a0baf7681e912" category="paragraph">次の操作を実行できます。</block>
+  <block id="017b9aa293da801da252c728736f02db" category="inline-link">自動ログ</block>
+  <block id="580acc766c3f0e464b462d271028dc32" category="paragraph"><block ref="5f6615a18cd0f2f0bcfb7578db5d1c9e" category="inline-image-macro-rx" type="image"></block>チェックしてください <block ref="11597d7347faee3da56e0e01d5ba1de2" category="inline-link-rx"></block> 詳細については、</block>
+  <block id="d1c59e5cbf684efb4f69f300e72a4ac9" category="doc">運用管理</block>
+  <block id="8a883bd6e43add9d94d923704bc177a7" category="inline-link-macro">次の手順：ツールとログ</block>
+  <block id="28f1e69837c0c21f4dcb8260d6ab5e97" category="paragraph"><block ref="28f1e69837c0c21f4dcb8260d6ab5e97" category="inline-link-macro-rx"></block></block>
+  <block id="fb67e63246489555a7e8929a138ced4c" category="paragraph">ワークスペースはデスクトップ環境で構成されます。これは、オンプレミスでホストされている共有リモートデスクトップセッションや、サポートされている任意のクラウド環境で構成されます。Microsoft Azure では、 Windows 仮想デスクトップを使用してデスクトップ環境を永続化できます。各ワークスペースは、特定の組織またはクライアントに関連付けられます。新しいワークスペースを作成するときに使用できるオプションを次の図に示します。</block>
+  <block id="5a70681d968007936b9d092ba1a93313" category="paragraph">必要に応じて、導入 VM リソースのデフォルト設定をワークスペースで上書きできます。WVD の場合、 WVD ホストプール（セッションホストとアプリケーショングループを含む）および WVD ワークスペースは、クラウドワークスペース管理スイートポータルから管理することもできます。WVD ホストプールの詳細については、こちらを参照してください<block ref="283c24f69dac0d05b60b041138870b19" category="inline-link-rx"></block>。</block>
+  <block id="c70675dc3857ae45ab2475f60c0f1f85" category="paragraph">ネットアップは、 WVD またはリモートアプリケーションによる仮想デスクトップの高速プロビジョニング、 Azure NetApp Files との迅速な統合など、多数のクラウドサービスを提供します。</block>
+  <block id="8b32dee3fc7d9223248420cb828c5527" category="paragraph">従来、 IT 部門はリモートデスクトップサービスのプロビジョニングと顧客への提供に数週間かかっていました。プロビジョニングとは別に、アプリケーション、ユーザプロファイル、共有データ、グループポリシーオブジェクトを管理してポリシーを適用することは困難です。ファイアウォールルールは複雑さを増し、別のスキルセットとツールを必要とします。</block>
+  <block id="fd9a0083b0a0e084ce6fb8d2ca64272f" category="paragraph">Microsoft では、 Windows 10 のマルチセッションを、 Azure 上の Windows Virtual Desktop 環境専用に提供しています。認証と ID は仮想デスクトップテクノロジによって処理されます。 WVD を使用するには、 Azure Active Directory と（ AD Connect との間で）同期された Azure Active Directory と、 Active Directory に参加したセッション VM が必要です。RDS では、ユーザ ID と認証、および VM ドメインの参加と管理に Active Directory が必要</block>
+  <block id="9ea3c4f34057d91531ae286e3efe62c3" category="paragraph">Azure の WVD の場合、 Microsoft は NetApp VDS で消費されるプラットフォームサービスを提供します。他の環境では、 NetApp VDS は Microsoft リモートデスクトップサービスの導入と構成をオーケストレーションします。NetApp VDS は、 WVD Classic と WVD ARM の両方をサポートし、既存のバージョンのアップグレードにも使用できます。</block>
+  <block id="71110c8ffc8b198bc951f6e587fbcddf" category="paragraph">Azure WVD の実装では、 Microsoft がクライアントのアクセスエントリポイントを処理し、さまざまな OS でネイティブに使用できる Microsoft WVD クライアントによって使用できます。Web ベースのポータルからもアクセスできます。クライアントソフトウェアの構成は、グループポリシーオブジェクト (GPO) または顧客が優先するその他の方法で処理する必要があります。</block>
+  <block id="061d5215d4dd8b8e2b7d9f2498a4a8c3" category="paragraph">ネットアップの VDS では、作成したイメージテンプレートを使用することも、クラウドベースのプロビジョニングの市場にある既存のテンプレートを使用することもできます。管理するイメージの数を減らすために、ベースイメージを使用できます。また、付属のフレームワークを使用して、必要な追加アプリケーションをプロビジョニングし、 chocolatey 、 MSIX アプリケーションアタッチ、 PowerShell などのコマンドラインツールを含めることができます。カスタムスクリプトでも、マシンライフサイクルイベントの一部として使用できます。</block>
+  <block id="6bb1b43f330b101d2e754e7809b234b4" category="sidebar">Citrix を使用した Citrix 仮想アプリケーションおよびデスクトップ向けの NetApp HCI ハイパーバイザー</block>
 </blocks>
