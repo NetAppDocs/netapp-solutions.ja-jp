@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: ai/aicp_apache_airflow_deployment.html 
 keywords: AI, control plane, apache, airflow 
-summary: Kubernetes の上で Apache の通気を確保することを推奨します。このセクションでは、 Kubernetes クラスタ内に通気を導入するために完了しておく必要のあるタスクについて説明します。 
+summary: このセクションでは、 Kubernetes クラスタ内に通気を導入するために完了しておく必要のあるタスクについて説明します。 
 ---
 = Apache Airflow の導入
 :hardbreaks:
@@ -16,7 +16,7 @@ summary: Kubernetes の上で Apache の通気を確保することを推奨し�
 Kubernetes の上で Apache の通気を確保することを推奨します。このセクションでは、 Kubernetes クラスタ内に通気を導入するために完了しておく必要のあるタスクについて説明します。
 
 
-NOTE: Kubernetes 以外のプラットフォームに通気を導入することも可能です。Kubernetes 以外のプラットフォームに通気を導入することについては、本ドキュメントでは説明していません。
+NOTE: Kubernetes 以外のプラットフォームに通気を導入することも可能です。Kubernetes 以外のプラットフォームに通気を導入することは、この解決策の範囲外です。
 
 
 
@@ -38,7 +38,7 @@ NOTE: Kubernetes 以外のプラットフォームに通気を導入すること
 
 === デフォルトの Kubernetes StorageClass を設定します
 
-通気を導入する前に、 Kubernetes クラスタ内にデフォルトのストレージクラスを指定する必要があります。エアフロー導入プロセスでは、デフォルトのストレージクラスを使用して新しい永続ボリュームのプロビジョニングが試行されます。StorageClass がデフォルトの StorageClass として指定されていない場合、導入は失敗します。クラスタ内でデフォルトの StorageClass を指定するには、「デフォルトの Kubernetes StorageClass を設定」セクションの手順に従ってください。「クラスタ内でデフォルトの StorageClass をすでに指定している場合は、この手順を省略できます。
+通気を導入する前に、 Kubernetes クラスタ内にデフォルトのストレージクラスを指定する必要があります。エアフロー導入プロセスでは、デフォルトのストレージクラスを使用して新しい永続ボリュームのプロビジョニングが試行されます。StorageClass がデフォルトの StorageClass として指定されていない場合、導入は失敗します。クラスタ内でデフォルトの StorageClass を指定するには、の手順に従ってください link:aicp_kubeflow_deployment_overview.html["Kubeflow の導入"]。クラスタ内ですでにデフォルトの StorageClass を指定している場合は、この手順を省略できます。
 
 
 
@@ -46,9 +46,8 @@ NOTE: Kubernetes 以外のプラットフォームに通気を導入すること
 
 Helm を使用して Kubernetes クラスタに通気を導入するには、導入ジャンプホストから次のタスクを実行します。
 
-. Helm を使用してエアフローを導入します。に従ってください https://hub.helm.sh/charts/stable/airflow["導入手順"^] Helm Hub の公式エアフローチャートを参照してください。以下のコマンド例は、 Helm を使用したエアーフローの配置を示しています。必要に応じて 'custom-values/yaml ファイルの値を変更 ' 追加 ' または削除します
-
-
+. Helm を使用してエアフローを導入します。に従ってください https://artifacthub.io/packages/helm/airflow-helm/airflow["導入手順"^] アーティファクトハブの公式エアフロー図については、を参照してください。以下のコマンド例は、 Helm を使用したエアーフローの配置を示しています。必要に応じて 'custom-values/yaml ファイルの値を変更 ' 追加 ' または削除します
++
 ....
 $ cat << EOF > custom-values.yaml
 ###################################
@@ -57,22 +56,10 @@ $ cat << EOF > custom-values.yaml
 airflow:
   ## the airflow executor type to use
   ##
-  executor: "KubernetesExecutor"
+  executor: "CeleryExecutor"
   ## environment variables for the web/scheduler/worker Pods (for airflow configs)
   ##
-  config:
-    AIRFLOW__KUBERNETES__DELETE_WORKER_PODS: "False"
-    AIRFLOW__KUBERNETES__GIT_REPO: "git@github.com:mboglesby/airflow-dev.git"
-    AIRFLOW__KUBERNETES__GIT_BRANCH: master
-    AIRFLOW__KUBERNETES__GIT_DAGS_FOLDER_MOUNT_POINT: "/opt/airflow/dags"
-    AIRFLOW__KUBERNETES__DAGS_VOLUME_SUBPATH: "repo/"
-    AIRFLOW__KUBERNETES__GIT_SSH_KEY_SECRET_NAME: "airflow-git-key"
-    AIRFLOW__KUBERNETES__WORKER_CONTAINER_REPOSITORY: "apache/airflow"
-    AIRFLOW__KUBERNETES__WORKER_CONTAINER_TAG: "1.10.12"
-    AIRFLOW__KUBERNETES__RUN_AS_USER: "50000"
-    AIRFLOW__KUBERNETES__LOGS_VOLUME_CLAIM: "airflow-k8s-exec-logs"
-workers:
-  enabled: false # Celery workers
+  #
 ###################################
 # Airflow - WebUI Configs
 ###################################
@@ -93,13 +80,15 @@ logs:
 dags:
   ## configs for the DAG git repository & sync container
   ##
-  git:
+  gitSync:
+    enabled: true
     ## url of the git repository
     ##
-    url: "git@github.com:mboglesby/airflow-dev.git"
+    repo: "git@github.com:mboglesby/airflow-dev.git"
     ## the branch/tag/sha1 which we clone
     ##
-    ref: master
+    branch: master
+    revision: HEAD
     ## the name of a pre-created secret containing files for ~/.ssh/
     ##
     ## NOTE:
@@ -107,47 +96,19 @@ dags:
     ## - the secret commonly includes files: id_rsa, id_rsa.pub, known_hosts
     ## - known_hosts is NOT NEEDED if `git.sshKeyscan` is true
     ##
-    secret: "airflow-git-key-files"
-    sshKeyscan: true
+    sshSecret: "airflow-ssh-git-secret"
     ## the name of the private key file in your `git.secret`
     ##
     ## NOTE:
     ## - this is ONLY RELEVANT for PRIVATE SSH git repos
     ##
-    privateKeyName: id_rsa
-    ## the host name of the git repo
+    sshSecretKey: id_rsa
+    ## the git sync interval in seconds
     ##
-    ## NOTE:
-    ## - this is ONLY REQUIRED for SSH git repos
-    ##
-    ## EXAMPLE:
-    ##   repoHost: "github.com"
-    ##
-    repoHost: "github.com"
-    ## the port of the git repo
-    ##
-    ## NOTE:
-    ## - this is ONLY REQUIRED for SSH git repos
-    ##
-    repoPort: 22
-    ## configs for the git-sync container
-    ##
-    gitSync:
-      ## enable the git-sync sidecar container
-      ##
-      enabled: true
-      ## the git sync interval in seconds
-      ##
-      refreshTime: 60
+    syncWait: 60
 EOF
-$ helm install "airflow" stable/airflow --version "7.10.1" --namespace "airflow" --values ./custom-values.yaml
-NAME: airflow
-LAST DEPLOYED: Mon Oct  5 18:32:11 2020
-NAMESPACE: airflow
-STATUS: deployed
-REVISION: 1
-TEST SUITE: None
-NOTES:
+$ helm install airflow airflow-stable/airflow -n airflow --version 8.0.8 --values ./custom-values.yaml
+...
 Congratulations. You have just deployed Apache Airflow!
 1. Get the Airflow Service URL by running these commands:
    export NODE_PORT=$(kubectl get --namespace airflow -o jsonpath="{.spec.ports[0].nodePort}" services airflow-web)
@@ -155,28 +116,28 @@ Congratulations. You have just deployed Apache Airflow!
    echo http://$NODE_IP:$NODE_PORT/
 2. Open Airflow in your web browser
 ....
-. すべての通気ポッドが稼働中であることを確認します。
-
-
+. すべての通気ポッドが稼働中であることを確認します。すべてのポッドが起動するまでに数分かかる場合があります。
++
 ....
 $ kubectl -n airflow get pod
-NAME                                 READY   STATUS    RESTARTS   AGE
-airflow-postgresql-0                 1/1     Running   0          38m
-airflow-redis-master-0               1/1     Running   0          38m
-airflow-scheduler-7fb4bf56cc-g88z4   2/2     Running   2          38m
-airflow-web-8f4bdf5fb-hhxr7          2/2     Running   1          38m
-airflow-worker-0                     2/2     Running   0          38m
+NAME                                READY   STATUS    RESTARTS   AGE
+airflow-flower-b5656d44f-h8qjk      1/1     Running   0          2h
+airflow-postgresql-0                1/1     Running   0          2h
+airflow-redis-master-0              1/1     Running   0          2h
+airflow-scheduler-9d95fcdf9-clf4b   2/2     Running   2          2h
+airflow-web-59c94db9c5-z7rg4        1/1     Running   0          2h
+airflow-worker-0                    2/2     Running   2          2h
 ....
 . 手順 1 の Helm を使用してエアーフローを導入したときにコンソールに出力された指示に従って、エアーフロー Web サービスの URL を取得します。
-
-
++
 ....
 $ export NODE_PORT=$(kubectl get --namespace airflow -o jsonpath="{.spec.ports[0].nodePort}" services airflow-web)
 $ export NODE_IP=$(kubectl get nodes --namespace airflow -o jsonpath="{.items[0].status.addresses[0].address}")
 $ echo http://$NODE_IP:$NODE_PORT/
-
-. Confirm that you can access the Airflow web service.
-
-image:aicp_imageaa1.png[Error: Missing Graphic Image]
 ....
+. 通気 Web サービスにアクセスできることを確認します。
+
+
+image:aicp_imageaa1.png["エラー：グラフィックイメージがありません"]
+
 link:aicp_example_apache_airflow_workflows_overview.html["次の例： Apache Airflow ワークフロー"]

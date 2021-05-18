@@ -2024,33 +2024,7 @@
   <block id="c9886df060bf56fce0635b18506a98e6" category="list-text">Triton Inference Server のステータスを確認します。</block>
   <block id="c270475835abd82427f9f2f298a0775e" category="inline-link-macro">次のステップ： Triton Inference Server （自動導入）用のクライアントの導入</block>
   <block id="4f35a3d363ec67fdb9f71884cc90ea98" category="paragraph"><block ref="4f35a3d363ec67fdb9f71884cc90ea98" category="inline-link-macro-rx"></block></block>
-  <block id="e0c66d18ae3ea05de4acbf75674bd9de" category="summary">NetApp SnapMirror データレプリケーションテクノロジを活用して、新しい Kubeflow パイプラインを定義して実行することで、異なる ONTAP クラスタ間でボリュームの内容をレプリケートできます。</block>
-  <block id="5c00ec321fa42a93c63c812dd1d52a9c" category="doc">SnapMirror ボリュームレプリケーションをトリガーする Kubeflow パイプラインを作成します 更新</block>
-  <block id="fa5ea708b2b7b78770a13ba0a63c13c3" category="paragraph">このパイプラインを使用すると、異なるサイトやリージョンに配置されているデータや配置されていないデータを ONTAP クラスタ間でレプリケートできます。想定されるユースケースは次のとおりです。</block>
-  <block id="3e45fc1c27797580a3bbbd3235d02fbf" category="list-text">新たに収集したセンサーデータをエッジでコアデータセンターやクラウドにレプリケートして、 AI / ML モデルのトレーニングや再トレーニングに使用できます。</block>
   <block id="7236436bac67d8eaadbf52811774b916" category="inline-link">Kubeflow の公式ドキュメント</block>
-  <block id="75cd640ab798ab5ae316c3c485f623e4" category="list-text">推論アプリケーションの一部として導入されるコアデータセンターからエッジまたはクラウドに、新しくトレーニングされたモデルまたは新しく更新されたモデルをレプリケートする。 Kubeflow パイプラインの詳細については、を参照してください<block ref="6de5a235a0c43df48d05588e1b69b959" category="inline-link-rx"></block>。このセクションで示すパイプラインの例は、 ONTAP ストレージシステムまたはソフトウェア定義インスタンス上にあるボリュームのみで機能します。</block>
-  <block id="566e555e2a44061db2976cefeee3fe95" category="paragraph">SnapMirror ボリュームレプリケーションの更新をトリガーする新しい Kubeflow パイプラインを作成するには、次の手順を実行します。</block>
-  <block id="afb3a4c6dd158d916fd2a18319489264" category="inline-link">ネットアップの公式ドキュメント</block>
-  <block id="20a7714f953c9b22378a82c7a784d15b" category="admonition">このセクションで説明する演習を行う前に、標準の設定手順に従って、ソースボリュームとデスティネーションボリュームの間で非同期 SnapMirror 関係をすでに開始していることを前提としています。詳細については、を参照してください<block ref="c98978988d000d38b923c2817437deba" category="inline-link-rx"></block>。</block>
-  <block id="2c7e167ee10d875d41a42d18e909f965" category="list-text">デスティネーションボリュームが配置されている ONTAP クラスタのクラスタ管理者アカウントのユーザ名とパスワードを含む Kubernetes シークレットをまだ作成していない場合は作成します</block>
-  <block id="40c309c86356298d4bd4ed484d4d8f0e" category="list-text">このシークレットは ' パイプラインが実行される名前空間であるため 'kubeflow' 名前空間に作成する必要がありますこれらのコマンドを実行して 'userName' と 'password' をユーザ名とパスワードに置き換え ' それに応じてシークレット定義で base64 コマンドの出力 ( 強調表示されたテキストを参照 ) を使用します</block>
-  <block id="5ac56ffe55fbc12df57989277cfc5b88" category="list-text">まだインストールしていない場合は、 Kubeflow Pipelines SDK をインストールします。を参照してください<block ref="c8fe780259e4098923a8661a299c6e37" category="inline-link-rx"></block> を参照してください。</block>
-  <block id="953c55b2bb6eba43b2b367eb69ae911b" category="list-text">Kubeflow Pipelines SDK を使用して、 Python で Kubeflow パイプラインを定義します。</block>
-  <block id="f93f41f46a645830816867b918a2a37b" category="paragraph">* パイプラインステップ： *</block>
-  <block id="59bf6311acf8d203fddbb2312c0b0731" category="list-text">指定した非同期 SnapMirror 関係に対してレプリケーションの更新をトリガーします。</block>
-  <block id="fe093c9d4a8d0abf600eb609eb818c47" category="paragraph">以下のコマンド例は、実行時に以下のパラメータを受け入れるパイプラインのパイプライン定義の作成を示しています。特定のプロセスに応じて、必要に応じてパイプライン定義を変更します。</block>
-  <block id="52b774f9c36424c4bd5dc289cb013726" category="paragraph">* ランタイムパラメータ： *</block>
-  <block id="73f9b130555ba6f215acbd2cea1d0d1d" category="list-text">ONTAP_cluster_mgmt_hostname ：デスティネーションボリュームが配置されている ONTAP クラスタのホスト名または IP アドレス。</block>
-  <block id="459b5acd69365b4ee6394463fd3915d2" category="list-text">ONTAP_cluster_admin_acct_k8s_secret ：手順 1 で作成した Kubernetes シークレットの名前</block>
-  <block id="76b73f486cebe17904000dea1c592a06" category="list-text">ONTAP_API_verify_ssl_cert ： ONTAP API との通信時にクラスタの SSL 証明書を確認するかどうかを指定します（ yes/no ）。</block>
-  <block id="1c85a73d4e07231eb5ca776d3858d7ef" category="list-text">source_svm ：ソースボリュームが配置されている SVM の名前。</block>
-  <block id="a365535c17f2f966e02efc8e3ca78b21" category="list-text">source_volume ：ソースクラスタ上のソースボリューム（レプリケート元のボリューム）の名前</block>
-  <block id="a63f951dba11e2823bbf1c201bce468b" category="list-text">destination_svm ：デスティネーションボリュームが配置されている SVM の名前。</block>
-  <block id="3457b3e121d28ae7fec2cb9b7e7dd336" category="list-text">destination_volume ：デスティネーションクラスタ上のデスティネーションボリューム（レプリケート先のボリューム）の名前。</block>
-  <block id="865dbff15abe0f6aad6c12b1315c9eed" category="inline-link-macro">エンドツーエンドの AI トレーニングを実行するための Kubeflow パイプラインを作成します トレーサビリティとバージョン管理が組み込まれたワークフロー</block>
-  <block id="ad2e5a83d4b1d2999eaa5ea77372633b" category="list-text">セクションの手順 6 ~ 17 を実行します <block ref="4b651d44c4b4e9b3e4b7b85b3f39c0a5" category="inline-link-macro-rx"></block> を参照してください。</block>
-  <block id="2e0c6d44fb55b07fa08e01b6a3107f18" category="paragraph">作成したパイプライン定義を必ず使用してください 前の手順（ステップ 3 ） を参照してください で作成されます <block ref="4b651d44c4b4e9b3e4b7b85b3f39c0a5" category="inline-link-macro-rx"></block>。</block>
   <block id="927743800667c01263ab493409a78dbc" category="inline-link-macro">次の例： Apache Airflow の導入</block>
   <block id="4ad8ac0bb69dfe62124a01353d776480" category="paragraph"><block ref="4ad8ac0bb69dfe62124a01353d776480" category="inline-link-macro-rx"></block></block>
   <block id="37e60d34ab15afa59aac0989309fc77a" category="summary">ネットアップストレージシステム / プラットフォーム上に Kubernetes クラスタ内のコンテナにマウントする必要のある既存のボリュームがあり、クラスタ内の PVC に関連付けられていない場合は、それらのボリュームをインポートする必要があります。これらのボリュームは、 Trident のボリュームインポート機能を使用してインポートできます。</block>
@@ -2058,12 +2032,6 @@
   <block id="8f811f6151a10e9d15de57c2af8fcfed" category="inline-link">Kubernetes の公式ドキュメント</block>
   <block id="40ef3fb23e015d9b4b46a16fa50f10d3" category="inline-link">Trident のドキュメント</block>
   <block id="3429b7e0331de8d2f8d377b034ca6855" category="inline-link-macro">Trident の導入と設定</block>
-  <block id="48ba5e40a77c732ea902484938ae316a" category="paragraph">以降のコマンド例では、「 pb_fg_all 」という名前の同じボリュームを、セクションの例で作成した各 Trident バックエンドに対して 1 回ずつ、 2 回インポートしています <block ref="ec7700e2b8d95edf2f2700b590eab273" category="inline-link-macro-rx"></block>、手順 1.同じボリュームをこの 2 つの方法でインポートすると、（既存の FlexGroup ボリューム）を複数の LIF にまたがって複数回マウントできます。詳細については、セクションを参照してください <block ref="ec7700e2b8d95edf2f2700b590eab273" category="inline-link-macro-rx"></block>、手順 1.PVC の詳細については、を参照してください<block ref="ca589c3cf5b20ae0a636e2b7691f2873" category="inline-link-rx"></block>。ボリュームインポート機能の詳細については、を参照してください<block ref="e6b3671f5db59046617458d31ef4f50b" category="inline-link-rx"></block>。</block>
-  <block id="b3f1fabff23c242767a85ecd69123c0b" category="paragraph">「 accessModes 」の値「 ReadOnlyMany 」は、 PVC 仕様ファイルの例で指定されています。この値は、複数のポッドがこれらのボリュームを同時にマウントできること、およびアクセスが読み取り専用であることを意味します。「 accessMode 」フィールドの詳細については、を参照してください<block ref="ca589c3cf5b20ae0a636e2b7691f2873" category="inline-link-rx"></block>。</block>
-  <block id="6b0a87e39f8a430ca60f0e26ed28c49b" category="admonition">次のインポートコマンド例で指定したバックエンド名が、参考のために強調表示されています。これらの名前は、で作成されたバックエンドに対応します の例を参照してください <block ref="ec7700e2b8d95edf2f2700b590eab273" category="inline-link-macro-rx"></block>、手順 1. 次の PVC 定義ファイル例で指定された StorageClass 名が、参照用に強調表示されます。これらの名前は、で作成された StorageClasses に対応しています の例を参照してください <block ref="ec7700e2b8d95edf2f2700b590eab273" category="inline-link-macro-rx"></block>、手順 1.</block>
-  <block id="271d4e0c30c687d32657ec0bb716f504" category="inline-link-macro">次の手順：新しいボリュームをプロビジョニングします</block>
-  <block id="375102f6f4d4c61e03e5198cbb956e99" category="paragraph"><block ref="375102f6f4d4c61e03e5198cbb956e99" category="inline-link-macro-rx"></block></block>
-  <block id="cad1c6749b26a2867fe20af2db6cbf20" category="summary">このドキュメントに記載されている情報の詳細については、このページに記載されているリソースを参照してください。</block>
   <block id="c701c7fe143bef79cc6eebc32606262e" category="paragraph">このドキュメントに記載されている情報の詳細については、次のリソースを参照してください。</block>
   <block id="c7c082299876892b4274ecfb3c3f7bcd" category="list-text">NVIDIA DGX-1 サーバ：</block>
   <block id="d2647f7d8e79758eea27c6cdcf636638" category="list-text">NVIDIA DGX-1 サーバ</block>
@@ -2084,7 +2052,6 @@
   <block id="72cf25e9f1e13167cd0dde6f285552ea" category="paragraph"><block ref="72cf25e9f1e13167cd0dde6f285552ea" category="inline-link-rx"></block></block>
   <block id="30df7f622635480ab538fb3016f9c36a" category="list-text">ONTAP 9.x のドキュメント</block>
   <block id="974aeb47ab8fd0a635d02d8ac80b9eb1" category="inline-link"><block ref="974aeb47ab8fd0a635d02d8ac80b9eb1" category="inline-link-rx"></block></block>
-  <block id="8ac8a4cdf844ed67e9ec6ddc4b3e95ad" category="paragraph"><block ref="8ac8a4cdf844ed67e9ec6ddc4b3e95ad" category="inline-link-rx"></block></block>
   <block id="35d8efcf211e40a836698bff14ed0ff6" category="list-text">NetApp FlexGroup テクニカルレポート</block>
   <block id="1ab29fc7fde3319a82a477ec308cf820" category="inline-link"><block ref="1ab29fc7fde3319a82a477ec308cf820" category="inline-link-rx"></block></block>
   <block id="7a26d62dac2be507dcc3e5b9da0ed765" category="paragraph"><block ref="7a26d62dac2be507dcc3e5b9da0ed765" category="inline-link-rx"></block></block>
@@ -2093,27 +2060,20 @@
   <block id="e582bd0f584c041fb70164ea1502666b" category="paragraph"><block ref="e582bd0f584c041fb70164ea1502666b" category="inline-link-rx"></block></block>
   <block id="1cb9a8619999ebc0a2d9c07624d76166" category="list-text">NetApp Interoperability Matrix を参照してください</block>
   <block id="d51c982ce98a1e197c234ea0b9a5e7d9" category="inline-link"><block ref="d51c982ce98a1e197c234ea0b9a5e7d9" category="inline-link-rx"></block></block>
-  <block id="859210ecd95871663511bd055e22b344" category="paragraph"><block ref="859210ecd95871663511bd055e22b344" category="inline-link-rx"></block></block>
   <block id="7a211d267d46c5b44662098f9234fcd0" category="list-text">ONTAP AI ネットワーク：</block>
   <block id="b8a60c56690ddfc62bd735d0b212c396" category="list-text">Cisco Nexus 3232C スイッチ</block>
   <block id="bb31172f259c591005fd4cbcdbfadd11" category="inline-link"><block ref="bb31172f259c591005fd4cbcdbfadd11" category="inline-link-rx"></block></block>
   <block id="96eb8aa0e86d101fdf87284d7d6f1bc7" category="paragraph"><block ref="96eb8aa0e86d101fdf87284d7d6f1bc7" category="inline-link-rx"></block></block>
   <block id="926dc08a3a3a3946402bb1beab6545cc" category="list-text">Mellanox Spectrum 2000 シリーズスイッチ</block>
-  <block id="11ff6f8fb3928ea5c0863401e5e79d17" category="inline-link"><block ref="4d7d0d0e45ceddbbe7885086d4f1fdf1" category="inline-link-rx"></block></block>
-  <block id="a587b73917a07e738f60dd9ed550f8ff" category="paragraph"><block ref="20484eda8acf23d2c505bd570eff079c" category="inline-link-rx"></block></block>
   <block id="193721fbb9ea3851cafcea43a4d95f73" category="list-text">ML フレームワークとツール：</block>
   <block id="edb7d6728a9813b505cb306367d453e3" category="list-text">大理</block>
   <block id="bdee52e8a4d1d258eb5a296fbd0ad9b5" category="inline-link"><block ref="bdee52e8a4d1d258eb5a296fbd0ad9b5" category="inline-link-rx"></block></block>
-  <block id="da391e7eec080fcb509b5c551b7a7fdf" category="paragraph"><block ref="da391e7eec080fcb509b5c551b7a7fdf" category="inline-link-rx"></block></block>
   <block id="1b2766572fa1896116e3c218eb697113" category="list-text">TensorFlow ：あらゆる環境に対応するオープンソースの機械学習フレームワーク</block>
   <block id="c8c2399b3aef347e9bdc7ab4ff8da4e0" category="inline-link"><block ref="c8c2399b3aef347e9bdc7ab4ff8da4e0" category="inline-link-rx"></block></block>
-  <block id="d97adf46c9b097cad5eff54e3b65a21f" category="paragraph"><block ref="d97adf46c9b097cad5eff54e3b65a21f" category="inline-link-rx"></block></block>
   <block id="26909d0380bdba02e2fcf7f7157cd78b" category="list-text">Horovod ： Uber が開発したオープンソースの TensorFlow 用分散学習フレームワーク</block>
   <block id="3ffa9619031400d374ed5c0860d434ab" category="inline-link"><block ref="3ffa9619031400d374ed5c0860d434ab" category="inline-link-rx"></block></block>
-  <block id="23d622d8f8d7ab742245ee42ef365e19" category="paragraph"><block ref="23d622d8f8d7ab742245ee42ef365e19" category="inline-link-rx"></block></block>
   <block id="c9cbaff7c173f4b7bc923573ca753577" category="list-text">コンテナランタイムエコシステムでの GPU の有効化</block>
   <block id="b3a776c1e64d267ebe62a7bf45c6c1b7" category="inline-link"><block ref="b3a776c1e64d267ebe62a7bf45c6c1b7" category="inline-link-rx"></block></block>
-  <block id="11c0e58643266568978dde61a6d0ae5d" category="paragraph"><block ref="11c0e58643266568978dde61a6d0ae5d" category="inline-link-rx"></block></block>
   <block id="c5fd214cdd0d2b3b4272e73b022ba5c2" category="list-text">Docker です</block>
   <block id="4c3db4ae25b5f5aaa206a7fedd201322" category="inline-link"><block ref="4c3db4ae25b5f5aaa206a7fedd201322" category="inline-link-rx"></block></block>
   <block id="60ea9e9ecbf839c413c5e977002eabf4" category="paragraph"><block ref="60ea9e9ecbf839c413c5e977002eabf4" category="inline-link-rx"></block></block>
@@ -2131,23 +2091,6 @@
   <block id="ef9e62eeb81c0987fbe61de48635886a" category="paragraph"><block ref="ef9e62eeb81c0987fbe61de48635886a" category="inline-link-rx"></block></block>
   <block id="22d149e351657eac5bd1db4934498bbe" category="list-text">データセットとベンチマーク：</block>
   <block id="b318879f822314efe94c2f096d06465c" category="list-text">ImageNet</block>
-  <block id="9083657cbd1d0fb49ada01ab2e2cc193" category="inline-link"><block ref="9083657cbd1d0fb49ada01ab2e2cc193" category="inline-link-rx"></block></block>
-  <block id="3de4b3f21621e41c0738a82d4e694114" category="paragraph"><block ref="3de4b3f21621e41c0738a82d4e694114" category="inline-link-rx"></block></block>
-  <block id="5cbaabcc5d570fd4cc045b3a0a8198a9" category="list-text">ココ</block>
-  <block id="c8d1b56091795d095ce88f1862b39251" category="inline-link"><block ref="c8d1b56091795d095ce88f1862b39251" category="inline-link-rx"></block></block>
-  <block id="e9478291485bf1fddfd797b39fc4bf06" category="paragraph"><block ref="e9478291485bf1fddfd797b39fc4bf06" category="inline-link-rx"></block></block>
-  <block id="7289e0598e08d2552317a79ebb818316" category="list-text">都会の風景</block>
-  <block id="2be4d7269a4ebffc804b8e82123400ef" category="inline-link"><block ref="2be4d7269a4ebffc804b8e82123400ef" category="inline-link-rx"></block></block>
-  <block id="24d41215c3629534f07eecd3b05c3c51" category="paragraph"><block ref="24d41215c3629534f07eecd3b05c3c51" category="inline-link-rx"></block></block>
-  <block id="992e61cee2e01c109501cbe13e74f912" category="list-text">n シーン（ nuScenes</block>
-  <block id="3a643a6308e087aed905b5684f8b24fa" category="inline-link">www.nuscenes.org</block>
-  <block id="b25792458e7398346c59041f98ca8b2c" category="paragraph"><block ref="b25792458e7398346c59041f98ca8b2c" category="inline-link-rx"></block></block>
-  <block id="76001c5dc9208d78cb97023f70581dbe" category="list-text">第 2 に、内蔵の欠点を検出するモデルです</block>
-  <block id="4780c5e2b6815cd88baf0869dd5b17e9" category="inline-link"><block ref="4780c5e2b6815cd88baf0869dd5b17e9" category="inline-link-rx"></block></block>
-  <block id="84eb8cbb3a2df0b77535033abee86d7f" category="paragraph"><block ref="84eb8cbb3a2df0b77535033abee86d7f" category="inline-link-rx"></block></block>
-  <block id="b4f91f9d6e4090dbbec0ce271662f047" category="list-text">TensorFlow ベンチマーク</block>
-  <block id="7c8f9b5afa9dfab5f8f375d1b977b046" category="inline-link"><block ref="7c8f9b5afa9dfab5f8f375d1b977b046" category="inline-link-rx"></block></block>
-  <block id="be1b7087c9993d320070b1e676c832f9" category="paragraph"><block ref="be1b7087c9993d320070b1e676c832f9" category="inline-link-rx"></block></block>
   <block id="84ffd62e595c9d0122e136c3b255f4df" category="doc">謝辞</block>
   <block id="74f47434914d29c7ec7d7d42593303b7" category="list-text">ネットアップテクニカルマーケティングエンジニア、 Mike Oglesby 氏</block>
   <block id="94a8512f59eafd68b470105fc3269fd4" category="list-text">ネットアップシニアテクニカルディレクター Santosh Rao 氏</block>
@@ -2369,25 +2312,7 @@
   <block id="68cf93a70e0f0fe62bc0428ce8a8b348" category="list-text">「 team -d 」では、すべてのクォータが使用されているわけではありません。したがって、「 team -b 」と「 team -c 」では、実験に追加の GPU を使用することができるため、イノベーションにかかる時間が短縮されます。</block>
   <block id="9083e59932e59a6f85524ab956fcf772" category="inline-link-macro">次は、基本的な資源配分フェアネスです</block>
   <block id="654c44d69d64b0a5a656dd7b1375ac03" category="paragraph"><block ref="654c44d69d64b0a5a656dd7b1375ac03" category="inline-link-macro-rx"></block></block>
-  <block id="771301b6690e14ac38edb31a211485b3" category="paragraph">ここでは、 Kubernetes クラスタで実行するさまざまな処理の例を示します。</block>
-  <block id="97c4d18fa90f748870e69f08fa965d92" category="inline-link-macro">次の手順：既存のボリュームをインポートします</block>
-  <block id="9bb1bbb6861d976bff3e39cc43691113" category="paragraph"><block ref="9bb1bbb6861d976bff3e39cc43691113" category="inline-link-macro-rx"></block></block>
   <block id="39cf3ca3e5dbe56d6eade7cbe3cc40e6" category="doc">例： Kubeflow の操作とタスク</block>
-  <block id="a567dceb6289b677caee9d4ee31acda8" category="inline-link-macro">次の例： Kubeflow の操作とタスクの概要</block>
-  <block id="094b60006955993d889b69f529a355d0" category="paragraph"><block ref="094b60006955993d889b69f529a355d0" category="inline-link-macro-rx"></block></block>
-  <block id="969aa5abe89d44eb90237ed03ba45016" category="summary">このページで概説している DAG の例では、 NetApp SnapMirror データレプリケーションテクノロジを利用して、異なる ONTAP クラスタ間でボリュームの内容をレプリケートするワークフローを実装しています。</block>
-  <block id="19bbb78390414023ef3f575398f8424e" category="doc">SnapMirror Volume Replication Update をトリガーする</block>
-  <block id="913931f553b3150b04b2e9a70e36f008" category="paragraph">このセクションで説明する DAG の例では、 NetApp SnapMirror のデータレプリケーションテクノロジを利用して複数の ONTAP クラスタ間でボリュームの内容をレプリケートするワークフローを実装しています。</block>
-  <block id="70db50fef93bfef8902a699af82fc38b" category="paragraph">このパイプラインを使用すると、異なるサイトやリージョンに配置されているデータや配置されていないデータを ONTAP クラスタ間でレプリケートできます。考えられるユースケースとしては、次のようなものがあります</block>
-  <block id="c0e55eb920713fe2d32c7b9ec9c0144d" category="list-text">新たに取得したセンサーデータをエッジで収集してコアデータセンターやクラウドにレプリケートし、 AI / ML モデルのトレーニングや再トレーニングに使用できます。</block>
-  <block id="d555544a562ecf46e93e1f7042bde511" category="list-text">トレーニングを受けた、または新しく更新されたモデルを、推論アプリケーションの一部として導入するコアデータセンターからエッジまたはクラウドにレプリケートします。</block>
-  <block id="6ac53d2f9ba30a136a707b842580ed3d" category="paragraph">この DAG を正しく機能させるには、次の前提条件を満たしている必要があります。</block>
-  <block id="2a5e283426b27eb6eb3f2525fb030fd6" category="list-text">「トレーサビリティとバージョン管理機能を備えたエンドツーエンドの AI トレーニングワークフローの実装」セクションの前提条件 #1 に記載されているように、 ONTAP システムの通気に接続を作成しておく必要があります。」</block>
-  <block id="6ec070f7db6bb60efee22602e67ef509" category="list-text">標準の設定手順に従って、ソースボリュームとデスティネーションボリュームの間で非同期 SnapMirror 関係を開始しておく必要があります。詳細については、を参照してください<block ref="c98978988d000d38b923c2817437deba" category="inline-link-rx"></block>。</block>
-  <block id="3054d1c3d5dc591c33579d931facbafd" category="section-title">DAG の定義</block>
-  <block id="69d67b7b6e0377f5294cbaa82e2911c7" category="paragraph">以下の Python コードの抜粋には、 DAG の例の定義が含まれています。ご使用の環境でこの DAG の例を実行する前に、「定義パラメータ」セクションのパラメータ値を変更して、ご使用の環境に合わせてください。</block>
-  <block id="499edf98613ccc5bba9d3f8586676341" category="inline-link-macro">次の手順： Cloud Sync レプリケーションの更新をトリガーします</block>
-  <block id="95cde864e274b5532cb08b6fb45af821" category="paragraph"><block ref="95cde864e274b5532cb08b6fb45af821" category="inline-link-macro-rx"></block></block>
   <block id="e40030fd64108859627c7a126638f0e6" category="list-text">NetApp AI コントロールプレーン：</block>
   <block id="63178726ae501745b3914ec3aa50969e" category="list-text">ネットアップの AI コントロールプレーンテクニカルレポートでご確認ください</block>
   <block id="3ce56c027572d1908d65b63056be024f" category="inline-link"><block ref="3ce56c027572d1908d65b63056be024f" category="inline-link-rx"></block></block>
@@ -2425,13 +2350,8 @@
   <block id="8a27a2062df55e0aa73964ea8ec2ab55" category="list-text">Mellanox Scale-out SN2000 イーサネットスイッチシリーズ</block>
   <block id="87a849c2f3c412a491f97674d5e27ed1" category="inline-link"><block ref="fd77c1cd25d650110f7047fa02f8327d" category="inline-link-rx"></block></block>
   <block id="a6c16c720941d75800533dedd69929cc" category="paragraph"><block ref="ad90d1952f7d0f85370461937e4484b7" category="inline-link-rx"></block></block>
-  <block id="9a938f4c42a9da20162cf33a430f639a" category="summary">Trident を使用して、ネットアップストレージシステムまたはプラットフォームで新しいボリュームをプロビジョニングできます。このページに表示されるコマンド例には、新しい FlexVol ボリュームのプロビジョニングを示すコマンドが含まれています。</block>
   <block id="533fff63e0b7486b2768ad15b5e2981c" category="doc">新しいボリュームをプロビジョニングします</block>
-  <block id="698012334ee229d6f9d7d160aafcf7af" category="inline-link-macro">Trident の導入と設定： overview.html</block>
-  <block id="7b852581a311e69c2eb9bf0600ac739e" category="paragraph">Trident を使用して、ネットアップストレージシステムまたはプラットフォームで新しいボリュームをプロビジョニングできます。次のコマンド例は、新しい FlexVol ボリュームのプロビジョニングを表示します。この例では、セクションの例で作成した StorageClass を使用してボリュームがプロビジョニングされます <block ref="e84b459748ebc0c58604d26daa43cf41" category="inline-link-macro-rx"></block>、ステップ 2 。</block>
-  <block id="bb20c53cb44c42d5f3001d60dcfe6841" category="paragraph">次の PVC 定義ファイル例では 'accessModes' の値 ReadWriteMany が指定されていますこの値は、複数のコンテナがこの PVC を同時にマウントでき、アクセスが読み書き可能であることを意味します。「 accessMode 」フィールドの詳細については、を参照してください<block ref="ca589c3cf5b20ae0a636e2b7691f2873" category="inline-link-rx"></block>。</block>
   <block id="ae746e0def70d2ab7fa50a176111dcb4" category="inline-link-macro">次の例： ONTAP AI 導入向けハイパフォーマンスジョブの概要</block>
-  <block id="915102efc270772c439ea5d3521e71ad" category="paragraph"><block ref="915102efc270772c439ea5d3521e71ad" category="inline-link-macro-rx"></block></block>
   <block id="9e7ed405a093d845e28cae41085bc436" category="paragraph">NetApp HCI トラフィックの処理に使用するスイッチでは、導入を成功させるために特別な設定が必要になります。</block>
   <block id="00693354ac7b265a2b5ba89c2979664d" category="paragraph">物理的なケーブル配線とスイッチの詳細については、『 NetApp HCI ネットワークセットアップガイド』を参照してください。この解決策は、コンピューティングノードにケーブル 2 本の設計を使用します。オプションとして、 6 ノードのケーブル設計でコンピューティングノードを構成したり、コンピューティングノードの導入オプションを指定したりできます。</block>
   <block id="0bcba66f43174baed477d3e7c9ef2f26" category="paragraph">の図 <block ref="4810ed94c68c63c308571475c543717e" category="inline-link-macro-rx"></block> は、この NetApp HCI 解決策のネットワークトポロジを示しており、ケーブルを 2 本使用してコンピューティングノードを構成しています。</block>
@@ -2661,54 +2581,9 @@
   <block id="00d764d2e91381a99d6f2c7b108e7c8e" category="list-text">エグゼクティブや IT の意思決定者、ビジネスリーダー Kubernetes クラスタのリソース利用率を最適化する方法をご確認ください AI 導入の市場投入までの時間を短縮できます</block>
   <block id="7a83f363d45e73d7915a600e1bbc92ba" category="inline-link-macro">次の手順：解決策の概要</block>
   <block id="29d90e44a805022079f5ad8bc748f89f" category="paragraph"><block ref="29d90e44a805022079f5ad8bc748f89f" category="inline-link-macro-rx"></block></block>
-  <block id="c340a7c7b19d737e9edd80bdbe938f07" category="summary">データサイエンティストや開発者のワークスペースを作成するために、 NetApp FlexClone テクノロジを活用してデータセットボリュームのクローンを迅速かつ効率的に作成する新しい Kubeflow Pipeline を定義して実行するには、このページに記載されているタスクを実行します。</block>
-  <block id="f2b054cf3db43494844359feb66dde47" category="doc">Kubeflow パイプラインを作成して、のデータセットを迅速にクローニングします データサイエンティストのワークスペース</block>
-  <block id="145617eddd36ff9e2eb17289626d282f" category="paragraph">データサイエンティストや開発者のワークスペースを作成するために、データセットボリュームのクローンを迅速かつ効率的に作成するために NetApp FlexClone テクノロジを活用する新しい Kubeflow Pipeline を定義して実行するには、次のタスクを実行します。Kubeflow パイプラインの詳細については、を参照してください<block ref="6de5a235a0c43df48d05588e1b69b959" category="inline-link-rx"></block>。このセクションで示すパイプラインの例は、 ONTAP ストレージシステムまたはソフトウェア定義インスタンス上にあるボリュームのみで機能します。</block>
-  <block id="c4e5fbca901a5d1881d77dd544439633" category="list-text">まだ作成していない場合は、ボリュームが配置されている ONTAP クラスタのクラスタ管理者アカウントのユーザ名とパスワードを含む Kubernetes シークレットを作成します。このシークレットは ' パイプラインが実行される名前空間であるため 'kubeflow' 名前空間に作成する必要がありますこれらのコマンドを実行するときは 'userName' と 'password' をユーザ名とパスワードに置き換える必要がありますまた 'base64 コマンドの出力 ( 強調表示されたテキストを参照 ) を ' それに応じてシークレット定義で使用する必要があります</block>
-  <block id="ab331186285b186bec9a91e8018ea96a" category="list-text">まだインストールしていない場合は、 Kubeflow Pipelines SDK をインストールする必要があります。を参照してください<block ref="c8fe780259e4098923a8661a299c6e37" category="inline-link-rx"></block> を参照してください。</block>
-  <block id="5f709f9cc997be4ec4f5865bdaa7d857" category="list-text">Kubeflow Pipelines SDK を使用して、 Python で Kubeflow パイプラインを定義します。以下のコマンド例では、実行時に以下のパラメータを受け入れるパイプラインのパイプライン定義を作成し、次の手順を実行します。特定のプロセスに応じて、必要に応じてパイプライン定義を変更します。</block>
-  <block id="713ef7302f160f534c634e50c07a884a" category="list-text">ONTAP_cluster_mgmt_hostname ：データセットとモデルボリュームが格納されている ONTAP クラスタのホスト名 / IP アドレス。</block>
-  <block id="7738d9edd1ceac7a400fc1f6e994bdc7" category="list-text">ONTAP_verify_ssl_cert ： ONTAP API との通信時にクラスタの SSL 証明書を検証するかどうかを指定します（ True または False ）。</block>
-  <block id="f554eefaf3c1c5c4c4ff5c1910d10cba" category="list-text">Workspace_name ：新しいワークスペースに付ける名前。</block>
-  <block id="a13d4e7b3712401f680f1780adc74b21" category="list-text">jupyter_namespace ： Jupyter Notebook ワークスペースを作成する予定の名前空間。Jupyter Notebook ワークスペースの作成の詳細については、「 aicp_provision a_jupyter_notebooker_workspace_for _data_yer_or_developer_use.html [Provision a Jupyter Notebook Workspace^] 」を参照してください。このパイプラインで作成されるデータセットクローンは、 Jupyter Notebook ワークスペースにマウント可能になります。</block>
-  <block id="d23bec6bfaec83a7266f4f51a0e2dcbe" category="inline-link-macro">Jupyter Notebook Workspace のプロビジョニング</block>
-  <block id="0a1217a5003040e0f5c09efac149e054" category="list-text">dataset_volume_pv_existing ：クローニングするボリュームに関連付けられているデータセットボリューム PVC に対応する Kubernetes PersistentVolume （ PV ）オブジェクトの名前。PV の名前を取得するには、 'kubectl-n &lt;namespace&gt; get pvc' を実行します。指定された PVC に対応する PV の名前は 'volume' 列に表示されますこれは、インポートされたボリュームである可能性があります をクリックします <block ref="950e55bcd934059aeb0798985c6daf9c" category="inline-link-macro-rx"></block>、手順 1 、または別のボリュームを指定します。</block>
   <block id="6631bf64346739a9880a9789a941a8d6" category="inline-link-macro">ONTAP AI 導入向けの Kubernetes StorageClasses の例</block>
-  <block id="6247d98589ec406d3f87818d34962b22" category="list-text">Trident _Storage_class ：このクローンの作成に使用する Kubernetes StorageClass 。これは通常、で作成した StorageClass です を参照してください <block ref="6d8c8eb29a4e4c3a50119b70d2e8171e" category="inline-link-macro-rx"></block>。</block>
-  <block id="447a2e1ca5f61d368b4c7c5c1f4b39d7" category="list-text">Trident ネームスペース： Trident がインストールされているネームスペース。デフォルトでは、 Trident は trident' 名前空間にインストールされます。</block>
-  <block id="552e02bd818b0052ccb29d61b533c67d" category="list-text">Trident バックエンド：このクローンの作成に使用する Trident バックエンド。通常は、で作成したバックエンドです を参照してください <block ref="6d8c8eb29a4e4c3a50119b70d2e8171e" category="inline-link-macro-rx"></block>。</block>
-  <block id="8acda78dac466b8ff2927e7ecfcf2e6f" category="list-text">NetApp FlexClone テクノロジを使用して、データセットボリュームのクローンを作成します。</block>
-  <block id="ae34a72b9b4809981a9fb8707c207c83" category="list-text">データセットクローンにアクセスできる対話型 Jupyter Notebook ワークスペースの導入手順を出力します。</block>
-  <block id="4e0157535007ff18c4140beab1eca7b5" category="list-text">Kubeflow 中央ダッシュボードで、メインメニューのパイプライン（ Pipelines ）をクリックし、 Kubeflow Pipelines 管理ページに移動します。</block>
-  <block id="b51d864bc05863797dda6b3374fc570c" category="paragraph"><block ref="b51d864bc05863797dda6b3374fc570c" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="eb9d7a487b510f83f0ccea78bb673325" category="list-text">パイプラインのアップロードをクリックして ' パイプライン定義をアップロードします</block>
-  <block id="a1ac55b97f987a9f6aa4cfcd1489c280" category="paragraph"><block ref="a1ac55b97f987a9f6aa4cfcd1489c280" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="e3d93409ab8aa19e7c9f73e7d5521528" category="list-text">手順 3 で作成したパイプライン定義を含む '.yaml ファイルを選択し ' パイプラインに名前を付けて ' アップロードをクリックします</block>
-  <block id="0a74c26ef4ad4dc3926118408a0757ee" category="paragraph"><block ref="0a74c26ef4ad4dc3926118408a0757ee" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="783282d1e8569e0a6dd5e8abad639fa2" category="list-text">パイプライン管理ページのパイプラインのリストに ' 新しいパイプラインが表示されますパイプラインの名前をクリックすると、その名前が表示されます。</block>
-  <block id="2fe51ab4c7d031d7805cedfb23c62282" category="paragraph"><block ref="2fe51ab4c7d031d7805cedfb23c62282" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="c082e70f9dc018f911ec7fb676f9226c" category="list-text">パイプラインを見直し、正しく見えることを確認します。</block>
-  <block id="277f0b6e5357b95532cab9588407336f" category="paragraph"><block ref="277f0b6e5357b95532cab9588407336f" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="36cd122ee4ac050d05b6cc46e4c4ed90" category="list-text">Create run をクリックしてパイプラインを実行します[+]<block ref="aaa9815a5799a42bec82a3f39b1adb56" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="6213e032cbbdc3dcfd87d5484780a309" category="list-text">パイプラインの実行を開始できる画面が表示されます。ランの名前を作成し、概要を入力し、ランをファイルする実験を選択して、 1 回限りのランを開始するか、定期的なランをスケジュールするかを選択します。</block>
-  <block id="3476153e6f7a87fe115ba808226198b5" category="paragraph"><block ref="3476153e6f7a87fe115ba808226198b5" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="e94861ba29293941500f1431c28fc536" category="list-text">実行のパラメータを定義し、 [ 開始 ] をクリックします。次の例では、ほとんどのパラメータにデフォルト値が適用されます。「 dataset_volume_pv_exist'd 」には、既存の PV の名前が入力されます。値「 admin 」は「 jupyter_namespace 」に入力されます。これは、で新しい Jupyter Notebook ワークスペースをプロビジョニングするネームスペースです。パイプライン定義内でパラメータのデフォルト値を定義したことに注意してください ( 手順 3 を参照 )</block>
-  <block id="74f49b472c071a7ccf8c58ae9ec6f7a2" category="paragraph"><block ref="74f49b472c071a7ccf8c58ae9ec6f7a2" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="b94af7692e189d11c994a55efec310a0" category="list-text">これで、特定の実験の下にあるすべてのランを一覧表示する画面が表示されます。開始したランの名前をクリックして表示します。</block>
-  <block id="d80da9f58f9b48535b9f9d61e4bb8210" category="paragraph"><block ref="d80da9f58f9b48535b9f9d61e4bb8210" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="7243c6ebf0ad1e7efff2aa38508a38ef" category="paragraph">この時点では、実行中である可能性があります。</block>
-  <block id="6ba735874de1b8a125c6f0763371dae9" category="paragraph"><block ref="6ba735874de1b8a125c6f0763371dae9" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="b24f4fa0fbdc79340a4657d167bb866f" category="list-text">実行が正常に完了したことを確認します。実行が完了すると、パイプラインのすべてのステージに緑色のチェックマークアイコンが表示されます。</block>
-  <block id="f0f6b56177539b67d69d8fea040582c9" category="paragraph"><block ref="f0f6b56177539b67d69d8fea040582c9" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="aa1bb5a64a7f079a43101784799a5cfd" category="list-text">「 netappclone 」ステージをクリックし、 Logs をクリックしてそのステージの出力を表示します。</block>
-  <block id="f35d7932df4ceb6598442854f5fed972" category="paragraph"><block ref="f35d7932df4ceb6598442854f5fed972" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="260c86c374c52206c110741fe3a4e90d" category="list-text">「 print-instructions 」段階をクリックし、ログをクリックして出力された命令を表示します。を参照してください <block ref="950e55bcd934059aeb0798985c6daf9c" category="inline-link-macro-rx"></block> Jupyter Notebook ワークスペースの作成の詳細については、を参照してください。</block>
-  <block id="f0e41bec9cb17383cf23578d20a7f8de" category="paragraph"><block ref="f0e41bec9cb17383cf23578d20a7f8de" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="f361f1f2fb61f2964722298bd1104c41" category="inline-link-macro">次のステップ： SnapMirror Volume Replication Update をトリガーする Kubeflow パイプラインを作成します</block>
-  <block id="bc8c2e4753d799007c8570aaa4be1c2a" category="paragraph"><block ref="bc8c2e4753d799007c8570aaa4be1c2a" category="inline-link-macro-rx"></block></block>
   <block id="01360221b637a04fa184dc6b9355fa46" category="summary">この解決策の作成の一環として、パフォーマンスを簡単に比較しました。ネットアップの標準的なベンチマークジョブをいくつか実行しましたが、 Kubernetes を使用して実行した場合と、ベンチマークの結果を単純な Docker run コマンドを使用して実行した場合を比較しました。</block>
   <block id="0e2f0f77407bfd956f621e13b8c1be34" category="doc">パフォーマンステスト</block>
-  <block id="b06243b5b20ad9d638e565382e8fa209" category="paragraph">この解決策の作成の一環として、パフォーマンスを簡単に比較しました。ネットアップの標準的なベンチマークジョブをいくつか実行しましたが、 Kubernetes を使用して実行した場合と、ベンチマークの結果を単純な Docker run コマンドを使用して実行した場合を比較しました。パフォーマンスに顕著な違いは見られませんでした。このため、コンテナ化されたジョブのオーケストレーションに Kubernetes を使用しても、パフォーマンスに悪影響が及ばないことがわかりました。パフォーマンス比較の結果については、次の表を参照してください。</block>
   <block id="74575b23d5305310e904f87eb02ff980" category="cell">ベンチマーク</block>
   <block id="239658e016e3d5d06ae719d280a79fec" category="cell">データセット</block>
   <block id="c269688995d2959579fca276425898b8" category="cell">Docker Run （イメージ / 秒）</block>
@@ -2729,8 +2604,6 @@
   <block id="2034cc978abb3057c4cf27e92b16ee74" category="doc">Kubernetes の導入</block>
   <block id="7c1ab988344d6a8d8cd9a30d6240955a" category="paragraph">このセクションでは、 NetApp AI コントロールプレーン解決策を実装する Kubernetes クラスタを導入するために完了しておく必要があるタスクについて説明します。Kubernetes クラスタをすでにお持ちの場合は、 Kubeflow と NetApp Trident でサポートされるバージョンの Kubernetes を実行していれば、このセクションをスキップできます。Kubeflow でサポートされる Kubernetes バージョンの一覧については、を参照してください<block ref="01b2e82a7080cdbeb934280240df876e" category="inline-link-rx"></block>。Trident でサポートされている Kubernetes のバージョンのリストについては、を参照してください<block ref="e6b3671f5db59046617458d31ef4f50b" category="inline-link-rx"></block>。</block>
   <block id="ef8333b35fd982099a6ca0c7799b5618" category="paragraph">NVIDIA GPU を搭載したベアメタルノードを統合したオンプレミスの Kubernetes 環境では、 NVIDIA の DeepOps Kubernetes 導入ツールの使用を推奨します。このセクションでは、 DeepOps を使用した Kubernetes クラスタの導入について説明します。</block>
-  <block id="366f5e745800d82946430175a63a9e3c" category="inline-link">NKS のホームページ</block>
-  <block id="251a9c66d08a8def02fb7fce62ae0b32" category="paragraph">クラウドベースの Kubernetes 環境では、 NetApp Kubernetes Service （ NKS ）を使用することを推奨します。このドキュメントでは、 NKS を使用した Kubernetes クラスタの導入については説明しません。NKS を使用してクラウドベースの Kubernetes クラスタを導入する場合は、にアクセスしてください<block ref="84614c3768abf2f9dd3b0b68febae9ca" category="inline-link-rx"></block>。</block>
   <block id="e5595c75c723712666f834213ee6568f" category="paragraph">このセクションで説明する導入の演習を行う前に、次の作業をすでに実行していることを前提としています。</block>
   <block id="612cba744b0eac9a7f153d2c4b8975da" category="list-text">標準的な構成手順に従って、ベアメタルの Kubernetes ノード（ ONTAP AI ポッドに含まれる NVIDIA DGX システムなど）を設定済みであること。</block>
   <block id="5a881e8e37e19924ac592136b5e7cfd3" category="inline-link">DeepOps GitHub サイト</block>
@@ -2740,19 +2613,12 @@
   <block id="5c51dc3fcfdd9653809e90fa3948c2f4" category="inline-link">「はじめに」ページ</block>
   <block id="21f937997adb0cac073e2458491f2c2f" category="list-text">の手順に従って、 NVIDIA DeepOps をダウンロードします<block ref="a94c3c17b923443c927cfa8fe7a2482a" category="inline-link-rx"></block> NVIDIA DeepOps GitHub サイトで入手できます。</block>
   <block id="2ed5978807d3da780c60a19b3f38a293" category="inline-link">Kubernetes 導入ガイドのページ</block>
-  <block id="bbd8dd95b67eca87ab6499cf08cdaab1" category="list-text">の手順に従って、クラスタに Kubernetes を導入します 。<block ref="a1466681223c18ae2167e5ff4280cf4d" category="inline-link-rx"></block> NVIDIA DeepOps GitHub サイトで入手できます。</block>
   <block id="2dfe8bb84d94f23030d91e315d7899bc" category="paragraph">DeepOps Kubernetes 環境を使用するには、 Kubernetes マスターノードとワーカーノードがすべて同じユーザである必要があります。</block>
-  <block id="747b26add283cc3a67bd4671ef628ce8" category="paragraph">配備に失敗した場合は '`kubectl_localhost' の値を '`deops/config/group_vars/k8s-cluster.yml' の false に変更し ' 手順 2 を繰り返します「 kubectl バイナリを Ansible ホストにコピー」タスクは、「 kubectl_localhost 」の値が「 true 」の場合にのみ実行され、メモリ使用上の既知の問題がある「 fetch 」 Ansible モジュールに依存します。このようなメモリ使用の問題により、原因がタスクを失敗させることがあります。メモリ問題が原因でタスクが失敗した場合は、以降の導入処理は正常に完了しません。</block>
-  <block id="c942628b2050cb6dfa099e175824a1ac" category="paragraph">「 kubectl_localhost 」の値を「 false 」に変更した後で展開が正常に完了した場合、 kubectl バイナリを Kubernetes マスターノードから配備ジャンプホストに手動でコピーする必要があります。kubectl バイナリの場所を特定のマスター・ノード上で確認するには 'kubectl コマンドをそのノード上で直接実行します</block>
   <block id="3c4e62d214101c80166b654bcf13e616" category="inline-link-macro">次のセクションでは、 NetApp Trident の導入と構成の概要について説明します</block>
   <block id="dee369e92794b7ef4038c5cb0ecbacc2" category="paragraph"><block ref="dee369e92794b7ef4038c5cb0ecbacc2" category="inline-link-macro-rx"></block></block>
-  <block id="0abbd8793370f0677b1a7dc60ddd4e0a" category="summary">クラスタ内のデフォルトのストレージクラスを指定するには、導入ジャンプホストからこのページに表示されるタスクを実行します。クラスタ内ですでにデフォルトの StorageClass を指定している場合は、この手順を省略できます。</block>
   <block id="72727333279dd1f9e8b63f969075bca8" category="doc">デフォルトの Kubernetes StorageClass を設定します</block>
   <block id="e1be30d98edccc10974d5d339832197c" category="paragraph">Kubeflow を導入する前に、 Kubernetes クラスタ内でデフォルトの StorageClass を指定する必要があります。Kubeflow の導入プロセスでは、デフォルトの StorageClass を使用して新しい永続ボリュームのプロビジョニングが試行されます。StorageClass がデフォルトの StorageClass として指定されていない場合、導入は失敗します。クラスタ内のデフォルトの StorageClass を指定するには、導入ジャンプホストから次のタスクを実行します。クラスタ内ですでにデフォルトの StorageClass を指定している場合は、この手順を省略できます。</block>
   <block id="e3e4fbe325df2b20670ca04ad0c2a517" category="list-text">既存のストレージクラスの 1 つをデフォルトのストレージクラスとして指定します。以降のコマンド例では、「 ontap/ai-sFLEXs-retain 」という名前の StorageClass がデフォルトの StorageClass として指定されています。</block>
-  <block id="fb94f91b09a55b0a9596cb18050f5afc" category="admonition">「 ONTAP-NAS-flexgroup 」の Trident バックエンドタイプには、 800GB 以上の PVC サイズがあります。デフォルトでは、 Kubeflow は 800GB より小さい PVC のプロビジョニングを試みます。したがって、 Kubeflow の導入の目的で、「 ONTAP-NAS-flexgroup 」バックエンドタイプをデフォルトの StorageClass として使用する StorageClass を指定しないでください。</block>
-  <block id="99477e022e84e93d7288e6b4da28d641" category="inline-link-macro">次のセクションでは、 Nvidia DeepOps を使用して Kubeflow を導入します</block>
-  <block id="77ae68a76c45645d08b03e2e21fb4e69" category="paragraph"><block ref="77ae68a76c45645d08b03e2e21fb4e69" category="inline-link-macro-rx"></block></block>
   <block id="cb2418c01859c7704da751aa5a7d2421" category="doc">解決策の概要</block>
   <block id="4ed0a51bc1c995651eec6f50591eec1a" category="section-title">NetApp ONTAP AI と Cloud Sync</block>
   <block id="bff183f31dd9706bece9767f4388a819" category="paragraph">ネットアップと NVIDIA は、 NVIDIA DGX システムとネットアップのクラウド対応ストレージシステムを基盤とする NetApp ONTAP AI アーキテクチャを開発、検証しました。このリファレンスアーキテクチャには、 IT 組織に次のようなメリットがあります。</block>
@@ -2813,10 +2679,6 @@
   <block id="9c6088fad9917e07026030c1d3eaad09" category="paragraph"><block ref="9c6088fad9917e07026030c1d3eaad09" category="inline-link-macro-rx"></block></block>
   <block id="9e40fd8f5f0e113c758dfa63adc1221d" category="summary">Kubeflow は、データサイエンティストのワークスペースとして機能する、新しい Jupyter Notebook サーバの迅速なプロビジョニングを可能にします。Kubeflow を使用して新しい Jupyter Notebook サーバをプロビジョニングするには、このページに記載されているタスクを実行します。</block>
   <block id="7fad49a67f130cbd7629be2d6c719aea" category="doc">データサイエンティストまたは開発者向けに Jupyter Notebook Workspace をプロビジョニングします 使用</block>
-  <block id="01d2ce15e528bf8ae05d5d824be5b3d1" category="paragraph">Kubeflow は、データサイエンティストのワークスペースとして機能する、新しい Jupyter Notebook サーバの迅速なプロビジョニングを可能にします。Kubeflow を使用して新しい Jupyter Notebook サーバをプロビジョニングするには、次のタスクを実行します。Kubeflow コンテキスト内の Jupyter Notebook の詳細については、を参照してください<block ref="c5d2218884acd101e6deb4d8c7d39370" category="inline-link-rx"></block>。</block>
-  <block id="acc0ba73b24af6289c2dff35e24c7075" category="list-text">* オプション：新しい Jupyter Notebook サーバにマウントする既存のボリュームが、新しいサーバを作成するネームスペース内の PersistentVolumeクレーム （ PVC ）に関連付けられていない場合（手順 4 を参照）、ネットアップストレージシステムに既存のボリュームがあるとします。 その後、それらのボリュームをそのネームスペースにインポートする必要があります。これらのボリュームは、 Trident のボリュームインポート機能を使用してインポートできます。</block>
-  <block id="5ddd102afe386550ec1afd93202128a0" category="paragraph">以降のコマンド例では、「 pb_fg_all 」という名前の既存のボリュームを「 kubeflow-anonymous 」ネームスペースにインポートしています。これらのコマンドは、ネットアップストレージシステム上のボリュームに関連付けられた「 kubeflow-anonymous 」ネームスペースに PVC を作成します。PVC の詳細については、を参照してください<block ref="ca589c3cf5b20ae0a636e2b7691f2873" category="inline-link-rx"></block>。ボリュームインポート機能の詳細については、を参照してください<block ref="e6b3671f5db59046617458d31ef4f50b" category="inline-link-rx"></block>。Trident を使用したボリュームのインポートの詳細な例については、を参照してください <block ref="f6a51c1c94d9c13bce0c7aa149adab10" category="inline-link-macro-rx"></block>。</block>
-  <block id="2299285a1a2b0ffead094f76c5b27913" category="admonition">ボリュームは、手順 4 で新しい Jupyter Notebook サーバが作成された名前空間であるため、「 kubeflow-anonymous 」名前空間にインポートされます。Kubeflow を使用してこの既存のボリュームを新しい Jupyter Notebook サーバにマウントするには、同じネームスペース内のボリュームに PVC が存在している必要があります。</block>
   <block id="5e82e4aa94a53b3b50acf347914be197" category="list-text">Kubeflow 中央ダッシュボードのメインメニューで Notebook Servers をクリックして、 Jupyter Notebook サーバ管理ページに移動します。</block>
   <block id="358d18b5a42ec1d80b04e767298ea372" category="paragraph"><block ref="358d18b5a42ec1d80b04e767298ea372" category="inline-image-macro-rx" type="image"></block></block>
   <block id="208feb7a4d57f0afc49e53fe1fe8b978" category="list-text">新しい Jupyter Notebook サーバをプロビジョニングするには、 New Server をクリックします。</block>
@@ -2824,14 +2686,11 @@
   <block id="5f95069a2e81949b101427e1fa4afddf" category="list-text">新しいサーバに名前を付け、サーバのベースにする Docker イメージを選択し、サーバで予約する CPU と RAM の容量を指定します。[ 名前空間 ] フィールドが空白の場合は、ページヘッダーの [ 名前空間の選択 ] メニューを使用して名前空間を選択します。選択したネームスペースがネームスペースフィールドに自動的に入力されます。</block>
   <block id="4fbbbc4aaa49d653f486738eed12357a" category="paragraph">次の例では 'kubeflow-anonymous' ネームスペースが選択されていますまた、 Docker イメージ、 CPU 、 RAM のデフォルト値も使用できます。</block>
   <block id="69bc8b3ae7667985c27ce3ef5de0e6ca" category="paragraph"><block ref="69bc8b3ae7667985c27ce3ef5de0e6ca" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="1f421292f3dfb023a8efb9e11074a899" category="list-text">ワークスペースボリュームの詳細を指定します。新しいボリュームを作成するように選択した場合は、そのボリュームまたは PVC がデフォルトの StorageClass を使用してプロビジョニングされます。Trident を利用するストレージクラスがデフォルトとして指定されているため ストレージクラスイン <block ref="4141b13e225d44c3340247689da4aa9a" category="inline-link-macro-rx"></block>を指定した場合、ボリュームまたは PVC は Trident でプロビジョニングされます。このボリュームは、 Jupyter Notebook Server コンテナ内のデフォルトワークスペースとして自動的にマウントされます。別のデータボリュームに保存されていないユーザーがサーバー上に作成したノートブックは、自動的にこのワークスペースボリュームに保存されます。そのため、ノートブックは再起動後も維持されます。</block>
   <block id="c44927b0124469511a724e179c80bfb5" category="paragraph"><block ref="c44927b0124469511a724e179c80bfb5" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="db07ad9c12f911c5c433d9e096270bb1" category="list-text">データボリュームを追加次の例は、手順 1 のコマンド例でインポートした既存のボリュームを指定し、デフォルトのマウントポイントをそのまま使用します。</block>
   <block id="0c73069b282d8e99ecbd8feb39164d40" category="paragraph"><block ref="0c73069b282d8e99ecbd8feb39164d40" category="inline-image-macro-rx" type="image"></block></block>
   <block id="b120f9006af3d27ef70eb256c99c6617" category="list-text">* オプション： * 希望する数の GPU をノートブックサーバーに割り当てるよう要求します。次の例では、 GPU が 1 つ要求されています。</block>
   <block id="c969e6364e4561a959d1ce20f7187723" category="paragraph"><block ref="c969e6364e4561a959d1ce20f7187723" category="inline-image-macro-rx" type="image"></block></block>
   <block id="b8da2142543d647576288d71dddabb01" category="list-text">[ 起動 ] をクリックして、新しいノートブックサーバーをプロビジョニングします。</block>
-  <block id="7d896d1af519e7536cf75ccca2b86bd0" category="list-text">ノートブックサーバーが完全にプロビジョニングされるまで待ちます。手順 4 で指定した Docker イメージを使用してサーバをプロビジョニングしたことがない場合は、イメージをダウンロードする必要があるため、この処理に数分かかることがあります。サーバーが完全にプロビジョニングされると、 Jupyter Notebook サーバー管理ページの [ ステータス ] 列に緑色のチェックマークが表示されます。</block>
   <block id="417a2eafac6842560d3900cf9d12b5bb" category="paragraph"><block ref="417a2eafac6842560d3900cf9d12b5bb" category="inline-image-macro-rx" type="image"></block></block>
   <block id="0463a63e8059055e703ecd9ffa72e106" category="list-text">[ 接続 ] をクリックして、新しいサーバー Web インターフェイスに接続します。</block>
   <block id="4fbf21602f4888216386998d62f1defd" category="list-text">手順 6 で指定したデータセットボリュームがサーバにマウントされていることを確認します。デフォルトでは、このボリュームはデフォルトのワークスペース内にマウントされます。ユーザーの観点から見ると、これはワークスペース内の別のフォルダーにすぎません。データサイエンティストで、インフラのエキスパートではないユーザは、このボリュームを使用するためにストレージの専門知識を持っている必要はありません。</block>
@@ -2843,14 +2702,10 @@
   <block id="1d739fe0e421e9cb4d6315f0021cc5eb" category="paragraph"><block ref="1d739fe0e421e9cb4d6315f0021cc5eb" category="inline-image-macro-rx" type="image"></block></block>
   <block id="b8c20de15cf5efa2297f9d40d899450e" category="list-text">ターミナルを使用して「 nvidia-smi 」を実行し、ノートブックサーバーに正しい数の GPU が割り当てられていることを確認します。次の例では、手順 7 で要求されたように、 1 つの GPU がノートブックサーバーに割り当てられています。</block>
   <block id="ed4e7225349e5c6cd33dfd15ad878438" category="paragraph"><block ref="ed4e7225349e5c6cd33dfd15ad878438" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="82d9ed8ff4b51142fcb103ed2aba5032" category="inline-link-macro">次に、 Jupyter Notebook 内から ONTAP ボリュームの Snapshot を作成します</block>
-  <block id="8a21b8a33b5664a61e90b03b8116f8a9" category="paragraph"><block ref="8a21b8a33b5664a61e90b03b8116f8a9" category="inline-link-macro-rx"></block></block>
   <block id="0a37acabf89826767b5a5fcb8dacffa3" category="summary">このページでは、 Kubernetes クラスタに Kubeflow を導入するために完了しなければならないタスクについて説明します。</block>
   <block id="e560b8ed748180150ee1a196f2247fce" category="paragraph">このセクションでは、 Kubernetes クラスタに Kubeflow を導入するために実行する必要のあるタスクについて説明します。</block>
   <block id="f48269a81318d4bd2dd9e57a8239fe56" category="list-text">Kubernetes クラスタはすでに稼働しており、 Kubeflow でサポートされるバージョンの Kubernetes を実行しているとします。サポートされているバージョンの一覧については、を参照してください<block ref="01b2e82a7080cdbeb934280240df876e" category="inline-link-rx"></block>。</block>
   <block id="9fc644d78f21555decceeddf5b691fa4" category="list-text">内に NetApp Trident のインストールと設定が完了している必要があります Kubernetes クラスタ（を参照） <block ref="ec7700e2b8d95edf2f2700b590eab273" category="inline-link-macro-rx"></block>。</block>
-  <block id="5661dd79cade7b9b4d668f84692714dc" category="inline-link-macro">次の例：デフォルトの Kubernetes Storageclass を設定します</block>
-  <block id="f56bcc222bcf05b2c91b9aa930b6dbe1" category="paragraph"><block ref="f56bcc222bcf05b2c91b9aa930b6dbe1" category="inline-link-macro-rx"></block></block>
   <block id="48c4dc7fbfa1197490124f13eb565bd2" category="doc">ONTAP AI の導入</block>
   <block id="70d5c23ad68d59b2546133efdd1c3267" category="inline-link">NVA-1121-deploy ： NetApp ONTAP AI 、 Powered by NVIDIA</block>
   <block id="b393f072bc6b17085b75486a2abbcf97" category="paragraph">ONTAP AI を導入するには、ネットワーク、コンピューティング、ストレージハードウェアのインストールと設定が必要です。ONTAP AI インフラの導入手順については、本ドキュメントでは説明していません。導入の詳細については、を参照してください<block ref="8c03c9c25bc6aba17e86c510148a3423" category="inline-link-rx"></block>。</block>
@@ -2877,16 +2732,6 @@
   <block id="9d5d3b5670d9303fddfb021e681546c0" category="inline-link-macro">次の例：要件の低いワークロードやインタラクティブなワークロードに適した、フラクショナルな GPU 割り当て</block>
   <block id="3d9997e0f8b3b6a279c8779455e7c760" category="paragraph"><block ref="3d9997e0f8b3b6a279c8779455e7c760" category="inline-link-macro-rx"></block></block>
   <block id="639ce1b23959b4470d67802f0e5e412a" category="doc">ONTAP AI 導入向けハイパフォーマンスジョブの例</block>
-  <block id="74ebd408cb59a86d93cd7e7a4042622c" category="list-text">ネットアップ、テクニカルマーケティングエンジニア、 David Arnette 氏</block>
-  <block id="ff44a94fdac3c6ecd605f6b182ea7a0f" category="list-text">ネットアップパフォーマンスアナリスト、 Sung-Han Lin 氏</block>
-  <block id="e1776482eed66fcdc1523082cc0d59a9" category="list-text">ネットアップソリューションエンジニア、 Steve Guhr 氏</block>
-  <block id="ac5104de4433e2926b241dda4f11b449" category="list-text">パートナー様の Ahmad 、ネットアップソリューションアーキテクト</block>
-  <block id="6b3be285784c8157eedfd7d7b06c6c15" category="list-text">ネットアップシニアプロダクトマネージャー Nilesh Bagad 氏</block>
-  <block id="ade275154451c7c7e93ac0d81830f635" category="paragraph"><block ref="ade275154451c7c7e93ac0d81830f635" category="inline-link-macro-rx"></block></block>
-  <block id="d827d59b572fc01dab5c9a9767c32f12" category="inline-link">正式なエアーフローに関する文書</block>
-  <block id="d4fe2be256df81be349aa25fef7afdd6" category="paragraph">ここでは、ネットアップのさまざまなデータ管理機能を強調し、各機能を通気ワークフローの一部として実装する方法を示す Apache のエアーフロー DAG の例を示します。DAG の詳細および定義方法と実行方法の詳細については、を参照してください<block ref="725f123279da5a2036f042fa0d9ceb24" category="inline-link-rx"></block>。</block>
-  <block id="a9929206fcc38e5df200ab5868f5ffb9" category="inline-link-macro">次に、トレーサビリティとバージョン管理機能が組み込まれたエンドツーエンドの AI トレーニングワークフローを実装します</block>
-  <block id="0fa3bf7243eb4ad9f45a19ccd09c67b2" category="paragraph"><block ref="0fa3bf7243eb4ad9f45a19ccd09c67b2" category="inline-link-macro-rx"></block></block>
   <block id="fbe29309a183681bc26203d4c65853a2" category="paragraph">このセクションでは、従来のデータサイエンスパイプラインとその欠点について説明します。また、提案するデータセットキャッシング解決策のアーキテクチャについても説明します。</block>
   <block id="1f14aecc1193f646e0005e27fbc6e63d" category="section-title">従来のデータサイエンスパイプラインと欠点</block>
   <block id="17fb7d0ba5495199d3e18fe23dff7b59" category="paragraph">ML モデルの開発と導入の一般的な手順には、次のような反復的な手順が含まれます。</block>
@@ -2932,7 +2777,6 @@
   <block id="b8b025dc1895637326d2420e912751e0" category="summary">Trident を使用して Kubernetes クラスタ内のストレージリソースを動的にプロビジョニングするには、 Trident バックエンドを 1 つ以上作成する必要があります。このページの例は、 ONTAP AI ポッドにネットアップ AI コントロールプレーン解決策を導入する場合に作成するバックエンドのタイプを表しています。</block>
   <block id="f363c1a10e150fdee0f4f310a06acb5e" category="doc">ONTAP AI 導入向け Trident バックエンドの例</block>
   <block id="c0fe00dd01499e23426b850b65782c77" category="paragraph">Trident を使用して Kubernetes クラスタ内のストレージリソースを動的にプロビジョニングするには、 Trident バックエンドを 1 つ以上作成する必要があります。以下に示す例は、 ONTAP AI ポッドにネットアップ AI コントロールプレーン解決策を導入する場合に作成するバックエンドのタイプを表しています。バックエンドの詳細については、を参照してください<block ref="e6b3671f5db59046617458d31ef4f50b" category="inline-link-rx"></block>。</block>
-  <block id="5e9987a139aa9b09c60908b0d4bac34e" category="list-text">ネットアップでは、 NetApp AFF システムで使用する各データ LIF （データアクセスを提供する論理ネットワークインターフェイス）に対して、 FlexGroup 対応の Trident バックエンドを作成することを推奨します。NFS プロトコルの制限のため、 1 つの NFS マウントで提供できる帯域幅は 1.5Gbps~2Gbps です。ジョブの帯域幅を増やす必要がある場合、 Trident を使用すると、 Kubernetes ポッドを作成するときに、複数の NFS マウント（同じ NFS ボリュームを複数回マウント）をすばやく簡単に追加できます。パフォーマンスを最大限に高めるには、これらの複数のマウントを異なるデータ LIF に分散させます。これらのマウントに使用するデータ LIF ごとに Trident バックエンドを作成する必要があります。</block>
   <block id="327a3876126e4773cfcc5e30649c9483" category="paragraph">以下のコマンド例は、同じ ONTAP Storage Virtual Machine （ SVM ）に関連付けられている 2 つの異なるデータ LIF を対象に、 FlexGroup 対応の Trident バックエンドを 2 つ作成する方法を示しています。これらのバックエンドは 'ONTAP-NAS-flexgroup ストレージ・ドライバを使用しますONTAP では、 FlexVol と FlexGroup の 2 つの主要なデータボリュームタイプがサポートされます。FlexVol ボリュームのサイズは限られています（現時点では、最大サイズは環境によって異なります）。一方、 FlexGroup ボリュームは最大 20PB 、 4 、 000 億ファイルまでリニアに拡張でき、データ管理を大幅に簡易化する単一のネームスペースを提供します。そのため、 FlexGroup ボリュームは、大量のデータに依存する AI や ML のワークロードに最適です。</block>
   <block id="ba9f56aafb45a750a8dffe5de6d2ed78" category="paragraph">少量のデータを処理していて、 FlexGroup ボリュームではなく FlexVol ボリュームを使用する場合は、「 ONTAP-NAS-flexgroup 」ストレージドライバの代わりに「 ONTAP-NAS' ストレージドライバ」を使用する Trident バックエンドを作成できます。</block>
   <block id="d04adbc45ec06c05c1826745b8f4ddf2" category="list-text">また、 FlexVol 対応の Trident バックエンドも 1 つ以上作成することを推奨します。FlexGroup ボリュームをデータセットストレージのトレーニングに使用する場合は、結果、出力、デバッグ情報などの格納に FlexVol ボリュームを使用できます。FlexVol ボリュームを使用する場合は、 FlexVol 対応の Trident バックエンドを 1 つ以上作成する必要があります。次に示すコマンド例は、単一のデータ LIF を使用する、 FlexVol 対応の Trident バックエンドの作成例を示しています。</block>
@@ -3010,21 +2854,6 @@
   <block id="13d0dc5bdcc23f736605e5bc174d97c6" category="list-text">手順 1~9 を繰り返して、残りの 3 つの VM をセットアップします。</block>
   <block id="ebba79d0c45c42fab1c3208da3646c1d" category="inline-link-macro">次のステップ： NVIDIA DeepOps （自動導入）で Kubernetes クラスタを導入</block>
   <block id="4eb19656ee8cfd5729c22a27ff3ccf1a" category="paragraph"><block ref="4eb19656ee8cfd5729c22a27ff3ccf1a" category="inline-link-macro-rx"></block></block>
-  <block id="ca07952feee84a40f7d226e96c12832e" category="summary">このページで紹介した DAG の例では、 NetApp Snapshot テクノロジを活用してデータセットとモデルのバージョン管理とトレーサビリティをエンドツーエンドの AI / ML モデルトレーニングワークフローに統合するワークフローを実装しています。</block>
-  <block id="6e0cc39af9a84cf1ed5a007d7c4f8f6b" category="doc">トレーサビリティとが組み込まれたエンドツーエンド AI トレーニングワークフローを実装します バージョン管理</block>
-  <block id="885ab748680e9fd95a85b6d11c8792b5" category="paragraph">このセクションで説明する DAG の例では、ネットアップの Snapshot テクノロジを活用してデータセットとモデルのバージョン管理とトレーサビリティをエンドツーエンドの AI / ML モデルトレーニングワークフローに統合するワークフローを実装しています。</block>
-  <block id="6e04c86a56bfd967fff56216c33d4b0e" category="paragraph">この DAG を正しく機能させるには、次の前提条件を満たす必要があります。</block>
-  <block id="6e70743e9f963edd5b8e54b9eb38d48d" category="list-text">ONTAP システムの通気で接続を作成しておく必要があります。</block>
-  <block id="755d3f4e9496dc7ebe86015a8bd7d593" category="paragraph">通気で接続を管理するには、 Web サービス UI で Admin &gt; Connections に移動します。次のスクリーンショットは、特定の ONTAP システム用の接続を作成した例を示しています。次の値が必要です。</block>
-  <block id="8367f49bebb8a92c3dc92b794d013a3b" category="list-text">* 接続 ID 。 * 接続の一意の名前。</block>
-  <block id="a19abf71dcdd478b1ba7d86246ddbed4" category="list-text">* ホスト。 * データセットとモデルボリュームが格納されている ONTAP クラスタのホスト名または IP アドレス。</block>
-  <block id="2a035159ab0fa6a94406873a71b0ab55" category="list-text">* ログイン。* ボリュームが存在する ONTAP クラスタのクラスタ管理者アカウントのユーザ名。</block>
-  <block id="67ac3564d9749e1e9a3e346b5e60eda7" category="list-text">* パスワード。 * ボリュームを含む ONTAP クラスタのクラスタ管理者アカウントのパスワード。</block>
-  <block id="7faec3155989ae8c6b9d16b43f503878" category="paragraph"><block ref="7faec3155989ae8c6b9d16b43f503878" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="9d89a84ab969426a3f761aa3059205af" category="list-text">モデルのトレーニングに使用するデータを含むボリュームに関連付けられている 'Airflow ネームスペースに 'PersistentVolumeClaim （ PVC ）が既存のものである必要があります</block>
-  <block id="2bc7b88c3f14c1634f41eea219c9394c" category="list-text">「 Airflow 」ネームスペースには、トレーニング済みモデルを保存するボリュームに関連付けられた既存の PersistentVolumeClaim （ PVC ）が必要です。</block>
-  <block id="885991a68104cc936bb041aea82890a1" category="inline-link-macro">次の例：データセットを迅速にクローニングして、データサイエンティストのワークスペースを構築します</block>
-  <block id="a3d4feb61970247643048979419ed3a4" category="paragraph"><block ref="a3d4feb61970247643048979419ed3a4" category="inline-link-macro-rx"></block></block>
   <block id="8383a1cf96c028a0986b7371049c8495" category="doc">ネットワークデバイスの障害予測ユースケースの概要</block>
   <block id="dea416ff04e558b0d76cce896b618880" category="paragraph">この使用例は、アジアの通信空間における Iguazio の顧客をベースにしています。100 万社の企業顧客と年間 125 万件のネットワーク停止イベントに対応しているため、ネットワーク障害による顧客への影響を防止するために、事前に対処する必要がありました。この解決策には、次のような利点があります。</block>
   <block id="feb68271e6d14db0b1ff524f3eb47a27" category="list-text">ネットワーク障害の予測分析</block>
@@ -3048,23 +2877,8 @@
   <block id="f68b67869778246b8f0d8a98ed043512" category="paragraph">このセクションでは、仮想小売アシスタントの実装について詳しく説明します。</block>
   <block id="02216530e0245f79b0b7448e14bffbce" category="inline-link-macro">次の例は、 Jarvis の導入です</block>
   <block id="a9ca2532d8607b5827969961f314249e" category="paragraph"><block ref="a9ca2532d8607b5827969961f314249e" category="inline-link-macro-rx"></block></block>
-  <block id="79e63d0e6f9cb9b1700473852ef51629" category="summary">このページで説明する DAG の例では、 NetApp XCP を呼び出して NFS エンドポイント間でデータを迅速かつ確実にレプリケートするワークフローを実装しています。</block>
-  <block id="0461a26d1149a544c81f99646cb065e9" category="doc">XCP Copy または Sync 処理をトリガーします</block>
-  <block id="8ec209ab6180d72095ed3450e8d4fc1d" category="paragraph">このセクションで説明する DAG の例では、 NFS エンドポイント間でデータを迅速かつ確実にレプリケートするために NetApp XCP を呼び出すワークフローを実装しています。考えられるユースケースとしては、次のようなものがあります</block>
-  <block id="17bf4ece1e6c55452b1fe7bb66022f23" category="list-text">Hadoop データレイクから（ Hadoop NFS ゲートウェイ経由で） AI / ML モデルのトレーニング用のハイパフォーマンス AI / ML トレーニング環境にデータをコピーする。</block>
-  <block id="f8e603f21dcbcd80a624084c9d3cc220" category="list-text">NFS からアクセス可能なデータを、実績のある従来型システムやネットアップ以外のシステムから、 AI / ML モデルのトレーニングに使用するハイパフォーマンスな AI / ML トレーニング環境にコピーする。</block>
-  <block id="956f69ad8c6b6f7ed752f3bf4eea7dd0" category="inline-link">NetApp XCP のホームページ</block>
-  <block id="82287cf5a436f801eec75a4a7d9bf019" category="inline-link">NetApp XCP の公式ドキュメント</block>
-  <block id="037e538bd3831680b47243978fc3fab7" category="list-text">SSH 経由でアクセスでき、 NetApp XCP がインストールおよび設定されているホストの通気で接続を作成しておく必要があります。NetApp XCP のインストールおよび設定方法の詳細については、を参照してください<block ref="f00eec0bfd5fcd82f5224dbd01b62a90" category="inline-link-rx"></block> および<block ref="fe0dba0412e6809204b4e7eae7e15040" category="inline-link-rx"></block>。</block>
-  <block id="dd2da50ad5998776ba2e7b3066620e79" category="paragraph">通気で接続を管理するには、 Web サービス UI で Admin &gt; Connections に移動します。次のスクリーンショットは、 NetApp XCP がインストールおよび設定されている特定のホストへの接続の作成を示しています。次の値が必要です。</block>
-  <block id="46d51381f890eca436360967b5f26d7b" category="list-text">* Conn タイプ。* SSH に設定する必要があります。</block>
-  <block id="f9eaa89fa3fae239476025c2c5d35d17" category="list-text">* ホスト。 * ホストのホスト名または IP アドレス。</block>
-  <block id="50ca3dce458d0730abcea26ec31637e5" category="list-text">* ログイン。* SSH 経由でホストにアクセスする際に使用するユーザ名。</block>
-  <block id="3fe94a0688169de362f35e093bbc0fe0" category="list-text">* パスワード。 * SSH でホストにアクセスする際に使用するパスワード。</block>
-  <block id="fc42b3034d067d7e43f85d537ed95660" category="paragraph"><block ref="fc42b3034d067d7e43f85d537ed95660" category="inline-image-macro-rx" type="image"></block></block>
   <block id="c2fa42c66e1525408bfdd7803587c4d7" category="inline-link-macro">次の例： Trident の処理</block>
   <block id="a59800a48172a51a7d63357208d8c14b" category="paragraph"><block ref="a59800a48172a51a7d63357208d8c14b" category="inline-link-macro-rx"></block></block>
-  <block id="e12bd53261c06d152cf3e4a375bb1994" category="paragraph">このセクションでは、解決策 AI ポッドに NetApp AI コントロールプレーン ONTAP を導入したときに実行可能なさまざまなハイパフォーマンスジョブの例を紹介します。</block>
   <block id="57eba472576fad7371f43a10ff20428e" category="inline-link-macro">次のセクションでは、シングルノードの AI ワークロードを実行します</block>
   <block id="5838b0381430a7b4bc84daba23bab95e" category="paragraph"><block ref="5838b0381430a7b4bc84daba23bab95e" category="inline-link-macro-rx"></block></block>
   <block id="e7446d382d8184be0a342a2fc45d4394" category="doc">WP-7328 ：『 NetApp Conversational AI Using NVIDIA Jarvis 』</block>
@@ -3101,15 +2915,10 @@
   <block id="c6496825f1a87696b60935af9416283a" category="inline-link-macro">次の手順：サードパーティの API に欠品補充エンジンとして接続します</block>
   <block id="3a9d38bca913120b9d3638cb194cd7e6" category="paragraph"><block ref="3a9d38bca913120b9d3638cb194cd7e6" category="inline-link-macro-rx"></block></block>
   <block id="368c8f521d74a015b7a3e1a46c8847b1" category="paragraph">このセクションでは、 Kubeflow を使用して実行したいさまざまな操作とタスクの例を示します。</block>
-  <block id="ebacbdb82bf9880efa5d3661bb8392ce" category="inline-link-macro">次に、データサイエンティストや開発者向けに Jupyter Notebook Workspace をプロビジョニングします</block>
-  <block id="025eaff8b49ebda5b7f9b53d03dadb84" category="paragraph"><block ref="025eaff8b49ebda5b7f9b53d03dadb84" category="inline-link-macro-rx"></block></block>
   <block id="33204bfa9ee287508f03782fd7ad512e" category="summary">Trident を使用して Kubernetes クラスタ内のストレージリソースを動的にプロビジョニングするには、 Kubernetes StorageClasses を 1 つ以上作成する必要があります。このページの例は、 ONTAP AI ポッドにネットアップ AI コントロールプレーン解決策を導入する場合に作成する、さまざまなタイプのストレージクラスを表しています。</block>
   <block id="d9206a5144976221af82df78ad3d7977" category="paragraph">Trident を使用して Kubernetes クラスタ内のストレージリソースを動的にプロビジョニングするには、 Kubernetes StorageClasses を 1 つ以上作成する必要があります。以下に示す例は、 ONTAP AI ポッドにネットアップ AI コントロールプレーン解決策を導入する場合に作成する、さまざまなタイプのストレージクラスを表しています。StorageClasses の詳細については、を参照してください<block ref="e6b3671f5db59046617458d31ef4f50b" category="inline-link-rx"></block>。</block>
-  <block id="88dfa696ccf8d7dcb85b86f51a60701f" category="inline-link-macro">Trident の導入と設定の概要</block>
-  <block id="515c1e417f7ae0af7afd23c80ee64d63" category="list-text">FlexGroup が有効な Trident ごとに別々のストレージクラスを作成することを推奨します セクションで作成したバックエンド <block ref="32dff2c08a67d3c790671bf9053c6fb9" category="inline-link-macro-rx"></block>、手順 1.これらの Granular StorageClasses を使用すると、 StorageClass 仕様ファイルで指定されている特定のバックエンドとして、特定の LIF （ Trident バックエンドの作成時に指定した LIF ）に対応する NFS マウントを追加できます。以降のコマンド例では、 2 つのを作成しています StorageClasses を使用して、バックエンドの 2 つの例に対応しています セクションで作成されます <block ref="32dff2c08a67d3c790671bf9053c6fb9" category="inline-link-macro-rx"></block>、手順 1.強調表示されたテキストは、 StorageClass 定義ファイルで Trident バックエンドが指定されている場所を示しています。StorageClasses の詳細については、を参照してください<block ref="e6b3671f5db59046617458d31ef4f50b" category="inline-link-rx"></block>。</block>
   <block id="d9348d075dc7b3c91cff99d56dfc327b" category="inline-link">Kubernetes のドキュメント</block>
   <block id="a596fcc71d1c43e3ba86b1557ac7af81" category="paragraph">対応する PersistentVolumeClaim （ PVC ）が削除されたときに永続ボリュームが削除されないようにするため、次の例では「 Retain 」の「 ReclaimPolicy 」の値を使用しています。「 ReclaimPolicy 」フィールドの詳細については、公式を参照してください<block ref="2b8f9bbf9efeff879b3debc5484f0056" category="inline-link-rx"></block>。</block>
-  <block id="ebe8e2bb3e6539e94283792263748952" category="list-text">に対応するストレージクラスを作成することも推奨します セクションで作成した FlexVol 対応の Trident バックエンド <block ref="32dff2c08a67d3c790671bf9053c6fb9" category="inline-link-macro-rx"></block>、ステップ 2 。以下のコマンド例は、 FlexVol ボリューム用の単一のストレージクラスの作成を示しています。</block>
   <block id="99608a01905f0e69895bbb864a0deba3" category="paragraph">次の例では、 FlexVol 対応の Trident バックエンドが 1 つしか作成されていないため、 StorageClass 定義ファイルで特定のバックエンドが指定されていません。Kubernetes を使用してこの StorageClass を使用するボリュームを管理すると、 Trident は「 ONTAP-NAS' 」ドライバを使用するバックエンドで利用可能なものを使用しようとします。</block>
   <block id="ee1d27a4ae3e30ff30ef72e305b029e7" category="list-text">また、 FlexGroup ボリューム用の汎用の StorageClass を作成することを推奨します。次のコマンド例は、 FlexGroup ボリューム用の汎用の StorageClass を 1 つ作成する方法を示しています。</block>
   <block id="d4a43a35c5d5a5ce3aefe77ceaa73a5c" category="paragraph">特定のバックエンドが StorageClass 定義ファイルで指定されていないことに注意してください。したがって、 Kubernetes を使用してこのストレージクラスを使用するボリュームを管理する場合、 Trident は「 ONTAP-NAS-flexgroup 」ドライバを使用する利用可能なバックエンドを使用しようとします。</block>
@@ -3190,13 +2999,8 @@
   <block id="b524842923f8cb1e38064fadc680893f" category="paragraph">詳細については、を参照してください<block ref="414875add8a18a03ddddfb14fb1c47f4" category="inline-link-rx"></block>。</block>
   <block id="5bb97c2dd089da990a792356c72a6128" category="inline-link-macro">次は、高いクラスタ利用率を達成することです</block>
   <block id="8f87de13e6ff3dd2fc164bdb930759bb" category="paragraph"><block ref="8f87de13e6ff3dd2fc164bdb930759bb" category="inline-link-macro-rx"></block></block>
-  <block id="f415d82dc26319a5ab664470fb7d2382" category="summary">このレポートでは、 Git リポジトリを 1 つ作成する場合と同様に、データネームスペースのクローンを迅速に作成する方法について説明します。また、統合された AI / ML / DL データパイプラインを構築するために、サイトやリージョン間でデータをシームレスにレプリケートする方法も示します。さらに、トレーサビリティとバージョン管理のためにデータやモデルベースラインをほぼ瞬時に作成する AI 、 ML 、 DL トレーニングワークフローの定義と実装についても説明します。</block>
-  <block id="fffa1b56750a0334993c90d5adc9912a" category="doc">TR-4798 ：『 NetApp AI Control Plane 』</block>
   <block id="f0829d8f9d70b9de9de7beae86dc2129" category="paragraph">ネットアップ、 Mike Oglesby</block>
-  <block id="789622acaedc2973bbbeb0dc08fd3111" category="paragraph">あらゆる規模の企業や組織が、多くの業界で、人工知能（ AI ）、機械学習（ ML ）、ディープラーニング（ DL ）を導入して、現実世界の問題を解決し、革新的な製品やサービスを提供し、競争が激化する市場で優位に立つことになりつつあります。AI 、 ML 、 DL の利用が増えるにつれ、ワークロードの拡張性やデータの可用性など、多くの課題に直面しています。このドキュメントでは、ネットアップのフルスタック AI データと実験管理解決策である NetApp AI コントロールプレーンを使用して、これらの課題に対処する方法について説明します。</block>
-  <block id="7b08d29f47e31d81b8fdd375630bbe62" category="paragraph">このレポートでは、 Git リポジトリを 1 つ作成する場合と同様に、データネームスペースのクローンを迅速に作成する方法について説明します。また、統合された AI / ML / DL データパイプラインを構築するために、サイトやリージョン間でデータをシームレスにレプリケートする方法も示します。さらに、トレーサビリティとバージョン管理のためにデータやモデルベースラインをほぼ瞬時に作成する AI 、 ML 、 DL トレーニングワークフローの定義と実装についても説明します。この解決策を使用すると、すべてのモデルトレーニングを、モデルのトレーニングや検証に使用したデータセットまでトレースできます。最後に、このドキュメントでは、 Jupyter Notebook ワークスペースを、大規模なデータセットにすばやくプロビジョニングする方法を説明します。</block>
   <block id="9f1cc947f3e0236f8d5bc32d8d33509a" category="inline-link">cloud.netapp.com</block>
-  <block id="92ec3d6947c40c7eb9b12322a7f21e21" category="paragraph">この解決策はデータサイエンティストやデータエンジニアを対象としているため、ネットアップや ONTAP に関する専門知識は不要です。この解決策を使用すると、シンプルで使い慣れたツールやインターフェイスを使用してデータ管理機能を実行できます。さらに、この解決策では、完全なオープンソースとフリーコンポーネントを使用しています。したがって、ネットアップストレージがすでにある環境では、この解決策を実装できます。この解決策でドライブをテストしたいが、ネットアップストレージはまだお持ちでない場合は、を参照してください<block ref="d72e38e0d1c5ca8869f2dd987734920b" category="inline-link-rx"></block>クラウドベースのネットアップストレージ解決策を使用すれば、数分で稼働を開始できます。次の図に、解決策を視覚的に示します。</block>
   <block id="1f39acb56ba2a8669371819a64348c74" category="paragraph"><block ref="1f39acb56ba2a8669371819a64348c74" category="inline-image-macro-rx" type="image"></block></block>
   <block id="8b3773d1a432fb6daacfb9a00676e23f" category="paragraph"><block ref="8b3773d1a432fb6daacfb9a00676e23f" category="inline-link-macro-rx"></block></block>
   <block id="ed8e4613850a4014b0e6ef830982caf2" category="paragraph">ここでは、のテストについて詳しく説明します <block ref="26be59a535445b1fffeef12f5e70f3e6" category="inline-link-macro-rx"></block>。</block>
@@ -3296,12 +3100,9 @@
   <block id="2e52c56d063752bbfeda9c8f9d2fee41" category="summary">このページでは、 Kubernetes クラスタに NetApp Trident をインストールして設定するために必要な作業について説明します。</block>
   <block id="e539ec743b02403b5ba74b884d117a5a" category="paragraph">このセクションでは、 Kubernetes クラスタに NetApp Trident をインストールして設定するために必要な作業について説明します。</block>
   <block id="d6c3cdbd20fe8752d1f443bdb84038e3" category="list-text">Kubernetes クラスタはすでに稼働しており、 Trident でサポートされるバージョンの Kubernetes を実行している。サポートされているバージョンの一覧については、を参照してください<block ref="e6b3671f5db59046617458d31ef4f50b" category="inline-link-rx"></block>。</block>
-  <block id="be53ee5e6628325190c8ff077fbe2ca7" category="list-text">すでにネットアップストレージアプライアンス、ソフトウェア定義インスタンス、または NFS プロトコルをサポートするクラウドストレージサービスが動作している。</block>
   <block id="b8b9eab8c1ed7b79387652490f5724ec" category="section-title">Trident をインストール</block>
   <block id="984b69562391cb8032fd50ded03a29a6" category="paragraph">Kubernetes クラスタに NetApp Trident をインストールして設定するには、導入ジャンプホストから次のタスクを実行します。</block>
   <block id="014e85e7f3bbdad1ad6f193e82d21755" category="inline-link">導入手順</block>
-  <block id="3a4af50346aa0060c22476b47f180514" category="list-text">Trident for Kubernetes をクラスタに導入するには、次の手順を実行します<block ref="73e6be38c8ff1e0c58865c34876a2e98" category="inline-link-rx"></block> Trident のドキュメントTrident バックエンドと Kubernetes StorageClass を少なくとも 1 つずつ作成してください。Backends と StorageClasses の詳細については、を参照してください<block ref="e6b3671f5db59046617458d31ef4f50b" category="inline-link-rx"></block>。</block>
-  <block id="55b3063c04b60747e89b2b6f16ebcd4b" category="admonition">解決策 AI ポッドにネットアップ AI コントロールプレーン ONTAP を導入する場合は、を参照してください <block ref="ec7700e2b8d95edf2f2700b590eab273" category="inline-link-macro-rx"></block> たとえば、必要に応じて別の Trident バックエンドを作成したり、作成する Kubernetes StorageClasses が異なる場合があります。</block>
   <block id="7939cabf4707d25b4d69e5973b083fd1" category="inline-link-macro">次の例： ONTAP AI 導入向けの Trident バックエンド</block>
   <block id="aa36a03510d1480c0db7e6824569b7b3" category="paragraph"><block ref="aa36a03510d1480c0db7e6824569b7b3" category="inline-link-macro-rx"></block></block>
   <block id="fe8fc7ed6b0b67e37e1a6484466e9c74" category="paragraph">このセクションでは、 NetApp HCI を使用した AI 推論プラットフォームの導入に必要な手順について説明します。次に、セットアップに関する大まかな作業を示します。</block>
@@ -3325,17 +3126,13 @@
   <block id="cf6e5acef9f43ce3562bad72421accb3" category="list-text"><block ref="cf6e5acef9f43ce3562bad72421accb3" category="inline-link-macro-rx"></block></block>
   <block id="3adf31bd24ed89a5b60c98cc2e0f4cde" category="inline-link-macro">Triton 推論サーバから推論メトリックを収集します</block>
   <block id="e8fdfa6b63645c569e5dd9260b5a8af5" category="list-text"><block ref="e8fdfa6b63645c569e5dd9260b5a8af5" category="inline-link-macro-rx"></block></block>
-  <block id="f65a0778924eabaaae27b575513d00e2" category="summary">NVIDIA DeepOps が提供する Kubeflow 導入ツールを使用することを推奨します。DeepOps 導入ツールを使用して Kubernetes クラスタに Kubeflow を導入するには、導入ジャンプホストからこのページのタスクを実行します。</block>
   <block id="f12aad36b1ab9194dd8bc67542366bff" category="doc">NVIDIA DeepOps を使用して Kubeflow を導入します</block>
   <block id="3e1922d78dd7bdb1e8d7e7bd8f5aa92c" category="paragraph">NVIDIA DeepOps が提供する Kubeflow 導入ツールを使用することを推奨します。DeepOps 導入ツールを使用して Kubernetes クラスタに Kubeflow を導入するには、導入ジャンプホストから次のタスクを実行します。</block>
   <block id="7586dbf5f3ac1a66383f6c201a17a341" category="inline-link">インストール手順</block>
   <block id="3ede8bc1f55c95b9a16b2429e0b9bbcc" category="admonition">または、を使用して手動で Kubeflow を導入することもできます<block ref="c75d7e23bc80ca81cea11fe427173cb3" category="inline-link-rx"></block> Kubeflow の公式ドキュメントにあります</block>
   <block id="a73d6d865f72179145299c720c53d39c" category="inline-link">Kubeflow の導入手順</block>
-  <block id="5836b6d5acf9b45a2f47ff636006e4f2" category="list-text">クラスタに Kubeflow を導入するには、に従ってください<block ref="8be340df1a0f94981c0613c4607a16b9" category="inline-link-rx"></block> NVIDIA DeepOps GitHub サイトで入手できます。</block>
   <block id="2efdbab31c5d41a149e5092f4b8d7e48" category="list-text">Kubeflow Dashboard URL をメモしてください。 DeepOps Kubeflow 導入ツールによって出力されます。</block>
-  <block id="bdc495521d30e6ce31ae9d406e59b66d" category="list-text">Kubeflow ネームスペース内に展開されているすべてのポッドに「ステータス」が「実行中」であることを確認し、ネームスペース内に展開されているコンポーネントがエラー状態でないことを確認します。</block>
   <block id="d6049afd6b1943d1e98ca6347dd907c5" category="list-text">Web ブラウザで、手順 2 でメモした URL に移動して Kubeflow 中央ダッシュボードにアクセスします。</block>
-  <block id="9a2e4ad3233658adca45b3c770deae6f" category="paragraph">デフォルトのユーザ名は「 admin@kubeflow.org 」で、デフォルトのパスワードは「 12341234 」です。追加ユーザを作成するには、の手順に従います<block ref="bd9fe6c064ceb512e5c48b571efe1c94" category="inline-link-rx"></block>。</block>
   <block id="2d84920115f9dc91fe2d35c4dc07eaf0" category="paragraph"><block ref="2d84920115f9dc91fe2d35c4dc07eaf0" category="inline-image-macro-rx" type="image"></block></block>
   <block id="13e8f52d7e19f83d3e64003c58ea220b" category="doc">NDE を使用して NetApp HCI に VMware 仮想インフラストラクチャを導入する （導入の自動化）</block>
   <block id="2635318d9bf1ea76c73bfab7f3eeafb7" category="section-title">NDE 導入の前提条件</block>
@@ -3527,13 +3324,11 @@
   <block id="22d2d27f49628b4988c2b09ac245ce8e" category="paragraph"><block ref="22d2d27f49628b4988c2b09ac245ce8e" category="inline-image-macro-rx" type="image"></block></block>
   <block id="d6e6259d4837abf3d34c1c5886c271d5" category="paragraph"><block ref="d6e6259d4837abf3d34c1c5886c271d5" category="inline-image-macro-rx" type="image"></block></block>
   <block id="d417083fccca1fd701741463f49498d2" category="paragraph"><block ref="d417083fccca1fd701741463f49498d2" category="inline-link-macro-rx"></block></block>
-  <block id="66b054bddfa89a9d0c48aafdddee23aa" category="summary">このページの背景では、コンテナ、 Kubernetes 、 NetApp Trident などの情報を含め、ネットアップが AI プロジェクトをどのように進められるかを理解しています。</block>
   <block id="0b7e964d1176d21b9ba3eceec8ed95ac" category="doc">コンセプトとコンポーネント</block>
   <block id="5cd2adc9e2a5254e4c1da803519f298b" category="section-title">人工知能</block>
   <block id="c2fabc0982aa161064ff2b73f50800d5" category="paragraph">AI とは、人間の心の認識機能を模倣するためにコンピュータが訓練されているコンピュータ科学分野です。AI 開発者は、人間に似た方法、または人間に比べて優れた方法で、コンピュータをトレーニングして問題を解決します。ディープラーニングと機械学習は AI のサブフィールドです。組織は、重要なビジネスニーズに対応するために、 AI 、 ML 、 DL を導入する傾向に迫られています。次に例を示します。</block>
   <block id="b3e764d3292b880c63140b20b9a90e6c" category="list-text">未知のビジネスに大量のデータを分析しています 分析</block>
   <block id="30512c04b26c269ec31ecd09f1f3a208" category="list-text">自然言語処理を使用して顧客と直接やり取りする</block>
-  <block id="d7998a92c228eb2de5671498d1801747" category="list-text">さまざまなビジネスプロセスと機能を自動化します。最新の AI トレーニングと推論のワークロードには、超並列処理機能が必要です。そのため、 GPU の並列処理機能は汎用 CPU よりもはるかに優れているため、 GPU を使用した AI 処理も増えています。</block>
   <block id="5382aaf8b3d2fdeb6717f9805b0dd511" category="section-title">コンテナ</block>
   <block id="2154bae452b2343b649ee4b088b399f6" category="paragraph">コンテナは、共有ホストオペレーティングシステムカーネル上で実行される独立したユーザスペースインスタンスです。コンテナの採用が急速に増加しています。コンテナは、仮想マシン（ VM ）が提供するものと同じアプリケーションのサンドボックス化のメリットの多くを提供します。ただし、 VM が依存するハイパーバイザーレイヤとゲストオペレーティングシステムレイヤが排除されているため、コンテナの軽量化が大幅に向上しています。次の図に、仮想マシンとコンテナを視覚的に示します。</block>
   <block id="91945d3c9ebb2261142b9c7fc516b559" category="inline-link">Docker Web サイト</block>
@@ -3553,7 +3348,6 @@
   <block id="3cecf3b7bbdb1a67a537c65bfd6fd529" category="paragraph">Jupyter Notebook Server はオープンソースの Web アプリケーションで、データサイエンティストは Jupyter Notebook と呼ばれる Wiki 形式のドキュメントを作成できます。このドキュメントには、ライブコードと説明的なテストが含まれています。Jupyter Notebook は、 AI プロジェクトと ML プロジェクトを文書化、保存、共有する手段として、 AI と ML のコミュニティで広く使用されています。Kubeflow を使用すると、 Kubernetes での Jupyter Notebook Server のプロビジョニングと導入が簡単になります。Jupyter Notebook の詳細については、を参照してください<block ref="412a2c3f2a7af96a2a4f6a512ee2088e" category="inline-link-rx"></block>。Kubeflow のコンテキスト内の Jupyter Notebook の詳細については、を参照してください<block ref="c5d2218884acd101e6deb4d8c7d39370" category="inline-link-rx"></block>。</block>
   <block id="a2b0a43dcae6386929654b652393e691" category="paragraph"><block ref="a2b0a43dcae6386929654b652393e691" category="inline-image-macro-rx" type="image"></block></block>
   <block id="385904ba8ac27bcacafadf2113386df4" category="section-title">Apache の通気</block>
-  <block id="2fa4674650a69d76a80141dece27fc9e" category="paragraph">Apache Airflow は、複雑なエンタープライズワークフローのプログラムによるオーサリング、スケジューリング、監視を可能にするオープンソースのワークフロー管理プラットフォームです。ETL やデータパイプラインのワークフローを自動化する目的でよく使用されますが、こうした種類のワークフローに限定されるわけではありません。Airflow プロジェクトは Airbnb によって開始されましたが、業界では非常に普及しており、現在は Apache Software Foundation の後援の下にあります。 Airflow は Python で記述されています。 Airflow ワークフローは Python スクリプトを使用して作成され、気流は「コードとしての設定」という原則に従って設計されています。 現在、多くの企業のエアフローユーザが Kubernetes の上で通気を実行しています。</block>
   <block id="a5119a6bd0f4d733e0f1f4c10f9d063b" category="section-title">NetApp ONTAP 9.</block>
   <block id="0b83cba78e13ee67f3ada794b1e8edb8" category="paragraph">NetApp ONTAP 9 はネットアップが提供する最新世代のストレージ管理ソフトウェアです。お客様のような企業がインフラを刷新し、クラウド対応のデータセンターに移行できるようにします。業界をリードするデータ管理機能を備えた ONTAP では、データの格納場所に関係なく、単一のツールセットでデータの管理と保護を行うことができます。エッジ、コア、クラウドなど、必要な場所に自由にデータを移動することもできます。ONTAP 9 には、データ管理を簡易化し、重要なデータを高速化、保護し、ハイブリッドクラウドアーキテクチャ全体で将来のニーズに対応できるインフラを実現する、多数の機能が搭載されています。</block>
   <block id="849f9e6e3176f7bb2abaf1dfdda6f4de" category="section-title">データ管理を簡易化</block>
@@ -3593,18 +3387,6 @@
   <block id="07e40bce6e02494c0af7b6a5f2aeaad8" category="paragraph"><block ref="07e40bce6e02494c0af7b6a5f2aeaad8" category="inline-image-macro-rx" type="image"></block></block>
   <block id="ce20aca88305ff40770d6840d1d29c51" category="paragraph"><block ref="ce20aca88305ff40770d6840d1d29c51" category="inline-link-macro-rx"></block></block>
   <block id="124793fd2a85b1699a94b12bf4661758" category="doc">Kubeflow の導入</block>
-  <block id="745ceabf0601e4f5fbf9e1e4f4b50898" category="summary">このページで概説している DAG の例では、 NetApp FlexClone テクノロジを利用してデータセットボリュームを迅速かつ効率的にクローニングし、データサイエンティストや開発者のワークスペースを作成するワークフローを実装します。</block>
-  <block id="233eb8cb0743522804c4bcac137d46d6" category="doc">データセットを迅速にクローニングして、データサイエンティストのワークスペースを作成</block>
-  <block id="4191f0ca27ce691590b7eba1ce5a5b6d" category="paragraph">このセクションで説明する DAG 例では、 NetApp FlexClone テクノロジを利用してデータセットボリュームを迅速かつ効率的にクローニングし、データサイエンティストや開発者のワークスペースを作成するワークフローを実装します。</block>
-  <block id="ba73e74b83f493a75d85d40acf3f5991" category="list-text">「トレーサビリティとバージョン管理機能を備えたエンドツーエンドの AI トレーニングワークフローの実装」セクションの前提条件 #1 に記載されているように、 ONTAP システムの通気に接続を作成しておく必要があります。</block>
-  <block id="3bf54752385aa532eb950db0f6bd82ee" category="list-text">SSH 経由でアクセス可能で、 NetApp Trident 管理ユーティリティである「 tridentctl 」が Kubernetes クラスタを参照するようにインストールおよび設定されているホストの通気に接続を作成しておく必要があります。</block>
-  <block id="cf1406d2bd7c170848f70e2945f78667" category="paragraph">通気で接続を管理するには、 Web サービス UI で Admin &gt; Connections に移動します。次のスクリーンショットの例は 'tridentctl がインストールされ構成されている特定のホストの接続の作成を示しています次の値が必要です。</block>
-  <block id="303461425798d3da87a201af631069c5" category="list-text">* Conn Type. * を「 SH 」に設定する必要があります。</block>
-  <block id="f03ca29d1ecf1ce0b088b50d8f635fc8" category="list-text">* ログイン * SSH 経由でホストにアクセスする際に使用するユーザ名。</block>
-  <block id="dc791d00f75d66a85f06bcf3898076ea" category="paragraph"><block ref="dc791d00f75d66a85f06bcf3898076ea" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="1466b9d78de1acc052f5dd9c70b083f2" category="list-text">Kubernetes クラスタ内に、クローニングするデータセットを含むボリュームに関連付けられている既存の PersistentVolumeClaim （ PVC ；永続的ボリューム要求）がある必要があります。</block>
-  <block id="ea7208fa17e7daadca87e143996d8e77" category="inline-link-macro">次の手順： SnapMirror Volume Replication Update をトリガーします</block>
-  <block id="44f6a346093f81740eed7a27f29942cd" category="paragraph"><block ref="44f6a346093f81740eed7a27f29942cd" category="inline-link-macro-rx"></block></block>
   <block id="28b9eb1a9ba550cf23239eb33610203e" category="doc">ソフトウェアとハードウェアの要件</block>
   <block id="dce011ea921230b4e3061bb70569c598" category="section-title">ネットワーク構成：</block>
   <block id="5c56d5a342310a4d1ead67adc85adcab" category="paragraph">クラウドにセットアップするためのネットワーク構成の要件は次のとおりです。</block>
@@ -3635,28 +3417,12 @@
   <block id="ea93f0324aaeaa177497ea41b52cb9ff" category="cell">I3.と は、および</block>
   <block id="870032d2d605939c0c8a813ac8534e80" category="inline-link-macro">次の例：ネットワークデバイスの障害予測ユースケースの概要</block>
   <block id="6b90a2e4861b0a6faf4f640ece131282" category="paragraph"><block ref="6b90a2e4861b0a6faf4f640ece131282" category="inline-link-macro-rx"></block></block>
-  <block id="3915aa857be57df2189522c6e4e91906" category="summary">このページで概説している DAG の例では、 NetApp Cloud Sync レプリケーションテクノロジを利用して、さまざまなファイルおよびオブジェクトストレージプラットフォーム間でデータをレプリケートするワークフローを実装しています。</block>
-  <block id="3ec6b1753a7a0e24468697c4ee013790" category="doc">Cloud Sync レプリケーション更新をトリガーします</block>
-  <block id="8d339ab464a366b13f22114e2701bfa4" category="paragraph">このセクションで説明する DAG の例では、 NetApp Cloud Sync レプリケーションテクノロジを利用して、さまざまなファイルおよびオブジェクトストレージプラットフォーム間でデータをレプリケートするワークフローを実装しています。考えられるユースケースとしては、次のようなものがあります</block>
-  <block id="4215589027efeb4d09fab2ea74efee76" category="list-text">S3 データレイクからハイパフォーマンスの AI / ML トレーニング環境にデータをコピーし、 AI / ML モデルのトレーニングに使用できます。</block>
-  <block id="e2b2c73fd7d3d539b34aabf548775ae9" category="list-text">トレーニングを受けたモデルの新しいバージョンを S3 または Hadoop データレイクに保存して永続的ストレージにする。</block>
-  <block id="d86773c1cbc60cc0c0ecafe6b3b428ce" category="list-text">NetApp Cloud Sync API の通気で接続を作成しておく必要があります。</block>
-  <block id="fa0ad74d327cf3df3bbf70c39230c0a2" category="paragraph">通気で接続を管理するには、 Web サービス UI で Admin &gt; Connections に移動します。次のスクリーンショットは、 Cloud Sync API の接続を作成した例を示しています。次の値が必要です。</block>
-  <block id="b08d7e97e88c5c215268a2e8f0f880b2" category="list-text">* パスワード。 * Cloud Sync API 更新トークン。</block>
-  <block id="aad1d9c48694be6db52c08c40fc3b1bd" category="paragraph"><block ref="aad1d9c48694be6db52c08c40fc3b1bd" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="913403c3c0eaa2699385c9a633f0290b" category="inline-link">cloudsync.netapp.com</block>
-  <block id="9a174d6d3921beedcbee96b4ad71bd09" category="list-text">更新をトリガーする Cloud Sync 関係を開始しておく必要があります。関係を開始するには、にアクセスしてください<block ref="539e7101a4aaf08cc75104b114d3ed22" category="inline-link-rx"></block>。</block>
-  <block id="4070916b4b34451324aeaa936b529ffb" category="inline-link-macro">次の手順では、 XCP Copy または Sync 操作をトリガーします</block>
-  <block id="bb4fdf155a4db414a142602ee09c7e3b" category="paragraph"><block ref="bb4fdf155a4db414a142602ee09c7e3b" category="inline-link-macro-rx"></block></block>
   <block id="232abf87aa3028a990e94f6bb51fe8bd" category="summary">Kubernetes クラスタでシングルノードの AI ジョブと ML ジョブを実行するには、導入ジャンプホストからこのページのタスクを実行します。</block>
   <block id="46300fa439cc237919f854816fc89fc2" category="doc">シングルノードの AI ワークロードを実行</block>
-  <block id="70d39ed1e081c68dafaa978615f515ce" category="paragraph">Kubernetes クラスタでシングルノードの AI ジョブと ML ジョブを実行するには、導入ジャンプホストから次のタスクを実行します。Trident を使用すると、数ペタバイトのデータが含まれる可能性のあるデータボリュームをすばやく簡単に作成し、 Kubernetes のワークロードからアクセスできます。Kubernetes ポッド内からこのようなデータボリュームにアクセスできるようにするには、で作成した PVC の 1 つなど、 PVC を指定します <block ref="f6a51c1c94d9c13bce0c7aa149adab10" category="inline-link-macro-rx"></block>をクリックします。このステップは Kubernetes ネイティブの運用であり、ネットアップの専門知識は不要です。</block>
   <block id="e3305581bc1f67d1989e08e42a43c113" category="admonition">このセクションでは、 Kubernetes クラスタで実行しようとしている特定の AI および ML ワークロードを（ Docker コンテナ形式で）コンテナ化済みであることを前提としています。</block>
   <block id="6bdbab1141be3c52dec1f29c4c5fdf52" category="inline-link">ImageNet の Web サイト</block>
   <block id="08eb6cc7203ec1b36805e4767d450467" category="list-text">次のコマンド例は、 ImageNet データセットを使用する TensorFlow ベンチマークワークロード用の Kubernetes ジョブを作成する方法を示しています。ImageNet データセットの詳細については、を参照してください<block ref="19a9693db577a40175aef26761f77fe7" category="inline-link-rx"></block>。</block>
   <block id="56920225f5c2d474925baad76ae3e7ce" category="paragraph">このジョブ例では、 8 個の GPU を要求するため、 8 個以上の GPU を搭載した 1 つの GPU ワーカーノードで実行することができます。このジョブ例は、 8 個以上の GPU を搭載したワーカーノードが存在しない、または現在別のワークロードを使用しているクラスタで送信できます。その場合、そのようなワーカーノードが使用可能になるまで、ジョブは保留状態のままになります。</block>
-  <block id="7f509d8701f29f3ac21601d5b669e7bf" category="paragraph">また、必要なストレージ帯域幅を提供するために、必要なトレーニングデータ（セクションの例でインポートしたボリューム）が含まれているボリューム <block ref="f6a51c1c94d9c13bce0c7aa149adab10" category="inline-link-macro-rx"></block>）は、このジョブが作成するポッド内に 2 回マウントされます。以下のジョブ定義の強調表示された行を参照してください。を参照してください <block ref="32dff2c08a67d3c790671bf9053c6fb9" category="inline-link-macro-rx"></block>の手順 1 で、同じデータボリュームを複数回マウントする理由を確認してください。必要なマウントの数は、特定のジョブで必要とされる帯域幅によって異なります。</block>
-  <block id="558a050ae72d9cbaf917a03cb06cfd28" category="paragraph">の例で作成したボリューム セクション <block ref="25852580ae07aca05be713d66fc72c7f" category="inline-link-macro-rx"></block> ポッドにも取り付けられます。これらのボリュームは、 PVC の名前を使用してジョブ定義内で参照されます。Kubernetes ジョブの詳細については、を参照してください<block ref="0ceaf9ba0112a862c5fa5f8d38bee04b" category="inline-link-rx"></block>。</block>
   <block id="225e66547943a27f429558dce4e639e2" category="paragraph">「 M emory 」の値が「 emory 」である「 emptyDir 」ボリュームは、この例のジョブで作成されるポッド内の「 /dev/shm 」にマウントされます。Docker コンテナランタイムによって自動的に作成される「 /dev/shm 」仮想ボリュームのデフォルトサイズが、 TensorFlow のニーズに十分でない場合があります。次の例のように 'emptyDir' ボリュームをマウントすると '/dev/shm' 仮想ボリュームが十分に大きくなります「 emptyDir 」ボリュームの詳細については、を参照してください<block ref="ad2ab91baa5517930a567ac7588e61fd" category="inline-link-rx"></block>。</block>
   <block id="ac5f33311bbfb696a5966510fc4a38b8" category="paragraph">この例のジョブ定義で指定されている単一のコンテナには 'ecurityContext&gt; 特権値 'true' が与えられますこの値は、コンテナにホスト上のルートアクセス権があることを意味します。このアノテーションは、実行中の特定のワークロードにルートアクセスが必要なために使用されます。具体的には、ワークロードで実行されるクリアキャッシュ処理にはルートアクセスが必要です。これが特権 : true の注釈であるかどうかは ' 実行している特定のワークロードの要件によって異なります</block>
   <block id="8db728b0062c29a77e48bcd3be77be7f" category="list-text">手順 1 で作成したジョブが正しく実行されていることを確認します。次のコマンド例では、ジョブ定義で指定したとおりにジョブ用にポッドが 1 つ作成され、このポッドが GPU ワーカーノードの 1 つで現在実行されていることを確認します。</block>
@@ -3665,23 +3431,6 @@
   <block id="cb215cf0e9fb88bd1fc97b4ba53fd36f" category="paragraph">ジョブオブジェクトを削除すると、関連付けられているポッドは Kubernetes によって自動的に削除されます。</block>
   <block id="c9c8f04783cdc1989a221d985dac851c" category="inline-link-macro">次のステップ：同期分散 AI ワークロードを実行します</block>
   <block id="cce4ed20d317c89cd5f7ae30dd75f1ea" category="paragraph"><block ref="cce4ed20d317c89cd5f7ae30dd75f1ea" category="inline-link-macro-rx"></block></block>
-  <block id="b6749b7f56a3c1a44724141c0b20545f" category="summary">Jupyter Notebook サーバのワークスペースにマウントされている NetApp ONTAP ボリュームの Jupyter Notebook から Snapshot の作成をトリガするには、このページに記載されているタスクを実行します。この処理には、 NetApp ONTAP REST API と NetApp ONTAP Python モジュールを利用します。</block>
-  <block id="77c76a56b018a2004f24535fdd3c43a5" category="doc">内から ONTAP ボリュームの Snapshot を作成します Jupyter ノートブック</block>
-  <block id="9c093f14319e8253b8c9b37290597239" category="inline-link">ネットアップサポートサイト</block>
-  <block id="5bb7cd566861f34ede759115e3fe0c09" category="paragraph">Jupyter Notebook サーバのワークスペースにマウントされている NetApp ONTAP ボリュームの Jupyter Notebook から Snapshot の作成をトリガするには、次のタスクを実行します。この処理には、 NetApp ONTAP REST API と NetApp ONTAP Python モジュールを利用します。REST API と Python モジュールの詳細については、を参照してください<block ref="be3b6967314c14084b1b2986db68126d" category="inline-link-rx"></block>。このセクションのタスクは、 ONTAP ストレージシステムまたはソフトウェア定義インスタンス上にあるボリュームに対してのみ機能します。</block>
-  <block id="661b6fb668136dc4fdd39c6a20bbda58" category="list-text">Jupyter Notebook サーバの Web インターフェイスに接続します。を参照してください <block ref="1a471d17ec183af06613654e8e6e6280" category="inline-link-macro-rx"></block> Jupyter Notebook Server のプロビジョニング方法については、を参照してください。</block>
-  <block id="344b10041424936317e548020654ce8b" category="list-text">既存の Python 3 ノートブックを開くか、新しい Python 3 ノートブックを作成します。次の例は、新しい Python 3 ノートブックを作成する方法を示しています。</block>
-  <block id="8a14700ef2f9323fc5c8c0d1fab6012f" category="paragraph"><block ref="8a14700ef2f9323fc5c8c0d1fab6012f" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="e39a8f96361e1d5489b96dfff3328802" category="list-text">ノートブックに次の内容を追加し、コメントに記載されている変数値を更新してから、すべてのセルを実行します。</block>
-  <block id="5eedd78afda195657dabb2829fea9b84" category="paragraph"><block ref="5eedd78afda195657dabb2829fea9b84" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="2ea83644625835579e37133fb033a34c" category="paragraph"><block ref="2ea83644625835579e37133fb033a34c" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="dbe34784df66c5333a25e84f2b507bcd" category="paragraph"><block ref="dbe34784df66c5333a25e84f2b507bcd" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="b3920ccfaf4f1b2f9a0d4b45c8e3b49a" category="paragraph"><block ref="b3920ccfaf4f1b2f9a0d4b45c8e3b49a" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="cadd6b81ba4e36e75856f7f594c3b2b0" category="paragraph"><block ref="cadd6b81ba4e36e75856f7f594c3b2b0" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="21b045d5bbab44e5a4069d5b6ed9534d" category="paragraph"><block ref="21b045d5bbab44e5a4069d5b6ed9534d" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="6a02fe9704325b6216ce6a8050bad824" category="paragraph"><block ref="6a02fe9704325b6216ce6a8050bad824" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="ef4b8e3c829bd6ec8620c9fe6c9796f9" category="inline-link-macro">次の例：トレーサビリティとバージョン管理機能が組み込まれたエンドツーエンドの AI トレーニングワークフローを実行するための Kubeflow パイプラインを作成します</block>
-  <block id="120debeda573b3519a1b6ec45f033087" category="paragraph"><block ref="120debeda573b3519a1b6ec45f033087" category="inline-link-macro-rx"></block></block>
   <block id="65f63f96295566cd4278775eef1b4c8c" category="doc">パフォーマンスの低いワークロードやインタラクティブなワークロードに適した、フラクショナルな GPU 割り当て</block>
   <block id="1b3d285072ee60a98cde2f66b6e47fde" category="paragraph">開発、ハイパーパラメータチューニング、デバッグのどの段階であっても、研究者や開発者が自分のモデルに取り組んでいる場合、このようなワークロードに必要なコンピューティングリソースは通常少なくなります。したがって、フラクショナル GPU とメモリをプロビジョニングして、同じ GPU を他のワークロードに同時に割り当てることがより効率的です。実行： AI のオーケストレーション解決策は、 Kubernetes 上のコンテナ化されたワークロード向けのフラクショナル GPU 共有システムを提供します。CUDA プログラムを実行するワークロードをサポートするシステムで、推論やモデル構築などの軽量な AI タスクに特に適しています。フラクショナル GPU システムを使用すると、データサイエンスチームや AI エンジニアリングチームは、 1 つの GPU で複数のワークロードを同時に実行できます。これにより、コンピュータビジョン、音声認識、自然言語処理など、より多くのワークロードを同じハードウェア上で実行できるようになり、コストが削減されます。</block>
   <block id="5db1fcd5bb529fa2475aaf893414d2e4" category="paragraph">実行： AI のフラクショナル GPU システムは、仮想化された論理 GPU を独自のメモリとコンピューティングスペースで効率的に作成します。このスペースは、コンテナが自己完結型のプロセッサであるかのように使用およびアクセスできます。これにより、複数のワークロードを同じ GPU 上で並行して実行でき、互いに影響することはありません。解決策は透過的でシンプル、かつ移植可能であり、コンテナ自体に変更を加える必要はありません。</block>
@@ -3691,8 +3440,6 @@
   <block id="9afb11deef37d75cf56adc6e1a2f4020" category="inline-link-macro">次の例：クォータ超過の GPU 割り当てによる高いクラスタ利用率の実現</block>
   <block id="15968f671ef08561726e3064358c707b" category="paragraph"><block ref="15968f671ef08561726e3064358c707b" category="inline-link-macro-rx"></block></block>
   <block id="3642f282b12269091ab196a3aabf0858" category="doc">Trident の運用例</block>
-  <block id="477a350b1e3d886bcaa8b90b4a2018df" category="inline-link-macro">次の例： Trident の運用の概要</block>
-  <block id="9e5be56585b2aefcc09c8df79e07f12f" category="paragraph"><block ref="9e5be56585b2aefcc09c8df79e07f12f" category="inline-link-macro-rx"></block></block>
   <block id="ff9caff469d56a572a569942ca24c8b4" category="list-text">NVIDIA DGX システム</block>
   <block id="b69073c22b4269568fd577ea090ce638" category="list-text">NVIDIA DGX-1 システム<block ref="45a310b0e4b087b75cb073303044f6f9" category="inline-link-rx"></block></block>
   <block id="fe287c518b9b1345defadacdc6a9ecbf" category="list-text">NVIDIA V100 Tensor コア GPU<block ref="fad8218d69ce01748faed5492aa5d3ef" category="inline-link-rx"></block></block>
@@ -3720,16 +3467,12 @@
   <block id="e6c479abab08e982bd2f0efd6e3e405a" category="paragraph"><block ref="e6c479abab08e982bd2f0efd6e3e405a" category="inline-link-macro-rx"></block></block>
   <block id="f23c532f744716d23270b963c3eca570" category="summary">Kubernetes の上で Apache の通気を確保することを推奨します。このセクションでは、 Kubernetes クラスタ内に通気を導入するために完了しておく必要のあるタスクについて説明します。</block>
   <block id="7d2a9e50f39ee00c2b180900e7bacc92" category="doc">Apache Airflow の導入</block>
-  <block id="4ec4d982ea686f2b9c638abd8fe8f6ee" category="admonition">Kubernetes 以外のプラットフォームに通気を導入することも可能です。Kubernetes 以外のプラットフォームに通気を導入することについては、本ドキュメントでは説明していません。</block>
   <block id="c7a7dda60a4edd19d3b5bad13d43d605" category="list-text">Kubernetes クラスタをすでに使用している。</block>
   <block id="e59b39fd5c122dde3747561247eb2888" category="list-text">「 NetApp Trident の導入と構成」のセクションに記載されているように、 Kubernetes クラスタに NetApp Trident をインストールし、設定しておきます。</block>
   <block id="ead9806c164633fcb334dc844a3d588f" category="section-title">Helm をインストールします</block>
   <block id="f9093f3279eca680041e957a2a0505dd" category="paragraph">エアフローは、 Kubernetes の一般的なパッケージマネージャである Helm を使用して導入されます。エアーフローを導入する前に、導入ジャンプホストに Helm をインストールする必要があります。Helm を配置ジャンプホストにインストールするには、に従ってください<block ref="cf3f65305f288242c9d49061d26ec8ec" category="inline-link-rx"></block> Helm の公式ドキュメントを参照してください。</block>
-  <block id="9b6444efb21e0f7d9e0898a8f028673e" category="paragraph">通気を導入する前に、 Kubernetes クラスタ内にデフォルトのストレージクラスを指定する必要があります。エアフロー導入プロセスでは、デフォルトのストレージクラスを使用して新しい永続ボリュームのプロビジョニングが試行されます。StorageClass がデフォルトの StorageClass として指定されていない場合、導入は失敗します。クラスタ内でデフォルトの StorageClass を指定するには、「デフォルトの Kubernetes StorageClass を設定」セクションの手順に従ってください。「クラスタ内でデフォルトの StorageClass をすでに指定している場合は、この手順を省略できます。</block>
   <block id="c7feb8d7350bb5372c4dd0dfc1383865" category="section-title">Helm を使用してエアフローを展開します</block>
   <block id="a781e1f3dbd7b5f15c3257febe820528" category="paragraph">Helm を使用して Kubernetes クラスタに通気を導入するには、導入ジャンプホストから次のタスクを実行します。</block>
-  <block id="42309e4ed994e9d64dd9948936535fda" category="list-text">Helm を使用してエアフローを導入します。に従ってください<block ref="8bb74cfc82877655451fc9d9c984141e" category="inline-link-rx"></block> Helm Hub の公式エアフローチャートを参照してください。以下のコマンド例は、 Helm を使用したエアーフローの配置を示しています。必要に応じて 'custom-values/yaml ファイルの値を変更 ' 追加 ' または削除します</block>
-  <block id="a90b3a368033fbb56cc4ffaff02a6644" category="list-text">すべての通気ポッドが稼働中であることを確認します。</block>
   <block id="9bb040ffef8c89d0861be81732ca17de" category="list-text">手順 1 の Helm を使用してエアーフローを導入したときにコンソールに出力された指示に従って、エアーフロー Web サービスの URL を取得します。</block>
   <block id="2daf503a1aafa2def86650bd501a947c" category="inline-link-macro">次の例： Apache Airflow ワークフロー</block>
   <block id="02c2198e64fb4832a5641ee17b312259" category="paragraph"><block ref="02c2198e64fb4832a5641ee17b312259" category="inline-link-macro-rx"></block></block>
@@ -3901,99 +3644,17 @@
   <block id="ddd4a11ec23c52d3f0831809bc4d7c8f" category="paragraph"><block ref="ddd4a11ec23c52d3f0831809bc4d7c8f" category="inline-image-macro-rx" type="image"></block></block>
   <block id="c7c8cd7998e5c4a67923acf8580d94e2" category="inline-link-macro">次のステップ：テクノロジの概要</block>
   <block id="b9023dede6231d8f57593d31db930bf6" category="paragraph"><block ref="b9023dede6231d8f57593d31db930bf6" category="inline-link-macro-rx"></block></block>
-  <block id="348e1f6f45cb0647e85111dcfbf529ce" category="summary">ネットアップの Snapshot テクノロジを活用した新しい Kubeflow Pipeline を定義して実行し、迅速で効率的なデータセットとモデルのバージョン管理とトレーサビリティをエンドツーエンドの AI / ML モデルトレーニングワークフローに統合するには、このページに記載されているタスクを実行します。</block>
-  <block id="c6fe65a4da17f9e3f4c1a33f6ed893fe" category="paragraph">ネットアップの Snapshot テクノロジを活用して、データセットとモデルのバージョン管理とトレーサビリティをエンドツーエンドの AI / ML モデルトレーニングワークフローに統合する新しい Kubeflow Pipeline を定義して実行するには、次のタスクを実行します。Kubeflow パイプラインの詳細については、を参照してください<block ref="6de5a235a0c43df48d05588e1b69b959" category="inline-link-rx"></block>。このセクションで示すパイプラインの例は、 ONTAP ストレージシステムまたはソフトウェア定義インスタンス上にあるボリュームのみで機能します。</block>
-  <block id="c93f12116fc3d3a00d3c47791e734f87" category="list-text">ボリュームが配置されている ONTAP クラスタのクラスタ管理者アカウントのユーザ名とパスワードを含む Kubernetes シークレットを作成します。このシークレットは ' パイプラインが実行される名前空間であるため 'kubeflow' 名前空間に作成する必要がありますこれらのコマンドを実行するときは 'userName' と 'password' をユーザ名とパスワードに置き換える必要がありますまた 'base64 コマンドの出力 ( 強調表示されたテキストを参照 ) を ' それに応じてシークレット定義で使用する必要があります</block>
-  <block id="203a1874c5ce8a5c40d94193e02f9e6d" category="list-text">モデルのトレーニングに使用するデータを含むボリュームが「 kubeflow 」ネームスペース内の PVC に関連付けられていない場合は、このボリュームをそのネームスペースにインポートする必要があります。Trident のボリュームインポート機能を使用して、このボリュームをインポートしてください。このボリュームはパイプラインが実行される名前空間であるため 'kubeflow' 名前空間にインポートする必要があります</block>
-  <block id="4422a58104c342f180fd3a8bddaf9348" category="paragraph">データセットボリュームがすでに「 kubeflow 」ネームスペース内の PVC に関連付けられている場合は、この手順を省略できます。データセットボリュームがない場合は、ボリュームをプロビジョニングしてからそのボリュームにデータを転送する必要があります。を参照してください <block ref="25852580ae07aca05be713d66fc72c7f" category="inline-link-macro-rx"></block> Trident で新しいボリュームをプロビジョニングする方法を例に説明します。</block>
-  <block id="f38d10d6c538dc8ebd225c2295d2e899" category="paragraph">次に示すコマンド例では、「 dataset_vol 」という名前の既存の FlexVol ボリュームを「 kubeflow」 ネームスペースにインポートしています。PVC の詳細については、を参照してください<block ref="ca589c3cf5b20ae0a636e2b7691f2873" category="inline-link-rx"></block>。ボリュームインポート機能の詳細については、を参照してください<block ref="e6b3671f5db59046617458d31ef4f50b" category="inline-link-rx"></block>。Trident を使用したボリュームのインポートの詳細な例については、を参照してください <block ref="740673ef26750c13bbb914afbe4d75e8" category="inline-link-macro-rx"></block>。</block>
-  <block id="9b229509881816799b2f5b4b959b7cec" category="list-text">トレーニング済みモデルを保存するボリュームが「 kubeflow 」ネームスペース内の PVC に関連付けられていない場合は、このボリュームをそのネームスペースにインポートする必要があります。Trident のボリュームインポート機能を使用して、このボリュームをインポートしてください。このボリュームはパイプラインが実行される名前空間であるため 'kubeflow' 名前空間にインポートする必要があります</block>
-  <block id="e24a2dd215f45b5a59cb6dc6cd67fd84" category="paragraph">トレーニング済みのモデルボリュームがすでに「 kubeflow 」名前空間の PVC に関連付けられている場合は、この手順を省略できます。トレーニング済みのモデルボリュームがない場合は、ボリュームをプロビジョニングする必要があります。を参照してください <block ref="25852580ae07aca05be713d66fc72c7f" category="inline-link-macro-rx"></block> Trident で新しいボリュームをプロビジョニングする方法を例に説明します。</block>
-  <block id="45af80fe176900636df5dbf22bcb8666" category="paragraph">次に示すコマンド例では 'kfp_model_vol という名前の既存の FlexVol ボリュームを 'kubeflow' ネームスペースにインポートしていますPVC の詳細については、を参照してください<block ref="ca589c3cf5b20ae0a636e2b7691f2873" category="inline-link-rx"></block>。ボリュームインポート機能の詳細については、を参照してください<block ref="e6b3671f5db59046617458d31ef4f50b" category="inline-link-rx"></block>。Trident を使用したボリュームのインポートの詳細な例については、を参照してください <block ref="740673ef26750c13bbb914afbe4d75e8" category="inline-link-macro-rx"></block>。</block>
-  <block id="4f386ea80ee48d8ba6abcc4e3b894efe" category="list-text">まだインストールしていない場合は、 Kubeflow Pipelines SDK をインストールする必要があります。を参照してください<block ref="c8fe780259e4098923a8661a299c6e37" category="inline-link-rx"></block> を参照してください。</block>
-  <block id="be507ddbb487448d97025bce26a9e05c" category="paragraph">* ランタイムパラメータ： *</block>
-  <block id="d21ea2b3e7fadeb28876dd532b9ef9c4" category="list-text">「 ONTAP_cluster_mgmt_hostname 」：データセットとモデルボリュームが格納されている ONTAP クラスタのホスト名または IP アドレス。</block>
-  <block id="f252b3506325f2aa0873407d077f30b2" category="list-text">`ONTAP_cluster_admin_acct_k8s_secret` ：手順 1 で作成した Kubernetes シークレットの名前</block>
-  <block id="50a952b362d49ce307510321d004217e" category="list-text">'ONTAP_verify_ssl_cert` ： ONTAP API と通信するときにクラスタの SSL 証明書を検証するかどうかを指定します (True/False) 。</block>
-  <block id="2ad643498316d788f5fa3bce3f4ef11f" category="list-text">`kubeflow' 名前空間内の Kubernetes PersistentVolumeClaim (PVVC) の名前モデルのトレーニングに使用するデータが含まれているボリュームに関連付けられています</block>
-  <block id="e03bfdbc1deedbc519d99dc8121a91b9" category="list-text">`d ataset_volume_pv_exist` ：データセットボリューム PVC に対応する Kubernetes PersistentVolume （ PV ）オブジェクトの名前。PV の名前を取得するには 'kubectl-n kubeflow get pvc' を実行します指定された PVC に対応する PV の名前は 'volume' 列に表示されます</block>
-  <block id="fa633a42b88aaa08773ab780b2e6b362" category="list-text">「熟練したモデル」「体積」「 PVC_EXISTING 」：トレーニング済みモデルを格納するボリュームに関連付けられた「 kubeflow 」ネームスペース内の Kubernetes PersistentVolumeClaim （ PVC; 永続的ボリューム要求）の名前。</block>
-  <block id="fbf53c7485ddf6ea029e51896be7fcaa" category="list-text">`p訓練 されたモデルのボリューム PVC に対応する Kubernetes PersistentVolume (PV) オブジェクトの名前PV の名前を取得するには 'kubectl-n kubeflow get pvc' を実行します指定された PVC に対応する PV の名前は 'volume' 列に表示されます</block>
-  <block id="4aea515f5cfdd0cd38fd16fc11547b83" category="list-text">'execute_data_prep_step_ys_or_no': この特定のパイプライン実行の一部としてデータ前処理ステップを実行するかどうかを示します ( はい / いいえ )</block>
-  <block id="9715769343a7a1a907f9003061d8c32a" category="list-text">「 ATA_PREPER_STEP_container_image` ：データ前処理を実行するコンテナイメージ。</block>
-  <block id="d7b16eed9b52ac348330983ecd0dd9ca" category="list-text">「データの前処理のステップとして実行する ATA_PREP_STEP_COMMAND 」コマンド。</block>
-  <block id="902cc7cd8f07dce71d86fb1a1c1afa05" category="list-text">「 ATA_PREP_STEP_dataset_volume_mountpoint 」：データ前処理の手順でデータセットボリュームをマウントするマウントポイントです。</block>
-  <block id="66aa02ce0d23ba9b36c088d254ff2d3b" category="list-text">'train _step_container_image': トレーニング・ステップを実行するコンテナ・イメージ</block>
-  <block id="085ae7d747ffe4110832ef948d2b4cd5" category="list-text">'train _step_command': トレーニング・ステップとして実行するコマンド</block>
-  <block id="c6d4f29b077e03698e28cf604692f6b4" category="list-text">'train step_dataset_volume_mountpoint` ：トレーニング・ステップ用にデータセット・ボリュームをマウントするマウントポイント</block>
-  <block id="02c96b0bf2e8246fcf11503688c2a54c" category="list-text">'train _step_model_volume_mountpoint': トレーニング・ステップ用にモデル・ボリュームをマウントするマウントポイント</block>
-  <block id="34aad48c13d14e77985d8bed3a7b95c9" category="list-text">'validation_step_container_image': 検証ステップを実行するコンテナイメージ</block>
-  <block id="47261206e35d8601a98abcf4d2d1e347" category="list-text">検証ステップとして実行するコマンド 'validation_step_command':</block>
-  <block id="223f94ffc83a4ae6e7081da6f716eb9e" category="list-text">'validation_step_dataset_volume_mountpoint': 検証手順用にデータセットボリュームをマウントするマウントポイント</block>
-  <block id="f4d6c15430cec8e5da8856b6493072d0" category="list-text">'validation_step_model_volume_mountpoint': 検証ステップ用にモデルボリュームをマウントするマウントポイント</block>
-  <block id="2e7cbeb8607afbf7a8fc6633d11e98d1" category="list-text">オプション：データの前処理を実行します。</block>
-  <block id="a9ce1d62fb59e04de6b393abcf8fad5f" category="list-text">データセットボリュームの Snapshot コピー作成処理をトリガーします。 NetApp Snapshot テクノロジを使用します。</block>
-  <block id="6db1288ae9aee0e4491b28dfb95871bd" category="paragraph">この Snapshot コピーは追跡用に作成されます。このパイプラインワークフローが実行されるたびに、 Snapshot コピーが作成されます。したがって、 Snapshot コピーが削除されないかぎり、特定のトレーニングを実行して、その実行に使用された正確なトレーニングデータセットまでトレースすることは常に可能です。</block>
-  <block id="9cf59ee0b6628dd7b47761bbc68155d4" category="list-text">トレーニングステップを実行します。</block>
-  <block id="ce307cb53190f448a2b36e3d882f44bd" category="list-text">トレーニングを受けたモデルボリュームの、ネットアップの Snapshot テクノロジを使用して Snapshot コピーを作成します。</block>
-  <block id="838e5b03f10e56cdfe45bd94745ffff8" category="paragraph">この Snapshot コピーは、バージョン管理のために作成されます。このパイプラインワークフローが実行されるたびに、 Snapshot コピーが作成されます。したがって、トレーニングを実行するたびに、トレーニングされたモデルの読み取り専用バージョンのコピーが自動的に保存されます。</block>
-  <block id="f5dc8775dfbf4157399ca5ab693a5ce8" category="list-text">検証ステップを実行します。</block>
-  <block id="40588f98da1da596f2723432012f3eb2" category="list-text">「」を選択します。YAML - 手順 5 で作成したパイプライン定義を含むアーカイブで ' パイプラインに名前を付け ' アップロードをクリックします</block>
-  <block id="335c0c8e5cdcf78e5576ccf0bb229db4" category="paragraph"><block ref="335c0c8e5cdcf78e5576ccf0bb229db4" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="d66b6f641eebd60974bb6c55efd6ac49" category="paragraph"><block ref="d66b6f641eebd60974bb6c55efd6ac49" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="4285581de4c03bca2e4cbc9c83b59376" category="paragraph"><block ref="4285581de4c03bca2e4cbc9c83b59376" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="5284e8613aa49470c29ade99ffe98778" category="list-text">Create run をクリックしてパイプラインを実行します</block>
-  <block id="89a0951fd641372f11198372f3c0219d" category="paragraph"><block ref="89a0951fd641372f11198372f3c0219d" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="fbd81bef7347a4889c0304fc648645ab" category="paragraph"><block ref="fbd81bef7347a4889c0304fc648645ab" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="ef65274a05bc4669d5e65923cf7cbad1" category="list-text">実行のパラメータを定義し、 [ 開始 ] をクリックします。</block>
-  <block id="caaf2be581c01d3e8f3b114cd6b290f0" category="paragraph">次の例では、ほとんどのパラメータにデフォルト値が適用されます。ステップ 2 で「 kubeflow 」ネームスペースにインポートされたボリュームの詳細は、「 d ataset_volume_pv_exist` 」および「 d ataset_volume_pv_exist's 」に入力されます。ステップ 3 で 'kubeflow' 名前空間にインポートされたボリュームの詳細は 'Trained_model_volume_pv_exist'' および 'Trained_model_volume_pv_exist'.パイプラインの機能を明確に示すために 'd ata_prep_step_command' ' 'train step_command' ' および 'validation_step_command' パラメータには ' 非 AI 関連のコマンドが入力されますパイプライン定義内でパラメータのデフォルト値を定義したことに注意してください ( 手順 5 を参照 )</block>
-  <block id="e07dc02e58d2745ac41a06a0406b0577" category="paragraph"><block ref="e07dc02e58d2745ac41a06a0406b0577" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="6baec50447bcf14868f24b11aebbc289" category="paragraph"><block ref="6baec50447bcf14868f24b11aebbc289" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="834b39b66800755713433ef82f263741" category="paragraph"><block ref="834b39b66800755713433ef82f263741" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="c2f72f674231f1775a546d4059ac3d34" category="paragraph"><block ref="c2f72f674231f1775a546d4059ac3d34" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="f819f6b5c9233a1f89ecdad95a33e2e7" category="list-text">実行が正常に完了したことを確認します。実行が完了すると、パイプラインのすべてのステージに緑のチェックマークアイコンが表示されます。</block>
-  <block id="83e4299a4b701862d4a1c16bff1477d2" category="paragraph"><block ref="83e4299a4b701862d4a1c16bff1477d2" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="79086383d6ed0a40ad0696a2b34631fc" category="list-text">特定のステージをクリックし、ログをクリックすると、そのステージの出力が表示されます。</block>
-  <block id="b32e2ce46dcc40e26a2ee94099846e90" category="paragraph"><block ref="b32e2ce46dcc40e26a2ee94099846e90" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="1adf30aabf2649d17614dd51668c8c9a" category="paragraph"><block ref="1adf30aabf2649d17614dd51668c8c9a" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="56e6b8ce30f3b730553e585ba00f88cc" category="paragraph"><block ref="56e6b8ce30f3b730553e585ba00f88cc" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="8f4907dc6af292f1f78b7a73e76a30de" category="paragraph"><block ref="8f4907dc6af292f1f78b7a73e76a30de" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="b389180b69f6dba3998847e078d16d55" category="inline-link-macro">次の例： Kubeflow パイプラインを作成して、データサイエンティストのワークスペースのデータセットを迅速にクローニングします</block>
-  <block id="4a71b032254ea012d175f5cc6669ba1a" category="paragraph"><block ref="4a71b032254ea012d175f5cc6669ba1a" category="inline-link-macro-rx"></block></block>
-  <block id="a7e80cf9652e227a6f90aa3c416b5f3a" category="paragraph">あらゆる規模の企業や組織が、あらゆる業界で、人工知能（ AI ）、機械学習（ ML ）、ディープラーニング（ DL ）を活用して、現実世界の問題を解決し、革新的な製品やサービスを提供し、競争が激化する市場で優位に立つことが求められています。AI 、 ML 、 DL の利用が増えるにつれ、ワークロードの拡張性やデータの可用性など、多くの課題に直面しています。これらの課題には、ネットアップのフルスタック AI データと実験管理解決策である NetApp AI コントロールプレーンを使用して対処できます。</block>
-  <block id="a8b2041ae675db2692cd6e1082963a4a" category="paragraph">この解決策を使用すると、データネームスペースのクローンを Git リポジトリと同様に迅速に作成できます。さらに、トレーサビリティとバージョン管理のためにデータやモデルベースラインをほぼ瞬時に作成する AI 、 ML 、 DL のトレーニングワークフローを定義して実装できます。この解決策を使用すると、すべてのモデルトレーニングを、モデルがトレーニングされ、検証されたデータセットに戻すことができます。最後に、この解決策を使用すると、 Jupyter Notebook ワークスペースをすばやくプロビジョニングし、大規模なデータセットにアクセスできます。</block>
-  <block id="7b595a8655875c6721f9b4d1e265007b" category="paragraph">この解決策はデータサイエンティストやデータエンジニアを対象としているため、ネットアップや ONTAP に関する専門知識は不要です。この解決策を使用すると、シンプルで使い慣れたツールやインターフェイスを使用してデータ管理機能を実行できます。さらに、この解決策では、完全なオープンソースおよび無償のコンポーネントを使用しています。したがって、ネットアップストレージがすでにある環境では、この解決策を実装できます。この解決策でドライブをテストしたいが、ネットアップストレージはまだお持ちでない場合は、を参照してください<block ref="d72e38e0d1c5ca8869f2dd987734920b" category="inline-link-rx"></block>また、クラウドベースの NetApp Storage 解決策を使用すれば、いつでも稼働を開始できます。</block>
-  <block id="7596cacac92b458560a30d379daaa2be" category="paragraph"><block ref="7596cacac92b458560a30d379daaa2be" category="inline-link-macro-rx"></block></block>
-  <block id="5b81060e52a16e20eb68d1466fa11237" category="summary">この検証済みアーキテクチャでは、 Cisco Nexus ネットワーキングを使用して、 NetApp AFF A800 オールフラッシュストレージシステムと NVIDIA DGX-1 ディープラーニングシステムがペアリングされます。</block>
-  <block id="cb9b708d63058b73e61c9173a8389faa" category="paragraph">本ドキュメントに記載されているすべての手順がで検証されました NetApp ONTAP AI 統合インフラ解決策については、を参照してください<block ref="c37aff28e1a25306bf31a11e21ff2c71" category="inline-link-rx"></block>。この検証済みアーキテクチャでは、 Cisco Nexus ネットワーキングを使用して、 NetApp AFF A800 オールフラッシュストレージシステムと NVIDIA DGX-1 ディープラーニングシステムがペアリングされます。この検証では、 2 つのベアメタル NVIDIA DGX-1 システムそれぞれに 8 つの NVIDIA V100 GPU を搭載し、 Kubernetes ワーカーノードとして使用しました。NetApp AFF A800 オールフラッシュストレージシステムは、ノード全体に永続的ストレージネームスペースを 1 つ、ネットワーク接続に Cisco Nexus 3232C スイッチを 2 つ提供しました。Kubernetes マスターノードとしては、 ONTAP AI ポッドの外部にある別の物理サーバで実行された 3 つの仮想マシン（ VM ）を使用しました。</block>
-  <block id="d4583d8a3ff1966d4501e90bd68860f4" category="paragraph">ただし、このドキュメントで概説しているネットアップの AI コントロールプレーン解決策は、このハードウェアに依存しません。解決策は、 NFS プロトコルをサポートする任意のネットアップ物理ストレージアプライアンス、ソフトウェア定義インスタンス、またはクラウドサービスと互換性があります。例としては、ネットアップ AFF ストレージシステム、 Azure NetApp Files 、ネットアップ Cloud Volumes Service 、ネットアップ ONTAP Select ソフトウェアで定義されるストレージインスタンス、ネットアップ Cloud Volumes ONTAP インスタンスなどがあります。また、使用する Kubernetes のバージョンが Kubeflow および NetApp Trident でサポートされていれば、どの Kubernetes クラスタにも解決策を実装できます。Kubeflow でサポートされる Kubernetes バージョンの一覧については、を参照してください<block ref="01b2e82a7080cdbeb934280240df876e" category="inline-link-rx"></block>。Trident でサポートされている Kubernetes のバージョンのリストについては、を参照してください<block ref="e6b3671f5db59046617458d31ef4f50b" category="inline-link-rx"></block>。検証環境のインフラとソフトウェアバージョンの詳細については、次の表を参照してください。</block>
   <block id="2e4fd4a404800f52299c132a3403dc72" category="cell">インフラストラクチャコンポーネント</block>
   <block id="64d354dc5879cf570ce7b4ef676e75bd" category="cell">オペレーティングシステム</block>
   <block id="4152ac69f367cb5f64dfbc247dd41db0" category="cell">展開ジャンプホスト</block>
   <block id="583a65df9db4119165f5ea0abaa50281" category="cell">VM</block>
-  <block id="e69b4f87b1adc782e59c2712c53547ed" category="cell">Ubuntu 18.04.3 LTS</block>
   <block id="f341fd2fe180518e152be2d6fb4ec20b" category="cell">Kubernetes マスターノード</block>
   <block id="a89c263b82f7c7f61c9b6c93080f8425" category="cell">Kubernetes ワーカーノード</block>
   <block id="f89b34b046a8d6e3137c95861fa3cf8a" category="cell">NVIDIA DGX-1 （ベアメタル）</block>
   <block id="eba551f3f972830c55b1c9bef15b5f26" category="cell">NVIDIA DGX OS 4.0.5 （ Ubuntu 18.04.2 LTS に基づく）</block>
   <block id="0911ffdbb76c891f964e39a07eb6b697" category="cell">1 つの HA ペア</block>
-  <block id="a6d988e2bc1676553a68b4bd3414e350" category="cell">NetApp AFF A800</block>
-  <block id="5f89615ef23d763b5b7d5f72c057c3b9" category="cell">NetApp ONTAP 9.5 P1</block>
-  <block id="66a0461d2d8cd670baf00d1c2bb16adb" category="cell">ネットワーク接続</block>
-  <block id="21cefb007c9064d8adcf6c162e74b0bf" category="cell">Cisco Nexus 3232C</block>
-  <block id="51308407dc05f04d77649211268974b9" category="cell">Cisco NX-OS 7.0(3) I6 （ 1 ）</block>
   <block id="68782f72ebeb2cac06f03226a6e941bb" category="cell">ソフトウェアコンポーネント</block>
-  <block id="fe446e35c5b880552a7dff3e12c018ff" category="cell">1.10.12</block>
   <block id="9ba69bd971d430b368ce3f0286c8e77c" category="cell">Apache Airflow Helm チャート</block>
-  <block id="bc4377890cf13a68f9bc7d1c3aab931f" category="cell">7.10.1</block>
-  <block id="d64c8fe432f5c35488c0d691673ecb40" category="cell">Cisco NX-OS</block>
-  <block id="4d9a0f7296087a32d92e30c4604d22c4" category="cell">18.09.7 - CE</block>
-  <block id="1f9fea2088b09fd355ce4bac1ba93ee9" category="cell">0.7.0</block>
-  <block id="fe7c49b90d4dbdb392c0996934004a1f" category="cell">1.15.3</block>
-  <block id="5e2e0776087b08886c33ed2b0efeeba3" category="cell">9.6 P1</block>
-  <block id="a5f18eca378bd1bfeb3a3deaf011132f" category="cell">20.01</block>
-  <block id="07861679c1585956a79c6c9dd33e833c" category="cell">2030 年 1 月 28 日に GitHub リポジトリ () から取得</block>
-  <block id="d82e0c5133ef0f0112069f98a33c0ab1" category="cell">4.0.5 （ Ubuntu 18.04.2 LTS に基づく）</block>
   <block id="db5eb84117d06047c97c9a0191b5fffe" category="section-title">サポート</block>
   <block id="b2e75bbfb9933bc21b7f875e8676641d" category="inline-link">ネットアップにお問い合わせください</block>
   <block id="a1773dfa99aa26853e90886d55e0d05a" category="paragraph">ネットアップは、 Apache Airflow 、 Docker 、 Kubeflow 、 Kubernetes 、 NVIDIA DeepOps のエンタープライズサポートを提供していません。ネットアップの AI コントロールプレーン解決策と同様の機能を備えた、完全にサポートされている解決策に関心がある場合： <block ref="103a4ac9affe57bb7edb7796bfdeb684" category="inline-link-rx"></block> ネットアップがパートナー様と共同で提供する、完全にサポートされている AI / ML ソリューションについて説明します。</block>
@@ -6054,4 +5715,95 @@
   <block id="4d066173d8401c92a19650e99dcaae5d" category="list-text"><block ref="4d066173d8401c92a19650e99dcaae5d" category="inline-link-rx"></block></block>
   <block id="d2422eca0ff6f19afb6e1206b15fbe01" category="cell">2021年5月10日</block>
   <block id="7b4c3c6fec238401cd002e2fd8c66664" category="cell">ビデオ： How to use VVOLs with NetApp and VMware Tanzu Basic 、パート 3</block>
+  <block id="7f41e102595a65d30401b887b75060a4" category="paragraph">このセクションでは、 Trident で実行したいさまざまな処理の例を紹介します。</block>
+  <block id="4330c34147b36030c50afe1d04ec2213" category="paragraph">以降のコマンド例では、「 pb_fg_all 」という名前の同じボリュームを、セクションの例で作成した各 Trident バックエンドに対して 1 回ずつ、 2 回インポートしています <block ref="5ce2b96729b1637e197bdd36eb4db4ee" category="inline-link-macro-rx"></block>、手順 1.同じボリュームをこの 2 つの方法でインポートすると、（既存の FlexGroup ボリューム）を複数の LIF にまたがって複数回マウントできます。詳細については、セクションを参照してください <block ref="5ce2b96729b1637e197bdd36eb4db4ee" category="inline-link-macro-rx"></block>、手順 1.PVC の詳細については、を参照してください<block ref="ca589c3cf5b20ae0a636e2b7691f2873" category="inline-link-rx"></block>。ボリュームインポート機能の詳細については、を参照してください<block ref="e6b3671f5db59046617458d31ef4f50b" category="inline-link-rx"></block>。</block>
+  <block id="313da63dfeb95842dd6a105fdcf40ebc" category="paragraph">「 accessModes 」の値「 ReadOnlyMany 」は、 PVC 仕様ファイルの例で指定されています。「 accessMode 」フィールドの詳細については、を参照してください<block ref="ca589c3cf5b20ae0a636e2b7691f2873" category="inline-link-rx"></block>。</block>
+  <block id="e6d82e60d43fe02e01930addfe670e8f" category="admonition">次の例で指定するバックエンド名 インポートコマンドは、で作成されたバックエンドに対応します の例を参照してください <block ref="5ce2b96729b1637e197bdd36eb4db4ee" category="inline-link-macro-rx"></block>、手順 1.次の例で指定した StorageClass 名 PVC 定義ファイルは、作成された StorageClasses に対応しています を参照してください <block ref="6d8c8eb29a4e4c3a50119b70d2e8171e" category="inline-link-macro-rx"></block>、手順 1.</block>
+  <block id="e149d2e1fdb31ad28f79dd3d2c7ee8ff" category="paragraph">Trident を使用して、ネットアップストレージシステムまたはプラットフォームで新しいボリュームをプロビジョニングできます。次のコマンド例は、新しい FlexVol ボリュームのプロビジョニングを表示します。この例では、セクションの例で作成した StorageClass を使用してボリュームがプロビジョニングされます <block ref="6d8c8eb29a4e4c3a50119b70d2e8171e" category="inline-link-macro-rx"></block>、ステップ 2 。</block>
+  <block id="78b7c8c28867630a421236d6f1ff9ba3" category="paragraph">次の PVC 定義ファイル例では 'accessModes' の値 ReadWriteMany が指定されています「 accessMode 」フィールドの詳細については、を参照してください<block ref="ca589c3cf5b20ae0a636e2b7691f2873" category="inline-link-rx"></block>。</block>
+  <block id="798e149b007e44cd94dd2804adfd6be8" category="paragraph"><block ref="798e149b007e44cd94dd2804adfd6be8" category="inline-link-macro-rx"></block></block>
+  <block id="467941822b3a557a8db7197e12285f14" category="paragraph">この解決策の作成の一環として、パフォーマンスを簡単に比較しました。Kubernetes を使用して、 NetApp AI の標準ベンチマークジョブをいくつか実行しました。また、ベンチマークの結果を、単純な Docker run コマンドを使用して実行した実行結果と比較しました。パフォーマンスに顕著な違いは見られませんでした。このため、 Kubernetes を使用してコンテナ化された AI トレーニングジョブをオーケストレーションしても、パフォーマンスに悪影響が及ばないことがわかりました。パフォーマンス比較の結果については、次の表を参照してください。</block>
+  <block id="0e91d2e60705ecb1730e9b96510019af" category="list-text">の手順に従って、 NVIDIA DeepOps をダウンロードします<block ref="6fb71807bf6999d2aec034d498e3ebf6" category="inline-link-rx"></block> NVIDIA DeepOps GitHub サイトで入手できます。</block>
+  <block id="5c18e4efa8c5cc9efb26e3f748b4e26d" category="list-text">の手順に従って、クラスタに Kubernetes を導入します 。<block ref="b336a8bbad16f0e8d58bf87e261f51fa" category="inline-link-rx"></block> NVIDIA DeepOps GitHub サイトで入手できます。</block>
+  <block id="52d84951381eb0ab7a285dd32b31702c" category="paragraph">Kubeflow は、データサイエンティストのワークスペースとして機能する、新しい Jupyter Notebook サーバの迅速なプロビジョニングを可能にします。Kubeflow を使用して新しい Jupyter Notebook サーバをプロビジョニングするには、次のタスクを実行します。Kubeflow コンテキスト内の Jupyter Notebook の詳細については、を参照してください<block ref="05932219411c169f9e48f874e56f1ed3" category="inline-link-rx"></block>。</block>
+  <block id="095efbb867f01094d56c633d3337a412" category="list-text">ワークスペースボリュームの詳細を指定します。新しいボリュームを作成するように選択した場合は、そのボリュームまたは PVC がデフォルトの StorageClass を使用してプロビジョニングされます。Trident を利用するストレージクラスがデフォルトとして指定されているため StorageClass <block ref="b868c02e3d390c0001190527c8f4ba0b" category="inline-link-macro-rx"></block>を指定した場合、ボリュームまたは PVC は Trident でプロビジョニングされます。このボリュームは、 Jupyter Notebook Server コンテナ内のデフォルトワークスペースとして自動的にマウントされます。別のデータボリュームに保存されていないユーザーがサーバー上に作成したノートブックは、自動的にこのワークスペースボリュームに保存されます。そのため、ノートブックは再起動後も維持されます。</block>
+  <block id="555e44b3745904843417371073338d08" category="list-text">データボリュームを追加次に、「 pb-fg-all 」という名前の既存の PVC を指定し、デフォルトのマウントポイントを受け入れる例を示します。</block>
+  <block id="37a742c47c216725dd178d8c3c7a3f31" category="list-text">ノートブックサーバーが完全にプロビジョニングされるまで待ちます。指定した Docker イメージを使用してサーバをプロビジョニングしたことがない場合は、イメージのダウンロードが必要になるため、これには数分かかることがあります。サーバーが完全にプロビジョニングされると、 Jupyter Notebook サーバー管理ページの [ ステータス ] 列に緑色のチェックマークが表示されます。</block>
+  <block id="39765f9f4940bfb89204b387b28027db" category="inline-link-macro">次の例：ノートブック PC とパイプライン</block>
+  <block id="13c712398e8b2c10a7741ca02e9889f0" category="paragraph"><block ref="13c712398e8b2c10a7741ca02e9889f0" category="inline-link-macro-rx"></block></block>
+  <block id="f830a6eea70ae3a0e7af4606462ad281" category="admonition">「 ONTAP-NAS-flexgroup 」の Trident バックエンドタイプには、かなり大きな最小 PVC サイズがあります。デフォルトでは、 Kubeflow はサイズが数 GB しかない PVC のプロビジョニングを試みます。したがって、 Kubeflow の導入の目的で、「 ONTAP-NAS-flexgroup 」バックエンドタイプをデフォルトの StorageClass として使用する StorageClass を指定しないでください。</block>
+  <block id="04e3c704baa1b4c23cd48a18c10fcf39" category="list-text">クラスタに Kubeflow を導入するには、に従ってください<block ref="5e7f04c1dfa70dd058d2720be031c44b" category="inline-link-rx"></block> NVIDIA DeepOps GitHub サイトで入手できます。</block>
+  <block id="b714a06d49f16f8b7f988d95734d177f" category="list-text">Kubeflow ネームスペース内に展開されているすべてのポッドに「ステータス」が「実行中」であることを確認し、ネームスペース内に展開されているコンポーネントがエラー状態でないことを確認します。すべてのポッドが起動するまでに数分かかることがあります。</block>
+  <block id="64f559cf2e77f73aca6bd3dc9649f62c" category="paragraph">デフォルトのユーザ名は「 admin@kubeflow.org 」で、デフォルトのパスワードは「 12341234 」です。追加ユーザを作成するには、の手順に従います<block ref="f529217f090b2c9cc3764f14abdec5f7" category="inline-link-rx"></block>。</block>
+  <block id="e7d76b05b4c77c781c38fcce5dfe4df1" category="inline-link-macro">次の例： Kubeflow の操作とタスク</block>
+  <block id="699e1c13c585d91ea0f5eacbaf32010b" category="paragraph"><block ref="699e1c13c585d91ea0f5eacbaf32010b" category="inline-link-macro-rx"></block></block>
+  <block id="6e4cd672cd8bd06c42a9e4ba697c61de" category="inline-link">NetApp Data Science Toolkit for Kubernetes</block>
+  <block id="c5da96d7204df28dd9fdc33139c8a776" category="paragraph">。<block ref="42224cf159df1ff428bf611c27a06039" category="inline-link-rx"></block> エアーフローと組み合わせて使用できます。NetApp Data Science Toolkit とエアフローを組み合わせることで、エアフローによって自動化されたワークフローにネットアップのデータ管理操作を組み込むことができます。</block>
+  <block id="dee957e8ec77b256b931e812220f0553" category="inline-link">通気の例</block>
+  <block id="9fc322b3a5bb56d2d6ac18c15773d1c2" category="paragraph">を参照してください<block ref="c50bba54faf39c027cd571674d44a9c0" category="inline-link-rx"></block> ツールキットの通気と使用方法の詳細については、 NetApp Data Science Toolkit GitHub リポジトリのセクションを参照してください。</block>
+  <block id="1e698f68960fb964df99e73068c9377c" category="list-text">ネットアップでは、 NetApp AFF システムで使用する各データ LIF （データアクセスを提供する論理ネットワークインターフェイス）に対して、 FlexGroup 対応の Trident バックエンドを作成することを推奨します。これにより、 LIF 間でボリュームマウントを分散させることができます</block>
+  <block id="a905494ad30a6d54678a2122c04bfd54" category="summary">Jupyter Notebook と Kubeflow パイプラインの例</block>
+  <block id="80e94617849fe0b057f3edcc76a6ac72" category="doc">ノートブック PC とパイプラインの例</block>
+  <block id="3da57858cd6a76521b38784effc6a06f" category="paragraph">。<block ref="42224cf159df1ff428bf611c27a06039" category="inline-link-rx"></block> Kubeflow と組み合わせて使用できます。NetApp Data Science Toolkit と Kubeflow を使用すると、次のようなメリットがあります。</block>
+  <block id="624a53dc5871ce49612a285ee2bf367e" category="list-text">データサイエンティストは、 Jupyter Notebook 内から、ネットアップの高度なデータ管理操作を直接実行できます。</block>
+  <block id="1c7d37cb415e8b7777b071784911a77a" category="list-text">Kubeflow Pipelines フレームワークを使用すると、ネットアップの高度なデータ管理処理を自動化されたワークフローに組み込むことができます。</block>
+  <block id="5e646a4ae4330cb948544333980f9f49" category="inline-link">Kubeflow の例</block>
+  <block id="987823970c7b662272fb9e0058bf5ff1" category="paragraph">を参照してください<block ref="3eb5d4ffd5360858e22dfb9799f211d7" category="inline-link-rx"></block> ツールキットと Kubeflow を使用する場合の詳細については、 NetApp Data Science Toolkit GitHub リポジトリのセクションを参照してください。</block>
+  <block id="1703cadf8e847114fb353feaaf03beb9" category="summary">このセクションでは、 ONTAP AI ポッドに Kubernetes を導入する際に実行可能なさまざまなハイパフォーマンスジョブの例を示します。</block>
+  <block id="0790eb8f3ff91edc1f86333018edbe64" category="inline-link-macro">次に、データサイエンティストや開発者が使用する Jupyter Notebook Workspace をプロビジョニングします</block>
+  <block id="1b8f0c6e9f5e8de3bd40cbbb72ad814f" category="paragraph"><block ref="1b8f0c6e9f5e8de3bd40cbbb72ad814f" category="inline-link-macro-rx"></block></block>
+  <block id="993143e7434e63409a07cf3e8c422505" category="list-text">FlexGroup が有効な Trident ごとに別々のストレージクラスを作成することを推奨します セクションで作成したバックエンド <block ref="5ce2b96729b1637e197bdd36eb4db4ee" category="inline-link-macro-rx"></block>、手順 1.これらの Granular StorageClasses を使用すると、 StorageClass 仕様ファイルで指定されている特定のバックエンドとして、特定の LIF （ Trident バックエンドの作成時に指定した LIF ）に対応する NFS マウントを追加できます。以降のコマンド例では、 2 つのを作成しています StorageClasses を使用して、バックエンドの 2 つの例に対応しています セクションで作成されます <block ref="5ce2b96729b1637e197bdd36eb4db4ee" category="inline-link-macro-rx"></block>、手順 1.StorageClasses の詳細については、を参照してください<block ref="e6b3671f5db59046617458d31ef4f50b" category="inline-link-rx"></block>。</block>
+  <block id="f053cb3a491d2bc48d41230b10a9b164" category="list-text">に対応するストレージクラスを作成することも推奨します セクションで作成した FlexVol 対応の Trident バックエンド <block ref="5ce2b96729b1637e197bdd36eb4db4ee" category="inline-link-macro-rx"></block>、ステップ 2 。以下のコマンド例は、 FlexVol ボリューム用の単一のストレージクラスの作成を示しています。</block>
+  <block id="86608a0b346f307c76f8ae00c9f6bcb9" category="summary">このレポートでは、データネームスペースを迅速にクローニングする方法について説明します。トレーサビリティとバージョン管理のためにデータやモデルのベースラインをほぼ瞬時に作成する AI トレーニングワークフローを定義および実装する方法を説明します。また、複数のサイトや地域間でデータをシームレスに複製し、 Jupyter Notebook ワークスペースをすばやくプロビジョニングして、大規模なデータセットにアクセスする方法も示します。</block>
+  <block id="27114500e25aba7a27847b772d396575" category="paragraph">あらゆる規模の企業や組織が、多くの業界で、人工知能（ AI ）、機械学習（ ML ）、ディープラーニング（ DL ）を導入して、現実世界の問題を解決し、革新的な製品やサービスを提供し、競争が激化する市場で優位に立つことになりつつあります。AI 、 ML 、 DL の利用が増えるにつれ、ワークロードの拡張性やデータの可用性など、多くの課題に直面しています。このドキュメントでは、ネットアップのデータ管理機能と一般的なオープンソースのツールやフレームワークとのペアリングを行う解決策である NetApp AI コントロールプレーンを使用して、これらの課題に対処する方法について説明します。</block>
+  <block id="98300151efa6f504dee4866e49cf2078" category="paragraph">このレポートでは、データネームスペースを迅速にクローニングする方法について説明します。また、サイトやリージョン間でデータをシームレスにレプリケートし、統合された AI / ML / DL データパイプラインを構築する方法も示します。さらに、トレーサビリティとバージョン管理のためにデータやモデルベースラインをほぼ瞬時に作成する AI 、 ML 、 DL トレーニングワークフローの定義と実装についても説明します。この解決策を使用すると、すべてのモデルトレーニングを、モデルのトレーニングや検証に使用したデータセットまでトレースできます。最後に、このドキュメントでは、 Jupyter Notebook ワークスペースを、大規模なデータセットにすばやくプロビジョニングする方法を説明します。</block>
+  <block id="9d50c340b35848862ab6ecbdadc401ed" category="paragraph">ネットアップの AI コントロールプレーンは、データサイエンティストやデータエンジニアをターゲットとするため、ネットアップや ONTAP ® に関する専門知識は最小限に抑えられます。この解決策を使用すると、シンプルで使い慣れたツールやインターフェイスを使用してデータ管理機能を実行できます。ネットアップストレージがすでにある環境では、ネットアップの AI コントロールプレーンを今すぐテストできます。解決策のテストドライブを希望していても、ネットアップストレージがない場合は、にアクセスしてください<block ref="d72e38e0d1c5ca8869f2dd987734920b" category="inline-link-rx"></block>クラウドベースのネットアップストレージ解決策を使用すれば、数分で稼働を開始できます。次の図に、解決策を視覚的に示します。</block>
+  <block id="14ede02439184c7c75e53410ffa40370" category="list-text">すでに稼働しているネットアップストレージアプライアンス、ソフトウェア定義インスタンス、クラウドストレージサービスで、 Trident でサポートされているものを使用している。</block>
+  <block id="07d8795f785e6495307106596d07402e" category="list-text">Trident は、次のいずれかの方法で導入できます。</block>
+  <block id="040d3466a6f1c45ca2e523c9354dfdc7" category="inline-link">Trident の導入手順</block>
+  <block id="bb6989644edf59b8c5e0de0c25b6f8b6" category="list-text">NVIDIA DeepOps を使用して Kubernetes クラスタを導入した場合は、 NVIDIA DeepOps を使用して Kubernetes クラスタに Trident を導入することもできます。Trident で DeepOps を導入する方法については、を参照してください<block ref="77e542aaaac8c5d2482c94ca2d79c997" category="inline-link-rx"></block> NVIDIA DeepOps GitHub サイトで入手できます。</block>
+  <block id="b6463ef77c88b4c74dd6c4b1479d1bae" category="list-text">NVIDIA DeepOps を使用して Kubernetes クラスタを導入していない場合や Trident を手動で導入する場合は、次の手順で Trident を導入できます<block ref="73e6be38c8ff1e0c58865c34876a2e98" category="inline-link-rx"></block> Trident のドキュメントTrident バックエンドと Kubernetes StorageClass を少なくとも 1 つずつ作成してください。Backends と StorageClasses の詳細については、を参照してください<block ref="e6b3671f5db59046617458d31ef4f50b" category="inline-link-rx"></block>。</block>
+  <block id="7cfdcb466d040b6c8f9c85e9981b9652" category="inline-link-macro">ONTAP AI 導入向けの Kubernetes StorageClasses の例</block>
+  <block id="180b707bbdd9c2fc8001a966c6c7d029" category="admonition">解決策 AI ポッドにネットアップ AI コントロールプレーン ONTAP を導入する場合は、を参照してください <block ref="5ce2b96729b1637e197bdd36eb4db4ee" category="inline-link-macro-rx"></block> さまざまな Trident バックエンドの例を紹介します とを作成します <block ref="d495c2f5a68f6923824470c0096419c8" category="inline-link-macro-rx"></block> を参照してください。</block>
+  <block id="10dedd24e41d2fa9b5a5e681dd5b4882" category="summary">このページには、コンテナ、 Kubernetes 、 NetApp Trident などの情報を含め、ネットアップが AI プロジェクトをどのように進められるかを理解するための背景情報が含まれています。</block>
+  <block id="4ee20869dbb821d3744d87176797401f" category="list-text">さまざまなビジネスプロセスと機能を自動化します。</block>
+  <block id="5919922c658bd2a4f33f0cf546be3ea9" category="paragraph">最新の AI トレーニングと推論のワークロードには、超並列処理機能が必要です。そのため、 GPU の並列処理機能は汎用 CPU よりもはるかに優れているため、 GPU を使用した AI 処理も増えています。</block>
+  <block id="c01fb6f699235f8c5d36bdda9e155c77" category="paragraph">Apache Airflow は、複雑なエンタープライズワークフローのプログラムによるオーサリング、スケジューリング、監視を可能にするオープンソースのワークフロー管理プラットフォームです。ETL やデータパイプラインのワークフローを自動化する目的でよく使用されますが、こうした種類のワークフローに限定されるわけではありません。Airflow プロジェクトは Airbnb が開始しましたが、業界で非常に人気があり、現在は Apache Software Foundation の後援を受けています。空気の流れは Python で書かれており、 Python スクリプトを使用して空気の流れが作られています。また、空気の流れは、「コードとしての設定」という原則に基づいて設計されています。 現在、多くの企業のエアフローユーザが Kubernetes の上で通気を実行しています。</block>
+  <block id="8fb4a72500791f0bea82c5c9b4c33772" category="section-title">ダイレクト非周期グラフ（ DAG ）</block>
+  <block id="afd712bbacf94fbaf2852bd23c6b1a84" category="paragraph">エアーフローでは、ワークフローは Directed Acyclic Graphs （ DAG ）と呼ばれます。DAG は、 DAG の定義に応じて、順番に実行されるタスク、並列タスク、またはその組み合わせで実行されるタスクで構成されます。エアーフロースケジューラは、 DAG 定義で指定されているタスクレベルの依存関係を維持しながら、一連のワーカーに対して個々のタスクを実行します。DAG は Python スクリプトを使用して定義および作成されます。</block>
+  <block id="dc188738e6cc2e9f8314e1b95f18ebfd" category="section-title">NetApp Cloud Sync の略</block>
+  <block id="2e386ef1ace3f8ea71edbaa6f9cbbd00" category="paragraph">Cloud Sync は、高速でセキュアなデータ同期を実現するネットアップのサービスです。オンプレミスの NFS または SMB ファイル共有、 NetApp StorageGRID 、 NetApp ONTAP S3 、 NetApp Cloud Volumes Service 、 Azure NetApp Files 、 AWS S3 、 AWS EFS 、 Azure Blob 、 Google Cloud Storage または IBM Cloud Object Storage を使用すると、 Cloud Sync は必要な場所に迅速かつ安全にファイルを移動できます。</block>
+  <block id="c1bea6c8c836c6911127e6fe3fde762a" category="paragraph">転送されたデータは、ソースとターゲットの両方で完全に使用できます。Cloud Sync では、事前に定義されたスケジュールに基づいて、更新がトリガーされたときやデータの継続的な同期を行うときに、データをオンデマンドで同期できます。いずれにせよ、 Cloud Sync は差分のみを移動するため、データレプリケーションにかかる時間とコストを最小限に抑えることができます。</block>
+  <block id="18c24ab391d7e12f4abcfea370fb4e81" category="paragraph">Cloud Sync は、セットアップや使用がきわめて簡単なソフトウェアサービス（ SaaS ）ツールです。Cloud Sync によって実行されるデータ転送は、データブローカーによって実行されます。Cloud Sync データブローカーは、 AWS 、 Azure 、 Google Cloud Platform 、オンプレミスに導入できます。</block>
+  <block id="6efa8f47d1a76af77ce311b436e4dca9" category="section-title">NetApp XCP</block>
+  <block id="0e4fcaf78d0d4feda27a31ecb6944b58" category="paragraph">NetApp XCP は、ネットアップとネットアップ間のデータ移行およびファイルシステムに関する分析情報を提供するクライアントベースのソフトウェアです。XCP は、大量のデータセットとハイパフォーマンスな移行を処理するために、利用可能なすべてのシステムリソースを活用することで、最大限のパフォーマンスを実現するように設計されています。ファイルシステムを完全に可視化するために XCP を使用すると、レポート生成オプションが利用できます。</block>
+  <block id="9a3914e340e4b09762f8231f9fd0ddaa" category="paragraph">NetApp XCP は、 NFS プロトコルと SMB プロトコルをサポートする単一パッケージで提供されます。NFS データセット用の Linux バイナリと SMB データセット用の Windows 実行可能ファイルが XCP に含まれています。</block>
+  <block id="adc911d4d2f4e0008e765523cff39824" category="paragraph">NetApp XCP File Analytics は、ファイル共有を検出し、ファイルシステム上でスキャンを実行し、ファイル分析用のダッシュボードを提供するホストベースのソフトウェアです。XCP File Analytics は、ネットアップシステムと他社システムの両方に対応し、 Linux ホストまたは Windows ホストで動作して、 NFS および SMB エクスポートファイルシステムの分析を提供します。</block>
+  <block id="ebbcd572ece7625ba24f2c3ecda6d5b5" category="paragraph">Kubernetes クラスタでシングルノードの AI ジョブと ML ジョブを実行するには、導入ジャンプホストから次のタスクを実行します。Trident を使用すると、数ペタバイトのデータが含まれる可能性のあるデータボリュームをすばやく簡単に作成し、 Kubernetes のワークロードからアクセスできます。Kubernetes ポッド内からこのようなデータボリュームにアクセスできるようにするには、ポッドの定義で PVC を指定します。このステップは Kubernetes ネイティブの運用であり、ネットアップの専門知識は不要です。</block>
+  <block id="dd36f0d653a70e6e6c7e838454ee7e20" category="paragraph">また、ストレージ帯域幅を最大限にするために、必要なトレーニングデータを含むボリュームが、このジョブで作成されるポッド内に 2 回マウントされます。ポッドには別のボリュームもマウントされています。この 2 つ目のボリュームには、結果と指標を格納します。これらのボリュームは、 PVC の名前を使用してジョブ定義内で参照されます。Kubernetes ジョブの詳細については、を参照してください<block ref="0ceaf9ba0112a862c5fa5f8d38bee04b" category="inline-link-rx"></block>。</block>
+  <block id="c2ae2e58baf01933984b63bbfd58c6c2" category="summary">このセクションでは、 Kubernetes クラスタ内に通気を導入するために完了しておく必要のあるタスクについて説明します。</block>
+  <block id="1874d60ac69d2a867825b1b7ab0f9297" category="admonition">Kubernetes 以外のプラットフォームに通気を導入することも可能です。Kubernetes 以外のプラットフォームに通気を導入することは、この解決策の範囲外です。</block>
+  <block id="678c0949a1824bf54eba73ab0a2609d8" category="paragraph">通気を導入する前に、 Kubernetes クラスタ内にデフォルトのストレージクラスを指定する必要があります。エアフロー導入プロセスでは、デフォルトのストレージクラスを使用して新しい永続ボリュームのプロビジョニングが試行されます。StorageClass がデフォルトの StorageClass として指定されていない場合、導入は失敗します。クラスタ内でデフォルトの StorageClass を指定するには、の手順に従ってください <block ref="b868c02e3d390c0001190527c8f4ba0b" category="inline-link-macro-rx"></block>。クラスタ内ですでにデフォルトの StorageClass を指定している場合は、この手順を省略できます。</block>
+  <block id="fe1b26293aba127732d69bdc90866794" category="list-text">Helm を使用してエアフローを導入します。に従ってください<block ref="e4140084ec840191180d755827375d89" category="inline-link-rx"></block> アーティファクトハブの公式エアフロー図については、を参照してください。以下のコマンド例は、 Helm を使用したエアーフローの配置を示しています。必要に応じて 'custom-values/yaml ファイルの値を変更 ' 追加 ' または削除します</block>
+  <block id="fa7edbfc4d9facbb8db918116ff0ae46" category="list-text">すべての通気ポッドが稼働中であることを確認します。すべてのポッドが起動するまでに数分かかる場合があります。</block>
+  <block id="0db6a8f601b49c6c3780b668eac398a8" category="list-text">通気 Web サービスにアクセスできることを確認します。</block>
+  <block id="6a8e19652a540e359304ba812d39ea8e" category="paragraph"><block ref="6a8e19652a540e359304ba812d39ea8e" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="0de039e647bc53dcce6e7bceb8605cbf" category="paragraph">あらゆる規模の企業や組織が、あらゆる業界で、人工知能（ AI ）、機械学習（ ML ）、ディープラーニング（ DL ）を活用して、現実世界の問題を解決し、革新的な製品やサービスを提供し、競争が激化する市場で優位に立つことが求められています。AI 、 ML 、 DL の利用が増えるにつれ、ワークロードの拡張性やデータの可用性など、多くの課題に直面しています。これらの課題には、 NetApp AI コントロールプレーン解決策を使用して対処できます。</block>
+  <block id="cae02473f4798da0fdd40f4f598b1d96" category="paragraph">この解決策を使用すると、データネームスペースのクローンを迅速に作成できます。さらに、トレーサビリティとバージョン管理のためにデータやモデルベースラインをほぼ瞬時に作成する AI 、 ML 、 DL のトレーニングワークフローを定義して実装できます。この解決策を使用すると、すべてのモデルトレーニングを、モデルがトレーニングされ、検証されたデータセットに戻すことができます。最後に、この解決策を使用すると、 Jupyter Notebook ワークスペースをすばやくプロビジョニングし、大規模なデータセットにアクセスできます。</block>
+  <block id="696dba9a093d4ac7b67234745dd57835" category="paragraph">この解決策はデータサイエンティストとデータエンジニアを対象としているため、ネットアップまたは ONTAP に関する専門知識は最小限で済みます。この解決策を使用すると、シンプルで使い慣れたツールやインターフェイスを使用してデータ管理機能を実行できます。さらに、この解決策では、完全なオープンソースおよび無償のコンポーネントを使用しています。したがって、ネットアップストレージがすでにある環境では、この解決策を実装できます。この解決策でドライブをテストしたいが、ネットアップストレージはまだお持ちでない場合は、を参照してください<block ref="d72e38e0d1c5ca8869f2dd987734920b" category="inline-link-rx"></block>また、クラウドベースの NetApp Storage 解決策を使用すれば、いつでも稼働を開始できます。</block>
+  <block id="3a607d0e3fa64fd7558e11352f751dd0" category="summary">NetApp AI コントロールプレーン解決策は、このような特定のハードウェアには依存しません。</block>
+  <block id="976cf3edd8adeff2e75cd7a9dd0dae21" category="paragraph">NetApp AI コントロールプレーン解決策は、このような特定のハードウェアには依存しません。解決策は、 Trident でサポートされている、任意のネットアップ物理ストレージアプライアンス、ソフトウェア定義インスタンス、クラウドサービスと互換性があります。例としては、ネットアップ AFF ストレージシステム、 Azure NetApp Files 、ネットアップ Cloud Volumes Service 、ネットアップ ONTAP Select ソフトウェアで定義されるストレージインスタンス、ネットアップ Cloud Volumes ONTAP インスタンスなどがあります。また、使用する Kubernetes のバージョンが Kubeflow および NetApp Trident でサポートされていれば、どの Kubernetes クラスタにも解決策を実装できます。Kubeflow でサポートされる Kubernetes バージョンの一覧については、を参照してください<block ref="01b2e82a7080cdbeb934280240df876e" category="inline-link-rx"></block>。Trident でサポートされている Kubernetes のバージョンのリストについては、を参照してください<block ref="e6b3671f5db59046617458d31ef4f50b" category="inline-link-rx"></block>。解決策の検証に使用した環境の詳細については、次の表を参照してください。</block>
+  <block id="204dd0a482d284a7fb87c908f713f9bd" category="cell">Ubuntu 20.04.2 LTS の場合は</block>
+  <block id="76a7e6383604f84ace970ce86ba76a9f" category="cell">Kubernetes GPU ワーカーノード</block>
+  <block id="1672d070f346948fb25e819b40bb3ade" category="cell">NetApp AFF A220</block>
+  <block id="d1d73cf191d1afbd40e85644467cae8b" category="cell">NetApp ONTAP 9.7 P6</block>
+  <block id="47354877541923135499c38a6606138a" category="cell">2.0.1</block>
+  <block id="ecfa741d55b7b1a85bd61a2307877c8c" category="cell">8.0.8</block>
+  <block id="fd99a7ef225418315b041ad631a5674c" category="cell">19.03.12</block>
+  <block id="56765472680401499c79732468ba4340" category="cell">1/2</block>
+  <block id="48d02190984e4f8526f99f9cd9550e08" category="cell">1.18.9</block>
+  <block id="d58d49f83f534f5d71b20750bb7927c7" category="cell">21.01.2.</block>
+  <block id="7a04e1f765218bcbfc633ef331b312b8" category="inline-link">61898cdfda</block>
+  <block id="7855beff2fafbce2cf0df4d67f8dfed7" category="cell">コミット時点でマスターブランチから Trident 導入機能を利用できるようになりました <block ref="686ead03155c78694e1a59db0970fc1a" category="inline-link-rx"></block>; バージョン 21.03 の他のすべての機能</block>
+  <block id="fad62e8b886e655813cc4ce635152f62" category="sidebar">Trident の導入</block>
 </blocks>

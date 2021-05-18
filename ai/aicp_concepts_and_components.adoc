@@ -1,8 +1,8 @@
 ---
 sidebar: sidebar 
 permalink: ai/aicp_concepts_and_components.html 
-keywords: Trident, DeepOps, ONTAP, FlexClone, containers, AI, Kubernetes, Kubeflow, Jupyter 
-summary: このページの背景では、コンテナ、 Kubernetes 、 NetApp Trident などの情報を含め、ネットアップが AI プロジェクトをどのように進められるかを理解しています。 
+keywords: Trident, DeepOps, ONTAP, FlexClone, containers, AI, Kubernetes, Kubeflow, Jupyter, Airflow 
+summary: このページには、コンテナ、 Kubernetes 、 NetApp Trident などの情報を含め、ネットアップが AI プロジェクトをどのように進められるかを理解するための背景情報が含まれています。 
 ---
 = コンセプトとコンポーネント
 :hardbreaks:
@@ -20,8 +20,10 @@ AI とは、人間の心の認識機能を模倣するためにコンピュー�
 
 * 未知のビジネスに大量のデータを分析しています 分析
 * 自然言語処理を使用して顧客と直接やり取りする
-* さまざまなビジネスプロセスと機能を自動化します。最新の AI トレーニングと推論のワークロードには、超並列処理機能が必要です。そのため、 GPU の並列処理機能は汎用 CPU よりもはるかに優れているため、 GPU を使用した AI 処理も増えています。
+* さまざまなビジネスプロセスと機能を自動化します。
 
+
+最新の AI トレーニングと推論のワークロードには、超並列処理機能が必要です。そのため、 GPU の並列処理機能は汎用 CPU よりもはるかに優れているため、 GPU を使用した AI 処理も増えています。
 
 
 
@@ -57,6 +59,8 @@ DeepOps は NVIDIA が開発したオープンソースプロジェクトです�
 
 Kubeflow は Kubernetes 向けのオープンソースの AI / ML ツールキットで、 Google が開発したものです。Kubeflow プロジェクトでは、 Kubernetes での AI ワークフローと ML ワークフローの導入を、シンプル、ポータブル、拡張性に優れた方法で実施します。Kubeflow は Kubernetes の複雑さを抽象化し、データサイエンティストがデータサイエンスのベストプラクティスに集中できるようにします。表示については、次の図を参照してください。Kubernetes で企業の IT 部門の標準化が進むにつれて、 Kubeflow は大きな牽引力を発揮してきました。詳細については、を参照してください http://www.kubeflow.org/["Kubeflow の Web サイト"^]。
 
+image:aicp_image3.png["エラー：グラフィックイメージがありません"]
+
 
 
 === Kubeflow パイプライン
@@ -69,13 +73,17 @@ Kubeflow Pipelines は Kubeflow の主要コンポーネントです。Kubeflow 
 
 Jupyter Notebook Server はオープンソースの Web アプリケーションで、データサイエンティストは Jupyter Notebook と呼ばれる Wiki 形式のドキュメントを作成できます。このドキュメントには、ライブコードと説明的なテストが含まれています。Jupyter Notebook は、 AI プロジェクトと ML プロジェクトを文書化、保存、共有する手段として、 AI と ML のコミュニティで広く使用されています。Kubeflow を使用すると、 Kubernetes での Jupyter Notebook Server のプロビジョニングと導入が簡単になります。Jupyter Notebook の詳細については、を参照してください http://www.jupyter.org/["Jupyter のウェブサイト"^]。Kubeflow のコンテキスト内の Jupyter Notebook の詳細については、を参照してください https://www.kubeflow.org/docs/components/jupyter/["Kubeflow の公式ドキュメント"^]。
 
-image:aicp_image3.png["エラー：グラフィックイメージがありません"]
+
+
+== Apache の通気
+
+Apache Airflow は、複雑なエンタープライズワークフローのプログラムによるオーサリング、スケジューリング、監視を可能にするオープンソースのワークフロー管理プラットフォームです。ETL やデータパイプラインのワークフローを自動化する目的でよく使用されますが、こうした種類のワークフローに限定されるわけではありません。Airflow プロジェクトは Airbnb が開始しましたが、業界で非常に人気があり、現在は Apache Software Foundation の後援を受けています。空気の流れは Python で書かれており、 Python スクリプトを使用して空気の流れが作られています。また、空気の流れは、「コードとしての設定」という原則に基づいて設計されています。 現在、多くの企業のエアフローユーザが Kubernetes の上で通気を実行しています。
 
 
 
-=== Apache の通気
+=== ダイレクト非周期グラフ（ DAG ）
 
-Apache Airflow は、複雑なエンタープライズワークフローのプログラムによるオーサリング、スケジューリング、監視を可能にするオープンソースのワークフロー管理プラットフォームです。ETL やデータパイプラインのワークフローを自動化する目的でよく使用されますが、こうした種類のワークフローに限定されるわけではありません。Airflow プロジェクトは Airbnb によって開始されましたが、業界では非常に普及しており、現在は Apache Software Foundation の後援の下にあります。 Airflow は Python で記述されています。 Airflow ワークフローは Python スクリプトを使用して作成され、気流は「コードとしての設定」という原則に従って設計されています。 現在、多くの企業のエアフローユーザが Kubernetes の上で通気を実行しています。
+エアーフローでは、ワークフローは Directed Acyclic Graphs （ DAG ）と呼ばれます。DAG は、 DAG の定義に応じて、順番に実行されるタスク、並列タスク、またはその組み合わせで実行されるタスクで構成されます。エアーフロースケジューラは、 DAG 定義で指定されているタスクレベルの依存関係を維持しながら、一連のワーカーに対して個々のタスクを実行します。DAG は Python スクリプトを使用して定義および作成されます。
 
 
 
@@ -146,6 +154,26 @@ NetApp SnapMirror ソフトウェアは、データファブリック全体に�
 SnapMirror ソフトウェアは、変更されたブロックのみをネットワーク経由で送信することで、 NetApp ONTAP の Storage Efficiency 機能を活用します。SnapMirror ソフトウェアには、組み込みのネットワーク圧縮機能も使用して、データ転送を高速化し、ネットワーク帯域幅の使用量を最大 70% 削減します。SnapMirror テクノロジを使用すると、 1 つのシンレプリケーションデータストリームを利用して単一のリポジトリを作成し、アクティブなミラーと以前のポイントインタイムコピーの両方を保持できるため、ネットワークトラフィックを最大 50% 削減できます。
 
 image:aicp_image6.png["エラー：グラフィックイメージがありません"]
+
+
+
+== NetApp Cloud Sync の略
+
+Cloud Sync は、高速でセキュアなデータ同期を実現するネットアップのサービスです。オンプレミスの NFS または SMB ファイル共有、 NetApp StorageGRID 、 NetApp ONTAP S3 、 NetApp Cloud Volumes Service 、 Azure NetApp Files 、 AWS S3 、 AWS EFS 、 Azure Blob 、 Google Cloud Storage または IBM Cloud Object Storage を使用すると、 Cloud Sync は必要な場所に迅速かつ安全にファイルを移動できます。
+
+転送されたデータは、ソースとターゲットの両方で完全に使用できます。Cloud Sync では、事前に定義されたスケジュールに基づいて、更新がトリガーされたときやデータの継続的な同期を行うときに、データをオンデマンドで同期できます。いずれにせよ、 Cloud Sync は差分のみを移動するため、データレプリケーションにかかる時間とコストを最小限に抑えることができます。
+
+Cloud Sync は、セットアップや使用がきわめて簡単なソフトウェアサービス（ SaaS ）ツールです。Cloud Sync によって実行されるデータ転送は、データブローカーによって実行されます。Cloud Sync データブローカーは、 AWS 、 Azure 、 Google Cloud Platform 、オンプレミスに導入できます。
+
+
+
+== NetApp XCP
+
+NetApp XCP は、ネットアップとネットアップ間のデータ移行およびファイルシステムに関する分析情報を提供するクライアントベースのソフトウェアです。XCP は、大量のデータセットとハイパフォーマンスな移行を処理するために、利用可能なすべてのシステムリソースを活用することで、最大限のパフォーマンスを実現するように設計されています。ファイルシステムを完全に可視化するために XCP を使用すると、レポート生成オプションが利用できます。
+
+NetApp XCP は、 NFS プロトコルと SMB プロトコルをサポートする単一パッケージで提供されます。NFS データセット用の Linux バイナリと SMB データセット用の Windows 実行可能ファイルが XCP に含まれています。
+
+NetApp XCP File Analytics は、ファイル共有を検出し、ファイルシステム上でスキャンを実行し、ファイル分析用のダッシュボードを提供するホストベースのソフトウェアです。XCP File Analytics は、ネットアップシステムと他社システムの両方に対応し、 Linux ホストまたは Windows ホストで動作して、 NFS および SMB エクスポートファイルシステムの分析を提供します。
 
 
 

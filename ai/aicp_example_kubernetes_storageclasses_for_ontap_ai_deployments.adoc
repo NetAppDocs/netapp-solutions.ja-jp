@@ -15,7 +15,7 @@ summary: Trident を使用して Kubernetes クラスタ内のストレージリ
 [role="lead"]
 Trident を使用して Kubernetes クラスタ内のストレージリソースを動的にプロビジョニングするには、 Kubernetes StorageClasses を 1 つ以上作成する必要があります。以下に示す例は、 ONTAP AI ポッドにネットアップ AI コントロールプレーン解決策を導入する場合に作成する、さまざまなタイプのストレージクラスを表しています。StorageClasses の詳細については、を参照してください https://netapp-trident.readthedocs.io/["Trident のドキュメント"^]。
 
-. FlexGroup が有効な Trident ごとに別々のストレージクラスを作成することを推奨します セクションで作成したバックエンド link:aicp_netapp_trident_deployment_and_configuration_overview.html["Trident の導入と設定の概要"]、手順 1.これらの Granular StorageClasses を使用すると、 StorageClass 仕様ファイルで指定されている特定のバックエンドとして、特定の LIF （ Trident バックエンドの作成時に指定した LIF ）に対応する NFS マウントを追加できます。以降のコマンド例では、 2 つのを作成しています StorageClasses を使用して、バックエンドの 2 つの例に対応しています セクションで作成されます link:aicp_netapp_trident_deployment_and_configuration_overview.html["Trident の導入と設定の概要"]、手順 1.強調表示されたテキストは、 StorageClass 定義ファイルで Trident バックエンドが指定されている場所を示しています。StorageClasses の詳細については、を参照してください https://netapp-trident.readthedocs.io/["Trident のドキュメント"^]。
+. FlexGroup が有効な Trident ごとに別々のストレージクラスを作成することを推奨します セクションで作成したバックエンド link:aicp_example_trident_backends_for_ontap_ai_deployments.html["ONTAP AI 導入向け Trident バックエンドの例"]、手順 1.これらの Granular StorageClasses を使用すると、 StorageClass 仕様ファイルで指定されている特定のバックエンドとして、特定の LIF （ Trident バックエンドの作成時に指定した LIF ）に対応する NFS マウントを追加できます。以降のコマンド例では、 2 つのを作成しています StorageClasses を使用して、バックエンドの 2 つの例に対応しています セクションで作成されます link:aicp_example_trident_backends_for_ontap_ai_deployments.html["ONTAP AI 導入向け Trident バックエンドの例"]、手順 1.StorageClasses の詳細については、を参照してください https://netapp-trident.readthedocs.io/["Trident のドキュメント"^]。
 +
 対応する PersistentVolumeClaim （ PVC ）が削除されたときに永続ボリュームが削除されないようにするため、次の例では「 Retain 」の「 ReclaimPolicy 」の値を使用しています。「 ReclaimPolicy 」フィールドの詳細については、公式を参照してください https://kubernetes.io/docs/concepts/storage/storage-classes/["Kubernetes のドキュメント"^]。
 
@@ -52,7 +52,7 @@ NAME                                PROVISIONER         AGE
 ontap-ai-flexgroups-retain-iface1   netapp.io/trident   0m
 ontap-ai-flexgroups-retain-iface2   netapp.io/trident   0m
 ....
-. に対応するストレージクラスを作成することも推奨します セクションで作成した FlexVol 対応の Trident バックエンド link:aicp_netapp_trident_deployment_and_configuration_overview.html["Trident の導入と設定の概要"]、ステップ 2 。以下のコマンド例は、 FlexVol ボリューム用の単一のストレージクラスの作成を示しています。
+. に対応するストレージクラスを作成することも推奨します セクションで作成した FlexVol 対応の Trident バックエンド link:aicp_example_trident_backends_for_ontap_ai_deployments.html["ONTAP AI 導入向け Trident バックエンドの例"]、ステップ 2 。以下のコマンド例は、 FlexVol ボリューム用の単一のストレージクラスの作成を示しています。
 +
 次の例では、 FlexVol 対応の Trident バックエンドが 1 つしか作成されていないため、 StorageClass 定義ファイルで特定のバックエンドが指定されていません。Kubernetes を使用してこの StorageClass を使用するボリュームを管理すると、 Trident は「 ONTAP-NAS' 」ドライバを使用するバックエンドで利用可能なものを使用しようとします。
 

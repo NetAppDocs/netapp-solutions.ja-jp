@@ -17,8 +17,6 @@ summary: このページでは、 NetApp AI コントロールプレーン解決
 
 NVIDIA GPU を搭載したベアメタルノードを統合したオンプレミスの Kubernetes 環境では、 NVIDIA の DeepOps Kubernetes 導入ツールの使用を推奨します。このセクションでは、 DeepOps を使用した Kubernetes クラスタの導入について説明します。
 
-クラウドベースの Kubernetes 環境では、 NetApp Kubernetes Service （ NKS ）を使用することを推奨します。このドキュメントでは、 NKS を使用した Kubernetes クラスタの導入については説明しません。NKS を使用してクラウドベースの Kubernetes クラスタを導入する場合は、にアクセスしてください https://cloud.netapp.com/kubernetes-service["NKS のホームページ"^]。
-
 
 
 === 前提条件
@@ -35,17 +33,8 @@ NVIDIA GPU を搭載したベアメタルノードを統合したオンプレミ
 
 NVIDIA DeepOps で Kubernetes クラスタを導入および設定するには、導入ジャンプホストから次のタスクを実行します。
 
-. の手順に従って、 NVIDIA DeepOps をダウンロードします https://github.com/NVIDIA/deepops/blob/master/docs/getting-started.md["「はじめに」ページ"^] NVIDIA DeepOps GitHub サイトで入手できます。
-. の手順に従って、クラスタに Kubernetes を導入します 。 https://github.com/NVIDIA/deepops/blob/master/docs/kubernetes-cluster.md["Kubernetes 導入ガイドのページ"^] NVIDIA DeepOps GitHub サイトで入手できます。
-+
-DeepOps Kubernetes 環境を使用するには、 Kubernetes マスターノードとワーカーノードがすべて同じユーザである必要があります。
-
-+
-配備に失敗した場合は '`kubectl_localhost' の値を '`deops/config/group_vars/k8s-cluster.yml' の false に変更し ' 手順 2 を繰り返します「 kubectl バイナリを Ansible ホストにコピー」タスクは、「 kubectl_localhost 」の値が「 true 」の場合にのみ実行され、メモリ使用上の既知の問題がある「 fetch 」 Ansible モジュールに依存します。このようなメモリ使用の問題により、原因がタスクを失敗させることがあります。メモリ問題が原因でタスクが失敗した場合は、以降の導入処理は正常に完了しません。
-
-+
-「 kubectl_localhost 」の値を「 false 」に変更した後で展開が正常に完了した場合、 kubectl バイナリを Kubernetes マスターノードから配備ジャンプホストに手動でコピーする必要があります。kubectl バイナリの場所を特定のマスター・ノード上で確認するには 'kubectl コマンドをそのノード上で直接実行します
-
+. の手順に従って、 NVIDIA DeepOps をダウンロードします https://github.com/NVIDIA/deepops/tree/master/docs["「はじめに」ページ"^] NVIDIA DeepOps GitHub サイトで入手できます。
+. の手順に従って、クラスタに Kubernetes を導入します 。 https://github.com/NVIDIA/deepops/tree/master/docs/k8s-cluster["Kubernetes 導入ガイドのページ"^] NVIDIA DeepOps GitHub サイトで入手できます。
 
 
 link:aicp_netapp_trident_deployment_and_configuration_overview.html["次のセクションでは、 NetApp Trident の導入と構成の概要について説明します"]
