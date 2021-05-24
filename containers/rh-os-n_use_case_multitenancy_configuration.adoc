@@ -1,0 +1,56 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_multitenancy_configuration.html 
+keywords: OpenShift, OCP, NetApp Trident, NetApp ONTAP, Red Hat OpenShift, Multitenancy, Multi-tenancy 
+summary: ネットアップを使用した Red Hat OpenShift でのマルチテナンシーの構成 
+---
+= 設定
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+マルチテナント解決策では、どのユーザも必要以上にクラスタリソースへのアクセスを許可しないようにする必要があります。つまり、マルチテナンシー構成の一部として設定するリソースセット全体が、クラスタ管理者、ストレージ管理者、および各プロジェクトに取り組む開発者の間で分割されます。
+
+次の表に、さまざまなユーザーが実行するさまざまなタスクの概要を示します。
+
+|===
+| ロール | タスク 
+
+
+.4+| * Cluster-admin* | さまざまなアプリケーションやワークロード用のプロジェクトを作成できます 
+
+
+| Storage Admin 用の ClusterRoles および RoleBindings を作成します 
+
+
+| ロールとロールの作成特定のアクセス権を割り当てる開発者のためのバインド プロジェクト 
+
+
+| [ オプション ] 特定のノードでポッドをスケジュールするようにプロジェクトを設定します 
+
+
+.4+| * ストレージ管理者 * | NetApp ONTAP に SVM を作成する 
+
+
+| Trident バックエンドを作成 
+
+
+| ストレージクラスを作成します 
+
+
+| ストレージリソースクォータを作成します 
+
+
+.3+| * 開発者 * | 割り当てられたプロジェクトで PVC/POD を作成 / パッチするためのアクセスを検証します 
+
+
+| アクセスを検証して、別のプロジェクトで PVC/POD を作成 / パッチします 
+
+
+| プロジェクト、リソースクォータ、ストレージクラスを表示 / 編集するアクセス権を検証します 
+|===
+link:rh-os-n_use_case_multitenancy_configuration_prerequisites.html["次の手順：前提条件"]

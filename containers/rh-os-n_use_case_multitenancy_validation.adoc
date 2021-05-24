@@ -1,0 +1,210 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_multitenancy_validation.html 
+keywords: OpenShift, OCP, NetApp Trident, NetApp ONTAP, Red Hat OpenShift, Multitenancy, Multi-tenancy 
+summary: ネットアップを使用した Red Hat OpenShift でのマルチテナンシーの構成 
+---
+= 検証
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+前の手順で設定したマルチテナントアーキテクチャを検証するには、次の手順を実行します。
+
+
+
+==== 割り当てられたプロジェクトで PVC/POD を作成するためのアクセスを検証します
+
+. OCP-project-1-user として、 project-1 の開発者としてログインします。
+. アクセス権をチェックして新しいプロジェクトを作成してください
++
+[source, console]
+----
+oc create ns sub-project-1
+----
+. project-1 に割り当てられたストレージクラスを使用して 'project-1 に PVC を作成します
++
+[source, console]
+----
+cat << EOF | oc create -f -
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: test-pvc-project-1
+  namespace: project-1
+  annotations:
+    trident.netapp.io/reclaimPolicy: Retain
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: project-1-sc
+EOF
+----
+. PVC に関連付けられている PV を確認します
++
+[source, console]
+----
+oc get pv
+----
+. PV とそのボリュームがに作成されていることを確認します NetApp ONTAP 上のプロジェクト 1 専用 SVM
++
+[source, console]
+----
+volume show -vserver project-1-svm
+----
+. project-1 にポッドを作成し、前の手順で作成した PVC をマウントします。
++
+[source, console]
+----
+cat << EOF | oc create -f -
+kind: Pod
+apiVersion: v1
+metadata:
+  name: test-pvc-pod
+  namespace: project-1
+spec:
+  volumes:
+    - name: test-pvc-project-1
+      persistentVolumeClaim:
+       claimName: test-pvc-project-1
+  containers:
+    - name: test-container
+      image: nginx
+      ports:
+        - containerPort: 80
+          name: "http-server"
+      volumeMounts:
+        - mountPath: "/usr/share/nginx/html"
+          name: test-pvc-project-1
+EOF
+----
+. ポッドが動作していて、が搭載されているかどうかを確認します ボリューム
++
+[source, console]
+----
+oc describe pods test-pvc-pod -n project-1
+----
+
+
+
+
+==== アクセスを検証して、別のプロジェクトに PVC/POD を作成するか、別のプロジェクト専用のリソースを使用します。
+
+. OCP-project-1-user として、 project-1 の開発者としてログインします
+. project-2 に割り当てられたストレージクラスを使用して 'project-1 に PVC を作成します
++
+[source, console]
+----
+cat << EOF | oc create -f -
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: test-pvc-project-1-sc-2
+  namespace: project-1
+  annotations:
+    trident.netapp.io/reclaimPolicy: Retain
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: project-2-sc
+EOF
+----
+. PROJECT -2 で PVC を作成します。
++
+[source, console]
+----
+cat << EOF | oc create -f -
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: test-pvc-project-2-sc-1
+  namespace: project-2
+  annotations:
+    trident.netapp.io/reclaimPolicy: Retain
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: project-1-sc
+EOF
+----
+. PVC test-pvc-project-1-sc-2 および test-pvc-project-2-ssc-1 が作成されていないことを確認します
++
+[source, console]
+----
+oc get pvc -n project-1
+oc get pvc -n project-2
+----
+. プロジェクト 2 でポッドを作成します。
++
+[source, console]
+----
+cat << EOF | oc create -f -
+kind: Pod
+apiVersion: v1
+metadata:
+  name: test-pvc-pod
+  namespace: project-1
+spec:
+  containers:
+    - name: test-container
+      image: nginx
+      ports:
+        - containerPort: 80
+          name: "http-server"
+EOF
+----
+
+
+
+
+==== プロジェクト、リソースクォータ、ストレージクラスを表示 / 編集するアクセス権を検証します
+
+. OCP-project-1-user として、 project-1 の開発者としてログインします。
+. アクセス権をチェックして新しいプロジェクトを作成します
++
+[source, console]
+----
+oc create ns sub-project-1
+----
+. アクセスを検証してプロジェクトを表示します
++
+[source, console]
+----
+oc get ns
+----
+. ユーザーがで ResourceQuotas を表示または編集できるかどうかを確認します プロジェクト 1
++
+[source, console]
+----
+oc get resourcequotas -n project-1
+oc edit resourcequotas project-1-sc-rq -n project-1
+----
+. ユーザーがストレージクラスを表示するためのアクセス権を持っていることを確認します
++
+[source, console]
+----
+oc get sc
+----
+. ストレージクラスについては ' アクセスを確認してください
+. ストレージクラスを編集するためにユーザーのアクセス権を検証します
++
+[source, console]
+----
+oc edit sc project-1-sc
+----
+
+
+link:rh-os-n_use_case_multitenancy_scaling.html["次のステップ：スケーリング"]

@@ -1,0 +1,63 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_multitenancy_architecture.html 
+keywords: OpenShift, OCP, NetApp Trident, NetApp ONTAP, Red Hat OpenShift, Multitenancy, Multi-tenancy 
+summary: ネットアップを使用した Red Hat OpenShift でのマルチテナンシーの構成 
+---
+= アーキテクチャ
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Red Hat OpenShift と NetApp ONTAP を基盤とする NetApp Trident は、デフォルトでワークロードを分離する機能を提供しませんが、マルチテナンシーの設定に使用できるさまざまな機能を備えています。ネットアップ解決策をベースとする NetApp Trident を使用した Red Hat OpenShift クラスタでのマルチテナント ONTAP の設計について理解を深めるために、一連の要件を含む例を検討し、その構成について概説します。
+
+2 つの異なるチームが取り組んでいる 2 つのプロジェクトの一環として、組織が Red Hat OpenShift クラスタ上で 2 つのワークロードを実行するとします。これらのワークロードのデータは、 NetApp ONTAP NAS バックエンド上の NetApp Trident によって動的にプロビジョニングされる PVC 上に存在します。組織では、この 2 つのワークロード用にマルチテナント解決策を設計し、これらのプロジェクトに使用するリソースを分離して、セキュリティとパフォーマンスを確保する必要があります。主に、これらのアプリケーションに対応するデータに焦点を当てます。
+
+次の図は、ネットアップ解決策をベースとする NetApp Trident を使用した Red Hat OpenShift クラスタ上のマルチテナント ONTAP を示しています。
+
+image::redhat_openshift_image40.jpg[NetApp Trident を使用し、 Red Hat OpenShift クラスタにマルチテナンシー機能を追加 NetApp ONTAP の略]
+
+
+
+=== テクノロジ要件
+
+. NetApp ONTAP ストレージクラスタ
+. Red Hat OpenShift クラスタ
+. NetApp Trident
+
+
+
+
+=== Red Hat OpenShift –クラスタリソース
+
+Red Hat OpenShift クラスタの観点から見ると、最初に提供する最上位のリソースは project です。OpenShift Project は、 OpenShift クラスタ全体を複数の仮想クラスタに分割するクラスタリソースと見なすことができます。そのため、プロジェクトレベルでの分離は、マルチテナンシーを設定するためのベースとなります。
+
+次に、クラスタで RBAC を設定します。ベストプラクティスとして、すべての開発者が 1 つのプロジェクト / ワークロードを対象に、アイデンティティプロバイダ（ IdP ）内の 1 つのユーザグループに設定することを推奨します。Red Hat OpenShift では、 IdP の統合とユーザグループの同期が可能なため、 IdP のユーザとグループをクラスタにインポートできるようになります。これにより、クラスタ管理者は、プロジェクト専用のクラスタリソースへのアクセスを、そのプロジェクトで作業しているユーザグループに分離できるため、クラスタリソースへの不正アクセスを制限できます。Red Hat OpenShift への IdP の統合の詳細については、のドキュメントを参照してください https://docs.openshift.com/container-platform/4.7/authentication/understanding-identity-provider.html["こちらをご覧ください"^]。
+
+
+
+=== NetApp ONTAP
+
+Red Hat OpenShift クラスタの永続的ストレージプロバイダとして機能している共有ストレージを分離し、各プロジェクト用にストレージ上に作成されたボリュームが、別々のストレージ上に作成されたかのようにホストに表示されるようにすることが重要です。そのためには、プロジェクトやワークロードが存在する数の SVM （ Storage Virtual Machine ）を NetApp ONTAP 上に作成し、各 SVM をワークロード専用にします。
+
+
+
+=== NetApp Trident
+
+NetApp ONTAP で作成したプロジェクトごとに異なる SVM が作成されたら、各 SVM を異なる Trident バックエンドにマッピングする必要があります。Trident のバックエンド構成は、 OpenShift クラスタリソースへの永続的ストレージの割り当てを促進します。また、バックエンドのプロトコルドライバにマッピングする SVM の詳細が必要です。必要に応じて、ストレージでのボリュームのプロビジョニング方法や、ボリュームのサイズやアグリゲートの使用に関する制限を定義することができます。 NetApp ONTAP の Trident バックエンドの定義に関する詳細を確認できます https://netapp-trident.readthedocs.io/en/stable-v21.01/kubernetes/operations/tasks/backends/ontap/index.html["こちらをご覧ください"^]。
+
+
+
+=== Red Hat OpenShift –ストレージリソース
+
+Trident バックエンドを設定したら、次の手順として StorageClasses を設定します。バックエンドと同じ数のストレージクラスを構成して、各ストレージクラスが 1 つのバックエンドにしかボリュームをスピンアップできない。ストレージクラスを定義する際に StoragePools パラメータを使用して、ストレージクラスを特定の Trident バックエンドにマッピングできます。ストレージクラスを定義する詳細については、を参照してください https://netapp-trident.readthedocs.io/en/stable-v18.07/kubernetes/concepts/objects.html#kubernetes-storageclass-objects["こちらをご覧ください"^]。そのため、ストレージクラスから Trident バックエンドへの 1 対 1 のマッピングが 1 つの SVM をポイントしています。これにより、そのプロジェクトに割り当てられた StorageClass を経由するすべてのストレージ要求が、そのプロジェクト専用の SVM によって処理されます。
+
+しかし、ストレージクラスにネームスペースリソースが含まれていないため、あるプロジェクトのストレージクラスに対するストレージ要求を別のネームスペース / プロジェクトのポッドで拒否するにはどうすればよいですか。回答では、 ResourceQuotas を使用します。ResourceQuotas は、プロジェクトごとのリソースの合計使用量を制御するオブジェクトです。プロジェクト内のオブジェクトで消費できるリソースの合計量だけでなく、リソースの数も制限できます。ほとんどの場合、 ResourceQuotas を使用してプロジェクトのリソースを制限することができます。この機能を効率的に使用することで、リソースのオーバープロビジョニングや過剰消費によるコストやシステム停止を削減できます。のドキュメントを参照してください https://docs.openshift.com/container-platform/4.7/applications/quotas/quotas-setting-per-project.html["こちらをご覧ください"^] を参照してください。
+
+このユースケースでは、特定のプロジェクトのポッドが、プロジェクト専用ではないストレージクラスのストレージを要求しないように制限する必要があります。これを行うには '<storage-class-name>.storageclass.storage.k8s/io/persistentvolumeclaims'0 を 0 に設定して ' 他のストレージ・クラスに対する永続的ボリューム要求を制限する必要がありますさらに、クラスタ管理者は、プロジェクト内の開発者が ResourceQuotas を変更するためのアクセス権を持っていないことを確認する必要があります。
+
+link:rh-os-n_use_case_multitenancy_configuration.html["次へ：設定"]

@@ -1,0 +1,93 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_pipeline.html 
+keywords: CI/CD, Continuous integration, continuous deployment, Jenkins, PVC 
+summary:  
+---
+= 永続的ストレージを使用した Jenkins CI / CD パイプラインの導入：ネットアップでの Red Hat OpenShift
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+このセクションでは、解決策の動作を検証するために、 Jenkins との継続的統合 / 継続的配信または導入（ CI/CD ）パイプラインを導入する手順について説明します。
+
+
+
+=== Jenkins Deployment に必要なリソースを作成します
+
+Jenkins アプリケーションの導入に必要なリソースを作成するには、次の手順に従います。
+
+. Jenkins という名前の新しいプロジェクトを作成します。
++
+image:redhat_openshift_image15.jpeg["エラー：グラフィックイメージがありません"]
+
+. この例では、永続的ストレージを使用して Jenkins を導入しています。Jenkins ビルドをサポートするには、 PVC を作成します。[ ストレージ ] > [ 永続的ボリューム要求 ] の順に選択し、 [ 永続的ボリューム要求の作成 ] をクリックします。作成したストレージクラスを選択し、永続ボリューム要求名が Jenkins であることを確認し、適切なサイズとアクセスモードを選択して、作成をクリックします。
+
+
+image:redhat_openshift_image16.png["エラー：グラフィックイメージがありません"]
+
+
+
+=== 永続的ストレージを使用して Jenkins を導入する
+
+永続ストレージを使用して Jenkins を導入するには、次の手順を実行します。
+
+. 左上隅で、ロールを Administrator から Developer に変更します。+ 追加をクリックし、カタログからを選択します。キーワードバーで「フィルター」で「 Jenkins 」を検索します。永続的ストレージを使用する Jenkins Service を選択します。
++
+image:redhat_openshift_image17.png["エラー：グラフィックイメージがありません"]
+
+. [ テンプレートをインスタンス化 ] をクリックする。
++
+image:redhat_openshift_image18.png["エラー：グラフィックイメージがありません"]
+
+. デフォルトでは、 Jenkins アプリケーションの詳細が入力されます。要件に基づいてパラメータを変更し、 [ 作成（ Create ） ] をクリックします。このプロセスでは、 OpenShift で Jenkins をサポートするために必要なリソースがすべて作成されます。
++
+image:redhat_openshift_image19.jpeg["エラー：グラフィックイメージがありません"]
+
+. Jenkins ポッドが「 Ready 」状態になるまでに約 10 ～ 12 分かかります。
++
+image:redhat_openshift_image20.png["エラー：グラフィックイメージがありません"]
+
+. ポッドがインスタンス化されたら、ネットワーキング > ルートと進みます。Jenkins の Web ページを開くには、 Jenkins ルート用の URL をクリックします。
++
+image:redhat_openshift_image21.png["エラー：グラフィックイメージがありません"]
+
+. Jenkins アプリの作成時に OpenShift OAuth が使用されたため、「 OpenShift でログイン」をクリックします。
++
+image:redhat_openshift_image22.jpeg["エラー：グラフィックイメージがありません"]
+
+. Jenkins サービスアカウントに OpenShift ユーザへのアクセスを許可します。
++
+image:redhat_openshift_image23.jpeg["エラー：グラフィックイメージがありません"]
+
+. Jenkins のようこそページが表示されます。Maven ビルドを使用しているので、まず Maven のインストールを完了します。Manage Jenkins > Global Tool Configuration に移動し、 Maven サブヘッドで Add Maven をクリックします。任意の名前を入力し、 [ 自動的にインストール ] オプションが選択されていることを確認します。[ 保存 ] をクリックします .
++
+image:redhat_openshift_image24.png["エラー：グラフィックイメージがありません"]
+
+. CI / CD のワークフローを示すパイプラインを作成できるようになりました。ホームページで、左側のメニューから [ 新規ジョブの作成 ] または [ 新規アイテム ] をクリックします。
++
+image:redhat_openshift_image25.jpeg["エラー：グラフィックイメージがありません"]
+
+. [ 項目の作成 ] ページで、任意の名前を入力し、 [ パイプライン ] を選択して、 [OK] をクリックします。
++
+image:redhat_openshift_image26.png["エラー：グラフィックイメージがありません"]
+
+. パイプライン (Pipeline) タブを選択しますサンプルパイプラインを試すドロップダウンメニューから、 Github + Maven を選択します。コードが自動的に入力されます。[ 保存 ] をクリックします .
++
+image:redhat_openshift_image27.png["エラー：グラフィックイメージがありません"]
+
+. 「今すぐビルド」をクリックして、準備、ビルド、テストの各フェーズで開発を開始します。ビルドプロセス全体が完了してビルドの結果が表示されるまでに数分かかることがあります。
++
+image:redhat_openshift_image28.png["エラー：グラフィックイメージがありません"]
+
+. コードが変更された場合は、必ずパイプラインを再構築して新しいバージョンのソフトウェアにパッチを適用することで、継続的な統合と継続的な提供を実現できます。[ 最近の変更 ] をクリックして、前のバージョンからの変更を追跡します。
++
+image:redhat_openshift_image29.png["エラー：グラフィックイメージがありません"]
+
+
+
+link:rh-os-n_videos_and_demos.html["次は、ビデオとデモです"]

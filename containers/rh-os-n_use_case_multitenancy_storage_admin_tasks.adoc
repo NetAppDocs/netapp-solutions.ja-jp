@@ -1,0 +1,85 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_multitenancy_storage_admin_tasks.html 
+keywords: OpenShift, OCP, NetApp Trident, NetApp ONTAP, Red Hat OpenShift, Multitenancy, Multi-tenancy 
+summary: ネットアップを使用した Red Hat OpenShift でのマルチテナンシーの構成 
+---
+= 設定：ストレージ管理者のタスク
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+ストレージ管理者は、次のリソースを設定する必要があります。
+
+. NetApp ONTAP クラスタに admin としてログインします。
+. 「ストレージ -> ストレージ VM 」に移動し、「追加」をクリックします。プロジェクト 1 用に 2 つの SVM を作成し、プロジェクト 2 用にもう 1 つ作成して、必要な詳細を指定します。また、 SVM とそのリソースを管理するには vsadmin アカウントを作成します。
+
+
+image::redhat_openshift_image41.jpg[ONTAP での SVM の作成]
+
+. ストレージ管理者として Red Hat OpenShift クラスタにログインします。
+. プロジェクト 1 のバックエンドを作成して、プロジェクト専用の SVM にマッピングします。ONTAP クラスタ管理者ではなく、 SVM の vsadmin アカウントを使用してバックエンドを SVM に接続することを推奨します。
++
+[source, console]
+----
+cat << EOF | tridentctl -n trident create backend -f
+{
+    "version": 1,
+    "storageDriverName": "ontap-nas",
+    "backendName": "nfs_project_1",
+    "managementLIF": "172.21.224.210",
+    "dataLIF": "10.61.181.224",
+    "svm": "project-1-svm",
+    "username": "vsadmin",
+    "password": "NetApp123"
+}
+EOF
+----
+
+
+
+NOTE: この例では ONTAP と NAS のドライバを使用しています。ユースケースに基づいてバックエンドを作成する際は、に適したドライバを使用します。
+
+
+NOTE: Trident は Trident プロジェクトにインストールされていると想定されています。
+
+. 同様に、 project-2 用の Trident バックエンドを project-2 専用の SVM にマッピングします。
+. 次の手順では、ストレージクラスを作成します。StoragePools パラメータを設定して、 project-1 専用のバックエンドのストレージプールを使用するように project-1 のストレージクラスを作成し、これを設定します。
++
+[source, console]
+----
+cat << EOF | oc create -f -
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: project-1-sc
+provisioner: csi.trident.netapp.io
+parameters:
+  backendType: ontap-nas
+  storagePools: "nfs_project_1:.*"
+EOF
+----
+. 同様に、 project-2 に対してストレージクラスを作成し、 project-2 に専用のバックエンドのストレージプールを使用するように設定します。
+. ResourceQuota を作成して ' プロジェクト 1 内のリソースを制限し ' 他のプロジェクト専用のストレージを要求します
++
+[source, console]
+----
+cat << EOF | oc create -f -
+kind: ResourceQuota
+apiVersion: v1
+metadata:
+  name: project-1-sc-rq
+  namespace: project-1
+spec:
+  hard:
+    project-2-sc.storageclass.storage.k8s.io/persistentvolumeclaims: 0
+EOF
+----
+. 同様に 'ResourceQuota を作成して 'project-2 内のリソースを制限し ' 他のプロジェクト専用のストレージを要求します
+
+
+link:rh-os-n_use_case_multitenancy_validation.html["次のステップ：検証"]

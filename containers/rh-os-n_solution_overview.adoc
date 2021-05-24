@@ -1,0 +1,108 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_solution_overview.html 
+keywords: NVA-1160, Red Hat, OpenShift, Netapp, Trident 
+summary:  
+---
+= NVA-1160 ：ネットアップでの Red Hat OpenShift
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+ネットアップ、 Alan Cowles 氏と Nikhil M Kulkarni 氏
+
+[role="lead"]
+このリファレンスドキュメントでは、ネットアップによって検証済みの複数の異なるデータセンター環境に Installer Provisioned Infrastructure （ IPI ）を通じて導入された Red Hat OpenShift 解決策の導入を検証します。また、 NetApp Trident ストレージオーケストレーションツールを使用して永続的ストレージを管理することにより、ネットアップストレージシステムとのストレージ統合の詳細も確認できます。最後に、解決策検証と実際の使用事例をいくつか確認して文書化します。
+
+
+
+=== ユースケース
+
+ネットアップ解決策を使用した Red Hat OpenShift は、次のユースケースでお客様に卓越した価値を提供するように設計されています。
+
+* ベアメタル、 Red Hat OpenStack Platform 、 Red Hat Virtualization 、 VMware vSphere に IPI （インストーラでプロビジョニングされたインフラ）を使用して導入した Red Hat OpenShift の導入と管理が容易です。
+* OSP 、 RHV 、 vSphere 、または OpenShift Virtualization を使用したベアメタルに導入された Red Hat OpenShift を使用して、エンタープライズコンテナと仮想化ワークロードのパワーを組み合わせたもの。
+* ネットアップストレージと Kubernetes 向けオープンソースストレージオーケストレーションツールである NetApp Trident とともに使用される Red Hat OpenShift の機能を紹介する実際の構成とユースケース。
+
+
+
+
+=== ビジネスバリュー
+
+企業は、新しい製品の作成、リリースサイクルの短縮、新機能の迅速な追加を目的として、 DevOps の手法を採用する傾向に迫られています。即応性に優れた本来の性質から、コンテナやマイクロサービスは、 DevOps の実践を支援するうえで重要な役割を果たします。しかし、エンタープライズ環境で本番環境規模で DevOps を実践する場合、独自の課題が生じ、基盤となるインフラに次のような一定の要件が課せられます。
+
+* スタック内のすべてのレイヤで高可用性を実現します
+* 導入手順の簡易化
+* ノンストップオペレーションとアップグレード
+* API ベースのプログラム可能なインフラで、マイクロサービスの即応性を維持します
+* パフォーマンスを保証するマルチテナンシー
+* 仮想ワークロードとコンテナ化されたワークロードを同時に実行できます
+* ワークロードのニーズに応じてインフラを個別に拡張できる
+
+
+ネットアップとともに Red Hat OpenShift を導入することで、これらの課題に対応し、お客様が選択したデータセンター環境に RedHat OpenShift IPI を完全に自動で導入できるようになり、それぞれの問題に対処できる解決策が提供されます。
+
+
+
+=== テクノロジの概要
+
+NetApp 解決策を使用した Red Hat OpenShift は、次の 3 つのコンポーネントで構成されています。
+
+
+
+==== Red Hat OpenShift Container Platform
+
+Red Hat OpenShift Container Platform は、完全にサポートされているエンタープライズ Kubernetes プラットフォームです。 Red Hat は、オープンソース Kubernetes のいくつかの機能強化を行い、コンテナ化されたアプリケーションの構築、導入、管理に完全に統合されたアプリケーションプラットフォームを提供します。
+
+詳細については、 OpenShift の Web サイトを参照してください https://www.openshift.com["こちらをご覧ください"]。
+
+
+
+==== ネットアップストレージシステム
+
+ネットアップには、エンタープライズデータセンターやハイブリッドクラウド環境に最適なストレージシステムが複数あります。ネットアップのポートフォリオには、 NetApp ONTAP 、 NetApp Element 、および NetApp E シリーズストレージシステムが含まれています。これらはすべて、コンテナ化されたアプリケーションに永続的ストレージを提供するために利用できます。
+
+詳細については、ネットアップの Web サイトをご覧ください https://www.netapp.com["こちらをご覧ください"]。
+
+
+
+==== NetApp Trident
+
+NetApp Trident は、コンテナや Kubernetes ディストリビューション向けの、 Red Hat OpenShift などのオープンソースで完全にサポートされているストレージオーケストレーションツールです。
+
+詳細については、 Trident の Web サイトをご覧ください https://netapp-trident.readthedocs.io/en/stable-v21.04/index.html["こちらをご覧ください"]。
+
+
+
+=== 検証済みリリースの現在のサポートマトリックスです
+
+|===
+
+
+| テクノロジ | 目的 | ソフトウェアのバージョン 
+
+
+| NetApp ONTAP | ストレージ | 9.8 
+
+
+| NetApp Element | ストレージ | 12.3 
+
+
+| NetApp Trident | ストレージオーケストレーション | 21.04 
+
+
+| Red Hat OpenShift のサービスです | コンテナオーケストレーション | 4.6 EUS 、 4.7 
+
+
+| Red Hat OpenStack Platform | プライベートクラウドインフラ | 16.1 
+
+
+| Red Hat 仮想化 | データセンターの仮想化 | 4 月 4 日 
+
+
+| VMware vSphere の場合 | データセンターの仮想化 | 6.7U3 
+|===
+link:rh-os-n_overview_openshift.html["次のレポートは、 Red Hat OpenShift の概要です"]

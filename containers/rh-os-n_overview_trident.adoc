@@ -1,0 +1,293 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_overview_trident.html 
+keywords: Trident, Helm, Operator, iSCSI, NFS 
+summary:  
+---
+= NetApp Trident の概要：ネットアップを使用した Red Hat OpenShift
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+NetApp Trident は、コンテナや Kubernetes ディストリビューション向けの、 Red Hat OpenShift などのオープンソースで完全にサポートされているストレージオーケストレーションツールです。
+
+Trident は、 NetApp ONTAP や Element ストレージシステムを含むネットアップストレージポートフォリオ全体と連携し、 NFS 接続と iSCSI 接続をサポートします。Trident を使用すると、ストレージ管理者の手を煩わせることなく、エンドユーザがネットアップストレージシステムからストレージをプロビジョニングして管理できるため、 DevOps ワークフローを高速化できます。管理者は、プロジェクトのニーズに基づいていくつかのストレージバックエンドを構成し、圧縮、特定のディスクタイプ、 QoS レベルなど、特定のパフォーマンスを保証する高度なストレージ機能をいくつでも利用できるストレージシステムモデルを構成できます。定義されたバックエンドは、開発者がプロジェクトの一環として永続的ボリューム要求（ PVC ）を作成し、永続的ストレージをオンデマンドでコンテナに接続する際に利用できます。
+
+image:redhat_openshift_image2.png["エラー：グラフィックイメージがありません"]
+
+NetApp Trident は、 Kubernetes と同様、迅速な開発サイクルを 1 年に 4 回リリースしています。
+
+最新バージョンの NetApp Trident は、 2021 年 4 月にリリースされた 21.04 です。Trident のどのバージョンがサポートされているかを確認できます Kubernetes ディストリビューションのテストに使用 https://netapp-trident.readthedocs.io/en/stable-v21.04/support/requirements.html#supported-frontends-orchestrators["こちらをご覧ください"]。
+
+20.04 リリース以降、 Trident のセットアップは Trident オペレータによって実行されます。オペレータの手を使うことで大規模な導入が容易になり、 Trident のインストールの一部として導入されているポッドの自己修復などの追加サポートを受けることができます。
+
+21.01 リリースでは、 Trident Operator のインストールを容易にするために Helm チャートを使用できるようになりました。
+
+
+
+== NetApp Trident をダウンロード
+
+導入したユーザクラスタに Trident をインストールし、永続ボリュームをプロビジョニングするには、次の手順を実行します。
+
+. インストールアーカイブを管理ワークステーションにダウンロードし、内容を展開します。Trident の現在のバージョンは 21.01 で、ダウンロードできます https://github.com/NetApp/trident/releases/download/v21.04.0/trident-installer-21.04.0.tar.gz["こちらをご覧ください"]。
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ wget https://github.com/NetApp/trident/releases/download/v21.04.0/trident-installer-21.04.0.tar.gz
+--2021-05-06 15:17:30--  https://github.com/NetApp/trident/releases/download/v21.04.0/trident-installer-21.04.0.tar.gz
+Resolving github.com (github.com)... 140.82.114.3
+Connecting to github.com (github.com)|140.82.114.3|:443... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: https://github-releases.githubusercontent.com/77179634/a4fa9f00-a9f2-11eb-9053-98e8e573d4ae?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20210506%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20210506T191643Z&X-Amz-Expires=300&X-Amz-Signature=8a49a2a1e08c147d1ddd8149ce45a5714f9853fee19bb1c507989b9543eb3630&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=77179634&response-content-disposition=attachment%3B%20filename%3Dtrident-installer-21.04.0.tar.gz&response-content-type=application%2Foctet-stream [following]
+--2021-05-06 15:17:30--  https://github-releases.githubusercontent.com/77179634/a4fa9f00-a9f2-11eb-9053-98e8e573d4ae?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20210506%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20210506T191643Z&X-Amz-Expires=300&X-Amz-Signature=8a49a2a1e08c147d1ddd8149ce45a5714f9853fee19bb1c507989b9543eb3630&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=77179634&response-content-disposition=attachment%3B%20filename%3Dtrident-installer-21.04.0.tar.gz&response-content-type=application%2Foctet-stream
+Resolving github-releases.githubusercontent.com (github-releases.githubusercontent.com)... 185.199.108.154, 185.199.109.154, 185.199.110.154, ...
+Connecting to github-releases.githubusercontent.com (github-releases.githubusercontent.com)|185.199.108.154|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 38349341 (37M) [application/octet-stream]
+Saving to: ‘trident-installer-21.04.0.tar.gz’
+
+100%[==================================================================================================================>] 38,349,341  88.5MB/s   in 0.4s
+
+2021-05-06 15:17:30 (88.5 MB/s) - ‘trident-installer-21.04.0.tar.gz’ saved [38349341/38349341]
+----
+. ダウンロードしたバンドルから Trident のインストールを解凍します。
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ tar -xzf trident-installer-21.01.0.tar.gz
+[netapp-user@rhel7 ~]$ cd trident-installer/
+[netapp-user@rhel7 trident-installer]$
+----
+
+
+
+
+== Helm を使用して Trident Operator をインストールします
+
+. Trident にはこのファイルを渡すオプションがないため、まず、ユーザクラスタの「 kubeconfig 」ファイルの場所を環境変数として設定します。
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ export KUBECONFIG=~/ocp-install/auth/kubeconfig
+----
+. Helm コマンドを実行し、ユーザークラスタに trident 名前空間を作成しながら、 Helball ディレクトリ内の tarball から Trident 演算子をインストールします。
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ helm install trident helm/trident-operator-21.04.0.tgz --create-namespace --namespace trident
+NAME: trident
+LAST DEPLOYED: Fri May  7 12:54:25 2021
+NAMESPACE: trident
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+Thank you for installing trident-operator, which will deploy and manage NetApp's Trident CSI
+storage provisioner for Kubernetes.
+
+Your release is named 'trident' and is installed into the 'trident' namespace.
+Please note that there must be only one instance of Trident (and trident-operator) in a Kubernetes cluster.
+
+To configure Trident to manage storage resources, you will need a copy of tridentctl, which is
+available in pre-packaged Trident releases.  You may find all Trident releases and source code
+online at https://github.com/NetApp/trident.
+
+To learn more about the release, try:
+
+  $ helm status trident
+  $ helm get all trident
+----
+. Trident が正しくインストールされていることを確認するには、ネームスペースで実行されているポッドを確認するか、 tridentctl バイナリを使用してインストールされているバージョンを確認します。
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ oc get pods -n trident
+NAME                               READY   STATUS    RESTARTS   AGE
+trident-csi-5z45l                  1/2     Running   2          30s
+trident-csi-696b685cf8-htdb2       6/6     Running   0          30s
+trident-csi-b74p2                  2/2     Running   0          30s
+trident-csi-lrw4n                  2/2     Running   0          30s
+trident-operator-7c748d957-gr2gw   1/1     Running   0          36s
+
+[netapp-user@rhel7 trident-installer]$ ./tridentctl -n trident version
++----------------+----------------+
+| SERVER VERSION | CLIENT VERSION |
++----------------+----------------+
+| 21.04.0        | 21.04.0        |
++----------------+----------------+
+----
+
+
+
+NOTE: お客様の環境では、 Trident の導入をカスタマイズしなければならない場合があります。このような場合は、 Trident のオペレータを手動でインストールし、含まれているマニフェストを更新して配置をカスタマイズすることもできます。
+
+
+
+== Trident Operator を手動でインストールします
+
+. Trident にはこのファイルを渡すオプションがないため、まず、ユーザクラスタの「 kubeconfig 」ファイルの場所を環境変数として設定します。
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ export KUBECONFIG=~/ocp-install/auth/kubeconfig
+----
+. 'trident-installer' ディレクトリには ' 必要なすべてのリソースを定義するマニフェストが含まれています適切なマニフェストを使用して、「 TridentOrchestrator 」カスタムリソース定義を作成します。
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ oc create -f deploy/crds/trident.netapp.io_tridentorchestrators_crd_post1.16.yaml
+customresourcedefinition.apiextensions.k8s.io/tridentorchestrators.trident.netapp.io created
+----
+. 存在しない場合は、指定されたマニフェストを使用して、クラスタ内に Trident ネームスペースを作成します。
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ oc apply -f deploy/namespace.yaml
+namespace/trident created
+----
+. トライデントオペレータの配備に必要なリソースを作成しますたとえば ' オペレータ用のサービスアカウント 'ClusterRole' および 'ClusterRoleBind' を 'ServiceAccount' 専用の 'PodSecurityPolicy' またはオペレータ自体に割り当てます
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ oc create -f deploy/bundle.yaml
+serviceaccount/trident-operator created
+clusterrole.rbac.authorization.k8s.io/trident-operator created
+clusterrolebinding.rbac.authorization.k8s.io/trident-operator created
+deployment.apps/trident-operator created
+podsecuritypolicy.policy/tridentoperatorpods created
+----
+. 次のコマンドを使用すると、展開後にオペレータのステータスを確認できます。
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ oc get deployment -n trident
+NAME               READY   UP-TO-DATE   AVAILABLE   AGE
+trident-operator   1/1     1            1           23s
+[netapp-user@rhel7 trident-installer]$ oc get pods -n trident
+NAME                                READY   STATUS    RESTARTS   AGE
+trident-operator-66f48895cc-lzczk   1/1     Running   0          41s
+----
+. オペレータが導入したら、 Trident をインストールできます。これには 'TridentOrchestrator を作成する必要があります
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ oc create -f deploy/crds/tridentorchestrator_cr.yaml
+tridentorchestrator.trident.netapp.io/trident created
+[netapp-user@rhel7 trident-installer]$ oc describe torc trident
+Name:         trident
+Namespace:
+Labels:       <none>
+Annotations:  <none>
+API Version:  trident.netapp.io/v1
+Kind:         TridentOrchestrator
+Metadata:
+  Creation Timestamp:  2021-05-07T17:00:28Z
+  Generation:          1
+  Managed Fields:
+    API Version:  trident.netapp.io/v1
+    Fields Type:  FieldsV1
+    fieldsV1:
+      f:spec:
+        .:
+        f:debug:
+        f:namespace:
+    Manager:      kubectl-create
+    Operation:    Update
+    Time:         2021-05-07T17:00:28Z
+    API Version:  trident.netapp.io/v1
+    Fields Type:  FieldsV1
+    fieldsV1:
+      f:status:
+        .:
+        f:currentInstallationParams:
+          .:
+          f:IPv6:
+          f:autosupportHostname:
+          f:autosupportImage:
+          f:autosupportProxy:
+          f:autosupportSerialNumber:
+          f:debug:
+          f:enableNodePrep:
+          f:imagePullSecrets:
+          f:imageRegistry:
+          f:k8sTimeout:
+          f:kubeletDir:
+          f:logFormat:
+          f:silenceAutosupport:
+          f:tridentImage:
+        f:message:
+        f:namespace:
+        f:status:
+        f:version:
+    Manager:         trident-operator
+    Operation:       Update
+    Time:            2021-05-07T17:00:28Z
+  Resource Version:  931421
+  Self Link:         /apis/trident.netapp.io/v1/tridentorchestrators/trident
+  UID:               8a26a7a6-dde8-4d55-9b66-a7126754d81f
+Spec:
+  Debug:      true
+  Namespace:  trident
+Status:
+  Current Installation Params:
+    IPv6:                       false
+    Autosupport Hostname:
+    Autosupport Image:          netapp/trident-autosupport:21.01
+    Autosupport Proxy:
+    Autosupport Serial Number:
+    Debug:                      true
+    Enable Node Prep:           false
+    Image Pull Secrets:
+    Image Registry:
+    k8sTimeout:           30
+    Kubelet Dir:          /var/lib/kubelet
+    Log Format:           text
+    Silence Autosupport:  false
+    Trident Image:        netapp/trident:21.04.0
+  Message:                Trident installed
+  Namespace:              trident
+  Status:                 Installed
+  Version:                v21.04.0
+Events:
+  Type    Reason      Age   From                        Message
+  ----    ------      ----  ----                        -------
+  Normal  Installing  80s   trident-operator.netapp.io  Installing Trident
+  Normal  Installed   68s   trident-operator.netapp.io  Trident installed
+----
+. Trident が正しくインストールされていることを確認するには、ネームスペースで実行されているポッドを確認するか、 tridentctl バイナリを使用してインストールされているバージョンを確認します。
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ oc get pods -n trident
+NAME                                READY   STATUS    RESTARTS   AGE
+trident-csi-bb64c6cb4-lmd6h         6/6     Running   0          82s
+trident-csi-gn59q                   2/2     Running   0          82s
+trident-csi-m4szj                   2/2     Running   0          82s
+trident-csi-sb9k9                   2/2     Running   0          82s
+trident-operator-66f48895cc-lzczk   1/1     Running   0          2m39s
+
+[netapp-user@rhel7 trident-installer]$ ./tridentctl -n trident version
++----------------+----------------+
+| SERVER VERSION | CLIENT VERSION |
++----------------+----------------+
+| 21.04.0        | 21.04.0        |
++----------------+----------------+
+----
+
+
+
+
+== ストレージシステムバックエンドを作成
+
+NetApp Trident Operator のインストールが完了したら、使用するネットアップストレージプラットフォームにバックエンドを設定する必要があります。以下のリンクをクリックして、 NetApp Trident のセットアップと設定を続けてください。
+
+* link:./rh-os-n_trident_ontap_nfs.html["NetApp ONTAP NFS"]
+* link:./rh-os-n_trident_ontap_iscsi.html["NetApp ONTAP iSCSI の略"]
+* link:./rh-os-n_trident_element_iscsi.html["NetApp Element iSCSI の略"]
+
+
+link:rh-os-n_use_cases.html["次：解決策の検証 / ユースケース：ネットアップを使用した Red Hat OpenShift"]

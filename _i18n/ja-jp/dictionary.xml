@@ -5848,10 +5848,6 @@
   <block id="547b893b7cd300d6a8335f5b179ad12e" category="list-text">Oracle データベース用の ONTAP NFS ストレージを作成して設定します</block>
   <block id="36bb01ec9f02292fb44b9f10f57ceae7" category="list-text">Oracle 19C を Red Hat Enterprise Linux 7/8 または Oracle にインストールします Linux 7/8.</block>
   <block id="548bf87c41c9d3bb76981decbd599c90" category="list-text">ONTAP NFS ストレージ上に Oracle 19C を設定します</block>
-  <block id="b7d2927c257e899773f36c61e714fbf4" category="inline-link-macro">Part1 - AWX セットアップ、 window="_blank"</block>
-  <block id="d145b7548c3c6c35230608829751be84" category="inline-link-macro">Part2 - プレイブックの実行、 window="_blank"</block>
-  <block id="2baa60b926500a294c08fe62b60ce7f1" category="inline-link-macro">Part3 - CLI セットアップと重要なポイント</block>
-  <block id="9adf0c912f2f44befcb2dcfe7a5ead1f" category="paragraph">詳細または概要については、概要ビデオをご覧ください。 <block ref="b62f2c9bfb752cecb5e99bdf99101a4e" category="inline-link-macro-rx"></block>、 <block ref="20f6f96ce23ff755578d49837fe05442" category="inline-link-macro-rx"></block>および <block ref="19e27445f5763137652eafe9eb4f38dd" category="inline-link-macro-rx"></block>。開始するための情報と要件については、次のセクションを参照してください。</block>
   <block id="0dd197c8abd1f3c3607887dbc615148f" category="doc">Oracle のインストールを検証します</block>
   <block id="f673434da0f39c1b4366cbc45f67da8a" category="admonition">インストールが正常に完了した場合は、 Oracle プロセスが一覧表示されます Oracle DB のサポートを開始しました</block>
   <block id="91bcd024d07cb33293902b287b0cc68c" category="paragraph">[oracle @localhost ~] $sqlplus / AS sysdba</block>
@@ -6044,4 +6040,472 @@
   <block id="7b4c3c6fec238401cd002e2fd8c66664" category="cell">ビデオ： How to use VVOLs with NetApp and VMware Tanzu Basic 、パート 3</block>
   <block id="85fbf94a3ecf9a3af4a93f80a3681fe1" category="cell">2021年5月5日</block>
   <block id="608f33919f16e9a23bd532ad6bcf480a" category="cell">FlexPod Oracle NVA （ 1155 ）と Automation のビデオを追加しました</block>
+  <block id="41fcb94bb02f22dd5edb35182e0dba37" category="doc">NetApp Trident の概要：ネットアップを使用した Red Hat OpenShift</block>
+  <block id="5dfa5118a3d09722a57586a2a470cddf" category="paragraph">NetApp Trident は、コンテナや Kubernetes ディストリビューション向けの、 Red Hat OpenShift などのオープンソースで完全にサポートされているストレージオーケストレーションツールです。</block>
+  <block id="2e293bb8752cf839a8c88b1bb2ce37fd" category="paragraph">Trident は、 NetApp ONTAP や Element ストレージシステムを含むネットアップストレージポートフォリオ全体と連携し、 NFS 接続と iSCSI 接続をサポートします。Trident を使用すると、ストレージ管理者の手を煩わせることなく、エンドユーザがネットアップストレージシステムからストレージをプロビジョニングして管理できるため、 DevOps ワークフローを高速化できます。管理者は、プロジェクトのニーズに基づいていくつかのストレージバックエンドを構成し、圧縮、特定のディスクタイプ、 QoS レベルなど、特定のパフォーマンスを保証する高度なストレージ機能をいくつでも利用できるストレージシステムモデルを構成できます。定義されたバックエンドは、開発者がプロジェクトの一環として永続的ボリューム要求（ PVC ）を作成し、永続的ストレージをオンデマンドでコンテナに接続する際に利用できます。</block>
+  <block id="20768aacf6a17781ff727e014da599c4" category="paragraph">NetApp Trident は、 Kubernetes と同様、迅速な開発サイクルを 1 年に 4 回リリースしています。</block>
+  <block id="2084c7a0a2a11f4f5437e11349c184c9" category="paragraph">最新バージョンの NetApp Trident は、 2021 年 4 月にリリースされた 21.04 です。Trident のどのバージョンがサポートされているかを確認できます Kubernetes ディストリビューションのテストに使用<block ref="629f5a82616d50c6d935cb21ceaab206" category="inline-link-rx"></block>。</block>
+  <block id="dbee0fd52fa6f72b68c522c6c20a7b8e" category="paragraph">20.04 リリース以降、 Trident のセットアップは Trident オペレータによって実行されます。オペレータの手を使うことで大規模な導入が容易になり、 Trident のインストールの一部として導入されているポッドの自己修復などの追加サポートを受けることができます。</block>
+  <block id="4a85fdd5a26454abc330a5ec2a46a326" category="paragraph">21.01 リリースでは、 Trident Operator のインストールを容易にするために Helm チャートを使用できるようになりました。</block>
+  <block id="ee39d021189d72e09b713c5484e86d24" category="section-title">NetApp Trident をダウンロード</block>
+  <block id="6e2253b999f307f8152cea1c3d395895" category="list-text">インストールアーカイブを管理ワークステーションにダウンロードし、内容を展開します。Trident の現在のバージョンは 21.01 で、ダウンロードできます<block ref="c71d2968b50c4cfbb1a3b9207e6166b5" category="inline-link-rx"></block>。</block>
+  <block id="52d012c119e8e080d08f6a1592f8f9ec" category="section-title">Helm を使用して Trident Operator をインストールします</block>
+  <block id="449774824d889f1d6ebc0bbcc4920493" category="list-text">Helm コマンドを実行し、ユーザークラスタに trident 名前空間を作成しながら、 Helball ディレクトリ内の tarball から Trident 演算子をインストールします。</block>
+  <block id="47954f5fb405903d8aecc1d8f4803b40" category="admonition">お客様の環境では、 Trident の導入をカスタマイズしなければならない場合があります。このような場合は、 Trident のオペレータを手動でインストールし、含まれているマニフェストを更新して配置をカスタマイズすることもできます。</block>
+  <block id="0f7bbd6a65958d4ccbe1e361cc14ed8e" category="section-title">Trident Operator を手動でインストールします</block>
+  <block id="b48512b842bdf3221df64e4e4c618ba2" category="section-title">ストレージシステムバックエンドを作成</block>
+  <block id="875b77ddbb40196325edaa8d97cb310c" category="paragraph">NetApp Trident Operator のインストールが完了したら、使用するネットアップストレージプラットフォームにバックエンドを設定する必要があります。以下のリンクをクリックして、 NetApp Trident のセットアップと設定を続けてください。</block>
+  <block id="615767b52353571ac174e22f1a984aa3" category="inline-link-macro">NetApp ONTAP NFS</block>
+  <block id="8a89f860b4bb9389b65f86c117e661ec" category="list-text"><block ref="8a89f860b4bb9389b65f86c117e661ec" category="inline-link-macro-rx"></block></block>
+  <block id="c93e7ef2934826b1393251e9f7d9e331" category="inline-link-macro">NetApp ONTAP iSCSI の略</block>
+  <block id="3982396e4965ae02fe30c5153e3f6512" category="list-text"><block ref="3982396e4965ae02fe30c5153e3f6512" category="inline-link-macro-rx"></block></block>
+  <block id="d0e0904111acb167badbf5f196ad1205" category="inline-link-macro">NetApp Element iSCSI の略</block>
+  <block id="8bf21239543642b5e8ea756f14b8bf4f" category="list-text"><block ref="8bf21239543642b5e8ea756f14b8bf4f" category="inline-link-macro-rx"></block></block>
+  <block id="ef4e4ab7b31596519665a7387de7daf0" category="inline-link-macro">次：解決策の検証 / ユースケース：ネットアップを使用した Red Hat OpenShift</block>
+  <block id="677bffaf2f9361ed03e2f361390b4c3c" category="paragraph"><block ref="677bffaf2f9361ed03e2f361390b4c3c" category="inline-link-macro-rx"></block></block>
+  <block id="3605e05aa598ff405b5edffc1bf474f1" category="summary">ネットアップを使用した Red Hat OpenShift でのマルチテナンシーの構成</block>
+  <block id="13148717f8faa9037f37d28971dfc219" category="doc">検証</block>
+  <block id="0edf15a0d63187afbbc656d72839809f" category="paragraph">前の手順で設定したマルチテナントアーキテクチャを検証するには、次の手順を実行します。</block>
+  <block id="db7028e20a7427deb23431a2ac1a1762" category="section-title">割り当てられたプロジェクトで PVC/POD を作成するためのアクセスを検証します</block>
+  <block id="39d78077621835d838c895f35a82258e" category="list-text">OCP-project-1-user として、 project-1 の開発者としてログインします。</block>
+  <block id="0b7843fd8b3ab4c7c37fa0f4afc2e83a" category="list-text">アクセス権をチェックして新しいプロジェクトを作成してください</block>
+  <block id="12cdc5f68c3a0ca10544c0a57e866249" category="list-text">project-1 に割り当てられたストレージクラスを使用して 'project-1 に PVC を作成します</block>
+  <block id="bb0d4f6826729a52b72e3955ecb94d0f" category="list-text">PVC に関連付けられている PV を確認します</block>
+  <block id="ce0121e160383131f16bac9caa738aa1" category="list-text">PV とそのボリュームがに作成されていることを確認します NetApp ONTAP 上のプロジェクト 1 専用 SVM</block>
+  <block id="a345b6be662b316a3b3e3cfbc7566b31" category="list-text">project-1 にポッドを作成し、前の手順で作成した PVC をマウントします。</block>
+  <block id="8914045fb44e33b9b38aea8cb54dac3e" category="list-text">ポッドが動作していて、が搭載されているかどうかを確認します ボリューム</block>
+  <block id="c9edca2b19d522ad7032b02393617112" category="section-title">アクセスを検証して、別のプロジェクトに PVC/POD を作成するか、別のプロジェクト専用のリソースを使用します。</block>
+  <block id="c7d1bf45d1bfb40a213adf09c21eef4e" category="list-text">OCP-project-1-user として、 project-1 の開発者としてログインします</block>
+  <block id="8e27501b578972bd7b65468deaa482ca" category="list-text">project-2 に割り当てられたストレージクラスを使用して 'project-1 に PVC を作成します</block>
+  <block id="71bc5a6f1f0141981e0034b388233917" category="list-text">PROJECT -2 で PVC を作成します。</block>
+  <block id="748872b901584e584f5fd96cc8cedd12" category="list-text">PVC test-pvc-project-1-sc-2 および test-pvc-project-2-ssc-1 が作成されていないことを確認します</block>
+  <block id="0d843e91c3b8f62457e19b2d32ecace3" category="list-text">プロジェクト 2 でポッドを作成します。</block>
+  <block id="eb55b015d9da42f03a2d3d7b5304574d" category="section-title">プロジェクト、リソースクォータ、ストレージクラスを表示 / 編集するアクセス権を検証します</block>
+  <block id="5c7ae24781cf70e30573a860206629e1" category="list-text">アクセス権をチェックして新しいプロジェクトを作成します</block>
+  <block id="231d2e7597cc12b993ef63380c5d5220" category="list-text">アクセスを検証してプロジェクトを表示します</block>
+  <block id="0d64f8185f225390a8ee866a5389cb70" category="list-text">ユーザーがで ResourceQuotas を表示または編集できるかどうかを確認します プロジェクト 1</block>
+  <block id="dfa28a944ddf0abe0273959bcefd4059" category="list-text">ユーザーがストレージクラスを表示するためのアクセス権を持っていることを確認します</block>
+  <block id="4f957a897d4e42b5015d4983e1aaa28a" category="list-text">ストレージクラスについては ' アクセスを確認してください</block>
+  <block id="f14898bb4b1451db310be06bcd066176" category="list-text">ストレージクラスを編集するためにユーザーのアクセス権を検証します</block>
+  <block id="ad888e9ea3946d26c670cbfdb037e47d" category="inline-link-macro">次のステップ：スケーリング</block>
+  <block id="879dbbef03d7c3a3573be83652e7d41f" category="paragraph"><block ref="879dbbef03d7c3a3573be83652e7d41f" category="inline-link-macro-rx"></block></block>
+  <block id="5d77fe4a6bb4c5e88c5c18510b3c4749" category="doc">NetApp Element ：ネットアップを使用した Red Hat OpenShift</block>
+  <block id="8921c6e9843ba7487c77f4dce1467111" category="paragraph">NetApp Element ソフトウェアは、拡張性に優れたモジュラ型のパフォーマンスを提供し、ストレージノードごとに容量とスループットを保証します。NetApp Element システムは、 1 つのクラスタで 4~100 ノードまで拡張でき、高度なストレージ管理機能も多数備えています。</block>
+  <block id="27765508a97a89684590658c3465fb70" category="inline-link">ネットアップの SolidFire Web サイト</block>
+  <block id="d37eaafbb6dfb29673d63ff988ff4f41" category="paragraph">NetApp Element ストレージ・システムの詳細については、を参照してください<block ref="0d1d77e6774527457304fa15f73899a1" category="inline-link-rx"></block>。</block>
+  <block id="dbafa7c074ef7efc3c778b69c0ad31b5" category="paragraph">NetApp Element ソフトウェアは、 iSCSI ストレージプロトコルを利用します。これは、従来の TCP/IP ネットワーク上で SCSI コマンドをカプセル化する標準的な方法です。SCSI 標準が変更された場合や、イーサネットネットワークのパフォーマンスが向上した場合、 iSCSI ストレージプロトコルには変更は必要ありません。</block>
+  <block id="23e6b910b28346537f5696478fffe779" category="paragraph">すべてのストレージノードには管理 IP とストレージ IP が設定されますが、 NetApp Element ソフトウェアは、クラスタ内のすべてのストレージトラフィックについて、ストレージ仮想 IP アドレス（ SVIP アドレス）を 1 つアドバタイズします。iSCSI のログインプロセスでは、ストレージはターゲットボリュームが別のアドレスに移動されたことを応答するため、ネゴシエーションプロセスを続行できません。その後、ホスト側の再設定を必要としないプロセスで、ホストはログイン要求を新しいアドレスに再発行します。このプロセスは、 iSCSI ログインリダイレクトと呼ばれます。</block>
+  <block id="5946dc5472bd426489376b577a9ca06a" category="paragraph">iSCSI ログインリダイレクトは、 NetApp Element ソフトウェアクラスタの重要な要素です。ホストログイン要求を受信すると、ノードは、 IOPS とボリュームの容量要件に基づいて、トラフィックを処理するクラスタのメンバーを決定します。ボリュームは NetApp Element ソフトウェアクラスタ全体に分散され、単一のノードがボリュームのトラフィックを大量に処理している場合や新しいノードが追加された場合に再配置されます。特定のボリュームの複数のコピーがアレイ全体に割り当てられます。この方法では、ノード障害のあとにボリュームの再配分が発生しても、ログアウトして新しい場所にリダイレクトしてログインした場合を超えてホスト接続には影響はありません。iSCSI ログインリダイレクションを使用する NetApp Element ソフトウェアクラスタは、無停止のアップグレードと運用が可能な自己回復型のスケールアウトアーキテクチャです。</block>
+  <block id="f8cd3dfe225577e230dc2699ebbbfe34" category="list-text">* 最大 IOPS 。 * NetApp Element ソフトウェアクラスタが特定のボリュームに提供する平常時の最大 IOPS 。</block>
+  <block id="5fec85270e969240cc769f429b9c8cdc" category="list-text">* VRF 対応 VLAN 。 * データセンターのセキュリティと拡張性をさらにサポートするため、 NetApp Element ソフトウェアを使用すると、 VRF に似た機能を持つテナント VLAN を有効にできます。この機能には、次の 2 つの主要機能が追加されて</block>
+  <block id="eaea554ececf5b64515f0833c56b3de4" category="list-text">* IP サブネットの重複または重複 * 。この機能を使用すると、テナント環境にテンプレートを追加し、各テナント VLAN に同じ IP サブネットから IP アドレスを割り当てることができます。この機能は、 IPspace の拡張と保持が重要なサービスプロバイダ環境に役立ちます。</block>
+  <block id="6893566c26b28e197cebdefdcc6af3ae" category="list-text">* 重複排除。 * システムには、一意の 4K ブロックのみが保存されます。重複する 4K ブロックは格納済みのデータバージョンに自動的に関連付けられます。データはブロックドライブに格納され、 NetApp Element ソフトウェアの Helix データ保護を使用してミラーリングされます。このシステムは、システム内の容量消費と書き込み処理数を大幅に削減します。</block>
+  <block id="215de8162cb5ac909005881f92812fb0" category="list-text">* シンプロビジョニング。 * この機能は、必要なときに必要な量のストレージを提供し、オーバープロビジョニングされたボリュームや利用率の低いボリュームによる容量消費を排除します。</block>
+  <block id="da9c9b2b4164632e569069fe1e7c53ee" category="admonition">Element は自動化を目的として設計されました。ストレージ機能はすべて API を使用して利用できます。これらの API は、システムの制御に UI で使用される唯一のメソッドです。</block>
+  <block id="1fb42c52ad5293073b3c90a47791ff2d" category="inline-link-macro">次のステップ： NetApp Trident の概要</block>
+  <block id="fc2cf5580b22c58c2a069703c70ba7b1" category="paragraph"><block ref="fc2cf5580b22c58c2a069703c70ba7b1" category="inline-link-macro-rx"></block></block>
+  <block id="ec22e01e7cd5087ef746b3db5852da6e" category="doc">拡張：プロジェクトの追加</block>
+  <block id="7b3b45498cccd4395fd5c6169cb4c72c" category="paragraph">マルチテナント構成では、ストレージリソースを使用する新しいプロジェクトを追加する際に、マルチテナンシーを維持するための設定を追加する必要があります。マルチテナントクラスタでプロジェクトを追加するには、次の手順を実行します。</block>
+  <block id="90ddb4808c24d52aaece58985f6302cc" category="list-text">NetApp ONTAP クラスタにストレージ管理者としてログインします。</block>
+  <block id="b5b8f364fd2bc9a28c7ea77539b65c01" category="list-text">「ストレージ -&gt; ストレージ VM 」に移動し、「追加」をクリックします。project-3 専用の新しい SVM を作成します。また、 SVM とそのリソースを管理するには vsadmin アカウントを作成します。</block>
+  <block id="5790e2b8b367726e78500054d959d6f7" category="image-alt">拡張用の SVM を作成</block>
+  <block id="9f91e14da9480ffb06b061dbf53b7a23" category="list-text">Red Hat OpenShift クラスタにクラスタ管理者としてログインします</block>
+  <block id="c9e86337c7483c8d45e5e535829d2163" category="list-text">新しいプロジェクトを作成します。</block>
+  <block id="dd4a340120b78e945c1d2d46d16c009c" category="list-text">project-3 のユーザーグループがに作成されていることを確認します IdP と OpenShift クラスタとの同期化</block>
+  <block id="06b2da3dfa57b781e19dc01b9ab78bc2" category="list-text">project-3 の開発者ロールを作成します</block>
+  <block id="e980694e2fe65c05ec09131713186f59" category="admonition">ここで説明するロール定義は単なる例です。開発者ロールは、エンドユーザの要件に基づいて定義する必要があります。</block>
+  <block id="8efa8222e644f71e636f98917439566d" category="list-text">プロジェクト 3 の開発者用に RoleBinding を作成します。これは、 developer-project-3 の役割を、 project-3 の対応するグループ (OCP-project-3) にバインドします。</block>
+  <block id="e1f01c3341da15c9079bf5996c059811" category="list-text">Red Hat OpenShift クラスタにストレージ管理者としてログインします</block>
+  <block id="a19d230b5e9e8a6a16f380ac91d46c1b" category="list-text">Trident バックエンドを作成し、 project-3 専用の SVM にマッピングします。ONTAP クラスタ管理者ではなく、 SVM の vsadmin アカウントを使用してバックエンドを SVM に接続することを推奨します。</block>
+  <block id="52ae1c78dd62c229a4372fc0fd0cc228" category="admonition">この例では ONTAP と NAS のドライバを使用しています。ユースケースに基づいてバックエンドを作成する際は、に適したドライバを使用します。</block>
+  <block id="96081e311d42cc54403c8d2f93716934" category="admonition">Trident は Trident プロジェクトにインストールされていると想定されています。</block>
+  <block id="55da75937cfedfe97c220c1e9d556d84" category="list-text">project-3 用のストレージクラスを作成し、 project-3 専用のバックエンドのストレージプールを使用するように設定します。</block>
+  <block id="6efdcf6ed405066371d23375541816a1" category="list-text">ResourceQuota を作成して ' プロジェクト 3 のリソースを制限しますストレージを要求するストレージは ' 他のプロジェクト専用のストレージになります</block>
+  <block id="f7444468797770a0f788c79bb5f57b8f" category="list-text">他のプロジェクトの ResourceQuotas にパッチを適用して ' プロジェクト 3 専用のストレージからストレージにアクセスするプロジェクトのリソースを制限します</block>
+  <block id="68d13ef3d87e892878a6e6cbb44d1f21" category="doc">RHV への Red Hat OpenShift 導入：ネットアップを使用した Red Hat OpenShift</block>
+  <block id="8fe3ce682e72fe87e56e5b11e1c2cd36" category="inline-link-macro">次のレポート：追加情報：ネットアップでの Red Hat OpenShift</block>
+  <block id="5dbd13d011610e2b4d57bd4ca3fd685f" category="paragraph"><block ref="5dbd13d011610e2b4d57bd4ca3fd685f" category="inline-link-macro-rx"></block></block>
+  <block id="bcc07475a6d000199aef045c427a4770" category="doc">VMware vSphere 上の OpenShift ：ネットアップを使用した Red Hat OpenShift</block>
+  <block id="122aacda8785e42ca8fd7bd6ebce84f8" category="paragraph">VMware vSphere は、 ESXi ハイパーバイザー上で実行される多数の仮想サーバとネットワークを一元管理するための仮想化プラットフォームです。</block>
+  <block id="68bc8529d7c57946fe13e6b3399ee287" category="inline-link">VMware vSphere の Web サイト</block>
+  <block id="80888e73d00a224bebfc22e8e4539b6d" category="paragraph">VMware vSphere の詳細については、を参照してください<block ref="8e822bbeb5824c0a05189bf9ff98da5c" category="inline-link-rx"></block>。</block>
+  <block id="cb4d59b9004b7c584811a3d656f78bc5" category="section-title">VMware vSphere には次の機能があります。</block>
+  <block id="ca7c883830a501eece7802d17466780e" category="list-text">* VMware vCenter Server* VMware vCenter Server は、 1 つのコンソールからすべてのホストと VM を統合管理し、クラスタ、ホスト、 VM のパフォーマンス監視を集約します。</block>
+  <block id="28146f8171dc1f2fa813527d9291b162" category="list-text">* VMware vSphere vMotion * VMware vCenter は、無停止でユーザーの要求に応じて、クラスタ内のノード間で仮想マシンをホット移行する機能を提供します。</block>
+  <block id="667b77459bafa0d9231a268ef6c0f1ef" category="list-text">* vSphere High Availability 。 * ホスト障害が発生しても、システム停止を回避するために、 VMware vSphere を使用すると、ホストをクラスタ化して高可用性を構成することができます。ホストの障害によってシステムが停止した VM は、クラスタ内の他のホストでまもなくリブートされ、サービスがリストアされます。</block>
+  <block id="6ff57c7b7b58133240a62926bc0e3ca5" category="list-text">* DRS （ Distributed Resource Scheduler ） * VMware vSphere クラスタは、ホストしている VM のリソースニーズの負荷を分散するように構成できます。リソース競合のある仮想マシンは、十分なリソースが使用可能であることを確認するために、クラスタ内の他のノードにホット移行できます。</block>
+  <block id="cfb123c76f1c7a506310e1162d7ae235" category="paragraph"><block ref="cfb123c76f1c7a506310e1162d7ae235" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="92f016faf784419918e003cea1dac7a9" category="paragraph">NetApp 解決策上の Red Hat OpenShift では、 2 つのデータスイッチを使用して 25Gbps でプライマリデータ接続を提供します。また、ストレージノードのインバンド管理用に 1Gbps で接続を提供する管理スイッチをさらに 2 台使用し、 IPMI 機能のアウトオブバンド管理も行います。OCP では、 VMware vSphere 上の仮想マシン論理ネットワークを使用して、 IT クラスタを管理します。このセクションでは、解決策で使用される各仮想ネットワークセグメントの配置と目的について説明し、解決策を導入するための前提条件を概説します。</block>
+  <block id="e75b582a8823d532f6022b43ac209538" category="paragraph">VMware vSphere 上の Red Hat OpenShift は、仮想ローカルエリアネットワーク（ VLAN ）を使用して、ネットワークトラフィックを論理的に分離するように設計されています。この構成は、お客様のニーズに合わせて拡張することも、特定のネットワークサービスをさらに分離することもできます。次の表に、ネットアップで解決策を検証する際に解決策を実装するために必要な VLAN を示します。</block>
+  <block id="d2b563ac6ab4fb6e83b3e4db14082138" category="cell">アウトオブバンド管理ネットワーク</block>
+  <block id="3c8c5d8387f173924ffeb2bf88084dba" category="cell">物理ノードと IPMI の管理</block>
+  <block id="c61d980d5248923d65a5dfe7f8818011" category="cell">VM ネットワーク</block>
+  <block id="5ff83cd58e74e07f807842d9e328fa01" category="cell">Virtual Guest Network Access の略</block>
+  <block id="fc221309746013ac554571fbd180e1c8" category="cell">181</block>
+  <block id="6fd30d2275b117b7feb18b38782a9174" category="cell">ストレージネットワーク</block>
+  <block id="c846a1f843522d592b784a66368abed3" category="cell">ONTAP NFS 用のストレージネットワーク</block>
+  <block id="6cdd60ea0045eb7a6ec44c54d29ed402" category="cell">184</block>
+  <block id="5e6094f6f2176409f469ee445fcf3f50" category="cell">ONTAP iSCSI 用のストレージネットワーク</block>
+  <block id="eecca5b6365d9607ee5a9d336962c534" category="cell">185</block>
+  <block id="15028a4f503a4c7f1958328c6e93298f" category="cell">インバンド管理ネットワーク</block>
+  <block id="45cf0331a91fdc3679a78fdd8f7c60a7" category="cell">ESXi ノード、 vCenter Server 、 ONTAP Select の管理</block>
+  <block id="11967d5f57969ea4713204eace8fbf4e" category="cell">NetApp Element iSCSI 用のストレージネットワーク</block>
+  <block id="3e7b76e0247ac905ab2dbb3127f04ef6" category="cell">移行用ネットワーク</block>
+  <block id="0bad9231e1bf61bc343a986739f155c1" category="paragraph">OpenShift Container Platform を導入する前に、次のインフラを用意する必要があります。</block>
+  <block id="0f646119227e40977efd70c1898e6739" category="section-title">少なくとも 3 つの ESXi クラスタに OpenShift を導入する ノード</block>
+  <block id="278d5d09df08fae14cf6838cad1595a6" category="paragraph">本ドキュメントで説明する検証済みのアーキテクチャには、 2 つの ESXi ハイパーバイザーノードを導入し、 VMware vSphere HA と VMware vMotion を有効にしてフォールトトレラントな構成を確保することで、 HA 処理に適した最小限のハードウェア環境が示されています。 1 つのホストが使用できなくなった場合に、導入した VM を 2 つのハイパーバイザー間で移行し、リブートすることができます。</block>
+  <block id="e363e9f0a050932edec32b87bbb05ddd" category="paragraph">Red Hat OpenShift は最初に 3 つのマスターノードで導入するため、 2 ノード構成で少なくとも 2 つのマスターが同じノードを占有します。そのため、特定のノードが使用できなくなった場合に OpenShift が停止する可能性があります。そのため、解決策の一部として少なくとも 3 つの ESXi ハイパーバイザーノードを導入して、 OpenShift マスターを均等に分散できるようにすること、および解決策にフォールトトレランスのレベルが高くなるようにすることが Red Hat のベストプラクティスです。</block>
+  <block id="81c6997326a5e456b91c174cf8a775a2" category="paragraph">VM とホストのアフィニティを有効にすることで、複数のハイパーバイザーノードに OpenShift マスターを確実に分散させることができます。</block>
+  <block id="2488e068444b04d88d388085616bdbda" category="paragraph">アフィニティまたは非アフィニティは、 VM やホストのセットに対してルールを定義する方法で、グループ内の同じホストまたはホスト上で VM を一緒に実行するか、別のホスト上で実行するかを決定します。VM とホストで構成されるアフィニティグループを作成することで、 VM に適用されます。このアフィニティグループには同じパラメータと条件が設定されます。アフィニティグループ内の VM がグループ内の同じホストで実行されているのか、または別々のホストで実行されているのかに応じて、アフィニティグループのパラメータでは正のアフィニティまたは負のアフィニティを定義できます。</block>
+  <block id="9934283c0bf98610b4be1803b9ad3430" category="inline-link">vSphere 6.7 ドキュメント：「 DRS アフィニティルールの使用</block>
+  <block id="291f24f63dc31f9f921b09c567fc963f" category="paragraph">アフィニティグループを設定するには、を参照してください<block ref="4b14049244eae7b3d11ef8e44785dd4e" category="inline-link-rx"></block>。</block>
+  <block id="51e57662825be67eeeba1817571ebe59" category="paragraph">IPI を使用すると、このドキュメントで前述した対話型ウィザードを使用して、 OpenShift クラスタを簡単に導入できます。ただし、一部のデフォルト値については、クラスタの導入時に変更が必要になる場合があります。</block>
+  <block id="7b65abec68958867d7dd5f43b3b06e08" category="inline-link">Red Hat OpenShift カスタマイズを使用して vSphere にクラスタをインストールします</block>
+  <block id="1b55e3e8c6047d460e846888dc5b3e6c" category="paragraph">このような場合、クラスタをすぐに導入せずにウィザードを実行してタスクを割り当てることができますが、あとでクラスタを導入できる構成ファイルを出力する必要はありません。これは、任意の IPI デフォルトを変更する必要がある場合や、マルチテナンシーなどの他の用途のために、同一のクラスタを環境内に複数導入する必要がある場合に非常に便利です。OpenShift 用にカスタマイズされたインストール構成の作成の詳細については、を参照してください<block ref="fc4239653f75b84dd3ca03fe8b28dd64" category="inline-link-rx"></block>。</block>
+  <block id="df4d5afd008d6d8c39608bc99d227f87" category="inline-link-macro">次：ネットアップストレージの概要</block>
+  <block id="b2ed658188fe61f39b67f79964c01ebd" category="paragraph"><block ref="b2ed658188fe61f39b67f79964c01ebd" category="inline-link-macro-rx"></block></block>
+  <block id="a0e01d06503f271c1de7acc0acd01733" category="doc">NVA-1160 ：ネットアップでの Red Hat OpenShift</block>
+  <block id="78c84f9dc368f4b963d984b2db6e1643" category="paragraph">このリファレンスドキュメントでは、ネットアップによって検証済みの複数の異なるデータセンター環境に Installer Provisioned Infrastructure （ IPI ）を通じて導入された Red Hat OpenShift 解決策の導入を検証します。また、 NetApp Trident ストレージオーケストレーションツールを使用して永続的ストレージを管理することにより、ネットアップストレージシステムとのストレージ統合の詳細も確認できます。最後に、解決策検証と実際の使用事例をいくつか確認して文書化します。</block>
+  <block id="06c1c3e4c1b847404c68a75e1d8fd580" category="paragraph">ネットアップ解決策を使用した Red Hat OpenShift は、次のユースケースでお客様に卓越した価値を提供するように設計されています。</block>
+  <block id="44815e873492015d6a8ab6362de8da6c" category="list-text">ベアメタル、 Red Hat OpenStack Platform 、 Red Hat Virtualization 、 VMware vSphere に IPI （インストーラでプロビジョニングされたインフラ）を使用して導入した Red Hat OpenShift の導入と管理が容易です。</block>
+  <block id="03bb323d052d033ea0b5b2cab17f1219" category="list-text">OSP 、 RHV 、 vSphere 、または OpenShift Virtualization を使用したベアメタルに導入された Red Hat OpenShift を使用して、エンタープライズコンテナと仮想化ワークロードのパワーを組み合わせたもの。</block>
+  <block id="2376d027d2fe6a2c9d187c09456caf36" category="list-text">ネットアップストレージと Kubernetes 向けオープンソースストレージオーケストレーションツールである NetApp Trident とともに使用される Red Hat OpenShift の機能を紹介する実際の構成とユースケース。</block>
+  <block id="2748d7182409b378e23f62724be778fd" category="list-text">ノンストップオペレーションとアップグレード</block>
+  <block id="42c487483a8feee3cc0365881a4cc265" category="paragraph">ネットアップとともに Red Hat OpenShift を導入することで、これらの課題に対応し、お客様が選択したデータセンター環境に RedHat OpenShift IPI を完全に自動で導入できるようになり、それぞれの問題に対処できる解決策が提供されます。</block>
+  <block id="e14d89d236df03870ccdc9912d0156bc" category="paragraph">NetApp 解決策を使用した Red Hat OpenShift は、次の 3 つのコンポーネントで構成されています。</block>
+  <block id="e31ed923a8ef73b709e04a076bde8504" category="paragraph">Red Hat OpenShift Container Platform は、完全にサポートされているエンタープライズ Kubernetes プラットフォームです。 Red Hat は、オープンソース Kubernetes のいくつかの機能強化を行い、コンテナ化されたアプリケーションの構築、導入、管理に完全に統合されたアプリケーションプラットフォームを提供します。</block>
+  <block id="70240bc0debcb080aa08dbd9e7b9a525" category="paragraph">詳細については、 OpenShift の Web サイトを参照してください<block ref="35d5a627a33ce17e4bd125258d59fbc4" category="inline-link-rx"></block>。</block>
+  <block id="6aadb9773520cdfb40d0d5e39286b8b5" category="section-title">ネットアップストレージシステム</block>
+  <block id="d4da7cdf6d17e02f2b4a94db5a777151" category="paragraph">ネットアップには、エンタープライズデータセンターやハイブリッドクラウド環境に最適なストレージシステムが複数あります。ネットアップのポートフォリオには、 NetApp ONTAP 、 NetApp Element 、および NetApp E シリーズストレージシステムが含まれています。これらはすべて、コンテナ化されたアプリケーションに永続的ストレージを提供するために利用できます。</block>
+  <block id="aa4193984de53d2a6d8fcc2d77c09bda" category="paragraph">詳細については、ネットアップの Web サイトをご覧ください<block ref="95da63d781dead5af723667a3f69096a" category="inline-link-rx"></block>。</block>
+  <block id="ef5f371994201edba136ed71038a7179" category="paragraph">詳細については、 Trident の Web サイトをご覧ください<block ref="9a096d611f0ede2737b2fde39343b44c" category="inline-link-rx"></block>。</block>
+  <block id="1a0ae7ee13ba508bc694ad82f582a17f" category="section-title">検証済みリリースの現在のサポートマトリックスです</block>
+  <block id="e7e767d7c0e58b16e57d3ab16150db80" category="cell">テクノロジ</block>
+  <block id="797a5d02c096631e27f9c43d628060d8" category="cell">ソフトウェアのバージョン</block>
+  <block id="4f7dd0fe0940df4a5fda327a4ee4ddbd" category="cell">9.8</block>
+  <block id="601712ded7a71b0842984ad41b6aad39" category="cell">12.3</block>
+  <block id="765bb3744268ca0de607208bfdc8a37a" category="cell">ストレージオーケストレーション</block>
+  <block id="af08b45fa44807ac1852671e6fc59d44" category="cell">21.04</block>
+  <block id="2454407b9991c6c5f417a2feb8ea7970" category="cell">4.6 EUS 、 4.7</block>
+  <block id="9c4e78a1b7e7b4981aced1e10d037c6d" category="cell">Red Hat OpenStack Platform</block>
+  <block id="de45aa336111dfa1825c54726464307c" category="cell">プライベートクラウドインフラ</block>
+  <block id="3c5825a0d4bdb85c67182ef89bc9c7eb" category="cell">16.1</block>
+  <block id="f8906fb9034fb6303887a1b4c7915095" category="cell">データセンターの仮想化</block>
+  <block id="f9a97ed4e88eeab44f2693afa0eb2089" category="cell">4 月 4 日</block>
+  <block id="a13d1259b6cddfcbd111c7b2915914ea" category="inline-link-macro">次のレポートは、 Red Hat OpenShift の概要です</block>
+  <block id="d4cff535d516d6f5ce7a88c9c6fb3190" category="paragraph"><block ref="d4cff535d516d6f5ce7a88c9c6fb3190" category="inline-link-macro-rx"></block></block>
+  <block id="e690fa655ec589e6d0abb58164d5ccfd" category="doc">追加情報：ネットアップを使用した Red Hat OpenShift</block>
+  <block id="6f4e4d9fbe846fd8bf7decf7dcffbd63" category="list-text">NetApp のドキュメント</block>
+  <block id="1497398039e94eb756be9a3cff5649c7" category="inline-link"><block ref="1497398039e94eb756be9a3cff5649c7" category="inline-link-rx"></block></block>
+  <block id="f2d3084aa0f70da5e15757ee3292cda7" category="paragraph"><block ref="f2d3084aa0f70da5e15757ee3292cda7" category="inline-link-rx"></block></block>
+  <block id="95cd56a42d2ff46bce9ab190f917bdab" category="inline-link"><block ref="95cd56a42d2ff46bce9ab190f917bdab" category="inline-link-rx"></block></block>
+  <block id="a73dd103c2c636412e9c4dcff311301e" category="paragraph"><block ref="a73dd103c2c636412e9c4dcff311301e" category="inline-link-rx"></block></block>
+  <block id="21b11dbf6ab3c6d36a76f280fe8ec75d" category="list-text">Red Hat OpenShift のドキュメント</block>
+  <block id="74201863479cf5c9b89330c920283301" category="inline-link"><block ref="74201863479cf5c9b89330c920283301" category="inline-link-rx"></block></block>
+  <block id="3e10ed3875c45f9dc9064324660fc2b1" category="paragraph"><block ref="3e10ed3875c45f9dc9064324660fc2b1" category="inline-link-rx"></block></block>
+  <block id="06fd33ae9f869a89e860634ec94b9793" category="list-text">Red Hat OpenStack Platform のドキュメント</block>
+  <block id="647d438a62673b6a6c9830682f6bc128" category="inline-link"><block ref="647d438a62673b6a6c9830682f6bc128" category="inline-link-rx"></block></block>
+  <block id="705a39bc1a12c50103a847633c3f7493" category="paragraph"><block ref="705a39bc1a12c50103a847633c3f7493" category="inline-link-rx"></block></block>
+  <block id="8d79e9650a1f62f89d77743225e203c0" category="list-text">Red Hat Virtualization のドキュメント</block>
+  <block id="a1bcc86cb4d53b458f0fdad36c20a0c0" category="inline-link"><block ref="a1bcc86cb4d53b458f0fdad36c20a0c0" category="inline-link-rx"></block></block>
+  <block id="6d6038842b529e3d97aa9a8a9d81d866" category="paragraph"><block ref="6d6038842b529e3d97aa9a8a9d81d866" category="inline-link-rx"></block></block>
+  <block id="4666fc2f640685636f115f8b2b6b8ce0" category="list-text">VMware vSphere のドキュメント</block>
+  <block id="9c2eeeb25388391ff52a45ac0567fa73" category="inline-link"><block ref="9c2eeeb25388391ff52a45ac0567fa73" category="inline-link-rx"></block></block>
+  <block id="71aa41fc980571d5a324adedae614f9c" category="paragraph"><block ref="71aa41fc980571d5a324adedae614f9c" category="inline-link-rx"></block></block>
+  <block id="28af6ca5aa5b42e2215e6cbd35272682" category="doc">Red Hat OpenStack プラットフォーム上の OpenShift ：ネットアップを使用した Red Hat OpenShift</block>
+  <block id="806cc5660333aa77ed69491f58769392" category="paragraph">Red Hat OpenStack Platform は、セキュアで信頼性の高い OpenStack プライベートクラウドの構築、導入、拡張を行うための統合基盤を提供します。</block>
+  <block id="5719e9d9e61a6c17359c1d27e6a6fefb" category="paragraph">OSP は、コンピューティング、ストレージ、ネットワークリソースを管理する一連の制御サービスによって実装される IaaS （インフラサービス）クラウドです。この環境の管理には Web ベースのインターフェイスを使用します。このインターフェイスを使用すると、管理者とユーザは OpenStack リソースの制御、プロビジョニング、自動化を行うことができます。さらに、 OpenStack インフラは、広範なコマンドラインインターフェイスと API を通じて管理者とエンドユーザにフルオートメーション機能を提供します。</block>
+  <block id="45c0bc01d5744dadd22bb283f9e7bcb1" category="paragraph">OpenStack プロジェクトは、急速に開発されているコミュニティプロジェクトであり、 6 カ月ごとに更新リリースを提供します。最初の Red Hat OpenStack Platform は、すべてのアップストリームリリースに加えて新しいリリースを公開することで、このリリースサイクルのペースを維持していました。また、 3 回目のリリースごとに長期的なサポートを提供します。Red Hat は、 OSP リリース 16.0 （ OpenStack Train に基づく）で、リリース番号に対応するのではなく、新しい機能をサブリリースにバックポートすることを選択しました。最新のリリースは Red Hat OpenStack Platform 16.1 です。これには、アップストリームの Usuri および Victoria リリースからバックポートされた高度な機能が含まれています。</block>
+  <block id="737c38dd225185612ac8fa148ae9583e" category="inline-link">Red Hat OpenStack Platform の Web サイト</block>
+  <block id="19fb2090425be8f78441166e8f1d8d6f" category="paragraph">OSP の詳細については、を参照してください<block ref="9c79780f89511512bd5bf54ce21d04de" category="inline-link-rx"></block>。</block>
+  <block id="aa7bfd45504bd991e42b292513013d28" category="section-title">OpenStack サービス</block>
+  <block id="8e536a2404371a3f1a454a98eac15e31" category="paragraph">OpenStack Platform サービスはコンテナとして導入されます。コンテナはサービスを分離するため、アップグレードも簡単です。OpenStack Platform は、 Kolla によって構築、管理された一連のコンテナを使用します。サービスの導入は、 Red Hat Custom Portal からコンテナイメージを取得することによって行われます。これらのサービスコンテナは、 Podman コマンドを使用して管理され、 Red Hat OpenStack Director で導入、設定、および管理されます。</block>
+  <block id="f5fdcf6d68d437c59942a35d79b8c7b1" category="paragraph"><block ref="f5fdcf6d68d437c59942a35d79b8c7b1" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="c2ba7e785c49050f48da9aacc45c2b85" category="cell">サービス</block>
+  <block id="8e3a42158ee70b67cf55b33e2789a9e5" category="cell">プロジェクト名</block>
+  <block id="2938c7f7e560ed972f8a4f68e80ff834" category="cell">ダッシュボード</block>
+  <block id="85fb7708d989f936cb51ef53a8af080f" category="cell">地平線</block>
+  <block id="d5a9efab6df20a9e132b774795775dde" category="cell">OpenStack サービスの管理に使用する Web ブラウザベースのダッシュボード。</block>
+  <block id="c9c5c65fb4af9cf90eb99b3b84424189" category="cell">ID</block>
+  <block id="1ce2096c300f78bbb8389ca2603e6dd9" category="cell">Keystone</block>
+  <block id="91c68681aadba9c0e8308f7d0b3cc416" category="cell">OpenStack サービスの認証と許可、およびユーザ、プロジェクト、ロールの管理を一元化するサービスです。</block>
+  <block id="5a2d024481030cc4d5bd8a20e20a6c23" category="cell">OpenStack ネットワーク</block>
+  <block id="88fac409baf592beb25e285d8663edcb" category="cell">中性子</block>
+  <block id="0283e46fd80198d441eb742b88cf96f1" category="cell">OpenStack サービスのインターフェイス間の接続を提供します。</block>
+  <block id="f31b56ba6a1e47fc2a38667b217abe14" category="cell">ブロックストレージ</block>
+  <block id="a7173cc5cdd0e31df00cd34f058b1d33" category="cell">Cinder の場合</block>
+  <block id="597dab3a2b3c74e3c266b2f65ec28619" category="cell">仮想マシン（ VM ）の永続的なブロックストレージボリュームを管理します。</block>
+  <block id="6e747c4965495f2e26bf17e647aa0083" category="cell">ノバ</block>
+  <block id="f13c04e9c49274cd31bd8092c8f50304" category="cell">コンピューティングノードで実行されている VM を管理およびプロビジョニングします。</block>
+  <block id="10ec3a0506fab7073649337ca7be7979" category="cell">Glance</block>
+  <block id="d9ff71ddcb6bbbe8ad48ae8b678369d4" category="cell">VM イメージやボリューム Snapshot などのリソースを格納するためのレジストリサービス。</block>
+  <block id="4dd09616db8d5beb129a69ed77d0cd2d" category="cell">オブジェクトストレージ</block>
+  <block id="ae832e9b5bda2699db45f3fa6aa8c556" category="cell">Swift</block>
+  <block id="41c380458dfcdc118ef573a2d98c6acb" category="cell">ユーザにファイルおよび任意のデータの格納および取得を許可します。</block>
+  <block id="aa96a21412def0d916f43b639424f8e4" category="cell">テレメータ</block>
+  <block id="8fb4b5e28f192236eaa9e4972f810dbd" category="cell">Ceilometer</block>
+  <block id="ed622b9c64858cc66a01c58893b5d39d" category="cell">クラウドリソースの使用状況を測定できます。</block>
+  <block id="7d486371bb65b0633535ceba4189d8ed" category="cell">熱</block>
+  <block id="abaa6ebae60b74638c54a43f3341db8e" category="cell">リソーススタックの自動作成をサポートする、テンプレートベースのオーケストレーションエンジン。</block>
+  <block id="5ddbd3cec63b14995bf6a5823b692de7" category="paragraph">NetApp 解決策を使用した Red Hat OpenShift では、 2 つのデータスイッチを使用して 25Gbps でプライマリデータ接続を提供します。また、ストレージノードのインバンド管理用に 1Gbps で接続を提供する管理スイッチをさらに 2 台使用し、 IPMI 機能のアウトオブバンド管理も行います。</block>
+  <block id="516f03490d9014dd2611d09b0edcabb3" category="paragraph">Red Hat OpenStack Director では、 ironic BareMetal プロビジョニングサービスを使用して Red Hat OpenStack Platform を導入するために IPMI 機能が必要です。</block>
+  <block id="c546b983b02d8654c5b245147d99dcf0" category="paragraph">ネットアップとともに Red Hat OpenShift を実装することで、仮想ローカルエリアネットワーク（ VLAN ）を使用してネットワークトラフィックを論理的に分離するように設計されています。この構成は、お客様のニーズに合わせて拡張することも、特定のネットワークサービスをさらに分離することもできます。次の表に、ネットアップで解決策を検証する際に解決策を実装するために必要な VLAN を示します。</block>
+  <block id="414b4843c124e72b43bccf2948a53a41" category="cell">物理ノードの管理に使用するネットワークと、皮肉なことに IPMI サービス。</block>
+  <block id="6f9a827a6bc33e5b4cbb4bbb49d61179" category="cell">ストレージインフラ</block>
+  <block id="e8cbca2d71bd2aeff622a07b4ffad6c2" category="cell">Swift などのインフラサービスをサポートするためにボリュームを直接マッピングするためのコントローラノードのネットワーク。</block>
+  <block id="757b505cfd34c64c85ca5b5690ee5293" category="cell">201</block>
+  <block id="e103375dfc18f23e4fc072903e894fe9" category="cell">ストレージ Cinder</block>
+  <block id="0bdfa6389eb47674a02f6049f342785d" category="cell">環境に導入された仮想インスタンスにブロックボリュームを直接マッピングして接続するためのネットワーク。</block>
+  <block id="854d6fae5ee42911677c739ee1734486" category="cell">202.</block>
+  <block id="772d9a23b79ccb504fa0590644934c3b" category="cell">内部 API</block>
+  <block id="e44f5f63400b0975b884dc2980ee3a61" category="cell">API 通信、 RPC メッセージ、データベース通信を使用する OpenStack サービス間の通信に使用するネットワーク。</block>
+  <block id="34ed066df378efacc9b924ec161e7639" category="cell">301</block>
+  <block id="6252d0571760e3d285e2e41a2b1e7743" category="cell">テナント</block>
+  <block id="c92a4a36be5c194016bf178f08ea33e4" category="cell">Neutron は、 VXLAN を介したトンネリングによって、各テナントに独自のネットワークを提供します。ネットワークトラフィックは、各テナントネットワーク内で分離されます。各テナントネットワークには IP サブネットが関連付けられており、ネットワークネームスペースとは、複数のテナントネットワークで同じアドレス範囲を使用しても競合が発生することを意味します</block>
+  <block id="577bcc914f9e55d5e4e4f82f9f00e7d4" category="cell">302</block>
+  <block id="7fb59e03948fb9f6e10ad1c874633295" category="cell">ストレージ管理</block>
+  <block id="cdc529b5e11a981e4597195c5f1c53b5" category="cell">OpenStack Object Storage （ Swift ）は、このネットワークを使用して、対象のレプリカノード間でデータオブジェクトを同期します。プロキシサービスは、ユーザ要求と基盤となるストレージレイヤの中間インターフェイスとして機能します。プロキシは受信要求を受信し、要求されたデータを取得するために必要なレプリカを検索します。</block>
+  <block id="11b9842e0a271ff252c1903e7132cd68" category="cell">303</block>
+  <block id="5214f1e2490f3878e307fd6f81f9f77f" category="cell">PXE</block>
+  <block id="16d856c79e739181f35adfe5b791c650" category="cell">OpenStack Director は、 OSP Overcloud のインストールをオーケストレーションするための、皮肉なベアメタルプロビジョニングサービスの一部として PXE ブートを提供します。</block>
+  <block id="966b6dfb6b0819cc10644bea3115cf20" category="cell">3484</block>
+  <block id="b206a1b4ea1097761f78e8876f6da779" category="cell">外部</block>
+  <block id="5f8478eb6e1f2cbc5014136561f20ad4" category="cell">OpenStack Dashboard （ Horizon ）をグラフィカルに管理するためにホストする、公開されているネットワーク。 OpenStack サービスを管理するためのパブリック API 呼び出しが可能です。</block>
+  <block id="dfeb9598fbfb97cc6bbcc0aff2c785d6" category="cell">3485</block>
+  <block id="32223320445c4cf46444e40ebde18b7e" category="cell">SSH アクセス、 DNS トラフィック、ネットワークタイムプロトコル（ NTP ）トラフィックなど、システム管理機能へのアクセスを提供します。このネットワークは、コントローラ以外のノードのゲートウェイとしても機能します。</block>
+  <block id="ab4f2b5fd96ca65349119909c1eada2d" category="cell">3486</block>
+  <block id="f2260a90424f1d412334d1b3467abd22" category="list-text">ホスト名の完全な解決を可能にする DNS サーバが少なくとも 1 つ必要です。</block>
+  <block id="d70672769aa84f2a999291a645e67355" category="list-text">解決策内のサーバの時刻を同期できる NTP サーバが 3 台以上ある。</block>
+  <block id="478a3526bd6097c6b7a330fd6aae410e" category="list-text">（オプション） OpenShift 環境でのアウトバウンドのインターネット接続。</block>
+  <block id="6141eb73ab386b2e767629f886dfe8b8" category="section-title">少なくとも 3 つのコンピューティングノードで構成された OSP プライベートクラウドに OpenShift を導入します。</block>
+  <block id="c0182837cf896a5193b03f639dcde92e" category="paragraph">このドキュメントで説明する検証済みアーキテクチャでは、 3 つの OSP コントローラノードと 2 つの OSP コンピューティングノードを導入して、 HA 運用に適した最小限のハードウェアを導入します。 また、両方のコンピューティングノードで仮想インスタンスを起動し、導入した VM を 2 つのハイパーバイザー間で移行できるフォールトトレラントな構成を確保します。</block>
+  <block id="36baa2f9825f8696f1898592df5f9bcd" category="paragraph">Red Hat OpenShift は最初に 3 つのマスターノードで導入するため、 2 ノード構成で少なくとも 2 つのマスターが同じノードを占有します。そのため、特定のノードが使用できなくなった場合に OpenShift が停止する可能性があります。そのため、 Red Hat のベストプラクティスでは、解決策の一部として少なくとも 3 つの OSP コンピューティングノードを導入して、 OpenShift マスターを均等に分散させ、解決策でさらにフォールトトレランスを強化することを推奨します。</block>
+  <block id="6f2aa3d2080693f944f0069c51516860" category="paragraph">アフィニティとは、 VM やホストのセットに対してルールを定義する方法で、グループ内の同じホストで複数の VM が実行されるか、別々のホストで実行されるかを決定します。VM とホストで構成されるアフィニティグループを作成することで、 VM に適用されます。このアフィニティグループには同じパラメータと条件が設定されます。アフィニティグループ内の VM がグループ内の同じホストで実行されているのか、または別々のホストで実行されているのかに応じて、アフィニティグループのパラメータでは正のアフィニティまたは負のアフィニティを定義できます。Red Hat OpenStack Platform では、サーバグループ内の Nova で導入されるインスタンスが異なるコンピューティングノードに導入されるように、ホストアフィニティルールと非アフィニティルールを作成してフィルタを設定することで、ホストアフィニティルールと非アフィニティルールを作成および適用することができます。</block>
+  <block id="9c0af999b760fac2aa82d9d105fa7a7e" category="paragraph">サーバグループには、配置を管理できる最大 10 個の仮想インスタンスがデフォルトで存在します。Nova のデフォルトクォータを更新することで変更できます。</block>
+  <block id="cdc54f4748936cca0c7ad94686dbfed0" category="admonition">OSP サーバグループには、特定のハードアフィニティ / 非アフィニティの制限があります。この制限では、別々のノードに導入するためのリソースが十分でない場合や、ノードの共有を許可するためのリソースが十分でない場合は、 VM をブートできません。</block>
+  <block id="8aea038e418642b1735131358c24a866" category="inline-link">OpenStack インスタンス用にアフィニティおよび非アフィニティを設定するにはどうすればよいですか？</block>
+  <block id="fb4782764269c594c7741dd7bd12df80" category="paragraph">アフィニティグループを設定するには、を参照してください<block ref="f5b5be16184c5362a1ca218025e91581" category="inline-link-rx"></block>。</block>
+  <block id="47a822101acb11c74a4877a3d0b77093" category="inline-link">Red Hat OpenShift カスタマイズを使用した OpenStack へのクラスタのインストール</block>
+  <block id="e890306f6518998364750305a1d467d5" category="paragraph">このような場合、クラスタをすぐに導入せずにウィザードを実行してタスクを割り当てることができますが、あとでクラスタを導入できる構成ファイルを出力する必要はありません。これは、任意の IPI デフォルトを変更する必要がある場合や、マルチテナンシーなどの他の用途のために、同一のクラスタを環境内に複数導入する必要がある場合に非常に便利です。OpenShift 用にカスタマイズされたインストール構成の作成の詳細については、を参照してください<block ref="05810b34cd92ddfe8fd049160cb24f72" category="inline-link-rx"></block>。</block>
+  <block id="e38be1dc20a2b358b917b60fe2677b39" category="doc">NetApp Element iSCSI 構成</block>
+  <block id="575c88ce386d4d1a217185110f23c654" category="paragraph">Trident を NetApp Element ストレージシステムと統合するには、 iSCSI プロトコルを使用してストレージシステムと通信できるバックエンドを作成する必要があります。</block>
+  <block id="db4dabdb172f176363ef61bd70cbc3dd" category="list-text">ダウンロードしたインストールアーカイブのサンプルバックエンドファイルは、「 sample -input 」フォルダ階層にあります。iSCSI を提供している NetApp Element システムの場合、「 backend-solidfire.json 」ファイルを作業ディレクトリにコピーし、ファイルを編集します。</block>
+  <block id="27ef1192cd037c8978195be045fa054e" category="list-text">エンドポイント行のユーザ、パスワード、および MVIP 値を編集します。</block>
+  <block id="d1b7418d19df7144a98dfde725db068c" category="list-text">「仮想 IP 」の値を編集します。</block>
+  <block id="3ae96676432caea17595a22525bd9660" category="admonition">このファイルに定義されているオプションのフィールド「 fsType 」があります。iSCSI バックエンドでは、この値を特定の Linux ファイルシステムタイプ（ XFS 、 ext4 など）に設定することも、 OpenShift が使用するファイルシステムを決定できるようにするために削除することもできます。</block>
+  <block id="7183f006fd74d941c838f003380f3f46" category="list-text">oc` コマンドを実行して ' ストレージ・クラスを作成します</block>
+  <block id="71cb54ab06aa16af27a0ec2157972648" category="list-text">ストレージクラスを作成したら、最初の永続的ボリューム要求（ PVC ）を作成する必要があります。sample_inputs にもあるこのアクションを実行するために使用できるサンプルの 'pvc-basicy.yaml ファイルがあります</block>
+  <block id="afc499f2f95809cedce5c8922067065f" category="list-text">このファイルに対して行う必要がある唯一の編集は '`torageClassName` フィールドが作成したものと一致することを確認することですプロビジョニングするワークロードによって必要に応じて、 PVC 定義をさらにカスタマイズできます。</block>
+  <block id="02eb9c3824b0b8eae9723daa7a2912d1" category="list-text">「 OC 」コマンドを発行して、 PVC を作成します。作成中の元のボリュームのサイズによっては作成にしばらく時間がかかることがあるため、作成が完了した時点でこのプロセスを監視できます。</block>
+  <block id="4411331fd7a49cec034343903b894483" category="doc">NetApp ONTAP ：ネットアップを使用した Red Hat OpenShift</block>
+  <block id="9d312703c40c2d87b835076063682d59" category="paragraph">NetApp ONTAP は、わかりやすい GUI 、自動化統合機能を備えた REST API 、 AI に基づく予測分析と修正措置、無停止のハードウェアアップグレード、ストレージ間インポートなどの機能を備えた強力なストレージソフトウェアツールです。</block>
+  <block id="48235fec2427a785c4a09d7150fc11fc" category="inline-link">ネットアップの ONTAP Web サイト</block>
+  <block id="e65027864c84a42fc0799d878ffa0005" category="paragraph">NetApp ONTAP ストレージシステムの詳細については、を参照してください<block ref="be9464a7a83e639a645a801fff2791d9" category="inline-link-rx"></block>。</block>
+  <block id="81bf516f5b38ea41d503a2670a9dc144" category="paragraph"><block ref="81bf516f5b38ea41d503a2670a9dc144" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="f732807231a9fea58be27e6b14f46c2f" category="section-title">ネットアップのプラットフォーム</block>
+  <block id="5a69e0f8303b40f9f4d56038d3d260c9" category="section-title">NetApp AFF/FAS</block>
+  <block id="2101795febda613baa58be4bd7a86e70" category="paragraph">ネットアップは、堅牢なオールフラッシュ（ AFF ）およびスケールアウトハイブリッド（ FAS ）ストレージプラットフォームを提供し、低レイテンシのパフォーマンス、統合データプロテクション、マルチプロトコルのサポートのそれぞれに合わせてカスタマイズします。</block>
+  <block id="d4c312c600a949fb72436c2d10568a90" category="paragraph">どちらのシステムも、 NetApp ONTAP データ管理ソフトウェアを搭載しています。 NetApp は、可用性が高く、クラウドと統合されたシンプルなストレージ管理を実現する業界最先端のデータ管理ソフトウェアで、データファブリックのニーズに応じたエンタープライズクラスのスピード、効率性、セキュリティを提供します。</block>
+  <block id="992c24be8f66e4259b38ce763c115251" category="paragraph">NetApp AFF / FAS プラットフォームの詳細については、をクリックしてください<block ref="629508ef5a91b5835f70894f34eed424" category="inline-link-rx"></block>。</block>
+  <block id="b008e805d13d953ddb5cbb220d8ef9b6" category="paragraph">ONTAP Select は、お客様の環境のハイパーバイザーに導入できる、ソフトウェアで定義された NetApp ONTAP の導入です。VMware vSphere または KVM にインストールでき、ハードウェアベースの ONTAP システムの全機能とエクスペリエンスを提供します。</block>
+  <block id="3f0bbee5abf3eed060d4147cb0d060b9" category="paragraph">ONTAP Select の詳細については、をクリックしてください<block ref="7c1424ed7be035c303f12b0763e38ece" category="inline-link-rx"></block>。</block>
+  <block id="f0f4b6de2040d7dc57e7f4f6baee7ec3" category="paragraph">NetApp Cloud Volumes ONTAP は、クラウドで導入される NetApp ONTAP のバージョンで、 Amazon AWS 、 Microsoft Azure 、 Google Cloud などのさまざまなパブリッククラウドに導入できます。</block>
+  <block id="c7fa0d52c3955385f084d0e67c59f963" category="paragraph">Cloud Volumes ONTAP の詳細については、をクリックしてください<block ref="75c9b0075008bbe40ac851ad7f6dda6a" category="inline-link-rx"></block>。</block>
+  <block id="58f71c7da56c3da1782b9cc350f6b507" category="doc">ネットアップを使用した Red Hat OpenShift でのマルチテナンシーの構成：ネットアップでの Red Hat OpenShift</block>
+  <block id="43725e98a748928e6e110fb815d4cdcd" category="paragraph">コンテナで複数のアプリケーションやワークロードを実行する多くの組織は、アプリケーションやワークロードごとに 1 つの Red Hat OpenShift クラスタを導入する傾向にあります。これにより、組織はアプリケーションやワークロードを厳密に分離してパフォーマンスを最適化し、セキュリティの脆弱性を軽減できます。ただし、アプリケーションごとに独立した Red Hat OpenShift クラスタを導入するには、独自の問題が発生します。これにより、各クラスタを個別に監視および管理する必要がある運用上のオーバーヘッドが増大し、さまざまなアプリケーションに専用リソースを使用することでコストが増大し、効率的な拡張性が妨げられます。</block>
+  <block id="22723d16894d321cdb948f6e58d0f0a5" category="paragraph">この問題を解決するには、すべてのアプリケーションとワークロードを 1 つの Red Hat OpenShift クラスタで実行することを検討します。しかし、このようなアーキテクチャでは、リソースの分離やアプリケーションのセキュリティの脆弱性が大きな課題の 1 つになっています。あるワークロードのセキュリティ上の脆弱性は、自然に別のワークロードにオーバーフローするため、影響ゾーンが増加します。また、リソース割り当てポリシーがデフォルトで存在しないため、あるアプリケーションによる突然の制御されないリソース使用率は、別のアプリケーションのパフォーマンスに影響します。</block>
+  <block id="43fc204750d595d701bd62ae0f9e364c" category="paragraph">そのため、組織は両方の世界で最も優れたソリューションを探しています。つまり、すべてのワークロードを 1 つのクラスタで実行しながら、各ワークロードに専用クラスタのメリットを提供できるということです。このように効果的な解決策の 1 つは、 Red Hat OpenShift でマルチテナンシーを設定することです。マルチテナンシーは、同じクラスタ上で複数のテナントを共存させ、リソースやセキュリティなどを適切に分離できるアーキテクチャです。 テナントは、特定のユーザグループが専用として使用するように設定されたクラスタリソースのサブセットとみなすことができます。したがって、 Red Hat OpenShift クラスタにマルチテナンシーを設定することには、以下のような利点があります</block>
+  <block id="b0a52a65d1c6562044deecd8b29ff1a7" category="list-text">クラスタリソースを共有できるようにすることで、 CapEx / OpEx を削減します。</block>
+  <block id="17f380878f586b86e5324a99e9bb606a" category="list-text">運用と管理のオーバーヘッドを軽減</block>
+  <block id="dd90b25476b0f80631ed258c34b26e18" category="list-text">セキュリティ侵害のクロスコンタミネーションからワークロードを保護</block>
+  <block id="9b5c0c7931c21b0f7c50f95a1cabbcd7" category="list-text">リソースの競合による予期しないパフォーマンスの低下からワークロードを保護</block>
+  <block id="ce16ab4daf3f8b5a059fd1ad78fa2cae" category="paragraph">本格的なマルチテナント OpenShift クラスタでは、コンピューティング、ストレージ、ネットワーク、セキュリティなど、異なるリソースバケットに属するクラスタリソースに対してクォータと制限を設定する必要があります。ただし、この解決策のすべてのリソースバケットの特定の側面については説明します。 特に、 NetApp ONTAP をベースとする NetApp Trident が動的に割り当てられるストレージリソースにマルチテナンシーを設定することで、同じ Red Hat OpenShift クラスタ上の複数のワークロードが提供または消費するデータを分離し、保護するためのベストプラクティスに焦点を当てます。</block>
+  <block id="642d6937a64eae677f4f5ec4be3647b0" category="paragraph"><block ref="642d6937a64eae677f4f5ec4be3647b0" category="inline-link-macro-rx"></block></block>
+  <block id="3781a70271ebe0b5b8fb20146ecfaa1b" category="doc">OpenShift の概要：ネットアップを使用した Red Hat OpenShift</block>
+  <block id="fdc216d023a3bc5f8245d1fc7eb3474c" category="paragraph">Red Hat OpenShift Container Platform は、開発と IT の運用を単一のプラットフォーム上に統合し、オンプレミスとハイブリッドクラウドのインフラ全体でアプリケーションを一貫して構築、導入、管理します。Red Hat OpenShift は、コンテナベースのワークロード向けに設計された、世界をリードするエンタープライズ Linux ディストリビューションである Kubernetes や Red Hat Enterprise Linux CoreOS など、オープンソースのイノベーションと業界標準に基づいて構築されています。OpenShift は Cloud Native Computing Foundation （ CNCF ）認定 Kubernetes プログラムの一部であり、コンテナワークロードの移植性と相互運用性を提供します。</block>
+  <block id="b2b7104a419a54dcb2763bddc6a0a47c" category="section-title">Red Hat OpenShift には次の機能があります。</block>
+  <block id="89d4c08f375f1aff63a9bccda16583c2" category="list-text">* セルフサービスプロビジョニング * 開発者は、最も多くのツールを使用して、必要に応じてアプリケーションをすばやく簡単に作成できます。また、運用環境全体を完全に制御できます。</block>
+  <block id="7ea4487a7304efe50161d55419c24e99" category="list-text">* 永続的ストレージ。 * 永続的ストレージをサポートすることにより、 OpenShift Container Platform はステートフルアプリケーションとクラウドネイティブステートレスアプリケーションの両方を実行できます。</block>
+  <block id="287afd6cf24670f1c1edf4257833d3a3" category="list-text">* 継続的統合および継続的開発（ CI / CD ）。 * このソースコードプラットフォームは、大規模なビルドおよび展開イメージを管理します。</block>
+  <block id="3f8fce231bd795d2aee75e59616d8b83" category="list-text">* オープンソース標準 * これらの標準は、オープンソース・テクノロジに加えて、コンテナオーケストレーションのための Open Container Initiative （ OCI ）および Kubernetes を組み込みます。お客様は、特定のベンダーのテクノロジやビジネスロードマップに制限されることはありません。</block>
+  <block id="eace1fb280b7e46a48f639acb5614bb3" category="list-text">* CI/CD パイプライン * OpenShift は、 CI/CD パイプラインをすぐに使用できるサポートを提供します。これにより、開発チームはアプリケーション配信プロセスのすべてのステップを自動化し、アプリケーションのコードまたは構成に加えられたすべての変更に対して実行することができます。</block>
+  <block id="0213bacb771194967b86282f7dfa2108" category="list-text">* 役割ベースのアクセス制御 (RBAC) 。 * この機能は、大規模な開発者グループの編成を支援するチームとユーザーの追跡を提供します。</block>
+  <block id="bddf82eb0391bebb49bc421325c26c83" category="list-text">* ビルドとデプロイを自動化。 * OpenShift により、開発者はコンテナ化されたアプリケーションを構築することも、プラットフォームでアプリケーションソースコードやバイナリからコンテナを構築することもできます。プラットフォームは、アプリケーションに定義された特性に基づいて、これらのアプリケーションのインフラストラクチャへの導入を自動化します。たとえば、割り当てられるリソースの量や、サードパーティのライセンスに準拠するために導入するインフラストラクチャ上の場所などです。</block>
+  <block id="c50bf6592c453c7fe74f5e4080e7125e" category="list-text">* 一貫性のある環境。 * OpenShift により、開発者やアプリケーションのライフサイクル全体でプロビジョニングされた環境が、オペレーティングシステムからライブラリ、ランタイムバージョン（ Java ランタイムなど）まで一貫していることを確認します。 また、一貫性のない環境から発生したリスクを除去するために、使用中のアプリケーションランタイム（ Tomcat など）も削除できます。</block>
+  <block id="7b90845f52b98829448e13ef442fa1d3" category="list-text">* 構成管理。 * 構成と機密性の高いデータ管理はプラットフォームに組み込まれており、アプリケーションの構築に使用されるテクノロジーや導入される環境に関係なく、一貫性のある、環境に依存しないアプリケーション構成がアプリケーションに確実に提供されるようにします。</block>
+  <block id="d0566dac78e618a4814f89011fe2a434" category="list-text">* アプリケーションログとメトリック。 * 迅速なフィードバックは、アプリケーション開発の重要な要素です。OpenShift に統合された監視機能とログ管理機能により、開発者はアプリケーションがどのように変化しても動作しているかを調査し、アプリケーションのライフサイクルの早い段階で問題を修正できるようになります。</block>
+  <block id="f5467777507a26705203cc852c645272" category="list-text">* セキュリティとコンテナカタログ。 * OpenShift はマルチテナンシーを提供し、 Security-Enhanced Linux （ SELinux ）、 cgroups 、 Secure Computing Mode （ seccomp ）との確立されたセキュリティを使用して、さまざまなサブシステム用の TLS 証明書による暗号化により、ユーザーを有害なコード実行から保護します。 さらに、セキュリティを重視してスキャンおよび採点を行う Red Hat 認定コンテナ（ access.redhat.com/containers ）へのアクセスを提供し、認定された信頼できるセキュアなアプリケーションコンテナをエンドユーザに提供します。</block>
+  <block id="5dcf86233c5200ba3ba5c983b2750239" category="section-title">Red Hat OpenShift の導入方法</block>
+  <block id="51767c8ba43f6762abb948c6f51dda93" category="paragraph">Red Hat OpenShift 4 以降、 OpenShift の導入方法には、高度にカスタマイズされた導入に User Provisioned Infrastructure （ UPI ；ユーザプロビジョニングインフラ）を使用する手動導入、または IPI （インストーラでプロビジョニングされたインフラ）を使用した完全に自動化された導入などがあります。</block>
+  <block id="1781583421b1691ab8f09e39120540e3" category="paragraph">ほとんどの場合、 IPI インストール方法が推奨されます。これは、開発、テスト、および本番環境用の OCP クラスタを迅速に導入できるためです。</block>
+  <block id="ec55e5ffb2376dada4b2eb066c1fd9fd" category="section-title">Red Hat OpenShift の IPI インストール</block>
+  <block id="a91a379e59fea6610134af1efa3dfe87" category="paragraph">OpenShift の Installer Provisioned Infrastructure （ IPI ）導入には、次の高度な手順が含まれます。</block>
+  <block id="d1befa03c79ca0b84ecc488dea96bc68" category="inline-link">Web サイト</block>
+  <block id="a07879007b1202a533ff3ef18bc0d197" category="list-text">Red Hat OpenShift をご覧ください<block ref="36af4d1b80928d398e137421c95a1013" category="inline-link-rx"></block> SSO クレデンシャルでログインします。</block>
+  <block id="1508d46d19b9d33222bca43d47fc1ca5" category="list-text">Red Hat OpenShift を導入する環境を選択してください。</block>
+  <block id="2d1cc74f897823409c382ac32b4fb27c" category="list-text">次の画面でインストーラをダウンロードします。固有のプルシークレットで、管理用の CLI ツールです。</block>
+  <block id="c9a2aa5906b4dad4a982c3a9c51d31f3" category="list-text">に従ってください<block ref="04512308a1627dc41acfeed51ef16ba3" category="inline-link-rx"></block> Red Hat が提供する、お客様の環境への導入サービスです。</block>
+  <block id="4135ded680dc1a7cb329838a88568398" category="section-title">ネットアップが検証済みの OpenShift 環境</block>
+  <block id="bd71877bff964ab383ca97363c29f189" category="paragraph">ネットアップは、以下の各データセンター環境で IPI （インストーラでプロビジョニングされたインフラ）導入方法を使用して、 IT ラボへの Red Hat OpenShift の導入をテストし、検証しました。</block>
+  <block id="aa9095c5ba77e3549672e5c4fae1fedc" category="inline-link-macro">ベアメタルで実装された OpenShift</block>
+  <block id="fecab6277bc7322982f127ce83dee308" category="list-text"><block ref="fecab6277bc7322982f127ce83dee308" category="inline-link-macro-rx"></block></block>
+  <block id="5f6a8f3661e7319797d4eab6792350e6" category="inline-link-macro">Red Hat OpenStack Platform 上の OpenShift</block>
+  <block id="ff3de63c4917b45d20525986d5b29962" category="list-text"><block ref="ff3de63c4917b45d20525986d5b29962" category="inline-link-macro-rx"></block></block>
+  <block id="f88eb30a75027b557910958c7306cb4e" category="inline-link-macro">Red Hat 仮想化を基盤とした OpenShift</block>
+  <block id="92fb5c16a9f212d49c0c5fb48ebc9144" category="list-text"><block ref="92fb5c16a9f212d49c0c5fb48ebc9144" category="inline-link-macro-rx"></block></block>
+  <block id="2772c11e552b243e60a34490c4174ff9" category="inline-link-macro">VMware vSphere 上の OpenShift</block>
+  <block id="83fc4dbe543f82a9e50bc1bd4c74fb70" category="list-text"><block ref="83fc4dbe543f82a9e50bc1bd4c74fb70" category="inline-link-macro-rx"></block></block>
+  <block id="9d28a56a3c1844d5e77e0a0cdb46e963" category="doc">ネットアップストレージの概要：ネットアップを使用した Red Hat OpenShift</block>
+  <block id="2d146865ed3657bfe2e334d20e0be862" category="paragraph">以下のページには、 NetApp 解決策を搭載した Red Hat OpenShift で使用されるネットアップストレージシステムに関する追加情報があります。</block>
+  <block id="3a374bfcdd912b5071f863e2b9f0eefa" category="list-text"><block ref="3a374bfcdd912b5071f863e2b9f0eefa" category="inline-link-macro-rx"></block></block>
+  <block id="70b44fe3d3567f3f2a5ccd67ff8ac852" category="list-text"><block ref="70b44fe3d3567f3f2a5ccd67ff8ac852" category="inline-link-macro-rx"></block></block>
+  <block id="eeaa3ef2816f113fd1978b036eefc4a4" category="doc">解決策の検証とユースケース：ネットアップを使用した Red Hat OpenShift</block>
+  <block id="9e766e668731b912ea84be747f0d6b4b" category="paragraph">このページに記載する例は、ネットアップでの Red Hat OpenShift の解決策の検証と使用事例です。</block>
+  <block id="6f60a8e202d6d4f297230695ffa9c1a6" category="inline-link-macro">永続的ストレージを使用した Jenkins CI/CD パイプラインの導入</block>
+  <block id="20b131c747c2ab8c4c617107b04dfe76" category="list-text"><block ref="20b131c747c2ab8c4c617107b04dfe76" category="inline-link-macro-rx"></block></block>
+  <block id="1db5f4d34dfad32d71caa1eee0702077" category="inline-link-macro">次は、ビデオとデモです</block>
+  <block id="e6a91c2f4f305893caa559e9155befb2" category="paragraph"><block ref="e6a91c2f4f305893caa559e9155befb2" category="inline-link-macro-rx"></block></block>
+  <block id="b830a759b7bbee23da50f11979fb8f27" category="doc">永続的ストレージを使用した Jenkins CI / CD パイプラインの導入：ネットアップでの Red Hat OpenShift</block>
+  <block id="4d4480c77d84881f85763c51fb0a0ebb" category="doc">ビデオとデモ：ネットアップを使用した Red Hat OpenShift</block>
+  <block id="92a855a1b8d950731fa531dc04dd0f9d" category="paragraph">次のビデオでは、このドキュメントで説明している機能の一部を紹介します。</block>
+  <block id="051525dd6e814133d477a1812a4164c2" category="inline-link-macro">ビデオ： NetApp HCI for Red Hat OpenShift on Red Hat Virtualization Deployment</block>
+  <block id="817cc3ec794caf508075034f1fa54315" category="list-text"><block ref="817cc3ec794caf508075034f1fa54315" category="inline-link-macro-rx"></block></block>
+  <block id="1a85a443f3a136ca9765046f52054ab4" category="doc">NetApp ONTAP iSCSI 構成</block>
+  <block id="92637d8d513510f7c1f5bfac6e1cce9b" category="paragraph">Trident を NetApp ONTAP ストレージシステムと統合するには、ストレージシステムとの通信を可能にするバックエンドを作成する必要があります。</block>
+  <block id="3ca99f0e09d3b1ea097a113dd72c9317" category="list-text">ダウンロードしたインストールアーカイブのサンプルバックエンドファイルは、「 sample -input 」フォルダ階層にあります。iSCSI を提供している NetApp ONTAP システムの場合は、「 backend-ontap -san.json 」ファイルを作業ディレクトリにコピーし、ファイルを編集します。</block>
+  <block id="fa346018b8222fdc195d0b73016cf5a0" category="list-text">このファイルで管理 LIF 、データ LIF 、 SVM 、ユーザ名、パスワードの値を編集します。</block>
+  <block id="38ace6c607c7db13cd4cc319f9b0225b" category="list-text">このバックエンドファイルを設定した状態で、次のコマンドを実行して最初のバックエンドを作成します。</block>
+  <block id="62dac1cf108b7154304cc11094d9a259" category="doc">NetApp ONTAP の NFS 構成</block>
+  <block id="89441fb0b16307f49090afa2b479b9fa" category="list-text">ダウンロードしたインストールアーカイブのサンプルバックエンドファイルは、「 sample -input 」フォルダ階層にあります。NFS を提供している NetApp ONTAP システムの場合は、「 backend-ontap/nas.json 」ファイルを作業ディレクトリにコピーし、ファイルを編集します。</block>
+  <block id="87f6ff6bf74013e1dfe6df49a1cf1986" category="list-text">backendName 、 managementLIF 、 dataLIF 、 SVM 、ユーザ名を編集します。 パスワードの値を入力します。</block>
+  <block id="456ef2a1f1bd447267912c0a8ea1fccf" category="admonition">ベストプラクティスは、カスタムの backendName 値を、簡単に識別できるように NFS を提供するストレージ DriverName とデータ LIF の組み合わせとして定義することです。</block>
+  <block id="00d6947fd6a153943286b857dcd0f339" category="admonition">このファイルに定義されているオプションのフィールド「 fsType 」があります。この行は NFS バックエンドで削除できます。</block>
+  <block id="254f642527b45bc260048e30704edb39" category="doc">設定</block>
+  <block id="34a91af97601b540a54e1c7abf73eb94" category="paragraph">マルチテナント解決策では、どのユーザも必要以上にクラスタリソースへのアクセスを許可しないようにする必要があります。つまり、マルチテナンシー構成の一部として設定するリソースセット全体が、クラスタ管理者、ストレージ管理者、および各プロジェクトに取り組む開発者の間で分割されます。</block>
+  <block id="08118387b9241c370e74a7c7ebf93cb2" category="paragraph">次の表に、さまざまなユーザーが実行するさまざまなタスクの概要を示します。</block>
+  <block id="064dceba374668ef0734be5f9e182682" category="cell">* Cluster-admin*</block>
+  <block id="8ee87cd35e2a0f43fc2c19f3cb9865e0" category="cell">さまざまなアプリケーションやワークロード用のプロジェクトを作成できます</block>
+  <block id="e033ab3bea3b8a20afb5852070df0203" category="cell">Storage Admin 用の ClusterRoles および RoleBindings を作成します</block>
+  <block id="293d08622718634a8518b6fcc6376617" category="cell">ロールとロールの作成特定のアクセス権を割り当てる開発者のためのバインド プロジェクト</block>
+  <block id="3e97e469255cd3686174c371f50961f9" category="cell">[ オプション ] 特定のノードでポッドをスケジュールするようにプロジェクトを設定します</block>
+  <block id="93ffd2b1215bc47cc78b020f89e922ef" category="cell">* ストレージ管理者 *</block>
+  <block id="043ab42cdcbdacc4691c26ee52ed8ccd" category="cell">NetApp ONTAP に SVM を作成する</block>
+  <block id="be09a24f118a66330a40633e9d5ebfca" category="cell">Trident バックエンドを作成</block>
+  <block id="55995e8c220e05b3e75252cccf5752be" category="cell">ストレージクラスを作成します</block>
+  <block id="c33111360616f0e57f95ffc9d4de0703" category="cell">ストレージリソースクォータを作成します</block>
+  <block id="4e00898ecc4e6640083ccff8d85fbe87" category="cell">* 開発者 *</block>
+  <block id="81e20516b7f4b1bad1c0c944667c9299" category="cell">割り当てられたプロジェクトで PVC/POD を作成 / パッチするためのアクセスを検証します</block>
+  <block id="3f6644d7eb04a5b6e2562865f0cb6010" category="cell">アクセスを検証して、別のプロジェクトで PVC/POD を作成 / パッチします</block>
+  <block id="68cc65028f9cf6078c1debe7937c49b3" category="inline-link-macro">次の手順：前提条件</block>
+  <block id="fa25d8961e0b201dd664f04d53d4fe90" category="paragraph"><block ref="fa25d8961e0b201dd664f04d53d4fe90" category="inline-link-macro-rx"></block></block>
+  <block id="530956b125fa7902ec86c472177911c5" category="doc">ベアメタルでの OpenShift ：ネットアップを使用した Red Hat OpenShift</block>
+  <block id="6d7e55fcde79deeef1bb5d32ff90b47d" category="paragraph">ベアメタルに実装された OpenShift Container Platform は、コモディティサーバに自動で導入されます。</block>
+  <block id="7cfe810a1d9b138320c3485a22a0244f" category="paragraph">OpenShift クラスタの導入の容易さ、迅速なプロビジョニング、拡張が可能になると同時に、コンテナ化の準備ができていないアプリケーションの仮想ワークロードをサポートする必要性も提供するため、 OpenShift の仮想導入によく使用されています。ベアメタルに導入することで、ホストハイパーバイザー環境や OpenShift 環境の管理に余分なオーバーヘッドが必要になります。ベアメタルサーバに直接導入することで、ホスト環境と OpenShift 環境間でリソースを共有する必要がある物理的なオーバーヘッドの制限を軽減できます。</block>
+  <block id="67a3852a946bc539243cc1e5f8982d03" category="section-title">ベアメタル上の OpenShift には次の機能があります。</block>
+  <block id="50414a2653623cf035130c9aef095774" category="list-text">* IPI または Assisted Installer Deployment* ベアメタルサーバ上で Installer Provisioned Infrastructure （ IPI ）によって実装された OpenShift クラスタを使用すると、ハイパーバイザーレイヤを管理することなく、汎用性が高く、拡張性に優れた OpenShift 環境を汎用サーバに直接導入できます。</block>
+  <block id="49cf0b9f07ca8e320b70cb947c4b58cf" category="list-text">* コンパクト・クラスタ・デザイン * ハードウェア要件を最小限に抑えるため、ベアメタルに実装された OpenShift により、ユーザーはわずか 3 ノードのクラスタを導入できます。これにより、 OpenShift コントロール・プレーン・ノードをワーカー・ノードやホスト・コンテナとしても機能させることができます。</block>
+  <block id="5fefd4a38e49e03129f0cdf918760464" category="list-text">* OpenShift Virtualization * OpenShift では、 OpenShift Virtualization を使用してコンテナ内で仮想マシンを実行できます。このコンテナネイティブの仮想化では、コンテナ内で KVM ハイパーバイザーを実行し、 VM ストレージ用の永続ボリュームを接続します。</block>
+  <block id="a5e14517da9fd594de00d98db532248c" category="list-text">* AI / ML に最適化されたインフラ * GPU ベースのワーカーノードを OpenShift 環境に組み込み、 OpenShift Advanced Scheduling を活用して、機械学習アプリケーション向けの Kubeflow のようなアプリケーションを導入します。</block>
+  <block id="a86acb8ee62f4450bd607f90dc546a52" category="paragraph">NetApp 解決策上の Red Hat OpenShift では、 2 つのデータスイッチを使用して 25Gbps でプライマリデータ接続を提供します。また、ストレージノードのインバンド管理用に 1Gbps で接続を提供する管理スイッチをさらに 2 台使用し、 IPMI 機能のアウトオブバンド管理も行います。</block>
+  <block id="0b0c7ec504596f883f28656ef0d9dd43" category="paragraph">OpenShift ベアメタル IPI 環境では、お客様にプロビジョニングノード、つまりネットワークインターフェイスを別々のネットワークに接続する必要のある Red Hat Enterprise Linux 8 マシンを作成する必要があります。</block>
+  <block id="d69c346b7a22afe46e945966912c57a7" category="list-text">* ネットワークのプロビジョニング：このネットワークは、ベアメタルノードをブートし、 OpenShift クラスタを導入するために必要なイメージとパッケージをインストールするために使用されます。</block>
+  <block id="e18ed075162fe8878d4eb6c6c8f17e2f" category="list-text">*Baremetal Network: * このネットワークは、クラスターが展開された後で、パブリックに通信するために使用されます。</block>
+  <block id="4fda1d87417f9c27d890916bb7891db6" category="paragraph">プロビジョニングノードのセットアップでは、トラフィックがノード自体とブートストラップ VM の両方で適切にルーティングされるようにするブリッジインターフェイスを作成します。ブートストラップ VM は、導入用にプロビジョニングされます。</block>
+  <block id="463cdec64a0c397d0a62cc7da18ca2e3" category="paragraph">クラスタが展開されると、 API と入力 VIP アドレスがブートストラップノードから新しく展開されたクラスタに移行されます。</block>
+  <block id="537b69e540b6321a39a2cabf3efaff66" category="paragraph">次の図は、 IPI の展開中と展開が完了した後の環境を示しています。</block>
+  <block id="096e71732ebcd1f43544a7159596cb17" category="paragraph"><block ref="096e71732ebcd1f43544a7159596cb17" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="bb18861dc375756df1a31b7ed3c03f38" category="paragraph"><block ref="bb18861dc375756df1a31b7ed3c03f38" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="c5a0639a1bbc3695e0ebaf4c3affe363" category="paragraph">ネットアップ解決策を使用した Red Hat OpenShift は、仮想ローカルエリアネットワーク（ VLAN ）を使用して、ネットワークトラフィックを論理的に分離するように設計されています。</block>
+  <block id="3d9073c9e531118eb3aff0f20647c86f" category="cell">ベアメタルノードと IPMI の管理</block>
+  <block id="87f4ca3f03c747a49f6bde3162d51f03" category="cell">ベアメタルネットワーク</block>
+  <block id="44a94f76baabd05ab407f76c946326c8" category="cell">クラスタが使用可能になると、 OpenShift サービス用のネットワーク</block>
+  <block id="e09833e0bdd4dd9d935d4effcddbe3da" category="cell">プロビジョニングネットワーク</block>
+  <block id="846325c36d78e7582d8bfcab277ca67a" category="cell">Network for PXE boot and installation of bare metal nodes （ベアメタルノードの PXE ブートおよびインストール用ネットワーク IPI を使用</block>
+  <block id="22fb1f7f35b01327d09d85981373d5be" category="admonition">これらの各ネットワークは仮想的に VLAN で分離されていましたが、 PXE ブートシーケンス中に VLAN タグを渡す方法がないため、プライマリ VLAN を割り当てた状態で各物理ポートを「アクセスモード」で設定する必要がありました。</block>
+  <block id="c1c20889b73d589f3d77887c32929c83" category="doc">Red Hat 仮想化での OpenShift ：ネットアップでの Red Hat OpenShift</block>
+  <block id="4d70d0309372cca4b30fd5a5e9f22054" category="paragraph">NetApp 解決策上の Red Hat OpenShift では、 2 つのデータスイッチを使用して 25Gbps でプライマリデータ接続を提供します。また、ストレージノードのインバンド管理用に 1Gbps で接続を提供する管理スイッチをさらに 2 台使用し、 IPMI 機能のアウトオブバンド管理も行います。OCP は、クラスタ管理に RHV 上の仮想マシン論理ネットワークを使用します。このセクションでは、解決策で使用される各仮想ネットワークセグメントの配置と目的について説明し、解決策を導入するための前提条件を概説します。</block>
+  <block id="2d7e48e226974692ed3f522a2baef6db" category="paragraph">RHV 上の Red Hat OpenShift は、仮想ローカルエリアネットワーク（ VLAN ）を使用して、さまざまな目的でネットワークトラフィックを論理的に分離するように設計されています。この構成は、お客様のニーズに合わせて拡張することも、特定のネットワークサービスをさらに分離することもできます。次の表に、ネットアップで解決策を検証する際に解決策を実装するために必要な VLAN を示します。</block>
+  <block id="f167f9bbce3ccf40d112bfb92c325f63" category="cell">RHV-H ノード、 RHV-Manager 、 ovirtmgmt ネットワークの管理</block>
+  <block id="3083202a936b7d0ef8b680d7ae73fa1a" category="cell">344</block>
+  <block id="de4e964e7be880b328384cfedd5873d9" category="paragraph">このドキュメントで説明する検証済みのアーキテクチャは、 2 つの RHV-H ハイパーバイザーノードを導入し、ホスト型エンジンと導入済み VM を両方のホストで管理して 2 つのハイパーバイザー間で移行できるフォールトトレラントな構成を確保することによって、 HA 処理に適した最小限のハードウェア導入を示しています。</block>
+  <block id="5e83de2102ff87dabe53d033726e4d42" category="paragraph">Red Hat OpenShift は最初に 3 つのマスターノードで導入するため、 2 ノード構成で少なくとも 2 つのマスターが同じノードを占有します。そのため、特定のノードが使用できなくなった場合に OpenShift が停止する可能性があります。そのため、解決策の一部として少なくとも 3 つの RHV - H ハイパーバイザーノードを導入して、 OpenShift マスターを均等に分散できるようにし、解決策にさらにフォールトトレランスを追加することが Red Hat のベストプラクティスです。</block>
+  <block id="df1b58247681ba5f974a572d530dbdf9" category="paragraph">アフィニティとは、 VM やホストのセットに対してルールを定義する方法で、グループ内の同じホストで複数の VM が実行されるか、別々のホストで実行されるかを決定します。VM とホストで構成されるアフィニティグループを作成することで、 VM に適用されます。このアフィニティグループには同じパラメータと条件が設定されます。アフィニティグループ内の VM がグループ内の同じホストで実行されているのか、または別々のホストで実行されているのかに応じて、アフィニティグループのパラメータでは正のアフィニティまたは負のアフィニティを定義できます。</block>
+  <block id="defe87162af775377e5435f96566d2b8" category="paragraph">パラメータに定義された条件は、強制またはソフト強制のいずれかです。強制を強く行うことで、アフィニティグループ内の VM は、外部条件に関係なく常に正 / 負のアフィニティに従って配置されます。一方、ソフトな適用では、アフィニティグループ内の VM が可能なかぎり肯定的または否定的なアフィニティに従っている場合に、より高い優先度が設定されます。このドキュメントで説明する 2 つまたは 3 つのハイパーバイザー構成では、推奨設定はソフトアフィニティです。大規模なクラスタでは、 OpenShift ノードの分散を確保するためにハードアフィニティを利用できます。</block>
+  <block id="f38d8cd9caeb9a037c470b7d061392a0" category="paragraph">アフィニティグループを設定するには、を参照してください<block ref="eb1587f3cb611d53dba5bde41d49122a" category="inline-link-rx"></block>。</block>
+  <block id="9264ce8ca54a510bc871cbfdae485699" category="paragraph">このような場合、クラスタをすぐに導入せずにウィザードを実行してタスクを割り当てることができますが、あとでクラスタを導入できる構成ファイルを出力する必要はありません。これは、任意の IPI デフォルトを変更する必要がある場合や、マルチテナンシーなどの他の用途のために、同一のクラスタを環境内に複数導入する必要がある場合に非常に便利です。OpenShift 用にカスタマイズされたインストール構成の作成の詳細については、を参照してください<block ref="15427a9f842d7a49b872cf64115f33bc" category="inline-link-rx"></block>。</block>
+  <block id="834077ac40548d6681103d68d3afdb07" category="paragraph">Red Hat OpenShift と NetApp ONTAP を基盤とする NetApp Trident は、デフォルトでワークロードを分離する機能を提供しませんが、マルチテナンシーの設定に使用できるさまざまな機能を備えています。ネットアップ解決策をベースとする NetApp Trident を使用した Red Hat OpenShift クラスタでのマルチテナント ONTAP の設計について理解を深めるために、一連の要件を含む例を検討し、その構成について概説します。</block>
+  <block id="bea35b4f061556085bc3ce4e35d04c62" category="paragraph">2 つの異なるチームが取り組んでいる 2 つのプロジェクトの一環として、組織が Red Hat OpenShift クラスタ上で 2 つのワークロードを実行するとします。これらのワークロードのデータは、 NetApp ONTAP NAS バックエンド上の NetApp Trident によって動的にプロビジョニングされる PVC 上に存在します。組織では、この 2 つのワークロード用にマルチテナント解決策を設計し、これらのプロジェクトに使用するリソースを分離して、セキュリティとパフォーマンスを確保する必要があります。主に、これらのアプリケーションに対応するデータに焦点を当てます。</block>
+  <block id="670805e3c0e03671d56b05c86fd1a536" category="paragraph">次の図は、ネットアップ解決策をベースとする NetApp Trident を使用した Red Hat OpenShift クラスタ上のマルチテナント ONTAP を示しています。</block>
+  <block id="9f2bfaa3cb0944ba9951e339535e1086" category="image-alt">NetApp Trident を使用し、 Red Hat OpenShift クラスタにマルチテナンシー機能を追加 NetApp ONTAP の略</block>
+  <block id="910af13beca7193218f534b5af1d8881" category="section-title">テクノロジ要件</block>
+  <block id="ff94444190436ee7694d15be2dde0f29" category="list-text">NetApp ONTAP ストレージクラスタ</block>
+  <block id="b645e117fe786bf56128cde2dec3971a" category="list-text">Red Hat OpenShift クラスタ</block>
+  <block id="0d46ef98dfe52c8d01c0c5ace93d8165" category="section-title">Red Hat OpenShift –クラスタリソース</block>
+  <block id="62b50a709ff9d7c4335b73275146cd3d" category="paragraph">Red Hat OpenShift クラスタの観点から見ると、最初に提供する最上位のリソースは project です。OpenShift Project は、 OpenShift クラスタ全体を複数の仮想クラスタに分割するクラスタリソースと見なすことができます。そのため、プロジェクトレベルでの分離は、マルチテナンシーを設定するためのベースとなります。</block>
+  <block id="66145ccb54182c91e06a38ed91354bae" category="paragraph">次に、クラスタで RBAC を設定します。ベストプラクティスとして、すべての開発者が 1 つのプロジェクト / ワークロードを対象に、アイデンティティプロバイダ（ IdP ）内の 1 つのユーザグループに設定することを推奨します。Red Hat OpenShift では、 IdP の統合とユーザグループの同期が可能なため、 IdP のユーザとグループをクラスタにインポートできるようになります。これにより、クラスタ管理者は、プロジェクト専用のクラスタリソースへのアクセスを、そのプロジェクトで作業しているユーザグループに分離できるため、クラスタリソースへの不正アクセスを制限できます。Red Hat OpenShift への IdP の統合の詳細については、のドキュメントを参照してください<block ref="213cff8958909b80a9514e0c8321d8ef" category="inline-link-rx"></block>。</block>
+  <block id="88d53d951a60df35d7184b31f367875c" category="paragraph">Red Hat OpenShift クラスタの永続的ストレージプロバイダとして機能している共有ストレージを分離し、各プロジェクト用にストレージ上に作成されたボリュームが、別々のストレージ上に作成されたかのようにホストに表示されるようにすることが重要です。そのためには、プロジェクトやワークロードが存在する数の SVM （ Storage Virtual Machine ）を NetApp ONTAP 上に作成し、各 SVM をワークロード専用にします。</block>
+  <block id="cea403132f963ee9843aec6c83f0ba34" category="paragraph">NetApp ONTAP で作成したプロジェクトごとに異なる SVM が作成されたら、各 SVM を異なる Trident バックエンドにマッピングする必要があります。Trident のバックエンド構成は、 OpenShift クラスタリソースへの永続的ストレージの割り当てを促進します。また、バックエンドのプロトコルドライバにマッピングする SVM の詳細が必要です。必要に応じて、ストレージでのボリュームのプロビジョニング方法や、ボリュームのサイズやアグリゲートの使用に関する制限を定義することができます。 NetApp ONTAP の Trident バックエンドの定義に関する詳細を確認できます<block ref="d13b7d5e649388dcbd372dea81ac2cd7" category="inline-link-rx"></block>。</block>
+  <block id="fe124fdc885d11cce3a4b22b4f4d7ff5" category="section-title">Red Hat OpenShift –ストレージリソース</block>
+  <block id="c2fa2ba3624ea7528064868f980e6597" category="paragraph">Trident バックエンドを設定したら、次の手順として StorageClasses を設定します。バックエンドと同じ数のストレージクラスを構成して、各ストレージクラスが 1 つのバックエンドにしかボリュームをスピンアップできない。ストレージクラスを定義する際に StoragePools パラメータを使用して、ストレージクラスを特定の Trident バックエンドにマッピングできます。ストレージクラスを定義する詳細については、を参照してください<block ref="fea785e27a2821a3ea27566d55a5d6cd" category="inline-link-rx"></block>。そのため、ストレージクラスから Trident バックエンドへの 1 対 1 のマッピングが 1 つの SVM をポイントしています。これにより、そのプロジェクトに割り当てられた StorageClass を経由するすべてのストレージ要求が、そのプロジェクト専用の SVM によって処理されます。</block>
+  <block id="eaa8082cbdd3c38e531ca94a48e6a7c6" category="paragraph">しかし、ストレージクラスにネームスペースリソースが含まれていないため、あるプロジェクトのストレージクラスに対するストレージ要求を別のネームスペース / プロジェクトのポッドで拒否するにはどうすればよいですか。回答では、 ResourceQuotas を使用します。ResourceQuotas は、プロジェクトごとのリソースの合計使用量を制御するオブジェクトです。プロジェクト内のオブジェクトで消費できるリソースの合計量だけでなく、リソースの数も制限できます。ほとんどの場合、 ResourceQuotas を使用してプロジェクトのリソースを制限することができます。この機能を効率的に使用することで、リソースのオーバープロビジョニングや過剰消費によるコストやシステム停止を削減できます。のドキュメントを参照してください<block ref="9b2bb9683c8f6144876bed616f252527" category="inline-link-rx"></block> を参照してください。</block>
+  <block id="c8efb672fc8e975f262f5c3ef282f6b2" category="paragraph">このユースケースでは、特定のプロジェクトのポッドが、プロジェクト専用ではないストレージクラスのストレージを要求しないように制限する必要があります。これを行うには '&lt;storage-class-name&gt;.storageclass.storage.k8s/io/persistentvolumeclaims'0 を 0 に設定して ' 他のストレージ・クラスに対する永続的ボリューム要求を制限する必要がありますさらに、クラスタ管理者は、プロジェクト内の開発者が ResourceQuotas を変更するためのアクセス権を持っていないことを確認する必要があります。</block>
+  <block id="22a925195a6e8dd7268158ad7c08d9ed" category="inline-link-macro">次へ：設定</block>
+  <block id="21aa8899f8ed6f99851507ba17b283c5" category="paragraph"><block ref="21aa8899f8ed6f99851507ba17b283c5" category="inline-link-macro-rx"></block></block>
+  <block id="d850a496120b962a0527a28decddb496" category="doc">Configuration ：クラスタ管理者のタスク</block>
+  <block id="3f7a31cc744977402ccc69a050db72d2" category="paragraph">Red Hat OpenShift cluster-admin によって実行される次のタスク。</block>
+  <block id="c20286e526d36b34a57f53517242eeb9" category="list-text">Red Hat OpenShift クラスタに cluster-admin としてログインします</block>
+  <block id="aa64dc6ce0396b211655d814e9da50d3" category="list-text">異なるプロジェクトに対応する 2 つのプロジェクトを作成します</block>
+  <block id="abd73d038e4ef117cd12484cb5c77f80" category="list-text">project-1 の開発者ロールを作成します。</block>
+  <block id="3c73122271c9219b54ca745b732adc28" category="list-text">同様に、 project-2 の開発者ロールを作成します。</block>
+  <block id="ecf3408599a2388e7af97b0554bc95f8" category="list-text">すべての OpenShift およびネットアップストレージリソースは、通常はストレージ管理者が管理します。ストレージ管理者用のアクセスは、 Trident のインストール時に作成される Trident オペレータロールによって制御されます。これに加えて、ストレージ管理者は ResourceQuotas へのアクセスを必要とし、ストレージの消費方法を制御します。</block>
+  <block id="f2a2a54e4d74ba43cec567d86c5647a9" category="list-text">クラスタ内のすべてのプロジェクトの ResourceQuotas を管理する役割を作成して、ストレージ管理者に割り当てます。</block>
+  <block id="4829a9a07c8e9a90b458cf168aae8800" category="list-text">クラスタが組織のアイデンティティプロバイダに統合され、ユーザグループがクラスタグループと同期されていることを確認します。次の例は、アイデンティティプロバイダがクラスタに統合され、ユーザグループが同期されていることを示しています。</block>
+  <block id="36e36b60ddb8f46fe0b9b4e8f4dce56f" category="list-text">ストレージ管理者用の ClusterRoleBindings を設定します。</block>
+  <block id="abb070b98b542a7d2492ff6359a846bd" category="admonition">ストレージ管理者の場合は、 2 つのロールにバインドする必要があります。 Trident オペレータとリソースクォータのロールです。</block>
+  <block id="ced38b1f1c19446862c601754b82b94c" category="list-text">ロールの作成 - developer-project-1 のロールを project-1 の対応するグループ (OCP-project-1) にバインドする開発者のバインディング。</block>
+  <block id="2aa292f2ff8b13fe141ca55c27bc29c2" category="list-text">同様に、開発者の役割を project-2 の対応するユーザーグループにバインドする開発者の RoleBindings を作成します。</block>
+  <block id="71661ed5e90c5d11ea1d391ab4d52f6c" category="inline-link-macro">次：ストレージ管理者のタスク</block>
+  <block id="12af3a390db5f3d9ba581380ecba8075" category="paragraph"><block ref="12af3a390db5f3d9ba581380ecba8075" category="inline-link-macro-rx"></block></block>
+  <block id="d008c60ddb28c0bbad1dfabdd77327fc" category="doc">設定：ストレージ管理者のタスク</block>
+  <block id="086637caf4da7b67f99efcf6dd7cddf4" category="paragraph">ストレージ管理者は、次のリソースを設定する必要があります。</block>
+  <block id="5f31c25c9df7e0d14e2860384e84a465" category="list-text">NetApp ONTAP クラスタに admin としてログインします。</block>
+  <block id="f36df46e82bbf562a23ec9ef1466f219" category="list-text">「ストレージ -&gt; ストレージ VM 」に移動し、「追加」をクリックします。プロジェクト 1 用に 2 つの SVM を作成し、プロジェクト 2 用にもう 1 つ作成して、必要な詳細を指定します。また、 SVM とそのリソースを管理するには vsadmin アカウントを作成します。</block>
+  <block id="3f8bc17bf8dd138aa2915235f0a9c0d3" category="image-alt">ONTAP での SVM の作成</block>
+  <block id="a02d493487df65a3deb976ebaf4bf82b" category="list-text">ストレージ管理者として Red Hat OpenShift クラスタにログインします。</block>
+  <block id="c208bfeddfcd0fa4b3df1540bb1a6795" category="list-text">プロジェクト 1 のバックエンドを作成して、プロジェクト専用の SVM にマッピングします。ONTAP クラスタ管理者ではなく、 SVM の vsadmin アカウントを使用してバックエンドを SVM に接続することを推奨します。</block>
+  <block id="517cc072942a3f1fa08a9cc2ab73412d" category="list-text">同様に、 project-2 用の Trident バックエンドを project-2 専用の SVM にマッピングします。</block>
+  <block id="ae8cd4e814442ce3a76261774c4dd51a" category="list-text">次の手順では、ストレージクラスを作成します。StoragePools パラメータを設定して、 project-1 専用のバックエンドのストレージプールを使用するように project-1 のストレージクラスを作成し、これを設定します。</block>
+  <block id="4350d40426f8c94f6ca046609969adb2" category="list-text">同様に、 project-2 に対してストレージクラスを作成し、 project-2 に専用のバックエンドのストレージプールを使用するように設定します。</block>
+  <block id="2ee847ebe129ae778860d6dd2da21cf6" category="list-text">ResourceQuota を作成して ' プロジェクト 1 内のリソースを制限し ' 他のプロジェクト専用のストレージを要求します</block>
+  <block id="c689ae18a0f5e47541dcec4afb6e187a" category="list-text">同様に 'ResourceQuota を作成して 'project-2 内のリソースを制限し ' 他のプロジェクト専用のストレージを要求します</block>
+  <block id="d86ebf9855f5098f51f658acde335840" category="inline-link-macro">次のステップ：検証</block>
+  <block id="ecdaced28f847470cad9710df327c848" category="paragraph"><block ref="ecdaced28f847470cad9710df327c848" category="inline-link-macro-rx"></block></block>
+  <block id="e11da9afe91d381489a365c86cc614ab" category="section-title">前提条件</block>
+  <block id="dc1677cb2b57b88962cb442a44541e53" category="list-text">NetApp ONTAP クラスタ：</block>
+  <block id="d4778800d332f9f6fee9e339e585b928" category="list-text">Red Hat OpenShift クラスタ：</block>
+  <block id="d129fd674cce38908c2913c847e32eff" category="list-text">Trident がクラスタにインストールされている。</block>
+  <block id="8a787a7d183155314bdd049047b323a7" category="list-text">tridentctl および OC ツールがインストールされ、 $PATH に追加された管理ワークステーション。</block>
+  <block id="4cea069f33b1d96b75fea8fafffbf407" category="list-text">ONTAP への管理アクセス。</block>
+  <block id="1f00aeb4cc4062a01eeea25ae8b684d5" category="list-text">OpenShift クラスタへのクラスタ管理者アクセス。</block>
+  <block id="8a9f3e79da49339aa4525654ee6c00b3" category="list-text">クラスタがアイデンティティプロバイダに統合されました。</block>
+  <block id="034df5c01e6c59c5c131b26ba41c4cd5" category="list-text">アイデンティティプロバイダは、異なるチームのユーザを効率的に区別するように設定されています。</block>
+  <block id="4d842dffdd4176871691c5667a20605e" category="inline-link-macro">次：クラスタ管理者のタスク</block>
+  <block id="618696bfd2efbc95c9b44914e8720137" category="paragraph"><block ref="618696bfd2efbc95c9b44914e8720137" category="inline-link-macro-rx"></block></block>
+  <block id="950496934d91d07bb089d6ed0999b5a9" category="paragraph">詳細または概要については、以下の概要ビデオをご覧ください。</block>
+  <block id="b923f56ad2a53fa1a3ca1160e48f141e" category="section-title">AWX / タワー型の導入</block>
+  <block id="ab81e47672e89830ec16c581f44cb23c" category="list-text">パート 1 ：はじめに、要件、自動化の詳細、 AWX/Tower の初期構成</block>
+  <block id="cf7bbd18f18fdc73ee49ffea888126c7" category="list-text">パート 2 ：変数とプレイブックの実行</block>
+  <block id="f5e227cfa54c5693c512c6adf41a3772" category="section-title">CLI の導入</block>
+  <block id="0b8a09b5974336d1f5e510d18205c03c" category="list-text">パート 1 ：はじめに、要件、自動化の詳細、 Ansible Control Host Setup を確認する</block>
+  <block id="b0ed101b405f642695988c7ef3313b52" category="sidebar">アーカイブされたソリューション</block>
+  <block id="c232cfc0ae9806d3ad6d34a51df58229" category="sidebar">ネットアップを利用した Red Hat OpenShift</block>
+  <block id="cdc53c90644739ab9cb455ad8b663d7b" category="sidebar">Red Hat OpenShift の概要</block>
+  <block id="77caa49b32b4fc8ce3276158f57f9229" category="sidebar">ネットアップストレージの概要</block>
+  <block id="a1ee6a529e809ff1aa8083053c61452b" category="sidebar">NetApp Trident の概要</block>
+  <block id="b35faed5f527117293f2db410e144b81" category="sidebar">解決策の検証 / ユースケース</block>
+  <block id="c33b612c4a4e6e14b4e6c9bab0f9c105" category="sidebar">永続的ストレージを使用した Jenkins CI/CD パイプラインの導入</block>
+  <block id="f99e4eb05e28c150680cb72ca8410d93" category="sidebar">NetApp ONTAP を使用して Red Hat OpenShift にマルチテナンシーを設定します</block>
+  <block id="51a25aff8c490f11d9be543c7af23a0d" category="sidebar">クラスタ管理者のタスク</block>
+  <block id="244e9cd91466ef1240c125511568880a" category="sidebar">ストレージ管理者のタスク</block>
+  <block id="bc967dc2d57e6eff184a821bf7577a80" category="sidebar">拡張性</block>
 </blocks>
