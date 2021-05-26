@@ -281,6 +281,49 @@ trident-operator-66f48895cc-lzczk   1/1     Running   0          2m39s
 
 
 
+== ストレージ用にワーカーノードを準備します
+
+ほとんどの Kubernetes ディストリビューションには、 Red Hat OpenShift など、デフォルトでインストールされる NFS バックエンドをマウントするパッケージとユーティリティが付属しています。
+
+iSCSI プロトコルを使用したブロックストレージボリュームのマッピングを可能にするワーカーノードを準備するには、その機能をサポートするために必要なパッケージをインストールする必要があります。
+
+Red Hat OpenShift では、クラスタが展開された後に MCO （マシン構成オペレータ）をクラスタに適用することによって処理されます。
+
+ワーカーノードでストレージサービスを実行するように設定するには、次の手順を実行します。
+
+. OCP Web コンソールにログインし、 [ 計算 ]>[ マシン構成 ] の順に選択し、 [ マシン構成の作成 ] をクリックします。YAML ファイルをコピー / 貼り付けて、 [ 作成 ] をクリックします。
++
+image:redhat_openshift_image14.png["エラー：グラフィックイメージがありません"]
+
+. 構成の作成後、約 20~30 分かかり、構成をワーカーノードに適用してリロードします。「 OC GET MCP 」を使用してマシン構成が適用されているかどうかを確認し、ワーカーのマシン構成プールが更新されていることを確認します。また、ワーカーノードにログインして、 iscsid サービスが実行されていることを確認することもできます。
++
+....
+[netapp-user@rhel7 openshift-deploy]$ oc get mcp
+NAME     CONFIG                                    UPDATED   UPDATING   DEGRADED
+master   rendered-master-a520ae930e1d135e0dee7168   True      False      False
+worker   rendered-worker-de321b36eeba62df41feb7bc   True      False      False
+
+[netapp-user@rhel7 openshift-deploy]$ ssh core@10.61.181.22 sudo systemctl status iscsid
+● iscsid.service - Open-iSCSI
+   Loaded: loaded (/usr/lib/systemd/system/iscsid.service; enabled; vendor preset: disabled)
+   Active: active (running) since Tue 2021-05-26 13:36:22 UTC; 3 min ago
+     Docs: man:iscsid(8)
+           man:iscsiadm(8)
+ Main PID: 1242 (iscsid)
+   Status: "Ready to process requests"
+    Tasks: 1
+   Memory: 4.9M
+      CPU: 9ms
+   CGroup: /system.slice/iscsid.service
+           └─1242 /usr/sbin/iscsid -f
+....
+
+
+
+NOTE: また、適切なフラグを指定して「 OC debug 」コマンドを実行することにより、 MachineConfig が正常に適用され、サービスが正常に開始されたことを確認することもできます。
+
+
+
 == ストレージシステムバックエンドを作成
 
 NetApp Trident Operator のインストールが完了したら、使用するネットアップストレージプラットフォームにバックエンドを設定する必要があります。以下のリンクをクリックして、 NetApp Trident のセットアップと設定を続けてください。

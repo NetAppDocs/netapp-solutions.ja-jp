@@ -6356,7 +6356,6 @@
   <block id="2772c11e552b243e60a34490c4174ff9" category="inline-link-macro">VMware vSphere 上の OpenShift</block>
   <block id="83fc4dbe543f82a9e50bc1bd4c74fb70" category="list-text"><block ref="83fc4dbe543f82a9e50bc1bd4c74fb70" category="inline-link-macro-rx"></block></block>
   <block id="9d28a56a3c1844d5e77e0a0cdb46e963" category="doc">ネットアップストレージの概要：ネットアップを使用した Red Hat OpenShift</block>
-  <block id="2d146865ed3657bfe2e334d20e0be862" category="paragraph">以下のページには、 NetApp 解決策を搭載した Red Hat OpenShift で使用されるネットアップストレージシステムに関する追加情報があります。</block>
   <block id="3a374bfcdd912b5071f863e2b9f0eefa" category="list-text"><block ref="3a374bfcdd912b5071f863e2b9f0eefa" category="inline-link-macro-rx"></block></block>
   <block id="70b44fe3d3567f3f2a5ccd67ff8ac852" category="list-text"><block ref="70b44fe3d3567f3f2a5ccd67ff8ac852" category="inline-link-macro-rx"></block></block>
   <block id="eeaa3ef2816f113fd1978b036eefc4a4" category="doc">解決策の検証とユースケース：ネットアップを使用した Red Hat OpenShift</block>
@@ -6513,4 +6512,21 @@
   <block id="95a74db23b085df59ef6412199e9e791" category="cell">ブログ「 Installing NetApp Trident on Red Hat OpenShift – How to Solve the Docker ‘ toomanyrequests ’問題！」を追加</block>
   <block id="0fd00a19fb12bb899dfe7cefbcbbcb79" category="inline-link">Red Hat OpenShift への NetApp Trident のインストール– Docker 「 toomanyrequests 」問題の解決方法</block>
   <block id="43e5d9153d1fc4a35be5f57189605919" category="list-text"><block ref="43e5d9153d1fc4a35be5f57189605919" category="inline-link-rx"></block></block>
+  <block id="f0c528d8a4a8215a35ccffce955973d7" category="section-title">ストレージ用にワーカーノードを準備します</block>
+  <block id="4b4d60be85b0c53c72ae4b8a05deacef" category="paragraph">ほとんどの Kubernetes ディストリビューションには、 Red Hat OpenShift など、デフォルトでインストールされる NFS バックエンドをマウントするパッケージとユーティリティが付属しています。</block>
+  <block id="038a66175835471923850a54989bc741" category="paragraph">iSCSI プロトコルを使用したブロックストレージボリュームのマッピングを可能にするワーカーノードを準備するには、その機能をサポートするために必要なパッケージをインストールする必要があります。</block>
+  <block id="c96c28a61b99e24267d6d11c08eddbfc" category="paragraph">Red Hat OpenShift では、クラスタが展開された後に MCO （マシン構成オペレータ）をクラスタに適用することによって処理されます。</block>
+  <block id="75f99425e1b2a1139156e2105737fac0" category="list-text">OCP Web コンソールにログインし、 [ 計算 ]&gt;[ マシン構成 ] の順に選択し、 [ マシン構成の作成 ] をクリックします。YAML ファイルをコピー / 貼り付けて、 [ 作成 ] をクリックします。</block>
+  <block id="22f48c519a73ce4759edffb196331422" category="paragraph"><block ref="22f48c519a73ce4759edffb196331422" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="943dbb8750d636d9918af903ac016c0e" category="paragraph">ネットアップでは、 Red Hat OpenShift に導入されたアプリケーションのストレージプロビジョニング用に、ネットアップの Trident ストレージオーケストレーションツールで認定されているストレージプラットフォームを複数用意しています。</block>
+  <block id="0186ffea1bd2c7ff6458a3a619d01ea2" category="paragraph"><block ref="0186ffea1bd2c7ff6458a3a619d01ea2" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="6fe5a4d486a20df1f367528763787c50" category="paragraph">AFF システムと FAS システムは、 NetApp ONTAP を実行し、ファイルベース（ NFS ）とブロックベース（ iSCSI ）の両方のユースケースにストレージを提供します。</block>
+  <block id="642c7538b544cf159c0c277e19d8553b" category="paragraph">Cloud Volumes ONTAP と ONTAP Select は、それぞれクラウドと仮想スペースに同じメリットをもたらします。</block>
+  <block id="3cc957c67b836ddc993931d8d2253032" category="paragraph">NetApp Cloud Volumes Service （ AWS / GCP ）と Azure NetApp Files は、クラウドでファイルベースのストレージを提供します。</block>
+  <block id="faad8e024544c328d584c28118fb4102" category="paragraph">NetApp Element ストレージシステムは、拡張性に優れた環境でブロックベース（ iSCSI ）のユースケースに対応します。</block>
+  <block id="05f6de7174ff2a357671975e197fc638" category="paragraph">NetApp E シリーズおよび EF シリーズストレージシステムは、シンプルで高速な信頼性の高いストレージ上にある広帯域アプリケーション専用のハードウェアとソフトウェアを備えた解決策を提供します。</block>
+  <block id="be91cbc00fab0d4481a36e3fc5092d3f" category="admonition">ネットアップのポートフォリオに含まれる各ストレージシステムでは、オンプレミスサイトとクラウド間でのデータ管理と移動の両方を容易に行えるため、データがアプリケーションの配置場所にあることを保証できます。</block>
+  <block id="85a240011ba49404bf70606e37c41c96" category="paragraph">以下のページでは、 Red Hat OpenShift with NetApp 解決策で検証されたネットアップストレージシステムに関する追加情報について説明します。</block>
+  <block id="b9bff99ec8d659c80a068af88caf034d" category="inline-link-macro">ネットアップで Red Hat OpenShift を使用してマルチテナンシーを設定します</block>
+  <block id="f2aa9793e8d758c25ee88c02903cab9c" category="list-text"><block ref="f2aa9793e8d758c25ee88c02903cab9c" category="inline-link-macro-rx"></block></block>
 </blocks>
