@@ -1,0 +1,44 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_openshift_virtualization_deployment.html 
+keywords: OpenShift, OCP, NetApp Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+summary: NetApp ONTAP を使用した Red Hat OpenShift Virtualization 
+---
+= NetApp ONTAP を使用して Red Hat OpenShift Virtualization を導入します
+
+
+OpenShift Virtualization をインストールするには、次の手順を実行します。
+
+. クラスタ管理者アクセス権を持つ Red Hat OpenShift ベアメタルクラスタにログインします。
+. Perspective ドロップダウンから Administrator を選択します。
+. 「演算子」→「演算子ハブ」に移動して、 OpenShift Virtualization を検索します。
++
+image::redhat_openshift_image45.JPG[OpenShift Operator Hub]
+
+. OpenShift Virtualization タイルを選択し、 Install をクリックします。
++
+image::redhat_openshift_image46.JPG[OpenShift Virtualization Operator Tile を使用します]
+
+. Install Operator （オペレータのインストール）画面で、デフォルトのパラメータをすべてそのままにして、 Install （インストール）をクリックします。
++
+image::redhat_openshift_image47.JPG[OpenShift Virtualization Operator Details （ OpenShift 仮想化オペレータ詳細]
+
+. オペレータによるインストールが完了するまで待ちます。
++
+image::redhat_openshift_image48.JPG[OpenShift Virtualization Operator インストール]
+
+. オペレータがインストールされたら、 Create HyperConverged をクリックします。
++
+image::redhat_openshift_image49.JPG[OpenShift Virtualization Operator - ハイパーコンバージドを作成]
+
+. [Create HyperConverged ( ハイパーコンバージドの作成 )] 画面で、 [Create ( 作成 )] をクリックし、すべてのデフォルトパラメータを受け入れます。このステップでは、 OpenShift Virtualization のインストールを開始します。
++
+image::redhat_openshift_image50.JPG[OpenShift Virtualization Operator - ハイパーコンバージドの詳細]
+
+. OpenShift CNV ネームスペースですべてのポッドが running 状態に移行し、 OpenShift Virtualization オペレータが Succeeded 状態になると、オペレータは使用可能な状態になります。これで、 OpenShift クラスタで VM を作成できるようになります。
++
+image::redhat_openshift_image51.JPG[OpenShift Virtualization Operator のインストールが完了しました]
+
+
+
+link:rh-os-n_use_case_openshift_virtualization_workflow_create_vm.html["次の手順：ワークフロー： VM を作成します。"]

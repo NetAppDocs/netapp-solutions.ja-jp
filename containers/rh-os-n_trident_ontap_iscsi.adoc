@@ -7,7 +7,6 @@ keywords: Trident, ONTAP, AFF, FAS, iSCSI
 = NetApp ONTAP iSCSI 構成
 
 
-[role="lead"]
 Trident を NetApp ONTAP ストレージシステムと統合するには、ストレージシステムとの通信を可能にするバックエンドを作成する必要があります。
 
 . ダウンロードしたインストールアーカイブのサンプルバックエンドファイルは、「 sample -input 」フォルダ階層にあります。iSCSI を提供している NetApp ONTAP システムの場合は、「 backend-ontap -san.json 」ファイルを作業ディレクトリにコピーし、ファイルを編集します。
@@ -17,8 +16,7 @@ Trident を NetApp ONTAP ストレージシステムと統合するには、ス�
 [netapp-user@rhel7 trident-installer]$ cp sample-input/backends-samples/ontap-san/backend-ontap-san.json ./
 [netapp-user@rhel7 trident-installer]$ vi backend-ontap-san.json
 ----
-+
-.. このファイルで管理 LIF 、データ LIF 、 SVM 、ユーザ名、パスワードの値を編集します。
+. このファイルで管理 LIF 、データ LIF 、 SVM 、ユーザ名、パスワードの値を編集します。
 +
 [listing]
 ----
@@ -32,8 +30,6 @@ Trident を NetApp ONTAP ストレージシステムと統合するには、ス�
   "password": "password"
 }
 ----
-
-
 . このバックエンドファイルを設定した状態で、次のコマンドを実行して最初のバックエンドを作成します。
 +
 [listing]

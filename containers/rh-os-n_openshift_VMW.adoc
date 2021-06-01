@@ -2,24 +2,16 @@
 sidebar: sidebar 
 permalink: containers/rh-os-n_openshift_VMW.html 
 keywords: OpenShift, VMware vSphere, ESXi 
-summary:  
+summary: VMware vSphere は、 ESXi ハイパーバイザー上で実行される多数の仮想サーバとネットワークを一元管理するための仮想化プラットフォームです。 
 ---
 = VMware vSphere 上の OpenShift ：ネットアップを使用した Red Hat OpenShift
-:hardbreaks:
-:nofooter: 
-:icons: font
-:linkattrs: 
-:imagesdir: ./../media/
 
 
-[role="lead"]
 VMware vSphere は、 ESXi ハイパーバイザー上で実行される多数の仮想サーバとネットワークを一元管理するための仮想化プラットフォームです。
 
 VMware vSphere の詳細については、を参照してください https://www.vmware.com/products/vsphere.html["VMware vSphere の Web サイト"^]。
 
-
-
-=== VMware vSphere には次の機能があります。
+VMware vSphere には次の機能があります。
 
 * * VMware vCenter Server* VMware vCenter Server は、 1 つのコンソールからすべてのホストと VM を統合管理し、クラスタ、ホスト、 VM のパフォーマンス監視を集約します。
 * * VMware vSphere vMotion * VMware vCenter は、無停止でユーザーの要求に応じて、クラスタ内のノード間で仮想マシンをホット移行する機能を提供します。
@@ -31,13 +23,13 @@ image:redhat_openshift_image33.png["エラー：グラフィックイメージ�
 
 
 
-=== ネットワーク設計
+== ネットワーク設計
 
 NetApp 解決策上の Red Hat OpenShift では、 2 つのデータスイッチを使用して 25Gbps でプライマリデータ接続を提供します。また、ストレージノードのインバンド管理用に 1Gbps で接続を提供する管理スイッチをさらに 2 台使用し、 IPMI 機能のアウトオブバンド管理も行います。OCP では、 VMware vSphere 上の仮想マシン論理ネットワークを使用して、 IT クラスタを管理します。このセクションでは、解決策で使用される各仮想ネットワークセグメントの配置と目的について説明し、解決策を導入するための前提条件を概説します。
 
 
 
-==== VLAN の要件
+=== VLAN の要件
 
 VMware vSphere 上の Red Hat OpenShift は、仮想ローカルエリアネットワーク（ VLAN ）を使用して、ネットワークトラフィックを論理的に分離するように設計されています。この構成は、お客様のニーズに合わせて拡張することも、特定のネットワークサービスをさらに分離することもできます。次の表に、ネットアップで解決策を検証する際に解決策を実装するために必要な VLAN を示します。
 
@@ -67,7 +59,7 @@ VMware vSphere 上の Red Hat OpenShift は、仮想ローカルエリアネッ�
 |===
 
 
-==== ネットワークインフラストラクチャサポートリソース
+=== ネットワークインフラストラクチャサポートリソース
 
 OpenShift Container Platform を導入する前に、次のインフラを用意する必要があります。
 
@@ -78,13 +70,13 @@ OpenShift Container Platform を導入する前に、次のインフラを用意
 
 
 
-=== 本番環境の導入に関するベストプラクティス
+== 本番環境の導入に関するベストプラクティス
 
 このセクションでは、この解決策を本番環境に導入する前に考慮する必要があるベストプラクティスをいくつか紹介します。
 
 
 
-==== 少なくとも 3 つの ESXi クラスタに OpenShift を導入する ノード
+=== 少なくとも 3 つのボリュームからなる ESXi クラスタに OpenShift を導入します ノード
 
 本ドキュメントで説明する検証済みのアーキテクチャには、 2 つの ESXi ハイパーバイザーノードを導入し、 VMware vSphere HA と VMware vMotion を有効にしてフォールトトレラントな構成を確保することで、 HA 処理に適した最小限のハードウェア環境が示されています。 1 つのホストが使用できなくなった場合に、導入した VM を 2 つのハイパーバイザー間で移行し、リブートすることができます。
 
@@ -92,7 +84,7 @@ Red Hat OpenShift は最初に 3 つのマスターノードで導入するた�
 
 
 
-==== 仮想マシンとホストのアフィニティを設定します
+=== 仮想マシンとホストのアフィニティを設定します
 
 VM とホストのアフィニティを有効にすることで、複数のハイパーバイザーノードに OpenShift マスターを確実に分散させることができます。
 
@@ -102,7 +94,7 @@ VM とホストのアフィニティを有効にすることで、複数のハ�
 
 
 
-==== OpenShift Deployment にカスタムインストールファイルを使用します
+=== OpenShift 環境にカスタムインストールファイルを使用します
 
 IPI を使用すると、このドキュメントで前述した対話型ウィザードを使用して、 OpenShift クラスタを簡単に導入できます。ただし、一部のデフォルト値については、クラスタの導入時に変更が必要になる場合があります。
 

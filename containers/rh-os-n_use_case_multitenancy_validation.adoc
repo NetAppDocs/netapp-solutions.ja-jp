@@ -12,12 +12,11 @@ summary: ネットアップを使用した Red Hat OpenShift でのマルチテ�
 :imagesdir: ./../media/
 
 
-[role="lead"]
 前の手順で設定したマルチテナントアーキテクチャを検証するには、次の手順を実行します。
 
 
 
-==== 割り当てられたプロジェクトで PVC/POD を作成するためのアクセスを検証します
+== 割り当てられたプロジェクトで PVC/POD を作成するためのアクセスを検証します
 
 . OCP-project-1-user として、 project-1 の開発者としてログインします。
 . アクセス権をチェックして新しいプロジェクトを作成してください
@@ -53,7 +52,7 @@ EOF
 ----
 oc get pv
 ----
-. PV とそのボリュームがに作成されていることを確認します NetApp ONTAP 上のプロジェクト 1 専用 SVM
+. PV とそのボリュームが、 NetApp ONTAP 上のプロジェクト 1 専用の SVM に作成されていることを確認します。
 +
 [source, console]
 ----
@@ -85,7 +84,7 @@ spec:
           name: test-pvc-project-1
 EOF
 ----
-. ポッドが動作していて、が搭載されているかどうかを確認します ボリューム
+. ポッドが実行中かどうか、およびボリュームがマウントされているかどうかを確認します。
 +
 [source, console]
 ----
@@ -95,9 +94,9 @@ oc describe pods test-pvc-pod -n project-1
 
 
 
-==== アクセスを検証して、別のプロジェクトに PVC/POD を作成するか、別のプロジェクト専用のリソースを使用します。
+== アクセスを検証して、別のプロジェクトで PVC/POD を作成するか、を使用します 別のプロジェクト専用リソース
 
-. OCP-project-1-user として、 project-1 の開発者としてログインします
+. OCP-project-1-user として、 project-1 の開発者としてログインします。
 . project-2 に割り当てられたストレージクラスを使用して 'project-1 に PVC を作成します
 +
 [source, console]
@@ -140,7 +139,7 @@ spec:
   storageClassName: project-1-sc
 EOF
 ----
-. PVC test-pvc-project-1-sc-2 および test-pvc-project-2-ssc-1 が作成されていないことを確認します
+. PVC 「 test-pvc-project-1-sc-2 」および「 test-pvc-project-2-ssc-1 」が作成されていないことを確認します。
 +
 [source, console]
 ----
@@ -170,10 +169,10 @@ EOF
 
 
 
-==== プロジェクト、リソースクォータ、ストレージクラスを表示 / 編集するアクセス権を検証します
+== プロジェクト、リソースクォータ、ストレージクラスを表示 / 編集するアクセス権を検証します
 
 . OCP-project-1-user として、 project-1 の開発者としてログインします。
-. アクセス権をチェックして新しいプロジェクトを作成します
+. アクセス権をチェックして新しいプロジェクトを作成してください。
 +
 [source, console]
 ----

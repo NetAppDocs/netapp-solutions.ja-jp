@@ -12,7 +12,6 @@ summary: ネットアップを使用した Red Hat OpenShift でのマルチテ�
 :imagesdir: ./../media/
 
 
-[role="lead"]
 Red Hat OpenShift と NetApp ONTAP を基盤とする NetApp Trident は、デフォルトでワークロードを分離する機能を提供しませんが、マルチテナンシーの設定に使用できるさまざまな機能を備えています。ネットアップ解決策をベースとする NetApp Trident を使用した Red Hat OpenShift クラスタでのマルチテナント ONTAP の設計について理解を深めるために、一連の要件を含む例を検討し、その構成について概説します。
 
 2 つの異なるチームが取り組んでいる 2 つのプロジェクトの一環として、組織が Red Hat OpenShift クラスタ上で 2 つのワークロードを実行するとします。これらのワークロードのデータは、 NetApp ONTAP NAS バックエンド上の NetApp Trident によって動的にプロビジョニングされる PVC 上に存在します。組織では、この 2 つのワークロード用にマルチテナント解決策を設計し、これらのプロジェクトに使用するリソースを分離して、セキュリティとパフォーマンスを確保する必要があります。主に、これらのアプリケーションに対応するデータに焦点を当てます。
@@ -23,7 +22,7 @@ image::redhat_openshift_image40.jpg[NetApp Trident を使用し、 Red Hat OpenS
 
 
 
-=== テクノロジ要件
+== テクノロジ要件
 
 . NetApp ONTAP ストレージクラスタ
 . Red Hat OpenShift クラスタ
@@ -32,7 +31,7 @@ image::redhat_openshift_image40.jpg[NetApp Trident を使用し、 Red Hat OpenS
 
 
 
-=== Red Hat OpenShift –クラスタリソース
+== Red Hat OpenShift –クラスタリソース
 
 Red Hat OpenShift クラスタの観点から見ると、最初に提供する最上位のリソースは project です。OpenShift Project は、 OpenShift クラスタ全体を複数の仮想クラスタに分割するクラスタリソースと見なすことができます。そのため、プロジェクトレベルでの分離は、マルチテナンシーを設定するためのベースとなります。
 
@@ -40,19 +39,19 @@ Red Hat OpenShift クラスタの観点から見ると、最初に提供する�
 
 
 
-=== NetApp ONTAP
+== NetApp ONTAP
 
 Red Hat OpenShift クラスタの永続的ストレージプロバイダとして機能している共有ストレージを分離し、各プロジェクト用にストレージ上に作成されたボリュームが、別々のストレージ上に作成されたかのようにホストに表示されるようにすることが重要です。そのためには、プロジェクトやワークロードが存在する数の SVM （ Storage Virtual Machine ）を NetApp ONTAP 上に作成し、各 SVM をワークロード専用にします。
 
 
 
-=== NetApp Trident
+== NetApp Trident
 
 NetApp ONTAP で作成したプロジェクトごとに異なる SVM が作成されたら、各 SVM を異なる Trident バックエンドにマッピングする必要があります。Trident のバックエンド構成は、 OpenShift クラスタリソースへの永続的ストレージの割り当てを促進します。また、バックエンドのプロトコルドライバにマッピングする SVM の詳細が必要です。必要に応じて、ストレージでのボリュームのプロビジョニング方法や、ボリュームのサイズやアグリゲートの使用に関する制限を定義することができます。 NetApp ONTAP の Trident バックエンドの定義に関する詳細を確認できます https://netapp-trident.readthedocs.io/en/stable-v21.01/kubernetes/operations/tasks/backends/ontap/index.html["こちらをご覧ください"^]。
 
 
 
-=== Red Hat OpenShift –ストレージリソース
+== Red Hat OpenShift –ストレージリソース
 
 Trident バックエンドを設定したら、次の手順として StorageClasses を設定します。バックエンドと同じ数のストレージクラスを構成して、各ストレージクラスが 1 つのバックエンドにしかボリュームをスピンアップできない。ストレージクラスを定義する際に StoragePools パラメータを使用して、ストレージクラスを特定の Trident バックエンドにマッピングできます。ストレージクラスを定義する詳細については、を参照してください https://netapp-trident.readthedocs.io/en/stable-v18.07/kubernetes/concepts/objects.html#kubernetes-storageclass-objects["こちらをご覧ください"^]。そのため、ストレージクラスから Trident バックエンドへの 1 対 1 のマッピングが 1 つの SVM をポイントしています。これにより、そのプロジェクトに割り当てられた StorageClass を経由するすべてのストレージ要求が、そのプロジェクト専用の SVM によって処理されます。
 

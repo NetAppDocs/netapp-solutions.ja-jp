@@ -1,0 +1,115 @@
+---
+sidebar: sidebar 
+permalink: hybrid-cloud/vsphere_ontap_auto_file_nfs.html 
+keywords: vSphere, datastore, nfs, ONTAP tools, vlan, network interface, service policy, export policy 
+summary: このページでは、 VMware vSphere 環境に NetApp ONTAP NFS バージョン 3 データストアを導入する手順を説明します。 
+---
+= vSphere NFS データストア - バージョン 3 と ONTAP
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+:scriptsdir: ./../scripts/
+:author: Suresh Thoppay, TME - Hybrid Cloud Solutions
+:ontap_version: ONTAP 9.8 or later
+:vsphere_version: vSphere 7.0 or later
+:includesdir: ./../
+:firstname: Suresh
+:authorinitials: STT
+:middlename: Thoppay,
+:lastname: TME - Hybrid Cloud Solutions
+:authors: Suresh Thoppay, TME - Hybrid Cloud Solutions
+
+
+
+
+== このタスクについて
+
+ONTAP NAS ストレージを使用した NFS バージョン 3 データストアの作成。
+
+自動プロビジョニングの場合は、次のいずれかのスクリプトを使用します。 <<PowerShell>>、 <<Ansible>>または <<Terraform>>。
+
+
+
+== 必要なもの
+
+* vSphere 環境と ONTAP を管理するために必要な基本スキル。
+* ONTAP ストレージシステム（ FAS / AFF / CVO / ONTAP Select / Cloud Volume Service / Azure NetApp Files ） ONTAP 9.8 以降を実行している
+* ONTAP クレデンシャル（ SVM 名、ユーザ ID 、パスワード）
+* NFS の ONTAP ネットワークポート、 SVM 、および LUN の情報
++
+** link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-nfs-vaai/GUID-BBD301EF-496A-4974-B205-5F878E44BF59.html++["完了した NFS 設定ワークシート"]
+
+
+* vCenter Server クレデンシャル
+* vSphere 7.0 以降の vSphere ホスト情報
+* NFS VMkernel アダプタの IP 情報
+* ネットワークスイッチ
++
+** ONTAP システムのネットワークデータポートと接続された vSphere ホストで使用
+** NFS 用に設定されている VLAN
+** （任意） ONTAP ネットワークデータポート用に設定されたリンクアグリゲーション
+
+
+* ONTAP ツール for VMware vSphere の導入、設定、利用可能な状態
+
+
+
+
+== 手順
+
+* との互換性を確認します https://mysupport.netapp.com/matrix["Interoperability Matrix Tool （ IMT ）"]
++
+** link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-nfs-vaai/GUID-DA231492-F8D1-4E1B-A634-79BA906ECE76.html++["NFS 構成がサポートされていることを確認します。"]
+
+
+* 次の ONTAP および vSphere タスクを実行します。
+
+
+
+
+== ONTAP タスク
+
+. link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.dot-cm-cmpr-980/system__license__show.html++["NFS の ONTAP ライセンスを確認"]
++
+.. 「 system license show 」コマンドを使用して、 NFS がリストされていることを確認します。
+.. ライセンスを追加するには 'license add-license-code <license code> を使用します
+
+
+. link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.pow-nfs-cg/GUID-6D7A1BB1-C672-46EF-B3DC-08EBFDCE1CD5.html++["NFS の設定ワークフローに従います。"]
+
+
+
+
+== VMware vSphere タスク
+
+link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-nfs-vaai/GUID-D78DD9CF-12F2-4C3C-AD3A-002E5D727411.html++["vSphere 用の NFS クライアント設定のワークフローに従います。"]
+
+
+
+== 参照
+
+<stdin> の未解決のディレクティブ：：： ./../vsphere_ONTAP_best_successful.adoc [lines=315..390]
+
+
+
+== 次の手順
+
+これらのタスクが完了すると、 NFS データストアで仮想マシンのプロビジョニングを利用できるようになります。
+
+.PowerShell スクリプト
+[source, powershell]
+----
+
+----
+.Ansible の Playbook
+[source]
+----
+
+----
+.テラフォーム
+[source]
+----
+
+----

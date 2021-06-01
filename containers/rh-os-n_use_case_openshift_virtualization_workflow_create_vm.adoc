@@ -1,0 +1,37 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_openshift_virtualization_workflow_create_vm.html 
+keywords: OpenShift, OCP, NetApp Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+summary: NetApp ONTAP を使用した Red Hat OpenShift Virtualization 
+---
+= ワークフロー： NetApp ONTAP を使用した Red Hat OpenShift Virtualization
+
+
+
+
+== VM を作成します
+
+VM は、オペレーティングシステムとデータをホストするボリュームを必要とするステートフルな導入です。CNV では、 VM がポッドとして実行されるため、 VM は Trident 経由で NetApp ONTAP にホストされた PVS によってバックアップされます。これらのボリュームはディスクとして接続され、 VM のブートソースを含むファイルシステム全体が格納されます。
+
+image::redhat_openshift_image52.jpg[VM アーキテクチャを作成する]
+
+OpenShift クラスタ上に仮想マシンを作成するには、次の手順を実行します。
+
+. [ ワークロード ] > [ 仮想化 ] > [ 仮想マシン ] に移動し、 [ 作成 ] > [ ウィザード ] をクリックします。
+. 目的のオペレーティングシステムを選択し、「次へ」をクリックします。
+. 選択したオペレーティングシステムにブートソースが設定されていない場合は、設定する必要があります。Boot Source （起動ソース）で、 URL またはレジストリから OS イメージをインポートするかどうかを選択し、対応する詳細を指定します。Advanced を展開し、 Trident から作成されたストレージクラスを選択します。[ 次へ ] をクリックします。
++
+image::redhat_openshift_image53.JPG[VM のブートソースを作成します]
+
+. 選択したオペレーティングシステムにすでにブートソースが設定されている場合は、前の手順を省略できます。
+. [Review and Create] ペインで、 VM を作成して VM の詳細を提供するプロジェクトを選択します。ブートソースがクローンとして選択されていることを確認し、選択した OS に適切な PVC が割り当てられた CD-ROM から起動します。
++
+image::redhat_openshift_image54.JPG[VM を作成します]
+
+. 仮想マシンをカスタマイズする場合は、 [ 仮想マシンのカスタマイズ ] をクリックし、必要なパラメータを変更します。
+. [ 仮想マシンの作成 ] をクリックして仮想マシンを作成します。これにより、対応するポッドがバックグラウンドでスピンアップされます。
+
+
+ブート・ソースが URL またはレジストリからテンプレートまたはオペレーティング・システム用に構成されている場合 'OpenShift Virtualization-os-images' プロジェクトに PVC を作成し 'KVM ゲスト・イメージを PVC にダウンロードしますテンプレート PVC に、対応する OS の KVM ゲストイメージを格納できるだけの十分なプロビジョニングスペースがあることを確認する必要があります。これらの PVC は、任意のプロジェクトでそれぞれのテンプレートを使用して作成されると、クローン作成され、ルートディスクとして仮想マシンに接続されます。
+
+link:rh-os-n_use_case_openshift_virtualization_workflow_vm_live_migration.html["次のワークフロー： VM のライブマイグレーション"]

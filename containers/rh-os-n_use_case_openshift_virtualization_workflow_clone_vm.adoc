@@ -1,0 +1,71 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_openshift_virtualization_workflow_clone_vm.html 
+keywords: OpenShift, OCP, NetApp Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+summary: NetApp ONTAP を使用した Red Hat OpenShift Virtualization 
+---
+= ワークフロー： NetApp ONTAP を使用した Red Hat OpenShift Virtualization
+
+
+
+
+== VM のクローニング
+
+NetApp Trident の Volume CSI クローニング機能を使用すると、 OpenShift で既存の VM をクローニングできます。CSI ボリュームクローニングでは、 PV を複製することによって、既存の PVC をデータソースとして使用して新しい PVC を作成できます。新しい PVC が作成されると、その PVC は独立したエンティティとして機能し、送信元 PVC へのリンクや依存関係はありません。
+
+image::redhat_openshift_image57.jpg[VM クローニングアーキテクチャ]
+
+CSI ボリュームクローニングには、次のような一定の制限事項があります。
+
+. 送信元 PVC と宛先 PVC は同じプロジェクト内に存在する必要があります。
+. クローニングは、同じストレージクラス内でサポートされます。
+. クローニングを実行できるのは、ソースボリュームとデスティネーションボリュームで同じボリュームモード設定を使用している場合のみです。たとえば、ブロックボリュームは別のブロックボリュームにしかクローニングできません。
+
+
+OpenShift クラスタ内の VM は、次の 2 つの方法でクローニングできます。
+
+. ソース VM をシャットダウンします
+. ソース VM を稼働させます
+
+
+
+
+=== ソース VM をシャットダウンします
+
+VM をシャットダウンして既存の VM をクローニングすることは、 NetApp Trident のサポートによって実装されるネイティブの OpenShift 機能です。VM をクローニングするには、次の手順を実行します。
+
+. [Workloads （ワークロード） ] > [Virtualization （仮想化） ] > [Virtual Machines （仮想マシン） ] に移動し、クローンを作成する仮想マシンの横にある省略記号をクリックします。
+. Clone Virtual Machine をクリックして、新しい VM の詳細を指定します。
++
+image::redhat_openshift_image58.JPG[VM をクローニングする]
+
+. Clone Virtual Machine をクリックします。これにより、ソース VM がシャットダウンされ、クローン VM の作成が開始されます。
+. この手順が完了すると、クローニングした VM のコンテンツにアクセスして確認できるようになります。
+
+
+
+
+=== ソース VM を稼働させます
+
+既存の VM は、ソース VM の既存の PVC をクローニングしてから、クローン PVC を使用して新しい VM を作成することによってもクローニングできます。この方法では、ソース VM をシャットダウンする必要はありません。シャットダウンせずに VM をクローニングするには、次の手順を実行します。
+
+. Storage -> PersistentVolume要求 と進み、ソース VM に接続されている PVC の横にある省略記号をクリックします。
+. Clone PVC をクリックして、新しい PVC の詳細を提供します。
++
+image::redhat_openshift_image59.JPG[PVC を複製します]
+
+. 次に、 Clone をクリックします。これにより、新しい VM の PVC が作成されます。
+. [Workloads （ワークロード） ] > [Virtualization （仮想化） ] > [Virtual Machines （仮想マシン） ] に移動し、 [Create （作成） ] > [With YAML （ Y
+. [ペ ック > テンプレート > 仕様 > ボリューム ] セクションで、コンテナディスクではなくクローン PVC を接続します。新しい VM について、要件に応じてその他の詳細をすべて指定します。
++
+[source, cli]
+----
+- name: rootdisk
+  persistentVolumeClaim:
+    claimName: rhel8-short-frog-rootdisk-28dvb-clone
+----
+. Create をクリックして、新しい VM を作成します。
+. VM が作成されたら、にアクセスし、新しい VM がソース VM のクローンであることを確認します。
+
+
+link:rh-os-n_use_case_openshift_virtualization_workflow_vm_from_snapshot.html["次：ワークフロー： Snapshot から VM を作成します。"]

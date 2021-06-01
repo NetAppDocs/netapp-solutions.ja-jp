@@ -1,0 +1,41 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_live_migration.html 
+keywords: OpenShift, OCP, NetApp Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+summary: NetApp ONTAP を使用した Red Hat OpenShift Virtualization 
+---
+= ワークフロー： NetApp ONTAP を使用した Red Hat OpenShift Virtualization
+
+
+
+
+== VM ライブマイグレーション
+
+ライブマイグレーションは、 OpenShift クラスタ内の 1 つのノードから別のノードに VM インスタンスをダウンタイムなしで移行するプロセスです。OpenShift クラスタでライブマイグレーションを実行するには、 VM を共有 ReadWriteAny アクセスモードの PVC にバインドする必要があります。NetApp Trident バックエンドが、 NFS プロトコルが有効になっている NetApp ONTAP クラスタで SVM を使用して設定されている場合、 PVC に対する共有 ReadWriteMany アクセスがサポートされます。そのため、 NFS 対応の SVM から Trident によってプロビジョニングされた StorageClasses から要求された PVC を持つ VM をダウンタイムなしで移行できます。
+
+image::redhat_openshift_image55.jpg[VM ライブマイグレーションのアーキテクチャ]
+
+共有 ReadWriteAny アクセス権を持つ PVC にバインドされた VM を作成するには、次の手順を実行します。
+
+. [ ワークロード ] > [ 仮想化 ] > [ 仮想マシン ] に移動し、 [ 作成 ] > [ ウィザード ] をクリックします。
+. 目的の OS を選択し、 Next （次へ）をクリックします。選択した OS には、すでに起動ソースが設定されているとしましょう。
+. [Review and Create] ペインで、 VM を作成して VM の詳細を提供するプロジェクトを選択します。ブートソースがクローンとして選択されていることを確認し、選択した OS に適切な PVC が割り当てられた CD-ROM から起動します。
+. [ 仮想マシンのカスタマイズ ] をクリックし、 [ ストレージ ] をクリックします。
+. rootdisk の横にある省略記号をクリックし、 Trident を使用してプロビジョニングされたストレージクラスが選択されていることを確認します。[ 詳細設定 ] を展開し、 [ アクセスモード ] で [ 共有アクセス (RWX) ] を選択します。[ 保存 ] をクリックします。
++
+image::redhat_openshift_image56.JPG[ディスク RWX にアクセスできるようにします]
+
+. [ 確認 ] をクリックして確定し、 [ 仮想マシンの作成 ] をクリックします。
+
+
+OpenShift クラスタ内の別のノードに VM を手動で移行するには、次の手順を実行します。
+
+. 「ワークロード」 > 「仮想化」 > 「仮想マシン」と進みます。
+. 移行する VM の場合は、省略記号をクリックし、 Migrate the Virtual Machine （仮想マシンの移行）をクリックします。
+. メッセージが表示されたら、 [ 移行 ] をクリックして確認します。
+
+
+
+NOTE: OpenShift クラスタ内の VM インスタンスは、 evictionStrategy が LiveMigrate に設定されている場合、元のノードがメンテナンスモードになると、自動的に別のノードに移行します。
+
+link:rh-os-n_use_case_openshift_virtualization_workflow_clone_vm.html["次：ワークフロー： VM のクローニング"]

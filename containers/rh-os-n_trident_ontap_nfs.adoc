@@ -1,13 +1,12 @@
 ---
 sidebar: sidebar 
 permalink: containers/rh-os-n_trident_ontap_nfs.html 
-summary:  
 keywords: Trident, ONTAP, AFF, FAS, NFS 
+summary: Trident を NetApp ONTAP ストレージシステムと統合するには、ストレージシステムとの通信を可能にするバックエンドを作成する必要があります。 
 ---
 = NetApp ONTAP の NFS 構成
 
 
-[role="lead"]
 Trident を NetApp ONTAP ストレージシステムと統合するには、ストレージシステムとの通信を可能にするバックエンドを作成する必要があります。
 
 . ダウンロードしたインストールアーカイブのサンプルバックエンドファイルは、「 sample -input 」フォルダ階層にあります。NFS を提供している NetApp ONTAP システムの場合は、「 backend-ontap/nas.json 」ファイルを作業ディレクトリにコピーし、ファイルを編集します。
@@ -17,8 +16,7 @@ Trident を NetApp ONTAP ストレージシステムと統合するには、ス�
 [netapp-user@rhel7 trident-installer]$ cp sample-input/backends-samples/ontap-nas/backend-ontap-nas.json ./
 [netapp-user@rhel7 trident-installer]$ vi backend-ontap-nas.json
 ----
-+
-.. backendName 、 managementLIF 、 dataLIF 、 SVM 、ユーザ名を編集します。 パスワードの値を入力します。
+. backendName 、 managementLIF 、 dataLIF 、 SVM 、ユーザ名を編集します。 パスワードの値を入力します。
 +
 [listing]
 ----
@@ -36,8 +34,6 @@ Trident を NetApp ONTAP ストレージシステムと統合するには、ス�
 +
 
 NOTE: ベストプラクティスは、カスタムの backendName 値を、簡単に識別できるように NFS を提供するストレージ DriverName とデータ LIF の組み合わせとして定義することです。
-
-
 
 . このバックエンドファイルを設定した状態で、次のコマンドを実行して最初のバックエンドを作成します。
 +
