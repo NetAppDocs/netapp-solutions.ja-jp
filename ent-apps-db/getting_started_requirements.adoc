@@ -1,6 +1,6 @@
 ---
 sidebar: sidebar 
-permalink: ent-db/getting_started_requirements.html 
+permalink: ent-apps-db/getting_started_requirements.html 
 keywords: Linux, RHEL Oracle19c, NFS, ONTAP 
 summary: このページでは、 NetApp ONTAP ストレージ上に Oracle19c を導入するための自動化方式について説明します。 
 ---
@@ -12,6 +12,7 @@ summary: このページでは、 NetApp ONTAP ストレージ上に Oracle19c �
 :imagesdir: ./../media/
 
 
+[role="lead"]
 この解決策は、 AWX/Tower 環境または Ansible コントロールホストの CLI で実行されるように設計されています。
 
 
@@ -29,7 +30,7 @@ AWX / タワー環境の場合は、 ONTAP クラスタ管理と Oracle サー�
 
 == Ansible コントロールホストを介して CLI に接続します
 
-. Ansible 制御ホストとして使用できるように Linux ホストを設定するには、 link:../automation/automation_rhel_centos_setup.html["RHEL 7/8 または CentOS 7/8 の場合は、こちらをクリックしてください"] または link:../automation/automation_ubuntu_debian_setup.html["Ubuntu / Debian の場合はこちら"]。
+. Ansible 制御ホストとして使用できるように Linux ホストを設定するには、link:../automation/automation_rhel_centos_setup.html["RHEL 7/8 または CentOS 7/8 の場合は、こちらをクリックしてください"]またはlink:../automation/automation_ubuntu_debian_setup.html["Ubuntu / Debian の場合はこちら"]
 . Ansible 制御ホストが設定されたら、 Ansible Automation リポジトリのクローンを Git で作成できます。
 . ONTAP クラスタ管理 IP および Oracle サーバの管理 IP の IP またはホスト名を使用して hosts ファイルを編集してください。
 . 環境に固有の変数を入力し ' 変数 .yml ファイルにコピーして貼り付けます
@@ -39,7 +40,7 @@ AWX / タワー環境の場合は、 ONTAP クラスタ管理と Oracle サー�
 
 
 
-= 要件
+== 要件
 
 [cols="3, 9"]
 |===
