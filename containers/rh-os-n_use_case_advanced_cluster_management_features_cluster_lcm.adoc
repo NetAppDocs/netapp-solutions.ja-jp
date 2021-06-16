@@ -1,0 +1,43 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_advanced_cluster_management_features_cluster_lcm.html 
+keywords: OpenShift, OCP, NetApp Trident, NetApp ONTAP, ONTAP, Trident, Red Hat OpenShift, Advanced Cluster Management, Advanced Cluster Management for Kubernetes 
+summary: ネットアップを使用した Red Hat OpenShift での Kubernetes 向けの高度なクラスタ管理 
+---
+= 機能：ネットアップを使用した Red Hat OpenShift での Kubernetes 向けの高度なクラスタ管理
+
+
+
+
+== クラスタのライフサイクル管理
+
+さまざまな OpenShift クラスタを管理するには、クラスタを作成するか、 Advanced Cluster Management にインポートします。
+
+. 最初に ' インフラストラクチャの自動化 ' クラスタ ' に移動します
+. 新しい OpenShift クラスタを作成するには、次の手順を実行します。
++
+.. プロバイダ接続を作成します [ プロバイダ接続 ] に移動し '[ 接続の追加 ] をクリックし ' 選択したプロバイダタイプに対応するすべての詳細を入力し '[ 追加 ] をクリックします
++
+image::redhat_openshift_image75.jpg[プロバイダ接続を追加します]
+
+.. 新しいクラスタを作成するには '[Clusters] に移動し '[Add a cluster]'[Create a cluster] の順にクリックしますクラスタと対応するプロバイダの詳細を入力し '[Create] をクリックします
++
+image::redhat_openshift_image76.jpg[クラスタを追加]
+
+.. クラスタが作成されると ' クラスタ・リストに Ready ステータスで表示されます
+
+
+. 既存のクラスタをインポートするには、次の手順を実行します。
++
+.. [ クラスタ ] に移動し '[ クラスタの追加 ] ＞ [ 既存のクラスタのインポート ] をクリックします
+.. クラスタの名前を入力し、「インポートおよび生成コードの保存」をクリックします。既存のクラスタを追加するコマンドが表示されます。
+.. Copy コマンドをクリックし ' ハブ・クラスタに追加するクラスタ上でコマンドを実行しますこれにより、クラスタに必要なエージェントのインストールが開始され、このプロセスが完了すると、クラスタがクラスタ・リストに「 Ready 」ステータスで表示されます。
++
+image::redhat_openshift_image77.jpg[既存のクラスタをインポートする]
+
+
+
+. 複数のクラスタを作成してインポートしたら、 1 つのコンソールからクラスタを監視および管理できます。
+
+
+link:rh-os-n_use_case_advanced_cluster_management_features_application_lcm.html["次の項目：機能 - アプリケーションライフサイクル管理。"]
