@@ -1,0 +1,17 @@
+---
+sidebar: sidebar 
+permalink: ent-apps-db/saphana_fas_fc_sap_hana_storage_connector_api.html 
+keywords: sap, hana, storage, connector, api, fas, fc 
+summary: ストレージコネクタは、フェイルオーバー機能を備えたマルチホスト環境でのみ必要です。 
+---
+= SAP HANA Storage Connector API
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+ストレージコネクタは、フェイルオーバー機能を備えたマルチホスト環境でのみ必要です。マルチホスト構成では、 SAP HANA に高可用性機能が提供されるため、 SAP HANA データベースホストはスタンバイホストにフェイルオーバーできます。この場合、障害が発生したホストの LUN には、スタンバイホストからアクセスして使用されます。ストレージコネクタは、一度に 1 つのデータベースホストだけがストレージパーティションにアクティブにアクセスできるようにするために使用されます。
+
+ネットアップストレージを使用した SAP HANA マルチホスト構成では、 SAP が提供する標準のストレージコネクタが使用されます。『 SAP HANA FC Storage Connector Admin Guide 』は、への添付ファイルとして提供されています https://service.sap.com/sap/support/notes/1900823["SAP ノート 1900823"^]。

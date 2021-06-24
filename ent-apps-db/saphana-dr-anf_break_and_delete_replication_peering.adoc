@@ -1,0 +1,37 @@
+---
+sidebar: sidebar 
+permalink: ent-apps-db/saphana-dr-anf_break_and_delete_replication_peering.html 
+keywords: break, delete, replication, peering, disaster, failover, target, volumes 
+summary: 災害発生時にフェイルオーバーする場合は、ターゲットホストがボリュームをマウントして読み取りおよび書き込み処理を実行できるように、ターゲットボリュームを切断する必要があります。 
+---
+= レプリケーションピアリングを解除して削除します
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+災害発生時にフェイルオーバーする場合は、ターゲットホストがボリュームをマウントして読み取りおよび書き込み処理を実行できるように、ターゲットボリュームを切断する必要があります。
+
+
+NOTE: HANA データボリュームの場合は、 AzAcSnap で作成された最新の HANA Snapshot バックアップにボリュームをリストアする必要があります。レプリケーションピアリングが原因で最新のレプリケーション Snapshot がビジーとしてマークされている場合、このボリュームリバート処理は実行できません。そのため、レプリケーションピアリングも削除する必要があります。
+
+次の 2 つのスクリーンショットは、 HANA データボリュームのピアリング操作の解除と削除を示しています。ログバックアップと HANA 共有ボリュームについても、同じ処理を実行する必要があります。
+
+image:saphana-dr-anf_image27.png["エラー：グラフィックイメージがありません"]
+
+image:saphana-dr-anf_image28.png["エラー：グラフィックイメージがありません"]
+
+レプリケーションピアリングが削除されたため、ボリュームを最新の HANA Snapshot バックアップにリバートできます。ピアリングが削除されない場合、リバートボリュームの選択はグレー表示になり、選択できなくなります。次に示す 2 つのスクリーンショットは、ボリュームのリバート処理を示しています。
+
+image:saphana-dr-anf_image29.png["エラー：グラフィックイメージがありません"]
+
+image:saphana-dr-anf_image30.png["エラー：グラフィックイメージがありません"]
+
+ボリュームのリバート処理後、データボリュームは整合性のある HANA Snapshot バックアップに基づいており、フォワードリカバリ処理を実行するために使用できるようになりました。
+
+
+NOTE: 高パフォーマンス階層が低い大容量プールを使用している場合は、必要なパフォーマンスを提供できる容量プールにボリュームを移動する必要があります。
+
+link:saphana-dr-anf_mount_the_volumes_at_the_target_host.html["Next ：ターゲットホストにボリュームをマウントします"]

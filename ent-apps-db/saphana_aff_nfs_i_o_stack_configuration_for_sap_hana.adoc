@@ -1,0 +1,64 @@
+---
+sidebar: sidebar 
+permalink: ent-apps-db/saphana_aff_nfs_i_o_stack_configuration_for_sap_hana.html 
+keywords: stack, configuration, io, i/o, optimal values 
+summary: SAP HANA 1.0 SPS10 以降、 I/O 動作を調整し、使用中のファイルシステムとストレージシステムのデータベースを最適化するためのパラメータが導入されています。 
+---
+= SAP HANA 向けの I/O スタック構成
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+SAP HANA 1.0 SPS10 以降、 I/O 動作を調整し、使用中のファイルシステムとストレージシステムのデータベースを最適化するためのパラメータが導入されています。
+
+ネットアップは、最適な値を定義するため、パフォーマンステストを実施しました。次の表に、パフォーマンステストから推定した最適な値を示します。
+
+|===
+| パラメータ | 価値 
+
+
+| max_parallel _io_requests と入力します | 128 
+
+
+| async _read_submit | オン 
+
+
+| async ： write_submit_active | オン 
+
+
+| async_write_submit_bblocks | すべて 
+|===
+バージョン SPS12 までの SAP HANA 1.0 では、これらのパラメータは、 SAP HANA データベースのインストール時に設定できます。これは、 SAP ノートで説明されています https://launchpad.support.sap.com/["2267798 ： Configuration of the SAP HANA Database During Installation Using hdbparam 』で説明されています"^]。
+
+また 'hdbparam フレームワークを使用して SAP HANA データベースのインストール後にパラメータを設定することもできます
+
+....
+nf2adm@sapcc-hana-tst-06:/usr/sap/NF2/HDB00> hdbparam --paramset fileio.max_parallel_io_requests=128
+nf2adm@sapcc-hana-tst-06:/usr/sap/NF2/HDB00> hdbparam --paramset fileio.async_write_submit_active=on
+nf2adm@sapcc-hana-tst-06:/usr/sap/NF2/HDB00> hdbparam --paramset fileio.async_read_submit=on
+nf2adm@sapcc-hana-tst-06:/usr/sap/NF2/HDB00> hdbparam --paramset fileio.async_write_submit_blocks=all
+....
+SAP HANA 2.0 以降 'hdbparam' は廃止され ' パラメータは global.ini` に移動されましたパラメータは、 SQL コマンドまたは SAP HANA Studio を使用して設定できます。詳細については、 SAP ノートを参照してください https://launchpad.support.sap.com/["2399079 ： HANA で hdbparam の除去 2"^]。パラメータは、次のように global.ini 内で設定することもできます。
+
+....
+nf2adm@stlrx300s8-6: /usr/sap/NF2/SYS/global/hdb/custom/config> cat global.ini
+…
+[fileio]
+async_read_submit = on
+async_write_submit_active = on
+max_parallel_io_requests = 128
+async_write_submit_blocks = all
+…
+....
+SAP HANA 2.0 SPS5 以降では、「 setParameter.py 」スクリプトを使用して正しいパラメータを設定できます。
+
+....
+nf2adm@sapcc-hana-tst-03:/usr/sap/NF2/HDB00/exe/python_support>
+python setParameter.py -set=SYSTEM/global.ini/fileio/max_parallel_io_requests=128
+python setParameter.py -set=SYSTEM/global.ini/fileio/async_read_submit=on
+python setParameter.py -set=SYSTEM/global.ini/fileio/async_write_submit_active=on
+python setParameter.py -set=SYSTEM/global.ini/fileio/async_write_submit_blocks=all
+....

@@ -1,0 +1,56 @@
+---
+sidebar: sidebar 
+permalink: ent-apps-db/saphana-fas-nfs_sap_hana_installation_preparations_for_nfsv4.html 
+keywords: sap, hana, installation, preparations, nfsv4, user, authentication, storage, controller, hosts 
+summary: NFS バージョン 4 以降では、ユーザ認証が必要です。この認証は、 Lightweight Directory Access Protocol （ LDAP ）サーバやローカルユーザアカウントなどの中央ユーザ管理ツールを使用して実行できます。 
+---
+= NFSv4 用の SAP HANA インストールの準備
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+NFS バージョン 4 以降では、ユーザ認証が必要です。この認証は、 Lightweight Directory Access Protocol （ LDAP ）サーバやローカルユーザアカウントなどの中央ユーザ管理ツールを使用して実行できます。次のセクションでは、ローカルユーザアカウントを設定する方法について説明します。
+
+SAP HANA ソフトウェアのインストールを開始する前に、管理ユーザ「 <sidadm> 」と「 sapsys 」グループを SAP HANA ホストとストレージコントローラ上に手動で作成する必要があります。
+
+
+
+== SAP HANA ホスト
+
+存在しない場合は、 SAP HANA ホストに「 sapsys 」グループを作成する必要があります。ストレージコントローラ上の既存のグループ ID と競合しない一意のグループ ID を選択する必要があります。
+
+ユーザー「 <sidadm> 」は SAP HANA ホスト上に作成されます。ストレージコントローラ上の既存のユーザ ID と競合しない一意の ID を選択する必要があります。
+
+マルチホスト SAP HANA システムの場合、ユーザ ID とグループ ID はすべての SAP HANA ホストで同じである必要があります。グループとユーザは、移行元システムから他のすべての SAP HANA ホストに「 /etc/group 」および「 /etc/passwd 」の該当する行をコピーすることによって、他の SAP HANA ホスト上に作成されます。
+
+
+NOTE: NFSv4 ドメインは、すべての Linux サーバ（ /etc/idmapd.conf ）と SVM で同じ値に設定する必要があります。Linux ホストの /etc/idmapd.conf ファイル内の domain パラメータ「 Domain=<domain-name> 」を設定します。
+
+NFS IDMAPD サービスを有効にして開始します。
+
+....
+systemctl enable nfs-idmapd.service
+systemctl start nfs-idmapd.service
+....
+
+NOTE: 最新の Linux カーネルでは、この手順は必要ありません。警告メッセージは無視してかまいません。
+
+
+
+== ストレージコントローラ
+
+ユーザ ID とグループ ID は、 SAP HANA ホストとストレージコントローラで同じである必要があります。グループとユーザは、ストレージクラスタで次のコマンドを入力することで作成されます。
+
+....
+vserver services unix-group create -vserver <vserver> -name <group name> -id <group id>
+vserver services unix-user create -vserver <vserver> -user <user name> -id <user-id> -primary-gid <group id>
+....
+また、 SVM の UNIX ユーザルートのグループ ID を 0 に設定します。
+
+....
+vserver services unix-user modify -vserver <vserver> -user root -primary-gid 0
+....
+link:saphana-fas-nfs_i_o_stack_configuration_for_sap_hana.html["次は、 SAP HANA の I/O スタック構成です"]

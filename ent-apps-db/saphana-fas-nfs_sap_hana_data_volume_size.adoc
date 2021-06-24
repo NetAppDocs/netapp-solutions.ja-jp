@@ -1,0 +1,25 @@
+---
+sidebar: sidebar 
+permalink: ent-apps-db/saphana-fas-nfs_sap_hana_data_volume_size.html 
+keywords: sap, hana, data, volume, size, fas, nfs 
+summary: デフォルトでは、 SAP HANA サービスごとに使用されるデータボリュームは 1 つだけです。ファイルシステムの最大ファイルサイズの制限のため、データボリュームの最大サイズを制限することを推奨します。 
+---
+= SAP HANA データボリュームのサイズ
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+デフォルトでは、 SAP HANA サービスごとに使用されるデータボリュームは 1 つだけです。ファイルシステムの最大ファイルサイズの制限のため、データボリュームの最大サイズを制限することを推奨します。
+
+これを自動的に行うには ' global.ini` の [persistence] セクションで次のパラメータを設定します
+
+....
+datavolume_striping = true
+datavolume_striping_size_gb = 8000
+....
+これにより、 8 、 000GB の上限に達すると、新しいデータボリュームが作成されます。 https://launchpad.support.sap.com/["SAP ノート 240005 の質問 15 を参照してください"^] 詳細については ' を参照してください
+
+link:saphana-fas-nfs_sap_hana_software_installation.html["次の例は、 SAP HANA ソフトウェアのインストールです"]

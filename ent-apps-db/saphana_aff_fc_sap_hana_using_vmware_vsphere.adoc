@@ -1,0 +1,26 @@
+---
+sidebar: sidebar 
+permalink: saphana_aff_fc_sap_hana_using_vmware_vsphere.html 
+keywords:  
+summary:  
+---
+= VMware vSphere を使用した SAP HANA
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+ストレージを仮想マシン（ VM ）に接続する方法はいくつかあります。推奨される方法は、ストレージボリュームと NFS をゲストオペレーティングシステムから直接接続することです。このオプションについては、を参照してください link:http://www.netapp.com/us/media/tr-4435.pdf["NFS を使用した NetApp AFF システムでの SAP HANA"]。
+
+raw デバイスマッピング（ RDM ）、 FCP データストア、または FCP を使用する VVol データストアもサポートされます。どちらのデータストアオプションも、本番環境で使用するためにデータストアに格納する SAP HANA データボリュームまたはログボリュームは 1 つだけです。また、 SnapCenter がオーケストレーションする Snapshot ベースのバックアップとリカバリ、および SAP システムのクローニングなどに基づくソリューションは実装できません。
+
+SAP HANA での vSphere の使用の詳細については、次のリンクを参照してください。
+
+https://wiki.scn.sap.com/wiki/display/VIRTUALIZATION/SAP+HANA+on+VMware+vSphere["SAP HANA on VMware vSphere - 仮想化 - コミュニティ Wiki"^]
+
+* http://www.vmware.com/files/pdf/SAP_HANA_on_vmware_vSphere_best_practices_guide.pdf["『 Best Practices and Recommendations for Scale-Up Deployments of SAP HANA on VMware vSphere 』"^]
+* http://www.vmware.com/files/pdf/sap-hana-scale-out-deployments-on-vsphere.pdf["『 Best Practices and Recommendations for Scale-Out Deployments of SAP HANA on VMware vSphere 』"^]
+* https://launchpad.support.sap.com/["2161991 - VMware vSphere 設定ガイドライン - SAP One Support Launchpad （ログインが必要）"^]
+

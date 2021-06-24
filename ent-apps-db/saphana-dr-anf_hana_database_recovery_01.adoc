@@ -1,0 +1,121 @@
+---
+sidebar: sidebar 
+permalink: ent-apps-db/saphana-dr-anf_hana_database_recovery_01.html 
+keywords: recovery, forward, log, backups, system, tenant, database, log, backups, check, consistency, hana, azure 
+summary: HANA データベースをリカバリする手順は次のとおりです。 
+---
+= HANA データベースのリカバリ
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+必要な SAP サービスを開始します。
+
+....
+vm-pr1:~ # systemctl start sapinit
+....
+次の出力は、必要なプロセスを示しています。
+
+....
+vm-pr1:/ # ps -ef | grep sap
+root     23101     1  0 11:29 ?        00:00:00 /usr/sap/hostctrl/exe/saphostexec pf=/usr/sap/hostctrl/exe/host_profile
+pr1adm   23191     1  3 11:29 ?        00:00:00 /usr/sap/PR1/HDB01/exe/sapstartsrv pf=/usr/sap/PR1/SYS/profile/PR1_HDB01_vm-pr1 -D -u pr1adm
+sapadm   23202     1  5 11:29 ?        00:00:00 /usr/sap/hostctrl/exe/sapstartsrv pf=/usr/sap/hostctrl/exe/host_profile -D
+root     23292     1  0 11:29 ?        00:00:00 /usr/sap/hostctrl/exe/saposcol -l -w60 pf=/usr/sap/hostctrl/exe/host_profile
+root     23359  2597  0 11:29 pts/1    00:00:00 grep --color=auto sap
+....
+以降のサブセクションでは、複製されたログ・バックアップを使用したフォワード・リカバリでのリカバリ・プロセスについて説明します。リカバリは、システムデータベース用の HANA リカバリスクリプトおよびテナントデータベース用の hdbsql コマンドを使用して実行されます。
+
+最新のデータ・セーブポイントへのリカバリを実行するコマンドについては ' の章で説明しています link:saphana-dr-anf_hana_database_recovery_01.html#recovery-to-latest-hana-data-volume-backup-savepoint["最新の HANA データボリュームバックアップセーブポイントへのリカバリ"]。
+
+
+
+== ログバックアップを使用したフォワードリカバリでのリカバリ
+
+使用可能なすべてのログ・バックアップを使用したリカバリは ' ユーザー pr1adm として次のコマンドを使用して実行されます
+
+* システムデータベース
+
+
+....
+recoverSys.py --command "RECOVER DATABASE UNTIL TIMESTAMP '2021-02-20 00:00:00' CLEAR LOG USING SNAPSHOT"
+....
+* テナントデータベース
+
+
+....
+Within hdbsql: RECOVER DATABASE FOR PR1 UNTIL TIMESTAMP '2021-02-20 00:00:00' CLEAR LOG USING SNAPSHOT
+....
+
+NOTE: 使用可能なすべてのログを使用してリカバリするには、リカバリステートメントのタイムスタンプとして将来の任意の時点を使用できます。
+
+また、 HANA Studio または Cockpit を使用して、システムとテナントデータベースのリカバリを実行することもできます。
+
+次のコマンド出力は、リカバリの実行を示しています。
+
+
+
+=== システムデータベースのリカバリ
+
+....
+pr1adm@vm-pr1:/usr/sap/PR1/HDB01> HDBSettings.sh recoverSys.py --command "RECOVER DATABASE UNTIL TIMESTAMP '2021-02-24 00:00:00' CLEAR LOG USING SNAPSHOT"
+[139792805873472, 0.008] >> starting recoverSys (at Tue Feb 23 12:05:16 2021)
+[139792805873472, 0.008] args: ()
+[139792805873472, 0.008] keys: {'command': "RECOVER DATABASE UNTIL TIMESTAMP '2021-02-24 00:00:00' CLEAR LOG USING SNAPSHOT"}
+using logfile /usr/sap/PR1/HDB01/vm-pr1/trace/backup.log
+recoverSys started: ============2021-02-23 12:05:16 ============
+testing master: vm-pr1
+vm-pr1 is master
+shutdown database, timeout is 120
+stop system
+stop system on: vm-pr1
+stopping system: 2021-02-23 12:05:17
+stopped system: 2021-02-23 12:05:18
+creating file recoverInstance.sql
+restart database
+restart master nameserver: 2021-02-23 12:05:23
+start system: vm-pr1
+sapcontrol parameter: ['-function', 'Start']
+sapcontrol returned successfully:
+2021-02-23T12:07:53+00:00  P0012969      177cec93d51 INFO    RECOVERY RECOVER DATA finished successfully, reached timestamp 2021-02-23T09:03:11+00:00, reached log position 43123520
+recoverSys finished successfully: 2021-02-23 12:07:54
+[139792805873472, 157.466] 0
+[139792805873472, 157.466] << ending recoverSys, rc = 0 (RC_TEST_OK), after 157.458 secs
+pr1adm@vm-pr1:/usr/sap/PR1/HDB01>
+....
+
+
+=== テナントデータベースのリカバリ
+
+ソースシステムで pr1adm ユーザー用のユーザーストアキーが作成されていない場合は ' ターゲットシステムでキーを作成する必要がありますキーで設定されたデータベースユーザには、テナントのリカバリ処理を実行する権限が必要です。
+
+....
+pr1adm@vm-pr1:/usr/sap/PR1/HDB01> hdbuserstore set PR1KEY vm-pr1:30113 <backup-user> <password>
+....
+....
+pr1adm@vm-pr1:/usr/sap/PR1/HDB01> hdbsql -U PR1KEY
+Welcome to the SAP HANA Database interactive terminal.
+Type:  \h for help with commands
+       \q to quit
+hdbsql SYSTEMDB=> RECOVER DATABASE FOR PR1 UNTIL TIMESTAMP '2021-02-24 00:00:00' CLEAR LOG USING SNAPSHOT
+0 rows affected (overall time 98.740038 sec; server time 98.737788 sec)
+hdbsql SYSTEMDB=>
+....
+
+
+== 最新のログバックアップの整合性をチェックしてください
+
+ログバックアップボリュームのレプリケーションは、 SAP HANA データベースによって実行されるログバックアッププロセスとは独立して実行されるため、ディザスタリカバリサイトには一貫性のないオープンなログバックアップファイルが存在する可能性があります。最新のログ・バックアップ・ファイルのみが整合性を保持していない可能性がありますこれらのファイルは 'hdbbackupcheck' ツールを使用して災害復旧サイトでフォワード・リカバリを実行する前にチェックする必要があります
+
+....
+pr1adm@hana-10: > hdbbackupcheck /hanabackup/PR1/log/SYSTEMDB/log_backup_0_0_0_0.1589289811148
+Loaded library 'libhdbcsaccessor'
+Loaded library 'libhdblivecache'
+Backup '/mnt/log-backup/SYSTEMDB/log_backup_0_0_0_0.1589289811148' successfully checked.
+....
+このチェックは、システムとテナントデータベースの最新のログバックアップファイルに対して実行する必要があります。
+
+「 hdbbackupcheck 」ツールが最新のログ・バックアップのエラーを報告する場合は、最新のログ・バックアップ・セットを削除するか、削除する必要があります。
