@@ -7355,7 +7355,6 @@
   <block id="8ab1ea416a553309f101937f88feadd0" category="paragraph">HANA のログボリュームはレプリケーションの一部ではないため、空のログボリュームがターゲットホストに存在している必要があります。ログボリュームには、ソース HANA システムと同じサブディレクトリを含める必要があります。</block>
   <block id="ebe6e77fe278b0c44da179596e20dc10" category="section-title">ログバックアップボリュームを準備</block>
   <block id="d8c860bb68ca61783d80f8661d53179d" category="paragraph">ソースシステムは HANA ログバックアップ用の個別のボリュームで構成されているため、ターゲットホストにログバックアップボリュームも必要です。ログバックアップ用のボリュームを設定し、ターゲットホストにマウントする必要があります。</block>
-  <block id="072caecf273d552aa4a30743fb703cac" category="paragraph">ディザスタリカバリの設定でログバックアップボリュームのレプリケーションを行う場合は、 Snapshot に基づく新しいボリュームがターゲットホストにマウントされるため、ログバックアップボリュームを追加で準備する必要はありません。</block>
   <block id="991bc387262467ee7383a884e1ae528c" category="section-title">ファイルシステムのマウントを準備</block>
   <block id="e760b9f68755a85c0afb655724f76716" category="paragraph">次の表に、このラボ環境で使用する命名規則を示します。災害復旧サイトの新しいボリュームのボリューム名は '/etc/fstab に含まれていますこれらのボリューム名は、次のセクションのボリューム作成手順で使用します。</block>
   <block id="c62201a5e4ec1f272c1c685c418cae86" category="cell">HANA PR1 ボリューム</block>
@@ -7394,7 +7393,6 @@
   <block id="cd963b480c3cb24fbb41cb17a8d85134" category="paragraph">次の出力は、必要なプロセスを示しています。</block>
   <block id="41f34e0a65027292639585b25be966d8" category="paragraph">以降のサブセクションでは、複製されたログ・バックアップを使用したフォワード・リカバリでのリカバリ・プロセスについて説明します。リカバリは、システムデータベース用の HANA リカバリスクリプトおよびテナントデータベース用の hdbsql コマンドを使用して実行されます。</block>
   <block id="d6c45a48e2dacb7d6bfbf425e93935ed" category="inline-link-macro">最新の HANA データボリュームバックアップセーブポイントへのリカバリ</block>
-  <block id="af1685ea4f6aeb13cc68217b5a12213a" category="paragraph">最新のデータ・セーブポイントへのリカバリを実行するコマンドについては ' の章で説明しています <block ref="7b294cee72005801ee73bd3c2e41218f" category="inline-link-macro-rx"></block>。</block>
   <block id="5025c24ec3e0df190e43cbbe151b2633" category="section-title">ログバックアップを使用したフォワードリカバリでのリカバリ</block>
   <block id="09ee90eaa98c13b5a23451eb4bd876bc" category="paragraph">使用可能なすべてのログ・バックアップを使用したリカバリは ' ユーザー pr1adm として次のコマンドを使用して実行されます</block>
   <block id="557c60d90ae6fa286bf7c2d4c8e08cf2" category="list-text">システムデータベース</block>
@@ -8211,7 +8209,6 @@
   <block id="8660a2116ae3634df0fd5dc665458840" category="paragraph">SAP ホストエージェントソフトウェアをターゲットサーバにインストールする必要があります。詳細については、を参照してください<block ref="dfb99acb3a5bfb8e56c9630a62e67a77" category="inline-link-rx"></block> SAP ヘルプポータルで、次の作業を行います。</block>
   <block id="42b048440c50c198439a3f5cf6b2f8fc" category="paragraph">ディザスタリカバリの設定でログバックアップボリュームのレプリケーションを行う場合、複製されたログバックアップボリュームはターゲットホストにマウントされるため、追加のログバックアップボリュームを準備する必要はありません。</block>
   <block id="cb03fc2ba6f5264a1d18ec731940b865" category="paragraph">次の表に、このラボ環境で使用する命名規則を示します。災害復旧サイトのボリューム名は '/etc/fstab に含まれています</block>
-  <block id="5687f8f11ef2b3dd580c6d27063d58e6" category="cell">ディザスタリカバリサイトにあるボリュームとサブディレクトリ</block>
   <block id="1dc43cfb2d7ee9173ee71963196e6560" category="cell">pr1 -shared-sm-dest/shared pr1 -shared-sm-dest/usr -sap-pr1</block>
   <block id="b22da6ced8752b012e3da78c79177c72" category="admonition">このテーブルのマウントポイントは、ターゲットホストに作成する必要があります。</block>
   <block id="9e097f174c15980eba09e00d3022d21b" category="inline-link-macro">次のステップ：レプリケーションピアリングを解除して削除します</block>
@@ -8344,22 +8341,14 @@
   <block id="713aae56a240e325bb34a0d833729e8f" category="paragraph">次の図は、複数リージョンレプリケーション用の HANA 構成オプションを示しています。</block>
   <block id="e8d5db08ddf9a2c8bcee15a77c9ea06d" category="paragraph"><block ref="e8d5db08ddf9a2c8bcee15a77c9ea06d" category="inline-image-macro-rx" type="image"></block></block>
   <block id="600ce73f728ef876696aea07da944d48" category="paragraph">現在のバージョンのクロスリージョンレプリケーションでは、固定のスケジュールのみを選択でき、実際のレプリケーション更新時間はユーザが定義することはできません。スケジュールは、毎日、毎時、および 10 分ごとに設定できます。これらのスケジュールオプションを使用すると、 RPO の要件に応じて、毎時または 10 分ごとの異なるスケジュールでのデータボリュームのレプリケーションとログバックアップのレプリケーションの 2 種類の設定が有効になります。達成可能な最小の RPO は約 20 分です。次の表に、設定オプションと、結果として得られる RPO と RTO の値を示します。</block>
-  <block id="cfe3cea152f7e4c33fd5e9f406867c68" category="cell">データ量の増加</block>
-  <block id="7bb54de127b51168222861233e945de5" category="cell">データとログのバックアップ・ボリューム・リストア</block>
-  <block id="db3e7ba0a0dfc8f10e4fef0f56c60aff" category="cell">CRR スケジュールのデータ・ボリューム</block>
-  <block id="e5f493fa061a4db3821e21b3b257e4aa" category="cell">CRR のスケジュールログバックアップボリューム</block>
   <block id="274b68192b056e268f128ff63bfcd4a4" category="cell">該当なし</block>
   <block id="7dd6a6ab32fdea4f29883abb60388da7" category="cell">10 分</block>
   <block id="2b1f07f9d71545257dcca60137caef28" category="cell">最大 RPO</block>
-  <block id="6b7eca17407a403f8040b72217ec4649" category="cell">24 時間 + Snapshot スケジュール（ 6 時間など）</block>
-  <block id="3ca30acfedeabff64212f7e47ecec448" category="cell">1 時間以上</block>
-  <block id="5c88aafab44b1481764b2d851c74ed90" category="cell">2 x 10 分</block>
   <block id="55786705935c6a97b4d23698d008516f" category="cell">最大 RTO</block>
   <block id="d7d2ff11a56a872692dbbb3d19ff76cd" category="cell">主に HANA の起動時間によって定義されます</block>
   <block id="dd7df29e65b6b2ab1d5e17a350fcbfec" category="cell">HANA の起動時間 + リカバリ時間</block>
   <block id="842dc6b7f9e3a2c7e84f044e11faeed2" category="cell">フォワードリカバリ</block>
   <block id="d4cd0dabcf4caa22ad92fab40844c786" category="cell">該当なし</block>
-  <block id="874968d2a84b835304b02efabffca7d9" category="cell">過去 24 時間のログ + Snapshot スケジュール（例 6 時間）</block>
   <block id="7db55fece99cd60241eaadd5b0b310da" category="summary">次のセクションでは、 SAP HANA 用のストレージシステムのサイジングに関するパフォーマンスと容量に関する考慮事項の概要を説明します。</block>
   <block id="83814b9c4a7b826717cc464aa8fb78ac" category="admonition">ストレージのサイジングプロセスをサポートし、適切なサイズのストレージ環境を構築するには、ネットアップまたはネットアップパートナーの営業担当者にお問い合わせください。</block>
   <block id="9b5082bba6ed43c3e4659d132b4df7f3" category="paragraph">SAP では、ストレージ KPI の静的なセットが定義されています。これらの KPI は、データベースホストのメモリサイズや SAP HANA データベースを使用するアプリケーションに関係なく、すべての SAP HANA 本番環境に対して有効です。これらの KPI は、シングルホスト環境、マルチホスト環境、 Business Suite on HANA 環境、 Business Warehouse on HANA 環境、 S/4HANA 環境、および BW/4HANA 環境で有効です。したがって、現在のパフォーマンスサイジングアプローチは、ストレージシステムに接続されているアクティブな SAP HANA ホストの数にのみ依存します。</block>
@@ -8901,4 +8890,238 @@
   <block id="efb954cbfdbe0c54f04c904a2719b98a" category="list-text"><block ref="efb954cbfdbe0c54f04c904a2719b98a" category="inline-link-rx"></block></block>
   <block id="972d8dadb82724623a226062c52b514d" category="sidebar">Azure NetApp Files を使用した SAP HANA ディザスタリカバリ</block>
   <block id="9db3527848e891e0a9340c443515e770" category="sidebar">NetApp VMware の導入を始めましょう</block>
+  <block id="3a8a3991c7ef251983bda0fd052b9b10" category="inline-link">TR-4890</block>
+  <block id="3cbee33bcafaf0315e821a3331b91eb5" category="inline-link">ネットアップのフルサポートの並列ファイルシステム解決策 BeeGFS</block>
+  <block id="63de7cb3a054a3754335c60a0c8ba878" category="paragraph">注：同じデータセットへの共有アクセスを必要とする多数の GPU サーバを対象とした大規模な HPC スタイルの分散トレーニング、または並列ファイルシステムを必要とする場合は、チェックアウトしてください <block ref="f82f3a4db7a848244fd5070f378c86fb" category="inline-link-rx"></block>。本テクニカルレポートでは、この情報を記載する方法について説明します <block ref="99c493838dffa23aa6d1149e33e3edf0" category="inline-link-rx"></block> ネットアップの AI コントロールプレーンの一部として提供されます。この解決策は、数台の NVIDIA DGX A100 システムで構成される 140 ノードの SuperPOD まで拡張できるように設計されています。</block>
+  <block id="d38e15ac7cf20e8efaf731e3439051e7" category="paragraph">ディザスタリカバリの設定でログバックアップボリュームのレプリケーションを行う場合は、 Snapshot に基づく新しいボリュームがターゲットホストにマウントされるため、ログバックアップボリュームを追加で準備する必要はありません。</block>
+  <block id="99974cb8c998a4d922f9111a6a600bba" category="paragraph">最新のデータ・セーブポイントへのリカバリを実行するコマンドについては ' の章で説明しています <block ref="0be310dc1ba7e1c7766b9cbfdeb6e0df" category="inline-link-macro-rx"></block>。</block>
+  <block id="3371b95f5c42f5eee8e2e58a6f48fa14" category="cell">ディザスタリカバリサイトにあるボリュームとサブディレクトリ</block>
+  <block id="fcd256654a3c5292023efa55d739bc80" category="cell">データボリュームのレプリケーション</block>
+  <block id="1a77af3d4771bcb235680750736a7963" category="cell">データとログのバックアップ・ボリューム・リストア</block>
+  <block id="ecd2e667aef672cef20ccf5d1999bae6" category="cell">CRR スケジュールのデータ・ボリューム</block>
+  <block id="766c1532a762dac9ff24af748740e26b" category="cell">CRR のスケジュールログバックアップボリューム</block>
+  <block id="746fb9688b562c3b3722e7f000f97e77" category="cell">24 時間 + Snapshot スケジュール（ 6 時間など）</block>
+  <block id="72ab9d0304d3e84c6aa2dd15eda282f2" category="cell">1 時間</block>
+  <block id="5bc5ed69f9c54b9d85a1cce3e6d1e921" category="cell">2 x 10 分</block>
+  <block id="6a811e1ace0693a26b0c94e7411079f6" category="cell">過去 24 時間のログ + Snapshot スケジュール（例 6 時間）</block>
+  <block id="3e4627f6667f830baceaaf35890b575a" category="summary">このドキュメントに記載されている情報の詳細については、以下のドキュメントや Web サイトを参照してください。</block>
+  <block id="3f3400e66c93fa2bb6193f2d71db7d65" category="inline-link"><block ref="3f3400e66c93fa2bb6193f2d71db7d65" category="inline-link-rx"></block></block>
+  <block id="d4b5fcb9d52eefbe712f0e6f9dab8bb3" category="list-text">TR-4597 ：『 VMware vSphere for ONTAP 』<block ref="9cf2d1675663539ef5878e7b24bea220" category="inline-link-rx"></block></block>
+  <block id="7d9ee37e3155d571b441d63bcbc54709" category="inline-link"><block ref="7d9ee37e3155d571b441d63bcbc54709" category="inline-link-rx"></block></block>
+  <block id="52c629361849219069b336f56f1556d0" category="list-text">TR-4400 ：『 VMware vSphere Virtual Volumes with ONTAP 』<block ref="b7bf139d6051615d8c8e01b6b63dacc3" category="inline-link-rx"></block></block>
+  <block id="18df8e05a5400abd9d0980b1c5bc9ef3" category="list-text">TR-4015 『 SnapMirror Configuration Best Practice Guide for ONTAP 9 』<block ref="e361bd9d6f7b20da762bc23fcb3d09c2" category="inline-link-rx"></block></block>
+  <block id="cbe2f6eb2a73f4a2c871a06264f10dc7" category="inline-link"><block ref="cbe2f6eb2a73f4a2c871a06264f10dc7" category="inline-link-rx"></block></block>
+  <block id="249b98331fa56dc46bf6ba51dc6c39d5" category="list-text">RBAC User Creator for ONTAP の略<block ref="6b15b91279acfce2bbee060bdb17db43" category="inline-link-rx"></block></block>
+  <block id="c88037eb28ae3cceb0e32c2cd3c322d7" category="inline-link"><block ref="c88037eb28ae3cceb0e32c2cd3c322d7" category="inline-link-rx"></block></block>
+  <block id="1a57e0f74e725c1a5e2d53b4d4b4460d" category="list-text">VMware vSphere リソース用の ONTAP ツール<block ref="80c496cd9ab75e5683007d8f66ca6fbf" category="inline-link-rx"></block></block>
+  <block id="9aa6e8f8fac5c131e5924ee033660d29" category="inline-link"><block ref="9aa6e8f8fac5c131e5924ee033660d29" category="inline-link-rx"></block></block>
+  <block id="91a48e1708df22b7464bced79c745ad2" category="list-text">VMware Site Recovery Manager のドキュメント<block ref="92ad802ced4838839b492be6d0bf427d" category="inline-link-rx"></block></block>
+  <block id="014a2413d22e5ac39371ac1333e38898" category="paragraph">を参照してください<block ref="99cfde592e1d7fa7832b186d73ee4002" category="inline-link-rx"></block> ネットアップサポートサイトで、本ドキュメントに記載されている製品や機能のバージョンがお客様の環境でサポートされるかどうかを確認してください。NetApp IMT には、ネットアップがサポートする構成を構築するために使用できる製品コンポーネントやバージョンが定義されています。サポートの可否は、お客様の実際のインストール環境が公表されている仕様に従っているかどうかによって異なります。</block>
+  <block id="c5cd657df037c277c37216b73efb0b08" category="summary">可能であれば、必ず ONTAP ツールを使用してデータストアとボリュームをプロビジョニングしてください。ボリューム、ジャンクションパス、 LUN 、 igroup 、エクスポートポリシーが その他の設定は互換性のある方法で構成されます。</block>
+  <block id="d3b26e9021e83573a3d2a9050400a33a" category="doc">運用上のベストプラクティス</block>
+  <block id="f02207fb26160d7e47cf5ea35d07df03" category="section-title">データストアおよびプロトコル</block>
+  <block id="4d15db58f26b374b36c283df6b5a5fc1" category="paragraph">SRM では、 ONTAP 9 で iSCSI 、ファイバチャネル、および NFS バージョン 3 をサポートしているのは、 SRA 経由のアレイベースのレプリケーションを使用している場合です。SRM は、従来のデータストアまたは VVOL データストアでの NFS バージョン 4.1 のアレイベースのレプリケーションをサポートしていません。</block>
+  <block id="61f54ceeb0338787a2ee2d801cbc62cd" category="paragraph">接続を確認するために、 DR サイトの新しいテスト用データストアをデスティネーション ONTAP クラスタからマウントしてアンマウントできることを必ず確認してください。データストアの接続に使用する各プロトコルをテストします。テスト用データストアは SRM の指示に従ってすべてのデータストアの自動化を実行するため、 ONTAP ツールを使用して作成することを推奨します。</block>
+  <block id="0ac3e8abbf45a28af68d22b0f59a973e" category="paragraph">SAN プロトコルは各サイトで同機種にする必要があります。NFS と SAN を混在させることはできますが、 SAN プロトコルを 1 つのサイト内に混在させないでください。たとえば、サイト A では FCP を、サイト B では iSCSI を使用できますサイト A では、 FCP と iSCSI の両方を使用しないでくださいその理由は、 SRA がリカバリサイトに混在する igroup を作成しないため、 SRM が SRA に指定されたイニシエータリストをフィルタリングしないためです。</block>
+  <block id="150f8d9d5018ff00285d9aa158451d7b" category="paragraph">以前のガイドでは、 LIF を作成してデータの局所性を確保することを推奨つまり、必ず、ボリュームを物理的に所有するノード上の LIF を使用してデータストアをマウントします。これは、 ONTAP 9 の最新バージョンでは必須ではなくなりました。可能 ONTAP であれば、クラスタを対象とした特定のクレデンシャルがあれば、データに対してローカルな LIF 間での負荷分散は引き続き行われますが、高可用性やパフォーマンスの要件ではありません。</block>
+  <block id="ef6e8713285283721507f92e3c3ec674" category="paragraph">オートサイズで十分な緊急容量を確保できない場合にスペース不足の状態になったときに Snapshot コピーを自動的に削除してアップタイムを確保するように設定 ONTAP できます。デフォルトの設定では、 SnapMirror によって作成された Snapshot コピーは自動的には削除されません。SnapMirror Snapshot コピーが削除された場合、 NetApp SRA は関連ボリュームのレプリケーションを反転および再同期できません。ONTAP によって SnapMirror Snapshot コピーが削除されないようにするには、 Snapshot の自動削除機能を設定してください。</block>
+  <block id="a4f47f677f45e1e7075186d98e4f3ec1" category="paragraph">SAN データストアを含むボリュームの場合はボリュームのオートサイズを「 grow 」に設定し、 NFS データストアの場合は「 GROE_SHシュリンク 」に設定する必要があります。を参照してください<block ref="ee2474fa4563985f2f3ebe16d4e1ab3a" category="inline-link-rx"></block> を参照してください。</block>
+  <block id="e6955db66b8dc4aee170ebdb0b560249" category="section-title">SPBM と VVol</block>
+  <block id="3077a08ffed60acebf18d37874130d44" category="paragraph">SRM 8.3 以降では、 VVol データストアを使用した VM の保護がサポートされています。SnapMirror スケジュールは、次のスクリーンショットに示すように、 ONTAP のツール設定メニューで VVOL のレプリケーションが有効になっている場合、 VASA Provider によって VM ストレージポリシーに公開されます。</block>
+  <block id="399c1894baf71c0529aa0fba66ea18fb" category="paragraph">次の例は、 VVol レプリケーションを有効にする方法を示しています。</block>
+  <block id="b180e7f35111dca8acd6c56cdbcabb3e" category="paragraph"><block ref="b180e7f35111dca8acd6c56cdbcabb3e" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="be41c3baf700984021c43e2e6b661b0a" category="paragraph">次のスクリーンショットは、 VM ストレージポリシーの作成ウィザードに表示される SnapMirror スケジュールの例を示しています。</block>
+  <block id="43c130b36e9e2b3d61409aa974f89fc7" category="paragraph"><block ref="43c130b36e9e2b3d61409aa974f89fc7" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="19124a93cfd3076eea2c94e9dc1a8c30" category="paragraph">ONTAP VASA プロバイダでは、異なるストレージへのフェイルオーバーがサポートされます。たとえば、システムは、エッジの場所にある ONTAP Select からコアデータセンターの AFF システムにフェイルオーバーできます。このプロセスを容易にするために、サイト間で VM ストレージポリシーマッピングを設定します。ストレージの類似性に関係なく、レプリケーションが有効な VM ストレージポリシーのストレージポリシーマッピングとリバースマッピングを常に設定して、リカバリサイトで提供されるサービスが期待される要件を満たしていることを確認する必要があります。次のスクリーンショットは、ポリシーマッピングの例を示しています。</block>
+  <block id="783a951245ce43eb84161804072a38c6" category="paragraph"><block ref="783a951245ce43eb84161804072a38c6" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="1eb90dc8f7adfd00c74af3b815e2ac15" category="section-title">VVOL データストア用にレプリケートされたボリュームを作成します</block>
+  <block id="18231879821321e0aed7de84fe876766" category="paragraph">以前の VVOL データストアとは異なり、レプリケートされた VVOL データストアはレプリケーションを有効にして最初から作成する必要があります。また、 SnapMirror 関係を持つ ONTAP システムで事前に作成されたボリュームを使用する必要があります。そのためには、クラスタピアリングや SVM ピアリングなどの設定を事前に行う必要があります。これらの作業は ONTAP 管理者が行う必要があります。複数のサイトにわたって ONTAP システムを管理する担当者と、主に vSphere の運用を担当する担当者を厳密に分離できるためです。</block>
+  <block id="0a8c8293003bf411817ef3cedf18a2a9" category="paragraph">これは、 vSphere 管理者の代わりに新たな要件となります。ボリュームは ONTAP ツールの範囲外に作成されるため、定期的な再検出スケジュール期間が設定されるまで ONTAP 管理者が行った変更を認識することはありません。そのため、 VVOL で使用するボリュームまたは SnapMirror 関係を作成したときは常に再検出を実行することを推奨します。次のスクリーンショットに示すように、ホストまたはクラスタを右クリックし、 NetApp ONTAP tools &gt; Update Host and Storage Data を選択します。</block>
+  <block id="dd5e006520a09e3975e52f6fb8991fd2" category="paragraph"><block ref="dd5e006520a09e3975e52f6fb8991fd2" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="550d51e15336d4a33bcbb0f26a6810f7" category="paragraph">VVOL と SRM については、 1 つ注意が必要です。保護された VM と保護されていない VM を同じ VVOL データストアに混在させないでください。これは、 SRM を使用して DR サイトにフェイルオーバーする場合、保護グループに属する VM のみが DR でオンラインになるためです。そのため、再保護（ SnapMirror を DR から本番環境に戻して再保護）する際に、フェイルオーバーされなかった VM が上書きされて、貴重なデータが含まれる可能性があります。</block>
+  <block id="6d717f70d89096b731dfc63d7a1379e1" category="section-title">アレイペアについて</block>
+  <block id="6dd3f3008fe81f402905b00c8dca007c" category="paragraph">アレイペアごとにアレイマネージャが作成されます。SRM ツールと ONTAP ツールでは、クラスタクレデンシャルを使用している場合でも、各アレイペアリングを SVM の範囲で実行します。これにより、管理対象に割り当てられている SVM を基に、各テナント間で DR ワークフローを分割できます。特定のクラスタに対して複数のアレイマネージャを作成でき、非対称にすることができます。異なる ONTAP 9 クラスタ間でファンアウトまたはファンインを実行できます。たとえば、クラスタ 1 の SVM A と SVM B をクラスタ 2 の SVM C に、クラスタ 3 の SVM D に、またはその逆にレプリケートできます。</block>
+  <block id="2219228418c053eb593ce0a1f318da47" category="paragraph">SRM でアレイペアを設定する場合は、 ONTAP ツールに追加するのと同じ方法でアレイペアを SRM に追加する必要があります。つまり、アレイペアは同じユーザ名、パスワード、および管理 LIF を使用する必要があります。これは、 SRA がアレイと正しく通信するための要件です。次のスクリーンショットは、 ONTAP ツールでのクラスタの表示方法と、アレイマネージャへのクラスタの追加方法を示しています。</block>
+  <block id="7ec48584a43ed8a9b1dda55398d97cf4" category="paragraph"><block ref="7ec48584a43ed8a9b1dda55398d97cf4" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="3b34135c8c4d2b14ceb7ebf595f00193" category="section-title">複製グループについて</block>
+  <block id="6be59afd3c8bb91501f55a7e77ebe794" category="paragraph">レプリケーショングループには、同時にリカバリされる仮想マシンの論理集合が含まれます。レプリケーショングループは、 ONTAP ツール VASA Provider で自動的に作成されます。ONTAP の SnapMirror レプリケーションはボリュームレベルで実行されるため、ボリューム内のすべての VM が同じレプリケーショングループに属します。</block>
+  <block id="b57ec021fce4e5261ba61df6f0c013af" category="paragraph">レプリケーショングループについて考慮する必要がある要素と、 FlexVol ボリュームに VM を分散する方法にはいくつかの要素があります。同様の VM を同じボリュームにグループ化すると、アグリゲートレベルの重複排除が行われていない古い ONTAP システムでもストレージ効率が向上しますが、グループ化することでボリュームのサイズが増大し、ボリュームの I/O 同時実行が減少します。最新の ONTAP システムでパフォーマンスとストレージ効率の最適なバランスを実現するには、同じアグリゲート内の FlexVol ボリュームに VM を分散します。その結果、アグリゲートレベルの重複排除を利用して、複数のボリューム間で I/O の並列化を促進します。保護グループ（以下で説明）には複数のレプリケーショングループを含めることができるため、ボリューム内の VM を 1 つにまとめてリカバリできます。このレイアウトの欠点は、 Volume SnapMirror ではアグリゲートの重複排除が考慮されないため、ブロックがネットワーク経由で何度も転送されることです。</block>
+  <block id="c727c1020d3128dd7495a6e3e6f23736" category="paragraph">レプリケーショングループの最後の考慮事項の 1 つは、各グループがその性質によって論理整合グループになることです（ SRM 整合グループと混同しないようにしてください）。これは、ボリューム内のすべての VM が同じ Snapshot を使用して同時に転送されるためです。したがって、相互に整合性が必要な VM がある場合は、同じ FlexVol に格納することを検討してください。</block>
+  <block id="9f8a350a2113ea4be6b4e5e5112514a3" category="section-title">保護グループについて</block>
+  <block id="df77671ab2743af7f1d1457c200eb12c" category="paragraph">保護グループでは、 VM とデータストアをグループ単位で定義し、グループをまとめて保護サイトからリカバリします。保護対象サイトとは、通常の安定状態での運用中、保護グループで構成された VM が存在する場所です。SRM には保護グループの複数のアレイマネージャが表示される場合がありますが、保護グループは複数のアレイマネージャにまたがることはできません。このため、異なる SVM 上の複数のデータストアに VM ファイルをまたがって配置することはできません。</block>
+  <block id="b148467d645c3613c1c7a2607764c515" category="section-title">リカバリ・プランについて</block>
+  <block id="fd28cd9834ad3aa213c4fec2881064b5" category="paragraph">リカバリプランでは、同じプロセスでリカバリする保護グループを定義します。同じリカバリプランに複数の保護グループを設定できます。また、リカバリプランの実行オプションを増やすには、 1 つの保護グループを複数のリカバリプランに含めることもできます。</block>
+  <block id="77aa84394124509e5e4006dcfd18789f" category="paragraph">リカバリプランを使用すると、 SRM 管理者は、 VM を優先グループ 1 （最大）から 5 （最小）に割り当てて、リカバリワークフローを定義できます。デフォルトは 3 （中）です。優先度グループ内で、 VM に依存関係を設定できます。</block>
+  <block id="6d72567442b1f361e3c0e89cbc7dfd6a" category="paragraph">たとえば、会社のデータベースに Microsoft SQL Server を使用するティア 1 ビジネスクリティカルなアプリケーションを使用しているとします。したがって、優先度グループ 1 に VM を配置することにします。優先度グループ 1 では、サービスの提供順序の計画を開始します。Microsoft Windows ドメイン・コントローラを起動してから Microsoft SQL Server を起動してください。アプリケーション・サーバの前にオンラインになっている必要があります。依存関係は特定の優先グループ内でのみ適用されるため、これらのすべての VM を優先グループに追加してから、依存関係を設定します。</block>
+  <block id="030d749269f8866de516a551b0286001" category="paragraph">アプリケーションチームと連携してフェイルオーバーシナリオに必要な処理の順序を把握し、それに応じてリカバリ計画を作成することを強く推奨します。</block>
+  <block id="cebb1167d3e78885137c837f0abf8026" category="section-title">テストフェイルオーバー</block>
+  <block id="2772828493452c4a2ff21f8b2b66a1a7" category="paragraph">ベストプラクティスとして、保護対象の VM ストレージの構成を変更する場合は、必ずテストフェイルオーバーを実行してください。これにより、災害発生時に、 Site Recovery Manager が想定される RTO ターゲット内でサービスをリストアできるかどうかを信頼できます。</block>
+  <block id="6ae8acfc86f5df3426d525fb95767506" category="paragraph">特に VM ストレージの再設定後にゲストアプリケーションの機能を確認することを推奨します。</block>
+  <block id="bd47371bcd8b3d08d6b4b15481b08d93" category="paragraph">テストリカバリ処理を実行すると、 VM 用の ESXi ホストにプライベートテスト用のバブルネットワークが作成されます。ただし、このネットワークは物理ネットワークアダプタに自動的には接続されないため、 ESXi ホスト間の接続は提供されません。DR テスト時に異なる ESXi ホストで実行されている VM 間の通信を可能にするために、 DR サイトの ESXi ホスト間に物理プライベートネットワークを作成します。テスト用ネットワークがプライベートであることを確認するために、テスト用のバブルネットワークを物理的に分離するか、 VLAN や VLAN タギングを使用して分離します。このネットワークは本番用ネットワークから分離する必要があります。 VM がリカバリされると、実際の本番用システムと競合する可能性のある IP アドレスを持つ本番用ネットワークに配置することはできなくなります。SRM でリカバリプランを作成する際、テスト中に VM を接続するためのプライベートネットワークとして、作成したテストネットワークを選択できます。</block>
+  <block id="2be58fc410ddf2ba9c350135a617944a" category="paragraph">テストが検証されて不要になったら、クリーンアップ処理を実行します。クリーンアップを実行すると、保護されている VM が初期状態に戻り、リカバリプランが Ready 状態にリセットされます。</block>
+  <block id="6f07b53963ee80903f0f13654de2cc3a" category="section-title">フェイルオーバーに関する考慮事項</block>
+  <block id="9d33d94019b4a595a1ea232926a4da1b" category="paragraph">サイトのフェイルオーバーに関しては、このガイドに記載されている処理の順序に加えて、その他にもいくつかの考慮事項があります。</block>
+  <block id="74abdd5cb502cd65bcf1d7ca484ab0c2" category="paragraph">競合する問題の 1 つに、サイト間のネットワークの違いがあります。環境によっては、プライマリサイトと DR サイトで同じネットワーク IP アドレスを使用できる場合があります。この機能は、拡張仮想 LAN （ VLAN ）または拡張ネットワークセットアップと呼ばれます。それ以外の環境では、プライマリサイトと DR サイトで別々のネットワーク IP アドレス（異なる VLAN など）を使用する必要があります。</block>
+  <block id="1b41638d2115765dc12f82d77ce70138" category="paragraph">VMware では、この問題を解決する方法をいくつか提供しています。1 つは、 VMware NSX -T Data Center のようなネットワーク仮想化テクノロジーです。ネットワークスタック全体を運用環境からレイヤ 2 ～ 7 に抽象化し、より移植性の高いソリューションを実現します。NSX オプションの詳細については 'SRM で確認できます<block ref="99d78d594865360c3d4b527bf0a2a7f6" category="inline-link-rx"></block>。</block>
+  <block id="09a74136e56a63c5aba38b89802d9080" category="paragraph">SRM では、リカバリ時に VM のネットワーク設定を変更することもできます。IP アドレス、ゲートウェイアドレス、 DNS サーバなどの設定が再設定されます。リカバリ時に個々の VM に適用されるさまざまなネットワーク設定を、リカバリプランの VM のプロパティ設定で指定できます。</block>
+  <block id="99f0a91111e8acb2462e8df5ecf0ab8f" category="paragraph">VMware の dr-ip-customizer というツールを使用すると、リカバリプランで複数の VM のプロパティを個別に編集しなくても、 SRM で VM ごとに異なるネットワーク設定を適用できます。このユーティリティの使用方法については、 VMware のマニュアルを参照してください<block ref="b959814092e3e6cdc8d22e768887e618" category="inline-link-rx"></block>。</block>
+  <block id="3c8c527afa8ce5009c8f707f7fd4fabf" category="section-title">再保護</block>
+  <block id="3b496038cb575fc404f8b0783e570f7a" category="paragraph">リカバリ後、リカバリサイトが新しい本番用サイトになります。リカバリ処理によって SnapMirror レプリケーションが解除されたため、新しい本番用サイトは今後の災害から保護されません。新しい本番用サイトは、リカバリ後すぐに別のサイトで保護することを推奨します。元の本番サイトが運用されている場合、 VMware 管理者は、元の本番サイトを新しいリカバリサイトとして使用して新しい本番サイトを保護できるため、保護の方向を実質的に変えることができます。再保護は、致命的でない障害でのみ使用できます。そのため、元の vCenter Server 、 ESXi サーバ、 SRM サーバ、および対応するデータベースを最終的にリカバリ可能な状態にする必要があります。使用できない場合は、新しい保護グループと新しいリカバリプランを作成する必要があります。</block>
+  <block id="6d80a3efb80520f47b63dc279e1bea3d" category="section-title">フェイルバック</block>
+  <block id="2bf236f8aceaaff2b305848df524c42e" category="paragraph">フェイルバック処理は、基本的に以前とは異なる方向のフェイルオーバーです。ベストプラクティスとして、フェイルバックを実行する前に、元のサイトが許容可能なレベルの機能に戻っていること、つまり元のサイトにフェイルオーバーしていることを確認することを推奨します。元のサイトが侵害されたままの場合は、障害が十分に修正されるまでフェイルバックを遅らせる必要があります。</block>
+  <block id="cb03753531bad31391d7156433b98ae6" category="paragraph">フェイルバックのもう 1 つのベストプラクティスとして、再保護の完了後、および最終フェイルバックの実行前に、常にテストフェイルオーバーを実行することがあります。これにより、元のサイトに配置されたシステムで処理が完了できるかどうかを確認できます。</block>
+  <block id="900a3b65ea54b6dcff72ed0d6ac66fdf" category="section-title">元のサイトを再保護する</block>
+  <block id="2a0c13d7b927063987bf931a141f2662" category="paragraph">フェイルバックの完了後、再保護を再度実行する前に、サービスが正常に戻っていることをすべての利害関係者に確認する必要があります。</block>
+  <block id="12d059a2c7519f2e3497b30a71121503" category="paragraph">フェイルバック後の再保護を実行すると、基本的に環境は最初の状態に戻り、 SnapMirror レプリケーションが本番用サイトからリカバリサイトに再度実行されます。</block>
+  <block id="1f82b18dcba5f32a085bc502cdd0c6b7" category="summary">ONTAP では、 Storage Virtual Machine （ SVM ）の概念を採用して、セキュアなマルチテナント環境で厳密にセグメント化します。</block>
+  <block id="7520e12a140ccf3de279fe2fd48889e4" category="doc">導入のベストプラクティス</block>
+  <block id="1b4574c516231b685bb37b013b789b06" category="section-title">SMT の SVM のレイアウトとセグメント化</block>
+  <block id="446e04546ec0567eeeeef8e07368ab40" category="paragraph">ONTAP では、 Storage Virtual Machine （ SVM ）の概念を採用して、セキュアなマルチテナント環境で厳密にセグメント化します。ある SVM の SVM ユーザは、別の SVM のリソースにアクセスしたりリソースを管理したりすることはできませんこれにより、 ONTAP テクノロジを活用できます。ビジネスユニットごとに別々の SVM を作成して、同じクラスタ上で独自の SRM ワークフローを管理することで、全体的なストレージ効率を高めることができます。</block>
+  <block id="f98c1d223f34b2fdaf90eab1a3bc6a25" category="paragraph">SVM を対象としたアカウントと SVM 管理 LIF を使用して ONTAP を管理することを検討し、セキュリティ制御を強化するだけでなく、パフォーマンスも向上させます。SRA は、物理リソースを含むクラスタ全体のすべてのリソースを処理する必要がないため、 SVM を対象とした接続を使用する場合は本質的にパフォーマンスが向上します。その代わり、特定の SVM に抽象化された論理資産だけを認識する必要があります。</block>
+  <block id="849d4d5e8a5d5b2747d8375d2ec03b29" category="paragraph">NAS プロトコルのみを使用する（ SAN アクセスなし）場合は、次のパラメータを設定することで、 NAS 向けに最適化された新しいモードを利用することもできます（ SRA と VASA は、アプライアンスで同じバックエンドサービスを使用するため）。</block>
+  <block id="05f551a655f40911851a53ba0c721997" category="list-text">コントロール・パネルに \\https://&lt;IP address&gt;:9083' からログインして '[Web Based CLI interface] をクリックします</block>
+  <block id="b0cc185c73ca964d1429a601551c68f5" category="list-text">コマンド VP updateconfig -key=enable.qtree.enable -value=true' を実行します</block>
+  <block id="5f7e35f90689bef91afe9f01257c61ac" category="list-text">コマンド VP updateconfig -key=enable.optimized.sra_value =true' を実行します</block>
+  <block id="ba2a1e4d95dc56709260e82cca20a789" category="list-text">コマンド VP reloadconfig を実行します。</block>
+  <block id="2d14ca751c8ce5a724606e4f75f02c50" category="section-title">VVOL に ONTAP ツールを導入する際の考慮事項について説明します</block>
+  <block id="fa3a193f1892cf0f45f4a95a35aa3c4b" category="paragraph">SRM で VVol を使用する場合は、クラスタを対象としたクレデンシャルとクラスタ管理 LIF を使用してストレージを管理する必要があります。これは、 VM ストレージポリシーに必要なポリシーを満たすためには、 VASA Provider で基盤となる物理アーキテクチャを理解しておく必要があるためです。たとえば、オールフラッシュストレージを必要とするポリシーが設定されている場合、 VASA Provider では、どのシステムがオールフラッシュであるかを認識できる必要があります。</block>
+  <block id="31d279d1cc3bc5a4281567ba697f678d" category="paragraph">ONTAP Tools アプライアンスを管理している VVOL データストアに格納しないことを推奨します。その結果、アプライアンスがオフラインのためにアプライアンスのスワップ VVOL を作成できず、 VASA Provider の電源をオンにできなくなることがあります。</block>
+  <block id="97399fb37deca0d463aa5c7dc8d064a6" category="section-title">ONTAP 9 システムの管理に関するベストプラクティス</block>
+  <block id="b4cbecf196108ad163c73c4e4194dde2" category="paragraph">前述したように、クラスタまたは SVM を対象としたクレデンシャルと管理 LIF を使用して ONTAP クラスタを管理できます。パフォーマンスを最適化するために、 VVOL を使用していないときは SVM を対象としたクレデンシャルの使用を検討してください。ただし、その場合は、いくつかの要件について確認しておく必要があります。また、機能の一部は失われます。</block>
+  <block id="fec05e53ca7d96aaf3e4c1a1b2502bea" category="list-text">デフォルトの vsadmin SVM アカウントには、 ONTAP ツールのタスクを実行するために必要なアクセスレベルがありません。そのため、新しい SVM アカウントを作成する必要があります。</block>
+  <block id="8557644859e03f54860c95ffb0bcfd53" category="list-text">ONTAP 9.8 以降を使用 https://&lt;IP している場合は、 ONTAP の System Manager の Users メニューを使用して、 ONTAP ツールアプライアンスの JSON ファイル（アドレス： 9083/VSC/config/ ）とともに、 RBAC の最小権限のユーザアカウントを作成することを推奨します。管理者パスワードを使用して JSON ファイルをダウンロードしてください。これは SVM またはクラスタを対象としたアカウントに使用できます。</block>
+  <block id="a7a83b5e4f375c0585588b9c7ff92219" category="inline-link">ネットアップサポートサイトの Toolchest</block>
+  <block id="fdfe9ba9104df6a32fff0f859291ea3c" category="paragraph">ONTAP 9.6 以前を使用している場合は、で使用可能な RBAC User Creator （ RUC ）ツールを使用する必要があります<block ref="bdbf96c18cf8ac76d01fba7057b81b87" category="inline-link-rx"></block>。</block>
+  <block id="ea7a3d08d55dc3e8ecf89d2a5d5e302d" category="list-text">vCenter UI プラグイン、 VASA Provider 、 SRA サーバはすべて完全に統合されたサービスであるため、 vCenter UI で ONTAP ツール用のストレージを追加する場合と同じ方法で、 SRM で SRA アダプタにストレージを追加する必要があります。そうしないと、 SRA サーバが SRA アダプタ経由で SRM から送信された要求を認識しない可能性があります。</block>
+  <block id="b473de4177eeaa79a66448798a446db3" category="list-text">SVM を対象としたクレデンシャルを使用している場合、 NFS パスのチェックは実行されませんこれは、物理的な場所が SVM から論理的に抽象化されているためです。ただしこれは原因の問題ではありません。最新の ONTAP システムで間接パスを使用してもパフォーマンスが著しく低下することはなくなりました。</block>
+  <block id="6e62430b92a7c5a0b8512436b163a10d" category="list-text">Storage Efficiency によるアグリゲートのスペース削減量が報告されないことがあります。</block>
+  <block id="93d86aa51e0909549d1b1210f887aef3" category="list-text">サポートされている場合、負荷共有ミラーを更新することはできません。</block>
+  <block id="647d380b52e259fe7ed2e2582bc54b27" category="list-text">SVM を対象としたクレデンシャルで管理されている ONTAP システムでは、 EMS ロギングが実行されない場合があり</block>
+  <block id="963739e9818c0bf4d8959b5cdf6a7956" category="summary">SRM で VVOL レプリケーションを使用する場合、 SRA と従来のデータストアで使用するワークフローは大きく異なります。</block>
+  <block id="56687c1a324f03f5d1429500efea710e" category="doc">VVol レプリケーションを使用する場合の SRM のトラブルシューティング</block>
+  <block id="14acf40cbe69d8682b4c844ac7fbf7f6" category="paragraph">SRM で VVOL レプリケーションを使用する場合、 SRA と従来のデータストアで使用するワークフローは大きく異なります。たとえば、アレイマネージャの概念はありません。そのため、「 discoverarrays 」コマンドと「 discoverdevices 」コマンドは表示されません。</block>
+  <block id="ef74d715544e3b067a6bec3218ac5044" category="paragraph">トラブルシューティングを行う場合は、以下に示す新しいワークフローについて理解しておくと役立ちます。</block>
+  <block id="47f0942d341ee10381b2eff35089d75d" category="list-text">queryReplicationPeer ： 2 つのフォールトドメイン間のレプリケーション契約を検出します。</block>
+  <block id="136a299aae29998a147852cb0cba5b4a" category="list-text">queryFaultDomain ：障害ドメインの階層を検出します。</block>
+  <block id="c071098c5df923c31f6245e4db2f3861" category="list-text">queryReplicationGroup ：ソースドメインまたはターゲットドメインに存在するレプリケーショングループを検出します。</block>
+  <block id="792cfe9ad3a3dc8528080a262e92989a" category="list-text">syncReplicationGroup ：ソースとターゲット間でデータを同期します。</block>
+  <block id="39afb1e1e3b180a6230e07bb8571667e" category="list-text">queryPointInTimeReplica ：ターゲット上のポイントインタイムレプリカを検出します。</block>
+  <block id="9fb25fe2ff084dc9ccfb99eaccba7212" category="list-text">testFailoverReplicationGroupStart ：テストフェイルオーバーを開始します。</block>
+  <block id="bd4e1dacaca4c37a53b5286b6ae0239d" category="list-text">testFailoverReplicationGroupStop ：テストフェイルオーバーを終了します。</block>
+  <block id="887f376a43cf9de1d6e14a8d69e588f6" category="list-text">promoteReplicationGroup ：テスト中のグループを本番環境に昇格します。</block>
+  <block id="17ab16c5c0786ff381e6a085318bad9b" category="list-text">prepareFailoverReplicationGroup ：災害復旧の準備をします。</block>
+  <block id="665dd64ebcc4016bda94e0e8020d8c8e" category="list-text">FailoverReplicationGroup ：ディザスタリカバリを実行します。</block>
+  <block id="6936cf00e30b7cd4421225113a023c3e" category="list-text">revertReplicateGroup ：逆方向のレプリケーションを開始します。</block>
+  <block id="61ac8950a043e6998b458d4f8171154c" category="list-text">queryMatchingContainer: 指定されたポリシーを使用したプロビジョニング要求を満たす可能性のあるコンテナを（ホストまたはレプリケーショングループとともに）検索します。</block>
+  <block id="05c9efdc056d2af4640bc441ab61b53a" category="list-text">queryResourceMetadata ： VASA Provider からすべてのリソースのメタデータを検出し、リソース利用率を回答として queryMatchingContainer 関数に返すことができます。</block>
+  <block id="01fa56986f885c588b1be8c206623de8" category="paragraph">VVOL レプリケーションの設定時に表示される最も一般的なエラーは、 SnapMirror 関係を検出できないエラーです。これは、ボリュームおよび SnapMirror 関係が ONTAP ツールを対象としたものではないためです。そのため、 SnapMirror 関係が常に完全に初期化されていることを確認し、レプリケートされた VVOL データストアを作成する前に両方のサイトの ONTAP ツールで再検出を実行することを推奨します。</block>
+  <block id="dcaf091737df278b1b4bdd2e37c10a75" category="summary">NetApp ONTAP は、 2002 年に最新のデータセンターに導入されて以来、 VMware vSphere 環境向けストレージ解決策として業界をリードしてきました。また、コストを削減しながら管理を簡易化する革新的な機能を継続的に追加しています。</block>
+  <block id="1fdf67ffe178876efb8b8cacfb0f052b" category="doc">TR-4900 ：『 VMware Site Recovery Manager with NetApp ONTAP 9 』</block>
+  <block id="cc6ab3d11d2dc330a573866f7c9f67aa" category="paragraph">Chance Bingen 、ネットアップ</block>
+  <block id="60398bdc931fc67a9b6d781434c3a15a" category="section-title">ONTAP for vSphere の略</block>
+  <block id="09d6c6a1868cc36795c7a0f8f84e50c9" category="paragraph">NetApp ONTAP は、 2002 年に最新のデータセンターに導入されて以来、 VMware vSphere 環境向けストレージ解決策として業界をリードしてきました。また、コストを削減しながら管理を簡易化する革新的な機能を継続的に追加しています。このドキュメントでは、 ONTAP 解決策 for VMware Site Recovery Manager （ SRM ）について説明します。 SRM は、最新の製品情報や、導入の合理化、リスクの軽減、継続的な管理の簡素化に役立つベストプラクティスを含む、業界をリードする VMware のディザスタリカバリ（ DR ）ソフトウェアです。</block>
+  <block id="e3445c3aa798f5ad98665e33d34dd952" category="paragraph">ベストプラクティスは、ガイドや互換性ツールなどの他のドキュメントを補うものです。ラボテストに基づいて開発されており、ネットアップのエンジニアやお客様は広範な現場経験を積んでいます。推奨されるベストプラクティスがお客様の環境に適していない場合もありますが、一般に最もシンプルなソリューションであり、ほとんどのお客様のニーズに対応できます。</block>
+  <block id="c3edc14dbc5862176444f521372d1744" category="paragraph">本ドキュメントでは ONTAP 、 VMware vSphere （ NetApp Storage Replication Adapter [SRA] と VASA Provider [VP] を含む）のサポートされているバージョン、および VMware Site Recovery Manager 8 で使用される、最近のリリースの ONTAP 9 の機能に焦点を当てています。4.</block>
+  <block id="c40f8c2af56356193284f6b46865d954" category="section-title">SRM で ONTAP を使用する理由</block>
+  <block id="3c41d5be62c97a13079e9c7abf078292" category="paragraph">ONTAP ソフトウェアを基盤とするネットアップのデータ管理プラットフォームは、 SRM に最も広く採用されているストレージソリューションの一部です。理由は豊富です。セキュアでハイパフォーマンスなユニファイドプロトコル（ NAS と SAN ）を備えたデータ管理プラットフォームは、ストレージ効率の定義、マルチテナンシー、サービス品質管理、 SnapMirror によるスペース効率に優れた Snapshot コピーとレプリケーションによるデータ保護を提供します。VMware ワークロードを保護するためにネイティブのハイブリッドマルチクラウド統合を活用し、多数の自動化ツールやオーケストレーションツールを簡単に利用できます。</block>
+  <block id="0d573b6a27c08499fee406e3db49812f" category="paragraph">SnapMirror をアレイベースのレプリケーションに使用すると、 ONTAP で最も実績のある成熟したテクノロジの 1 つを活用できます。SnapMirror を使用すると、 VM やデータストア全体ではなく、変更されたファイルシステムブロックのみをコピーして、データを安全かつ効率的に転送できます。重複排除、圧縮、コンパクションなどのスペース削減効果を活用できます。最新の ONTAP システムで、バージョンに依存しない SnapMirror が使用されるようになり、ソースとデスティネーションのクラスタを柔軟に選択できるようになりました。SnapMirror は、災害復旧のための最も強力なツールの 1 つとなりました。</block>
+  <block id="36b04390d6103d8075862e4b825a485e" category="paragraph">従来の NFS 、 iSCSI 、ファイバチャネル接続データストア（現在は VVOL データストアをサポート）のいずれを使用している場合でも、 SRM は、ディザスタリカバリやデータセンター移行の計画とオーケストレーションに ONTAP の機能のメリットを活用する堅牢なファーストパーティ製品を提供します。</block>
+  <block id="5d111e8a6885460b43ecf1f7abb6377e" category="section-title">SRM での ONTAP 9 の活用方法</block>
+  <block id="16d4ec242c9f020f3a1fade311c776ed" category="paragraph">SRM は、 ONTAP システムの高度なデータ管理テクノロジを活用して、 3 つの主要コンポーネントで構成される仮想アプライアンスである VMware vSphere 用 ONTAP ツールと統合します。</block>
+  <block id="d54038ba1f2a04a5b5f26c96627ae3e7" category="list-text">vCenter プラグイン（旧 Virtual Storage Console （ VSC ））は、 SAN と NAS のどちらを使用している場合でも、ストレージ管理と効率化機能の簡易化、可用性の向上、ストレージコストと運用オーバーヘッドの削減を実現します。データストアのプロビジョニングのベストプラクティスを使用して、 NFS 環境およびブロックストレージ環境用の ESXi ホスト設定を最適化します。以上のメリットのために、 ONTAP ソフトウェアを実行するシステムで vSphere を使用する場合はこのプラグインを推奨します。</block>
+  <block id="a106bb15d6dc2b11535ed4fefc81fbf4" category="list-text">VASA Provider for ONTAP は、 VMware vStorage APIs for Storage Awareness （ VASA ）フレームワークをサポートしています。VASA Provider では、 VM ストレージのプロビジョニングと監視に役立つように vCenter Server と ONTAP を接続します。VMware Virtual Volumes （ VVol ）のサポートと、ストレージ機能プロファイル（ VVol レプリケーション機能を含む）の管理、および個々の VM VVol のパフォーマンスの管理が可能になります。また、容量の監視やプロファイルへの準拠に関するアラームも生成されます。SRM と一緒に使用すると、 VASA Provider for ONTAP で VVOL ベースの仮想マシンをサポートできます。 SRM サーバに SRA アダプタをインストールする必要はありません。</block>
+  <block id="f2007951062862f5f0d593acbb23bcb4" category="list-text">SRA は SRM と一緒に使用され、従来の VMFS データストアと NFS データストアの本番サイトとディザスタリカバリサイト間での VM データのレプリケーションを管理します。また、 DR レプリカの無停止テストにも使用できます。検出、リカバリ、再保護のタスクを自動化します。Windows SRM サーバおよび SRM アプライアンス用の SRA サーバアプライアンスと SRA アダプタの両方が含まれています。</block>
+  <block id="8ccaa60ee78ecc93c4870b3b2ad15284" category="paragraph">SRM サーバに SRA アダプタをインストールして設定し、 VASA Provider で VVol 以外のデータストアを保護したり VVOL のレプリケーションを有効にしたりしたあとで、ディザスタリカバリ用に vSphere 環境を設定する作業を開始できます。</block>
+  <block id="0a1e25166326359cd5f50d0ab83e6a37" category="paragraph">SRA と VASA Provider には、 SRM サーバ用のコマンド / 制御インターフェイスが用意されており、 VMware 仮想マシン（ VM ）を含む ONTAP FlexVol や、 SRA を保護する SnapMirror レプリケーションを管理できます。</block>
+  <block id="38db855935949f86c5db7bfe7d49873e" category="paragraph">SRM 8.3 以降では、 SRM サーバへの新しい SRM VVol Provider 制御パスが導入され、 SRA を使用せずに vCenter サーバおよびその経由で VASA Provider に通信できるようになりました。これにより、 SRM サーバは緊密に統合するための完全な API を提供するため、以前よりもはるかに ONTAP クラスタの制御を活用できました。</block>
+  <block id="53e971f0dfb3ef96ca359dcb648176b9" category="paragraph">SRM は、ネットアップ独自の FlexClone テクノロジを使用して、 DR プランを無停止でテストし、 DR サイトの保護されたデータストアのクローンをほぼ瞬時に作成できます。SRM はサンドボックスを作成して安全にテストし、真の災害が発生した場合に組織とお客様を保護します。そのため、組織は災害時にフェイルオーバーを実行できます。</block>
+  <block id="04a8f82007ed4bec45053912a49b6f85" category="paragraph">実際に災害が発生した場合や、計画的な移行の場合でも、 SRM では、最終的な SnapMirror 更新（必要な場合）を使用して、データセットに最新の変更を送信できます。その後、ミラーを解除し、 DR ホストにデータストアをマウントします。この時点で、計画済みの戦略に基づいて、 VM の電源を任意の順序で自動的にオンにすることができます。</block>
+  <block id="b2560426a08ae6ceb167dad2bfb5e8ae" category="section-title">SRM と ONTAP などのユースケース：ハイブリッドクラウドと移行</block>
+  <block id="ed4c730bd8636c27d3eaa876c63b3d45" category="inline-link">Equinix 内の NetApp Private Storage</block>
+  <block id="b422e05bc5c6f52208b66ff51d718b9d" category="paragraph">SRM 環境に ONTAP の高度なデータ管理機能を統合することで、ローカルストレージオプションに比べて、拡張性とパフォーマンスが大幅に向上します。それだけではありませんが、ハイブリッドクラウドの柔軟性を備えています。ハイブリッドクラウドを使用すると、 FabricPool を使用して、未使用のデータブロックをハイパフォーマンスアレイから希望するハイパースケーラに階層化してコストを削減できます。これは、 NetApp StorageGRID などのオンプレミスの S3 ストアである可能性があります。また、 ONTAP Select （ CVO ）やを使用して、ソフトウェアで定義される Cloud Volumes ONTAP やクラウドベースの DR でエッジベースのシステムに SnapMirror を使用することもできます<block ref="37a666d3a37f1c4a8c4c8dba379664a4" category="inline-link-rx"></block> Amazon Web Services （ AWS ）、 Microsoft Azure 、 Google Cloud Platform （ GCP ）で、クラウド内に完全に統合されたストレージ、ネットワーク、コンピューティングサービスのスタックを構築できます。</block>
+  <block id="10ae334f731d3c4fabafa8017f7a3ab2" category="paragraph">FlexClone により、ストレージ設置面積がほぼゼロのクラウドサービスプロバイダーのデータセンター内でテストフェールオーバーを実行できます。組織を保護することで、かつてないほどコストを削減できます。</block>
+  <block id="12d0cbcf61df7df30bf9b020f6fbb051" category="paragraph">SRM は、 SnapMirror を使用して、計画的な移行を実行することもできます。これにより、 VM を 1 つのデータセンターから別のデータセンターに効率的に転送したり、独自のデータセンターや、任意の数のネットアップパートナーサービスプロバイダを介して VM を転送したりできます。</block>
+  <block id="a9b73ebef33c98ef5a1044177d2b49f3" category="summary">VMware vCenter Site Recovery Manager は、ディザスタリカバリ製品です。自動オーケストレーションを提供し、一元的なリカバリプランの無停止テストを提供して、仮想化されたすべてのアプリケーションのディザスタリカバリ管理を簡素化します。</block>
+  <block id="06f589670c0d0455912cc8bb70b78701" category="paragraph">Site Recovery Manager を NetApp ONTAP システムに導入することで、ディザスタリカバリのコストと複雑さを大幅に削減できます。ネットアップは、高性能で管理しやすく拡張性に優れたストレージアプライアンスと堅牢なソフトウェア製品により、 vSphere 環境をサポートする柔軟なストレージおよびデータ管理ソリューションを提供します。</block>
+  <block id="00549aec33ddcae6a708ed7368a7bcd0" category="paragraph">このガイドで紹介するベストプラクティスと推奨事項は、すべての解決策に当てはまるわけではありません。本ドキュメントには、 SRM DR 計画の計画、導入、管理のガイドラインを提供するベストプラクティスと推奨事項がまとめられています。VMware vCenter Site Recovery 環境をネットアップストレージ上に計画および導入する際は、ネットアップの VMware エキスパートにご相談ください。ネットアップの VMware エキスパートが、あらゆる vSphere 環境のニーズとニーズを迅速に特定し、それに応じてストレージの解決策を調整できます。</block>
+  <block id="ce4df831657d2621e80bbef9271c33cd" category="summary">従来の仮想アプライアンスからの移行に対応した ONTAP ツールには、豊富な新機能と上限があり、 VVOL が新たにサポートされるようになりました。</block>
+  <block id="45b1565c472fff4046d0f7ddbe1342f2" category="doc">SRM および ONTAP ツールの新機能</block>
+  <block id="116d20fc387d73c8e4a86e7998913947" category="section-title">vSphere および Site Recovery Manager の最新バージョン</block>
+  <block id="aa73b07f008975ca9fcabf87bfafb167" category="paragraph">SRM 8.3 以降と 9.7.1 以降の ONTAP ツールでは、 VMware vSphere 7 で実行されている VM を保護できるようになりました。</block>
+  <block id="96ca6fcc2ffdab3c06d0875be8d4fe29" category="paragraph">ネットアップは、約 20 年にわたり VMware との緊密なパートナーシップを共有し、できるだけ早く最新リリースのサポートを提供するよう努めています。ソフトウェアの最新の組み合わせについては、必ず NetApp Interoperability Matrix Tool （ IMT ）で確認してください。</block>
+  <block id="63fe9875fcf8108a4dca29a0795d8674" category="paragraph">NetApp IMT が見つかります<block ref="dd81e3609a71c92c2a90d9165ca7bb00" category="inline-link-rx"></block>。</block>
+  <block id="23a6222620917211381cf4455d9e0a83" category="section-title">VVol のサポート（ SRM でも SPBM が重要である理由）</block>
+  <block id="a36269071ceeb480e636654c4620f7fb" category="paragraph">8.3 リリースから、 SRM は VVol とアレイベースのレプリケーションを活用して、 Storage Policy-Based Management （ SPBM ；ストレージポリシーベースの管理）をサポートするようになりました。これを実現するために、 SRM サーバが更新され、 vCenter サーバの SMS サービスと通信して VASA 関連のタスクを実行する新しい SRM VVol プロバイダサービスが追加されました。</block>
+  <block id="4567f5576b4577c63b126cac3f6aa5fa" category="paragraph">このアーキテクチャのメリットの 1 つは、すべての処理に VASA を使用するため、 SRA が不要になったことです。</block>
+  <block id="6f1ad7cac2af0e3b92a3936efc393a0e" category="paragraph"><block ref="6f1ad7cac2af0e3b92a3936efc393a0e" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="e04031e1cecdb6732f91d44b204dbcf3" category="paragraph">SPBM は vSphere ツールボックスの強力なツールで、プライベートクラウド環境とハイブリッドクラウド環境の自動化フレームワークによって、シンプルで予測可能な一貫したストレージサービスを利用できます。SPBM では、多様な顧客層のニーズを満たすサービスクラスを定義できます。SRM では、堅牢な業界標準のディザスタリカバリオーケストレーションと自動化を必要とする重要なワークロードに対して、レプリケーション機能をお客様に提供できるようになりました。</block>
+  <block id="48e2854d95fac45929940abc72062193" category="section-title">vVol アーキテクチャ 2.3 では、アプライアンスベースの SRM サーバがサポートされます</block>
+  <block id="925c477f139cce0692e13946a7f75eac" category="paragraph">従来の Windows ベースのプラットフォームに加え、光子 OS ベースの SRM サーバもサポートされるようになりました。</block>
+  <block id="62c2c4203aebe081ddbc6cdd489f8ad7" category="paragraph">SRA アダプタを、希望する SRM サーバタイプに関係なくインストールできるようになりました。</block>
+  <block id="7cb1700928c008eb817bc79250cc9002" category="section-title">IPv6 のサポート</block>
+  <block id="ea9aacd1495949730de8eeab11e66459" category="paragraph">IPv6 が次の制限付きでサポートされるようになりました。</block>
+  <block id="d6d7f3d43de975c07655ebba1936867a" category="list-text">vCenter 6.7 以降</block>
+  <block id="eb26ee1a20fe3dbde98204ec8b3ab838" category="list-text">SRM 8.2 （ 8.1 、 8.3 、および 8 ）ではサポートされていません。4 がサポートされています）</block>
+  <block id="918d32b75f0ab883abba3a8dc0c3ae8d" category="inline-link">Interoperability Matrix Tool で確認してください</block>
+  <block id="02e7e71042609d3158020ab7befe45c6" category="list-text">を確認します<block ref="218f4ad7153f69cdc5467065434cd2f0" category="inline-link-rx"></block> 最新の認定バージョンについては、を参照してください。</block>
+  <block id="e887aed8f9c3dbecd37e8896d96b6637" category="section-title">パフォーマンスの向上</block>
+  <block id="3efd4ca8de094abf49f004186cd70fff" category="paragraph">SRM タスクを実行するには、運用パフォーマンスが重要な要件です。最新の RTO と RPO の要件を満たすために、 SRA と ONTAP ツールで 2 つの新しい機能強化が行われました。</block>
+  <block id="bd403c539a0c414afacd7477bf3d311f" category="list-text">* 同時再保護処理のサポート。 * この機能を有効にすると、最初に SRA 9.7.1 で導入された、 2 つ以上のリカバリプランに対して再保護を同時に実行できるため、フェイルオーバーまたは移行後のデータストアの再保護に要する時間を短縮し、 RTO と RPO のパラメータ内に抑えることができます。</block>
+  <block id="f63b947f655a5aee2cf69d4f30d7f96b" category="list-text">* ONTAP ツール 9.8 では、 NAS 専用に最適化された新しいモードが追加されました。 * SVM を対象としたアカウントを使用して、 NFS ベースのデータストアのみで ONTAP クラスタに接続している場合は、サポートされている環境でピークパフォーマンスが得られるように NAS 専用に最適化モードを有効</block>
+  <block id="4a4842d7448ef71eb69b013e560b18bb" category="section-title">拡張性の向上</block>
+  <block id="26738e8d40ae8035805f13bdbf185c30" category="paragraph">SRM 8.3 以降で使用する ONTAP ツールでは、 SRA で最大 500 個の保護グループ（ PG ）がサポートされるようになりました。</block>
+  <block id="b56265ceb6311e42003e668438136a59" category="section-title">同期レプリケーション</block>
+  <block id="96cb4d41ca97bd9d3d446984d3170a57" category="paragraph">待望の新機能として、 ONTAP 9.5 以降を搭載した SnapMirror Synchronous （ SM-S ）があります。この機能は、ミッションクリティカルなアプリケーションに対して、ボリュームレベルで RPO ゼロのデータレプリケーション解決策を提供します。SM-S には、 ONTAP ツール 9.8 以降が必要です。</block>
+  <block id="b9832b10a87d0c3793ed3b413ee1d839" category="section-title">REST API をサポート</block>
+  <block id="0065ce57adc813187a8e9c640ba6223a" category="paragraph">SRA サーバの設定を REST API で管理できるようになりました。自動化ワークフローの構築を支援するために Swagger UI が追加されていますまた 'https://&lt;appliance&gt;:8143/api/rest/swagger-ui.html#/` にある ONTAP ツール・アプライアンスからも参照できます</block>
+  <block id="160f88ca0bed5b24e94c809f4e22f1e7" category="summary">ONTAP 9 では、クラスタの物理コンポーネントはクラスタ管理者には見えますが、クラスタを使用しているアプリケーションやホストからは直接見えません。</block>
+  <block id="89fafdb11a7e8cd8abebb1d4df053dad" category="doc">レプリケーショントポロジ</block>
+  <block id="be01acd2f018d38f9446f06b99ee4a2a" category="paragraph">ONTAP 9 では、クラスタの物理コンポーネントはクラスタ管理者には見えますが、クラスタを使用しているアプリケーションやホストからは直接見えません。物理コンポーネントは共有リソースのプールを提供し、このリソースプールから論理クラスタリソースが構築されます。アプリケーションとホストは、ボリュームと LIF を含む SVM 経由でのみデータにアクセスします。</block>
+  <block id="7758fc02779ee5917b0a09ee22b52221" category="paragraph">VMware vCenter Site Recovery Manager では、各 NetApp SVM がアレイとして扱われます。SRM は、特定のアレイ間（または SVM から SVM ）のレプリケーションレイアウトをサポートしています。</block>
+  <block id="58c0b55a67f4331cc49b073a7183e06c" category="paragraph">1 つの VM が、次の理由から、複数の SRM アレイ上で仮想マシンディスク（ VMDK ）または RDM を所有することはできません。</block>
+  <block id="880aeda0b58c0b30120b6319ae5f3beb" category="list-text">SRM は SVM のみを認識し、個々の物理コントローラは認識しません。</block>
+  <block id="6f55124e085dbeb640e4cb8ad2c97905" category="list-text">SVM は、クラスタ内の複数のノードにまたがる LUN とボリュームを制御できます。</block>
+  <block id="39d9903201320a83d45d3b36d512f051" category="cell">ベストプラクティス</block>
+  <block id="d86019fe4ba86b184ac71cf24a22f0c6" category="cell">サポートされるかどうかを判断するには、このルールに注意してください。 SRM と NetApp SRA を使用して VM を保護するには、 VM のすべての部分が 1 つの SVM 上にのみ存在する必要があります。このルールは、保護対象サイトとリカバリサイトの両方に適用されます。</block>
+  <block id="2e4472d35f80aa8b7eca52ae3dd43dc6" category="section-title">サポートされる SnapMirror レイアウト</block>
+  <block id="d070ad9d8397892aa7f317cbb9046661" category="paragraph">次の図は、 SRM と SRA でサポートされる SnapMirror 関係のレイアウトシナリオを示しています。レプリケートされたボリューム内の各 VM は、各サイトの 1 つの SRM アレイ（ SVM ）上のデータのみを所有します。</block>
+  <block id="39d3085abe6ccb914d8535de8a5f3e37" category="paragraph"><block ref="39d3085abe6ccb914d8535de8a5f3e37" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="1ae7670cf947a397bdf6a882fbcc912a" category="paragraph"><block ref="1ae7670cf947a397bdf6a882fbcc912a" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="111d3212464dba203cbd675a0338dcbc" category="paragraph"><block ref="111d3212464dba203cbd675a0338dcbc" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="c5dc3a606b05b41db22793ed3c1a72db" category="paragraph"><block ref="c5dc3a606b05b41db22793ed3c1a72db" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="86cf5bd2bdb1b1d67f8f907f41099509" category="section-title">サポートされている Array Manager レイアウト</block>
+  <block id="aacc8f18d659f75715d91a983e872233" category="paragraph">次のスクリーンショットに示すように、 SRM でアレイベースレプリケーション（ ABR ）を使用すると、保護グループは単一のアレイペアに分離されます。このシナリオでは、リカバリサイトで「 S VM1 」と「 S VM2 」は「 S VM3 」と「 S VM4 」とピア関係にあります。ただし、保護グループを作成するときに選択できるアレイペアは 2 つのうちの 1 つだけです。</block>
+  <block id="68a1b289711a591ed50627014cd01ce9" category="paragraph"><block ref="68a1b289711a591ed50627014cd01ce9" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="1ceb46f3e1c6c7995de4ec5f05601227" category="section-title">サポートされないレイアウトです</block>
+  <block id="611b9b35ac984f20e6594baec9181dbf" category="paragraph">サポート対象外の構成では、個々の VM が所有する複数の SVM にデータ（ VMDK または RDM ）があります。次の図に示す例では、「 VM1 」には 2 つの SVM 上のデータがあるため、 SRM で保護するように「 VM1 」を設定することはできません。</block>
+  <block id="5c251a65e8394fbeaf104ba1a1cad2e1" category="paragraph"><block ref="5c251a65e8394fbeaf104ba1a1cad2e1" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="f5f5fe64e0e9d0ae7ce2a0777d0ccf62" category="paragraph"><block ref="f5f5fe64e0e9d0ae7ce2a0777d0ccf62" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="69851ac8c2fa81b32799efc8522798d5" category="paragraph">1 つのネットアップボリュームを 1 つのソース SVM から同じ SVM または異なる SVM の複数のデスティネーションにレプリケートするレプリケーション関係は、 SnapMirror ファンアウトと呼ばれます。SRM ではファンアウトはサポートされていません。次の図の例では 'VM1 は SnapMirror で 2 つの異なる場所にレプリケートされるため 'SRM で保護するように構成できません</block>
+  <block id="688890bdbdfd2d73a05a09883f3c4b40" category="paragraph"><block ref="688890bdbdfd2d73a05a09883f3c4b40" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="3f88384b0d5cdcdc25895c644126c1b0" category="section-title">SnapMirror カスケード</block>
+  <block id="7ebde774ad43c45667d5544308a6d688" category="paragraph">SnapMirror でソースボリュームをデスティネーションボリュームにレプリケートし、そのデスティネーションボリュームを SnapMirror で別のデスティネーションボリュームにレプリケートする SnapMirror 関係のカスケードを、 SRM ではサポートしていません。次の図に示すシナリオでは、 SRM を使用してサイト間のフェイルオーバーを実行することはできません。</block>
+  <block id="2990fc44e9ba827a397e96e1c278a02a" category="paragraph"><block ref="2990fc44e9ba827a397e96e1c278a02a" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="8bd15e818d377a0a5cf6ebc429555f79" category="section-title">SnapMirror と SnapVault</block>
+  <block id="d440734d1f5d9c6e59aa97f7cbbcd525" category="paragraph">NetApp SnapVault ソフトウェアを使用すると、ネットアップストレージシステム間でエンタープライズデータをディスクベースでバックアップできます。SnapVault と SnapMirror は同じ環境内に共存できますが、 SRM でサポートされているのは、 SnapMirror 関係のフェイルオーバーだけです。</block>
+  <block id="7878dfbf4b6ad3bc60d095cf89d79202" category="admonition">NetApp SRA は、「 mirror vault 」ポリシータイプをサポートします。</block>
+  <block id="883e69a285ae2d5fd23c80cd29285804" category="paragraph">SnapVault は ONTAP 8.2 で一から再構築されました。以前の Data ONTAP 7-Mode で使用されていたユーザは共通点に注意する必要がありましたが、このバージョンの SnapVault では主に拡張機能が追加されています。大きな進歩の 1 つは、 SnapVault 転送時にプライマリデータの Storage Efficiency を維持できることです。</block>
+  <block id="9bc21373e0e299579a7ac86dcd4f513d" category="paragraph">アーキテクチャの重要な変更点は、 7-Mode SnapVault の場合と同様に、 ONTAP 9 の SnapVault でも qtree レベルではなくボリュームレベルでレプリケートされる点です。つまり、 SnapVault 関係のソースはボリュームでなければならず、そのボリュームは SnapVault セカンダリシステム上の独自のボリュームにレプリケートされる必要があります。</block>
+  <block id="f7b20cbc14027c7711d53d03a84f31af" category="paragraph">SnapVault を使用する環境では、具体的にはプライマリストレージシステムに Snapshot コピーという名前が作成されます。実装した構成に応じて、指定した Snapshot コピーは、 SnapVault スケジュールまたは NetApp Active IQ Unified Manager などのアプリケーションによってプライマリシステム上に作成できます。プライマリシステムで作成された名前付きの Snapshot コピーは、 SnapMirror デスティネーションにレプリケートされ、そこから SnapVault デスティネーションに保存されます。</block>
+  <block id="5dd37b7cd36f7d38ba2e6a63c603be4c" category="paragraph">ソースボリュームは、ボリュームが DR サイトの SnapMirror デスティネーションにレプリケートされるカスケード構成で作成でき、そこから SnapVault デスティネーションに保存されます。ファンアウト関係では、一方のデスティネーションが SnapMirror デスティネーション、もう一方が SnapVault デスティネーションであるソースボリュームも作成できます。ただし、 SRM フェイルオーバーまたはレプリケーションの反転時に、 SRA は、 SnapMirror デスティネーションボリュームを SnapVault のソースとして使用するように SnapVault 関係を自動では再設定しません。</block>
+  <block id="5bc66b9c84b3f7cc0b375e729376b68d" category="inline-link">TR-4015 『 SnapMirror Configuration Best Practice Guide for ONTAP 9 』</block>
+  <block id="0d510e96259254d285c6aaeb8458f45d" category="paragraph">SnapMirror および SnapVault for ONTAP 9 の最新情報については、を参照してください<block ref="32e7c991f675bf983c547a2a174c2caf" category="inline-link-rx"></block></block>
+  <block id="75f8a2d99eea9f336120aec69d8c1010" category="cell">SnapVault と SRM を同じ環境で使用する場合、通常は DR サイトの SnapMirror デスティネーションから SnapVault バックアップを実行する、 SnapMirror から SnapVault へのカスケード構成を使用することを推奨します。災害が発生すると、この構成によってプライマリサイトにアクセスできなくなります。リカバリサイトに SnapVault デスティネーションを配置すると、フェイルオーバー後に SnapVault バックアップを再設定して、リカバリサイトで SnapVault バックアップを継続できるようになります。</block>
+  <block id="e082a67e3ddd7f4f92096536440cbb34" category="paragraph">VMware 環境では、各データストアに Universal Unique Identifier （ UUID ）が割り当てられ、各 VM には一意の Managed Object ID （ MOID ）が割り当てられます。SRM は、フェイルオーバーやフェイルバックの実行時にこれらの ID を維持しません。SRM はフェイルオーバーでデータストア UUID と VM MOID を維持しないため、これらの ID に依存するアプリケーションは SRM フェイルオーバーのあとに再設定する必要があります。たとえば、 SnapVault レプリケーションを vSphere 環境と調整する NetApp Active IQ Unified Manager などがあります。</block>
+  <block id="657a41cce55646ab17754ac1427970af" category="paragraph">次の図に、 SnapMirror から SnapVault へのカスケード構成を示します。SnapVault デスティネーションがプライマリサイトの停止の影響を受けない DR サイトまたは第 3 のサイトにある場合、フェイルオーバー後にバックアップを続行できるように環境を再設定できます。</block>
+  <block id="b56afb9a43332c671116b9fa3d597867" category="paragraph"><block ref="b56afb9a43332c671116b9fa3d597867" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="e068178460f103498576eac8ddb7fb82" category="paragraph">次の図は、 SRM を使用して SnapMirror レプリケーションをプライマリサイトに反転したあとの構成を示しています。SnapMirror ソースから SnapVault バックアップが実行されるように環境が再設定されている。このセットアップは、 SnapMirror SnapVault のファンアウト構成です。</block>
+  <block id="0ffa07ffd89b136d0ed8f2ac5ebcabb8" category="paragraph"><block ref="0ffa07ffd89b136d0ed8f2ac5ebcabb8" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="b4607a4ee7e1830ab6ba0007df206956" category="paragraph">SRM でフェイルバックを実行し、 SnapMirror 関係が再度反転されると、本番環境のデータはプライマリサイトに戻ります。SnapMirror と SnapVault のバックアップにより、 DR サイトへのフェイルオーバー前と同じ方法でこのデータを保護できるようになりました。</block>
+  <block id="63fd1f18d5d53fa97fd05a7fd96090b4" category="section-title">Site Recovery Manager 環境での qtree の使用</block>
+  <block id="2d88570ceb2de0d8699a068b0140454b" category="paragraph">qtree は、 NAS のファイルシステムクォータを適用可能な特殊なディレクトリです。ONTAP 9 では qtree を作成でき、 SnapMirror でレプリケートされたボリュームに配置できます。ただし、 SnapMirror では、個々の qtree のレプリケーションまたは qtree レベルのレプリケーションは実行できません。すべての SnapMirror レプリケーションは、ボリュームレベルで実行されます。このため、 SRM で qtree を使用することは推奨されません。</block>
+  <block id="345cb3f040f9f7f3f1a4261ed260aa79" category="section-title">FC と iSCSI の混在環境</block>
+  <block id="a60b166c2b69b4fdfbb733dc2193668a" category="paragraph">サポート対象の SAN プロトコル（ FC 、 FCoE 、 iSCSI ）の場合、 ONTAP 9 は LUN サービスを提供します。 LUN サービスの提供とは、 LUN を作成して、接続されているホストにマッピングする機能です。クラスタは複数のコントローラで構成されるため、個々の LUN へのマルチパス I/O で管理される論理パスが複数あります。ホスト上で Asymmetric Logical Unit Access （ ALUA ；非対称論理ユニットアクセス）が使用されるため、 LUN への最適なパスが選択され、データ転送用にアクティブになります。LUN への最適パスが変わった場合（格納先ボリュームが移動された場合など）、 ONTAP 9 は自動的にこの変更を認識し、システムを停止することなく調整します。最適パスが利用できなくなった場合、 ONTAP は無停止で他の利用可能なパスに切り替えることができます。</block>
+  <block id="b9921ac732e72656bc2836f83bb09522" category="paragraph">VMware SRM と NetApp SRA の環境では、一方のサイトで FC プロトコルを使用し、もう一方のサイトで iSCSI プロトコルを使用できます。ただし、 FC 接続のデータストアと iSCSI 接続のデータストアを同じ ESXi ホストで混在させたり、同じクラスタ内の別のホストで使用したりすることはできません。この構成は SRM ではサポートされていません。 SRM フェイルオーバーまたはテストフェイルオーバーの実行中、 SRM は要求に応じて ESXi ホストのすべての FC イニシエータと iSCSI イニシエータを含めます。</block>
+  <block id="fccd44a96243e459128798803dca70aa" category="cell">SRM と SRA では、保護サイトとリカバリサイト間での FC プロトコルと iSCSI プロトコルの混在をサポートしています。ただし、各サイトで FC または iSCSI のどちらかのプロトコルを 1 つだけ使用し、同じサイトで両方のプロトコルを使用することはできません。1 つのサイトに FC プロトコルと iSCSI プロトコル両方を設定する必要がある場合、一部のホストで iSCSI を使用し、他のホストで FC を使用することを推奨します。また、 VM がどちらか一方のホストグループまたは他方のホストグループにフェイルオーバーするように設定されるように、 SRM リソースマッピングを設定することも推奨します。</block>
+  <block id="1918f1bc0ea91d0e5d8e37878d5ab562" category="sidebar">NetApp ONTAP 9 を搭載した VMware Site Recovery Manager</block>
 </blocks>
