@@ -1,0 +1,784 @@
+---
+sidebar: sidebar 
+permalink: ai/runai-ld_lane_detection_distributed_training_with_run_ai.html 
+keywords: azure, lane, detection, training, case, tusimple, dataset, aks, subnet, virtual, network, run, ai, deploy, install, download, process, back, end, storage, horovod, snapshot 
+summary: このセクションでは、ラン AI オーケストレーションツールを使用して大規模なレーン検出分散トレーニングを実行するためのプラットフォームの設定について詳しく説明します。 
+---
+= レーン検出–実行による分散トレーニング： AI
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+このセクションでは、ランオーケストレーションツール AI を使用して大規模なレーン検出分散トレーニングを実行するためのプラットフォームの設定について詳しく説明します。ここでは、すべての解決策要素のインストールと、前述のプラットフォームでの配布トレーニングジョブの実行について説明します。ML のバージョン管理には、 NetApp SnapshotTM を使用し、 RUN ： AI の実験によってデータとモデルの再現性を達成しました。ML のバージョン管理は、モデルの追跡、チームメンバー間での作業の共有、結果の再現性、生産への新しいモデルバージョンのローリング、データソースの作成に重要な役割を果たします。ネットアップの ML バージョン管理（ Snapshot ）は、各実験に関連するデータ、トレーニング済みモデル、ログのポイントインタイムバージョンをキャプチャできます。豊富な API サポートにより、実行中の AI プラットフォームとの統合が容易になります。トレーニングの状態に基づいてイベントをトリガーするだけで済みます。また、コードや Kubernetes （ Kubernetes ）上で実行されているコンテナに何も変更を加えずに、実験全体の状態をキャプチャする必要もあります。
+
+最後に、このテクニカルレポートは、 AKS を介して複数の GPU 対応ノードでパフォーマンスを評価する方法をラップアップします。
+
+
+
+== TuSimple データセットを使用したレーン検出のユースケースに関する分散トレーニング
+
+このテクニカルレポートでは、レーン検出用の TuSimple データセットに対して分散トレーニングを実行します。Horovod は、 AKS を使用して Kubernetes クラスタ内の複数の GPU ノードでデータ分散トレーニングを同時に実施するためのトレーニングコードで使用されます。コードは、 TuSimple データのダウンロードおよび処理用のコンテナイメージとしてパッケージされています。処理されたデータは、 NetApp Trident プラグインによって割り当てられた永続ボリュームに格納されます。トレーニングでは、 1 つ以上のコンテナイメージが作成され、データのダウンロード時に作成された永続ボリュームに格納されたデータが使用されます。
+
+データとトレーニングのジョブを送信するには、 run ： AI を使用してリソースの割り当てと管理をオーケストレーションします。Run ： AI では、 Horovod に必要な Message Passing Interface （ MPI ；メッセージパッシングインターフェイス）処理を実行できます。このレイアウトでは、複数の GPU ノードが相互に通信して、各トレーニング mini バッチの実行後にトレーニングの重みを更新できます。また、 UI や CLI からトレーニングを監視できるため、実験の進捗状況を簡単に監視できます。
+
+NetApp Snapshot はトレーニングコードに統合されており、あらゆる実験に対応するデータの状態とトレーニング済みモデルをキャプチャします。この機能を使用すると、使用するデータとコードのバージョン、および生成された関連するトレーニング済みモデルを追跡できます。
+
+
+
+== AK のセットアップとインストール
+
+AKS クラスタのセットアップとインストールは、に進みます https://docs.microsoft.com/azure/aks/kubernetes-walkthrough-portal["AKS クラスタを作成します"^]。次に、次の一連の手順を実行します。
+
+. ノードのタイプ（システム（ CPU ）ノードまたはワーカー（ GPU ）ノードのいずれであるか）を選択するときは、次のいずれかを選択します。
++
+.. 「 agentpool 」という名前のプライマリ・システム・ノードを 'Standard _ DS2_v2' サイズに追加しますデフォルトの 3 つのノードを使用します。
+.. 'Standard_NC6s_v3' プール・サイズを使用して 'Worker ノード gpupool' を追加しますGPU ノードには最小 3 ノードを使用します。
++
+image:runai-ld_image3.png["エラー：グラフィックイメージがありません"]
+
++
+
+NOTE: 導入には 5 ～ 10 分かかります。
+
+
+
+. 導入が完了したら、 Connect to Cluster （クラスタへの接続）をクリックします。新しく作成した AKS クラスタに接続するには、ローカル環境（ラップトップ / PC ）から Kubernetes コマンドラインツールをインストールします。にアクセスします https://kubernetes.io/docs/tasks/tools/install-kubectl/["ツールをインストールします"^] OS に応じてインストールします。
+. https://docs.microsoft.com/cli/azure/install-azure-cli["ローカル環境に Azure CLI をインストールします"^]。
+. 端末から AKS クラスタにアクセスするには、まず「 AZ login 」と入力し、クレデンシャルを入力します。
+. 次の 2 つのコマンドを実行します。
++
+....
+az account set --subscription xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxxxx
+aks get-credentials --resource-group resourcegroup --name aksclustername
+....
+. Azure CLI で、次のコマンドを入力します。
++
+....
+kubectl get nodes
+....
++
+
+NOTE: ここで示したように 6 つのノードがすべて稼働していれば、 AKS クラスタをローカル環境に接続することができます。
+
++
+image:runai-ld_image4.png["エラー：グラフィックイメージがありません"]
+
+
+
+
+
+== Azure NetApp Files の委譲されたサブネットを作成します
+
+Azure NetApp Files の委任されたサブネットを作成するには、次の手順を実行します。
+
+. Azure ポータル内の仮想ネットワークに移動します。新しく作成した仮想ネットワークを検索します。この例では、 AKs-vnet などのプレフィックスが必要です。仮想ネットワークの名前をクリックします。
++
+image:runai-ld_image5.png["エラー：グラフィックイメージがありません"]
+
+. [ サブネット ] をクリックし、上部のツールバーから [ サブネット + ] を選択します。
++
+image:runai-ld_image6.png["エラー：グラフィックイメージがありません"]
+
+. サブネットに「 ANF 」などの名前を付け、サブネットの委任の見出しの下で、 Microsoft.NetApp/volumes を選択します。他のものは変更しないでください。[OK] をクリックします。
++
+image:runai-ld_image7.png["エラー：グラフィックイメージがありません"]
+
+
+
+Azure NetApp Files ボリュームはアプリケーションクラスタに割り当てられ、 Kubernetes で永続ボリューム要求（ PVC ）として使用されます。この割り当てにより、ボリュームをさまざまなサービスに柔軟にマッピングし、 Jupyter ノートブック PC やサーバーレス関数などに対応することができます
+
+サービスのユーザは、プラットフォームのストレージをさまざまな方法で消費できます。Azure NetApp Files の主な利点は次のとおりです。
+
+* スナップショットを使用できるようになります。
+* Azure NetApp Files ボリュームに大量のデータを格納できます。
+* Azure NetApp Files ボリュームのモデルを大量のファイルセットで実行する場合は、そのモデルのパフォーマンス向上が必要になります。
+
+
+
+
+== Azure NetApp Files セットアップ
+
+Azure NetApp Files のセットアップを完了するには、まず、の説明に従って を設定する必要があります https://docs.microsoft.com/azure/azure-netapp-files/azure-netapp-files-quickstart-set-up-account-create-volumes["クイックスタート： Azure NetApp Files をセットアップし、 NFS ボリュームを作成します"^]。
+
+ただし、 Trident からボリュームを作成するため、 Azure NetApp Files 用の NFS ボリュームを作成する手順は省略できます。続行する前に、次のものがあることを確認してください。
+
+. https://docs.microsoft.com/azure/azure-netapp-files/azure-netapp-files-register["Azure NetApp Files とネットアップのリソースプロバイダに登録（ Azure Cloud Shell を使用）"^]。
+. https://docs.microsoft.com/azure/azure-netapp-files/azure-netapp-files-create-netapp-account["Azure NetApp Files でアカウントを作成"^]。
+. https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-set-up-capacity-pool["容量プールをセットアップする"^] （必要に応じて、 4TiB Standard または Premium 以上）。
+
+
+
+
+== AKS 仮想ネットワークおよび Azure NetApp Files 仮想ネットワークのピアリング
+
+次に、次の手順に従って、 Azure NetApp Files VNet とともに AKS 仮想ネットワーク（ VNet ）のピア関係を設定します。
+
+. Azure ポータル上部の検索ボックスに「 virtual networks 」と入力します。
+. vnet AK - vnet-name をクリックして、検索フィールドにピアを入力します。
+. + Add をクリックして、次の表に示す情報を入力します。
++
+|===
+| フィールド | Value または概要のいずれかです 
+
+
+| ピアリングリンク名 | AKs-vnet-name_-to-anf 
+
+
+| サブスクリプション ID | ピアリング先の Azure NetApp Files VNet のサブスクリプション 
+
+
+| VNet ピアリングパートナー | Azure NetApp Files VNet の略 
+|===
++
+
+NOTE: デフォルトでは、アスタリスク以外のすべてのセクションはそのままにしておきます
+
+. [Add] または [OK] をクリックして、仮想ネットワークにピアリングを追加します。
+
+
+詳細については、を参照してください https://docs.microsoft.com/azure/virtual-network/tutorial-connect-virtual-networks-portal["仮想ネットワークピアリングを作成、変更、削除します"^]。
+
+
+
+== Trident
+
+Trident は、アプリケーションコンテナの永続的ストレージ向けにネットアップが管理しているオープンソースプロジェクトです。Trident は、ポッドとして実行される外部プロビジョニングコントローラとして実装され、ボリュームを監視し、プロビジョニングプロセスを完全に自動化します。
+
+NetApp Trident では、トレーニングデータセットとトレーニング済みモデルを格納する永続的ボリュームを作成して接続することで、 Kubernetes との円滑な統合が可能です。データサイエンティストやデータエンジニアは、データセットを手動で保存して管理する手間をかけることなく、 Kubernetes クラスタを簡単に使用できます。Trident では、論理的な API 統合を通じてデータ管理関連のタスクが統合されるため、データサイエンティストは新しいデータプラットフォームの管理を習得する必要もありません。
+
+
+
+=== Trident をインストール
+
+Trident ソフトウェアをインストールするには、次の手順を実行します。
+
+. https://helm.sh/docs/intro/install/["最初に Helm をインストールします"^]。
+. Trident 21.01.1 インストーラをダウンロードして展開します。
++
+....
+wget https://github.com/NetApp/trident/releases/download/v21.01.1/trident-installer-21.01.1.tar.gz
+tar -xf trident-installer-21.01.1.tar.gz
+....
+. ディレクトリを 'trident-installer' に変更します
++
+....
+cd trident-installer
+....
+. tridentctl' をシステムの $path.` のディレクトリにコピーします
++
+....
+cp ./tridentctl /usr/local/bin
+....
+. Helm を使用して Kubernetes クラスタに Trident をインストールします。
++
+.. ディレクトリを Helm ディレクトリに変更します。
++
+....
+cd helm
+....
+.. Trident をインストール
++
+....
+helm install trident trident-operator-21.01.1.tgz --namespace trident --create-namespace
+....
+.. Trident ポッドのステータスを通常の Kubernetes クラスタの方法で確認します。
++
+....
+kubectl -n trident get pods
+....
+.. すべてのポッドが稼働中の場合は、 Trident がインストールされているので移行を推奨します。
+
+
+
+
+
+
+== Azure NetApp Files のバックエンドとストレージクラスをセットアップする
+
+Azure NetApp Files バックエンドとストレージクラスをセットアップするには、次の手順を実行します。
+
+. ホームディレクトリに切り替えます。
++
+....
+cd ~
+....
+. をクローニングします https://github.com/dedmari/lane-detection-SCNN-horovod.git["プロジェクトリポジトリ"^] lane -detection -SCNN-horovod`
+. 'trident-config' ディレクトリに移動します
++
+....
+cd ./lane-detection-SCNN-horovod/trident-config
+....
+. Azure サービスの原則を作成します（サービスの原則は、 Trident が Azure と通信して Azure NetApp Files リソースにアクセスする方法です）。
++
+....
+az ad sp create-for-rbac --name
+....
++
+出力は次の例のようになります。
+
++
+....
+{
+  "appId": "xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+   "displayName": "netapptrident",
+    "name": "http://netapptrident",
+    "password": "xxxxxxxxxxxxxxx.xxxxxxxxxxxxxx",
+    "tenant": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx"
+ }
+....
+. Trident のバックエンド JSON ファイルを作成します。
+. 任意のテキストエディタを使用して 'anf-backend.json ファイル内の下の表の次のフィールドに入力します
++
+|===
+| フィールド | 価値 
+
+
+| サブスクリプション ID | お客様の Azure サブスクリプション ID 
+
+
+| tenantID のこと | Azure テナント ID （前の手順での AZ AD SP の出力から取得） 
+
+
+| ClientID | 自分の appID （前のステップでの AZ 広告 SP の出力から） 
+
+
+| clientSecret | パスワード（前の手順での AZ AD SP の出力からの） 
+|===
++
+ファイルは次の例のようになります。
+
++
+....
+{
+    "version": 1,
+    "storageDriverName": "azure-netapp-files",
+    "subscriptionID": "fakec765-4774-fake-ae98-a721add4fake",
+    "tenantID": "fakef836-edc1-fake-bff9-b2d865eefake",
+    "clientID": "fake0f63-bf8e-fake-8076-8de91e57fake",
+    "clientSecret": "SECRET",
+    "location": "westeurope",
+    "serviceLevel": "Standard",
+    "virtualNetwork": "anf-vnet",
+    "subnet": "default",
+    "nfsMountOptions": "vers=3,proto=tcp",
+    "limitVolumeSize": "500Gi",
+    "defaults": {
+    "exportRule": "0.0.0.0/0",
+    "size": "200Gi"
+}
+....
+. 構成ファイルとして 'anf-backend.json を使用して 'trident' 名前空間に Azure NetApp Files バックエンドを作成するように Trident に指示します
++
+....
+tridentctl create backend -f anf-backend.json -n trident
+....
+. ストレージクラスを作成します。
++
+.. k8 ユーザは、ストレージクラスを名前で指定する PVC を使用してボリュームをプロビジョニングします。次のコマンドを使用して ' 前の手順で作成した Azure NetApp Files バックエンドを参照するストレージ・クラス 'azurenetappfiles' を作成するよう 'Kubernetes クラスタに指示します
++
+....
+kubectl create -f anf-storage-class.yaml
+....
+.. 次のコマンドを使用して、ストレージクラスが作成されたことを確認します。
++
+....
+kubectl get sc azurenetappfiles
+....
++
+出力は次の例のようになります。
+
++
+image:runai-ld_image8.png["エラー：グラフィックイメージがありません"]
+
+
+
+
+
+
+
+== ボリューム Snapshot コンポーネントを AKS に導入してセットアップします
+
+適切なボリューム Snapshot コンポーネントがあらかじめクラスタにインストールされていない場合は、次の手順を実行して、これらのコンポーネントを手動でインストールできます。
+
+
+NOTE: AK 1.18.14 には Snapshot コントローラが事前にインストールされていません。
+
+. 次のコマンドを使用して、スナップショットベータ版の CRD をインストールします。
++
+....
+kubectl create -f https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/release-3.0/client/config/crd/snapshot.storage.k8s.io_volumesnapshotclasses.yaml
+kubectl create -f https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/release-3.0/client/config/crd/snapshot.storage.k8s.io_volumesnapshotcontents.yaml
+kubectl create -f https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/release-3.0/client/config/crd/snapshot.storage.k8s.io_volumesnapshots.yaml
+....
+. GitHub の次のドキュメントを使用して、 Snapshot Controller をインストールします。
++
+....
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/release-3.0/deploy/kubernetes/snapshot-controller/rbac-snapshot-controller.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/release-3.0/deploy/kubernetes/snapshot-controller/setup-snapshot-controller.yaml
+....
+. ボリュームスナップショットを作成する前に 'K8s'volumesnapshotclass' を設定します https://netapp-trident.readthedocs.io/en/stable-v20.01/kubernetes/concepts/objects.html["ボリューム Snapshot クラス"^] セットアップが完了している必要があります。Azure NetApp Files のボリューム Snapshot クラスを作成し、ネットアップの Snapshot テクノロジを使用して ML のバージョン管理を実現します。volumesnapshotclass NetApp-csi-snapclass' を作成し ' 次のようにデフォルトの ` volumesnapshotclass 」に設定します
++
+....
+kubectl create -f netapp-volume-snapshot-class.yaml
+....
++
+出力は次の例のようになります。
+
++
+image:runai-ld_image9.png["エラー：グラフィックイメージがありません"]
+
+. 次のコマンドを使用して、ボリュームの Snapshot コピークラスが作成されたことを確認します。
++
+....
+kubectl get volumesnapshotclass
+....
++
+出力は次の例のようになります。
+
++
+image:runai-ld_image10.png["エラー：グラフィックイメージがありません"]
+
+
+
+
+
+== 「 AI Installation 」を実行します
+
+Run ： AI をインストールするには、次の手順を実行します。
+
+. https://docs.run.ai/Administrator/Cluster-Setup/cluster-install/["Run ： AI クラスタを AKS にインストールします"^]。
+. app.runai.ai にアクセスし、 [ 新しいプロジェクトの作成 ] をクリックして、レーン検出という名前を付けます。'runai' で始まる名前空間を Kubernetes クラスタに作成し ' そのあとにプロジェクト名を付けますこの場合、作成される名前空間は runai-lane detection になります。
++
+image:runai-ld_image11.png["エラー：グラフィックイメージがありません"]
+
+. https://docs.run.ai/Administrator/Cluster-Setup/cluster-install/["インストール実行： AI CLI"^]。
+. ターミナルで、次のコマンドを使用して、 LANE 検出をデフォルトの実行として AI プロジェクトに設定します。
++
+....
+`runai config project lane-detection`
+....
++
+出力は次の例のようになります。
+
++
+image:runai-ld_image12.png["エラー：グラフィックイメージがありません"]
+
+. Create ClusterRole and ClusterRoleBinding for the project namespace (`lane detection など ) 」という名前空間に属するデフォルトのサービスアカウントには ' ジョブの実行中に "volumeSnapshot" 操作を実行する権限があります
++
+.. 次のコマンドを使用して、名前空間を一覧表示し、「 runai-lane -detection 」が存在することを確認します。
++
+....
+kubectl get namespaces
+....
++
+次のような出力が表示されます。
+
++
+image:runai-ld_image13.png["エラー：グラフィックイメージがありません"]
+
+
+
+. 次のコマンドを使用して、 ClusterRole 「 netappsnapshot 」および ClusterRoleBinding 「 netappsnapshot 」を作成します。
++
+....
+`kubectl create -f runai-project-snap-role.yaml`
+`kubectl create -f runai-project-snap-role-binding.yaml`
+....
+
+
+
+
+== TuSimple データセットを実行時の AI ジョブとしてダウンロードして処理します
+
+TuSimple データセットを実行としてダウンロードして処理するプロセス。 AI ジョブはオプションです。このプロセスでは、次の手順を実行します。
+
+. Docker イメージをビルドしてプッシュするか、既存の Docker イメージを使用する場合は、この手順を省略します（「 m uneer7589/download-tusimple:1.0 」など）
++
+.. ホームディレクトリに移動します。
++
+....
+cd ~
+....
+.. プロジェクト「 lane detection - SCNN-horovod` のデータディレクトリに移動します。
++
+....
+cd ./lane-detection-SCNN-horovod/data
+....
+.. 「 build_image.sh 」シェル・スクリプトを変更し、 Docker リポジトリを自分のものに変更します。たとえば、「 `m uneer7589` 」を Docker リポジトリ名に置き換えます。Docker イメージ名とタグ（「 ownload -tusimple 」や「 1.0 」など）を変更することもできます。
++
+image:runai-ld_image14.png["エラー：グラフィックイメージがありません"]
+
+.. スクリプトを実行して Docker イメージを構築し、次のコマンドを使用して Docker リポジトリにプッシュします。
++
+....
+chmod +x build_image.sh
+./build_image.sh
+....
+
+
+. 実行を送信します。 AI ジョブをダウンロードして抽出し、前処理し、 TupSimple LANE 検出データセットを「 pvc 」に格納します。このデータセットは、 NetApp Trident によって動的に作成されます。
++
+.. 実行ファイルを送信するには、次のコマンドを使用します。 AI job ：
++
+....
+runai submit
+--name download-tusimple-data
+--pvc azurenetappfiles:100Gi:/mnt
+--image muneer7589/download-tusimple:1.0
+....
+.. 次の表に情報を入力して、実行ファイルを送信します。 AI job ：
++
+|===
+| フィールド | Value または概要のいずれかです 
+
+
+| 名前 | ジョブの名前 
+
+
+| - PVC | [StorageClassName]: Size:ContainerMountPath という形式の PVC では、ストレージクラス azurenetappfiles で Trident を使用して、オンデマンドで PVC を作成します。この場合の永続ボリューム容量は 100Gi で、パス /mnt にマウントされます。 
+
+
+| イメージ（ Image ） | このジョブのコンテナの作成時に使用する Docker イメージ 
+|===
++
+出力は次の例のようになります。
+
++
+image:runai-ld_image15.png["エラー：グラフィックイメージがありません"]
+
+.. 送信された RUN ： AI ジョブのリストを表示します。
++
+....
+runai list jobs
+....
++
+image:runai-ld_image16.png["エラー：グラフィックイメージがありません"]
+
+.. 送信されたジョブログを確認してください。
++
+....
+runai logs download-tusimple-data -t 10
+....
++
+image:runai-ld_image17.png["エラー：グラフィックイメージがありません"]
+
+.. 作成された「 pvc 」をリストします。次のステップでトレーニングを行うには ' この pvc コマンドを使用します
++
+....
+kubectl get pvc | grep download-tusimple-data
+....
++
+出力は次の例のようになります。
+
++
+image:runai-ld_image18.png["エラー：グラフィックイメージがありません"]
+
+.. 実行中のジョブを確認します： AI UI （または app.run.ai` ）。
++
+image:runai-ld_image19.png["エラー：グラフィックイメージがありません"]
+
+
+
+
+
+
+
+== Horovod を使用して、分散レーン検出トレーニングを実施します
+
+Horovod を使用した分散型レーン検出トレーニングの実行は、オプションのプロセスです。ただし、実行する手順は次のとおりです。
+
+. Docker イメージをビルドしてプッシュするか、既存の Docker イメージを使用する場合はこの手順を省略します（例：「 muneer7589/dist lane -detection ： 3.1 ）：」
++
+.. ホームディレクトリに切り替えます。
++
+....
+cd ~
+....
+.. プロジェクトディレクトリの lane -detection -SCNN-horovod. に移動します
++
+....
+cd ./lane-detection-SCNN-horovod
+....
+.. 「 build_image.sh 」シェルスクリプトを変更し、 Docker リポジトリを自分のものに変更します（たとえば、「 m uneer7589 」を Docker リポジトリ名に置き換えます）。Docker イメージ名とタグも変更できます（「 dist-dlane detection 」や「 3.1 」など）。
++
+image:runai-ld_image20.png["エラー：グラフィックイメージがありません"]
+
+.. スクリプトを実行して Docker イメージを構築し、 Docker リポジトリにプッシュします。
++
+....
+chmod +x build_image.sh
+./build_image.sh
+....
+
+
+. RUN ：「分散型トレーニング（ MPI ）実行のための AI ジョブ」を提出します。
++
+.. 実行の送信を使用：前述のステップで PVC を自動的に作成するための AI （データのダウンロード用）のみ RWO アクセスを許可します。これにより、複数のポッドまたはノードが分散トレーニング用に同じ PVC にアクセスすることはできません。アクセスモードを ReadWriteMany に更新し、 Kubernetes パッチを使用して更新します。
+.. まず、次のコマンドを実行して PVC のボリューム名を取得します。
++
+....
+kubectl get pvc | grep download-tusimple-data
+....
++
+image:runai-ld_image21.png["エラー：グラフィックイメージがありません"]
+
+.. ボリュームにパッチを適用し、アクセスモードを ReadWriteMany に更新します（次のコマンドでは、ボリューム名を各自のに置き換えてください）。
++
+....
+kubectl patch pv pvc-bb03b74d-2c17-40c4-a445-79f3de8d16d5 -p '{"spec":{"accessModes":["ReadWriteMany"]}}'
+....
+.. 次の表の情報を使用して、分散トレーニングジョブを実行するための AI MPI ジョブを実行します。
++
+....
+runai submit-mpi
+--name dist-lane-detection-training
+--large-shm
+--processes=3
+--gpu 1
+--pvc pvc-download-tusimple-data-0:/mnt
+--image muneer7589/dist-lane-detection:3.1
+-e USE_WORKERS="true"
+-e NUM_WORKERS=4
+-e BATCH_SIZE=33
+-e USE_VAL="false"
+-e VAL_BATCH_SIZE=99
+-e ENABLE_SNAPSHOT="true"
+-e PVC_NAME="pvc-download-tusimple-data-0"
+....
++
+|===
+| フィールド | Value または概要のいずれかです 
+
+
+| 名前 | 配布トレーニングジョブの名前 
+
+
+| 大きなシャン | 大容量の /dev/shm デバイスを RAM にマウントする共有ファイルシステムであり、複数の CPU ワーカーがバッチを処理して CPU RAM にロードするために十分な共有メモリを提供します。 
+
+
+| プロセス | 配布されたトレーニングプロセスの数 
+
+
+| GPU | このジョブでジョブに割り当てる GPU / プロセスの数には、 3 つの GPU ワーカープロセスがあります（ --processes=3 ）。各プロセスは 1 つの GPU で割り当てられます（ --GPU 1 ）。 
+
+
+| PVC | 前のジョブ（ download-tusimple-data-0 ）によって作成された既存の永続ボリューム（ pvc -pdownload -tusimple-data-0 ）を使用し、パス /mnt にマウントします 
+
+
+| イメージ（ Image ） | このジョブのコンテナの作成時に使用する Docker イメージ 
+
+
+2+| コンテナで設定する環境変数を定義します 
+
+
+| ワーカーを使用します | 引数を true に設定すると、マルチプロセスのデータロードがオンになります 
+
+
+| num_Workers | データローダーワーカープロセスの数 
+
+
+| batch_size | トレーニングバッチサイズ 
+
+
+| 使用 _ VAL | 引数を true に設定すると、検証が可能になります 
+
+
+| Val_batch_size | 検証バッチサイズ 
+
+
+| Snapshot の有効化 | 引数を true に設定すると、 ML バージョン管理のためにデータとトレーニング済みのモデルスナップショットを取得できます 
+
+
+| pvc_name | スナップショットを作成する PVC の名前。上記のジョブ送信では、データセットとトレーニング済みモデルで構成される Pvc-de-download-tusimple-data-0 のスナップショットを作成します 
+|===
++
+出力は次の例のようになります。
+
++
+image:runai-ld_image22.png["エラー：グラフィックイメージがありません"]
+
+.. 送信されたジョブを一覧表示します。
++
+....
+runai list jobs
+....
++
+image:runai-ld_image23.png["エラー：グラフィックイメージがありません"]
+
+.. 送信されたジョブログ：
++
+....
+runai logs dist-lane-detection-training
+....
++
+image:runai-ld_image24.png["エラー：グラフィックイメージがありません"]
+
+.. 実行中のトレーニングジョブを確認します。次の図に示すように、 AI GUI （または app.runai.ai): run ： AI Dashboard ）。最初の図は、分散トレーニングジョブ用に割り当てられた 3 つの GPU を AKS の 3 つのノードに分散し、 2 番目の実行である AI ジョブの詳細を示しています。
++
+image:runai-ld_image25.png["エラー：グラフィックイメージがありません"]
+
++
+image:runai-ld_image26.png["エラー：グラフィックイメージがありません"]
+
+.. トレーニングが完了したら、作成され、実行済みの NetApp Snapshot コピーである AI ジョブを確認します。
++
+....
+runai logs dist-lane-detection-training --tail 1
+....
++
+image:runai-ld_image27.png["エラー：グラフィックイメージがありません"]
+
++
+....
+kubectl get volumesnapshots | grep download-tusimple-data-0
+....
+
+
+
+
+
+
+== NetApp Snapshot コピーからデータをリストアします
+
+NetApp Snapshot コピーからデータをリストアするには、次の手順を実行します。
+
+. ホームディレクトリに切り替えます。
++
+....
+cd ~
+....
+. プロジェクトディレクトリの lane -detection -SCNN-horovod' に移動します
++
+....
+cd ./lane-detection-SCNN-horovod
+....
+. 「 restore-snaphot-pvc.yaml 」を変更し、「 ataSource `name」 フィールドをデータのリストア元の Snapshot コピーに更新します。また、データを復元する PVC 名を変更することもできます。この例では、「 restored-tusimple」 です。
++
+image:runai-ld_image29.png["エラー：グラフィックイメージがありません"]
+
+. 「 restore -snapshot-pvc.yaml 」を使用して新しい PVC を作成します。
++
+....
+kubectl create -f restore-snapshot-pvc.yaml
+....
++
+出力は次の例のようになります。
+
++
+image:runai-ld_image30.png["エラー：グラフィックイメージがありません"]
+
+. 復元されたばかりのデータをトレーニングに使用する場合、ジョブ送信は以前と同じです。次のコマンドに示すように、トレーニングジョブの送信時に「 pvc_name 」を復元された「 pvc_name 」に置き換えるだけです。
++
+....
+runai submit-mpi
+--name dist-lane-detection-training
+--large-shm
+--processes=3
+--gpu 1
+--pvc restored-tusimple:/mnt
+--image muneer7589/dist-lane-detection:3.1
+-e USE_WORKERS="true"
+-e NUM_WORKERS=4
+-e BATCH_SIZE=33
+-e USE_VAL="false"
+-e VAL_BATCH_SIZE=99
+-e ENABLE_SNAPSHOT="true"
+-e PVC_NAME="restored-tusimple"
+....
+
+
+
+
+== パフォーマンス評価
+
+解決策のリニアな拡張性を示すために、 GPU × 1 と GPU × 3 という 2 つのシナリオでパフォーマンステストを実施しました。GPU 割り当て、 GPU とメモリの使用率、シングルノードと 3 ノードの異なるメトリックは、 TuSimple LANE 検出データセットのトレーニング中に取得されました。データは、トレーニングプロセス中のリソース使用率を分析するために 5 倍に増加します。
+
+解決策を使用すると、まず小規模なデータセットを配置し、一部の GPU で作業を開始できます。GPU の需要とデータ量が増加した場合、標準階層ではテラバイト規模まで動的にスケールアウトし、 Premium 階層にすばやくスケールアップして、データを移動することなく、テラバイトあたりのスループットを 4 倍にすることができます。このプロセスの詳細については、を参照してください。 link:runai-ld_lane_detection_distributed_training_with_run_ai.html#azure-netapp-files-service-levels["Azure NetApp Files サービスレベル"]。
+
+1 つの GPU での処理時間は 12 時間 45 分でした。3 つのノードにまたがる 3 つの GPU での処理時間は約 4 時間 30 分でした。
+
+本ドキュメントの以降の各セクションにある図は、個々のビジネスニーズに基づくパフォーマンスと拡張性の例を示しています。
+
+次の図は、 1 つの GPU 割り当てとメモリ使用率を示しています。
+
+image:runai-ld_image31.png["エラー：グラフィックイメージがありません"]
+
+次の図は、シングルノードの GPU 利用率を示しています。
+
+image:runai-ld_image32.png["エラー：グラフィックイメージがありません"]
+
+次の図は、シングルノードのメモリサイズ（ 16GB ）を示しています。
+
+image:runai-ld_image33.png["エラー：グラフィックイメージがありません"]
+
+次の図は、シングルノードの GPU 数（ 1 ）を示しています。
+
+image:runai-ld_image34.png["エラー：グラフィックイメージがありません"]
+
+次の図は、シングルノードの GPU 割り当て（ % ）を示しています。
+
+image:runai-ld_image35.png["エラー：グラフィックイメージがありません"]
+
+次の図は、 GPU の割り当てとメモリという 3 つのノードにまたがる 3 つの GPU を示しています。
+
+image:runai-ld_image36.png["エラー：グラフィックイメージがありません"]
+
+次の図は、 3 つのノードの使用率（ % ）にまたがる 3 つの GPU を示しています。
+
+image:runai-ld_image37.png["エラー：グラフィックイメージがありません"]
+
+次の図は、 3 つのノードにまたがる 3 つの GPU のメモリ利用率（ % ）を示しています。
+
+image:runai-ld_image38.png["エラー：グラフィックイメージがありません"]
+
+
+
+== Azure NetApp Files サービスレベル
+
+既存のボリュームのサービスレベルを変更するには、を使用する別の容量プールにボリュームを移動します https://docs.microsoft.com/azure/azure-netapp-files/azure-netapp-files-service-levels["サービスレベル"^] 必要なのはボリュームです。ボリュームの既存のサービスレベル変更では、データを移行する必要はありません。また、ボリュームへのアクセスにも影響しません。
+
+
+
+=== ボリュームのサービスレベルを動的に変更する
+
+ボリュームのサービスレベルを変更するには、次の手順を実行します。
+
+. Volumes （ボリューム）ページで、サービスレベルを変更するボリュームを右クリックします。［ プールの変更 ］ を選択します
++
+image:runai-ld_image39.png["エラー：グラフィックイメージがありません"]
+
+. プールの変更ウィンドウで、ボリュームの移動先とする容量プールを選択します。[OK] をクリックします。
++
+image:runai-ld_image40.png["エラー：グラフィックイメージがありません"]
+
+
+
+
+
+=== サービスレベルの変更を自動化
+
+動的サービスレベルの変更は現在、パブリックプレビューで有効になっていますが、デフォルトでは有効になっていません。Azure サブスクリプションでこの機能を有効にするには、次の手順を実行します file:///C:\Users\crich\Downloads\•%09https:\docs.microsoft.com\azure\azure-netapp-files\dynamic-change-volume-service-level["ボリュームのサービスレベルを動的に変更する"^]」
+
+* Azure では、 CLI コマンドでも次のコマンドを使用できます。Azure NetApp Files のプール・サイズの変更の詳細については、を参照してください https://docs.microsoft.com/cli/azure/netappfiles/volume?view=azure-cli-latest-az_netappfiles_volume_pool_change["AZ netappfiles ボリューム： Azure NetApp Files （ ANF ）ボリュームリソースの管理"^]。
++
+....
+az netappfiles volume pool-change -g mygroup
+--account-name myaccname
+-pool-name mypoolname
+--name myvolname
+--new-pool-resource-id mynewresourceid
+....
+* ここに示す 'set-aznetappfilesvolumepool' コマンドレットを使用すると、 Azure NetApp Files ボリュームのプールを変更できます。ボリュームプールのサイズ変更の詳細については、を参照してください https://docs.microsoft.com/powershell/module/az.netappfiles/set-aznetappfilesvolumepool?view=azps-5.8.0["Azure NetApp Files ボリュームのプールを変更します"^]。
++
+....
+Set-AzNetAppFilesVolumePool
+-ResourceGroupName "MyRG"
+-AccountName "MyAnfAccount"
+-PoolName "MyAnfPool"
+-Name "MyAnfVolume"
+-NewPoolResourceId 7d6e4069-6c78-6c61-7bf6-c60968e45fbf
+....
+

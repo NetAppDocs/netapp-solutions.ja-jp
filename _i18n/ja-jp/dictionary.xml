@@ -8932,7 +8932,6 @@
   <block id="b180e7f35111dca8acd6c56cdbcabb3e" category="paragraph"><block ref="b180e7f35111dca8acd6c56cdbcabb3e" category="inline-image-macro-rx" type="image"></block></block>
   <block id="be41c3baf700984021c43e2e6b661b0a" category="paragraph">次のスクリーンショットは、 VM ストレージポリシーの作成ウィザードに表示される SnapMirror スケジュールの例を示しています。</block>
   <block id="43c130b36e9e2b3d61409aa974f89fc7" category="paragraph"><block ref="43c130b36e9e2b3d61409aa974f89fc7" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="19124a93cfd3076eea2c94e9dc1a8c30" category="paragraph">ONTAP VASA プロバイダでは、異なるストレージへのフェイルオーバーがサポートされます。たとえば、システムは、エッジの場所にある ONTAP Select からコアデータセンターの AFF システムにフェイルオーバーできます。このプロセスを容易にするために、サイト間で VM ストレージポリシーマッピングを設定します。ストレージの類似性に関係なく、レプリケーションが有効な VM ストレージポリシーのストレージポリシーマッピングとリバースマッピングを常に設定して、リカバリサイトで提供されるサービスが期待される要件を満たしていることを確認する必要があります。次のスクリーンショットは、ポリシーマッピングの例を示しています。</block>
   <block id="783a951245ce43eb84161804072a38c6" category="paragraph"><block ref="783a951245ce43eb84161804072a38c6" category="inline-image-macro-rx" type="image"></block></block>
   <block id="1eb90dc8f7adfd00c74af3b815e2ac15" category="section-title">VVOL データストア用にレプリケートされたボリュームを作成します</block>
   <block id="18231879821321e0aed7de84fe876766" category="paragraph">以前の VVOL データストアとは異なり、レプリケートされた VVOL データストアはレプリケーションを有効にして最初から作成する必要があります。また、 SnapMirror 関係を持つ ONTAP システムで事前に作成されたボリュームを使用する必要があります。そのためには、クラスタピアリングや SVM ピアリングなどの設定を事前に行う必要があります。これらの作業は ONTAP 管理者が行う必要があります。複数のサイトにわたって ONTAP システムを管理する担当者と、主に vSphere の運用を担当する担当者を厳密に分離できるためです。</block>
@@ -9124,4 +9123,347 @@
   <block id="b9921ac732e72656bc2836f83bb09522" category="paragraph">VMware SRM と NetApp SRA の環境では、一方のサイトで FC プロトコルを使用し、もう一方のサイトで iSCSI プロトコルを使用できます。ただし、 FC 接続のデータストアと iSCSI 接続のデータストアを同じ ESXi ホストで混在させたり、同じクラスタ内の別のホストで使用したりすることはできません。この構成は SRM ではサポートされていません。 SRM フェイルオーバーまたはテストフェイルオーバーの実行中、 SRM は要求に応じて ESXi ホストのすべての FC イニシエータと iSCSI イニシエータを含めます。</block>
   <block id="fccd44a96243e459128798803dca70aa" category="cell">SRM と SRA では、保護サイトとリカバリサイト間での FC プロトコルと iSCSI プロトコルの混在をサポートしています。ただし、各サイトで FC または iSCSI のどちらかのプロトコルを 1 つだけ使用し、同じサイトで両方のプロトコルを使用することはできません。1 つのサイトに FC プロトコルと iSCSI プロトコル両方を設定する必要がある場合、一部のホストで iSCSI を使用し、他のホストで FC を使用することを推奨します。また、 VM がどちらか一方のホストグループまたは他方のホストグループにフェイルオーバーするように設定されるように、 SRM リソースマッピングを設定することも推奨します。</block>
   <block id="1918f1bc0ea91d0e5d8e37878d5ab562" category="sidebar">NetApp ONTAP 9 を搭載した VMware Site Recovery Manager</block>
+  <block id="e88a70d67e9de42d391fd019f2d06484" category="summary">このドキュメントに記載されている情報の詳細については、以下のドキュメントや Web サイトを参照してください。</block>
+  <block id="0f68b904e33d9ac04605aecc958bcf52" category="doc">追加情報</block>
+  <block id="b49efd5b259d6a3bceda1ebb8e34064a" category="list-text">データセット： TuSimple</block>
+  <block id="61554b11b65c50bf7a094a86d699c8d5" category="inline-link"><block ref="61554b11b65c50bf7a094a86d699c8d5" category="inline-link-rx"></block></block>
+  <block id="b150fd9c1d7740c871626031a398c8a3" category="paragraph"><block ref="b150fd9c1d7740c871626031a398c8a3" category="inline-link-rx"></block></block>
+  <block id="a3a3504f7b11916e352125a598e15797" category="list-text">ディープラーニングネットワークアーキテクチャ：空間的な畳み込みニューラルネットワーク</block>
+  <block id="6467a460cb421335f9f5b0523c38c9a6" category="inline-link"><block ref="6467a460cb421335f9f5b0523c38c9a6" category="inline-link-rx"></block></block>
+  <block id="35527148b08f99f1d85797af833430dc" category="paragraph"><block ref="35527148b08f99f1d85797af833430dc" category="inline-link-rx"></block></block>
+  <block id="cc1881adebe7ddf5b873966741a32ef1" category="list-text">分散型ディープラーニングトレーニングフレームワーク： Horovod</block>
+  <block id="732f85d0d5eaa9222831dd5290518ff2" category="inline-link"><block ref="732f85d0d5eaa9222831dd5290518ff2" category="inline-link-rx"></block></block>
+  <block id="655c281079d0281fcf4b8f2f08634c16" category="paragraph"><block ref="655c281079d0281fcf4b8f2f08634c16" category="inline-link-rx"></block></block>
+  <block id="934b1fbd011b584c4878284f454f812e" category="list-text">実行： AI コンテナオーケストレーション解決策： run ： AI 製品の概要</block>
+  <block id="64b899832bfcad18bb426fb355a0d03b" category="inline-link"><block ref="64b899832bfcad18bb426fb355a0d03b" category="inline-link-rx"></block></block>
+  <block id="b78ec84f003a4d277e318031a163e191" category="paragraph"><block ref="b78ec84f003a4d277e318031a163e191" category="inline-link-rx"></block></block>
+  <block id="275dbaaa3169640f82917075918df905" category="list-text">実行： AI インストールドキュメント</block>
+  <block id="1173c05ffb489483ec926c6c1dbc3c26" category="inline-link"><block ref="1173c05ffb489483ec926c6c1dbc3c26" category="inline-link-rx"></block></block>
+  <block id="517046a8acf2e7fa61798debc5b6e25e" category="inline-link"><block ref="517046a8acf2e7fa61798debc5b6e25e" category="inline-link-rx"></block></block>
+  <block id="b8b2e04f115b148d49a8cb477ed86af9" category="paragraph"><block ref="f03e58e4917966d9b82995c8ce69643b" category="inline-link-rx"></block><block ref="3530112fad5ba376549c9e0750df83f3" category="inline-link-rx"></block></block>
+  <block id="8787c0bfc5af7ce34db56c9a5739f788" category="list-text">実行時のジョブの送信： AI CLI</block>
+  <block id="99a4cc6ec01bd067dc6642e6fd5efa0a" category="inline-link"><block ref="99a4cc6ec01bd067dc6642e6fd5efa0a" category="inline-link-rx"></block></block>
+  <block id="ca4ef6cf830a9de78ea71279d0d5417c" category="paragraph"><block ref="ca4ef6cf830a9de78ea71279d0d5417c" category="inline-link-rx"></block></block>
+  <block id="984fd97f526f8afe9d2472b0894b84c2" category="inline-link"><block ref="984fd97f526f8afe9d2472b0894b84c2" category="inline-link-rx"></block></block>
+  <block id="65640a241681656a4410cd7184278c9b" category="paragraph"><block ref="65640a241681656a4410cd7184278c9b" category="inline-link-rx"></block></block>
+  <block id="33a756969a35b0a9029bf2a2c10e6d67" category="list-text">Azure クラウドリソース： Azure NetApp Files</block>
+  <block id="99ac98f589f6b551211f31e86cb9a212" category="inline-link"><block ref="99ac98f589f6b551211f31e86cb9a212" category="inline-link-rx"></block></block>
+  <block id="3085d4407b575d4a8938814c7db17d92" category="paragraph"><block ref="3085d4407b575d4a8938814c7db17d92" category="inline-link-rx"></block></block>
+  <block id="f938809a358080d4c7a941e59abfca40" category="list-text">Azure Kubernetes Service の略</block>
+  <block id="21d0acc34f6416d6ebd8074617c57439" category="inline-link"><block ref="21d0acc34f6416d6ebd8074617c57439" category="inline-link-rx"></block></block>
+  <block id="91c4b230ded9b13564b447ba71304aeb" category="paragraph"><block ref="91c4b230ded9b13564b447ba71304aeb" category="inline-link-rx"></block></block>
+  <block id="d9d650693b25d0540fbb606b1d1fbe4e" category="list-text">Azure VM SKUs</block>
+  <block id="08318cbecd61665ab1824d118c1029a5" category="inline-link"><block ref="08318cbecd61665ab1824d118c1029a5" category="inline-link-rx"></block></block>
+  <block id="3e05fd8f7e2e0ac6116dd746a8823eaa" category="paragraph"><block ref="3e05fd8f7e2e0ac6116dd746a8823eaa" category="inline-link-rx"></block></block>
+  <block id="b9a1a7c8f2194407b24183f7826d2e44" category="list-text">Azure VM と GPU SKU</block>
+  <block id="6046df9266bb79e1d99f9c232c1835e3" category="inline-link"><block ref="6046df9266bb79e1d99f9c232c1835e3" category="inline-link-rx"></block></block>
+  <block id="d0bf246853f6f35070f6a8231d468c87" category="paragraph"><block ref="d0bf246853f6f35070f6a8231d468c87" category="inline-link-rx"></block></block>
+  <block id="43a545df8285ba2aba289a52824f250d" category="inline-link"><block ref="43a545df8285ba2aba289a52824f250d" category="inline-link-rx"></block></block>
+  <block id="944823ac69152177e369bd5d9a61a02f" category="paragraph"><block ref="944823ac69152177e369bd5d9a61a02f" category="inline-link-rx"></block></block>
+  <block id="a9359a0f51034e1b1972f7690fe03f71" category="list-text">ネットアップのデータファブリック</block>
+  <block id="781262103885a96ffc9275431a7ef132" category="inline-link"><block ref="781262103885a96ffc9275431a7ef132" category="inline-link-rx"></block></block>
+  <block id="93e35e3e458c1d81846aa83c346e240e" category="paragraph"><block ref="93e35e3e458c1d81846aa83c346e240e" category="inline-link-rx"></block></block>
+  <block id="3cd8b5fe5ca94a9fdb5caaf96875ef7e" category="inline-link"><block ref="3cd8b5fe5ca94a9fdb5caaf96875ef7e" category="inline-link-rx"></block></block>
+  <block id="6bfac05f3cc2c0adace9c385ef708fd9" category="paragraph"><block ref="6bfac05f3cc2c0adace9c385ef708fd9" category="inline-link-rx"></block></block>
+  <block id="a6214fe1ac9a6825ffe38f3b34489c9d" category="summary">ネットアップの Run AI は、このテクニカルレポートの作成時にパートナー関係を結び、 Azure NetApp Files 独自の機能と、 AI ワークロードのオーケストレーションを簡易化する Run AI プラットフォームを実証しています。</block>
+  <block id="a55106260c16aab506cebfb58e07e030" category="paragraph">ネットアップと Run ： AI は、このテクニカルレポートの作成時にパートナー関係を結び、 Azure NetApp Files 独自の機能と、 AI ワークロードのオーケストレーションを簡易化する AI プラットフォームを、 RUN の手法で実証しています。このテクニカルレポートでは、分散レーン検出トレーニングのためにデータパイプラインとワークロードオーケストレーションのプロセスを合理化するリファレンスアーキテクチャを提供します。</block>
+  <block id="4e51614a389f3ad4fa17e2ce7ad984e7" category="paragraph">その結果、大規模な分散トレーニング（特にパブリッククラウド環境）に関しては、リソースのオーケストレーションとストレージのコンポーネントは解決策の重要な要素となります。データ管理によって複数の GPU 処理が妨げられることがないようにすることで、 GPU サイクルの利用率を最適化できます。そのため、大規模な分散トレーニングのために、システムをできるだけ費用対効果の高いものにすることができます。</block>
+  <block id="269c35b1959d92e9ef6665bb4c60ad5d" category="paragraph">ネットアップが提供するデータファブリックを使用すると、データサイエンティストやデータエンジニアは、手動操作なしでオンプレミスとクラウドを連携させ、同期データを保持できるため、この課題を克服できます。つまり、データファブリックによって、 AI ワークフローを複数の場所に分散して管理するプロセスがスムーズになります。また、コンピューティングと分析、トレーニング、検証に必要なときに必要な場所でデータを利用できるため、オンデマンドでのデータ可用性が容易になります。この機能により、データ統合だけでなく、データパイプライン全体の保護とセキュリティも実現できます。</block>
+  <block id="7a879e305f90568b91e8623ce5f9ee39" category="summary">2019 年 5 月より、 Microsoft は Azure ネイティブのファーストパーティポータルサービスを提供し、 NetApp ONTAP テクノロジを基盤とするエンタープライズ NFS および SMB ファイルサービスを提供しています。</block>
+  <block id="0bf51d984b6a6d3fddc0e24f62eb1a14" category="doc">TR-4886 ：『 Distributed training in Azure ： Lane detection - 解決策 design 』</block>
+  <block id="0ab5aa2896d8eed7732e69be5e5782b4" category="paragraph">Muneer Ahmad 氏と Verron Martina 氏、ネットアップの Ronen Dar 、 RUN ： AAI</block>
+  <block id="a89ade32996e322edf837476febbc9bd" category="paragraph">2019 年 5 月より、 Microsoft は Azure ネイティブのファーストパーティポータルサービスを提供し、 NetApp ONTAP テクノロジを基盤とするエンタープライズ NFS および SMB ファイルサービスを提供しています。この開発は、 Microsoft とネットアップの戦略的パートナーシップによって推進されており、ワールドクラスの ONTAP データサービスの Azure への対応範囲がさらに拡大しています。</block>
+  <block id="d6312cb01ee08559dbaa35c308e72268" category="paragraph">業界をリードするクラウドデータサービスプロバイダであるネットアップは、 AI インフラを仮想化する企業である AI の運用を共同で開始し、 GPU 利用率を最大限に活用して AI の実験を高速化しました。このパートナーシップでは、多数の実験を並行して実行し、データへの高速アクセスを実現し、無限のコンピューティングリソースを活用することで、 AI を加速できます。Run ： AI は、リソースの割り当てを自動化することで GPU 利用率を最大限に高めます。実績のある Azure NetApp Files のアーキテクチャにより、データパイプラインに障害が生じることをなくし、あらゆる実験を最高の速度で実行できます。</block>
+  <block id="5234f8ee670afed8c398940a707f25df" category="paragraph">ネットアップと RUN ： AI が力を合わせて、お客様に Azure で AI 導入を実現するための将来を見据えたプラットフォームを提供しています。分析やハイパフォーマンスコンピューティング（ HPC ）から自律判断（お客様は必要なときに必要なものだけを購入することで IT 投資を最適化できる）まで、ネットアップと RUN のアライアンスによって、 AI は Azure クラウドでの単一の統合エクスペリエンスを提供します。</block>
+  <block id="ecb81ab37e1d2a7ed6dfce3807622e3d" category="summary">このセクションでは、ラン AI オーケストレーションツールを使用して大規模なレーン検出分散トレーニングを実行するためのプラットフォームの設定について詳しく説明します。</block>
+  <block id="0714a752696f8feed939bbf52a6214f7" category="doc">レーン検出–実行による分散トレーニング： AI</block>
+  <block id="dbf10b854b8b7fc90297279e7ad0f745" category="paragraph">このセクションでは、ランオーケストレーションツール AI を使用して大規模なレーン検出分散トレーニングを実行するためのプラットフォームの設定について詳しく説明します。ここでは、すべての解決策要素のインストールと、前述のプラットフォームでの配布トレーニングジョブの実行について説明します。ML のバージョン管理には、 NetApp SnapshotTM を使用し、 RUN ： AI の実験によってデータとモデルの再現性を達成しました。ML のバージョン管理は、モデルの追跡、チームメンバー間での作業の共有、結果の再現性、生産への新しいモデルバージョンのローリング、データソースの作成に重要な役割を果たします。ネットアップの ML バージョン管理（ Snapshot ）は、各実験に関連するデータ、トレーニング済みモデル、ログのポイントインタイムバージョンをキャプチャできます。豊富な API サポートにより、実行中の AI プラットフォームとの統合が容易になります。トレーニングの状態に基づいてイベントをトリガーするだけで済みます。また、コードや Kubernetes （ Kubernetes ）上で実行されているコンテナに何も変更を加えずに、実験全体の状態をキャプチャする必要もあります。</block>
+  <block id="25d19977e35c6d286c5b051982ae3f3c" category="paragraph">最後に、このテクニカルレポートは、 AKS を介して複数の GPU 対応ノードでパフォーマンスを評価する方法をラップアップします。</block>
+  <block id="1987a7039dccb848f2e8ce693ba3faff" category="section-title">TuSimple データセットを使用したレーン検出のユースケースに関する分散トレーニング</block>
+  <block id="f75a7cb3d80e7be148c1ce86a4347011" category="paragraph">このテクニカルレポートでは、レーン検出用の TuSimple データセットに対して分散トレーニングを実行します。Horovod は、 AKS を使用して Kubernetes クラスタ内の複数の GPU ノードでデータ分散トレーニングを同時に実施するためのトレーニングコードで使用されます。コードは、 TuSimple データのダウンロードおよび処理用のコンテナイメージとしてパッケージされています。処理されたデータは、 NetApp Trident プラグインによって割り当てられた永続ボリュームに格納されます。トレーニングでは、 1 つ以上のコンテナイメージが作成され、データのダウンロード時に作成された永続ボリュームに格納されたデータが使用されます。</block>
+  <block id="58b4798157820b4e4415d8136cf60fe9" category="paragraph">データとトレーニングのジョブを送信するには、 run ： AI を使用してリソースの割り当てと管理をオーケストレーションします。Run ： AI では、 Horovod に必要な Message Passing Interface （ MPI ；メッセージパッシングインターフェイス）処理を実行できます。このレイアウトでは、複数の GPU ノードが相互に通信して、各トレーニング mini バッチの実行後にトレーニングの重みを更新できます。また、 UI や CLI からトレーニングを監視できるため、実験の進捗状況を簡単に監視できます。</block>
+  <block id="ecbeff08f5ec15c6952355b518d4ae02" category="paragraph">NetApp Snapshot はトレーニングコードに統合されており、あらゆる実験に対応するデータの状態とトレーニング済みモデルをキャプチャします。この機能を使用すると、使用するデータとコードのバージョン、および生成された関連するトレーニング済みモデルを追跡できます。</block>
+  <block id="63addc90b28c066bd235c900fed65314" category="section-title">AK のセットアップとインストール</block>
+  <block id="50f7d8213ee52350926ec407074e68f1" category="inline-link">AKS クラスタを作成します</block>
+  <block id="55b295c729173e8c0c745bb036b03270" category="paragraph">AKS クラスタのセットアップとインストールは、に進みます<block ref="77c1c334ebc4c997080bda32aa569d69" category="inline-link-rx"></block>。次に、次の一連の手順を実行します。</block>
+  <block id="8f9d847fad9782b080de76b0161b1c45" category="list-text">ノードのタイプ（システム（ CPU ）ノードまたはワーカー（ GPU ）ノードのいずれであるか）を選択するときは、次のいずれかを選択します。</block>
+  <block id="957d1a35f975177c3fd161490f3e2d83" category="list-text">「 agentpool 」という名前のプライマリ・システム・ノードを 'Standard _ DS2_v2' サイズに追加しますデフォルトの 3 つのノードを使用します。</block>
+  <block id="8853a13db2e2a03cb5b2f1186fbcd0a6" category="list-text">'Standard_NC6s_v3' プール・サイズを使用して 'Worker ノード gpupool' を追加しますGPU ノードには最小 3 ノードを使用します。</block>
+  <block id="5085043d6dea89934a2e516fc46f891a" category="paragraph"><block ref="5085043d6dea89934a2e516fc46f891a" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="633b880bff72a9f1c1114df31dec55bf" category="admonition">導入には 5 ～ 10 分かかります。</block>
+  <block id="f55bb34768c41f91318fb57b85c1def9" category="inline-link">ツールをインストールします</block>
+  <block id="6369fc9d36c9d56cbebefdeccda5fbff" category="list-text">導入が完了したら、 Connect to Cluster （クラスタへの接続）をクリックします。新しく作成した AKS クラスタに接続するには、ローカル環境（ラップトップ / PC ）から Kubernetes コマンドラインツールをインストールします。にアクセスします<block ref="bcd577f96ff7023ec6fd5c904f040896" category="inline-link-rx"></block> OS に応じてインストールします。</block>
+  <block id="811c47e56617f97db3579bc32a9085c9" category="inline-link">ローカル環境に Azure CLI をインストールします</block>
+  <block id="ea5d45554a3e9cb9cbc0ddea4c228b28" category="list-text"><block ref="2db79c584144175dd0bb69b6c7045fc9" category="inline-link-rx"></block>。</block>
+  <block id="825ca3bff78c42ec87920dfbce105fae" category="list-text">端末から AKS クラスタにアクセスするには、まず「 AZ login 」と入力し、クレデンシャルを入力します。</block>
+  <block id="3394029cd334ed00686c86c088d73c24" category="list-text">次の 2 つのコマンドを実行します。</block>
+  <block id="193937b265ce655417f00a79334d3937" category="list-text">Azure CLI で、次のコマンドを入力します。</block>
+  <block id="cbf78d8bb0be543834c56e61560773b0" category="admonition">ここで示したように 6 つのノードがすべて稼働していれば、 AKS クラスタをローカル環境に接続することができます。</block>
+  <block id="e8085ec7505cfe6f3cfbe2c2628386dc" category="paragraph"><block ref="e8085ec7505cfe6f3cfbe2c2628386dc" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="0143a2caee1b9ab090de587206b65fe6" category="section-title">Azure NetApp Files の委譲されたサブネットを作成します</block>
+  <block id="450cf7e7f8262fdaa3454c2e11aad687" category="paragraph">Azure NetApp Files の委任されたサブネットを作成するには、次の手順を実行します。</block>
+  <block id="0ca30ab1eb5e523356720465eb7439c8" category="list-text">Azure ポータル内の仮想ネットワークに移動します。新しく作成した仮想ネットワークを検索します。この例では、 AKs-vnet などのプレフィックスが必要です。仮想ネットワークの名前をクリックします。</block>
+  <block id="ce0c628aca3577055043c7f8364600d9" category="paragraph"><block ref="ce0c628aca3577055043c7f8364600d9" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="25157709e5a253560f5ec68b8262563c" category="list-text">[ サブネット ] をクリックし、上部のツールバーから [ サブネット + ] を選択します。</block>
+  <block id="d9bf5876b80dbf558587f06630e3915c" category="paragraph"><block ref="d9bf5876b80dbf558587f06630e3915c" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="6a07ef5dbc59d5ba150de82d519fb4f8" category="list-text">サブネットに「 ANF 」などの名前を付け、サブネットの委任の見出しの下で、 Microsoft.NetApp/volumes を選択します。他のものは変更しないでください。[OK] をクリックします。</block>
+  <block id="a8ccea52e17d54aea1295a99ab4d5c2e" category="paragraph"><block ref="a8ccea52e17d54aea1295a99ab4d5c2e" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="d182b62071ada1a29e4f9c26487c1121" category="paragraph">Azure NetApp Files ボリュームはアプリケーションクラスタに割り当てられ、 Kubernetes で永続ボリューム要求（ PVC ）として使用されます。この割り当てにより、ボリュームをさまざまなサービスに柔軟にマッピングし、 Jupyter ノートブック PC やサーバーレス関数などに対応することができます</block>
+  <block id="a74ff852d3b3b8447b0306018a76c4f1" category="paragraph">サービスのユーザは、プラットフォームのストレージをさまざまな方法で消費できます。Azure NetApp Files の主な利点は次のとおりです。</block>
+  <block id="a7c5a83cc4ccf14374e496bcbb4363f5" category="list-text">スナップショットを使用できるようになります。</block>
+  <block id="ea437fe76a4bba5bf335daccbbd24b50" category="list-text">Azure NetApp Files ボリュームに大量のデータを格納できます。</block>
+  <block id="cedebf66380d43f58c07dfb1d4d686a6" category="list-text">Azure NetApp Files ボリュームのモデルを大量のファイルセットで実行する場合は、そのモデルのパフォーマンス向上が必要になります。</block>
+  <block id="75ab13308585f62c3cd57a246d0e0c64" category="section-title">Azure NetApp Files セットアップ</block>
+  <block id="8c060d9ae24c7bc4518e54cd5ed13098" category="inline-link">クイックスタート： Azure NetApp Files をセットアップし、 NFS ボリュームを作成します</block>
+  <block id="fd01c32c80d631ed4bebff78fa83b23e" category="paragraph">Azure NetApp Files のセットアップを完了するには、まず、の説明に従って を設定する必要があります<block ref="2f4e63e538c7dd311b18db058621cef8" category="inline-link-rx"></block>。</block>
+  <block id="e26f032bd6f7f5636860d6b94ac84859" category="paragraph">ただし、 Trident からボリュームを作成するため、 Azure NetApp Files 用の NFS ボリュームを作成する手順は省略できます。続行する前に、次のものがあることを確認してください。</block>
+  <block id="e953b5e281d40c5db3cc047889eec4f2" category="inline-link">Azure NetApp Files とネットアップのリソースプロバイダに登録（ Azure Cloud Shell を使用）</block>
+  <block id="3b46d13fb20fe6a92456f742b5732774" category="list-text"><block ref="527fb205c939c551ed93f597562513fb" category="inline-link-rx"></block>。</block>
+  <block id="d0652e942d3d4b469179248d72ccaa5c" category="inline-link">Azure NetApp Files でアカウントを作成</block>
+  <block id="82a51bbfec23ca7366c216813caeacc8" category="list-text"><block ref="874637dbfce24ba5a63adadd91968dc9" category="inline-link-rx"></block>。</block>
+  <block id="02209b9e3a221b39bf0ce87641e7afc6" category="inline-link">容量プールをセットアップする</block>
+  <block id="7b4cb99ad8c150ff95b1a65d0f0524cc" category="list-text"><block ref="0fa33cef09dfad4c8795f42dd9dd5248" category="inline-link-rx"></block> （必要に応じて、 4TiB Standard または Premium 以上）。</block>
+  <block id="1c7c9057bf4f7aee40c5a117c160c0fd" category="section-title">AKS 仮想ネットワークおよび Azure NetApp Files 仮想ネットワークのピアリング</block>
+  <block id="998069ab494c49ade2cc77591c02d9fa" category="paragraph">次に、次の手順に従って、 Azure NetApp Files VNet とともに AKS 仮想ネットワーク（ VNet ）のピア関係を設定します。</block>
+  <block id="bf12dce8dcc6febfeddec5ed2570e7d7" category="list-text">Azure ポータル上部の検索ボックスに「 virtual networks 」と入力します。</block>
+  <block id="3f961f79effdf0aa37042e1733ee53ef" category="list-text">vnet AK - vnet-name をクリックして、検索フィールドにピアを入力します。</block>
+  <block id="0249aa06ef3e10e8754106189b542be4" category="list-text">+ Add をクリックして、次の表に示す情報を入力します。</block>
+  <block id="6f16a5f8ff5d75ab84c018adacdfcbb7" category="cell">フィールド</block>
+  <block id="88645c17102d75583e93db9aa716b012" category="cell">Value または概要のいずれかです</block>
+  <block id="f80824cb9ab9f704542dec0c71c5f38b" category="cell">ピアリングリンク名</block>
+  <block id="5d43607a5a0ebb50f3ea9348485daa15" category="cell">AKs-vnet-name_-to-anf</block>
+  <block id="62912b52e584278e26870d9e5092e723" category="cell">サブスクリプション ID</block>
+  <block id="7d97336a164d9ce685e88a121141b189" category="cell">ピアリング先の Azure NetApp Files VNet のサブスクリプション</block>
+  <block id="82a60e720574cf435dda0a03976e8323" category="cell">VNet ピアリングパートナー</block>
+  <block id="d2ade9376eb8b87db099330d20c4f180" category="cell">Azure NetApp Files VNet の略</block>
+  <block id="5b92ad691782a9e4cc701e479c90997f" category="admonition">デフォルトでは、アスタリスク以外のすべてのセクションはそのままにしておきます</block>
+  <block id="0e5883528161213f3edc02dd718e1693" category="list-text">[Add] または [OK] をクリックして、仮想ネットワークにピアリングを追加します。</block>
+  <block id="12eee9bf8836d675f26602260016f7da" category="inline-link">仮想ネットワークピアリングを作成、変更、削除します</block>
+  <block id="fa1f15d2aebd0592f338ea9f49e06377" category="paragraph">詳細については、を参照してください<block ref="610fa6db13a2eefe4a391b16732fbbf0" category="inline-link-rx"></block>。</block>
+  <block id="91d2f55da5f23abbcf1a0656897d101b" category="paragraph">Trident は、アプリケーションコンテナの永続的ストレージ向けにネットアップが管理しているオープンソースプロジェクトです。Trident は、ポッドとして実行される外部プロビジョニングコントローラとして実装され、ボリュームを監視し、プロビジョニングプロセスを完全に自動化します。</block>
+  <block id="4088b2a65b2a3182209479dced5e78c5" category="paragraph">NetApp Trident では、トレーニングデータセットとトレーニング済みモデルを格納する永続的ボリュームを作成して接続することで、 Kubernetes との円滑な統合が可能です。データサイエンティストやデータエンジニアは、データセットを手動で保存して管理する手間をかけることなく、 Kubernetes クラスタを簡単に使用できます。Trident では、論理的な API 統合を通じてデータ管理関連のタスクが統合されるため、データサイエンティストは新しいデータプラットフォームの管理を習得する必要もありません。</block>
+  <block id="77dc68d199719a4b8f5eba742ecb7056" category="paragraph">Trident ソフトウェアをインストールするには、次の手順を実行します。</block>
+  <block id="2f2e9ef9449e2f31756b1d3683a207b3" category="inline-link">最初に Helm をインストールします</block>
+  <block id="089f0e488d4e2b1a4b02d6d6b638c9d3" category="list-text"><block ref="b3c10ddb3b7f0e3e121ce123f60cc497" category="inline-link-rx"></block>。</block>
+  <block id="e12559703ec38e80de7b94fecc84a043" category="list-text">Trident 21.01.1 インストーラをダウンロードして展開します。</block>
+  <block id="7ee913d1a8b01e1a461f9eb99b0bba74" category="list-text">ディレクトリを 'trident-installer' に変更します</block>
+  <block id="8ad5650fb94bff45b328581838d836fd" category="list-text">tridentctl' をシステムの $path.` のディレクトリにコピーします</block>
+  <block id="6da8d48465deb31425595b33a9172acf" category="list-text">Helm を使用して Kubernetes クラスタに Trident をインストールします。</block>
+  <block id="7b09729551ddb1a7445f559eb1186978" category="list-text">ディレクトリを Helm ディレクトリに変更します。</block>
+  <block id="27b4c36cae8d1c4fd515d289942c87cc" category="list-text">Trident をインストール</block>
+  <block id="cea04f1ceb2ba2472ec50de3a03a689c" category="list-text">Trident ポッドのステータスを通常の Kubernetes クラスタの方法で確認します。</block>
+  <block id="6ac3c5fc780260af91dd10523188e6fd" category="list-text">すべてのポッドが稼働中の場合は、 Trident がインストールされているので移行を推奨します。</block>
+  <block id="7862dabe13bf66a99fcfd3a6b1af4d94" category="section-title">Azure NetApp Files のバックエンドとストレージクラスをセットアップする</block>
+  <block id="7e98dce86779e84763b71398d851f7bb" category="paragraph">Azure NetApp Files バックエンドとストレージクラスをセットアップするには、次の手順を実行します。</block>
+  <block id="dadab4bead78e450739c0f56bad40cda" category="list-text">ホームディレクトリに切り替えます。</block>
+  <block id="65b8f7db2e9a3793e76d2ec3787f71fa" category="inline-link">プロジェクトリポジトリ</block>
+  <block id="03636accad716972f761628ea21e43f6" category="list-text">をクローニングします<block ref="2b240ffa21ddbdc99d1706dee4302f7e" category="inline-link-rx"></block> lane -detection -SCNN-horovod`</block>
+  <block id="0ea725833b806058fe7810e6be91f9c0" category="list-text">'trident-config' ディレクトリに移動します</block>
+  <block id="c51fa2034e7d5d97ec8c31248fc18e98" category="list-text">Azure サービスの原則を作成します（サービスの原則は、 Trident が Azure と通信して Azure NetApp Files リソースにアクセスする方法です）。</block>
+  <block id="7c794fc1e683a6843753158bb92cab75" category="paragraph">出力は次の例のようになります。</block>
+  <block id="203565dfd87ac32927ce5a828d45babd" category="list-text">Trident のバックエンド JSON ファイルを作成します。</block>
+  <block id="d7e47f31bf1c921dd5e28ee7e6f5cd34" category="list-text">任意のテキストエディタを使用して 'anf-backend.json ファイル内の下の表の次のフィールドに入力します</block>
+  <block id="8c443e170595ba0feac007ffb92cb49a" category="cell">サブスクリプション ID</block>
+  <block id="deb6a9aaa10be6bb24feea6a3540128c" category="cell">お客様の Azure サブスクリプション ID</block>
+  <block id="bc54592d6183695b841c6d1880ec0bf8" category="cell">tenantID のこと</block>
+  <block id="b147f00fa948b22faa89aa8044904495" category="cell">Azure テナント ID （前の手順での AZ AD SP の出力から取得）</block>
+  <block id="93c5bebdea9c94a0740fe6fd9bb250f0" category="cell">ClientID</block>
+  <block id="5760e6800c58c7dc9ee68efdc6db38de" category="cell">自分の appID （前のステップでの AZ 広告 SP の出力から）</block>
+  <block id="2b53761249254ce6b502f521e5cc0683" category="cell">clientSecret</block>
+  <block id="0571f76a94493cb2020d6c3b7453a367" category="cell">パスワード（前の手順での AZ AD SP の出力からの）</block>
+  <block id="25e6b7ea847b31b4f88b60acd65052db" category="paragraph">ファイルは次の例のようになります。</block>
+  <block id="49356331b94221561b7751ae1f5343a9" category="list-text">構成ファイルとして 'anf-backend.json を使用して 'trident' 名前空間に Azure NetApp Files バックエンドを作成するように Trident に指示します</block>
+  <block id="bd9c5e9bd5f130a6fbdbcaeb04656652" category="list-text">ストレージクラスを作成します。</block>
+  <block id="a9fa0a3d8bf1bce76ef654f0a047b8fe" category="list-text">k8 ユーザは、ストレージクラスを名前で指定する PVC を使用してボリュームをプロビジョニングします。次のコマンドを使用して ' 前の手順で作成した Azure NetApp Files バックエンドを参照するストレージ・クラス 'azurenetappfiles' を作成するよう 'Kubernetes クラスタに指示します</block>
+  <block id="5e121b263b32950e629eaf774c12da78" category="list-text">次のコマンドを使用して、ストレージクラスが作成されたことを確認します。</block>
+  <block id="202ed88f7ec48eda708f6c062786f474" category="paragraph"><block ref="202ed88f7ec48eda708f6c062786f474" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="72611a189b0331f709788d99912a1bd7" category="section-title">ボリューム Snapshot コンポーネントを AKS に導入してセットアップします</block>
+  <block id="3ea90db69187da57e9739e033add6801" category="paragraph">適切なボリューム Snapshot コンポーネントがあらかじめクラスタにインストールされていない場合は、次の手順を実行して、これらのコンポーネントを手動でインストールできます。</block>
+  <block id="c3987ca9f11aad20ef5d2ae0dd30f9cb" category="admonition">AK 1.18.14 には Snapshot コントローラが事前にインストールされていません。</block>
+  <block id="312e34d756f6ef39f0bd74e2f844773f" category="list-text">次のコマンドを使用して、スナップショットベータ版の CRD をインストールします。</block>
+  <block id="529616f838a47cade6e5fac6f879ce5a" category="list-text">GitHub の次のドキュメントを使用して、 Snapshot Controller をインストールします。</block>
+  <block id="90a2427d3a3145723cd2a130c5372865" category="inline-link">ボリューム Snapshot クラス</block>
+  <block id="8f2838f14b6a64dd466dc23bcf7e3c01" category="list-text">ボリュームスナップショットを作成する前に 'K8s'volumesnapshotclass' を設定します<block ref="cba124de563550c68e57cf9a6641a5d1" category="inline-link-rx"></block> セットアップが完了している必要があります。Azure NetApp Files のボリューム Snapshot クラスを作成し、ネットアップの Snapshot テクノロジを使用して ML のバージョン管理を実現します。volumesnapshotclass NetApp-csi-snapclass' を作成し ' 次のようにデフォルトの ` volumesnapshotclass 」に設定します</block>
+  <block id="adc3a39a071327998da9cc6708ef4fe8" category="paragraph"><block ref="adc3a39a071327998da9cc6708ef4fe8" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="770bec683fa99c1a917babb074d95e66" category="list-text">次のコマンドを使用して、ボリュームの Snapshot コピークラスが作成されたことを確認します。</block>
+  <block id="99b5a364457d91999df6ca6488b800f2" category="paragraph"><block ref="99b5a364457d91999df6ca6488b800f2" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="2d9a6cca62c9095cbae70692ef82741c" category="section-title">「 AI Installation 」を実行します</block>
+  <block id="d1d2b81816d977b7a9d3480a495beda5" category="paragraph">Run ： AI をインストールするには、次の手順を実行します。</block>
+  <block id="7899a1a12ecf76a5676a6d5ddb64842f" category="inline-link">Run ： AI クラスタを AKS にインストールします</block>
+  <block id="54437101a8cdfe297499d517331ced60" category="list-text"><block ref="400679f1b873ae4a832f018613d486cc" category="inline-link-rx"></block>。</block>
+  <block id="5f854e827ba37f66f45f8e47643e23ea" category="list-text">app.runai.ai にアクセスし、 [ 新しいプロジェクトの作成 ] をクリックして、レーン検出という名前を付けます。'runai' で始まる名前空間を Kubernetes クラスタに作成し ' そのあとにプロジェクト名を付けますこの場合、作成される名前空間は runai-lane detection になります。</block>
+  <block id="e699d582d1b58a9a23ebd74cab11d5bc" category="paragraph"><block ref="e699d582d1b58a9a23ebd74cab11d5bc" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="546524b2c8ed6fd083c9286159ebd55a" category="inline-link">インストール実行： AI CLI</block>
+  <block id="f3a9807f54199fd5dbad651af2ea853a" category="list-text"><block ref="6291ffcd5a23a3d0b996bc90930ef0b3" category="inline-link-rx"></block>。</block>
+  <block id="08d1d73b27232763a82ef46a413779ce" category="list-text">ターミナルで、次のコマンドを使用して、 LANE 検出をデフォルトの実行として AI プロジェクトに設定します。</block>
+  <block id="0ca589f93fd9565aa5fc097fd66437ae" category="paragraph"><block ref="0ca589f93fd9565aa5fc097fd66437ae" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="4cd1a85dd18a7a0b8f1d07b4240fafcf" category="list-text">Create ClusterRole and ClusterRoleBinding for the project namespace (`lane detection など ) 」という名前空間に属するデフォルトのサービスアカウントには ' ジョブの実行中に "volumeSnapshot" 操作を実行する権限があります</block>
+  <block id="351495b134e625df33dfb5230d6eab7b" category="list-text">次のコマンドを使用して、名前空間を一覧表示し、「 runai-lane -detection 」が存在することを確認します。</block>
+  <block id="bd546162071f28fd50f8c977ac61149e" category="paragraph">次のような出力が表示されます。</block>
+  <block id="8c33c9910dfecb6260489cd05f43b275" category="paragraph"><block ref="8c33c9910dfecb6260489cd05f43b275" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="f23930532ba19f8970c6dcb4b6ad778f" category="list-text">次のコマンドを使用して、 ClusterRole 「 netappsnapshot 」および ClusterRoleBinding 「 netappsnapshot 」を作成します。</block>
+  <block id="7e3ec6f763cd8a13380162aba60c47e0" category="section-title">TuSimple データセットを実行時の AI ジョブとしてダウンロードして処理します</block>
+  <block id="c0cc307d9f63d0a096f8d6e3193cd561" category="paragraph">TuSimple データセットを実行としてダウンロードして処理するプロセス。 AI ジョブはオプションです。このプロセスでは、次の手順を実行します。</block>
+  <block id="52eeaf7bac6d3e2111d129a11d0bafed" category="list-text">Docker イメージをビルドしてプッシュするか、既存の Docker イメージを使用する場合は、この手順を省略します（「 m uneer7589/download-tusimple:1.0 」など）</block>
+  <block id="0d5647db76048e129c1146a822abbdd8" category="list-text">ホームディレクトリに移動します。</block>
+  <block id="02c403c221afbdccdc4f7182e2eb5cb7" category="list-text">プロジェクト「 lane detection - SCNN-horovod` のデータディレクトリに移動します。</block>
+  <block id="eed104c2f8af7c3526ec55b8cc69dde7" category="list-text">「 build_image.sh 」シェル・スクリプトを変更し、 Docker リポジトリを自分のものに変更します。たとえば、「 `m uneer7589` 」を Docker リポジトリ名に置き換えます。Docker イメージ名とタグ（「 ownload -tusimple 」や「 1.0 」など）を変更することもできます。</block>
+  <block id="689ff7d72d2cc0f0d595b0c8ace1cdfa" category="paragraph"><block ref="689ff7d72d2cc0f0d595b0c8ace1cdfa" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="6ed49e04589e6c9071bbd1af307f83a0" category="list-text">スクリプトを実行して Docker イメージを構築し、次のコマンドを使用して Docker リポジトリにプッシュします。</block>
+  <block id="8ebf5e70d0ed304519c7c9b525d80af1" category="list-text">実行を送信します。 AI ジョブをダウンロードして抽出し、前処理し、 TupSimple LANE 検出データセットを「 pvc 」に格納します。このデータセットは、 NetApp Trident によって動的に作成されます。</block>
+  <block id="050d58b165aef32cad86839521b721b2" category="list-text">実行ファイルを送信するには、次のコマンドを使用します。 AI job ：</block>
+  <block id="83b4fb868b7505e293871c3e5accc98c" category="list-text">次の表に情報を入力して、実行ファイルを送信します。 AI job ：</block>
+  <block id="e50d72d773874b2be58530daec43900c" category="cell">名前</block>
+  <block id="37e9bb74490b0ac510effff5a546f11d" category="cell">ジョブの名前</block>
+  <block id="5503ed8f71ae365eb6f5e8221562a0eb" category="cell">- PVC</block>
+  <block id="626299ff067d1e6a178beced1631ab43" category="cell">[StorageClassName]: Size:ContainerMountPath という形式の PVC では、ストレージクラス azurenetappfiles で Trident を使用して、オンデマンドで PVC を作成します。この場合の永続ボリューム容量は 100Gi で、パス /mnt にマウントされます。</block>
+  <block id="0247d7fb481075907b9eb467cfe90e3a" category="cell">イメージ（ Image ）</block>
+  <block id="b30f1ca8b35fd6ccab829a959f414a51" category="cell">このジョブのコンテナの作成時に使用する Docker イメージ</block>
+  <block id="22a55ba6c8590fa98f1b3234141f2848" category="paragraph"><block ref="22a55ba6c8590fa98f1b3234141f2848" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="af270e479cd849e4a9cb6d17b76585ef" category="list-text">送信された RUN ： AI ジョブのリストを表示します。</block>
+  <block id="f740410b6ea33d3ffc740140cc23a0e2" category="paragraph"><block ref="f740410b6ea33d3ffc740140cc23a0e2" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="51869a860c4af748ec2815d406929a17" category="list-text">送信されたジョブログを確認してください。</block>
+  <block id="ab353387b0e5276e03aecae4cc95d150" category="paragraph"><block ref="ab353387b0e5276e03aecae4cc95d150" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="d84dd51baa0cf15db0a639dbb6d5d8ee" category="list-text">作成された「 pvc 」をリストします。次のステップでトレーニングを行うには ' この pvc コマンドを使用します</block>
+  <block id="cc2e05fe54a847aee415a2deb0b7f13e" category="paragraph"><block ref="cc2e05fe54a847aee415a2deb0b7f13e" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="b20e4749f78095f0b9adf5c3cad36f81" category="list-text">実行中のジョブを確認します： AI UI （または app.run.ai` ）。</block>
+  <block id="ced39410c19f3968638fc81e16743f32" category="paragraph"><block ref="ced39410c19f3968638fc81e16743f32" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="3dee54cb181d3bfde644600fb15bbac4" category="section-title">Horovod を使用して、分散レーン検出トレーニングを実施します</block>
+  <block id="645e2c981858a720c673c6a782efd9ea" category="paragraph">Horovod を使用した分散型レーン検出トレーニングの実行は、オプションのプロセスです。ただし、実行する手順は次のとおりです。</block>
+  <block id="04e568eec6dda4a0cfb1fc6680509d35" category="list-text">Docker イメージをビルドしてプッシュするか、既存の Docker イメージを使用する場合はこの手順を省略します（例：「 muneer7589/dist lane -detection ： 3.1 ）：」</block>
+  <block id="b01fdc5088b4a04549ed5e7cc71f898b" category="list-text">ホームディレクトリに切り替えます。</block>
+  <block id="14e21ef8495bc1dd543db0aebbe06c5b" category="list-text">プロジェクトディレクトリの lane -detection -SCNN-horovod. に移動します</block>
+  <block id="0a27aa824e245e7b31f5f8d990636ead" category="list-text">「 build_image.sh 」シェルスクリプトを変更し、 Docker リポジトリを自分のものに変更します（たとえば、「 m uneer7589 」を Docker リポジトリ名に置き換えます）。Docker イメージ名とタグも変更できます（「 dist-dlane detection 」や「 3.1 」など）。</block>
+  <block id="c9ce95c3d4cf96d5e894e4a834754cb6" category="paragraph"><block ref="c9ce95c3d4cf96d5e894e4a834754cb6" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="2776d43d1e635424496622f14cfd745c" category="list-text">スクリプトを実行して Docker イメージを構築し、 Docker リポジトリにプッシュします。</block>
+  <block id="b9bcfd06c5cdfc67a00ffe8a0c846318" category="list-text">RUN ：「分散型トレーニング（ MPI ）実行のための AI ジョブ」を提出します。</block>
+  <block id="f3b76b64a9761cfb85f0ddc37d910fef" category="list-text">実行の送信を使用：前述のステップで PVC を自動的に作成するための AI （データのダウンロード用）のみ RWO アクセスを許可します。これにより、複数のポッドまたはノードが分散トレーニング用に同じ PVC にアクセスすることはできません。アクセスモードを ReadWriteMany に更新し、 Kubernetes パッチを使用して更新します。</block>
+  <block id="2874172b683ddc4047fd63f29baf543d" category="list-text">まず、次のコマンドを実行して PVC のボリューム名を取得します。</block>
+  <block id="bcc0952c2970bfd6c85cd65050e00533" category="paragraph"><block ref="bcc0952c2970bfd6c85cd65050e00533" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="f64ac0e4e6343f4593e210b98f9c91de" category="list-text">ボリュームにパッチを適用し、アクセスモードを ReadWriteMany に更新します（次のコマンドでは、ボリューム名を各自のに置き換えてください）。</block>
+  <block id="7a9d347cf2f324e82478a9cf243448f7" category="list-text">次の表の情報を使用して、分散トレーニングジョブを実行するための AI MPI ジョブを実行します。</block>
+  <block id="b068931cc450442b63f5b3d276ea4297" category="cell">名前</block>
+  <block id="e4580c1854231c935f0cf2eb4609d97a" category="cell">配布トレーニングジョブの名前</block>
+  <block id="384dd16a327b7f16278642f008c27fab" category="cell">大きなシャン</block>
+  <block id="fc9fed4d0a3cb207102499ba041f2603" category="cell">大容量の /dev/shm デバイスを RAM にマウントする共有ファイルシステムであり、複数の CPU ワーカーがバッチを処理して CPU RAM にロードするために十分な共有メモリを提供します。</block>
+  <block id="530968b205d33b3869aa32e2933fbfad" category="cell">プロセス</block>
+  <block id="403e4aa48fedb1c5777ee913b2f2bedb" category="cell">配布されたトレーニングプロセスの数</block>
+  <block id="0aa0be2a866411d9ff03515227454947" category="cell">GPU</block>
+  <block id="031492a2d708ca774bd08c099eb4dd79" category="cell">このジョブでジョブに割り当てる GPU / プロセスの数には、 3 つの GPU ワーカープロセスがあります（ --processes=3 ）。各プロセスは 1 つの GPU で割り当てられます（ --GPU 1 ）。</block>
+  <block id="642542e40351edbd731ebad352b31317" category="cell">PVC</block>
+  <block id="c50723a53a74a682495f8c3810ce4a65" category="cell">前のジョブ（ download-tusimple-data-0 ）によって作成された既存の永続ボリューム（ pvc -pdownload -tusimple-data-0 ）を使用し、パス /mnt にマウントします</block>
+  <block id="8c236f63f205a50942b609a6d45734a7" category="cell">コンテナで設定する環境変数を定義します</block>
+  <block id="61dcf83940f915d0c5fe5b985eed7be8" category="cell">ワーカーを使用します</block>
+  <block id="f84e120605e14d9755a1ed2e8e03cea6" category="cell">引数を true に設定すると、マルチプロセスのデータロードがオンになります</block>
+  <block id="90b186f5d2a6890e77373c8aa60461e7" category="cell">num_Workers</block>
+  <block id="a10574eb8e119b847fb5ab95b788e723" category="cell">データローダーワーカープロセスの数</block>
+  <block id="61c67ea819106ff81c08249014791d3b" category="cell">batch_size</block>
+  <block id="243f7fe32e2dbb7748c1a018fe60016e" category="cell">トレーニングバッチサイズ</block>
+  <block id="d07f4474a5e5996da9b6e57abb250331" category="cell">使用 _ VAL</block>
+  <block id="919bc92a851c1d3e2c467e844398b751" category="cell">引数を true に設定すると、検証が可能になります</block>
+  <block id="c4407b612c3b5e2c00c1b5522c686c84" category="cell">Val_batch_size</block>
+  <block id="597765782da042e86019b4c919a86248" category="cell">検証バッチサイズ</block>
+  <block id="18e0d33045db50bb37e6f2fcd5c0b842" category="cell">Snapshot の有効化</block>
+  <block id="67c5deea68dff022b0f807ffb3bf56e2" category="cell">引数を true に設定すると、 ML バージョン管理のためにデータとトレーニング済みのモデルスナップショットを取得できます</block>
+  <block id="cdd7dd1603420ef6c3efe7b264205137" category="cell">pvc_name</block>
+  <block id="d95926771c9100db9ba3e3247c86a192" category="cell">スナップショットを作成する PVC の名前。上記のジョブ送信では、データセットとトレーニング済みモデルで構成される Pvc-de-download-tusimple-data-0 のスナップショットを作成します</block>
+  <block id="b302d66ab7f3f0c94236ff26c8ead4d9" category="inline-image-macro">エラー：グラフィックイメージがありません</block>
+  <block id="d52f66f6b7bb9cf3c7382d8ce6f6b9ea" category="paragraph"><block ref="d52f66f6b7bb9cf3c7382d8ce6f6b9ea" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="3299ed00d03beff0cc2ebaf178a91786" category="list-text">送信されたジョブを一覧表示します。</block>
+  <block id="2e593aa2ccf62807184e56a543d23e97" category="paragraph"><block ref="2e593aa2ccf62807184e56a543d23e97" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="82abe908a319245230ef0f3ec84c263f" category="list-text">送信されたジョブログ：</block>
+  <block id="dab56217fc48a1919fee48434a7c7204" category="paragraph"><block ref="dab56217fc48a1919fee48434a7c7204" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="981528b0e4cd4a19c56310c6b9c915ce" category="list-text">実行中のトレーニングジョブを確認します。次の図に示すように、 AI GUI （または app.runai.ai): run ： AI Dashboard ）。最初の図は、分散トレーニングジョブ用に割り当てられた 3 つの GPU を AKS の 3 つのノードに分散し、 2 番目の実行である AI ジョブの詳細を示しています。</block>
+  <block id="d8cbd4299e4baf5de5572bf6af32dd52" category="paragraph"><block ref="d8cbd4299e4baf5de5572bf6af32dd52" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="90fdc4068f0b660d1d6b102946986bd1" category="paragraph"><block ref="90fdc4068f0b660d1d6b102946986bd1" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="9e8bb0b427c33dd6cf63d1a3a37c7022" category="list-text">トレーニングが完了したら、作成され、実行済みの NetApp Snapshot コピーである AI ジョブを確認します。</block>
+  <block id="6c94f812a836696605e3e2b6bd5ca768" category="paragraph"><block ref="6c94f812a836696605e3e2b6bd5ca768" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="e4c0a1395081fc81855e465c493f4967" category="section-title">NetApp Snapshot コピーからデータをリストアします</block>
+  <block id="ec8de1dcfce51c9d877901e2f6f5971e" category="paragraph">NetApp Snapshot コピーからデータをリストアするには、次の手順を実行します。</block>
+  <block id="5adc4d7860e7ad0f78ada0bb1f0eaca6" category="list-text">プロジェクトディレクトリの lane -detection -SCNN-horovod' に移動します</block>
+  <block id="6344772f26907403fed713060f33b8f4" category="list-text">「 restore-snaphot-pvc.yaml 」を変更し、「 ataSource `name」 フィールドをデータのリストア元の Snapshot コピーに更新します。また、データを復元する PVC 名を変更することもできます。この例では、「 restored-tusimple」 です。</block>
+  <block id="b3b5448c329ac882bc890a1be1a1b369" category="paragraph"><block ref="b3b5448c329ac882bc890a1be1a1b369" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="8f8efb3d1b86c88cfab193291776b6ad" category="list-text">「 restore -snapshot-pvc.yaml 」を使用して新しい PVC を作成します。</block>
+  <block id="34c7c2e95019754701182fe2ab194499" category="paragraph"><block ref="34c7c2e95019754701182fe2ab194499" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="070856555a817dbf9a4061542b2098ca" category="list-text">復元されたばかりのデータをトレーニングに使用する場合、ジョブ送信は以前と同じです。次のコマンドに示すように、トレーニングジョブの送信時に「 pvc_name 」を復元された「 pvc_name 」に置き換えるだけです。</block>
+  <block id="e945ddc4d35a9c49a17bd00c53db05a6" category="section-title">パフォーマンス評価</block>
+  <block id="3451b157ef07ae84bfaba5fb6639c1ba" category="paragraph">解決策のリニアな拡張性を示すために、 GPU × 1 と GPU × 3 という 2 つのシナリオでパフォーマンステストを実施しました。GPU 割り当て、 GPU とメモリの使用率、シングルノードと 3 ノードの異なるメトリックは、 TuSimple LANE 検出データセットのトレーニング中に取得されました。データは、トレーニングプロセス中のリソース使用率を分析するために 5 倍に増加します。</block>
+  <block id="b8077d533d2f9918c47d330cbac4392d" category="inline-link-macro">Azure NetApp Files サービスレベル</block>
+  <block id="da9b7dc2993c3c848d5d9a9a15806d8c" category="paragraph">解決策を使用すると、まず小規模なデータセットを配置し、一部の GPU で作業を開始できます。GPU の需要とデータ量が増加した場合、標準階層ではテラバイト規模まで動的にスケールアウトし、 Premium 階層にすばやくスケールアップして、データを移動することなく、テラバイトあたりのスループットを 4 倍にすることができます。このプロセスの詳細については、を参照してください。 <block ref="bdbab4daa7de478307acc7147c869853" category="inline-link-macro-rx"></block>。</block>
+  <block id="090a231c840a0cb23aa29c8d1afc7832" category="paragraph">1 つの GPU での処理時間は 12 時間 45 分でした。3 つのノードにまたがる 3 つの GPU での処理時間は約 4 時間 30 分でした。</block>
+  <block id="49eca64b9f03702167beb48ebd38587b" category="paragraph">本ドキュメントの以降の各セクションにある図は、個々のビジネスニーズに基づくパフォーマンスと拡張性の例を示しています。</block>
+  <block id="abfc10c2bc00a990735e6d27797295a8" category="paragraph">次の図は、 1 つの GPU 割り当てとメモリ使用率を示しています。</block>
+  <block id="8d7e3abab70510c3f4636ff7bf953250" category="paragraph"><block ref="8d7e3abab70510c3f4636ff7bf953250" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="31a3d2def4927574922946c38f043c0b" category="paragraph">次の図は、シングルノードの GPU 利用率を示しています。</block>
+  <block id="58cf0f270760f08ac96254402d0696dc" category="paragraph"><block ref="58cf0f270760f08ac96254402d0696dc" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="dcca9cfd87d9f2087d720ef187655cea" category="paragraph">次の図は、シングルノードのメモリサイズ（ 16GB ）を示しています。</block>
+  <block id="e22d39f2830d0f3e3944644d0f605d41" category="paragraph"><block ref="e22d39f2830d0f3e3944644d0f605d41" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="576c0843e21d5ee884a067aa7b6a1a40" category="paragraph">次の図は、シングルノードの GPU 数（ 1 ）を示しています。</block>
+  <block id="ef855771be83c072ebaafc60d2d1933f" category="paragraph"><block ref="ef855771be83c072ebaafc60d2d1933f" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="a2c50f1b8fc86c36cc0df94dd14b46b9" category="paragraph">次の図は、シングルノードの GPU 割り当て（ % ）を示しています。</block>
+  <block id="e295f84458327d01315b814d8deb2aea" category="paragraph"><block ref="e295f84458327d01315b814d8deb2aea" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="54b2b7f256373eac14419bfec5b84b21" category="paragraph">次の図は、 GPU の割り当てとメモリという 3 つのノードにまたがる 3 つの GPU を示しています。</block>
+  <block id="e763ef0e4b7cb9d022bf6db49319c570" category="paragraph"><block ref="e763ef0e4b7cb9d022bf6db49319c570" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="94ab4242b167972f7a9f0513ca772555" category="paragraph">次の図は、 3 つのノードの使用率（ % ）にまたがる 3 つの GPU を示しています。</block>
+  <block id="d786146ae56597413fa5be548126cda9" category="paragraph"><block ref="d786146ae56597413fa5be548126cda9" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="45c31ecb239228cac5e96860d42f9a4d" category="paragraph">次の図は、 3 つのノードにまたがる 3 つの GPU のメモリ利用率（ % ）を示しています。</block>
+  <block id="2224958fd5113068ac8a3b55a336661b" category="paragraph"><block ref="2224958fd5113068ac8a3b55a336661b" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="79f05e8f99917560625d1cf3f2d4fc5d" category="inline-link">サービスレベル</block>
+  <block id="07c1fda2408980b5d53ea06ad3cc5ed1" category="paragraph">既存のボリュームのサービスレベルを変更するには、を使用する別の容量プールにボリュームを移動します<block ref="bc9fbd5fd43d884f02abe6a6f9b51339" category="inline-link-rx"></block> 必要なのはボリュームです。ボリュームの既存のサービスレベル変更では、データを移行する必要はありません。また、ボリュームへのアクセスにも影響しません。</block>
+  <block id="5e2ff0b5dc3206032a81aa3aecb7c462" category="section-title">ボリュームのサービスレベルを動的に変更する</block>
+  <block id="58e691ddc6184f73e5d6b513ca5a3c49" category="paragraph">ボリュームのサービスレベルを変更するには、次の手順を実行します。</block>
+  <block id="3f19b438418ed162387a3050b304c89b" category="list-text">Volumes （ボリューム）ページで、サービスレベルを変更するボリュームを右クリックします。［ プールの変更 ］ を選択します</block>
+  <block id="5acf521dbc5099b2ec33a64efac89595" category="paragraph"><block ref="5acf521dbc5099b2ec33a64efac89595" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="6533c4186062235d8b7f47e232e92597" category="list-text">プールの変更ウィンドウで、ボリュームの移動先とする容量プールを選択します。[OK] をクリックします。</block>
+  <block id="3f0874d07ce6ae728a6dcdda7903f9cd" category="paragraph"><block ref="3f0874d07ce6ae728a6dcdda7903f9cd" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="cb935c59f24539e0966b7ab5c761e862" category="section-title">サービスレベルの変更を自動化</block>
+  <block id="1391028ed384c93fd59fd5a0097f9181" category="paragraph">動的サービスレベルの変更は現在、パブリックプレビューで有効になっていますが、デフォルトでは有効になっていません。Azure サブスクリプションでこの機能を有効にするには、次の手順を実行します<block ref="5c3671452d40598396b030d5c9c6dc27" category="inline-link-rx"></block>」</block>
+  <block id="407443b5508c517acd825fbcddb7ab4c" category="inline-link">AZ netappfiles ボリューム： Azure NetApp Files （ ANF ）ボリュームリソースの管理</block>
+  <block id="1d3afb31c5d2a81fca940ae760671a1c" category="list-text">Azure では、 CLI コマンドでも次のコマンドを使用できます。Azure NetApp Files のプール・サイズの変更の詳細については、を参照してください<block ref="8b45caafcc8d758d5c37edb19f8a2761" category="inline-link-rx"></block>。</block>
+  <block id="ebd5b070cb8457b94f1916baa92c3c7d" category="inline-link">Azure NetApp Files ボリュームのプールを変更します</block>
+  <block id="d5460fd5fbfbf643b9a4bc1d1de279d0" category="list-text">ここに示す 'set-aznetappfilesvolumepool' コマンドレットを使用すると、 Azure NetApp Files ボリュームのプールを変更できます。ボリュームプールのサイズ変更の詳細については、を参照してください<block ref="70c8d95cde8b63eae0d37a8b81a31482" category="inline-link-rx"></block>。</block>
+  <block id="ca6d5ad374e3cf268dec341c0c398442" category="summary">このアーキテクチャでは、 AI や機械学習（ ML ）の分散型トレーニングプロセスであるレーン検出において、最も演算負荷の高い部分に焦点が当てられています。</block>
+  <block id="8cb13336dc020a2fb7bca9d4e940cc64" category="paragraph">このアーキテクチャでは、 AI や機械学習（ ML ）の分散型トレーニングプロセスであるレーン検出において、最も演算負荷の高い部分に焦点が当てられています。車線検知は、自動運転で最も重要な作業の 1 つであり、車線区分線の位置を特定することで車両を誘導するのに役立ちます。車線標示などの静的コンポーネントは、車両を高速道路でインタラクティブかつ安全に走行させる。</block>
+  <block id="0721542454dcaa77c97cd9c545d9063f" category="paragraph">畳み込みニューラルネットワーク（ CNN ）ベースのアプローチでは、シーンの理解とセグメント化が新たなレベルにまで押しつけられています。長い構造やリージョンが含まれているオブジェクト（ポール、車線の陰など）は適切に機能しませんが、空間的畳み込みニューラルネットワーク（ SCNN ）は、 CNN を豊かな空間レベルに一般化します。同一層のニューロン間で情報を伝播できるため、車線、ポール、トラックなどの構造化された物体（オ結論を含む）に最適です。この互換性は、空間情報を強化し、滑らかさと連続性を維持できるためです。</block>
+  <block id="df38a65c87631c9530cc3a6832ea7a7d" category="paragraph">モデルがデータセット内のさまざまなコンポーネントを学習し、区別できるように、数千ものシーンイメージをシステムに挿入する必要があります。これらのイメージは天候、日中か夜、マルチレーンハイウェーの道および他の交通条件を含んでいる。</block>
+  <block id="f7759f002b4a60b5c837abb7f8936037" category="paragraph">トレーニングには、質の高いデータと量のニーズがあります。1 つの GPU または複数の GPU でトレーニングを完了するには、数日から数週間かかることがあります。データ分散トレーニングは、マルチノードの GPU を複数使用することでプロセスを高速化できます。Horovod は、分散トレーニングを提供する一方で、 GPU のクラスタ間でデータを読み取ることは障害となる可能性があるフレームワークの 1 つです。Azure NetApp Files は、超高速、高スループット、一貫した低レイテンシを実現し、スケールアウト / スケールアップ機能を提供して、 GPU がコンピューティング容量の最適な値に活用されるようにします。当社の実験では、 SCNN を使用してレーン検出をトレーニングするために、クラスタ全体のすべての GPU が平均で 96% 以上使用されていることが確認されました。</block>
+  <block id="bf8dd94f74c5878ba969abeeef0286d1" category="section-title">対象読者</block>
+  <block id="0ca450eccdc7141b5e85e9e691a7f16b" category="paragraph">データサイエンスには、 IT とビジネスに関する複数の分野が組み込まれているため、ターゲットを絞ったオーディエンスには複数のペルソナが含まれます。</block>
+  <block id="8acb1f50d0ada4e1149c01a5aa15b9ce" category="list-text">データサイエンティストは、選択したツールとライブラリを柔軟に使用する必要があります。</block>
+  <block id="d0ba3808090644db73caeb23fcc2b17c" category="list-text">データエンジニアは、データフローの仕組みと、データが格納されている場所を把握する必要があります。</block>
+  <block id="22a8c99419dee54a28ed1e2355a6706b" category="list-text">自動運転のユースケースエキスパート。</block>
+  <block id="18f66c4bad233033dabddf6ff1289eeb" category="list-text">クラウド（ Azure ）リソースのセットアップと管理を担当するクラウド管理者およびアーキテクト。</block>
+  <block id="4c9b6067f04f945e9247ecd00c22e328" category="list-text">DevOps エンジニアは、新しい AI / ML アプリケーションを継続的統合 / 継続的導入（ CI / CD ）パイプラインに統合するためのツールを必要としています。</block>
+  <block id="53720cf6403ac6b8a2402cce66c79d4f" category="list-text">ビジネスユーザは、 AI / ML アプリケーションにアクセスしたいと考えています。</block>
+  <block id="68dcdc6243e54c14b4c41c129d574c43" category="paragraph">このドキュメントでは、 Azure NetApp Files 、 Run ： AI 、 Microsoft Azure の 3 つの役割がそれぞれビジネスにもたらす価値について説明します。</block>
+  <block id="8f4c7939e8a42e023939df947aba54f6" category="section-title">解決策テクノロジ</block>
+  <block id="8017303b9b2c96742151083f089fc51f" category="paragraph">このセクションでは、 Azure クラウドで完全に稼働する規模の分散トレーニング解決策を実装することで、レーン検出のユースケースに必要なテクノロジについて説明します。次の図は、解決策アーキテクチャの概要を示しています。</block>
+  <block id="f17291da16ed3dd7b705548f16706120" category="paragraph">この解決策で使用される要素は次のとおりです。</block>
+  <block id="f28c5620810ae2a6961a1811277a7ff8" category="list-text">Azure Kubernetes Service （ AKS ）</block>
+  <block id="03023f4a63d3d8f8ff86ff8246f75b9a" category="list-text">NVIDIA GPU を搭載した Azure コンピューティング SKU</block>
+  <block id="ae5ba69294a1b9feb03e6dd75395092c" category="list-text">実行： AI</block>
+  <block id="951370659c41a55ac9f80ff19c2f4b26" category="paragraph">ここに記載されているすべての要素へのリンクをに示します <block ref="c8b73068ae16e202922904f7ed452f8e" category="inline-link-macro-rx"></block> セクション。</block>
+  <block id="00d9279819736707d2b224ec427a8aae" category="paragraph"><block ref="00d9279819736707d2b224ec427a8aae" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="e6a2faff353ad4e74bf3ee92e5d8b9c6" category="section-title">クラウドリソースとサービスの要件</block>
+  <block id="5b691a1a00c6c03be70e559f55ae4fef" category="paragraph">次の表に、解決策の実装に必要なハードウェアコンポーネントを示します。解決策の実装で使用されるクラウドコンポーネントは、お客様の要件に応じて異なる場合があります。</block>
+  <block id="5f3bc5eb45e6b472bf3345d1036945e9" category="cell">AK</block>
+  <block id="55b8660903ebaaed924e945432fe269e" category="cell">少なくとも 3 つのシステムノードと 3 つの GPU ワーカーノードが必要です</block>
+  <block id="3580a6b3e7ba0d55af17daee07244cbd" category="cell">仮想マシン（ VM ） SKU システムノード</block>
+  <block id="8f75b0af54b5e672a660f4f1f1557f18" category="cell">3 つの Standard_DS2_v2</block>
+  <block id="a6066b29e1c4603af2c5c46cf549f764" category="cell">VM SKU GPU ワーカーノード</block>
+  <block id="6aa4bab72f83c0b68587ee208f2c9ab0" category="cell">3 つの Standard_NC6s_v3</block>
+  <block id="3468e131592d70a22139936f3fb21403" category="cell">4TB の標準ティア</block>
+  <block id="cb251883efe045266871b7dd15229644" category="cell">バージョンまたはその他の情報</block>
+  <block id="bb451ae1fa5a629a0307949d38a60e2d" category="cell">AK - Kubernetes バージョン</block>
+  <block id="f2d1dd8f39098da402272f7606fd2638" category="cell">1.18.14</block>
+  <block id="13c5eaa211a3778d391d5c8f65b80234" category="cell">AI CLI を実行</block>
+  <block id="89633b9d6f401377b6ece0682b92530a" category="cell">v2.2.25</block>
+  <block id="4b138e2d1492b1e550d42348c65cbf82" category="cell">実行： AI Orchestration Kubernetes Operator バージョン</block>
+  <block id="6db851ff24c4b893a85242e63bbea119" category="cell">1.0.109</block>
+  <block id="f5f1c35a78d5584cdb787d4e3b6b10b6" category="cell">ホロボド</block>
+  <block id="4a7724061c17f8cf5be61a8adf4c170f" category="cell">0.21.2</block>
+  <block id="44adee2c140fc723412bae93732e5993" category="cell">20.01.1</block>
+  <block id="f6292d9eb6ea467a3c3560a65b7f63b5" category="paragraph">ONTAP VASA プロバイダでは、異なるストレージへのフェイルオーバーがサポートされます。たとえば、システムは、エッジの場所にある ONTAP Select からコアデータセンターの AFF システムにフェイルオーバーできます。ストレージの類似性に関係なく、レプリケーションが有効な VM ストレージポリシーのストレージポリシーマッピングとリバースマッピングを常に設定して、リカバリサイトで提供されるサービスが期待される要件を満たしていることを確認する必要があります。次のスクリーンショットは、ポリシーマッピングの例を示しています。</block>
+  <block id="70be05b3500f28affc2d048f81c4f7ab" category="sidebar">Azure の分散トレーニング - レーン検出</block>
+  <block id="7767872606b9c99eb656c9568c1fdd83" category="sidebar">レーン検出– AI を実行する分散トレーニング</block>
 </blocks>
