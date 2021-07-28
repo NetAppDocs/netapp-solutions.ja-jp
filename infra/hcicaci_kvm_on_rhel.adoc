@@ -32,7 +32,7 @@ KVM は、すべての Linux マシンをタイプ 1 （ベアメタル）ハイ
 NOTE: NetApp HCI ストレージおよびコンピューティングノードに接続するインターフェイスには、 vPC ポリシーグループを使用します。
 
 . ワークロード間のアクセスを厳密に制御するための契約を作成して割り当てます。契約の設定の詳細については、ガイドを参照してください https://www.cisco.com/c/en/us/td/docs/switches/datacenter/aci/apic/sw/1-x/Operating_ACI/guide/b_Cisco_Operating_ACI/b_Cisco_Operating_ACI_chapter_01000.html["こちらをご覧ください"^]。
-. NetApp HCI Element クラスタをインストールして設定このインストールでは NDE を使用しないでください。代わりに、 HCI ストレージノードにスタンドアロンの Element クラスタをインストールします。次に、 RHEL のインストールに必要なボリュームを設定します。NetApp HCI コンピューティングノードに RHEL 、 KVM 、および Open vSwitch をインストールします。ホストと VM の共有ストレージサービスとして Element ボリュームを使用して、ハイパーバイザー上のストレージプールを設定します。RHEL での KVM のインストールと設定の詳細については、を参照してください https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html-single/virtualization_deployment_and_administration_guide/index["Red Hat のドキュメント"^]。を参照してください https://docs.openvswitch.org/en/latest/["OVS のドキュメント"^] Open vSwitch の設定の詳細については、を参照してください。
+. NetApp HCI Element クラスタをインストールして設定このインストールでは NDE を使用しないでください。代わりに、 HCI ストレージノードにスタンドアロンの Element クラスタをインストールします。次に、 RHEL のインストールに必要なボリュームを設定します。NetApp HCI コンピューティングノードに RHEL 、 KVM 、および Open vSwitch をインストールします。ホストと VM の共有ストレージサービスとして Element ボリュームを使用して、ハイパーバイザー上のストレージプールを設定します。RHEL での KVM のインストールと設定の詳細については、を参照してください https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html-single/virtualization_deployment_and_administration_guide/index["Red Hat のドキュメント"^]。を参照してください Open vSwitch の設定の詳細については、を参照してください。
 . RHEL KVM ハイパーバイザーの Open vSwitch は、 VMM を Cisco ACI と統合できません。ACI のリーフスイッチと RHEL ホストを接続するインターフェイスで必要な VLAN を許可するために、必要なすべての EPG で物理ドメインと静的パスを設定する必要があります。また、 RHEL ホストに対応する OVS ブリッジを設定し、これらのブリッジを使用するように VM を設定します。この解決策の RHEL KVM ホストのネットワーク機能は、 Open vSwitch 仮想スイッチを使用して実現されます。
 
 

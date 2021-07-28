@@ -36,7 +36,7 @@ image:vsphere_ontap_image4.png["エラー：グラフィックイメージがあ
 
 VM がデータストアから削除されたときに、他の目的でスペースを再生することができます。NFS データストアを使用している場合、 VM が削除されるとすぐにスペースが再生されます（もちろん、このアプローチはボリュームがシンプロビジョニングされている場合、つまりボリュームギャランティが none に設定されている場合にのみ有効です）。ただし、 VM のゲスト OS 内でファイルが削除されても、 NFS データストアではスペースが自動的に再生されません。LUN ベースの VMFS データストアの場合、 ESXi およびゲスト OS は、問題 VAAI UNMAP プリミティブをストレージに（シンプロビジョニングを使用している場合に）再利用できます。リリースによっては、このサポートは手動と自動のどちらかになります。
 
-vSphere 5.5 以降では、 vmkfstools – y コマンドに代わって、空きブロック数を指定する esxcli storage vmfs unmap コマンドが使用されます（ VMware KB を参照） https://kb.vmware.com/s/article/2057513["2057513"^] 詳細については、を参照してください）。vSphere 6.5 以降では、 VMFS 6 を使用している場合、スペースは自動的に非同期で再利用される必要があります（を参照） https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.storage.doc/GUID-B40D1420-26FD-4318-8A72-FA29C9A395C2.html["ストレージスペースの再生"^] vSphere のドキュメントを参照）。ただし、必要に応じて手動で実行することもできます。この自動マッピング解除は ONTAP でサポートされ、 VMware vSphere 用の ONTAP ツールでは低優先度に設定されます。
+vSphere 5.5 以降では、 vmkfstools – y コマンドに代わって、空きブロック数を指定する esxcli storage vmfs unmap コマンドが使用されます（ VMware KB を参照） https://kb.vmware.com/s/article/2057513["2057513"^] 詳細については、を参照してください）。vSphere 6.5 以降では、 VMFS 6 を使用している場合、スペースは自動的に非同期で再利用される必要があります（を参照） vSphere のドキュメントを参照）。ただし、必要に応じて手動で実行することもできます。この自動マッピング解除は ONTAP でサポートされ、 VMware vSphere 用の ONTAP ツールでは低優先度に設定されます。
 
 
 

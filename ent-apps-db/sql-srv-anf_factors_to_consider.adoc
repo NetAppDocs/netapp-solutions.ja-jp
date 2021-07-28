@@ -28,7 +28,7 @@ summary: このセクションでは、クラウドで Azure NetApp Files を SQ
 
 == VM の冗長性
 
-冗長性と高可用性を高めるには、 SQL Server VM を同じにする必要があります https://docs.microsoft.com/en-us/azure/virtual-machines/availability-set-overview["可用性セット"^] または別のものです https://docs.microsoft.com/en-us/azure/availability-zones/az-overview["可用性ゾーン"^]。Azure VM を作成する場合は、アベイラビリティセットとアベイラビリティゾーンのどちらかを設定する必要があります。 Azure VM を両方に含めることはできません。
+冗長性と高可用性を高めるには、 SQL Server VM を同じにする必要があります https://docs.microsoft.com/en-us/azure/virtual-machines/availability-set-overview["可用性セット"^] または別のものです。Azure VM を作成する場合は、アベイラビリティセットとアベイラビリティゾーンのどちらかを設定する必要があります。 Azure VM を両方に含めることはできません。
 
 
 
@@ -60,7 +60,7 @@ Azure NetApp Files for SQL Server を使用する利点は次のとおりです�
 
 * 注： *
 
-* 冗長性と高可用性を高めるには、 SQL Server VM を同じにする必要があります https://docs.microsoft.com/en-us/azure/virtual-machines/availability-set-overview["可用性セット"^] または違う https://docs.microsoft.com/en-us/azure/availability-zones/az-overview["可用性ゾーン"^]。ユーザ定義のデータファイルが必要な場合は、ファイルパスの要件を考慮してください。その場合は、 SQL FCI over SQL AOAG を選択します。
+* 冗長性と高可用性を高めるには、 SQL Server VM を同じにする必要があります https://docs.microsoft.com/en-us/azure/virtual-machines/availability-set-overview["可用性セット"^] または違う。ユーザ定義のデータファイルが必要な場合は、ファイルパスの要件を考慮してください。その場合は、 SQL FCI over SQL AOAG を選択します。
 * 次の UNC パスがサポートされます。 file:///\\ANFSMB-b4ca.anf.test\SQLDB%20and%20\\ANFSMB-b4ca.anf.test\SQLDB\["\\ANFSMB-b4ca.anf.test\sqldb および \\ANFSMB-b4ca.anf.test\sqldb\"^]。
 * ループバック UNC パスはサポートされていません。
 * サイジングには、オンプレミス環境の履歴データを使用します。OLTP ワークロードの場合は、ワークロードの平均時間とピーク時間、ディスク読み取り回数 / 秒、ディスク書き込み回数 / 秒のパフォーマンスカウンタを使用して、ターゲット IOPS とパフォーマンス要件を一致させます。Data Warehouse および Reporting のワークロードの場合は、ワークロードの平均時間とピーク時間、およびディスクの読み取りバイト数 / 秒とディスクの書き込みバイト数 / 秒を使用して、ターゲットのスループットを調整します平均値は、ボリュームの形状変更機能と組み合わせて使用できます。

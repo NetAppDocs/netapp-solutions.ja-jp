@@ -7385,8 +7385,6 @@
   <block id="22f78a96796d22d06c6c67652a374ffa" category="section-title">ストレージコントローラ</block>
   <block id="33414af712ec9cf5beb615810511c047" category="paragraph">ユーザ ID とグループ ID は、 SAP HANA ホストとストレージコントローラで同じである必要があります。グループとユーザは、ストレージクラスタで次のコマンドを入力することで作成されます。</block>
   <block id="2cb27363dc868bf23cc2ef137b8ee00a" category="paragraph">また、 SVM の UNIX ユーザルートのグループ ID を 0 に設定します。</block>
-  <block id="b6187c764fda6e0f3fca477961aed08c" category="inline-link-macro">次は、 SAP HANA の I/O スタック構成です</block>
-  <block id="0a07ab9e2846fe3e743ee98b9bbb1c24" category="paragraph"><block ref="0a07ab9e2846fe3e743ee98b9bbb1c24" category="inline-link-macro-rx"></block></block>
   <block id="0715cc7b6d956cc1bcb7ae80046f1cda" category="summary">HANA データベースをリカバリする手順は次のとおりです。</block>
   <block id="91511a18af650a7ce055d8ec78c57f99" category="doc">HANA データベースのリカバリ</block>
   <block id="7988012007cbc71947d6a647a8c8e726" category="paragraph">必要な SAP サービスを開始します。</block>
@@ -7552,8 +7550,6 @@
   <block id="89a99a898a74d4f2ff80a5aa417e1639" category="paragraph">インストールを開始する前に 'global.ini` ファイルを作成して 'SAP ストレージ・コネクタの使用を有効にしますSAP ストレージコネクタは、インストールプロセス中にワーカーホストで必要なファイルシステムをマウントします。global.ini` ファイルは '/hana/shared-SID' ファイル・システムなど ' すべてのホストからアクセス可能なファイル・システムで使用できる必要があります</block>
   <block id="0e0c950ebceebc20ac07965f3d63f754" category="paragraph">LVM を使用した場合は、必要な設定が異なります。次の例は、 SID が FC5 の 2+1 マルチホストセットアップを示しています。</block>
   <block id="617127e0171267994816fcd2ebf41ca9" category="paragraph">SAP の hdblcm' インストール・ツールを使用して ' いずれかのワーカー・ホストで次のコマンドを実行してインストールを開始します「 addhosts 」オプションを使用して、 2 番目のワーカー（ sapcc-sana-tst-04 ）とスタンバイホスト（ sapcc-sana-tst-05 ）を追加します。準備された「 global.ini` 」ファイルが格納されているディレクトリは、「 storage _ cfg 」 CLI オプション（「 --storage-cfg=/hana/shared 」）に含まれています。使用する OS のバージョンによっては、 SAP HANA データベースをインストールする前に Phyton 2.7 をインストールする必要があります。</block>
-  <block id="3578ce1a57b1be28bfb9a017a909149d" category="inline-link-macro">次の手順： SAP HANA シングルホストシステムのデータボリュームパーティションを追加します</block>
-  <block id="eca7c7912a981ce7f595fe14eb412b9d" category="paragraph"><block ref="eca7c7912a981ce7f595fe14eb412b9d" category="inline-link-macro-rx"></block></block>
   <block id="912023f4eba0bf223e908e20d22ff92f" category="paragraph">以降のセクションでは、 SAP HANA インフラのセットアップと構成のガイドラインについて説明し、 SAP HANA システムのセットアップに必要なすべての手順について説明します。ここでは、次の設定例を使用します。</block>
   <block id="6ea9fa207b22b88f7a1b71067c28b27c" category="summary">包括的なディザスタリカバリ解決策では、お客様がプライマリサイトの完全な障害からリカバリできるようにする必要があります。</block>
   <block id="e83bab5b97dcd6d1ab9fd10e243e00a2" category="doc">ディザスタリカバリ解決策の比較</block>
@@ -7929,8 +7925,6 @@
   <block id="e83d9d66a13e5beb6fcd73e9458bd812" category="cell">TAKEOVER_retries を指定します</block>
   <block id="8b59115254ff7312d8a47a3558d2ef5a" category="section-title">ボリュームをネームスペースにマウントし、エクスポートポリシーを設定</block>
   <block id="118d2a12d0ab217e6a53a464692c141a" category="paragraph">ボリュームを作成するときは、ボリュームをネームスペースにマウントする必要があります。このドキュメントでは、ジャンクションパス名がボリューム名と同じであると想定しています。デフォルトでは、ボリュームはデフォルトポリシーを使用してエクスポートされます。エクスポートポリシーは必要に応じて適用できます。</block>
-  <block id="a0d2f5f0211b46a20bbb28d54f8d08da" category="inline-link-macro">次の手順：ホストのセットアップ</block>
-  <block id="11139957fe44b609da237462d6e41c9a" category="paragraph"><block ref="11139957fe44b609da237462d6e41c9a" category="inline-link-macro-rx"></block></block>
   <block id="c4a071cb34a0a3e070f9652b0dcfce13" category="summary">論理的破損は、ソフトウェアエラー、人為的エラー、破壊行為などが原因で発生する可能性があります。残念ながら、論理的破損は、標準的な高可用性ソリューションやディザスタリカバリソリューションでは対処できないことがよくあります。</block>
   <block id="4cf7b593d5e437dfa0b7b2a5ee3efa97" category="doc">論理的破損</block>
   <block id="5d107f9aa3c669862cfdd15f14788e11" category="paragraph">論理的破損は、ソフトウェアエラー、人為的エラー、破壊行為などが原因で発生する可能性があります。残念ながら、論理的破損は、標準的な高可用性ソリューションやディザスタリカバリソリューションでは対処できないことがよくあります。そのため、論理的破損が発生したレイヤ、アプリケーション、ファイルシステム、またはストレージによっては、 RTO と RPO の要件が満たされないことがあります。</block>
@@ -8010,8 +8004,6 @@
   <block id="8ffd511efff2f95144ac621432b751cd" category="paragraph">次の例は、 SID=NF2 で、データファイルシステムとログファイルシステムに NFSv4.1 を使用し、「 /hana/shared 」ファイルシステムと「 /usr/sap/nf2 」ファイルシステムに NFSv3 を使用する、マルチホスト SAP HANA データベースを示しています。使用される NFS 転送サイズは 1MB です。</block>
   <block id="2555851d01cabd281a371497bed0a9a9" category="list-text">必要なファイル・システムを ' すべてのホスト上の /etc/fstab 構成ファイルに追加します</block>
   <block id="4292e3e460b31d735c080ccc8524778e" category="admonition">/usr/sap/nf2 ファイル・システムは ' データベース・ホストごとに異なります次の例は '/NF2_shared_usr-sap-host1' を示しています</block>
-  <block id="93c1f39e84cf55f88d213aeb1d8e5212" category="inline-link-macro">次の例は、 NFSv4 用の SAP HANA のインストール準備を示しています</block>
-  <block id="b18530994fcb105f1598bb6608492465" category="paragraph"><block ref="b18530994fcb105f1598bb6608492465" category="inline-link-macro-rx"></block></block>
   <block id="4715bf8add38a289ec23829f68ca6ab1" category="summary">調査によると、ビジネスアプリケーションのダウンタイムは企業のビジネスに大きな悪影響を与えることがわかっています。</block>
   <block id="48d5e63e9107995e8ea0ce708339c7bd" category="doc">TR-4891 ：『 SAP HANA disaster recovery with Azure NetApp Files 』</block>
   <block id="0f3dc633a4d453e6870a20626efbd6ae" category="paragraph">Nils Bauer 、 NetApp Ralf Klahr 、 Microsoft</block>
@@ -8061,8 +8053,6 @@
   <block id="ec8a4b40a7d633a3cf77ecd95d9d5df1" category="inline-link">2399079 ： HANA で hdbparam の除去 2</block>
   <block id="834a8b3050b2226b4812fb49026571b3" category="paragraph">SAP HANA 2.0 以降 'hdbparam' は廃止され ' パラメータは global.ini` に移動されましたパラメータは、 SQL コマンドまたは SAP HANA Studio を使用して設定できます。詳細については、 SAP ノートを参照してください<block ref="6af86c07e5a30516e9705c5fc7252793" category="inline-link-rx"></block>。次のテキストに示すように、 global.ini 内でパラメータを設定することもできます。</block>
   <block id="31835039a339b5b0f4d95c207e26b5e3" category="paragraph">SAP HANA 2.0 SPS5 以降、「 setParameter.py 」スクリプトを使用して、正しいパラメータを設定できます。</block>
-  <block id="a798edf48e8515d904252694f50b139a" category="inline-link-macro">次の例： SAP HANA データのボリュームサイズ</block>
-  <block id="927cb6909c5b9744fbc70f7ca058c69f" category="paragraph"><block ref="927cb6909c5b9744fbc70f7ca058c69f" category="inline-link-macro-rx"></block></block>
   <block id="4854d6f0814f33fab723d723df86a202" category="summary">以下は、 HANA データベースのリカバリ手順を示しています</block>
   <block id="7bda2d80ff35cc44a2e131e0160f8093" category="paragraph">以降のサブセクションでは、複製されたログ・バックアップを使用した、フォワード・リカバリを行う場合としない場合のリカバリ・プロセスについて説明しますリカバリは、システムデータベース用の HANA リカバリスクリプトおよびテナントデータベース用の hdbsql コマンドを使用して実行されます。</block>
   <block id="59c7c30c56560af87e5171c311185571" category="section-title">最新の HANA データボリュームバックアップセーブポイントへのリカバリ</block>
@@ -8075,8 +8065,6 @@
   <block id="9aa362cc10f78dc9c324638e14784e6d" category="paragraph">システムとテナントデータベースの最新のログバックアップファイルに対してチェックを実行する必要があります。</block>
   <block id="89c00df8ab7faebd2081b13849c02f6d" category="summary">これで ' 以前に作成した /etc/fstab ファイルに基づいて ' ボリュームをターゲット・ホストにマウントできるようになります</block>
   <block id="13b6058df71d238dde34faeb0f23ca53" category="doc">ターゲットホストにボリュームをマウントします</block>
-  <block id="abc040115c66fc034286034eac63f95c" category="inline-link-macro">Next ： HANA データベースのリカバリ</block>
-  <block id="ef37ddb44eeae6657ea03e92ca60a45b" category="paragraph"><block ref="ef37ddb44eeae6657ea03e92ca60a45b" category="inline-link-macro-rx"></block></block>
   <block id="482a7b20dc0168fcd798c01f92ff4f90" category="summary">また、使用している Linux バージョンに固有のマルチパス構成に関する情報も記載されています。</block>
   <block id="f1b2831b8f22303f2f43d48d0f147f3a" category="paragraph">ホストをセットアップする前に、 NetApp SAN Host Utilities をからダウンロードしておく必要があります<block ref="1a36b59ecae7684863b79a0f690b6840" category="inline-link-rx"></block> HANA サーバにインストールします。Host Utility のマニュアルには、使用する FCP HBA に応じてインストールする必要がある追加ソフトウェアに関する情報が記載されています。</block>
   <block id="e077bd74583341fa1e17ee8fc0b5c0b4" category="paragraph">また、使用している Linux バージョンに固有のマルチパス構成に関する情報も記載されています。このドキュメントでは、 SLES 15 および Red Hat Enterprise Linux 7.6 以降で必要な設定手順について説明します。を参照してください<block ref="c4b23c8c60f3faad406f8d46d87ba646" category="inline-link-rx"></block>。</block>
@@ -8090,7 +8078,6 @@
   <block id="5c5bd50a3cfa405915bc6892659042ce" category="admonition">上記のコマンドを実行してもボリュームが見つからない場合は、再起動する必要があります。</block>
   <block id="4d65ef8cf84d37cbb99560183afc8431" category="list-text">次のいずれかを実行します。</block>
   <block id="c9b9bdcff428106a20521627c72baa32" category="admonition">データとログ LUN の XFS ファイルシステムは 'relatim' および inode64' マウントオプションを使用してマウントする必要があります</block>
-  <block id="0d914bca737e878b5a5f5903b4c9b53b" category="paragraph"><block ref="0d914bca737e878b5a5f5903b4c9b53b" category="inline-link-macro-rx"></block></block>
   <block id="ff3f1e894014f4c26eac8cab49b8a0f4" category="doc">VMware vSphere を使用した SAP HANA</block>
   <block id="e6bbcb3e4d889de6d1cf73dee0f9eac9" category="inline-link">NFS を使用した NetApp AFF システムでの SAP HANA</block>
   <block id="bb5be01c74f4ed3f756e4d4ee67ca6c6" category="paragraph">ストレージを仮想マシン（ VM ）に接続する方法はいくつかあります。推奨される方法は、ストレージボリュームと NFS をゲストオペレーティングシステムから直接接続することです。このオプションについては、を参照してください <block ref="a9babd54e73efbc4c3e12890384d0165" category="inline-link-rx"></block>。</block>
@@ -8201,8 +8188,6 @@
   <block id="4a9f6bf31833ee2ac14dbaff360dd630" category="paragraph"><block ref="4a9f6bf31833ee2ac14dbaff360dd630" category="inline-image-macro-rx" type="image"></block></block>
   <block id="44bc131dcbc031dad5c60665d0e777cb" category="paragraph">ボリュームのリバート処理後、データボリュームは整合性のある HANA Snapshot バックアップに基づいており、フォワードリカバリ処理を実行するために使用できるようになりました。</block>
   <block id="26a7c251db745e0e6e323b2d2a1f06f7" category="admonition">高パフォーマンス階層が低い大容量プールを使用している場合は、必要なパフォーマンスを提供できる容量プールにボリュームを移動する必要があります。</block>
-  <block id="60c5c515dbcf11449a6fb6ad394451e6" category="inline-link-macro">Next ：ターゲットホストにボリュームをマウントします</block>
-  <block id="b6daa324b87c7da5bc460767a6db158f" category="paragraph"><block ref="b6daa324b87c7da5bc460767a6db158f" category="inline-link-macro-rx"></block></block>
   <block id="611474da8104a1c517f6d3e00b794bad" category="summary">ここでは、ディザスタリカバリフェイルオーバーに使用するサーバで必要な準備手順について説明します。</block>
   <block id="fd0f9a84ad1162accae744eb4e8720bc" category="paragraph">通常運用時は、 HANA の QA やテスト用システムなど、通常はターゲットホストがその他の目的に使用されます。そのため、災害時のフェイルオーバーテストを実行する際には、ほとんどの手順を実行する必要があります。一方、関連する構成ファイルは、「 /etc/fstab 」や「 /usr/sap/sapservices 」のように準備し、構成ファイルをコピーするだけで運用に移すことができます。ディザスタリカバリフェイルオーバー手順は、準備された関連する構成ファイルが確実に正しく設定されるようにします。</block>
   <block id="68414e630c2410427f8528f7531641e3" category="paragraph">ターゲット・ホストの準備には、 HANA の QA またはテスト・システムのシャットダウン、および「 systemctl stop sapinit 」を使用したすべてのサービスの停止も含まれます。</block>
@@ -8211,8 +8196,6 @@
   <block id="cb03fc2ba6f5264a1d18ec731940b865" category="paragraph">次の表に、このラボ環境で使用する命名規則を示します。災害復旧サイトのボリューム名は '/etc/fstab に含まれています</block>
   <block id="1dc43cfb2d7ee9173ee71963196e6560" category="cell">pr1 -shared-sm-dest/shared pr1 -shared-sm-dest/usr -sap-pr1</block>
   <block id="b22da6ced8752b012e3da78c79177c72" category="admonition">このテーブルのマウントポイントは、ターゲットホストに作成する必要があります。</block>
-  <block id="9e097f174c15980eba09e00d3022d21b" category="inline-link-macro">次のステップ：レプリケーションピアリングを解除して削除します</block>
-  <block id="efb9e2ad17781bde923b11814eec98a6" category="paragraph"><block ref="efb9e2ad17781bde923b11814eec98a6" category="inline-link-macro-rx"></block></block>
   <block id="3ad7f7aed9ec06eff738c0dcda85c37c" category="summary">SAP HANA 2.0 SPS4 以降では、追加のデータボリュームパーティションを構成できます。これにより、 SAP HANA テナントデータベースのデータボリュームに複数のボリュームを構成し、単一ボリュームのサイズやパフォーマンスの制限を超えて拡張できます。</block>
   <block id="0b3d2dc69d0ecef48ed4d97711abe783" category="admonition">データボリュームに 2 つ以上の個別のボリュームを使用すると、 SAP HANA シングルホストシステムと SAP HANA マルチホストシステムを使用できます。データボリュームのパーティションはいつでも追加できます。</block>
   <block id="13a679c566e6214fe896e24a695761e4" category="paragraph">追加のデータボリュームパーティションを有効にするには、 SYSTEMDB 構成で SAP HANA Studio または Cockpit を使用して、 global.ini` 内に次のエントリを追加します。</block>
@@ -8376,8 +8359,6 @@
   <block id="2313d7e75b1293ec19e67b10399a5b36" category="paragraph">これを自動的に行うには ' global.ini` の [persistence] セクションで次のパラメータを設定します</block>
   <block id="bcd4783f16a6a90aaaeb9703e35b2183" category="inline-link">SAP ノート 240005 の質問 15 を参照してください</block>
   <block id="02fb0663b2b25ed3058835e1a2db5762" category="paragraph">これにより、 8 、 000GB の上限に達すると、新しいデータボリュームが作成されます。<block ref="0d7b59f229b453865b91c5e952a7b217" category="inline-link-rx"></block> 詳細については ' を参照してください</block>
-  <block id="59858d8e704aa031cda53a55b7a76cb9" category="inline-link-macro">次の例は、 SAP HANA ソフトウェアのインストールです</block>
-  <block id="f40d993a15719570c78ac6988ca81c63" category="paragraph"><block ref="f40d993a15719570c78ac6988ca81c63" category="inline-link-macro-rx"></block></block>
   <block id="0f41d05d80faf4e3a75a6b4e2292f1c0" category="summary">NetApp AFF 製品ファミリーは、 TDI プロジェクトの SAP HANA との使用が認定されています。この認定エンタープライズストレージプラットフォームでは、 NetApp ONTAP ソフトウェアが搭載されています。</block>
   <block id="0db6b81db5bd35e1eef1e83e154c3cb5" category="doc">TR-4436 ：『 SAP HANA on NetApp AFF Systems with Fibre Channel Protocol 』</block>
   <block id="3582e9217fbd3de24b2e5ecfb0fc97b4" category="paragraph">ネットアップ、 Nils Bauer 、 Marco Schoen</block>
@@ -8506,8 +8487,6 @@
   <block id="695966bc0fc656db354f99e996d35ac9" category="paragraph">ストレージを仮想マシン（ VM ）に接続する方法はいくつかあります。推奨される方法は、ストレージボリュームと NFS をゲストオペレーティングシステムから直接接続することです。このオプションについては、を参照してください<block ref="3a2c764cc73383bbe22af6cd6f30bc81" category="inline-link-rx"></block>。</block>
   <block id="3823dde38e881edb5563cdd3b64099ba" category="summary">SAP HANA のソフトウェアインストールの要件は次のとおりです。</block>
   <block id="d62e297e0f46d31deba4b84efdfafc32" category="paragraph">SAP HANA ソフトウェアのインストールでは、シングルホストシステムについて行う追加の準備作業はありません。</block>
-  <block id="5f101f61b5024e06b9b680a2febb0ad8" category="inline-link-macro">次：データボリュームのパーティションを追加しています</block>
-  <block id="355b0061a48c86fc356f0bf6d54b8409" category="paragraph"><block ref="355b0061a48c86fc356f0bf6d54b8409" category="inline-link-macro-rx"></block></block>
   <block id="55d9365909b3a315103ca1908bd396c7" category="summary">次に示す 3 つのスクリーンショットは、データ、ログバックアップ、および共有ボリュームのレプリケーションステータスを示しています。</block>
   <block id="7cc288aea34413093faffad51bc084c1" category="doc">ANF のクロスリージョンレプリケーションを監視しています</block>
   <block id="ca518fa5f8c462a6afa66467a2198108" category="section-title">レプリケーションのステータス</block>
@@ -8802,7 +8781,6 @@
   <block id="c0b08fa9f53bd588cf26dd04b2bf1c29" category="inline-link">2399079 - Elimination of hdbparam in HANA 2 』を参照してください</block>
   <block id="25acda0af7df7e8f6aaedc308080d2f2" category="paragraph">SAP HANA 2.0 以降 'hdbparam' は廃止され ' パラメータは global.ini` ファイルに移動されましたパラメータは、 SQL コマンドまたは SAP HANA Studio を使用して設定できます。詳細については、 SAP ノートを参照してください<block ref="936e80e83aa8101d48722d387f096a5f" category="inline-link-rx"></block>。パラメータは 'global.ini` ファイル内で設定することもできます</block>
   <block id="a1dc0f5c23c4490d01718a8d6b05872e" category="paragraph">SAP HANA 2.0 SPS5 以降では、「 etParameter.py 」のスクリプトを使用して上記のパラメータを設定できます。</block>
-  <block id="e0b5d79196b9f69499687ad2826d63e1" category="paragraph"><block ref="e0b5d79196b9f69499687ad2826d63e1" category="inline-link-macro-rx"></block></block>
   <block id="2a986cf5abe7b7785ffcdece33cfc433" category="admonition">SAP HANA KPI を達成するために複数のパーティションを使用する必要はありません。単一の LUN にパーティションが 1 つあると、必要な KPI が満たされます。</block>
   <block id="e7e3db35c66fbc08aba59377e767d66f" category="paragraph">データボリュームのパーティションはいつでも追加できますが、 SAP HANA データベースの再起動が必要になる場合があります。</block>
   <block id="0da243913a454541b5b0036cfd8f8135" category="list-text">global.ini` ファイル内に次のエントリを追加します</block>
@@ -8815,10 +8793,7 @@
   <block id="cccc40b2b949eb5631f1a7625e3bbb28" category="paragraph">データボリュームパーティションをテナントデータベースに追加するには、テナントデータベースに対して次の SQL ステートメントを実行します。追加する LUN のパスはそれぞれ異なります。</block>
   <block id="3a1d443dcdaf18be456d1a2637c962b5" category="paragraph"><block ref="3a1d443dcdaf18be456d1a2637c962b5" category="inline-image-macro-rx" type="image"></block></block>
   <block id="c67281070c0cff762103636210474c30" category="doc">NetApp &amp;amp; VMware の導入を始めましょう</block>
-  <block id="9b5282602683f3eefdc237d40f6613f4" category="paragraph">ネットアップで VMware を利用するには：まずはここから</block>
-  <block id="d7b056332bb039010d62c71ede534471" category="paragraph">VMware 環境の変革を開始する準備ができたら、最新の解決策の概要をご覧ください。また、最新のテクニカルソリューションと製品デモもご覧いただけます。次のステップに進む準備が整ったら、ネットアップや VMware のエキスパートコミュニティと連携して、データセンターの最新化、ハイブリッドクラウド、コンテナ化されたアプリケーションへの取り組みの計画と実行を支援します。</block>
   <block id="bbaff12800505b22a853e8b7f4eb6a22" category="inline-link">連絡先</block>
-  <block id="be52ccc9c4dbcee449a6257062c0bcda" category="paragraph">どこから始めるべきかわからない場合は、 <block ref="dcd7ec98fb935d9a5fd8ade723a47456" category="inline-link-rx"></block> ネットアップの VMware エキスパートのメンバーです。</block>
   <block id="d3db539e5d56da6e251021138c5fe53f" category="section-title">ネットアップと VMware のソリューションの詳細をご確認ください</block>
   <block id="09f93ac387258fa68c085baba3c8fc44" category="inline-link">NetApp &amp;amp; VMware ：より優れた組み合わせ</block>
   <block id="fb758bbc93c23b25607ef41f302d4eef" category="list-text"><block ref="35ef54e3b8ad8ec505bab4b973f86177" category="inline-link-rx"></block></block>
@@ -8844,8 +8819,6 @@
   <block id="f1f4041236ed90e2a5e65e9a3c858875" category="section-title">ネットアップの VMware 向け最新ソリューションをご確認ください</block>
   <block id="0e8dd76bc961a90df87833953de6d067" category="inline-link">VMware vSphere と ONTAP ：ネットアップのソリューション</block>
   <block id="cace63c53b42adc885a9eb4be01dba4d" category="list-text"><block ref="cace63c53b42adc885a9eb4be01dba4d" category="inline-link-rx"></block></block>
-  <block id="b20908c8297f0ccc0edddd4cd5fb5ee2" category="inline-link">VMware vSphere Virtual Volumes with ONTAP | ネットアップ</block>
-  <block id="a1fcabd82b32b7f446bbb66d48789a6b" category="list-text"><block ref="a1fcabd82b32b7f446bbb66d48789a6b" category="inline-link-rx"></block></block>
   <block id="3390e3575b3e341afa2b7172ff5b33a7" category="inline-link">SnapCenter Plug-in for VMware vSphere</block>
   <block id="730c2cf92bbe409c31ef1f39cf25377a" category="list-text"><block ref="730c2cf92bbe409c31ef1f39cf25377a" category="inline-link-rx"></block></block>
   <block id="c375e5bb7184da46adef700a9a36d674" category="inline-link">ネットアップの最新の NVMeoF VMware vSphere ワークロードの設計と検証</block>
@@ -8856,33 +8829,18 @@
   <block id="bb79e474557eb86fc30118354eef0039" category="list-text"><block ref="5dd92e330c2d45255a2025ee1eedd52d" category="inline-link-rx"></block></block>
   <block id="7f8cf1c43494d40e935f5e99e38ce659" category="inline-link">AWS で VMware Cloud を実行するコストを削減</block>
   <block id="f0d8a1b084d604c4db4319a2c5bbd522" category="list-text"><block ref="f0d8a1b084d604c4db4319a2c5bbd522" category="inline-link-rx"></block></block>
-  <block id="a3315bb77edc068a03c7519bfc0e3291" category="section-title">最新の VMware ソリューションのデモをご覧ください</block>
   <block id="7128c22bfdae1fe8be75c9a9ee56eca9" category="inline-link">『 Best Practices for VMware vSphere and NetApp ONTAP 』を参照してください</block>
-  <block id="d9cfe76daafbf0ecd316c365dcf9d56f" category="list-text"><block ref="d9cfe76daafbf0ecd316c365dcf9d56f" category="inline-link-rx"></block></block>
   <block id="d2fa143a4aaef3477f2edb0d92676341" category="inline-link">VMware 環境 - ONTAP を使用して NVMe-oF で実行しましょう</block>
-  <block id="16021d0dec3c064ab179ac3ce03220b9" category="list-text"><block ref="16021d0dec3c064ab179ac3ce03220b9" category="inline-link-rx"></block></block>
   <block id="e9c2b8b8a9962013c07f83742ca35f0e" category="inline-link">ONTAP ツールと VMware SRM を使用した VVol のディザスタリカバリ</block>
-  <block id="0f30d83c25c4e624f991f21f477f8350" category="list-text"><block ref="0f30d83c25c4e624f991f21f477f8350" category="inline-link-rx"></block></block>
   <block id="f156fde75de09cf5f045522cf738b2c7" category="inline-link">ONTAP ツールを使用した FlexGroup データストアのプロビジョニングと管理</block>
-  <block id="dd4d7a532e623fe69c2076b097dffa40" category="list-text"><block ref="dd4d7a532e623fe69c2076b097dffa40" category="inline-link-rx"></block></block>
   <block id="977a548ba3853fdac6d708915a1b752a" category="inline-link">NetApp NFS VAAI プラグインの更新</block>
-  <block id="8adb116997b1539f6edff27420bdaad4" category="list-text"><block ref="8adb116997b1539f6edff27420bdaad4" category="inline-link-rx"></block></block>
   <block id="233398cd850d9903958583fd85621f6d" category="inline-link">NetApp ONTAP FlexGroup を使用したスケールアウト仮想デスクトップ</block>
-  <block id="fa67a87fcb9001c784db1843e86a3b9b" category="list-text"><block ref="fa67a87fcb9001c784db1843e86a3b9b" category="inline-link-rx"></block></block>
   <block id="e308c2a1dacddb5bc6ffa093081111e4" category="inline-link">データファブリック向けの VMware のバックアップとリカバリ</block>
-  <block id="9b397fb63966f07c435c55dd7d80375d" category="list-text"><block ref="9b397fb63966f07c435c55dd7d80375d" category="inline-link-rx"></block></block>
   <block id="a81738572d94bce863615a7d94a84051" category="inline-link">SnapCenter Plug-in for VMware vSphere によるデータ保護の簡易化</block>
-  <block id="5705071a94dd8819a2a393c73d2544ba" category="list-text"><block ref="5705071a94dd8819a2a393c73d2544ba" category="inline-link-rx"></block></block>
   <block id="c10a86f3b9530baf3bed3b02aaaf873f" category="section-title">柔軟性に優れたハイブリッドクラウドと最新化された VMware 向けアプリケーションインフラを導入できます</block>
   <block id="f20368920280b50131814db2f83fda66" category="inline-link">NetApp All Flash FAS 上での VMware データストアの設計</block>
-  <block id="55d0e1bf8b4db54b19acc773044cab90" category="list-text"><block ref="55d0e1bf8b4db54b19acc773044cab90" category="inline-link-rx"></block></block>
   <block id="841a1e2733baa662db1207d5075a798f" category="inline-link">自動化 - ONTAP で VMware クラウドを構築しましょう</block>
-  <block id="604b9acd1c8d3ce586f7460b52293a1f" category="list-text"><block ref="604b9acd1c8d3ce586f7460b52293a1f" category="inline-link-rx"></block></block>
-  <block id="2c4f89e7427bfd830ec7675e4e737ca5" category="list-text"><block ref="7c3de76f6361f36229d6c3f0e63f4636" category="inline-link-rx"></block></block>
   <block id="253d309203cf1f2c1bb57255bd0a5bdc" category="inline-link">VMware VM を Google Cloud に移行します</block>
-  <block id="06c553939de5596823effa63a669a73b" category="list-text"><block ref="06c553939de5596823effa63a669a73b" category="inline-link-rx"></block></block>
-  <block id="814f387456a748f8686bf5ccfce990eb" category="inline-link">VMware Tanzu 向けの動的な永続的ネットアップストレージの導入</block>
-  <block id="246e9e5ddba4ce5d31d760d481e0258f" category="list-text"><block ref="1f53d02de6641ad7be0b22ef1a2a3c22" category="inline-link-rx"></block></block>
   <block id="3ca2b14e719d79aed66780282e879db4" category="section-title">ネットアップと VMware のエキスパートが支援します</block>
   <block id="20475522c77401af1c203f23942ffda5" category="inline-link">VMware ソリューションディスカッションフォーラムに参加します</block>
   <block id="1dccc60a61431b3ef3f48709a0f68de7" category="list-text"><block ref="1dccc60a61431b3ef3f48709a0f68de7" category="inline-link-rx"></block></block>
@@ -9466,4 +9424,27 @@
   <block id="f6292d9eb6ea467a3c3560a65b7f63b5" category="paragraph">ONTAP VASA プロバイダでは、異なるストレージへのフェイルオーバーがサポートされます。たとえば、システムは、エッジの場所にある ONTAP Select からコアデータセンターの AFF システムにフェイルオーバーできます。ストレージの類似性に関係なく、レプリケーションが有効な VM ストレージポリシーのストレージポリシーマッピングとリバースマッピングを常に設定して、リカバリサイトで提供されるサービスが期待される要件を満たしていることを確認する必要があります。次のスクリーンショットは、ポリシーマッピングの例を示しています。</block>
   <block id="70be05b3500f28affc2d048f81c4f7ab" category="sidebar">Azure の分散トレーニング - レーン検出</block>
   <block id="7767872606b9c99eb656c9568c1fdd83" category="sidebar">レーン検出– AI を実行する分散トレーニング</block>
+  <block id="5df5f18127350996e2dd5b7285c3860f" category="cell">ネットアップで VMware を利用するには：まずはここからVMware 環境の変革を開始する準備ができたら、最新の解決策の概要をご覧ください。また、最新のテクニカルソリューションと製品デモもご覧いただけます。次のステップに進む準備が整ったら、ネットアップや VMware のエキスパートコミュニティと連携して、データセンターの最新化、ハイブリッドクラウド、コンテナ化されたアプリケーションへの取り組みの計画と実行を支援します。どこから始めるべきかわからない場合は、 <block ref="dcd7ec98fb935d9a5fd8ade723a47456" category="inline-link-macro-rx"></block> ネットアップの VMware エキスパートのメンバーです。</block>
+  <block id="11eb332ab75184a78c40c9174e16f520" category="video-title">ネットアップと VMware ：力を合わせて</block>
+  <block id="b761cb4d962320708880627e8e2fe971" category="inline-link-macro">ONTAP を使用した VMware vSphere Virtual Volumes</block>
+  <block id="5b90454e2bf0f381c8f7fc928ef6fb9e" category="list-text"><block ref="5b90454e2bf0f381c8f7fc928ef6fb9e" category="inline-link-macro-rx"></block></block>
+  <block id="5ab6c918ee903c74a7d7c97b2432ebaf" category="section-title">最新の VMware ソリューションのビデオデモをご覧ください</block>
+  <block id="04e008204e728ef166ffc8c85db580ed" category="list-text"><block ref="04e008204e728ef166ffc8c85db580ed" category="inline-link-macro-rx"></block></block>
+  <block id="207681662de4971035cc8d5c9347c986" category="list-text"><block ref="207681662de4971035cc8d5c9347c986" category="inline-link-macro-rx"></block></block>
+  <block id="8ca7386c3cb63b01ffc6387ba41427ae" category="list-text"><block ref="8ca7386c3cb63b01ffc6387ba41427ae" category="inline-link-macro-rx"></block></block>
+  <block id="c2a201ca982ecfefdcfec43a8df28397" category="list-text"><block ref="c2a201ca982ecfefdcfec43a8df28397" category="inline-link-macro-rx"></block></block>
+  <block id="a8e3bfc2dc840604c0168dd5f89aacec" category="list-text"><block ref="a8e3bfc2dc840604c0168dd5f89aacec" category="inline-link-macro-rx"></block></block>
+  <block id="6ef66ca131701cfdb70302d3099b7550" category="list-text"><block ref="6ef66ca131701cfdb70302d3099b7550" category="inline-link-macro-rx"></block></block>
+  <block id="9934e59457fa5f31d39a58f1d55ac5d5" category="list-text"><block ref="9934e59457fa5f31d39a58f1d55ac5d5" category="inline-link-macro-rx"></block></block>
+  <block id="f09e9fdda59d2e9d9172bd89b5dc9369" category="list-text"><block ref="f09e9fdda59d2e9d9172bd89b5dc9369" category="inline-link-macro-rx"></block></block>
+  <block id="554cfab3938e21d9270bd6b75931f96f" category="section-title">ビデオ</block>
+  <block id="8ff6498eeabd53b4271d75f543dc3bc4" category="list-text"><block ref="8ff6498eeabd53b4271d75f543dc3bc4" category="inline-link-macro-rx"></block></block>
+  <block id="4d0f73eb280cb12c373e099d1c320690" category="list-text"><block ref="4d0f73eb280cb12c373e099d1c320690" category="inline-link-macro-rx"></block></block>
+  <block id="f1c2408ffc6e67ac6b34eb8da2b3039c" category="list-text"><block ref="f1c2408ffc6e67ac6b34eb8da2b3039c" category="inline-link-macro-rx"></block></block>
+  <block id="baa1898009cc7495f8c4e7732ce7433a" category="list-text"><block ref="baa1898009cc7495f8c4e7732ce7433a" category="inline-link-macro-rx"></block></block>
+  <block id="7518aab5e189037f632ee46ea9e3cf07" category="video-title">『 Deploying Dynamic Persistent NetApp Storage for VMware Tanzu 』、パート 1</block>
+  <block id="f86bf601d6e42c44cf076ea1772ae13c" category="video-title">『 Deploying Dynamic Persistent NetApp Storage for VMware Tanzu 』、パート 2</block>
+  <block id="bf5c12d4eed319d2dc2b2b7279944f71" category="video-title">『 Deploying Dynamic Persistent NetApp Storage for VMware Tanzu 』、パート 3</block>
+  <block id="a398d57165e21c951dd9c9def41598a9" category="inline-link-macro">VMware Cloud on AWS ：富士通が CVO を使用して何百万ドルものコストを削減する方法をご紹介</block>
+  <block id="d750d47d5e87a6c526e7b40e12eab95b" category="list-text"><block ref="d750d47d5e87a6c526e7b40e12eab95b" category="inline-link-macro-rx"></block></block>
 </blocks>
