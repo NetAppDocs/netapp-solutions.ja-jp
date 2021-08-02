@@ -12,6 +12,8 @@ summary: SAP HANA 1.0 SPS10 以降、 IO 動作を調整し、使用中のファ
 :imagesdir: ./../media/
 
 
+link:saphana-fas-nfs_sap_hana_installation_preparations_for_nfsv4.html["以前： NFSv4 を使用するための SAP HANA のインストール準備。"]
+
 SAP HANA 1.0 SPS10 以降、 I/O 動作を調整し、使用中のファイルシステムとストレージシステムのデータベースを最適化するためのパラメータが導入されています。
 
 ネットアップは、最適な値を定義するため、パフォーマンステストを実施しました。次の表に、パフォーマンステストから推定した最適な値を示します。
@@ -62,3 +64,4 @@ python setParameter.py -set=SYSTEM/global.ini/fileio/async_read_submit=on
 python setParameter.py -set=SYSTEM/global.ini/fileio/async_write_submit_active=on
 python setParameter.py -set=SYSTEM/global.ini/fileio/async_write_submit_blocks=all
 ....
+link:saphana-fas-nfs_sap_hana_data_volume_size.html["次の例： SAP HANA データのボリュームサイズ"]

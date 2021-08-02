@@ -12,6 +12,8 @@ summary: NFS バージョン 4 以降では、ユーザ認証が必要です。�
 :imagesdir: ./../media/
 
 
+link:saphana-fas-nfs_host_setup.html["前の手順：ホストのセットアップ。"]
+
 NFS バージョン 4 以降では、ユーザ認証が必要です。この認証は、 Lightweight Directory Access Protocol （ LDAP ）サーバやローカルユーザアカウントなどの中央ユーザ管理ツールを使用して実行できます。次のセクションでは、ローカルユーザアカウントを設定する方法について説明します。
 
 SAP HANA ソフトウェアのインストールを開始する前に、管理ユーザ「 <sidadm> 」と「 sapsys 」グループを SAP HANA ホストとストレージコントローラ上に手動で作成する必要があります。
@@ -53,3 +55,4 @@ vserver services unix-user create -vserver <vserver> -user <user name> -id <user
 ....
 vserver services unix-user modify -vserver <vserver> -user root -primary-gid 0
 ....
+link:saphana-fas-nfs_i_o_stack_configuration_for_sap_hana.html["次は、 SAP HANA の I/O スタック構成です"]

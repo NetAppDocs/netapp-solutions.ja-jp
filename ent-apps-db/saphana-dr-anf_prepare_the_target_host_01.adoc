@@ -12,6 +12,8 @@ summary: ここでは、ディザスタリカバリフェイルオーバーに�
 :imagesdir: ./../media/
 
 
+link:saphana-dr-anf_disaster_recovery_failover_overview.html["Previous ：ディザスタリカバリのフェイルオーバー。"]
+
 ここでは、ディザスタリカバリフェイルオーバーに使用するサーバで必要な準備手順について説明します。
 
 通常運用時は、 HANA の QA やテスト用システムなど、通常はターゲットホストがその他の目的に使用されます。そのため、災害時のフェイルオーバーテストを実行する際には、ほとんどの手順を実行する必要があります。一方、関連する構成ファイルは、「 /etc/fstab 」や「 /usr/sap/sapservices 」のように準備し、構成ファイルをコピーするだけで運用に移すことができます。ディザスタリカバリフェイルオーバー手順は、準備された関連する構成ファイルが確実に正しく設定されるようにします。
@@ -108,3 +110,4 @@ vm-pr1:~ # cat /etc/fstab
 # HANA file and log backup destination
 10.0.2.4:/hanabackup-sm-dest    /hanabackup nfs   rw,vers=3,hard,timeo=600,rsize=262144,wsize=262144,nconnect=8,bg,noatime,nolock 0 0
 ....
+link:saphana-dr-anf_break_and_delete_replication_peering.html["次のステップ：レプリケーションピアリングを解除して削除します"]

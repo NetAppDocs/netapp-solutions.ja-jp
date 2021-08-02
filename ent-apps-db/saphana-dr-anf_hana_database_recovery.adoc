@@ -12,6 +12,8 @@ summary: 以下は、 HANA データベースのリカバリ手順を示して�
 :imagesdir: ./../media/
 
 
+link:saphana-dr-anf_mount_the_volumes_at_the_target_host.html["Previous ：ターゲットホストにボリュームをマウントします。"]
+
 必要な SAP サービスを開始します。
 
 ....
@@ -189,3 +191,5 @@ Loaded library 'libhdblivecache'
 Backup '/mnt/log-backup/SYSTEMDB/log_backup_0_0_0_0.1589289811148' successfully checked.
 ....
 システムとテナントデータベースの最新のログバックアップファイルに対してチェックを実行する必要があります。
+
+「 hdbbackupcheck 」ツールが最新のログ・バックアップのエラーを報告する場合は、最新のログ・バックアップ・セットを削除するか、削除する必要があります。

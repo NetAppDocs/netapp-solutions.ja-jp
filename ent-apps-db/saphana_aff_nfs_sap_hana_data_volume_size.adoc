@@ -12,6 +12,8 @@ summary: デフォルトでは、 SAP HANA サービスごとに使用される�
 :imagesdir: ./../media/
 
 
+link:saphana_aff_nfs_i_o_stack_configuration_for_sap_hana.html["前の例： SAP HANA の I/O スタック構成"]
+
 デフォルトでは、 SAP HANA サービスごとに使用されるデータボリュームは 1 つだけです。ファイルシステムの最大ファイルサイズ制限のため、データボリュームの最大サイズを制限することを推奨します。
 
 これを自動的に行うには ' global.ini` の [persistence] セクションで次のパラメータを設定します
@@ -21,3 +23,5 @@ datavolume_striping = true
 datavolume_striping_size_gb = 8000
 ....
 これにより、 8 、 000GB の上限に達すると新しいデータボリュームが作成されます。 https://launchpad.support.sap.com/["SAP ノート 240005 の質問 15 を参照してください"^] 詳細については ' を参照してください
+
+link:saphana_aff_nfs_sap_hana_software_installation.html["次の例は、 SAP HANA ソフトウェアのインストールです"]

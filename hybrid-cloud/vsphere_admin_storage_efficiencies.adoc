@@ -1,0 +1,32 @@
+---
+sidebar: sidebar 
+permalink: hybrid-cloud/vsphere_admin_storage_efficiencies.html 
+keywords: vSphere, efficiency, efficiencies, deduplication, compaction, compression, zero-block, inline, flexclone, adp, disk partitioning, ONTAP 
+summary: このページでは、 ONTAP の Storage Efficiency について説明します。 
+---
+= ONTAP の Storage Efficiency 機能
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== Storage Efficiency について
+
+ネットアップは、本番環境のワークロードで重複排除を初めて実現したのですが、この分野の最初または最後のイノベーションではありませんでした。まずは、パフォーマンスに影響を与えない、スペース効率に優れたデータ保護メカニズムである ONTAP Snapshot コピーと、本番環境やバックアップ用に VM の読み取り / 書き込みコピーを瞬時に作成する FlexClone テクノロジからスタートしました。ネットアップは、重複排除、圧縮、ゼロブロック重複排除などのインライン機能を提供し、高価な SSD のストレージを最後まで絞ります。ONTAP は最近、 Storage Efficiency を強化するためにコンパクション機能を追加しました。
+
+* * インラインのゼロブロック重複排除。ゼロブロックのスペースを無駄に消費しません。
+* * インライン圧縮。 * データブロックを圧縮して、必要な物理ストレージ量を減らします。
+* * インライン重複排除。 * ディスク上の既存のブロックが使用されていた受信ブロックを削除します。
+* * インラインデータコンパクション。 * より小さな I/O 処理とファイルを各物理ブロックにパックします。
+
+
+image:vsphere_admin_storage_efficiencies.png["ストレージの効率化"]
+
+重複排除、データ圧縮、データコンパクションを一緒に、または個別に実行して、 FlexVol で最適なスペース削減効果を得ることができます。これらの機能を組み合わせることで、 VSI では最大 5 分の 1 、 VDI では最大 30 分の 1 のコストを削減できました。
+
+
+NOTE: ONTAP の Storage Efficiency 機能の詳細については、を参照してください https://docs.netapp.com/ontap-9/index.jsp["重複排除、データ圧縮、データコンパクションによるストレージ効率の向上"] ONTAP 9 ドキュメントセンターを参照してください。

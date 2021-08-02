@@ -12,7 +12,7 @@ summary: SAP HANA 2.0 SPS4 以降では、追加のデータボリュームパ�
 :imagesdir: ./../media/
 
 
-SAP HANA 2.0 SPS4 以降では、追加のデータボリュームパーティションを設定できます。これにより、 SAP HANA テナントデータベースのデータボリュームに 2 つ以上のボリュームを構成することができます。単一ボリュームのサイズやパフォーマンスの制限を超えて拡張することもできます。
+link:saphana-fas-nfs_sap_hana_software_installation.html["前のバージョン： SAP HANA ソフトウェアのインストール。"]SAP HANA 2.0 SPS4 以降では、追加のデータボリュームパーティションを設定できます。これにより、 SAP HANA テナントデータベースのデータボリュームに 2 つ以上のボリュームを構成することができます。単一ボリュームのサイズやパフォーマンスの制限を超えて拡張することもできます。
 
 
 NOTE: データボリュームに 2 つ以上の個別のボリュームを使用すると、 SAP HANA のシングルホストシステムとマルチホストシステムを使用できます。データボリュームのパーティションはいつでも追加できますが、追加するには SAP HANA データベースの再起動が必要になる場合があります。
@@ -210,3 +210,5 @@ NOTE: ボリュームごとに異なる TCP セッションを使用するため
 ALTER SYSTEM ALTER DATAVOLUME ADD PARTITION PATH '/hana/data2/SID/';
 ....
 image:saphana-fas-nfs_image19.jpg["エラー：グラフィックイメージがありません"]
+
+link:saphana-fas-nfs_where_to_find_additional_information.html["次へ：追加情報の検索場所。"]

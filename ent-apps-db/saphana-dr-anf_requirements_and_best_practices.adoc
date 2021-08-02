@@ -12,6 +12,8 @@ summary: Microsoft Azure では、作成時や割り当て解除された VM の
 :imagesdir: ./../media/
 
 
+link:saphana-dr-anf_configuration_options_for_cross-region_replication_with_sap_hana.html["Previous ： SAP HANA を使用したクロスリージョンレプリケーションの設定オプション。"]
+
 Microsoft Azure では、作成時や割り当て解除された VM の起動時に、特定の仮想マシン（ VM ）タイプの可用性が保証されません。具体的には、リージョンで障害が発生した場合、多くのクライアントでディザスタリカバリリージョンに追加の VM が必要になることがあります。そのため、ディザスタリカバリ領域でテストシステムまたは QA システムとして、必要なサイズの VM を、必要な VM タイプを割り当ててアクティブに使用することを推奨します。
 
 コストを最適化するには、通常運用時にパフォーマンス階層を下げた ANF 容量プールを使用することを推奨します。データレプリケーションには高パフォーマンスは必要ないため、標準のパフォーマンス階層では大容量プールを使用する可能性があります。ディザスタリカバリのテストやディザスタフェイルオーバーが必要な場合は、高パフォーマンス階層を使用する大容量プールにボリュームを移動する必要があります。
@@ -19,3 +21,5 @@ Microsoft Azure では、作成時や割り当て解除された VM の起動時
 2 つ目の容量プールがオプションでない場合は、通常運用時のパフォーマンス要件ではなく、容量要件に基づいてレプリケーションターゲットボリュームを設定する必要があります。クォータまたはスループット（手動 QoS の場合）は、ディザスタリカバリのテスト用にディザスタフェイルオーバーの際に適用できます。
 
 詳細については、を参照してください https://docs.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-requirements-considerations["Azure NetApp Files ボリュームのリージョン間レプリケーションを使用する場合の要件と考慮事項 | Microsoft Docs"^]。
+
+link:saphana-dr-anf_lab_setup.html["次の手順：ラボのセットアップ"]

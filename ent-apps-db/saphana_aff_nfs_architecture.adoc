@@ -12,6 +12,8 @@ summary: SAP HANA ホストは、冗長 10GbE 以上のネットワークイン�
 :imagesdir: ./../media/
 
 
+link:saphana_aff_nfs_introduction.html["以前：『 SAP HANA on NetApp All Flash FAS Systems with NFS Configuration Guide 』"]
+
 SAP HANA ホストは、冗長 10GbE 以上のネットワークインフラを使用して、ストレージコントローラに接続されます。SAP HANA ホストとストレージコントローラ間のデータ通信は、 NFS プロトコルに基づいています。スイッチまたはネットワークインターフェイスカード（ NIC ）の障害に備え、耐障害性に優れた SAP HANA ホスト / ストレージ接続を実現するには、冗長スイッチングインフラが必要です。
 
 スイッチは、ポートチャネルを使用して個々のポートのパフォーマンスを集約し、ホストレベルでは単一の論理エンティティとして認識される場合があります。
@@ -100,3 +102,5 @@ image:saphana_aff_nfs_image7.png["エラー：グラフィックイメージが�
 次の図は、解決策の概要を示しています。各サイトのストレージクラスタがローカルで高可用性を実現し、本番環境のワークロードに使用されます。各サイトのデータはもう一方のサイトに同期的にレプリケートされ、災害のフェイルオーバー時に使用できます。
 
 image:saphana_aff_nfs_image8.png["エラー：グラフィックイメージがありません"]
+
+link:saphana_aff_nfs_storage_sizing.html["次：ストレージのサイジング："]

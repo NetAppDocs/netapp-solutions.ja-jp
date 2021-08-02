@@ -1,0 +1,34 @@
+---
+sidebar: sidebar 
+permalink: hybrid-cloud/vsphere_admin_hybrid_cloud.html 
+keywords: vSphere, cloud, hybrid cloud, AWS, Azure, Google cloud, snapmirror cloud, cloud backup service, Cloud Sync, FabricPool, ONTAP 
+summary: このページでは、 ONTAP と VMware vSphere で利用できるハイブリッドクラウド機能について説明します。 
+---
+= ONTAP と vSphere を使用したハイブリッドクラウド
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== ハイブリッドクラウドについて
+
+ONTAP ソリューションは、オンプレミスのプライベートクラウド、パブリッククラウドインフラ、またはその両方のメリットを組み合わせたハイブリッドクラウドのいずれに使用しても、データ管理を合理化し、最適化するためのデータファブリックの構築を支援します。まずハイパフォーマンスのオールフラッシュシステムを導入し、データ保護とクラウドコンピューティングのためにディスクストレージシステムとクラウドストレージシステムのどちらかと組み合わせます。
+
+Azure 、 AWS 、 IBM 、 Google のクラウドから選択して、コストを最適化し、ロックインを回避できます。必要に応じて、 OpenStack とコンテナテクノロジの高度なサポートを活用できます。
+
+多くの場合、お客様はクラウドへの移行を開始する際に最初に試すのがデータ保護です。保護は、キーデータの非同期レプリケーションと同様に簡単に行うことも、完全なホットバックアップサイトとして複雑にすることもできます。データ保護は、主に NetApp SnapMirror テクノロジに基づいています。
+
+ワークロード全体をクラウドに移行することを選択しているお客様もいます。これは、単にクラウドをデータ保護に使用するだけではなく、クラウドベースのストレージを使用するようにアプリケーションを書き換える必要がないため、 ONTAP の移動が簡単になります。クラウドの ONTAP は、オンプレミスの ONTAP と同様に機能します。オンプレミスの ONTAP システムは、より少ない物理スペースに多くのデータを格納し、ほとんど使用されないデータを階層化して低コストのストレージに格納できるデータ効率化機能を備えています。ONTAP は、ハイブリッドクラウド構成を使用する場合でも、ワークロード全体をクラウドに移行する場合でも、ストレージのパフォーマンスと効率を最大限に高めます。
+
+ネットアップ ONTAP では、クラウドベースのバックアップ（ SnapMirror クラウド、 Cloud Backup Service 、 Cloud Sync ）やストレージ階層化 / アーカイブツール（ FabricPool ）も提供しており、運用コストの削減とクラウドの幅広いリーチの活用を支援します。
+
+次の図は、ハイブリッドクラウドのユースケースの例を示しています。
+
+image:vsphere_admin_hybrid_cloud.png["ハイブリッドクラウド"]
+
+
+NOTE: ONTAP とハイブリッドクラウドの詳細については、を参照してください https://docs.netapp.com/ontap-9/index.jsp?lang=en["ONTAP とクラウド"^] ONTAP 9 ドキュメントセンターを参照してください。
