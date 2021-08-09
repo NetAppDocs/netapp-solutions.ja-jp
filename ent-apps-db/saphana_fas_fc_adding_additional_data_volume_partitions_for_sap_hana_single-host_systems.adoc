@@ -33,7 +33,8 @@ NOTE: データボリュームに複数の個別の LUN を使用することは
 . global.ini` ファイルに次のエントリを追加します
 +
 ....
-[customizable_functionalities]persistence_datavolume_partition_multipath = true
+[customizable_functionalities]
+persistence_datavolume_partition_multipath = true
 ....
 . データベースを再起動して機能を有効にしてください。SAP HANA Studio でパラメータを global.ini` ファイルに追加する際に Systemdb 設定を使用すると、データベースが再起動されなくなります。
 
@@ -89,9 +90,10 @@ NOTE: データ LUN の XFS ファイル・システムは 'relatim' および i
 +
 ....
 stlrx300s8-6:/ # cat /etc/fstab
-/dev/mapper/hana-SS3_shared /hana/shared xfs default 0 0
-/dev/mapper/hana-SS3_log_mnt00001 /hana/log/SS3/mnt00001 xfs relatime,inode64,nobarrier 0 0
-/dev/mapper/hana-SS3_data_mnt00001 /hana/data/SS3/mnt00001 xfs relatime,inode64 0 0/dev/mapper/hana-SS3_data2_mnt00001 /hana/data2/SS3/mnt00001 xfs relatime,inode64 0 0
+/dev/mapper/hana-SS3_shared /hana/shared xfs defaults 0 0
+/dev/mapper/hana-SS3_log_mnt00001 /hana/log/SS3/mnt00001 xfs relatime,inode64 0 0
+/dev/mapper/hana-SS3_data_mnt00001 /hana/data/SS3/mnt00001 xfs relatime,inode64 0 0
+/dev/mapper/hana-SS3_data2_mnt00001 /hana/data2/SS3/mnt00001 xfs relatime,inode64 0 0
 ....
 . マウントポイントを作成し、データベースホストに権限を設定します。
 +

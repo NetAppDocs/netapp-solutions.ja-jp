@@ -33,9 +33,9 @@ NOTE: このホワイトペーパーで説明している構成は、 SAP HANA �
 
 NFS システムと NetApp FAS システムを使用する AFF システムの構成ガイドは、次のリンクから入手できます。
 
-* https://www.netapp.com/us/media/tr-4384.pdf["FCP を使用した NetApp FAS システムでの SAP HANA"^]
-* http://www.netapp.com/us/media/tr-4290.pdf["NFS を使用した NetApp FAS システムでの SAP HANA"^]
-* http://www.netapp.com/us/media/tr-4435.pdf["NFS を使用した NetApp AFF システムでの SAP HANA"^]
+* https://docs.netapp.com/us-en/netapp-solutions_main/ent-apps-db/saphana_fas_fc_introduction.html["FCP を使用した NetApp FAS システムでの SAP HANA"^]
+* https://docs.netapp.com/us-en/netapp-solutions_main/ent-apps-db/saphana-fas-nfs_introduction.html["NFS を使用した NetApp FAS システムでの SAP HANA"^]
+* https://docs.netapp.com/us-en/netapp-solutions_main/ent-apps-db/saphana_aff_nfs_introduction.html["NFS を使用した NetApp AFF システムでの SAP HANA"^]
 
 
 SAP HANA マルチホスト環境では、 SAP HANA ホストのフェイルオーバー時にフェンシングを提供するために、標準の SAP HANA ストレージコネクタが使用されます。オペレーティングシステムの構成ガイドラインと、 HANA 固有の Linux カーネルの依存関係については、必ず該当する SAP ノートを参照してください。詳細については、を参照してください https://launchpad.support.sap.com/["SAP Note 2235581 – SAP HANA Supported Operating Systems 』"^]。
@@ -57,6 +57,8 @@ image:saphana_aff_fc_image1.png["エラー：グラフィックイメージが�
 
 
 = VMware vSphere を使用した SAP HANA
+
+ストレージを仮想マシン（ VM ）に接続する方法はいくつかあります。推奨される方法は、ストレージボリュームと NFS をゲストオペレーティングシステムから直接接続することです。このオプションについては、を参照してください link:https://review.docs.netapp.com/us-en/netapp-solutions_main/ent-apps-db/saphana_aff_nfs_introduction.html["NFS を使用した NetApp AFF システムでの SAP HANA"]。
 
 raw デバイスマッピング（ RDM ）、 FCP データストア、または FCP を使用する VVol データストアもサポートされます。どちらのデータストアオプションも、本番環境で使用するためにデータストアに格納する SAP HANA データボリュームまたはログボリュームは 1 つだけです。また、 SnapCenter がオーケストレーションする Snapshot ベースのバックアップとリカバリ、および SAP システムのクローニングなどに基づくソリューションは実装できません。
 

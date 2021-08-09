@@ -32,7 +32,7 @@ NOTE: SAP HANA マルチホスト構成のすべてのワーカーホストと�
 +
 ....
 stlrx300s8-6:~ # sanlun lun show
-controller(7mode/E-Series)/                                            device          host                  lun
+controller(7mode/E-Series)/                                            device        host                  lun
 vserver(cDOT/FlashRay)        lun-pathname                             filename        adapter    protocol   size    product
 -------------------------------------------------------------------------------------------------------------------------
 hana                          /vol/SS3_log_mnt00002/SS3_log_mnt00002   /dev/sdah       host11     FCP        512.0g  cDOT
@@ -150,6 +150,7 @@ multipaths {
                 wwid    3600a098038304436392b4d442d6f5350
                 alias   hana- SS3_log_mnt00002
         }
+
 }
 ....
 . 「 multipath -r 」コマンドを実行して、デバイスマップをリロードします。
@@ -161,7 +162,7 @@ NOTE: 次の出力例は、 2 つのデータ LUN と 2 つのログ LUN を持�
 +
 ....
 stlrx300s8-6:~ # multipath -ll
-hana- SS3_data_mnt00002 (3600a098038304436375d4d442d753879) dm-1 NETAPP,LUN C-Mode
+hana-SS3_data_mnt00002 (3600a098038304436375d4d442d753879) dm-1 NETAPP,LUN C-Mode
 size=1.2T features='4 queue_if_no_path pg_init_retries 50 retain_attached_hw_handler' hwhandler='1 alua' wp=rw
 |-+- policy='service-time 0' prio=50 status=enabled
 | |- 10:0:1:1 sdj  8:144  active ready running
@@ -173,7 +174,7 @@ size=1.2T features='4 queue_if_no_path pg_init_retries 50 retain_attached_hw_han
   |- 10:0:2:1 sdm  8:192  active ready running
   |- 11:0:1:1 sdz  65:144 active ready running
   `- 11:0:3:1 sdaf 65:240 active ready running
-hana- SS3_data_mnt00001 (3600a098038304436392b4d442d6f534f) dm-2 NETAPP,LUN C-Mode
+hana-SS3_data_mnt00001 (3600a098038304436392b4d442d6f534f) dm-2 NETAPP,LUN C-Mode
 size=1.2T features='4 queue_if_no_path pg_init_retries 50 retain_attached_hw_handler' hwhandler='1 alua' wp=rw
 |-+- policy='service-time 0' prio=50 status=enabled
 | |- 10:0:0:2 sdh  8:112  active ready running
@@ -185,7 +186,7 @@ size=1.2T features='4 queue_if_no_path pg_init_retries 50 retain_attached_hw_han
   |- 10:0:3:2 sdq  65:0   active ready running
   |- 11:0:0:2 sdx  65:112 active ready running
   `- 11:0:2:2 sdad 65:208 active ready running
-hana- SS3_log_mnt00002 (3600a098038304436392b4d442d6f5350) dm-3 NETAPP,LUN C-Mode
+hana-SS3_log_mnt00002 (3600a098038304436392b4d442d6f5350) dm-3 NETAPP,LUN C-Mode
 size=512G features='4 queue_if_no_path pg_init_retries 50 retain_attached_hw_handler' hwhandler='1 alua' wp=rw
 |-+- policy='service-time 0' prio=50 status=enabled
 | |- 10:0:0:3 sdi  8:128  active ready running
@@ -197,7 +198,7 @@ size=512G features='4 queue_if_no_path pg_init_retries 50 retain_attached_hw_han
   |- 10:0:3:3 sdr  65:16  active ready running
   |- 11:0:0:3 sdy  65:128 active ready running
   `- 11:0:2:3 sdae 65:224 active ready running
-hana- SS3_log_mnt00001 (3600a098038304436375d4d442d753878) dm-0 NETAPP,LUN C-Mode
+hana-SS3_log_mnt00001 (3600a098038304436375d4d442d753878) dm-0 NETAPP,LUN C-Mode
 size=512G features='4 queue_if_no_path pg_init_retries 50 retain_attached_hw_handler' hwhandler='1 alua' wp=rw
 |-+- policy='service-time 0' prio=50 status=enabled
 | |- 10:0:1:0 sdd  8:48   active ready running
@@ -251,7 +252,10 @@ lvcreate --extents 100%FREE -i 2 -I 64k --name vol FC5_log_mnt00001
 
 
 ....
-modprobe dm_modpvscanvgscanlvscan
+modprobe dm_mod
+pvscan
+vgscan
+lvscan
 ....
 
 NOTE: これらのコマンドでボリュームが見つからない場合は、再起動する必要があります。
@@ -271,18 +275,18 @@ HANA システムに属する各 LUN で XFS ファイルシステムを作成�
 
 
 ....
-stlrx300s8-6:/ # mkfs.xfs /dev/mapper/hana- SS3_data_mnt00001
-stlrx300s8-6:/ # mkfs.xfs /dev/mapper/hana- SS3_log_mnt00001
-stlrx300s8-6:/ # mkfs.xfs /dev/mapper/hana- SS3_shared
+stlrx300s8-6:/ # mkfs.xfs /dev/mapper/hana-SS3_data_mnt00001
+stlrx300s8-6:/ # mkfs.xfs /dev/mapper/hana-SS3_log_mnt00001
+stlrx300s8-6:/ # mkfs.xfs /dev/mapper/hana-SS3_shared
 ....
 * マルチホストシステムの場合は、すべてのデータ LUN とログ LUN に XFS ファイルシステムを作成してください。
 
 
 ....
-stlrx300s8-6:~ # mkfs.xfs /dev/mapper/hana- SS3_log_mnt00001
-stlrx300s8-6:~ # mkfs.xfs /dev/mapper/hana- SS3_log_mnt00002
-stlrx300s8-6:~ # mkfs.xfs /dev/mapper/hana- SS3_data_mnt00001
-stlrx300s8-6:~ # mkfs.xfs /dev/mapper/hana- SS3_data_mnt00002
+stlrx300s8-6:~ # mkfs.xfs /dev/mapper/hana-SS3_log_mnt00001
+stlrx300s8-6:~ # mkfs.xfs /dev/mapper/hana-SS3_log_mnt00002
+stlrx300s8-6:~ # mkfs.xfs /dev/mapper/hana-SS3_data_mnt00001
+stlrx300s8-6:~ # mkfs.xfs /dev/mapper/hana-SS3_data_mnt00002
 ....
 * LVM を使用している場合は、すべてのデータ論理ボリュームとログ論理ボリュームに XFS ファイルシステムを作成します。
 
@@ -346,9 +350,9 @@ NOTE: データ LUN とログ LUN の XFS ファイルシステムは 'relatim' 
 +
 ....
 stlrx300s8-6:/ # cat /etc/fstab
-/dev/mapper/hana- SS3_shared /hana/shared xfs defaults 0 0
-/dev/mapper/hana- SS3_log_mnt00001 /hana/log/SS3/mnt00001 xfs relatime,inode64 0 0
-/dev/mapper/hana- SS3_data_mnt00001 /hana/data/SS3/mnt00001 xfs relatime,inode64 0 0
+/dev/mapper/hana-SS3_shared /hana/shared xfs defaults 0 0
+/dev/mapper/hana-SS3_log_mnt00001 /hana/log/SS3/mnt00001 xfs relatime,inode64 0 0
+/dev/mapper/hana-SS3_data_mnt00001 /hana/data/SS3/mnt00001 xfs relatime,inode64 0 0
 ....
 +
 LVM を使用する場合は、データとログの論理ボリューム名を使用します。
@@ -368,7 +372,7 @@ NOTE: すべてのデータファイルシステムとログファイルシス�
 +
 ....
 stlrx300s8-6:/ # cat /etc/fstab
-<storage-ip>:/hana_shared /hana/shared nfs rw,vers=3,hard,timeo=600,  intr,noatime,nolock 0 0
+<storage-ip>:/hana_shared /hana/shared nfs rw,vers=3,hard,timeo=600, intr,noatime,nolock 0 0
 ....
 
 

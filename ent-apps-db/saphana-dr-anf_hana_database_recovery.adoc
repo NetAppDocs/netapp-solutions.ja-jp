@@ -170,8 +170,10 @@ pr1adm@vm-pr1:/usr/sap/PR1/HDB01> hdbsql -U PR1KEY
 Welcome to the SAP HANA Database interactive terminal.
 Type:  \h for help with commands
        \q to quit
+
 hdbsql SYSTEMDB=> RECOVER DATABASE FOR PR1 UNTIL TIMESTAMP '2021-02-20 00:00:00' CLEAR LOG USING SNAPSHOT
 0 rows affected (overall time 63.791121 sec; server time 63.788754 sec)
+
 hdbsql SYSTEMDB=>
 ....
 HANA データベースが起動して実行されるようになり、 HANA データベースのディザスタリカバリワークフローがテストされました。
@@ -193,3 +195,5 @@ Backup '/mnt/log-backup/SYSTEMDB/log_backup_0_0_0_0.1589289811148' successfully 
 システムとテナントデータベースの最新のログバックアップファイルに対してチェックを実行する必要があります。
 
 「 hdbbackupcheck 」ツールが最新のログ・バックアップのエラーを報告する場合は、最新のログ・バックアップ・セットを削除するか、削除する必要があります。
+
+link:saphana-dr-anf_disaster_recovery_failover_overview.html["次の例：ディザスタリカバリのフェイルオーバー。"]

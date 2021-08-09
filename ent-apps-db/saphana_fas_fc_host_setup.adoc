@@ -250,7 +250,10 @@ lvcreate --extents 100%FREE -i 2 -I 64k --name vol FC5_log_mnt00001
 . その他すべてのホストで、物理ボリューム、ボリュームグループ、およびボリュームグループをスキャンします。
 +
 ....
-modprobe dm_modpvscanvgscanlvscan
+modprobe dm_mod
+pvscan
+vgscan
+lvscan
 ....
 +
 
@@ -273,18 +276,18 @@ HANA システムに属する各 LUN で XFS ファイルシステムを作成�
 
 
 ....
-stlrx300s8-6:/ # mkfs.xfs /dev/mapper/hana- SS3_data_mnt00001
-stlrx300s8-6:/ # mkfs.xfs /dev/mapper/hana- SS3_log_mnt00001
-stlrx300s8-6:/ # mkfs.xfs /dev/mapper/hana- SS3_shared
+stlrx300s8-6:/ # mkfs.xfs /dev/mapper/hana-SS3_data_mnt00001
+stlrx300s8-6:/ # mkfs.xfs /dev/mapper/hana-SS3_log_mnt00001
+stlrx300s8-6:/ # mkfs.xfs /dev/mapper/hana-SS3_shared
 ....
 * マルチホストシステムの場合は、すべてのデータ LUN とログ LUN に XFS ファイルシステムを作成してください。
 
 
 ....
-stlrx300s8-6:~ # mkfs.xfs /dev/mapper/hana- SS3_log_mnt00001
-stlrx300s8-6:~ # mkfs.xfs /dev/mapper/hana- SS3_log_mnt00002
-stlrx300s8-6:~ # mkfs.xfs /dev/mapper/hana- SS3_data_mnt00001
-stlrx300s8-6:~ # mkfs.xfs /dev/mapper/hana- SS3_data_mnt00002
+stlrx300s8-6:~ # mkfs.xfs /dev/mapper/hana-SS3_log_mnt00001
+stlrx300s8-6:~ # mkfs.xfs /dev/mapper/hana-SS3_log_mnt00002
+stlrx300s8-6:~ # mkfs.xfs /dev/mapper/hana-SS3_data_mnt00001
+stlrx300s8-6:~ # mkfs.xfs /dev/mapper/hana-SS3_data_mnt00002
 ....
 * LVM を使用している場合は、すべてのデータ論理ボリュームとログ論理ボリュームに XFS ファイルシステムを作成します。
 
@@ -311,6 +314,7 @@ NOTE: 複数ホストのコマンド例には、 2+1 のマルチホスト HANA 
 stlrx300s8-6:/ # mkdir -p /hana/data/SS3/mnt00001
 stlrx300s8-6:/ # mkdir -p /hana/log/SS3/mnt00001
 stlrx300s8-6:/ # mkdir -p /hana/shared
+
 stlrx300s8-6:/ # chmod –R 777 /hana/log/SS3
 stlrx300s8-6:/ # chmod –R 777 /hana/data/SS3
 stlrx300s8-6:/ # chmod 777 /hana/shared
@@ -350,9 +354,9 @@ NOTE: データとログ LUN の XFS ファイルシステムは 'relatim' お�
 +
 ....
 stlrx300s8-6:/ # cat /etc/fstab
-/dev/mapper/FAS8200-hana- SS3_shared /hana/shared xfs defaults 0 0
-/dev/mapper/FAS8200-hana- SS3_log_mnt00001 /hana/log/SS3/mnt00001 xfs relatime,inode64,nobarrier 0 0
-/dev/mapper/FAS8200-hana- SS3_data_mnt00001 /hana/data/SS3/mnt00001 xfs relatime,inode64 0 0
+/dev/mapper/hana-SS3_shared /hana/shared xfs defaults 0 0
+/dev/mapper/hana-SS3_log_mnt00001 /hana/log/SS3/mnt00001 xfs relatime,inode64 0 0
+/dev/mapper/hana-SS3_data_mnt00001 /hana/data/SS3/mnt00001 xfs relatime,inode64 0 0
 ....
 +
 LVM を使用する場合は、データとログの論理ボリューム名を使用します。
