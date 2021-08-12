@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_live_migration.html 
-keywords: OpenShift, OCP, NetApp Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
 summary: NetApp ONTAP を使用した Red Hat OpenShift Virtualization 
 ---
 = ワークフロー： NetApp ONTAP を使用した Red Hat OpenShift Virtualization
@@ -11,7 +11,7 @@ summary: NetApp ONTAP を使用した Red Hat OpenShift Virtualization
 
 == VM ライブマイグレーション
 
-ライブマイグレーションは、 OpenShift クラスタ内の 1 つのノードから別のノードに VM インスタンスをダウンタイムなしで移行するプロセスです。OpenShift クラスタでライブマイグレーションを実行するには、 VM を共有 ReadWriteAny アクセスモードの PVC にバインドする必要があります。NetApp Trident バックエンドが、 NFS プロトコルが有効になっている NetApp ONTAP クラスタで SVM を使用して設定されている場合、 PVC に対する共有 ReadWriteMany アクセスがサポートされます。そのため、 NFS 対応の SVM から Trident によってプロビジョニングされた StorageClasses から要求された PVC を持つ VM をダウンタイムなしで移行できます。
+ライブマイグレーションは、 OpenShift クラスタ内の 1 つのノードから別のノードに VM インスタンスをダウンタイムなしで移行するプロセスです。OpenShift クラスタでライブマイグレーションを実行するには、 VM を共有 ReadWriteAny アクセスモードの PVC にバインドする必要があります。NFS プロトコルが有効になっている NetApp ONTAP クラスタで SVM を使用して設定された Astra Trident バックエンドは、 PVC に対する共有 ReadWriteAny アクセスをサポートします。そのため、 NFS 対応の SVM から Trident によってプロビジョニングされた StorageClasses から要求された PVC を持つ VM をダウンタイムなしで移行できます。
 
 image::redhat_openshift_image55.jpg[VM ライブマイグレーションのアーキテクチャ]
 

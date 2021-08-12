@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: containers/rh-os-n_use_case_openshift_virtualization_workflow_clone_vm.html 
-keywords: OpenShift, OCP, NetApp Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
 summary: NetApp ONTAP を使用した Red Hat OpenShift Virtualization 
 ---
 = ワークフロー： NetApp ONTAP を使用した Red Hat OpenShift Virtualization
@@ -11,7 +11,7 @@ summary: NetApp ONTAP を使用した Red Hat OpenShift Virtualization
 
 == VM のクローニング
 
-NetApp Trident の Volume CSI クローニング機能を使用すると、 OpenShift で既存の VM をクローニングできます。CSI ボリュームクローニングでは、 PV を複製することによって、既存の PVC をデータソースとして使用して新しい PVC を作成できます。新しい PVC が作成されると、その PVC は独立したエンティティとして機能し、送信元 PVC へのリンクや依存関係はありません。
+OpenShift で既存の VM をクローニングするには、 Astra Trident の Volume CSI クローニング機能をサポートします。CSI ボリュームクローニングでは、 PV を複製することによって、既存の PVC をデータソースとして使用して新しい PVC を作成できます。新しい PVC が作成されると、その PVC は独立したエンティティとして機能し、送信元 PVC へのリンクや依存関係はありません。
 
 image::redhat_openshift_image57.jpg[VM クローニングアーキテクチャ]
 
@@ -32,7 +32,7 @@ OpenShift クラスタ内の VM は、次の 2 つの方法でクローニング
 
 === ソース VM をシャットダウンします
 
-VM をシャットダウンして既存の VM をクローニングすることは、 NetApp Trident のサポートによって実装されるネイティブの OpenShift 機能です。VM をクローニングするには、次の手順を実行します。
+VM をシャットダウンして既存の VM をクローニングすることは、 Astra Trident のサポートとともに実装されるネイティブの OpenShift 機能です。VM をクローニングするには、次の手順を実行します。
 
 . [Workloads （ワークロード） ] > [Virtualization （仮想化） ] > [Virtual Machines （仮想マシン） ] に移動し、クローンを作成する仮想マシンの横にある省略記号をクリックします。
 . Clone Virtual Machine をクリックして、新しい VM の詳細を指定します。

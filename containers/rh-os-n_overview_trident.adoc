@@ -1,10 +1,10 @@
 ---
 sidebar: sidebar 
 permalink: containers/rh-os-n_overview_trident.html 
-keywords: Trident, Helm, Operator, iSCSI, NFS 
-summary: NetApp Trident は、コンテナや Kubernetes ディストリビューション向けの、 Red Hat OpenShift などのオープンソースで完全にサポートされているストレージオーケストレーションツールです。 
+keywords: Trident, Astra Trident, Helm, Operator, iSCSI, NFS 
+summary: Astra Trident は、コンテナや Kubernetes ディストリビューション向けの、 Red Hat OpenShift などのオープンソースで完全にサポートされているストレージオーケストレーションツールです。 
 ---
-= NetApp Trident の概要：ネットアップを使用した Red Hat OpenShift
+= Astra Trident の概要：ネットアップを使用した Red Hat OpenShift
 :hardbreaks:
 :nofooter: 
 :icons: font
@@ -12,7 +12,7 @@ summary: NetApp Trident は、コンテナや Kubernetes ディストリビュ�
 :imagesdir: ./../media/
 
 
-NetApp Trident は、コンテナや Kubernetes ディストリビューション向けの、 Red Hat OpenShift などのオープンソースで完全にサポートされているストレージオーケストレーションツールです。
+Astra Trident は、コンテナや Kubernetes ディストリビューション向けの、 Red Hat OpenShift などのオープンソースで完全にサポートされているストレージオーケストレーションツールです。
 
 Trident は、 NetApp ONTAP や Element ストレージシステムを含むネットアップストレージポートフォリオ全体と連携し、 NFS 接続と iSCSI 接続もサポートします。
 
@@ -22,9 +22,9 @@ Trident を使用すると、ストレージ管理者の手を煩わせること
 
 image:redhat_openshift_image2.png["エラー：グラフィックイメージがありません"]
 
-NetApp Trident は、迅速な開発サイクルを実現し、 Kubernetes と同様、年間 4 回リリースされます。
+Astra Trident は、 Kubernetes と同様、迅速な開発サイクルを 1 年に 4 回リリースしています。
 
-最新バージョンの NetApp Trident （ 21.04 ）が 2021 年 4 月にリリースされました。Trident のどのバージョンがサポートされているかを確認できます Kubernetes ディストリビューションのテストに使用 https://netapp-trident.readthedocs.io/en/stable-v21.04/support/requirements.html#supported-frontends-orchestrators["こちらをご覧ください"]。
+最新バージョンの Astra Trident は、 2021 年 4 月にリリースされた 21.04 です。Trident のどのバージョンがサポートされているかを確認できます Kubernetes ディストリビューションのテストに使用 https://netapp-trident.readthedocs.io/en/stable-v21.04/support/requirements.html#supported-frontends-orchestrators["こちらをご覧ください"]。
 
 20.04 リリース以降、 Trident のセットアップは Trident オペレータによって実行されます。オペレータが大規模な導入を容易にし、 Trident インストールの一部として導入されたポッドの自己修復などの追加サポートを提供します。
 
@@ -32,36 +32,36 @@ NetApp Trident は、迅速な開発サイクルを実現し、 Kubernetes と�
 
 
 
-== NetApp Trident をダウンロード
+== Astra Trident をダウンロード
 
 導入したユーザクラスタに Trident をインストールし、永続ボリュームをプロビジョニングするには、次の手順を実行します。
 
-. インストールアーカイブを管理ワークステーションにダウンロードし、内容を展開します。Trident の現在のバージョンは 21.01 で、ダウンロードできます https://github.com/NetApp/trident/releases/download/v21.04.0/trident-installer-21.04.0.tar.gz["こちらをご覧ください"]。
+. インストールアーカイブを管理ワークステーションにダウンロードし、内容を展開します。Trident の最新バージョンは 21.04 で、ダウンロードできます https://github.com/NetApp/trident/releases/download/v21.04/trident-installer-21.04.tar.gz["こちらをご覧ください"]。
 +
 [listing]
 ----
-[netapp-user@rhel7 ~]$ wget https://github.com/NetApp/trident/releases/download/v21.04.0/trident-installer-21.04.0.tar.gz
---2021-05-06 15:17:30--  https://github.com/NetApp/trident/releases/download/v21.04.0/trident-installer-21.04.0.tar.gz
+[netapp-user@rhel7 ~]$ wget https://github.com/NetApp/trident/releases/download/v21.04/trident-installer-21.04.tar.gz
+--2021-05-06 15:17:30--  https://github.com/NetApp/trident/releases/download/v21.04/trident-installer-21.04.tar.gz
 Resolving github.com (github.com)... 140.82.114.3
 Connecting to github.com (github.com)|140.82.114.3|:443... connected.
 HTTP request sent, awaiting response... 302 Found
-Location: https://github-releases.githubusercontent.com/77179634/a4fa9f00-a9f2-11eb-9053-98e8e573d4ae?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20210506%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20210506T191643Z&X-Amz-Expires=300&X-Amz-Signature=8a49a2a1e08c147d1ddd8149ce45a5714f9853fee19bb1c507989b9543eb3630&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=77179634&response-content-disposition=attachment%3B%20filename%3Dtrident-installer-21.04.0.tar.gz&response-content-type=application%2Foctet-stream [following]
---2021-05-06 15:17:30--  https://github-releases.githubusercontent.com/77179634/a4fa9f00-a9f2-11eb-9053-98e8e573d4ae?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20210506%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20210506T191643Z&X-Amz-Expires=300&X-Amz-Signature=8a49a2a1e08c147d1ddd8149ce45a5714f9853fee19bb1c507989b9543eb3630&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=77179634&response-content-disposition=attachment%3B%20filename%3Dtrident-installer-21.04.0.tar.gz&response-content-type=application%2Foctet-stream
+Location: https://github-releases.githubusercontent.com/77179634/a4fa9f00-a9f2-11eb-9053-98e8e573d4ae?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20210506%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20210506T191643Z&X-Amz-Expires=300&X-Amz-Signature=8a49a2a1e08c147d1ddd8149ce45a5714f9853fee19bb1c507989b9543eb3630&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=77179634&response-content-disposition=attachment%3B%20filename%3Dtrident-installer-21.04.tar.gz&response-content-type=application%2Foctet-stream [following]
+--2021-05-06 15:17:30--  https://github-releases.githubusercontent.com/77179634/a4fa9f00-a9f2-11eb-9053-98e8e573d4ae?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20210506%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20210506T191643Z&X-Amz-Expires=300&X-Amz-Signature=8a49a2a1e08c147d1ddd8149ce45a5714f9853fee19bb1c507989b9543eb3630&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=77179634&response-content-disposition=attachment%3B%20filename%3Dtrident-installer-21.04.tar.gz&response-content-type=application%2Foctet-stream
 Resolving github-releases.githubusercontent.com (github-releases.githubusercontent.com)... 185.199.108.154, 185.199.109.154, 185.199.110.154, ...
 Connecting to github-releases.githubusercontent.com (github-releases.githubusercontent.com)|185.199.108.154|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 38349341 (37M) [application/octet-stream]
-Saving to: ‘trident-installer-21.04.0.tar.gz’
+Saving to: ‘trident-installer-21.04.tar.gz’
 
 100%[==================================================================================================================>] 38,349,341  88.5MB/s   in 0.4s
 
-2021-05-06 15:17:30 (88.5 MB/s) - ‘trident-installer-21.04.0.tar.gz’ saved [38349341/38349341]
+2021-05-06 15:17:30 (88.5 MB/s) - ‘trident-installer-21.04.tar.gz’ saved [38349341/38349341]
 ----
 . ダウンロードしたバンドルから Trident のインストールを解凍します。
 +
 [listing]
 ----
-[netapp-user@rhel7 ~]$ tar -xzf trident-installer-21.01.0.tar.gz
+[netapp-user@rhel7 ~]$ tar -xzf trident-installer-21.04.tar.gz
 [netapp-user@rhel7 ~]$ cd trident-installer/
 [netapp-user@rhel7 trident-installer]$
 ----
@@ -81,7 +81,7 @@ Saving to: ‘trident-installer-21.04.0.tar.gz’
 +
 [listing]
 ----
-[netapp-user@rhel7 trident-installer]$ helm install trident helm/trident-operator-21.04.0.tgz --create-namespace --namespace trident
+[netapp-user@rhel7 trident-installer]$ helm install trident helm/trident-operator-21.04.tgz --create-namespace --namespace trident
 NAME: trident
 LAST DEPLOYED: Fri May  7 12:54:25 2021
 NAMESPACE: trident
@@ -120,7 +120,7 @@ trident-operator-7c748d957-gr2gw   1/1     Running   0          36s
 +----------------+----------------+
 | SERVER VERSION | CLIENT VERSION |
 +----------------+----------------+
-| 21.04.0        | 21.04.0        |
+| 21.04          | 21.04          |
 +----------------+----------------+
 ----
 
@@ -239,7 +239,7 @@ Status:
   Current Installation Params:
     IPv6:                       false
     Autosupport Hostname:
-    Autosupport Image:          netapp/trident-autosupport:21.01
+    Autosupport Image:          netapp/trident-autosupport:21.04
     Autosupport Proxy:
     Autosupport Serial Number:
     Debug:                      true
@@ -250,11 +250,11 @@ Status:
     Kubelet Dir:          /var/lib/kubelet
     Log Format:           text
     Silence Autosupport:  false
-    Trident Image:        netapp/trident:21.04.0
+    Trident Image:        netapp/trident:21.04
   Message:                Trident installed
   Namespace:              trident
   Status:                 Installed
-  Version:                v21.04.0
+  Version:                v21.04
 Events:
   Type    Reason      Age   From                        Message
   ----    ------      ----  ----                        -------
@@ -277,7 +277,7 @@ trident-operator-66f48895cc-lzczk   1/1     Running   0          2m39s
 +----------------+----------------+
 | SERVER VERSION | CLIENT VERSION |
 +----------------+----------------+
-| 21.04.0        | 21.04.0        |
+| 21.04          | 21.04          |
 +----------------+----------------+
 ----
 
@@ -394,7 +394,7 @@ NOTE: また、適切なフラグを指定して「 OC debug 」コマンドを�
 
 == ストレージシステムバックエンドを作成
 
-NetApp Trident Operator のインストールが完了したら、使用するネットアップストレージプラットフォームにバックエンドを設定する必要があります。以下のリンクをクリックして、 NetApp Trident のセットアップと設定を続けてください。
+Astra Trident Operator のインストールが完了したら、使用するネットアップストレージプラットフォームに合わせてバックエンドを設定する必要があります。Astra Trident のセットアップと設定を続行するには、次のリンクを参照してください。
 
 * link:rh-os-n_trident_ontap_nfs.html["NetApp ONTAP NFS"]
 * link:rh-os-n_trident_ontap_iscsi.html["NetApp ONTAP iSCSI の略"]

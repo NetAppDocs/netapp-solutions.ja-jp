@@ -11,7 +11,10 @@ Trident は、コンテナ向けのストレージオーケストレーション
 
 導入したユーザクラスタに Trident をインストールし、永続ボリュームをプロビジョニングするには、次の手順を実行します。
 
-. インストールアーカイブを管理ワークステーションにダウンロードし、内容を展開します。Trident の現在のバージョンは 21.01 で、ダウンロードできます https://github.com/NetApp/trident/releases/download/v21.01.0/trident-installer-21.01.0.tar.gz["こちらをご覧ください"]。
+
+NOTE: 以下の手順は、 Trident 21.01 のインストールでスクリーンキャップを付けたものですが、 Trident Operator を手動で導入する手順も、現在の 21.04 リリースに適用されます。
+
+. インストールアーカイブを管理ワークステーションにダウンロードし、内容を展開します。Trident の最新バージョンは 21.04 で、ダウンロードできます https://github.com/NetApp/trident/releases/download/v21.04.0/trident-installer-21.04.0.tar.gz["こちらをご覧ください"]。
 +
 [listing]
 ----
@@ -52,7 +55,7 @@ ubuntu@gke-admin-ws-200915-151421:~/trident-installer$ export KUBECONFIG=~/antho
 ubuntu@gke-admin-ws-200915-151421:~/trident-installer$ kubectl create -f deploy/crds/trident.netapp.io_tridentorchestrators_crd_post1.16.yaml
 customresourcedefinition.apiextensions.k8s.io/tridentorchestrators.trident.netapp.io created
 ----
-. 存在しない場合は、指定されたマニフェストを使用して、クラスタ内に Trident ネームスペースを作成します。
+. Trident のネームスペースが存在しない場合は、指定されたマニフェストを使用してクラスタに作成します。
 +
 [listing]
 ----
@@ -187,12 +190,12 @@ ubuntu@gke-admin-ws-200915-151421:~/trident-installer$ ./tridentctl -n trident v
 | 21.01.1        | 21.01.1        |
 +----------------+----------------+
 ----
-. Trident を NetApp HCI 解決策や Anthos と統合するための次のステップは、ストレージシステムとの通信を可能にするバックエンドを作成することです。ネットアップは、 Anthos 対応のパートナーストレージ検証プログラムを通じて、さまざまなプロトコルに対して検証済みです。このため、 NetApp Trident では、ネットアップの ONTAP プラットフォームで NFS 環境の Anthos をサポートし、 NetApp HCI で使用されている ONTAP ストレージと Element ストレージの両方で iSCSI をサポートできます。
+. Trident を NetApp HCI 解決策や Anthos と統合するための次のステップは、ストレージシステムとの通信を可能にするバックエンドを作成することです。ネットアップは、 Anthos 対応のパートナーストレージ検証プログラムを通じて、さまざまなプロトコルに対して検証済みです。このため、 NetApp Trident では、 ONTAP で使用されている ONTAP ストレージと Element ストレージの両方から、ネットアップの NetApp HCI プラットフォームと iSCSI 経由で NFS 環境の Anthos をサポートできます。
 +
 
 NOTE: NetApp HCI プラットフォームは、デフォルトで NetApp Element ストレージを使用して導入されます。このガイドでは、このシステム専用のバックエンドを設定します。さらに、リモートの ONTAP ストレージシステムに接続することも、 ONTAP Select Software-Defined Storage システムを VMware vSphere の仮想アプライアンスとして導入することもでき、追加の NFS サービスと iSCSI サービスを提供できます。このガイドでは、これらの追加ストレージバックエンドの各構成については説明していません。
 
-. ダウンロードしたインストールアーカイブのサンプルバックエンドファイルが、「 sample -input 」フォルダにあります。「 backend-solidfire.json 」を作業ディレクトリにコピーし、編集して、ストレージシステムの環境に関する情報を提供します。Element ベースの iSCSI 接続の場合は、「 backend-solidfire.json 」ファイルをコピーして編集します。
+. ダウンロードしたインストールアーカイブのサンプルバックエンドファイルが、「 sample -input 」フォルダにあります。「 backend-solidfire.json 」を作業ディレクトリにコピーし、編集してストレージシステムの環境に関する情報を提供します。Element ベースの iSCSI 接続の場合は、「 backend-solidfire.json 」ファイルをコピーして編集します。
 +
 [listing]
 ----
@@ -218,7 +221,7 @@ ubuntu@gke-admin-ws-200915-151421:~/trident-installer$ $ vi backend-solidfire.js
 ----
 
 
-. このバックエンドファイルを設定したら、次のコマンドを実行して最初のバックエンドを作成します。
+. このバックエンドファイルを設定した状態で、次のコマンドを実行して最初のバックエンドを作成します。
 +
 [listing]
 ----
@@ -236,7 +239,7 @@ ubuntu@gke-admin-ws-200915-151421:~/trident-installer$ ./tridentctl -n trident c
 ubuntu@gke-admin-ws-200915-151421:~/trident-installer$ cp sample-input/storage-class-csi.yaml.templ ./storage-class-basic.yaml
 ubuntu@gke-admin-ws-200915-151421:~/trident-installer$ vi storage-class-basic.yaml
 ----
-. このファイルに対して行う必要がある唯一の編集は ' バックエンドタイプの値を ' 新しく作成されたバックエンドのストレージドライバの名前に定義することですまた、名前フィールドの値もメモしておきます。この値は、以降の手順で参照する必要があります。
+. このファイルに対して行う必要がある唯一の編集は ' バックエンドタイプの値を ' 新しく作成されたバックエンドのストレージドライバの名前に定義することですまた、以降の手順で参照する必要がある name-field 値にも注意してください。
 +
 [listing]
 ----
