@@ -1,0 +1,43 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_create_a_delegated_subnet_for_azure_netapp_files.html 
+keywords: delegated subnet, virtual network, azure portal, vnet, delegation 
+summary: このページでは、 Azure NetApp Files の委任サブネットを作成するために必要な手順について説明します。 
+---
+= Azure NetApp Files の委譲されたサブネットを作成します
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:aks-anf_install_and_set_up_the_aks_cluster.html["前へ： AKS クラスタをインストールしてセットアップします。"]
+
+Azure NetApp Files の委任されたサブネットを作成するには、次の手順を実行します。
+
+. Azure ポータル内の仮想ネットワークに移動します。新しく作成した仮想ネットワークを検索します。「 AKs-vnet 」などのプレフィックスが必要です。
+. VNet の名前をクリックします。
++
+image:aks-anf_image5.png["エラー：グラフィックイメージがありません"]
+
+. [ サブネット ] をクリックし、上部のツールバーの [ サブネット ] をクリックします。
++
+image:aks-anf_image6.png["エラー：グラフィックイメージがありません"]
+
+. サブネットに「 ANF 」などの名前を付け、「サブネットの委任」見出しの下にある「 M icrosoft.Netapp/volumes` 」を選択します。他のものは変更しないでください。[OK] をクリックします。
++
+image:aks-anf_image7.png["エラー：グラフィックイメージがありません"]
+
+
+
+Azure NetApp Files ボリュームはアプリケーションクラスタに割り当てられ、 Kubernetes で永続ボリューム要求（ PVC ）として使用されます。その結果、 Jupyter ノートブック、サーバーレス関数などのさまざまなサービスに柔軟にマップできます。
+
+サービスのユーザは、プラットフォームのストレージをさまざまな方法で消費できます。このテクニカルレポートでは NFS について説明しているため、 Azure NetApp Files の主なメリットは次のとおりです。
+
+* ユーザに Snapshot コピーを使用できるようにする。
+* ユーザが Azure NetApp Files ボリュームに大量のデータを格納できるようにする。
+* 大容量のファイルセットでモデルを実行する場合、 Azure NetApp Files のパフォーマンスが向上します。
+
+
+link:aks-anf_peer_aks_vnet_and_azure_netapp_files_vnet.html["次の例：ピア AKS の VNet と Azure NetApp Files VNet"]

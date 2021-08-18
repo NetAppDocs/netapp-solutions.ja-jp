@@ -1,0 +1,76 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_load_day_15_in_dask_and_train_a_dask_cuml_random_forest_model.html 
+keywords: dask, cuml, dataframe, criteo, click, logs, pandas, scikit, cudf 
+summary: このセクションでは、 Pandas で Crito Click Logs Day 15 をロードし、 scikit learn ランダムフォレストモデルをトレーニングする方法について説明します。この例では、 Dask cuDF を使用して DataFrame のロードを実行し、 Dask cuML でランダムなフォレストモデルのトレーニングを行いました。 
+---
+= Dask の 15 日目をロードし、 Dask cuML ランダムフォレストモデルをトレーニングします
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:aks-anf_load_criteo_click_logs_day_15_in_pandas_and_train_a_scikit-learn_random_forest_model.html["前の手順： Pandas で Logs Day 15 をクリックし、 scikit に学習したランダムなフォレストモデルをトレーニングします。"]
+
+前のセクションと同様に、 Pandas の Logs Day 15 をロードして、 scikit に学習したランダムフォレストモデルをトレーニングします。この例では、 Dask cuDF を使用して DataFrame のロードを実行し、 Dask cuML でランダムなフォレストモデルのトレーニングを行いました。セクションのトレーニング時間と規模の違いを比較しました link:aks-anf_training_time_comparison.html["「トレーニング時間の比較」"]
+
+
+
+== Crito_dASK_RF.ipynb
+
+このノートブックは、次の例に示すように、「 numpy`, cuml` 」、および必要な「 Ask 」ライブラリをインポートします。
+
+....
+import cuml
+from dask.distributed import Client, progress, wait
+import dask_cudf
+import numpy as np
+import cudf
+from cuml.dask.ensemble import RandomForestClassifier as cumlDaskRF
+from cuml.dask.common import utils as dask_utils
+....
+Dask Client() を開始します。
+
+....
+client = Client()
+....
+クラスタが正しく設定されていれば、ワーカーノードのステータスを確認できます。
+
+....
+client
+workers = client.has_what().keys()
+n_workers = len(workers)
+n_streams = 8 # Performance optimization
+....
+AKS クラスタでは、次のステータスが表示されます。
+
+image:aks-anf_image12.png["エラー：グラフィックイメージがありません"]
+
+Dask は遅延実行パラダイムを採用しています。処理コードを瞬時に実行するのではなく、 Dask は Directed Acyclic Graph （ DAG ）を実行します。DAG には、各ワーカーが実行する必要のある一連のタスクとそのやり取りが含まれています。このレイアウトは、ユーザーが Dask に一方の方法または別の方法で実行するように指示するまで、タスクが実行されないことを意味します。Dask を使用すると、 3 つの主なオプションがあります。
+
+* * DataFrame 上のコールコンピュート () 。 * このコールはすべてのパーティションを処理し、結果をスケジューラに返して最終的な集約を行い、 cuDF DataFrame に変換します。このオプションは慎重に使用してください。スケジューラノードのメモリが不足しないかぎり、結果が大幅に低下する場合にのみ使用してください。
+* * DataFrame 上で Persist() を呼び出します。 * この呼び出しはグラフを実行しますが、スケジューラノードに結果を返すのではなく、クラスタ内で結果をメモリに保持するため、ユーザは同じ処理を再実行することなくパイプライン内で中間結果を再利用できます。
+* * DataFrame 上のコールヘッド () 。 * cuDF と同様に、この呼び出しは 10 件のレコードをスケジューラノードに返します。このオプションを使用すると、 DataFrame に目的の出力形式が含まれているかどうか、または処理と計算に応じてレコード自体が適切かどうかをすばやく確認できます。
+
+
+したがって、ユーザがこれらのアクションのいずれかをコールしない限り、スケジューラが処理を開始するのを待機するアイドル状態になります。この遅延実行パラダイムは、 Apache Spark などの最新の並列および分散コンピューティングフレームワークで一般的です。
+
+次の段落では、 Dask cuML を使用して、 GPU アクセラレーションによる分散コンピューティングを行い、モデル予測精度を計算することにより、ランダムなフォレストモデルのトレーニングを行います。
+
+....
+Adsf
+# Random Forest building parameters
+n_streams = 8 # optimization
+max_depth = 10
+n_bins = 16
+n_trees = 10
+cuml_model = cumlDaskRF(max_depth=max_depth, n_estimators=n_trees, n_bins=n_bins, n_streams=n_streams, verbose=True, client=client)
+cuml_model.fit(gdf_sliced_small, Y)
+# Model prediction
+pred_df = cuml_model.predict(gdf_test)
+# calculate accuracy
+cu_score = cuml.metrics.accuracy_score( test_y, pred_df )
+....
+link:aks-anf_monitor_dask_using_native_task_streams_dashboard.html["次の手順：ネイティブタスクストリームダッシュボードを使用して Dask を監視します。"]

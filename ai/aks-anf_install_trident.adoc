@@ -1,0 +1,143 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_install_trident.html 
+keywords:  
+summary:  
+---
+= Trident をインストール
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:aks-anf_peer_aks_vnet_and_azure_netapp_files_vnet.html["前の例：ピア AKS の VNet と Azure NetApp Files VNet"]
+
+Helm を使用して Trident をインストールするには、次の手順を実行します。
+
+. Install Helm （インストール手順については、を参照してください） https://helm.sh/docs/intro/install/["ソース"^]）。
+. Trident 20.01.1 インストーラをダウンロードして展開します。
++
+....
+$wget
+$tar -xf trident-installer-21.01.1.tar.gz
+....
+. ディレクトリを 'trident-installer' に変更します
++
+....
+$cd trident-installer
+....
+. tridentctl' をシステム「 $PATH 」のディレクトリにコピーします。
++
+....
+$sudo cp ./tridentctl /usr/local/bin
+....
+. Kubernetes （ Kubernetes ）クラスタに Trident をインストールし、 Helm （を参照 https://scaleoutsean.github.io/2021/02/02/trident-21.01-install-with-helm-on-netapp-hci.html["ソース"^]）：
++
+.. ディレクトリを 'helm' ディレクトリに変更します
++
+....
+$cd helm
+....
+.. Trident をインストール
++
+....
+$helm install trident trident-operator-21.01.1.tgz --namespace trident --create-namespace
+....
+.. Trident ポッドのステータスを確認
++
+....
+$kubectl -n trident get pods
+....
++
+すべてのポッドが稼働中の場合は、 Trident がインストールされてから次のポッドに移動できます。
+
+
+
+. AKS の Azure NetApp Files バックエンドとストレージクラスをセットアップします。
++
+.. Azure サービスプリンシパルを作成します。
++
+サービスプリンシパルは、 Trident が Azure と通信して Azure NetApp Files リソースを操作する方法を示します。
+
++
+....
+$az ad sp create-for-rbac --name ""
+....
++
+出力は次の例のようになります。
+
++
+....
+{
+"appId": "xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", 
+"displayName": "netapptrident", 
+"name": "", 
+"password": "xxxxxxxxxxxxxxx.xxxxxxxxxxxxxx", 
+"tenant": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx"
+} 
+....
+
+
+. Trident バックエンド JSON ファイルを作成します。例：「 anf-backend.json 」
+. 任意のテキストエディタを使用して 'anf-backend.json ファイル内の次のフィールドに値を入力します
++
+....
+{
+    "version": 1,
+    "storageDriverName": "azure-netapp-files",
+    "subscriptionID": "fakec765-4774-fake-ae98-a721add4fake",
+    "tenantID": "fakef836-edc1-fake-bff9-b2d865eefake",
+    "clientID": "fake0f63-bf8e-fake-8076-8de91e57fake",
+    "clientSecret": "SECRET",
+    "location": "westeurope",
+    "serviceLevel": "Standard",
+    "virtualNetwork": "anf-vnet",
+    "subnet": "default",
+    "nfsMountOptions": "vers=3,proto=tcp",
+    "limitVolumeSize": "500Gi",
+    "defaults": {
+    "exportRule": "0.0.0.0/0",
+    "size": "200Gi"
+}
+....
+. 次のフィールドを置き換えます。
++
+** ' スクリプト ID' 。お客様の Azure サブスクリプション ID
+** 「 tenantID 」。前の手順で「 AZ AD SP 」の出力から取得した Azure テナント ID 。
+** 「 clientID 」。前のステップで 'AZ ad sp' の出力からのあなたの appID 。
+** 「 clientSecret 」を入力します。前の手順で「 AZ ad sp 」の出力から得たパスワード。
+
+
+. 構成ファイルとして 'anf-backend.json を使用して 'trident'namespace に Azure NetApp Files バックエンドを作成するように Trident に指示します
++
+....
+$tridentctl create backend -f anf-backend.json -n trident
+....
++
+image:aks-anf_image8.png["エラー：グラフィックイメージがありません"]
+
+. ストレージクラスを作成する。Kubernetes ユーザは、名前でストレージクラスを指定する PVC を使用してボリュームをプロビジョニングします。前の手順で作成した Trident バックエンドを参照するストレージクラス「 azurenetappfiles 」を作成するよう、 Kubernetes に指示します。
+. ストレージクラスおよびコピー用の YAML （ 'anf-storage-class.yaml ）ファイルを作成します。
++
+....
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+name: azurenetappfiles
+provisioner: netapp.io/trident
+parameters:
+backendType: "azure-netapp-files"
+$kubectl create -f anf-storage-class.yaml
+....
+. ストレージクラスが作成されたことを確認します。
++
+....
+kubectl get sc azurenetappfiles
+....
+
+
+image:aks-anf_image9.png["エラー：グラフィックイメージがありません"]
+
+link:aks-anf_set_up_dask_with_rapids_deployment_on_aks_using_helm.html["次の手順： Helm を使用して AKS に Rapids を導入して Dask をセットアップします。"]

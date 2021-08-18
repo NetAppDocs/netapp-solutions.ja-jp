@@ -1,0 +1,48 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_install_and_set_up_the_aks_cluster.html 
+keywords: aks, install, cluster, node type, system, worker 
+summary: このページでは、 AKS クラスタをセットアップするために必要な手順について説明します。 
+---
+= AKS クラスタをインストールしてセットアップします
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:aks-anf_click-through_rate_prediction_use_case_summary.html["前：クリックスルー率予測ユースケースの概要。"]
+
+AKS クラスタをインストールしてセットアップする方法については、 Web ページを参照してください https://docs.microsoft.com/azure/aks/kubernetes-walkthrough-portal["AKS クラスタを作成します"^] 次に、次の手順を実行します。
+
+. ノードのタイプ（ system [CPU] ノードまたは worker[GPU] ノード）を選択するときは、次のいずれかを選択します。
++
+.. プライマリ・システム・ノードは ' 標準 DS2v2 （デフォルトでは 3 ノード）である必要があります
+.. 次に 'gpupool' という名前のユーザ・グループ（ GPU ノードの場合）のワーカー・ノード Standard_NC6s_v3 プール（最小 3 ノード）を追加します
++
+image:aks-anf_image3.png["エラー：グラフィックイメージがありません"]
+
+
+
+. 導入には 5 ～ 10 分かかります。完了したら、 Connect to Cluster （クラスタへの接続）をクリックします。
+. 新しく作成した AKS クラスタに接続するには、ローカル環境（ラップトップ / PC ）から次のものをインストールします。
++
+.. を使用した Kubernetes コマンドラインツール https://kubernetes.io/docs/tasks/tools/install-kubectl/["使用している OS に応じた手順が表示されます"^]
+.. 本ドキュメントに記載されている Azure CLI を使用して、 https://docs.microsoft.com/cli/azure/install-azure-cli["Azure CLI をインストールします"^]
+
+
+. 端末から AKS クラスタにアクセスするには、「 AZ login 」と入力し、クレデンシャルを入力します。
+. 次の 2 つのコマンドを実行します。
++
+....
+az account set --subscription xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxxxx
+aks get-credentials --resource-group resourcegroup --name aksclustername
+....
+. 「 Azure CLI ： kubectl get nodes 」と入力します。
+. 次の例に示すように、 6 つのノードがすべて稼働していれば、 AKS クラスタをローカル環境に接続することができます
+
+
+image:aks-anf_image4.png["エラー：グラフィックイメージがありません"]
+
+link:aks-anf_create_a_delegated_subnet_for_azure_netapp_files.html["次の例： Azure NetApp Files の委任されたサブネットを作成します。"]

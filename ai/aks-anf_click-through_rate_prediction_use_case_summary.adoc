@@ -1,0 +1,28 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_click-through_rate_prediction_use_case_summary.html 
+keywords: use case, terabyte click log, random forest, training 
+summary: このページでは、分散型または大規模なトレーニングにおける Azure NetApp Files の利点をまとめています。 
+---
+= クリックスルー率予測ユースケースの概要
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:aks-anf_cloud_resource_requirements.html["Previous ：クラウドリソースの要件"]
+
+このユースケースは、一般に公開されているに基づいています http://labs.criteo.com/2013/12/download-terabyte-click-logs/["[ ログ ] をクリックします"^] データセットの作成元。ML プラットフォームの最近の進歩により、現在は大規模な学習が注目されています。ここでは、 Terabyte Click Logs を参照して、 ML プラットフォームとアルゴリズムのスケーラビリティを評価します。広告主は、クリックスルー率を予測することで、広告に反応する可能性が最も高い訪問者を選択し、閲覧履歴を分析し、ユーザーの関心に基づいて最も関連性の高い広告を表示することができます。
+
+このテクニカルレポートで紹介する解決策には、次のようなメリットがあります。
+
+* 分散型または大規模なトレーニングにおける Azure NetApp Files の利点
+* CUDA 対応のデータ処理（ cDF 、 cuPy など）と ML アルゴリズム（ cuML ）をラピッズで表示
+* Dask parallel computing framework for distributed training （分散型トレーニング用並列
+
+
+Dask と Azure NetApp Files のコラボレーション関係により、ランダムな森林モデルのトレーニング時間が 2 桁ずつ大幅に短縮されました。この改善は、実際のクリックを処理する際の従来の Pandas アプローチに相当し、毎日 45 GB のテキスト（平均）でデータをログに記録します。
+
+link:aks-anf_install_and_set_up_the_aks_cluster.html["次の手順： AK クラスタをインストールしてセットアップします。"]

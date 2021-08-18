@@ -8211,4 +8211,340 @@
   <block id="c0227cef6f07a8cd2ac72f2945b031aa" category="section-title">オープンソース</block>
   <block id="9b73989307c1975dfa4d5e1581e4afe8" category="paragraph">通知ファイルには、ネットアップソフトウェアで使用されるサードパーティの著作権およびライセンスに関する情報が記載されています。</block>
   <block id="d648f2a68a54fd1b3329efc3cf24d29c" category="sidebar">法的通知</block>
+  <block id="5328ed3b5c6e4726166e04c16c2e5581" category="summary">このセクションでは、 Pandas で Crito Click Logs Day 15 をロードし、 scikit learn ランダムフォレストモデルをトレーニングする方法について説明します。この例では、 Dask cuDF を使用して DataFrame のロードを実行し、 Dask cuML でランダムなフォレストモデルのトレーニングを行いました。</block>
+  <block id="a0432b74d7d4d2ad68e93e947654c865" category="doc">Dask の 15 日目をロードし、 Dask cuML ランダムフォレストモデルをトレーニングします</block>
+  <block id="7c784438423fe1bee9ab4f91a8fd7559" category="inline-link-macro">前の手順： Pandas で Logs Day 15 をクリックし、 scikit に学習したランダムなフォレストモデルをトレーニングします。</block>
+  <block id="5d5b75a952d74a7d4520c521956b9d7e" category="paragraph"><block ref="5d5b75a952d74a7d4520c521956b9d7e" category="inline-link-macro-rx"></block></block>
+  <block id="78dc33cd9d496e2466a0c1e2ba09ab3f" category="inline-link-macro">「トレーニング時間の比較」</block>
+  <block id="4a2764258721dd882c9ec28454963797" category="paragraph">前のセクションと同様に、 Pandas の Logs Day 15 をロードして、 scikit に学習したランダムフォレストモデルをトレーニングします。この例では、 Dask cuDF を使用して DataFrame のロードを実行し、 Dask cuML でランダムなフォレストモデルのトレーニングを行いました。セクションのトレーニング時間と規模の違いを比較しました <block ref="8d6c01ed5b9db5301efeb6183c858b76" category="inline-link-macro-rx"></block></block>
+  <block id="356d8553da3749641cb731d318c85b0c" category="section-title">Crito_dASK_RF.ipynb</block>
+  <block id="2f4f1a139be92d2b17647025ff8630ab" category="paragraph">このノートブックは、次の例に示すように、「 numpy`, cuml` 」、および必要な「 Ask 」ライブラリをインポートします。</block>
+  <block id="7b871613dade772ae668d694698383bf" category="paragraph">Dask Client() を開始します。</block>
+  <block id="3e9277d3d0f0519292426b933e52f232" category="paragraph">クラスタが正しく設定されていれば、ワーカーノードのステータスを確認できます。</block>
+  <block id="d6b257c355ced1525e4967c96b62b83e" category="paragraph">AKS クラスタでは、次のステータスが表示されます。</block>
+  <block id="d94a77691c281e8bf418635fea6ca580" category="paragraph"><block ref="d94a77691c281e8bf418635fea6ca580" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="073b2194006d8da73b5f74f3d7224d76" category="paragraph">Dask は遅延実行パラダイムを採用しています。処理コードを瞬時に実行するのではなく、 Dask は Directed Acyclic Graph （ DAG ）を実行します。DAG には、各ワーカーが実行する必要のある一連のタスクとそのやり取りが含まれています。このレイアウトは、ユーザーが Dask に一方の方法または別の方法で実行するように指示するまで、タスクが実行されないことを意味します。Dask を使用すると、 3 つの主なオプションがあります。</block>
+  <block id="a40049c3d7270ce955d2023f8e2015dc" category="list-text">* DataFrame 上のコールコンピュート () 。 * このコールはすべてのパーティションを処理し、結果をスケジューラに返して最終的な集約を行い、 cuDF DataFrame に変換します。このオプションは慎重に使用してください。スケジューラノードのメモリが不足しないかぎり、結果が大幅に低下する場合にのみ使用してください。</block>
+  <block id="30e170dbe1dd223491e1a822605da52d" category="list-text">* DataFrame 上で Persist() を呼び出します。 * この呼び出しはグラフを実行しますが、スケジューラノードに結果を返すのではなく、クラスタ内で結果をメモリに保持するため、ユーザは同じ処理を再実行することなくパイプライン内で中間結果を再利用できます。</block>
+  <block id="ca013764f3f6faeab137d2d529dba598" category="list-text">* DataFrame 上のコールヘッド () 。 * cuDF と同様に、この呼び出しは 10 件のレコードをスケジューラノードに返します。このオプションを使用すると、 DataFrame に目的の出力形式が含まれているかどうか、または処理と計算に応じてレコード自体が適切かどうかをすばやく確認できます。</block>
+  <block id="7ac60f98a199ceae63010c7802a9aefa" category="paragraph">したがって、ユーザがこれらのアクションのいずれかをコールしない限り、スケジューラが処理を開始するのを待機するアイドル状態になります。この遅延実行パラダイムは、 Apache Spark などの最新の並列および分散コンピューティングフレームワークで一般的です。</block>
+  <block id="d887d6a29f39f14cec0f83c5b02c42f8" category="paragraph">次の段落では、 Dask cuML を使用して、 GPU アクセラレーションによる分散コンピューティングを行い、モデル予測精度を計算することにより、ランダムなフォレストモデルのトレーニングを行います。</block>
+  <block id="de76ff3258bd3001f89804efae30da38" category="inline-link-macro">次の手順：ネイティブタスクストリームダッシュボードを使用して Dask を監視します。</block>
+  <block id="5db30f2a693de098d03dec622875beec" category="paragraph"><block ref="5db30f2a693de098d03dec622875beec" category="inline-link-macro-rx"></block></block>
+  <block id="2e240897109c5037e05afe0bf035d177" category="inline-link-macro">前へ：終わりに。</block>
+  <block id="d3202b7eec66185e032fcad76b4c2aa3" category="paragraph"><block ref="d3202b7eec66185e032fcad76b4c2aa3" category="inline-link-macro-rx"></block></block>
+  <block id="27a5a0a02525fbb66788e119b829fe28" category="list-text">Azure NetApp Files の特長</block>
+  <block id="45bd81d391ee3bd9831a237bff32b2c1" category="list-text">Azure NetApp Files のソリューションアーキテクチャのページです</block>
+  <block id="57b815cb2da0c842a09d5ef586792c0a" category="inline-link"><block ref="57b815cb2da0c842a09d5ef586792c0a" category="inline-link-rx"></block></block>
+  <block id="02508d077a7c6fbe1035568c37610d22" category="paragraph"><block ref="02508d077a7c6fbe1035568c37610d22" category="inline-link-rx"></block></block>
+  <block id="f42fced7b7a9bfef49a209632add6f80" category="list-text">コンテナ向けの Trident 永続的ストレージ：</block>
+  <block id="158e66cfa121c58b072656402170ca60" category="list-text">Azure NetApp Files と Trident</block>
+  <block id="d9fe72ef646d82c8372b45ff009726a2" category="inline-link"><block ref="d9fe72ef646d82c8372b45ff009726a2" category="inline-link-rx"></block></block>
+  <block id="e3c781df174a80c19c70a938b96db93a" category="paragraph"><block ref="e3c781df174a80c19c70a938b96db93a" category="inline-link-rx"></block></block>
+  <block id="145f2a04d99fdbd7a450ef83e82d471b" category="list-text">Dask および Rapids ：</block>
+  <block id="df5eb1591e808e358e02221e1e0111e6" category="list-text">Dask</block>
+  <block id="7db6639777894f081a3d7c055b97900a" category="inline-link"><block ref="7db6639777894f081a3d7c055b97900a" category="inline-link-rx"></block></block>
+  <block id="4846c68fb34aec3b1b7b7de96d27e71f" category="paragraph"><block ref="4846c68fb34aec3b1b7b7de96d27e71f" category="inline-link-rx"></block></block>
+  <block id="41563f9620e92fbfd1e105e32ac297e4" category="list-text">Dask をインストールします</block>
+  <block id="8659b02378fc9b47aac4428f69411abc" category="inline-link"><block ref="8659b02378fc9b47aac4428f69411abc" category="inline-link-rx"></block></block>
+  <block id="972dffc891589785367dd3581a5abcef" category="paragraph"><block ref="972dffc891589785367dd3581a5abcef" category="inline-link-rx"></block></block>
+  <block id="3ba7abeba4fd0f5d5ca9072155319afd" category="list-text">Dask API</block>
+  <block id="f7673aa4f6b36ba9952cef7c98115776" category="inline-link"><block ref="f7673aa4f6b36ba9952cef7c98115776" category="inline-link-rx"></block></block>
+  <block id="d43a23bd530cae7ba37a2e0ed6513bad" category="paragraph"><block ref="d43a23bd530cae7ba37a2e0ed6513bad" category="inline-link-rx"></block></block>
+  <block id="1bfabf7fb7bf05567331dfc3d20c4921" category="list-text">Dask Machine Learning の略</block>
+  <block id="9e480c1539fe5b14bbbcefb9676dc031" category="inline-link"><block ref="9e480c1539fe5b14bbbcefb9676dc031" category="inline-link-rx"></block></block>
+  <block id="d05f63d77306100c615132f350f3fafe" category="paragraph"><block ref="d05f63d77306100c615132f350f3fafe" category="inline-link-rx"></block></block>
+  <block id="90223e93e145939c9954970520e1767a" category="list-text">Dask Distributed Diagnostics の実行</block>
+  <block id="e7252fe9d67234e05be7dc251c48cf74" category="inline-link"><block ref="e7252fe9d67234e05be7dc251c48cf74" category="inline-link-rx"></block></block>
+  <block id="925c8b588cf5ae5fc486494a21fba8ac" category="paragraph"><block ref="925c8b588cf5ae5fc486494a21fba8ac" category="inline-link-rx"></block></block>
+  <block id="d97adf46c9b097cad5eff54e3b65a21f" category="paragraph"><block ref="d97adf46c9b097cad5eff54e3b65a21f" category="inline-link-rx"></block></block>
+  <block id="528d52adf23d34a248f0b9bf684c1832" category="paragraph"><block ref="528d52adf23d34a248f0b9bf684c1832" category="inline-link-rx"></block></block>
+  <block id="a43c7ca8f7e6a4a034f6a940ec7566f5" category="inline-link-macro">次へ：バージョン履歴。</block>
+  <block id="5f751f93279ebf35ea83b9aa80ef02df" category="paragraph"><block ref="5f751f93279ebf35ea83b9aa80ef02df" category="inline-link-macro-rx"></block></block>
+  <block id="7580f940c2b73a449943bf14cfdb743e" category="summary">このページでは、 Azure NetApp Files のクラウドリソースの設定について説明します。</block>
+  <block id="9ab9ef31301ca94d2090a6ac7e5141f0" category="doc">クラウドリソースの要件</block>
+  <block id="1cee510209f529b7ddd8911bbc6e3ee2" category="inline-link-macro">Previous ：ソフトウェア要件。</block>
+  <block id="abab2b04b3822b72d0eeb7b61dd84730" category="paragraph"><block ref="abab2b04b3822b72d0eeb7b61dd84730" category="inline-link-macro-rx"></block></block>
+  <block id="00130c4c20e30be7264c0ff0d085261b" category="section-title">Azure NetApp Files を設定します</block>
+  <block id="d696f60435e09b1c41d1db77b458999b" category="inline-link">クイックスタート： Azure NetApp Files をセットアップし、 NFS ボリュームを作成します</block>
+  <block id="b955f251da04c8c868b22cbe7663a4f5" category="paragraph">の説明に従って、 Azure NetApp Files を設定します<block ref="f8525997ced72f3cfd70e1aecf287af9" category="inline-link-rx"></block>。</block>
+  <block id="4ee734214d7dd4e522f2aab3d8e3d349" category="paragraph">「 Azure NetApp Files 用 NFS ボリュームの作成」のセクションを過ぎても、 Trident を使用してボリュームを作成できます。続行する前に、次の手順を実行します。</block>
+  <block id="2a304a1348456ccd2234cd71a81bd338" category="inline-link">リンク</block>
+  <block id="b1d13ce152415787185b9f596f9635e1" category="list-text">Azure NetApp Files とネットアップのリソースプロバイダに（ Azure Shell を使用）登録します<block ref="7a85c4f09a460b2978e2b516b5474576" category="inline-link-rx"></block>）。</block>
+  <block id="4c21364a09ae3c9dab758e383fcae62d" category="list-text">Azure NetApp Files でアカウントを作成します（<block ref="27e1abf4e17aeb1c0d418f5fee2f2b5f" category="inline-link-rx"></block>）。</block>
+  <block id="97f203356061531d1acaf022df0d4c3c" category="list-text">容量プール（必要に応じて、 4TB 以上の Standard または Premium ）をセットアップします（<block ref="16f1daa909eef5f1fe1f552d6b28d086" category="inline-link-rx"></block>）。次の表に、クラウドでのセットアップに必要なネットワーク構成を示します。Dask クラスタと Azure NetApp Files は同じ Azure Virtual Network （ VNet ）またはピア関係にある VNet に配置されている必要があります。</block>
+  <block id="ddcf50c29294d4414f3f7c1bbc892cb5" category="cell">リソース</block>
+  <block id="3e19b1ddc4033d0c6c439dad720f730d" category="cell">「 /version 」と入力します</block>
+  <block id="21b6b0c072968b7235d21d8ec72be5dc" category="cell">エージェントノード</block>
+  <block id="e5262abb96ddec17ecbca3557e70ea26" category="cell">3x Standard_DS2_v2</block>
+  <block id="c64f4eaffc33134095fd3105b3d63832" category="cell">GPU ノード</block>
+  <block id="11fed615c3da90add7abe544e965fa14" category="cell">3x Standard_NC6s_v3</block>
+  <block id="238f4027146f2469c7d1209e594471e4" category="cell">標準的な容量のプールがある</block>
+  <block id="9163995275052e5abd777ae389b15dfd" category="cell">容量（ TB ）</block>
+  <block id="a6a0cae93cb8ecdef629c6de5f05989c" category="inline-link-macro">次の例：クリックスルー率予測ユースケースの概要</block>
+  <block id="a5efee0d52d97830d344cded6ac0bf5c" category="paragraph"><block ref="a5efee0d52d97830d344cded6ac0bf5c" category="inline-link-macro-rx"></block></block>
+  <block id="7b5bbbf25f07dad73859bf8d7db44f48" category="summary">Azure NetApp Files 、 Rapids 、 Dask は、 Docker や Kubernetes などのオーケストレーションツールと統合された大規模な ML 処理とトレーニングの導入を高速化し、簡易化します。エンドツーエンドのデータパイプラインを統合する解決策ことで、多くの高度なコンピューティングワークロードに特有のレイテンシと複雑さを軽減し、開発と運用のギャップを効果的に解消します。データサイエンティストは、大規模なデータセットでクエリを実行し、トレーニングフェーズ中にデータやアルゴリズムのモデルを他のユーザーと安全に共有できます。</block>
+  <block id="53ffd6a9e0049c8cbf7f940c2b8bc793" category="inline-link-macro">前： NetApp DataOps ツールキットを使用したデータセットとモデルのバージョニング。</block>
+  <block id="01643859d7e5dff013d2acd6a02af35e" category="paragraph"><block ref="01643859d7e5dff013d2acd6a02af35e" category="inline-link-macro-rx"></block></block>
+  <block id="3c9bb8cdab87fbb30c011c37abb6b3d9" category="paragraph">ネットアップと NVIDIA を組み合わせることで、これらのテクノロジをマネージドサービスとして統合することで、テクノロジの採用を促進し、新しい AI / ML アプリケーションの市場投入期間を短縮できます。これらの高度なサービスはクラウドネイティブ環境でも提供され、オンプレミス環境では簡単に移行できます。</block>
+  <block id="eee817389517c17ec810d52f22a8222d" category="paragraph"><block ref="eee817389517c17ec810d52f22a8222d" category="inline-link-macro-rx"></block></block>
+  <block id="4b022a47bb6a38cb1b05a5cbec618ccd" category="inline-link-macro">前の例：ピア AKS の VNet と Azure NetApp Files VNet</block>
+  <block id="fec5fee1adce318e5e2f9ce6a66ccc02" category="paragraph"><block ref="fec5fee1adce318e5e2f9ce6a66ccc02" category="inline-link-macro-rx"></block></block>
+  <block id="999aa3cd55c654beafcfa7653b65d339" category="paragraph">Helm を使用して Trident をインストールするには、次の手順を実行します。</block>
+  <block id="36cd38f49b9afa08222c0dc9ebfe35eb" category="inline-link">ソース</block>
+  <block id="9c5f8711af47a869d4ef82db9e55eda5" category="list-text">Install Helm （インストール手順については、を参照してください）<block ref="adf15389dc6d5fe4bd9024075437080f" category="inline-link-rx"></block>）。</block>
+  <block id="f7c078ec85c617d77dfa95c309e4df1b" category="list-text">Trident 20.01.1 インストーラをダウンロードして展開します。</block>
+  <block id="5729bb69ffc852a2e2757d743b7cb833" category="list-text">tridentctl' をシステム「 $PATH 」のディレクトリにコピーします。</block>
+  <block id="d7fc4d1537e4623fdcebe9b8ba333cbb" category="list-text">Kubernetes （ Kubernetes ）クラスタに Trident をインストールし、 Helm （を参照<block ref="cbc920955683fc4acb62f9ea7099333f" category="inline-link-rx"></block>）：</block>
+  <block id="f515d7de4d597c284ba8042f699a0eab" category="list-text">ディレクトリを 'helm' ディレクトリに変更します</block>
+  <block id="6ee4094e2c3617e3e298ec79f9dc2898" category="list-text">Trident ポッドのステータスを確認</block>
+  <block id="30f93734da9765d3bc7d49ca89932736" category="paragraph">すべてのポッドが稼働中の場合は、 Trident がインストールされてから次のポッドに移動できます。</block>
+  <block id="cde865911fa15995bc83db30d852300b" category="list-text">AKS の Azure NetApp Files バックエンドとストレージクラスをセットアップします。</block>
+  <block id="476fdb61358f28988640245a33bd9199" category="list-text">Azure サービスプリンシパルを作成します。</block>
+  <block id="5cdfb88cd634d9d0eb47237e3251d4bd" category="paragraph">サービスプリンシパルは、 Trident が Azure と通信して Azure NetApp Files リソースを操作する方法を示します。</block>
+  <block id="253a9ccb0f0696ed79c174b388867829" category="list-text">Trident バックエンド JSON ファイルを作成します。例：「 anf-backend.json 」</block>
+  <block id="c17b83e07524acc467ac01e42fa0ebdb" category="list-text">任意のテキストエディタを使用して 'anf-backend.json ファイル内の次のフィールドに値を入力します</block>
+  <block id="1197f8dc56b70115d87008dd2ecd3fca" category="list-text">次のフィールドを置き換えます。</block>
+  <block id="b0b2134849d44712e969d6872e7245e5" category="list-text">' スクリプト ID' 。お客様の Azure サブスクリプション ID</block>
+  <block id="7b42dbe86adeab0d66f36221b33bb0f4" category="list-text">「 tenantID 」。前の手順で「 AZ AD SP 」の出力から取得した Azure テナント ID 。</block>
+  <block id="5a8bb8e509b4a424a1df50ef0bb41d89" category="list-text">「 clientID 」。前のステップで 'AZ ad sp' の出力からのあなたの appID 。</block>
+  <block id="6334b606a5807346a083767eaab3934f" category="list-text">「 clientSecret 」を入力します。前の手順で「 AZ ad sp 」の出力から得たパスワード。</block>
+  <block id="12104fe8975b3ce95324ec3cab160ffc" category="list-text">構成ファイルとして 'anf-backend.json を使用して 'trident'namespace に Azure NetApp Files バックエンドを作成するように Trident に指示します</block>
+  <block id="d6d34c355bcd6b2efe2795a2aeedd247" category="paragraph"><block ref="d6d34c355bcd6b2efe2795a2aeedd247" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="004530c3d3b3f442f56243625372db1d" category="list-text">ストレージクラスを作成する。Kubernetes ユーザは、名前でストレージクラスを指定する PVC を使用してボリュームをプロビジョニングします。前の手順で作成した Trident バックエンドを参照するストレージクラス「 azurenetappfiles 」を作成するよう、 Kubernetes に指示します。</block>
+  <block id="e777b114d6f12bc1190a60eaf8498e37" category="list-text">ストレージクラスおよびコピー用の YAML （ 'anf-storage-class.yaml ）ファイルを作成します。</block>
+  <block id="01d45e8c6af153b1a477537e02466b5c" category="list-text">ストレージクラスが作成されたことを確認します。</block>
+  <block id="445895be8456b7de5e864fc09994551a" category="paragraph"><block ref="445895be8456b7de5e864fc09994551a" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="2d3fec4cfe088bc80c2c2930f051b60b" category="inline-link-macro">次の手順： Helm を使用して AKS に Rapids を導入して Dask をセットアップします。</block>
+  <block id="f2d1f2f412dd744c26a147e39bfa708f" category="paragraph"><block ref="f2d1f2f412dd744c26a147e39bfa708f" category="inline-link-macro-rx"></block></block>
+  <block id="4b737f96f31f513a87adcf43b83ec3a1" category="summary">このページでは、 AKS クラスタをセットアップするために必要な手順について説明します。</block>
+  <block id="a81532d943508d42466c22d8d87bb4b8" category="doc">AKS クラスタをインストールしてセットアップします</block>
+  <block id="ce3e1770b7ff86cfbc3a30a3e3ea87da" category="inline-link-macro">前：クリックスルー率予測ユースケースの概要。</block>
+  <block id="80bf56f9bff31f7459309b983fbf8116" category="paragraph"><block ref="80bf56f9bff31f7459309b983fbf8116" category="inline-link-macro-rx"></block></block>
+  <block id="40e1cc9f8d9321cbe9c1ef090f926a2b" category="paragraph">AKS クラスタをインストールしてセットアップする方法については、 Web ページを参照してください<block ref="77c1c334ebc4c997080bda32aa569d69" category="inline-link-rx"></block> 次に、次の手順を実行します。</block>
+  <block id="ad4af0825dd4979b7f48ae5ba031b23a" category="list-text">ノードのタイプ（ system [CPU] ノードまたは worker[GPU] ノード）を選択するときは、次のいずれかを選択します。</block>
+  <block id="5a244a81080ee9fc08696fcbd45284e5" category="list-text">プライマリ・システム・ノードは ' 標準 DS2v2 （デフォルトでは 3 ノード）である必要があります</block>
+  <block id="f3449ebebbf547282aa0562015bd360d" category="list-text">次に 'gpupool' という名前のユーザ・グループ（ GPU ノードの場合）のワーカー・ノード Standard_NC6s_v3 プール（最小 3 ノード）を追加します</block>
+  <block id="d3d648c68589ef99efb6ad3ec15d1beb" category="paragraph"><block ref="d3d648c68589ef99efb6ad3ec15d1beb" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="d2efc2b95642d4bcc76c710a3826225c" category="list-text">導入には 5 ～ 10 分かかります。完了したら、 Connect to Cluster （クラスタへの接続）をクリックします。</block>
+  <block id="31797d7013400422e5d589ae3d91c79a" category="list-text">新しく作成した AKS クラスタに接続するには、ローカル環境（ラップトップ / PC ）から次のものをインストールします。</block>
+  <block id="87e009e80a344ecb598be4c4bbe01c79" category="inline-link">使用している OS に応じた手順が表示されます</block>
+  <block id="13a6d4f4230d0a1569b719c15884d447" category="list-text">を使用した Kubernetes コマンドラインツール<block ref="ad2337a31b7d16867fc954b03de661bd" category="inline-link-rx"></block></block>
+  <block id="24a109d7bba4f8808eeb0bcf64d4357b" category="inline-link">Azure CLI をインストールします</block>
+  <block id="7feed8a8a6c680e7beeca052b9fc9ed0" category="list-text">本ドキュメントに記載されている Azure CLI を使用して、<block ref="8e2043d81b680dba324c5a2abbee7b3f" category="inline-link-rx"></block></block>
+  <block id="d33a4b8acf4001a4b35a2186fd020432" category="list-text">端末から AKS クラスタにアクセスするには、「 AZ login 」と入力し、クレデンシャルを入力します。</block>
+  <block id="402ff6cff3671c1f49dc4af765835c14" category="list-text">「 Azure CLI ： kubectl get nodes 」と入力します。</block>
+  <block id="4e5d89028ffbf65df6693ef1affd6573" category="list-text">次の例に示すように、 6 つのノードがすべて稼働していれば、 AKS クラスタをローカル環境に接続することができます</block>
+  <block id="6b935f22371497abfe5378d4446df0da" category="paragraph"><block ref="6b935f22371497abfe5378d4446df0da" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="e57b7e32f49f0297d6c7524d1da1b3c0" category="inline-link-macro">次の例： Azure NetApp Files の委任されたサブネットを作成します。</block>
+  <block id="46b5942a33ef6a130ca5fee3f6017bec" category="paragraph"><block ref="46b5942a33ef6a130ca5fee3f6017bec" category="inline-link-macro-rx"></block></block>
+  <block id="e1490a61359279998443f8eab1c0483e" category="summary">このページでは、分散型または大規模なトレーニングにおける Azure NetApp Files の利点をまとめています。</block>
+  <block id="b0de8e85db65da6381bb71646929daa6" category="doc">クリックスルー率予測ユースケースの概要</block>
+  <block id="d7550d336c660c27c3f1aa9ffdbc1e08" category="inline-link-macro">Previous ：クラウドリソースの要件</block>
+  <block id="6a4fb77bb2a725598588e7db128b749b" category="paragraph"><block ref="6a4fb77bb2a725598588e7db128b749b" category="inline-link-macro-rx"></block></block>
+  <block id="3f504d5ee520c44b83e5875afd3f2831" category="inline-link">[ ログ ] をクリックします</block>
+  <block id="ce2803fd5e9b90b62d0792d13e715d11" category="inline-link">Crito AI Lab の略</block>
+  <block id="9ff2706860b4f64c4cb404b8006d83db" category="paragraph">このユースケースは、一般に公開されているに基づいています<block ref="f00b4c49198828625540594bcd2c0e57" category="inline-link-rx"></block> データセットの作成元<block ref="3ba217c046bd683ab55f300076736b4a" category="inline-link-rx"></block>。ML プラットフォームの最近の進歩により、現在は大規模な学習が注目されています。ここでは、 Terabyte Click Logs を参照して、 ML プラットフォームとアルゴリズムのスケーラビリティを評価します。広告主は、クリックスルー率を予測することで、広告に反応する可能性が最も高い訪問者を選択し、閲覧履歴を分析し、ユーザーの関心に基づいて最も関連性の高い広告を表示することができます。</block>
+  <block id="2955d095e6b9835bc5ab2c8a0961ded0" category="paragraph">このテクニカルレポートで紹介する解決策には、次のようなメリットがあります。</block>
+  <block id="67ccf3c7c1e67c90000dfee83bab38ec" category="list-text">分散型または大規模なトレーニングにおける Azure NetApp Files の利点</block>
+  <block id="e15bc9f9b7a013d672cb689660ab9f9f" category="list-text">CUDA 対応のデータ処理（ cDF 、 cuPy など）と ML アルゴリズム（ cuML ）をラピッズで表示</block>
+  <block id="331b0434801b53199ee0d8b442a0973d" category="list-text">Dask parallel computing framework for distributed training （分散型トレーニング用並列</block>
+  <block id="cbbf80729462f5a222942edf8b1bc326" category="paragraph">Dask と Azure NetApp Files のコラボレーション関係により、ランダムな森林モデルのトレーニング時間が 2 桁ずつ大幅に短縮されました。この改善は、実際のクリックを処理する際の従来の Pandas アプローチに相当し、毎日 45 GB のテキスト（平均）でデータをログに記録します。</block>
+  <block id="3876b7e4b6a608a0b9001ae2e65c91b1" category="inline-link-macro">次の手順： AK クラスタをインストールしてセットアップします。</block>
+  <block id="2f0a1a89887d5c4f057724084bfdb718" category="paragraph"><block ref="2f0a1a89887d5c4f057724084bfdb718" category="inline-link-macro-rx"></block></block>
+  <block id="17a9b27c376a8a5f5e184b2ebce41164" category="summary">すべてのデータを導入したら、新しいデータに対して推論を実行します。このモデルは、ユーザーが閲覧アクティビティに基づいて広告をクリックするかどうかを予測します。予測の結果は Dask cuDF に格納されます。Prometheus で結果を監視し、 Grafana ダッシュボードで視覚化できます。</block>
+  <block id="af4d0cbb3c6dcf4f3a5e831b08e40ace" category="doc">Prometheus と Grafana で Dask と Rapids を監視します</block>
+  <block id="a5d741c60ca9280a87382bcc2667207c" category="inline-link-macro">前：トレーニング時間の比較。</block>
+  <block id="8162cd02e2793715a1b14265f2bfb54b" category="paragraph"><block ref="8162cd02e2793715a1b14265f2bfb54b" category="inline-link-macro-rx"></block></block>
+  <block id="23c1612202d19b502b3701f893fb2557" category="inline-link">Rapids AI 培地ポスト</block>
+  <block id="9fed5c9f0dab5b88ba96d45cf450079f" category="paragraph">詳細については、を参照してください<block ref="47200b727ab2088d205d11a973529202" category="inline-link-rx"></block>。</block>
+  <block id="a5705f3e27851573a7eafd2a00a523b5" category="inline-link-macro">次のセクション： NetApp DataOps ツールキットを使用したデータセットとモデルのバージョニング</block>
+  <block id="db75fb5c1fef47405a8df61e726e3c66" category="paragraph"><block ref="db75fb5c1fef47405a8df61e726e3c66" category="inline-link-macro-rx"></block></block>
+  <block id="adb2100439d02c2978c4a5670cda87b8" category="summary">このページには、このタスクの構築に使用されたライブラリとフレームワークが一覧表示されます。これらのコンポーネントはすべて、 Azure の役割ベースのアクセスおよびセキュリティ制御と完全に統合されています。</block>
+  <block id="235ff38f40d20846e27b4c64e964ce28" category="doc">データ処理およびモデルトレーニング用のライブラリ</block>
+  <block id="542e61809d35e9c83a99b29c87aa40fb" category="inline-link-macro">前のバージョン： Azure NetApp Files のパフォーマンス階層</block>
+  <block id="b7fe935ab4f924b870ae1983e3f3a271" category="paragraph"><block ref="b7fe935ab4f924b870ae1983e3f3a271" category="inline-link-macro-rx"></block></block>
+  <block id="c4e831049faaa8b89e89eebd0a105dab" category="paragraph">次の表に、このタスクの構築に使用されたライブラリとフレームワークを示します。これらのコンポーネントはすべて、 Azure の役割ベースのアクセスおよびセキュリティ制御と完全に統合されています。</block>
+  <block id="faeae27c134f5193efb923d2492daa47" category="cell">ライブラリ / フレームワーク</block>
+  <block id="b540cdb28de9a6c72ef1a92504e69423" category="cell">Dask cuML</block>
+  <block id="1fc1b4b6567949aab2cb7e6fecb1e68f" category="inline-link">cuML ライブラリ</block>
+  <block id="efe85bbaa5690074ea98a2bfef62d930" category="cell">ML を GPU で動作させるには、を使用します<block ref="514c908f6fc3f426a00e1dabdf37831f" category="inline-link-rx"></block> Dask を使用して Rapids cuML パッケージにアクセスできます。Rapids cuML は、クラスタリング、寸法縮小、回帰アプローチなどの一般的な ML アルゴリズムを高性能 GPU ベースの実装で実装し、 CPU ベースのアプローチで最大 100 倍のスピードアップを実現します。</block>
+  <block id="ede0db3d6c9043439d0762ee99543654" category="cell">Dask cuDF</block>
+  <block id="a9c380d6e09cc11f858b53d56cf69da4" category="inline-link">dask -cudf ライブラリ</block>
+  <block id="13a7d0199f9797a3533ff335da46b446" category="cell">cuDF には、データのサブ設定、変換、ワンホットエンコーディングなど、 GPU アクセラレーションによる抽出、変換、読み込み（ ETL ）をサポートするその他のさまざまな機能があります。Rapids チームはを維持する<block ref="836818db4e43067816d31d2b73198787" category="inline-link-rx"></block> これには、 Dask および cuDF を使用するためのヘルパーメソッドが含まれています。</block>
+  <block id="0c9c2e873df681f1ab5b13053be78af7" category="cell">Scikit learn</block>
+  <block id="cd1235fc9b090edba051d73dbc6f66bf" category="inline-link">エスティメータ</block>
+  <block id="1977c9daa1d67de51a4651abdb160c09" category="inline-link">フィット</block>
+  <block id="4f54da5a2c4a796e8215f20eb95fddcc" category="cell">Scikit-Learn には、数十の機械学習アルゴリズムとモデルが組み込まれています。これらは、試算ツールと呼ばれます。各<block ref="855747fa3f470c1754852d09071dd101" category="inline-link-rx"></block> は、を使用して一部のデータに装着できます<block ref="e52e604a9dbe357e0fb9bc58f4b62add" category="inline-link-rx"></block> メソッド</block>
+  <block id="0dd4d530afb3c99ab869350770d7bebd" category="paragraph">2 つのノートブックを使用して、比較のための ML パイプラインを構築しました。 1 つは従来の Pandas の坐骨坐骨学習アプローチで、もう 1 つは Rapids および Dask との分散トレーニングです。各ノートブックを個別にテストして、パフォーマンスを時間と規模の観点から確認できます。各ノートブックについて個別に説明し、 Rapids および Dask を使用した分散型トレーニングの利点を示します。</block>
+  <block id="7dd297826f91c438fab12307224d2c40" category="inline-link-macro">次に、 Pandas で Logs Day 15 をクリックし、 scikit に学習したランダムな森林モデルをトレーニングします。</block>
+  <block id="ade9906123700a8bf734457510b6b3c8" category="paragraph"><block ref="ade9906123700a8bf734457510b6b3c8" category="inline-link-macro-rx"></block></block>
+  <block id="f6a738f75f76f62a241636eca02cd87d" category="doc">バージョン履歴</block>
+  <block id="3993b517d983222c5b766976180367f0" category="inline-link-macro">前へ（ Previous ）：追加情報を検索する場所。</block>
+  <block id="7d5fc90090e6ef28f1b090f458e3bb91" category="paragraph"><block ref="7d5fc90090e6ef28f1b090f458e3bb91" category="inline-link-macro-rx"></block></block>
+  <block id="44749712dbec183e983dcd78a7736c41" category="cell">日付</block>
+  <block id="8002bc13927c65b5f265b031079ce1d4" category="cell">ドキュメントのバージョン履歴</block>
+  <block id="3798985ee5e15c84c4263815d5a4d0b7" category="cell">バージョン 1.0 以降</block>
+  <block id="248f830b158797f9c038ea35ea266b89" category="cell">2021年8月</block>
+  <block id="ea9349a37bfee247df0f87cbcacca796" category="cell">初版リリース</block>
+  <block id="dfcb1d1644aa3be367d0ca7761be62ad" category="summary">このページでは、 Azure NetApp Files の委任サブネットを作成するために必要な手順について説明します。</block>
+  <block id="d991c79e9311d59d4e38f3115d9c5b24" category="inline-link-macro">前へ： AKS クラスタをインストールしてセットアップします。</block>
+  <block id="5dd65debe44935eb5866a15b9a62237e" category="paragraph"><block ref="5dd65debe44935eb5866a15b9a62237e" category="inline-link-macro-rx"></block></block>
+  <block id="8bffe528b31ee595be868b5a4af3d25a" category="paragraph">Azure NetApp Files の委任されたサブネットを作成するには、次の手順を実行します。</block>
+  <block id="1aa0034de6393efa24703b8a479a5aa6" category="list-text">Azure ポータル内の仮想ネットワークに移動します。新しく作成した仮想ネットワークを検索します。「 AKs-vnet 」などのプレフィックスが必要です。</block>
+  <block id="f1621549bc319674bb9e859babb2a671" category="list-text">VNet の名前をクリックします。</block>
+  <block id="c536871a8fac3a4390226f6e485cf662" category="paragraph"><block ref="c536871a8fac3a4390226f6e485cf662" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="d5025fbb3995af8640cab85f4f91126b" category="list-text">[ サブネット ] をクリックし、上部のツールバーの [ サブネット ] をクリックします。</block>
+  <block id="22307856839205c5209cc8ce1f4ed0df" category="paragraph"><block ref="22307856839205c5209cc8ce1f4ed0df" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="e45b350630c9a3b31bf0c1a1f03dffb0" category="list-text">サブネットに「 ANF 」などの名前を付け、「サブネットの委任」見出しの下にある「 M icrosoft.Netapp/volumes` 」を選択します。他のものは変更しないでください。[OK] をクリックします。</block>
+  <block id="3621b1bf0075cb659f152966504dfc0d" category="paragraph"><block ref="3621b1bf0075cb659f152966504dfc0d" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="e8034fc216ae23edc69bb75430f3de2f" category="paragraph">Azure NetApp Files ボリュームはアプリケーションクラスタに割り当てられ、 Kubernetes で永続ボリューム要求（ PVC ）として使用されます。その結果、 Jupyter ノートブック、サーバーレス関数などのさまざまなサービスに柔軟にマップできます。</block>
+  <block id="ac3654eb11c3b0cfc94c6c1abdc6767a" category="paragraph">サービスのユーザは、プラットフォームのストレージをさまざまな方法で消費できます。このテクニカルレポートでは NFS について説明しているため、 Azure NetApp Files の主なメリットは次のとおりです。</block>
+  <block id="42ba8b77b788a422a7e4ba2d8bb2d45e" category="list-text">ユーザに Snapshot コピーを使用できるようにする。</block>
+  <block id="a51448debe1bbe5bb229b849d4057e09" category="list-text">ユーザが Azure NetApp Files ボリュームに大量のデータを格納できるようにする。</block>
+  <block id="b7c10d399d058ef3538882e444459ba5" category="list-text">大容量のファイルセットでモデルを実行する場合、 Azure NetApp Files のパフォーマンスが向上します。</block>
+  <block id="4b15c9979e20dd7eb0c0263e9d5ab1db" category="inline-link-macro">次の例：ピア AKS の VNet と Azure NetApp Files VNet</block>
+  <block id="a9f725be439e4752193d45f7e7f41851" category="paragraph"><block ref="a9f725be439e4752193d45f7e7f41851" category="inline-link-macro-rx"></block></block>
+  <block id="74b3e84bf9817092a6f26ddf10a2f3f8" category="summary">このページでは、この解決策で使用されているテクノロジの概要を説明します。</block>
+  <block id="a1f13b9a0674cc0beb81e208dfb68d05" category="doc">テクノロジの概要</block>
+  <block id="5231f9fa4d08024f4620b759f83d0e97" category="inline-link-macro">前へ：はじめに。</block>
+  <block id="dd5a70c15c985f455edb59eebf8d3eaa" category="paragraph"><block ref="dd5a70c15c985f455edb59eebf8d3eaa" category="inline-link-macro-rx"></block></block>
+  <block id="4b2eedb67d8fb9da01af759e6e722a13" category="section-title">Microsoft とネットアップ</block>
+  <block id="09e4ef7b38fea4a7bdf4341b588176d6" category="paragraph">2019 年 5 月より、 Microsoft は Azure ネイティブのファーストパーティポータルサービスを提供し、 NetApp ONTAP テクノロジをベースとしたエンタープライズ NFS および SMB ファイルサービスを提供しています。この開発は、 Microsoft とネットアップの戦略的パートナーシップによって推進されており、ワールドクラスの ONTAP データサービスの Azure への対応範囲がさらに拡大しています。</block>
+  <block id="851e5baafa3bd23201e65e29f2fdf06a" category="paragraph">Azure NetApp Files サービスは、エンタープライズクラスの高パフォーマンスな従量課金制のファイルストレージサービスです。Azure NetApp Files は、あらゆる種類のワークロードに対応し、デフォルトで高可用性を実現します。サービスレベルとパフォーマンスレベルを選択し、サービスを使用して Snapshot コピーをセットアップできます。Azure NetApp Files は Azure ファーストパーティサービスで、コードを変更することなく、データベース、 SAP 、ハイパフォーマンスコンピューティングアプリケーションなど、クラウドで最も要件の厳しいエンタープライズファイルワークロードを移行して実行します。</block>
+  <block id="f014a6e06480ef33e3f1ab027f7065ca" category="paragraph">このリファレンスアーキテクチャには、 IT 組織に次のようなメリットがあります。</block>
+  <block id="5e6e9a1ee378cf26b50e61d8bd46d54d" category="list-text">さまざまなパフォーマンスとコストを考慮して、幅広いストレージ階層を提供します</block>
+  <block id="295f4f6daaf50c87d2639d407c47f357" category="section-title">Dask と NVIDIA Rapids の概要</block>
+  <block id="a9dcf931a9aad845de3c5b908d562955" category="paragraph">Dask は、 Python ライブラリを複数のマシン上で拡張し、大量のデータを高速処理する、オープンソースの並列コンピューティングツールです。これは、 Pandas 、 numpy 、 scikit learn などのシングルスレッド従来の Python ライブラリに類似した API を提供します。その結果、ネイティブの Python ユーザは、クラスタ全体でリソースを使用するために既存のコードを大幅に変更する必要がなくなります。</block>
+  <block id="955647f3573b932f8596ba04ed80b7b6" category="paragraph">NVIDIA Rapids はオープンソースライブラリのスイートで、 GPU 上でエンドツーエンドの ML ワークフローとデータ分析ワークフローを完全に実行できます。Dask と組み合わせることで、 GPU ワークステーション（スケールアップ）からマルチノードのマルチ GPU クラスタ（スケールアウト）へ簡単に拡張できます。</block>
+  <block id="7a9ece70a2d60d73203e927718fd8454" category="paragraph">クラスタに Dask を導入するには、 Kubernetes を使用してリソースのオーケストレーションを行います。次の図に示すように、ワーカーノードをプロセス要件に従ってスケールアップまたはスケールダウンすることもできます。これは、クラスタのリソース消費を最適化するのに役立ちます。</block>
+  <block id="b3951b803e4010ed575c9238d2803949" category="paragraph"><block ref="b3951b803e4010ed575c9238d2803949" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="c2e194dd3ce5b4d001a02991ef567211" category="inline-link-macro">次の手順：ソフトウェア要件</block>
+  <block id="23704e1baeed350311b18c3583ad89e9" category="paragraph"><block ref="23704e1baeed350311b18c3583ad89e9" category="inline-link-macro-rx"></block></block>
+  <block id="0dff6955889d5634f0212efb574ef815" category="doc">クリックスルー率予測データの処理とモデルトレーニング</block>
+  <block id="19075a93ccd90f3ea7019f0572778b2a" category="summary">このページには、この解決策に必要なソフトウェア要件が一覧表示されます。</block>
+  <block id="b0167c15bc26c48af07aea36aba706fa" category="inline-link-macro">前のページ：テクノロジの概要</block>
+  <block id="440b940924209e1d417ef7c4ef9bce34" category="paragraph"><block ref="440b940924209e1d417ef7c4ef9bce34" category="inline-link-macro-rx"></block></block>
+  <block id="793d18702a236e0e3b768917638f0ba2" category="paragraph">次の表に、この解決策に必要なソフトウェア要件を示します。</block>
+  <block id="8ab697a4168b5fb33603a98d6bc9a436" category="cell">Rapids および Dask の容器のイメージ</block>
+  <block id="9ab6289633c326d69a377cbb29bd81a3" category="cell">リポジトリ : "rapidsai/rapidsai" タグ :0.17-cudda11.1-runtime-ubuntu18.04</block>
+  <block id="6e1b77cc3b83d87aaee751e2eaed5044" category="inline-link-macro">次：クラウドリソースの要件</block>
+  <block id="58bc7690a5a3a5a1aa5dc70739fd0b53" category="paragraph"><block ref="58bc7690a5a3a5a1aa5dc70739fd0b53" category="inline-link-macro-rx"></block></block>
+  <block id="9e59f01034d2c132fac901b9c14a5d88" category="summary">NetApp DataOps Toolkit for Kubernetes は、ストレージリソースと Kubernetes ワークロードをデータサイエンスのワークスペースレベルまで抽象化します。これらの機能は、データサイエンティストとデータエンジニア向けに設計された、使いやすいシンプルなインターフェイスにパッケージ化されています。</block>
+  <block id="7aee811c7e891ab94bb5be40b333faaf" category="doc">NetApp DataOps ツールキットを使用したデータセットとモデルのバージョン管理</block>
+  <block id="f7136197d3b16131979b9319c4acce63" category="inline-link-macro">以前： Prometheus と Grafana を使用して Dask と Rapids を監視していました。</block>
+  <block id="402dae1972461d7e7ba986ab6728df6c" category="paragraph"><block ref="402dae1972461d7e7ba986ab6728df6c" category="inline-link-macro-rx"></block></block>
+  <block id="fd2d048a9ec0f96d89493b98f72cbe34" category="paragraph">NetApp DataOps Toolkit for Kubernetes は、ストレージリソースと Kubernetes ワークロードをデータサイエンスのワークスペースレベルまで抽象化します。これらの機能は、データサイエンティストとデータエンジニア向けに設計された、使いやすいシンプルなインターフェイスにパッケージ化されています。使い慣れた Python プログラムを使用しており、データサイエンティストやエンジニアは JupyterLab ワークスペースをわずか数秒でプロビジョニングおよび削除できます。これらのワークスペースには、テラバイト、あるいはペタバイト規模のストレージ容量が含まれることがあり、データサイエンティストは、すべてのトレーニングデータセットをプロジェクトのワークスペースに直接格納できます。ワークスペースとデータボリュームを個別に管理する時代は終わりました。</block>
+  <block id="4a6c7893abd7ef92fb09d3359e17324d" category="inline-link">GitHub リポジトリ</block>
+  <block id="eb0d40310a9cc0432fac66dc97652c39" category="paragraph">詳細については、ツールキットを参照してください<block ref="64134ca6239d4056f34489b42f2baeed" category="inline-link-rx"></block>。</block>
+  <block id="1d1983037d4fd7beac963697b84f82bd" category="paragraph"><block ref="1d1983037d4fd7beac963697b84f82bd" category="inline-link-macro-rx"></block></block>
+  <block id="cff4cbb413623685c446a2632974cf62" category="summary">このページでは、従来の Pandas を使用したモデルのトレーニング時間を Dask と比較します。Pandas では、メモリオーバーフローを回避するために、処理時間が遅くなるため、より少量のデータをロードしました。そのため、結果を補間して公平な比較を行いました。</block>
+  <block id="014020acc8f97c1da58961d44b6301eb" category="doc">トレーニング時間の比較</block>
+  <block id="76c5145913d13d6c3105c4265a78047e" category="inline-link-macro">前の手順：ネイティブタスクストリームダッシュボードを使用して Dask を監視します。</block>
+  <block id="a871e4d194e2df9c65b061a5fc7cb154" category="paragraph"><block ref="a871e4d194e2df9c65b061a5fc7cb154" category="inline-link-macro-rx"></block></block>
+  <block id="c8ed0bb49061765f5f30ba006ea7c5c0" category="paragraph">このセクションでは、従来の Pandas を使用したモデルのトレーニング時間を Dask と比較します。Pandas では、メモリオーバーフローを回避するために、処理時間が遅くなるため、より少量のデータをロードしました。そのため、結果を補間して公平な比較を行いました。</block>
+  <block id="5b5214524edbd74fb721da08e61c8a41" category="paragraph">次の表は、 Pandas ランダムフォレストモデルに使用されるデータが大幅に少ない場合の、生のトレーニング時間の比較を示しています ( データセットの 1 日あたりの 2000 億行のうち、 5,000 万行 ) 。このサンプルでは、使用可能なすべてのデータの 0.25% 未満しか使用されていません。DASK cuML の場合は '20 億行すべての使用可能なローについてランダムフォレストモデルをトレーニングしましたこの 2 つのアプローチでは、同等のトレーニング時間が得られました</block>
+  <block id="40a68b5da4b9b224764558bb02ecd028" category="cell">アプローチ</block>
+  <block id="0e90ab0d7d04d2a878961f8d40071c83" category="cell">トレーニング時間</block>
+  <block id="24cc88af022e13431f8005b38f74e0fd" category="cell">Scikit - Learn ：トレーニングデータとして day15 の 50 M 行のみを使用します</block>
+  <block id="26e394f0b8009246698f4844db682015" category="cell">47 分 21 秒</block>
+  <block id="ed536b2798ed9f16a79fb8f772601548" category="cell">Rapids-DASK ：トレーニングデータとして、 Day15 のすべての 20B 行を使用します</block>
+  <block id="8809f6d1a4b5cbd872b52f83e378e527" category="cell">1 時間 12 分 11 秒</block>
+  <block id="57093fade268287629c2720356ecac57" category="paragraph">次の表に示すように、トレーニング時間の結果を直線的に補間する場合、 Dask を使用した分散型トレーニングを使用すると大きな利点があります。従来の Pandas の scikit 学習アプローチでは、クリックログ 1 日あたり 45 GB のデータを処理してトレーニングするのに 13 日かかりますが、 Rapids-Dask アプローチでは同じ量のデータを処理するのにかかる時間は 262.39 倍になります。</block>
+  <block id="36ebc33745cb5ac06238c615c8aaebdc" category="cell">Scikit - Learn ：トレーニングデータとして day15 のすべての 20B 行を使用します</block>
+  <block id="b2ab615236e8c7812b0ab7dff59c552f" category="cell">13 日、 3 時間、 40 分、 11 秒</block>
+  <block id="0d7cda3e89555f27bf26cf0c0c4f4fed" category="paragraph">前の表では、 Dask と Rapids を使用してデータ処理とモデルトレーニングを複数の GPU インスタンスに分散することで、従来の Pandas DataFrame 処理と比較して、 scikit 学習モデルトレーニングでの実行時間が大幅に短縮されたことを確認できます。このフレームワークを使用すると、マルチノードのマルチ GPU クラスタ内だけでなく、クラウド内でもオンプレミスでのスケールアップとスケールアウトが可能です。</block>
+  <block id="fbd52cffa97d6ec5e0230516fc61f14c" category="inline-link-macro">次の例： Prometheus と Grafana で Dask と Rapids を監視します。</block>
+  <block id="78117011d88a8971f2eadbeee6ac6474" category="paragraph"><block ref="78117011d88a8971f2eadbeee6ac6474" category="inline-link-macro-rx"></block></block>
+  <block id="57a499fcdd85136edfd1ee55dedd9675" category="summary">この解決策は、 AI / ML アプリケーションのライフサイクルに従います。まず、データサイエンティストの仕事から始めて、データの準備やモデルのトレーニングに必要なさまざまなステップを定義します。Dask のラピッズを活用することで、 Azure Kubernetes Service （ AKS ）クラスタ全体で分散トレーニングを実施し、従来の Python の坐骨神経痛手法に比べてトレーニング時間を大幅に短縮しました。完全なサイクルを完了するには、パイプラインと Azure NetApp Files を統合します。</block>
+  <block id="d248b9b022a7cb278461f09bc1bf162d" category="doc">TR-4904 ：『 Azure Kubernetes Service 、 Azure NetApp Files 、 Rapids AI 、 and Dask 』</block>
+  <block id="e6fab630e7da86a500e1e3c51fa61a00" category="paragraph">ネットアップ、 Verron Martina 、 Muneer Ahmad 、 Rick Huang 氏</block>
+  <block id="4c3816ce69205bc811aa89dbe9d09a1a" category="paragraph">データサイエンティストの仕事は、機械学習（ ML ）モデルと人工知能（ AI ）モデルのトレーニングと調整に集中する必要があります。しかし、 Google の調査によると、データサイエンティストは、モデルをエンタープライズアプリケーションと連携させ、大規模に運用する方法を検討する時間の約 80% を費やしています。</block>
+  <block id="a1451f6988178ae140f8da836d63a157" category="paragraph">エンドツーエンドの AI / ML プロジェクトを管理するには、エンタープライズコンポーネントについてより広範な理解が必要です。DevOps がその定義、統合、導入を引き継ぎましたが、 ML の運用では、 AI や ML プロジェクトを含む同様のフローがターゲットとなります。エンドツーエンドの AI / ML パイプラインが企業内でどのように影響するかを知るには、次の必要なコンポーネントのリストを参照してください。</block>
+  <block id="24bea3d677b34d6aea9ff01417fd9d06" category="list-text">統合開発環境（ IDE ）</block>
+  <block id="e6a53478c3fc5682c6f851672b3e7bc9" category="paragraph">データサイエンスの世界は、 IT とビジネスのさまざまな分野に影響をもたらしています。</block>
+  <block id="9ca78187997ba2a23a73c094256ae63f" category="list-text">クラウド管理者とアーキテクトは、 Azure リソースをセットアップおよび管理できる必要があります。</block>
+  <block id="060bc2911862b1ab8f6b4b77542434a2" category="paragraph">このテクニカルレポートでは、 Azure NetApp Files 、 Rapids AI 、 Dask 、 Azure が、これらの各役割がビジネスにもたらす価値について説明します。</block>
+  <block id="ed8b6e047f5d4e844fe3e870c3fda4a3" category="paragraph">Azure NetApp Files は、さまざまなパフォーマンス階層を提供します。お客様はまず Standard 階層から始めて、データを移動することなく、スケールアウトしてハイパフォーマンス階層まで無停止でスケールアップできます。この機能により、データサイエンティストは、次の図に示すように、パフォーマンスの問題を発生させることなく、大規模なモデルのトレーニングを実施できます。クラスタ全体にデータサイロが発生することはありません。</block>
+  <block id="d4dc9019b6000fd12d9dc6b091fe3e26" category="paragraph"><block ref="d4dc9019b6000fd12d9dc6b091fe3e26" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="b320345f652aacf7148c76dff24e2f68" category="inline-link-macro">次のステップ：テクノロジの概要</block>
+  <block id="a20978df09e58f39953eb81f9368c2f2" category="paragraph"><block ref="a20978df09e58f39953eb81f9368c2f2" category="inline-link-macro-rx"></block></block>
+  <block id="d577549f9b3a229c338e203a433489f6" category="summary">ここでは、 Azure NetApp Files VNet に AKS VNet をピアリングする方法について説明します。</block>
+  <block id="e61e6d340ad05dc2e1ad0982f6857d7d" category="doc">ピア AKS の VNet と Azure NetApp Files VNet</block>
+  <block id="1c45d541f316a23589217be5991b1545" category="inline-link-macro">前の処理： Azure NetApp Files の委譲されたサブネットを作成します。</block>
+  <block id="786730f8769009abf0bf6400157dd16b" category="paragraph"><block ref="786730f8769009abf0bf6400157dd16b" category="inline-link-macro-rx"></block></block>
+  <block id="e6ef5f0946a89d073a8f360de1038061" category="paragraph">AKS VNet を Azure NetApp Files VNet にピアリングするには、次の手順を実行します。</block>
+  <block id="87c2d6c506d0bf65d2c5d773474f9c0f" category="list-text">検索フィールドに Virtual Networks と入力します。</block>
+  <block id="7680f3bc49a836c67a8b0e7d2d9ccb44" category="list-text">「 vnet AK - vnet-name 」を選択します クリックして、検索フィールドに peerings と入力します。</block>
+  <block id="fc3bb6a018a8f599cab21678959f92b0" category="list-text">+ Add をクリックします。</block>
+  <block id="1991ef5bd8e165e42c56ccaefa2f640f" category="list-text">次の記述子を入力します。</block>
+  <block id="51e5b9c0a583a9afbc2f998e622fd30d" category="list-text">ピアリングリンク名は 'AKs-vnet-name_-to-anf' です</block>
+  <block id="14ac6521e2758ba95fe7be9ca6a82cd1" category="list-text">VNet ピアリングパートナーとしての SubscriptionID および Azure NetApp Files VNet</block>
+  <block id="70b58cb057d859d4da9f17e43ffd238c" category="list-text">アスタリスク以外のすべてのセクションは、デフォルト値のままにします。</block>
+  <block id="1bb250fbf1946dd1bd7ad228032f8803" category="list-text">追加をクリックします。</block>
+  <block id="50e3209c871e4867931ef51a9344a921" category="paragraph">詳細については、を参照してください<block ref="f81943721c88f7efe9b8252470f9ea43" category="inline-link-rx"></block>。</block>
+  <block id="fd3c95528aa9718948de8d4e38b2fa2c" category="inline-link-macro">次の手順： Trident をインストール</block>
+  <block id="18337fe57049583a9c04a79f64a2088f" category="paragraph"><block ref="18337fe57049583a9c04a79f64a2088f" category="inline-link-macro-rx"></block></block>
+  <block id="dcfa517bb68d187d11e580baf2ecf588" category="summary">このページでは、 Helm を使用して AKS に Dask with Rapids deployment を設定する方法について説明します。</block>
+  <block id="fd22fb1626b987fa7b72743fa9698ec6" category="doc">Helm を使用して、 AKS で Rapids デプロイメントを使用して Dask をセットアップします</block>
+  <block id="d74bb88aa6e4b1c540be703fda33923e" category="inline-link-macro">前のページ： Trident をインストール</block>
+  <block id="6020c64d2124fc0caa426123bfc5ba38" category="paragraph"><block ref="6020c64d2124fc0caa426123bfc5ba38" category="inline-link-macro-rx"></block></block>
+  <block id="d81f517b6ad0d9702be81a8199a2246f" category="paragraph">Helm を使用して AKS で Rapids を使用して Dask をセットアップするには、次の手順を実行します。</block>
+  <block id="549c839f491ec7099a895dd1cfea7534" category="list-text">Dask with Rapids をインストールするための名前空間を作成します。</block>
+  <block id="74d041e68ac2a21a636ab14ae78f279d" category="list-text">クリックスルーレートデータセットを保存する PVC を作成します。</block>
+  <block id="f5008aa6b27cdcaadbe27960383c8ff6" category="list-text">次の YAML コンテンツをファイルに保存して PVC を作成します。</block>
+  <block id="67d464c36bcc48173c964a780459dbfd" category="list-text">YAML ファイルを Kubernetes クラスタに適用します。</block>
+  <block id="be0ca76aafd92c18792693b8f05d01ce" category="inline-link"><block ref="be0ca76aafd92c18792693b8f05d01ce" category="inline-link-rx"></block></block>
+  <block id="dc7ba914646428512334728c1f0ebd7d" category="list-text">rapidsai git リポジトリを複製します (<block ref="4f08c7c28c19e75f4d8607fc65d40067" category="inline-link-rx"></block>）。</block>
+  <block id="50aef45ee39d958bc589f422bfb6d1bf" category="list-text">値 .yaml を変更し、作業者および Jupyter ワークスペース用に前に作成した PVC を含めます。</block>
+  <block id="06867e85b141bb9d17f8ed6b4b685c46" category="list-text">リポジトリの 'rapidsai' ディレクトリに移動します</block>
+  <block id="1a985ac965074fab9cfcee28ef954755" category="list-text">「 values] .yaml ファイルを更新し、 PVC を使用してボリュームをマウントします。</block>
+  <block id="52076eb1fec3929530258335052328b3" category="list-text">リポジトリのホーム・ディレクトリに移動し 'Helm を使用して AKS 上に 3 つのワーカー・ノードを持つ Dask を展開します</block>
+  <block id="bd4e74749939dd3c9f80ff138c18af53" category="inline-link-macro">次： Azure NetApp Files のパフォーマンス階層</block>
+  <block id="52d5e0adb69809963ce4f94104a75b5e" category="paragraph"><block ref="52d5e0adb69809963ce4f94104a75b5e" category="inline-link-macro-rx"></block></block>
+  <block id="1a17b23dd49d997677e18c9b9fe29935" category="summary">このページでは、ネイティブの Task Stream ダッシュボードを使用して Dask を監視する方法について説明します。</block>
+  <block id="3268570ddd540695f3e92ff79d8f4684" category="doc">ネイティブタスクストリームダッシュボードを使用して Dask を監視します</block>
+  <block id="1e80a6d70a902d1dae25d26917a5b490" category="inline-link-macro">前のページ : Dask の 15 日目をロードし、 Dask cuML ランダムフォレストモデルをトレーニングします。</block>
+  <block id="3898f5ae37dfd830af10cdc128236b50" category="paragraph"><block ref="3898f5ae37dfd830af10cdc128236b50" category="inline-link-macro-rx"></block></block>
+  <block id="9eeb55820f49a600fa229f23cfe9e5b5" category="inline-link">Dask 分散スケジューラ</block>
+  <block id="99b248c7005783fe2682ad82217e9a24" category="paragraph">。<block ref="7df0d90bf997a373bfe85bbe10a2d2c8" category="inline-link-rx"></block> ライブフィードバックは、次の 2 つの形式で提供します。</block>
+  <block id="d8516bf5d94a38a1fa1d7a8c3b92dee7" category="list-text">ライブ情報を含む多数のプロットやテーブルを含むインタラクティブなダッシュボード</block>
+  <block id="d22ebe91c5dc1499387785da997fbe7d" category="list-text">コンソールやノートブックでの対話型の使用に適したプログレスバーです</block>
+  <block id="6e35e4c1cc9332ebc8028df451bc4f06" category="paragraph">この場合、次の図は、保存されたバイト数、ストリーム数の詳細な内訳を示すタスクストリーム、実行された関連機能を持つタスク名ごとの進捗状況を監視する方法を示しています。この例では、ワーカーノードが 3 つあるため、ストリームには 3 つの主要なチャンクがあり、各ストリーム内で異なるタスクを示すカラーコードがあります。</block>
+  <block id="5743e70224503025dacaa77fae253c4f" category="paragraph"><block ref="5743e70224503025dacaa77fae253c4f" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="7a5c7a858f05434bf6637c3995959f49" category="paragraph">個々のタスクを分析し、実行時間をミリ秒単位で調査するか、障害や障害を特定することができます。たとえば、次の図は、ランダムフォレストモデルフィッティングステージのタスクストリームを示しています。実行される関数は、 DataFrame 処理用の一意のチャンク、ランダムフォレストをフィッティングするための _construct_RF など、はるかに多くあります。Criteo のクリックログに含まれる 1 日分のデータのサイズ（ 45GB ）が大きいため、 DataFrame の処理にほとんどの時間が費やされていました。</block>
+  <block id="816ff133aaa3d2f46ca0c7842f5fdaab" category="paragraph"><block ref="816ff133aaa3d2f46ca0c7842f5fdaab" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="f5eca1492a19a4c24071ed91262666cf" category="inline-link-macro">次：トレーニング時間の比較。</block>
+  <block id="d5d929f175d4a2062c661e45b9656f32" category="paragraph"><block ref="d5d929f175d4a2062c661e45b9656f32" category="inline-link-macro-rx"></block></block>
+  <block id="d68d11ee3f69a45d681f78c744cae498" category="summary">既存のボリュームのサービスレベルを変更するには、そのボリュームに必要なサービスレベルを使用する別の容量プールにボリュームを移動します。この解決策を使用することで、お客様は、まず小規模なデータセットと少数の GPU を標準階層に配置し、データ量と GPU の増加に合わせてスケールアウトまたは Premium Tier へのスケールアップを行うことができます。</block>
+  <block id="2fe5665064f07acc8afc830f911c09a5" category="doc">Azure NetApp Files のパフォーマンス階層</block>
+  <block id="d84e339c1d1265f11e2f217f8d04354a" category="inline-link-macro">前の手順： Helm を使用して AKS に Rapids デプロイメントで Dask をセットアップしました。</block>
+  <block id="1be55e0d10ba600a3d66b1f73f978b9f" category="paragraph"><block ref="1be55e0d10ba600a3d66b1f73f978b9f" category="inline-link-macro-rx"></block></block>
+  <block id="de524ca3fc83ef426bc329e1a8b712ea" category="paragraph">既存のボリュームのサービスレベルを変更するには、そのボリュームに必要なサービスレベルを使用する別の容量プールにボリュームを移動します。この解決策を使用することで、お客様は、まず小規模なデータセットと少数の GPU を標準階層に配置し、データ量と GPU の増加に合わせてスケールアウトまたは Premium Tier へのスケールアップを行うことができます。Premium Tier は、 Standard 階層のテラバイトあたりスループットの 4 倍を提供し、ボリュームのサービスレベルを変更するためにデータを移動することなくスケールアップを実行できます。</block>
+  <block id="5f92df8a2ac38644ed8ba20e16791602" category="paragraph">ボリュームのサービスレベルを動的に変更するには、次の手順を実行します。</block>
+  <block id="8c83c4957baac2f6fea18f9d77767e3a" category="paragraph"><block ref="8c83c4957baac2f6fea18f9d77767e3a" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="21ec2eabbe87e02cad1b0d4279ea00a7" category="list-text">プールの変更ウィンドウで、ボリュームの移動先となる容量プールを選択します。</block>
+  <block id="ef3a0105bad35ad4c385d92daf6496a6" category="paragraph"><block ref="ef3a0105bad35ad4c385d92daf6496a6" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="18d0ad44a1e563aaf9f5871e32535a6c" category="list-text">[OK] をクリックします。</block>
+  <block id="32ae33eea9c6b04002778d814c344fb5" category="section-title">パフォーマンス階層の変更を自動化</block>
+  <block id="1c9506694c5a6fe83d1a0389d1d24564" category="paragraph">パフォーマンス階層の変更を自動化するには、次のオプションを使用できます。</block>
+  <block id="54a3bcd89041e8f96766dcb598b15511" category="list-text">現在も動的サービスレベルの変更はパブリックプレビューで有効になっており、デフォルトでは有効になっていません。Azure サブスクリプションでこの機能を有効にする方法については、このドキュメントを参照してください<block ref="773d4c9e90e7325c5fcf35857900af6e" category="inline-link-rx"></block>。</block>
+  <block id="0b01c5f61940e864222c5b29615a7eeb" category="inline-link">ボリュームプールの変更に関するドキュメント</block>
+  <block id="265eed4df59633a830c9da49505786fc" category="list-text">Azure CLI の volume pool change コマンドについては、を参照してください<block ref="db78b725076ccf0203288c6620e52eb9" category="inline-link-rx"></block> 次に例を示します。</block>
+  <block id="4455e376dc005ca0a99be0491b917ce7" category="inline-link">set-AzNetAppFilesVolumePool コマンドレット</block>
+  <block id="a5bce2f378011f6036711869a5e8073b" category="list-text">PowerShell<block ref="45dc9ea5ce8eabd60a14674d792889e0" category="inline-link-rx"></block> Azure NetApp Files ボリュームのプールを変更し、次の例に示すようにします。</block>
+  <block id="b79b50d5bff47e3a668f266c7b9dbc7b" category="inline-link-macro">次の例：データ処理とモデルトレーニング用のライブラリ。</block>
+  <block id="edd770dcbb857ec8f0871955fb2f7d5d" category="paragraph"><block ref="edd770dcbb857ec8f0871955fb2f7d5d" category="inline-link-macro-rx"></block></block>
+  <block id="60f89129c6220bfb3de5a84b4f6471ca" category="summary">このページでは、 Pandas と Dask DataFrames を使用して、 Criteo Terabyte データセットから Click Logs データをロードする方法について説明します。このユースケースは、広告交換のためのデジタル広告において、広告がクリックされるかどうかを予測したり、交換品が自動化されたパイプラインで正確なモデルを使用していないかどうかを予測したりすることで、ユーザーのプロファイルを作成する場合に適しています。</block>
+  <block id="efdbc2f24f0a87c559175250c645b26b" category="doc">Pandas で Logs Day 15 をクリックして、 scikit に学習したランダムフォレストモデルをトレーニングします</block>
+  <block id="2979440f06f7cfcab78b9a92ca964f28" category="inline-link-macro">Previous ：データ処理とモデルトレーニング用のライブラリ。</block>
+  <block id="f2982e3861753bd206faa379a769d904" category="paragraph"><block ref="f2982e3861753bd206faa379a769d904" category="inline-link-macro-rx"></block></block>
+  <block id="f82859e215621220b9aae984f796ef24" category="paragraph">このセクションでは、 Pandas と Dask DataFrames を使用して、 Criteo Terabyte データセットから Click Logs データをロードする方法について説明します。このユースケースは、広告交換のためのデジタル広告において、広告がクリックされるかどうかを予測したり、交換品が自動化されたパイプラインで正確なモデルを使用していないかどうかを予測したりすることで、ユーザーのプロファイルを作成する場合に適しています。</block>
+  <block id="f08833dbbe310e84a1ba564838776db2" category="paragraph">Click Logs データセットから 15 日目のデータをロードし、合計 45GB にしました。Jupyter ノートブックの ctr-pandasrf-colated で次のセルを実行すると、最初の 5,000 万行を含む Pandas DataFrame が作成され、 scikit 学習ランダムフォレストモデルが生成されます。</block>
+  <block id="f9964b2f8f54a1422ac46bab70fd1216" category="inline-link">公式の坐骨神経痛 - 学習文書</block>
+  <block id="5646953e1414498e1ddf2eb3ab488e27" category="paragraph">トレーニングされたランダムフォレストモデルを使用して予測を実行するには、このノートブックで次の段落を実行します。重複を避けるために、 15 日目から最後の 100 万行をテストセットとして使用しました。セルはまた、モデルの発生率として定義された予測精度を計算し、ユーザーが広告をクリックするかどうかを正確に予測します。このノートブックの構成部品を確認するには、を参照してください<block ref="27e4d9ca2442a6439517a3ec2c7a4e73" category="inline-link-rx"></block>。</block>
+  <block id="4e5653c75e720212b79703e8083de2a8" category="inline-link-macro">次は、 Dask の 15 日目をロードし、 Dask cuML ランダムフォレストモデルをトレーニングします。</block>
+  <block id="8c9976282cff1b15934d937349911c30" category="paragraph"><block ref="8c9976282cff1b15934d937349911c30" category="inline-link-macro-rx"></block></block>
+  <block id="4da2046c0d2b3e5d89fff538399dcd3c" category="sidebar">Azure Kubernetes Service 、 Azure NetApp Files 、 Rapids AI 、 Dask</block>
+  <block id="7f39827ac712fa5b76b27ff0b267373c" category="sidebar">NetApp DataOps ツールキットを使用したデータセットとモデルのバージョン管理</block>
 </blocks>

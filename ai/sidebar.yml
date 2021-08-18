@@ -35,7 +35,6 @@ entries:
   - title: 自動運転ワークロード向けの NetApp StorageGRID データレイク
     url: http://www.netapp.com/us/media/tr-4851.pdf
   - title: NetApp AI コントロールプレーン
-    url: "/ai/aicp_introduction.html"
     type: solutions
     entries:
     - title: はじめに
@@ -86,9 +85,10 @@ entries:
     - title: まとめ
       url: "/ai/aicp_conclusion.html"
   - title: MLRun パイプライン
-    url: "/ai/mlrun_introduction.html"
     type: solutions
     entries:
+    - title: はじめに
+      url: "/ai/mlrun_introduction.html"
     - title: テクノロジの概要
       url: "/ai/mlrun_technology_overview.html"
     - title: ソフトウェアとハードウェアの要件
@@ -119,6 +119,55 @@ entries:
     url: https://github.com/NetApp/netapp-dataops-toolkit
 - title: ユースケース
   entries:
+  - title: Azure Kubernetes Service 、 Azure NetApp Files 、 Rapids AI 、 Dask
+    type: solutions
+    entries:
+    - title: はじめに
+      url: "/ai/aks-anf_introduction.html"
+    - title: テクノロジの概要
+      url: "/ai/aks-anf_technology_overview.html"
+    - title: ソフトウェア要件
+      url: "/ai/aks-anf_software_requirements.html"
+    - title: クラウドリソースの要件
+      url: "/ai/aks-anf_cloud_resource_requirements.html"
+    - title: クリックスルー率予測ユースケースの概要
+      url: "/ai/aks-anf_click-through_rate_prediction_use_case_summary.html"
+    - title: セットアップ（ Setup ）
+      entries:
+      - title: AKS クラスタをインストールしてセットアップします
+        url: "/ai/aks-anf_install_and_set_up_the_aks_cluster.html"
+      - title: Azure NetApp Files の委譲されたサブネットを作成します
+        url: "/ai/aks-anf_create_a_delegated_subnet_for_azure_netapp_files.html"
+      - title: ピア AKS の VNet と Azure NetApp Files VNet
+        url: "/ai/aks-anf_peer_aks_vnet_and_azure_netapp_files_vnet.html"
+      - title: Trident をインストール
+        url: "/ai/aks-anf_install_trident.html"
+      - title: Helm を使用して、 AKS で Rapids デプロイメントを使用して Dask をセットアップします
+        url: "/ai/aks-anf_set_up_dask_with_rapids_deployment_on_aks_using_helm.html"
+      - title: Azure NetApp Files のパフォーマンス階層
+        url: "/ai/aks-anf_azure_netapp_files_performance_tiers.html"
+    - title: クリックスルー率予測データの処理とモデルトレーニング
+      entries:
+      - title: データ処理およびモデルトレーニング用のライブラリ
+        url: "/ai/aks-anf_libraries_for_data_processing_and_model_training.html"
+      - title: Pandas で Logs Day 15 をクリックして、 scikit に学習したランダムフォレストモデルをトレーニングします
+        url: "/ai/aks-anf_load_criteo_click_logs_day_15_in_pandas_and_train_a_scikit-learn_random_forest_model.html"
+      - title: Dask の 15 日目をロードし、 Dask cuML ランダムフォレストモデルをトレーニングします
+        url: "/ai/aks-anf_load_day_15_in_dask_and_train_a_dask_cuml_random_forest_model.html"
+      - title: ネイティブタスクストリームダッシュボードを使用して Dask を監視します
+        url: "/ai/aks-anf_monitor_dask_using_native_task_streams_dashboard.html"
+      - title: トレーニング時間の比較
+        url: "/ai/aks-anf_training_time_comparison.html"
+      - title: Prometheus と Grafana で Dask と Rapids を監視します
+        url: "/ai/aks-anf_monitor_dask_and_rapids_with_prometheus_and_grafana.html"
+      - title: NetApp DataOps ツールキットを使用したデータセットとモデルのバージョン管理
+        url: "/ai/aks-anf_dataset_and_model_versioning_using_netapp_dataops_toolkit.html"
+    - title: まとめ
+      url: "/ai/aks-anf_conclusion.html"
+    - title: 追加情報の参照先
+      url: "/ai/aks-anf_where_to_find_additional_information.html"
+    - title: バージョン履歴
+      url: "/ai/aks-anf_version_history.html"
   - title: Azure の分散トレーニング - レーン検出
     url: "/ai/runai-ld_executive_summary.html"
     type: solutions

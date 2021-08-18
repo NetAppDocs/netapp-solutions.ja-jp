@@ -1,0 +1,34 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_peer_aks_vnet_and_azure_netapp_files_vnet.html 
+keywords: aks, vnet, anf, peer 
+summary: ここでは、 Azure NetApp Files VNet に AKS VNet をピアリングする方法について説明します。 
+---
+= ピア AKS の VNet と Azure NetApp Files VNet
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:aks-anf_create_a_delegated_subnet_for_azure_netapp_files.html["前の処理： Azure NetApp Files の委譲されたサブネットを作成します。"]
+
+AKS VNet を Azure NetApp Files VNet にピアリングするには、次の手順を実行します。
+
+. 検索フィールドに Virtual Networks と入力します。
+. 「 vnet AK - vnet-name 」を選択します クリックして、検索フィールドに peerings と入力します。
+. + Add をクリックします。
+. 次の記述子を入力します。
++
+.. ピアリングリンク名は 'AKs-vnet-name_-to-anf' です
+.. VNet ピアリングパートナーとしての SubscriptionID および Azure NetApp Files VNet
+.. アスタリスク以外のすべてのセクションは、デフォルト値のままにします。
+
+
+. 追加をクリックします。
+
+
+詳細については、を参照してください https://docs.microsoft.com/azure/virtual-network/virtual-network-manage-peering["仮想ネットワークピアリングを作成、変更、削除します"^]。
+
+link:aks-anf_install_trident.html["次の手順： Trident をインストール"]

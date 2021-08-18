@@ -1,0 +1,60 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_azure_netapp_files_performance_tiers.html 
+keywords: azure, service level, capacity pool, tier, standard, premium, 
+summary: 既存のボリュームのサービスレベルを変更するには、そのボリュームに必要なサービスレベルを使用する別の容量プールにボリュームを移動します。この解決策を使用することで、お客様は、まず小規模なデータセットと少数の GPU を標準階層に配置し、データ量と GPU の増加に合わせてスケールアウトまたは Premium Tier へのスケールアップを行うことができます。 
+---
+= Azure NetApp Files のパフォーマンス階層
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:aks-anf_set_up_dask_with_rapids_deployment_on_aks_using_helm.html["前の手順： Helm を使用して AKS に Rapids デプロイメントで Dask をセットアップしました。"]
+
+既存のボリュームのサービスレベルを変更するには、そのボリュームに必要なサービスレベルを使用する別の容量プールにボリュームを移動します。この解決策を使用することで、お客様は、まず小規模なデータセットと少数の GPU を標準階層に配置し、データ量と GPU の増加に合わせてスケールアウトまたは Premium Tier へのスケールアップを行うことができます。Premium Tier は、 Standard 階層のテラバイトあたりスループットの 4 倍を提供し、ボリュームのサービスレベルを変更するためにデータを移動することなくスケールアップを実行できます。
+
+
+
+== ボリュームのサービスレベルを動的に変更する
+
+ボリュームのサービスレベルを動的に変更するには、次の手順を実行します。
+
+. Volumes （ボリューム）ページで、サービスレベルを変更するボリュームを右クリックします。［ プールの変更 ］ を選択します
++
+image:aks-anf_image10.png["エラー：グラフィックイメージがありません"]
+
+. プールの変更ウィンドウで、ボリュームの移動先となる容量プールを選択します。
++
+image:aks-anf_image11.png["エラー：グラフィックイメージがありません"]
+
+. [OK] をクリックします。
+
+
+
+
+== パフォーマンス階層の変更を自動化
+
+パフォーマンス階層の変更を自動化するには、次のオプションを使用できます。
+
+* 現在も動的サービスレベルの変更はパブリックプレビューで有効になっており、デフォルトでは有効になっていません。Azure サブスクリプションでこの機能を有効にする方法については、このドキュメントを参照してください https://docs.microsoft.com/azure/azure-netapp-files/dynamic-change-volume-service-level["ボリュームのサービスレベルを動的に変更する"^]。
+* Azure CLI の volume pool change コマンドについては、を参照してください https://docs.microsoft.com/en-us/cli/azure/netappfiles/volume?view=azure-cli-latest&viewFallbackFrom=azure-cli-latest%20-%20az_netappfiles_volume_pool_change["ボリュームプールの変更に関するドキュメント"^] 次に例を示します。
++
+....
+az netappfiles volume pool-change -g mygroup --account-name myaccname --pool-name mypoolname --name myvolname --new-pool-resource-id mynewresourceid
+....
+* PowerShell https://docs.microsoft.com/powershell/module/az.netappfiles/set-aznetappfilesvolumepool?view=azps-5.8.0["set-AzNetAppFilesVolumePool コマンドレット"^] Azure NetApp Files ボリュームのプールを変更し、次の例に示すようにします。
++
+....
+Set-AzNetAppFilesVolumePool
+-ResourceGroupName "MyRG"
+-AccountName "MyAnfAccount"
+-PoolName "MyAnfPool"
+-Name "MyAnfVolume"
+-NewPoolResourceId 7d6e4069-6c78-6c61-7bf6-c60968e45fbf
+....
+
+
+link:aks-anf_libraries_for_data_processing_and_model_training.html["次の例：データ処理とモデルトレーニング用のライブラリ。"]

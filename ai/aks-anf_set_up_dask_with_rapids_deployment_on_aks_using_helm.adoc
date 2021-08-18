@@ -1,0 +1,101 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_set_up_dask_with_rapids_deployment_on_aks_using_helm.html 
+keywords: dask, rapids, deployment, aks, helm, pvc, persistent volume claim 
+summary: このページでは、 Helm を使用して AKS に Dask with Rapids deployment を設定する方法について説明します。 
+---
+= Helm を使用して、 AKS で Rapids デプロイメントを使用して Dask をセットアップします
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:aks-anf_install_trident.html["前のページ： Trident をインストール"]
+
+Helm を使用して AKS で Rapids を使用して Dask をセットアップするには、次の手順を実行します。
+
+. Dask with Rapids をインストールするための名前空間を作成します。
++
+....
+kubectl create namespace rapids-dask
+....
+. クリックスルーレートデータセットを保存する PVC を作成します。
++
+.. 次の YAML コンテンツをファイルに保存して PVC を作成します。
++
+....
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-criteo-data
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1000Gi
+  storageClassName: azurenetappfiles
+....
+.. YAML ファイルを Kubernetes クラスタに適用します。
++
+....
+kubectl -n rapids-dask apply -f <your yaml file>
+....
+
+
+. rapidsai git リポジトリを複製します ( https://github.com/rapidsai/helm-chart["https://github.com/rapidsai/helm-chart"^]）。
++
+....
+git clone https://github.com/rapidsai/helm-chart helm-chart
+....
+. 値 .yaml を変更し、作業者および Jupyter ワークスペース用に前に作成した PVC を含めます。
++
+.. リポジトリの 'rapidsai' ディレクトリに移動します
++
+....
+cd helm-chart/rapidsai
+....
+.. 「 values] .yaml ファイルを更新し、 PVC を使用してボリュームをマウントします。
++
+....
+dask:
+  …
+  worker:
+    name: worker
+    …
+    mounts:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: pvc-criteo-data
+      volumeMounts:
+        - name: data
+          mountPath: /data
+    …
+  jupyter:
+    name: jupyter
+    …
+    mounts:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: pvc-criteo-data
+      volumeMounts:
+        - name: data
+          mountPath: /data
+    …
+....
+
+
+. リポジトリのホーム・ディレクトリに移動し 'Helm を使用して AKS 上に 3 つのワーカー・ノードを持つ Dask を展開します
++
+....
+cd ..
+helm dep update rapidsai
+helm install rapids-dask --namespace rapids-dask rapidsai
+....
+
+
+link:aks-anf_azure_netapp_files_performance_tiers.html["次： Azure NetApp Files のパフォーマンス階層"]
