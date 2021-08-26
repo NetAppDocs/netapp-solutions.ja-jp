@@ -7947,7 +7947,6 @@
   <block id="34306e59be5281cec379b855a78c6d10" category="paragraph">このセクションは、実環境のユーザがこの解決策を本番環境に導入するときに実行する必要があるカスタマイズ（専用のプライベートイメージレジストリの作成やカスタムロードバランサインスタンスの導入など）に特化したものです。</block>
   <block id="12c17259bf3f3b36e970c9e3abbc6b43" category="cell">ネットアップアストラコントロールセンター</block>
   <block id="8d96276332b02a2ef892828c1d4fbab4" category="cell">アプリケーション対応データ管理</block>
-  <block id="7067f7c7ef86b420751a601f1dd67ac0" category="cell">21.08.57</block>
   <block id="8de59ec369b10820d0dd336b9765c79b" category="cell">ネットアップアストラト Trident</block>
   <block id="824bd84e05db30b27e73f839dae3b8e5" category="list-text">Astra Trident のドキュメント</block>
   <block id="fe549ebd8a3f0fea1803cbaa947ef198" category="list-text">NetApp Astra Control Center のドキュメント</block>
@@ -8009,8 +8008,6 @@
   <block id="c0886a2df430b7ea240139008f6d04d6" category="admonition">レジストリに信頼されていない証明書を使用している場合は、シェルスクリプトを編集して、 Docker Push コマンドの -`d Occker push $registry/$(echo $astraatImage|seds's/^[^\\/]\\/')--tls-verify=false`) を使用します</block>
   <block id="5f7b5da1ed57bea3ccb329f7aae8824c" category="list-text">次の手順では、イメージレジストリ TLS 証明書を OpenShift ノードにアップロードします。そのためには、 TLS 証明書を使用して OpenShift -config ネームスペースに ConfigMap を作成し、クラスタイメージ設定にパッチを適用して証明書を信頼できるようにします。</block>
   <block id="a768fbfefe23b6026c35331b6ef9c56c" category="admonition">ルートを含む入力オペレータからのデフォルト TLS 証明書で OpenShift 内部レジストリを使用している場合でも、上記の手順に従って、証明書をルートホスト名にパッチする必要があります。入力オペレータから証明書を抽出するには、コマンド -`oc extract secret/router-ca --keys=tls.crt-n OpenShift ingress-operator` を使用します</block>
-  <block id="fdc0396d44e65af291c88c0245150c2b" category="list-text">Astra Control Center Operator をインストールするための名前空間「 acc-operator-system 」を作成します。</block>
-  <block id="afce5c24a2365e3ba0f8749d8666182f" category="list-text">イメージレジストリにログインするためのクレデンシャルを持つシークレットを 'acc-operator-system' 名前空間に作成します</block>
   <block id="d03e4a349f30176cdc471ed6400e5fc7" category="list-text">Astra Control Center Operator CR 'Astra_control_center_deployment.yaml ' を編集します Astra Control Center は ' すべてのリソースを配備しますオペレータ CR で、「 accoperator-controller-manager 」の展開定義を検索し、レジストリの FQDN と、イメージをレジストリにプッシュする際に指定した組織名を入力します（この例では astra-registry.apps.ocp-vmw.cie.netapp.com/netapp-astra ）。 テキスト「 [ あなたの .registry.goes .here] 」を置き換え、先ほど作成した秘密の名前を入力します。オペレータのその他の詳細を確認し、保存して閉じます。</block>
   <block id="a27cc132b2f3001f3e9df9c40dad4bfb" category="list-text">次のコマンドを実行して演算子を作成します。</block>
   <block id="685fe82295261a8902e709081b6c9599" category="list-text">すべての Astra Control Center リソースをインストールするための専用のネームスペースを作成します。</block>
@@ -8547,4 +8544,7 @@
   <block id="8c9976282cff1b15934d937349911c30" category="paragraph"><block ref="8c9976282cff1b15934d937349911c30" category="inline-link-macro-rx"></block></block>
   <block id="4da2046c0d2b3e5d89fff538399dcd3c" category="sidebar">Azure Kubernetes Service 、 Azure NetApp Files 、 Rapids AI 、 Dask</block>
   <block id="7f39827ac712fa5b76b27ff0b267373c" category="sidebar">NetApp DataOps ツールキットを使用したデータセットとモデルのバージョン管理</block>
+  <block id="efbc668592bf2cf9e84b95ff4a9de44c" category="cell">21.08.65</block>
+  <block id="6589da0279dd02b9b1d177e0ff5f457b" category="list-text">Astra Control Center Operator をインストールするための名前空間 NetApp-acc-operator を作成します。</block>
+  <block id="e3990b0b892faaf03261a0a1bcd00b9b" category="list-text">NetApp-acc-operator ネームスペースのイメージレジストリにログインするためのクレデンシャルを含むシークレットを作成します。</block>
 </blocks>
