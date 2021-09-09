@@ -49,14 +49,14 @@ image::redhat_openshift_image58.JPG[VM をクローニングする]
 
 既存の VM は、ソース VM の既存の PVC をクローニングしてから、クローン PVC を使用して新しい VM を作成することによってもクローニングできます。この方法では、ソース VM をシャットダウンする必要はありません。シャットダウンせずに VM をクローニングするには、次の手順を実行します。
 
-. Storage -> PersistentVolume要求 と進み、ソース VM に接続されている PVC の横にある省略記号をクリックします。
+. Storage > PersistentVolume要求 と進み、ソース VM に接続されている PVC の横にある省略記号をクリックします。
 . Clone PVC をクリックして、新しい PVC の詳細を提供します。
 +
 image::redhat_openshift_image59.JPG[PVC を複製します]
 
 . 次に、 Clone をクリックします。これにより、新しい VM の PVC が作成されます。
-. [Workloads （ワークロード） ] > [Virtualization （仮想化） ] > [Virtual Machines （仮想マシン） ] に移動し、 [Create （作成） ] > [With YAML （ Y
-. [ペ ック > テンプレート > 仕様 > ボリューム ] セクションで、コンテナディスクではなくクローン PVC を接続します。新しい VM について、要件に応じてその他の詳細をすべて指定します。
+. [Workloads （ワークロード） ] > [Virtualization （仮想化） ] > [Virtual Machines （仮想マシン） ] に移動し、 [Create （作成）
+. spec> template> spec> volumes セクションで、コンテナディスクではなく、クローン PVC を接続します。新しい VM について、要件に応じてその他の詳細をすべて指定します。
 +
 [source, cli]
 ----

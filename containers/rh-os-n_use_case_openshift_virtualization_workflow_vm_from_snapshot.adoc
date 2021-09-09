@@ -24,7 +24,7 @@ image::redhat_openshift_image60.jpg[Snapshot アーキテクチャの VM]
 
 VM の Snapshot を作成するには、次の手順を実行します。
 
-. ボリューム Snapshot を作成するために使用できるボリューム Snapshot クラスを作成します。「ストレージ」＞「 VolumeSnapshotClasses 」と移動し、「 Create VolumeSnapshotClass 」をクリックします。
+. ボリューム Snapshot を作成するために使用できるボリューム Snapshot クラスを作成します。Storage > VolumeSnapshotClasses の順に移動し、 Create VolumeSnapshotClass をクリックします。
 . スナップショットクラスの名前を入力し、ドライバの csi.trident.netapp.io を入力して、 Create をクリックします。
 +
 image::redhat_openshift_image61.JPG[Snapshot クラスを作成します]
@@ -41,13 +41,13 @@ image::redhat_openshift_image62.JPG[Snapshot を作成します]
 
 == スナップショットから新しい VM を作成します
 
-. 最初に、スナップショットを新しい PVC に復元します。「ストレージ > ボリューム Snapshot 」に移動し、リストアする Snapshot の横にある省略記号をクリックして、「新規 PVC として復元」をクリックします。
+. 最初に、スナップショットを新しい PVC に復元します。Storage > VolumeSnapshots と進み、リストアする Snapshot の横にある省略記号をクリックして、 Restore as new PVC （新しい PVC として復元）をクリックします。
 . 新しい PVC の詳細を入力し、 Restore をクリックします。これにより、新しい PVC が作成されます。
 +
 image::redhat_openshift_image63.JPG[Snapshot を新しい PVC にリストアします]
 
-. 次に、この PVC から新しい VM を作成します。[ ワークロード ] > [ 仮想化 ] > [ 仮想マシン ] に移動し、 [Create] -> [with YAML （ YAML で作成） ] をクリックします。
-. 'PEC>template>spec>volumes セクションで ' コンテナディスクではなく ' スナップショットから作成された新しい PVC を指定します新しい VM について、要件に応じてその他の詳細をすべて指定します。
+. 次に、この PVC から新しい VM を作成します。[Workloads （ワークロード） ] > [Virtualization （仮想化） ] > [Virtual Machines （仮想マシン） ] に移動し、 [Create （作成）
+. spec>template>spec>volumes セクションで、コンテナディスクからではなく、スナップショットから作成された新しい PVC を指定します。新しい VM について、要件に応じてその他の詳細をすべて指定します。
 +
 [source, cli]
 ----

@@ -4,7 +4,7 @@ permalink: containers/rh-os-n_overview_openshift.html
 keywords: OpenShift, deploy, baremetal, private cloud, virtual 
 summary: Red Hat OpenShift Container Platform は、開発と IT の運用を単一のプラットフォーム上に統合し、オンプレミスとハイブリッドクラウドのインフラ全体でアプリケーションを一貫して構築、導入、管理します。Red Hat OpenShift は、コンテナベースのワークロード向けに設計された、世界をリードするエンタープライズ Linux ディストリビューションである Kubernetes や Red Hat Enterprise Linux CoreOS など、オープンソースのイノベーションと業界標準に基づいて構築されています。 
 ---
-= OpenShift の概要：ネットアップを使用した Red Hat OpenShift
+= OpenShift の概要
 :hardbreaks:
 :nofooter: 
 :icons: font
@@ -28,7 +28,7 @@ Red Hat OpenShift Container Platform は、開発と IT の運用を単一のプ
 * * 一貫性のある環境。 * OpenShift により、開発者やアプリケーションのライフサイクル全体でプロビジョニングされた環境が、オペレーティングシステムからライブラリ、ランタイムバージョン（ Java ランタイムなど）まで一貫していることを確認します。 また、一貫性のない環境から発生したリスクを除去するために、使用中のアプリケーションランタイム（ Tomcat など）も削除できます。
 * * 構成管理。 * 構成と機密性の高いデータ管理はプラットフォームに組み込まれており、アプリケーションの構築に使用されるテクノロジーや導入される環境に関係なく、一貫性のある、環境に依存しないアプリケーション構成がアプリケーションに確実に提供されるようにします。
 * * アプリケーションログとメトリック。 * 迅速なフィードバックは、アプリケーション開発の重要な要素です。OpenShift に統合された監視機能とログ管理機能により、開発者はアプリケーションがどのように変化しても動作しているかを調査し、アプリケーションのライフサイクルの早い段階で問題を修正できるようになります。
-* * セキュリティとコンテナカタログ。 * OpenShift はマルチテナンシーを提供し、 Security-Enhanced Linux （ SELinux ）、 cgroups 、 Secure Computing Mode （ seccomp ）との確立されたセキュリティを使用して、さまざまなサブシステム用の TLS 証明書による暗号化により、ユーザーを有害なコード実行から保護します。 さらに、セキュリティを重視してスキャンおよび採点を行う Red Hat 認定コンテナ（ access.redhat.com/containers ）へのアクセスを提供し、認定された信頼できるセキュアなアプリケーションコンテナをエンドユーザに提供します。
+* * セキュリティとコンテナカタログ。 * OpenShift はマルチテナンシーを提供し、 Security-Enhanced Linux （ SELinux ）、 cgroups 、 Secure Computing Mode （ seccomp ）との確立されたセキュリティを使用してコンテナを分離し、保護することにより、ユーザを有害なコードの実行から保護します。また、さまざまなサブシステム用の TLS 証明書による暗号化、およびエンドユーザーに認証済みの信頼できるセキュアなアプリケーションコンテナを提供するためにセキュリティを重視してスキャンおよび採点される Red Hat 認定コンテナ（ access.redhat.com/containers ）へのアクセスも提供します。
 
 
 image:redhat_openshift_image4.png["エラー：グラフィックイメージがありません"]
@@ -48,11 +48,11 @@ Red Hat OpenShift 4 以降、 OpenShift の導入方法には、高度にカス�
 OpenShift の Installer Provisioned Infrastructure （ IPI ）導入には、次の高度な手順が含まれます。
 
 . Red Hat OpenShift をご覧ください https://www.openshift.com["Web サイト"^] SSO クレデンシャルでログインします。
-. Red Hat OpenShift を導入する環境を選択してください。
+. Red Hat OpenShift を導入する環境を選択します。
 +
 image:redhat_openshift_image8.jpeg["エラー：グラフィックイメージがありません"]
 
-. 次の画面でインストーラをダウンロードします。固有のプルシークレットで、管理用の CLI ツールです。
+. 次の画面で、インストーラ、独自のプルシークレット、および管理用の CLI ツールをダウンロードします。
 +
 image:redhat_openshift_image9.jpeg["エラー：グラフィックイメージがありません"]
 
@@ -63,7 +63,7 @@ image:redhat_openshift_image9.jpeg["エラー：グラフィックイメージ�
 
 === ネットアップが検証済みの OpenShift 環境
 
-ネットアップでは、以下の各データセンター環境で、 Installer Provisioned Infrastructure （ IPI ）導入方法を使用して、 IT ラボへの Red Hat OpenShift の導入をテストし、検証しました。
+ネットアップでは、以下の各データセンター環境で Installer Provisioned Infrastructure （ IPI ）導入方法を使用して、 Red Hat OpenShift のラボへの導入をテストし、検証しています。
 
 * link:rh-os-n_openshift_BM.html["ベアメタルで実装された OpenShift"]
 * link:rh-os-n_openshift_OSP.html["Red Hat OpenStack Platform 上の OpenShift"]

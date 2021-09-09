@@ -4,7 +4,7 @@ permalink: containers/rh-os-n_private_registry.html
 keywords: Advanced Configuration, Private Registry, Astra Trident, OpenShift Registry, NetApp Astra Control Center Registry 
 summary: このセクションでは、 Astra Trident が提供する永続的ストレージを使用して、プライベートイメージレジストリを作成および設定します。 
 ---
-= プライベートイメージレジストリの作成：ネットアップを使用した Red Hat OpenShift
+= プライベートイメージレジストリを作成しています
 :hardbreaks:
 :nofooter: 
 :icons: font
@@ -23,7 +23,7 @@ NOTE: Astra Control Center では、 Astra コンテナに必要なイメージ�
 
 == プライベートイメージレジストリを作成しています
 
-. imageregistry オペレータを編集して 'PEC' セクションに以下の保管パラメータを入力します
+. 「 PEC 」セクションに以下の保管パラメータを入力して、 imagegeistry のオペレータを編集します。
 +
 [listing]
 ----
@@ -33,7 +33,7 @@ storage:
   pvc:
     claim:
 ----
-. 次に、「 PEC 」セクションに次のパラメータを入力して、カスタムホスト名を持つ OpenShift ルートを作成し、保存して終了します
+. カスタムホスト名を使用して OpenShift ルートを作成するには、「 PEC 」セクションに次のパラメータを入力します。保存して終了します。
 +
 [listing]
 ----
@@ -43,14 +43,14 @@ routes:
 ----
 +
 
-NOTE: 上記のルート設定は、ルートのカスタムホスト名が必要な場合に使用されます。OpenShift でデフォルトのホスト名を持つルートを作成する場合は、「 PEC 」セクションに以下のパラメータを追加するだけです。「 defaultRoute ： true 」
+NOTE: 上記のルート設定は、ルートのカスタムホスト名が必要な場合に使用されます。OpenShift でデフォルトのホスト名を持つルートを作成するには、「 PEC 」セクションに「 defaultRoute ： true 」というパラメータを追加します。
 
 +
 .カスタム TLS 証明書
 ****
-ルートにカスタムホスト名を使用している場合、デフォルトでは OpenShift 入力オペレータのデフォルトの TLS 設定が使用されます。ただし、カスタム TLS 設定をルートに追加することはできます。これを行うには、以下の手順 ~ に従ってください
+ルートにカスタムホスト名を使用している場合、デフォルトでは、 OpenShift 入力オペレータのデフォルトの TLS 設定が使用されます。ただし、カスタム TLS 設定をルートに追加することはできます。これには、次の手順を実行します。
 
-.. ルートの TLS 証明書とキーを使用して、秘密を作成します
+.. ルートの TLS 証明書とキーを使用して秘密を作成します。
 +
 [listing]
 ----
@@ -70,7 +70,7 @@ routes:
 
 
 ****
-. 次の手順では、対応するオペレータを再度編集し、オペレータの管理状態を「管理状態」、「保存状態」、「終了状態」に変更します
+. このような場合は、すべての管理者をもう一度編集し、管理状態を「管理状態」に変更してください。保存して終了します。
 +
 [listing]
 ----
@@ -78,7 +78,7 @@ oc edit configs.imageregistry/cluster
 
 managementState: Managed
 ----
-. 前提条件をすべて満たしている場合は、プライベートイメージレジストリの PVC 、ポッド、およびサービスの作成を開始する必要があります。数分後にレジストリが起動します。
+. すべての前提条件を満たしている場合は、プライベートイメージレジストリに PVC 、ポッド、およびサービスが作成されます。数分後にレジストリが起動します。
 +
 [listing]
 ----
@@ -127,13 +127,13 @@ cronjob.batch/image-pruner   0 0 * * *   False     0        9h              90d
 NAME                                     HOST/PORT                                           PATH   SERVICES         PORT    TERMINATION   WILDCARD
 route.route.openshift.io/public-routes   astra-registry.apps.ocp-vmw.cie.netapp.com          image-registry   <all>   reencrypt     None
 ----
-. 入力オペレータ OpenShift レジストリルートのデフォルト TLS 証明書を使用している場合は、次のコマンドを使用して TLS 証明書を取得できます。
+. 入力オペレータ OpenShift レジストリルートにデフォルトの TLS 証明書を使用している場合は、次のコマンドを使用して TLS 証明書を取得できます。
 +
 [listing]
 ----
 [netapp-user@rhel7 ~]$ oc extract secret/router-ca --keys=tls.crt -n openshift-ingress-operator
 ----
-. OpenShift ノードがレジストリにアクセスしてイメージをプルできるようにするには、 OpenShift ノード上の Docker クライアントに証明書を追加する必要があります。TLS 証明書を使用して「 OpenShift -config 」ネームスペースに ConfigMap を作成し、証明書を信頼できるようにクラスタイメージ設定にパッチします。
+. OpenShift ノードがレジストリにアクセスしてイメージをプルできるようにするには、 OpenShift ノード上の Docker クライアントに証明書を追加します。TLS 証明書を使用して「 OpenShift -config 」ネームスペースに ConfigMap を作成し、証明書を信頼できるようにクラスタイメージ設定にパッチします。
 +
 [listing]
 ----
@@ -143,7 +143,7 @@ route.route.openshift.io/public-routes   astra-registry.apps.ocp-vmw.cie.netapp.
 ----
 . OpenShift の内部レジストリは認証によって制御されます。OpenShift ユーザはすべて OpenShift レジストリにアクセスできますが、ログインユーザが実行できる操作はユーザ権限によって異なります。
 +
-.. ユーザー / グループがレジストリから画像をプルできるようにするには、ユーザーにレジストリビューアの役割が割り当てられている必要があります。
+.. ユーザーまたはユーザーのグループがレジストリから画像をプルできるようにするには、ユーザーにレジストリビューアの役割が割り当てられている必要があります。
 +
 [listing]
 ----
@@ -151,7 +151,7 @@ route.route.openshift.io/public-routes   astra-registry.apps.ocp-vmw.cie.netapp.
 
 [netapp-user@rhel7 ~]$ oc policy add-role-to-group registry-viewer ocp-user-group
 ----
-.. ユーザ / グループにイメージの書き込みまたはプッシュを許可するには、ユーザにレジストリエディタのロールを割り当てる必要があります。
+.. ユーザーまたはユーザーグループにイメージの書き込みまたはプッシュを許可するには、ユーザーにレジストリエディタの役割が割り当てられている必要があります。
 +
 [listing]
 ----
@@ -161,7 +161,7 @@ route.route.openshift.io/public-routes   astra-registry.apps.ocp-vmw.cie.netapp.
 ----
 
 
-. OpenShift ノードがレジストリにアクセスしてイメージをプッシュ / プルするには、プルシークレットを設定する必要があります。
+. OpenShift ノードがレジストリにアクセスし、イメージをプッシュまたはプルするには、プルシークレットを設定する必要があります。
 +
 [listing]
 ----
@@ -169,7 +169,7 @@ route.route.openshift.io/public-routes   astra-registry.apps.ocp-vmw.cie.netapp.
 ----
 . このプルシークレットは、サービスアカウントにパッチを適用するか、対応するポッド定義で参照できます。
 +
-.. サービスアカウントにパッチを適用します
+.. サービスアカウントにパッチを適用するには、次のコマンドを実行します。
 +
 [listing]
 ----
@@ -184,7 +184,7 @@ imagePullSecrets:
 ----
 
 
-. OpenShift ノードから離れたワークステーションからイメージをプッシュ / プルする。
+. OpenShift ノードとは別にワークステーションからイメージをプッシュまたはプルするには、次の手順を実行します。
 +
 .. TLS 証明書を Docker クライアントに追加します。
 +
@@ -200,7 +200,7 @@ imagePullSecrets:
 ----
 [netapp-user@rhel7 ~]$ oc login --token=sha256~D49SpB_lesSrJYwrM0LIO-VRcjWHu0a27vKa0 --server=https://api.ocp-vmw.cie.netapp.com:6443
 ----
-.. podman/docker コマンドを使用して、 OpenShift ユーザクレデンシャルを使用してレジストリにログインします。
+.. podman/docker コマンドで OpenShift ユーザクレデンシャルを使用してレジストリにログインします。
 +
 [role="tabbed-block"]
 ====
@@ -219,7 +219,7 @@ imagePullSecrets:
 ----
 --
 ====
-.. 画像をプッシュ / プルします。
+.. 画像を押したり引いたりします。
 +
 [role="tabbed-block"]
 ====

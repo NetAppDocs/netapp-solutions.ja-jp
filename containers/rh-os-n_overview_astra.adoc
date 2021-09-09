@@ -4,7 +4,7 @@ permalink: containers/rh-os-n_overview_astra.html
 keywords: NetApp Astra Control, Astra Control Center, Application, Trident, Astra Trident, Helm, Operator, ONTAP, OpenShift, Kubernetes, Red Hat OpenShift 
 summary: NetApp Astra Control Center は、 NetApp の信頼できるデータ保護テクノロジを基盤とするオンプレミス環境に導入された、ステートフル Kubernetes ワークロード向けの豊富なストレージおよびアプリケーション対応データ管理サービスを提供します。 
 ---
-= NetApp Astra コントロールセンターの概要：ネットアップを使用した Red Hat OpenShift
+= NetApp Astra Control Center の概要
 :hardbreaks:
 :nofooter: 
 :icons: font
@@ -12,36 +12,32 @@ summary: NetApp Astra Control Center は、 NetApp の信頼できるデータ�
 :imagesdir: ./../media/
 
 
-NetApp Astra Control Center は、ネットアップの信頼できるデータ保護テクノロジを基盤とするオンプレミス環境に導入された、ステートフル Kubernetes ワークロード向けの豊富なストレージおよびアプリケーション対応データ管理サービスを提供します。
+NetApp Astra Control Center は、オンプレミス環境に導入され、ネットアップのデータ保護テクノロジを基盤とするステートフル Kubernetes ワークロード向けの充実したストレージサービスとアプリケーション対応データ管理サービスを提供します。
 
 image:redhat_openshift_image44.png["エラー：グラフィックイメージがありません"]
 
-NetApp Astra Control Center は、 Astra Trident ストレージオーケストレーションツールを導入し、ストレージクラスを構成し、 NetApp ONTAP ストレージシステムにストレージバックエンドを接続した Red Hat OpenShift クラスタにインストールできます。
+NetApp Astra Control Center は、 Astra Trident ストレージオーケストレーションツールを導入し、 NetApp ONTAP ストレージシステムにストレージクラスとストレージバックエンドを使用して構成した Red Hat OpenShift クラスタにインストールできます。
 
-Astra Control Center をサポートする Astra Trident のインストールと設定については、本ドキュメントの link:rh-os-n_overview_trident.html["こちらをご覧ください"]。
+Astra Trident のインストールと設定を行い、 Astra Control Center をサポートするには、を参照してください link:rh-os-n_overview_trident.html["このドキュメントはこちら"^]。
 
-クラウド接続環境では、 Cloud Insights を使用して高度なモニタリングとテレメトリを提供します。Cloud Insights 接続がない場合は、限定的な（ 7 日間の指標）監視と計測データが使用可能になり、オープン指標エンドポイントを介して Kubernetes の標準の監視ツール（ Prometheus / Grafana ）にエクスポートされます。
+クラウド接続環境では、 Cloud Insights を使用して高度なモニタリングとテレメトリを提供します。Cloud Insights 接続がない場合は、限定的な監視と計測（ 7 日間相当の指標）を使用でき、オープン指標エンドポイントを介して Kubernetes の標準の監視ツール（ Prometheus および Grafana ）にエクスポートされます。
 
-Astra Control Center は、 NetApp AutoSupport / Active IQ エコシステムに完全に統合されており、ユーザをサポートし、トラブルシューティングを支援し、使用状況の統計を表示します。
+Astra Control Center は、ネットアップの AutoSupport と Active IQ のエコシステムに完全に統合されており、ユーザをサポートし、トラブルシューティングを支援し、使用状況の統計を表示します。
 
-支払い済みバージョンの Astra Control Center に加え、 90 日間の評価ライセンスがお客様に提供されます。評価版は、 E メールとコミュニティ（ Slack チャンネル）を通じてサポートされます。お客様は、これらの記事やその他のナレッジベース記事、および製品サポートダッシュボードから入手可能なドキュメントにアクセスできます。
+Astra Control Center の有料版に加え、 90 日間の評価ライセンスも提供されています。評価版は、 E メールとコミュニティ（ Slack チャンネル）を通じてサポートされています。お客様は、これらの記事やその他のナレッジベース記事、および製品サポートダッシュボードから入手可能なドキュメントにアクセスできます。
 
-ネットアップアストラコントロールセンターの利用を開始するには、にアクセスしてください https://cloud.netapp.com/astra[]。
+ネットアップアストラコントロールセンターの利用を開始するには、にアクセスしてください link:https://cloud.netapp.com/astra["Astra の Web サイト"^]。
 
 
 
 == Astra Control Center のインストールの前提条件
 
-. 1 つ以上の Red Hat OpenShift クラスタ。
-+
-
-NOTE: 現在、バージョン 4.6 EUS および 4.7 がサポートされています。
-
+. 1 つ以上の Red Hat OpenShift クラスタ。バージョン 4.6 EUS および 4.7 が現在サポートされています。
 . 各 Red Hat OpenShift クラスタに Astra Trident をインストールして設定しておく必要があります。
 . ONTAP 9.5 以降を実行している NetApp ONTAP ストレージシステムが 1 つ以上必要です。
 +
 
-NOTE: サイトに各 OpenShift インストールを実装し、永続的ストレージ専用の SVM を用意することがベストプラクティスです。マルチサイト環境では、追加のストレージシステムが必要になります。
+NOTE: サイトに各 OpenShift インストールを実装し、永続的ストレージ専用の SVM を用意することがベストプラクティスです。マルチサイト環境では、追加のストレージシステムが必要です。
 
 . Trident ストレージバックエンドは、 ONTAP クラスタがサポートする SVM を含む各 OpenShift クラスタで設定する必要があります。
 . ストレージプロビジョニングツールとして Astra Trident を使用し、各 OpenShift クラスタに設定されたデフォルトのストレージクラス。
@@ -67,10 +63,10 @@ NOTE: Docker または Podman 環境は、バージョン 20.10 以上である�
 
 == Astra Control Center をインストールします
 
-. ネットアップサポートサイトにログインし、最新バージョンの NetApp Astra Control Center をダウンロードします。この処理を実行するには、ライセンスをネットアップアカウントに接続する必要があります。tarball をダウンロードしたら、 admin ワークステーションに転送します。
+. ネットアップサポートサイトにログインし、最新バージョンの NetApp Astra Control Center をダウンロードします。そのためには、ネットアップアカウントにライセンスを関連付ける必要があります。tarball をダウンロードしたら、 admin ワークステーションに転送します。
 +
 
-NOTE: Astra Control の試用版ライセンスの使用を開始するには、サイトにアクセスしてください https://cloud.netapp.com/astra-register["こちらをご覧ください"^]
+NOTE: Astra Control の試用版ライセンスの使用を開始するには、にアクセスしてください https://cloud.netapp.com/astra-register["Astra 登録サイト"^]。
 
 . tar ボールを開梱し、作業ディレクトリを作成されたフォルダに変更します。
 +
@@ -79,7 +75,7 @@ NOTE: Astra Control の試用版ライセンスの使用を開始するには、
 [netapp-user@rhel7 ~]$ tar -vxzf astra-control-center-21.08.65.tar.gz
 [netapp-user@rhel7 ~]$ cd astra-control-center-21.08.65
 ----
-. インストールを開始する前に、 Astra Control Center イメージをイメージレジストリにプッシュする必要があります。
+. インストールを開始する前に、 Astra Control Center イメージをイメージレジストリにプッシュします。
 +
 
 NOTE: この手順では、 Docker または Podman のいずれかを使用して実行します。両方の手順については、この手順で説明します。
@@ -102,7 +98,7 @@ NOTE: この手順では、 Docker または Podman のいずれかを使用し�
 ----
 [netapp-user@rhel7 ~]$ podman login -u ocp-user -p password --tls-verify=false astra-registry.apps.ocp-vmw.cie.netapp.com
 ----
-. シェルスクリプトファイルを作成し、その中に以下の内容を貼り付けます。
+. シェルスクリプトファイルを作成し、次の内容を貼り付けます。
 +
 [listing]
 ----
@@ -116,7 +112,7 @@ done
 ----
 +
 
-NOTE: レジストリに信頼されていない証明書を使用している場合は、シェルスクリプトを編集し、 podman push コマンドに --tls-verify=false を使用します
+NOTE: レジストリに信頼されていない証明書を使用している場合は、シェルスクリプトを編集し、 podman push コマンドに「 --tls-verify=false 」を使用します。「 podman push $registry/ $ 」（ echo $astraalImage | sed's /^[^\\/]\\/'/')--tls-verify=false 」）。
 
 . ファイルを実行可能にします
 +
@@ -147,7 +143,7 @@ NOTE: レジストリに信頼されていない証明書を使用している�
 ----
 [netapp-user@rhel7 ~]$ docker login -u ocp-user -p password --tls-verify=false astra-registry.apps.ocp-vmw.cie.netapp.com
 ----
-. シェルスクリプトファイルを作成し、その中に以下の内容を貼り付けます。
+. シェルスクリプトファイルを作成し、次の内容を貼り付けます。
 +
 [listing]
 ----
@@ -161,7 +157,7 @@ done
 ----
 +
 
-NOTE: レジストリに信頼されていない証明書を使用している場合は、シェルスクリプトを編集して、 Docker Push コマンドの -`d Occker push $registry/$(echo $astraatImage|seds's/^[^\\/]\\/')--tls-verify=false`) を使用します
+NOTE: レジストリに信頼されていない証明書を使用している場合は、シェルスクリプトを編集し、 Docker Push コマンド「 d Occker push $registry/ $ 」（ echo $astraalImage | sed 's/^[^\\/]\\/'/' ） --tls-verify=false' を使用します。
 
 . ファイルを実行可能にします
 +
@@ -179,7 +175,7 @@ NOTE: レジストリに信頼されていない証明書を使用している�
 
 --
 ====
-. 次の手順では、イメージレジストリ TLS 証明書を OpenShift ノードにアップロードします。そのためには、 TLS 証明書を使用して OpenShift -config ネームスペースに ConfigMap を作成し、クラスタイメージ設定にパッチを適用して証明書を信頼できるようにします。
+. 次に、イメージレジストリ TLS 証明書を OpenShift ノードにアップロードします。そのためには、 TLS 証明書を使用して OpenShift -config ネームスペースに ConfigMap を作成し、クラスタイメージ構成にパッチを適用して証明書を信頼できるようにします。
 +
 [listing]
 ----
@@ -189,7 +185,7 @@ NOTE: レジストリに信頼されていない証明書を使用している�
 ----
 +
 
-NOTE: ルートを含む入力オペレータからのデフォルト TLS 証明書で OpenShift 内部レジストリを使用している場合でも、上記の手順に従って、証明書をルートホスト名にパッチする必要があります。入力オペレータから証明書を抽出するには、コマンド -`oc extract secret/router-ca --keys=tls.crt-n OpenShift ingress-operator` を使用します
+NOTE: ルートとともに入力オペレータからのデフォルト TLS 証明書を含む OpenShift 内部レジストリを使用している場合は、前の手順に従って、ルートホスト名に証明書をパッチする必要があります。入力オペレータから証明書を抽出するには、コマンド「 oc extract secret/router-ca --keys=tls.crt-n OpenShift ingress-operator 」を使用します。
 
 . Astra Control Center Operator をインストールするための名前空間 NetApp-acc-operator を作成します。
 +
@@ -204,7 +200,7 @@ NOTE: ルートを含む入力オペレータからのデフォルト TLS 証明
 [netapp-user@rhel7 ~]$ oc create secret docker-registry astra-registry-cred --docker-server=astra-registry.apps.ocp-vmw.cie.netapp.com --docker-username=ocp-user --docker-password=password -n netapp-acc-operator
 secret/astra-registry-cred created
 ----
-. Astra Control Center Operator CR 'Astra_control_center_deployment.yaml ' を編集します Astra Control Center は ' すべてのリソースを配備しますオペレータ CR で、「 accoperator-controller-manager 」の展開定義を検索し、レジストリの FQDN と、イメージをレジストリにプッシュする際に指定した組織名を入力します（この例では astra-registry.apps.ocp-vmw.cie.netapp.com/netapp-astra ）。 テキスト「 [ あなたの .registry.goes .here] 」を置き換え、先ほど作成した秘密の名前を入力します。オペレータのその他の詳細を確認し、保存して閉じます。
+. Astra Control Center Operator CR 'Astra_control_center_deployment.yaml ' を編集します Astra Control Center は ' すべてのリソースを配備しますオペレータ CR で 'acc-operator-controller-managor' の配備定義を検索し ' イメージをレジストリにプッシュする際に指定した組織名とともに ' レジストリの FQDN を入力します ( この例では astra-registry.apps.ocp-vmw.cie.netapp.com/netapp-astra` ) テキスト「 [ あなたの .registry.goes .here] 」を置き換え、先ほど作成した秘密の名前を入力します。オペレータのその他の詳細を確認し、保存して閉じます。
 +
 [listing]
 ----
@@ -289,7 +285,7 @@ spec:
 [netapp-user@rhel7 ~]$ oc create ns netapp-astra-cc
 namespace/netapp-astra-cc created
 ----
-. その名前空間でイメージレジストリにアクセスするためのシークレットを作成します。
+. その名前空間のイメージレジストリにアクセスするためのシークレットを作成します。
 +
 [listing]
 ----
@@ -297,7 +293,7 @@ namespace/netapp-astra-cc created
 
 secret/astra-registry-cred created
 ----
-. 次の手順では、 Astra Control Center CRD ファイル「 Astra_control_center_min YAML 」を編集して、 FQDN 、イメージレジストリの詳細、管理者の電子メールアドレス、およびその他の詳細を入力します。
+. Astra Control Center CRD ファイル 'Astra_control_center_min.yaml を編集し 'FQDN' イメージレジストリの詳細 ' 管理者の電子メールアドレスなどの詳細を入力します
 +
 [listing]
 ----
@@ -327,13 +323,13 @@ astracontrolcenter.astra.netapp.io/astra created
 
 
 
-NOTE: 上記のファイル「 Astra_control_center_min YAML 」は、 Astra Control Center CRD の最小バージョンです。PVC 作成時のデフォルト以外のストレージクラスの定義やメール通知用の SMTP 詳細の提供など、より詳細な制御を使用して CRD を作成する場合は、ファイル「 Astra_control_center.yaml 」を編集し、これらの詳細を入力して CRD を作成します。
+NOTE: 前のファイル「 Astra_control_center_min YAML 」は、 Astra Control Center CRD の最小バージョンです。PVC 作成時のデフォルト以外のストレージクラスを定義したり、メール通知用の SMTP の詳細を提供したりするなど、より詳細な制御を伴う CRD を作成する場合は、ファイル「 Astra_control_center.yaml 」を編集して必要な詳細を入力し、それを使用して CRD を作成します。
 
 
 
-=== インストールの手順
+=== インストールの検証
 
-. インストールが完了するまでに数分かかることがあります。NetApp-AstrA-cc ネームスペース内のすべてのポッドとサービスが稼働していることを確認します。
+. インストールが完了するまでに数分かかることがあります。NetApp-AstrA-cc' ネームスペース内のすべてのポッドとサービスが稼働していることを確認します
 +
 [listing]
 ----
@@ -354,7 +350,7 @@ NOTE: 次のメッセージが表示され、 Astra Control Center のインス�
 ----
 {"level":"info","ts":1624054318.029971,"logger":"controllers.AstraControlCenter","msg":"Successfully Reconciled AstraControlCenter in [seconds]s","AstraControlCenter":"netapp-astra-cc/astra","ae.Version":"[21.08.65]"}
 ----
-. Astra Control Center にログインするためのユーザ名は、 CRD ファイルに入力された管理者の電子メールアドレスで、パスワードは Astra Control Center UUID に付加された文字列「 ACC-」 です。次のコマンド–を実行します
+. Astra Control Center にログインするためのユーザ名は、 CRD ファイルに提供された管理者の電子メールアドレスで、パスワードは Astra Control Center UUID に付加された文字列「 ACC-` 」です。次のコマンドを実行します。
 +
 [listing]
 ----
@@ -364,9 +360,9 @@ astra   345c55a5-bf2e-21f0-84b8-b6f2bce5e95f
 ----
 +
 
-NOTE: この例では、パスワードは– "ACC-345c55a5-bf2e-21f0-84b8-b6f2bce5e95f" です
+NOTE: この例では、パスワードは「 ACC-345c55a5 -bf2e-21f0 -84b8 -b6f2bce5e95f 」です。
 
-. 次に、 CRD ファイルで指定した FQDN にアクセスして、 Astra Control Center GUI にログインします。
+. CRD ファイルで指定した FQDN にアクセスして、 Astra Control Center GUI にログインします。
 +
 image:redhat_openshift_image87.jpg["Astra Control Center ログイン"]
 
@@ -374,11 +370,11 @@ image:redhat_openshift_image87.jpg["Astra Control Center ログイン"]
 +
 image:redhat_openshift_image88.jpg["Astra Control Center の必須パスワード変更"]
 
-. Astra Control Center にユーザーを追加する場合は、「アカウント」 -> 「ユーザー」と進み、「追加」をクリックしてユーザーの詳細を入力し、「追加」をクリックします。
+. ユーザーを Astra Control Center に追加する場合は、 [ アカウント ]>[ ユーザー ] の順に選択し、 [ 追加 ] をクリックしてユーザーの詳細を入力し、 [ 追加 ] をクリックします。
 +
 image:redhat_openshift_image89.jpg["Astra Control Center でユーザを作成"]
 
-. Astra Control Center では、すべての機能が動作するためにライセンスが必要です。ライセンスを追加するには、「アカウント」 -> 「ライセンス」に移動し、「ライセンスの追加」をクリックしてライセンスファイルをアップロードします。
+. Astra Control Center では、すべての機能が動作するためにライセンスが必要です。ライセンスを追加するには、 [ アカウント ] > [ ライセンス ] の順に選択し、 [ ライセンスの追加 ] をクリックしてライセンスファイルをアップロードします。
 +
 image:redhat_openshift_image90.jpg["Astra Control Center 追加ライセンス"]
 

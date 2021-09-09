@@ -4,21 +4,21 @@ permalink: containers/rh-os-n_use_case_advanced_cluster_management_deployment.ht
 keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, ONTAP, Trident, Red Hat OpenShift, Advanced Cluster Management, Advanced Cluster Management for Kubernetes 
 summary: ネットアップを使用した Red Hat OpenShift での Kubernetes 向けの高度なクラスタ管理。 
 ---
-= Kubernetes 向けの高度なクラスタ管理の導入：ネットアップを使用した Red Hat OpenShift
+= Kubernetes 向けの高度なクラスタ管理機能を導入
 
 
 OpenShift クラスタに Kubernetes 向けの高度なクラスタ管理をインストールするには、次の手順を実行します。
 
 . OpenShift クラスタをハブクラスタとして選択し、 cluster-admin 権限でログインします。
-. [ 演算子 ] -> [ 演算子ハブ ] に移動し、「 Kubernetes の高度なクラスタ管理」を検索します。
+. Operators > Operators Hub に移動し、 Kubernetes の Advanced Cluster Management を検索します。
 +
 image::redhat_openshift_image66.jpg[ACM タイル]
 
-. 「 Advanced Cluster Management for Kubernetes 」を選択し、「 Install 」をクリックします。
+. Kubernetes の高度なクラスタ管理を選択し、インストールをクリックします。
 +
 image::redhat_openshift_image67.jpg[ACM タイルの詳細]
 
-. Install Operator （インストールオペレータ）画面で、必要な詳細情報を入力し（デフォルトパラメータのままにすることを推奨）、 Install （インストール）をクリックします。
+. Install Operator 画面で、必要な詳細情報を入力し（デフォルトのパラメータをそのまま使用することを推奨）、 Install をクリックします。
 +
 image::redhat_openshift_image68.jpg[ACM オペレータタイルを取り付ける]
 
@@ -26,23 +26,23 @@ image::redhat_openshift_image68.jpg[ACM オペレータタイルを取り付け�
 +
 image::redhat_openshift_image69.jpg[ACM オペレータのインストールが進行中です]
 
-. オペレータがインストールされたら '[Create MultiClusterHub] をクリックします
+. オペレータがインストールされたら、 Create MultiClusterHub （ MultiClusterHub の作成）をクリックします。
 +
 image::redhat_openshift_image70.jpg[ACM オペレータのマルチクラスターハブ]
 
-. [Create MultiClusterHub] 画面で、詳細を提供した後に [Create] をクリックします。これにより、マルチクラスタハブのインストールが開始されます。
+. Create MultiClusterHub （マルチクラスタハブの作成）画面で、詳細を提供した後に Create （作成）をクリックします。これにより、マルチクラスタハブのインストールが開始されます。
 +
 image::redhat_openshift_image71.jpg[マルチクラスタハブ画面を作成します]
 
-. すべてのポッドがオープンクラスタ管理ネームスペースの「 Running 」状態に移行し、オペレータが「 S ucceedededededededed' 」状態に移行すると、 Kubernetes の Advanced Cluster Management がインストールされます。
+. すべてのポッドがオープンクラスタ管理ネームスペースの running 状態に移行し、オペレータが Succeeded 状態に移行すると、 Kubernetes の Advanced Cluster Management がインストールされます。
 +
 image::redhat_openshift_image72.jpg[ACM オペレータが取り付けられている]
 
-. ハブのインストールが完了するまでにはしばらく時間がかかります。完了すると、マルチクラスタハブは「 running 」状態に移行します。
+. ハブのインストールが完了するまでにはしばらく時間がかかり、完了すると、マルチクラスタハブは running 状態に移行します。
 +
 image::redhat_openshift_image73.jpg[マルチクラスタハブ対応]
 
-. このコマンドは、オープンクラスタ管理ネームスペースにルートを作成し、ルートの URL に接続して Advanced Cluster Management コンソールにアクセスします。
+. オープンクラスタ管理ネームスペースにルートが作成されます。ルートの URL に接続して、 Advanced Cluster Management コンソールにアクセスします。
 +
 image::redhat_openshift_image74.jpg[ACM コンソールルート]
 
