@@ -2,15 +2,460 @@
 sidebar: sidebar 
 permalink: containers/rh-os-n_LB_F5BigIP.html 
 summary:  
-keywords: OpenShift, Kubernetes, F5, BigIP 
+keywords: OpenShift, Kubernetes, F5, BIG-IP, F5 CIS, F5 IPAM 
 ---
-= F5 BigIP ロードバランサのインストール
+= F5 BIG-IP ロードバランサのインストール
 
 
-このページでは、 F5 BigIP ロードバランサのインストールと設定の手順について説明します。
+F5 BIG-IP は、 L4-L7 ロードバランシング、 SSL/TLS オフロード、 DNS 、ファイアウォールなど、高度な運用レベルのトラフィック管理およびセキュリティサービスを幅広く提供する Application Delivery Controller （ ADC; アプリケーションデリバリコントローラ）です。これらのサービスにより、アプリケーションの可用性、セキュリティ、パフォーマンスが大幅に向上します。
+
+F5 BIG-IP は、専用ハードウェア、クラウド、またはオンプレミスの仮想アプライアンスに、さまざまな方法で導入、使用できます。要件に応じて F5 BIG-IP を調査し、導入するには、ここで説明しているドキュメントを参照してください。
+
+F5 BIG-IP サービスを Red Hat OpenShift と効率的に統合するために、 F5 は BIG-IP Container Ingress Service （ CIS ）を提供します。CI は、特定のカスタムリソース定義（ CRD ）の OpenShift API を監視し、 F5 BIG-IP システム構成を管理するコントローラポッドとしてインストールされます。F5 BIG-IP CIS は、 OpenShift でサービスタイプ Loadancers とルートを制御するように構成できます。
+
+さらに、タイプ LoadBalancer にサービスを提供するための自動 IP アドレス割り当てには、 F5 IPAM コントローラを使用できます。F5 IPAM コントローラは、 LoadBalancer サービスの OpenShift API を ipamLabel 注釈で監視し、事前構成済みプールから IP アドレスを割り当てるコントローラポッドとしてインストールされます。
+
+このページには、 F5 BIG-IP CIS および IPAM コントローラのインストールおよび設定手順がリストされています。前提条件として、 F5 BIG-IP システムを導入し、ライセンスを取得しておく必要があります。また、デフォルトでは BIG-IP VE 基本ライセンスに含まれている SDN サービスのライセンスも必要です。
+
+
+NOTE: F5 BIG-IP は、スタンドアロンモードまたはクラスタモードで導入できます。この検証の目的上、 F5 BIG-IP はスタンドアロンモードで導入されましたが、本番環境では、単一点障害を避けるために、大量の IP で構成されたクラスタを使用することを推奨します。
+
+
+NOTE: F5 BIG-IP システムは、専用のハードウェア、クラウド、またはオンプレミスの仮想アプライアンスとして、バージョンが 12.x よりも大きいオンプレミスに導入でき、 F5 CIS と統合できます。このドキュメントでは、 BIG-IP VE エディションなどを使用して、 F5 BIG-IP システムを仮想アプライアンスとして検証しました。
 
 
 
-== F5 BigIP ロードバランサのインストール
+== 検証済みのリリース
+
+|===
+
+
+| テクノロジ | ソフトウェアのバージョン 
+
+
+| Red Hat OpenShift のサービスです | 4.6 EUS 、 4.7 
+
+
+| F5 BIG-IP VE エディション | 16.1.0 
+
+
+| F5 Container Ingress Service の略 | 2.5.1 
+
+
+| F5 IPAM コントローラ | 0.1.4 
+
+
+| F5 AS3 | 3.30.0 
+|===
+
+
+== インストール
+
+. F5 Application Services 3 拡張機能をインストールして、 big-IP システムが命令コマンドではなく JSON で構成を受け入れるようにします。に進みます https://github.com/F5Networks/f5-appsvcs-extension/releases["F5 AS3 GitHub リポジトリ"^]をクリックし、最新の RPM ファイルをダウンロードします。
+. F5 BIG-IP システムにログインし、 iApps > Package Management LX に移動して、 Import （インポート）をクリックします。
+. [ ファイルの選択 ] をクリックして、ダウンロードした AS3 RPM ファイルを選択し、 [OK] をクリックして、 [ アップロード ] をクリックします。
++
+image:redhat_openshift_image109.jpg["iApps のアップロード"]
+
+. AS3 拡張機能が正常にインストールされたことを確認します。
++
+image:redhat_openshift_image110.jpg["AS3 インストールの検証です"]
+
+. 次に、 OpenShift システムと BIG-IP システム間の通信に必要なリソースを構成します。まず、 OpenShift SDN のための BIG-IP システムに VXLAN トンネルインターフェイスを作成し、 OpenShift と BIG-IP サーバ間にトンネルを作成します。Network > Tunnels > Profiles と進み、 Create をクリックして Parent Profile を VXLAN に設定し、フラッディング Type を Multicast に設定します。プロファイルの名前を入力し、 [ 完了 ] をクリックします。
++
+image:redhat_openshift_image111.jpg["VXLAN プロファイルを作成する"]
+
+. Network > Tunnels > Tunnel List と進み、 Create をクリックして、トンネルの名前とローカル IP アドレスを入力します。前の手順で作成したトンネルプロファイルを選択し、 [ 完了 ] をクリックします。
++
+image:redhat_openshift_image112.jpg["VXLAN トンネルを作成します"]
+
+. クラスタ管理者権限で Red Hat OpenShift クラスタにログインします。
+. F5 BIG-IP サーバの OpenShift にホストサブネットを作成します。このサブネットは、 OpenShift クラスタから F5 BIG-IP サーバに拡張します。ホストサブネット YAML 定義をダウンロードします。
++
+[source, cli]
+----
+wget https://github.com/F5Networks/k8s-bigip-ctlr/blob/master/docs/config_examples/openshift/f5-kctlr-openshift-hostsubnet.yaml
+----
+. ホストサブネットファイルを編集し、 OpenShift SDN の BIG-IP VTEP （ VXLAN トンネル） IP を追加します。
++
+[source, cli]
+----
+apiVersion: v1
+kind: HostSubnet
+metadata:
+  name: f5-server
+  annotations:
+    pod.network.openshift.io/fixed-vnid-host: "0"
+    pod.network.openshift.io/assign-subnet: "true"
+# provide a name for the node that will serve as BIG-IP's entry into the cluster
+host: f5-server
+# The hostIP address will be the BIG-IP interface address routable to the
+# OpenShift Origin nodes.
+# This address is the BIG-IP VTEP in the SDN's VXLAN.
+hostIP: 10.63.172.239
+----
++
+
+NOTE: ご使用の環境に応じて、 hostIP などの詳細情報を変更します。
+
+. HostSubnet リソースを作成します。
++
+[listing]
+----
+[admin@rhel-7 ~]$ oc create -f f5-kctlr-openshift-hostsubnet.yaml
+
+hostsubnet.network.openshift.io/f5-server created
+----
+. F5 BIG-IP サーバ用に作成されたホストサブネットのクラスタ IP サブネット範囲を取得します。
++
+[listing]
+----
+[admin@rhel-7 ~]$ oc get hostsubnet
+
+NAME                         HOST                         HOST IP         SUBNET          EGRESS CIDRS   EGRESS IPS
+f5-server                    f5-server                    10.63.172.239   10.131.0.0/23
+ocp-vmw-nszws-master-0       ocp-vmw-nszws-master-0       10.63.172.44    10.128.0.0/23
+ocp-vmw-nszws-master-1       ocp-vmw-nszws-master-1       10.63.172.47    10.130.0.0/23
+ocp-vmw-nszws-master-2       ocp-vmw-nszws-master-2       10.63.172.48    10.129.0.0/23
+ocp-vmw-nszws-worker-r8fh4   ocp-vmw-nszws-worker-r8fh4   10.63.172.7     10.130.2.0/23
+ocp-vmw-nszws-worker-tvr46   ocp-vmw-nszws-worker-tvr46   10.63.172.11    10.129.2.0/23
+ocp-vmw-nszws-worker-wdxhg   ocp-vmw-nszws-worker-wdxhg   10.63.172.24    10.128.2.0/23
+ocp-vmw-nszws-worker-wg8r4   ocp-vmw-nszws-worker-wg8r4   10.63.172.15    10.131.2.0/23
+ocp-vmw-nszws-worker-wtgfw   ocp-vmw-nszws-worker-wtgfw   10.63.172.17    10.128.4.0/23
+----
+. F5 BIG-IP サーバに対応する OpenShift のホストサブネット範囲の IP を使用して、 VXLAN OpenShift 上に自己 IP を作成します。F5 BIG-IP システムにログインし、 [ ネットワーク ]>[ 自己 IP ] の順に選択し、 [ 作成 ] をクリックします。F5 BIG-IP ホストサブネット用に作成されたクラスタ IP サブネットから IP を入力し、 VXLAN トンネルを選択して、その他の詳細を入力します。[ 完了 ] をクリックします。
++
+image:redhat_openshift_image113.jpg["VXLAN 用に自己 IP を作成する"]
+
+. CIS で設定および使用する F5 BIG-IP システムにパーティションを作成します。[ システム ]>[ ユーザ ]>[ パーティションリスト ] の順に選択し、 [ 作成 ] をクリックして詳細を入力します。[ 完了 ] をクリックします。
++
+image:redhat_openshift_image114.jpg["BIG-IP パーティションを作成します"]
+
++
+
+NOTE: CIS で管理されるパーティションでは手動で設定しないことをお勧めします。
+
+. OperatorHub のオペレータを使用して F5 BIG-IP CIS をインストールします。cluster-admin 権限を持つ Red Hat OpenShift クラスタにログインし、 F5 BIG-IP システムログインクレデンシャルを使用してシークレットを作成します。これはオペレータの前提条件です。
++
+[listing]
+----
+[admin@rhel-7 ~]$ oc create secret generic bigip-login -n kube-system --from-literal=username=admin --from-literal=password=admin
+
+secret/bigip-login created
+----
+. F5 CIS CRD をインストールします。
++
+[listing]
+----
+[admin@rhel-7 ~]$ oc apply -f https://raw.githubusercontent.com/F5Networks/k8s-bigip-ctlr/master/docs/config_examples/crd/Install/customresourcedefinitions.yml
+
+customresourcedefinition.apiextensions.k8s.io/virtualservers.cis.f5.com created
+customresourcedefinition.apiextensions.k8s.io/tlsprofiles.cis.f5.com created
+customresourcedefinition.apiextensions.k8s.io/transportservers.cis.f5.com created
+customresourcedefinition.apiextensions.k8s.io/externaldnss.cis.f5.com created
+customresourcedefinition.apiextensions.k8s.io/ingresslinks.cis.f5.com created
+----
+. [ 演算子 ]>[ 演算子ハブ ] に移動し、キーワード F5 を検索して、 F5 Container Ingress Service タイルをクリックします。
++
+image:redhat_openshift_image115.jpg["オペレータハブに F5 CIS を配置します"]
+
+. オペレータ情報を読み、 [ インストール ] をクリックします。
++
+image:redhat_openshift_image116.jpg["OperatorHub の F5 CIS 情報タイル"]
+
+. Install Operator （オペレータのインストール）画面で、デフォルトのパラメータをすべてそのままにして、 Install （インストール）をクリックします。
++
+image:redhat_openshift_image117.jpg["F5 CIS オペレータをインストールします"]
+
+. オペレータのインストールには時間がかかります。
++
+image:redhat_openshift_image118.jpg["F5 CIS オペレータインストールの進行状況"]
+
+. オペレータがインストールされると、「 Installation Successful 」というメッセージが表示されます。
+. [ 演算子 ]>[ インストールされている演算子 ] に移動し、 [F5BigIpCtlr ] タイルの下にある [F5 Container Ingress Service] をクリックして、 [ インスタンスの作成 ] をクリックします。
++
+image:redhat_openshift_image119.jpg["F5BigIpCtlr を作成します"]
+
+. YAML View をクリックし、必要なパラメータを更新した後で次の内容を貼り付けます。
++
+
+NOTE: 以下のパラメータ「 bigip_dpartition 」、「 OpenShift 」 SDN_NAME 」、「 bigip_url 」、「 bigip_login_secret 」を更新して、内容をコピーする前にセットアップの値を反映させます。
+
++
+[listing]
+----
+apiVersion: cis.f5.com/v1
+kind: F5BigIpCtlr
+metadata:
+  name: f5-server
+  namespace: openshift-operators
+spec:
+  args:
+    log_as3_response: true
+    agent: as3
+    log_level: DEBUG
+    bigip_partition: ocp-vmw
+    openshift_sdn_name: /Common/openshift_vxlan
+    bigip_url: 10.61.181.19
+    insecure: true
+    pool-member-type: cluster
+    custom_resource_mode: true
+    as3_validation: true
+    ipam: true
+    manage_configmaps: true
+  bigip_login_secret: bigip-login
+  image:
+    pullPolicy: Always
+    repo: f5networks/cntr-ingress-svcs
+    user: registry.connect.redhat.com
+  namespace: kube-system
+  rbac:
+    create: true
+  resources: {}
+  serviceAccount:
+    create: true
+  version: latest
+----
+. このコンテンツを貼り付けたら、 [ 作成 ] をクリックします。これにより、 CIS ポッドが kube-system 名前空間にインストールされます。
++
+image:redhat_openshift_image120.jpg["F5 CIS ポッドを検証します"]
+
++
+
+NOTE: Red Hat OpenShift は、デフォルトで、 L7 ロードバランシングのルートを介してサービスを公開する方法を提供します。組み込みの OpenShift ルータは、これらのルートのトラフィックのアドバタイズと処理を行います。ただし、外部 F5 BIG-IP システムを介してルートをサポートするように F5 CIS を構成することもできます。このシステムは、補助ルータとして実行することも、自己ホスト型 OpenShift ルータに代わるものでもあります。CIS は、 OpenShift ルートのルータとして機能する BIG-IP システムに仮想サーバを作成し、 BIG-IP はアドバタイズメントとトラフィックルーティングを処理します。この機能を有効にするためのパラメータについては、次のドキュメントを参照してください。これらのパラメータは、 APPS/v1 API の OpenShift Deployment リソースに対して定義されています。したがって、 F5BigIpCtlr リソース cis.f5.com/v1 API でこれらを使用する場合は、パラメータ名にハイフン (-) をアンダースコア (_) に置き換えます。
+
+. CIS リソースの作成に渡される引数には 'IPAM:true' と 'custom_resource_mode:true' がありますこれらのパラメータは 'IPAM コントローラとの CIS 統合を有効にするために必要ですF5 IPAM リソースを作成して 'CIS で IPAM 統合が有効になっていることを確認します
++
+[listing]
+----
+[admin@rhel-7 ~]$ oc get f5ipam -n kube-system
+
+NAMESPACE   NAME                       	 	AGE
+kube-system   ipam.10.61.181.19.ocp-vmw  	 43s
+----
+. F5 IPAM コントローラに必要なサービスアカウント、ロール、およびロールバインドを作成します。YAML ファイルを作成し、次の内容を貼り付けます。
++
+[listing]
+----
+[admin@rhel-7 ~]$ vi f5-ipam-rbac.yaml
+
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: ipam-ctlr-clusterrole
+rules:
+  - apiGroups: ["fic.f5.com"]
+    resources: ["ipams","ipams/status"]
+    verbs: ["get", "list", "watch", "update", "patch"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: ipam-ctlr-clusterrole-binding
+  namespace: kube-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: ipam-ctlr-clusterrole
+subjects:
+  - apiGroup: ""
+    kind: ServiceAccount
+    name: ipam-ctlr
+    namespace: kube-system
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ipam-ctlr
+  namespace: kube-system
+----
+. リソースを作成します。
++
+[listing]
+----
+[admin@rhel-7 ~]$ oc create -f f5-ipam-rbac.yaml
+
+clusterrole.rbac.authorization.k8s.io/ipam-ctlr-clusterrole created
+clusterrolebinding.rbac.authorization.k8s.io/ipam-ctlr-clusterrole-binding created
+serviceaccount/ipam-ctlr created
+----
+. YAML ファイルを作成し、下記の F5 IPAM 展開定義を貼り付けます。
++
+
+NOTE: 以下の spec.template.spec.containers [0] の ip-range パラメータを更新して、設定に対応する ipamLabel と IP アドレス範囲を反映させます。
+
++
+
+NOTE: IPAM コントローラが定義された範囲から IP アドレスを検出して割り当てるには 'ipamLabels[`range1' および range2` を以下の例に示します ] が 'LoadBalancer 型のサービスに注釈を付ける必要があります
+
++
+[listing]
+----
+[admin@rhel-7 ~]$ vi f5-ipam-deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: f5-ipam-controller
+  name: f5-ipam-controller
+  namespace: kube-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: f5-ipam-controller
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: f5-ipam-controller
+    spec:
+      containers:
+      - args:
+        - --orchestration=openshift
+        - --ip-range='{"range1":"10.63.172.242-10.63.172.249", "range2":"10.63.170.111-10.63.170.129"}'
+        - --log-level=DEBUG
+        command:
+        - /app/bin/f5-ipam-controller
+        image: registry.connect.redhat.com/f5networks/f5-ipam-controller:latest
+        imagePullPolicy: IfNotPresent
+        name: f5-ipam-controller
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: ipam-ctlr
+      serviceAccountName: ipam-ctlr
+----
+. F5 IPAM コントローラ配置を作成します。
++
+[listing]
+----
+[admin@rhel-7 ~]$ oc create -f f5-ipam-deployment.yaml
+
+deployment/f5-ipam-controller created
+----
+. F5 IPAM コントローラポッドが実行されていることを確認します。
++
+[listing]
+----
+[admin@rhel-7 ~]$ oc get pods -n kube-system
+
+NAME                                       READY   STATUS    RESTARTS   AGE
+f5-ipam-controller-5986cff5bd-2bvn6        1/1     Running   0          30s
+f5-server-f5-bigip-ctlr-5d7578667d-qxdgj   1/1     Running   0          14m
+----
+. F5 IPAM スキーマを作成します。
++
+[listing]
+----
+[admin@rhel-7 ~]$ oc create -f https://raw.githubusercontent.com/F5Networks/f5-ipam-controller/main/docs/_static/schemas/ipam_schema.yaml
+
+customresourcedefinition.apiextensions.k8s.io/ipams.fic.f5.com
+----
+
+
+
+
+== 検証
+
+. LoadBalancer タイプのサービスを作成します
++
+[listing]
+----
+[admin@rhel-7 ~]$ vi example_svc.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    cis.f5.com/ipamLabel: range1
+  labels:
+    app: f5-demo-test
+  name: f5-demo-test
+  namespace: default
+spec:
+  ports:
+  - name: f5-demo-test
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: f5-demo-test
+  sessionAffinity: None
+  type: LoadBalancer
+----
++
+[listing]
+----
+[admin@rhel-7 ~]$ oc create -f example_svc.yaml
+
+service/f5-demo-test created
+----
+. IPAM コントローラが外部 IP を割り当てるかどうかを確認します。
++
+[listing]
+----
+[admin@rhel-7 ~]$ oc get svc
+
+NAME           TYPE           CLUSTER-IP       EXTERNAL-IP                            PORT(S)        AGE
+f5-demo-test   LoadBalancer   172.30.210.108   10.63.172.242                          80:32605/TCP   27s
+----
+. 導入環境を作成し、作成した LoadBalancer サービスを使用します。
++
+[listing]
+----
+[admin@rhel-7 ~]$ vi example_deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: f5-demo-test
+  name: f5-demo-test
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: f5-demo-test
+  template:
+    metadata:
+      labels:
+        app: f5-demo-test
+    spec:
+      containers:
+      - env:
+        - name: service_name
+          value: f5-demo-test
+        image: nginx
+        imagePullPolicy: Always
+        name: f5-demo-test
+        ports:
+        - containerPort: 80
+          protocol: TCP
+----
++
+[listing]
+----
+[admin@rhel-7 ~]$ oc create -f example_deployment.yaml
+
+deployment/f5-demo-test created
+----
+. ポッドが実行されているかどうかを確認します。
++
+[listing]
+----
+[admin@rhel-7 ~]$ oc get pods
+
+NAME                            READY   STATUS    RESTARTS   AGE
+f5-demo-test-57c46f6f98-47wwp   1/1     Running   0          27s
+f5-demo-test-57c46f6f98-cl2m8   1/1     Running   0          27s
+----
+. 対応する仮想サーバが、 OpenShift の LoadBalancer タイプのサービス用に BIG-IP システムに作成されているかどうかを確認します。Local Traffic > Virtual Servers > Virtual Server List の順に選択します。
++
+image:redhat_openshift_image121.jpg["対応するサービスタイプの LoadBalancer 用の BIG-IP 仮想サーバの作成を検証します"]
+
+
 
 link:rh-os-n_use_cases.html["次：解決策の検証 / ユースケース：ネットアップを使用した Red Hat OpenShift 。"]

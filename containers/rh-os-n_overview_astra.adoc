@@ -343,7 +343,7 @@ NOTE: 前のファイル「 Astra_control_center_min YAML 」は、 Astra Contro
 ----
 +
 
-NOTE: 次のメッセージが表示され、 Astra Control Center のインストールが正常に完了したことが示されます
+NOTE: 次のメッセージは、 Astra Control Center のインストールが正常に完了したことを示します。
 
 +
 [listing]
@@ -362,7 +362,20 @@ astra   345c55a5-bf2e-21f0-84b8-b6f2bce5e95f
 
 NOTE: この例では、パスワードは「 ACC-345c55a5 -bf2e-21f0 -84b8 -b6f2bce5e95f 」です。
 
-. CRD ファイルで指定した FQDN にアクセスして、 Astra Control Center GUI にログインします。
+. traefik サービスのロードバランサ IP を取得します。
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ oc get svc -n netapp-astra-cc | egrep 'EXTERNAL|traefik'
+
+NAME                                       TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                                                   AGE
+traefik                                    LoadBalancer   172.30.99.142    10.61.186.181   80:30343/TCP,443:30060/TCP                                                16m
+----
+. Astra Control Center CRD ファイルに指定された FQDN を指す DNS サーバーのエントリを、 traefik サービスの「 external-IP 」に追加します。
++
+image:redhat_openshift_image122.jpg["ACC GUI の DNS エントリを追加します"]
+
+. Astra Control Center GUI にログインするには、 FQDN にアクセスします。
 +
 image:redhat_openshift_image87.jpg["Astra Control Center ログイン"]
 
@@ -374,7 +387,7 @@ image:redhat_openshift_image88.jpg["Astra Control Center の必須パスワー�
 +
 image:redhat_openshift_image89.jpg["Astra Control Center でユーザを作成"]
 
-. Astra Control Center では、すべての機能が動作するためにライセンスが必要です。ライセンスを追加するには、 [ アカウント ] > [ ライセンス ] の順に選択し、 [ ライセンスの追加 ] をクリックしてライセンスファイルをアップロードします。
+. Astra Control Center では、すべての機能が動作するためにライセンスが必要です。ライセンスを追加するには、 ［ アカウント ］ > ［ ライセンス ］ の順に選択し、 ［ ライセンスの追加 ］ をクリックして、ライセンスファイルをアップロードします。
 +
 image:redhat_openshift_image90.jpg["Astra Control Center 追加ライセンス"]
 
