@@ -1,0 +1,39 @@
+---
+sidebar: sidebar 
+permalink: virtualization/vsphere_auto_introduction.html 
+keywords: vSphere, cloud, hybrid cloud, AWS, Azure, Google cloud, snapmirror cloud, cloud backup service, Cloud Sync, FabricPool, ONTAP 
+summary: このページでは、 VMware vSphere 環境で ONTAP の基本機能を自動化するメリットについて説明します。 
+---
+= ONTAP と vSphere の自動化の概要
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== VMware の自動化
+
+VMware ESX の最初の日から VMware 環境を管理するには、自動化が不可欠です。インフラをコードとして導入し、手法をプライベートクラウドの運用に拡張できるため、拡張性、柔軟性、自己プロビジョニング、効率性に関する懸念を軽減できます。
+
+自動化は、次のカテゴリに分類できます。
+
+* * 仮想インフラストラクチャの導入 *
+* * ゲストマシンの操作 *
+* * クラウド運用 *
+
+
+インフラの自動化に関して、管理者にはさまざまなオプションがあります。ホストプロファイルやカスタマイズ仕様などのネイティブ vSphere 機能を使用して、 VMware ソフトウェアコンポーネント、オペレーティングシステム、ネットアップストレージシステムで使用可能な API に仮想マシンを追加することで、重要なドキュメントやガイダンスを利用できます。
+
+Data ONTAP 8.0.1 以降では、 ESX 4.1 以降を実行する ESX ホストで、 VMware vSphere APIs for Array Integration （ VAAI ）の特定の機能がサポートされます。VAAI は、 VMware vSphere ESXi ホストとストレージデバイス間の通信を可能にする一連の API です。これらの機能を使用すると、 ESX ホストからストレージシステムに処理の負荷をオフロードし、ネットワークスループットを向上させることができます。これらの機能は、正しい環境の ESX ホストで自動的に有効になります。VAAI 機能を使用している範囲は、 VAAI カウンタに含まれる統計情報で確認できます。
+
+VMware 環境の導入を自動化するための最も一般的な開始点は、ブロックベースまたはファイルベースのデータストアのプロビジョニングです。対応する自動化を開発する前に、実際のタスクの要件を確認することが重要です。
+
+VMware 環境の自動化の詳細については、次のリソースを参照してください。
+
+* https://netapp.io/configuration-management-and-automation/["NetApp Pub"^]。ネットアップの構成管理と自動化：
+* https://galaxy.ansible.com/community/vmware["VMware 向けの Ansible Galaxy Community"^]。VMware 向けの Ansible リソースの集まり。
+* https://code.vmware.com/resources["VMware ｛ code ｝ のリソース"^]。フォーラム、設計基準、サンプルコード、開発者ツールなど、ソフトウェア定義データセンターのソリューションを設計するために必要なリソース。
+

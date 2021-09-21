@@ -1,0 +1,92 @@
+---
+sidebar: sidebar 
+permalink: virtualization/vsphere_ontap_ontap_capabilities_for_vsphere.html 
+keywords: protocols, licensing, virtualization, NFS Plug-In for VMware VAAI, VASA Provider, Storage Replication Adapter 
+summary: ONTAP は、仮想化に使用されるすべての主要なストレージプロトコルをサポートしています。たとえば、 SAN 環境向けの iSCSI 、 Fibre Channel （ FC ）、 Fibre Channel over Ethernet （ FCoE ）、 Non-Volatile Memory Express over Fibre Channel （ NVMe/FC ）、ゲスト接続用の NFS （ v3 および v4.1 ）、 SMB または S3 などです。お客様は、環境に最適なものを自由に選択でき、必要に応じてプロトコルを 1 つのシステムで組み合わせることができます。 
+---
+= vSphere 向けの ONTAP 機能
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== プロトコル
+
+ONTAP は、仮想化に使用されるすべての主要なストレージプロトコルをサポートしています。たとえば、 SAN 環境向けの iSCSI 、 Fibre Channel （ FC ）、 Fibre Channel over Ethernet （ FCoE ）、 Non-Volatile Memory Express over Fibre Channel （ NVMe/FC ）、ゲスト接続用の NFS （ v3 および v4.1 ）、 SMB または S3 などです。お客様は、自社の環境に最適なものを自由に選び、 1 つのシステム上で必要に応じてプロトコルを組み合わせることができます（たとえば、 NFS データストアの一般的な使用方法を、いくつかの iSCSI LUN やゲスト共有で強化できます）。
+
+
+
+== の機能
+
+仮想ワークロードの管理に役立つ ONTAP の機能が多数あります。追加の製品ライセンスが必要な製品も、次のセクションで説明します。スタンドアロンツールとしてパッケージ化されたものもあれば、 ONTAP 向けのものもあれば、ネットアップポートフォリオ全体のパッケージ化されたものもあります。
+
+ONTAP の基本機能の詳細は、以下のとおりです。
+
+* * ネットアップの Snapshot コピー。 * ONTAP は、 Snapshot コピーの作成時や使用時にパフォーマンスに影響を与えることなく、 VM やデータストアの Snapshot コピーを瞬時に作成できます。パッチの適用前またはシンプルなデータ保護のために、 VM のリストアポイントを作成する際に使用できます。これらは VMware （整合性）スナップショットとは異なります。ONTAP の Snapshot コピーを作成する最も簡単な方法は、 SnapCenter Plug-in for VMware vSphere を使用して VM とデータストアをバックアップすることです。
+* * Storage Efficiency 。 * ONTAP は、インラインおよびバックグラウンドの重複排除と圧縮、ゼロブロック重複排除、データコンパクションをサポートしています。
+* * ボリュームと LUN の移動。 * ONTAP クラスタ内の vSphere データストアと VVOL をサポートするボリュームや LUN を無停止で移動できます。これにより、パフォーマンスと容量のバランスを取り、無停止での保守とアップグレードをサポートできます。
+* * QoS により、個々の LUN 、ボリューム、またはファイルのパフォーマンスを管理できます。この機能を使用すると、不明な VM や Bully VM を制限したり、重要な VM に十分なパフォーマンスリソースを確保したりできます。
+* * NetApp Volume Encryption 、 NetApp Aggregate Encryption 。 * ネットアップの暗号化オプションは、ソフトウェアベースで簡単に保存データを保護します。
+* * FabricPool 。 * この機能は、コールドデータをブロックレベルで自動的に別のオブジェクトストアに階層化し、高価なフラッシュストレージを解放します。
+* * REST 、 Ansible * https://devnet.netapp.com/restapi["ONTAP REST API"^] ストレージとデータの管理を自動化するには、を参照してください ONTAP システムの構成を管理します。 ONTAP の一部の機能は vSphere のワークロードには適していません。たとえば、 ONTAP 9.8 より前の FlexGroup では完全なクローニングはサポートされておらず、 vSphere ではテストされていません（ vSphere での使用に関する最新情報については、「 FlexGroup 」の項を参照してください）。FlexCache は、読み取り主体のワークロード向けに設計されているため、 vSphere にも最適ではありません。キャッシュが元のボリュームから切断されていると、両方の側で NFS データストアエラーが発生する場合があります。
+
+
+
+
+== ONTAP ライセンス
+
+仮想ワークロードの管理に役立つ ONTAP の一部の機能には、追加コストなし、ライセンスバンドル内、個別選択のいずれでも、追加ライセンスが必要です。多くのお客様にとって、最もコスト効率の高いアプローチはライセンスバンドルです。vSphere と関連する主なライセンスとその使用方法は次のとおりです。
+
+* * FlexClone 。 * FlexClone を使用すると、 ONTAP のボリュームやファイルのクローンを、スペース効率に優れた方法で瞬時に作成できます。このクローニングは、 VMware vSphere Storage API – Array Integration （ VAAI ）によって処理がストレージシステムにオフロードされる場合、バックアップ検証とリカバリ（ SnapCenter ソフトウェア）、および VVOL のクローニングと Snapshot コピーに使用されます。使用方法は次のとおりです。
++
+** VAAI はオフロードコピー用の ONTAP でサポートされており、 vSphere のクローニング処理と移行（ Storage vMotion ）処理をサポートしています。FlexClone ライセンスは NetApp FlexVol ボリューム内に高速クローンを作成できますが、ライセンスがない場合でも、低速のブロックコピーを使用してクローンを作成できます。
+** VVol 機能を使用するには、 FlexClone ライセンスが必要です。この機能を使用すると、 1 つのデータストア内またはデータストア間で VVol をクローニングできます。また、 vSphere で管理される VVol の Snapshot コピーを、ストレージシステムにオフロードして実行できます。
+
+
+* ストレージレプリケーションアダプタ（ SRA ）は VMware Site Recovery Manager で使用されます。また、 NAS 環境と SAN 環境の両方でリカバリをテストするには、 FlexClone ライセンスが必要です。検出、リカバリ、再保護のワークフローについては、 FlexClone なしで SRA を使用できます。
+* * SnapRestore 。 * SnapRestore テクノロジにより、データをコピーすることなく、ボリュームをインプレースで瞬時にリカバリできます。この機能は、 SnapCenter などのネットアップのバックアップおよびリカバリツールで必要です。 を使用して、検証およびリストア処理用にデータストアをマウントします。
+* * SnapMirror 。 * SnapMirror テクノロジにより、オンプレミスとクラウドの ONTAP システム間で、シンプルで高速なデータレプリケーションを実現できます。SnapMirror は、バージョンに依存しない論理レプリケーションをサポートしています。ブロックレプリケーションのパフォーマンスにより、変更されたデータのみがセカンダリシステムに送信されます。データはミラーポリシーやバックアップポリシーで保護できるため、ディザスタリカバリだけでなく、バックアップの長期データ保持にも対応できます。SnapMirror は、非同期関係と同期関係をサポートしています。 ONTAP 9.8 では、 SnapMirror のビジネス継続性機能を使用して、透過的なアプリケーションフェイルオーバーが実現します。
++
+SnapMirror は Site Recovery Manager を使用した SRA レプリケーションに必要です。また、 SnapCenter でセカンダリストレージシステムに Snapshot コピーをレプリケートするためにも必要です。
+
+* * SnapCenter * SnapCenter ソフトウェアは、アプリケーションと整合性のあるデータ保護とクローン管理を実現する、拡張性に優れたユニファイドプラットフォームとプラグインのスイート製品です。AFF ライセンスは、 FAS システムと SnapCenter システムのデータ保護ライセンスバンドルに含まれています。SnapCenter Plug-in for VMware vSphere は、 FAS 、 AFF 、 Cloud Volumes ONTAP 、 ONTAP Select のいずれかのストレージシステムを使用している場合に無償で提供されます。ただし、 SnapRestore と FlexClone のライセンスが必要です。
+* * MetroCluster 。 * NetApp MetroCluster は、キャンパスエリアまたはメトロポリタンエリアにおける高可用性とディザスタリカバリを組み合わせた同期レプリケーション解決策で、サイト障害とハードウェア停止の両方からシステムを保護します。データ損失ゼロ（ RPO ゼロ）と高速リカバリ（ RTO が数分以内）で、障害からの透過的なリカバリを実現します。vSphere 環境では、 vSphere Metro Storage Cluster 構成の一部として使用されます。
+
+
+
+
+== ONTAP の仮想化ツール
+
+ネットアップでは、 ONTAP および vSphere と組み合わせて使用し、仮想環境を管理できるスタンドアロンのソフトウェアツールをいくつか提供しています。ONTAP ライセンスには、追加コストなしで次のツールが含まれています。vSphere 環境でこれらのツールがどのように連携するかについては、図 1 を参照してください。
+
+
+
+=== VMware vSphere 用の ONTAP ツール
+
+VMware vSphere 用の ONTAP ツールは、 vSphere とともに ONTAP ストレージを使用するための一連のツールです。vCenter プラグインは、以前 Virtual Storage Console （ VSC ）と呼ばれていたもので、 SAN と NAS のどちらを使用している場合でも、ストレージ管理と効率化機能の簡易化、可用性の向上、ストレージコストと運用オーバーヘッドの削減を実現します。データストアのプロビジョニングのベストプラクティスを使用して、 NFS 環境およびブロックストレージ環境用の ESXi ホスト設定を最適化します。以上のメリットのために、ネットアップでは、 ONTAP ソフトウェアを実行しているシステムで vSphere を使用する際のベストプラクティスとして、これらの ONTAP ツールを使用することを推奨します。vCenter のサーバアプライアンスとユーザインターフェイス拡張機能の両方が含まれています。
+
+
+
+=== NFS Plug-in for VMware VAAI のこと
+
+NetApp NFS Plug-in for VMware は、 ESXi ホストが ONTAP 上の NFS データストアで VAAI 機能を使用できるようにするためのプラグインです。クローン処理、シック仮想ディスクファイル用のスペースリザベーション、 Snapshot コピーオフロードをサポートしています。コピー処理をストレージにオフロードしても、完了までの時間が必ずしも短縮されるとは限りませんが、 CPU サイクル、バッファ、キューなどのホストリソースがオフロードされます。VMware vSphere 用の ONTAP ツールを使用して、 ESXi ホストにプラグインをインストールできます。
+
+
+
+=== VASA Provider for ONTAP の略
+
+VASA Provider for ONTAP は、 VMware vStorage APIs for Storage Awareness （ VASA ）フレームワークをサポートしています。VMware vSphere 用の ONTAP ツールの一部として提供され、導入を容易にする単一の仮想アプライアンスとして提供されます。VASA Provider では、 VM ストレージのプロビジョニングと監視に役立つように vCenter Server と ONTAP を接続します。VMware Virtual Volumes （ VVol ）のサポート、ストレージ機能プロファイルと個々の VM VVol のパフォーマンスの管理、およびプロファイルの容量と準拠状況の監視用アラームが可能になります。
+
+
+
+=== Storage Replication Adapter の各サポートレベル
+
+SRA は、 VMware Site Recovery Manager （ SRM ）と一緒に使用され、本番サイトとディザスタリカバリサイト間のデータレプリケーションを管理して、 DR レプリカの無停止でのテストを行います。検出、リカバリ、再保護のタスクを自動化します。Windows SRM サーバおよび SRM アプライアンス用の SRA サーバアプライアンスと SRA アダプタの両方が含まれています。SRA は、 VMware vSphere 用の ONTAP ツールに含まれています。
+
+次の図は、 vSphere 用の ONTAP ツールを示しています。
+
+image:vsphere_ontap_image1.png["エラー：グラフィックイメージがありません"]
