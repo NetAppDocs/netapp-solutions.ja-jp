@@ -1,0 +1,488 @@
+---
+sidebar: sidebar 
+permalink: xcp/xcp-bp-cifs-data-migration-with-acls-from-a-source-storage-box-to-ontap.html 
+keywords: cifs, ontap, migration, security information 
+summary: このセクションでは、セキュリティ情報を含む CIFS データをソース ONTAP システムからターゲット CIFS システムに移行するためのステップバイステップ形式の手順について説明します。 
+---
+= ACL を使用した、ソースストレージボックスから ONTAP への CIFS データの移行
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:xcp-bp-data-migration-from-7-mode-to-ontap.html["Previous ： 7-Mode から ONTAP へのデータマイグレーションを示します。"]
+
+このセクションでは、セキュリティ情報を含む CIFS データをソース ONTAP システムからターゲット CIFS システムに移行するためのステップバイステップ形式の手順について説明します。
+
+. ターゲット ONTAP システムが正常であることを確認します。
++
+....
+C1_sti96-vsim-ucs540m_cluster::> cluster show
+Node                  Health  Eligibility
+--------------------- ------- ------------
+sti96-vsim-ucs540m    true    true
+sti96-vsim-ucs540n    true    true
+2 entries were displayed.
+C1_sti96-vsim-ucs540m_cluster::> node show
+Node      Health Eligibility Uptime        Model       Owner    Location
+--------- ------ ----------- ------------- ----------- -------- ---------------
+sti96-vsim-ucs540m
+          true   true        15 days 21:17 SIMBOX      ahammed  sti
+sti96-vsim-ucs540n
+          true   true        15 days 21:17 SIMBOX      ahammed  sti
+2 entries were displayed.
+cluster::>  storage failover show
+                              Takeover
+Node           Partner        Possible State Description
+-------------- -------------- -------- -------------------------------------
+sti96-vsim-ucs540m
+               sti96-vsim-    true     Connected to sti96-vsim-ucs540n
+               ucs540n
+sti96-vsim-ucs540n
+               sti96-vsim-    true     Connected to sti96-vsim-ucs540m
+               ucs540m
+2 entries were displayed.
+C1_sti96-vsim-ucs540m_cluster::>
+....
+. ターゲットシステムにルートではないアグリゲートが少なくとも 1 つ存在することを確認します。アグリゲートは正常な状態です。
++
+....
+cluster::*> storage aggregate show
+Aggregate     Size Available Used% State   #Vols  Nodes            RAID Status
+--------- -------- --------- ----- ------- ------ ---------------- ------------
+aggr0_sti96_vsim_ucs540o
+            7.58GB   373.3MB   95% online       1 sti96-vsim-      raid_dp,
+                                                  ucs540o          normal
+aggr0_sti96_vsim_ucs540p
+            7.58GB   373.3MB   95% online       1 sti96-vsim-      raid_dp,
+                                                  ucs540p          normal
+aggr_001   103.7GB   93.63GB   10% online       1 sti96-vsim-      raid_dp,
+                                                  ucs540p          normal
+sti96_vsim_ucs540o_aggr1
+           23.93GB   23.83GB    0% online       1 sti96-vsim-      raid_dp,
+                                                  ucs540o          normal
+sti96_vsim_ucs540p_aggr1
+           23.93GB   23.93GB    0% online       0 sti96-vsim-      raid_dp,
+                                                  ucs540p          normal
+5 entries were displayed.
+....
++
+
+NOTE: データアグリゲートがない場合は、「 storage aggr create 」コマンドを使用して新しいアグリゲートを作成します。
+
+. ターゲットクラスタシステムに SVM を作成します。
++
+....
+cluster::*> vserver create -vserver vs1 -rootvolume root_vs1 -aggregate sti96_vsim_ucs540o_aggr1 -rootvolume-security-style mixed
+
+Verify that the SVM was successfully created.
+C2_sti96-vsim-ucs540o_cluster::*>  vserver show -vserver vs1
+                                    Vserver: vs1
+                               Vserver Type: data
+                            Vserver Subtype: default
+                               Vserver UUID: f8bc54be-d91b-11e9-b99c-005056a7e57e
+                                Root Volume: root_vs1
+                                  Aggregate: sti96_vsim_ucs540o_aggr1
+                                 NIS Domain: NSQA-RTP-NIS1
+                 Root Volume Security Style: mixed
+                                LDAP Client: esisconfig
+               Default Volume Language Code: C.UTF-8
+                            Snapshot Policy: default
+                              Data Services: data-nfs, data-cifs,
+                                             data-flexcache, data-iscsi
+                                    Comment: vs1
+                               Quota Policy: default
+                List of Aggregates Assigned: -
+ Limit on Maximum Number of Volumes allowed: unlimited
+                        Vserver Admin State: running
+                  Vserver Operational State: running
+   Vserver Operational State Stopped Reason: -
+                          Allowed Protocols: nfs, cifs, fcp, iscsi, ndmp
+                       Disallowed Protocols: -
+            Is Vserver with Infinite Volume: false
+                           QoS Policy Group: -
+                        Caching Policy Name: -
+                                Config Lock: false
+             Volume Delete Retention Period: 0
+                               IPspace Name: Default
+                         Foreground Process: -
+                   Is Msid Preserved for DR: false
+Force start required to start Destination in muliple IDP fan-out case: false
+                    Logical Space Reporting: false
+                  Logical Space Enforcement: false
+....
+. デスティネーション SVM に読み書き可能な新しいデータボリュームを作成します。セキュリティ形式、言語設定、容量の要件がソースボリュームと同じであることを確認します。
++
+....
+CLUSTER CLUSTER::> vol create -vserver vs1 -volume dest_vol -aggregate aggr_001 -size 150g type RW -state online -security-style ntfs
+....
+. SMB クライアント要求を処理するデータ LIF を作成します。
++
+....
+CLUSTER::> network interface create -vserver vs1 -lif sti96-vsim-ucs540o_data1  -address 10.237.165.87 -netmask 255.255.240.0 -role data -data-protocol nfs,cifs -home-node sti96-vsim-ucs540o  -home-port e0d
+....
++
+LIF が正常に作成されたことを確認します。
+
++
+....
+cluster::*>  network interface show -vserver vs1
+            Logical    Status     Network            Current       Current Is
+Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
+----------- ---------- ---------- ------------------ ------------- ------- ----
+vs1
+            sti96-vsim-ucs540o_data1
+                         up/up    10.237.165.87/20   sti96-vsim-ucs540o
+                                                                   e0d     true
+....
+. 必要に応じて、 SVM を使用して静的ルートを作成します。
++
+....
+Network route create -vserver dest -destination 0.0.0.0/0 -gateway 10.237.160.1
+....
++
+ルートが正常に作成されたことを確認します。
+
++
+....
+cluster::*>  network route show -vserver vs1
+Vserver             Destination     Gateway         Metric
+------------------- --------------- --------------- ------
+vs1
+                    0.0.0.0/0       10.237.160.1    20
+                    ::/0            fd20:8b1e:b255:9155::1
+                                                    20
+2 entries were displayed.
+....
+. ターゲットのデータボリュームを SVM ネームスペースにマウントします。
++
+....
+CLUSTER::> volume mount -vserver vs1 -volume dest_vol  -junction-path /dest_vol -active true
+....
++
+ボリュームが正常にマウントされたことを確認します。
+
++
+....
+cluster::*> volume show -vserver vs1  -fields junction-path
+vserver volume   junction-path
+------- -------- -------------
+vs1     dest_vol /dest_vol
+vs1     root_vs1 /
+2 entries were displayed.
+Note: You can also specify the volume mount options (junction path) with the volume create command.
+....
+. ターゲット SVM で CIFS サービスを開始します。
++
+....
+cluster::*> vserver cifs start -vserver vs1
+Warning: The admin status of the CIFS server for Vserver "vs1" is already "up".
+....
++
+サービスが開始され、実行されていることを確認します。
+
++
+....
+cluster::*>
+Verify the service is started and running
+C2_sti96-vsim-ucs540o_cluster::*> cifs show
+            Server          Status    Domain/Workgroup Authentication
+Vserver     Name            Admin     Name             Style
+----------- --------------- --------- ---------------- --------------
+vs1         D60AB15C2AFC4D6 up        CTL              domain
+....
+. デフォルトのエクスポートポリシーがターゲット SVM に適用されていることを確認します。
++
+....
+CLUSTER::> vserver export-policy show -vserver dest
+Vserver          Policy Name
+---------------  -------------------
+dest             default
+....
++
+必要に応じて、ターゲット SVM 用の新しいカスタムエクスポートポリシーを作成します。
+
++
+....
+CLUSTER::> vserver export-policy create -vserver vs1 -policyname xcpexport
+....
+. CIFS クライアントへのアクセスを許可するようにエクスポートポリシールールを変更します。
++
+....
+CLUSTER::> export-policy rule modify -vserver dest -ruleindex 1 -policyname xcpexportpolicy -clientmatch 0.0.0.0/0 -rorule any -rwrule any -anon 0
+....
++
+ポリシールールが変更されたことを確認します。
+
++
+....
+cluster::*> export-policy rule show -instance
+                                    Vserver: vs1
+                                Policy Name: default
+                                 Rule Index: 1
+                            Access Protocol: any
+List of Client Match Hostnames, IP Addresses, Netgroups, or Domains: 0.0.0.0/0
+                             RO Access Rule: any
+                             RW Access Rule: any
+User ID To Which Anonymous Users Are Mapped: 65534
+                   Superuser Security Types: any
+               Honor SetUID Bits in SETATTR: true
+                  Allow Creation of Devices: true
+                 NTFS Unix Security Options: fail
+         Vserver NTFS Unix Security Options: use_export_policy
+                      Change Ownership Mode: restricted
+              Vserver Change Ownership Mode: use_export_policy
+                                  Policy ID: 12884901889
+                                    Vserver: vs1
+                                Policy Name: default
+                                 Rule Index: 2
+                            Access Protocol: any
+List of Client Match Hostnames, IP Addresses, Netgroups, or Domains: 0:0:0:0:0:0:0:0/0
+                             RO Access Rule: any
+                             RW Access Rule: any
+User ID To Which Anonymous Users Are Mapped: 65534
+                   Superuser Security Types: none
+               Honor SetUID Bits in SETATTR: true
+                  Allow Creation of Devices: true
+                 NTFS Unix Security Options: fail
+         Vserver NTFS Unix Security Options: use_export_policy
+                      Change Ownership Mode: restricted
+              Vserver Change Ownership Mode: use_export_policy
+                                  Policy ID: 12884901889
+2 entries were displayed.
+....
+. クライアントがボリュームへのアクセスを許可されていることを確認します。
++
+....
+cluster::*> export-policy check-access -vserver vs1 -volume dest_vol -client-ip 10.234.17.81 -authentication-method none -protocol cifs -access-type read-write
+                                         Policy    Policy       Rule
+Path                          Policy     Owner     Owner Type  Index Access
+----------------------------- ---------- --------- ---------- ------ ----------
+/                             default    root_vs1  volume          1 read
+/dest_vol                     default    dest_vol  volume          1 read-write
+2 entries were displayed.
+....
+. XCP がインストールされている Windows クライアントシステムに接続します。XCP のインストールパスを参照します。
++
+....
+C:\WRSHDNT>dir c:\netapp\xcp
+dir c:\netapp\xcp
+ Volume in drive C has no label.
+ Volume Serial Number is 5C04-C0C7
+ Directory of c:\netapp\xcp
+09/18/2019  09:30 AM    <DIR>          .
+09/18/2019  09:30 AM    <DIR>          ..
+06/25/2019  06:27 AM               304 license
+09/18/2019  09:30 AM    <DIR>          Logs
+09/29/2019  08:45 PM        12,143,105 xcp.exe
+               2 File(s)     12,143,409 bytes
+               3 Dir(s)  29,219,549,184 bytes free
+....
+. XCP Windows クライアント・ホスト・システムで XCP show コマンドを実行して、ソース・ノードの SMB エクスポートを照会します。
++
+....
+C:\WRSHDNT>c:\netapp\xcp\xcp show \\10.237.165.71
+c:\netapp\xcp\xcp show \\10.237.165.71
+XCP SMB 1.6; (c) 2020 NetApp, Inc.; Licensed to XXX [NetApp Inc] until Mon Dec 31 00:00:00 2029
+ Shares   Errors   Server
+      6        0            10.237.165.71
+== SMB Shares ==
+ Space   Space   Current
+ Free    Used    Connections Share Path                   Folder Path
+ 9.50GiB 4.57MiB 1           \\10.237.165.71\source_share C:\source_vol
+ 94.3MiB 716KiB  0           \\10.237.165.71\ROOTSHARE    C:\
+ 0       0       N/A         \\10.237.165.71\ipc$         N/A
+ 94.3MiB 716KiB  0           \\10.237.165.71\c$           C:\
+== Attributes of SMB Shares ==
+ Share                             Types                             Remark
+ source_share                      DISKTREE
+ test share                        DISKTREE
+ test_sh                           DISKTREE
+ ROOTSHARE                         DISKTREE             \"Share mapped to top of Vserver global namespace, created bydeux_init \"
+ ipc$                              PRINTQ,SPECIAL,IPC,DEVICE
+ c$                                SPECIAL
+== Permissions of SMB Shares ==
+ Share                             Entity                                         Type
+ source_share                      Everyone                                       Allow/Full Control
+ROOTSHARE                         Everyone                                       Allow/Full Control
+ ipc$                              Everyone                                       Allow/Full Control
+ c$                                Administrators                                 Allow/Full Control/
+....
+. コピーのために 'help' コマンドを実行します
++
+....
+C:\WRSHDNT>c:\netapp\xcp\xcp help copy
+c:\netapp\xcp\xcp help copy
+XCP SMB 1.6; (c) 2020 NetApp, Inc.; Licensed to XXX [NetApp Inc] until Mon Dec 31 00:00:00 2029
+usage: xcp copy [-h] [-v] [-parallel <n>] [-match <filter>] [-preserve-atime]
+                [-acl] [-fallback-user FALLBACK_USER]
+                [-fallback-group FALLBACK_GROUP] [-root]
+                source target
+positional arguments:
+  source
+  target
+optional arguments:
+  -h, --help            show this help message and exit
+  -v                    increase debug verbosity
+  -parallel <n>         number of concurrent processes (default: <cpu-count>)
+  -match <filter>       only process files and directories that match the
+                        filter (see `xcp help -match` for details)
+  -preserve-atime       restore last accessed date on source
+  -acl                  copy security information
+  -fallback-user FALLBACK_USER
+                        the name of the user on the target machine to receive
+                        the permissions of local (non-domain) source machine
+                        users (eg. domain\administrator)
+  -fallback-group FALLBACK_GROUP
+                        the name of the group on the target machine to receive
+                        the permissions of local (non-domain) source machine
+                        groups (eg. domain\administrators)
+  -root                 copy acl for root directorytxt
+....
+. ターゲット ONTAP システムで、「 fallback-user 」および「 fallback-group 」引数パスの値として指定する必要があるローカルユーザおよびローカルグループ名のリストを取得します。
++
+....
+cluster::*> local-user show
+  (vserver cifs users-and-groups local-user show)
+Vserver      User Name                   Full Name            Description
+------------ --------------------------- -------------------- -------------
+vs1          D60AB15C2AFC4D6\Administrator
+                                                              Built-in administrator account
+C2_sti96-vsim-ucs540o_cluster::*>  local-group show
+  (vserver cifs users-and-groups local-group show)
+Vserver        Group Name                       Description
+-------------- -------------------------------- ----------------------------
+vs1            BUILTIN\Administrators           Built-in Administrators group
+vs1            BUILTIN\Backup Operators         Backup Operators group
+vs1            BUILTIN\Guests                   Built-in Guests Group
+vs1            BUILTIN\Power Users              Restricted administrative privileges
+vs1            BUILTIN\Users                    All users
+5 entries were displayed
+....
+. ACL を持つ CIFS データをソースからターゲットに移行するには 'acl' および– fallback-user/group' オプションを指定して 'XCP copy' コマンドを実行します
++
+「 fallback-user/group 」オプションには、 Active Directory またはローカルユーザ / グループ内のターゲットシステムに存在する任意のユーザまたはグループを指定します。
+
++
+....
+C:\WRSHDNT>c:\netapp\xcp\xcp copy -acl -fallback-user D60AB15C2AFC4D6\Administrator -fallback-group BUILTIN\Users  \\10.237.165.79\source_share \\10.237.165.89\dest_share
+c:\netapp\xcp\xcp copy -acl -fallback-user D60AB15C2AFC4D6\Administrator -fallback-group BUILTIN\Users  \\10.237.165.79\source_share \\10.237.165.89\dest_share
+XCP SMB 1.6; (c) 2020 NetApp, Inc.; Licensed to XXX [NetApp Inc] until Mon Dec 31 00:00:00 2029
+753 scanned, 0 errors, 0 skipped, 0 copied, 0 (0/s), 8s
+753 scanned, 0 errors, 0 skipped, 0 copied, 0 (0/s), 13s
+753 scanned, 0 errors, 0 skipped, 0 copied, 0 (0/s), 18s
+ERROR failed to obtain fallback security principal "BUILTIN\Users". Please check if the principal with the name "BUILTIN\Users" exists on "D60AB15C2AFC4D6".
+ERROR failed to obtain fallback security principal "D60AB15C2AFC4D6\Administrator". Please check if the principal with the name "D60AB15C2AFC4D6\Administrator" exists on "D60AB15C2AFC4D6".
+ERROR failed to obtain fallback security principal "BUILTIN\Users". Please check if the principal with the name "BUILTIN\Users" exists on "D60AB15C2AFC4D6".
+ERROR failed to obtain fallback security principal "BUILTIN\Users". Please check if the principal with the name "BUILTIN\Users" exists on "D60AB15C2AFC4D6".
+ERROR failed to obtain fallback security principal "BUILTIN\Users". Please check if the principal with the name "BUILTIN\Users" exists on "D60AB15C2AFC4D6".
+753 scanned, 0 errors, 0 skipped, 0 copied, 0 (0/s), 23s
+ERROR failed to obtain fallback security principal "D60AB15C2AFC4D6\Administrator". Please check if the principal with the name "D60AB15C2AFC4D6\Administrator" exists on "D60AB15C2AFC4D6".
+ERROR failed to obtain fallback security principal "D60AB15C2AFC4D6\Administrator". Please check if the principal with the name "D60AB15C2AFC4D6\Administrator" exists on "D60AB15C2AFC4D6".
+ERROR failed to obtain fallback security principal "D60AB15C2AFC4D6\Administrator". Please check if the principal with the name "D60AB15C2AFC4D6\Administrator" exists on "D60AB15C2AFC4D6".
+753 scanned, 0 errors, 0 skipped, 0 copied, 0 (0/s), 28s
+753 scanned, 0 errors, 0 skipped, 249 copied, 24.0KiB (4.82KiB/s), 33s
+753 scanned, 0 errors, 0 skipped, 744 copied, 54.4KiB (6.07KiB/s), 38s
+753 scanned, 0 errors, 0 skipped, 746 copied, 54.5KiB (20/s), 43s
+753 scanned, 0 errors, 0 skipped, 752 copied, 54.7KiB (1.23KiB/s), 44s
+C:\WRSHDNT>
+....
+. 「 XCP copy 」で「 error failed to obfallback security principal 」 ( フォールバックセキュリティプリンシパルの取得に失敗しました ) というエラーメッセージが表示された場合は、 hosts ファイルに宛先ボックスを追加します (C:\Windows\System32\drivers\etc\hosts) 。
++
+ネットアップストレージのデスティネーションボックスのエントリには、次の形式を使用します。
+
++
+....
+<data vserver data interface ip> 1 or more white spaces <cifs server name>
+....
++
+....
+cluster::*> cifs show
+            Server          Status    Domain/Workgroup Authentication
+Vserver     Name            Admin     Name             Style
+----------- --------------- --------- ---------------- --------------
+vs1         D60AB15C2AFC4D6 up        CTL              domain
+C2_sti96-vsim-ucs540o_cluster::*> network interface show
+            Logical    Status     Network            Current       Current Is
+Cluster
+            sti96-vsim-ucs540p_clus1
+                         up/up    192.168.148.136/24 sti96-vsim-ucs540p
+                                                                   e0a     true
+            sti96-vsim-ucs540p_clus2
+                         up/up    192.168.148.137/24 sti96-vsim-ucs540p
+                                                                   e0b     true
+vs1
+            sti96-vsim-ucs540o_data1
+                         up/up    10.237.165.87/20   sti96-vsim-ucs540o
+                                                                   e0d     true
+            sti96-vsim-ucs540o_data1_inet6
+                         up/up    fd20:8b1e:b255:9155::583/64
+                                                     sti96-vsim-ucs540o
+                                                                   e0d     true
+            sti96-vsim-ucs540o_data2
+                         up/up    10.237.165.88/20   sti96-vsim-ucs540o
+                                                                   e0e     true
+10.237.165.87  D60AB15C2AFC4D6  -> destination box entry to be added in hosts file.
+....
+. hosts ファイルに destination box エントリを追加した後にエラーメッセージ「 error failed to get fallback security principal 」が表示される場合は、ターゲットシステムにユーザ / グループが存在しません。
++
+....
+C:\WRSHDNT>c:\netapp\xcp\xcp copy -acl -fallback-user D60AB15C2AFC4D6\unknown_user -fallback-group BUILTIN\Users  \\10.237.165.79\source_share \\10.237.165.89\dest_share
+c:\netapp\xcp\xcp copy -acl -fallback-user D60AB15C2AFC4D6\unknown_user -fallback-group BUILTIN\Users  \\10.237.165.79\source_share \\10.237.165.89\dest_share
+XCP SMB 1.6; (c) 2020 NetApp, Inc.; Licensed to XXX [NetApp Inc] until Mon Dec 31 00:00:00 2029
+ERROR failed to obtain fallback security principal "D60AB15C2AFC4D6\unknown_user". Please check if the principal with the name "D60AB15C2AFC4D6\unknown_user" exists on "D60AB15C2AFC4D6".
+ERROR failed to obtain fallback security principal "D60AB15C2AFC4D6\unknown_user". Please check if the principal with the name "D60AB15C2AFC4D6\unknown_user" exists on "D60AB15C2AFC4D6".
+ERROR failed to obtain fallback security principal "D60AB15C2AFC4D6\unknown_user". Please check if the principal with the name "D60AB15C2AFC4D6\unknown_user" exists on "D60AB15C2AFC4D6".
+ERROR failed to obtain fallback security principal "D60AB15C2AFC4D6\unknown_user". Please check if the principal with the name "D60AB15C2AFC4D6\unknown_user" exists on "D60AB15C2AFC4D6".
+753 scanned, 0 errors, 0 skipped, 0 copied, 0 (0/s), 5s
+753 scanned, 0 errors, 0 skipped, 0 copied, 0 (0/s), 10s
+753 scanned, 0 errors, 0 skipped, 0 copied, 0 (0/s), 15s
+753 scanned, 0 errors, 0 skipped, 284 copied, 27.6KiB (5.54KiB/s), 20s
+753 scanned, 0 errors, 0 skipped, 752 copied, 54.7KiB (2.44KiB/s), 22s
+C:\WRSHDNT>
+....
+. ACL を持つ CIFS データを移行するには 'XCP copy' を使用します（ルート・フォルダを使用するかどうかは関係ありません）
++
+ルートフォルダを使用せずに、次のコマンドを実行します。
+
++
+....
+C:\WRSHDNT>c:\netapp\xcp\xcp copy -acl -fallback-user  D60AB15C2AFC4D6\Administrator -fallback-group BUILTIN\Users  \\10.237.165.79\source_share \\10.237.165.89\dest_share
+c:\netapp\xcp\xcp copy -acl -fallback-user  D60AB15C2AFC4D6\Administrator -fallback-group BUILTIN\Users  \\10.237.165.79\source_share \\10.237.165.89\dest_share
+XCP SMB 1.6; (c) 2020 NetApp, Inc.; Licensed to XXX [NetApp Inc] until Mon Dec 31 00:00:00 2029
+753 scanned, 0 errors, 0 skipped, 0 copied, 0 (0/s), 5s
+753 scanned, 0 errors, 0 skipped, 0 copied, 0 (0/s), 10s
+753 scanned, 0 errors, 0 skipped, 0 copied, 0 (0/s), 15s
+753 scanned, 0 errors, 0 skipped, 210 copied, 20.4KiB (4.08KiB/s), 20s
+753 scanned, 0 errors, 0 skipped, 752 copied, 54.7KiB (2.38KiB/s), 22s
+C:\WRSHDNT>
+....
++
+ルートフォルダを使用して、次のコマンドを実行します。
+
++
+....
+C:\WRSHDNT>c:\netapp\xcp\xcp copy -acl -root  -fallback-user  D60AB15C2AFC4D6\Administrator -fallback-group BUILTIN\Users  \\10.237.165.79\source_share \\10.237.165.89\dest_share
+c:\netapp\xcp\xcp copy -acl -root  -fallback-user  D60AB15C2AFC4D6\Administrator -fallback-group BUILTIN\Users  \\10.237.165.79\source_share \\10.237.165.89\dest_share
+XCP SMB 1.6; (c) 2020 NetApp, Inc.; Licensed to XXX [NetApp Inc] until Mon Dec 31 00:00:00 2029
+753 scanned, 0 errors, 0 skipped, 0 copied, 0 (0/s), 5s
+753 scanned, 0 errors, 0 skipped, 0 copied, 0 (0/s), 10s
+753 scanned, 0 errors, 0 skipped, 0 copied, 0 (0/s), 15s
+753 scanned, 0 errors, 0 skipped, 243 copied, 23.6KiB (4.73KiB/s), 20s
+753 scanned, 0 errors, 0 skipped, 752 copied, 54.7KiB (6.21KiB/s), 25s
+753 scanned, 0 errors, 0 skipped, 752 copied, 54.7KiB (0/s), 30s
+753 scanned, 0 errors, 0 skipped, 752 copied, 54.7KiB (0/s), 35s
+753 scanned, 0 errors, 0 skipped, 752 copied, 54.7KiB (0/s), 40s
+753 scanned, 0 errors, 0 skipped, 752 copied, 54.7KiB (0/s), 45s
+753 scanned, 0 errors, 0 skipped, 752 copied, 54.7KiB (0/s), 50s
+753 scanned, 0 errors, 0 skipped, 752 copied, 54.7KiB (0/s), 55s
+753 scanned, 0 errors, 0 skipped, 752 copied, 54.7KiB (0/s), 1m0s
+753 scanned, 0 errors, 0 skipped, 752 copied, 54.7KiB (0/s), 1m5s
+753 scanned, 0 errors, 0 skipped, 752 copied, 54.7KiB (817/s), 1m8s
+C:\WRSHDNT>
+....
+
+
+link:xcp-bp-best-practice-guidelines-and-recommendations.html["次のステップ：ベストプラクティスのガイドラインと推奨事項"]

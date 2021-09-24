@@ -1,0 +1,44 @@
+---
+sidebar: sidebar 
+permalink: xcp/xcp-bp-data-lake-to-ontap-nfs.html 
+keywords: requirements, proof of concept, AI, data mover, mapr 
+summary: この使用事例は、当社が実施した最も大規模な金融機関顧客向けコンセプトの実証（ CPOC ）に基づいています。ネットアップはこれまで、分析データを NetApp ONTAP AI に移動するためにネットアップの In-Place Analytics Module （ NIPAM ）を使用してきました。ただし、 NetApp XCP の最新の拡張機能とパフォーマンスの向上、および NetApp Data Mover 解決策独自のアプローチにより、 NetApp XCP を使用したデータ移行が再度行われます。 
+---
+= データレイクから ONTAP NFS へ
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:xcp-bp-customer-scenarios-overview.html["Previous ：お客様のシナリオ"]
+
+この使用事例は、当社が実施した最も大規模な金融機関顧客向けコンセプトの実証（ CPOC ）に基づいています。ネットアップはこれまで、分析データを NetApp ONTAP AI に移動するためにネットアップの In-Place Analytics Module （ NIPAM ）を使用してきました。ただし、 NetApp XCP の最新の拡張機能とパフォーマンスの向上、および NetApp Data Mover 解決策独自のアプローチにより、 NetApp XCP を使用したデータ移行が再度行われます。
+
+
+
+== お客様の課題と要件
+
+お客様が直面する課題と要件には、次のものがあります。
+
+* 構造化データ、非構造化データ、半構造化データ、ログ、 データレイク内のマシン間でデータを移動できます。AI システムでは、予測処理のために、これらすべてのタイプのデータを処理する必要があります。データがデータレイクネイティブファイルシステムにある場合、データを処理することは困難です。
+* お客様の AI アーキテクチャは、 Hadoop Distributed File System （ HDFS ）および Hadoop Compatible File System （ HCFS ）からデータにアクセスできないため、データは AI 処理に利用できません。AI には、 NFS などのわかりやすいファイルシステム形式でデータが必要です。
+* データ量とスループットが多く、 AI システムにデータを移動するにはコスト効率の高い方法が必要であるため、データレイクからデータを移動するには特別なプロセスがいくつか必要になります。
+
+
+
+
+== Data Mover の解決策
+
+この解決策では、 MapR クラスタ内のローカルディスクから MapR ファイルシステム（ MapR - FS ）を作成します。MapR NFS Gateway は、仮想 IP を持つ各データノードに設定されています。ファイルサーバサービスは、 MapR - FS データを格納および管理します。NFS ゲートウェイを使用すると、仮想 IP を介して NFS クライアントからマップ FS データにアクセスできるようになります。Map NFS Gateway から NetApp ONTAP NFS にデータを転送するために、 MapR データノードごとに XCP インスタンスが実行されている。各 XCP インスタンスは、特定のソースフォルダのセットをデスティネーションの場所に転送します。
+
+次の図は、 XCP を使用する MapR クラスタ用の NetApp Data Mover 解決策を示しています。
+
+image:xcp-bp_image30.png["エラー：グラフィックイメージがありません"]
+
+お客様の詳細なユースケース、デモの記録、テスト結果については、を参照してください https://blog.netapp.com/data-migration-xcp["XCP を使用した、データレイクからハイパフォーマンスコンピューティング、 ONTAP NFS へのデータの移動"^] ブログ
+
+NetApp XCP を使用して MapR FS データを ONTAP NFS に移動する手順の詳細については、の付録 B を参照してください https://www.netapp.com/pdf.html?item=/media/17082-tr4732pdf.pdf&ntap-no-cache["TR-4732 ：『 Big Data Analytics Data to Artificial Intelligence 』"^]。
+
+link:xcp-bp-high-performance-computing-to-ontap-nfs.html["次に、 ONTAP NFS 向けのハイパフォーマンスコンピューティングを実現します。"]

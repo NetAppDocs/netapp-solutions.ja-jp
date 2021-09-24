@@ -1,0 +1,233 @@
+---
+sidebar: sidebar 
+permalink: xcp/xcp-bp-deployment-steps.html 
+keywords: deployment, solution components, linux server, windows server aff a800, ha 
+summary: このセクションでは、 NetApp XCP でのデータ転送の導入手順について説明します。 
+---
+= 導入手順
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:xcp-bp-file-analytics.html["前のページ：ファイル分析"]
+
+
+
+== ベッドの詳細をテストします
+
+次の表に、この導入およびパフォーマンス検証に使用したテストベッドの詳細を示します。
+
+|===
+| 解決策コンポーネント | 詳細 
+
+
+| XCP バージョン 1.7  a| 
+* Linux サーバ × 1 - Linux （ RHEL 7.9 または RHEL 8 ）
+* Windows サーバ × 1 – Windows Server 2019 標準
+
+
+
+
+| ソースボリュームの NetApp AFF ストレージアレイ HA ペア  a| 
+* AFF8080
+* NetApp ONTAP 9.
+* NFS プロトコル
+
+
+
+
+| デスティネーションボリューム用の NetApp AFF ストレージアレイ HA ペア  a| 
+* AFF A800
+* ONTAP 9
+* NFS プロトコル
+
+
+
+
+| Fujitsu PRIMERGY RX2540 サーバ | 各装置には、 *48 CPU * Intel Xeon * 256GB 物理メモリ * 10GbE デュアルポートが搭載されています 
+
+
+| ネットワーキング | 10GbE 
+|===
+
+
+== 導入手順
+
+データ転送用に NetApp XCP を導入するには、まず移行先で XCP ソフトウェアをインストールしてアクティブ化します。詳細については、を参照してください https://mysupport.netapp.com/documentation/productlibrary/index.html?productID=63064["NetApp XCP ユーザガイド"^]。これには、次の手順を実行します。
+
+. 「 XCP の前提条件」のセクション（ xref ）に記載されている前提条件を満たしていること。
+. から XCP ソフトウェアをダウンロードします https://mysupport.netapp.com/site/products/all/details/netapp-xcp/downloads-tab["NetApp XCP （ダウンロード）ページ"^]。
+. ダウンロードした XCP tar ファイルを XCP サーバにコピーします。
++
+....
+# scp Documents/OneDrive\ -\ NetApp\ Inc/XCP/software/1.6.1/NETAPP_XCP_1.6.1.tgz
+....
+. tar ファイルを解凍します。
++
+....
+[root@mastr-53 src]# tar -zxvf NETAPP_XCP_1.6.1.tgz
+....
+. からライセンスをダウンロードします https://xcp.netapp.com/license/xcp.xwic%20["https://xcp.netapp.com/license/xcp.xwic"^] XCP サーバにコピーします。
+. ライセンスをアクティブ化します。
++
+....
+[root@mastr-53 linux]# ./xcp activate
+[root@mastr-53 src]# cp license /opt/NetApp/xFiles/xcp/license
+[root@mastr-53 src]# cd /usr/src/xcp/linux/
+[root@mastr-53 linux]# ./xcp activate
+....
+. ソース NFS ポートとデスティネーション NFS サーバを特定します。デフォルトのポートは 2049. です。
++
+....
+[root@mastr-53 ~]# rpcinfo -p 10.63.150.213
+[root@mastr-53 ~]# rpcinfo -p 10.63.150.63
+....
+. NFS の接続を確認します。NFS サーバのポートに Telnet を使用して、（ソースとデスティネーションの両方について） NFS サーバを確認します。
++
+....
+[root@mastr-53 ~]# telnet 10.63.150.127 2049
+[root@mastr-53 ~]# telnet 10.63.150.63 2049
+....
+. カタログを設定する。
++
+.. NFS ボリュームを作成し、 XCP カタログ用の NFS をエクスポートする。また、 XCP カタログにオペレーティングシステムの NFS エクスポートを利用することもできます。
++
+....
+A800-Node1-2::> volume create -vserver Hadoop_SVM -volume xcpcatalog -aggregate aggr_Hadoop_1 -size 50GB -state online -junction-path /xcpcatalog -policy default -unix-permissions ---rwxr-xr-x -type RW -snapshot-policy default -foreground true
+A800-Node1-2::> volume mount -vserver Hadoop_SVM -volume xcpcatalog_vol -junction-path /xcpcatalog
+....
+.. NFS エクスポートを確認します。
++
+....
+[root@mastr-53 ~]# showmount -e 10.63.150.63 | grep xcpca
+/xcpcatalog (everyone)
+....
+.. xcp.ini` を更新します
++
+....
+[root@mastr-53 ~]# cat /opt/NetApp/xFiles/xcp/xcp.ini
+# Sample xcp config
+[xcp]
+catalog = 10.63.150.64:/xcpcatalog
+
+[root@mastr-53 ~]#
+....
+
+
+. XCP show を使用して ' ソース NAS エクスポートを検索します検索：
++
+....
+== NFS Exports ==
+== Attributes of NFS Exports ==
+....
++
+....
+[root@mastr-53 linux]# ./xcp show 10.63.150.127
+== NFS Exports ==
+<check here>
+== Attributes of NFS Exports ==
+<check here>
+....
+. （オプション）ソース NAS データをスキャンします。
++
+....
+[root@mastr-53 linux]# ./xcp scan -newid xcpscantest4 -stats 10.63.150.127:/xcpsrc_vol
+....
++
+ソース NAS データをスキャンすることで、データレイアウトを把握し、移行の潜在的な問題を特定するのに役立ちます。XCP スキャン処理時間は、ファイル数とディレクトリ深度に比例します。NAS データに精通している場合は、この手順を省略できます。
+
+. 'XCP scan' が作成したレポートを確認します主に読み取り不能フォルダと読み取り不能ファイルを検索します。
++
+....
+[root@mastr-53 linux]# mount 10.63.150.64:/xcpcatalog  /xcpcatalog
+base) nkarthik-mac-0:~ karthikeyannagalingam$ scp -r root@10.63.150.53:/xcpcatalog/catalog/indexes/xcpscantest4 Documents/OneDrive\ -\ NetApp\ Inc/XCP/customers/reports/
+....
+. （任意） inode を変更します。inode の数を確認し、カタログボリュームとデスティネーションボリュームの両方で移行またはコピーするファイルの数に基づいて変更する（必要な場合）。
++
+....
+A800-Node1-2::> volume show -volume xcpcatalog -fields files,files-used
+A800-Node1-2::> volume show -volume xcpdest -fields files,files-used
+A800-Node1-2::> volume modify -volume xcpcatalog -vserver A800-Node1_vs1 -files 2000000
+Volume modify successful on volume xcpcatalog of Vserver A800-Node1_vs1.
+
+A800-Node1-2::> volume show -volume xcpcatalog -fields files,files-used
+....
+. デスティネーションボリュームをスキャン
++
+....
+[root@mastr-53 linux]# ./xcp scan -stats 10.63.150.63:/xcpdest
+....
+. ソースボリュームとデスティネーションボリュームのスペースを確認します。
++
+....
+[root@mastr-53 ~]# df -h /xcpsrc_vol
+[root@mastr-53 ~]# df -h /xcpdest/
+....
+. 「 XCP copy 」を使用してソースからデスティネーションにデータをコピーし、概要を確認します。
++
+....
+[root@mastr-53 linux]# ./xcp copy -newid create_Sep091599198212 10.63.150.127:/xcpsrc_vol 10.63.150.63:/xcpdest
+<command inprogress results removed>
+Xcp command : xcp copy -newid create_Sep091599198212 -parallel 23 10.63.150.127:/xcpsrc_vol 10.63.150.63:/xcpdest
+Stats       : 9.07M scanned, 9.07M copied, 118 linked, 9.07M indexed, 173 giants
+Speed       : 1.57 TiB in (412 MiB/s), 1.50 TiB out (392 MiB/s)
+Total Time  : 1h6m.
+STATUS      : PASSED
+[root@mastr-53 linux]#
+....
++
+
+NOTE: デフォルトでは、データをコピーするための 7 つの並行プロセスが XCP によって作成されます。これは調整可能です。
+
++
+
+NOTE: ソースボリュームは読み取り専用にすることを推奨します。ソースボリュームは、リアルタイムでアクティブなライブファイルシステムです。NetApp XCP はアプリケーションによって継続的に変更されるライブソースをサポートしていないため、「 XCP copy 」操作が失敗することがあります。
+
++
+Linux では、 XCP Linux がカタログ化を実行するため、 XCP にインデックス ID が必要です。
+
+. （オプション）デスティネーションネットアップボリュームの inode を確認します。
++
+....
+A800-Node1-2::> volume show -volume xcpdest -fields files,files-used
+vserver        volume  files    files-used
+-------------- ------- -------- ----------
+A800-Node1_vs1 xcpdest 21251126 15039685
+
+A800-Node1-2::>
+....
+. 'XCP sync' を使用して差分更新を実行します
++
+....
+[root@mastr-53 linux]# ./xcp sync -id create_Sep091599198212
+Xcp command : xcp sync -id create_Sep091599198212
+Stats       : 9.07M reviewed, 9.07M checked at source, no changes, 9.07M reindexed
+Speed       : 1.73 GiB in (8.40 MiB/s), 1.98 GiB out (9.59 MiB/s)
+Total Time  : 3m31s.
+STATUS      : PASSED
+....
++
+このドキュメントでは、リアルタイムをシミュレートするために、ソースデータの 100 万個のファイルの名前が変更され、更新されたファイルは「 XCP sync 」を使用してデスティネーションにコピーされました。Windows の場合、 XCP にはソースパスとデスティネーションパスの両方が必要です。
+
+. データ転送を検証送信元と宛先が同じデータであることを検証するには、「 XCP verify 」を使用します。
++
+....
+Xcp command : xcp verify 10.63.150.127:/xcpsrc_vol 10.63.150.63:/xcpdest
+Stats       : 9.07M scanned, 9.07M indexed, 173 giants, 100% found (6.01M have data), 6.01M compared, 100% verified (data, attrs, mods)
+Speed       : 3.13 TiB in (509 MiB/s), 11.1 GiB out (1.76 MiB/s)
+Total Time  : 1h47m.
+STATUS      : PASSED
+....
+
+
+XCP のマニュアルには 'CAN'copy''sync' および 've rify' オペレーション用の複数のオプション（例を含む）が用意されています詳細については、を参照してください https://mysupport.netapp.com/documentation/productlibrary/index.html?productID=63064["NetApp XCP ユーザガイド"^]。
+
+
+NOTE: Windows のお客様は、アクセス制御リスト（ ACL ）を使用してデータをコピーする必要があります。ネットアップでは、コマンド XCP copy-acl-fallbackuser\<username>-fallbackgroup\<username または groupname> <source><destination>` を使用することを推奨しています。パフォーマンスを最大限に高めるために、 ACL を備えた SMB データと NFS と SMB の両方からアクセスできるデータが格納されたソースボリュームを検討する場合、ターゲットは NTFS ボリュームである必要があります。XCP （ NFS バージョン）を使用して、 Linux サーバからデータをコピーし、 Windows サーバからの「 -acl 」および「 -nodata 」オプションを使用して XCP （ SMB バージョン）同期を実行し、ソースデータからターゲット SMB データに ACL をコピーします。
+
+詳細な手順については、を参照してください https://helpcenter.netwrix.com/NA/Configure_IT_Infrastructure/Accounts/DCA_Manage_Auditing_Security_Log.html["「監査とセキュリティログ」ポリシーを設定しています"^]。
+
+link:xcp-bp-sizing-guidelines-overview.html["次：サイジングガイドライン"]

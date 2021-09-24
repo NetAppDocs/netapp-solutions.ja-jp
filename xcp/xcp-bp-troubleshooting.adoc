@@ -1,0 +1,60 @@
+---
+sidebar: sidebar 
+permalink: xcp/xcp-bp-troubleshooting.html 
+keywords: troubleshooting, problems, error 70, 
+summary: このセクションでは、 NetApp XCP を使用したデータ移行のトラブルシューティングについて説明します。 
+---
+= トラブルシューティング
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:xcp-bp-best-practice-guidelines-and-recommendations.html["Previous ：ベストプラクティスのガイドラインと推奨事項"]
+
+
+
+= エラー 1 ： XCP Failed が NFS3 エラーで失敗しました。 70 ： stale filehandle Error in the xcp.log
+
+* 理由とガイダンス。 *
+
+ソースフォルダをマウントし、フォルダが存在することを確認します。存在しない場合、または削除された場合は、「テールファイルハンドル」エラーが表示されます。この場合、エラーは無視してかまいません。
+
+
+
+= エラー 2 ： NetApp NFS Destination Volume has Space 、 but XCP Failed with NFS3 error 28 ： no space left on device
+
+* 理由とガイダンス。 *
+
+. 「 d f 」コマンドを実行するか、ストレージをチェックして、 NFS デスティネーション・ボリュームのスペースを確認します。
++
+....
+root@workr-140: USER3# df -h /xcpdest
+Filesystem                 Size  Used Avail Use% Mounted on
+10.63.150.127:/xcpsrc_vol  4.3T  1.7T  2.6T  40% /xcpsrc_vol
+....
+. ストレージコントローラ内の inode を確認します。
++
+....
+A800-Node1-2::> volume show -volume xcpdest -fields files,files-used
+vserver        volume  files    files-used
+-------------- ------- -------- ----------
+A800-Node1_vs1 xcpdest 21251126 21251126
+A800-Node1-2::>
+....
+. inode が使用されている場合は、次のコマンドを実行して inode の数を増やします。
++
+....
+A800-Node1-2::> volume modify -volume xcpdest -vserver A800-Node1_vs1 -files 40000000
+Volume modify successful on volume xcpdest of Vserver A800-Node1_vs1.
+A800-Node1-2::> volume show -volume xcpdest -fields files,files-used
+vserver        volume  files    files-used
+-------------- ------- -------- ----------
+A800-Node1_vs1 xcpdest 39999990 21251126
+A800-Node1-2::>
+....
+
+
+link:xcp-bp-where-to-find-additional-information.html["次へ：追加情報の検索場所。"]

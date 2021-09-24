@@ -1,0 +1,26 @@
+---
+sidebar: sidebar 
+permalink: xcp/xcp-bp-best-practice-guidelines-and-recommendations.html 
+keywords: best practices, guidelines, recommendations, IMT 
+summary: ここでは、 NetApp XCP を使用してデータを移行する際のベストプラクティス、ガイドライン、推奨事項について説明します。 
+---
+= ベストプラクティスのガイドラインと推奨事項
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:xcp-bp-cifs-data-migration-with-acls-from-a-source-storage-box-to-ontap.html["前のバージョン： ACL を使用した、ソースストレージボックスから ONTAP への CIFS データの移行。"]
+
+* IMT でサポートされている XCP クライアントオペレーティングシステムを使用します。サポートされている IMT クライアントは、ネットアップで認定されています。
+* Linux オペレーティングシステムで root ユーザとして XCP を実行し、移行を実行します。sudo ユーザとして XCP コマンドを実行できますが、 XCP ではサポートされていません。
+* クライアントごとに 1 つの XCP インスタンスのみを実行します。技術的には、同じホスト上で異なる場所から複数のインスタンスの XCP を実行できますが、これはサポートされていません。実際、多数のインスタンスを実行すると、障害が発生する可能性があります。
+* 現在の XCP バージョンでは、 Live Source はサポートされていません。ソースのネットアップボリュームがアクティブで、アプリケーションやユーザによって継続的に変更されている場合は、ソースボリュームの Snapshot を作成して移行を実行する必要があります。
+* 新しい Snapshot は、増分同期ごとに別の名前を使用して作成することを推奨します。これにより、障害発生時に Snapshot 名に基づいて差分移行パスを簡単に作成できます。
+* Snapshot ベースのマイグレーションを実行する場合は、カットオーバーまで Snapshot ベースのマイグレーションを続行することを推奨します。
+* ファイル数が 1 、 000 万を超え、増分データの変更率が 50% を超える場合は、インストールおよび管理ガイドでの最小推奨値よりもコア数とメモリ容量を増やすことを推奨します。
+
+
+link:xcp-bp-troubleshooting.html["次の手順：トラブルシューティング。"]
