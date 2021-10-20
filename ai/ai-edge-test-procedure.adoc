@@ -26,22 +26,22 @@ EF280 には、 NVIDIA ドライバと Docker を搭載した Ubuntu 20.04 を�
 
 AI 推論をセットアップするには、次の手順を実行します。
 
-. 登録が必要なデータセットをダウンロードします。 ImageNet 2012 Validation set 、 Crito Terabyte dataset 、 BRT 2019 Training set の順に選択し、ファイルを解凍します。
-. 1TB 以上の作業ディレクトリを作成し、ディレクトリを参照する環境変数 MLPERF_scratch_path を定義します。
+. 登録が必要なデータセット、 ImageNet 2012 Validation set 、 Crito Terabyte データセット、および BRT 2019 Training セットをダウンロードし、ファイルを解凍します。
+. 1TB 以上の作業ディレクトリを作成し、ディレクトリを参照する環境変数「 M LPERF_scratch_path 」を定義します。
 +
 このディレクトリは、ネットワークストレージのユースケース用に共有ストレージ上で共有するか、またはローカルデータでテストする際にローカルディスク上で共有する必要があります。
 
-. make prebuild コマンドを実行します。このコマンドは、必要な推論タスク用の Docker コンテナを構築して起動します。
+. make 「 prebuild 」コマンドを実行します。このコマンドは、必要な推論タスク用の Docker コンテナを構築して起動します。
 +
 
 NOTE: 実行中の Docker コンテナ内から次のコマンドがすべて実行されます。
 
 +
-** MLPerf Inference タスク用のトレーニング済み AI モデルをダウンロード： DOWNLOAD_MODEL
-** 無償でダウンロードできる追加のデータセットをダウンロードします。 make download_data
-** データの前処理： make preprocess_data
-** 実行： make build
-** コンピューティングサーバの GPU に最適化された推論エンジンを構築します。 make generate_engines
+** MLPerf Inference タスク用のトレーニング済み AI モデル「 make download_model 」をダウンロードしてください
+** 無料でダウンロードできる追加のデータセット「 make download_data 」をダウンロードしてください
+** データをプリプロセスします。「 preprocess_data 」にします
+** 「 make build 」を実行します。
+** コンピューティングサーバの GPU に最適化された推論エンジン「 generate_engines 」を構築します
 ** 推論ワークロードを実行するには、次のコマンドを実行します（ 1 つのコマンド）。
 
 

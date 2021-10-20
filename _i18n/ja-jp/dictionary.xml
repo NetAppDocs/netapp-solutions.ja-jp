@@ -9176,7 +9176,6 @@
   <block id="ffe3b3adfe232ee25f1914e7e7d266c4" category="list-text">670K IOPS （ランダムリード）</block>
   <block id="7105ea3513c2bdae1a0d63a9f0703579" category="inline-link">NetApp EF シリーズ NetApp EF シリーズオールフラッシュアレイ EF600 、 F300 、 EF570 、 EF280 のデータシート</block>
   <block id="6e69804b180359b12a32a56c17c0641e" category="admonition">詳細については、を参照してください<block ref="5f5484869dc0c271e2b062d172d38bee" category="inline-link-rx"></block>。</block>
-  <block id="d462fbf88533ddbaad86fe47336ef3fa" category="paragraph">ONTAP 9.8 ネットアップの最新世代のストレージ管理ソフトウェアなら、企業のインフラを刷新し、クラウド対応のデータセンターに移行できます。ONTAP は、業界をリードするデータ管理機能を活用して、データの格納場所に関係なく、単一のツールセットでデータの管理と保護を実現します。エッジ、コア、クラウドなど、必要な場所に自由にデータを移動することもできます。ONTAP 9.8 には、データ管理を簡易化し、重要なデータを高速化および保護し、ハイブリッドクラウドアーキテクチャ全体で次世代インフラ機能を実現するための多数の機能が含まれています。</block>
   <block id="f1586460cef11d0abaaf5270f37f18d7" category="section-title">データ管理を簡易化</block>
   <block id="2e2b24551fd50942c6da57d4f8efdfae" category="paragraph">データ管理は、アプリケーションやデータセットに適切なリソースを使用できるようにするために、エンタープライズ IT 運用にとって非常に重要です。ONTAP には、運用を合理化および簡易化し、総運用コストを削減するための次の機能が含まれています。</block>
   <block id="4934cd09a8e487be128d2b6321ee3279" category="list-text">* インラインデータコンパクションと重複排除の強化。 * データコンパクションはストレージブロック内の無駄なスペースを削減し、重複排除は実効容量を大幅に増やします。この環境データはローカルに格納され、データはクラウドに階層化されます。</block>
@@ -9297,16 +9296,8 @@
   <block id="fe03e7fb4a8d3a1afb24c94c4c88d32f" category="paragraph">AFF C190 には、 NVIDIA ドライバと Docker を搭載した Ubuntu 18.04 を使用し、 NVIDIA GPU をサポートし、 MLPerf を使用しました<block ref="72ea1359ddbf7a99cdb0a438fda3e022" category="inline-link-rx"></block> Lenovo から MLPerf Inference v0.7 への提出書類の一部として提供されます。</block>
   <block id="504812acf44740b8f536a0d166375734" category="paragraph">EF280 には、 NVIDIA ドライバと Docker を搭載した Ubuntu 20.04 を使用し、 NVIDIA GPU と MLPerf をサポートしました<block ref="7dc141edfa21f33dbd4b0757be1ad69f" category="inline-link-rx"></block> Lenovo から MLPerf Inference v1.1 への提出の一部として提供されています。</block>
   <block id="fbd2228a821a8ab1948d4a8c3121fb0e" category="paragraph">AI 推論をセットアップするには、次の手順を実行します。</block>
-  <block id="fd5c043d17a289fb46a606f44e155987" category="list-text">登録が必要なデータセットをダウンロードします。 ImageNet 2012 Validation set 、 Crito Terabyte dataset 、 BRT 2019 Training set の順に選択し、ファイルを解凍します。</block>
-  <block id="ab7831d45f94acd260ff74b6b22cadab" category="list-text">1TB 以上の作業ディレクトリを作成し、ディレクトリを参照する環境変数 MLPERF_scratch_path を定義します。</block>
   <block id="342ecacc441a9548b60eae46065039f8" category="paragraph">このディレクトリは、ネットワークストレージのユースケース用に共有ストレージ上で共有するか、またはローカルデータでテストする際にローカルディスク上で共有する必要があります。</block>
-  <block id="a3f85d3d212be9b540b801c9e5dfa2da" category="list-text">make prebuild コマンドを実行します。このコマンドは、必要な推論タスク用の Docker コンテナを構築して起動します。</block>
   <block id="9cfc451dfe052c5c3835b0355375b1b7" category="admonition">実行中の Docker コンテナ内から次のコマンドがすべて実行されます。</block>
-  <block id="583121c0a7f29574c74157300f771aa2" category="list-text">MLPerf Inference タスク用のトレーニング済み AI モデルをダウンロード： DOWNLOAD_MODEL</block>
-  <block id="c598be3fcd4980550a6ef2ee6c7029ce" category="list-text">無償でダウンロードできる追加のデータセットをダウンロードします。 make download_data</block>
-  <block id="f5de6fa7b079108ef95ae25226d1fd9d" category="list-text">データの前処理： make preprocess_data</block>
-  <block id="66d1c1861ea2e832d9b7d7060fc24fc9" category="list-text">実行： make build</block>
-  <block id="2204f2159df9145661590b2b3eb4d3e7" category="list-text">コンピューティングサーバの GPU に最適化された推論エンジンを構築します。 make generate_engines</block>
   <block id="4efea18a74f8c5a6fa0f4b239ff2d734" category="list-text">推論ワークロードを実行するには、次のコマンドを実行します（ 1 つのコマンド）。</block>
   <block id="9ce2624cb32bec75a2ad4e276fa594f6" category="section-title">AI 推論の実行</block>
   <block id="2a71d3fa50a14f6fa9c62d9fe3935d5d" category="paragraph">実行された実行のタイプは次の 3 つです。</block>
@@ -9392,7 +9383,6 @@
   <block id="8e793f971410e2b57df427d1305ee0a2" category="paragraph"><block ref="8e793f971410e2b57df427d1305ee0a2" category="inline-image-macro-rx" type="image"></block></block>
   <block id="fb71ae4a7513a21f0771b9aa65aeef9c" category="section-title">EF 向けの単一ストリームのシナリオでの AI 推論</block>
   <block id="5656e3a262dfb3d6e1cba96551717de0" category="paragraph"><block ref="5656e3a262dfb3d6e1cba96551717de0" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="268cbad72959a02a6f9e00c87334c56d" category="paragraph">結果からも、タスクを処理するのに十分なネットワークストレージがあることがわかります。1 つのサーバケースにおけるローカルストレージとネットワークストレージの違いは、最小またはなしです。同様に、 2 台のサーバが同じストレージを使用している場合、両方のサーバの遅延は同じままであるか、非常に小さい値で変化します。</block>
   <block id="516a608926718d1a912cf9404f1a63ac" category="inline-link-macro">次：アーキテクチャのサイジングオプション</block>
   <block id="9cedf0fb8faddf365d88f523ae482015" category="paragraph"><block ref="9cedf0fb8faddf365d88f523ae482015" category="inline-link-macro-rx"></block></block>
   <block id="00760d3595ff19f6db2da5213b1fdd58" category="summary">このドキュメントでは、最新のアプリケーションシナリオを満たすエッジ環境のネットアップストレージコントローラと Lenovo ThinkSystem サーバに GPU ベースの人工知能（ AI ）推論を導入するためのコンピューティングとストレージのアーキテクチャについて説明します。</block>
@@ -9408,8 +9398,6 @@
   <block id="563f47ae807a7a985313a5186e239a5d" category="list-text">ディープラーニング（ DL ）モデルや ML モデルを効率的に導入する方法を探しているデータサイエンティストと AI エンジニア。</block>
   <block id="c1df171c3c219ea01c2724d28fa03f93" category="list-text">エッジ推論モデルの導入と管理を担当するエッジデバイスマネージャとエッジサーバ管理者。</block>
   <block id="a40893fa754ed62d5268702b023fea91" category="section-title">解決策アーキテクチャ</block>
-  <block id="efe1a080e82d44bdb17dc824833d2c58" category="paragraph">この Lenovo ThinkSystem サーバと NetApp ONTAP または NetApp SANtricity ストレージ解決策は、従来の CPU に加えて GPU の処理能力を使用して大規模なデータセットで AI 推論を処理するように設計されています。この検証では、次の図に示すように、単一または複数の Lenovo SR350 エッジサーバを 1 つの NetApp AFF ストレージシステムと相互接続したアーキテクチャを使用して、パフォーマンスと最適なデータ管理を実現します。</block>
-  <block id="609a6122ae6df623927a4eb8273bd076" category="paragraph">次の図の論理アーキテクチャの概要は、このアーキテクチャのコンピューティング要素とストレージ要素の役割を示しています。具体的には、次の情報が表示されます。</block>
   <block id="f2e5640bc98f623bd0a257e3088ead2c" category="list-text">カメラやセンサーなどから受信したデータを推論しているエッジコンピューティングデバイス。</block>
   <block id="ba8dee772ce5a627767af000b8bbb826" category="list-text">複数の用途に使用できる共有ストレージ要素：</block>
   <block id="8a1d15a179258733a83884fac2d16e38" category="list-text">推論モデルや推論の実行に必要なその他のデータを一元的に格納できます。コンピューティングサーバはストレージに直接アクセスし、ネットワーク全体で推論モデルを使用します。ローカルにコピーする必要はありません。</block>
@@ -9453,7 +9441,6 @@
   <block id="b3e6ac4f3c523ea5a90f4f79ca3e585d" category="doc">テスト計画</block>
   <block id="35e08a3e7b357a4284ef29b287063ae5" category="paragraph"><block ref="35e08a3e7b357a4284ef29b287063ae5" category="inline-link-macro-rx"></block></block>
   <block id="a4f86f7bfc24194b276c22e0ef158197" category="inline-link">ルール</block>
-  <block id="0a71a97af090b2deb93aa661a90005f7" category="paragraph">このドキュメントは MLPerf 推論 v0.7 に準拠しています<block ref="72ea1359ddbf7a99cdb0a438fda3e022" category="inline-link-rx"></block>、 MLPerf Inference v1.1<block ref="7dc141edfa21f33dbd4b0757be1ad69f" category="inline-link-rx"></block> および<block ref="efc21f34f290528320a21a8cc99ffcfc" category="inline-link-rx"></block>。次の表に示すように、エッジで推論向けに設計されたベンチマークを実行しました。</block>
   <block id="deec4ff19974f12ed781cb9a59064214" category="cell">面積（ Area ）</block>
   <block id="eaeb30f9f18e0c50b178676f3eaef45f" category="cell">タスク</block>
   <block id="e110cde47b67924ec0ef64500e8cb067" category="cell">QSL サイズ</block>
@@ -10207,4 +10194,22 @@
   <block id="18e04180e0442e18a559941bb8de310c" category="sidebar">Lenovo ThinkSystem-解決策 Design を使用したエッジネットアップでの AI 推論</block>
   <block id="30b22b544972f5adb280ca2975099846" category="sidebar">SnapCenter を使用したハイブリッドクラウドデータベースソリューション</block>
   <block id="59f8ae0d5c4ba13dee4828e2727c8859" category="sidebar">オンプレミスでの作業の開始</block>
+  <block id="96e4797e3006bef737785f8627faae06" category="paragraph">次の図は、 NetApp EF280 ストレージシステムを示しています。</block>
+  <block id="b407d5a86fd662f03d5a1615963e0827" category="paragraph">ONTAP 9.8.1 は、ネットアップの最新世代のストレージ管理ソフトウェアです。インフラを最新化し、クラウド対応データセンターに移行することができます。ONTAP は、業界をリードするデータ管理機能を活用して、データの格納場所に関係なく、単一のツールセットでデータの管理と保護を実現します。エッジ、コア、クラウドなど、必要な場所に自由にデータを移動することもできます。ONTAP 9.8.1 には、データ管理を簡易化し、重要なデータの高速化と保護を実現し、ハイブリッドクラウドアーキテクチャ全体で次世代インフラ機能を実現する、多数の機能が搭載されています。</block>
+  <block id="9177ba75c6dc50d818c52360f10e2fe1" category="list-text">登録が必要なデータセット、 ImageNet 2012 Validation set 、 Crito Terabyte データセット、および BRT 2019 Training セットをダウンロードし、ファイルを解凍します。</block>
+  <block id="12dda17fb1d76556387dceb2e85a9290" category="list-text">1TB 以上の作業ディレクトリを作成し、ディレクトリを参照する環境変数「 M LPERF_scratch_path 」を定義します。</block>
+  <block id="7c5f7553ff57e0548889000668d1cf39" category="list-text">make 「 prebuild 」コマンドを実行します。このコマンドは、必要な推論タスク用の Docker コンテナを構築して起動します。</block>
+  <block id="b25e1e6ba392fe4c0e0da7617a67fa4d" category="list-text">MLPerf Inference タスク用のトレーニング済み AI モデル「 make download_model 」をダウンロードしてください</block>
+  <block id="ed43016366915f1fc65fe332de60965f" category="list-text">無料でダウンロードできる追加のデータセット「 make download_data 」をダウンロードしてください</block>
+  <block id="41165a10471c0644aef30b976f113946" category="list-text">データをプリプロセスします。「 preprocess_data 」にします</block>
+  <block id="f0bacb5df46d2e8bed3d6d0d863fce01" category="list-text">「 make build 」を実行します。</block>
+  <block id="189eed4566c6894d64b4d4f8bc9df94c" category="list-text">コンピューティングサーバの GPU に最適化された推論エンジン「 generate_engines 」を構築します</block>
+  <block id="ca0aa5c3a448e511d9334d94174b8b85" category="paragraph">このベンチマークではレイテンシを測定します。いずれの場合も、実行に関連するすべてのサーバの平均レイテンシを報告します。一連のタスクの結果が表示されます。</block>
+  <block id="f02eaec2bc90de6689765cffde92e809" category="paragraph">結果から、このタスクを処理するのに十分なネットワークストレージがあることが再びわかります。1 つのサーバケースにおけるローカルストレージとネットワークストレージの違いは、最小またはなしです。同様に、 2 台のサーバが同じストレージを使用している場合、両方のサーバの遅延は同じままであるか、非常に小さい値で変化します。</block>
+  <block id="cc402abc10a0191493024c4510783afc" category="paragraph">この Lenovo ThinkSystem サーバと NetApp ONTAP または NetApp SANtricity ストレージ解決策は、従来の CPU に加えて GPU の処理能力を使用して大規模なデータセットで AI 推論を処理するように設計されています。この検証では、次の 2 つの図に示すように、単一または複数の Lenovo SR350 エッジサーバを 1 つの NetApp AFF ストレージシステムと相互接続したアーキテクチャを使用して、パフォーマンスと最適なデータ管理を実現します。</block>
+  <block id="aa8af408f2dd6ce3e407f4979ab2bb2d" category="paragraph"><block ref="aa8af408f2dd6ce3e407f4979ab2bb2d" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="aacb24ff7918ccc37aea66f8c9548b68" category="paragraph"><block ref="aacb24ff7918ccc37aea66f8c9548b68" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="fa68c0f0557e1b1d9b151c9be9aae26a" category="paragraph">次の図の論理アーキテクチャの概要は、このアーキテクチャのコンピューティング要素とストレージ要素の役割を示しています。具体的には、次の情報が表示されます。</block>
+  <block id="eb190159f20d63d1c7687ecafd03fc73" category="paragraph">このドキュメントは MLPerf 推論 v0.7 に準拠しています<block ref="72ea1359ddbf7a99cdb0a438fda3e022" category="inline-link-rx"></block>、 MLPerf Inference v1.1<block ref="7dc141edfa21f33dbd4b0757be1ad69f" category="inline-link-rx"></block>および<block ref="efc21f34f290528320a21a8cc99ffcfc" category="inline-link-rx"></block>。次の表に示すように、エッジでの推論向けに設計された MLPerf ベンチマークを実行しました。</block>
+  <block id="816720c0b642aa1eef01c4f9108f54c5" category="paragraph">次の表に、 Edge ベンチマークのシナリオを示します。</block>
 </blocks>
