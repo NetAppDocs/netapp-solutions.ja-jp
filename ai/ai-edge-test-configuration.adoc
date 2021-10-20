@@ -1,0 +1,75 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-edge-test-configuration.html 
+keywords: test, configuration, network infrastructure, storage provisioning, SE350 server 
+summary: このセクションでは、テスト構成、ネットワークインフラストラクチャ、 SE350 サーバ、およびストレージプロビジョニングの詳細について説明します。 
+---
+= 設定をテストします
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:ai-edge-test-plan.html["前の手順：テスト計画"]
+
+次の図に、テスト構成を示します。NetApp AFF C190 ストレージシステムと、 Lenovo ThinkSystem SE350 サーバを 2 台（それぞれ NVIDIA T4 アクセラレータを 1 台搭載）使用しました。これらのコンポーネントは、 10GbE ネットワークスイッチを介して接続されます。ネットワークストレージには、検証 / テスト用のデータセットと事前トレーニング済みのモデルが格納されます。サーバはコンピューティング機能を提供し、ストレージに NFS プロトコル経由でアクセスします。
+
+このセクションでは、テスト構成、ネットワークインフラストラクチャ、 SE350 サーバ、およびストレージプロビジョニングの詳細について説明します。次の表に、解決策アーキテクチャの基本コンポーネントを示します。
+
+|===
+| 解決策コンポーネント | 詳細 
+
+
+| Lenovo ThinkSystem サーバ  a| 
+* SE350 サーバ x 2 （それぞれ NVIDIA T4 GPU カード 1 枚）
+
+
+
+
+|   a| 
+* 各サーバには Intel Xeon D-2123IT CPU が 1 つ搭載され、物理コアは 2.20GHz と 128GB の RAM で動作します
+
+
+
+
+| エントリレベルの NetApp AFF ストレージシステム（ HA ペア）  a| 
+* NetApp ONTAP 9 ソフトウェア
+* 960GB SSD × 24
+* NFS プロトコル
+* コントローラごとに 1 つのインターフェイスグループ。マウントポイント用に 4 つの論理 IP アドレスが割り当てられます
+
+
+|===
+image:ai-edge-image10.png["エラー：グラフィックイメージがありません"]
+
+次の表に、 AFF C190 と 2RU 、 24 ドライブスロットのストレージ構成を示します。
+
+|===
+| コントローラ | アグリゲート | FlexGroup ボリューム | Aggregatesize を実行します | ボリュームサイズ | オペレーティングシステムのマウントポイント 
+
+
+| コントローラ 1 | aggr1 | /netappleenov_AI_fg | 8.42TiB | 15TB | /NetApp_Lenovo _ fg 
+
+
+| コントローラ 2 | aggr2 |  | 8.42TiB |  |  
+|===
+/netappLenovo_AI_fg フォルダには、モデルの検証に使用するデータセットが含まれています。
+
+次の図は、テスト構成を示しています。NetApp EF280 ストレージシステムを 2 台、 Lenovo ThinkSystem SE350 サーバを 2 台（それぞれ NVIDIA T4 アクセラレータを 1 台搭載）使用しました。これらのコンポーネントは、 10GbE ネットワークスイッチを介して接続されます。ネットワークストレージには、検証 / テスト用のデータセットと事前トレーニング済みのモデルが格納されます。サーバはコンピューティング機能を提供し、ストレージに NFS プロトコル経由でアクセスします。
+
+次の表に、 EF280 のストレージ構成を示します。
+
+|===
+| コントローラ | ボリュームグループ | ボリューム | ボリュームサイズ | DDPsize | 接続方法 
+
+
+| コントローラ 1 | DDP1 | ボリューム 1 | 8.42TiB | 16TB | SE350-1 から iSCSI LUN 0 
+
+
+| コントローラ 2 |  | ボリューム 2 | 8.42TiB |  | SE350-2 から iSCSI LUN 1 へ 
+|===
+image:ai-edge-image11.png["エラー：グラフィックイメージがありません"]
+
+link:ai-edge-test-procedure.html["次の手順：手順をテストします。"]

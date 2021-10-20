@@ -1,0 +1,24 @@
+---
+sidebar: sidebar 
+permalink: ent-apps-db/hybrid_dbops_snapcenter_architecture.html 
+summary: このセクションでは、開発とテスト、および DR の運用に使用される一般的なハイブリッドクラウドアーキテクチャについて説明します。 
+keywords: architecture, synchronized database 
+---
+= 解決策アーキテクチャ
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:table-stripes: odd
+:imagesdir: ./../media/
+
+
+link:hybrid_dbops_snapcenter_usecases.html["前へ：はじめに。"]
+
+次のアーキテクチャ図は、開発 / テスト運用とディザスタリカバリ処理のためのエンタープライズデータベース運用をハイブリッドクラウドで実装する一般的な方法を示しています。
+
+image:Hybrid_Cloud_DB_Diagram.png["エラー：グラフィックイメージがありません"]
+
+通常のビジネス運用では、クラウド内の同期されたデータベースボリュームをクローニングし、アプリケーションの開発 / テスト用データベースインスタンスにマウントできます。障害が発生した場合は、クラウド内の同期されたデータベースボリュームをディザスタリカバリ用にアクティブ化できます。
+
+link:hybrid_dbops_snapcenter_requirements.html["次のステップ：ソリューションの要件"]

@@ -1,0 +1,80 @@
+---
+sidebar: sidebar 
+permalink: ent-apps-db/hybrid_dbops_snapcenter_requirements.html 
+summary: この解決策はハイブリッドクラウド環境で設計されており、開発 / テストやディザスタリカバリ処理の目的で一般的なすべてのパブリッククラウドにバーストできます。オンプレミスの本番データベースをサポートします。 
+keywords: requirements, virtualized, bare metal, versions, automation 
+---
+= SnapCenter の要件
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:table-stripes: odd
+:imagesdir: ./../media/
+
+
+link:hybrid_dbops_snapcenter_architecture.html["以前のバージョン：ソリューションアーキテクチャ。"]
+
+この解決策はハイブリッドクラウド環境で設計されており、開発 / テストやディザスタリカバリ処理の目的で一般的なすべてのパブリッククラウドにバーストできます。オンプレミスの本番データベースをサポートします。
+
+この解決策では、 SnapCenter で現在サポートされているすべてのデータベースがサポートされます。ここでは、 Oracle データベースと SQL Server データベースのみを示します。この解決策は仮想データベースワークロードに対して検証済みですが、ベアメタルワークロードもサポートされています。
+
+本番環境のデータベースサーバをオンプレミスでホストし、 ONTAP ストレージクラスタから DB ホストに DB ボリュームを提供するとします。SnapCenter ソフトウェアをオンプレミスにインストールし、データベースのバックアップとクラウドへのデータレプリケーションを行う。Ansible コントローラを推奨しますが、データベース導入の自動化や、 OS カーネル、およびデータベース構成の、パブリッククラウドのスタンバイ DR インスタンスや開発 / テストインスタンスとの同期には必要ありません。
+
+
+
+== 要件
+
+[cols="3, 9"]
+|===
+| 環境 | 要件 
+
+
+.7+| * オンプレミス * | SnapCenter でサポートされるデータベースおよびバージョン 
+
+
+| SnapCenter v4.4 以降 
+
+
+| Ansible v2.09 以降 
+
+
+| ONTAP クラスタ 9.x 
+
+
+| クラスタ間 LIF が設定されました 
+
+
+| オンプレミスからクラウド VPC への接続（ VPN 、インターコネクトなど） 
+
+
+| ネットワークポートが開いています - ssh 22 - TCP 8145 、 8146 、 10000 、 11104 、 11105 
+
+
+.3+| * クラウド - AWS * | https://docs.netapp.com/us-en/occm/task_creating_connectors_aws.html["Cloud Manager Connector の略"^] 
+
+
+| https://docs.netapp.com/us-en/occm/task_getting_started_aws.html["Cloud Volumes ONTAP"^] 
+
+
+| DB OS EC2 インスタンスとオンプレミスを一致させる必要があります 
+
+
+.3+| * クラウド - Azure * | https://docs.netapp.com/us-en/occm/task_creating_connectors_azure.html["Cloud Manager Connector の略"^] 
+
+
+| https://docs.netapp.com/us-en/occm/task_getting_started_azure.html["Cloud Volumes ONTAP"^] 
+
+
+| DB OS の Azure 仮想マシンをオンプレミスと一致させる 
+
+
+.3+| * クラウド - GCP* | https://docs.netapp.com/us-en/occm/task_creating_connectors_gcp.html["Cloud Manager Connector の略"^] 
+
+
+| https://docs.netapp.com/us-en/occm/task_getting_started_gcp.html["Cloud Volumes ONTAP"^] 
+
+
+| DB OS の Google Compute Engine インスタンスをオンプレミスと一致させる 
+|===
+link:hybrid_dbops_snapcenter_prerequisite.html["次の手順：前提条件の構成。"]

@@ -23,6 +23,16 @@ NOTE: Astra Control Center では、 Astra コンテナに必要なイメージ�
 
 == プライベートイメージレジストリを作成しています
 
+. 現在のデフォルトストレージクラスからデフォルトのアノテーションを削除し、 OpenShift クラスタの Trident バック対象ストレージクラスをデフォルトとしてアノテートします。
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ oc patch storageclass thin -p '{"metadata": {"annotations": {"storageclass.kubernetes.io/is-default-class": "false"}}}'
+storageclass.storage.k8s.io/thin patched
+
+[netapp-user@rhel7 ~]$ oc patch storageclass ocp-trident -p '{"metadata": {"annotations": {"storageclass.kubernetes.io/is-default-class": "true"}}}'
+storageclass.storage.k8s.io/ocp-trident patched
+----
 . 「 PEC 」セクションに以下の保管パラメータを入力して、 imagegeistry のオペレータを編集します。
 +
 [listing]
@@ -165,7 +175,7 @@ route.route.openshift.io/public-routes   astra-registry.apps.ocp-vmw.cie.netapp.
 +
 [listing]
 ----
-[netapp-user@rhel7 ~]$ oc create secret docker-registry astra-registry-credentials --docker-server= astra-registry.apps.ocp-vmw.cie.netapp.com --docker-username=ocp-user --docker-password=password
+[netapp-user@rhel7 ~]$ oc create secret docker-registry astra-registry-credentials --docker-server=astra-registry.apps.ocp-vmw.cie.netapp.com --docker-username=ocp-user --docker-password=password
 ----
 . このプルシークレットは、サービスアカウントにパッチを適用するか、対応するポッド定義で参照できます。
 +
@@ -208,8 +218,10 @@ imagePullSecrets:
 --
 [listing]
 ----
-[netapp-user@rhel7 ~]$ podman login astra-registry.apps.ocp-vmw.cie.netapp.com -u kubeadmin -p $(oc whoami -t)
+[netapp-user@rhel7 ~]$ podman login astra-registry.apps.ocp-vmw.cie.netapp.com -u kubeadmin -p $(oc whoami -t) --tls-verify=false
 ----
++ 注 : 「 kubeadmin 」ユーザを使用してプライベートレジストリにログインする場合は、パスワードの代わりにトークンを使用します。
+
 --
 .Docker です
 --
@@ -217,6 +229,8 @@ imagePullSecrets:
 ----
 [netapp-user@rhel7 ~]$ docker login astra-registry.apps.ocp-vmw.cie.netapp.com -u kubeadmin -p $(oc whoami -t)
 ----
++ 注 : 「 kubeadmin 」ユーザを使用してプライベートレジストリにログインする場合は、パスワードの代わりにトークンを使用します。
+
 --
 ====
 .. 画像を押したり引いたりします。

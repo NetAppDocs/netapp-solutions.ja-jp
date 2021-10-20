@@ -54,10 +54,11 @@ NOTE: リンクを参照してください link:rh-os-n_private_registry.html["�
 . Red Hat OpenShift クラスタにクラスタ管理者アクセス権限が必要です。
 . NetApp ONTAP クラスタへの管理者アクセスが必要です。
 . Docker または podman 、 tridentctl 、 OC または kubectl ツールがインストールされ、 $path に追加された管理ワークステーション。
++
+
+NOTE: Docker をインストールする場合は、 20.10 よりも前のバージョンの Docker 、 Podman をインストールする場合は、バージョン 3.0 よりも前の podman が必要です。
 
 
-
-NOTE: Docker または Podman 環境は、バージョン 20.10 以上である必要があります。
 
 
 
@@ -98,6 +99,14 @@ NOTE: この手順では、 Docker または Podman のいずれかを使用し�
 ----
 [netapp-user@rhel7 ~]$ podman login -u ocp-user -p password --tls-verify=false astra-registry.apps.ocp-vmw.cie.netapp.com
 ----
++
+
+NOTE: 「 kubeadmin 」ユーザを使用してプライベートレジストリにログインしている場合は、「 podman login -u OCP -user -p token --tls-verify=false astra-registry.apps.ocp-vmw.cie.netapp.com` 」の代わりにトークンを使用します。
+
++
+
+NOTE: または、サービスアカウントのトークンを使用して、サービスアカウントを作成し、（プッシュアクセスまたはプルアクセスが必要かどうかに応じて）レジストリエディタまたはレジストリビューアロールを割り当て、レジストリにログインすることもできます。
+
 . シェルスクリプトファイルを作成し、次の内容を貼り付けます。
 +
 [listing]
@@ -141,8 +150,16 @@ NOTE: レジストリに信頼されていない証明書を使用している�
 +
 [listing]
 ----
-[netapp-user@rhel7 ~]$ docker login -u ocp-user -p password --tls-verify=false astra-registry.apps.ocp-vmw.cie.netapp.com
+[netapp-user@rhel7 ~]$ docker login -u ocp-user -p password astra-registry.apps.ocp-vmw.cie.netapp.com
 ----
++
+
+NOTE: 「 kubeadmin 」ユーザを使用してプライベートレジストリにログインする場合は、「 password - `d Occker login -u OCP-user-p token astra-registry.apps.ocp-vmw.cie.netapp.com` 」の代わりにトークンを使用します。
+
++
+
+NOTE: または、サービスアカウントのトークンを使用して、サービスアカウントを作成し、（プッシュアクセスまたはプルアクセスが必要かどうかに応じて）レジストリエディタまたはレジストリビューアロールを割り当て、レジストリにログインすることもできます。
+
 . シェルスクリプトファイルを作成し、次の内容を貼り付けます。
 +
 [listing]
@@ -155,10 +172,6 @@ for astraImageFile in $(ls images/*.tar); do
    docker push $registry/$(echo $astraImage | sed 's/^[^\/]\+\///')
 done
 ----
-+
-
-NOTE: レジストリに信頼されていない証明書を使用している場合は、シェルスクリプトを編集し、 Docker Push コマンド「 d Occker push $registry/ $ 」（ echo $astraalImage | sed 's/^[^\\/]\\/'/' ） --tls-verify=false' を使用します。
-
 . ファイルを実行可能にします
 +
 [listing]
@@ -200,7 +213,7 @@ NOTE: ルートとともに入力オペレータからのデフォルト TLS 証
 [netapp-user@rhel7 ~]$ oc create secret docker-registry astra-registry-cred --docker-server=astra-registry.apps.ocp-vmw.cie.netapp.com --docker-username=ocp-user --docker-password=password -n netapp-acc-operator
 secret/astra-registry-cred created
 ----
-. Astra Control Center Operator CR 'Astra_control_center_deployment.yaml ' を編集します Astra Control Center は ' すべてのリソースを配備しますオペレータ CR で 'acc-operator-controller-managor' の配備定義を検索し ' イメージをレジストリにプッシュする際に指定した組織名とともに ' レジストリの FQDN を入力します ( この例では astra-registry.apps.ocp-vmw.cie.netapp.com/netapp-astra` ) テキスト「 [ あなたの .registry.goes .here] 」を置き換え、先ほど作成した秘密の名前を入力します。オペレータのその他の詳細を確認し、保存して閉じます。
+. Astra Control Center Operator CR 'Astra_control_center_deployment.yaml ' を編集します Astra Control Center は ' すべてのリソースを配備しますオペレータ CR で 'acc-operator-controller-managor' の配備定義を検索し ' イメージをレジストリにプッシュする際に指定した組織名とともに ' レジストリの FQDN を入力します ( この例では astra-registry.apps.ocp-vmw.cie.netapp.com/netapp-astra` ) テキスト 'Astra_image_registry' を置き換えて 'imagePullSecret' セクションで作成したシークレットの名前を指定しますオペレータのその他の詳細を確認し、保存して閉じます。
 +
 [listing]
 ----
@@ -229,7 +242,7 @@ spec:
         - --upstream=http://127.0.0.1:8080/
         - --logtostderr=true
         - --v=10
-        image: astra-registry.apps.ocp-vmw.cie.netapp.com/netapp-astra/kube-rbac-proxy:v0.5.0
+        image: ASTRA_IMAGE_REGISTRY/kube-rbac-proxy:v0.5.0
         name: kube-rbac-proxy
         ports:
         - containerPort: 8443
@@ -243,7 +256,7 @@ spec:
         env:
         - name: ACCOP_LOG_LEVEL
           value: "2"
-        image: astra-registry.apps.ocp-vmw.cie.netapp.com/netapp-astra/acc-operator:21.05.68
+        image: astra-registry.apps.ocp-vmw.cie.netapp.com/netapp-astra/acc-operator:21.08.7
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -260,11 +273,11 @@ spec:
           periodSeconds: 10
         resources:
           limits:
-            cpu: 100m
-            memory: 150Mi
+            cpu: 300m
+            memory: 750Mi
           requests:
             cpu: 100m
-            memory: 50Mi
+            memory: 75Mi
         securityContext:
           allowPrivilegeEscalation: false
       imagePullSecrets: [name: astra-registry-cred]
@@ -289,7 +302,7 @@ namespace/netapp-astra-cc created
 +
 [listing]
 ----
-[netapp-user@rhel7 ~]$ oc create secret docker-registry astra-registry-cred --docker-server= astra-registry.apps.ocp-vmw.cie.netapp.com --docker-username=ocp-user --docker-password=password -n netapp-astra-cc
+[netapp-user@rhel7 ~]$ oc create secret docker-registry astra-registry-cred --docker-server=astra-registry.apps.ocp-vmw.cie.netapp.com --docker-username=ocp-user --docker-password=password -n netapp-astra-cc
 
 secret/astra-registry-cred created
 ----
@@ -304,11 +317,14 @@ kind: AstraControlCenter
 metadata:
   name: astra
 spec:
+  accountName: "NetApp HCG Solutions"
   astraVersion: "21.08.65"
   astraAddress: "astra-control-center.cie.netapp.com"
   autoSupport:
     enrolled: true
   email: "solutions_tme@netapp.com"
+  firstName: "NetApp HCG"
+  lastName: "Admin"
   imageRegistry:
     name: "astra-registry.apps.ocp-vmw.cie.netapp.com/netapp-astra"     # use your registry
     secret: "astra-registry-cred"             # comment out if not needed
@@ -375,7 +391,7 @@ traefik                                    LoadBalancer   172.30.99.142    10.61
 +
 image:redhat_openshift_image122.jpg["ACC GUI の DNS エントリを追加します"]
 
-. Astra Control Center GUI にログインするには、 FQDN にアクセスします。
+. Astra Control Center GUI に、 FQDN を参照してログインします。
 +
 image:redhat_openshift_image87.jpg["Astra Control Center ログイン"]
 
