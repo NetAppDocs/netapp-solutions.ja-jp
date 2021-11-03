@@ -10531,4 +10531,430 @@
   <block id="59a4cf9e5720080358e0622f3c948571" category="list-text"><block ref="59a4cf9e5720080358e0622f3c948571" category="inline-link-macro-rx"></block></block>
   <block id="ae270ffdc87820776fadfe121aa13143" category="sidebar">ネットアップの AI による地合い分析</block>
   <block id="f74720767a0bf20cfdb6bba5f215d795" category="sidebar">サポートセンターの感情分析の導入</block>
+  <block id="2c755351ada495582a6d9015943de077" category="summary">このユースケースでは、 DevTest と Reporting の目的で同じデータセンターとリモートサイトに大量の分析データを格納した既存の Hadoop クラスタをベースに、新しい Hadoop / Spark クラスタを迅速かつ効率的に構築することがお客様の要件となります。</block>
+  <block id="acb2dd720b2161405c8cb1ca6035618b" category="doc">ユースケース 3 ：既存の Hadoop データに対して DevTest を有効化</block>
+  <block id="aeab228f25b5fbe0b00f83117579246e" category="inline-link-macro">従来のユースケース 2 - クラウドからオンプレミスへのバックアップとディザスタリカバリ</block>
+  <block id="cf44ed74ea7e07a8e4478e43d9537e07" category="paragraph"><block ref="cf44ed74ea7e07a8e4478e43d9537e07" category="inline-link-macro-rx"></block></block>
+  <block id="54861efdd06fc309e1c9a420feff98eb" category="section-title">シナリオ（ Scenario ）</block>
+  <block id="4e19c1aafa6d3711ae619f7e1621a61e" category="paragraph">このシナリオでは、大規模な Hadoop データレイク実装をオンプレミスとディザスタリカバリサイトで使用して、複数の Spark / Hadoop クラスタを構築しています。</block>
+  <block id="5f5e12d29ffccf33e8cb5a30f4d2fe8c" category="section-title">要件と課題</block>
+  <block id="c04f16bb8233216a472d30b6c509b230" category="paragraph">このユースケースの主な要件と課題は次のとおりです。</block>
+  <block id="5768edca640abf2b08dd5ba0e593dcc7" category="list-text">DevTest 、 QA 用など、同じ本番環境のデータへのアクセスを必要とする用途に複数の Hadoop クラスタを作成この課題は、非常に大規模な Hadoop クラスタを、スペース効率に優れた方法で何度も瞬時にクローニングすることです。</block>
+  <block id="529c78f9988d342b33707ecaae7d2576" category="list-text">運用効率を高めるために、 Hadoop データを DevTest チームとレポートチームに同期します。</block>
+  <block id="07178cfd87815398d5079e55c257f96c" category="list-text">業務用クラスタと新規クラスタに同じクレデンシャルを使用して Hadoop データを分散します。</block>
+  <block id="b26eaa756d7ec14dcec5c25d7d9ad6b6" category="list-text">スケジュールされたポリシーを使用して、本番クラスタに影響を与えずに効率的に QA クラスタを作成</block>
+  <block id="49b21ad0d38942f635877e7bbc5d7a1e" category="section-title">解決策</block>
+  <block id="6442ec446d11bbd47497299e0ffceed5" category="paragraph">FlexClone テクノロジは、直前に説明した要件を回答に適用するために使用されます。FlexClone テクノロジは、 Snapshot コピーの読み取り / 書き込みコピーです。親 Snapshot コピーのデータを読み取り、新規または変更されたブロック用に追加のスペースのみを消費します。高速でスペース効率に優れています。</block>
+  <block id="51a22383ed7ac5a70a455d81a9bad789" category="paragraph">まず、ネットアップの整合グループを使用して既存のクラスタの Snapshot コピーを作成し、</block>
+  <block id="4b481b20e942087b64c5bb7b07d9dca9" category="paragraph">NetApp System Manager またはストレージ管理プロンプト内の Snapshot コピー。整合グループ Snapshot コピーはアプリケーションと整合性のあるグループ Snapshot コピーであり、整合グループ Snapshot コピーに基づいて FlexClone ボリュームが作成されます。FlexClone ボリュームは親ボリュームの NFS エクスポートポリシーを継承することに留意する必要があります。Snapshot コピーの作成後、次の図に示すように、 DevTest および Reporting 用に新しい Hadoop クラスタをインストールする必要があります。インプレース分析モジュールは、 NFS データのインプレース分析モジュールユーザーおよびグループ許可を介して、新しい Hadoop クラスタからクローン NFS ボリュームにアクセスします。</block>
+  <block id="4c490dfedbcc5a021b8a4c823e337d41" category="paragraph">適切なアクセス権を持つには、インプレース分析モジュールのユーザーとグループ構成で設定されたユーザーに対して、新しいクラスタに同じ UID と GUID が設定されている必要があります。</block>
+  <block id="6ee7e035a9c46bb26ee76c40aa671148" category="paragraph">この図は、 DevTest 用の Hadoop クラスタを示しています。</block>
+  <block id="4157075925c8c1518cc71d1d0abab403" category="paragraph"><block ref="4157075925c8c1518cc71d1d0abab403" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="e10ad11fd299ee6f161f17d772a78a48" category="inline-link-macro">次のユースケース 4 - データ保護とマルチクラウド接続</block>
+  <block id="8109e574f349ced8f667b9389c9189a4" category="paragraph"><block ref="8109e574f349ced8f667b9389c9189a4" category="inline-link-macro-rx"></block></block>
+  <block id="a64b3943d4911d301243b8ac8779ba53" category="summary">このセクションでは、ネットアップが提供するさまざまな Hadoop データ保護要件を満たすユースケースとソリューションの概要を説明します。</block>
+  <block id="23496143e5ca83c13eb4d953786abdcd" category="inline-link-macro">前：ユースケース 5 - 分析ワークロードの高速化</block>
+  <block id="09b7371b2ae3168a3c54b30e4966e86e" category="paragraph"><block ref="09b7371b2ae3168a3c54b30e4966e86e" category="inline-link-macro-rx"></block></block>
+  <block id="ac81718eacd21c51db78a7185a5c0a96" category="paragraph">このセクションでは、ネットアップが提供するさまざまな Hadoop データ保護要件を満たすユースケースとソリューションの概要を説明します。ネットアップのデータファブリックを使用することで、お客様は次のことが可能になります。</block>
+  <block id="ce0bf05854efb234905c751e40774ab5" category="list-text">ネットアップの充実したデータ管理機能と Hadoop ネイティブワークフローとの統合により、適切なデータ保護ソリューションを柔軟に選択できます。</block>
+  <block id="925b1719b2db8532854b1de76f928f31" category="list-text">Hadoop クラスタのバックアップ時間を約 70% 短縮します。</block>
+  <block id="7de96884f777b768ef12e40582f4d816" category="list-text">Hadoop クラスタのバックアップによるパフォーマンスへの影響を排除します。</block>
+  <block id="d5235d7ce8947322a12272f0c6dc7e24" category="list-text">異なるクラウドプロバイダからのマルチクラウドデータ保護とデータアクセスを、単一の分析データソースに同時に提供できます。</block>
+  <block id="61e7eb3536cca4c51ae700159e1d247a" category="list-text">FlexClone テクノロジを使用すると、スペース効率に優れた高速な Hadoop クラスタコピーを作成できます。</block>
+  <block id="64bb4a6337ad7b2efa8dc5d43d492edf" category="paragraph">このドキュメントに記載されている情報の詳細については、以下のドキュメントや Web サイトを参照してください。</block>
+  <block id="253914d41704f0f326f6595e14005170" category="list-text">ネットアップのビッグデータ分析ソリューション</block>
+  <block id="85eb07da2e4fd15718f8d05d269a4e30" category="inline-link"><block ref="85eb07da2e4fd15718f8d05d269a4e30" category="inline-link-rx"></block></block>
+  <block id="f87d78d98a2357057eba948402e285f0" category="paragraph"><block ref="f87d78d98a2357057eba948402e285f0" category="inline-link-rx"></block></block>
+  <block id="b2eb92b872fe536c4a859e695eaf280d" category="list-text">ネットアップストレージを使用した Apache Spark ワークロード</block>
+  <block id="a904c9f7327a2cbf0c9411dd8b7551fa" category="inline-link"><block ref="a904c9f7327a2cbf0c9411dd8b7551fa" category="inline-link-rx"></block></block>
+  <block id="3db0ab5f6c6b92b8d32d80cb1a83e214" category="paragraph"><block ref="3db0ab5f6c6b92b8d32d80cb1a83e214" category="inline-link-rx"></block></block>
+  <block id="1bff250c7118efa9007019415bb2730d" category="list-text">ネットアップの Apache Spark 向けストレージソリューション</block>
+  <block id="83d445161ea1f91a19d552f783018ea5" category="inline-link"><block ref="83d445161ea1f91a19d552f783018ea5" category="inline-link-rx"></block></block>
+  <block id="142c737f7563ed12b8b08b6fc8779b8c" category="paragraph"><block ref="142c737f7563ed12b8b08b6fc8779b8c" category="inline-link-rx"></block></block>
+  <block id="df245018c012fa9deefc0e1d65196e46" category="list-text">ネットアップが有効にしたデータファブリック上の Apache Hadoop</block>
+  <block id="143ece864a38e1c8267bd8318d458955" category="inline-link"><block ref="143ece864a38e1c8267bd8318d458955" category="inline-link-rx"></block></block>
+  <block id="b890b67174812331efb42656a186fa42" category="paragraph"><block ref="b890b67174812331efb42656a186fa42" category="inline-link-rx"></block></block>
+  <block id="49d7c87b66a2b688ec65b1a4fe9b5ddc" category="list-text">NetApp In-Place Analytics Module の略</block>
+  <block id="1d669c79bffe95dd384dffb8309a0d40" category="inline-link"><block ref="1d669c79bffe95dd384dffb8309a0d40" category="inline-link-rx"></block></block>
+  <block id="fde1cd76fa73f8065aeb8a97c77b40ec" category="paragraph"><block ref="fde1cd76fa73f8065aeb8a97c77b40ec" category="inline-link-rx"></block></block>
+  <block id="0407c27180c9b019e644e8ad4c6a9324" category="section-title">謝辞</block>
+  <block id="c4f052e8512b2541f8154dd256a529d6" category="list-text">ネットアップ、 ANZ 地域セールス担当、 Paul Burland 氏</block>
+  <block id="5d14432aa90b3b3ebfa87b98a1844edb" category="list-text">ネットアップ、ビジネス開発マネージャー、 Hoseb Dermanilian 氏</block>
+  <block id="929bdc02c2d9943ae8cb52786476e6c6" category="list-text">ネットアップ、 MPSG ディレクター、 Lee Dorrior 氏</block>
+  <block id="a3ed56594a87e322fbcf5a6e705a4134" category="list-text">ネットアップ、 ANZ ビクトリア地区 SE 、システムエンジニア David Thiessen 氏</block>
+  <block id="effdc6a5d743a9db1cd347a2ac8d6b80" category="cell">2018 年 1 月</block>
+  <block id="81d2cd2b484f8c425c2146303b9f1c55" category="cell">ユースケース 5 ：分析ワークロードの高速化を更新</block>
+  <block id="1dca3067f5c6c2fa6b32ef683fcab56f" category="summary">このシナリオでは、大規模なオンプレミスの Hadoop リポジトリがあり、ディザスタリカバリのためにバックアップを作成したいと考えています。しかし、お客様の現在のバックアップ解決策はコストが高く、 24 時間以上のバックアップウィンドウに悩まされています。</block>
+  <block id="817ac2975197bd6c376a7918a798981f" category="doc">使用事例 1 ： Hadoop データのバックアップ</block>
+  <block id="8efec9e11b7742f59dbe1af079e1c1d0" category="inline-link-macro">以前： Hadoop のデータ保護のユースケースの概要。</block>
+  <block id="259b434ecfae95df231c879645a98918" category="paragraph"><block ref="259b434ecfae95df231c879645a98918" category="inline-link-macro-rx"></block></block>
+  <block id="7ffe71c29f8ea391bbd80c1e8441af9a" category="list-text">ソフトウェアの下位互換性：</block>
+  <block id="d96828d85e8cc053407a391bee52257f" category="list-text">提案する代替バックアップ解決策は、本番用 Hadoop クラスタで現在実行しているソフトウェアバージョンと互換性があることが必要です。</block>
+  <block id="dd5bb530e532c011487ffc3a69e56f57" category="list-text">コミットされた SLA を満たすためには、代替の解決策で非常に低い RPO と RTO を達成することを推奨します。</block>
+  <block id="4783ab1f0401dc9c24cc9afa6dc5823e" category="list-text">ネットアップのバックアップ解決策で作成したバックアップは、データセンターのローカルに構築された Hadoop クラスタ、およびリモートサイトのディザスタリカバリロケーションで実行されている Hadoop クラスタで使用できます。</block>
+  <block id="1dbc869d2df036d4d6e732e9c680ab6b" category="list-text">提案する解決策は対費用効果が高いものでなければなりません。</block>
+  <block id="7405e6ba4b630f11b88a7976325a95e4" category="list-text">提案する解決策は、バックアップ処理中に実行中の本番環境の分析ジョブに与えるパフォーマンスへの影響を軽減する必要があります。</block>
+  <block id="e3d4f6860e578b28733c41c2c852f821" category="section-title">お客様の既存のバックアップ解決策</block>
+  <block id="f350f804f84a5bf788cd78cd4aae7eab" category="paragraph">次の図は、元の Hadoop ネイティブのバックアップ解決策を示しています。</block>
+  <block id="2975218bd3c71a4ac4eac95d3529a9cb" category="paragraph"><block ref="2975218bd3c71a4ac4eac95d3529a9cb" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="76b8e496c38192b97fdfa6cae2ba2bb4" category="paragraph">本番環境のデータは、中間バックアップクラスタを通じてテープに保護されます。</block>
+  <block id="d07ca391addc59b7408fb88541552b43" category="list-text">hadoop distcp-update &lt;hdfs1 &gt;&lt;hdfs2&gt;` コマンドを実行することにより、 HDFS1 データが HDFS2 にコピーされます。</block>
+  <block id="2c4cadbb7f122d1d0cd988a11681248a" category="list-text">バックアップ・クラスタは NFS ゲートウェイとして機能し ' テープ・ライブラリを介して Linux'cp' コマンドを使用してデータを手動でテープにコピーします</block>
+  <block id="b73035943c8623cbdb7bd67992201012" category="paragraph">元の Hadoop ネイティブバックアップ解決策には次のようなメリットがあります。</block>
+  <block id="5bdb90a1352ca42ab8dde5b9ab7ffac3" category="list-text">解決策は Hadoop ネイティブのコマンドをベースにしているため、新しい手順を習得する必要がなくなります。</block>
+  <block id="f581d1b5f93adda1865bad95e215a7b9" category="list-text">解決策は、業界標準のアーキテクチャとハードウェアを活用しています。</block>
+  <block id="ddd131647a4d5e1b5bcb983ec8872ff9" category="paragraph">元の Hadoop ネイティブバックアップ解決策には、次のような欠点があります。</block>
+  <block id="2cd5e9eae715f3bb0475ed032bf56190" category="list-text">バックアップ時間が長いと 24 時間を超えるため、本番環境のデータが脆弱になります。</block>
+  <block id="b22d500a5624a2c57ec5bda86aa57011" category="list-text">バックアップ時間中にクラスタのパフォーマンスが大幅に低下します。</block>
+  <block id="69bfe7f4231b0c1d65247d0abfc89cb3" category="list-text">テープへのコピーは手動で行います。</block>
+  <block id="6ef8e4ec49425ac5ded9c6cc599c17d2" category="list-text">バックアップ解決策は、必要なハードウェアと、手動プロセスに必要な人的時間の点でコストが高くなります。</block>
+  <block id="1b4d2bf420e7f05ecb82ecf2197ab810" category="section-title">バックアップソリューション</block>
+  <block id="6d977e36854ae6439cbc4fe8e0c1b227" category="paragraph">これらの課題と要件に基づいて、既存のバックアップシステムを検討し、 3 つのバックアップソリューションを提案しました。以降のサブセクションでは、解決策 A ～ 解決策 C というラベルの付いた 3 種類のバックアップソリューションについて説明します</block>
+  <block id="c5a6c012dc14dc7f9d2fa0df0ccb0cdf" category="section-title">解決策 A の略</block>
+  <block id="8ee7b0fbb95cf5b1c98578a7ef03b9eb" category="paragraph">解決策 A は、バックアップ Hadoop クラスタにインプレース分析モジュールを追加し、次の図に示すように、ネットアップ NFS ストレージシステムへのセカンダリバックアップを可能にします。これにより、テープの要件がなくなります。</block>
+  <block id="411ee6c684ee720eff303771433e41d6" category="paragraph"><block ref="411ee6c684ee720eff303771433e41d6" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="2813f022c034c63ad3d6efeeb503eb70" category="paragraph">解決策 A の詳細なタスクは次のとおりです。</block>
+  <block id="0406c5ca05cfb5f7a0c02971c3962460" category="list-text">本番環境の Hadoop クラスタには、保護が必要な HDFS 内のお客様の分析データがあります。</block>
+  <block id="feb7749ff700168c127dfbd8376b35f7" category="list-text">HDFS を使用するバックアップ Hadoop クラスタは、データの中間的な場所として機能します。Just a Bunch of Disks （ JBOD ）は、本番環境の Hadoop クラスタとバックアップの Hadoop クラスタの両方で HDFS にストレージを提供する。</block>
+  <block id="b3f54540429c806b8cf0080fd78b34bc" category="list-text">「 hadoop distcp – update – diff&lt;hdfs1 &gt;&lt;hdfs2&gt;` コマンド」を実行することで、 Hadoop 本番クラスタの HDFS からバックアップクラスタの HDFS へと Hadoop 本番データを保護します。</block>
+  <block id="2de4833848a0b94bd672bdf9bc60d4aa" category="admonition">Hadoop スナップショットは、本番環境からバックアップ Hadoop クラスタへデータを保護するために使用されます。</block>
+  <block id="79ef8fc2c565c69b33f5918c3a0bdd9a" category="list-text">NetApp ONTAP ストレージコントローラは、バックアップ Hadoop クラスタにプロビジョニングされる NFS エクスポートボリュームを提供します。</block>
+  <block id="b0e42779d51b21a745cae08f938ec60a" category="list-text">MapReduce と複数のマッパを利用して「 hadoop distcp 」コマンドを実行することで、分析データはインプレース分析モジュールを使用してバックアップ Hadoop クラスタから NFS に保護されます。</block>
+  <block id="738997de22c6371f563f69e1bb57b6e5" category="paragraph">ネットアップストレージシステム上の NFS にデータを格納したあと、必要に応じて、ネットアップの Snapshot 、 SnapRestore 、および FlexClone テクノロジを使用して Hadoop データをバックアップ、リストア、および複製します。</block>
+  <block id="0bd252182290e872b264ad65d369637f" category="admonition">Hadoop データは、 SnapMirror テクノロジを使用してクラウドやディザスタリカバリロケーションに保護できます。</block>
+  <block id="4a1b9aaeaa6487c6df7072326cf3798e" category="paragraph">解決策 A には、次のような利点があります。</block>
+  <block id="0843e6a882cae98851adbefb52d05827" category="list-text">Hadoop の本番データはバックアップクラスタから保護されます。</block>
+  <block id="522d0cf303cbf1b16ea5cc33480ce02f" category="list-text">HDFS データは NFS を通じて保護されるため、クラウドやディザスタリカバリの場所を保護できます。</block>
+  <block id="298d20d1ae9110668e52c07776f62948" category="list-text">バックアップ処理をバックアップクラスタにオフロードすることでパフォーマンスを向上します。</block>
+  <block id="4c10451e9e5bf987bc3ab16a9fce3966" category="list-text">手動でのテープ操作が不要になります</block>
+  <block id="0ff20f264e79e773549ded37f50f4b3b" category="list-text">ネットアップのツールを使用してエンタープライズ管理機能を利用できます。</block>
+  <block id="4c84f95e2dad9b5385151a736e89f0c3" category="list-text">既存の環境への変更は最小限で済みます。</block>
+  <block id="66f3b3a8c99e03a363a88a58fabe03cc" category="list-text">対費用効果の高い解決策です。</block>
+  <block id="4e941dea7920913a2c3a6d2a11a0936f" category="paragraph">この解決策の欠点は、パフォーマンスを向上させるためにバックアップクラスタと追加のマッパが必要であることです。</block>
+  <block id="0628ac302dce6afb9d95a6b8ebd0d013" category="paragraph">お客様は最近、解決策 A を導入しました。シンプルさ、コスト、全体的なパフォーマンスが理由です。</block>
+  <block id="7a3ba8b554aec9832f399bff2ba17c74" category="paragraph">この解決策では、 JBOD の代わりに ONTAP の SAN ディスクを使用できます。このオプションを選択すると、バックアップクラスタのストレージ負荷が ONTAP にオフロードされますが、問題となるのは SAN ファブリックスイッチが必要な場合です。</block>
+  <block id="501a1b4ce382e8e2da0089aded30d11e" category="section-title">解決策 B</block>
+  <block id="304af2b0b47890c7db8f6097978fdede" category="paragraph">解決策 B は本番用 Hadoop クラスタにインプレース分析モジュールを追加するため、次の図に示すように、バックアップ Hadoop クラスタは不要です。</block>
+  <block id="303388aba87d7dcff207a6cd098b0cfe" category="paragraph"><block ref="303388aba87d7dcff207a6cd098b0cfe" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="8ca30c628556726e2038c5df9689fd91" category="paragraph">解決策 B の詳細なタスクは次のとおりです。</block>
+  <block id="e493f6dc701d2253466d5705af2e5bb1" category="list-text">NetApp ONTAP ストレージコントローラは、本番用 Hadoop クラスタに対して NFS エクスポートをプロビジョニングします。</block>
+  <block id="3c321f811c173c1f133bdcc77fc81a33" category="paragraph">hadoop native 「 hadoop distcp 」コマンドは、実稼働クラスタ HDFS からインプレース分析モジュールを介して NFS へ Hadoop データを保護します。</block>
+  <block id="665cfb3949b836c368d9be47d34bcbba" category="list-text">ネットアップストレージシステム上の NFS にデータを格納したあと、 Snapshot 、 SnapRestore 、および FlexClone テクノロジを使用して、必要に応じて Hadoop データをバックアップ、リストア、および複製します。</block>
+  <block id="4f1aeb2a94e89562b7bef27c368ed9cc" category="paragraph">解決策 B には次のような利点があります。</block>
+  <block id="748dc25f775dc78e1da24328f753d1e1" category="list-text">本番環境クラスタは、バックアップ解決策用に若干変更されるため、実装が簡単になり、インフラコストを削減できます。</block>
+  <block id="a565a40a6656693466a7da18be6d44ca" category="list-text">バックアップ処理のためのバックアップクラスタは必要ありません。</block>
+  <block id="fa6ae9dfac02b933ef93450603114fce" category="list-text">HDFS の本番環境のデータは、 NFS データへの変換によって保護されます。</block>
+  <block id="cf7952142a1253af6b9394a3f01408b3" category="list-text">解決策では、ネットアップのツールを使用してエンタープライズ管理機能を実行できます。</block>
+  <block id="02946730aaff0e3d8abfa986a2fe949d" category="paragraph">この解決策の欠点は、本番クラスタに実装されており、本番クラスタに管理者タスクを追加できることです。</block>
+  <block id="0a3b8c5fab2a32545423ade2927b1185" category="section-title">解決策 C</block>
+  <block id="6c176725a15c1c609d24387ddf6600da" category="paragraph">解決策 C では、次の図に示すように、 NetApp SAN ボリュームが HDFS ストレージの Hadoop 本番クラスタに直接プロビジョニングされます。</block>
+  <block id="dc460b3501caf17186202576855a6d3c" category="paragraph"><block ref="dc460b3501caf17186202576855a6d3c" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="c0d09b63c2b939de22a3b5d0f4cb3c87" category="paragraph">解決策 C の詳細な手順は次のとおりです。</block>
+  <block id="35edf0b5a2042b4561d4d499298010e6" category="list-text">NetApp ONTAP SAN ストレージは、 HDFS データストレージの本番用 Hadoop クラスタでプロビジョニングされます。</block>
+  <block id="3b694951a08990d1243da1dd36e6cd07" category="list-text">NetApp Snapshot テクノロジと SnapMirror テクノロジを使用して、本番用 Hadoop クラスタの HDFS データをバックアップします。</block>
+  <block id="c32b4eb407751e515d7d037629b66dfb" category="list-text">バックアップはストレージレイヤにあるため、 Snapshot コピーのバックアッププロセス中は Hadoop / Spark クラスタの本番環境でパフォーマンスが低下することはありません。</block>
+  <block id="ef54974b65426daa87a86290447ed9a6" category="admonition">Snapshot テクノロジを使用すると、データのサイズに関係なく数秒で完了するバックアップを作成できます。</block>
+  <block id="f499d7fd731eb2bb1efe6c4069efcb47" category="paragraph">解決策 C には次のような利点があります。</block>
+  <block id="abe0be0b8deb695793caa75a1dcfc4b3" category="list-text">スペース効率に優れたバックアップは、 Snapshot テクノロジを使用して作成できます。</block>
+  <block id="5788267ffe4023e91b333de591766cca" category="inline-link-macro">次のユースケース 2 ：クラウドからオンプレミスへのバックアップとディザスタリカバリ</block>
+  <block id="1619284091911820ebd1407554fb6da7" category="paragraph"><block ref="1619284091911820ebd1407554fb6da7" category="inline-link-macro-rx"></block></block>
+  <block id="9d9b3c1914053d9ff102d01b77ab40a9" category="summary">このユースケースは、クラウドベースの分析データをオンプレミスのデータセンターにバックアップする必要がある放送局の顧客に基づいています。</block>
+  <block id="0abf694ae9fa8ac43b805ba39a10d143" category="doc">ユースケース 2 ：クラウドからオンプレミスへのバックアップとディザスタリカバリ</block>
+  <block id="d05b5b5452aa966fcd3c8947a172f44a" category="inline-link-macro">前：ユースケース 1 - Hadoop データのバックアップ</block>
+  <block id="d6b3b64a2054103914910c4432cc9e18" category="paragraph"><block ref="d6b3b64a2054103914910c4432cc9e18" category="inline-link-macro-rx"></block></block>
+  <block id="733d8d14fe9ffb98d02b33079e3d3db2" category="paragraph">このユースケースは、放送局のお客様がクラウドベースの分析データをオンプレミスのデータセンターにバックアップする必要がある場合を基準にしています。以下の図を参照してください。</block>
+  <block id="063e138ba69a95a99bd2f908b540e210" category="paragraph"><block ref="063e138ba69a95a99bd2f908b540e210" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="26fea23389e404e4cb8cf9be2c100cbd" category="paragraph">このシナリオでは、 IoT センサーのデータがクラウドに取り込まれ、 AWS 内のオープンソースの Apache Spark クラスタを使用して分析されます。処理されたデータをクラウドからオンプレミスにバックアップすることが要件です。</block>
+  <block id="bb446485afc21a80bc5f26a9131de160" category="list-text">データ保護を有効原因にしても、本番環境の Spark / Hadoop クラスタのパフォーマンスへの影響は一切ありません。</block>
+  <block id="dbb6231aec34eed7c53cff2d4a2d43ef" category="list-text">効率的かつ安全な方法で、クラウドセンサーデータをオンプレミスに移動して保護する必要があります。</block>
+  <block id="848b66ad8aca524142404de79ce64c73" category="list-text">オンデマンド、瞬時、クラスタの低負荷時など、さまざまな条件下でクラウドからオンプレミスにデータを柔軟に転送できます。</block>
+  <block id="4d8011e28e4ef4359ca7c169e7797091" category="paragraph">お客様は、 Spark クラスタの HDFS ストレージとして AWS Elastic Block Store （ EBS ）を使用して、 Kafka 経由でリモートセンサーからデータを受け取り、取り込むことになりました。そのため、 HDFS ストレージはバックアップデータのソースとして機能します。</block>
+  <block id="e55d60f6f17896ce9b53a0ef23e23413" category="paragraph">これらの要件を満たすために、 NetApp ONTAP Cloud が AWS に導入され、 Spark / Hadoop クラスタのバックアップターゲットとして機能する NFS 共有が作成されます。</block>
+  <block id="c260f0b6bfdb6eff1473aafbf5bd075a" category="paragraph">NFS 共有が作成されると、インプレース分析モジュールを使用して、 HDFS EBS ストレージから ONTAP NFS 共有にデータがコピーされます。データが ONTAP クラウド上の NFS に配置されると、 SnapMirror テクノロジを使用して、必要に応じてクラウドからオンプレミスのストレージにデータを安全かつ効率的にミラーリングできます。</block>
+  <block id="aecad7c5bdfba92aa6cd945a9045c37f" category="paragraph">この図は、クラウドからオンプレミスの解決策へのバックアップとディザスタリカバリを示しています。</block>
+  <block id="94c7a6b63152038de5e8b2763cdef06c" category="paragraph"><block ref="94c7a6b63152038de5e8b2763cdef06c" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="bbd6a10b63926b84e9a28da6d4214925" category="inline-link-macro">次：ユースケース 3 - 既存の Hadoop データに対して DevTest を有効化</block>
+  <block id="e0f915fb1893e398d54abc6f9d00ca57" category="paragraph"><block ref="e0f915fb1893e398d54abc6f9d00ca57" category="inline-link-macro-rx"></block></block>
+  <block id="69efde21ccf40f1dda4d665f81bacefe" category="summary">このシナリオでは、 NetApp NFS ストレージ解決策を使用して大規模な金融サービスおよび投資銀行の分析プラットフォームを最新化し、資産管理および定量的ビジネスユニットの投資リスクおよび派生物の分析を大幅に改善しました。</block>
+  <block id="0158648474e8dffab94ca58af2257b92" category="doc">ユースケース 5 ：分析ワークロードを高速化</block>
+  <block id="c8ea1eda8e0ac121148ac86dee9649a7" category="inline-link-macro">前のステップ：ユースケース 4 - データ保護とマルチクラウド接続</block>
+  <block id="87fb2a1eb3f12014af6e5dd36ba66e5e" category="paragraph"><block ref="87fb2a1eb3f12014af6e5dd36ba66e5e" category="inline-link-macro-rx"></block></block>
+  <block id="24b0e878b8196875cd088397ac8312a9" category="paragraph">お客様の既存の環境では、分析プラットフォームに使用される Hadoop インフラストラクチャは、 Hadoop サーバの内部ストレージを活用しています。JBOD 環境の専有特性により、組織内の多くの社内顧客は、リアルタイムデータの繰り返しサンプルに依存するシミュレーションであるモンテカルロ定量モデルを利用できませんでした。市場動向の不確実性の影響を理解するのに最適な能力は、量的資産管理事業部門にとって好ましくないものとなっていました。</block>
+  <block id="788ab145281501314f18747a0ab1eaea" category="paragraph">銀行の定量事業部門は、正確でタイムリーな予測を実現するための効率的な予測方法を求めていました。そのためには、インフラを刷新し、既存の I/O 待機時間を短縮し、 Hadoop や Spark などの分析アプリケーションのパフォーマンスを向上させて、投資モデルを効率的にシミュレートし、潜在的な利益を測定し、リスクを分析する必要性を認識しました。</block>
+  <block id="5ff37557b096819452a25d129a312360" category="paragraph">お客様は、既存の Spark 解決策の JBOD を使用していました。その後、 NetApp ONTAP 、 NetApp StorageGRID 、 MinIO Gateway to NFS を活用して、銀行の定量的財務グループの I/O 待機時間を短縮し、潜在的な利益とリスクを評価する投資モデルのシミュレーションと分析を実行しました。この図は、 Spark の解決策とネットアップストレージを示しています。</block>
+  <block id="095ba715431845442ef6bf2f4283ad1c" category="paragraph"><block ref="095ba715431845442ef6bf2f4283ad1c" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="c3a052314babbb25c995c7b6b2b18d04" category="paragraph">上の図に示すように、 Spark 搭載の 6 ノード Hadoop クラスタで NFS プロトコルと S3 プロトコルを使用して寄木細工のファイルにアクセスするために AFF A800 、 A700 システム、 StorageGRID を導入し、データ分析処理用に糸と Hive のメタデータサービスを用意しました。</block>
+  <block id="bc12facb8aa0a34db56b00fdbc21c351" category="paragraph">お客様の古い環境にある DAS （直接接続型ストレージ）解決策には、コンピューティングとストレージを個別に拡張するという欠点がありました。NetApp ONTAP 解決策 for Spark を使用することで、銀行の財務分析事業部門はストレージをコンピューティングから切り離し、必要に応じてインフラリソースをより効率的に提供することができました。</block>
+  <block id="582c4aa65d1bd005ddc785db8b807fca" category="paragraph">NFS で ONTAP を使用することで、 Spark の SQL ジョブにはコンピュートサーバの CPU がほぼフルに活用され、 I/O 待機時間が 70% 近く削減されました。その結果、 Spark のワークロードの処理能力とパフォーマンスが向上しました。また、 CPU 利用率の向上により、お客様は GPUDirect などの GPU を活用してプラットフォームをさらに最新化できるようになりました。さらに、 StorageGRID は Spark のワークロードに低コストのストレージオプションを提供し、 MinIO Gateway は S3 プロトコル経由で NFS データへの安全なアクセスを提供します。クラウド内のデータには、 Cloud Volumes ONTAP 、 Azure NetApp Files 、 NetApp Cloud Volumes Service を推奨します。</block>
+  <block id="6e362ed6e741056d737b93021ab2f3f9" category="paragraph"><block ref="6e362ed6e741056d737b93021ab2f3f9" category="inline-link-macro-rx"></block></block>
+  <block id="df343d31543826a7505d157cf243c96a" category="summary">Hadoop ディストリビュータは、大規模なクラスタ間コピーとクラスタ内コピーに使用されるネイティブツールです。Hadoop DistCp の基本的なプロセスは、 MapReduce などの Hadoop ネイティブツールを使用して Hadoop のデータを HDFS ソースから対応するターゲットにコピーする、一般的なバックアップワークフローです。</block>
+  <block id="2a377dc939cca8cab65101c1869d628d" category="doc">Hadoop データ保護機能とネットアップ</block>
+  <block id="9445444fbd9e863564ea85ad226c0e80" category="inline-link-macro">従来のソリューション：ネットアップのビッグデータアーキテクチャを基盤とするデータファブリック。</block>
+  <block id="e30c587da81860e05b3f8ecfb5b9965b" category="paragraph"><block ref="e30c587da81860e05b3f8ecfb5b9965b" category="inline-link-macro-rx"></block></block>
+  <block id="5f45c95989226891db648114a547a6bd" category="paragraph">Hadoop ディストリビュータは、大規模なクラスタ間コピーとクラスタ内コピーに使用されるネイティブツールです。次の図に示す Hadoop ディストリビュータの基本的なプロセスは、 MapReduce などの Hadoop ネイティブツールを使用した一般的なバックアップワークフローで、 HDFS ソースから対応するターゲットに Hadoop データをコピーします。NetApp NFS の直接アクセスを使用すると、 Hadoop DistCp ツールのターゲットデスティネーションとして NFS を設定し、 HDFS ソースから MapReduce 経由で NFS 共有にデータをコピーできます。NetApp NFS への直接アクセスは、 DistCp ツールの NFS ドライバとして機能します。</block>
+  <block id="6369c8cb38b142174d2f84d12d2f0420" category="paragraph"><block ref="6369c8cb38b142174d2f84d12d2f0420" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="a4849340a20db94ed712aca71c30b915" category="inline-link-macro">次： Hadoop のデータ保護のユースケースの概要。</block>
+  <block id="817c6593a9a8efc031ec597b5d11d605" category="paragraph"><block ref="817c6593a9a8efc031ec597b5d11d605" category="inline-link-macro-rx"></block></block>
+  <block id="fa7dcae8e4f7d8ecc191c3ce8547a53a" category="summary">このユースケースは、お客様のビッグデータ分析データにマルチクラウド接続を提供するという課題を抱えるクラウドサービスパートナーに適しています。</block>
+  <block id="2268700ee8bd2216d594273e566b0cc9" category="doc">ユースケース 4 ：データ保護とマルチクラウド接続</block>
+  <block id="2c8eccdfa6390b1d09b2527f7d7d2cc5" category="inline-link-macro">前：ユースケース 3 - 既存の Hadoop データに対する DevTest の有効化</block>
+  <block id="fda5cc5b496f5f7aa6de18740227bc15" category="paragraph"><block ref="fda5cc5b496f5f7aa6de18740227bc15" category="inline-link-macro-rx"></block></block>
+  <block id="3cec8f6cf1ce867e7f73dd5132b7fbf3" category="paragraph">このシナリオでは、さまざまなソースから AWS で受信した IoT データが NPS の中央の場所に保存されます。NPS ストレージは、 AWS と Azure 上にある Spark / Hadoop クラスタに接続されています。これにより、同じデータにアクセスする複数のクラウドで実行されるビッグデータ分析アプリケーションを実現できます。</block>
+  <block id="bed6436414550585ccb4ac4c67a449a3" category="list-text">お客様は、複数のクラウドを使用して、同じデータに対して分析ジョブを実行したいと考えています。</block>
+  <block id="6af3e1f448b2a56e9bd0fbbd43b31bc8" category="list-text">オンプレミスやクラウドなどのさまざまなソースから、さまざまなセンサーやハブを介してデータを受信する必要があります。</block>
+  <block id="e3c7f1ced05166adfc90c26337389e3e" category="list-text">解決策は、効率性とコスト効率に優れている必要があります。</block>
+  <block id="b320f1b1ab6d0a21e40ee3d444669645" category="list-text">主な課題は、オンプレミスと異なるクラウドの間でハイブリッド分析サービスを提供する、対費用効果の高い効率的な解決策を構築することです。</block>
+  <block id="0d4b3cfa555ff36cd92fb4e36fb69fbf" category="paragraph">この図は、データ保護とマルチクラウド接続解決策を示しています。</block>
+  <block id="faaf8e6278dc7a68fd1dd98dfe7f525a" category="paragraph"><block ref="faaf8e6278dc7a68fd1dd98dfe7f525a" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="14c23633f1ab374f4c801386847ba2f8" category="paragraph">上の図に示すように、センサーからのデータはストリーミングされ、 Kafka を介して AWS Spark クラスタに取り込まれます。データは NPS 内の NFS 共有に格納されます。 NPS は、 Equinix データセンター内のクラウドプロバイダの外部にあります。NetApp NPS は、 Direct Connect 接続と Express Route 接続を通じて Amazon AWS と Microsoft Azure に接続されているため、お客様はインプレース分析モジュールを利用して、 Amazon と AWS 両方の分析クラスタからデータにアクセスできます。このアプローチは、複数のハイパースケーラにわたるクラウド分析の実現を解決します。</block>
+  <block id="4089db0b43263b1f59a9c2db909edf6e" category="paragraph">そのため、オンプレミスと NPS ストレージはどちらも ONTAP ソフトウェアを実行するため、 SnapMirror を使用して NPS データをオンプレミスクラスタにミラーリングし、オンプレミスと複数のクラウドにわたるハイブリッドクラウド分析を実現できます。</block>
+  <block id="d446808fb03b5fae4f2e518cbc7d767f" category="paragraph">パフォーマンスを最大限に高めるために、通常は複数のネットワークインターフェイスと直接接続 / エクスプレスルートを使用してクラウドインスタンスからデータにアクセスすることを推奨します。</block>
+  <block id="1ef541fe0fa79d247c0f1751629bb504" category="inline-link-macro">次：ユースケース 5 - 分析ワークロードの高速化</block>
+  <block id="7dfabd0b120fe0403ff107668db4094a" category="paragraph"><block ref="7dfabd0b120fe0403ff107668db4094a" category="inline-link-macro-rx"></block></block>
+  <block id="f9fe6a27dc7f13d26e9416153b950597" category="summary">このセクションでは、データ保護のユースケースの概要を概要で説明します。これが、本ドキュメントで重要となるのです。以降のセクションでは、それぞれのユースケースについて、お客様の問題（シナリオ）、要件と課題、ソリューションなどの詳細を説明します。</block>
+  <block id="6a15e1dac7cc5c330a1da84c32b3ff2e" category="doc">Hadoop のデータ保護のユースケースの概要</block>
+  <block id="d161097dc6596d3807b21a5635856d71" category="inline-link-macro">以前のバージョン： Hadoop データ保護機能とネットアップ。</block>
+  <block id="1a5df0b83f496dc00b4a331caac0d5cd" category="paragraph"><block ref="1a5df0b83f496dc00b4a331caac0d5cd" category="inline-link-macro-rx"></block></block>
+  <block id="385dae214dc9bab52698dc7cd42632ad" category="paragraph">このユースケースでは、大規模な金融機関がインプレース分析モジュールを使用して、バックアップ時間を 24 時間以上から数時間未満に短縮しました。</block>
+  <block id="06b83cb579d9aaf1f26d8c4284a5a42e" category="paragraph">大規模な放送会社では、ネットアップのデータファブリックをビルディングブロックとして使用することで、オンデマンド、瞬時、データ転送などのさまざまなデータ転送モードに応じて、クラウドデータをオンプレミスのデータセンターにバックアップするという要件を満たすことができました。 または、 Hadoop / Spark のクラスタの負荷に基づいて計算されました。</block>
+  <block id="da17b6db6e3e50f66b5bcaee1d74f8b1" category="paragraph">ネットアップのソリューションは、オンラインの音楽配信企業が、スペース効率に優れた複数の Hadoop クラスタをさまざまなブランチオフィスに迅速に構築し、レポートを作成したり、定期的なポリシーを使用して日々の DevTest タスクを実行したりできるよう支援しました</block>
+  <block id="90fc62f886a8c33032d4db8b79ec5814" category="paragraph">ある大手サービスプロバイダは、ネットアップのデータファブリックを使用して、さまざまなクラウドインスタンスからお客様にマルチクラウド分析を提供していました。</block>
+  <block id="67f07a55567ecfc26b3c7b54823a43ee" category="paragraph">最大規模の金融サービスおよび投資銀行の 1 つは、ネットアップのネットワーク接続型ストレージ解決策を使用して、 I/O 待ち時間を短縮し、定量的な金融分析プラットフォームを高速化しました。</block>
+  <block id="2afe208a471bf6c54f0ccc97f4c6508d" category="inline-link-macro">次のユースケース 1 - Hadoop データのバックアップ</block>
+  <block id="aac250a096aacf9aed26ebbd137818da" category="paragraph"><block ref="aac250a096aacf9aed26ebbd137818da" category="inline-link-macro-rx"></block></block>
+  <block id="5e524f38cae9a99f3ebbaf012df2894e" category="summary">ネットアップのデータファブリックは、クラウド環境とオンプレミス環境全体でデータ管理を簡易化、統合することで、デジタル変革を加速します。ネットアップのデータファブリックは、一貫した統合的データ管理サービスとアプリケーション（ビルディングブロック）を提供し、データの可視化と分析、データのアクセスと制御、データの保護とセキュリティを実現します。</block>
+  <block id="3c2db15f0fee10b08496ec1701f104d8" category="doc">ネットアップのデータファブリックを基盤としたビッグデータアーキテクチャ</block>
+  <block id="32e0d2b797e6706a73e8146d103572c7" category="inline-link-macro">Previous ：解決策の概要を示します。</block>
+  <block id="45af7a946606481f9e2b5f0434aa0484" category="paragraph"><block ref="45af7a946606481f9e2b5f0434aa0484" category="inline-link-macro-rx"></block></block>
+  <block id="981d357acc471e35d8d150f861ff1828" category="paragraph">ネットアップのデータファブリックは、クラウド環境とオンプレミス環境全体でデータ管理を簡易化、統合することで、デジタル変革を加速します。</block>
+  <block id="d5a64464c1e1f9d8be4cafc8b2325fa6" category="paragraph">ネットアップのデータファブリックは、一貫した統合的データ管理サービスとアプリケーション（ビルディングブロック）を提供し、データの可視性と分析、データのアクセスと制御、データの保護とセキュリティを実現します。以下の図を参照してください。</block>
+  <block id="22313f8779f9135c9b421ac0d4b320fb" category="paragraph"><block ref="22313f8779f9135c9b421ac0d4b320fb" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="5083bdadc0fe82e6398670e5dcc6bff9" category="section-title">実績のあるデータファブリックのユースケース</block>
+  <block id="3c1223e53bc7b972a018d3e2597e0bfd" category="paragraph">ネットアップのデータファブリックは、以下の 9 つのユースケースをお客様に提供します。</block>
+  <block id="a6800f5cacde75e6f1cfb931a6f2dba6" category="list-text">分析ワークロードを高速化</block>
+  <block id="5b0fa9517345824f19ceddd9d0cd39de" category="list-text">DevOps 変革を加速</block>
+  <block id="90ed50a34505fc6883bd65c36ed8b810" category="list-text">クラウドとホスティングのインフラ構築</block>
+  <block id="f3933541659deec9d28aa584238f0468" category="list-text">クラウドデータサービスを統合</block>
+  <block id="d70909396aef5247a5a1b17dd15cf43d" category="list-text">データの保護とセキュリティ</block>
+  <block id="7af5a6e7f241b8d284656f20880db36f" category="list-text">非構造化データを最適化</block>
+  <block id="2c63452d476328fa43a39c00bef366f1" category="list-text">データセンターの効率化</block>
+  <block id="0f72ba4c2b371e4f9f47e7d8c61468a5" category="list-text">データの分析と管理を実現</block>
+  <block id="0da79db0a9974fc0002f744165467752" category="list-text">簡易化と自動化</block>
+  <block id="5d5b69e7e19270db49a42eb4e96be2ee" category="paragraph">このドキュメントでは、 9 つのユースケースのうち 2 つを取り上げ、それぞれのソリューションを紹介します。</block>
+  <block id="7adb8b5c573e74594feeb2f74e1ffc96" category="section-title">NetApp NFS への直接アクセス</block>
+  <block id="233060aa11b5715000c000e94576cca9" category="paragraph">NetApp NFS から直接アクセス（旧 NetApp In-Place Analytics Module ）を使用すると、データを移動したりコピーしたりすることなく、既存または新規の NFSv3 / NFSv4 データに対してビッグデータ分析ジョブを実行できます。データの複数のコピーが作成されるため、ソースとデータを同期する必要がありません。たとえば、金融機関では、ある場所から別の場所へデータを移動する際に法的義務を果たす必要がありますが、これは容易な作業ではありません。このシナリオでは、 NetApp NFS の直接アクセスによって、元の場所から財務データが分析されます。もう 1 つの主な利点は、 NetApp NFS 直接アクセスを使用すると、ネイティブの Hadoop コマンドを使用して Hadoop データを保護しやすくなることと、ネットアップの充実したデータ管理ポートフォリオを活用してデータ保護ワークフローを実現できることです。</block>
+  <block id="96e1e6bac181280c42ba5de56a8ef4c2" category="paragraph"><block ref="96e1e6bac181280c42ba5de56a8ef4c2" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="aa47c768dc0f007b4606d394be4330c3" category="paragraph">NetApp NFS 直接アクセスでは、 Hadoop クラスタと Spark クラスタに対して次の 2 種類の導入オプションを提供しています。</block>
+  <block id="cc7514a5b2b35641026a81211ae7fe9a" category="list-text">デフォルトでは、 Hadoop / Spark クラスタは、データストレージとデフォルトのファイルシステムに Hadoop Distributed File System （ HDFS ； Hadoop 分散ファイルシステム）を使用しています。NetApp NFS の直接アクセスを使用すると、デフォルトの HDFS をデフォルトのファイルシステムとして NFS ストレージに置き換えることができるため、 NFS データに対する直接分析処理が可能になります。</block>
+  <block id="5a5dace50e75999dec9323da42fe5410" category="list-text">もう 1 つの導入オプションでは、 NetApp NFS 直接アクセスを使用して、 1 つの Hadoop / Spark クラスタ内に HDFS を追加のストレージとして構成することもできます。この場合、 NFS エクスポートを介してデータを共有し、 HDFS データと同じクラスタからデータにアクセスできます。</block>
+  <block id="933871f01596456078e75585ab9480ae" category="paragraph">NetApp NFS 直接アクセスを使用する主な利点は次のとおりです。</block>
+  <block id="bc3221e251e23e5ee9782e37b0337c38" category="list-text">現在の場所からデータを分析するため、分析データを HDFS などの Hadoop インフラに移動する時間とパフォーマンスのかかるタスクは発生しません。</block>
+  <block id="fe5efea0cd6733d158bfb04016f055f0" category="list-text">レプリカの数を 3 つから 1 つに減らします。</block>
+  <block id="21b00f92397ca3c72f6407dd3a873e23" category="list-text">ユーザはコンピューティングとストレージを切り離して個別に拡張できます。</block>
+  <block id="be7e2eb6e940a1e798db3abedc75b7a8" category="list-text">ONTAP の豊富なデータ管理機能を活用して、エンタープライズデータを保護します。</block>
+  <block id="acc50ec5f7ffe1b08ee357afcb502a0f" category="list-text">Hortonworks データプラットフォームで認定されています。</block>
+  <block id="be5acbdc2ea462a8345ea92d4c42511c" category="list-text">ハイブリッドデータ分析環境を実現</block>
+  <block id="227afbdb4ab9214131d6ca5ca3df3cd6" category="list-text">動的なマルチスレッド機能を活用して、バックアップ時間を短縮します。</block>
+  <block id="787364630dc10cfc2657bc82f289a9fb" category="section-title">ビッグデータ向けのビルディングブロック</block>
+  <block id="7698deb733ad601844c58f0102d0470c" category="paragraph">ネットアップのデータファブリックは、以下の図に示すように、データアクセス、制御、保護、セキュリティのためのデータ管理サービスとアプリケーション（ビルディングブロック）を統合しています。</block>
+  <block id="f0a67f0f8f389fb239ce107f693a7e68" category="paragraph"><block ref="f0a67f0f8f389fb239ce107f693a7e68" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="162f2b2249f4b8bda40b0c01043779b3" category="paragraph">上の図の構成要素は次のとおりです。</block>
+  <block id="e64f250539a531b81423d6f3f4729665" category="list-text">* NetApp NFS 直接アクセス。 * 最新の Hadoop クラスタと Spark クラスタを、ソフトウェアやドライバの追加の必要なしに NetApp NFS ボリュームに直接アクセスできます。</block>
+  <block id="2867a490011894512662b9423698d0e0" category="list-text">* ネットアップの Cloud Volumes ONTAP とクラウドボリュームサービス。 * ソフトウェア定義型の接続ストレージ。 Amazon Web Services （ AWS ）で実行されている ONTAP または Microsoft Azure クラウドサービスで実行されている Azure NetApp Files （ ANF ）に基づいています。</block>
+  <block id="5d382bdcedb0a9c7aa214b09e129e5e7" category="list-text">* NetApp SnapMirror テクノロジ * 。オンプレミスと ONTAP クラウドインスタンスまたは NPS インスタンス間でデータ保護機能を提供します。</block>
+  <block id="e2d911047fad9851fae1d7c4e71b2fab" category="list-text">* クラウド・サービス・プロバイダー。 * これらのプロバイダーには、 AWS 、 Microsoft Azure 、 Google Cloud 、 IBM Cloud が含まれます。</block>
+  <block id="486add91df5cb94a1fee5fccffe4f39b" category="list-text">* PaaS * AWS の Amazon Elastic MapReduce （ EMR ）や Databricks 、 Microsoft Azure HDInsight 、 Azure Databricks などのクラウドベースの分析サービスを利用できます。</block>
+  <block id="35848dde21e4a5f344385ead6dec9a43" category="inline-link-macro">次のステップ： Hadoop データ保護とネットアップ。</block>
+  <block id="149584f581a09d835c88f233c514412e" category="paragraph"><block ref="149584f581a09d835c88f233c514412e" category="inline-link-macro-rx"></block></block>
+  <block id="cedd54d52b90b58fb9615e956db81629" category="summary">本ドキュメントでは、 NetApp AFF および FAS ストレージシステム、 NetApp Cloud Volumes ONTAP 、ネットアップ接続ストレージ、 Spark および Hadoop 向けの NetApp FlexClone テクノロジを使用したハイブリッドクラウドデータソリューションについて説明します。これらの解決策アーキテクチャを使用することで、お客様の環境に適したデータ保護解決策を選択できます。ネットアップは、お客様とのやり取りと、お客様のビジネスユースケースに基づいてこれらのソリューションを設計しました。</block>
+  <block id="6a604a825549ac87ecf8a00412ee6365" category="doc">TR-4657 ：ネットアップのハイブリッドクラウドデータソリューション - Spark と Hadoop はお客様のユースケースに基づいています</block>
+  <block id="71932d00608c3a9fe13a866ab35227f6" category="paragraph">ネットアップ、 Karthikeyan Nagalingam と Sathish Thyagarajan</block>
+  <block id="8b6b60ca3f35331d22d686d9c4e12871" category="paragraph">本ドキュメントでは、 NetApp AFF および FAS ストレージシステム、 NetApp Cloud Volumes ONTAP 、ネットアップ接続ストレージ、 Spark および Hadoop 向けの NetApp FlexClone テクノロジを使用したハイブリッドクラウドデータソリューションについて説明します。これらの解決策アーキテクチャを使用することで、お客様の環境に適したデータ保護解決策を選択できます。ネットアップは、お客様とのやり取りと、お客様のビジネスユースケースに基づいてこれらのソリューションを設計しました。このドキュメントでは、次の詳細情報を提供します。</block>
+  <block id="d928ac205302ed3d60386e2a4759c6d6" category="list-text">Spark 環境や Hadoop 環境、お客様の課題に対応するデータ保護が必要な理由</block>
+  <block id="4444991e618ed955b12fdbcf746ad762" category="list-text">ネットアップのビジョンと、そのビルディングブロックとサービスを基盤とするデータファブリック。</block>
+  <block id="018b3e5bb8ca92450618b4f5ff9719f7" category="list-text">これらのビルディングブロックを使用して、柔軟なデータ保護ワークフローを構築する方法</block>
+  <block id="30b68051de2b69f7d6ab186bed865f7c" category="list-text">実際のお客様のユースケースに基づく、複数のアーキテクチャの長所と短所各ユースケースには、次のコンポーネントがあります。</block>
+  <block id="2a9dbfa4b74c53d7304fc8b79a1874d3" category="list-text">解決策</block>
+  <block id="cb9825c3c7619f7000c8452d9005aa5b" category="list-text">ソリューションの概要</block>
+  <block id="40300466f60ef41f731d7fd45a1024e2" category="section-title">Hadoop のデータ保護を選ぶ理由</block>
+  <block id="d54234515a0cb2905eb88ccb03d85491" category="paragraph">Hadoop 環境と Spark 環境では、次の点に注意する必要があります。</block>
+  <block id="9ed257b8e8a9504946fcf430ea2e12e3" category="list-text">* ソフトウェアや人為的なエラー。 * Hadoop データの処理中にソフトウェアを更新したときに人的エラーが発生すると、業務によって原因が予期せぬ結果を招く可能性がある動作不良になることがあります。このような場合は、障害や妥当でない結果が生じないように、データを保護する必要があります。たとえば、ソフトウェアアップデートの実行が不十分でトラフィック信号分析アプリケーションが実行されたため、トラフィック信号データをプレーンテキスト形式で適切に分析できない新機能があります。ソフトウェアは JSON やその他の非テキストファイル形式を分析して、リアルタイムトラフィック制御分析システムを生成し、データポイントが不足している予測結果を生成します。このような状況では、原因が出力不良の可能性があり、交通信号で事故につながるおそれがあります。データ保護機能を使用すると、以前の作業中のアプリケーションバージョンにすばやくロールバックできるため、この問題に対応できます。</block>
+  <block id="38b145294d087c4d733df994e6a7b6c1" category="list-text">* サイズと拡張性。 * 分析データのサイズは日々増え続けています。その理由は、データソースとボリュームの数が増え続けることにあります。現在のビッグデータ市場では、ソーシャルメディア、モバイルアプリ、データ分析、クラウドコンピューティングの各プラットフォームがデータの主要なソースとなっており、データは急速に増加しています。そのため、データを保護して、正確なデータ運用を確保する必要があります。</block>
+  <block id="80908b4b31d37977701d3694fbc636ac" category="list-text">* Hadoop のネイティブデータ保護。 * Hadoop には、データを保護するためのネイティブコマンドがありますが、このコマンドはバックアップ中のデータの整合性を提供しません。ディレクトリレベルのバックアップのみをサポートします。Hadoop によって作成された Snapshot は読み取り専用であり、バックアップデータを直接再利用することはできません。</block>
+  <block id="e664ca405ed3e90fecf2e085985fe24c" category="section-title">Hadoop や Spark のお客様にとって、データ保護の課題が発生しています</block>
+  <block id="c2d49a2ee903d6d86976c3618079a61d" category="paragraph">Hadoop と Spark のお客様にとってよくある課題は、データ保護の際に本番クラスタのパフォーマンスに悪影響を与えることなく、バックアップ時間を短縮し、バックアップの信頼性を向上させることです。</block>
+  <block id="8d54bea5cb89e665d1a703529f703765" category="paragraph">また、 RPO （目標復旧時点）と RTO （目標復旧時間）のダウンタイムを最小限に抑え、オンプレミスとクラウドベースのディザスタリカバリサイトを制御して、ビジネス継続性を最適化する必要もあります。この制御は、通常、エンタープライズレベルの管理ツールを使用して行われます。</block>
+  <block id="042be4d2813fd31d6b49e6eeaa1a42c3" category="paragraph">データ量が膨大で増え続けているだけでなく、データの到着率も増加しているため、 Hadoop 環境と Spark 環境は複雑化しています。このようなシナリオでは、ソースデータから効率的で最新の DevTest 環境と QA 環境を迅速に構築することは困難です。ネットアップはこれらの課題を認識し、本ホワイトペーパーで紹介しているソリューションを提供しています。</block>
+  <block id="1f60e9ce60971dc2129b30c8820ff343" category="inline-link-macro">次のステップ：ネットアップのビッグデータアーキテクチャを基盤とするデータファブリック。</block>
+  <block id="b8d3f7ee1ffc74c6a96c88a193dc6f1e" category="paragraph"><block ref="b8d3f7ee1ffc74c6a96c88a193dc6f1e" category="inline-link-macro-rx"></block></block>
+  <block id="ea490901c403ce2b2a89f80227d0fb90" category="paragraph">バイナリおよびデータベースのレプリケーションマニュアルのスケジュール</block>
+  <block id="931ea399c80122517d9eeb617f1594a0" category="list-text">ジョブテンプレートを設定して起動します。</block>
+  <block id="2c777d857235f251004d6d8d70c9751d" category="list-text">以前に作成したジョブテンプレートをコピーします。</block>
+  <block id="1eb977b1f69b531db931e9c62c1a0de9" category="list-text">「 ONTAP/CVO Setup Template 」を探して、右端で「 Copy Template 」をクリックします</block>
+  <block id="3c96e57d33780bedfb652def025f39de" category="list-text">コピーしたテンプレートで [ テンプレートの編集 ] をクリックし、名前を [ バイナリおよびデータベースのレプリケーションのマニュアル ] に変更します。</block>
+  <block id="b07fb736e8c17cea7e9e3753e7a67fd1" category="list-text">テンプレートの同じインベントリ、プロジェクト、資格情報を保持します。</block>
+  <block id="f42c6e71dcb07b403b8393d5ab7f7fe4" category="list-text">実行するプレイブックとして ora_replication_cg.yml を選択します。</block>
+  <block id="69fa06239fd734936aac1af5250c7f57" category="list-text">変数は変更されませんが、 CVO クラスタの IP は変数 dst_cluster_ip に設定する必要があります。</block>
+  <block id="ec7445bbcbadd1f11fe1bc3e5e56eef9" category="list-text">ジョブテンプレートをスケジュールします。</block>
+  <block id="ce0d20e65f0354847807516cbcc696f6" category="list-text">バイナリおよびデータベースのレプリケーション用プレイブックテンプレートをクリックし、一番上のオプションセットにあるスケジュールをクリックします。</block>
+  <block id="d9a6405dc4a6cd71f6d77c749070a5e6" category="list-text">[ 追加 ] をクリックし、 [ バイナリおよびデータベースレプリケーションの名前スケジュールの追加 ] をクリックし、時間の開始時に [ 開始日時 ] を選択し、 [ ローカルタイムゾーン ] を選択して、 [ 実行頻度 ] をクリックします。実行頻度は、多くの場合、 SnapMirror レプリケーションが更新されます。</block>
+  <block id="2dc4dec75c83aeb010419dc2a02da40b" category="admonition">ログボリュームのレプリケーション用に別のスケジュールが作成されるため、より頻繁にレプリケートできます。</block>
+  <block id="cc335cb73dc47f7a9b404288e3b4330f" category="paragraph">ONTAP と CVO のセットアップ</block>
+  <block id="6bc14a28f101e9d80ecc643ef13ef7fb" category="list-text">「 ONTAP/CVO Setup 」という名前を入力します</block>
+  <block id="a7244f663b97629084f004e6c89b4a75" category="list-text">ジョブタイプを選択します。 Run は、プレイブックに基づいてシステムを設定します。</block>
+  <block id="57344b3bd58c0e451513e303e45d49b7" category="list-text">オンプレミス環境用の ONTAP_setup.yml プレイブックを選択するか、 CVO-setup.yml を選択して CVO インスタンスにレプリケーションします。</block>
+  <block id="41c1d72990c270d0221458749497c3e6" category="admonition">このテンプレートを使用して、他のプレイブック用にコピーします。</block>
+  <block id="63c0320f73b5f4e528bbe1488acc5103" category="section-title">Oracle データベースのデータ保護を自動化</block>
+  <block id="d798c6a829fee4b3d8316144e8769e91" category="paragraph">組織は環境を自動化して、効率を高め、導入を高速化し、手動作業を削減しています。Ansible などの構成管理ツールを使用して、エンタープライズデータベースの運用を合理化しています。この解決策では、 Ansible を使用して NetApp ONTAP による Oracle のデータ保護を自動化する方法を紹介します。ストレージ管理者、システム管理者、 DBA は、オフサイトのデータセンターやパブリッククラウドへのデータレプリケーションを一貫して迅速にセットアップできるため、次のようなメリットがあります。</block>
+  <block id="1d4694b7ed077df8b2c51d4ef956ce0c" category="list-text">クラスタ間レプリケーション、 CVO のインスタンス化、 Oracle データベースのリカバリの構成にかかる時間を短縮できます</block>
+  <block id="60bcf8682ddc3583a74e6cd2d95e1ccb" category="list-text">データベースリカバリワークフローを使用して、 DR シナリオを簡単にテストできます。</block>
+  <block id="7fa4d3428dbef9829f6325b288c071bc" category="section-title">オンプレミスからオンプレミスへのレプリケーション</block>
+  <block id="911a9e8dd85bfeeba31c1ed049e41e1c" category="list-text">ソースとデスティネーションにクラスタ間 LIF を作成</block>
+  <block id="2f4eb56dd9301fc33f559b4345b90eb3" category="list-text">クラスタと SVM のピア関係を確立</block>
+  <block id="2b71f4136dce37491ef0f319f5d1fbd9" category="list-text">Oracle ボリュームの SnapMirror を作成して初期化</block>
+  <block id="20f4a46f5b12b0533f7a2268c4c2bf41" category="list-text">AWX/Tower を使用して、 Oracle バイナリ、データベース、ログ用のレプリケーションスケジュールを作成します</block>
+  <block id="6ef1c2ae7c9ca61a54d88de28349a772" category="list-text">デスティネーションで Oracle DB のリストアを行い、データベースをオンラインにします</block>
+  <block id="f4ec61d9ffa147f621f854609523a0fb" category="section-title">オンプレミスから AWS の CVO へ</block>
+  <block id="3f155aa6a9345b3e25f3bb44ecccfc0a" category="list-text">AWS コネクタを作成します</block>
+  <block id="1531cb3c2d4db27dcd3bfa2ad4711ec5" category="list-text">AWS で CVO インスタンスを作成</block>
+  <block id="2f159b717f78e9925b219e87cbd20f9a" category="list-text">オンプレミスのクラスタを Cloud Manager に追加</block>
+  <block id="df16a1e23dbbcc2f19f07ab1af741617" category="list-text">ソースにクラスタ間 LIF を作成</block>
+  <block id="d1f660bb2bff2f31a46c751115155999" category="list-text">パート 1 ：未定</block>
+  <block id="1ee2253d8fe666dbea54ab3648a62511" category="list-text">パート 2 ：未定</block>
+  <block id="0679a51ae3a4071a6bd3dedbe97fd329" category="summary">このページでは、 NetApp ONTAP ストレージに Oracle データ保護を導入するための自動化方法について説明します。</block>
+  <block id="22e3bbd761fbb7ae69b8035eb12f222d" category="paragraph">この解決策は、 AWX/Tower 環境で動作するように設計されています。</block>
+  <block id="ad5310e9dcd8f367be2b92490488d86d" category="list-text">解決策は、プライベートクラウドのシナリオ（オンプレミスからオンプレミス）およびハイブリッドクラウド（オンプレミスからパブリッククラウドへの Cloud Volumes ONTAP [CVO] ）で実行するように設計されています。</block>
+  <block id="f0800f628bb56853d682f3fcd16e3694" category="list-text">自動化は、 Oracle バイナリとデータベースのセットアップ、レプリケーションスケジュール、ログのレプリケーションスケジュールの 3 つのフェーズ、および DR サイトでのデータベースリカバリのための 1 つのフェーズを実行するように設定されています。</block>
+  <block id="936c99ed52ca08a052ebf611285dd998" category="inline-link-macro">CVO の導入と Connector の導入の前提条件を収集</block>
+  <block id="ec329a9106131eb9bf99b0f9e67b0564" category="list-text">CVO Data Protection に必要なキーとトークンの取得方法の詳細については、を参照してください <block ref="e21f73de51752f791cddc773d1f38740" category="inline-link-macro-rx"></block></block>
+  <block id="13716f12996b882bb4c7e0bd84c7c128" category="open-title">&lt;strong class="big"&gt; オンプレミス &lt;/strong&gt;&lt;strong&gt;|&lt;/strong&gt;</block>
+  <block id="72bd33cc372377848ab3bb360deb365e" category="cell">ONTAP バージョン 9.8+</block>
+  <block id="3ca63226b942aff3abcf62934a91e382" category="cell">ソース上の既存の Oracle 環境と、デスティネーション（ DR サイトまたはパブリッククラウド）上の同等の Linux オペレーティングシステム</block>
+  <block id="6114118ecf4e8d86a2e7c80bfab462f6" category="open-title">&lt;strong&gt; 「ビッグ」 &gt;CVO&lt;/strong&gt;</block>
+  <block id="2f960df807c8ad51e74c447149eb2033" category="cell">* Cloud Manager / AWS *</block>
+  <block id="571f37fae4494df03321c2abe1fcc053" category="cell">AWS のアクセス / シークレットキー</block>
+  <block id="7a5be8c4513f3bd0696db24a6bd977f4" category="cell">NetApp Cloud Manager アカウント</block>
+  <block id="99e55608ac5f1697eb6804aaf586af09" category="cell">NetApp Cloud Manager Refresh Token</block>
+  <block id="3f9ec2a23fee1cafeb1a700de677caac" category="cell">Playbook</block>
+  <block id="1f959110c5104b300b1a3d5fe3ee80dc" category="cell">* ONTAP_setup*</block>
+  <block id="b7ed1e5c864a764f83f035d7f4f774ee" category="cell">ソースクラスタでのクラスタ間 LIF の作成（オプション）</block>
+  <block id="73ddb5848c16203494697871a4e993cd" category="cell">デスティネーションクラスタでのクラスタ間 LIF の作成（オプション）</block>
+  <block id="04a35ce053d611d390fc192544fa4899" category="cell">クラスタ / SVM ピアリングの作成</block>
+  <block id="4605aea1d05aa2979e72d73dd2c51773" category="cell">SnapMirror デスティネーションの作成と、指定された Oracle ボリュームの初期化</block>
+  <block id="0dd4c7b6672d8937b6eb899b454fb7fe" category="cell">* ora_replication_cg *</block>
+  <block id="7187aaa97acef94360159347d76a84c9" category="cell">/etc/oratab 内の各データベースのバックアップモードを有効にします</block>
+  <block id="f9198142d6e5690166713858ae8a0cdd" category="cell">Oracle バイナリボリュームとデータベースボリュームの Snapshot</block>
+  <block id="23ba14a0a5cf33c38faec5b66fff712e" category="cell">SnapMirror を更新しました</block>
+  <block id="114debcae141b96db77c72e8a1e8fadb" category="cell">/etc/oratab 内の各データベースのバックアップモードをオフにします</block>
+  <block id="682094861a79bcba0e0ab2e193198762" category="cell">* ora_replication_log *</block>
+  <block id="1d03ae98454d1c807318a1e29a4e2736" category="cell">/etc/oratab 内の各データベースの現在のログを切り替えます</block>
+  <block id="47e4696811eedec695f727189503e8df" category="cell">Oracle ログボリュームの Snapshot</block>
+  <block id="86836efae3e3d868a96ae69bcbc987ba" category="cell">* ora_recovery*</block>
+  <block id="6ceab4515ef4144abed0f0ce5ed3038f" category="cell">SnapMirror を解除します</block>
+  <block id="a6066c717f63ac99226b48abb4cf1d85" category="cell">デスティネーションで NFS を有効にし、 Oracle ボリュームのジャンクションパスを作成します</block>
+  <block id="aa46cdc29b66725a1180f57d02f0cee3" category="cell">DR Oracle ホストを設定</block>
+  <block id="dea9253f9b15f57a0c2161848a3c27a3" category="cell">Oracle ボリュームをマウントして確認</block>
+  <block id="ee95819ff53983a149759d555a93ba4b" category="cell">Oracle データベースをリカバリして起動します</block>
+  <block id="5a6b57bc1fdf2f0e1259ed22f1d027a4" category="cell">* CVF_setup*</block>
+  <block id="331c87cd495ffdc9cd55d8b3935a75f5" category="cell">環境の事前チェック</block>
+  <block id="5f17c8d8d95282db12506044ba4d6ab9" category="cell">AWS Configure / AWS Access Key ID / Secret Key / Default Region</block>
+  <block id="cef449920fe163cdd74231266cbdf23d" category="cell">AWS ロールの作成</block>
+  <block id="85a4bcbc96cde90931ad369de96535b2" category="cell">AWS での NetApp Cloud Manager Connector インスタンスの作成</block>
+  <block id="abe14752834b641e86064c7214f6719c" category="cell">AWS での Cloud Volumes ONTAP （ CVO ）インスタンスの作成</block>
+  <block id="c2a9449cd3b0ae879520f450b65b1621" category="cell">オンプレミスのソース ONTAP クラスタを NetApp Cloud Manager に追加</block>
+  <block id="fbb54d6efa6ca64af90fbe2289812be8" category="cell">デスティネーション CVO で NFS を有効にし、 Oracle ボリュームのジャンクションパスを作成してください</block>
+  <block id="3ef6389d9b9aacdce331793dd2a96ce8" category="paragraph">自動化を簡易化するために、必要な Oracle パラメータがデフォルト値で多数設定されています。通常、ほとんどの環境でデフォルトパラメータを変更する必要はありません。上級ユーザーは ' デフォルト・パラメータを変更する際に注意してくださいデフォルトのパラメータは、各ロールフォルダの defaults ディレクトリにあります。</block>
+  <block id="a98d844e94ad28c8e0fb089e005d6b9f" category="inline-link-macro">AWX/Tower の詳細な手順については、こちらを参照してください</block>
+  <block id="7e599865fd1cdad0e26add5715f65267" category="paragraph">準備ができたら、をクリックします <block ref="d28bc5520349bb0598caaa5132432326" category="inline-link-macro-rx"></block>。</block>
+  <block id="47373f46adef617d17665b0b94be8f67" category="paragraph">ログ・レプリケーション・プレイブックのスケジュール</block>
+  <block id="8e43fbf8e210fdbb3e1d59ca59cde628" category="list-text">コピーしたテンプレートで [ テンプレートの編集 ] をクリックし、名前を [ リストアとリカバリプレイブック ] に変更します。</block>
+  <block id="42f2159b893bbf4b6bf098ba9a026a1c" category="list-text">実行するプレイブックとして ora_recoveryyml を選択します。</block>
+  <block id="0a3fe9b740fe79971ae2379eaec4822c" category="admonition">このプレイブックは、リモートサイトでデータベースをリストアする準備ができるまでは実行されません。</block>
+  <block id="40640c0c34d4427f5d18b9ca476e3158" category="summary">このページでは、 NetApp ONTAP ストレージ上の Oracle19c の自動データ保護について説明します。</block>
+  <block id="261e91a1afdfe1123497b1b9ba5ab3e1" category="section-title">AWX/Tower Oracle データ保護</block>
+  <block id="db2b28449b6d868d910cd53527934988" category="list-text">最初のグループの Oracle という名前を入力し、 [ 保存 ] をクリックします。</block>
+  <block id="200e1fa09608b23de5cd04d22d3a5bdb" category="list-text">DR_Oracle という名前の 2 つ目のグループに対してこの手順を繰り返します。</block>
+  <block id="1e29c17b60e9145858da82263315e402" category="list-text">作成した Oracle グループを選択し、 Hosts サブメニューに移動して、 Add New Host をクリックします。</block>
+  <block id="250d5368537e295251f9ccf63f950087" category="list-text">ソース Oracle ホストの管理 IP の IP アドレスを入力し、 [ 保存 ] をクリックします。</block>
+  <block id="22dcd973cf7a10ed9d03c5b959e65807" category="list-text">DR_Oracle グループに対してこの手順を繰り返し、 DR/Destination Oracle ホストの管理 IP / ホスト名を追加する必要があります。</block>
+  <block id="1a4eca6a53be80f21117669b80a5dbc8" category="admonition">以下は、オンプレミスと ONTAP 、または AWS 上の CVO のクレデンシャルタイプとクレデンシャルを作成する手順です。</block>
+  <block id="cea575677c47839fde1e59dbfc9ad5bb" category="open-title">オンプレミス</block>
+  <block id="50d33cb309a9ea4bacb0a5541498b670" category="list-text">クレデンシャルタイプの作成ONTAP を使用するソリューションでは、ユーザ名とパスワードのエントリを照合するようにクレデンシャルタイプを設定する必要があります。</block>
+  <block id="c048e95ab07253cc1cb87bef130c410b" category="list-text">次の内容をインジェクタ設定に貼り付け、 [ 保存 ] をクリックします。</block>
+  <block id="9302fe5c60a983a24bb8787c00db4862" category="list-text">ONTAP のクレデンシャルを作成します</block>
+  <block id="0a0aab79fb5a20fa5f830947226ef87c" category="list-text">ONTAP クレデンシャルの名前と組織の詳細を入力します</block>
+  <block id="81999e930ad44af27e84682c3ea1e750" category="list-text">前の手順で作成したクレデンシャルタイプを選択します。</block>
+  <block id="1546222d368538c25b5704b5fcf160f5" category="list-text">タイプの詳細で、ソースクラスタとデスティネーションクラスタのユーザ名とパスワードを入力します。</block>
+  <block id="c4be718383c8ca0aa17633d911fc38fd" category="list-text">[ 保存 ] をクリックします .</block>
+  <block id="39f6f9fe82cbf0c0970d13b6a043ad84" category="list-text">Oracle のクレデンシャルを作成します</block>
+  <block id="30d4be106e7fb63befec4c8c7c815ad0" category="list-text">Oracle の名前と組織の詳細を入力します。</block>
+  <block id="61d6c643401e4a602f3c8b4b6fc0a93c" category="list-text">必要に応じて、 DR_Oracle ホストの別のクレデンシャルに対して同じ手順を繰り返します。</block>
+  <block id="f7fc367b5de87581ac78fc80805439af" category="open-title">CVO を確認して</block>
+  <block id="61efb6ce79debd57f1e5eb28b08f94ba" category="list-text">クレデンシャルタイプを作成する。ONTAP が関連するソリューションでは、ユーザ名とパスワードのエントリに一致するクレデンシャルタイプを設定する必要があります。また、 Cloud Central と AWS のエントリも追加します。</block>
+  <block id="b95cd128bfca5d5c9181a46d0392c360" category="list-text">次の内容をインジェクタ構成に貼り付け、 [ 保存（ Save ） ] をクリックする。</block>
+  <block id="75f3f97810b5eef177a5355b86dabfd0" category="list-text">ONTAP / CVO / AWS のクレデンシャルを作成</block>
+  <block id="7c2157bb96b30c41117253c18e425dc1" category="list-text">[ タイプの詳細 ] に、ソースクラスタと CVO クラスタのユーザ名とパスワード、アクセス / シークレットキー、 Cloud Central の更新トークンを入力します。</block>
+  <block id="922922f515b0ac072e20128999512b50" category="list-text">Oracle のクレデンシャルの作成（ソース）</block>
+  <block id="7ebca140d5dcaa006aeda44b19cfc52e" category="list-text">Oracle ホストの名前と組織の詳細を入力します</block>
+  <block id="ca530facf78f2112c60ee838d85b9b5b" category="list-text">Oracle 保存先のクレデンシャルを作成します</block>
+  <block id="063e8368b0de123266b00f2c88e317fb" category="list-text">DR Oracle ホストの名前と組織の詳細を入力します</block>
+  <block id="0d28c8cc8415971cf2cd02507176bf94" category="list-text">Type Details に、ユーザ名（ ec2-user またはデフォルトの入力から変更した場合は、そのユーザ名）と SSH 秘密鍵を入力します</block>
+  <block id="cb8f433dfb62a17f7a02f4d7a8839b1c" category="list-text">適切な特権昇格方式（ sudo ）を選択し、必要に応じてユーザ名とパスワードを入力します。</block>
+  <block id="791ef966f9be349751448b9066bdd8fa" category="list-text">入力するコマンド <block ref="1881636a0f344e587cc2202e2db4c5ac" category="inline-link-rx"></block> をソース管理 URL として指定します。</block>
+  <block id="07ecfe1ec895f624e5c5d082fb961d1c" category="section-title">3. グローバル変数を設定します</block>
+  <block id="dad1349ef99312028aeda3703d53efdb" category="section-title">4. 自動化に関するハンドブック</block>
+  <block id="285a3bb8fb6f692046facadb3c0984cf" category="paragraph">実行する必要があるプレイブックは 4 つあります。</block>
+  <block id="37472723bc7712fedddee6d02e29228d" category="list-text">環境のセットアップに関するプレイブック：オンプレミス、 CVO</block>
+  <block id="5138c89250c5086accf2d1a5961c9b17" category="list-text">Oracle バイナリとデータベースをスケジュールどおりにレプリケートする Playbook</block>
+  <block id="3e552d6e5b2c316c63eb1fc2081d42a8" category="list-text">Oracle ログをスケジュールどおりにレプリケートするためのプレイブック</block>
+  <block id="33f4f1514dc2ceb963af16685f4de58c" category="list-text">デスティネーションホストでのデータベースのリカバリに関するプレイブック</block>
+  <block id="17ae7167fac3c2364c6ad7b58819a920" category="open-title">ONTAP/CVO セットアップ</block>
+  <block id="16f928d0ebd67060f6b3b2abf0481928" category="open-title">バイナリおよびデータベースボリュームのレプリケーション</block>
+  <block id="b723f9a72bec39ac17d89e51ff0ba336" category="open-title">ログボリュームのレプリケーション</block>
+  <block id="048f2ee27b8617cb0e13b6a0b7da956f" category="list-text">コピーしたテンプレートで [ テンプレートの編集 ] をクリックし、名前を [ ログレプリケーションのプレイブック ] に変更します。</block>
+  <block id="d4a86123c8e623e35eaa51ab9583e03b" category="list-text">実行するプレイブックとして ora_replication_loges.yml を選択します。</block>
+  <block id="d6e504930da1d0732ea4162514a38e8e" category="list-text">Log Replication Playbook テンプレートをクリックし、一番上のオプションセットにある Schedules （スケジュール）をクリックします。</block>
+  <block id="1c03188c731004905466903c2eb763c4" category="list-text">[ 追加 ] をクリックし、 [ ログ複製の名前スケジュールの追加 ] をクリックし、時間の開始時に開始日時を選択し、 [ ローカルタイムゾーン ] と [ 実行頻度 ] を選択します。実行頻度は、多くの場合、 SnapMirror レプリケーションが更新されます。</block>
+  <block id="d23bfe090a9fd09613c7a6573f619c02" category="admonition">1 時間ごとの最新の更新に確実にリカバリできるように、ログスケジュールを 1 時間ごとに更新するように設定することを推奨します。</block>
+  <block id="f76dbca531ab83300165aacf97e1b7ff" category="open-title">データベースのリストアとリカバリ</block>
+  <block id="8cc6746c11a65da30c7d875819acecfe" category="section-title">5. Oracle データベースのリカバリ</block>
+  <block id="b8a177e5fd059f33473cad4d1d073d38" category="list-text">オンプレミスの本番 Oracle データベースのデータボリュームは、 NetApp SnapMirror レプリケーションを使用して、セカンダリデータセンターの冗長 ONTAP クラスタまたはパブリッククラウドの Cloud Volume ONTAP に保護されます。完全に構成されたディザスタリカバリ環境では、セカンダリデータセンターまたはパブリッククラウドのリカバリコンピューティングインスタンスがスタンバイ状態になり、災害発生時に本番データベースをリカバリできます。スタンバイコンピューティングインスタンスは、 OS カーネルパッチで paraellel アップデートを実行するか、ロックステップでアップグレードすることで、オンプレミスインスタンスと同期したままになります。</block>
+  <block id="57d8ad774cb4fef3d53ee8836bfee761" category="list-text">この解決策で実証されている Oracle バイナリ・ボリュームは、ターゲット・インスタンスに複製され、ターゲット・インスタンスにマウントされて、 Oracle ソフトウェア・スタックが起動されます。この Oracle リカバリアプローチには、災害発生時に Oracle を新規にインストールした場合よりも優れています。Oracle のインストールは、現在のオンプレミスの本番ソフトウェアのインストールレベルやパッチレベルと完全に同期されていることが保証されます。ただし、 Oracle でのソフトウェアライセンスの構成によっては、リカバリサイトで複製された Oracle バイナリボリュームにソフトウェアライセンスが影響する場合とそうでない場合があります。ユーザは、 Oracle のライセンス要件を評価するために、ソフトウェアライセンス担当者に確認してから、同じ方法を使用することを推奨します。</block>
+  <block id="74eaa493ffed695592003e0844d93c46" category="list-text">デスティネーションのスタンバイ Oracle ホストには、 Oracle の前提条件となる構成が設定されています。</block>
+  <block id="0be4357ac224d44b11800179b23eb202" category="list-text">SnapMirror が切断され、ボリュームが書き込み可能になり、スタンバイ Oracle ホストにマウントされます。</block>
+  <block id="69504b415e8aad20e18beca0de96ab6a" category="list-text">すべての DB ボリュームがスタンバイコンピューティングインスタンスにマウントされたあと、 Oracle リカバリモジュールは以下のタスクを実行して、リカバリサイトで Oracle をリカバリおよび起動します。</block>
+  <block id="5e52a9563e31960cdf02c7b83e6495e7" category="list-text">制御ファイルを同期します。重要なデータベース制御ファイルを保護するために、異なるデータベースボリュームに Oracle 制御ファイルを重複して配置しました。1 つはデータボリューム上にあり、もう 1 つはログボリューム上にあります。データボリュームとログボリュームは異なる頻度でレプリケートされるため、リカバリ時に同期されません。</block>
+  <block id="26b9a788a0ef0527f25f68892b364d19" category="list-text">Oracle バイナリの再リンク： Oracle バイナリは新しいホストに再配置されるため、再リンクが必要です。</block>
+  <block id="b66ad18a7982f7c233e9d0af2f867856" category="list-text">Oracle データベースのリカバリ：リカバリ・メカニズムは、 Oracle ログ・ボリューム内の最後に使用可能なアーカイブ・ログのシステム変更番号を制御ファイルから取得し、 Oracle データベースをリカバリして、障害発生時に DR サイトにレプリケートされたすべてのビジネス・トランザクションをリカバリします。次に、データベースが新しいインカネーションで起動され、リカバリサイトでユーザ接続とビジネストランザクションが実行されます。</block>
+  <block id="247a7a6af0249b8455fff0e5d9015b47" category="admonition">Recovering プレイブックを実行する前に、次のものが揃っていることを確認します。 /etc/oratab および /etc/oraInstall.loc をソース Oracle ホストからデスティネーションホストにコピーしてください</block>
+  <block id="b9b07f10c0ce1735548942e3abaa3447" category="summary">このページでは、 NetApp Cloud Manager を介して CVO および Cloud Manager Connector の導入に必要なリフレッシュトークンとアクセス / シークレットキーを収集するための詳細情報を提供します。</block>
+  <block id="a660fb1089a2b2ca95deaf8b9853be5c" category="section-title">NetApp Cloud Manger を使用して、 CVO と Connector の AWS 認証要件を確認できます</block>
+  <block id="bcc03f70ea2e77a98ddb6e8267e4892f" category="paragraph">AWX/Ansible タワーを介した Ansible プレイブックを使用して、 CVO とコネクタの自動導入を設定するには、次の情報が必要です。</block>
+  <block id="193fc1c355935356ecd5d07811792512" category="section-title">AWS からアクセスキーとシークレットキーを取得する</block>
+  <block id="60b6439418495e0d1821d169b7d4b885" category="list-text">Cloud Manager に CVO と Connector を導入するには、 AWS Access/Secret Key が必要です。IAM --&gt; ユーザー --&gt; ユーザー名 --&gt; セキュリティ資格情報 --&gt; アクセスキーの作成を起動して、 AWS コンソールでキーを取得します。</block>
+  <block id="ad1cc06192440312813c412c9cf08bc5" category="list-text">アクセスキーをコピーし、 Connector および CVO の導入で使用するためのセキュリティを確保しておきます。</block>
+  <block id="4ba9f13f5b12512f3651d5ea2d3ffa05" category="admonition">キーが紛失した場合は、別のアクセスキーを作成し、失われたアクセスキーを削除できます</block>
+  <block id="ad35fbaef240a8ec1f43e8a0d5e15099" category="image-alt">トークンを更新します</block>
+  <block id="89d8fe92eb33da3c73df38422c3fa73e" category="section-title">NetApp Cloud Central から Refresh Token を取得しています</block>
+  <block id="3d7e1d21530a3a98c74b0b7484c84516" category="list-text">のアカウントクレデンシャルを使用して、 Cloud Central アカウントにログインします<block ref="ddbd83acb6424bbb7fa6878eff0976a1" category="inline-link-rx"></block></block>
+  <block id="a95c6d24569073e45c394bcbd6a2c0e4" category="list-text">更新トークンを生成し、展開用に保存します。</block>
+  <block id="ecd636681b83fa2697020594594aea14" category="section-title">クライアント ID を取得しています</block>
+  <block id="2a1ed6ca97aeb484a26d6e0d625af96b" category="list-text">API ページにアクセスして、クライアント ID をにコピーします<block ref="06324b77583872f7e211b3e7ec3f882f" category="inline-link-rx"></block>。</block>
+  <block id="1093ef7993a1f3824edbf581bb54b571" category="list-text">右上にある [Learn how to Authenticate] をクリックします。</block>
+  <block id="622dcb1fafb9f30d36b32341e23ae7a0" category="list-text">ユーザ名とパスワードを入力してログインする必要がある場合は、ポップアップ表示される [Authentication] ウィンドウから通常のアクセスからクライアント ID をコピーします。SSO を使用するフェデレーテッドユーザは、 [ トークンの更新 ] タブからクライアント ID をコピーする必要があります。</block>
+  <block id="76525f0f34b48475e5ca33f71d296f3b" category="image-alt">クライアント ID</block>
+  <block id="6090065e2462d5f96ebac132568bdf46" category="section-title">AWS からキーペアを取得しています</block>
+  <block id="294b903c23e96b98876b04f51502cec4" category="list-text">AWS コンソールで、「キーペア」を検索し、「 PEM 」とのキーペアを作成します。ここでは、 key_pair の名前を覚えておいてください。この名前を使用してコネクタを配置します。</block>
+  <block id="ddb20e807acdf5ddf189dd213ff6d0cf" category="image-alt">キーペア</block>
+  <block id="3ce1d7d6e1b4509256dd2574b6b5d290" category="section-title">アカウント ID を取得しています</block>
+  <block id="8f19980a36fbde35540547e8f630c9e5" category="list-text">Cloud Manager で、 Account – &gt; Manage Accounts の順にクリックし、 AWX の変数で使用するアカウント ID をコピーします。</block>
+  <block id="c9f0818cde41901681a02b50763ec342" category="sidebar">ネットアップのハイブリッドクラウドデータソリューション - Spark と Hadoop はお客様のユースケースに基づいています</block>
+  <block id="924f605d39858bdb10692c8d8f810464" category="sidebar">使用事例 1 - Hadoop データのバックアップ</block>
+  <block id="c028df954696d2e4011963e651237b7c" category="sidebar">ユースケース 2 - クラウドからオンプレミスへのバックアップとディザスタリカバリ</block>
+  <block id="f1ab9c16fee4088d930b2a43e3d48f64" category="sidebar">ユースケース 3 - 既存の Hadoop データに対する DevTest の有効化</block>
+  <block id="4e7c79467b7b25f0415a3a4538d3e2f5" category="sidebar">ユースケース 4 - データ保護とマルチクラウド接続</block>
+  <block id="f38bc790ec57f948f20cbd270b996cc6" category="sidebar">ユースケース 5 - 分析ワークロードの高速化</block>
+  <block id="12367669ba6a0b6e059b69b5a95f2902" category="sidebar">Oracle Database のデータ保護</block>
+  <block id="3e9d3644ee18a66c51ddd16b668eaa5a" category="sidebar">Oracle データ保護の自動化</block>
+  <block id="82be90bcfc8fd03855e030edaa25583a" category="sidebar">AWX/Tower 向け Oracle データ保護の自動化</block>
 </blocks>

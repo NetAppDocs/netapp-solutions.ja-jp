@@ -1,0 +1,66 @@
+= 
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+. クレデンシャルを設定します。
+. クレデンシャルタイプの作成ONTAP を使用するソリューションでは、ユーザ名とパスワードのエントリを照合するようにクレデンシャルタイプを設定する必要があります。
++
+.. [ 管理 ] → [ 資格情報の種類 ] に移動し、 [ 追加 ] をクリックします。
+.. 名前と概要を指定します。
+.. 入力構成に次の内容を貼り付けます。
++
+[source, cli]
+----
+fields:
+  - id: dst_cluster_username
+    type: string
+    label: Destination Cluster Username
+  - id: dst_cluster_password
+    type: string
+    label: Destination Cluster Password
+    secret: true
+  - id: src_cluster_username
+    type: string
+    label: Source Cluster Username
+  - id: src_cluster_password
+    type: string
+    label: Source Cluster Password
+    secret: true
+----
+.. 次の内容をインジェクタ設定に貼り付け、 [ 保存 ] をクリックします。
++
+[source, cli]
+----
+extra_vars:
+  dst_cluster_username: '{{ dst_cluster_username }}'
+  dst_cluster_password: '{{ dst_cluster_password }}'
+  src_cluster_username: '{{ src_cluster_username }}'
+  src_cluster_password: '{{ src_cluster_password }}'
+----
+
+
+. ONTAP のクレデンシャルを作成します
++
+.. [ リソース ] → [ 資格情報 ] に移動し、 [ 追加 ] をクリックします。
+.. ONTAP クレデンシャルの名前と組織の詳細を入力します
+.. 前の手順で作成したクレデンシャルタイプを選択します。
+.. タイプの詳細で、ソースクラスタとデスティネーションクラスタのユーザ名とパスワードを入力します。
+.. [ 保存 ] をクリックします .
+
+
+. Oracle のクレデンシャルを作成します
++
+.. [ リソース ] → [ 資格情報 ] に移動し、 [ 追加 ] をクリックします。
+.. Oracle の名前と組織の詳細を入力します。
+.. マシンクレデンシャルタイプを選択します。
+.. Type Details （タイプの詳細）に、 Oracle ホストのユーザー名とパスワードを入力します。
+.. 適切な特権昇格方式を選択し、ユーザ名とパスワードを入力します。
+.. [ 保存 ] をクリックします .
+.. 必要に応じて、 DR_Oracle ホストの別のクレデンシャルに対して同じ手順を繰り返します。
+
+
+

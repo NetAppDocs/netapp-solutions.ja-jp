@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/hdcs-sh-hadoop-data-protection-and-netapp.html 
+keywords: distcp, copy, backup workflow, hdfs, mapreduce 
+summary: Hadoop ディストリビュータは、大規模なクラスタ間コピーとクラスタ内コピーに使用されるネイティブツールです。Hadoop DistCp の基本的なプロセスは、 MapReduce などの Hadoop ネイティブツールを使用して Hadoop のデータを HDFS ソースから対応するターゲットにコピーする、一般的なバックアップワークフローです。 
+---
+= Hadoop データ保護機能とネットアップ
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:hdcs-sh-data-fabric-powered-by-netapp-for-big-data-architecture.html["従来のソリューション：ネットアップのビッグデータアーキテクチャを基盤とするデータファブリック。"]
+
+Hadoop ディストリビュータは、大規模なクラスタ間コピーとクラスタ内コピーに使用されるネイティブツールです。次の図に示す Hadoop ディストリビュータの基本的なプロセスは、 MapReduce などの Hadoop ネイティブツールを使用した一般的なバックアップワークフローで、 HDFS ソースから対応するターゲットに Hadoop データをコピーします。NetApp NFS の直接アクセスを使用すると、 Hadoop DistCp ツールのターゲットデスティネーションとして NFS を設定し、 HDFS ソースから MapReduce 経由で NFS 共有にデータをコピーできます。NetApp NFS への直接アクセスは、 DistCp ツールの NFS ドライバとして機能します。
+
+image:hdcs-sh-image4.png["エラー：グラフィックイメージがありません"]
+
+link:hdcs-sh-overview-of-hadoop-data-protection-use-cases.html["次： Hadoop のデータ保護のユースケースの概要。"]

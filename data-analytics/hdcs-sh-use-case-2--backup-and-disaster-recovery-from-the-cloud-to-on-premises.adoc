@@ -1,0 +1,52 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/hdcs-sh-use-case-2--backup-and-disaster-recovery-from-the-cloud-to-on-premises.html 
+keywords: cloud-based analytics, apache spark, hadoop, ebs, hdfs 
+summary: このユースケースは、クラウドベースの分析データをオンプレミスのデータセンターにバックアップする必要がある放送局の顧客に基づいています。 
+---
+= ユースケース 2 ：クラウドからオンプレミスへのバックアップとディザスタリカバリ
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:hdcs-sh-use-case-1--backing-up-hadoop-data.html["前：ユースケース 1 - Hadoop データのバックアップ"]
+
+このユースケースは、放送局のお客様がクラウドベースの分析データをオンプレミスのデータセンターにバックアップする必要がある場合を基準にしています。以下の図を参照してください。
+
+image:hdcs-sh-image9.png["エラー：グラフィックイメージがありません"]
+
+
+
+== シナリオ（ Scenario ）
+
+このシナリオでは、 IoT センサーのデータがクラウドに取り込まれ、 AWS 内のオープンソースの Apache Spark クラスタを使用して分析されます。処理されたデータをクラウドからオンプレミスにバックアップすることが要件です。
+
+
+
+== 要件と課題
+
+このユースケースの主な要件と課題は次のとおりです。
+
+* データ保護を有効原因にしても、本番環境の Spark / Hadoop クラスタのパフォーマンスへの影響は一切ありません。
+* 効率的かつ安全な方法で、クラウドセンサーデータをオンプレミスに移動して保護する必要があります。
+* オンデマンド、瞬時、クラスタの低負荷時など、さまざまな条件下でクラウドからオンプレミスにデータを柔軟に転送できます。
+
+
+
+
+== 解決策
+
+お客様は、 Spark クラスタの HDFS ストレージとして AWS Elastic Block Store （ EBS ）を使用して、 Kafka 経由でリモートセンサーからデータを受け取り、取り込むことになりました。そのため、 HDFS ストレージはバックアップデータのソースとして機能します。
+
+これらの要件を満たすために、 NetApp ONTAP Cloud が AWS に導入され、 Spark / Hadoop クラスタのバックアップターゲットとして機能する NFS 共有が作成されます。
+
+NFS 共有が作成されると、インプレース分析モジュールを使用して、 HDFS EBS ストレージから ONTAP NFS 共有にデータがコピーされます。データが ONTAP クラウド上の NFS に配置されると、 SnapMirror テクノロジを使用して、必要に応じてクラウドからオンプレミスのストレージにデータを安全かつ効率的にミラーリングできます。
+
+この図は、クラウドからオンプレミスの解決策へのバックアップとディザスタリカバリを示しています。
+
+image:hdcs-sh-image10.png["エラー：グラフィックイメージがありません"]
+
+link:hdcs-sh-use-case-3--enabling-devtest-on-existing-hadoop-data.html["次：ユースケース 3 - 既存の Hadoop データに対して DevTest を有効化"]
