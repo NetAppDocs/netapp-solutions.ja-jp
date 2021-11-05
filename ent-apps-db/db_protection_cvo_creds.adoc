@@ -34,6 +34,18 @@ fields:
     type: string
     label: Source Cluster Password
     secret: true
+  - id: regular_id
+    type: string
+    label: Cloud Central ID
+    secret: true
+  - id: email_id
+    type: string
+    label: Cloud Manager Email
+    secret: true
+  - id: cm_password
+    type: string
+    label: Cloud Manager Password
+    secret: true
   - id: access_key
     type: string
     label: AWS Access Key
@@ -57,6 +69,9 @@ extra_vars:
   cvo_svm_password: '{{ cvo_svm_password }}'
   src_cluster_username: '{{ src_cluster_username }}'
   src_cluster_password: '{{ src_cluster_password }}'
+  regular_id: '{{ regular_id }}'
+  email_id: '{{ email_id }}'
+  cm_password: '{{ cm_password }}'
   access_key: '{{ access_key }}'
   secret_key: '{{ secret_key }}'
   token: '{{ token }}'
@@ -68,7 +83,7 @@ extra_vars:
 .. [ リソース ] → [ 資格情報 ] に移動し、 [ 追加 ] をクリックします。
 .. ONTAP クレデンシャルの名前と組織の詳細を入力します
 .. 前の手順で作成したクレデンシャルタイプを選択します。
-.. [ タイプの詳細 ] に、ソースクラスタと CVO クラスタのユーザ名とパスワード、アクセス / シークレットキー、 Cloud Central の更新トークンを入力します。
+.. Type Details に、ソースクラスタと CVO クラスタ、 Cloud Central / Manager 、 AWS Access / Secret Key 、 Cloud Central Refresh Token のユーザ名とパスワードを入力します。
 .. [ 保存 ] をクリックします .
 
 
