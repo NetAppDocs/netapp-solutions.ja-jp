@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/confluent-kafka-confluent-kafka-rebalance.html 
+keywords: rebalance, test, self balancing, brokers 
+summary: このテストは自己バランシングクラスタ機能に基づいており、クラスタトポロジの変更や負荷の不均一に基づいてリバランシングを自動で実行します。 
+---
+= 矛盾した Kafka バランス
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:confluent-kafka-kafka-s3-connector.html["これまでの Kafka s3 コネクタを使用しました。"]
+
+このテストは自己バランシングクラスタ機能に基づいており、クラスタトポロジの変更や負荷の不均一に基づいてリバランシングを自動で実行します。矛盾するバランステストは ' ノードの障害または拡張ノードでブローカー間のデータの再バランスが必要になった場合に ' 新しいブローカを追加する時間を測定するのに役立ちます従来の Kafka 構成では、クラスタの拡張に合わせてデータの再分散量が増える一方で、階層型ストレージでは少量のデータしかリバランシングされません。この検証に基づき、階層型ストレージのリバランシングには数秒から数分かかりますが、従来の Kafka アーキテクチャでは、クラスタの拡張に伴ってリニアに拡張されます。
+
+link:confluent-kafka-best-practice-guidelines.html["次のステップ：ベストプラクティスのガイドライン"]

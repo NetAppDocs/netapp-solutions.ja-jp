@@ -1,0 +1,29 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/confluent-kafka-performance-tests-with-scalability.html 
+keywords: performance, tests, scalability 
+summary: ティアストレージのテストを 3~4 ノードで実施し、生成されるワークロードと利用者のワークロードについては NetApp StorageGRID のセットアップを使用しました。 
+---
+= 拡張性を備えたパフォーマンステスト
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:confluent-kafka-confluent-kafka-certification.html["それ以前は、 ConFluent Kafka の認定を取得してい"]
+
+ティアストレージのテストを 3~4 ノードで実施し、生成されるワークロードと利用者のワークロードについては NetApp StorageGRID のセットアップを使用しました。テストによると、完了までの時間とパフォーマンス結果は StorageGRID ノードの数に直接比例しました。StorageGRID セットアップには、少なくとも 3 つのノードが必要でした。
+
+* ストレージノードの数が増えると、農産物と消費者の処理を完了するまでの時間が直線的に短くなりました。
+
+
+image:confluent-kafka-image9.png["エラー：グラフィックイメージがありません"]
+
+* s3 読み出し処理のパフォーマンスは、 StorageGRID ノードの数に基づいてリニアに向上します。StorageGRID は、最大 200 個の StorgeGRID ノードをサポートします。
+
+
+image:confluent-kafka-image10.png["エラー：グラフィックイメージがありません"]
+
+link:confluent-kafka-kafka-s3-connector.html["次に Kafka s3 コネクタを参照してください。"]

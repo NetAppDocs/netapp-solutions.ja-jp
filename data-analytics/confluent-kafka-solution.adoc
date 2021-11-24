@@ -1,0 +1,57 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/confluent-kafka-solution.html 
+keywords: solution, architecture, details, hardware, software 
+summary: このセクションでは、流暢な認定に使用されるハードウェアおよびソフトウェアについて説明します。この情報は、ネットアップストレージで Kafka を導入する場合に該当します。 
+---
+= 解決策
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:confluent-kafka-introduction.html["前へ：はじめに。"]
+
+この NetApp StorageGRID と Apache Kafka 解決策は、ストリーム向けに設計された分散システムであり、どちらのプログラムもスケールアウトおよびフォールトトレラントです。コミットログを提供し、分散データストリーミングとストリーム処理を可能にします。ネットアップストレージアレイは、コンピューティングリソースとデータストレージリソースを分離して、個別に拡張できるようにします。次の図は、ネットアップの解決策と ConFluent Kafka StorageGRID を示しています。
+
+image:confluent-kafka-image3.png["エラー：グラフィックイメージがありません"]
+
+
+
+== 解決策アーキテクチャの詳細
+
+このセクションでは、流暢な認定に使用されるハードウェアおよびソフトウェアについて説明します。この情報は、ネットアップストレージで Kafka を導入する場合に該当します。次の表に、テストに使用した解決策アーキテクチャと基本コンポーネントを示します。
+
+|===
+| 解決策コンポーネント | 詳細 
+
+
+| Kafka バージョン 6.2 と競合します  a| 
+* ご主人の 3 人
+* 5 台のブローカーサーバ
+* 5 つのツールを備えたサーバ
+* Grafana × 1
+* 1 つのコントロールセンター
+
+
+
+
+| Linux （ Ubuntu 18.04 ） | すべてのサーバ 
+
+
+| NetApp StorageGRID ：ウォームバケット用  a| 
+* ストレージグリッド 11.4.0.7 × 4
+* SG1000 × 1 （ロードバランサ）
+* SGD6024 × 4
+* 24 本、 800 本の SSD × 4
+* S3 プロトコル
+* 100GbE
+
+
+
+
+| Fujitsu Primergy RX2540 サーバ × 15 | 各モデルには、 CPU × 2 、物理コア × 16 、 Intel Xeon × 256GB 物理メモリ × 100GbE デュアルポートが搭載されています 
+|===
+link:confluent-kafka-technology-overview.html["次のステップ：テクノロジの概要"]

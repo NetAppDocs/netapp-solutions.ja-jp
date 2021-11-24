@@ -1,0 +1,27 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/confluent-kafka-best-practice-guidelines.html 
+keywords: best practices, guidelines, nfs, san 
+summary: このセクションでは、この認定資格から得られた教訓について説明します。 
+---
+= ベストプラクティスのガイドライン
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:confluent-kafka-confluent-kafka-rebalance.html["前：流暢なカフカのバランス調整。"]
+
+* 今回の検証から、 NFS は Con裕福 な Kafka ブローカーがデータを保持するのに適したプロトコルではありません。
+* SAN （具体的には FC ）を使用して、ブローカーデータまたはローカルディスクを保持できます。これは、格納域の詳細な階層型ストレージ構成では、データブローカーデータディレクトリに格納されているデータのサイズが、オブジェクトストレージに移動される際のセグメントサイズと保持時間に基づいているためです。
+* オブジェクトストレージは、セグメントの方がパフォーマンスに優れています。バイト数が多い場合は 512 MB をテストしました。
+* Kafka では、トピックに対して生成される各レコードのキーまたは値の長さ（バイト単位）は、「 length.key.value 」パラメータによって制御されます。StorageGRID では、 S3 オブジェクトの取り込みと読み出しのパフォーマンスがより高い値に引き上げられました。たとえば、 512 バイトが 5.8GBps の読み出しを提供し、 1024 バイトが 7.5GBps の s3 読み出しを提供し、 2048 バイトが 10Gbps 近く提供します。
+
+
+次の図に、「 length.key.value 」に基づいた S3 オブジェクトの取り込みと読み出しを示します。
+
+image:confluent-kafka-image11.png["エラー：グラフィックイメージがありません"]
+
+link:confluent-kafka-conclusion.html["次は終わりです"]
