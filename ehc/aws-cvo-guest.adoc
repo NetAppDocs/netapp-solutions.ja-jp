@@ -1,0 +1,172 @@
+---
+sidebar: sidebar 
+permalink: ehc/aws-cvo-guest.html 
+keywords: NetApp Solutions, amazon, vmc, aws, vmware managed cloud, enterprise, hybrid, cloud, cloud volumes ontap, cvo 
+summary:  
+---
+= AWS に新しい Cloud Volumes ONTAP インスタンスを導入（自分で実行）
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Cloud Volumes ONTAP 共有および LUN は、 AWS SDDC 環境の VMware クラウドで作成された VM からマウントできます。Cloud Volumes ONTAP では iSCSI 、 SMB 、 NFS の各プロトコルがサポートされているため、このボリュームをネイティブの AWS VM Linux Windows クライアントにマウントすることもでき、 iSCSI 経由でマウントする場合は、 Linux クライアントまたは Windows クライアントからブロックデバイスとして LUN にアクセスできます。Cloud Volumes ONTAP ボリュームは、いくつかの簡単な手順で設定できます。
+
+ディザスタリカバリや移行の目的でオンプレミス環境からクラウドにボリュームをレプリケートするには、サイト間 VPN または DirectConnect を使用して、 AWS へのネットワーク接続を確立します。オンプレミスから Cloud Volumes ONTAP へのデータのレプリケートについては、本ドキュメントでは扱いません。オンプレミスシステムと Cloud Volumes ONTAP システム間でデータをレプリケートする方法については、を参照してください link:https://docs.netapp.com/us-en/occm/task_replicating_data.html#setting-up-data-replication-between-systems["システム間のデータレプリケーションの設定"]。
+
+
+NOTE: を使用します link:https://cloud.netapp.com/cvo-sizer["Cloud Volumes ONTAP サイジングツール"] Cloud Volumes ONTAP インスタンスのサイズを正確に設定します。また、オンプレミスのパフォーマンスを監視して、 Cloud Volumes ONTAP サイジングツールの入力として使用することもできます。
+
+. NetApp Cloud Central にログインします。 Fabric View 画面が表示されます。Cloud Volumes ONTAP タブを探し、 Go to Cloud Manager を選択します。ログインすると、キャンバス画面が表示されます。
++
+image:aws-cvo-guest-1.png[""]
+
+. Cloud Manager のホームページで、 Add a Working Environment をクリックし、 AWS をクラウドとして選択し、システム構成のタイプを選択します。
++
+image:aws-cvo-guest-2.png[""]
+
+. 環境名と admin クレデンシャルなど、作成する環境の詳細を指定します。Continue をクリックします。 .
++
+image:aws-cvo-guest-3.png[""]
+
+. クラウドデータセンス、クラウドバックアップ、 Cloud Insights など、 Cloud Volumes ONTAP 導入用のアドオンサービスを選択します。Continue をクリックします。 .
++
+image:aws-cvo-guest-4.png[""]
+
+. HA Deployment Models ページで、 Multiple Availability Zones 設定を選択します。
++
+image:aws-cvo-guest-5.png[""]
+
+. Region & VPC ページで、ネットワーク情報を入力し、 Continue をクリックします。
++
+image:aws-cvo-guest-6.png[""]
+
+. [Connectivity and SSH Authentication] ページで、 HA ペアとメディエータの接続方法を選択します。
++
+image:aws-cvo-guest-7.png[""]
+
+. フローティング IP アドレスを指定し、 Continue （続行）をクリックします。
++
+image:aws-cvo-guest-8.png[""]
+
+. フローティング IP アドレスへのルートを含める適切なルーティングテーブルを選択し、 Continue （続行）をクリックします。
++
+image:aws-cvo-guest-9.png[""]
+
+. Data Encryption ページで、 AWS で管理する暗号化を選択します。
++
+image:aws-cvo-guest-10.png[""]
+
+. ライセンスオプションとして、「従量課金制」または「 BYOL for using an existing license 」を選択します。この例では、 ［ 従量課金制 ］ オプションを使用します。
++
+image:aws-cvo-guest-11.png[""]
+
+. AWS SDDC 上の VMware クラウドで実行されている VM に導入するワークロードのタイプに基づいて、複数の事前設定パッケージから選択できます。
++
+image:aws-cvo-guest-12.png[""]
+
+. [ 確認と承認 ] ページで、選択内容を確認して確定します。 Cloud Volumes ONTAP インスタンスを作成するには、 [ 移動 ] をクリックします。
++
+image:aws-cvo-guest-13.png[""]
+
+. Cloud Volumes ONTAP のプロビジョニングが完了すると、 [Canvas] ページの作業環境に表示されます。
++
+image:aws-cvo-guest-14.png[""]
+
+
+
+
+
+== SMB ボリューム用の追加の設定
+
+. 作業環境の準備ができたら、 CIFS サーバに適切な DNS および Active Directory 設定パラメータが設定されていることを確認します。この手順は、 SMB ボリュームを作成する前に実行する必要があります。
++
+image:aws-cvo-guest-20.png[""]
+
+. CVO インスタンスを選択してボリュームを作成し、 Create Volume （ボリュームの作成）オプションをクリックします。適切なサイズを選択し、包含アグリゲートを選択するか、高度な割り当てメカニズムを使用して特定のアグリゲートに配置します。このデモでは、 SMB がプロトコルとして選択されます。
++
+image:aws-cvo-guest-21.png[""]
+
+. ボリュームのプロビジョニングが完了すると、 Volumes （ボリューム）ペインにボリュームが表示されます。CIFS 共有はプロビジョニングされるため、ユーザまたはグループにファイルおよびフォルダに対する権限を付与し、ユーザが共有にアクセスしてファイルを作成できることを確認する必要があります。
++
+image:aws-cvo-guest-22.png[""]
+
+. ボリュームが作成されたら、 mount コマンドを使用して、 AWS SDDC ホストの VMware Cloud で実行されている VM から共有に接続します。
+. 次のパスをコピーし、 Map Network Drive オプションを使用して、 AWS SDDC の VMware Cloud で実行されている VM にボリュームをマウントします。
++
+image:aws-cvo-guest-23.png[""]
+image:aws-cvo-guest-24.png[""]
+
+
+
+
+
+== LUN をホストに接続します
+
+Cloud Volumes ONTAP LUN をホストに接続するには、次の手順を実行します。
+
+. Cloud Manager のキャンバスページで、 Cloud Volumes ONTAP 作業環境をダブルクリックしてボリュームを作成および管理します。
+. Add Volume （ボリュームの追加） > New Volume （新規ボリューム）をクリックし、 iSCSI を選択して Create Initiator Group （イニシエータグループのContinue をクリックします。 .
++
+image:aws-cvo-guest-30.png[""]
+image:aws-cvo-guest-31.png[""]
+
+. ボリュームのプロビジョニングが完了したら、ボリュームを選択し、ターゲット IQN をクリックします。iSCSI Qualified Name （ IQN ）をコピーするには、 Copy （コピー）をクリックします。ホストから LUN への iSCSI 接続をセットアップします。
+
+
+AWS SDDC 上の VMware Cloud にあるホストでも同じ処理を実行するには、次の手順を実行します。
+
+. AWS の VMware クラウドでホストされる VM への RDP
+. ［ iSCSI イニシエータのプロパティ ］ ダイアログ・ボックスを開きます ［ サーバーマネージャ ］ ＞ ［ ダッシュボード ］ ＞ ［ ツール ］ ＞ ［ iSCSI イニシエータ ］
+. Discovery （検出）タブで、 Discover Portal （ポータルの検出）または Add Portal （ポータルの追加）をクリックし、 iSCSI ターゲットポートの IP アドレスを入力します。
+. ターゲットタブで検出されたターゲットを選択し、ログオンまたは接続をクリックします。
+. [ マルチパスを有効にする ] を選択し、コンピュータの起動時に [ この接続を自動的に復元する ] または [ この接続をお気に入りターゲットのリストに追加する ] を選択します。Advanced （詳細設定）をクリック
+
+
+
+NOTE: Windows ホストには、クラスタ内の各ノードへの iSCSI 接続が必要です。ネイティブ DSM では、使用する最適なパスが選択されます。
+
+[+]image:aws-cvo-guest-32.png[""]
+
+SVM の LUN は、 Windows ホストではディスクとして表示されます。追加した新しいディスクは、ホストでは自動的に検出されません。手動の再スキャンをトリガーしてディスクを検出するには、次の手順を実行します。
+
+. Windows コンピュータの管理ユーティリティを開きます。 [ スタート ]>[ 管理ツール ]>[ コンピュータの管理 ] を選択します。
+. ナビゲーションツリーでストレージノードを展開します。
+. [ ディスクの管理 ] をクリックします
+. ［ アクション ］ > ［ ディスクの再スキャン ］ の順にクリック
+
+
+image:aws-cvo-guest-33.png[""]
+
+Windows ホストから初めてアクセスした時点では、新しい LUN にはパーティションやファイルシステムは設定されていません。LUN を初期化します。必要に応じて、次の手順を実行してファイルシステムで LUN をフォーマットします。
+
+. Windows ディスク管理を開始します。
+. LUN を右クリックし、必要なディスクまたはパーティションのタイプを選択します。
+. ウィザードの指示に従います。この例では、ドライブ F ：がマウントされています。
+
+
+image:aws-cvo-guest-34.png[""]
+
+Linux クライアントで、 iSCSI デーモンが実行されていることを確認します。LUN のプロビジョニングが完了したら、 Linux ディストリビューション向けの iSCSI 構成に関する詳しいガイダンスを参照してください。たとえば、 Ubuntu の iSCSI 構成が見つかります link:https://ubuntu.com/server/docs/service-iscsi["こちらをご覧ください"]。これを確認するには、シェルから lsblk cmd を実行します。
+
+
+
+== Cloud Volumes ONTAP NFS ボリュームを Linux クライアントにマウント
+
+Cloud Volumes ONTAP （ DIY ）ファイルシステムを VMC 内の VM から AWS SDDC にマウントするには、次の手順を実行します。
+
+. 指定された Linux インスタンスに接続します。
+. Secure Shell （ SSH ）を使用してインスタンスの端末を開き、適切なクレデンシャルでログインします。
+. 次のコマンドを使用して、ボリュームのマウントポイント用のディレクトリを作成します。
++
+ $ sudo mkdir /fsxcvotesting01/nfsdemovol01
+. 前の手順で作成したディレクトリに、 NetApp ONTAP NFS ボリュームの Amazon FSX をマウントします。
++
+ sudo mount -t nfs nfsvers=4.1,172.16.0.2:/nfsdemovol01 /fsxcvotesting01/nfsdemovol01
+
+
+image:aws-cvo-guest-40.png[""]
+image:aws-cvo-guest-41.png[""]

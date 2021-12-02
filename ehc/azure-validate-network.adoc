@@ -1,0 +1,36 @@
+---
+sidebar: sidebar 
+permalink: ehc/azure-validate-network.html 
+keywords: NetApp Solutions, microsoft azure, avs, azure, vmware managed cloud, enterprise, hybrid, cloud, cloud volumes ontap, cvo 
+summary:  
+---
+= ネットワーク接続を検証し、 Azure VMware 解決策プライベートクラウドにアクセスします
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Azure VMware 解決策では、オンプレミスの VMware vCenter でプライベートクラウドを管理することはできません。代わりに、ジャンプホストが Azure VMware 解決策 vCenter インスタンスに接続する必要があります。指定したリソースグループにジャンプホストを作成し、 Azure VMware 解決策 vCenter にサインインします。このジャンプホストは、接続用に作成された同じ仮想ネットワーク上の Windows VM であり、 vCenter と NSX Manager の両方にアクセスできる必要があります。
+
+image:azure-validate-network-1.png[""]
+
+仮想マシンをプロビジョニングしたら、 Connect オプションを使用して RDP にアクセスします。
+
+image:azure-validate-network-2.png[""]
+
+新しく作成したジャンプホスト仮想マシンから、クラウド管理者ユーザを使用して vCenter にサインインします。クレデンシャルにアクセスするには、 Azure ポータルにアクセスし、（プライベートクラウド内の管理オプションで） Identity に移動します。プライベートクラウド vCenter と NSX Manager の URL とユーザー資格情報は、ここからコピーできます。
+
+image:azure-validate-network-3.png[""]
+
+Windows 仮想マシンでブラウザを開き、 vCenter Web Client の URL にアクセスします (https://10.21.0.2/)[] admin ユーザのユーザ名に「 * cloudadmin@vsphere.loca l * 」と入力し、コピーしたパスワードを貼り付けます。同様に、 Web クライアントの URL を使用して NSX Manager にアクセスすることもできます  admin ユーザ名を使用し、コピーしたパスワードを貼り付けて新しいセグメントを作成したり、既存の階層ゲートウェイを変更したりできます。
+
+
+NOTE: Web クライアントの URL は、プロビジョニングされる SDDC ごとに異なります。
+
+image:azure-validate-network-4.png[""]
+
+image:azure-validate-network-5.png[""]
+
+これで、 Azure VMware 解決策 SDDC の導入と設定が完了しました。ExpressRoute グローバルリーチを活用して、オンプレミス環境を Azure VMware 解決策プライベートクラウドに接続します。詳細については、を参照してください link:https://docs.microsoft.com/en-us/azure/azure-vmware/tutorial-expressroute-global-reach-private-cloud["オンプレミス環境から Azure VMware 解決策へのピアリング"]。

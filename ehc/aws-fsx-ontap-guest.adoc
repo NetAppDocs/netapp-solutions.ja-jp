@@ -1,0 +1,248 @@
+---
+sidebar: sidebar 
+permalink: ehc/aws-fsx-ontap-guest.html 
+keywords: NetApp Solutions, amazon, vmc, aws, vmware managed cloud, enterprise, hybrid, cloud, fsx, ontap 
+summary:  
+---
+= AWS で VMware Cloud を使用して、 NetApp ONTAP 用に Amazon FSX を設定します
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Amazon FSX for NetApp ONTAP ファイル共有および LUN は、 AWS の VMware クラウドにある VMware SDDC 環境内で作成された VM からマウントできます。また、このボリュームは、 Linux クライアントにマウントして NFS または SMB プロトコルを使用して Windows クライアントにマッピングすることもできます。また、 iSCSI 経由でマウントした場合、 Linux クライアントまたは Windows クライアントから LUN にブロックデバイスとしてアクセスできます。NetApp ONTAP ファイルシステム用の Amazon FSX は、次の手順ですばやく設定できます。
+
+
+NOTE: パフォーマンスを向上させ、アベイラビリティゾーン間でのデータ転送料金を回避するには、 NetApp ONTAP 向け Amazon FSX と AWS 上の VMware Cloud を同じアベイラビリティゾーンに配置する必要があります。
+
+
+
+== ONTAP ボリューム用に Amazon FSX を作成してマウントします
+
+NetApp ONTAP ファイルシステム用に Amazon FSX を作成してマウントするには、次の手順を実行します。
+
+. を開きます link:https://console.aws.amazon.com/fsx/["Amazon FSX コンソール"] ファイルシステムの作成を選択して ' ファイルシステム作成ウィザードを開始します
+. [Select File System Type] ページで、 [Amazon FSX for NetApp ONTAP ] を選択し、 [Next] をクリックします。Create File System ページが表示されます。
++
+image:aws-fsx-guest-1.png[""]
+
+. Virtual Private Cloud （ VPC ；仮想プライベートクラウド）のネットワークセクションで、ルーティングテーブルとともに適切な VPC と優先サブネットを選択します。この場合、ドロップダウンから vmcfsx2.vPC が選択されます。
++
+image:aws-fsx-guest-2.png[""]
+
+. 作成方法として、標準作成を選択します。[ クイック作成 ] を選択することもできますが、このドキュメントでは [ 標準作成 ] オプションを使用します。
++
+image:aws-fsx-guest-3.png[""]
+
+. Virtual Private Cloud （ VPC ；仮想プライベートクラウド）のネットワークセクションで、ルーティングテーブルとともに適切な VPC と優先サブネットを選択します。この場合、ドロップダウンから vmcfsx2.vPC が選択されます。
++
+image:aws-fsx-guest-4.png[""]
+
++
+
+NOTE: Virtual Private Cloud （ VPC ；仮想プライベートクラウド）のネットワークセクションで、ルーティングテーブルとともに適切な VPC と優先サブネットを選択します。この場合、ドロップダウンから vmcfsx2.vPC が選択されます。
+
+. 「セキュリティと暗号化」セクションの「暗号化キー」で、ファイルシステムの保存データを保護する AWS Key Management Service （ AWS KMS ）暗号化キーを選択します。File System Administrative Password に、 fsxadmin ユーザのセキュアなパスワードを入力します。
++
+image:aws-fsx-guest-5.png[""]
+
+. 仮想マシンで、 vsadmin で REST API または CLI を使用して ONTAP を管理するために使用するパスワードを指定します。パスワードを指定しない場合は、 SVM の管理に fsxadmin ユーザを使用できます。Active Directory セクションで、 SMB 共有をプロビジョニングするために Active Directory を SVM に追加してください。Default Storage Virtual Machine Configuration セクションで、この検証でストレージの名前を指定します。 SMB 共有は自己管理 Active Directory ドメインを使用してプロビジョニングされます。
++
+image:aws-fsx-guest-6.png[""]
+
+. Default Volume Configuration セクションで、ボリュームの名前とサイズを指定します。これは NFS ボリュームです。Storage Efficiency の場合、 ONTAP の Storage Efficiency 機能（圧縮、重複排除、コンパクション）をオンにするには Enabled を、オフにするには Disabled を選択します。
++
+image:aws-fsx-guest-7.png[""]
+
+. Create File System ページに表示されるファイルシステム設定を確認します。
+. ファイルシステムの作成をクリックします。
++
+image:aws-fsx-guest-8.png[""]
+image:aws-fsx-guest-9.png[""]
+image:aws-fsx-guest-10.png[""]
+
+
+
+詳細については、を参照してください link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/getting-started.html["Amazon FSX for NetApp ONTAP の利用を開始する"]。
+
+上記のようにファイルシステムを作成したら、必要なサイズとプロトコルでボリュームを作成します。
+
+. を開きます link:https://console.aws.amazon.com/fsx/["Amazon FSX コンソール"]。
+. 左側のナビゲーションペインで、 [ ファイルシステム ] を選択し、ボリュームを作成する ONTAP ファイルシステムを選択します。
+. Volumes （ボリューム）タブを選択します。
+. Create Volume （ボリュームの作成）タブを選択します。
+. Create Volume （ボリュームの作成）ダイアログボックスが表示されます。
+
+
+デモ用として、このセクションで NFS ボリュームを作成します。このボリュームは、 AWS 上の VMware クラウドで実行されている VM に簡単にマウントできます。nfsdemovol01 は次のように作成されます。
+
+image:aws-fsx-guest-11.png[""]
+
+
+
+=== FSX ONTAP ボリュームを Linux クライアントにマウントします
+
+前の手順で作成した FSX ONTAP ボリュームをマウントします。AWS SDDC 上の VMC 内の Linux VM から、次の手順を実行します。
+
+. 指定された Linux インスタンスに接続します。
+. Secure Shell （ SSH ）を使用してインスタンスの端末を開き、適切なクレデンシャルを使用してログインします。
+. 次のコマンドを使用して、ボリュームのマウントポイント用のディレクトリを作成します。
++
+ $ sudo mkdir /fsx/nfsdemovol01
+. 前の手順で作成したディレクトリに、 NetApp ONTAP NFS ボリュームの Amazon FSX をマウントします。
++
+ sudo mount -t nfs nfsvers=4.1,198.19.254.239:/nfsdemovol01 /fsx/nfsdemovol01
++
+image:aws-fsx-guest-20.png[""]
+
+. 実行したら、 df コマンドを実行してマウントを検証します。
++
+image:aws-fsx-guest-21.png[""]
+
+
+
+
+
+=== FSX ONTAP ボリュームを Microsoft Windows クライアントに接続します
+
+Amazon FSX ファイルシステム上のファイル共有を管理およびマッピングするには、共有フォルダ GUI を使用する必要があります。
+
+. [ スタート ] メニューを開き、 [ 管理者として実行 ] を使用して fsmgmt.msc を実行します。これにより、共有フォルダ GUI ツールが開きます。
+. アクション > すべてのタスクをクリックし、別のコンピュータに接続を選択します。
+. 別のコンピュータの場合は、 Storage Virtual Machine （ SVM ）の DNS 名を入力します。たとえば、 FSXSMBTESTING01.FSXTESTING.LOCAL はこの例で使用されています。
++
+
+NOTE: TP が Amazon FSX コンソールで SVM の DNS 名を検索し、 Storage Virtual Machines を選択してから、 endpoints までスクロールして SMB DNS 名を検索します。[OK] をクリックします。共有フォルダのリストに Amazon FSX ファイルシステムが表示されます。
+
++
+image:aws-fsx-guest-22.png[""]
+
+. 共有フォルダツールの左ペインで [ 共有 ] を選択すると、 Amazon FSX ファイルシステムのアクティブな共有が表示されます。
++
+image:aws-fsx-guest-23.png[""]
+
+. 新しい共有を選択し、共有フォルダの作成ウィザードを完了します。
++
+image:aws-fsx-guest-24.png[""]
+image:aws-fsx-guest-25.png[""]
+
++
+Amazon FSX ファイルシステムでの SMB 共有の作成と管理の詳細については、を参照してください link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/create-smb-shares.html["SMB 共有の作成"]。
+
+. 接続が確立されると、 SMB 共有を接続してアプリケーションデータに使用できるようになります。これを行うには、共有パスをコピーし、 Map Network Drive オプションを使用して、 AWS SDDC 上の VMware Cloud で実行されている VM にボリュームをマウントします。
++
+image:aws-fsx-guest-26.png[""]
+
+
+
+
+
+== iSCSI を使用して、 NetApp ONTAP LUN の FSX をホストに接続します
+
+FSX の iSCSI トラフィックは、前のセクションで説明したルートを介して、 VMware Transit Connect/AWS Transit Gateway を経由します。NetApp ONTAP 用に Amazon FSX 内の LUN を設定するには、該当するマニュアルを参照してください link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/supported-fsx-clients.html["こちらをご覧ください"]。
+
+Linux クライアントでは、 iSCSI デーモンが実行されていることを確認します。LUN のプロビジョニングが完了したら、（例として） Ubuntu を使用した iSCSI 構成に関する詳細なガイダンスを参照してください。 link:https://ubuntu.com/server/docs/service-iscsi["こちらをご覧ください"]。
+
+このドキュメントでは、 iSCSI LUN を Windows ホストに接続する方法を示します。
+
+
+
+=== NetApp ONTAP の FSX で LUN をプロビジョニングします。
+
+. ONTAP ファイルシステムの FSX の管理ポートを使用して、 NetApp ONTAP CLI にアクセスします。
+. サイジング結果から得られるように、必要なサイズの LUN を作成します。
++
+ FsxId040eacc5d0ac31017::> lun create -vserver vmcfsxval2svm -volume nimfsxscsivol -lun nimofsxlun01 -size 5gb -ostype windows -space-reserve enabled
++
+この例では、 5g （ 5368709120 ）の LUN を作成しました。
+
+. 必要な igroup を作成して、どのホストが特定の LUN にアクセスできるかを制御します。
++
+[listing]
+----
+FsxId040eacc5d0ac31017::> igroup create -vserver vmcfsxval2svm -igroup winIG -protocol iscsi -ostype windows -initiator iqn.1991-05.com.microsoft:vmcdc01.fsxtesting.local
+
+FsxId040eacc5d0ac31017::> igroup show
+
+Vserver   Igroup       Protocol OS Type  Initiators
+
+--------- ------------ -------- -------- ------------------------------------
+
+vmcfsxval2svm
+
+          ubuntu01     iscsi    linux    iqn.2021-10.com.ubuntu:01:initiator01
+
+vmcfsxval2svm
+
+          winIG        iscsi    windows  iqn.1991-05.com.microsoft:vmcdc01.fsxtesting.local
+----
++
+2 つのエントリが表示されました。
+
+. 次のコマンドを使用して、 LUN を igroup にマッピングします。
++
+[listing]
+----
+FsxId040eacc5d0ac31017::> lun map -vserver vmcfsxval2svm -path /vol/nimfsxscsivol/nimofsxlun01 -igroup winIG
+
+FsxId040eacc5d0ac31017::> lun show
+
+Vserver   Path                            State   Mapped   Type        Size
+
+--------- ------------------------------- ------- -------- -------- --------
+
+vmcfsxval2svm
+
+          /vol/blocktest01/lun01          online  mapped   linux         5GB
+
+vmcfsxval2svm
+
+          /vol/nimfsxscsivol/nimofsxlun01 online  mapped   windows       5GB
+----
++
+2 つのエントリが表示されました。
+
+. 新しくプロビジョニングした LUN を Windows VM に接続します。
++
+AWS SDDC 上の VMware クラウド上にある Windows ホストに新しい LUN の接続を行うには、次の手順を実行します。
+
++
+.. AWS SDDC 上の VMware Cloud でホストされる Windows VM への RDP
+.. サーバーマネージャ > ダッシュボード > ツール > iSCSI イニシエータと進み、 iSCSI イニシエータのプロパティダイアログボックスを開きます。
+.. Discovery （検出）タブで、 Discover Portal （ポータルの検出）または Add Portal （ポータルの追加）をクリックし、 iSCSI ターゲットポートの IP アドレスを入力します。
+.. ターゲットタブで検出されたターゲットを選択し、ログオンまたは接続をクリックします。
+.. [ マルチパスを有効にする ] を選択し、 [ コンピュータの起動時にこの接続を自動的に復元する ] または [ この接続をお気に入りターゲットのリストに追加する ] を選択します。Advanced （詳細設定）をクリック
++
+
+NOTE: Windows ホストには、クラスタ内の各ノードへの iSCSI 接続が必要です。ネイティブ DSM では、使用する最適なパスが選択されます。
+
++
+image:aws-fsx-guest-30.png[""]
+
+
+
+
+
+Storage Virtual Machine （ SVM ）の LUN は、 Windows ホストではディスクとして表示されます。追加した新しいディスクは、ホストでは自動的に検出されません。手動の再スキャンをトリガーしてディスクを検出するには、次の手順を実行します。
+
+. Windows コンピュータの管理ユーティリティを開きます。 [ スタート ]>[ 管理ツール ]>[ コンピュータの管理 ] を選択します。
+. ナビゲーションツリーでストレージノードを展開します。
+. [ ディスクの管理 ] をクリックします
+. ［ アクション ］ > ［ ディスクの再スキャン ］ の順にクリック
++
+image:aws-fsx-guest-31.png[""]
+
+
+
+Windows ホストから初めてアクセスした時点では、新しい LUN にはパーティションやファイルシステムは設定されていません。LUN を初期化し、必要に応じて、次の手順を実行してファイルシステムで LUN をフォーマットします。
+
+. Windows ディスク管理を開始します。
+. LUN を右クリックし、必要なディスクまたはパーティションのタイプを選択します。
+. ウィザードの指示に従います。この例では、ドライブ F ：がマウントされています。
++
+image:aws-fsx-guest-32.png[""]
+
+

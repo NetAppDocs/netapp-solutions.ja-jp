@@ -1,0 +1,188 @@
+---
+sidebar: sidebar 
+permalink: ehc/gcp-cvs-guest.html 
+keywords: NetApp Solutions, google cloud, gcp, gcve, enterprise, hybrid, cloud, cloud volumes service, cvs 
+summary:  
+---
+= VMware Engine を使用して Cloud Volumes Service を設定します
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Cloud Volumes Service 共有は、 VMware エンジン環境で作成された VM からマウントできます。Cloud Volumes Service では SMB プロトコルと NFS プロトコルがサポートされているため、ボリュームを Linux クライアントにマウントして Windows クライアントにマッピングすることもできます。Cloud Volumes Service ボリュームは簡単な手順で設定できます。
+
+Cloud Volume Service と Google Cloud VMware Engine のプライベートクラウドは同じリージョンに配置する必要があります。
+
+Google Cloud Marketplace で NetApp Cloud Volumes Service for Google Cloud を購入、有効化、設定するには、次の手順を実行します link:https://cloud.google.com/vmware-engine/docs/quickstart-prerequisites["ガイド"]。
+
+
+
+=== CVS NFS ボリュームを GCVE プライベートクラウドに作成する
+
+NFS ボリュームを作成してマウントするには、次の手順を実行します。
+
+. Google クラウドコンソール内のパートナーソリューションから Cloud Volume にアクセスします。
++
+image:gcve-cvs-guest-1.png[""]
+
+. Cloud Volume コンソールで、 Volumes （ボリューム）ページに移動し、 Create （作成）をクリックします。
++
+image:gcve-cvs-guest-2.png[""]
+
+. [Create File System] ページで、チャージバックメカニズムに必要なボリューム名と課金ラベルを指定します。
++
+image:gcve-cvs-guest-3.png[""]
+
+. 適切なサービスを選択します。GCVE は、 CVS パフォーマンスと希望するサービスレベルを選択して、アプリケーションワークロードの要件に基づいてレイテンシの向上とパフォーマンスの向上を実現します。
++
+image:gcve-cvs-guest-4.png[""]
+
+. ボリュームおよびボリュームパスに Google Cloud のリージョンを指定（プロジェクト内のすべての Cloud Volume でボリュームパスが一意である必要があります）
++
+image:gcve-cvs-guest-5.png[""]
+
+. ボリュームのパフォーマンスレベルを選択します。
++
+image:gcve-cvs-guest-6.png[""]
+
+. ボリュームのサイズとプロトコルのタイプを指定します。このテストでは、 NFSv3 が使用されています。
++
+image:gcve-cvs-guest-7.png[""]
+
+. この手順では、ボリュームにアクセスできる VPC ネットワークを選択します。VPC ピアリングが実行されていることを確認します。
++
+ヒント： VPC ピアリングが行われていない場合は、ピアリングコマンドの説明を示すポップアップボタンが表示されます。Cloud Shell セッションを開き、適切なコマンドを実行して、 Cloud Volumes Service プロデューサーと VPC をピアリングします。事前に VPC ピアリングを準備する場合は、以下の手順を参照してください。
+
++
+image:gcve-cvs-guest-8.png[""]
+
+. 適切なルールを追加してエクスポートポリシールールを管理し、対応する NFS バージョンのチェックボックスを選択します。
++
+注：エクスポートポリシーを追加しないと、 NFS ボリュームへのアクセスは許可されません。
+
++
+image:gcve-cvs-guest-9.png[""]
+
+. [ 保存 ] をクリックしてボリュームを作成します。
++
+image:gcve-cvs-guest-10.png[""]
+
+
+
+
+
+=== VMware Engine で実行されている VM に NFS エクスポートをマウントする
+
+NFS ボリュームのマウントを準備する前に、プライベート接続のピアステータスが Active と表示されていることを確認してください。ステータスが Active になったら、 mount コマンドを使用します。
+
+NFS ボリュームをマウントするには、次の手順を実行します。
+
+. クラウドコンソールで、 Cloud Volume > Volumes に移動します。
+. Volumes （ボリューム）ページに移動します
+. NFS エクスポートをマウントする NFS ボリュームをクリックします。
+. 右にスクロールし、 [ 詳細を表示 ] の下にある [ 指示のマウント ] をクリックします。
+
+
+VMware VM のゲスト OS 内からマウントプロセスを実行するには、次の手順を実行します。
+
+. SSH クライアントと SSH を使用して仮想マシンに接続します。
+. インスタンスに NFS クライアントをインストールします。
++
+.. Red Hat Enterprise Linux または SUSE Linux インスタンスの場合：
++
+ sudo yum install -y nfs-utils
+.. Ubuntu または Debian のインスタンスで次の手順を実行します。
++
+ sudo apt-get install nfs-common
+
+
+. 「 /nimCVSNFSol01 」などの新しいディレクトリをインスタンスに作成します。
++
+ sudo mkdir /nimCVSNFSol01
++
+image:gcve-cvs-guest-20.png[""]
+
+. 適切なコマンドを使用してボリュームをマウントします。ラボで使用するコマンドの例を次に示します。
++
+ sudo mount -t nfs -o rw,hard,rsize=65536,wsize=65536,vers=3,tcp 10.53.0.4:/nimCVSNFSol01 /nimCVSNFSol01
++
+image:gcve-cvs-guest-21.png[""]
+image:gcve-cvs-guest-22.png[""]
+
+
+
+
+
+=== VMware Engine で実行されている VM に SMB 共有を作成してマウントします
+
+SMB ボリュームの場合は、 SMB ボリュームを作成する前に、 Active Directory 接続が設定されていることを確認してください。
+
+image:gcve-cvs-guest-30.png[""]
+
+AD 接続が確立されたら、必要なサービスレベルを指定してボリュームを作成します。適切なプロトコルを選択する以外に、 NFS ボリュームを作成する手順は同じです。
+
+. Cloud Volume コンソールで、 Volumes （ボリューム）ページに移動し、 Create （作成）をクリックします。
+. [Create File System] ページで、チャージバックメカニズムに必要なボリューム名と課金ラベルを指定します。
++
+image:gcve-cvs-guest-31.png[""]
+
+. 適切なサービスを選択します。GCVE として、 CVS パフォーマンスと希望するサービスレベルを選択し、ワークロード要件に基づいてレイテンシの向上とパフォーマンスの向上を実現します。
++
+image:gcve-cvs-guest-32.png[""]
+
+. ボリュームおよびボリュームパスに Google Cloud のリージョンを指定（プロジェクト内のすべての Cloud Volume でボリュームパスが一意である必要があります）
++
+image:gcve-cvs-guest-33.png[""]
+
+. ボリュームのパフォーマンスレベルを選択します。
++
+image:gcve-cvs-guest-34.png[""]
+
+. ボリュームのサイズとプロトコルのタイプを指定します。このテストでは、 SMB を使用します。
++
+image:gcve-cvs-guest-35.png[""]
+
+. この手順では、ボリュームにアクセスできる VPC ネットワークを選択します。VPC ピアリングが実行されていることを確認します。
++
+ヒント： VPC ピアリングが行われていない場合は、ピアリングコマンドの説明を示すポップアップボタンが表示されます。Cloud Shell セッションを開き、適切なコマンドを実行して、 Cloud Volumes Service プロデューサーと VPC をピアリングします。事前に VPC ピアリングを準備する場合は、こちらを参照してください link:https://cloud.google.com/architecture/partners/netapp-cloud-volumes/setting-up-private-services-access?hl=en["手順"]。
+
++
+image:gcve-cvs-guest-36.png[""]
+
+. [ 保存 ] をクリックしてボリュームを作成します。
++
+image:gcve-cvs-guest-37.png[""]
+
+
+
+SMB ボリュームをマウントするには、次の手順を実行します。
+
+. クラウドコンソールで、 Cloud Volume > Volumes に移動します。
+. Volumes （ボリューム）ページに移動します
+. SMB 共有をマッピングする SMB ボリュームをクリックします。
+. 右にスクロールし、 [ 詳細を表示 ] の下にある [ 指示のマウント ] をクリックします。
+
+
+VMware VM の Windows ゲスト OS からマウントプロセスを実行するには、次の手順を実行します。
+
+. [ スタート ] ボタンをクリックし、 [ コンピュータ ] をクリックします。
+. [ ネットワークドライブの割り当て ] をクリックします。
+. [ ドライブ ] リストで、使用可能な任意のドライブ文字をクリックします。
+. フォルダボックスに、次のように入力します。
++
+ \\nimsmb-3830.nimgcveval.com\nimCVSMBvol01
++
+image:gcve-cvs-guest-38.png[""]
+
++
+コンピュータにログオンするたびに接続するには、 [ サインイン時に再接続 ] チェックボックスをオンにします。
+
+. 完了をクリックします。
++
+image:gcve-cvs-guest-39.png[""]
+
+

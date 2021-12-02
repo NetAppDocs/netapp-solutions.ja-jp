@@ -1,0 +1,40 @@
+---
+sidebar: sidebar 
+permalink: ehc/ehc-support-configs.html 
+keywords: NetApp Solutions, ehc, enterprise hybrid cloud, hyperscalers, vmware, supported config, config, configuration 
+summary:  
+---
+= エンタープライズハイブリッドクラウド（ EHC ）でサポートされる構成
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+主要なハイパースケーラにおけるネットアップストレージサポートの組み合わせを理解している。
+
+[cols="6, 3, 3, 3"]
+|===
+
+
+|  | * Azure AVS * | * AWS VMC * | * GCP GCVE * 
+
+
+| * Cloud Volumes ONTAP （ CVO ） * | link:azure-cvo-guest.html["ゲストが接続されました"] | link:aws-cvo-guest.html["ゲストが接続されました"] | link:gcp-cvo-guest.html["ゲストが接続されました"] 
+
+
+| * Cloud Volumes Service (CVS)* | - | - | link:gcp-cvs-guest.html["ゲストが接続されました"]
+link:https://www.netapp.com/google-cloud/google-cloud-vmware-engine-registration/["ネイティブデータストア ^1"^] 
+
+
+| * Azure NetApp Files （ ANF ） * | link:azure-anf-guest.html["ゲストが接続されました"]
+link:https://azure.microsoft.com/en-us/updates/azure-netapp-files-datastores-for-azure-vmware-solution-is-coming-soon/["ネイティブデータストア ^1"^] | 該当なし | 該当なし 
+
+
+| * FSX ONTAP * | 該当なし | link:aws-fsx-ontap-guest.html["ゲストが接続されました"]
+link:https://blogs.vmware.com/cloud/2021/12/01/vmware-cloud-on-aws-going-big-reinvent2021/["ネイティブデータストア ^1"^] | 該当なし 
+|===
+
+NOTE: 1- 現在プライベートプレビュー中です
