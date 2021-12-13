@@ -5794,7 +5794,6 @@
   <block id="57324e972ea87c8e788d9831e510bc6d" category="list-text">差分更新の場合は、カットオーバー期間の変更率が低いまで XCP sync を使用します。</block>
   <block id="3812202d715addac73d7122672d3c8d0" category="list-text">移行を完了するには、 XCP sync コマンドを実行して、ソースを読み取り専用としてマークして最終同期を実行します。</block>
   <block id="2c1d8a91f274a7723f6ad2ffefc81b62" category="list-text">データが正しく転送されたことを確認するには 'XCP verify コマンドを実行して ' ソースとデスティネーションを比較します</block>
-  <block id="12750e54260da668490732c9045967ec" category="paragraph">クラウドの場合は、オンプレミスとクラウドの間の接続が直接接続（ AWS ）、 ExpressRoute （ Azure ）、クラウドインターコネクト（ GCP ）の場合に、同様のオンプレミス移行ワークフローに従うことができます。</block>
   <block id="8f4cde54f5af74d15d142ad98344aab6" category="paragraph">次の図は、オンプレミスからクラウドへの移行ワークフローを示しています。</block>
   <block id="9d1b3862e72bece8266c1c8b1098c696" category="paragraph"><block ref="9d1b3862e72bece8266c1c8b1098c696" category="inline-image-macro-rx" type="image"></block></block>
   <block id="6e2fef7fa18bd688132425321b9188bb" category="paragraph">オンプレミスとクラウド間に直接インターネット接続がない場合は、トラックなどのオフラインデータ転送方式を使用して、オンプレミスからクラウドにデータを転送する必要があります。クラウドサービスプロバイダによって、データをデータセンターに移動するための用語が異なる手法が用意されています。</block>
@@ -5830,7 +5829,6 @@
   <block id="1bed902c0754e4abc7598b7f1a0450e0" category="paragraph">次のような出力が表示されます。</block>
   <block id="f7c322db5a6c805aed8a38858c7ba770" category="paragraph">3 つのサブディレクトリの深さまでスキャンし ' ソート順を指定するには 'XCP -du' コマンドを実行して ' 各ディレクトリ・レベルで 3 つのサブディレクトリの深さまでサイズをダンプします</block>
   <block id="7c12bd6fa64456eb3a61460a4bbb98e6" category="paragraph">ソートするには、情報を CSV ファイルにダンプして情報をソートします。</block>
-  <block id="f4c3dd29e6e508e2ea879ed0bccc3468" category="paragraph">これは '-fmt' コマンドを使用するカスタム・レポートですすべてのディレクトリがスキャンされ、ディレクトリの名前、パス、およびサイズが CSV ファイルにダンプされます。サイズ列は、スプレッドシートアプリケーションでソートできます。</block>
   <block id="c2e9a8d6d376247b10a1ab4624bd2610" category="inline-link-macro">次のステップ： 7-Mode から ONTAP へのデータ移行</block>
   <block id="7155e60f207d105fa4db5d15efdce133" category="paragraph"><block ref="7155e60f207d105fa4db5d15efdce133" category="inline-link-macro-rx"></block></block>
   <block id="2246a929033f1d77a86efa97dda42849" category="inline-link-macro">前の手順：トラブルシューティング。</block>
@@ -5848,7 +5846,6 @@
   <block id="f688414f56f567909ca9a570f161016e" category="inline-link-macro">前の手順：導入手順</block>
   <block id="fb58e731328976afe8beac53cbe55ee7" category="paragraph"><block ref="fb58e731328976afe8beac53cbe55ee7" category="inline-link-macro-rx"></block></block>
   <block id="5224a4cb1d59edb5630ae27e640409e9" category="section-title">テストに基づく推定所要時間</block>
-  <block id="2928c19c19fa25bf625368eeeeaf68ff" category="paragraph">XCP コピーと同期のテストでは、導入時に使用したのと同じテストベッドを使用しました。8K 、 16K 、 1MB の 3 セットのファイルを 100 万個作成し、変更をリアルタイムで実行しました。XCP sync 関数は、ソースからターゲットへの差分増分更新をファイルレベルで実行します。増分更新操作には、既存のファイルとフォルダの名前変更、既存のファイルへのデータの追加、ファイルとフォルダの削除、ハードリンク、ソフトリンク、マルチリンクの追加の 4 つの操作があります。テスト目的では、名前変更、追加、削除、およびリンク操作に注目しました。つまり、 100 万ファイルに対して、名前変更、追加、削除などの変更処理が 10% から 90% の変更率で実行されたことになります。</block>
   <block id="1112334374c9149cc8ad8e80a76f2e56" category="paragraph">次の図に、 XCP コピー処理の結果を示します。</block>
   <block id="d6852faef2642951731c8d64e3009dbe" category="paragraph"><block ref="d6852faef2642951731c8d64e3009dbe" category="inline-image-macro-rx" type="image"></block></block>
   <block id="58fe8c2d511caf443cb23313cb89181b" category="paragraph">次の図に、 XCP Sync の名前変更処理とリンク処理の結果を示します。</block>
@@ -5859,15 +5856,11 @@
   <block id="feeff6134484088b1b404089dc5f92d9" category="paragraph"><block ref="feeff6134484088b1b404089dc5f92d9" category="inline-image-macro-rx" type="image"></block></block>
   <block id="f64c7d081568c95905b16364c19e1be1" category="paragraph">追加処理と削除処理では、小さなファイルサイズに比べて大きなファイルサイズの方が時間がかかります。処理の完了時間は、追加および削除の変更率と線形で表示されます。</block>
   <block id="ecc8d4faf16ec3b08a8badd1d71421d3" category="section-title">XCP 1.6.1 と XCP 1.5 を比較しています</block>
-  <block id="3f05ed0767a903c6f5c60e7516560b4b" category="paragraph">以前のバージョンと比較して、 XCP 1.6.3 および 1.7 でパフォーマンスが向上しています。次のセクションでは、 XCP 1.6 との同期パフォーマンスの比較を示します。3 と 1.7 は、 8K 、 16K 、 1MB のファイルサイズで 100 万個です。</block>
-  <block id="fb4cfee047063b087abd2b8a822b8afb" category="paragraph">次の図は、 XCP 1.6.3 での XCP 同期パフォーマンスと 1.7 （ 8K サイズが 100 万ファイルの場合）の結果を示しています。</block>
   <block id="ded6c17dda87ca50a7ecde2418543075" category="paragraph"><block ref="ded6c17dda87ca50a7ecde2418543075" category="inline-image-macro-rx" type="image"></block></block>
   <block id="09a0804a78587affdd9192afd0f8c80c" category="paragraph">次の図は、 XCP 1.6.1 での XCP 同期パフォーマンスの結果と 1.5 の結果を示しています（ファイル数は 16K となります）。</block>
   <block id="b2733f54373c0149b19c3b37afbcb7da" category="paragraph"><block ref="b2733f54373c0149b19c3b37afbcb7da" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="aaf69e820d26a96011361b0f5b539ffe" category="paragraph">次の図は、 XCP 1.6.1 での XCP 同期パフォーマンスの結果を示しています。 1MB のファイルサイズが 100 万ファイルの 1.5 です。</block>
   <block id="e7770abf0d9a0789407ea0a0e81cc5a6" category="paragraph"><block ref="e7770abf0d9a0789407ea0a0e81cc5a6" category="inline-image-macro-rx" type="image"></block></block>
   <block id="71c6a3c1c59fc41b371a18011d1d5c9b" category="paragraph">XCP 1.7 のパフォーマンスは、平均して XCP 1.6.3 と同様で、「 XCP sync 」差分アップデートでは名前変更、追加、リンク、削除の各操作を 100 万ファイルの 1MB サイズで実行できます。</block>
-  <block id="0616fd1124f4a57ef9a4ef1c7a3c2b47" category="paragraph">このパフォーマンス検証に基づいて、 XCP 1 を使用することを推奨します。7 オンプレミスとクラウドでのデータ移行に最適</block>
   <block id="dd6275237d7504aabd0c206384365206" category="inline-link-macro">次の手順：パフォーマンスの調整。</block>
   <block id="cb619c90f7b537d24a1473acda746a47" category="paragraph"><block ref="cb619c90f7b537d24a1473acda746a47" category="inline-link-macro-rx"></block></block>
   <block id="a01ed8ff3f6e9e3ac0c0068a083281f2" category="summary">このセクションでは、 NetApp XCP を使用したデータ移行のトラブルシューティングについて説明します。</block>
@@ -5886,7 +5879,6 @@
   <block id="6416bf9c9c9445fbe2e15f69fa8371d2" category="paragraph">NetApp XCP は、複数のスレッドとカスタマイズ可能な機能を使用してデータを転送します。データの移動や移行、ファイルシステム分析、ディレクトリツリーの高速削除という 3 つの主なユースケースに対応しています。</block>
   <block id="7817bd783e8db0557909483f54288eae" category="section-title">データの移動または移行</block>
   <block id="a7786f240f16aadfd675c46be438f64e" category="paragraph">NetApp XCP は、任意の NAS から NetApp NAS にデータを転送します。このプロセスは、スキャン、コピー、同期、検証の 4 つの主要な処理で構成されます。データの監視と転送に役立つ追加の機能がいくつかあります。</block>
-  <block id="c95678dcbc6400fa167604a009e875a7" category="list-text">* Scan. * は、 NAS データのレイアウトの概要を提供します。</block>
   <block id="59e4194e1b171063beeb99722a68e7af" category="list-text">* Copy. * はベースラインデータ転送を実行します。</block>
   <block id="a75ddee1308f2f19e478595122434544" category="list-text">* Sync. * は増分データ転送を実行します。</block>
   <block id="ae4ab572ec7de44b385c01df54f00d17" category="list-text">* 検証。 * ターゲットの完全な検証を実行します。</block>
@@ -5899,12 +5891,10 @@
   <block id="6ad28c778baa08cff585599e160c12c8" category="list-text">データはどこにありますか？</block>
   <block id="5eccfafcfad0fb3dcd5f4f1036fed9f9" category="list-text">データの量とファイルの種類</block>
   <block id="b1c54971a6211d7b7e3d074bff16b4c9" category="list-text">どのようなデータがアクティブに使用され、休止状態になっているか？</block>
-  <block id="4a00bd65ba0b2cd4f1fb126fbde7d377" category="paragraph">次の図は、 GUI からの NetApp XCP ファイル分析通信を示しています。</block>
   <block id="81ff19b428c80049b09f8e1e6e55cfde" category="paragraph"><block ref="81ff19b428c80049b09f8e1e6e55cfde" category="inline-image-macro-rx" type="image"></block></block>
   <block id="f2a6c498fb90ee345d997f888fce3b18" category="section-title">削除</block>
   <block id="4125c56415a1c3b98b49ee7f8c2ebfc3" category="paragraph">ストレージ・チームや Electronic Design Automation （ EDA ）のワークロードでは、古いデータであっても、ストレージ・スペースを回復するためにクリーニングが必要なテスト・データであっても、大きなディレクトリをクリーンアップするのは非常に困難です。XCP は、ディレクトリツリー全体を削除できる高速削除機能を提供します。NetApp XCP Delete 機能は、特定の NAS パスからファイルとフォルダを削除します。一致フィルタを使用すると、特定のファイルおよびフォルダセットを削除できます。多数のファイルやフォルダに対しては、削除の確認を必要としない強制オプションを使用できます。</block>
   <block id="ecfd5328aaeaeb8ab72037598049a32c" category="section-title">ライブソース移行のサポート</block>
-  <block id="35ad2e0838c5e3a6a45f5b445ba4cebf" category="paragraph">XCP 1.7 に含まれるライブソース移行のサポートにより、使用中のデータソースからの移行（読み取りおよび書き込みアクティビティ）が可能になります。移行ジョブで使用されているファイル（ copy や sync running など）は XCP によって除外され、スキップされたファイルの情報は XCP ログにキャプチャされます。</block>
   <block id="286a0f56c729672b0709605c558d0008" category="paragraph">この機能では、ソースの変更はサポートされますが、デスティネーションに対する変更はサポートされません。移行中は、移行先をアクティブにしないでください。ライブソースマイグレーションは、 NFS マイグレーションでのみサポートされます。</block>
   <block id="2c346a482fcf83bd03d1d51f65d58b8d" category="admonition">ライブソース移行では、特別な設定は必要ありません。</block>
   <block id="ba41152bc4991a294ab26fbe691d52e3" category="section-title">XCP の前提条件</block>
@@ -5918,7 +5908,6 @@
   <block id="14324adbfb79ad4b6832f6a02a1275db" category="list-text">から XCP ライセンスをダウンロードします<block ref="eab886d42d2df7a710066e6d9bf6f5f5" category="inline-link-rx"></block>。</block>
   <block id="7481213bd7173438d06de418474e428b" category="list-text">mysupport.netapp.com にネットアップアカウントがあるか、または無償で登録できます。</block>
   <block id="d25e9f08475ddf6a2701e7cfbd67ff06" category="list-text">ライセンスをダウンロードしてご用意ください。</block>
-  <block id="17e68cc6d5408c91b6067efb25d02149" category="list-text">オンプレミス、 Azure NetApp ボリュームごと、またはクラウドの Cloud Volume Service （ Premium サービスレベル）用に XCP カタログ用の NFS 共有を 1 つ作成します。</block>
   <block id="3d19c697861d11cce0f1d78d41cfea64" category="list-text">NAS ボリュームを作成し、データデスティネーションの共有を設定します。</block>
   <block id="4f2a304b9680876edc7cb61b5c4c7134" category="list-text">複数の XCP インスタンスがある場合、複数のソースフォルダまたはファイルからデスティネーションにデータを転送するには、サーバまたはクラウドインスタンスが 1 つ以上必要です。</block>
   <block id="adc4e34febc2f5919cfa03870630c2fc" category="list-text">maxdir サイズ（デフォルトは 308MB ）では、最大ファイル数（約 100 万）が 1 つのフォルダに定義されます。maxdir サイズ値を大きくして、ファイル数を増やします。値を増やすと、 CPU サイクルが増える。</block>
@@ -5932,8 +5921,6 @@
   <block id="914cb171c700c273306e8265b56f4973" category="paragraph">次の図に、 XCP ファイルの分析フローを示します。</block>
   <block id="538e51b99e800ab65e133b5d57b2dc7f" category="paragraph"><block ref="538e51b99e800ab65e133b5d57b2dc7f" category="inline-image-macro-rx" type="image"></block></block>
   <block id="9bcdbf2b32a87f7efd13f706d43954d5" category="inline-link">NetApp XCP 1.6 が、オープンファイル分析とインフラストラクチャの向上を実現します</block>
-  <block id="f85271f8d53bdbb67001f47101c7fe2f" category="admonition">XCP ファイル分析のアーキテクチャの概要、統計情報ビューなどの GUI ベースのダッシュボードビュー、およびファイル分散ビューの詳細については、を参照してください<block ref="924a0428223d35821b584a5368c0e3e5" category="inline-link-rx"></block> ブログ</block>
-  <block id="2e87561e6e0a4282134ced9e8a1a2bf5" category="paragraph">XCP 1.6 では、カスタマイズされたグラフ用の GUI に制限があります。必要なグラフを作成するには 'XCP scan コマンドを実行し ' フィルタを一致させて CLI を活用します次の例を参照してください。</block>
   <block id="168c81694a3b19988d829a9baeda23fd" category="list-text">「 XCP scan 」と「 -match 」フィルタを使用して、消費されたスペースを使用して、 1 年を超えて変更されたファイルのリストを生成します。</block>
   <block id="de615506a73ca5960be54d36ba7fcd5b" category="list-text">1 年以上前のファイルで使用されているスペースを探します。</block>
   <block id="d2d1f03d5f19a1229103a85cc9224a61" category="list-text">1 年以上前に変更されたデータの合計サイズとグラフ表示を確認します。</block>
@@ -5977,10 +5964,8 @@
   <block id="28712ee052ea500eba0cdbb1d847277f" category="cell">Fujitsu PRIMERGY RX2540 サーバ</block>
   <block id="539c5af1c2682685cd076697aaa6c700" category="cell">各装置には、 *48 CPU * Intel Xeon * 256GB 物理メモリ * 10GbE デュアルポートが搭載されています</block>
   <block id="0cc5c79089d6ca0752529568758efc4c" category="cell">10GbE</block>
-  <block id="cad93f46c02bf56f0aa5192ddacb8ab7" category="section-title">導入手順</block>
   <block id="2879e817640f94636340918850eb6903" category="inline-link">NetApp XCP ユーザガイド</block>
   <block id="f2dd54ec57ec5464ee3aa191a48a8a43" category="paragraph">データ転送用に NetApp XCP を導入するには、まず移行先で XCP ソフトウェアをインストールしてアクティブ化します。詳細については、を参照してください<block ref="ae77d8ba86ab9e3027c314c6b4922595" category="inline-link-rx"></block>。これには、次の手順を実行します。</block>
-  <block id="27109f45b9a84461a0e1e50282d2bc4f" category="list-text">「 XCP の前提条件」のセクション（ xref ）に記載されている前提条件を満たしていること。</block>
   <block id="c58c8903e33903d2e630277aa3a78795" category="inline-link">NetApp XCP （ダウンロード）ページ</block>
   <block id="2d1acef34bb45f2c1878c6b576f3b400" category="list-text">から XCP ソフトウェアをダウンロードします<block ref="13844fc5dba1627d28169d2acfff11e2" category="inline-link-rx"></block>。</block>
   <block id="8319752fe43598ddb329e536217c1cb5" category="list-text">ダウンロードした XCP tar ファイルを XCP サーバにコピーします。</block>
@@ -9233,4 +9218,37 @@
   <block id="412b2ee09f2fbaf8cddb69ee6fe43a2e" category="admonition">SAP および SAP HANA の更新の詳細については、の各ソリューションに表示される「更新履歴」のコンテンツを参照してください <block ref="c4ed54a973fb1aa472c2443732d93c13" category="inline-link-macro-rx"></block>。</block>
   <block id="5a2d7e3c6d0ab5aa27c06042f28c3198" category="open-title">拡張 / バースト</block>
   <block id="8553825f2c93feb7d32c670401e5f338" category="open-title">データセンターのメンテナンス</block>
+  <block id="b98a6acc7ef428f1ae11e5177447df8c" category="paragraph">クラウドの場合は、オンプレミスとクラウドの間の接続が直接接続（ AWS ）、 ExpressRoute （ Azure ）、クラウドインターコネクト（ GCP ）の場合にも、同様のオンプレミス移行ワークフローに従うことができます。</block>
+  <block id="76e3e2a4e56301dafc50613d96fd624e" category="section-title">導入手順 - NAS</block>
+  <block id="62e9f0426675b856daf874c75830c213" category="inline-link-macro">「 XCP の前提条件」</block>
+  <block id="4f6583b152ef684b4492414bcdcdf877" category="list-text">のセクションで説明した前提条件を満たしていること <block ref="958d961a425946e5195ca036cea97fab" category="inline-link-macro-rx"></block></block>
+  <block id="0957326f089aaf98a5b7b9110a2675cd" category="section-title">導入手順 - hdfs/MapRFS のデータ移行</block>
+  <block id="1f43fc63f63aad0b707e06b0753182a1" category="paragraph">このセクションでは、 Hadoop ファイルシステムの NAS へのデータ転送という新しい XCP 機能について説明します。この機能は、 HDFS / MapRFS から NFS にデータを移行するか、その逆を行います。</block>
+  <block id="368666825ffae5710ab122fb63937cee" category="paragraph">MapRFS/HDFS 機能の場合は、ルート以外のユーザ環境で次の手順を実行する必要があります。通常、 root 以外のユーザは HDFS 、 MapR 、または HDFS および MapRFS ファイルシステムを変更する権限を持つユーザです。</block>
+  <block id="9adbc05b1436b3e8962253577f1e6441" category="list-text">CLI またはユーザの .bashrc ファイルと 'XCP コマンドを使用して 'CLASSPATH 'hadoop home ' Nhdfsa_libjvm_path ' lm_library_path ' および Nhdfsa_LIBhdfsa_path 変数を設定します</block>
+  <block id="2a0eda7a7937e303f9e18a57a033fcb8" category="list-text">Nhdfsa_lidbhdfs_path は、 libhdfs.so ファイルを指しています。このファイルは、 Hadoop ディストリビューションの一部として HDFS / MapRFS ファイルとファイルシステムを操作し操作するための HDFS API を提供します。</block>
+  <block id="13682a0461e750a2dfb4e86c2ddc1165" category="list-text">Nhdfs_libjvm_path は、 libjvm.so ファイルを指しています。これは JRE の場所にある共有 Java 仮想マシンライブラリです。</block>
+  <block id="60ce276a5dde3f2d2e92b1986a2eb339" category="list-text">クラスパスは、 Hadoop クラスパス– glob 値を使用してすべての jar ファイルを指します。</block>
+  <block id="84cbf778b2572cae5eba01d0ca330078" category="list-text">LD_LIBRARY_PATH は、 Hadoop のネイティブライブラリフォルダの場所を指しています。</block>
+  <block id="68207eb9f168add2309e88b5223d57c6" category="paragraph">Cloudera クラスタに基づいて、次のサンプルを参照してください。</block>
+  <block id="91328810a5559a740f522f4c5a1da5f1" category="paragraph">このリリースでは、 HDFS から NFS への XCP スキャン、コピー、および検証処理とデータ移行がサポートされます。データレイククラスタの 1 つのワーカーノードと複数のワーカーノードからデータを転送できます。1.8 リリースでは、 root ユーザと root 以外のユーザがデータを移行できるようになりました。</block>
+  <block id="dee4c2c7e685015e9f3cc1ad197f3ab5" category="section-title">導入手順 - root 以外のユーザが HDFS / MaprFS データを NetApp NFS に移行します</block>
+  <block id="5983f77acc016b8138698b32b0ab0405" category="list-text">導入の手順から 1 ～ 9 の手順を実行します。</block>
+  <block id="c2765e27844a39bfc897cb964eec8711" category="list-text">次の例では、 HDFS から NFS にデータを移行します。</block>
+  <block id="e6f549e8013d1f24b8756cd11ff3083e" category="list-text">HDFS 内に（「 hadoop fs -copyFromLocal 」を使用して）フォルダとファイルを作成します。</block>
+  <block id="2433ce85404dd68893a2e4abb99843e4" category="list-text">HDFS フォルダで権限をチェックします。</block>
+  <block id="befab6065ddb441f0b260ac75a8e84c8" category="list-text">NFS でフォルダを作成し、権限を確認します。</block>
+  <block id="02341ea695e862c3a2d89461b1b8bf37" category="list-text">XCP を使用して HDFS から NFS にファイルをコピーし、権限を確認します。</block>
+  <block id="46742b2c1e11cf6a3e230ec3da7e6800" category="admonition">XCP ファイル分析のアーキテクチャの概要、統計情報ビューなどの GUI ベースのダッシュボードビュー、およびファイル配布ビューの詳細については、ブログの投稿を参照してください<block ref="924a0428223d35821b584a5368c0e3e5" category="inline-link-rx"></block>。</block>
+  <block id="21bd6427119f8d9a06a7c5bce95d28ac" category="paragraph">XCP 1.6 では、カスタマイズされたグラフを作成するための GUI に制限があります。必要なグラフを作成するには、 CLI を使用して対応するフィルタを指定して XCP スキャンコマンドを実行します。次の例を参照してください。</block>
+  <block id="7e9b65699b01d35aeff9dc16008da7a5" category="paragraph">XCP コピーと同期のテストでは、導入時に使用したのと同じテストベッドを使用しました。8K 、 16K 、 1MB の 3 セットのファイルを 100 万個作成し、変更をリアルタイムで実行しました。XCP sync 関数は、ソースからターゲットへの差分増分更新をファイルレベルで実行します。増分更新操作には、既存のファイルとフォルダの名前変更、既存のファイルへのデータの追加、ファイルとフォルダの削除、ハードリンク、ソフトリンク、マルチリンクの追加の 4 つの操作があります。テスト目的では、名前変更、追加、削除、およびリンク操作に注目しました。つまり、 100 万ファイルに対して、名前変更、追加、削除などの変更処理が 10% から 90% の変更率で実行されたことになります。</block>
+  <block id="f599c9e924e3b854abd0ab58126fed43" category="paragraph">以前のバージョンと比較して、 XCP 1.6.3 および 1.7 でパフォーマンスが向上しています。次のセクションでは、 XCP 1.6.3 と 1.7 の間での 8K 、 16K 、 1MB の各ファイルの同期パフォーマンスの比較を示します。</block>
+  <block id="b53776fdc2fd9fc721aaa6f03fd3d6a0" category="paragraph">次の図は、 XCP 1.6.3 での XCP 同期パフォーマンスと 1.7 （ 8K サイズが 100 万ファイルの場合）の結果を示しています。</block>
+  <block id="5b201508f1de849d630f98c0001fdc29" category="paragraph">次の図は、 XCP 1.6.1 での XCP 同期パフォーマンスの結果を示しています。 1MB のファイルサイズが 100 万ファイルの 1.5 です。</block>
+  <block id="61b90da0c91ea6cb7c16bfaca41b4920" category="paragraph">このパフォーマンス検証に基づいて、オンプレミスとクラウドでのデータ移行には XCP 1.7 を使用することを推奨します。</block>
+  <block id="d0ecdc77c2c944d380e9fef0e01eb119" category="paragraph">これは '-fmt' コマンドを使用するカスタム・レポートですすべてのディレクトリがスキャンされ、ディレクトリの名前、パス、およびサイズが CSV ファイルにダンプされます。サイズ列は、スプレッドシートアプリケーションでソートできます。</block>
+  <block id="1c026a57d7676d346dd0d44a2f595c1d" category="list-text">* スキャン * NAS および MapR / HDFS データのレイアウトの概要を提供します。</block>
+  <block id="6b2c974b2ada5fba492b8dcda598b1f9" category="paragraph">次の図は、 GUI からの NetApp XCP ファイル分析通信を示しています。</block>
+  <block id="2d3aa3941d30870beb3abde613ce14b1" category="paragraph">XCP 1.7 に含まれるライブソース移行のサポートにより、使用中のデータソースからの移行（読み取りおよび書き込みアクティビティ）が可能になります。移行ジョブで使用されているファイル（ copy や sync running など）は XCP によって除外され、スキップされたファイルの情報は XCP ログにキャプチャされます。</block>
+  <block id="b9611b870758eac97bd0c3bcb3fc8026" category="list-text">Azure NetApp ボリュームごと、またはクラウドの Cloud Volume Service （プレミアムサービスレベル）用に、 XCP カタログ用にオンプレミスで NFS 共有を 1 つ作成します。</block>
 </blocks>
