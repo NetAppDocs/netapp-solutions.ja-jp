@@ -1,18 +1,91 @@
 ---
 sidebar: sidebar 
-permalink: ehc/azure-cvo-guest.html 
-keywords: NetApp Solutions, microsoft azure, avs, azure, vmware managed cloud, enterprise, hybrid, cloud, cloud volumes ontap, cvo 
+permalink: ehc/azure-guest.html 
+keywords: NetApp Solutions, microsoft azure, avs, azure, vmware managed cloud, enterprise, hybrid, cloud, anf, azure netapp files, cvo, cloud volumes ontap, guest connected 
 summary:  
 ---
-= Azure に新しい Cloud Volumes ONTAP を導入
-:hardbreaks:
-:nofooter: 
-:icons: font
-:linkattrs: 
-:imagesdir: ./../media/
+= Azure 向けネットアップゲスト接続ストレージオプション
 
 
 [role="lead"]
+Azure は、以下の構成でネットアップストレージをサポートします。
+
+* link:#anf["ゲスト接続ストレージとしての Azure NetApp Files （ ANF"]
+* link:#cvo["Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用"]
+
+
+
+
+== Azure VMware 解決策（ AVS ）を使用した Azure NetApp Files の設定
+
+解決策共有は、 Azure VMware Azure NetApp Files SDDC 環境で作成された VM からマウントできます。Azure NetApp Files では SMB プロトコルと NFS プロトコルがサポートされているため、ボリュームを Linux クライアントにマウントして Windows クライアントにマッピングすることもできます。Azure NetApp Files ボリュームは、 5 つの簡単な手順で設定できます。
+
+Azure NetApp Files と Azure VMware 解決策は、同じ Azure リージョンに配置する必要があります。
+
+
+
+=== Azure NetApp Files ボリュームを作成してマウント
+
+Azure NetApp Files ボリュームを作成してマウントするには、次の手順を実行します。
+
+. Azure ポータルにログインし、 Azure NetApp Files にアクセスします。Azure NetApp Files サービスへのアクセスを確認し、 Azure NetApp Files リソースプロバイダを登録するには、 _az プロバイダ登録 -- namespace Microsoft.NetApp – wait_command を使用します。登録が完了したら、ネットアップアカウントを作成します。
++
+詳細な手順については、を参照してください link:https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-create-netapp-account["Azure NetApp Files 共有"]。このページでは、ステップバイステップのプロセスについて説明します。
+
++
+image:azure-anf-guest-1.png[""]
+
+. ネットアップアカウントが作成されたら、必要なサービスレベルとサイズの容量プールを設定します。
++
+詳細については、を参照してください link:https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-set-up-capacity-pool["容量プールをセットアップする"]。
+
++
+image:azure-anf-guest-2.png[""]
+
+. Azure NetApp Files の委任されたサブネットを設定し、ボリュームを作成する際にこのサブネットを指定します。委任されたサブネットを作成する詳細な手順については、を参照してください link:https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-delegate-subnet["サブネットを Azure NetApp Files に委譲します"]。
++
+image:azure-anf-guest-3.png[""]
+
+. 容量プールブレードの下のボリュームブレードを使用して、 SMB ボリュームを追加します。SMB ボリュームを作成する前に、 Active Directory Connector が設定されていることを確認してください。
++
+image:azure-anf-guest-4.png[""]
+
+. [Review + Create] をクリックして、 SMB ボリュームを作成します。
++
+アプリケーションが SQL Server の場合は、 SMB 継続的可用性を有効にします。
+
++
+image:azure-anf-guest-5.png[""]
+
++
+image:azure-anf-guest-6.png[""]
+
++
+サイズまたはクォータ別の Azure NetApp Files ボリュームのパフォーマンスの詳細については、を参照してください link:https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-performance-considerations["Azure NetApp Files のパフォーマンスに関する考慮事項"]。
+
+. 接続が確立されると、ボリュームをマウントしてアプリケーションデータに使用できるようになります。
++
+これを行うには、 Azure ポータルで Volumes ブレードをクリックし、マウントするボリュームを選択して、マウント手順にアクセスします。パスをコピーし、ネットワークドライブのマッピングオプションを使用して、 Azure VMware 解決策 SDDC で実行されている VM にボリュームをマウントします。
+
++
+image:azure-anf-guest-7.png[""]
+
++
+image:azure-anf-guest-8.png[""]
+
+. Azure VMware 解決策 SDDC で実行されている Linux VM に NFS ボリュームをマウントする場合も、同じ手順を使用します。ボリュームの形状変更機能または動的なサービスレベル機能を使用して、ワークロードの要件を満たします。
++
+image:azure-anf-guest-9.png[""]
+
++
+詳細については、を参照してください link:https://docs.microsoft.com/en-us/azure/azure-netapp-files/dynamic-change-volume-service-level["ボリュームのサービスレベルを動的に変更する"]。
+
+
+
+
+
+== Azure に新しい Cloud Volumes ONTAP を導入
+
 解決策共有および LUN は、 Azure VMware Cloud Volumes ONTAP SDDC 環境で作成された VM からマウントできます。Cloud Volumes ONTAP は iSCSI 、 SMB 、 NFS の各プロトコルをサポートしているため、このボリュームは Linux クライアントおよび Windows クライアントにもマウントできます。Cloud Volumes ONTAP ボリュームは、いくつかの簡単な手順で設定できます。
 
 ディザスタリカバリや移行の目的でオンプレミス環境からクラウドにボリュームをレプリケートするには、サイト間 VPN または ExpressRoute を使用して、 Azure へのネットワーク接続を確立します。オンプレミスから Cloud Volumes ONTAP へのデータのレプリケートについては、本ドキュメントでは扱いません。オンプレミスシステムと Cloud Volumes ONTAP システム間でデータをレプリケートする方法については、を参照してください link:https://docs.netapp.com/us-en/occm/task_replicating_data.html#setting-up-data-replication-between-systems["システム間のデータレプリケーションの設定"]。
@@ -68,7 +141,7 @@ image:azure-cvo-guest-11.png[""]
 
 
 
-== SMB ボリューム用の追加の設定
+=== SMB ボリューム用の追加の設定
 
 . 作業環境の準備ができたら、 CIFS サーバに適切な DNS および Active Directory 設定パラメータが設定されていることを確認します。この手順は、 SMB ボリュームを作成する前に実行する必要があります。
 +
@@ -94,7 +167,7 @@ image:azure-cvo-guest-24.png[""]
 
 
 
-== LUN をホストに接続します
+=== LUN をホストに接続します
 
 LUN をホストに接続するには、次の手順を実行します。
 

@@ -1,0 +1,82 @@
+---
+sidebar: sidebar 
+permalink: ehc/azure-avs.html 
+keywords: NetApp Solutions, hyperscalers, azure, avs, enterprise, hybrid, cloud, migrate, migration, disaster recovery, dr 
+summary:  
+---
+= Azure AVS 向けのネットアップの機能
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+ネットアップが Azure VMware 解決策（ AVS ）に提供する機能の詳細をご確認ください。ネットアップがゲスト接続ストレージデバイスまたはネイティブデータストアとして提供する機能から、ワークフローの移行、クラウドへの拡張 / バースト対応、バックアップ / リストア、ディザスタリカバリに至るまで、さまざまなメリットがあります。
+
+次のオプションから選択して、目的のコンテンツのセクションに移動します。
+
+* link:#config["ハイパースケーラ構成における VMware"]
+* link:#datastore["ネットアップストレージオプション"]
+
+
+
+
+== Azure で AVS を設定する
+
+オンプレミスと同様に、 VM と移行を作成する本番環境に適したクラウドベースの仮想化環境を計画することが重要です。
+
+オンプレミスと同様に、 Azure VMware 解決策を計画することは、 VM と移行を作成する本番環境に欠かせません。
+
+このセクションでは、 Azure VMware 解決策をセットアップおよび管理する方法と、ネットアップストレージの接続に使用できるオプションについて説明します。
+
+
+NOTE: Azure NetApp Files と Cloud Volumes ONTAP を Azure VMware 解決策に接続する方法としてサポートされているのは、ゲスト内ストレージだけです。
+
+セットアッププロセスは、次の手順に分けることができます。
+
+* link:azure-register-create-pc.html["リソースプロバイダを登録し、プライベートクラウドを作成"]
+* link:azure-connect-virtual-gateway.html["新しい ExpressRoute 仮想ネットワークゲートウェイまたは既存の ExpressRoute 仮想ネットワークゲートウェイに接続します"]
+* link:azure-validate-network.html["ネットワーク接続を検証し、プライベートクラウドにアクセス"]
+
+
+
+
+== AVS 向けのネットアップストレージオプション
+
+ネットアップストレージは、 Azure AVS 内で数通りの方法で利用できます。接続されているか、ネイティブデータストアとして利用できます。
+
+にアクセスしてください link:ehc-support-configs.html["サポートされているネットアップストレージオプション"] を参照してください。
+
+Azure は、以下の構成でネットアップストレージをサポートします。
+
+* ゲスト接続ストレージ *
+
+* link:azure-anf-guest.html["ゲスト接続ストレージとしての Azure NetApp Files （ ANF"]
+* link:azure-cvo-guest.html["Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用"]
+
+
+* ネイティブデータストア *
+
+* link:https://azure.microsoft.com/en-us/updates/azure-netapp-files-datastores-for-azure-vmware-solution-is-coming-soon/["ネイティブデータストアとしての Azure NetApp Files （ ANF ） ^1"^]
+
+
+
+NOTE: 1- 現在プライベートプレビュー中です
+
+
+
+== 解決策のユースケース
+
+ネットアップと VMware のクラウドソリューションを使用すれば、多くのユースケースを Azure AVS で簡単に導入できます。ユースケースには次のものがあります。
+
+* 拡張 / バースト
+* データセンターのメンテナンス
+* データ移行
+* バックアップ / リストア
+* ディザスタリカバリ
+* データ保護
+
+
+link:azure-solutions.html["Azure AVS 向けネットアップソリューションをご覧ください"]

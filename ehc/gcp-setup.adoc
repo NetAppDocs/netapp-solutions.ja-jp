@@ -1,10 +1,10 @@
 ---
 sidebar: sidebar 
-permalink: ehc/gcve-enable-access.html 
+permalink: ehc/gcp-setup.html 
 keywords: NetApp Solutions, google cloud, gcp, gcve, vmware managed cloud, enterprise, hybrid, cloud, config, configuration, 
 summary:  
 ---
-= GCVE へのプライベートアクセスを有効にします
+= Google Cloud Platform （ GCP ）への仮想化環境の導入と構成
 :hardbreaks:
 :nofooter: 
 :icons: font
@@ -13,6 +13,42 @@ summary:
 
 
 [role="lead"]
+オンプレミスと同様に、 VM と移行を作成する本番環境に成功するには、 Google Cloud VMware Engine （ GCVE ）の計画が不可欠です。
+
+このセクションでは、 GCVE のセットアップと管理方法、およびネットアップストレージの接続に使用できるオプションとの組み合わせについて説明します。
+
+
+NOTE: Cloud Volume と Cloud Volumes ONTAP サービスを GCVE に接続する方法としてサポートされているのは、ゲスト内ストレージだけです。
+
+セットアッププロセスは、次の手順に分けることができます。
+
+* link:#deploy["GCVE を導入および設定します"]
+* link:#enable-access["GCVE へのプライベートアクセスを有効にします"]
+
+
+
+
+== GCVE を導入および設定します
+
+GCP で GCVE 環境を設定するには、 GCP コンソールにログインし、 VMware Engine ポータルにアクセスします。
+
+[New Private Cloud] ボタンをクリックして、 GCVE プライベートクラウドに必要な設定を入力します。「場所」で、 CV/CVO を導入するリージョン / ゾーンにプライベートクラウドを導入して、最高のパフォーマンスと最小のレイテンシを確保してください。
+
+前提条件
+
+* VMware Engine Service Admin IAM ロールを設定します
+* link:https://docs.netapp.com/us-en/occm/task_replicating_data.html["VMware Engine API アクセスおよびノードクォータを有効にします"]
+* CIDR 範囲がオンプレミスサブネットやクラウドサブネットと重複しないようにしてください。CIDR 範囲は /27 以上である必要があります。
+
+
+image:gcve-deploy-1.png[""]
+
+注：プライベートクラウドの作成には、 30 分から 2 時間かかります。
+
+
+
+== GCVE へのプライベートアクセスを有効にします
+
 プライベートクラウドのプロビジョニングが完了したら、プライベートクラウドへのプライベートアクセスを設定して、高スループットで低レイテンシのデータパス接続を実現します。
 
 これにより、 Cloud Volumes ONTAP インスタンスが実行されている VPC ネットワークが、 GCVE プライベートクラウドと通信できるようになります。これを行うには、に従ってください link:https://cloud.google.com/architecture/partners/netapp-cloud-volumes/quickstart["GCP ドキュメント"]。クラウドボリュームサービスの場合は、テナントホストプロジェクト間で 1 回限りのピアリングを実行して、 VMware エンジンと Cloud Volumes Service 間の接続を確立します。詳細な手順については、次の手順を実行してください 。

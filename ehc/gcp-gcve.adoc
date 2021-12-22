@@ -1,0 +1,81 @@
+---
+sidebar: sidebar 
+permalink: ehc/gcp-gcve.html 
+keywords: NetApp Solutions, hyperscalers, google cloud, gcp, gcve, enterprise, hybrid, cloud, migrate, migration, disaster recovery, dr 
+summary:  
+---
+= Google Cloud Platform GCVE のネットアップ機能
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+ネットアップが Google Cloud Platform （ GCP ）で提供する Google Cloud Virtualization Ending （ GCVE ）の機能については、ネットアップがゲスト接続ストレージデバイスまたはネイティブデータストアとして提供しているものを参照してください。また、ワークフローの移行、クラウドへの拡張 / バースト対応、バックアップ / リストア、ディザスタリカバリにも対応しています。
+
+次のオプションから選択して、目的のコンテンツのセクションに移動します。
+
+* link:#config["ハイパースケーラ構成における VMware"]
+* link:#datastore["ネットアップストレージオプション"]
+
+
+
+
+== Google Cloud での GCVE の設定
+
+オンプレミスと同様に、 VM と移行を作成する本番環境に適したクラウドベースの仮想化環境を計画することが重要です。
+
+オンプレミスと同様に、 VM と移行を作成する本番環境に成功するには、 Google Cloud VMware Engine （ GCVE ）の計画が不可欠です。
+
+このセクションでは、 GCVE のセットアップと管理方法、およびネットアップストレージの接続に使用できるオプションとの組み合わせについて説明します。
+
+
+NOTE: Cloud Volume と Cloud Volumes ONTAP サービスを GCVE に接続する方法としてサポートされているのは、ゲスト内ストレージだけです。
+
+セットアッププロセスは、次の手順に分けることができます。
+
+* link:gcve-deploy-config.html["GCVE を導入および設定します"]
+* link:gcve-enable-access.html["GCVE へのプライベートアクセスを有効にします"]
+
+
+
+
+== GCVE のネットアップストレージオプション
+
+ネットアップストレージは、 GCP GCVE 内で、推測接続またはネイティブデータストアとして、複数の方法で利用できます。
+
+にアクセスしてください link:ehc-support-configs.html["サポートされているネットアップストレージオプション"] を参照してください。
+
+Google Cloud は、次の構成でネットアップストレージをサポートします。
+
+* ゲスト接続ストレージ *
+
+* link:gcp-cvo-guest.html["Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用"]
+* link:gcp-cvs-guest.html["Cloud Volumes Service （ CVS ）をゲスト接続ストレージとして使用できるようになりました"]
+
+
+* ネイティブデータストア *
+
+* link:https://www.netapp.com/google-cloud/google-cloud-vmware-engine-registration/["ネイティブデータストアとしての Cloud Volumes Service （ CVS ） ^1"^]
+
+
+
+NOTE: 1- 現在プライベートプレビュー中です
+
+
+
+== 解決策のユースケース
+
+ネットアップと VMware のクラウドソリューションを使用すれば、多くのユースケースを Azure AVS で簡単に導入できます。ユースケースには次のものがあります。
+
+* 拡張 / バースト
+* データセンターのメンテナンス
+* データ移行
+* バックアップ / リストア
+* ディザスタリカバリ
+* データ保護
+
+
+link:gcp-solutions.html["ネットアップの Google Cloud GCVE ソリューションをご覧ください"]
