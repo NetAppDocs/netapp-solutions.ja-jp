@@ -4,7 +4,7 @@ permalink: data-analytics/confluent-kafka-kafka-s3-connector.html
 keywords: s3, connector, setup 
 summary: このセットアップでは、 Kafka s3 sink Connector を使用して、 Kafka のオブジェクトストレージのトピックの読み取りと書き込みを直接実行する方法を紹介します。このテストでは、スタンドアロンの流暢なクラスタを使用しましたが、このセットアップは分散クラスタに適用できます。 
 ---
-= Kafka s3 コネクタ
+= 矛盾点 3 コネクタ
 :hardbreaks:
 :nofooter: 
 :icons: font
@@ -13,6 +13,8 @@ summary: このセットアップでは、 Kafka s3 sink Connector を使用し�
 
 
 link:confluent-kafka-performance-tests-with-scalability.html["Previous ：拡張性を備えたパフォーマンステスト。"]
+
+Amazon S3 Sink Connector は、 Apache Kafka のトピックから Avro 、 JSON 、またはバイト形式の S3 オブジェクトにデータをエクスポートします。Amazon S3 シンクコネクタは、 Kafka から定期的にデータをポーリングし、 S3 にアップロードします。ユーザは、各 Kafka パーティションのデータをチャンクに分割するために使用します。データのチャンクはそれぞれ S3 オブジェクトとして表されます。キー名は、トピック、 Kafka パーティション、およびこのデータチャンクの開始オフセットをエンコードします。
 
 このセットアップでは、 Kafka s3 sink Connector を使用して、 Kafka のオブジェクトストレージのトピックの読み取りと書き込みを直接実行する方法を紹介します。このテストでは、スタンドアロンの流暢なクラスタを使用しましたが、このセットアップは分散クラスタに適用できます。
 
@@ -163,7 +165,7 @@ root@stlrx2540m1-108:~#
 . バケットに到達できることを確認します。
 +
 ....
-root@stlrx2540m4-01:~# aws s3 –endpoint-url .rtpppe.netapp.com:10444 ls kafkasgdbucket1-2
+root@stlrx2540m4-01:~# aws s3 –endpoint-url http://kafkasgd.rtpppe.netapp.com:10444 ls kafkasgdbucket1-2
 2021-10-29 21:04:18       1388 1
 2021-10-29 21:04:20       1388 2
 2021-10-29 21:04:22       1388 3
@@ -304,4 +306,4 @@ root@stlrx2540m1-108:~#
 ....
 
 
-link:confluent-kafka-confluent-kafka-rebalance.html["次は、 Conluent Kafka rebalance です。"]
+link:confluent-kafka-confluent-kafka-rebalance.html["次は、流暢な自己リバランシングクラスタです。"]
