@@ -6162,8 +6162,6 @@
   <block id="ec6136417c258c9b7f95c39765c5ca51" category="paragraph">このセクションでは、 XCP 処理のパフォーマンスを向上させるために役立つチューニングパラメータをいくつか説明します。</block>
   <block id="dd10b781bf6dd686a8631401ce0fba96" category="list-text">拡張性を高め、ワークロードを複数の XCP インスタンスに分散させるには、移行とデータ転送用に各 XCP インスタンスのサブフォルダを分割します。</block>
   <block id="37e9b10f81fe31cb6b80609f724b34f8" category="list-text">XCP では最大 CPU リソースを使用できます。 CPU コア数が多いほど、パフォーマンスが向上します。そのため、 XCP サーバに追加の CPU が必要です。テストでは 128GB の RAM と 48 個のコア CPU を使用し、 8 倍の CPU と 8 GB の RAM に比べてパフォーマンスが向上しました。</block>
-  <block id="437d7ec5d90f0fafc57a79e213e22708" category="list-text">「 -parallel 」オプションを指定した XCP コピーは、 CPU の数に基づいています。ほとんどの XCP データ転送および移行処理には、デフォルトのパラレルスレッド数（ 7 ）で十分です。XCP Windows の場合、デフォルトでは並列プロセスの数は CPU の数と同じです。</block>
-  <block id="3d01016b65c5e356c34758cb1e80518c" category="list-text">データ転送の開始には 10GbE が適しています。ただし、 25GbE と 100GbE でテストした結果、データ転送が向上し、大容量のファイルサイズのデータ転送に推奨されています。</block>
   <block id="a174d00dcd4849e0653429de84c71cde" category="list-text">Azure NetApp Files の場合、パフォーマンスはサービスレベルによって異なります。詳細については、次の表を参照してください。この表には、 Azure NetApp Files のサービスレベルとパフォーマンスの詳細が表示されます。</block>
   <block id="6d59be48f566a73e053e12167b279be5" category="cell">サービスレベル</block>
   <block id="eb6d8ae6f20283755b339c0dc273988b" category="cell">標準</block>
@@ -8172,15 +8170,11 @@
   <block id="dc0365ad4c92bc3f8973ff5616cd6830" category="doc">Astra Control Center を使用した CI / CD パイプラインでのデータ保護</block>
   <block id="7e936a7640e03dad09e0b76d68277d56" category="summary">ティアストレージのテストを 3~4 ノードで実施し、生成されるワークロードと利用者のワークロードについては NetApp StorageGRID のセットアップを使用しました。</block>
   <block id="3c2fe55c24192bbec6d6d3aede570213" category="doc">拡張性を備えたパフォーマンステスト</block>
-  <block id="41527eb87fda84941b00d3f232f4d599" category="inline-link-macro">それ以前は、 ConFluent Kafka の認定を取得してい</block>
-  <block id="2afffcb29b9d7c0e37e29d760a386a1a" category="paragraph"><block ref="2afffcb29b9d7c0e37e29d760a386a1a" category="inline-link-macro-rx"></block></block>
   <block id="4e6097966a711c7acf606365a2925b64" category="list-text">ストレージノードの数が増えると、農産物と消費者の処理を完了するまでの時間が直線的に短くなりました。</block>
   <block id="544baf869b5baa766e8839cd33697872" category="paragraph"><block ref="544baf869b5baa766e8839cd33697872" category="inline-image-macro-rx" type="image"></block></block>
   <block id="d098e780afaaad433dd6982bbc5af988" category="list-text">s3 読み出し処理のパフォーマンスは、 StorageGRID ノードの数に基づいてリニアに向上します。StorageGRID は、最大 200 個の StorgeGRID ノードをサポートします。</block>
   <block id="2cd319a657a7fccb8f747dab6f102dcc" category="paragraph"><block ref="2cd319a657a7fccb8f747dab6f102dcc" category="inline-image-macro-rx" type="image"></block></block>
   <block id="55473d705d75e19b6040dbe34242319c" category="summary">このセクションでは、この解決策で使用されるテクノロジーについて説明します。</block>
-  <block id="1ac2a5604ed02bc66c4d6241b534d13b" category="inline-link-macro">前へ：解決策。</block>
-  <block id="d74648020b826dcefccd756c864ffaea" category="paragraph"><block ref="d74648020b826dcefccd756c864ffaea" category="inline-link-macro-rx"></block></block>
   <block id="dc10add739549f11a9f3d6ac44bf7fcc" category="section-title">Grid Manager で管理を簡易化</block>
   <block id="a96dbd2aff4998074bc0ca48dc4817d5" category="paragraph"><block ref="a96dbd2aff4998074bc0ca48dc4817d5" category="inline-image-macro-rx" type="image"></block></block>
   <block id="57d56613e28a4b5b4e9f351d17e228f7" category="list-text">イメージ、ビデオ、レコードなどのオブジェクトを収めた、グローバルに分散されたペタバイト規模のリポジトリを管理します。</block>
@@ -8256,8 +8250,6 @@
   <block id="caf8da5a9482899a1495e1e052a4b287" category="paragraph"><block ref="caf8da5a9482899a1495e1e052a4b287" category="inline-link-macro-rx"></block></block>
   <block id="139709c8a32ed1bcce233da863c5efda" category="summary">このセクションでは、この認定資格から得られた教訓について説明します。</block>
   <block id="eab9ac0f00ca7c338d71f9acf8885092" category="doc">ベストプラクティスのガイドライン</block>
-  <block id="8dc1af71dd55db1f6671ef67f7a660ad" category="inline-link-macro">前：流暢なカフカのバランス調整。</block>
-  <block id="cd99f7a609148177d4d72ba77e774b87" category="paragraph"><block ref="cd99f7a609148177d4d72ba77e774b87" category="inline-link-macro-rx"></block></block>
   <block id="992e82f9c5ce28bbe0068e8ff7ea8a09" category="list-text">オブジェクトストレージは、セグメントの方がパフォーマンスに優れています。バイト数が多い場合は 512 MB をテストしました。</block>
   <block id="f165ec9e9849281afaf2162f6396907c" category="list-text">Kafka では、トピックに対して生成される各レコードのキーまたは値の長さ（バイト単位）は、「 length.key.value 」パラメータによって制御されます。StorageGRID では、 S3 オブジェクトの取り込みと読み出しのパフォーマンスがより高い値に引き上げられました。たとえば、 512 バイトが 5.8GBps の読み出しを提供し、 1024 バイトが 7.5GBps の s3 読み出しを提供し、 2048 バイトが 10Gbps 近く提供します。</block>
   <block id="92a9c9d4753636cd8ef8008380f5de9b" category="paragraph">次の図に、「 length.key.value 」に基づいた S3 オブジェクトの取り込みと読み出しを示します。</block>
@@ -9300,7 +9292,6 @@
   <block id="774f9746d58ac38abf733a92e4720365" category="paragraph">以下の図は、 ConFluent Kafka Platform のコンポーネントを示しています。</block>
   <block id="4f9143a5adb8a0385a1c660d201ef274" category="inline-link-macro">次は、流暢な検証です。</block>
   <block id="d566a24bfcb09090b96a073132a83173" category="paragraph"><block ref="d566a24bfcb09090b96a073132a83173" category="inline-link-macro-rx"></block></block>
-  <block id="af8b33edfe7fb61c4c6913a50306a653" category="paragraph">ネットアップ Rankesh Kumar 、 Kathikeyan Nagalingam 、流暢な言葉</block>
   <block id="37281d123cc59a7c05b3ce30b5ea435e" category="paragraph">Apache Kafka は、 1 日に数兆ものイベントを処理できる、コミュニティで分散されたイベントストリーミングプラットフォームです。Kafka は、当初はメッセージングキューとして構築され、分散コミットログの抽象化に基づいています。Kafka は、 2011 年に LinkedIn で作成されオープンソースとなって以来、メッセージキューから本格的なイベントストリーミングプラットフォームへと進化してきました。Confluent Platform で Apache Kafka を配布します。Coneluent Platform は、 Kafka を補完するための追加のコミュニティ機能と商用機能を備えています。これらの機能は、本番環境の運用者と開発者の両方のストリーミングエクスペリエンスを大規模に向上させるように設計されています。</block>
   <block id="e1c012d650a6912ddb72ab0ee914d169" category="paragraph">本ドキュメントでは、次のコンテンツを提供することで、ネットアップのオブジェクトストレージ製品での上位階層型ストレージの使用に関するベストプラクティスのガイドラインについて説明します。</block>
   <block id="2717b4b699259a5e59279aac92d526a2" category="list-text">ネットアップオブジェクトストレージとの競合検証– NetApp StorageGRID</block>
@@ -9478,4 +9469,13 @@
   <block id="5fd057c554dfaf16f0d97e4defdb81fd" category="list-text"><block ref="5fd057c554dfaf16f0d97e4defdb81fd" category="inline-link-macro-rx"></block></block>
   <block id="de049193fe94b917d3e89452cdfee78d" category="list-text"><block ref="de049193fe94b917d3e89452cdfee78d" category="inline-link-macro-rx"></block></block>
   <block id="5f68200d68deb8399b86dd57533f10a4" category="list-text"><block ref="5f68200d68deb8399b86dd57533f10a4" category="inline-link-macro-rx"></block></block>
+  <block id="a02c6dbd226d5506c1b4b07f6d383615" category="list-text">「 -parallel 」オプションを指定した XCP コピーは、 CPU の数に基づいています。ほとんどの XCP データ転送および移行処理には、デフォルトのパラレルスレッド数（ 7 ）で十分な場合があります。XCP Windows のデフォルトでは、並列プロセスの数は CPU の数と同じです。「 -parallel 」オプションの最大数は、コア数以下にする必要があります。</block>
+  <block id="740950b0e27cdd5def3c4295d5840851" category="list-text">データ転送の開始には 10GbE が適しています。ただし、 25GbE と 100GbE でテストした結果、データ転送が向上し、大容量のファイルサイズのデータ転送に推奨されています。</block>
+  <block id="ef1ee9d1f1e9874aca751251bbce31bf" category="inline-link-macro">前：流暢な検証。</block>
+  <block id="6d08115c54837de983d3ddc9dcd8f038" category="paragraph"><block ref="6d08115c54837de983d3ddc9dcd8f038" category="inline-link-macro-rx"></block></block>
+  <block id="d7023badac36eeb28bf29785a97c493c" category="inline-link-macro">前のバージョン：解決策アーキテクチャの詳細。</block>
+  <block id="258ee3f437d6a20985ccf4e13065a097" category="paragraph"><block ref="258ee3f437d6a20985ccf4e13065a097" category="inline-link-macro-rx"></block></block>
+  <block id="a29b982ab81cd1d74045ee43e3378135" category="paragraph">Karthikeyan Nagalingam 、 Joseph Kandatilparamil 、 NetApp Rankesh Kumar 、 Conluent</block>
+  <block id="524a5aa4f422c84af378b5418bb1539b" category="inline-link-macro">前：流暢な自己リバランシングクラスタ。</block>
+  <block id="ae7f441436d5c9a5dc4278e4ea2b87e8" category="paragraph"><block ref="ae7f441436d5c9a5dc4278e4ea2b87e8" category="inline-link-macro-rx"></block></block>
 </blocks>
