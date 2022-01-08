@@ -79,9 +79,6 @@ Azure NetApp Files 、 NetApp ONTAP 向け Amazon FSX 、 Cloud Volumes ONTAP �
 
 Azure NetApp Files 、 NetApp ONTAP 向け Amazon FSX 、 Cloud Volumes ONTAP （ 3 つの主要なハイパースケーラすべてで利用可能）、および Cloud Volumes Service for Google Cloud は、ゲスト VM と組み合わせて使用できます。このハイブリッドストレージアーキテクチャは、ゲストオペレーティングシステムとアプリケーションバイナリデータを保持する VSAN データストアで構成されます。アプリケーションデータは、ゲストベースの iSCSI イニシエータを介して VM に接続されます。または、 Amazon FSX for NetApp ONTAP 、 Cloud Volume ONTAP 、 Azure NetApp Files 、 Cloud Volumes Service for Google Cloud と直接通信する NFS/SMB マウントを使用して VM に接続されます。この構成では、 VSAN と同様にストレージ容量の問題を簡単に解決できます。使用可能な空きスペースは、使用する余裕容量およびストレージポリシーによって異なります。
 
-
-NOTE: ネットアップストレージは、現在、主要なすべてのハイパースケールクラウドでプライベートプレビューとして提供されています。
-
 次に、 AWS 上の VMware Cloud 上の 3 ノード SDDC クラスタについて考えてみましょう。
 
 * 3 ノード SDDC の合計物理容量は 31.1TB （各ノードのおおよその 10TB ）です。
@@ -101,6 +98,15 @@ NOTE: ネットアップストレージは、現在、主要なすべてのハ�
 
 そのため、 NetApp Cloud Volume をゲスト接続ストレージとして使用すると、パフォーマンスとデータ保護の要件を満たしながら、ストレージを拡張して TCO を最適化できます。
 
+[NOTE]
+====
+ネットアップストレージは、現在、主要なすべてのハイパースケーラクラウドでプライベートプレビューとして提供されています。詳細については、次のリンクを参照してください。
+
+link:https://blogs.vmware.com/cloud/2021/12/01/vmware-cloud-on-aws-going-big-reinvent2021/["AWS のネイティブデータストアとしての FSX ONTAP"]
+
+
+
+====
 
 
 === 覚えておいてください
@@ -113,7 +119,7 @@ NOTE: ネットアップストレージは、現在、主要なすべてのハ�
 
 
 
-NOTE: この環境ゲスト接続ストレージ。
+NOTE: この環境ゲスト接続ストレージのみ。
 
 
 
@@ -140,6 +146,15 @@ NOTE: この環境ゲスト接続ストレージ。
 * 本ドキュメントの作成時点で使用可能な唯一のオプションは、ゲスト内ストレージでした。
 
 
+[NOTE]
+====
+ネットアップストレージは、現在、主要なすべてのハイパースケーラクラウドでプライベートプレビューとして提供されています。詳細については、次のリンクを参照してください。
+
+link:https://blogs.vmware.com/cloud/2021/12/01/vmware-cloud-on-aws-going-big-reinvent2021/["AWS のネイティブデータストアとしての FSX ONTAP"]
+
+
+
+====
 
 NOTE: ストレージの計画とサイジング、および必要なホスト数については、ネットアップの解決策アーキテクトと対応するハイパースケーラクラウドアーキテクトに相談してください。Cloud Volumes ONTAP サイジングツールを使用してストレージインスタンスのタイプや適切なサービスレベルを最終決定する前に、ストレージのパフォーマンス要件を特定することを推奨します。
 

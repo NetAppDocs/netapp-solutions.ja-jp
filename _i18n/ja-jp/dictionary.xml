@@ -8860,7 +8860,6 @@
   <block id="c231690c8e9fabbd819ec1805becb157" category="list-text">アプリケーションの要件、パフォーマンス、コストに合わせて複数のパフォーマンス階層を提供するオプションはありません。</block>
   <block id="5d4c92ddd5fe9a6044b25c17d3368207" category="list-text">クラスタホスト上に構築された VSAN のストレージ容量の制限に非常に簡単に到達できます。NetApp Cloud Volume を使用して、アクティブなデータセットをホストするか、またはティアクーラデータを永続的ストレージにホストするかに応じてストレージを拡張できます。</block>
   <block id="c1cf68955de5fa20274b29fa4a2a863f" category="paragraph">Azure NetApp Files 、 NetApp ONTAP 向け Amazon FSX 、 Cloud Volumes ONTAP （ 3 つの主要なハイパースケーラすべてで利用可能）、および Cloud Volumes Service for Google Cloud は、ゲスト VM と組み合わせて使用できます。このハイブリッドストレージアーキテクチャは、ゲストオペレーティングシステムとアプリケーションバイナリデータを保持する VSAN データストアで構成されます。アプリケーションデータは、ゲストベースの iSCSI イニシエータを介して VM に接続されます。または、 Amazon FSX for NetApp ONTAP 、 Cloud Volume ONTAP 、 Azure NetApp Files 、 Cloud Volumes Service for Google Cloud と直接通信する NFS/SMB マウントを使用して VM に接続されます。この構成では、 VSAN と同様にストレージ容量の問題を簡単に解決できます。使用可能な空きスペースは、使用する余裕容量およびストレージポリシーによって異なります。</block>
-  <block id="b705b3f95f20899325d309e6ac57279b" category="admonition">ネットアップストレージは、現在、主要なすべてのハイパースケールクラウドでプライベートプレビューとして提供されています。</block>
   <block id="1a5208bfffc624ccf99dfcbbf2078050" category="paragraph">次に、 AWS 上の VMware Cloud 上の 3 ノード SDDC クラスタについて考えてみましょう。</block>
   <block id="fab7fb31baaec1ccac4fe688e1a4c5d4" category="list-text">3 ノード SDDC の合計物理容量は 31.1TB （各ノードのおおよその 10TB ）です。</block>
   <block id="ca189b47c3a1dfe1adbd1519688e4cc8" category="list-text">追加のホストが追加される前に保持されるスラックスペース = 25% = （ .25 x 31.1TB ） = 7.7TB 。</block>
@@ -8877,7 +8876,6 @@
   <block id="d3c0fd4b510310b9bd00463208eade94" category="list-text">テストでは、該当する SDDC からストレージにアクセスする際のレイテンシが 2 ～ 4 ミリ秒増加しました。ストレージをマッピングする際には、このレイテンシをアプリケーション要件に考慮してください。</block>
   <block id="b83cf0bc9b65a0fcd5f49d4c96dceea8" category="list-text">テストフェイルオーバーおよび実際のフェイルオーバー時にゲスト接続ストレージをマウントする場合は、 iSCSI イニシエータが再設定されていること、 SMB 共有の DNS が更新されていること、および NFS マウントポイントが fstab で更新されていることを確認してください。</block>
   <block id="1b4048870ed334dbc2e7d6f09a814188" category="list-text">ゲスト内の Microsoft Multipath I/O （ MPIO ；マルチパス I/O ）、ファイアウォール、ディスクタイムアウトのレジストリ設定が VM 内で適切に設定されていることを確認します。</block>
-  <block id="cb24a031418d2311ef599cfd18d09880" category="admonition">この環境ゲスト接続ストレージ。</block>
   <block id="00b23e82efc2ec82b134496e575a934c" category="section-title">ネットアップのクラウドストレージのメリット</block>
   <block id="80def6ec4d999fc4d082800c8c33f6ec" category="paragraph">ネットアップのクラウドストレージには次のようなメリットがあります。</block>
   <block id="2e594db552f7cd9c7f02d87507dbb471" category="list-text">コンピューティングとストレージの別々にストレージを拡張できるため、コンピューティングとストレージの密度が向上します。</block>
@@ -9183,10 +9181,6 @@
   <block id="bb48bc786b7087ed5efe4969dda9fc85" category="section-title">Google Cloud での GCVE の設定</block>
   <block id="6eb516b97eae0ab93b8d6aab35fbb764" category="section-title">GCVE のネットアップストレージオプション</block>
   <block id="50b53922d656bce75f35201b661fc378" category="paragraph">ネットアップストレージは、 GCP GCVE 内で、推測接続またはネイティブデータストアとして、複数の方法で利用できます。</block>
-  <block id="cb9ab2dcef988aa0eaa2da1d789cfdb4" category="section-title">解決策のユースケース</block>
-  <block id="dafc77805f8a0d52498735ee499d4480" category="paragraph">ネットアップと VMware のクラウドソリューションを使用すれば、多くのユースケースを Azure AVS で簡単に導入できます。ユースケースには次のものがあります。</block>
-  <block id="e67def868f3133574b28ffe738ad44c1" category="inline-link-macro">ネットアップの Google Cloud GCVE ソリューションをご覧ください</block>
-  <block id="5e7670e99ae7db80618f16965d677af6" category="paragraph"><block ref="5e7670e99ae7db80618f16965d677af6" category="inline-link-macro-rx"></block></block>
   <block id="e3a2a8e4a74a67a9514c2aec5e4fac69" category="doc">ネットアップの Azure ネイティブデータストアオプション</block>
   <block id="99d04ce0dcd35b869d3c86120b76a443" category="summary">ネットアップのエンタープライズハイブリッドクラウドソリューションは、主要なパブリッククラウドハイパースケーラに含まれるネットアップストレージの機能を実証する、一連の戦略的機能とテクノロジ機能です。</block>
   <block id="3cce9a9057a6d96d9ac2ddab52d477fe" category="doc">ネットアップのエンタープライズハイブリッドクラウドソリューション</block>
@@ -9197,8 +9191,6 @@
   <block id="1f0a2077c33b91b3daaaea05c7fadc07" category="section-title">Azure で AVS を設定する</block>
   <block id="cdac9a2e7f1dc52240712d4a191378e8" category="section-title">AVS 向けのネットアップストレージオプション</block>
   <block id="a69a7b9e874f9f6e0703191e7825cc4f" category="paragraph">ネットアップストレージは、 Azure AVS 内で数通りの方法で利用できます。接続されているか、ネイティブデータストアとして利用できます。</block>
-  <block id="79e4e4c7346c156a268641272a85c01e" category="inline-link-macro">Azure AVS 向けネットアップソリューションをご覧ください</block>
-  <block id="6626f21cba60531fb6ab33c5b686fd03" category="paragraph"><block ref="6626f21cba60531fb6ab33c5b686fd03" category="inline-link-macro-rx"></block></block>
   <block id="cf3ac5a0dae3780b356e57c121b3eab0" category="doc">Google Cloud Platform （ GCP ）への仮想化環境の導入と構成</block>
   <block id="8514045c5551663f28246e665ca2f189" category="list-text"><block ref="8514045c5551663f28246e665ca2f189" category="inline-link-macro-rx"></block></block>
   <block id="3cef16671ee166d12c5fd192fa419358" category="list-text"><block ref="3cef16671ee166d12c5fd192fa419358" category="inline-link-macro-rx"></block></block>
@@ -9208,9 +9200,6 @@
   <block id="8658ccb747e94ac624861f5761a34716" category="section-title">AWS で VMC を設定しています</block>
   <block id="e9f84da32eb512bd768458a738ed8aa6" category="section-title">VMC のネットアップストレージオプション</block>
   <block id="cd5a564d709538be5df5e7167600498d" category="paragraph">ネットアップのストレージは、 AWS VMC 内で、接続されているかネイティブのデータストアとして、いくつかの方法で利用できます。</block>
-  <block id="c952cd22d4e2a6bf4a86b3bc88637d92" category="paragraph">ネットアップと VMware のクラウドソリューションを使用すれば、多くのユースケースを AWS VMC に簡単に導入できます。ユースケースには次のものがあります。</block>
-  <block id="7c9a6204c3d04cd593127efe773bc82e" category="inline-link-macro">ネットアップの AWS VMC 向けソリューションをご覧ください</block>
-  <block id="e9923439d335946afaff146da3d107ff" category="paragraph"><block ref="e9923439d335946afaff146da3d107ff" category="inline-link-macro-rx"></block></block>
   <block id="bb01fec2870d3f698517f8471454637b" category="doc">Azure に仮想化環境を導入して設定</block>
   <block id="c33cce5b25d7b62b8be123136ad64ae1" category="list-text"><block ref="c33cce5b25d7b62b8be123136ad64ae1" category="inline-link-macro-rx"></block></block>
   <block id="d47c67e14996fb3c08deb5311a358578" category="list-text"><block ref="d47c67e14996fb3c08deb5311a358578" category="inline-link-macro-rx"></block></block>
@@ -9478,4 +9467,26 @@
   <block id="a29b982ab81cd1d74045ee43e3378135" category="paragraph">Karthikeyan Nagalingam 、 Joseph Kandatilparamil 、 NetApp Rankesh Kumar 、 Conluent</block>
   <block id="524a5aa4f422c84af378b5418bb1539b" category="inline-link-macro">前：流暢な自己リバランシングクラスタ。</block>
   <block id="ae7f441436d5c9a5dc4278e4ea2b87e8" category="paragraph"><block ref="ae7f441436d5c9a5dc4278e4ea2b87e8" category="inline-link-macro-rx"></block></block>
+  <block id="b583dc49832a978014ef0d14fe7ef1ce" category="paragraph">ワークフローの移行、クラウドへの拡張 / バースト対応、バックアップ / リストア、ディザスタリカバリなど、ネットアップが各ハイパースケーラに VMware 環境を提供するソリューションの詳細については、こちらをご覧ください。</block>
+  <block id="2c3412ea249289d455415fc5974540d7" category="paragraph">次のマトリックスは、各ハイパースケーラとネットアップストレージオプションの解決策のユースケースを定義したものです。目的のセルの詳細をクリックすると、解決策の詳細が表示されます。</block>
+  <block id="205549244e00d8fc3aed42cc242b6e66" category="open-title">AWS （ VMC ）</block>
+  <block id="7fb61d6790786c6584895ba13b1d7acf" category="cell">* ユースケース *</block>
+  <block id="5e6a9c7508fcb882686fb57577c20564" category="cell">クラウドへのバックアップ</block>
+  <block id="fca9cd52865f9c45b9c1c0810944323a" category="cell">クラウドへの DR</block>
+  <block id="1f7519825c9e66f611f1b8a2dfab6d98" category="cell">開発 / テスト</block>
+  <block id="03a85053364f989565c431e1f3cb14b6" category="cell">バースト時にクラウドを活用</block>
+  <block id="520a0900399ea06bc457dd365ce39b56" category="cell">クラウドに移行</block>
+  <block id="1d8b77813302d5fc10b4a01c9d1f71ba" category="open-title">Azure （ AVS ）</block>
+  <block id="f06436d87956805c42a72d20c6e0c6aa" category="cell">* ANF *</block>
+  <block id="a060ea40d8e1f38832adc8dab3110308" category="cell">* CVO*</block>
+  <block id="7896a48b4cb2f9b6d3c3612c0b5a8886" category="open-title">Google （ GCVE ）</block>
+  <block id="cb56c4671d6ec2da0b5f3b248999cba7" category="cell">* CVS *</block>
+  <block id="e79592580385a4ae403f3655a7200469" category="paragraph">ネットアップストレージは、現在、主要なすべてのハイパースケーラクラウドでプライベートプレビューとして提供されています。詳細については、次のリンクを参照してください。</block>
+  <block id="bb747e48aa1d3d3e7f7770860486da18" category="inline-link-macro">AWS のネイティブデータストアとしての FSX ONTAP</block>
+  <block id="0e8dc2a599bea7faae9351c694a4f162" category="inline-link-macro">Azure のネイティブデータストアとしての Azure NetApp Files （ ANF</block>
+  <block id="3e6b003f71badaeb92ae26f7ed351a37" category="inline-link-macro">GCP のネイティブデータストアとしての Cloud Volumes Service （ CVS ）</block>
+  <block id="5ab63999a01c682c3e901f550611531f" category="paragraph"><block ref="6b7315f1b0dd5562c105ae89b6efa525" category="inline-link-macro-rx"></block>
+<block ref="730b198f919befec53ca8dcebabd176b" category="inline-link-macro-rx"></block>
+<block ref="7fb3f61cbe4dcbff12c3d3e4fb2e9565" category="inline-link-macro-rx"></block></block>
+  <block id="bf3f0fd9ec5faf81793c3abc5e3b9127" category="admonition">この環境ゲスト接続ストレージのみ。</block>
 </blocks>
