@@ -1,0 +1,4214 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head class="at-element-marker">
+  <title>Jarvis の展開</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge,chrome=1">
+  <meta http-equiv="language" content="en">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:title" content="Jarvis の展開" />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://docs.netapp.com/ja-jp/netapp-solutions/ai/cainvidia_jarvis_deployment.html" />
+	<meta property="og:description" content="" />
+  <meta property="og:image" content="https://docs.netapp.com/ja-jp/netapp-solutions/images/logo-tophat-social.png" />
+  <meta property="og:image:alt" content="NetApp Logo" />
+  <meta name="format-detection" content="telephone=no">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="encoding" content="utf-8">
+  <meta http-equiv="nss-type" content="Product Documentation"/>
+  <meta http-equiv="nss-subtype" content="User Guide"/>
+  
+  <meta name="description" content="">
+  <meta name="keywords" content=" Jarvis, Deployment, NVIDIA,">
+  
+  
+
+  <!-- Icons -->
+  <link rel="icon" href="/ja-jp/netapp-solutions/images/favicon.ico" type="image/x-icon">
+
+  <!-- RSS Feed -->
+  
+
+  <!-- CSS Definitions: NetApp CSS should be defined after generic css -->
+
+  <!-- Elastic Search -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/searchkit/0.10.0/theme.css">
+
+  <!-- Controls AsciiDoctor Admonition Blocks -->
+  <link rel="stylesheet" type="text/css" href="/ja-jp/netapp-solutions/css/font-awesome.min.css">
+
+  <!-- Controls the shadow effect for search dropdown menu -->
+  <link rel="stylesheet" href="/ja-jp/netapp-solutions/css/boxshadowproperties.css">
+
+  <!-- NetApp CSS controls the technical content -->
+  <link rel="stylesheet" type="text/css" href="/ja-jp/netapp-solutions/css/netapp.css">
+
+  <!-- WWW CSS Content -->
+  <link rel="stylesheet" type="text/css" href="/ja-jp/netapp-solutions/css/www-luci-dotcom.min.css">
+  <link rel="stylesheet" type="text/css" href="/ja-jp/netapp-solutions/css/www-netapp-dotcom.css">
+  <link rel="stylesheet" href="/ja-jp/netapp-solutions/css/www-netapp-library-critical.min.css" media="all" >
+  <link rel="stylesheet" href="/ja-jp/netapp-solutions/css/www-netapp-library-non-critical.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="stylesheet" href="/ja-jp/netapp-solutions/css/www-netapp-library-global-header-footer.min.css">
+
+  <!-- NetApp IE Customizations -->
+  <link rel="stylesheet" href='/ja-jp/netapp-solutions/css/na-utility.css' type='text/css'>
+  <link rel="stylesheet" href='/ja-jp/netapp-solutions/css/na-sidebar.css' type='text/css'>
+  <link rel='stylesheet' href='/ja-jp/netapp-solutions/css/clouddocs.css' type='text/css'>
+  <link rel='stylesheet' href='/ja-jp/netapp-solutions/css/na-pagenav.css' type='text/css'>
+
+  
+  <link rel="stylesheet" href="/ja-jp/netapp-solutions/css/landing-page.css" type="text/css">
+  <link rel="stylesheet" href="/ja-jp/netapp-solutions/css/tabbed-blocks.css" type="text/css">
+  <link rel="stylesheet" href='/ja-jp/netapp-solutions/css/product-family.css' type="text/css">
+  
+
+  
+  <link rel='stylesheet' href='/ja-jp/netapp-solutions/css/na-feature.css' type='text/css'>
+  
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+  <!-- Used to import Promise for IE. Required for SearchKit -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.5/bluebird.min.js"></script>
+  
+    <script src='/ja-jp/netapp-solutions/js/na-search.js'></script>
+  
+
+  
+  <script src='/ja-jp/netapp-solutions/js/na-pagenav.js'></script>
+  
+
+  <link rel='stylesheet' href='/ja-jp/netapp-solutions/css/prism.css' type='text/css'>
+  <link rel='stylesheet' href='/ja-jp/netapp-solutions/css/prism-netapp.css' type='text/css'>
+
+
+  <script src='/ja-jp/netapp-solutions/js/na-utility.js'></script>
+  <script src='/ja-jp/netapp-solutions/js/clouddocs.js'></script>
+  <script>
+  if (document.location.hostname === "docs.netapp.com") {
+    var head = document.getElementsByTagName('head')[0];
+    var adobe = document.createElement("script");
+    adobe.type = "text/javascript";
+    adobe.src = "//assets.adobedtm.com/60287eadf1ee/c284da483c83/launch-e9ff3acac59f.min.js";
+    head.appendChild(adobe);
+  }
+  </script>
+  <script src='/ja-jp/netapp-solutions/js/jquery.navgoco.min.js'></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src='/ja-jp/netapp-solutions/js/toc.js'></script>
+  <script src='/ja-jp/netapp-solutions/js/customscripts.js'></script>
+
+  <script>
+      $(document).ready(function() {
+          
+          var collapseOnInit = true;
+          
+
+          var navSettings = {
+              "caretHtml": '',
+              "accordion": collapseOnInit,
+              "openClass": 'active', // open
+              "save": false, // leave false or nav highlighting doesn't work right
+              "cookie": {
+                  "name": 'navgoco',
+                  "expires": false,
+                  "path": '/'
+              },
+              "slide": {
+                  "duration": 400,
+                  "easing": 'swing'
+              }
+          };
+
+          // Initialize navgoco with default options
+          $("#mysidebar").navgoco(navSettings);
+          
+
+          $("#collapseAll").click(function(e) {
+              e.preventDefault();
+              $("#mysidebar").navgoco('toggle', false);
+          });
+
+          $("#expandAll").click(function(e) {
+              e.preventDefault();
+              $("#mysidebar").navgoco('toggle', true);
+          });
+
+      });
+
+  </script>
+  <script>
+      $(document).ready(function() {
+          $("#tg-sb-link").click(function() {
+              $("#tg-sb-sidebar").toggle();
+              $("#tg-sb-content").toggleClass('col-md-9');
+              $("#tg-sb-content").toggleClass('col-md-12');
+              $("#tg-sb-icon").toggleClass('fa-toggle-on');
+              $("#tg-sb-icon").toggleClass('fa-toggle-off');
+          });
+      });
+  </script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-81697994-3"></script>
+  <script>
+  if (document.location.hostname === "docs.netapp.com") {
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-81697994-3');
+  }
+  </script>
+  <script src='/ja-jp/netapp-solutions/js/version-dropdown.js'></script>
+  <script src='/ja-jp/netapp-solutions/js/product-family.js'></script>
+  <script src='/ja-jp/netapp-solutions/js/FileSaver.min.js'></script>
+  <script src='/ja-jp/netapp-solutions/js/jszip-utils.min.js'></script>
+  <script src='/ja-jp/netapp-solutions/js/jszip.min.js'></script>
+  <script src='/ja-jp/netapp-solutions/js/pdf-ux.js'></script>
+</head>
+
+
+  <body class role="document">
+    <div id="page" class="n-off-canvas-menu">
+      <div class="n-off-canvas-menu__menu"><!--TODO: Add offcanvas code --></div>
+      <div class="n-off-canvas-menu__content-wrap">
+        <header class="site-header" id="banner">
+  <!-- Start top_hat -->
+  <div class="n-top-hat">
+    <div class="n-container">
+      <div class="n-top-hat__cross-property-nav">
+        <ul class="n-top-hat__list">
+          <li class="n-top-hat__list-item">
+            <a href="https://www.netapp.com/products-a-z/" class="n-top-hat__link">製品とソリューション</a>
+          </li>
+          <li class="n-top-hat__list-item">
+            <a href="https://www.netapp.com/support-and-training/netapp-university/" class="n-top-hat__link">サポートとトレーニング</a>
+          </li>
+          <li class="n-top-hat__list-item">
+            <a href="https://cloud.netapp.com" class="n-top-hat__link">Cloud Central</a>
+          </li>
+          <li class="n-top-hat__list-item">
+            <a href="https://community.netapp.com/" class="n-top-hat__link">コミュニティ</a>
+          </li>
+          <li class="n-top-hat__list-item">
+            <a href="https://blog.netapp.com/" class="n-top-hat__link">ブログ</a>
+          </li>
+          <li class="n-top-hat__list-item">
+            <a href="https://customers.netapp.com/en/" class="n-top-hat__link">ユーザ事例</a>
+          </li>
+          <li class="n-top-hat__list-item">
+            <a href="https://www.netapp.com/us/contact-us/index.aspx" target="_self" class="n-top-hat__link" data-ntap-ui="contact-us">お問い合わせ</a>
+          </li>
+        </ul>
+      </div>
+      <div class="n-top-hat__utils">
+        <ul class="n-top-hat__list">
+          <li class="n-top-hat__list-item">
+            <a href="https://www.netapp.com/us/contact-us/index.aspx" target="_self" class="n-top-hat__link" data-ntap-ui="contact-us">お問い合わせ</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- End top_hat -->
+
+  <!-- Start property bar -->
+  <style>
+    .n-property-navigation-bar__menus--desktop-experience .n-menu--mega__default-content__heading span {
+    color: #34B0FF;
+    }
+  </style>
+  <div class="n-property-bar " data-ntap-ui="sticky-nav">
+    <div class="n-property-bar__inner-wrap">
+      <div class="n-property-bar__menu-toggle">
+        <a href="#" class="n-property-bar__menu-toggle-link">
+          <span class="n-property-bar__menu-toggle-text">Menu</span>
+          <svg class="n-icon-bars n-property-bar__menu-toggle-icon" aria-labelledby="title">
+            <title>bars</title>
+            <use xlink:href="/ja-jp/netapp-solutions/common/svg/sprite.svg#bars"></use>
+          </svg>
+        </a>
+      </div>
+      <div class="n-property-bar__property-mark ">
+        <a href="https://www.netapp.com" class="n-property-bar__property-link">
+          <div class="n-property-bar__logo">
+            <svg class="n-icon-netapp-mark n-icon-netapp-mark n-property-bar__netapp-mark-icon" aria-labelledby="title">
+              <title>netapp-mark</title>
+              <use xlink:href="/ja-jp/netapp-solutions/common/svg/sprite.svg#netapp-mark"></use>
+            </svg>
+            <svg class="n-icon-netapp-logo n-property-bar__logo-svg" aria-labelledby="title">
+              <title>netapp-logo</title>
+              <use xlink:href="/ja-jp/netapp-solutions/common/svg/sprite.svg#netapp-logo"></use>
+            </svg>
+          </div>
+        </a>
+      </div>
+
+      
+      <div class="search-property-bar">
+        <div id="search-demo-container" class="searchbox n-property-bar__search">
+          <div id="react-search" 
+          data-search-html="/ja-jp/netapp-solutions/search.html"
+          data-type="widget" 
+          data-placeholder="ドキュメントを検索" 
+          data-no-results-found="{query}に該当する結果はありません" 
+          data-did-you-mean="{suggestion} を検索" 
+          data-no-results-found-did-you-mean="{query} に該当する結果はありません。{suggestion} の間違いではありませんか?" 
+          data-results-found="{hitCount} 件見つかりました"  
+          data-sk-es-pf-indexes=""></div>
+          <button class="n-property-bar__search-toggle-button" type="button">
+            <svg class="n-icon-search n-property-bar__search-toggle-button-icon" aria-labelledby="title">
+              <title>search</title>
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/ja-jp/netapp-solutions/common/svg/sprite.svg#search"></use>
+            </svg>
+          </button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  <div class="n-property-bar__toolbar">
+    <!-- Start Language Selector --><div id="ie-i18n" class="n-property-bar__lang-selector">
+      <div id="ie-i18n-menu">
+      <span class="ie-i18n-lang">日本語</span>
+        <button class="ie-i18n-icon-container" type="button">
+          <svg class="n-globe__icon" aria-labelledby="title">
+            <title>globe</title>
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/ja-jp/netapp-solutions/common/svg/sprite.svg#globe"></use>
+          </svg>
+        </button>
+      </div>
+      <div id="n-property-navigation-bar__menu--language-selector" class="ie-i18n-results-container n-menu n-menu--v3 n-menu--is-active" style="display: none;">
+        <div class="n-language-selector-menu">
+          <ul class="n-menu__list">
+            <li class="n-menu__list-column">
+              <ul class="n-menu__list"><li class="n-menu__list-item n-menu__list-item--level-1">
+                  <a href="https://docs.netapp.com/ja-jp/netapp-solutions/ai/cainvidia_jarvis_deployment.html" class="n-menu__header-text"><span translate="no" class="notranslate">日本語</span></a>
+                </li><li class="n-menu__list-item n-menu__list-item--level-1">
+                  <a href="https://docs.netapp.com/us-en/netapp-solutions/ai/cainvidia_jarvis_deployment.html" class="n-menu__header-text"><span translate="no" class="notranslate">English</span></a>
+                </li><li class="n-menu__list-item n-menu__list-item--level-1">
+                  <a href="https://docs.netapp.com/zh-cn/netapp-solutions/ai/cainvidia_jarvis_deployment.html" class="n-menu__header-text"><span translate="no" class="notranslate">简体中文</span></a>
+                </li></ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div><!-- End Language Selector -->
+
+    <div class="n-property-bar__cta"></div>
+  </div>
+  <script>
+    $(function(){
+        var currentLocalization = $('html').attr('lang');
+
+        var localizationsDictionary = {
+            "en-CA" : "https://www.netapp.com/search/index.aspx?for_cr=canada&",
+            "en-IN" : "https://www.netapp.com/search/index.aspx?for_cr=india&",
+            "nl-NL" : "https://www.netapp.com/search/index.aspx?for_cr=netherlands&",
+            "ru-RU" : "https://www.netapp.com/search/index.aspx?for_cr=russia&",
+            "sv-SE" : "https://www.netapp.com/search/index.aspx?for_cr=sweden&",
+            "it-IT" : "https://www.netapp.com/search/index.aspx?for_cr=italy&",
+            "he-IL" : "https://www.netapp.com/search/index.aspx?for_cr=israel&",
+            "ko-KR" : "https://www.netapp.com/search/index.aspx?for_cr=korea&",
+            "zh-TW" : "https://www.netapp.com/search/index.aspx?for_cr=taiwan&",
+            "en-GB" : "https://www.netapp.com/search/index.aspx?for_cr=unitedkingdom&",
+            "en-SG" : "https://www.netapp.com/search/index.aspx?for_cr=asean&",
+            "en-AU" : "https://www.netapp.com/search/index.aspx?for_cr=australia&",
+            "pt-BR" : "https://www.netapp.com/search/index.aspx?for_cr=brasil&",
+            "de-CH" : "https://www.netapp.com/search/index.aspx?for_cr=switzerland&",
+            "es-MX" : "https://www.netapp.com/search/index.aspx?for_cr=mexico&"
+        };
+
+        if($('html').hasClass('ntap-whitelisted') && localizationsDictionary.hasOwnProperty(currentLocalization)) {
+            $('.n-property-bar__property-link').attr('href', '/');
+        }
+    });
+  </script>
+  <!-- End property bar -->
+</header>
+
+
+        <main id="n-main-content" class="n-main-content">
+          <!-- Start Documentation Content -->
+<div class="ie-main">
+  <!-- Sidebar Column -->
+  
+  <div class="col-md-3" >
+      <div class="n-pdf-header">
+  <a id="toggleButtonPdf" class="n-pdf-button" type="button">
+    <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>利用可能なPDF<span>
+    </span>
+  </a>
+</div>
+<div class="n-pdf-body-container">
+  <ul id="toggleContainerPdf" class="n-pdf-body" style="display:none;"><li class="pdf-ux-container">
+        <a target="_blank" href="/ja-jp/netapp-solutions/pdfs/fullsite-sidebar/ネットアップのソリューション.pdf" >
+          <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>このドキュメントサイトのPDF</a>
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/人工知能.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            人工知能
+          </a>
+          
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/AI_統合インフラ.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            AI 統合インフラ
+          </a>
+          
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/NVIDIA_を使用した_ONTAP_AI.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            NVIDIA を使用した ONTAP AI
+          </a>
+          
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/EF_シリーズ_AI_と_NVIDA.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            EF シリーズ AI と NVIDA
+          </a>
+          
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/データパイプライン_データレイク_管理.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            データパイプライン、データレイク、管理
+          </a>
+          
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/NetApp_AI_コントロールプレーン.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            NetApp AI コントロールプレーン
+          </a>
+          
+
+
+
+
+
+
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/NetApp_Trident_の導入と設定.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            NetApp Trident の導入と設定
+          </a>
+          
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/例__Kubeflow_の操作とタスク.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            例： Kubeflow の操作とタスク
+          </a>
+          
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/ONTAP_AI_導入向けハイパフォーマンスジョブの例.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            ONTAP AI 導入向けハイパフォーマンスジョブの例
+          </a>
+          
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/MLRun_パイプライン.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            MLRun パイプライン
+          </a>
+          
+
+
+
+
+
+
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/セットアップ__Setup__.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            セットアップ（ Setup ）
+          </a>
+          
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/アプリケーションの展開.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            アプリケーションの展開
+          </a>
+          
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/ユースケース.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            ユースケース
+          </a>
+          
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/ネットアップの_AI_による地合い分析.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            ネットアップの AI による地合い分析
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/Azure_での分散トレーニング___クリックスルー率予測.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            Azure での分散トレーニング - クリックスルー率予測
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/セットアップ__Setup__.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            セットアップ（ Setup ）
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/クリックスルー率予測データの処理とモデルトレーニング.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            クリックスルー率予測データの処理とモデルトレーニング
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/Azure_の分散トレーニング___レーン検出.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            Azure の分散トレーニング - レーン検出
+          </a>
+          
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/データキャッシング機能を備えたハイブリッドクラウド_AI_オペレーティングシステム.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            データキャッシング機能を備えたハイブリッドクラウド AI オペレーティングシステム
+          </a>
+          
+
+
+
+
+
+
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/解決策の導入と検証の詳細.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            解決策の導入と検証の詳細
+          </a>
+          
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/Lenovo_ThinkSystem_解決策_Design_を使用したエッジネットアップでの_AI_推論.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            Lenovo ThinkSystem-解決策 Design を使用したエッジネットアップでの AI 推論
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/NVIDIA_を使用した会話型_AI.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            NVIDIA を使用した会話型 AI
+          </a>
+          
+
+
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/Jarvis___Cloud_Sync___Nemo_を使用して仮想アシスタントを構築します.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            Jarvis 、 Cloud Sync 、 Nemo を使用して仮想アシスタントを構築します
+          </a>
+          
+    <ul class="subfolders" style="display:none;"><li class="active pdf-hide">
+  <a target="_blank" href="/ja-jp/netapp-solutions/pdfs/pages/ai/cainvidia_jarvis_deployment.pdf" >
+    <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+    PDF of this page
+  </a>
+</li>
+
+</ul>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/実行__AI_を使用したネットアップオーケストレーション解決策.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            実行： AI を使用したネットアップオーケストレーション解決策
+          </a>
+          
+
+
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/AI_を実行することでクラスタと_GPU_の利用率を最適化.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            AI を実行することでクラスタと GPU の利用率を最適化
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/最新のデータ分析.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            最新のデータ分析
+          </a>
+          
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/ConFluent_Kafka_のベストプラクティスをご確認ください.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            ConFluent Kafka のベストプラクティスをご確認ください
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/ネットアップのハイブリッドクラウドデータソリューション___Spark_と_Hadoop_はお客様のユースケースに基づいています.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            ネットアップのハイブリッドクラウドデータソリューション - Spark と Hadoop はお客様のユースケースに基づいています
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/エンタープライズハイブリッドクラウド.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            エンタープライズハイブリッドクラウド
+          </a>
+          
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/パブリッククラウド向け_VMware.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            パブリッククラウド向け VMware
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/VMware_ハイブリッドクラウドのユースケース.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            VMware ハイブリッドクラウドのユースケース
+          </a>
+          
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/ネットアップのハイパースケーラクラウドソリューション.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            ネットアップのハイパースケーラクラウドソリューション
+          </a>
+          
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/仮想化.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            仮想化
+          </a>
+          
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/VMware_Virtualization_for_ONTAP_の略.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            VMware Virtualization for ONTAP の略
+          </a>
+          
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/VMware_vSphere_管理者向けの_NetApp_ONTAP_のメリット.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            VMware vSphere 管理者向けの NetApp ONTAP のメリット
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/VMware_vSphere_と_ONTAP_のベストプラクティス.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            VMware vSphere と ONTAP のベストプラクティス
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/NetApp_ONTAP_9_を搭載した_VMware_Site_Recovery_Manager.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            NetApp ONTAP 9 を搭載した VMware Site Recovery Manager
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/VMware_vSphere_の自動化.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            VMware vSphere の自動化
+          </a>
+          
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/従来のブロックストレージプロビジョニング.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            従来のブロックストレージプロビジョニング
+          </a>
+          
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/従来のファイルストレージプロビジョニング.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            従来のファイルストレージプロビジョニング
+          </a>
+          
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/パブリッククラウド向け_VMware.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            パブリッククラウド向け VMware
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/VMware_ハイブリッドクラウドのユースケース.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            VMware ハイブリッドクラウドのユースケース
+          </a>
+          
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/仮想デスクトップ.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            仮想デスクトップ
+          </a>
+          
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/仮想デスクトップサービス__VDS__.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            仮想デスクトップサービス（ VDS ）
+          </a>
+          
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/ネットアップの仮想デスクトップサービスによるハイブリッドクラウド_VDI.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            ネットアップの仮想デスクトップサービスによるハイブリッドクラウド VDI
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/VMware_Horizon.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            VMware Horizon
+          </a>
+          
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/デモとチュートリアル.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            デモとチュートリアル
+          </a>
+          
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/ブログ.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            ブログ
+          </a>
+          
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/ネットアップと_VMware_Cloud_Foundation___VCF__.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            ネットアップと VMware Cloud Foundation （ VCF ）
+          </a>
+          
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/コンテナ.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            コンテナ
+          </a>
+          
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/ネットアップを利用した_Red_Hat_OpenShift.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            ネットアップを利用した Red Hat OpenShift
+          </a>
+          
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/Red_Hat_OpenShift_の概要.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            Red Hat OpenShift の概要
+          </a>
+          
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/ネットアップストレージシステムの概要.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            ネットアップストレージシステムの概要
+          </a>
+          
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/ネットアップとストレージの統合の概要.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            ネットアップとストレージの統合の概要
+          </a>
+          
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/NetApp_Astra_Control_Center_の概要.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            NetApp Astra Control Center の概要
+          </a>
+          
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/NetApp_Astra_Trident_の概要.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            NetApp Astra Trident の概要
+          </a>
+          
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/OpenShift_の高度な構成オプション.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            OpenShift の高度な構成オプション
+          </a>
+          
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/ロードバランサオプションの確認.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            ロードバランサオプションの確認
+          </a>
+          
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/解決策の検証とユースケース.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            解決策の検証とユースケース
+          </a>
+          
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/NetApp_ONTAP_を使用して_Red_Hat_OpenShift_にマルチテナンシーを設定します.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            NetApp ONTAP を使用して Red Hat OpenShift にマルチテナンシーを設定します
+          </a>
+          
+
+
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/設定.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            設定
+          </a>
+          
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/NetApp_ONTAP_を使用した_Red_Hat_OpenShift_Virtualization.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            NetApp ONTAP を使用した Red Hat OpenShift Virtualization
+          </a>
+          
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/導入.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            導入
+          </a>
+          
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/ワークフロー.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            ワークフロー
+          </a>
+          
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/ネットアップを使用した_Red_Hat_OpenShift_での_Kubernetes_向けの高度なクラスタ管理.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            ネットアップを使用した Red Hat OpenShift での Kubernetes 向けの高度なクラスタ管理
+          </a>
+          
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/導入.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            導入
+          </a>
+          
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/の機能.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            の機能
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/Google_Anthos.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            Google Anthos
+          </a>
+          
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/ベアメタルの_Anthos.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            ベアメタルの Anthos
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/エンタープライズアプリケーションとデータベース.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            エンタープライズアプリケーションとデータベース
+          </a>
+          
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/Oracle_データベース.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            Oracle データベース
+          </a>
+          
+
+
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/Oracle_データベースを導入しています.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            Oracle データベースを導入しています
+          </a>
+          
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/NFS_への_Oracle_19C_for_ONTAP_の自動導入.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            NFS への Oracle 19C for ONTAP の自動導入
+          </a>
+          
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/Oracle_Database_のデータ保護.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            Oracle Database のデータ保護
+          </a>
+          
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/Oracle_データ保護の自動化.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            Oracle データ保護の自動化
+          </a>
+          
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/Microsoft_SQL_Server_の場合.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            Microsoft SQL Server の場合
+          </a>
+          
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/Azure_NetApp_Files_上の_SQL_Server.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            Azure NetApp Files 上の SQL Server
+          </a>
+          
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/SnapCenter_を使用したハイブリッドクラウドデータベースソリューション.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            SnapCenter を使用したハイブリッドクラウドデータベースソリューション
+          </a>
+          
+
+
+
+
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/前提条件の設定.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            前提条件の設定
+          </a>
+          
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/概要の確認.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            概要の確認
+          </a>
+          
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/データ移行とデータ保護.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            データ移行とデータ保護
+          </a>
+          
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/データ移行.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            データ移行
+          </a>
+          
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/NetApp_XCP_のベストプラクティスガイドライン.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            NetApp XCP のベストプラクティスガイドライン
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/お客様のシナリオ.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            お客様のシナリオ
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/データ保護.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            データ保護
+          </a>
+          
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/セキュリティ.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            セキュリティ
+          </a>
+          
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/解決策の自動化.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            解決策の自動化
+          </a>
+          
+
+
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/Ansible_コントロールノードをセットアップ__CLI_ベースの導入向け_.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
+            Ansible コントロールノードをセットアップ（ CLI ベースの導入向け）
+          </a>
+          
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+
+
+
+
+          
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+</li></ul>
+  <div class="zip-pdf-link-container" style="display: none;">   
+    <a href="#" id="zipPdf">
+      <img src="/ja-jp/netapp-solutions/images/pdf-zip.png" width="16" height="16"/>
+      <pre>個別のPDFドキュメントのコレクション<span class="zip-size"></span></pre>
+    </a><div id="zip-link-popup" class="hide">
+    <div class="inner-modal">
+        <div class="downloading-progress">
+            <div class="spinner"></div>
+            <h1>Creating your file...</h1>
+            <div>This may take a few minutes. Thanks for your patience.</div>
+            <button class="cancel-download-btn" type="button">Cancel</button>
+        </div>
+        <div class="download-complete hide">
+            <div class="done-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"/></svg>
+            </div>
+            <div>Your file is ready</div>
+            <button class="cancel-download-btn" type="button">OK</button>
+        </div>
+    </div>
+</div>
+<script>
+    $(".cancel-download-btn").click(function(){
+        $("#zip-link-popup").addClass("hide");
+        $("#zip-link-popup .downloading-progress").removeClass("hide");
+        $("#zip-link-popup .download-complete").addClass("hide");
+    });
+</script></div>
+</div>
+<script>
+  $("#toggleContainerPdf li.active:last-child").parents('ul.subfolders').toggle('display');
+  $("#toggleButtonPdf").click(function () {
+    $("#toggleContainerPdf").toggle('display');
+    $(".n-pdf-body-container .zip-pdf-link-container").toggle('display');
+  });
+</script><div class="sidebar-nav-container">
+  <ul id="mysidebar" class="nav"><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/index.html">
+        ネットアップソリューションのドキュメント
+      </a></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> 人工知能</div>
+      </a>
+      <ul><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> AI 統合インフラ</div>
+      </a>
+      <ul><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> NVIDIA を使用した ONTAP AI</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/pdf.html?item=/media/19432-nva-1151-design.pdf">
+        NVIDIA DGX A100 システム搭載の ONTAP AI 設計ガイド
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/pdf.html?item=/media/20708-nva-1151-deploy.pdf">
+        NVIDIA DGX A100 システムによる ONTAP AI 導入ガイド
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/pdf.html?item=/media/21793-nva-1153-design.pdf">
+        NVIDIA DGX A100 システムと Mellanox Spectrum を搭載した ONTAP AI イーサネットスイッチ設計ガイド
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/pdf.html?item=/media/21789-nva-1153-deploy.pdf">
+        NVIDIA DGX A100 システムと Mellanox Spectrum を搭載した ONTAP AI イーサネットスイッチ導入ガイド
+      </a></li></ul></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> EF シリーズ AI と NVIDA</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/us/media/tr-4755.pdf">
+        NVIDIA DGX A100 システムと BeeGFS を搭載した EF シリーズ AI
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/pdf.html?item=/media/25445-nva-1156-design.pdf">
+        NVIDIA DGX A100 システムと BeeGFS 設計を搭載した EF シリーズ AI
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/pdf.html?item=/media/25574-nva-1156-deploy.pdf">
+        NVIDIA DGX A100 システムと BeeGFS を搭載した EF シリーズ AI の導入
+      </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/us/media/tr-4782.pdf">
+        NetApp E シリーズリファレンスアーキテクチャを使用した BeeGFS
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/pdf.html?item=/media/22029-tr-4859.pdf">
+        NetApp E シリーズストレージによる IBM Spectrum Scale の導入
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/media/17115-tr-4810.pdf">
+        AI および ML 向けの NetApp ONTAP および Lenovo ThinkSystem SR670 トレーニングワークロードのモデル化
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/pdf.html?item=/media/17215-tr4815.pdf">
+        用 NetApp AFF A800 および富士通サーバ PRIMERGY GX2570 M5 AI と ML モデルのトレーニングワークロード
+      </a></li></ul></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> データパイプライン、データレイク、管理</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="http://www.netapp.com/us/media/tr-4851.pdf">
+        自動運転ワークロード向けの NetApp StorageGRID データレイク
+      </a></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> NetApp AI コントロールプレーン</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aicp_introduction.html">
+        はじめに
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aicp_concepts_and_components.html">
+        コンセプトとコンポーネント
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aicp_hardware_and_software_requirements.html">
+        ハードウェアとソフトウェアの要件
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aicp_kubernetes_deployment.html">
+        Kubernetes の導入
+      </a></li><li class="subfolders "><a href="/ja-jp/netapp-solutions/ai/aicp_netapp_trident_deployment_and_configuration_overview.html">
+        <div class="na-navbar-padding"> NetApp Trident の導入と設定</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aicp_netapp_trident_deployment_and_configuration_overview.html">
+        Trident の導入
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aicp_example_trident_backends_for_ontap_ai_deployments.html">
+        ONTAP AI 導入向け Trident バックエンドの例
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aicp_example_kubernetes_storageclasses_for_ontap_ai_deployments.html">
+        ONTAP AI 導入向けの Kubernetes StorageClasses の例
+      </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aicp_kubeflow_deployment_overview.html">
+        Kubeflow の導入
+      </a></li><li class="subfolders "><a href="/ja-jp/netapp-solutions/ai/aicp_example_kubeflow_operations_and_tasks_overview.html">
+        <div class="na-navbar-padding"> 例： Kubeflow の操作とタスク</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aicp_example_kubeflow_operations_and_tasks_overview.html">
+        概要
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aicp_provision_a_jupyter_notebook_workspace_for_data_scientist_or_developer_use.html">
+        データサイエンティストまたは開発者向けに Jupyter Notebook Workspace をプロビジョニングします 使用
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aicp_example_notebooks_and_pipelines.html">
+        ノートブック PC とパイプラインの例
+      </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aicp_apache_airflow_deployment.html">
+        Apache Airflow の導入
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aicp_example_apache_airflow_workflows_overview.html">
+        Apache の通気ワークフローの例
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aicp_example_trident_operations_overview.html">
+        Trident の運用例
+      </a></li><li class="subfolders "><a href="/ja-jp/netapp-solutions/ai/aicp_example_high-performance_jobs_for_ontap_ai_deployments_overview.html">
+        <div class="na-navbar-padding"> ONTAP AI 導入向けハイパフォーマンスジョブの例</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aicp_example_high-performance_jobs_for_ontap_ai_deployments_overview.html">
+        概要
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aicp_execute_a_single-node_ai_workload.html">
+        シングルノードの AI ワークロードを実行
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aicp_execute_a_synchronous_distributed_ai_workload.html">
+        分散型 AI の同期ワークロードを実行します
+      </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aicp_performance_testing.html">
+        パフォーマンステスト
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aicp_conclusion.html">
+        まとめ
+      </a></li></ul></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> MLRun パイプライン</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/mlrun_introduction.html">
+        はじめに
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/mlrun_technology_overview.html">
+        テクノロジの概要
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/mlrun_software_and_hardware_requirements.html">
+        ソフトウェアとハードウェアの要件
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/mlrun_network_device_failure_prediction_use_case_summary.html">
+        ネットワークデバイスの障害予測ユースケースの概要
+      </a></li><li class="subfolders "><a href="/ja-jp/netapp-solutions/ai/mlrun_setup_overview.html">
+        <div class="na-navbar-padding"> セットアップ（ Setup ）</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/mlrun_configuring_kubernetes_cluster.html">
+        Kubernetes クラスタを設定しています
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/mlrun_define_persistent_volume_claim.html">
+        永続的ボリューム要求を定義
+      </a></li></ul></li><li class="subfolders "><a href="/ja-jp/netapp-solutions/ai/mlrun_deploying_the_application.html">
+        <div class="na-navbar-padding"> アプリケーションの展開</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/mlrun_get_code_from_github.html">
+        GitHub からコードを取得します
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/mlrun_configure_working_environment.html">
+        作業環境を構成します
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/mlrun_deploy_grafana_dashboard.html">
+        Grafana ダッシュボードを導入します
+      </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/mlrun_conclusion.html">
+        まとめ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/mlrun_where_to_find_additional_information.html">
+        追加情報の検索場所
+      </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="https://github.com/NetApp/netapp-dataops-toolkit">
+        NetApp DataOps ツールキット
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/pdf.html?item=/media/65882-tr-4915.pdf">
+        AI と分析のワークフローに対応した E シリーズと BeeGFS を使用したデータ移動
+      </a></li></ul></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> ユースケース</div>
+      </a>
+      <ul><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> ネットアップの AI による地合い分析</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/ai-sent-support-center-analytics.html">
+        はじめに
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/ai-sent-use-cases.html">
+        ユースケース
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/ai-sent-architecture.html">
+        アーキテクチャ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/ai-sent-design-considerations.html">
+        設計上の考慮事項
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/ai-sent-deploying-support-center-sentiment-analysis.html">
+        サポートセンターの感情分析の導入
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/ai-sent-validation-results.html">
+        検証結果
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/ai-sent-videos-and-demos.html">
+        ビデオとデモ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/ai-sent-conclusion.html">
+        まとめ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/ai-sent-where-to-find-additional-information.html">
+        追加情報の参照先
+      </a></li></ul></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> Azure での分散トレーニング - クリックスルー率予測</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aks-anf_introduction.html">
+        はじめに
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aks-anf_technology_overview.html">
+        テクノロジの概要
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aks-anf_software_requirements.html">
+        ソフトウェア要件
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aks-anf_cloud_resource_requirements.html">
+        クラウドリソースの要件
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aks-anf_click-through_rate_prediction_use_case_summary.html">
+        クリックスルー率予測ユースケースの概要
+      </a></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> セットアップ（ Setup ）</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aks-anf_install_and_set_up_the_aks_cluster.html">
+        AKS クラスタをインストールしてセットアップします
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aks-anf_create_a_delegated_subnet_for_azure_netapp_files.html">
+        Azure NetApp Files の委譲されたサブネットを作成します
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aks-anf_peer_aks_vnet_and_azure_netapp_files_vnet.html">
+        ピア AKS の VNet と Azure NetApp Files VNet
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aks-anf_install_trident.html">
+        Trident をインストール
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aks-anf_set_up_dask_with_rapids_deployment_on_aks_using_helm.html">
+        Helm を使用して、 AKS で Rapids デプロイメントを使用して Dask をセットアップします
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aks-anf_azure_netapp_files_performance_tiers.html">
+        Azure NetApp Files のパフォーマンス階層
+      </a></li></ul></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> クリックスルー率予測データの処理とモデルトレーニング</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aks-anf_libraries_for_data_processing_and_model_training.html">
+        データ処理およびモデルトレーニング用のライブラリ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aks-anf_load_criteo_click_logs_day_15_in_pandas_and_train_a_scikit-learn_random_forest_model.html">
+        Pandas で Logs Day 15 をクリックして、 scikit に学習したランダムフォレストモデルをトレーニングします
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aks-anf_load_day_15_in_dask_and_train_a_dask_cuml_random_forest_model.html">
+        Dask の 15 日目をロードし、 Dask cuML ランダムフォレストモデルをトレーニングします
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aks-anf_monitor_dask_using_native_task_streams_dashboard.html">
+        ネイティブタスクストリームダッシュボードを使用して Dask を監視します
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aks-anf_training_time_comparison.html">
+        トレーニング時間の比較
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aks-anf_monitor_dask_and_rapids_with_prometheus_and_grafana.html">
+        Prometheus と Grafana で Dask と Rapids を監視します
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aks-anf_dataset_and_model_versioning_using_netapp_dataops_toolkit.html">
+        NetApp DataOps ツールキットを使用したデータセットとモデルのバージョン管理
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aks-anf_jupyter_notebooks.html">
+        Jupyter ノートブック ( リファレンス用 )
+      </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aks-anf_conclusion.html">
+        まとめ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aks-anf_where_to_find_additional_information.html">
+        追加情報の参照先
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/aks-anf_version_history.html">
+        バージョン履歴
+      </a></li></ul></li><li class="subfolders "><a href="/ja-jp/netapp-solutions/ai/runai-ld_executive_summary.html">
+        <div class="na-navbar-padding"> Azure の分散トレーニング - レーン検出</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/runai-ld_solution_overview.html">
+        解決策の概要
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/runai-ld_lane_detection_distributed_training_with_run_ai.html">
+        レーン検出– AI を実行する分散トレーニング
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/runai-ld_conclusion.html">
+        まとめ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/runai-ld_additional_information.html">
+        追加情報
+      </a></li></ul></li><li class="subfolders "><a href="/ja-jp/netapp-solutions/ai/hcaios_executive_summary.html">
+        <div class="na-navbar-padding"> データキャッシング機能を備えたハイブリッドクラウド AI オペレーティングシステム</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/hcaios_use_case_overview_and_problem_statement.html">
+        ユースケースの概要と問題点
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/hcaios_solution_overview.html">
+        解決策の概要
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/hcaios_concepts_and_components.html">
+        コンセプトとコンポーネント
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/hcaios_hardware_and_software_requirements.html">
+        ハードウェアとソフトウェアの要件
+      </a></li><li class="subfolders "><a href="/ja-jp/netapp-solutions/ai/hcaios_solution_deployment_and_validation_details.html">
+        <div class="na-navbar-padding"> 解決策の導入と検証の詳細</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/hcaios_ontap_ai_deployment.html">
+        ONTAP AI の導入
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/hcaios_kubernetes_deployment.html">
+        Kubernetes の導入
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/hcaios_cnvrg.io_deployment.html">
+        cnvrg.io の展開
+      </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/hcaios_conclusion.html">
+        まとめ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/hcaios_acknowledgments.html">
+        謝辞
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/hcaios_where_to_find_additional_information.html">
+        追加情報の検索場所
+      </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/media/17082-tr4732.pdf">
+        ビッグデータ環境から AI へのデータの移動 環境
+      </a></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> Lenovo ThinkSystem-解決策 Design を使用したエッジネットアップでの AI 推論</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/ai-edge-introduction.html">
+        はじめに
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/ai-edge-technology-overview.html">
+        テクノロジの概要
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/ai-edge-test-plan.html">
+        テスト計画
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/ai-edge-test-configuration.html">
+        設定をテストします
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/ai-edge-test-procedure.html">
+        手順をテストします
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/ai-edge-test-results.html">
+        テスト結果
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/ai-edge-architecture-sizing-options.html">
+        アーキテクチャのサイジングオプション
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/ai-edge-conclusion.html">
+        まとめ
+      </a></li></ul></li><li class="subfolders "><a href="/ja-jp/netapp-solutions/ai/cainvidia_executive_summary.html">
+        <div class="na-navbar-padding"> NVIDIA を使用した会話型 AI</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/cainvidia_solution_overview.html">
+        解決策の概要
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/cainvidia_solution_technology.html">
+        解決策テクノロジ
+      </a></li><li class="subfolders "><a href="/ja-jp/netapp-solutions/ai/cainvidia_build_a_virtual_assistant_using_jarvis,_cloud_sync,_and_nemo_overview.html">
+        <div class="na-navbar-padding"> Jarvis 、 Cloud Sync 、 Nemo を使用して仮想アシスタントを構築します</div>
+      </a>
+      <ul><li class="  active "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/cainvidia_jarvis_deployment.html">
+        Jarvis の展開
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/cainvidia_customize_states_and_flows_for_retail_use_case.html">
+        小売ユースケースの状態とフローをカスタマイズします
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/cainvidia_connect_to_third-party_apis_as_fulfillment_engine.html">
+        フルフィルメントエンジンとしてサードパーティ API に接続します
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/cainvidia_netapp_retail_assistant_demonstration.html">
+        NetApp Retail Assistant のデモ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/cainvidia_use_netapp_cloud_sync_to_archive_conversation_history.html">
+        会話履歴をアーカイブするには、 NetApp Cloud Sync を使用します
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/cainvidia_expand_intent_models_using_nemo_training.html">
+        Nemo トレーニングを使用してインテントモデルを拡張する
+      </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/cainvidia_conclusion.html">
+        まとめ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/cainvidia_acknowledgments.html">
+        謝辞
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/cainvidia_where_to_find_additional_information.html">
+        追加情報の検索場所
+      </a></li></ul></li><li class="subfolders "><a href="/ja-jp/netapp-solutions/ai/osrunai_executive_summary.html">
+        <div class="na-navbar-padding"> 実行： AI を使用したネットアップオーケストレーション解決策</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/osrunai_solution_overview.html">
+        解決策の概要
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/osrunai_solution_technology_overview.html">
+        解決策テクノロジ
+      </a></li><li class="subfolders "><a href="/ja-jp/netapp-solutions/ai/osrunai_optimal_cluster_and_gpu_utilization_with_run_ai_overview.html">
+        <div class="na-navbar-padding"> AI を実行することでクラスタと GPU の利用率を最適化</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/osrunai_run_ai_installation.html">
+        AI インストールを実行
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/osrunai_run_ai_dashboards_and_views.html">
+        AI ダッシュボードとビューを実行します
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/osrunai_creating_projects_for_data_science_teams_and_allocating_gpus.html">
+        データサイエンスチームのプロジェクトを作成し、 GPU を割り当てる
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/osrunai_submitting_jobs_in_run_ai_cli.html">
+        Run AI CLI でのジョブの送信
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/osrunai_achieving_high_cluster_utilization.html">
+        高いクラスタ利用率の達成
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/osrunai_fractional_gpu_allocation_for_less_demanding_or_interactive_workloads.html">
+        パフォーマンスの低いワークロードやインタラクティブなワークロードに適した、フラクショナルな GPU 割り当て
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/osrunai_achieving_high_cluster_utilization_with_over-uota_gpu_allocation.html">
+        「 Achieving High Cluster Utilization With over-uota 」 GPU 割り当て
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/osrunai_basic_resource_allocation_fairness.html">
+        基本的な資源配分フェアネス
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/osrunai_over-quota_fairness.html">
+        オーバークォータフェアネス
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/osrunai_saving_data_to_a_trident-provisioned_persistentvolume.html">
+        Trident でプロビジョニングされた永続的ボリュームにデータを保存する
+      </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/osrunai_conclusion.html">
+        まとめ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/osrunai_testing_details_for_section_4.8.html">
+        セクション 4.8 のテストの詳細
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/osrunai_testing_details_for_section_4.9.html">
+        セクション 4.9 のテストの詳細
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/osrunai_testing_details_for_section_4.10.html">
+        セクション 4.10 のテストの詳細
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ai/osrunai_where_to_find_additional_information.html">
+        追加情報の検索場所
+      </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="http://www.netapp.com/us/media/tr-4799-design.pdf">
+        自動運転ワークロード向けの NetApp ONTAP AI 解決策設計
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/pdf.html?item=/media/7395-tr4811.pdf">
+        ヘルスケア向け NetApp ONTAP AI リファレンスアーキテクチャ：診断イメージング
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/pdf.html?item=/media/17205-tr4807pdf.pdf">
+        金融サービスのワークロード向けの NetApp ONTAP AI リファレンスアーキテクチャ
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/us/media/tr-4785.pdf">
+        NetApp E シリーズと BeeGFS を使用した AI 導入
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/pdf.html?item=/media/19426-nva-1150-design.pdf">
+        Quantum StorNext with NetApp E-Series Systems Design Guide 』を参照してください
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/pdf.html?item=/media/19429-nva-1150-deploy.pdf">
+        Quantum StorNext with NetApp E-Series Systems Deployment Guide 』を参照してください
+      </a></li></ul></li></ul></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> 最新のデータ分析</div>
+      </a>
+      <ul><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> ConFluent Kafka のベストプラクティスをご確認ください</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/data-analytics/confluent-kafka-introduction.html">
+        はじめに
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/data-analytics/confluent-kafka-solution.html">
+        解決策アーキテクチャの詳細
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/data-analytics/confluent-kafka-technology-overview.html">
+        テクノロジの概要
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/data-analytics/confluent-kafka-confluent-kafka-certification.html">
+        矛盾する検証
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/data-analytics/confluent-kafka-performance-tests-with-scalability.html">
+        拡張性を備えたパフォーマンステスト
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/data-analytics/confluent-kafka-kafka-s3-connector.html">
+        矛盾点 3 コネクタ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/data-analytics/confluent-kafka-confluent-kafka-rebalance.html">
+        自己リバランシングクラスタが競合しています
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/data-analytics/confluent-kafka-best-practice-guidelines.html">
+        ベストプラクティスのガイドライン
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/data-analytics/confluent-kafka-sizing.html">
+        サイジング
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/data-analytics/confluent-kafka-conclusion.html">
+        まとめ
+      </a></li></ul></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> ネットアップのハイブリッドクラウドデータソリューション - Spark と Hadoop はお客様のユースケースに基づいています</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/data-analytics/hdcs-sh-solution-overview.html">
+        解決策の概要
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/data-analytics/hdcs-sh-data-fabric-powered-by-netapp-for-big-data-architecture.html">
+        ネットアップのデータファブリックを基盤としたビッグデータアーキテクチャ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/data-analytics/hdcs-sh-hadoop-data-protection-and-netapp.html">
+        Hadoop データ保護機能とネットアップ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/data-analytics/hdcs-sh-overview-of-hadoop-data-protection-use-cases.html">
+        Hadoop のデータ保護のユースケースの概要
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/data-analytics/hdcs-sh-use-case-1--backing-up-hadoop-data.html">
+        使用事例 1 - Hadoop データのバックアップ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/data-analytics/hdcs-sh-use-case-2--backup-and-disaster-recovery-from-the-cloud-to-on-premises.html">
+        ユースケース 2 - クラウドからオンプレミスへのバックアップとディザスタリカバリ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/data-analytics/hdcs-sh-use-case-3--enabling-devtest-on-existing-hadoop-data.html">
+        ユースケース 3 - 既存の Hadoop データに対する DevTest の有効化
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/data-analytics/hdcs-sh-use-case-4--data-protection-and-multicloud-connectivity.html">
+        ユースケース 4 - データ保護とマルチクラウド接続
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/data-analytics/hdcs-sh-use-case-5--accelerate-analytic-workloads.html">
+        ユースケース 5 - 分析ワークロードの高速化
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/data-analytics/hdcs-sh-conclusion.html">
+        まとめ
+      </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/pdf.html?item=/media/58015-sb-4154.pdf">
+        さまざまな分析戦略に対応する各種ソリューション解決策 Brief
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/pdf.html?item=/media/20646-tr-4869.pdf">
+        Splunk SmartStore を使用した NetApp StorageGRID
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/pdf.html?item=/media/16851-tr-4623pdf.pdf">
+        NetApp E シリーズ E5700 および Splunk Enterprise
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/pdf.html?item=/media/26877-nva-1157-deploy.pdf">
+        『 Apache Spark Workload with NetApp Storage 解決策』（導入ガイド）
+      </a></li></ul></li><li class="subfolders "><a href="/ja-jp/netapp-solutions/ehc/index.html">
+        <div class="na-navbar-padding"> エンタープライズハイブリッドクラウド</div>
+      </a>
+      <ul><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> パブリッククラウド向け VMware</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/ehc-overview.html">
+        概要
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/ehc-hyperscalers.html">
+        ハイパースケーラクラウド上の VMware クラウド
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/ehc-support-configs.html">
+        サポートされる構成
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/ehc-config-vmware.html">
+        ハイパースケーラ構成における VMware
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/ehc-datastore.html">
+        ハイパースケーラクラウドにおけるネットアップストレージ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/ehc-summary.html">
+        まとめ
+      </a></li></ul></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> VMware ハイブリッドクラウドのユースケース</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/ehc-use-cases.html">
+        ユースケースの概要
+      </a></li></ul></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> ネットアップのハイパースケーラクラウドソリューション</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/aws-vmc.html">
+        ネットアップが AWS 上の VMC に最適です
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/azure-avs.html">
+        Azure を基盤とした AVS 対応のネットアップ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/gcp-gcve.html">
+        Google Cloud の GCVE 向けネットアップ
+      </a></li></ul></li></ul></li><li class="subfolders "><a href="/ja-jp/netapp-solutions/virtualization/index.html">
+        <div class="na-navbar-padding"> 仮想化</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/virtualization/netapp-vmware.html">
+        ネットアップと VMware のソリューションを今すぐご利用ください
+      </a></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> VMware Virtualization for ONTAP の略</div>
+      </a>
+      <ul><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> VMware vSphere 管理者向けの NetApp ONTAP のメリット</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/virtualization/vsphere_admin_introduction.html">
+        はじめに
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/virtualization/vsphere_admin_unified_storage.html">
+        ユニファイドストレージ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/virtualization/vsphere_admin_storage_efficiencies.html">
+        ストレージの効率化
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/virtualization/vsphere_admin_vvols_and_spbm.html">
+        Virtual Volume and Storage Policy Based Management の略
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/virtualization/vsphere_admin_hybrid_cloud.html">
+        ハイブリッドクラウド
+      </a></li></ul></li><li class="subfolders "><a href="/ja-jp/netapp-solutions/virtualization/vsphere_ontap_ontap_for_vsphere.html">
+        <div class="na-navbar-padding"> VMware vSphere と ONTAP のベストプラクティス</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/virtualization/vsphere_ontap_ontap_capabilities_for_vsphere.html">
+        vSphere 向けの ONTAP 機能
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/virtualization/vsphere_ontap_best_practices.html">
+        ベストプラクティス
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/virtualization/vsphere_ontap_other_capabilities_for_vsphere.html">
+        vSphere 向けのその他の機能
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/virtualization/vsphere_ontap_ontap_and_vsphere_release-specific_information.html">
+        ONTAP および vSphere のリリース固有の情報
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/virtualization/vsphere_ontap_recommended_esxi_host_and_other_ontap_settings.html">
+        推奨される ESXi ホストとその他の ONTAP 設定
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/virtualization/vsphere_ontap_where_to_find_additional_information.html">
+        追加情報の参照先
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/virtualization/vsphere_ontap_contact_us.html">
+        お問い合わせください
+      </a></li></ul></li><li class="subfolders "><a href="/ja-jp/netapp-solutions/virtualization/vsrm-ontap9_1._introduction_to_srm_with_ontap.html">
+        <div class="na-navbar-padding"> NetApp ONTAP 9 を搭載した VMware Site Recovery Manager</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/virtualization/vsrm-ontap9_new_features_with_srm_and_ontap_tools.html">
+        SRM および ONTAP ツールの新機能
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/virtualization/vsrm-ontap9_deployment_best_practices.html">
+        導入のベストプラクティス
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/virtualization/vsrm-ontap9_operational_best_practices.html">
+        運用上のベストプラクティス
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/virtualization/vsrm-ontap9_replication_topologies.html">
+        レプリケーショントポロジ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/virtualization/vsrm-ontap9_appendix_a__troubleshooting_srm_when_using_vvols_replication.html">
+        VVol レプリケーションを使用する場合の SRM のトラブルシューティング
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/virtualization/vsrm-ontap9_conclusion.html">
+        まとめ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/virtualization/vsrm-ontap9_additional_information.html">
+        追加情報
+      </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/virtualization/tools-vmware-secure-development-activities.html">
+        VMware vSphere 向け ONTAP ツール - 製品セキュリティ
+      </a></li><li class="subfolders "><a href="/ja-jp/netapp-solutions/virtualization/vsphere_auto_introduction.html">
+        <div class="na-navbar-padding"> VMware vSphere の自動化</div>
+      </a>
+      <ul><li class="subfolders "><a href="/ja-jp/netapp-solutions/virtualization/vsphere_ontap_auto_block.html">
+        <div class="na-navbar-padding"> 従来のブロックストレージプロビジョニング</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/virtualization/vsphere_ontap_auto_block_fc.html">
+        VMFS-Fibre Channel （ VMFS - ファイバチャネル）
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/virtualization/vsphere_ontap_auto_block_fcoe.html">
+        VMFS- Fibre Channel over Ethernet （ Fibre Channel over Ethernet ）
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/virtualization/vsphere_ontap_auto_block_iscsi.html">
+        VMFS-5 - iSCSI
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/virtualization/vsphere_ontap_auto_block_nvmeof.html">
+        VMFS-5 - NVMe over Fabric
+      </a></li></ul></li><li class="subfolders "><a href="/ja-jp/netapp-solutions/virtualization/vsphere_ontap_auto_file.html">
+        <div class="na-navbar-padding"> 従来のファイルストレージプロビジョニング</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/virtualization/vsphere_ontap_auto_file_nfs.html">
+        NFS-v3
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/virtualization/vsphere_ontap_auto_file_nfs41.html">
+        v4.1 に対応しています
+      </a></li></ul></li></ul></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/virtualization/vsphere_ontap_whats_new.html">
+        ONTAP for VMware vSphere の新機能
+      </a></li></ul></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> パブリッククラウド向け VMware</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/ehc-overview.html">
+        概要
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/ehc-hyperscalers.html">
+        ハイパースケーラクラウド上の VMware クラウド
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/ehc-support-configs.html">
+        サポートされる構成
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/ehc-config-vmware.html">
+        ハイパースケーラ構成における VMware
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/ehc-datastore.html">
+        ハイパースケーラクラウドにおけるネットアップストレージ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/ehc-summary.html">
+        まとめ
+      </a></li></ul></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> VMware ハイブリッドクラウドのユースケース</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/ehc-use-cases.html">
+        ユースケースの概要
+      </a></li></ul></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> 仮想デスクトップ</div>
+      </a>
+      <ul><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> 仮想デスクトップサービス（ VDS ）</div>
+      </a>
+      <ul><li class="subfolders "><a href="/ja-jp/netapp-solutions/vdi-vds/hcvdivds_hybrid_cloud_vdi_with_virtual_desktop_service.html">
+        <div class="na-navbar-padding"> ネットアップの仮想デスクトップサービスによるハイブリッドクラウド VDI</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/vdi-vds/hcvdivds_use_cases.html">
+        ユースケース
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/vdi-vds/hcvdivds_netapp_virtual_desktop_service_overview.html">
+        ネットアップ仮想デスクトップサービスの概要
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/vdi-vds/hcvdivds_netapp_hci_overview.html">
+        NetApp HCI の概要
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/vdi-vds/hcvdivds_nvidia_licensing.html">
+        NVIDIA ライセンス
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/vdi-vds/hcvdivds_deployment.html">
+        導入
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/vdi-vds/hcvdivds_hybrid_cloud_environment.html">
+        ハイブリッドクラウド環境
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/vdi-vds/hcvdivds_single_server_load_test_with_login_vsi.html">
+        Login VSI を使用した単一サーバの負荷テスト
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/vdi-vds/hcvdivds_management_portal.html">
+        管理ポータル
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/vdi-vds/hcvdivds_user_management.html">
+        ユーザ管理
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/vdi-vds/hcvdivds_workspace_management.html">
+        ワークスペース管理
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/vdi-vds/hcvdivds_application_management.html">
+        アプリケーション管理
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/vdi-vds/hcvdivds_why_ontap.html">
+        仮想デスクトップサービスの ONTAP 機能
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/vdi-vds/hcvdivds_data_management.html">
+        データ管理
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/vdi-vds/hcvdivds_operation_management.html">
+        運用管理
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/vdi-vds/hcvdivds_tools_and_logs.html">
+        ツールとログ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/vdi-vds/hcvdivds_gpu_considerations.html">
+        GPU に関する考慮事項
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/vdi-vds/hcvdivds_solutions_for_industry.html">
+        業界向けソリューション
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/vdi-vds/hcvdivds_conclusion.html">
+        まとめ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/vdi-vds/hcvdivds_where_to_find_additional_information.html">
+        追加情報の検索場所
+      </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="https://www.esg-global.com/validation/esg-technical-validation-vdi-at-enterprise-scale-with-netapp-virtual-desktop-service">
+        ESG テクニカル検証：『 VDI at Enterprise Scale with NetApp Virtual Desktop Service 』
+      </a></li></ul></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> VMware Horizon</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/us/media/nva-1132-design.pdf">
+        VMware によるエンドユーザコンピューティング（設計ガイド）
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/us/media/nva-1129-design.pdf">
+        VMware と NVIDIA GPU を使用したエンドユーザコンピューティング（設計ガイド）
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/us/media/nva-1129-deploy.pdf">
+        VMware と NVIDIA GPU を使用したエンドユーザコンピューティング（導入ガイド）
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/us/media/tr-4792.pdf">
+        VMware for 3D Graphics によるエンドユーザコンピューティング
+      </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="https://www.cisco.com/c/en/us/solutions/design-zone/data-center-design-guides/flexpod-design-guides.html?flt1_general-table0=Desktop%20Virtualization">
+        FlexPod デスクトップ仮想化ソリューション
+      </a></li></ul></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> デモとチュートリアル</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/virtualization/vsphere_demos_videos.html">
+        ビデオ
+      </a></li></ul></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> ブログ</div>
+      </a>
+      <ul><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> ネットアップと VMware Cloud Foundation （ VCF ）</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/blog/netapp-vmware-cloud-foundation-getting-started">
+        パート 1 ：はじめに
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/blog/netapp-vmware-cloud-foundation-ontap-principal-storage">
+        パート 2 ： VCF および ONTAP プリンシパルストレージ
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/blog/netapp-vmware-cloud-foundation-element-principal-storage">
+        パート 3 ： VCF およびエレメントプリンシパルストレージ
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/blog/netapp-vmware-cloud-foundation-supplemental-storage">
+        パート 4 ： VMware 用の ONTAP ツールと追加ストレージ
+      </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="https://cloud.netapp.com/blog/azure-blg-optimize-storage-for-cloud-based-vmware-deployments">
+        クラウドベースの VMware 環境向けにストレージを最適化
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://cloud.netapp.com/blog/azure-blg-netapp-cloud-offerings-with-azure-vmware-solution">
+        ネットアップベースのクラウドサービスで Azure VMware 解決策を使い始めましょう
+      </a></li></ul></li></ul></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> コンテナ</div>
+      </a>
+      <ul><li class="subfolders "><a href="/ja-jp/netapp-solutions/containers/rh-os-n_solution_overview.html">
+        <div class="na-navbar-padding"> ネットアップを利用した Red Hat OpenShift</div>
+      </a>
+      <ul><li class="subfolders "><a href="/ja-jp/netapp-solutions/containers/rh-os-n_overview_openshift.html">
+        <div class="na-navbar-padding"> Red Hat OpenShift の概要</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_openshift_BM.html">
+        ベアメタルで実装された OpenShift
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_openshift_OSP.html">
+        Red Hat OpenStack Platform 上の OpenShift
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_openshift_RHV.html">
+        Red Hat 仮想化を基盤とした OpenShift
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_openshift_VMW.html">
+        VMware vSphere 上の OpenShift
+      </a></li></ul></li><li class="subfolders "><a href="/ja-jp/netapp-solutions/containers/rh-os-n_overview_netapp.html">
+        <div class="na-navbar-padding"> ネットアップストレージシステムの概要</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_netapp_ontap.html">
+        NetApp ONTAP
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_netapp_element.html">
+        NetApp Element
+      </a></li></ul></li><li class="subfolders "><a href="/ja-jp/netapp-solutions/containers/rh-os-n_overview_storint.html">
+        <div class="na-navbar-padding"> ネットアップとストレージの統合の概要</div>
+      </a>
+      <ul><li class="subfolders "><a href="/ja-jp/netapp-solutions/containers/rh-os-n_overview_astra.html">
+        <div class="na-navbar-padding"> NetApp Astra Control Center の概要</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_astra_register.html">
+        Red Hat OpenShift クラスタを登録します
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_astra_applications.html">
+        保護するアプリケーションを選択します
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_astra_protect.html">
+        アプリケーションを保護
+      </a></li></ul></li><li class="subfolders "><a href="/ja-jp/netapp-solutions/containers/rh-os-n_overview_trident.html">
+        <div class="na-navbar-padding"> NetApp Astra Trident の概要</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_trident_ontap_nfs.html">
+        NetApp ONTAP NFS
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_trident_ontap_iscsi.html">
+        NetApp ONTAP iSCSI の略
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_trident_element_iscsi.html">
+        NetApp Element iSCSI の略
+      </a></li></ul></li></ul></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> OpenShift の高度な構成オプション</div>
+      </a>
+      <ul><li class="subfolders "><a href="/ja-jp/netapp-solutions/containers/rh-os-n_load_balancers.html">
+        <div class="na-navbar-padding"> ロードバランサオプションの確認</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_LB_MetalLB.html">
+        MetalLB
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_LB_F5BigIP.html">
+        F5 BIG-IP
+      </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_private_registry.html">
+        プライベートイメージレジストリを作成しています
+      </a></li></ul></li><li class="subfolders "><a href="/ja-jp/netapp-solutions/containers/rh-os-n_use_cases.html">
+        <div class="na-navbar-padding"> 解決策の検証とユースケース</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_use_case_pipeline.html">
+        永続的ストレージを使用した Jenkins CI/CD パイプラインの導入
+      </a></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> NetApp ONTAP を使用して Red Hat OpenShift にマルチテナンシーを設定します</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_use_case_multitenancy_overview.html">
+        概要
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_use_case_multitenancy_architecture.html">
+        アーキテクチャ
+      </a></li><li class="subfolders "><a href="/ja-jp/netapp-solutions/containers/rh-os-n_use_case_multitenancy_configuration.html">
+        <div class="na-navbar-padding"> 設定</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_use_case_multitenancy_configuration_prerequisites.html">
+        前提条件
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_use_case_multitenancy_cluster_admin_tasks.html">
+        クラスタ管理者のタスク
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_use_case_multitenancy_storage_admin_tasks.html">
+        ストレージ管理者のタスク
+      </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_use_case_multitenancy_validation.html">
+        検証
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_use_case_multitenancy_scaling.html">
+        拡張性
+      </a></li></ul></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> NetApp ONTAP を使用した Red Hat OpenShift Virtualization</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_use_case_openshift_virtualization_overview.html">
+        概要
+      </a></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> 導入</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_use_case_openshift_virtualization_deployment_prerequisites.html">
+        前提条件
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_use_case_openshift_virtualization_deployment.html">
+        オペレータを介して展開します
+      </a></li></ul></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> ワークフロー</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_use_case_openshift_virtualization_workflow_create_vm.html">
+        VM を作成します
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_live_migration.html">
+        VM ライブマイグレーション
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_use_case_openshift_virtualization_workflow_clone_vm.html">
+        VM のクローニング
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_from_snapshot.html">
+        Snapshot から VM を作成します
+      </a></li></ul></li></ul></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> ネットアップを使用した Red Hat OpenShift での Kubernetes 向けの高度なクラスタ管理</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_use_case_advanced_cluster_management_overview.html">
+        概要
+      </a></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> 導入</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_use_case_advanced_cluster_management_deployment_prerequisites.html">
+        前提条件
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_use_case_advanced_cluster_management_deployment.html">
+        オペレータを介して展開します
+      </a></li></ul></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> の機能</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_use_case_advanced_cluster_management_features_cluster_lcm.html">
+        クラスタのライフサイクル管理
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_use_case_advanced_cluster_management_features_application_lcm.html">
+        アプリケーションライフサイクル管理
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_use_case_advanced_cluster_management_features_governance_risk.html">
+        ガバナンスとリスク
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_use_case_advanced_cluster_management_features_observability.html">
+        オブザーバビリティ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_use_case_advanced_cluster_management_features_create_resources.html">
+        リソースの作成
+      </a></li></ul></li></ul></li></ul></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_videos_and_demos.html">
+        ビデオ / デモ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/rh-os-n_additional_information.html">
+        追加情報
+      </a></li></ul></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> Google Anthos</div>
+      </a>
+      <ul><li class="subfolders "><a href="/ja-jp/netapp-solutions/containers/bmanthos_introduction.html">
+        <div class="na-navbar-padding"> ベアメタルの Anthos</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/bmanthos_solution_overview.html">
+        解決策の概要
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/bmanthos_solution_requirements.html">
+        解決策の要件
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/bmanthos_deployment_summary.html">
+        導入の概要
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/bmanthos_solution_validation.html">
+        解決策の検証
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/bmanthos_conclusion.html">
+        まとめ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/containers/bmanthos_where_to_find_additional_information.html">
+        追加情報の参照先
+      </a></li></ul></li></ul></li></ul></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> エンタープライズアプリケーションとデータベース</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="https://docs.netapp.com/us-en/netapp-solutions-sap/">
+        SAP と SAP HANA に対応しています
+      </a></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> Oracle データベース</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/pdf.html?item=/media/25782-nva-1155.pdf">
+        FlexPod データセンター上の Oracle 19C RAC データベースと Cisco UCS FC 経由の NetApp AFF A800 をサポートしています
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/us/media/tr-4250.pdf">
+        UNIX および NFS を使用する NetApp clustered Data ONTAP での SAP と Oracle の運用 Data ONTAP 
+      </a></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> Oracle データベースを導入しています</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/pdf.html?item=/media/8744-tr3633.pdf">
+        NetApp ONTAP への Oracle データベースの導入
+      </a></li><li class="subfolders "><a href="/ja-jp/netapp-solutions/ent-apps-db/marketing_overview.html">
+        <div class="na-navbar-padding"> NFS への Oracle 19C for ONTAP の自動導入</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ent-apps-db/getting_started_requirements.html">
+        設置と要件
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ent-apps-db/awx_automation.html">
+        Oracle 19C AWX/Tower の自動導入
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ent-apps-db/cli_automation.html">
+        Oracle 19C CLI の自動導入
+      </a></li></ul></li></ul></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> Oracle Database のデータ保護</div>
+      </a>
+      <ul><li class="subfolders "><a href="/ja-jp/netapp-solutions/ent-apps-db/db_protection_overview.html">
+        <div class="na-navbar-padding"> Oracle データ保護の自動化</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ent-apps-db/db_protection_getting_started.html">
+        設置と要件
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ent-apps-db/db_protection_awx_automation.html">
+        AWX/Tower 向け Oracle データ保護の自動化
+      </a></li></ul></li></ul></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/pdf.html?item=/media/17248-tr4794pdf.pdf">
+        NetApp EF シリーズを基盤にした Oracle データベース
+      </a></li></ul></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> Microsoft SQL Server の場合</div>
+      </a>
+      <ul><li class="subfolders "><a href="/ja-jp/netapp-solutions/ent-apps-db/sql-srv-anf_overview.html">
+        <div class="na-navbar-padding"> Azure NetApp Files 上の SQL Server</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ent-apps-db/sql-srv-anf_factors_to_consider.html">
+        考慮すべき要因
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ent-apps-db/sql-srv-anf_reference_design_real-time_high-level_design.html">
+        リファレンス・デザイン（リアルタイムの高レベル設計）
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ent-apps-db/sql-srv-anf_conclusion.html">
+        まとめ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ent-apps-db/sql-srv-anf_where_to_find_additional_information.html">
+        追加情報の参照先
+      </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/us/media/tr-4467.pdf">
+        Windows 環境で clustered Data を使用して SAP と Microsoft SQL Server を運用 ONTAP
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/pdf.html?item=/media/15613-na-446.pdf">
+        Microsoft SQL Server の刷新
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/pdf.html?item=/media/17086-tr4764pdf.pdf">
+        NetApp EF シリーズでの Microsoft SQL Server のベストプラクティスガイド
+      </a></li></ul></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> SnapCenter を使用したハイブリッドクラウドデータベースソリューション</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ent-apps-db/hybrid_dbops_snapcenter_usecases.html">
+        はじめに
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ent-apps-db/hybrid_dbops_snapcenter_architecture.html">
+        解決策アーキテクチャ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ent-apps-db/hybrid_dbops_snapcenter_requirements.html">
+        解決策の要件
+      </a></li><li class="subfolders "><a href="/ja-jp/netapp-solutions/ent-apps-db/hybrid_dbops_snapcenter_prerequisite.html">
+        <div class="na-navbar-padding"> 前提条件の設定</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ent-apps-db/hybrid_dbops_snapcenter_prereq_onprem.html">
+        オンプレミスの前提条件
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ent-apps-db/hybrid_dbops_snapcenter_prereq_cloud.html">
+        パブリッククラウドの前提条件
+      </a></li></ul></li><li class="subfolders "><a href="/ja-jp/netapp-solutions/ent-apps-db/hybrid_dbops_snapcenter_getting_started.html">
+        <div class="na-navbar-padding"> 概要の確認</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ent-apps-db/hybrid_dbops_snapcenter_getting_started_onprem.html">
+        オンプレミスでの作業の開始
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ent-apps-db/hybrid_dbops_snapcenter_getting_started_aws.html">
+        AWS パブリッククラウドの導入
+      </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ent-apps-db/hybrid_dbops_snapcenter_devtest.html">
+        クラウドへの開発 / テストバースト対応ワークフロー
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ent-apps-db/hybrid_dbops_snapcenter_dr.html">
+        ディザスタリカバリワークフロー
+      </a></li></ul></li></ul></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> データ移行とデータ保護</div>
+      </a>
+      <ul><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> データ移行</div>
+      </a>
+      <ul><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> NetApp XCP のベストプラクティスガイドライン</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/xcp/xcp-bp-introduction.html">
+        はじめに
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/xcp/xcp-bp-netapp-xcp-overview.html">
+        NetApp XCP
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/xcp/xcp-bp-migration-workflow-overview.html">
+        データ移行ワークフロー
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/xcp/xcp-bp-file-analytics.html">
+        ファイル分析
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/xcp/xcp-bp-deployment-steps.html">
+        導入手順
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/xcp/xcp-bp-sizing-guidelines-overview.html">
+        サイジングガイドライン
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/xcp/xcp-bp-performance-tuning.html">
+        パフォーマンスの調整
+      </a></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> お客様のシナリオ</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/xcp/xcp-bp-customer-scenarios-overview.html">
+        概要
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/xcp/xcp-bp-data-lake-to-ontap-nfs.html">
+        データレイクから ONTAP NFS へ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/xcp/xcp-bp-high-performance-computing-to-ontap-nfs.html">
+        ONTAP NFS へのハイパフォーマンスコンピューティング
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/xcp/xcp-bp-using-the-xcp-data-mover-to-migrate-millions-of-small-files-to-flexible-storage.html">
+        XCP Data Mover を使用して、数百万個の小規模ファイルを柔軟なストレージに移行する
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/xcp/xcp-bp-using-the-xcp-data-mover-to-migrate-large-files.html">
+        XCP Data Mover を使用して大容量ファイルを移行する
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/xcp/xcp-bp-duplicate-files.html">
+        ファイルを複製します
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/xcp/xcp-bp-specific-date-based-scan-and-copy-of-data.html">
+        データの特定の日付ベースのスキャンおよびコピー
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/xcp/xcp-bp-creating-a-csv-file-from-smb-cifs-share.html">
+        SMB / CIFS 共有からの CSV ファイルの作成
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/xcp/xcp-bp-data-migration-from-7-mode-to-ontap.html">
+        7-Mode から ONTAP へのデータマイグレーション
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/xcp/xcp-bp-cifs-data-migration-with-acls-from-a-source-storage-box-to-ontap.html">
+        ACL を使用した、ソースストレージボックスから ONTAP への CIFS データの移行
+      </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/xcp/xcp-bp-best-practice-guidelines-and-recommendations.html">
+        ベストプラクティスのガイドラインと推奨事項
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/xcp/xcp-bp-troubleshooting.html">
+        トラブルシューティング
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/xcp/xcp-bp-where-to-find-additional-information.html">
+        追加情報の参照先
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/xcp/xcp-bp-version-history.html">
+        バージョン履歴
+      </a></li></ul></li></ul></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> データ保護</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/pdf.html?item=/media/17042-tr4320pdf.pdf">
+        NetApp E シリーズおよび Commvault Data Platform V11
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/pdf.html?item=/media/17159-tr4471pdf.pdf">
+        を使用した E シリーズおよび EF シリーズリファレンスアーキテクチャおよびストレージのベストプラクティス Veeam Backup Replication 9.5 のリリース
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/pdf.html?item=/media/16433-tr-4704pdf.pdf">
+        NetApp E シリーズストレージを使用した Veritas NetBackup の導入
+      </a></li></ul></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> セキュリティ</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="https://www.netapp.com/us/media/nva-1143.pdf">
+        HyTrust を使用したマルチテナントインフラストラクチャ向けの NIST セキュリティ制御
+      </a></li></ul></li></ul></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> 解決策の自動化</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/automation/automation_introduction.html">
+        はじめに
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://netapp.io/2018/10/08/getting-started-with-netapp-and-ansible-install-ansible/">
+        NetApp 解決策の自動化と Ansible での作業を開始する方法について説明します
+      </a></li><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> Ansible コントロールノードをセットアップ（ CLI ベースの導入向け）</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/automation/automation_rhel_centos_setup.html">
+        RHEL / CentOS マシンの場合
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/automation/automation_ubuntu_debian_setup.html">
+        Ubuntu / Debian マシンの場合
+      </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/automation/setup_awx.html">
+        AWX/Ansible タワーをセットアップします （ AWX/ タワーベースの導入の場合）
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/automation/authentication_tokens.html">
+        CVO の導入と Connector の導入の前提条件を収集
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://github.com/NetAppDocs/netapp-solutions/issues/new?body=[Request%20Automation]%0d%0a%0d%0aSolution%20Name:%20%0d%0aRequest%20Title:%20%0d%0aDescription:%0d%0aSuggestions:&title=Request%20Automation%20-%20<request_title>">
+        自動化を申請
+      </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="https://docs.netapp.com/us-en/flexpod/">
+        FlexPod ソリューション
+      </a></li><li class=" "><a class="na-navbar-padding" href="https://docs.netapp.com/us-en/hci-solutions/">
+        レガシー NetApp HCI ソリューション
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/change-log-display.html">
+        変更ログ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/about.html">
+        ネットアップのソリューションについて
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/reference_legal_notices.html">
+        法的通知
+      </a></li></ul>
+</div>
+<!-- this highlights the active parent class in the navgoco sidebar. this is critical so that the parent expands when you're viewing a page. This must appear below the sidebar code above. Otherwise, if placed inside customscripts.js, the script runs before the sidebar code runs and the class never gets inserted.-->
+<script>$("li.active").parents('li').toggleClass("active");</script>
+
+  </div>
+  
+
+  <div class="ie-content-pane n-doc__component-detail-content n-doc__component-detail-content--show-code">
+    <!-- Begin of page container -->
+    <article class="page-content">
+      <div class="ie-utility">
+  <div class="ie-menu">
+    <div class="n-breadcrumb">
+      <ul class="n-breadcrumb__list">
+        <li class="n-breadcrumb__list-item">
+          <a href="https://www.netapp.com">ホーム</a>
+        </li>
+        <li class="n-breadcrumb__list-item">
+          <a href="https://docs.netapp.com">ドキュメント</a>
+        </li>
+        
+
+        <li class="n-breadcrumb__list-item">
+          <a href="/ja-jp/netapp-solutions/">NetApp&nbsp;Solutions</a>
+        </li>
+        <li class="n-breadcrumb__list-item">
+          Jarvis の展開
+        </li>
+      </ul>
+    </div>
+    <div style="clear: both"></div><!-- Main needs to have height -->
+  </div>
+</div>
+
+      <div class="ie-nmt-disclaimer">
+  <span>
+    <div class="ie-nmt-disclaimer-container">
+      <div class="ie-nmt-disclaimer-icon">
+        <svg class="luci-icon" aria-hidden="true">
+          <use xlink:href="/ja-jp/netapp-solutions/common/svg/sprite.svg#circle-info">
+        </svg>
+      </div>
+      <div class="ie-nmt-disclaimer-content">
+        <span> 日本語は機械翻訳による参考訳です。内容に矛盾や不一致があった場合には、英語の内容が優先されます。 </span>
+      </div>
+      <div style="clear:both;"></div>
+    </div>
+  </span>
+</div><div class="n-doc__component-detail-heading-wrap">
+  <h1 class="n-doc__component-detail-heading">Jarvis の展開</h1>
+</div>
+
+
+<p class="page-details">
+  
+    
+    <time datetime="2021-08-03 00:29:09 +0000">08/03/2021</time>
+    
+  
+
+<span>寄稿者
+  <a target="_blank" href="https://github.com/kevin-hoke">
+    <img  class="avatar avatar-small"
+          alt="kevin-hoke"
+          width="20" height="20"
+          src="https://avatars.githubusercontent.com/u/55808219?v=4"
+          style="border-radius: 50%;"/>
+  </a>
+  
+</span>
+
+
+</p>
+
+
+<div class="paragraph lead">
+<p>にサインアップできます <a href="https://developer.nvidia.com/nvidia-jarvis-early-access" target="_blank" rel="noopener">"Jarvis Early Access プログラム"</a> NVIDIA GPU Cloud （ NGC ）のジャービスコンテナにアクセスするため。NVIDIA から資格情報を受け取った後、以下の手順を使用して Jarvis を展開できます。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>NGC へのサインオン</p>
+</li>
+<li>
+<p>NGC に組織を設定します :'ea -2- ジャービス '.</p>
+</li>
+<li>
+<p>Jarvis EA v0.2 資産の検索 : Jarvis コンテナは「プライベートレジストリ」＞「組織コンテナ」にあります。</p>
+</li>
+<li>
+<p>「 Jarvis 」を選択します。「 Model Scripts 」に移動し、「 Jarvis Quick Start 」をクリックします</p>
+</li>
+<li>
+<p>すべてのアセットが正しく動作していることを確認します。</p>
+</li>
+<li>
+<p>独自のアプリケーションを構築するためのドキュメントを検索します。 PDF は「 M odel Scripts 」 &gt; 「 Jarvis Documentation 」 &gt; 「ファイルブラウザ」にあります。</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a href="cainvidia_customize_states_and_flows_for_retail_use_case.html">"次のステップ：リテールのユースケースのステートとフローをカスタマイズします"</a></p>
+</div>
+
+    </article>
+    <!-- Page Container -->
+  </div>
+
+  
+  <!-- Start Page Toolbar -->
+  <div class="page-nav-toolbar">
+    <div id="version-dropdown"></div>
+    <div class="page-nav-contribute"  >
+      <a target="_blank" href="https://github.com/NetAppDocs/netapp-solutions/issues/new?body=Page%3A%20[Jarvis の展開](https://docs.netapp.com/ja-jp/netapp-solutions/ai/cainvidia_jarvis_deployment.html)" class="page-nav-contribute-link" role="button"><img src="/ja-jp/netapp-solutions/images/discuss-sm.svg" class="github-icon" />ドキュメントの変更をリクエスト</a>
+      <a target="_blank" href="https://github.com/NetAppDocs/netapp-solutions/blob/main/ai/cainvidia_jarvis_deployment.adoc" class="page-nav-contribute-link" role="button"><img src="/ja-jp/netapp-solutions/images/edit-sm.svg" class="github-icon" />GitHub で編集</a>
+      <a target="_blank" href="https://docs.netapp.com/us-en/contribute/" class="page-nav-contribute-link"  ><img src="/ja-jp/netapp-solutions/images/article-sm.svg" class="github-icon" />寄稿者向けガイド</a>
+    </div>
+    <div class="page-nav-container">
+      <nav class="page-nav-fixed">
+        <div class="page-nav-title">このページ</div>
+        <div class="page-nav-links">
+          <ul class="page-nav-inner" id="page-menu"></ul>
+        </div>
+      </nav>
+    </div>
+  </div>
+  
+  <div style="clear: both"></div><!-- Main needs to have height -->
+</div>
+
+        </main>
+
+        <footer class="n-footer">
+  <div class="n-footer__bottom">
+    <div class="n-container">
+      <div class="n-footer__bottom-left">
+
+        <div class="n-footer__copyright">
+          <ul class="n-footer__copyright-list">
+            <li class="n-footer__copyright-link">
+            <a href="https://www.netapp.com/us/legal/copyright.aspx">© 2022 NetApp, Inc.</a>
+            </li>
+
+</ul>
+</div>
+<div class="n-footer__social-links">
+<ul class="n-footer__social-link-list">
+<li class="n-footer__social-link-list-item">
+<a class="n-footer__social-link" data-ntap-social="follow-blog" href="https://blog.netapp.com" target="_blank" title="blog" alt="blog">
+<span class="n-footer__social-link-text">blog</span>
+<svg class="n-icon-blog n-footer__social-link-icon" aria-labelledby="title">
+  <title>blog@</title>
+  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/ja-jp/netapp-solutions/common/svg/sprite.svg#blog"></use>
+</svg>
+
+</a>
+</li>
+<li class="n-footer__social-link-list-item">
+<a class="n-footer__social-link" data-ntap-social="follow-community" href="https://community.netapp.com/" target="_blank" title="community" alt="community">
+<span class="n-footer__social-link-text">community</span>
+<svg class="n-icon-community n-footer__social-link-icon" aria-labelledby="title">
+<title>community@</title>
+<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/ja-jp/netapp-solutions/common/svg/sprite.svg#comments"></use>
+</svg>
+
+</a>
+</li>
+<li class="n-footer__social-link-list-item">
+<a class="n-footer__social-link" data-ntap-social="follow-twitter" href="https://twitter.com/netapp" target="_blank" title="twitter" alt="twitter">
+<span class="n-footer__social-link-text">twitter</span>
+<svg class="n-icon-twitter n-footer__social-link-icon" aria-labelledby="title">
+<title>twitter@</title>
+<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/ja-jp/netapp-solutions/common/svg/sprite.svg#twitter"></use>
+</svg>
+
+</a>
+</li>
+<li class="n-footer__social-link-list-item">
+<a class="n-footer__social-link" data-ntap-social="follow-facebook" href="https://www.facebook.com/NetApp" target="_blank" title="facebook" alt="facebook">
+<span class="n-footer__social-link-text">facebook</span>
+<svg class="n-icon-facebook n-footer__social-link-icon" aria-labelledby="title">
+<title>facebook@</title>
+<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/ja-jp/netapp-solutions/common/svg/sprite.svg#facebook"></use>
+</svg>
+
+</a>
+</li>
+<li class="n-footer__social-link-list-item">
+<a class="n-footer__social-link" data-ntap-social="follow-linkedin" href="https://www.linkedin.com/company/netapp" target="_blank" title="linkedin" alt="linkedin">
+<span class="n-footer__social-link-text">linkedin</span>
+<svg class="n-icon-linkedin n-footer__social-link-icon" aria-labelledby="title">
+<title>linkedin@</title>
+<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/ja-jp/netapp-solutions/common/svg/sprite.svg#linkedin"></use>
+</svg>
+
+</a>
+</li>
+<li class="n-footer__social-link-list-item">
+<a class="n-footer__social-link" data-ntap-social="follow-youtube" href="https://www.youtube.com/user/NetAppTV" target="_blank" title="youtube" alt="youtube">
+<span class="n-footer__social-link-text">youtube</span>
+<svg class="n-icon-youtube n-footer__social-link-icon" aria-labelledby="title">
+<title>youtube@</title>
+<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/ja-jp/netapp-solutions/common/svg/sprite.svg#youtube"></use>
+</svg>
+
+</a>
+</li>
+<li class="n-footer__social-link-list-item">
+<a class="n-footer__social-link" data-ntap-social="follow-slideshare" href="https://www.slideshare.net/NetApp" target="_blank" title="slideshare" alt="slideshare">
+<span class="n-footer__social-link-text">slideshare</span>
+<svg class="n-icon-slideshare n-footer__social-link-icon" aria-labelledby="title">
+<title>slideshare@</title>
+<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/ja-jp/netapp-solutions/common/svg/sprite.svg#slideshare"></use>
+</svg>
+
+</a>
+</li>
+</ul>
+</div>
+
+</div>
+<div class="n-footer__bottom-right">
+  <p class="n-footer__fine-print">Web サイトについてのフィードバックを<a target="_self" href="javascript:netapp_mailto()" class="n-footer__copyright">お寄せください</a>
+  <a href="https://docs.netapp.com/ja-jp/announcements/" class="n-footer__copyright">お知らせ</a>
+  </p>
+</div>
+</div>
+</div>
+</footer>
+
+      </div>
+
+      <!-- Elasticsearch JS -->
+      <script type="text/javascript" src='/ja-jp/netapp-solutions/js/bundle.js'></script>
+
+      <!-- Syntax Highlighting -->
+      <script type="text/javascript" src='/ja-jp/netapp-solutions/js/prism.js'></script>
+      <script type="text/javascript" src='/ja-jp/netapp-solutions/js/prism-curl.js'></script>
+    </div>
+    <script>
+      document.body.offsetWidth=1903;
+      cookieLaw = {}
+      cookieLaw.euCountry = "US";
+      cookieLaw.invoke = function(){return false;}
+    </script>
+    <script src='/ja-jp/netapp-solutions/js/www-ntap.js'></script>
+    <script src='/ja-jp/netapp-solutions/js/tabbed-blocks.js'></script>
+  </body>
+
+  
+</html>
