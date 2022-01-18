@@ -17,218 +17,113 @@ summary:
 |===
 
 
-| ホスト設定 
+| ホスト設定 | ネットアップが推奨する値 
 
 
-| ネットアップが推奨する値 
+| * ESXi の高度な設定 * |  
 
 
-| ESXi の高度な設定 
+| VMFS3.HardwareAcceleratedLocking | そのままにします（ VMware のデフォルトは 1 ）。 
 
 
-|  
+| VMFS3.EnableBlockDelete の 2 つのオプションがあります | そのままにします（ VMware のデフォルトは 0 ですが、 VMFS6 では必要ありません）。詳細については、 VMware の技術情報アーティクルを参照してください link:https://kb.vmware.com/selfservice/microsites/search.do?language=en_US&cmd=displayKC&externalId=2007427["2007427"^]。 
 
 
-| VMFS3.HardwareAcceleratedLocking 
+| * NFS 設定 * |  
 
 
-| そのままにします（ VMware のデフォルトは 1 ）。 
+| Net.TcpipHeapSize の場合 | vSphere 6.0 以降： 32 に設定他のすべての NFS 設定の場合は、 30 に設定されます。 
 
 
-| VMFS3.EnableBlockDelete の 2 つのオプションがあります 
+| Net.TcpipHeapMax | vSphere 6.0 以降では、 1536 に設定します。 
 
 
-| そのままにします（ VMware のデフォルトは 0 ですが、 VMFS6 では必要ありません）。詳細については、 VMware の技術情報アーティクルを参照してください。 
+| NFS.MaxVolumes の場合 | vSphere 6.0 以降では、 256 に設定されます。他のすべての NFS 構成では、 64 に設定されます。 
 
 
-| NFS 設定 
+| NFS41.MaxVolumes の場合 | vSphere 6.0 以降では、 256 に設定されます。 
 
 
-|  
+| NFS.MaxQueueDepth | vSphere 6.0 以降では、 128 に設定されます。 
 
 
-| Net.TcpipHeapSize の場合 
+| NFS.HeartbeatMaxFailures の略 | すべての NFS 設定について、 10 に設定されます。 
 
 
-| vSphere 6.0 以降： 32 に設定他のすべての NFS 設定の場合は、 30 に設定されます。 
+| nfs.HeartbeatFrequency | すべての NFS 設定について、 12 に設定されます。 
 
 
-| Net.TcpipHeapMax 
+| nfs.HeartbeatTimeout | すべての NFS 設定について、 5 に設定されます。 
 
 
-| vSphere 6.0 以降では、 1536 に設定します。 
+| SunRPC.MaxConnPerIP | vSphere 7.0 以降では 128 に設定されます。 
 
 
-| NFS.MaxVolumes の場合 
+| * FC / FCoE 設定 * |  
 
 
-| vSphere 6.0 以降では、 256 に設定されます。他のすべての NFS 構成では、 64 に設定されます。 
+| パス選択ポリシー | FC パスの ALUA を使用する場合は、 RR （ラウンドロビン）に設定されます。それ以外の構成では、すべて FIXED に設定されます。この値を RR に設定すると、最適化されたすべてのアクティブなパスで負荷を分散できます。FIXED は、 ALUA に対応していない従来の構成用の値で、プロキシ I/O を防止できますつまり、 Data ONTAP 7-Mode を実行する環境でハイアベイラビリティ（ HA ）ペアの他方のノードに I/O が送られないようにすることができます。 
 
 
-| NFS41.MaxVolumes の場合 
+| Disk.QFullSampleSize | すべての構成で 32 に設定されます。この値を設定すると、 I/O エラーの防止に役立ちます。 
 
 
-| vSphere 6.0 以降では、 256 に設定されます。 
+| Disk.qFullThreshold | すべての構成で 8 に設定します。この値を設定すると、 I/O エラーの防止に役立ちます。 
 
 
-| NFS.MaxQueueDepth 
+| Emulex FC HBA タイムアウト | デフォルト値を使用します。 
 
 
-| vSphere 6.0 以降では、 128 に設定されます。 
+| QLogic FC HBA タイムアウト | デフォルト値を使用します。 
 
 
-| NFS.HeartbeatMaxFailures の略 
+| * iSCSI 設定 * |  
 
 
-| すべての NFS 設定について、 10 に設定されます。 
+| パス選択ポリシー | すべての iSCSI パスで RR （ラウンドロビン）に設定されます。この値を RR に設定すると、最適化されたすべてのアクティブなパスで負荷を分散できます。 
 
 
-| nfs.HeartbeatFrequency 
+| Disk.QFullSampleSize | すべての構成で 32 に設定されます。この値を設定すると、 I/O エラーの防止に役立ちます。 
 
 
-| すべての NFS 設定について、 12 に設定されます。 
-
-
-| nfs.HeartbeatTimeout 
-
-
-| すべての NFS 設定について、 5 に設定されます。 
-
-
-| SunRPC.MaxConnPerIP 
-
-
-| vSphere 7.0 以降では 128 に設定されます。 
-
-
-| FC / FCoE 設定 
-
-
-|  
-
-
-| パス選択ポリシー 
-
-
-| FC パスの ALUA を使用する場合は、 RR （ラウンドロビン）に設定されます。それ以外の構成では、すべて FIXED に設定されます。この値を RR に設定すると、最適化されたすべてのアクティブなパスで負荷を分散できます。FIXED は、 ALUA に対応していない従来の構成用の値で、プロキシ I/O を防止できますつまり、 Data ONTAP 7-Mode を実行する環境でハイアベイラビリティ（ HA ）ペアの他方のノードに I/O が送られないようにすることができます。 
-
-
-| Disk.QFullSampleSize 
-
-
-| すべての構成で 32 に設定されます。この値を設定すると、 I/O エラーの防止に役立ちます。 
-
-
-| Disk.qFullThreshold 
-
-
-| すべての構成で 8 に設定します。この値を設定すると、 I/O エラーの防止に役立ちます。 
-
-
-| Emulex FC HBA タイムアウト 
-
-
-| デフォルト値を使用します。 
-
-
-| QLogic FC HBA タイムアウト 
-
-
-| デフォルト値を使用します。 
-
-
-| iSCSI 設定 
-
-
-|  
-
-
-| パス選択ポリシー 
-
-
-| すべての iSCSI パスで RR （ラウンドロビン）に設定されます。この値を RR に設定すると、最適化されたすべてのアクティブなパスで負荷を分散できます。 
-
-
-| Disk.QFullSampleSize 
-
-
-| すべての構成で 32 に設定されます。この値を設定すると、 I/O エラーの防止に役立ちます。 
-
-
-| Disk.qFullThreshold 
-
-
-| すべての構成で 8 に設定します。この値を設定すると、 I/O エラーの防止に役立ちます。 
+| Disk.qFullThreshold | すべての構成で 8 に設定します。この値を設定すると、 I/O エラーの防止に役立ちます。 
 |===
 ONTAP ツールでは、 ONTAP FlexVol および LUN の作成時に特定のデフォルト設定も指定されます。
 
 |===
 
 
-| ONTAP ツール 
+| ONTAP ツール | デフォルト設定です 
 
 
-| デフォルト設定です 
+| Snapshot リザーブ（ -percent-snapshot-space ） | 0 
 
 
-| Snapshot リザーブ（ -percent-snapshot-space ） 
+| フラクショナルリザーブ（ -fractional-reserve ） | 0 
 
 
-| 0 
+| アクセス時間の更新（ -atime-update ） | いいえ 
 
 
-| フラクショナルリザーブ（ -fractional-reserve ） 
+| 最小限の先読み（ -min-readahead ） | いいえ 
 
 
-| 0 
+| スケジュールされた Snapshot コピー | なし 
 
 
-| アクセス時間の更新（ -atime-update ） 
+| ストレージ効率 | 有効 
 
 
-| いいえ 
+| ボリュームギャランティ | なし（シンプロビジョニング） 
 
 
-| 最小限の先読み（ -min-readahead ） 
+| ボリュームのオートサイズ | grow_shrink 
 
 
-| いいえ 
+| LUN のスペースリザベーション | 無効 
 
 
-| スケジュールされた Snapshot コピー 
-
-
-| なし 
-
-
-| ストレージ効率 
-
-
-| 有効 
-
-
-| ボリュームギャランティ 
-
-
-| なし（シンプロビジョニング） 
-
-
-| ボリュームのオートサイズ 
-
-
-| grow_shrink 
-
-
-| LUN のスペースリザベーション 
-
-
-| 無効 
-
-
-| LUN スペースの割り当て 
-
-
-| 有効 
+| LUN スペースの割り当て | 有効 
 |===
 
 

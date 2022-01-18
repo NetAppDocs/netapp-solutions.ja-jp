@@ -1887,12 +1887,9 @@
   <block id="0416d04b345b434b120840c30ddaf0a1" category="paragraph">ネットアップでは、 ONTAP を使用する際に適切に動作する ESXi ホストのマルチパスと HBA タイムアウトの設定を、テスト結果に基づいて作成しました。これらは、 VMware vSphere 用の ONTAP ツールを使用して簡単に設定できます。サマリダッシュボードで、ホストシステムポートレットの設定の編集をクリックするか、 vCenter でホストを右クリックして、 ONTAP ツール &gt; 推奨値の設定を選択します。9.8 リリースで現在推奨されているホスト設定は次のとおりです。</block>
   <block id="dec4361376291bf7e7976c204f3a6cc8" category="cell">ホスト設定</block>
   <block id="024c7088f8cb994f40e5d60b87c10cbb" category="cell">ネットアップが推奨する値</block>
-  <block id="cc2060f93ac4b290d547f621584371d4" category="cell">ESXi の高度な設定</block>
   <block id="73663d0d00956f0632e4ae75d811d53f" category="cell">VMFS3.HardwareAcceleratedLocking</block>
   <block id="2eabcf9ece81cd6f8095d869d0ecfdb5" category="cell">そのままにします（ VMware のデフォルトは 1 ）。</block>
   <block id="1b50110aedae4d8d2043a4eb9beb20af" category="cell">VMFS3.EnableBlockDelete の 2 つのオプションがあります</block>
-  <block id="0ad18436fcb2157ada78660d215e7796" category="cell">そのままにします（ VMware のデフォルトは 0 ですが、 VMFS6 では必要ありません）。詳細については、 VMware の技術情報アーティクルを参照してください。</block>
-  <block id="7925a52b4ff8642c857aab6023d76d90" category="cell">NFS 設定</block>
   <block id="c3b49a515dd0046685e06092642aa139" category="cell">Net.TcpipHeapSize の場合</block>
   <block id="abcf68baf479cae32e490eb770477d84" category="cell">vSphere 6.0 以降： 32 に設定他のすべての NFS 設定の場合は、 30 に設定されます。</block>
   <block id="504e96cc79e7efe30a8271cea152d9d1" category="cell">Net.TcpipHeapMax</block>
@@ -1911,7 +1908,6 @@
   <block id="45aa5481fa55802a29a96aefd2f5dab1" category="cell">すべての NFS 設定について、 5 に設定されます。</block>
   <block id="54a08b15243d9078d3b5a47f8242da6f" category="cell">SunRPC.MaxConnPerIP</block>
   <block id="9a9ccbecb3f315797ff8e709d85a0e18" category="cell">vSphere 7.0 以降では 128 に設定されます。</block>
-  <block id="e19159e292541f9e19415475bfdf8f38" category="cell">FC / FCoE 設定</block>
   <block id="2e556ad678160413b32dcca55c7d1f5f" category="cell">パス選択ポリシー</block>
   <block id="1e304108bae216d7b24d43f9bc868298" category="cell">FC パスの ALUA を使用する場合は、 RR （ラウンドロビン）に設定されます。それ以外の構成では、すべて FIXED に設定されます。この値を RR に設定すると、最適化されたすべてのアクティブなパスで負荷を分散できます。FIXED は、 ALUA に対応していない従来の構成用の値で、プロキシ I/O を防止できますつまり、 Data ONTAP 7-Mode を実行する環境でハイアベイラビリティ（ HA ）ペアの他方のノードに I/O が送られないようにすることができます。</block>
   <block id="117704664d6cada78ac3107380f63d23" category="cell">Disk.QFullSampleSize</block>
@@ -1921,7 +1917,6 @@
   <block id="19c08de7404551288e1274186e039ef4" category="cell">Emulex FC HBA タイムアウト</block>
   <block id="b4dbfc2d52627e923cbb563a31ff756d" category="cell">デフォルト値を使用します。</block>
   <block id="d46cddda4da7ec11f17472d11df95b68" category="cell">QLogic FC HBA タイムアウト</block>
-  <block id="7ecffb067b82aefb73bed04aea9fa562" category="cell">iSCSI 設定</block>
   <block id="d7e64409eb99602fc3b57a9f0b9287d6" category="cell">すべての iSCSI パスで RR （ラウンドロビン）に設定されます。この値を RR に設定すると、最適化されたすべてのアクティブなパスで負荷を分散できます。</block>
   <block id="fb55ee99c04280ac638757869929785d" category="paragraph">ONTAP ツールでは、 ONTAP FlexVol および LUN の作成時に特定のデフォルト設定も指定されます。</block>
   <block id="b97847dc22c9e1f02417ab38785b34e6" category="cell">ONTAP ツール</block>
@@ -9490,4 +9485,10 @@
 <block ref="7fb3f61cbe4dcbff12c3d3e4fb2e9565" category="inline-link-macro-rx"></block></block>
   <block id="bf3f0fd9ec5faf81793c3abc5e3b9127" category="admonition">この環境ゲスト接続ストレージのみ。</block>
   <block id="8ad188089680179dea816084001d7bf0" category="sidebar">AI と分析のワークフローに対応した E シリーズと BeeGFS を使用したデータ移動</block>
+  <block id="af4c57809e604bab0cdf9a5ac5766ac8" category="cell">* ESXi の高度な設定 *</block>
+  <block id="0fef419d5842ff81bf9c9046c637822c" category="inline-link-macro">2007427</block>
+  <block id="f812302694bd63641124f6012aebac60" category="cell">そのままにします（ VMware のデフォルトは 0 ですが、 VMFS6 では必要ありません）。詳細については、 VMware の技術情報アーティクルを参照してください <block ref="25cd71618ac903bfc347baf53ab838b7" category="inline-link-macro-rx"></block>。</block>
+  <block id="571cc1d48c6d1ff3cf7e3a54cb035753" category="cell">* NFS 設定 *</block>
+  <block id="c0b3fd5512c2093847f753f398290f30" category="cell">* FC / FCoE 設定 *</block>
+  <block id="19b5aaf3e2cb86809996ca63a2a416b0" category="cell">* iSCSI 設定 *</block>
 </blocks>
