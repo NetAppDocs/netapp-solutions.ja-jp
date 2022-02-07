@@ -4091,7 +4091,7 @@
 <p class="page-details">
   
     
-    <time datetime="2022-02-07 20:05:52 +0000">02/07/2022</time>
+    <time datetime="2022-02-07 22:15:39 +0000">02/07/2022</time>
     
   
 
@@ -4119,9 +4119,6 @@
 <ol class="arabic">
 <li>
 <p>いずれかのサーバに Linux 用 Spectrum Scale Data Access をダウンロードしてインストールします。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 Spectrum_Scale_Data_Access-5.0.3.1-x86_64-Linux-install_folder]# ls
@@ -4134,13 +4131,9 @@ manifest
 …</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>すべてのノードに前提条件パッケージ（シェフとカーネルヘッダーを含む）をインストールします。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 5.0.3.1]# for i in 51 53 136 138 140  ; do ssh 10.63.150.$i "hostname; rpm -ivh  /gpfs_install/chef* "; done
@@ -4210,13 +4203,9 @@ kernel-headers-3.10.0-862.11.6.el7    ########################################
 [root@mastr-51 installer]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>すべてのノードで SELinux を無効にする。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 5.0.3.1]# for i in 51 53 136 138 140  ; do ssh 10.63.150.$i "hostname; sudo setenforce 0"; done
@@ -4233,13 +4222,9 @@ setenforce: SELinux is disabled
 [root@mastr-51 5.0.3.1]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>インストールノードをセットアップします。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 installer]# ./spectrumscale setup -s 10.63.150.51
@@ -4254,13 +4239,9 @@ setenforce: SELinux is disabled
 [root@mastr-51 installer]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>管理ノードと GPFS ノードをクラスタ定義ファイルに追加します。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 installer]# ./spectrumscale node add mastr-51 -a
@@ -4271,13 +4252,9 @@ setenforce: SELinux is disabled
 [root@mastr-51 installer]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>マネージャノードと GPFS ノードを追加します。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 installer]# ./spectrumscale node add mastr-53 -m
@@ -4286,13 +4263,9 @@ setenforce: SELinux is disabled
 [root@mastr-51 installer]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>クォーラムノードと GPFS ノードを追加します。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 installer]# ./spectrumscale node add workr-136 -q
@@ -4301,13 +4274,9 @@ setenforce: SELinux is disabled
 [root@mastr-51 installer]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>NSD サーバと GPFS ノードを追加します。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 installer]# ./spectrumscale node add workr-138 -n
@@ -4318,13 +4287,9 @@ setenforce: SELinux is disabled
 [root@mastr-51 installer]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>GUI 、管理ノード、および GPFS ノードを追加します。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 installer]# ./spectrumscale node add workr-136 -g
@@ -4336,13 +4301,9 @@ setenforce: SELinux is disabled
 [root@mastr-51 installer]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>別の GUI サーバを追加します。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 installer]# ./spectrumscale node add mastr-53 -g
@@ -4350,13 +4311,9 @@ setenforce: SELinux is disabled
 [root@mastr-51 installer]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>別の GPFS ノードを追加します。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 installer]# ./spectrumscale node add workr-140
@@ -4364,13 +4321,9 @@ setenforce: SELinux is disabled
 [root@mastr-51 installer]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>すべてのノードを検証およびリストします。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 installer]# ./spectrumscale node list
@@ -4402,13 +4355,9 @@ setenforce: SELinux is disabled
 [root@mastr-51 installer]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>クラスタ定義ファイルでクラスタ名を指定します。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 installer]# ./spectrumscale config gpfs -c mastr-51.netapp.com
@@ -4416,13 +4365,9 @@ setenforce: SELinux is disabled
 [root@mastr-51 installer]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>プロファイルを指定します。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 installer]# ./spectrumscale config gpfs -p default
@@ -4431,13 +4376,9 @@ setenforce: SELinux is disabled
 Profiles options: default [gpfsProtocolDefaults], random I/O [gpfsProtocolsRandomIO], sequential I/O [gpfsProtocolDefaults], random I/O [gpfsProtocolRandomIO]</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>GPFS で使用するリモートシェルバイナリを指定します。引数には -r を使用します。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 installer]# ./spectrumscale config gpfs -r /usr/bin/ssh
@@ -4445,13 +4386,9 @@ Profiles options: default [gpfsProtocolDefaults], random I/O [gpfsProtocolsRando
 [root@mastr-51 installer]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>GPFS で使用するリモートファイルコピーバイナリを指定します。「 -rc 引数」を使用します。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 installer]# ./spectrumscale config gpfs -rc /usr/bin/scp
@@ -4459,13 +4396,9 @@ Profiles options: default [gpfsProtocolDefaults], random I/O [gpfsProtocolsRando
 [root@mastr-51 installer]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>すべての GPFS ノードに設定するポート範囲を指定します。「 -e 引数」を使用します。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 installer]# ./spectrumscale config gpfs -e 60000-65000
@@ -4473,13 +4406,9 @@ Profiles options: default [gpfsProtocolDefaults], random I/O [gpfsProtocolsRando
 [root@mastr-51 installer]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>GPFS 構成設定を表示します。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 installer]# ./spectrumscale config gpfs --list
@@ -4492,13 +4421,9 @@ Profiles options: default [gpfsProtocolDefaults], random I/O [gpfsProtocolsRando
 [root@mastr-51 installer]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>管理ノードを追加</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 installer]# ./spectrumscale node add 10.63.150.53 -a
@@ -4508,13 +4433,9 @@ Profiles options: default [gpfsProtocolDefaults], random I/O [gpfsProtocolsRando
 [root@mastr-51 installer]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>データ収集を無効にし、 IBM サポートセンターにデータパッケージをアップロードします。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 installer]# ./spectrumscale callhome disable
@@ -4523,13 +4444,9 @@ Profiles options: default [gpfsProtocolDefaults], random I/O [gpfsProtocolsRando
 [root@mastr-51 installer]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>NTP を有効にします。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 installer]# ./spectrumscale config ntp -e on
@@ -4573,13 +4490,9 @@ Sep 10 14:20:34 mastr-51.netapp.com ntpd[2965]: 0.0.0.0 c012 02 freq_set kernel 
 [root@mastr-51 installer]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>インストール前に設定を事前確認します。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 installer]# ./spectrumscale install -pr
@@ -4610,13 +4523,9 @@ Sep 10 14:20:34 mastr-51.netapp.com ntpd[2965]: 0.0.0.0 c012 02 freq_set kernel 
 [root@mastr-51 installer]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>NSD ディスクを設定します。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 cluster-test]# cat disk.1st
@@ -4633,13 +4542,9 @@ usage=dataAndMetadata
 failureGroup=1</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>NSD ディスクを作成します。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 cluster-test]# mmcrnsd -F disk.1st -v no
@@ -4650,13 +4555,9 @@ mmcrnsd: Propagating the cluster configuration data to all
 [root@mastr-51 cluster-test]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>NSD ディスクのステータスを確認します。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 cluster-test]# mmlsnsd
@@ -4669,13 +4570,9 @@ mmcrnsd: Propagating the cluster configuration data to all
 [root@mastr-51 cluster-test]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>GPFS を作成します。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 cluster-test]# mmcrfs gpfs1 -F disk.1st -B 1M -T /gpfs1
@@ -4697,13 +4594,9 @@ mmcrfs: Propagating the cluster configuration data to all
 [root@mastr-51 cluster-test]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>GPFS をマウントします。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 cluster-test]# mmmount all -a
@@ -4711,13 +4604,9 @@ Tue Oct  8 18:05:34 UTC 2019: mmmount: Mounting file systems ...
 [root@mastr-51 cluster-test]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>GPFS に必要な権限を確認して付与します。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 cluster-test]# mmlsdisk gpfs1
@@ -4736,13 +4625,9 @@ workr-138.netapp.com
 [root@mastr-51 cluster-test]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>「 dd 」コマンドを実行して、 GPFS の読み取りと書き込みを確認します。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 cluster-test]# dd if=/dev/zero of=/gpfs1/testfile bs=1024M count=5
@@ -4765,6 +4650,9 @@ total 5.0G
 [root@mastr-51 cluster-test]#</pre>
 </div>
 </div>
+</li>
+</ol>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -4777,9 +4665,6 @@ total 5.0G
 <ol class="arabic">
 <li>
 <p>GPFS を /etc/exports ファイルを使用して NFS としてエクスポートします。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 gpfs1]# cat /etc/exports
@@ -4787,13 +4672,9 @@ total 5.0G
 [root@mastr-51 gpfs1]</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>必要な NFS サーバパッケージをインストールします。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 ~]# yum install rpcbind
@@ -4837,13 +4718,9 @@ Complete!
 [root@mastr-51 ~]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>NFS サービスを開始します。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 ~]# service nfs status
@@ -4875,13 +4752,9 @@ Nov 06 16:34:50 mastr-51.netapp.com systemd[1]: Started NFS server and services.
 [root@mastr-51 ~]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>NFS クライアントを検証するために、 GPFS 内のファイルをリストします。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@mastr-51 gpfs1]# df -Th
@@ -4918,6 +4791,9 @@ drwxr-xr-x   4 root root 4.0K Nov  5 20:35 ces
 [root@mastr-51 gpfs1]#</pre>
 </div>
 </div>
+</li>
+</ol>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -4930,9 +4806,6 @@ drwxr-xr-x   4 root root 4.0K Nov  5 20:35 ces
 <ol class="arabic">
 <li>
 <p>NFS クライアントにパッケージをインストールします。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@hdp2 ~]# yum install nfs-utils rpcbind
@@ -5018,13 +4891,9 @@ Complete!
 [root@hdp2 ~]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>NFS クライアントサービスを開始します。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@hdp2 ~]# service rpcbind start
@@ -5032,13 +4901,9 @@ Redirecting to /bin/systemctl start rpcbind.service
  [root@hdp2 ~]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>NFS クライアントで NFS プロトコルを使用して GPFS をマウントします。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@hdp2 ~]# mkdir /gpfstest
@@ -5057,13 +4922,9 @@ tmpfs                                  26G     0   26G   0% /run/user/0
 [root@hdp2 ~]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>NFS マウントフォルダ内の GPFS ファイルのリストを確認します。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@hdp2 ~]# cd /gpfstest/
@@ -5078,13 +4939,9 @@ drwxr-xr-x 2 root root       4096 Nov  5 15:04 ha
 [root@hdp2 gpfstest]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>XCP を使用して、 GPFS でエクスポートされた NFS から NetApp NFS にデータを移動します。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@hdp2 linux]# ./xcp copy -parallel 20 10.63.150.51:/gpfs1 10.63.150.213:/nc_volume2/
@@ -5111,13 +4968,9 @@ Sending statistics...
 [root@hdp2 linux]#</pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>NFS クライアントで GPFS ファイルを検証します。</p>
-</li>
-</ol>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>[root@hdp2 mnt]# df -Th
@@ -5170,6 +5023,9 @@ drwxrwxrwx  21 root        root                4.0K Nov 11 12:14 .
 drwxrwxrwx   7 nobody      nobody              4.0K Nov 11 12:14 catalog
 [root@hdp2 mnt]#</pre>
 </div>
+</div>
+</li>
+</ol>
 </div>
 <div class="paragraph">
 <p><a href="bda-ai-mapr-fs-to-ontap-nfs.html">"次のページ： MapR - FS to ONTAP NFS 。"</a></p>
