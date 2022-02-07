@@ -4026,11 +4026,19 @@
 <p class="page-details">
   
     
-    <time datetime="2022-02-03 23:49:53 +0000">02/03/2022</time>
+    <time datetime="2022-02-07 18:57:59 +0000">02/07/2022</time>
     
   
 
 <span>寄稿者
+  <a target="_blank" href="https://github.com/kevin-hoke">
+    <img  class="avatar avatar-small"
+          alt="kevin-hoke"
+          width="20" height="20"
+          src="https://avatars.githubusercontent.com/u/55808219?v=4"
+          style="border-radius: 50%;"/>
+  </a>
+  
 </span>
 
 
@@ -4163,8 +4171,191 @@
 <h2 id="参照">参照</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>&lt;stdin&gt; の未解決のディレクティブ： hybrid -ccloud/vsphere_ontap _bbest_successful.adoc [lines=315..390]</p>
+<p>vSphere を使用すると、エンタープライズクラスの NFS アレイを使用して、 ESXi クラスタ内のすべてのノードへのデータストアへの同時アクセスを提供できます。データストアのセクションで説明したように、 vSphere で NFS を使用すると、使いやすさが向上し、ストレージ効率を可視化できるというメリットがあります。</p>
 </div>
+<div class="paragraph">
+<p>vSphere で ONTAP NFS を使用する際に推奨されるベストプラクティスは次のとおりです。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>ONTAP クラスタ内の各ノードの各 SVM で、 1 つの論理インターフェイス（ LIF ）を使用します。データストアごとの LIF の過去の推奨事項は不要になりました。直接アクセス（同じノード上の LIF とデータストア）は最適ですが、パフォーマンスへの影響は一般に最小（マイクロ秒）であるため、間接アクセスを考慮しないでください。</p>
+</li>
+<li>
+<p>VMware は、 VMware Infrastructure 3 以降で NFSv3 をサポートしています。vSphere 6.0 では NFSv4.1 がサポートされるようになり、 Kerberos セキュリティなどの高度な機能が使用できるようになりました。NFSv3 ではクライアント側のロックが使用され、 NFSv4.1 ではサーバ側のロックが使用されます。ONTAP ボリュームは両方のプロトコルでエクスポートできますが、 ESXi は 1 つのプロトコルでしかマウントできません。この単一プロトコルのマウントにより、他の ESXi ホストが同じデータストアを別のバージョンでマウントすることができるわけではありません。すべてのホストが同じバージョン、つまり同じロック形式を使用するように、マウント時に使用するプロトコルバージョンを指定してください。NFS のバージョンをホスト間で混在させないでください。可能であれば、ホストプロファイルを使用して準拠しているかどうかを確認します</p>
+<div class="ulist">
+<ul>
+<li>
+<p>NFSv3 と NFSv4.1 間ではデータストアが自動変換されないため、新しい NFSv4.1 データストアを作成し、 Storage vMotion を使用して新しいデータストアに VM を移行します。</p>
+</li>
+<li>
+<p>本レポートの執筆時点では、ネットアップは VMware との連携を継続して、 NFSv4.1 データストアの問題やストレージフェイルオーバーの問題を解決しています。これらの問題は、近日中に解決される予定です。</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>NFS エクスポートポリシーは、 vSphere ホストによるアクセスの制御に使用されます。複数のボリューム（データストア）で 1 つのポリシーを使用できます。NFSv3 では、 ESXi で sys （ UNIX ）セキュリティ形式が使用され、 VM を実行するためにルートマウントオプションが必要となります。ONTAP では、このオプションはスーパーユーザと呼ばれます。スーパーユーザオプションを使用する場合は、匿名ユーザ ID を指定する必要はありません。-anon` と --allow-suid に異なる値を持つエクスポートポリシールールは、 ONTAP 原因ツールで SVM の検出に関する問題が発生する可能性があることに注意してください。ポリシーの例を次に示します。</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Access Protocol ： nfs3</p>
+</li>
+<li>
+<p>クライアント一致仕様： 192.168.42.21</p>
+</li>
+<li>
+<p>RO アクセスルール： sys</p>
+</li>
+<li>
+<p>RW アクセスルール： sys</p>
+</li>
+<li>
+<p>匿名 UID ：</p>
+</li>
+<li>
+<p>superuser ： sys</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>NetApp NFS Plug-in for VMware VAAI を使用する場合、エクスポートポリシールールの作成時または変更時にプロトコルを「 nfs 」に設定する必要があります。VAAI コピーオフロードが機能するためには NFSv4 プロトコルが必要です。プロトコルを「 nfs 」に指定すると、 NFSv3 バージョンと NFSv4 バージョンの両方が自動的に組み込まれます。</p>
+</li>
+<li>
+<p>NFS データストアのボリュームは SVM のルートボリュームからジャンクションされるため、 ESXi がデータストアボリュームに移動してマウントするためにはルートボリュームへのアクセス権も必要となります。ルートボリューム、およびデータストアボリュームのジャンクションがネストされているその他のボリュームのエクスポートポリシーには、 ESXi サーバに読み取り専用アクセスを許可するルールが含まれている必要があります。VAAI プラグインを使用したルートボリュームのポリシーの例を次に示します。</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Access Protocol の略。nfs （ nfs3 と nfs4 の両方を含む）</p>
+</li>
+<li>
+<p>クライアント一致仕様。192.168.42.21</p>
+</li>
+<li>
+<p>RO アクセスルール。システム</p>
+</li>
+<li>
+<p>RW アクセスルール：なし（ルートボリュームに最適なセキュリティ）</p>
+</li>
+<li>
+<p>匿名 UID の形式です。</p>
+</li>
+<li>
+<p>スーパーユーザ：sys （ VAAI を使用するルートボリュームでも必要）</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>VMware vSphere 用の ONTAP ツール（最も重要なベストプラクティス）を使用：</p>
+<div class="ulist">
+<ul>
+<li>
+<p>VMware vSphere 用の ONTAP ツールを使用してデータストアをプロビジョニングすると、エクスポートポリシーの自動管理が簡易化されます。</p>
+</li>
+<li>
+<p>プラグインを使用して VMware クラスタ用のデータストアを作成するときは、単一の ESX サーバではなくクラスタを選択します。これにより、データストアがクラスタ内のすべてのホストに自動的にマウントされます。</p>
+</li>
+<li>
+<p>プラグインのマウント機能を使用して、既存のデータストアを新しいサーバに適用します。</p>
+</li>
+<li>
+<p>VMware vSphere 用の ONTAP ツールを使用しない場合は、すべてのサーバ、または追加のアクセス制御が必要なサーバクラスタごとに、 1 つのエクスポートポリシーを使用します。</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>ONTAP にはフレキシブルボリュームのネームスペース構造が用意されており、ジャンクションを使用してボリュームをツリーにまとめることができますが、このアプローチは vSphere には価値がありません。ストレージのネームスペース階層に関係なく、データストアのルートに各 VM 用のディレクトリが作成されます。そのため、単に SVM のルートボリュームに vSphere のボリュームのジャンクションパスをマウントすることがベストプラクティスです。これは、 VMware vSphere 用の ONTAP ツールでデータストアをプロビジョニングする方法です。ジャンクションパスがネストされていないと、ルートボリューム以外のボリュームに依存しているボリュームがないこと、またボリュームをオフラインにするか破棄するかによって意図的に他のボリュームへのパスに影響が及ぶこともありません。</p>
+</li>
+<li>
+<p>NFS データストアの NTFS パーティションのブロックサイズは 4K で十分です。次の図は、 vSphere ホストから ONTAP NFS データストアへの接続を示しています。</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./../media/vsphere_ontap_image3.png" alt="エラー：グラフィックイメージがありません"></span></p>
+</div>
+<div class="paragraph">
+<p>次の表に、 NFS のバージョンとサポートされる機能を示します。</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">vSphere の機能</th>
+<th class="tableblock halign-left valign-top">NFSv3</th>
+<th class="tableblock halign-left valign-top">NFSv4.1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">vMotion と Storage vMotion</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">はい。</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">はい。</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">高可用性</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">はい。</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">はい。</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">フォールトトレランス</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">はい。</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">はい。</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DRS</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">はい。</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">はい。</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ホストプロファイル</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">はい。</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">はい。</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Storage DRS</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">はい。</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">いいえ</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ストレージ I/O の制御</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">はい。</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">いいえ</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SRM の場合</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">はい。</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">いいえ</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">仮想ボリューム</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">はい。</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">いいえ</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ハードウェアアクセラレーション（ VAAI ）</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">はい。</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">○（ vSphere 6.5 以降、 NetApp VAAI プラグイン 1.1.2 ）</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Kerberos 認証</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">いいえ</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">○（ vSphere 6.5 以降で拡張して、 AES 、 krb5i ）</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">マルチパスのサポート</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">いいえ</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">× （ ESXi 6.5 以降ではセッショントランキングを通じてサポートされ、 ONTAP では pNFS を通じてサポートされます）</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="sect1">

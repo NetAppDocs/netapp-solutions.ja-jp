@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="ja">
   <head class="at-element-marker">
-  <title>ネットアップの Azure ネイティブデータストアオプション</title>
+  <title>ネットアップの AWS VMC 向け機能</title>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge,chrome=1">
   <meta http-equiv="language" content="en">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta property="og:title" content="ネットアップの Azure ネイティブデータストアオプション" />
+  <meta property="og:title" content="ネットアップの AWS VMC 向け機能" />
 	<meta property="og:type" content="website" />
-	<meta property="og:url" content="https://docs.netapp.com/ja-jp/netapp-solutions/ehc/azure-native.html" />
+	<meta property="og:url" content="https://docs.netapp.com/ja-jp/netapp-solutions/ehc/aws/aws-vmc.html" />
 	<meta property="og:description" content="" />
   <meta property="og:image" content="https://docs.netapp.com/ja-jp/netapp-solutions/images/logo-tophat-social.png" />
   <meta property="og:image:alt" content="NetApp Logo" />
@@ -19,7 +19,7 @@
   <meta http-equiv="nss-subtype" content="User Guide"/>
   
   <meta name="description" content="">
-  <meta name="keywords" content=" NetApp Solutions, microsoft azure, avs, azure, vmware managed cloud, enterprise, hybrid, cloud, anf, azure netapp files, ontap">
+  <meta name="keywords" content=" NetApp Solutions, hyperscalers, amazon, vmc, vmware managed cloud, enterprise, hybrid, cloud, migrate, migration, disaster recovery, dr">
   
   
 
@@ -281,13 +281,13 @@
           <ul class="n-menu__list">
             <li class="n-menu__list-column">
               <ul class="n-menu__list"><li class="n-menu__list-item n-menu__list-item--level-1">
-                  <a href="https://docs.netapp.com/ja-jp/netapp-solutions/ehc/azure-native.html" class="n-menu__header-text"><span translate="no" class="notranslate">日本語</span></a>
+                  <a href="https://docs.netapp.com/ja-jp/netapp-solutions/ehc/aws/aws-vmc.html" class="n-menu__header-text"><span translate="no" class="notranslate">日本語</span></a>
                 </li><li class="n-menu__list-item n-menu__list-item--level-1">
-                  <a href="https://docs.netapp.com/us-en/netapp-solutions/ehc/azure-native.html" class="n-menu__header-text"><span translate="no" class="notranslate">English</span></a>
+                  <a href="https://docs.netapp.com/us-en/netapp-solutions/ehc/aws/aws-vmc.html" class="n-menu__header-text"><span translate="no" class="notranslate">English</span></a>
                 </li><li class="n-menu__list-item n-menu__list-item--level-1">
-                  <a href="https://docs.netapp.com/zh-cn/netapp-solutions/ehc/azure-native.html" class="n-menu__header-text"><span translate="no" class="notranslate">简体中文</span></a>
+                  <a href="https://docs.netapp.com/zh-cn/netapp-solutions/ehc/aws/aws-vmc.html" class="n-menu__header-text"><span translate="no" class="notranslate">简体中文</span></a>
                 </li><li class="n-menu__list-item n-menu__list-item--level-1">
-                  <a href="https://docs.netapp.com/ko-kr/netapp-solutions/ehc/azure-native.html" class="n-menu__header-text"><span translate="no" class="notranslate">한국어</span></a>
+                  <a href="https://docs.netapp.com/ko-kr/netapp-solutions/ehc/aws/aws-vmc.html" class="n-menu__header-text"><span translate="no" class="notranslate">한국어</span></a>
                 </li></ul>
             </li>
           </ul>
@@ -3987,7 +3987,7 @@
           <a href="/ja-jp/netapp-solutions/">NetApp&nbsp;Solutions</a>
         </li>
         <li class="n-breadcrumb__list-item">
-          ネットアップの Azure ネイティブデータストアオプション
+          ネットアップの AWS VMC 向け機能
         </li>
       </ul>
     </div>
@@ -4010,14 +4010,14 @@
     </div>
   </span>
 </div><div class="n-doc__component-detail-heading-wrap">
-  <h1 class="n-doc__component-detail-heading">ネットアップの Azure ネイティブデータストアオプション</h1>
+  <h1 class="n-doc__component-detail-heading">ネットアップの AWS VMC 向け機能</h1>
 </div>
 
 
 <p class="page-details">
   
     
-    <time datetime="2022-02-03 23:49:53 +0000">02/03/2022</time>
+    <time datetime="2022-02-07 18:57:59 +0000">02/07/2022</time>
     
   
 
@@ -4028,11 +4028,109 @@
 </p>
 
 
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph lead">
-<p>&lt; リード &gt;</p>
+<p>ネットアップが AWS VMware Cloud （ VMC ）にもたらす機能の詳細をご確認ください。ネットアップがゲスト接続ストレージデバイスまたはネイティブデータストアとして提供している機能から、ワークフローの移行、クラウドへの拡張 / バースト対応、バックアップ / リストア、ディザスタリカバリに利用できます。</p>
 </div>
 <div class="paragraph">
-<p>&lt;content&gt; の順にクリックします</p>
+<p>次のオプションから選択して、目的のコンテンツのセクションに移動します。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#config">"ハイパースケーラ構成における VMware"</a></p>
+</li>
+<li>
+<p><a href="#datastore">"ネットアップストレージオプション"</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="aws-で-vmc-を設定しています">AWS で VMC を設定しています</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>オンプレミスと同様に、 VM と移行を作成する本番環境に適したクラウドベースの仮想化環境を計画することが重要です。</p>
+</div>
+<div class="paragraph">
+<p>オンプレミスと同様に、 VM と移行を作成する本番環境に適した VMware Cloud on AWS を計画することが重要です。</p>
+</div>
+<div class="paragraph">
+<p>このセクションでは、 AWS SDDC で VMware Cloud をセットアップおよび管理する方法と、ネットアップストレージの接続に使用できるオプションについて説明します。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<img src="/us-en/netapp-solutions/images/note.svg" alt="注記">
+</td>
+<td class="content">
+FSX ONTAP および Cloud Volumes ONTAP を AWS VMC に接続する方法としてサポートされているのは、ゲスト内ストレージだけです。
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>セットアッププロセスは、次の手順に分けることができます。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="aws/aws-setup.html#deploy">"VMware Cloud for AWS を導入して設定"</a></p>
+</li>
+<li>
+<p><a href="aws/aws-setup.html#connect">"VMware Cloud を FSX ONTAP に接続します"</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="vmc-のネットアップストレージオプション">VMC のネットアップストレージオプション</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>ネットアップのストレージは、 AWS VMC 内で、接続されているかネイティブのデータストアとして、いくつかの方法で利用できます。</p>
+</div>
+<div class="paragraph">
+<p>にアクセスしてください <a href="ehc-support-configs.html">"サポートされているネットアップストレージオプション"</a> を参照してください。</p>
+</div>
+<div class="paragraph">
+<p>AWS は、次の構成でネットアップストレージをサポートします。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>ゲスト接続ストレージ *</p>
+</li>
+<li>
+<p><a href="aws/aws-guest.html#fsx-ontap">"ゲスト接続ストレージとしての FSX ONTAP"</a></p>
+</li>
+<li>
+<p><a href="aws/aws-guest.html#cvo">"Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用"</a></p>
+</li>
+<li>
+<p>ネイティブデータストア *</p>
+</li>
+<li>
+<p><a href="https://blogs.vmware.com/cloud/2021/12/01/vmware-cloud-on-aws-going-big-reinvent2021/">"ネイティブデータストアとしての FSX ONTAP <sup>1"</sup></a></p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<img src="/us-en/netapp-solutions/images/note.svg" alt="注記">
+</td>
+<td class="content">
+1- 現在プライベートプレビュー中です
+</td>
+</tr>
+</table>
+</div>
+</div>
 </div>
 
     </article>
@@ -4044,8 +4142,8 @@
   <div class="page-nav-toolbar">
     <div id="version-dropdown"></div>
     <div class="page-nav-contribute"  >
-      <a target="_blank" href="https://github.com/NetAppDocs/netapp-solutions/issues/new?body=Page%3A%20[ネットアップの Azure ネイティブデータストアオプション](https://docs.netapp.com/ja-jp/netapp-solutions/ehc/azure-native.html)" class="page-nav-contribute-link" role="button"><img src="/ja-jp/netapp-solutions/images/discuss-sm.svg" class="github-icon" />ドキュメントの変更をリクエスト</a>
-      <a target="_blank" href="https://github.com/NetAppDocs/netapp-solutions/blob/main/ehc/azure-native.adoc" class="page-nav-contribute-link" role="button"><img src="/ja-jp/netapp-solutions/images/edit-sm.svg" class="github-icon" />GitHub で編集</a>
+      <a target="_blank" href="https://github.com/NetAppDocs/netapp-solutions/issues/new?body=Page%3A%20[ネットアップの AWS VMC 向け機能](https://docs.netapp.com/ja-jp/netapp-solutions/ehc/aws/aws-vmc.html)" class="page-nav-contribute-link" role="button"><img src="/ja-jp/netapp-solutions/images/discuss-sm.svg" class="github-icon" />ドキュメントの変更をリクエスト</a>
+      <a target="_blank" href="https://github.com/NetAppDocs/netapp-solutions/blob/main/ehc/aws/aws-vmc.adoc" class="page-nav-contribute-link" role="button"><img src="/ja-jp/netapp-solutions/images/edit-sm.svg" class="github-icon" />GitHub で編集</a>
       <a target="_blank" href="https://docs.netapp.com/us-en/contribute/" class="page-nav-contribute-link"  ><img src="/ja-jp/netapp-solutions/images/article-sm.svg" class="github-icon" />寄稿者向けガイド</a>
     </div>
     <div class="page-nav-container">

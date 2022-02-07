@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="ja">
   <head class="at-element-marker">
-  <title>AWS に仮想化環境を導入して設定</title>
+  <title>GCP のネットアップストレージオプション</title>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge,chrome=1">
   <meta http-equiv="language" content="en">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta property="og:title" content="AWS に仮想化環境を導入して設定" />
+  <meta property="og:title" content="GCP のネットアップストレージオプション" />
 	<meta property="og:type" content="website" />
-	<meta property="og:url" content="https://docs.netapp.com/ja-jp/netapp-solutions/ehc/aws-setup.html" />
+	<meta property="og:url" content="https://docs.netapp.com/ja-jp/netapp-solutions/ehc/gcp/gcp-guest.html" />
 	<meta property="og:description" content="" />
   <meta property="og:image" content="https://docs.netapp.com/ja-jp/netapp-solutions/images/logo-tophat-social.png" />
   <meta property="og:image:alt" content="NetApp Logo" />
@@ -19,7 +19,7 @@
   <meta http-equiv="nss-subtype" content="User Guide"/>
   
   <meta name="description" content="">
-  <meta name="keywords" content=" NetApp Solutions, amazon, aws, vmc, vmware managed cloud, enterprise, hybrid, cloud, config, configuration,">
+  <meta name="keywords" content=" NetApp Solutions, google cloud, gcp, gcve, enterprise, hybrid, cloud, cloud volumes ontap, cvo">
   
   
 
@@ -281,13 +281,13 @@
           <ul class="n-menu__list">
             <li class="n-menu__list-column">
               <ul class="n-menu__list"><li class="n-menu__list-item n-menu__list-item--level-1">
-                  <a href="https://docs.netapp.com/ja-jp/netapp-solutions/ehc/aws-setup.html" class="n-menu__header-text"><span translate="no" class="notranslate">日本語</span></a>
+                  <a href="https://docs.netapp.com/ja-jp/netapp-solutions/ehc/gcp/gcp-guest.html" class="n-menu__header-text"><span translate="no" class="notranslate">日本語</span></a>
                 </li><li class="n-menu__list-item n-menu__list-item--level-1">
-                  <a href="https://docs.netapp.com/us-en/netapp-solutions/ehc/aws-setup.html" class="n-menu__header-text"><span translate="no" class="notranslate">English</span></a>
+                  <a href="https://docs.netapp.com/us-en/netapp-solutions/ehc/gcp/gcp-guest.html" class="n-menu__header-text"><span translate="no" class="notranslate">English</span></a>
                 </li><li class="n-menu__list-item n-menu__list-item--level-1">
-                  <a href="https://docs.netapp.com/zh-cn/netapp-solutions/ehc/aws-setup.html" class="n-menu__header-text"><span translate="no" class="notranslate">简体中文</span></a>
+                  <a href="https://docs.netapp.com/zh-cn/netapp-solutions/ehc/gcp/gcp-guest.html" class="n-menu__header-text"><span translate="no" class="notranslate">简体中文</span></a>
                 </li><li class="n-menu__list-item n-menu__list-item--level-1">
-                  <a href="https://docs.netapp.com/ko-kr/netapp-solutions/ehc/aws-setup.html" class="n-menu__header-text"><span translate="no" class="notranslate">한국어</span></a>
+                  <a href="https://docs.netapp.com/ko-kr/netapp-solutions/ehc/gcp/gcp-guest.html" class="n-menu__header-text"><span translate="no" class="notranslate">한국어</span></a>
                 </li></ul>
             </li>
           </ul>
@@ -3987,7 +3987,7 @@
           <a href="/ja-jp/netapp-solutions/">NetApp&nbsp;Solutions</a>
         </li>
         <li class="n-breadcrumb__list-item">
-          AWS に仮想化環境を導入して設定
+          GCP のネットアップストレージオプション
         </li>
       </ul>
     </div>
@@ -4010,14 +4010,14 @@
     </div>
   </span>
 </div><div class="n-doc__component-detail-heading-wrap">
-  <h1 class="n-doc__component-detail-heading">AWS に仮想化環境を導入して設定</h1>
+  <h1 class="n-doc__component-detail-heading">GCP のネットアップストレージオプション</h1>
 </div>
 
 
 <p class="page-details">
   
     
-    <time datetime="2022-02-03 23:49:53 +0000">02/03/2022</time>
+    <time datetime="2022-02-07 18:57:59 +0000">02/07/2022</time>
     
   
 
@@ -4031,46 +4031,28 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph lead">
-<p>オンプレミスと同様に、 VM と移行を作成する本番環境に適した VMware Cloud on AWS を計画することが重要です。</p>
-</div>
-<div class="paragraph">
-<p>このセクションでは、 AWS SDDC で VMware Cloud をセットアップおよび管理する方法と、ネットアップストレージの接続に使用できるオプションについて説明します。</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<img src="/us-en/netapp-solutions/images/note.svg" alt="注記">
-</td>
-<td class="content">
-現在、 FSX ONTAP と Cloud Volumes ONTAP を AWS VMC に接続する方法としてサポートされているのは、ゲスト内ストレージだけです。
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>セットアッププロセスは、次の手順に分けることができます。</p>
+<p>Google Cloud は、次の構成でネットアップストレージをサポートします。</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="#deploy">"VMware Cloud for AWS を導入して設定"</a></p>
+<p><a href="#cvo">"Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用"</a></p>
 </li>
 <li>
-<p><a href="#connect">"VMware Cloud を FSX ONTAP に接続します"</a></p>
+<p><a href="#cvs">"Cloud Volumes Service （ CVS ）をゲスト接続ストレージとして使用できるようになりました"</a></p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="vmware-cloud-for-aws-を導入して設定">VMware Cloud for AWS を導入して設定</h2>
+<h2 id="cloud-volumes-ontap-を-google-cloud-に導入自分で導入">Cloud Volumes ONTAP を Google Cloud に導入（自分で導入）</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><a href="https://www.vmware.com/products/vmc-on-aws.html">"AWS 上の VMware Cloud"</a> AWS エコシステム内の VMware ベースのワークロードにクラウドネイティブのエクスペリエンスを提供します。各 VMware Software-Defined Data Center （ SDDC ）は Amazon Virtual Private Cloud （ VPC ）内で動作し、フル VMware スタック（ vCenter Server を含む）、 NSX ベースの Software-Defined Networking 、 VSAN ソフトウェア定義ストレージ、およびワークロードにコンピューティングリソースとストレージリソースを提供する 1 つ以上の ESXi ホストを提供します。</p>
+<p>Cloud Volumes ONTAP 共有と LUN は、 GCVE プライベートクラウド環境で作成された VM からマウントできます。Cloud Volumes ONTAP は iSCSI 、 SMB 、 NFS の各プロトコルをサポートしているため、 iSCSI 経由でマウントしたボリュームを Linux クライアントや Windows クライアントにマウントし、 LUN に Linux クライアントや Windows クライアントからブロックデバイスとしてアクセスすることもできます。Cloud Volumes ONTAP ボリュームは、いくつかの簡単な手順で設定できます。</p>
 </div>
 <div class="paragraph">
-<p>このセクションでは、 AWS で VMware Cloud をセットアップおよび管理する方法について説明します。また、 AWS で NetApp ONTAP を使用する場合は Amazon FSX 、ゲスト内ストレージを使用する場合は Cloud Volumes ONTAP と組み合わせて使用する方法についても説明します。</p>
+<p>ディザスタリカバリや移行の目的でオンプレミス環境からクラウドにボリュームをレプリケートするには、サイト間 VPN または Cloud Interconnect を使用して Google Cloud へのネットワーク接続を確立します。オンプレミスから Cloud Volumes ONTAP へのデータのレプリケートについては、本ドキュメントでは扱いません。オンプレミスシステムと Cloud Volumes ONTAP システム間でデータをレプリケートする方法については、を参照してください <a href="mailto:CloudOwner@gve.local#setting-up-data-replication-between-systems">"システム間のデータレプリケーションの設定"</a>。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -4079,73 +4061,165 @@
 <img src="/us-en/netapp-solutions/images/note.svg" alt="注記">
 </td>
 <td class="content">
-Amazon FSX for NetApp ONTAP および Cloud Volumes ONTAP を AWS 上の VMware Cloud に接続する方法としてサポートされているのは、ゲスト内ストレージだけです。
+使用 <a href="https://cloud.netapp.com/cvo-sizer">"Cloud Volumes ONTAP サイジングツール"</a> Cloud Volumes ONTAP インスタンスのサイズを正確に設定します。また、オンプレミスのパフォーマンスを監視し、 Cloud Volumes ONTAP のサイジングツールの情報として使用できます。
 </td>
 </tr>
 </table>
 </div>
-<div class="paragraph">
-<p>セットアッププロセスは、次の 3 つの部分に分けることができます。</p>
-</div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>に登録します <a href="https://aws.amazon.com/">"Amazon Web Services アカウント"</a>。</p>
+<p>NetApp Cloud Central にログイン— Fabric View （ファブリックビュー）画面が表示されます。Cloud Volumes ONTAP タブを探し、 Go to Cloud Manager を選択します。ログインすると、キャンバス画面が表示されます。</p>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvo-guest-1.png" alt=""></span></p>
+</div>
 </li>
 <li>
-<p>に登録します <a href="https://customerconnect.vmware.com/home">"マイ VMware"</a> アカウント：</p>
+<p>Cloud Manager Canvas タブで、 Add a Working Environment をクリックし、クラウドとして Google Cloud Platform を選択し、システム構成のタイプを選択します。次に、 [ 次へ ] をクリックします。</p>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvo-guest-2.png" alt=""></span></p>
+</div>
 </li>
 <li>
-<p>VMware Cloud で SDDC をプロビジョニングします。</p>
+<p>環境名と admin クレデンシャルなど、作成する環境の詳細を指定します。完了したら、 [ 続行 ] をクリックします。</p>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvo-guest-3.png" alt=""></span></p>
+</div>
+</li>
+<li>
+<p>データセンスとコンプライアンス、クラウドへのバックアップなど、 Cloud Volumes ONTAP 導入用のアドオンサービスを選択または選択解除します。次に、 [ 続行 ] をクリックします。</p>
+<div class="paragraph">
+<p>ヒント：アドオンサービスを無効にすると、確認のポップアップメッセージが表示されます。CVO の導入後にアドオンサービスを追加 / 削除できます。コストを回避するために、不要なサービスは最初から選択解除することを検討してください。</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvo-guest-4.png" alt=""></span></p>
+</div>
+</li>
+<li>
+<p>場所を選択し、ファイアウォールポリシーを選択し、チェックボックスを選択して Google Cloud ストレージへのネットワーク接続を確認します。</p>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvo-guest-5.png" alt=""></span></p>
+</div>
+</li>
+<li>
+<p>ライセンスオプションとして、「従量課金制」または「 BYOL for using existing license 」を選択します。この例では、 Freemium オプションが使用されています。次に、 [ 続行 ] をクリックします。</p>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvo-guest-6.png" alt=""></span></p>
+</div>
+</li>
+<li>
+<p>AWS SDDC 上の VMware クラウドで実行されている VM に導入されるワークロードのタイプに基づいて、複数の事前設定パッケージから選択できます。</p>
+<div class="paragraph">
+<p>ヒント：タイルの上にマウスを移動して詳細を表示したり、 [ 構成の変更 ] をクリックして CVO コンポーネントと ONTAP バージョンをカスタマイズしたりできます。</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvo-guest-7.png" alt=""></span></p>
+</div>
+</li>
+<li>
+<p>[ 確認と承認 ] ページで、選択内容を確認して確定します。 Cloud Volumes ONTAP インスタンスを作成するには、 [ 移動 ] をクリックします。</p>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvo-guest-8.png" alt=""></span></p>
+</div>
+</li>
+<li>
+<p>Cloud Volumes ONTAP のプロビジョニングが完了すると、 [Canvas] ページの作業環境に表示されます。</p>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvo-guest-9.png" alt=""></span></p>
+</div>
+</li>
+</ol>
+</div>
+<div class="sect2">
+<h3 id="smb-ボリューム用の追加の設定">SMB ボリューム用の追加の設定</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>作業環境の準備ができたら、 CIFS サーバに適切な DNS および Active Directory 設定パラメータが設定されていることを確認します。この手順は、 SMB ボリュームを作成する前に実行する必要があります。</p>
+<div class="paragraph">
+<p>ヒント：メニューアイコン（ º ）をクリックし、詳細設定を選択してオプションを表示し、 CIFS のセットアップを選択します。</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvo-guest-10.png" alt=""></span></p>
+</div>
+</li>
+<li>
+<p>SMB ボリュームの作成は簡単なプロセスです。キャンバスで、 Cloud Volumes ONTAP 作業環境をダブルクリックしてボリュームを作成および管理し、ボリュームの作成オプションをクリックします。適切なサイズを選択し、包含アグリゲートを選択するか、高度な割り当てメカニズムを使用して特定のアグリゲートに配置します。このデモでは、プロトコルとして CIFS/SMB が選択されます。</p>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvo-guest-11.png" alt=""></span></p>
+</div>
+</li>
+<li>
+<p>ボリュームのプロビジョニングが完了すると、 Volumes （ボリューム）ペインにボリュームが表示されます。CIFS 共有はプロビジョニングされるため、ユーザまたはグループにファイルとフォルダに対する権限を付与し、ユーザが共有にアクセスしてファイルを作成できることを確認してください。ファイル権限とフォルダ権限はすべて SnapMirror レプリケーションの一部として保持されるため、オンプレミス環境からボリュームをレプリケートする場合はこの手順は必要ありません。</p>
+<div class="paragraph">
+<p>ヒント：ボリュームメニュー（ º ）をクリックすると、そのオプションが表示されます。</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvo-guest-12.png" alt=""></span></p>
+</div>
+</li>
+<li>
+<p>ボリュームが作成されたら、 mount コマンドを使用してボリュームの接続手順を表示し、 Google Cloud VMware Engine 上の VM から共有に接続します。</p>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvo-guest-13.png" alt=""></span></p>
+</div>
+</li>
+<li>
+<p>次のパスをコピーし、 Map Network Drive オプションを使用して、 Google Cloud VMware Engine で実行されている VM にボリュームをマウントします。</p>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvo-guest-14.png" alt=""></span></p>
+</div>
+<div class="paragraph">
+<p>マッピングが完了すると、このマッピングに簡単にアクセスでき、 NTFS アクセス権を適切に設定できます。</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvo-guest-15.png" alt=""></span></p>
+</div>
 </li>
 </ol>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="aws-アカウントに登録">AWS アカウントに登録</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="cloud-volumes-ontap-上の-lun-をホストに接続します">Cloud Volumes ONTAP 上の LUN をホストに接続します</h3>
 <div class="paragraph">
-<p>まだ作成していない場合は、 AWS アカウントが必要です。新規または既存の手順では、多くの手順を実行するためにアカウント内で管理者権限が必要です。を参照してください <a href="https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html">"リンク"</a> をクリックしてください。</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="my-vmware-アカウントに登録します">My VMware アカウントに登録します</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>VMware のクラウドポートフォリオ（ AWS 上の VMware Cloud を含む）にアクセスするには、 VMware の顧客アカウントまたは My VMware アカウントが必要です。VMware アカウントをまだ作成していない場合は作成します <a href="https://customerconnect.vmware.com/account-registration">"こちらをご覧ください"</a>。</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="vmware-cloud-で-sddc-をプロビジョニングします">VMware Cloud で SDDC をプロビジョニングします</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>VMware アカウントを設定して適切なサイジングを実行したら、 AWS サービスで VMware Cloud を使用するための次の一歩として Software-Defined Data Center を導入します。SDDC を作成するには、そのホストとして AWS リージョンを選択し、 SDDC に名前を付け、 SDDC に含める ESXi ホストの数を指定します。AWS アカウントがない場合でも、単一の ESXi ホストを含むスターター構成の SDDC を作成できます。</p>
+<p>Cloud Volumes ONTAP LUN をホストに接続するには、次の手順を実行します。</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>既存または新規に作成した VMware クレデンシャルを使用して、 VMware Cloud Console にログインします。</p>
+<p>キャンバスページで、 Cloud Volumes ONTAP 作業環境をダブルクリックしてボリュームを作成および管理します。</p>
+</li>
+<li>
+<p>Add Volume （ボリュームの追加） &gt; New Volume （新しいボリューム）をクリックし、 iSCSI を選択して Create Initiator Group （イニシエータContinue をクリックします。 .</p>
 <div class="paragraph">
-<p><span class="image"><img src="./../media/aws-config-1.png" alt=""></span></p>
+<p><span class="image"><img src="./../../media/gcve-cvo-guest-16.png" alt=""></span><br>
+<span class="image"><img src="./../../media/gcve-cvo-guest-17.png" alt=""></span></p>
 </div>
 </li>
 <li>
-<p>AWS のリージョン、導入環境、およびホストタイプと SDDC 名を設定します。</p>
-<div class="paragraph">
-<p><span class="image"><img src="./../media/aws-config-2.png" alt=""></span></p>
+<p>ボリュームのプロビジョニングが完了したら、ボリュームメニュー（ º ）を選択し、ターゲット IQN をクリックします。iSCSI Qualified Name （ IQN ）をコピーするには、 Copy （コピー）をクリックします。ホストから LUN への iSCSI 接続をセットアップします。</p>
+</li>
+</ol>
 </div>
+<div class="paragraph">
+<p>Google Cloud VMware Engine 上のホストで同じ処理を実行するには、次の手順を実行します。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Google Cloud VMware Engine でホストされている VM への RDP</p>
 </li>
 <li>
-<p>目的の AWS アカウントに接続し、 AWS クラウド形成スタックを実行します。</p>
-<div class="paragraph">
-<p><span class="image"><img src="./../media/aws-config-3.png" alt=""></span><br>
-<span class="image"><img src="./../media/aws-config-4.png" alt=""></span><br>
-<span class="image"><img src="./../media/aws-config-5.png" alt=""></span><br>
-<span class="image"><img src="./../media/aws-config-6.png" alt=""></span></p>
-</div>
+<p>［ iSCSI イニシエータのプロパティ ］ ダイアログ・ボックスを開きます ［ サーバーマネージャ ］ ＞ ［ ダッシュボード ］ ＞ ［ ツール ］ ＞ ［ iSCSI イニシエータ ］</p>
+</li>
+<li>
+<p>Discovery （検出）タブで、 Discover Portal （ポータルの検出）または Add Portal （ポータルの追加）をクリックし、 iSCSI ターゲットポートの IP アドレスを入力します。</p>
+</li>
+<li>
+<p>ターゲットタブで検出されたターゲットを選択し、ログオンまたは接続をクリックします。</p>
+</li>
+<li>
+<p>[ マルチパスを有効にする ] を選択し、コンピュータの起動時に [ この接続を自動的に復元する ] または [ この接続をお気に入りターゲットのリストに追加する ] を選択します。Advanced （詳細設定）をクリック</p>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -4153,135 +4227,413 @@ Amazon FSX for NetApp ONTAP および Cloud Volumes ONTAP を AWS 上の VMware 
 <img src="/us-en/netapp-solutions/images/note.svg" alt="注記">
 </td>
 <td class="content">
-この検証ではシングルホスト構成を使用します。
+Windows ホストには、クラスタ内の各ノードへの iSCSI 接続が必要です。ネイティブ DSM では、使用する最適なパスが選択されます。
 </td>
 </tr>
 </table>
 </div>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvo-guest-18.png" alt=""></span></p>
+</div>
+<div class="paragraph">
+<p>Storage Virtual Machine （ SVM ）の LUN は、 Windows ホストではディスクとして表示されます。追加した新しいディスクは、ホストでは自動的に検出されません。手動の再スキャンをトリガーしてディスクを検出するには、次の手順を実行します。</p>
+</div>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Windows コンピュータの管理ユーティリティを開きます。 [ スタート ]&gt;[ 管理ツール ]&gt;[ コンピュータの管理 ] を選択します。</p>
 </li>
 <li>
-<p>VMC 環境を接続する AWS VPC を選択します。</p>
-<div class="paragraph">
-<p><span class="image"><img src="./../media/aws-config-7.png" alt=""></span></p>
-</div>
+<p>ナビゲーションツリーでストレージノードを展開します。</p>
 </li>
 <li>
-<p>VMC 管理サブネットを構成します。このサブネットには、 vCenter や NSX などの VMC 管理サービスが含まれます。SDDC 環境への接続が必要な他のネットワークと重複するアドレス空間を選択しないでください。最後に、以下に示す CIDR サイズの推奨事項に従います。</p>
-<div class="paragraph">
-<p><span class="image"><img src="./../media/aws-config-8.png" alt=""></span></p>
-</div>
+<p>[ ディスクの管理 ] をクリックします</p>
 </li>
 <li>
-<p>SDDC 構成を確認して承認し、 [Deploy the SDDC] をクリックします。</p>
+<p>［ アクション ］ &gt; ［ ディスクの再スキャン ］ の順にクリック</p>
 <div class="paragraph">
-<p><span class="image"><img src="./../media/aws-config-9.png" alt=""></span></p>
-</div>
-<div class="paragraph">
-<p>導入プロセスの完了には、通常約 2 時間かかります。</p>
-</div>
-<div class="paragraph">
-<p><span class="image"><img src="./../media/aws-config-10.png" alt=""></span></p>
-</div>
-</li>
-<li>
-<p>完了すると、 SDDC を使用できるようになります。</p>
-<div class="paragraph">
-<p><span class="image"><img src="./../media/aws-config-11.png" alt=""></span></p>
+<p><span class="image"><img src="./../../media/gcve-cvo-guest-19.png" alt=""></span></p>
 </div>
 </li>
 </ol>
 </div>
 <div class="paragraph">
-<p>SDDC の導入の詳細な手順については、を参照してください <a href="https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-EF198D55-03E3-44D1-AC48-6E2ABA31FF02.html">"VMC コンソールから SDDC を展開します"</a>。</p>
+<p>Windows ホストから初めてアクセスした時点では、新しい LUN にはパーティションやファイルシステムは設定されていません。LUN を初期化します。必要に応じて、次の手順を実行してファイルシステムで LUN をフォーマットします。</p>
 </div>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Windows ディスク管理を開始します。</p>
+</li>
+<li>
+<p>LUN を右クリックし、必要なディスクまたはパーティションのタイプを選択します。</p>
+</li>
+<li>
+<p>ウィザードの指示に従います。この例では、ドライブ F ：がマウントされています。</p>
+</li>
+</ol>
 </div>
+</li>
+</ol>
 </div>
-<div class="sect1">
-<h2 id="vmware-cloud-を-fsx-ontap-に接続します">VMware Cloud を FSX ONTAP に接続します</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>VMware Cloud を FSX ONTAP に接続するには、次の手順を実行します。</p>
+<p><span class="image"><img src="./../../media/gcve-cvo-guest-20.png" alt=""></span></p>
+</div>
+<div class="paragraph">
+<p>Linux クライアントで、 iSCSI デーモンが実行されていることを確認します。LUN のプロビジョニングが完了したら、以下の例として Ubuntu を使用した iSCSI 構成に関する詳細なガイダンスを参照してください。これを確認するには、シェルから lsblk cmd を実行します。</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvo-guest-21.png" alt=""></span><br>
+<span class="image"><img src="./../../media/gcve-cvo-guest-22.png" alt=""></span></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="cloud-volumes-ontap-nfs-ボリュームを-linux-クライアントにマウント">Cloud Volumes ONTAP NFS ボリュームを Linux クライアントにマウント</h3>
+<div class="paragraph">
+<p>Cloud Volumes ONTAP (DIY) ファイルシステムを Google Cloud VMware Engine 内の VM からマウントするには、次の手順に従います。</p>
+</div>
+<div class="paragraph">
+<p>以下の手順に従ってボリュームをプロビジョニングします</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>VMware Cloud の導入が完了して AWS VPC に接続されているため、 Amazon FSX for NetApp ONTAP を、元の接続済み VPC ではなく新しい VPC に導入する必要があります（以下のスクリーンショットを参照）。接続された VPC に FSX （ NFS および SMB のフローティング IP ）が導入されている場合、これらの IP にはアクセスできません。Cloud Volumes ONTAP のような iSCSI エンドポイントは、接続された VPC からは正常に機能します。</p>
+<p>Volumes （ボリューム）タブで、 Create New Volume （新規ボリュームの作成）をクリックします。</p>
+</li>
+<li>
+<p>[Create New Volume] ページで、ボリュームタイプを選択します。</p>
 <div class="paragraph">
-<p><span class="image"><img src="./../media/aws-connect-fsx-1.png" alt=""></span></p>
+<p><span class="image"><img src="./../../media/gcve-cvo-guest-23.png" alt=""></span></p>
 </div>
 </li>
 <li>
-<p>同じリージョンに別の VPC を導入し、その新しい VPC に Amazon FSX for NetApp ONTAP を導入します。</p>
+<p>ボリュームタブで、ボリューム上にマウスカーソルを置き、メニューアイコン（ º ）を選択してから、マウントコマンドをクリックします。</p>
 <div class="paragraph">
-<p>VMware Cloud コンソールで SDDC グループを構成すると、 FSX が導入された新しい VPC に接続するために必要なネットワーク設定オプションが有効になります。手順 3 で、「グループ用の VMware トランジット接続の構成に添付ファイルおよびデータ転送ごとの料金が発生する」がチェックされていることを確認し、「グループの作成」を選択します。このプロセスが完了するまでに数分かかることがあります。</p>
-</div>
-<div class="paragraph">
-<p><span class="image"><img src="./../media/aws-connect-fsx-2.png" alt=""></span><br>
-<span class="image"><img src="./../media/aws-connect-fsx-3.png" alt=""></span><br>
-<span class="image"><img src="./../media/aws-connect-fsx-4.png" alt=""></span></p>
+<p><span class="image"><img src="./../../media/gcve-cvo-guest-24.png" alt=""></span></p>
 </div>
 </li>
 <li>
-<p>新しく作成した VPC を作成した SDDC グループに接続します。[External VPC （外部 VPC ） ] タブを選択し、に従います <a href="https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-A3D03968-350E-4A34-A53E-C0097F5F26A9.html">"外部 VPC を接続する手順"</a> をグループに追加します。このプロセスが完了するまでに 10~15 分かかることがあります。</p>
+<p>[ コピー ] をクリックします .</p>
+</li>
+<li>
+<p>指定された Linux インスタンスに接続します。</p>
+</li>
+<li>
+<p>Secure Shell （ SSH ）を使用してインスタンスの端末を開き、適切なクレデンシャルでログインします。</p>
+</li>
+<li>
+<p>次のコマンドを使用して、ボリュームのマウントポイント用のディレクトリを作成します。</p>
+<div class="literalblock">
+<div class="content">
+<pre>$ sudo mkdir /cvogcvetst</pre>
+</div>
+</div>
 <div class="paragraph">
-<p><span class="image"><img src="./../media/aws-connect-fsx-5.png" alt=""></span><br>
-<span class="image"><img src="./../media/aws-connect-fsx-6.png" alt=""></span></p>
+<p><span class="image"><img src="./../../media/gcve-cvo-guest-25.png" alt=""></span></p>
 </div>
 </li>
 <li>
-<p>外部 VPC プロセスの一環として、 AWS コンソールから Resource Access Manager を使用して新しい共有リソースにアクセスするように求められます。共有リソースはです <a href="https://aws.amazon.com/transit-gateway">"AWS 転送ゲートウェイ"</a> VMware Transit Connect によって管理されます。</p>
+<p>前の手順で作成したディレクトリに Cloud Volumes ONTAP NFS ボリュームをマウントします。</p>
+<div class="literalblock">
+<div class="content">
+<pre>sudo mount 10.0.6.251:/cvogcvenfsvol01 /cvogcvetst</pre>
+</div>
+</div>
 <div class="paragraph">
-<p><span class="image"><img src="./../media/aws-connect-fsx-7.png" alt=""></span><br>
-<span class="image"><img src="./../media/aws-connect-fsx-8.png" alt=""></span></p>
+<p><span class="image"><img src="./../../media/gcve-cvo-guest-26.png" alt=""></span><br>
+<span class="image"><img src="./../../media/gcve-cvo-guest-27.png" alt=""></span></p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="vmware-engine-を使用して-cloud-volumes-service-を設定します">VMware Engine を使用して Cloud Volumes Service を設定します</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Cloud Volumes Service 共有は、 VMware エンジン環境で作成された VM からマウントできます。Cloud Volumes Service では SMB プロトコルと NFS プロトコルがサポートされているため、ボリュームを Linux クライアントにマウントして Windows クライアントにマッピングすることもできます。Cloud Volumes Service ボリュームは簡単な手順で設定できます。</p>
+</div>
+<div class="paragraph">
+<p>Cloud Volume Service と Google Cloud VMware Engine のプライベートクラウドは同じリージョンに配置する必要があります。</p>
+</div>
+<div class="paragraph">
+<p>Google Cloud Marketplace で NetApp Cloud Volumes Service for Google Cloud を購入、有効化、設定するには、次の手順を実行します <a href="https://cloud.google.com/vmware-engine/docs/quickstart-prerequisites">"ガイド"</a>。</p>
+</div>
+<div class="sect2">
+<h3 id="cvs-nfs-ボリュームを-gcve-プライベートクラウドに作成する">CVS NFS ボリュームを GCVE プライベートクラウドに作成する</h3>
+<div class="paragraph">
+<p>NFS ボリュームを作成してマウントするには、次の手順を実行します。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Google クラウドコンソール内のパートナーソリューションから Cloud Volume にアクセスします。</p>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvs-guest-1.png" alt=""></span></p>
 </div>
 </li>
 <li>
-<p>トランジットゲートウェイ添付ファイルを作成します。</p>
+<p>Cloud Volume コンソールで、 Volumes （ボリューム）ページに移動し、 Create （作成）をクリックします。</p>
 <div class="paragraph">
-<p><span class="image"><img src="./../media/aws-connect-fsx-9.png" alt=""></span></p>
+<p><span class="image"><img src="./../../media/gcve-cvs-guest-2.png" alt=""></span></p>
 </div>
 </li>
 <li>
-<p>VMC コンソールに戻り、 VPC 接続を受け入れます。この処理が完了するまでに約 10 分かかることがあります。</p>
+<p>[Create File System] ページで、チャージバックメカニズムに必要なボリューム名と課金ラベルを指定します。</p>
 <div class="paragraph">
-<p><span class="image"><img src="./../media/aws-connect-fsx-10.png" alt=""></span></p>
+<p><span class="image"><img src="./../../media/gcve-cvs-guest-3.png" alt=""></span></p>
 </div>
 </li>
 <li>
-<p>[External VPC （外部 VPC ） ] タブで、 [Routes] 列の編集アイコンをクリックし、次の必要なルートを追加します。</p>
-<div class="ulist">
-<ul>
-<li>
-<p>NetApp ONTAP の Amazon FSX のフローティング IP 範囲のルート <a href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/supported-fsx-clients.html">"フローティング IP"</a>。</p>
-</li>
-<li>
-<p>Cloud Volumes ONTAP のフローティング IP 範囲のルート（該当する場合）。</p>
-</li>
-<li>
-<p>新しく作成される外部 VPC アドレススペースのルート。</p>
+<p>適切なサービスを選択します。GCVE は、 CVS パフォーマンスと希望するサービスレベルを選択して、アプリケーションワークロードの要件に基づいてレイテンシの向上とパフォーマンスの向上を実現します。</p>
 <div class="paragraph">
-<p><span class="image"><img src="./../media/aws-connect-fsx-11.png" alt=""></span></p>
-</div>
-</li>
-</ul>
+<p><span class="image"><img src="./../../media/gcve-cvs-guest-4.png" alt=""></span></p>
 </div>
 </li>
 <li>
-<p>最後に、双方向トラフィックを許可します <a href="https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-DE330202-D63D-408A-AECF-7CDC6ADF7EAC.html">"ファイアウォールルール"</a> FSX/CVO へのアクセスに必要です。以下の手順に従ってください  SDDC ワークロード接続用のコンピューティングゲートウェイファイアウォールルール用。</p>
+<p>ボリュームおよびボリュームパスに Google Cloud のリージョンを指定（プロジェクト内のすべての Cloud Volume でボリュームパスが一意である必要があります）</p>
 <div class="paragraph">
-<p><span class="image"><img src="./../media/aws-connect-fsx-12.png" alt=""></span></p>
+<p><span class="image"><img src="./../../media/gcve-cvs-guest-5.png" alt=""></span></p>
 </div>
 </li>
 <li>
-<p>管理ゲートウェイとコンピューティングゲートウェイの両方にファイアウォールグループを設定したら、次の手順で vCenter にアクセスできます。</p>
+<p>ボリュームのパフォーマンスレベルを選択します。</p>
 <div class="paragraph">
-<p><span class="image"><img src="./../media/aws-connect-fsx-13.png" alt=""></span></p>
+<p><span class="image"><img src="./../../media/gcve-cvs-guest-6.png" alt=""></span></p>
+</div>
+</li>
+<li>
+<p>ボリュームのサイズとプロトコルのタイプを指定します。このテストでは、 NFSv3 が使用されています。</p>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvs-guest-7.png" alt=""></span></p>
+</div>
+</li>
+<li>
+<p>この手順では、ボリュームにアクセスできる VPC ネットワークを選択します。VPC ピアリングが実行されていることを確認します。</p>
+<div class="paragraph">
+<p>ヒント： VPC ピアリングが行われていない場合は、ピアリングコマンドの説明を示すポップアップボタンが表示されます。Cloud Shell セッションを開き、適切なコマンドを実行して、 Cloud Volumes Service プロデューサーと VPC をピアリングします。事前に VPC ピアリングを準備する場合は、以下の手順を参照してください。</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvs-guest-8.png" alt=""></span></p>
+</div>
+</li>
+<li>
+<p>適切なルールを追加してエクスポートポリシールールを管理し、対応する NFS バージョンのチェックボックスを選択します。</p>
+<div class="paragraph">
+<p>注：エクスポートポリシーを追加しないと、 NFS ボリュームへのアクセスは許可されません。</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvs-guest-9.png" alt=""></span></p>
+</div>
+</li>
+<li>
+<p>[ 保存 ] をクリックしてボリュームを作成します。</p>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvs-guest-10.png" alt=""></span></p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="vmware-engine-で実行されている-vm-に-nfs-エクスポートをマウントする">VMware Engine で実行されている VM に NFS エクスポートをマウントする</h3>
+<div class="paragraph">
+<p>NFS ボリュームのマウントを準備する前に、プライベート接続のピアステータスが Active と表示されていることを確認してください。ステータスが Active になったら、 mount コマンドを使用します。</p>
+</div>
+<div class="paragraph">
+<p>NFS ボリュームをマウントするには、次の手順を実行します。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>クラウドコンソールで、 Cloud Volume &gt; Volumes に移動します。</p>
+</li>
+<li>
+<p>Volumes （ボリューム）ページに移動します</p>
+</li>
+<li>
+<p>NFS エクスポートをマウントする NFS ボリュームをクリックします。</p>
+</li>
+<li>
+<p>右にスクロールし、 [ 詳細を表示 ] の下にある [ 指示のマウント ] をクリックします。</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>VMware VM のゲスト OS 内からマウントプロセスを実行するには、次の手順を実行します。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>SSH クライアントと SSH を使用して仮想マシンに接続します。</p>
+</li>
+<li>
+<p>インスタンスに NFS クライアントをインストールします。</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Red Hat Enterprise Linux または SUSE Linux インスタンスの場合：</p>
+<div class="literalblock">
+<div class="content">
+<pre> sudo yum install -y nfs-utils
+.. Ubuntu または Debian のインスタンスで次の手順を実行します。</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>sudo apt-get install nfs-common</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>「 /nimCVSNFSol01 」などの新しいディレクトリをインスタンスに作成します。</p>
+<div class="literalblock">
+<div class="content">
+<pre>sudo mkdir /nimCVSNFSol01</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvs-guest-20.png" alt=""></span></p>
+</div>
+</li>
+<li>
+<p>適切なコマンドを使用してボリュームをマウントします。ラボで使用するコマンドの例を次に示します。</p>
+<div class="literalblock">
+<div class="content">
+<pre>sudo mount -t nfs -o rw,hard,rsize=65536,wsize=65536,vers=3,tcp 10.53.0.4:/nimCVSNFSol01 /nimCVSNFSol01</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvs-guest-21.png" alt=""></span><br>
+<span class="image"><img src="./../../media/gcve-cvs-guest-22.png" alt=""></span></p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="vmware-engine-で実行されている-vm-に-smb-共有を作成してマウントします">VMware Engine で実行されている VM に SMB 共有を作成してマウントします</h3>
+<div class="paragraph">
+<p>SMB ボリュームの場合は、 SMB ボリュームを作成する前に、 Active Directory 接続が設定されていることを確認してください。</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvs-guest-30.png" alt=""></span></p>
+</div>
+<div class="paragraph">
+<p>AD 接続が確立されたら、必要なサービスレベルを指定してボリュームを作成します。適切なプロトコルを選択する以外に、 NFS ボリュームを作成する手順は同じです。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Cloud Volume コンソールで、 Volumes （ボリューム）ページに移動し、 Create （作成）をクリックします。</p>
+</li>
+<li>
+<p>[Create File System] ページで、チャージバックメカニズムに必要なボリューム名と課金ラベルを指定します。</p>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvs-guest-31.png" alt=""></span></p>
+</div>
+</li>
+<li>
+<p>適切なサービスを選択します。GCVE として、 CVS パフォーマンスと希望するサービスレベルを選択し、ワークロード要件に基づいてレイテンシの向上とパフォーマンスの向上を実現します。</p>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvs-guest-32.png" alt=""></span></p>
+</div>
+</li>
+<li>
+<p>ボリュームおよびボリュームパスに Google Cloud のリージョンを指定（プロジェクト内のすべての Cloud Volume でボリュームパスが一意である必要があります）</p>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvs-guest-33.png" alt=""></span></p>
+</div>
+</li>
+<li>
+<p>ボリュームのパフォーマンスレベルを選択します。</p>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvs-guest-34.png" alt=""></span></p>
+</div>
+</li>
+<li>
+<p>ボリュームのサイズとプロトコルのタイプを指定します。このテストでは、 SMB を使用します。</p>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvs-guest-35.png" alt=""></span></p>
+</div>
+</li>
+<li>
+<p>この手順では、ボリュームにアクセスできる VPC ネットワークを選択します。VPC ピアリングが実行されていることを確認します。</p>
+<div class="paragraph">
+<p>ヒント： VPC ピアリングが行われていない場合は、ピアリングコマンドの説明を示すポップアップボタンが表示されます。Cloud Shell セッションを開き、適切なコマンドを実行して、 Cloud Volumes Service プロデューサーと VPC をピアリングします。事前に VPC ピアリングを準備する場合は、こちらを参照してください <a href="https://cloud.google.com/architecture/partners/netapp-cloud-volumes/setting-up-private-services-access?hl=en">"手順"</a>。</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvs-guest-36.png" alt=""></span></p>
+</div>
+</li>
+<li>
+<p>[ 保存 ] をクリックしてボリュームを作成します。</p>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvs-guest-37.png" alt=""></span></p>
 </div>
 </li>
 </ol>
 </div>
 <div class="paragraph">
-<p>次の手順では、 Amazon FSX ONTAP または Cloud Volumes ONTAP が要件に応じて設定されていること、およびストレージコンポーネントを VSAN からオフロードして導入を最適化するようにボリュームがプロビジョニングされていることを確認します。</p>
+<p>SMB ボリュームをマウントするには、次の手順を実行します。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>クラウドコンソールで、 Cloud Volume &gt; Volumes に移動します。</p>
+</li>
+<li>
+<p>Volumes （ボリューム）ページに移動します</p>
+</li>
+<li>
+<p>SMB 共有をマッピングする SMB ボリュームをクリックします。</p>
+</li>
+<li>
+<p>右にスクロールし、 [ 詳細を表示 ] の下にある [ 指示のマウント ] をクリックします。</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>VMware VM の Windows ゲスト OS からマウントプロセスを実行するには、次の手順を実行します。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>[ スタート ] ボタンをクリックし、 [ コンピュータ ] をクリックします。</p>
+</li>
+<li>
+<p>[ ネットワークドライブの割り当て ] をクリックします。</p>
+</li>
+<li>
+<p>[ ドライブ ] リストで、使用可能な任意のドライブ文字をクリックします。</p>
+</li>
+<li>
+<p>フォルダボックスに、次のように入力します。</p>
+<div class="literalblock">
+<div class="content">
+<pre>\\nimsmb-3830.nimgcveval.com\nimCVSMBvol01</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvs-guest-38.png" alt=""></span></p>
+</div>
+<div class="paragraph">
+<p>コンピュータにログオンするたびに接続するには、 [ サインイン時に再接続 ] チェックボックスをオンにします。</p>
+</div>
+</li>
+<li>
+<p>完了をクリックします。</p>
+<div class="paragraph">
+<p><span class="image"><img src="./../../media/gcve-cvs-guest-39.png" alt=""></span></p>
+</div>
+</li>
+</ol>
+</div>
 </div>
 </div>
 </div>
@@ -4295,8 +4647,8 @@ Amazon FSX for NetApp ONTAP および Cloud Volumes ONTAP を AWS 上の VMware 
   <div class="page-nav-toolbar">
     <div id="version-dropdown"></div>
     <div class="page-nav-contribute"  >
-      <a target="_blank" href="https://github.com/NetAppDocs/netapp-solutions/issues/new?body=Page%3A%20[AWS に仮想化環境を導入して設定](https://docs.netapp.com/ja-jp/netapp-solutions/ehc/aws-setup.html)" class="page-nav-contribute-link" role="button"><img src="/ja-jp/netapp-solutions/images/discuss-sm.svg" class="github-icon" />ドキュメントの変更をリクエスト</a>
-      <a target="_blank" href="https://github.com/NetAppDocs/netapp-solutions/blob/main/ehc/aws-setup.adoc" class="page-nav-contribute-link" role="button"><img src="/ja-jp/netapp-solutions/images/edit-sm.svg" class="github-icon" />GitHub で編集</a>
+      <a target="_blank" href="https://github.com/NetAppDocs/netapp-solutions/issues/new?body=Page%3A%20[GCP のネットアップストレージオプション](https://docs.netapp.com/ja-jp/netapp-solutions/ehc/gcp/gcp-guest.html)" class="page-nav-contribute-link" role="button"><img src="/ja-jp/netapp-solutions/images/discuss-sm.svg" class="github-icon" />ドキュメントの変更をリクエスト</a>
+      <a target="_blank" href="https://github.com/NetAppDocs/netapp-solutions/blob/main/ehc/gcp/gcp-guest.adoc" class="page-nav-contribute-link" role="button"><img src="/ja-jp/netapp-solutions/images/edit-sm.svg" class="github-icon" />GitHub で編集</a>
       <a target="_blank" href="https://docs.netapp.com/us-en/contribute/" class="page-nav-contribute-link"  ><img src="/ja-jp/netapp-solutions/images/article-sm.svg" class="github-icon" />寄稿者向けガイド</a>
     </div>
     <div class="page-nav-container">
