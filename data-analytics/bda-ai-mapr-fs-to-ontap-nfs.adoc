@@ -24,10 +24,7 @@ link:bda-ai-gpfs-to-nfs-detailed-steps.html["前の手順： GPFS から NFS へ
 . MapR - FS を NFS エクスポートとして設定します。
 +
 .. すべての MapR ノードで nlockmgr サービスを無効にします。
-
-
-
-
++
 ....
 root@workr-138: ~$ rpcinfo -p
    program vers proto   port  service
@@ -55,9 +52,8 @@ root@workr-138: ~$
 root@workr-138: ~$ rpcinfo -d 100021 3
 root@workr-138: ~$ rpcinfo -d 100021 4
 ....
-. MapR から特定のフォルダをエクスポートします。これは、「 /opt/MapR /conf/exports 」ファイルのすべての MapR ノードにあります。サブフォルダをエクスポートするときは、異なる権限を持つ親フォルダをエクスポートしないでください。
-
-
+.. MapR から特定のフォルダをエクスポートします。これは、「 /opt/MapR /conf/exports 」ファイルのすべての MapR ノードにあります。サブフォルダをエクスポートするときは、異なる権限を持つ親フォルダをエクスポートしないでください。
++
 ....
 [mapr@workr-138 ~]$ cat /opt/mapr/conf/exports
 # Sample Exports file
@@ -91,9 +87,10 @@ root@workr-138: ~$ rpcinfo -d 100021 4
 #only the alias will be visible/exposed to the nfs client not the mapr path, host options as before
 [mapr@workr-138 ~]$
 ....
+
+
 . MapR - FS NFS サービスを更新します。
-
-
++
 ....
 root@workr-138: tmp$ maprcli nfsmgmt refreshexports
 ERROR (22) -  You do not have a ticket to communicate with 127.0.0.1:9998. Retry after obtaining a new ticket using maprlogin
@@ -104,20 +101,21 @@ MapR credentials of user 'mapr' for cluster 'my.cluster.com' are written to '/tm
 [mapr@workr-138 ~]$ maprcli nfsmgmt refreshexports
 ....
 . 仮想 IP 範囲を MapR クラスタ内の特定のサーバまたはサーバセットに割り当てます。次に、 MapR クラスタが NFS データアクセス用の特定のサーバに IP を割り当てます。IP を使用することで高可用性が実現します。つまり、特定の IP を持つサーバまたはネットワークで障害が発生した場合に、 IP 範囲内の次の IP を NFS アクセスに使用できます。
-
-
++
 
 NOTE: すべての MapR ノードからの NFS アクセスを提供する場合は、各サーバに一連の仮想 IP を割り当て、各 MapR ノードのリソースを NFS データアクセスに使用できます。
 
++
 image:bda-ai-image7.png["エラー：グラフィックイメージがありません"]
 
++
 image:bda-ai-image8.png["エラー：グラフィックイメージがありません"]
 
++
 image:bda-ai-image9.png["エラー：グラフィックイメージがありません"]
 
 . 各 MapR ノードに割り当てられている仮想 IP を確認し、 NFS データアクセスに使用します。
-
-
++
 ....
 root@workr-138: ~$ ip a
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
@@ -167,8 +165,7 @@ root@workr-138: ~$ ip a
 [root@workr-140 ~]#
 ....
 . NFS をエクスポートした MapR FS をマウントするには、 NFS の動作を確認するために割り当てられた仮想 IP を使用します。ただし、 NetApp XCP を使用したデータ転送では、この手順は必要ありません。
-
-
++
 ....
 root@workr-138: tmp$ mount -v -t nfs 10.63.150.92:/maprnfs3 /tmp/testmount/
 mount.nfs: timeout set for Thu Dec  5 15:31:32 2019
@@ -203,10 +200,7 @@ root@workr-138: tmp$
 . MapR FS NFS ゲートウェイから ONTAP NFS にデータを転送するように NetApp XCP を設定します。
 +
 .. XCP のカタログの場所を設定します。
-
-
-
-
++
 ....
 [root@hdp2 linux]# cat /opt/NetApp/xFiles/xcp/xcp.ini
 # Sample xcp config
@@ -214,9 +208,8 @@ root@workr-138: tmp$
 #catalog =  10.63.150.51:/gpfs1
 catalog =  10.63.150.213:/nc_volume1
 ....
-. ライセンスファイルを「 /opt/NetApp/xFiles/XCP 」にコピーします。
-
-
+.. ライセンスファイルを「 /opt/NetApp/xFiles/XCP 」にコピーします。
++
 ....
 root@workr-138: src$ cd /opt/NetApp/xFiles/xcp/
 root@workr-138: xcp$ ls -ltrha
@@ -229,10 +222,9 @@ drwxr-xr-x 2 root   root     59 Dec  5 19:04 .
 -rw-r--r-- 1 root   root   236K Dec 17 14:12 xcp.log
 root@workr-138: xcp$
 ....
-. XCP activate コマンドを使用して XCP をアクティブにします。
-. ソースで NFS エクスポートを確認します。
-
-
+.. XCP activate コマンドを使用して XCP をアクティブにします。
+.. ソースで NFS エクスポートを確認します。
++
 ....
 [root@hdp2 linux]# ./xcp show 10.63.150.92
 XCP 1.4-17914d6; (c) 2019 NetApp, Inc.; Licensed to Karthikeyan Nagalingam [NetApp Inc] until Wed Feb  5 11:07:27 2020
@@ -253,9 +245,8 @@ drwxr-xr-x --- root root 2 2 10m51s 10.63.150.92:/maprnfs3
 1.77 KiB in (8.68 KiB/s), 3.16 KiB out (15.5 KiB/s), 0s.
 [root@hdp2 linux]#
 ....
-. 複数のソース IP と複数のデスティネーション IP （ ONTAP LIF ）から、複数の MapR ノードから XCP を使用してデータを転送します。
-
-
+.. 複数のソース IP と複数のデスティネーション IP （ ONTAP LIF ）から、複数の MapR ノードから XCP を使用してデータを転送します。
++
 ....
 root@workr-138: linux$ ./xcp_yatin copy --parallel 20 10.63.150.96,10.63.150.97:/maprnfs3/tg4 10.63.150.85,10.63.150.86:/datapipeline_dataset/tg4_dest
 XCP 1.6-dev; (c) 2019 NetApp, Inc.; Licensed to Karthikeyan Nagalingam [NetApp Inc] until Wed Feb  5 11:07:27 2020
@@ -289,9 +280,8 @@ xcp: mount '10.63.150.92:/maprnfs3/tg4_2': WARNING: This NFS server only support
  130 scanned, 128 giants, 62.9 GiB in (900 MiB/s), 63.0 GiB out (901 MiB/s), 1m11s
  130 scanned, 128 giants, 67.2 GiB in (876 MiB/s), 67.2 GiB out (877 MiB/s), 1m16s
 ....
-. ストレージコントローラ上の負荷分散を確認します。
-
-
+.. ストレージコントローラ上の負荷分散を確認します。
++
 ....
 Hadoop-AFF8080::*> statistics show-periodic -interval 2 -iterations 0 -summary true -object nic_common -counter rx_bytes|tx_bytes -node Hadoop-AFF8080-01 -instance e3b
 Hadoop-AFF8080: nic_common.e3b: 12/6/2019 15:55:04
@@ -325,4 +315,8 @@ Hadoop-AFF8080: nic_common.e9b: 12/6/2019 15:55:07
     905MB   4.86MB
     902MB   4.90MB
 ....
+
+
+
+
 link:bda-ai-where-to-find-additional-information.html["次へ：追加情報の検索場所。"]

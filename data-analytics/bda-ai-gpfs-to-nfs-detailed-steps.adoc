@@ -21,8 +21,7 @@ link:bda-ai-business-benefits.html["前のページ：ビジネス上のメリ�
 == GPFS を設定します
 
 . いずれかのサーバに Linux 用 Spectrum Scale Data Access をダウンロードしてインストールします。
-
-
++
 ....
 [root@mastr-51 Spectrum_Scale_Data_Access-5.0.3.1-x86_64-Linux-install_folder]# ls
 Spectrum_Scale_Data_Access-5.0.3.1-x86_64-Linux-install
@@ -34,8 +33,7 @@ manifest
 …
 ....
 . すべてのノードに前提条件パッケージ（シェフとカーネルヘッダーを含む）をインストールします。
-
-
++
 ....
 [root@mastr-51 5.0.3.1]# for i in 51 53 136 138 140  ; do ssh 10.63.150.$i "hostname; rpm -ivh  /gpfs_install/chef* "; done
 mastr-51.netapp.com
@@ -104,8 +102,7 @@ kernel-headers-3.10.0-862.11.6.el7    ########################################
 [root@mastr-51 installer]#
 ....
 . すべてのノードで SELinux を無効にする。
-
-
++
 ....
 [root@mastr-51 5.0.3.1]# for i in 51 53 136 138 140  ; do ssh 10.63.150.$i "hostname; sudo setenforce 0"; done
 mastr-51.netapp.com
@@ -121,8 +118,7 @@ setenforce: SELinux is disabled
 [root@mastr-51 5.0.3.1]#
 ....
 . インストールノードをセットアップします。
-
-
++
 ....
 [root@mastr-51 installer]# ./spectrumscale setup -s 10.63.150.51
 [ INFO  ] Installing prerequisites for install node
@@ -136,8 +132,7 @@ setenforce: SELinux is disabled
 [root@mastr-51 installer]#
 ....
 . 管理ノードと GPFS ノードをクラスタ定義ファイルに追加します。
-
-
++
 ....
 [root@mastr-51 installer]# ./spectrumscale node add mastr-51 -a
 [ INFO  ] Adding node mastr-51.netapp.com as a GPFS node.
@@ -147,8 +142,7 @@ setenforce: SELinux is disabled
 [root@mastr-51 installer]#
 ....
 . マネージャノードと GPFS ノードを追加します。
-
-
++
 ....
 [root@mastr-51 installer]# ./spectrumscale node add mastr-53 -m
 [ INFO  ] Adding node mastr-53.netapp.com as a GPFS node.
@@ -156,8 +150,7 @@ setenforce: SELinux is disabled
 [root@mastr-51 installer]#
 ....
 . クォーラムノードと GPFS ノードを追加します。
-
-
++
 ....
 [root@mastr-51 installer]# ./spectrumscale node add workr-136 -q
 [ INFO  ] Adding node workr-136.netapp.com as a GPFS node.
@@ -165,8 +158,7 @@ setenforce: SELinux is disabled
 [root@mastr-51 installer]#
 ....
 . NSD サーバと GPFS ノードを追加します。
-
-
++
 ....
 [root@mastr-51 installer]# ./spectrumscale node add workr-138 -n
 [ INFO  ] Adding node workr-138.netapp.com as a GPFS node.
@@ -176,8 +168,7 @@ setenforce: SELinux is disabled
 [root@mastr-51 installer]#
 ....
 . GUI 、管理ノード、および GPFS ノードを追加します。
-
-
++
 ....
 [root@mastr-51 installer]# ./spectrumscale node add workr-136 -g
 [ INFO  ] Setting workr-136.netapp.com as a GUI server.
@@ -188,24 +179,21 @@ setenforce: SELinux is disabled
 [root@mastr-51 installer]#
 ....
 . 別の GUI サーバを追加します。
-
-
++
 ....
 [root@mastr-51 installer]# ./spectrumscale node add mastr-53 -g
 [ INFO  ] Setting mastr-53.netapp.com as a GUI server.
 [root@mastr-51 installer]#
 ....
 . 別の GPFS ノードを追加します。
-
-
++
 ....
 [root@mastr-51 installer]# ./spectrumscale node add workr-140
 [ INFO  ] Adding node workr-140.netapp.com as a GPFS node.
 [root@mastr-51 installer]#
 ....
 . すべてのノードを検証およびリストします。
-
-
++
 ....
 [root@mastr-51 installer]# ./spectrumscale node list
 [ INFO  ] List of nodes in current configuration:
@@ -236,16 +224,14 @@ setenforce: SELinux is disabled
 [root@mastr-51 installer]#
 ....
 . クラスタ定義ファイルでクラスタ名を指定します。
-
-
++
 ....
 [root@mastr-51 installer]# ./spectrumscale config gpfs -c mastr-51.netapp.com
 [ INFO  ] Setting GPFS cluster name to mastr-51.netapp.com
 [root@mastr-51 installer]#
 ....
 . プロファイルを指定します。
-
-
++
 ....
 [root@mastr-51 installer]# ./spectrumscale config gpfs -p default
 [ INFO  ] Setting GPFS profile to default
@@ -253,32 +239,28 @@ setenforce: SELinux is disabled
 Profiles options: default [gpfsProtocolDefaults], random I/O [gpfsProtocolsRandomIO], sequential I/O [gpfsProtocolDefaults], random I/O [gpfsProtocolRandomIO]
 ....
 . GPFS で使用するリモートシェルバイナリを指定します。引数には -r を使用します。
-
-
++
 ....
 [root@mastr-51 installer]# ./spectrumscale config gpfs -r /usr/bin/ssh
 [ INFO  ] Setting Remote shell command to /usr/bin/ssh
 [root@mastr-51 installer]#
 ....
 . GPFS で使用するリモートファイルコピーバイナリを指定します。「 -rc 引数」を使用します。
-
-
++
 ....
 [root@mastr-51 installer]# ./spectrumscale config gpfs -rc /usr/bin/scp
 [ INFO  ] Setting Remote file copy command to /usr/bin/scp
 [root@mastr-51 installer]#
 ....
 . すべての GPFS ノードに設定するポート範囲を指定します。「 -e 引数」を使用します。
-
-
++
 ....
 [root@mastr-51 installer]# ./spectrumscale config gpfs -e 60000-65000
 [ INFO  ] Setting GPFS Daemon communication port range to 60000-65000
 [root@mastr-51 installer]#
 ....
 . GPFS 構成設定を表示します。
-
-
++
 ....
 [root@mastr-51 installer]# ./spectrumscale config gpfs --list
 [ INFO  ] Current settings are as follows:
@@ -290,8 +272,7 @@ Profiles options: default [gpfsProtocolDefaults], random I/O [gpfsProtocolsRando
 [root@mastr-51 installer]#
 ....
 . 管理ノードを追加
-
-
++
 ....
 [root@mastr-51 installer]# ./spectrumscale node add 10.63.150.53 -a
 [ INFO  ] Setting mastr-53.netapp.com as an admin node.
@@ -300,8 +281,7 @@ Profiles options: default [gpfsProtocolDefaults], random I/O [gpfsProtocolsRando
 [root@mastr-51 installer]#
 ....
 . データ収集を無効にし、 IBM サポートセンターにデータパッケージをアップロードします。
-
-
++
 ....
 [root@mastr-51 installer]# ./spectrumscale callhome disable
 [ INFO  ] Disabling the callhome.
@@ -309,8 +289,7 @@ Profiles options: default [gpfsProtocolDefaults], random I/O [gpfsProtocolsRando
 [root@mastr-51 installer]#
 ....
 . NTP を有効にします。
-
-
++
 ....
 [root@mastr-51 installer]# ./spectrumscale config ntp -e on
 [root@mastr-51 installer]# ./spectrumscale config ntp -l
@@ -353,8 +332,7 @@ Sep 10 14:20:34 mastr-51.netapp.com ntpd[2965]: 0.0.0.0 c012 02 freq_set kernel 
 [root@mastr-51 installer]#
 ....
 . インストール前に設定を事前確認します。
-
-
++
 ....
 [root@mastr-51 installer]# ./spectrumscale install -pr
 [ INFO  ] Logging to file: /usr/lpp/mmfs/5.0.3.1/installer/logs/INSTALL-PRECHECK-10-09-2019_14:51:43.log
@@ -384,8 +362,7 @@ Sep 10 14:20:34 mastr-51.netapp.com ntpd[2965]: 0.0.0.0 c012 02 freq_set kernel 
 [root@mastr-51 installer]#
 ....
 . NSD ディスクを設定します。
-
-
++
 ....
 [root@mastr-51 cluster-test]# cat disk.1st
 %nsd: device=/dev/sdf
@@ -401,8 +378,7 @@ usage=dataAndMetadata
 failureGroup=1
 ....
 . NSD ディスクを作成します。
-
-
++
 ....
 [root@mastr-51 cluster-test]# mmcrnsd -F disk.1st -v no
 mmcrnsd: Processing disk sdf
@@ -412,8 +388,7 @@ mmcrnsd: Propagating the cluster configuration data to all
 [root@mastr-51 cluster-test]#
 ....
 . NSD ディスクのステータスを確認します。
-
-
++
 ....
 [root@mastr-51 cluster-test]# mmlsnsd
 
@@ -425,8 +400,7 @@ mmcrnsd: Propagating the cluster configuration data to all
 [root@mastr-51 cluster-test]#
 ....
 . GPFS を作成します。
-
-
++
 ....
 [root@mastr-51 cluster-test]# mmcrfs gpfs1 -F disk.1st -B 1M -T /gpfs1
 
@@ -447,16 +421,14 @@ mmcrfs: Propagating the cluster configuration data to all
 [root@mastr-51 cluster-test]#
 ....
 . GPFS をマウントします。
-
-
++
 ....
 [root@mastr-51 cluster-test]# mmmount all -a
 Tue Oct  8 18:05:34 UTC 2019: mmmount: Mounting file systems ...
 [root@mastr-51 cluster-test]#
 ....
 . GPFS に必要な権限を確認して付与します。
-
-
++
 ....
 [root@mastr-51 cluster-test]# mmlsdisk gpfs1
 disk         driver   sector     failure holds    holds                            storage
@@ -474,8 +446,7 @@ workr-138.netapp.com
 [root@mastr-51 cluster-test]#
 ....
 . 「 dd 」コマンドを実行して、 GPFS の読み取りと書き込みを確認します。
-
-
++
 ....
 [root@mastr-51 cluster-test]# dd if=/dev/zero of=/gpfs1/testfile bs=1024M count=5
 5+0 records in
@@ -498,21 +469,21 @@ total 5.0G
 ....
 
 
+
+
 == GPFS を NFS にエクスポートする
 
 GPFS を NFS にエクスポートするには、次の手順を実行します。
 
 . GPFS を /etc/exports ファイルを使用して NFS としてエクスポートします。
-
-
++
 ....
 [root@mastr-51 gpfs1]# cat /etc/exports
 /gpfs1        *(rw,fsid=745)
 [root@mastr-51 gpfs1]
 ....
 . 必要な NFS サーバパッケージをインストールします。
-
-
++
 ....
 [root@mastr-51 ~]# yum install rpcbind
 Loaded plugins: priorities, product-id, search-disabled-repos, subscription-manager
@@ -555,8 +526,7 @@ Complete!
 [root@mastr-51 ~]#
 ....
 . NFS サービスを開始します。
-
-
++
 ....
 [root@mastr-51 ~]# service nfs status
 Redirecting to /bin/systemctl status nfs.service
@@ -587,8 +557,7 @@ Nov 06 16:34:50 mastr-51.netapp.com systemd[1]: Started NFS server and services.
 [root@mastr-51 ~]#
 ....
 . NFS クライアントを検証するために、 GPFS 内のファイルをリストします。
-
-
++
 ....
 [root@mastr-51 gpfs1]# df -Th
 Filesystem                                 Type      Size  Used Avail Use% Mounted on
@@ -625,13 +594,14 @@ drwxr-xr-x   4 root root 4.0K Nov  5 20:35 ces
 ....
 
 
+
+
 == NFS クライアントを設定します
 
 NFS クライアントを設定するには、次の手順を実行します。
 
 . NFS クライアントにパッケージをインストールします。
-
-
++
 ....
 [root@hdp2 ~]# yum install nfs-utils rpcbind
 Loaded plugins: product-id, search-disabled-repos, subscription-manager
@@ -716,16 +686,14 @@ Complete!
 [root@hdp2 ~]#
 ....
 . NFS クライアントサービスを開始します。
-
-
++
 ....
 [root@hdp2 ~]# service rpcbind start
 Redirecting to /bin/systemctl start rpcbind.service
  [root@hdp2 ~]#
 ....
 . NFS クライアントで NFS プロトコルを使用して GPFS をマウントします。
-
-
++
 ....
 [root@hdp2 ~]# mkdir /gpfstest
 [root@hdp2 ~]# mount 10.63.150.51:/gpfs1 /gpfstest
@@ -743,8 +711,7 @@ tmpfs                                  26G     0   26G   0% /run/user/0
 [root@hdp2 ~]#
 ....
 . NFS マウントフォルダ内の GPFS ファイルのリストを確認します。
-
-
++
 ....
 [root@hdp2 ~]# cd /gpfstest/
 [root@hdp2 gpfstest]# ls
@@ -758,8 +725,7 @@ drwxr-xr-x 2 root root       4096 Nov  5 15:04 ha
 [root@hdp2 gpfstest]#
 ....
 . XCP を使用して、 GPFS でエクスポートされた NFS から NetApp NFS にデータを移動します。
-
-
++
 ....
 [root@hdp2 linux]# ./xcp copy -parallel 20 10.63.150.51:/gpfs1 10.63.150.213:/nc_volume2/
 XCP 1.4-17914d6; (c) 2019 NetApp, Inc.; Licensed to Karthikeyan Nagalingam [NetApp Inc] until Tue Nov  5 12:39:36 2019
@@ -785,8 +751,7 @@ Sending statistics...
 [root@hdp2 linux]#
 ....
 . NFS クライアントで GPFS ファイルを検証します。
-
-
++
 ....
 [root@hdp2 mnt]# df -Th
 Filesystem                           Type      Size  Used Avail Use% Mounted on
@@ -838,4 +803,6 @@ drwxrwxrwx  21 root        root                4.0K Nov 11 12:14 .
 drwxrwxrwx   7 nobody      nobody              4.0K Nov 11 12:14 catalog
 [root@hdp2 mnt]#
 ....
+
+
 link:bda-ai-mapr-fs-to-ontap-nfs.html["次のページ： MapR - FS to ONTAP NFS 。"]
