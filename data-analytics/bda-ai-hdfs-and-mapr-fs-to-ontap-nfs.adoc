@@ -1,0 +1,42 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/bda-ai-hdfs-and-mapr-fs-to-ontap-nfs.html 
+keywords: hdfs, mapr-fs, nfs, ml, dl 
+summary: この解決策では、ネットアップがデータレイク（ HDFS ）と MapR クラスタデータから ONTAP NFS へのデータ移行を検証しました。データは MapR - FS と HDFS に存在します。NetApp XCP は、 HDFS や MapR FS などの分散ファイルシステムから ONTAP NFS にデータを直接移行する新しい機能を導入しました。 
+---
+= HDFS と MapR - FS を ONTAP NFS に接続
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:bda-ai-gpfs-to-netapp-ontap-nfs.html["旧称： NetApp ONTAP NFS への GPFS 。"]
+
+この解決策では、ネットアップがデータレイク（ HDFS ）と MapR クラスタデータから ONTAP NFS へのデータ移行を検証しました。データは MapR - FS と HDFS に存在します。NetApp XCP は、 HDFS や MapR FS などの分散ファイルシステムから ONTAP NFS にデータを直接移行する新しい機能を導入しました。XCP は、非同期スレッドと HDFS C API 呼び出しを使用して、 MapR FS と HDFS の間でデータを通信および転送します。次の図は、データレイク（ HDFS ）と MapR FS から ONTAP NFS へのデータ移行を示しています。この新機能により、ソースを NFS 共有としてエクスポートする必要がなくなります。
+
+image:bda-ai-image6.png["エラー：グラフィックイメージがありません"]
+
+
+
+=== お客様が HDFS と MapR FS から NFS に移行するのはなぜですか。
+
+Cloudera や Hortonworks などの Hadoop ディストリビューションのほとんどは HDFS ディストリビューションと MapR ディストリビューションを使用してデータを格納しています。HDFS と MapR - FS データは、機械学習（ ML ）とディープラーニング（ DL ）に活用できるデータサイエンティストにとって価値ある分析情報を提供します。HDFS と MapR FS のデータは共有されないため、他のアプリケーションでは使用できません。顧客は、共有データ、特に顧客の機密データが複数のアプリケーションで使用される銀行業界を探しています。最新バージョンの Hadoop （ 3.x 以降）は NFS データソースをサポートしており、サードパーティ製ソフトウェアを追加することなくアクセスできます。新しい NetApp XCP 機能を使用すると、データを HDFS および MapR FS から NetApp NFS に直接移動して、複数のアプリケーションへのアクセスを提供できます
+
+テストは Amazon Web Services （ AWS ）で実施され、 MapR ノード 12 台と NFS サーバ 4 台を使用した初期パフォーマンステストで MapR FS から NFS にデータを転送しました。
+
+|===
+|  | 数量 | サイズ | vCPU | メモリ | ストレージ | ネットワーク 
+
+
+| NFS サーバ | 4. | i3en.24xlarge のサイズ | 96 | 488GiB | 8 台の 7 、 500 NVMe SSD | 100 
+
+
+| MapR ノード | 12. | I3en. 12xlarge | 48 | 384GiB | 7 、 500 NVMe SSD × 4 | 50 
+|===
+初期テストでは 20Gbps のスループットを達成し、 2PB のデータを 1 日あたり転送可能でした。
+
+HDFS を NFS にエクスポートせずに HDFS データを移行する方法の詳細については、の「 Deployment Steps - NAS 」を参照してください https://docs.netapp.com/us-en/netapp-solutions/xcp/xcp-bp-deployment-steps.html["TR-4863 ：『 Best Practice Guidelines for NetApp XCP - Data Mover 、 File Migration 、 and Analytics 』"^]。
+
+link:bda-ai-business-benefits.html["次は、ビジネス上のメリットです。"]

@@ -1,0 +1,25 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/bda-ai-customer-challenges.html 
+keywords: customer, challenge, data lake, repository, syncing, moving data 
+summary: このページでは、 AI の運用を目的としたビッグデータ分析からデータにアクセスする際にお客様が直面する可能性のある課題について説明します。 
+---
+= お客様の課題
+:hardbreaks:
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:bda-ai-introduction.html["前へ：はじめに。"]
+
+AI 運用のためにビッグデータ分析からデータにアクセスしようとすると、お客様は次のような課題に直面することがあります。
+
+* お客様のデータは、データレイクリポジトリに格納されています。データレイクには、構造化データ、非構造化データ、半構造化データ、ログ、マシン間データなど、さまざまなタイプのデータを格納できます。これらのデータタイプはすべて AI システムで処理する必要があります。
+* AI は Hadoop ファイルシステムには対応していません。一般的な AI アーキテクチャでは、 HDFS データと HCFS データに直接アクセスできないため、 AI に対応したファイルシステム（ NFS ）に移行する必要があります。
+* データレイクのデータを AI に移行するには、通常、特別なプロセスが必要です。データレイク内のデータ量は非常に多くなる可能性があります。効率性、スループット、コスト効率に優れた方法でデータを AI システムに移動する必要がある。
+* データを同期中です。お客様がビッグデータプラットフォームと AI の間でデータを同期したい場合は、ビッグデータを使用して処理されたデータを分析処理に使用できることがあります。
+
+
+link:bda-ai-data-mover-solution.html["次： Data Mover の解決策。"]
