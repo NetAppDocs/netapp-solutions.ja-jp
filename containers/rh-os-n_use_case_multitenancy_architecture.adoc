@@ -47,13 +47,13 @@ Red Hat OpenShift クラスタの永続的ストレージプロバイダとし�
 
 == Astra Trident
 
-NetApp ONTAP で作成されたプロジェクトごとに異なる SVM が作成されたら、各 SVM を異なる Trident バックエンドにマッピングする必要があります。Trident のバックエンド構成は、 OpenShift クラスタリソースへの永続的ストレージの割り当てを促進します。また、マッピング先の SVM の詳細が必要です。これは、バックエンドのプロトコルドライバである必要があります。必要に応じて、ストレージでのボリュームのプロビジョニング方法を定義したり、ボリュームのサイズやアグリゲートの使用などを制限したりできます。NetApp ONTAP の Trident バックエンドの定義に関する詳細については、を参照してください https://netapp-trident.readthedocs.io/en/stable-v21.01/kubernetes/operations/tasks/backends/ontap/index.html["こちらをご覧ください"^]。
+NetApp ONTAP で作成されたプロジェクトごとに異なる SVM が作成されたら、各 SVM を異なる Trident バックエンドにマッピングする必要があります。Trident のバックエンド構成は、 OpenShift クラスタリソースへの永続的ストレージの割り当てを促進します。また、マッピング先の SVM の詳細が必要です。これは、バックエンドのプロトコルドライバである必要があります。必要に応じて、ストレージでのボリュームのプロビジョニング方法を定義したり、ボリュームのサイズやアグリゲートの使用などを制限したりできます。Trident バックエンドの定義に関する詳細はこちらをご覧ください https://docs.netapp.com/us-en/trident/trident-use/backends.html["こちらをご覧ください"^]。
 
 
 
 == Red Hat OpenShift –ストレージリソース
 
-Trident バックエンドを設定したら、次の手順として StorageClasses を設定します。バックエンドと同じ数のストレージクラスを構成して、各ストレージクラスが 1 つのバックエンドにしかボリュームをスピンアップできない。ストレージクラスを定義する際に StoragePools パラメータを使用して、ストレージクラスを特定の Trident バックエンドにマッピングできます。ストレージクラスを定義する詳細については、を参照してください https://netapp-trident.readthedocs.io/en/stable-v18.07/kubernetes/concepts/objects.html#kubernetes-storageclass-objects["こちらをご覧ください"^]。そのため、 StorageClass から Trident バックエンドへの 1 対 1 のマッピングで、 1 つの SVM をポイントします。これにより、そのプロジェクトに割り当てられた StorageClass を経由するすべてのストレージ要求が、そのプロジェクト専用の SVM によって処理されます。
+Trident バックエンドを設定したら、次の手順として StorageClasses を設定します。バックエンドと同じ数のストレージクラスを構成して、各ストレージクラスが 1 つのバックエンドにしかボリュームをスピンアップできない。ストレージクラスを定義する際に StoragePools パラメータを使用して、ストレージクラスを特定の Trident バックエンドにマッピングできます。ストレージクラスを定義する詳細については、を参照してください https://docs.netapp.com/us-en/trident/trident-use/manage-stor-class.html["こちらをご覧ください"^]。そのため、 StorageClass から Trident バックエンドへの 1 対 1 のマッピングで、 1 つの SVM をポイントします。これにより、そのプロジェクトに割り当てられた StorageClass を経由するすべてのストレージ要求が、そのプロジェクト専用の SVM によって処理されます。
 
 ストレージクラスにネームスペースリソースが含まれていないため、あるプロジェクトのストレージクラスに対するストレージ要求を別のネームスペースまたはプロジェクトのポッドで拒否するにはどうすればよいですか？回答では、 ResourceQuotas を使用します。ResourceQuotas は、プロジェクトごとのリソースの合計使用量を制御するオブジェクトです。プロジェクト内のオブジェクトで消費できるリソースの合計量だけでなく、リソースの数も制限できます。ほとんどの場合、 ResourceQuotas を使用してプロジェクトのリソースを制限することができます。この機能を効率的に使用することで、リソースのオーバープロビジョニングや過剰消費によるコストやシステム停止を削減できます。のドキュメントを参照してください https://docs.openshift.com/container-platform/4.7/applications/quotas/quotas-setting-per-project.html["こちらをご覧ください"^] を参照してください。
 

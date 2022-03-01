@@ -118,7 +118,6 @@
   <block id="35b5078b5953437a59ffd4f77c464800" category="section-title">ネットワークインフラストラクチャサポートリソース</block>
   <block id="c2ffe02d76c4f089648f1647b43e4ee5" category="section-title">ベストプラクティス</block>
   <block id="2d52bcd2e896c32a66c9fe10fed38e0f" category="inline-link-macro">次の手順：ハードウェアとソフトウェアの要件</block>
-  <block id="0b23a2a9d2c7b936148c2852bb596b4d" category="paragraph">ワーカーノードでストレージサービスを実行するように設定するには、次の手順を実行します。</block>
   <block id="6e16409ed6038c106c7fa1dfbfb9da0f" category="admonition">また、適切なフラグを指定して「 OC debug 」コマンドを実行することにより、 MachineConfig が正常に適用され、サービスが正常に開始されたことを確認することもできます。</block>
   <block id="47dee50ad0138b8f5ca70e40e86e6c04" category="section-title">ハードウェア要件</block>
   <block id="7ddb33edf227a18eb76201fcb9e2c9db" category="section-title">ソフトウェア要件</block>
@@ -4932,30 +4931,17 @@
   <block id="c0cf3c0162d106c6ee24b7afa9b79575" category="paragraph">アプリケーションの Snapshot コピーを作成すると、 ONTAP Snapshot コピーが作成されます。 Snapshot コピーに基づいて、アプリケーションを特定の時点にリストアまたはクローニングできます。</block>
   <block id="9101281f33d55e682b1a47a44251fa0e" category="list-text">アプリケーションのスナップショットを作成するには、 [ アプリ ] &gt; [ 管理 ] タブに移動し、 Snapshot コピーを作成するアプリケーションをクリックします。アプリケーション名の横にあるドロップダウンメニューをクリックし、 Snapshot をクリックします。</block>
   <block id="c01290a8a623e36f9bcae85b910a3410" category="inline-image-macro">Astra Control Center のスナップショットボタン</block>
-  <block id="22434659793c78f48c7d1c7b4737d3e6" category="paragraph"><block ref="22434659793c78f48c7d1c7b4737d3e6" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="c5cb0ac31cda5107720fe3d594334e47" category="list-text">スナップショットの詳細を入力し、 [ 確認 ] をクリックして、 [ スナップショット ] をクリックします。Snapshot の作成には約 1 分かかり、作成が完了するとステータスを確認できるようになります。</block>
   <block id="f40e241f10f15eb6887acbc81fec81b0" category="inline-image-macro">Astra Control Center でスナップショットを作成</block>
-  <block id="9e3f10f093546e36308573917ec43329" category="paragraph"><block ref="9e3f10f093546e36308573917ec43329" category="inline-image-macro-rx" type="image"></block></block>
   <block id="1853746a915bea325b8b576237c24427" category="section-title">アプリケーションのバックアップを作成しています</block>
   <block id="91796648d42dbd448c6cbb2044cb92ba" category="paragraph">アプリケーションのバックアップは、アプリケーションのアクティブな状態とそのリソースの設定をキャプチャしてファイルに変換し、リモートのオブジェクトストレージバケットに格納します。</block>
   <block id="72e328bb06195897c7a644970c61d3a2" category="paragraph">Astra Control Center で管理対象アプリケーションのバックアップとリストアを行うには、バッキング ONTAP システムのスーパーユーザ設定を前提条件として設定する必要があります。そのためには、次のコマンドを入力します。</block>
   <block id="6db82a24b17137378420e9fc7961d961" category="list-text">Astra Control Center で管理対象アプリケーションのバックアップを作成するには、 [ アプリ ] &gt; [ 管理 ] タブに移動し、バックアップを作成するアプリケーションをクリックします。アプリケーション名の横にあるドロップダウンメニューをクリックし、 [ バックアップ ] をクリックします。</block>
   <block id="bc230776554b8a63af328cf9f01124e1" category="inline-image-macro">Astra Control Center のバックアップボタン</block>
-  <block id="61b27a816b60763bb526e19339074f61" category="paragraph"><block ref="61b27a816b60763bb526e19339074f61" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="dfade2835046a4412806486584077a75" category="list-text">バックアップの詳細を入力し、バックアップファイルを保持するオブジェクトストレージバケットを選択して、「確認」をクリックします。詳細を確認したら、「バックアップ」をクリックします。アプリケーションのサイズとデータによっては、バックアップに数分かかることがあり、バックアップが正常に完了したあとでバックアップのステータスを確認できるようになります。</block>
   <block id="e10781941ccd98298d2856b437b3fb4b" category="inline-image-macro">Astra Control Center でバックアップを作成</block>
-  <block id="b79feabe45fa973dbfc3b196e9a0b7ad" category="paragraph"><block ref="b79feabe45fa973dbfc3b196e9a0b7ad" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="39c5ec1870f7031498c4fa4634f5ca0a" category="section-title">アプリケーションのリストアまたはクローニング</block>
-  <block id="2939764b1667f58cd22dc123966f5634" category="paragraph">ボタンを押すだけで、アプリケーションを元のクラスタにリストアしたり、開発 / テストやアプリケーションの保護やディザスタリカバリを目的としてリモートクラスタにクローニングしたりできます。</block>
-  <block id="2c2697937c7f0c07693378f58d4110c3" category="list-text">アプリケーションをリストアまたはクローンするには、 [ アプリ ] &gt; [ 管理 ] タブに移動し、該当するアプリをクリックします。アプリケーション名の横にあるドロップダウンメニューをクリックし、 Clone をクリックします。</block>
   <block id="92955527b375720b2a586155a776c0ac" category="inline-image-macro">Astra Control Center のクローンボタン</block>
-  <block id="4d69833fef921717aba648acb1677c81" category="paragraph"><block ref="4d69833fef921717aba648acb1677c81" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="3055b7009a82841904eb36fa27fb7b31" category="list-text">新しいネームスペースの詳細を入力し、リストアまたはクローニングするクラスタを選択して、既存の Snapshot からリストアまたはクローニングするか、アプリケーションの現在の状態のバックアップからリストアするかを選択します。詳細を確認したら、 [ 確認 ] をクリックし、 [ 複製 ] をクリックします。</block>
   <block id="c4293ef1955d52694e7d2288b637df1a" category="inline-image-macro">Astra Control Center の復元</block>
-  <block id="9ad1cd254dba2b1c13c810078d947a3e" category="paragraph"><block ref="9ad1cd254dba2b1c13c810078d947a3e" category="inline-image-macro-rx" type="image"></block></block>
   <block id="c501040965cb5ca97cc675347e9ebfdf" category="list-text">新しいアプリケーションは Discovering 状態になり、 Astra Control Center は選択したクラスタにアプリケーションを作成します。アプリケーションのすべてのリソースが Astra によってインストールおよび検出されると、アプリケーションは Available 状態になります。</block>
   <block id="9ff3c5458e4a8facc6e7c25656a3baf7" category="inline-image-macro">Astra Control Center の新しいアプリが検出されました</block>
-  <block id="32fc08fbd285649fbc9f888756113f95" category="paragraph"><block ref="32fc08fbd285649fbc9f888756113f95" category="inline-image-macro-rx" type="image"></block></block>
   <block id="d19de154f02438c6d6918a4e016c7c62" category="doc">保護するアプリケーションを選択します</block>
   <block id="501195b19cb60bfec4c2e4899a2a460c" category="paragraph">Red Hat OpenShift クラスタを登録したら、 Astra Control Center を使用して導入および管理するアプリケーションを検出できます。</block>
   <block id="a022d74e2b8b62dd9f1caa37a51aa3f3" category="section-title">アプリケーションを管理します</block>
@@ -4971,8 +4957,6 @@
   <block id="472d13eb415cd6107aeef3a1ae6cd705" category="summary">ネットアップは、 Red Hat OpenShift などのコンテナベースの環境における永続的データのオーケストレーションや管理を支援する、さまざまな製品を提供しています。</block>
   <block id="ebfc0e639726a366f8eb5ac86bb7cc43" category="paragraph"><block ref="ebfc0e639726a366f8eb5ac86bb7cc43" category="inline-image-macro-rx" type="image"></block></block>
   <block id="cd351007d4a671a321b6881f730d0dc3" category="paragraph">以下のページには、解決策追加情報に実装された Red Hat OpenShift でアプリケーションおよび永続的ストレージ管理のために検証されたネットアップ製品に関する があります。</block>
-  <block id="77665e15c3691d78f1b4eebb6fff579a" category="list-text"><block ref="77665e15c3691d78f1b4eebb6fff579a" category="inline-link-macro-rx"></block></block>
-  <block id="19ebd5ffa30d784aa0f379af66f810e9" category="list-text"><block ref="19ebd5ffa30d784aa0f379af66f810e9" category="inline-link-macro-rx"></block></block>
   <block id="afa49872fb8ae001174e4c8f2cc47208" category="inline-link-macro">次のセクションでは、ネットアップ Astra Control Center の概要について説明します</block>
   <block id="22fd530ae76b4bbe50669b9a4d5b72d7" category="paragraph"><block ref="22fd530ae76b4bbe50669b9a4d5b72d7" category="inline-link-macro-rx"></block></block>
   <block id="810a039d1a8524388b75a0fe8d837afc" category="summary">Astra Control Center でワークロードを管理できるようにするには、まず Red Hat OpenShift クラスタを登録する必要があります。</block>
@@ -5365,7 +5349,6 @@
   <block id="4e5653c75e720212b79703e8083de2a8" category="inline-link-macro">次は、 Dask の 15 日目をロードし、 Dask cuML ランダムフォレストモデルをトレーニングします。</block>
   <block id="8c9976282cff1b15934d937349911c30" category="paragraph"><block ref="8c9976282cff1b15934d937349911c30" category="inline-link-macro-rx"></block></block>
   <block id="7f39827ac712fa5b76b27ff0b267373c" category="sidebar">NetApp DataOps ツールキットを使用したデータセットとモデルのバージョン管理</block>
-  <block id="efbc668592bf2cf9e84b95ff4a9de44c" category="cell">21.08.65</block>
   <block id="6589da0279dd02b9b1d177e0ff5f457b" category="list-text">Astra Control Center Operator をインストールするための名前空間 NetApp-acc-operator を作成します。</block>
   <block id="e3990b0b892faaf03261a0a1bcd00b9b" category="list-text">NetApp-acc-operator ネームスペースのイメージレジストリにログインするためのクレデンシャルを含むシークレットを作成します。</block>
   <block id="8b6327b93d10679b1f412976af9d3bba" category="summary">Azure NetApp Files 、 Rapids 、 Dask は、 Docker や Kubernetes などのオーケストレーションツールと統合された大規模な ML 処理とトレーニングの導入を高速化し、簡易化します。エンドツーエンドのデータパイプラインを統合する解決策ことで、多くの高度なコンピューティングワークロードに特有のレイテンシと複雑さを軽減し、開発と運用のギャップを効果的に解消します。</block>
@@ -5502,7 +5485,6 @@
   <block id="7433dd0f15704f71764248a0ca105fad" category="admonition">サイトに各 OpenShift インストールを実装し、永続的ストレージ専用の SVM を用意することがベストプラクティスです。マルチサイト環境では、追加のストレージシステムが必要です。</block>
   <block id="e32d2cb3312c2c7797ca52bd8d6ff26f" category="admonition">リンクを参照してください <block ref="0065297854ca0573913043e80b99a2d1" category="inline-link-macro-rx"></block> この目的で検証済みのロードバランサに関する情報。</block>
   <block id="aa32c16385a1b749687956188e4f0d9a" category="admonition">リンクを参照してください <block ref="9d2000c3bba4885fe5f36ed192264583" category="inline-link-macro-rx"></block> この目的のために OpenShift プライベートレジストリをインストールして構成します。</block>
-  <block id="8efc7e44bb98c81afc71990bff28c8ea" category="list-text">ネットアップサポートサイトにログインし、最新バージョンの NetApp Astra Control Center をダウンロードします。そのためには、ネットアップアカウントにライセンスを関連付ける必要があります。tarball をダウンロードしたら、 admin ワークステーションに転送します。</block>
   <block id="121c2592ea226f655d357a8ecd8caf2e" category="inline-link">Astra 登録サイト</block>
   <block id="ba6df9237a2774d7ca28cdf134cf9314" category="admonition">Astra Control の試用版ライセンスの使用を開始するには、にアクセスしてください<block ref="dd61f8f3fbfa8ca8b0a268b985d55b0e" category="inline-link-rx"></block>。</block>
   <block id="29fc4f6574f437e623e4eb9d47136931" category="list-text">インストールを開始する前に、 Astra Control Center イメージをイメージレジストリにプッシュします。</block>
@@ -5514,7 +5496,6 @@
   <block id="6d71c41a686bcfc0b0866044afd43f2b" category="list-text">その名前空間のイメージレジストリにアクセスするためのシークレットを作成します。</block>
   <block id="25eb68598d15a49d385089020950412c" category="list-text">Astra Control Center CRD ファイル 'Astra_control_center_min.yaml を編集し 'FQDN' イメージレジストリの詳細 ' 管理者の電子メールアドレスなどの詳細を入力します</block>
   <block id="42b9bde28896d6478a324770641ac301" category="admonition">前のファイル「 Astra_control_center_min YAML 」は、 Astra Control Center CRD の最小バージョンです。PVC 作成時のデフォルト以外のストレージクラスを定義したり、メール通知用の SMTP の詳細を提供したりするなど、より詳細な制御を伴う CRD を作成する場合は、ファイル「 Astra_control_center.yaml 」を編集して必要な詳細を入力し、それを使用して CRD を作成します。</block>
-  <block id="68a6fcf9c2943281db013ef2ebb142f2" category="section-title">インストールの検証</block>
   <block id="e3cd33ca69b8e508c973939783f528db" category="list-text">インストールが完了するまでに数分かかることがあります。NetApp-AstrA-cc' ネームスペース内のすべてのポッドとサービスが稼働していることを確認します</block>
   <block id="c27deb19babf146e6377dce25b1e70e7" category="list-text">Astra Control Center にログインするためのユーザ名は、 CRD ファイルに提供された管理者の電子メールアドレスで、パスワードは Astra Control Center UUID に付加された文字列「 ACC-` 」です。次のコマンドを実行します。</block>
   <block id="57a7aa2eaf00ddaa73ef6b49299ade6e" category="admonition">この例では、パスワードは「 ACC-345c55a5 -bf2e-21f0 -84b8 -b6f2bce5e95f 」です。</block>
@@ -5578,8 +5559,6 @@
   <block id="72710b926f57dad99b29203c63f4e3fd" category="paragraph">Red Hat OpenShift クラスタの観点からは、最初に最上位のリソースがプロジェクトです。OpenShift プロジェクトは、 OpenShift クラスタ全体を複数の仮想クラスタに分割するクラスタリソースと見なすことができます。したがって、プロジェクトレベルでの分離によって、マルチテナンシーの設定の基盤が提供されます。</block>
   <block id="20e1834bb9396599a6dcf7d743aa1b36" category="paragraph">次に、クラスタで RBAC を設定します。ベストプラクティスとして、すべての開発者が 1 つのプロジェクトまたはワークロードを担当し、アイデンティティプロバイダ（ IdP ）内の単一のユーザグループに設定することを推奨します。Red Hat OpenShift では、 IdP の統合とユーザグループの同期が可能なため、 IdP のユーザとグループをクラスタにインポートできるようになります。これにより、クラスタ管理者は、プロジェクト専用のクラスタリソースへのアクセスをそのプロジェクトに使用するユーザグループまたはグループに分離して、クラスタリソースへの不正アクセスを制限できます。Red Hat OpenShift への IdP の統合の詳細については、のドキュメントを参照してください<block ref="213cff8958909b80a9514e0c8321d8ef" category="inline-link-rx"></block>。</block>
   <block id="6d4e96186b1f4267def393ec42bf2d9e" category="paragraph">Red Hat OpenShift クラスタの永続的ストレージプロバイダとして機能している共有ストレージを分離し、各プロジェクト用にストレージ上に作成されたボリュームが、別々のストレージ上に作成されたものと同じようにホストに表示されるようにすることが重要です。そのためには、プロジェクトやワークロードに応じて Storage Virtual Machine （ SVM ）を NetApp ONTAP 上に作成し、各 SVM をワークロード専用にします。</block>
-  <block id="14b7e6063ba0fc293205b5f063ff5951" category="paragraph">NetApp ONTAP で作成されたプロジェクトごとに異なる SVM が作成されたら、各 SVM を異なる Trident バックエンドにマッピングする必要があります。Trident のバックエンド構成は、 OpenShift クラスタリソースへの永続的ストレージの割り当てを促進します。また、マッピング先の SVM の詳細が必要です。これは、バックエンドのプロトコルドライバである必要があります。必要に応じて、ストレージでのボリュームのプロビジョニング方法を定義したり、ボリュームのサイズやアグリゲートの使用などを制限したりできます。NetApp ONTAP の Trident バックエンドの定義に関する詳細については、を参照してください<block ref="d13b7d5e649388dcbd372dea81ac2cd7" category="inline-link-rx"></block>。</block>
-  <block id="666ef279afb3e53e20493813e1d5ba72" category="paragraph">Trident バックエンドを設定したら、次の手順として StorageClasses を設定します。バックエンドと同じ数のストレージクラスを構成して、各ストレージクラスが 1 つのバックエンドにしかボリュームをスピンアップできない。ストレージクラスを定義する際に StoragePools パラメータを使用して、ストレージクラスを特定の Trident バックエンドにマッピングできます。ストレージクラスを定義する詳細については、を参照してください<block ref="fea785e27a2821a3ea27566d55a5d6cd" category="inline-link-rx"></block>。そのため、 StorageClass から Trident バックエンドへの 1 対 1 のマッピングで、 1 つの SVM をポイントします。これにより、そのプロジェクトに割り当てられた StorageClass を経由するすべてのストレージ要求が、そのプロジェクト専用の SVM によって処理されます。</block>
   <block id="76245f392269db8492c3610e325b1963" category="paragraph">ストレージクラスにネームスペースリソースが含まれていないため、あるプロジェクトのストレージクラスに対するストレージ要求を別のネームスペースまたはプロジェクトのポッドで拒否するにはどうすればよいですか？回答では、 ResourceQuotas を使用します。ResourceQuotas は、プロジェクトごとのリソースの合計使用量を制御するオブジェクトです。プロジェクト内のオブジェクトで消費できるリソースの合計量だけでなく、リソースの数も制限できます。ほとんどの場合、 ResourceQuotas を使用してプロジェクトのリソースを制限することができます。この機能を効率的に使用することで、リソースのオーバープロビジョニングや過剰消費によるコストやシステム停止を削減できます。のドキュメントを参照してください<block ref="9b2bb9683c8f6144876bed616f252527" category="inline-link-rx"></block> を参照してください。</block>
   <block id="5402bb91006fe391aea122e11c3607db" category="paragraph">このユースケースでは、特定のプロジェクトのポッドが、プロジェクト専用ではないストレージクラスのストレージを要求しないように制限する必要があります。これを行うには '&lt;storage-class-name&gt;.storageeclass.storage0.k8sio/persistentvolumeclaims'0 を設定して ' 他のストレージ・クラスに対する永続的ボリューム要求を制限する必要がありますさらに、クラスタ管理者は、プロジェクト内の開発者が ResourceQuotas を変更するためのアクセス権を持っていないことを確認する必要があります。</block>
   <block id="b1a934cbded2602c4186fb43d7c8a986" category="paragraph">それぞれのユースケースに応じて、コンテナと仮想マシン（ VM ）はどちらも、さまざまなタイプのアプリケーションに最適なプラットフォームとして機能します。そのため、多くの組織では、ワークロードの一部をコンテナで実行し、一部を VM で実行しています。そのため多くの場合、 VM 用のハイパーバイザーとアプリケーション用のコンテナオーケストレーションツールという別々のプラットフォームを管理する必要があり、組織はさらに多くの課題に直面します。</block>
@@ -5629,13 +5608,7 @@
   <block id="5ba8ff3c009683ee423b0884c25360d0" category="list-text">[Workloads （ワークロード） ] &gt; [Virtualization （仮想化） ] &gt; [Virtual Machines （仮想マシン） ] に移動し、 [Create （作成）</block>
   <block id="cd32f6b0aebb29494cbc9cc21a10c926" category="list-text">spec&gt; template&gt; spec&gt; volumes セクションで、コンテナディスクではなく、クローン PVC を接続します。新しい VM について、要件に応じてその他の詳細をすべて指定します。</block>
   <block id="f79c612e785ac74789a25e8dda9e8731" category="doc">Astra Trident の概要</block>
-  <block id="d5cbeca32d73011c04935c16b2354a8d" category="paragraph">最新バージョンの Astra Trident は、 2021 年 7 月にリリースされた 21.07 です。Trident のどのバージョンがサポートされているかを確認できます Kubernetes ディストリビューションのテストに使用<block ref="dce7c52b3f1670b02b7a6d06eda6f8c5" category="inline-link-rx"></block>。</block>
-  <block id="66397e1304e063a18fcee18c6e14aefb" category="list-text">インストールアーカイブを管理ワークステーションにダウンロードし、内容を展開します。Trident の現在のバージョンは 21.07 で、ダウンロードできます<block ref="76ce6083b506b9f441ed0547bf1a84fd" category="inline-link-rx"></block>。</block>
-  <block id="195fb7289db872221837de2f96721e05" category="paragraph">詳細については、 Astra Trident の Web サイトをご覧ください<block ref="727f15aa2af8bdae071f864617bcc142" category="inline-link-rx"></block>。</block>
   <block id="bd4a2d19c5168aa8c2b89b4affba2402" category="cell">9.8 、 9.9.1</block>
-  <block id="c1332fafdb8a2b2f43a59cf9254b881a" category="cell">21.07.1</block>
-  <block id="a38c24ba09284f027e0cf4b9de820cca" category="inline-link"><block ref="a38c24ba09284f027e0cf4b9de820cca" category="inline-link-rx"></block></block>
-  <block id="744e3fb2872b46d360c61869c864b352" category="paragraph"><block ref="744e3fb2872b46d360c61869c864b352" category="inline-link-rx"></block></block>
   <block id="4af39dbe40f8a0467bbdd739a971f0ea" category="admonition">次のメッセージは、 Astra Control Center のインストールが正常に完了したことを示します。</block>
   <block id="5946314197ad84982efa6561d9da8302" category="list-text">traefik サービスのロードバランサ IP を取得します。</block>
   <block id="298a1e8781e536e60684ab1700c60962" category="list-text">Astra Control Center CRD ファイルに指定された FQDN を指す DNS サーバーのエントリを、 traefik サービスの「 external-IP 」に追加します。</block>
@@ -5732,7 +5705,6 @@
   <block id="10a93051f49f4080568cecc5ec30cd99" category="inline-link-macro">F5 BIG-IP</block>
   <block id="886218e92c071e06819887a13189b4e6" category="list-text"><block ref="886218e92c071e06819887a13189b4e6" category="inline-link-macro-rx"></block></block>
   <block id="0c3fd18fbca2ec11aa1ef250cf79f2e5" category="paragraph">NetApp Astra Control は、ネットアップのデータ保護テクノロジを基盤とするステートフル Kubernetes ワークロード向けの充実したストレージサービスとアプリケーション対応データ管理サービスを提供します。Astra Control Service は、クラウドネイティブの Kubernetes 環境でステートフルワークロードをサポートするために利用できます。Astra Control Center は、 Red Hat OpenShift などのオンプレミス環境でステートフルワークロードをサポートするために使用できます。詳細については、 NetApp Astra Control の Web サイトをご覧ください<block ref="508f471fa59796a53754f031c40091c1" category="inline-link-rx"></block>。</block>
-  <block id="1bd63bf18edcc59af656e76ee09dd403" category="paragraph">NetApp Astra Trident は、コンテナや Kubernetes ディストリビューション向けの、 Red Hat OpenShift などのオープンソースで完全にサポートされているストレージオーケストレーションツールです。詳細については、 Astra Trident の Web サイトをご覧ください<block ref="727f15aa2af8bdae071f864617bcc142" category="inline-link-rx"></block>。</block>
   <block id="e6d792539f0b0370e43d76a3e05a211a" category="cell">仮想化コアソリューションの集合。ソリューションは、 [navy]#vmware Virtualization#[navy]#Demos and Tutorials#. に分類されています</block>
   <block id="1f23e5de73e650f12cbafec55d8a98cd" category="cell"><block ref="1f23e5de73e650f12cbafec55d8a98cd" category="inline-link-macro-rx"></block></block>
   <block id="69f55c7d7266874ad1ed57caf459c979" category="summary">この使用事例は、当社が実施した最も大規模な金融機関顧客向けコンセプトの実証（ CPOC ）に基づいています。ネットアップはこれまで、分析データを NetApp ONTAP AI に移動するためにネットアップの In-Place Analytics Module （ NIPAM ）を使用してきました。ただし、 NetApp XCP の最新の拡張機能とパフォーマンスの向上、および NetApp Data Mover 解決策独自のアプローチにより、 NetApp XCP を使用したデータ移行が再度行われます。</block>
@@ -9781,4 +9753,88 @@
   <block id="4e39bc17db35d21d84b6fb1e9786fdb5" category="paragraph"><block ref="4e39bc17db35d21d84b6fb1e9786fdb5" category="inline-link-macro-rx"></block></block>
   <block id="4f25c5c9b33cc2f12b098bd8cc026222" category="sidebar">ビッグデータ分析データを人工知能に</block>
   <block id="713522228cb3164cc6e71ff6d49c3b13" category="sidebar">NFS に対する GPF - 詳細な手順</block>
+  <block id="a6cac691940e90bb16e306f5d4122c53" category="cell">2021 年 3 月 1 日</block>
+  <block id="75afdb5cd8c025ed0681bdb302fcdcda" category="cell">NVA-1160 に「 OperatorHub および Ansible による Astra Control Center のインストール」という新しいセクションを追加しました</block>
+  <block id="593fdc7a2167cd2ada3e71219ceb0ecb" category="paragraph">詳細については、 Astra Trident の Web サイトをご覧ください<block ref="845024b96ab150d9f628b33995c60669" category="inline-link-rx"></block>。</block>
+  <block id="3d930ae98e9d9fc9a418d6b8e5e5639f" category="cell">21.12.60</block>
+  <block id="8e232cd005846e0f66f39f19aa03103c" category="cell">22.01.0</block>
+  <block id="2bb7e89d50aed884078c4b7857f5bb39" category="cell">4.6 EUS 、 4.7 、 4.8</block>
+  <block id="1e90637438eb06672159d2998d220e86" category="open-title">OperatorHub を使用する</block>
+  <block id="bff0144772c74d96da07b6ccefb79f96" category="list-text">ネットアップサポートサイトにログインし、最新バージョンの NetApp Astra Control Center をダウンロードします。そのためには、ネットアップアカウントにライセンスを関連付ける必要があります。tarball をダウンロードしたら、 admin ワークステーションに転送します。</block>
+  <block id="baac643870c95006b4243d078606a15d" category="list-text">インストールを開始する前に、 Astra Control Center イメージをイメージレジストリにプッシュします。この手順では、 Docker または Podman のいずれかを使用して実行します。両方の手順については、この手順で説明します。</block>
+  <block id="455cbd59356abfa16dcf7666d4ae6c2b" category="list-title">ポドマン</block>
+  <block id="ee9b41d8a22021826def077c661525f4" category="list-text">公開されていないプライベートイメージレジストリを使用する場合は、イメージレジストリ TLS 証明書を OpenShift ノードにアップロードします。そのためには、 TLS 証明書を使用して OpenShift -config ネームスペースに ConfigMap を作成し、クラスタイメージ構成にパッチを適用して証明書を信頼できるようにします。</block>
+  <block id="9c656c969a87783fcf4b94b721f34bc9" category="list-text">Astra Control Center 用の名前空間 NetApp-acc-operator' を作成します</block>
+  <block id="788e8355bdd3a21f3a9017a0610940f4" category="list-text">クラスタ管理者アクセスで Red Hat OpenShift GUI コンソールにログインします。</block>
+  <block id="3d68b5654b778f026ac691bc6ed70cc5" category="list-text">[ 演算子 ]&gt;[ 演算子ハブ ] の順に移動し、 Astra を検索します。</block>
+  <block id="dc7add750562c445f72d8d016a79ae29" category="list-text">NetApp-acc-operator' タイルを選択し、 [ インストール ] をクリックします。</block>
+  <block id="c80be3093b470ca8092538e58a261952" category="image-alt">ACC オペレータタイル</block>
+  <block id="c65c283737dc37cea2358a91588ff272" category="list-text">インストールオペレータ画面で、デフォルトのパラメータをすべて受け入れて、「インストール」をクリックします。</block>
+  <block id="3677d31e24a1853c961f3f1a9a39a1d6" category="image-alt">ACC オペレータの詳細</block>
+  <block id="ba14525c4ccc9b2f692d062104885b19" category="image-alt">ACC オペレーターがインストールを待機します</block>
+  <block id="fea3120ff933c367a5882d58dbbe8a08" category="list-text">オペレータのインストールが完了したら、 [View Operator] をクリックします。</block>
+  <block id="a573acc0621ea72a06ce987a341768bf" category="image-alt">ACC オペレータによるインストールが完了しました</block>
+  <block id="f99196bf6b988223fab800f28cf0323c" category="list-text">次に、オペレーターの Astra Control Center タイルで [Create Instance] をクリックします。</block>
+  <block id="11f7c569d04eecd142ba5989efcc2da3" category="image-alt">ACC インスタンスを作成します</block>
+  <block id="02780e148f03f25db76204c23985d753" category="list-text">[Create AstraeControl] フォームフィールドに入力し '[Create] をクリックします</block>
+  <block id="e31f3b85c5179d88bcf0629842c5342f" category="list-text">必要に応じて、 Astra Control Center インスタンス名を編集します。</block>
+  <block id="3336a2124154da151aecfe1809d7c821" category="list-text">必要に応じて、 AutoSupport を有効または無効にします。Auto Support 機能の保持を推奨します。</block>
+  <block id="14ddbb7fd85c2907073b06492b95191b" category="list-text">Astra Control Center の FQDN を入力します。</block>
+  <block id="fbcd656fecc902b1994e346dc0627266" category="list-text">Astra Control Center のバージョンを入力します。デフォルトで最新のバージョンが表示されます。</block>
+  <block id="311a20c50b8e2d72cf9b31eb6339bff4" category="list-text">Astra Control Center のアカウント名を入力し、管理者の詳細（名、姓、メールアドレスなど）を入力します。</block>
+  <block id="163e6534daeb1cbd7c56b20a9477802f" category="list-text">ボリューム再利用ポリシーを入力します。デフォルトは Retain です。</block>
+  <block id="5863d7f52b409374d0d80b1bcbba68fd" category="list-text">Image Registry に、レジストリの FQDN と、イメージをレジストリにプッシュする際に指定した組織名を入力します（この例では「 astra-registry.apps.ocp-vmw.cie.netapp.com/netapp-astra` 」）。</block>
+  <block id="95279718d2829cd5ed7772d6f0a77ca9" category="list-text">認証が必要なレジストリを使用する場合は、 [ イメージレジストリ ] セクションにシークレット名を入力します。</block>
+  <block id="b8f9ae819a2d6559f55aed837fdc2a47" category="list-text">Astra Control Center のリソース制限のスケーリングオプションを設定します。</block>
+  <block id="3b489b9fd690a8cdf710454d0ccb5288" category="list-text">デフォルト以外のストレージクラスに PVC を配置する場合は、ストレージクラス名を入力します。</block>
+  <block id="6b9265a82fa5bd326052ec55e040a54a" category="list-text">CRD 処理の環境設定を定義します。</block>
+  <block id="90aa5928482975bc6ff56f0eaf052451" category="open-title">自動化された [Ansible ]</block>
+  <block id="3937de5e196f2d9062772804e96695b6" category="paragraph">21.12.60Ansible プレイブックを使用して Astra Control Center を導入するには、 Ansible がインストールされた Ubuntu / RHEL マシンが必要です。説明に従って、手順 に従います<block ref="3c36e2d6ece22f6d90a18a4cf2722cef" category="inline-link-rx"></block> Ubuntu およびそれに含まれています<block ref="1988083261a6d1d93abe49ae6e6435ae" category="inline-link-rx"></block> RHEL の場合：</block>
+  <block id="b8571b33af3335fed61ab0d7985d007f" category="list-text">Ansible コンテンツをホストする GitHub リポジトリをクローニングします。</block>
+  <block id="5ed95667cae604c0ddee2dbf04f423fe" category="list-text">ネットアップサポートサイトにログインし、最新バージョンの NetApp Astra Control Center をダウンロードします。そのためには、ネットアップアカウントにライセンスを関連付ける必要があります。tar ファイルをダウンロードしたら、ワークステーションに転送します。</block>
+  <block id="6238d4091e12ffa6643c0dc68d72ceab" category="list-text">Astra Control Center をインストールする OpenShift クラスタに管理者としてアクセスできる kubeconfig ファイルを作成または取得します。</block>
+  <block id="b736c713f352ab43e7543fda4589e96f" category="list-text">ディレクトリを na_Astra_control_site に変更します。</block>
+  <block id="4f31682e7040024757006eed6ba0344a" category="list-text">変数 / 変数 .yml ファイルを編集し、必要な情報を入力します。</block>
+  <block id="084d6dacfbcd3e90106780f3cb2699fa" category="list-text">プレイブックを実行して Astra Control Center を導入します。Playbook には、特定の構成用の root 権限が必要です。</block>
+  <block id="1b9af2e27b0d249822ccdef7fe087cfc" category="paragraph">そのため、この Playbook を実行しているユーザが root である場合やパスワードを使用しない sudo が設定されている場合は、以下のコマンドを実行してこの Playbook を実行してください。</block>
+  <block id="9081796e9cbb144a0c6cc05a62c75b37" category="paragraph">ユーザにパスワードベースの sudo アクセスが設定されている場合は、次のコマンドを実行してこの Playbook を実行し、 sudo パスワードを入力します。</block>
+  <block id="8d1e5f9175948d3e6f932794744cde16" category="section-title">インストール後の手順</block>
+  <block id="8b70487815961b708f216595f5817311" category="paragraph">2022 年 1 月にリリースされた最新バージョンの Astra Trident は 22.01 です。Trident のどのバージョンがサポートされているかを確認できます Kubernetes ディストリビューションのテストに使用<block ref="34562000b9988739736848a0014e5230" category="inline-link-rx"></block>。</block>
+  <block id="b5d9e69ac9444a6a1cfd78cf106c057e" category="list-text">インストールアーカイブを管理ワークステーションにダウンロードし、内容を展開します。Trident の最新バージョンは 22.01 で、ダウンロードできます<block ref="defadeb91446b93776c7f5696677985c" category="inline-link-rx"></block>。</block>
+  <block id="89c771069f269704306d4ca7b118cc7d" category="paragraph">ただし NFSv3 については、クライアントとサーバ間の同時処理をネゴシエートするメカニズムはありません。したがって ' サーバが接続のウィンドウ・サイズを小さくしなくても NFS 接続の最適なパフォーマンスを確保できるように ' クライアント側 sunrpc スロット・テーブル・エントリーの最大数は ' サーバ上でサポートされている値と手動で同期する必要があります</block>
+  <block id="9c2d7353683234845149cb6710dc11f8" category="paragraph">ONTAP でサポートされる sunrpcslot table エントリの最大数は 128 です。つまり、 ONTAP は、一度に 128 個の NFS 要求を同時に処理できます。ただし、 Red Hat CoreOS / Red Hat Enterprise Linux では、接続ごとに最大 65 、 536 の sunrpc スロットテーブルエントリがデフォルトでサポートされます。この値を 128 に設定する必要があります。これは OpenShift のマシン構成オペレータ（ MCO ）を使用して実行できます。</block>
+  <block id="88cd6afaae477b942c9ab5d396e43cfb" category="paragraph">OpenShift ワーカーノードで最大 sunrpc スロットテーブルエントリを変更するには、次の手順を実行します。</block>
+  <block id="e7a7478f209d8b5dcaf38a593ce749b3" category="list-text">MCO が作成されたら、すべてのワーカーノードに設定を適用し、 1 つずつ再起動する必要があります。プロセス全体には約 20~30 分かかります。「 OC GET MCP 」を使用してマシン構成が適用されているかどうかを確認し、ワーカーのマシン構成プールが更新されていることを確認します。</block>
+  <block id="068d2023b916134a0573aaad841124e4" category="paragraph">ワーカーノードで iSCSI サービスを実行するように設定するには、次の手順を実行します。</block>
+  <block id="b74877ef96b7f6ef3d913a0c3ebca5e8" category="inline-link"><block ref="b74877ef96b7f6ef3d913a0c3ebca5e8" category="inline-link-rx"></block></block>
+  <block id="086fce5f74cc93b0516aadec33636e09" category="paragraph"><block ref="086fce5f74cc93b0516aadec33636e09" category="inline-link-rx"></block></block>
+  <block id="0611f127a7e1e7ef5bbd782030c2e34a" category="paragraph">NetApp ONTAP で作成されたプロジェクトごとに異なる SVM が作成されたら、各 SVM を異なる Trident バックエンドにマッピングする必要があります。Trident のバックエンド構成は、 OpenShift クラスタリソースへの永続的ストレージの割り当てを促進します。また、マッピング先の SVM の詳細が必要です。これは、バックエンドのプロトコルドライバである必要があります。必要に応じて、ストレージでのボリュームのプロビジョニング方法を定義したり、ボリュームのサイズやアグリゲートの使用などを制限したりできます。Trident バックエンドの定義に関する詳細はこちらをご覧ください<block ref="47a77763732c6cebe093a4a4d61aaa5b" category="inline-link-rx"></block>。</block>
+  <block id="891c9b8b0ce367c5e377a1ec23199619" category="paragraph">Trident バックエンドを設定したら、次の手順として StorageClasses を設定します。バックエンドと同じ数のストレージクラスを構成して、各ストレージクラスが 1 つのバックエンドにしかボリュームをスピンアップできない。ストレージクラスを定義する際に StoragePools パラメータを使用して、ストレージクラスを特定の Trident バックエンドにマッピングできます。ストレージクラスを定義する詳細については、を参照してください<block ref="1266deb20a7d7c4814b1225e5e572606" category="inline-link-rx"></block>。そのため、 StorageClass から Trident バックエンドへの 1 対 1 のマッピングで、 1 つの SVM をポイントします。これにより、そのプロジェクトに割り当てられた StorageClass を経由するすべてのストレージ要求が、そのプロジェクト専用の SVM によって処理されます。</block>
+  <block id="b09383080793dfb527084933760af6ed" category="paragraph"><block ref="b09383080793dfb527084933760af6ed" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="9f372cf1de9e60f6875a0b24a5c28b07" category="list-text">スナップショットの詳細を入力し、 [ 次へ ] をクリックして、 [ スナップショット ] をクリックします。Snapshot の作成には約 1 分かかり、作成が完了するとステータスを確認できるようになります。</block>
+  <block id="42dd75b4fbc849903d5d179a8e68d570" category="paragraph"><block ref="42dd75b4fbc849903d5d179a8e68d570" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="0929177ba68c50d4dd73a2a3311ac885" category="paragraph"><block ref="0929177ba68c50d4dd73a2a3311ac885" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="f789c3d3aacfbd2d2f99ba395ddb8bc5" category="list-text">バックアップの詳細を入力し、バックアップファイルを保存するオブジェクトストレージバケットを選択して次へをクリックします。詳細を確認したら、バックアップをクリックします。アプリケーションのサイズとデータによっては、バックアップに数分かかることがあり、バックアップが正常に完了したあとでバックアップのステータスを確認できるようになります。</block>
+  <block id="4ba6af660a8dd39dc1d12fb6ee80ba81" category="paragraph"><block ref="4ba6af660a8dd39dc1d12fb6ee80ba81" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="3b1fda3b0f36b6fd708a9871e1c19c50" category="section-title">アプリケーションのリストア</block>
+  <block id="344aed2ab37311beed01bbd40d93caed" category="paragraph">ボタンを押すだけで、アプリケーションを同じクラスタ内の元のネームスペースまたはリモートクラスタにリストアし、アプリケーションを保護してディザスタリカバリに使用できます。</block>
+  <block id="8ac352fe46a0c45e744688191b7df581" category="list-text">アプリケーションを復元するには、 [ アプリ ] &gt; [ 管理 ] タブに移動し、該当するアプリをクリックします。アプリケーション名の横にあるドロップダウン・メニューをクリックし '[ リストア ] をクリックします</block>
+  <block id="84eb14028ce6ae6f2bf17b71ebe50c69" category="paragraph"><block ref="84eb14028ce6ae6f2bf17b71ebe50c69" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="b33d7fda666bdb32a2be1f3783106a3c" category="list-text">リストアネームスペースの名前を入力し、リストア先のクラスタを選択して、既存の Snapshot からリストアするかアプリケーションのバックアップからリストアするかを選択します。次へをクリックします。</block>
+  <block id="7bbb08271e6b60bc55d6817c7e100528" category="paragraph"><block ref="7bbb08271e6b60bc55d6817c7e100528" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="f9242e3e5428d2ddbd81dece3073767a" category="list-text">レビューペインで「 restore 」と入力し、詳細を確認した後で「 Restore 」をクリックします。</block>
+  <block id="7d6d73878ae09dbfd1e5ee7a0ecab66c" category="inline-image-macro">Astra Control Center 復元のレビュー</block>
+  <block id="b862f033546ae8bdc1bb091ad8b57023" category="paragraph"><block ref="b862f033546ae8bdc1bb091ad8b57023" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="1b86c631d7b3beb0163beee546245df6" category="list-text">新しいアプリケーションは、 Astra Control Center が選択したクラスタ上のアプリケーションを復元している間、 Restoring 状態になります。アプリケーションのすべてのリソースが Astra によってインストールおよび検出されると、アプリケーションは Available 状態になります。</block>
+  <block id="81d066be6d2211bf186bc1960361d8e3" category="paragraph"><block ref="81d066be6d2211bf186bc1960361d8e3" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="e4600d44abb914105737c3d4a802b87c" category="section-title">アプリケーションのクローニング</block>
+  <block id="5394f3451a07ae7dbe101ceb0725a004" category="paragraph">アプリケーションは、開発 / テストやアプリケーションの保護およびディザスタリカバリ目的で、元のクラスタまたはリモートクラスタにクローニングできます。同じストレージバックエンドで同じクラスタ内にあるアプリケーションをクローニングする場合、 NetApp FlexClone テクノロジを使用します。 FlexClone テクノロジを使用すると、 PVC のクローンを瞬時に作成し、ストレージスペースを節約できます。</block>
+  <block id="04783413cee5e3c613efc7939cea3560" category="list-text">アプリケーションをクローンするには、 [ アプリケーション（ Apps ） ] &gt; [ 管理（ Managed ） ] タブに移動し、該当するアプリケーションをクリックします。アプリケーション名の横にあるドロップダウンメニューをクリックし、 Clone をクリックします。</block>
+  <block id="1cfafd65804d582aac709fefcd3e60cd" category="paragraph"><block ref="1cfafd65804d582aac709fefcd3e60cd" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="654c7a62842024ed8e405ed0ac9c4377" category="list-text">新しいネームスペースの詳細を入力し、クローニング先のクラスタを選択します。クローンを既存の Snapshot 、バックアップ、またはアプリケーションの現在の状態から作成するかどうかを選択します。詳細を確認したら、 [ 次へ ] をクリックして、 [ レビューペインに複製 ] をクリックします。</block>
+  <block id="c0dca29020d3b19fa0a8f6b7acb1ab7e" category="paragraph"><block ref="c0dca29020d3b19fa0a8f6b7acb1ab7e" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="60bae26bb7c1e8711f1e39a45fc7b6c7" category="paragraph"><block ref="60bae26bb7c1e8711f1e39a45fc7b6c7" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="d656f81a685df3697a812158d0bd2f21" category="paragraph">NetApp Astra Trident は、コンテナや Kubernetes ディストリビューション向けの、 Red Hat OpenShift などのオープンソースで完全にサポートされているストレージオーケストレーションツールです。詳細については、 Astra Trident の Web サイトをご覧ください<block ref="845024b96ab150d9f628b33995c60669" category="inline-link-rx"></block>。</block>
+  <block id="fcdf7b66cf4e59ce81d1400e4ca73b4b" category="list-text"><block ref="fcdf7b66cf4e59ce81d1400e4ca73b4b" category="inline-link-macro-rx"></block></block>
+  <block id="ea1c9e7b76d8b7cc203b9f6a9633e241" category="list-text"><block ref="ea1c9e7b76d8b7cc203b9f6a9633e241" category="inline-link-macro-rx"></block></block>
 </blocks>
