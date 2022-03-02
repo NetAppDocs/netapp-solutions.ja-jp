@@ -4091,7 +4091,7 @@
 <p class="page-details">
   
     
-    <time datetime="2022-03-01 20:06:24 +0000">03/01/2022</time>
+    <time datetime="2022-03-02 20:07:59 +0000">03/02/2022</time>
     
   
 
@@ -4278,7 +4278,7 @@ Astra Control の試用版ライセンスの使用を開始するには、にア
 <p>レジストリ FQDN を、組織 / 名前空間 / プロジェクト名とともに環境変数「管理」としてエクスポートします。</p>
 <div class="listingblock">
 <div class="content">
-<pre>[netapp-user@rhel7 ~]$ export registry=astra-registry.apps.ocp-vmw.cie.netapp.com/netapp-astra</pre>
+<pre>[netapp-user@rhel7 ~]$ export REGISTRY=astra-registry.apps.ocp-vmw.cie.netapp.com/netapp-astra</pre>
 </div>
 </div>
 </li>
@@ -4373,7 +4373,7 @@ done</pre>
 <p>レジストリ FQDN を、組織 / 名前空間 / プロジェクト名とともに環境変数「管理」としてエクスポートします。</p>
 <div class="listingblock">
 <div class="content">
-<pre>[netapp-user@rhel7 ~]$ export registry=astra-registry.apps.ocp-vmw.cie.netapp.com/netapp-astra</pre>
+<pre>[netapp-user@rhel7 ~]$ export REGISTRY=astra-registry.apps.ocp-vmw.cie.netapp.com/netapp-astra</pre>
 </div>
 </div>
 </li>
@@ -4601,11 +4601,11 @@ secret/astra-registry-cred created</pre>
 <div class="openblock">
 <div class="title">自動化された [Ansible ]</div>
 <div class="content">
-<div class="paragraph">
-<p>21.12.60Ansible プレイブックを使用して Astra Control Center を導入するには、 Ansible がインストールされた Ubuntu / RHEL マシンが必要です。説明に従って、手順 に従います <a href="https://docs.netapp.com/us-en/netapp-solutions/automation/automation_ubuntu_debian_setup.html">"こちらをご覧ください"</a> Ubuntu およびそれに含まれています RHEL の場合：</p>
-</div>
 <div class="olist arabic">
 <ol class="arabic">
+<li>
+<p>Ansible プレイブックを使用して Astra Control Center を導入するには、 Ansible がインストールされた Ubuntu / RHEL マシンが必要です。説明に従って、手順 に従います <a href="https://docs.netapp.com/us-en/netapp-solutions/automation/automation_ubuntu_debian_setup.html">"こちらをご覧ください"</a> Ubuntu およびそれに含まれています RHEL の場合：</p>
+</li>
 <li>
 <p>Ansible コンテンツをホストする GitHub リポジトリをクローニングします。</p>
 <div class="listingblock">
