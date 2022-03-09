@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="ja">
   <head class="at-element-marker">
-  <title>パブリッククラウドプロバイダ向けのネットアップストレージオプション</title>
+  <title>クラウドプロバイダでの仮想化環境の設定</title>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge,chrome=1">
   <meta http-equiv="language" content="en">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta property="og:title" content="パブリッククラウドプロバイダ向けのネットアップストレージオプション" />
+  <meta property="og:title" content="クラウドプロバイダでの仮想化環境の設定" />
 	<meta property="og:type" content="website" />
-	<meta property="og:url" content="https://docs.netapp.com/ja-jp/netapp-solutions/ehc/ehc-datastore.html" />
+	<meta property="og:url" content="https://docs.netapp.com/ja-jp/netapp-solutions/ehc/ehc-config-vmware-intro.html" />
 	<meta property="og:description" content="" />
   <meta property="og:image" content="https://docs.netapp.com/ja-jp/netapp-solutions/images/logo-tophat-social.png" />
   <meta property="og:image:alt" content="NetApp Logo" />
@@ -17,7 +17,7 @@
   <meta http-equiv="encoding" content="utf-8">
   <meta http-equiv="nss-type" content="Product Documentation"/>
   <meta http-equiv="nss-subtype" content="User Guide"/><meta name="description" content="">
-  <meta name="keywords" content=" NetApp Solutions, amazon, vmc, aws, microsoft azure, avs, azure, google cloud, gcp, gcve, vmware managed cloud, enterprise, hybrid, cloud, cloud volumes ontap, cvo, datastore, fsx, fsx ontap"><!-- Icons -->
+  <meta name="keywords" content=" NetApp Solutions, amazon, vmc, aws, microsoft azure, avs, azure, google cloud, gcp, gcve, vmware managed cloud, enterprise, hybrid, cloud, config, configuration"><!-- Icons -->
   <link rel="icon" href="/ja-jp/netapp-solutions/images/favicon.ico" type="image/x-icon">
 
   <!-- RSS Feed --><!-- CSS Definitions: NetApp CSS should be defined after generic css -->
@@ -254,13 +254,13 @@
           <ul class="n-menu__list">
             <li class="n-menu__list-column">
               <ul class="n-menu__list"><li class="n-menu__list-item n-menu__list-item--level-1">
-                  <a href="https://docs.netapp.com/ja-jp/netapp-solutions/ehc/ehc-datastore.html" class="n-menu__header-text"><span translate="no" class="notranslate">日本語</span></a>
+                  <a href="https://docs.netapp.com/ja-jp/netapp-solutions/ehc/ehc-config-vmware-intro.html" class="n-menu__header-text"><span translate="no" class="notranslate">日本語</span></a>
                 </li><li class="n-menu__list-item n-menu__list-item--level-1">
-                  <a href="https://docs.netapp.com/us-en/netapp-solutions/ehc/ehc-datastore.html" class="n-menu__header-text"><span translate="no" class="notranslate">English</span></a>
+                  <a href="https://docs.netapp.com/us-en/netapp-solutions/ehc/ehc-config-vmware-intro.html" class="n-menu__header-text"><span translate="no" class="notranslate">English</span></a>
                 </li><li class="n-menu__list-item n-menu__list-item--level-1">
-                  <a href="https://docs.netapp.com/zh-cn/netapp-solutions/ehc/ehc-datastore.html" class="n-menu__header-text"><span translate="no" class="notranslate">简体中文</span></a>
+                  <a href="https://docs.netapp.com/zh-cn/netapp-solutions/ehc/ehc-config-vmware-intro.html" class="n-menu__header-text"><span translate="no" class="notranslate">简体中文</span></a>
                 </li><li class="n-menu__list-item n-menu__list-item--level-1">
-                  <a href="https://docs.netapp.com/ko-kr/netapp-solutions/ehc/ehc-datastore.html" class="n-menu__header-text"><span translate="no" class="notranslate">한국어</span></a>
+                  <a href="https://docs.netapp.com/ko-kr/netapp-solutions/ehc/ehc-config-vmware-intro.html" class="n-menu__header-text"><span translate="no" class="notranslate">한국어</span></a>
                 </li></ul>
             </li>
           </ul>
@@ -1321,10 +1321,8 @@
 
 
 
-
-
     <ul class="subfolders" style="display:none;"><li class="active pdf-hide">
-  <a target="_blank" href="/ja-jp/netapp-solutions/pdfs/pages/ehc/ehc-datastore.pdf" >
+  <a target="_blank" href="/ja-jp/netapp-solutions/pdfs/pages/ehc/ehc-config-vmware-intro.pdf" >
     <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
     PDF of this page
   </a>
@@ -1332,6 +1330,8 @@
 
 </ul>
   
+
+
 
 
 
@@ -1648,10 +1648,8 @@
 
 
 
-
-
     <ul class="subfolders" style="display:none;"><li class="active pdf-hide">
-  <a target="_blank" href="/ja-jp/netapp-solutions/pdfs/pages/ehc/ehc-datastore.pdf" >
+  <a target="_blank" href="/ja-jp/netapp-solutions/pdfs/pages/ehc/ehc-config-vmware-intro.pdf" >
     <img src="/ja-jp/netapp-solutions/images/pdf.png" width="16" height="16"/>
     PDF of this page
   </a>
@@ -1659,6 +1657,8 @@
 
 </ul>
   
+
+
 
 
 
@@ -3469,9 +3469,9 @@
         ハイパースケーラクラウド上の VMware クラウド
       </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/ehc-support-configs.html">
         サポートされる構成
-      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/ehc-config-vmware.html">
+      </a></li><li class="  active "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/ehc-config-vmware-intro.html">
         ハイパースケーラ構成における VMware
-      </a></li><li class="  active "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/ehc-datastore.html">
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/ehc-datastore-intro.html">
         ハイパースケーラクラウドにおけるネットアップストレージ
       </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/ehc-summary.html">
         まとめ
@@ -3578,9 +3578,9 @@
         ハイパースケーラクラウド上の VMware クラウド
       </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/ehc-support-configs.html">
         サポートされる構成
-      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/ehc-config-vmware.html">
+      </a></li><li class="  active "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/ehc-config-vmware-intro.html">
         ハイパースケーラ構成における VMware
-      </a></li><li class="  active "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/ehc-datastore.html">
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/ehc-datastore-intro.html">
         ハイパースケーラクラウドにおけるネットアップストレージ
       </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/ehc-summary.html">
         まとめ
@@ -4042,7 +4042,7 @@
           <a href="/ja-jp/netapp-solutions/">NetApp&nbsp;Solutions</a>
         </li>
         <li class="n-breadcrumb__list-item">
-          パブリッククラウドプロバイダ向けのネットアップストレージオプション
+          クラウドプロバイダでの仮想化環境の設定
         </li>
       </ul>
     </div>
@@ -4065,26 +4065,18 @@
     </div>
   </span>
 </div><div class="n-doc__component-detail-heading-wrap">
-  <h1 class="n-doc__component-detail-heading">パブリッククラウドプロバイダ向けのネットアップストレージオプション</h1>
+  <h1 class="n-doc__component-detail-heading">クラウドプロバイダでの仮想化環境の設定</h1>
 </div>
 
 
 <p class="page-details">
   
     
-    <time datetime="2022-03-08 19:42:19 +0000">03/08/2022</time>
+    <time datetime="2022-03-09 02:29:59 +0000">03/09/2022</time>
     
   
 
 <span>寄稿者
-  <a target="_blank" href="https://github.com/kevin-hoke">
-    <img  class="avatar avatar-small"
-          alt="kevin-hoke"
-          width="20" height="20"
-          src="https://avatars.githubusercontent.com/u/55808219?v=4"
-          style="border-radius: 50%;"/>
-  </a>
-  
 </span>
 
 
@@ -4094,33 +4086,14 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph lead">
-<p>主要な 3 種類のハイパースケーラにおけるストレージとしてのネットアップのオプションをご確認ください。</p>
+<p>サポートされている各ハイパースケーラで仮想化環境を設定する方法については、こちらで詳しく説明しています。</p>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="ネットアップの-aws-向けストレージオプション">ネットアップの AWS 向けストレージオプション</h3>
+<h3 id="aws-vmc-の仮想化環境構成">AWS （ VMC ）の仮想化環境構成</h3>
 <div class="paragraph">
-<p>AWS は、次の構成でネットアップストレージをサポートします。</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>ゲスト接続ストレージ *</p>
-</li>
-<li>
-<p><a href="/ehc/aws/aws-guest.html#fsx-ontap">"ゲスト接続ストレージとしての FSX ONTAP"</a></p>
-</li>
-<li>
-<p><a href="/ehc/aws/aws-guest.html#cvo">"Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用"</a></p>
-</li>
-<li>
-<p>ネイティブデータストア *</p>
-</li>
-<li>
-<p><a href="https://blogs.vmware.com/cloud/2021/12/01/vmware-cloud-on-aws-going-big-reinvent2021/">"ネイティブデータストアとしての FSX ONTAP <sup>1"</sup></a></p>
-</li>
-</ul>
+<p>このセクションでは、 AWS SDDC で VMware Cloud をセットアップおよび管理する方法と、ネットアップストレージの接続に使用できるオプションについて説明します。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -4129,35 +4102,29 @@
 <img src="/us-en/netapp-solutions/images/note.svg" alt="注記">
 </td>
 <td class="content">
-1- 現在プライベートプレビュー中です
+FSX ONTAP および Cloud Volumes ONTAP を AWS VMC に接続する方法としてサポートされているのは、ゲスト内ストレージだけです。
 </td>
 </tr>
 </table>
 </div>
-</div>
-<div class="sect2">
-<h3 id="ネットアップの-azure-向けストレージオプション">ネットアップの Azure 向けストレージオプション</h3>
 <div class="paragraph">
-<p>Azure は、以下の構成でネットアップストレージをサポートします。</p>
+<p>セットアッププロセスは、次の手順に分けることができます。</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>ゲスト接続ストレージ *</p>
+<p><a href="aws/aws-setup.html#deploy">"VMware Cloud for AWS を導入して設定"</a></p>
 </li>
 <li>
-<p><a href="/ehc/azure/azure-guest.html#anf">"ゲスト接続ストレージとしての Azure NetApp Files （ ANF"</a></p>
-</li>
-<li>
-<p><a href="/ehc/azure/azure-guest.html#cvo">"Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用"</a></p>
-</li>
-<li>
-<p>ネイティブデータストア *</p>
-</li>
-<li>
-<p><a href="https://azure.microsoft.com/en-us/updates/azure-netapp-files-datastores-for-azure-vmware-solution-is-coming-soon/">"ネイティブデータストアとしての Azure NetApp Files （ ANF ） <sup>1"</sup></a></p>
+<p><a href="aws/aws-setup.html#connect">"VMware Cloud を FSX ONTAP に接続します"</a></p>
 </li>
 </ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="azure-向け仮想化環境の構成-avs">Azure 向け仮想化環境の構成（ AVS ）</h3>
+<div class="paragraph">
+<p>このセクションでは、 Azure VMware 解決策をセットアップおよび管理する方法と、ネットアップストレージの接続に使用できるオプションについて説明します。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -4166,35 +4133,32 @@
 <img src="/us-en/netapp-solutions/images/note.svg" alt="注記">
 </td>
 <td class="content">
-1- 現在プライベートプレビュー中です
+Azure NetApp Files と Cloud Volumes ONTAP を Azure VMware 解決策に接続する方法としてサポートされているのは、ゲスト内ストレージだけです。
 </td>
 </tr>
 </table>
 </div>
-</div>
-<div class="sect2">
-<h3 id="gcp-のネットアップストレージオプション">GCP のネットアップストレージオプション</h3>
 <div class="paragraph">
-<p>Google Cloud は、次の構成でネットアップストレージをサポートします。</p>
+<p>セットアッププロセスは、次の手順に分けることができます。</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>ゲスト接続ストレージ *</p>
+<p><a href="azure/azure-setup.html#register">"リソースプロバイダを登録し、プライベートクラウドを作成"</a></p>
 </li>
 <li>
-<p><a href="/ehc/gcp/gcp-guest.html#cvo">"Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用"</a></p>
+<p><a href="azure/azure-setup.html#connect">"新しい ExpressRoute 仮想ネットワークゲートウェイまたは既存の ExpressRoute 仮想ネットワークゲートウェイに接続します"</a></p>
 </li>
 <li>
-<p><a href="/ehc/gcp/gcp-guest.html#cvs">"Cloud Volumes Service （ CVS ）をゲスト接続ストレージとして使用できるようになりました"</a></p>
-</li>
-<li>
-<p>ネイティブデータストア *</p>
-</li>
-<li>
-<p><a href="https://www.netapp.com/google-cloud/google-cloud-vmware-engine-registration/">"ネイティブデータストアとしての Cloud Volumes Service （ CVS ） <sup>1"</sup></a></p>
+<p><a href="azure/azure-setup.html#validate">"ネットワーク接続を検証し、プライベートクラウドにアクセス"</a></p>
 </li>
 </ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="gcp-の仮想化環境構成-gcve">GCP の仮想化環境構成（ GCVE ）</h3>
+<div class="paragraph">
+<p>このセクションでは、 GCVE のセットアップと管理方法、およびネットアップストレージの接続に使用できるオプションとの組み合わせについて説明します。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -4203,10 +4167,23 @@
 <img src="/us-en/netapp-solutions/images/note.svg" alt="注記">
 </td>
 <td class="content">
-1- 現在プライベートプレビュー中です
+Cloud Volume と Cloud Volumes ONTAP サービスを GCVE に接続する方法としてサポートされているのは、ゲスト内ストレージだけです。
 </td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p>セットアッププロセスは、次の手順に分けることができます。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="gcp/gcp-setup.html#deploy">"GCVE を導入および設定します"</a></p>
+</li>
+<li>
+<p><a href="gcp/gcp-setup.html#enable-access">"GCVE へのプライベートアクセスを有効にします"</a></p>
+</li>
+</ul>
 </div>
 </div>
 
@@ -4219,8 +4196,8 @@
   <div class="page-nav-toolbar">
     <div id="version-dropdown"></div>
     <div class="page-nav-contribute"  >
-      <a target="_blank" href="https://github.com/NetAppDocs/netapp-solutions/issues/new?body=Page%3A%20[パブリッククラウドプロバイダ向けのネットアップストレージオプション](https://docs.netapp.com/ja-jp/netapp-solutions/ehc/ehc-datastore.html)" class="page-nav-contribute-link" role="button"><img src="/ja-jp/netapp-solutions/images/discuss-sm.svg" class="github-icon" />ドキュメントの変更をリクエスト</a>
-      <a target="_blank" href="https://github.com/NetAppDocs/netapp-solutions/blob/main/ehc/ehc-datastore.adoc" class="page-nav-contribute-link" role="button"><img src="/ja-jp/netapp-solutions/images/edit-sm.svg" class="github-icon" />GitHub で編集</a>
+      <a target="_blank" href="https://github.com/NetAppDocs/netapp-solutions/issues/new?body=Page%3A%20[クラウドプロバイダでの仮想化環境の設定](https://docs.netapp.com/ja-jp/netapp-solutions/ehc/ehc-config-vmware-intro.html)" class="page-nav-contribute-link" role="button"><img src="/ja-jp/netapp-solutions/images/discuss-sm.svg" class="github-icon" />ドキュメントの変更をリクエスト</a>
+      <a target="_blank" href="https://github.com/NetAppDocs/netapp-solutions/blob/main/ehc/ehc-config-vmware-intro.adoc" class="page-nav-contribute-link" role="button"><img src="/ja-jp/netapp-solutions/images/edit-sm.svg" class="github-icon" />GitHub で編集</a>
       <a target="_blank" href="https://docs.netapp.com/us-en/contribute/" class="page-nav-contribute-link"  ><img src="/ja-jp/netapp-solutions/images/article-sm.svg" class="github-icon" />寄稿者向けガイド</a>
     </div>
     <div class="page-nav-container">
