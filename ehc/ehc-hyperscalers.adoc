@@ -34,28 +34,9 @@ NOTE: 特定のハイパースケーラの機能を確認するには、その�
 
 オンプレミスと同様に、 VM と移行を作成する本番環境に適したクラウドベースの仮想化環境を計画することが重要です。
 
-[role="tabbed-block"]
-====
-.Azure
---
-オンプレミスと同様に、 Azure VMware 解決策を計画することは、 VM と移行を作成する本番環境に欠かせません。
-
-このセクションでは、 Azure VMware 解決策をセットアップおよび管理する方法と、ネットアップストレージの接続に使用できるオプションについて説明します。
 
 
-NOTE: Azure NetApp Files と Cloud Volumes ONTAP を Azure VMware 解決策に接続する方法としてサポートされているのは、ゲスト内ストレージだけです。
-
-セットアッププロセスは、次の手順に分けることができます。
-
-* link:/ehc/azure/azure-setup.html#register["リソースプロバイダを登録し、プライベートクラウドを作成"]
-* link:/ehc/azure/azure-setup.html#connect["新しい ExpressRoute 仮想ネットワークゲートウェイまたは既存の ExpressRoute 仮想ネットワークゲートウェイに接続します"]
-* link:/ehc/azure/azure-setup.html#validate["ネットワーク接続を検証し、プライベートクラウドにアクセス"]
-
-
---
-.AWS
---
-オンプレミスと同様に、 VM と移行を作成する本番環境に適した VMware Cloud on AWS を計画することが重要です。
+=== AWS と VMC
 
 このセクションでは、 AWS SDDC で VMware Cloud をセットアップおよび管理する方法と、ネットアップストレージの接続に使用できるオプションについて説明します。
 
@@ -64,14 +45,29 @@ NOTE: FSX ONTAP および Cloud Volumes ONTAP を AWS VMC に接続する方法�
 
 セットアッププロセスは、次の手順に分けることができます。
 
-* link:/ehc/aws/aws-setup.html#deploy["VMware Cloud for AWS を導入して設定"]
-* link:/ehc/aws/aws-setup.html#connect["VMware Cloud を FSX ONTAP に接続します"]
+* link:aws/aws-setup.html#deploy["VMware Cloud for AWS を導入して設定"]
+* link:aws/aws-setup.html#connect["VMware Cloud を FSX ONTAP に接続します"]
 
 
---
-.Google Cloud
---
-オンプレミスと同様に、 VM と移行を作成する本番環境に成功するには、 Google Cloud VMware Engine （ GCVE ）の計画が不可欠です。
+
+
+=== Azure と AVS
+
+このセクションでは、 Azure VMware 解決策をセットアップおよび管理する方法と、ネットアップストレージの接続に使用できるオプションについて説明します。
+
+
+NOTE: Azure NetApp Files と Cloud Volumes ONTAP を Azure VMware 解決策に接続する方法としてサポートされているのは、ゲスト内ストレージだけです。
+
+セットアッププロセスは、次の手順に分けることができます。
+
+* link:azure/azure-setup.html#register["リソースプロバイダを登録し、プライベートクラウドを作成"]
+* link:azure/azure-setup.html#connect["新しい ExpressRoute 仮想ネットワークゲートウェイまたは既存の ExpressRoute 仮想ネットワークゲートウェイに接続します"]
+* link:azure/azure-setup.html#validate["ネットワーク接続を検証し、プライベートクラウドにアクセス"]
+
+
+
+
+=== GCP と GCVE
 
 このセクションでは、 GCVE のセットアップと管理方法、およびネットアップストレージの接続に使用できるオプションとの組み合わせについて説明します。
 
@@ -80,12 +76,10 @@ NOTE: Cloud Volume と Cloud Volumes ONTAP サービスを GCVE に接続する�
 
 セットアッププロセスは、次の手順に分けることができます。
 
-* link:/ehc/gcp/gcp-setup.html#deploy["GCVE を導入および設定します"]
-* link:/ehc/gcp/gcp-setup.html#enable-access["GCVE へのプライベートアクセスを有効にします"]
+* link:gcp/gcp-setup.html#deploy["GCVE を導入および設定します"]
+* link:gcp/gcp-setup.html#enable-access["GCVE へのプライベートアクセスを有効にします"]
 
 
---
-====
 
 
 == ネットアップストレージオプション
@@ -94,35 +88,16 @@ NOTE: Cloud Volume と Cloud Volumes ONTAP サービスを GCVE に接続する�
 
 にアクセスしてください link:ehc-support-configs.html["サポートされているネットアップストレージオプション"] を参照してください。
 
-[role="tabbed-block"]
-====
-.Azure
---
-Azure は、以下の構成でネットアップストレージをサポートします。
-
-* ゲスト接続ストレージ *
-
-* link:/ehc/azure/azure-guest.html#anf["ゲスト接続ストレージとしての Azure NetApp Files （ ANF"]
-* link:/ehc/azure/azure-guest.html#cvo["Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用"]
 
 
-* ネイティブデータストア *
+=== AWS と VMC
 
-* link:https://azure.microsoft.com/en-us/updates/azure-netapp-files-datastores-for-azure-vmware-solution-is-coming-soon/["ネイティブデータストアとしての Azure NetApp Files （ ANF ） ^1"^]
-
-
-
-NOTE: 1- 現在プライベートプレビュー中です
-
---
-.AWS
---
 AWS は、次の構成でネットアップストレージをサポートします。
 
 * ゲスト接続ストレージ *
 
-* link:/ehc/aws/aws-guest.html#fsx-ontap["ゲスト接続ストレージとしての FSX ONTAP"]
-* link:/ehc/aws/aws-guest.html#cvo["Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用"]
+* link:aws/aws-guest.html#fsx-ontap["ゲスト接続ストレージとしての FSX ONTAP"]
+* link:aws/aws-guest.html#cvo["Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用"]
 
 
 * ネイティブデータストア *
@@ -133,15 +108,36 @@ AWS は、次の構成でネットアップストレージをサポートしま�
 
 NOTE: 1- 現在プライベートプレビュー中です
 
---
-.Google Cloud
---
+
+
+=== Azure と AVS
+
+Azure は、以下の構成でネットアップストレージをサポートします。
+
+* ゲスト接続ストレージ *
+
+* link:azure/azure-guest.html#anf["ゲスト接続ストレージとしての Azure NetApp Files （ ANF"]
+* link:azure/azure-guest.html#cvo["Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用"]
+
+
+* ネイティブデータストア *
+
+* link:https://azure.microsoft.com/en-us/updates/azure-netapp-files-datastores-for-azure-vmware-solution-is-coming-soon/["ネイティブデータストアとしての Azure NetApp Files （ ANF ） ^1"^]
+
+
+
+NOTE: 1- 現在プライベートプレビュー中です
+
+
+
+=== GCO と GCVE
+
 Google Cloud は、次の構成でネットアップストレージをサポートします。
 
 * ゲスト接続ストレージ *
 
-* link:/ehc/gcp/gcp-guest.html#cvo["Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用"]
-* link:/ehc/gcp/gcp-guest.html#cvs["Cloud Volumes Service （ CVS ）をゲスト接続ストレージとして使用できるようになりました"]
+* link:gcp/gcp-guest.html#cvo["Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用"]
+* link:gcp/gcp-guest.html#cvs["Cloud Volumes Service （ CVS ）をゲスト接続ストレージとして使用できるようになりました"]
 
 
 * ネイティブデータストア *
@@ -151,6 +147,3 @@ Google Cloud は、次の構成でネットアップストレージをサポー�
 
 
 NOTE: 1- 現在プライベートプレビュー中です
-
---
-====
