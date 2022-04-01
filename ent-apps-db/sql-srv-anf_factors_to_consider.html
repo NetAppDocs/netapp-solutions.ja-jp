@@ -2990,6 +2990,8 @@
 
 
 
+
+
           
         </li>
       </ul>
@@ -4006,6 +4008,8 @@
         AWX/Ansible タワーをセットアップします （ AWX/ タワーベースの導入の場合）
       </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/automation/authentication_tokens.html">
         CVO の導入と Connector の導入の前提条件を収集
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/automation/cloud_volumes_terraform.html">
+        Terraform による Cloud Volume オートメーション
       </a></li><li class=" "><a class="na-navbar-padding" href="https://github.com/NetAppDocs/netapp-solutions/issues/new?body=[Request%20Automation]%0d%0a%0d%0aSolution%20Name:%20%0d%0aRequest%20Title:%20%0d%0aDescription:%0d%0aSuggestions:&title=Request%20Automation%20-%20<request_title>">
         自動化を申請
       </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="https://docs.netapp.com/us-en/flexpod/">
@@ -4078,12 +4082,9 @@
 <p class="page-details">
   
     
-    <time datetime="2022-03-18 12:13:20 +0000">03/18/2022</time>
+    <time datetime="2022-04-01 19:35:46 +0000">04/01/2022</time>
     
   
-
-<span>寄稿者
-</span>
 
 
 </p>
@@ -4113,7 +4114,7 @@
 <h2 id="vm-の冗長性">VM の冗長性</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>冗長性と高可用性を高めるには、 SQL Server VM を同じにする必要があります <a href="https://docs.microsoft.com/en-us/azure/virtual-machines/availability-set-overview" target="_blank" rel="noopener">"可用性セット"</a> または別のものです。Azure VM を作成する場合は、アベイラビリティセットとアベイラビリティゾーンのどちらかを設定する必要があります。 Azure VM を両方に含めることはできません。</p>
+<p>冗長性と高可用性を高めるには、 SQL Server VM を同じにする必要があります <a href="https://docs.microsoft.com/en-us/azure/virtual-machines/availability-set-overview" target="_blank" rel="noopener">"可用性セット"</a> または別のものです <a href="https://docs.microsoft.com/en-us/azure/availability-zones/az-overview" target="_blank" rel="noopener">"可用性ゾーン"</a>。Azure VM を作成する場合は、アベイラビリティセットとアベイラビリティゾーンのどちらかを設定する必要があります。 Azure VM を両方に含めることはできません。</p>
 </div>
 </div>
 </div>
@@ -4166,7 +4167,7 @@ SQL Server データベース用のファイル共有ストレージでは、継
 <p>注： *</p>
 </li>
 <li>
-<p>冗長性と高可用性を高めるには、 SQL Server VM を同じにする必要があります <a href="https://docs.microsoft.com/en-us/azure/virtual-machines/availability-set-overview" target="_blank" rel="noopener">"可用性セット"</a> または違う。ユーザ定義のデータファイルが必要な場合は、ファイルパスの要件を考慮してください。その場合は、 SQL FCI over SQL AOAG を選択します。</p>
+<p>冗長性と高可用性を高めるには、 SQL Server VM を同じにする必要があります <a href="https://docs.microsoft.com/en-us/azure/virtual-machines/availability-set-overview" target="_blank" rel="noopener">"可用性セット"</a> または違う <a href="https://docs.microsoft.com/en-us/azure/availability-zones/az-overview" target="_blank" rel="noopener">"可用性ゾーン"</a>。ユーザ定義のデータファイルが必要な場合は、ファイルパスの要件を考慮してください。その場合は、 SQL FCI over SQL AOAG を選択します。</p>
 </li>
 <li>
 <p>次の UNC パスがサポートされます。 <a href="file:///\\ANFSMB-b4ca.anf.test\SQLDB%20and%20\\ANFSMB-b4ca.anf.test\SQLDB\" target="_blank" rel="noopener">"\\ANFSMB-b4ca.anf.test\sqldb および \\ANFSMB-b4ca.anf.test\sqldb\"</a>。</p>

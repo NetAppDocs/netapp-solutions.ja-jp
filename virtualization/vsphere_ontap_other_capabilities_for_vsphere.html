@@ -2990,6 +2990,8 @@
 
 
 
+
+
           
         </li>
       </ul>
@@ -4006,6 +4008,8 @@
         AWX/Ansible タワーをセットアップします （ AWX/ タワーベースの導入の場合）
       </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/automation/authentication_tokens.html">
         CVO の導入と Connector の導入の前提条件を収集
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/automation/cloud_volumes_terraform.html">
+        Terraform による Cloud Volume オートメーション
       </a></li><li class=" "><a class="na-navbar-padding" href="https://github.com/NetAppDocs/netapp-solutions/issues/new?body=[Request%20Automation]%0d%0a%0d%0aSolution%20Name:%20%0d%0aRequest%20Title:%20%0d%0aDescription:%0d%0aSuggestions:&title=Request%20Automation%20-%20<request_title>">
         自動化を申請
       </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="https://docs.netapp.com/us-en/flexpod/">
@@ -4078,12 +4082,9 @@
 <p class="page-details">
   
     
-    <time datetime="2022-03-18 12:13:20 +0000">03/18/2022</time>
+    <time datetime="2022-04-01 19:35:46 +0000">04/01/2022</time>
     
   
-
-<span>寄稿者
-</span>
 
 
 </p>
@@ -4121,7 +4122,7 @@
 <p>VM がデータストアから削除されたときに、他の目的でスペースを再生することができます。NFS データストアを使用している場合、 VM が削除されるとすぐにスペースが再生されます（もちろん、このアプローチはボリュームがシンプロビジョニングされている場合、つまりボリュームギャランティが none に設定されている場合にのみ有効です）。ただし、 VM のゲスト OS 内でファイルが削除されても、 NFS データストアではスペースが自動的に再生されません。LUN ベースの VMFS データストアの場合、 ESXi およびゲスト OS は、問題 VAAI UNMAP プリミティブをストレージに（シンプロビジョニングを使用している場合に）再利用できます。リリースによっては、このサポートは手動と自動のどちらかになります。</p>
 </div>
 <div class="paragraph">
-<p>vSphere 5.5 以降では、 vmkfstools – y コマンドに代わって、空きブロック数を指定する esxcli storage vmfs unmap コマンドが使用されます（ VMware KB を参照） <a href="https://kb.vmware.com/s/article/2057513" target="_blank" rel="noopener">"2057513"</a> 詳細については、を参照してください）。vSphere 6.5 以降では、 VMFS 6 を使用している場合、スペースは自動的に非同期で再利用される必要があります（を参照） vSphere のドキュメントを参照）。ただし、必要に応じて手動で実行することもできます。この自動マッピング解除は ONTAP でサポートされ、 VMware vSphere 用の ONTAP ツールでは低優先度に設定されます。</p>
+<p>vSphere 5.5 以降では、 vmkfstools – y コマンドに代わって、空きブロック数を指定する esxcli storage vmfs unmap コマンドが使用されます（ VMware KB を参照） <a href="https://kb.vmware.com/s/article/2057513" target="_blank" rel="noopener">"2057513"</a> 詳細については、を参照してください）。vSphere 6.5 以降では、 VMFS 6 を使用している場合、スペースは自動的に非同期で再利用される必要があります（を参照） <a href="https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.storage.doc/GUID-B40D1420-26FD-4318-8A72-FA29C9A395C2.html" target="_blank" rel="noopener">"ストレージスペースの再生"</a> vSphere のドキュメントを参照）。ただし、必要に応じて手動で実行することもできます。この自動マッピング解除は ONTAP でサポートされ、 VMware vSphere 用の ONTAP ツールでは低優先度に設定されます。</p>
 </div>
 </div>
 </div>

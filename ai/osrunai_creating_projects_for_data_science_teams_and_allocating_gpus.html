@@ -2990,6 +2990,8 @@
 
 
 
+
+
           
         </li>
       </ul>
@@ -4006,6 +4008,8 @@
         AWX/Ansible タワーをセットアップします （ AWX/ タワーベースの導入の場合）
       </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/automation/authentication_tokens.html">
         CVO の導入と Connector の導入の前提条件を収集
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/automation/cloud_volumes_terraform.html">
+        Terraform による Cloud Volume オートメーション
       </a></li><li class=" "><a class="na-navbar-padding" href="https://github.com/NetAppDocs/netapp-solutions/issues/new?body=[Request%20Automation]%0d%0a%0d%0aSolution%20Name:%20%0d%0aRequest%20Title:%20%0d%0aDescription:%0d%0aSuggestions:&title=Request%20Automation%20-%20<request_title>">
         自動化を申請
       </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="https://docs.netapp.com/us-en/flexpod/">
@@ -4078,20 +4082,9 @@
 <p class="page-details">
   
     
-    <time datetime="2022-03-18 12:13:20 +0000">03/18/2022</time>
+    <time datetime="2022-04-01 19:35:46 +0000">04/01/2022</time>
     
   
-
-<span>寄稿者
-  <a target="_blank" href="https://github.com/kevin-hoke">
-    <img  class="avatar avatar-small"
-          alt="kevin-hoke"
-          width="20" height="20"
-          src="https://avatars.githubusercontent.com/u/55808219?v=4"
-          style="border-radius: 50%;"/>
-  </a>
-  
-</span>
 
 
 </p>
@@ -4111,7 +4104,7 @@
 <p>* モデルプロジェクト。 * ユーザーごとにプロジェクトを設定し、ユーザーのチームごとにプロジェクトを設定し、実際の組織プロジェクトごとにプロジェクトを設定します。</p>
 </li>
 <li>
-<p>* プロジェクトの割り当て量。 * 各プロジェクトは、このプロジェクトに同時に割り当てることができる GPU の割り当て量に関連付けられています。これは、このプロジェクトを使用している研究者が、クラスタ内のどの状態であっても、この数の GPU を取得できることが保証されるという意味で、保証されたクォータです。原則として、プロジェクトの割り当ての合計は、クラスタ内の GPU の数と等しくなければなりません。さらに、このプロジェクトのユーザは、過剰割り当てを受け取ることができます。GPU が使用されていない限り、このプロジェクトを使用する研究者は GPU を増やすことができます。に、クォータ超過テストのシナリオと公平性に関する考慮事項を示します <a href="https://osrunai_achieving_high_cluster_utilization_with_over-uota_gpu_allocation.adoc">"オーバークォータの GPU 割り当てによる高いクラスタ利用率の達成"</a>、および。</p>
+<p>* プロジェクトの割り当て量。 * 各プロジェクトは、このプロジェクトに同時に割り当てることができる GPU の割り当て量に関連付けられています。これは、このプロジェクトを使用している研究者が、クラスタ内のどの状態であっても、この数の GPU を取得できることが保証されるという意味で、保証されたクォータです。原則として、プロジェクトの割り当ての合計は、クラスタ内の GPU の数と等しくなければなりません。さらに、このプロジェクトのユーザは、過剰割り当てを受け取ることができます。GPU が使用されていない限り、このプロジェクトを使用する研究者は GPU を増やすことができます。に、クォータ超過テストのシナリオと公平性に関する考慮事項を示します <a href="https://osrunai_achieving_high_cluster_utilization_with_over-uota_gpu_allocation.adoc">"オーバークォータの GPU 割り当てによる高いクラスタ利用率の達成"</a>、 <a href="https://osrunai_basic_resource_allocation_fairness.html">"基本的な資源配分フェアネス"</a>および <a href="https://osrunai_over-quota_fairness.html">"オーバークォータフェアネス"</a>。</p>
 </li>
 <li>
 <p>新しいプロジェクトを作成し、既存のプロジェクトを更新して、既存のプロジェクトを削除します。</p>

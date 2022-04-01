@@ -2990,6 +2990,8 @@
 
 
 
+
+
           
         </li>
       </ul>
@@ -4006,6 +4008,8 @@
         AWX/Ansible タワーをセットアップします （ AWX/ タワーベースの導入の場合）
       </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/automation/authentication_tokens.html">
         CVO の導入と Connector の導入の前提条件を収集
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/automation/cloud_volumes_terraform.html">
+        Terraform による Cloud Volume オートメーション
       </a></li><li class=" "><a class="na-navbar-padding" href="https://github.com/NetAppDocs/netapp-solutions/issues/new?body=[Request%20Automation]%0d%0a%0d%0aSolution%20Name:%20%0d%0aRequest%20Title:%20%0d%0aDescription:%0d%0aSuggestions:&title=Request%20Automation%20-%20<request_title>">
         自動化を申請
       </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="https://docs.netapp.com/us-en/flexpod/">
@@ -4078,12 +4082,9 @@
 <p class="page-details">
   
     
-    <time datetime="2022-03-18 12:13:20 +0000">03/18/2022</time>
+    <time datetime="2022-04-01 19:35:46 +0000">04/01/2022</time>
     
   
-
-<span>寄稿者
-</span>
 
 
 </p>
@@ -4116,7 +4117,7 @@
 <p>次の図は、解決策のアーキテクチャを示しています。環境には、クラウド、コア、エッジの 3 つのカテゴリがあります。各カテゴリは地理的に分散させることができます。たとえば、クラウドにはバケット内の音声ファイルを含むオブジェクトストアがあり、コアには高速ネットワークまたは NetApp Cloud Sync 経由でリンクされたデータセンターが含まれる場合があります。エッジノードは、ヒューマンエージェントの日常的な作業プラットフォームを表しています。このプラットフォームでは、対話型ダッシュボードツールとマイクを使用して感情を視覚化したり、顧客との会話から音声データを収集したりできます。</p>
 </div>
 <div class="paragraph">
-<p>GPU によって高速化されたデータセンターでは、 NVIDIA を使用できます <a href="https://docs.nvidia.com/deeplearning/riva/user-guide/docs/index.html" target="_blank" rel="noopener">"リバ"</a> 会話型 AI アプリケーションを構築するためのフレームワーク。それには、があります Transfer L ラーニング技術を使用して、モデルのフィニッチニングと再トレーニングを接続します。これらのコンピューティングアプリケーションとワークフローは、を基盤としていますONTAP が提供する最高のデータ管理機能を実現します。このツールキットを使用すると、企業のデータチームは、スナップショットやクローンを使用して、構造化データと非構造化データでモデルのプロトタイプを迅速に作成できるため、トレーサビリティ、バージョン管理、 A/B テストを実現し、セキュリティ、ガバナンス、 コンプライアンスを実現できます。を参照してください <a href="ai-sent-design-considerations.html#storage-design">"ストレージ設計"</a> 詳細：</p>
+<p>GPU によって高速化されたデータセンターでは、 NVIDIA を使用できます <a href="https://docs.nvidia.com/deeplearning/riva/user-guide/docs/index.html" target="_blank" rel="noopener">"リバ"</a> 会話型 AI アプリケーションを構築するためのフレームワーク。それには、があります <a href="https://developer.nvidia.com/tao" target="_blank" rel="noopener">"Tao ツールキット"</a> Transfer L ラーニング技術を使用して、モデルのフィニッチニングと再トレーニングを接続します。これらのコンピューティングアプリケーションとワークフローは、を基盤としています <a href="https://github.com/NetApp/netapp-dataops-toolkit" target="_blank" rel="noopener">"NetApp DataOps ツールキット"</a>ONTAP が提供する最高のデータ管理機能を実現します。このツールキットを使用すると、企業のデータチームは、スナップショットやクローンを使用して、構造化データと非構造化データでモデルのプロトタイプを迅速に作成できるため、トレーサビリティ、バージョン管理、 A/B テストを実現し、セキュリティ、ガバナンス、 コンプライアンスを実現できます。を参照してください <a href="ai-sent-design-considerations.html#storage-design">"ストレージ設計"</a> 詳細：</p>
 </div>
 <div class="paragraph">
 <p>この解決策では、オーディオファイル処理、 NLP モデルトレーニング、トランスファーラーニング、およびデータ管理の詳細な手順について説明します。最終的なパイプラインが生成され、ヒューマンサポートエージェントのダッシュボードにリアルタイムで表示されるセンチメントの概要が生成されます。</p>

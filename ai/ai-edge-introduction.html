@@ -2990,6 +2990,8 @@
 
 
 
+
+
           
         </li>
       </ul>
@@ -4006,6 +4008,8 @@
         AWX/Ansible タワーをセットアップします （ AWX/ タワーベースの導入の場合）
       </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/automation/authentication_tokens.html">
         CVO の導入と Connector の導入の前提条件を収集
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/automation/cloud_volumes_terraform.html">
+        Terraform による Cloud Volume オートメーション
       </a></li><li class=" "><a class="na-navbar-padding" href="https://github.com/NetAppDocs/netapp-solutions/issues/new?body=[Request%20Automation]%0d%0a%0d%0aSolution%20Name:%20%0d%0aRequest%20Title:%20%0d%0aDescription:%0d%0aSuggestions:&title=Request%20Automation%20-%20<request_title>">
         自動化を申請
       </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="https://docs.netapp.com/us-en/flexpod/">
@@ -4078,12 +4082,9 @@
 <p class="page-details">
   
     
-    <time datetime="2022-03-18 12:13:20 +0000">03/18/2022</time>
+    <time datetime="2022-04-01 19:35:46 +0000">04/01/2022</time>
     
   
-
-<span>寄稿者
-</span>
 
 
 </p>
@@ -4226,7 +4227,7 @@
 <p>本ドキュメントでは、提案アーキテクチャの設計とパフォーマンスを検証します。ただし、ネットアップでは、コンテナ、ワークロード、モデル管理、クラウドやデータセンターとのデータ同期など、特定のソフトウェアレベルの要素は導入シナリオに固有のものであるため、テストは実施していません。ここには複数の選択肢があります。</p>
 </div>
 <div class="paragraph">
-<p>コンテナ管理レベルでは、 Kubernetes コンテナ管理が最適な選択肢であり、エンタープライズ環境に適した完全アップストリームバージョン（ Canonical ）または変更バージョン（ Red Hat ）のどちらでも十分にサポートされています。。 <a href="https://docs.netapp.com/us-en/netapp-solutions/ai/aicp_introduction.html" target="_blank" rel="noopener">"NetApp AI コントロールプレーン"</a> NetApp Trident と新たに追加された Trident を使用しています トレーサビリティ、データ管理機能、インターフェイス、ツールが組み込まれており、データサイエンティストやデータエンジニアはネットアップストレージと統合できます。Kubernetes 向け ML ツールキットである Kubeflow は、 TensorFlow サービスや NVIDIA Triton Inference Server などの複数のプラットフォームで、モデルのバージョン管理と KFServing をサポートするほか、 AI 機能も追加します。もう 1 つの選択肢は NVIDIA EGX プラットフォームです。このプラットフォームは、 GPU 対応 AI 推論コンテナのカタログにアクセスしながら、ワークロード管理を提供します。ただし、これらのオプションを使用するには、本番環境に移行するための多大な労力と専門知識が必要になる場合があります。また、サードパーティの独立系ソフトウェアベンダー（ ISV ）やコンサルタントの支援が必要になる場合もあります。</p>
+<p>コンテナ管理レベルでは、 Kubernetes コンテナ管理が最適な選択肢であり、エンタープライズ環境に適した完全アップストリームバージョン（ Canonical ）または変更バージョン（ Red Hat ）のどちらでも十分にサポートされています。。 <a href="https://docs.netapp.com/us-en/netapp-solutions/ai/aicp_introduction.html" target="_blank" rel="noopener">"NetApp AI コントロールプレーン"</a> NetApp Trident と新たに追加された Trident を使用しています <a href="https://github.com/NetApp/netapp-dataops-toolkit/releases/tag/v2.0.0" target="_blank" rel="noopener">"NetApp DataOps ツールキット"</a> トレーサビリティ、データ管理機能、インターフェイス、ツールが組み込まれており、データサイエンティストやデータエンジニアはネットアップストレージと統合できます。Kubernetes 向け ML ツールキットである Kubeflow は、 TensorFlow サービスや NVIDIA Triton Inference Server などの複数のプラットフォームで、モデルのバージョン管理と KFServing をサポートするほか、 AI 機能も追加します。もう 1 つの選択肢は NVIDIA EGX プラットフォームです。このプラットフォームは、 GPU 対応 AI 推論コンテナのカタログにアクセスしながら、ワークロード管理を提供します。ただし、これらのオプションを使用するには、本番環境に移行するための多大な労力と専門知識が必要になる場合があります。また、サードパーティの独立系ソフトウェアベンダー（ ISV ）やコンサルタントの支援が必要になる場合もあります。</p>
 </div>
 </div>
 <div class="sect2">

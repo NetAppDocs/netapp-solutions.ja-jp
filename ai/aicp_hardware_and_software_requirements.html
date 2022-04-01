@@ -2990,6 +2990,8 @@
 
 
 
+
+
           
         </li>
       </ul>
@@ -4006,6 +4008,8 @@
         AWX/Ansible タワーをセットアップします （ AWX/ タワーベースの導入の場合）
       </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/automation/authentication_tokens.html">
         CVO の導入と Connector の導入の前提条件を収集
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/automation/cloud_volumes_terraform.html">
+        Terraform による Cloud Volume オートメーション
       </a></li><li class=" "><a class="na-navbar-padding" href="https://github.com/NetAppDocs/netapp-solutions/issues/new?body=[Request%20Automation]%0d%0a%0d%0aSolution%20Name:%20%0d%0aRequest%20Title:%20%0d%0aDescription:%0d%0aSuggestions:&title=Request%20Automation%20-%20<request_title>">
         自動化を申請
       </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="https://docs.netapp.com/us-en/flexpod/">
@@ -4078,28 +4082,9 @@
 <p class="page-details">
   
     
-    <time datetime="2022-03-18 12:13:20 +0000">03/18/2022</time>
+    <time datetime="2022-04-01 19:35:46 +0000">04/01/2022</time>
     
   
-
-<span>寄稿者
-  <a target="_blank" href="https://github.com/kevin-hoke">
-    <img  class="avatar avatar-small"
-          alt="kevin-hoke"
-          width="20" height="20"
-          src="https://avatars.githubusercontent.com/u/55808219?v=4"
-          style="border-radius: 50%;"/>
-  </a>
-  
-  <a target="_blank" href="https://github.com/mboglesby">
-    <img  class="avatar avatar-small"
-          alt="mboglesby"
-          width="20" height="20"
-          src="https://avatars.githubusercontent.com/u/44730324?v=4"
-          style="border-radius: 50%;"/>
-  </a>
-  
-</span>
 
 
 </p>
@@ -4107,7 +4092,7 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph lead">
-<p>NetApp AI コントロールプレーン解決策は、このような特定のハードウェアには依存しません。解決策は、 Trident でサポートされている、任意のネットアップ物理ストレージアプライアンス、ソフトウェア定義インスタンス、クラウドサービスと互換性があります。例としては、ネットアップ AFF ストレージシステム、 Azure NetApp Files 、ネットアップ Cloud Volumes Service 、ネットアップ ONTAP Select ソフトウェアで定義されるストレージインスタンス、ネットアップ Cloud Volumes ONTAP インスタンスなどがあります。また、使用する Kubernetes のバージョンが Kubeflow および NetApp Trident でサポートされていれば、どの Kubernetes クラスタにも解決策を実装できます。Kubeflow でサポートされる Kubernetes バージョンの一覧については、を参照してください <a href="https://www.kubeflow.org/docs/started/getting-started/" target="_blank" rel="noopener">"Kubeflow の公式ドキュメント"</a>。Trident でサポートされている Kubernetes のバージョンのリストについては、を参照してください。解決策の検証に使用した環境の詳細については、次の表を参照してください。</p>
+<p>NetApp AI コントロールプレーン解決策は、このような特定のハードウェアには依存しません。解決策は、 Trident でサポートされている、任意のネットアップ物理ストレージアプライアンス、ソフトウェア定義インスタンス、クラウドサービスと互換性があります。例としては、ネットアップ AFF ストレージシステム、 Azure NetApp Files 、ネットアップ Cloud Volumes Service 、ネットアップ ONTAP Select ソフトウェアで定義されるストレージインスタンス、ネットアップ Cloud Volumes ONTAP インスタンスなどがあります。また、使用する Kubernetes のバージョンが Kubeflow および NetApp Trident でサポートされていれば、どの Kubernetes クラスタにも解決策を実装できます。Kubeflow でサポートされる Kubernetes バージョンの一覧については、を参照してください <a href="https://www.kubeflow.org/docs/started/getting-started/" target="_blank" rel="noopener">"Kubeflow の公式ドキュメント"</a>。Trident でサポートされている Kubernetes のバージョンのリストについては、を参照してください <a href="https://netapp-trident.readthedocs.io/" target="_blank" rel="noopener">"Trident のドキュメント"</a>。解決策の検証に使用した環境の詳細については、次の表を参照してください。</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>

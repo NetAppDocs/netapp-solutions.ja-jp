@@ -2990,6 +2990,8 @@
 
 
 
+
+
           
         </li>
       </ul>
@@ -4006,6 +4008,8 @@
         AWX/Ansible タワーをセットアップします （ AWX/ タワーベースの導入の場合）
       </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/automation/authentication_tokens.html">
         CVO の導入と Connector の導入の前提条件を収集
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/automation/cloud_volumes_terraform.html">
+        Terraform による Cloud Volume オートメーション
       </a></li><li class=" "><a class="na-navbar-padding" href="https://github.com/NetAppDocs/netapp-solutions/issues/new?body=[Request%20Automation]%0d%0a%0d%0aSolution%20Name:%20%0d%0aRequest%20Title:%20%0d%0aDescription:%0d%0aSuggestions:&title=Request%20Automation%20-%20<request_title>">
         自動化を申請
       </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="https://docs.netapp.com/us-en/flexpod/">
@@ -4078,36 +4082,9 @@
 <p class="page-details">
   
     
-    <time datetime="2022-03-18 12:13:20 +0000">03/18/2022</time>
+    <time datetime="2022-04-01 19:35:46 +0000">04/01/2022</time>
     
   
-
-<span>寄稿者
-  <a target="_blank" href="https://github.com/kevin-hoke">
-    <img  class="avatar avatar-small"
-          alt="kevin-hoke"
-          width="20" height="20"
-          src="https://avatars.githubusercontent.com/u/55808219?v=4"
-          style="border-radius: 50%;"/>
-  </a>
-  
-  <a target="_blank" href="https://github.com/iamjoemccormick">
-    <img  class="avatar avatar-small"
-          alt="iamjoemccormick"
-          width="20" height="20"
-          src="https://avatars.githubusercontent.com/u/31295332?v=4"
-          style="border-radius: 50%;"/>
-  </a>
-  
-  <a target="_blank" href="https://github.com/mboglesby">
-    <img  class="avatar avatar-small"
-          alt="mboglesby"
-          width="20" height="20"
-          src="https://avatars.githubusercontent.com/u/44730324?v=4"
-          style="border-radius: 50%;"/>
-  </a>
-  
-</span>
 
 
 </p>
@@ -4122,7 +4099,7 @@
 <p>このレポートでは、データネームスペースを迅速にクローニングする方法について説明します。また、サイトやリージョン間でデータをシームレスにレプリケートし、統合された AI / ML / DL データパイプラインを構築する方法も示します。さらに、トレーサビリティとバージョン管理のためにデータやモデルベースラインをほぼ瞬時に作成する AI 、 ML 、 DL トレーニングワークフローの定義と実装についても説明します。この解決策を使用すると、すべてのモデルトレーニングを、モデルのトレーニングや検証に使用したデータセットまでトレースできます。最後に、このドキュメントでは、 Jupyter Notebook ワークスペースを、大規模なデータセットにすばやくプロビジョニングする方法を説明します。</p>
 </div>
 <div class="paragraph">
-<p>注：同じデータセットへの共有アクセスを必要とする多数の GPU サーバを対象とした大規模な HPC スタイルの分散トレーニング、または並列ファイルシステムを必要とする場合は、チェックアウトしてください <a href="https://www.netapp.com/pdf.html?item=/media/31317-tr-4890.pdf" target="_blank" rel="noopener">"TR-4890"</a>。本テクニカルレポートでは、この情報を記載する方法について説明します  ネットアップの AI コントロールプレーンの一部として提供されます。この解決策は、数台の NVIDIA DGX A100 システムで構成される 140 ノードの SuperPOD まで拡張できるように設計されています。</p>
+<p>注：同じデータセットへの共有アクセスを必要とする多数の GPU サーバを対象とした大規模な HPC スタイルの分散トレーニング、または並列ファイルシステムを必要とする場合は、チェックアウトしてください <a href="https://www.netapp.com/pdf.html?item=/media/31317-tr-4890.pdf" target="_blank" rel="noopener">"TR-4890"</a>。本テクニカルレポートでは、この情報を記載する方法について説明します <a href="https://blog.netapp.com/solution-support-for-beegfs-and-e-series/" target="_blank" rel="noopener">"ネットアップのフルサポートの並列ファイルシステム解決策 BeeGFS"</a> ネットアップの AI コントロールプレーンの一部として提供されます。この解決策は、数台の NVIDIA DGX A100 システムで構成される 140 ノードの SuperPOD まで拡張できるように設計されています。</p>
 </div>
 <div class="paragraph">
 <p>ネットアップの AI コントロールプレーンは、データサイエンティストやデータエンジニアをターゲットとするため、ネットアップや ONTAP ® に関する専門知識は最小限に抑えられます。この解決策を使用すると、シンプルで使い慣れたツールやインターフェイスを使用してデータ管理機能を実行できます。ネットアップストレージがすでにある環境では、ネットアップの AI コントロールプレーンを今すぐテストできます。解決策のテストドライブを希望していても、ネットアップストレージがない場合は、にアクセスしてください <a href="http://cloud.netapp.com/" target="_blank" rel="noopener">"cloud.netapp.com"</a>クラウドベースのネットアップストレージ解決策を使用すれば、数分で稼働を開始できます。次の図に、解決策を視覚的に示します。</p>
