@@ -183,7 +183,7 @@ NOTE: 既存の VNet およびサブネットを使用して ANF ボリューム
 ----
 「 ANF データ保護」
 
-データ保護が有効な単一の ANF ボリュームに対しては、 Terraform をさまざまに使用します。
+データ保護が有効になっている単一の ANF ボリューム用の変数を Terraform します。
 
 |===
 
@@ -458,7 +458,7 @@ NOTE: 既存の VNet およびサブネットを使用して ANF ボリューム
 
 [source, cli]
 ----
-  terraform destory
+  terraform destroy
 ----
 「シングルノードインスタンス」
 
@@ -514,7 +514,7 @@ Snapshot を使用する単一の ANF ボリューム用の変数を Terraform �
 --
 .CVO シングルノードの導入
 --
-このセクションでは、 Azure でシングルノード CVO （ Cvloud Volumes ONTAP ）を導入 / 構成するためのさまざまな Terraform 構成ファイルを取り上げます。
+このセクションでは、 Azure 上にシングルノード CVO （ Cloud Volumes ONTAP ）を導入 / 構成するための各種 Terraform 構成ファイルを紹介します。
 
 Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
 
@@ -626,7 +626,7 @@ Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/ne
 | * AZ_CVF_location* | 文字列 | （必須）作業環境を作成する場所。 
 
 
-| * AZ_CVO-subnet_id * | 文字列 | （必須）： Cloud Volumes ONTAP システムのサブネットの名前。 
+| * AZ_CVO-subnet_id * | 文字列 | （必須） Cloud Volumes ONTAP システムのサブネットの名前。 
 
 
 | * AZ_CVO-vnet_id * | 文字列 | （必須）仮想ネットワークの名前。 
@@ -788,7 +788,7 @@ HA ペアの Cloud Volumes ONTAP （ CVO ）の変数は Terraform です。
 | * AZ_CVF_location* | 文字列 | （必須）作業環境を作成する場所。 
 
 
-| * AZ_CVO-subnet_id * | 文字列 | （必須）： Cloud Volumes ONTAP システムのサブネットの名前。 
+| * AZ_CVO-subnet_id * | 文字列 | （必須） Cloud Volumes ONTAP システムのサブネットの名前。 
 
 
 | * AZ_CVO-vnet_id * | 文字列 | （必須）仮想ネットワークの名前。 

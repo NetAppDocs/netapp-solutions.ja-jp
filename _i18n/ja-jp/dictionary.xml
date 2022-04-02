@@ -9901,7 +9901,6 @@
   <block id="f8a700002db36fadde1ab9526f2cf8c3" category="cell">* AWS_connector_subnet_id *</block>
   <block id="76788966b37b9b0df0b8ed78ad67eea9" category="cell">（必須）インスタンスのサブネットの ID 。</block>
   <block id="fafb089eb14a5fe730cfadfd7bed4b4f" category="cell">* AWS_Connector_security_group_id *</block>
-  <block id="3e1563f6e3cc58e193b1d6a8c7af1351" category="cell">（必須）インスタンスのセキュリティグループの ID 。複数のセキュリティグループをで区切って指定できます。</block>
   <block id="52df26383575ad500acf38cc3df88e36" category="cell">* AWS_Connector_iAM_instance_profile_name *</block>
   <block id="59409115b42184ffa519bd9aa24b6816" category="cell">（必須）コネクタのインスタンスプロファイルの名前。</block>
   <block id="8953ca5d18d5f2c4a85fdfe10d30a002" category="cell">* AWS_Connector_account_id *</block>
@@ -9977,7 +9976,6 @@
   <block id="48dbb4d925fe4a46f28c0a8466a2f628" category="cell">（必須） AWS クレデンシャルアカウント名。</block>
   <block id="2fbb88fe90f9183c7eab541bc808795f" category="summary">このページでは、テラフォームを使用してネットアップのボリュームをクラウドプロバイダ（ AWS 、 Azure 、 GCP ）に自動で導入する方法について説明します。</block>
   <block id="8eece2f5500ed61d5d5d24d6b8cc6da5" category="doc">Terraform による Cloud Volume オートメーション</block>
-  <block id="4e99239b58a385b2fec5a1fb4058a12c" category="paragraph">この解決策 では、 Terraform モジュールを使用して、 AWS （ CVO シングルノード、 CVO HA 構成の FSX ONTAP ）と Azure （ CVO シングルノード、 CVO HA 、 ANF ）への Cloud Volume の自動導入を文書化しています。コードは、から入手できます<block ref="d07ec9f91b2ccc52b0d628a1b144c1d8" category="inline-link-rx"></block></block>
   <block id="e11da9afe91d381489a365c86cc614ab" category="section-title">前提条件</block>
   <block id="95332f844502bac70e3783f2d906688c" category="list-text">Terraform &gt;=0.13</block>
   <block id="82410a61f302c6bdce619218d5036674" category="list-text">Cloud Manager アカウント</block>
@@ -10010,7 +10008,6 @@
   <block id="c8fb8ccec1ede566cac7b410b7623186" category="cell">（必須）ボリュームの一意のファイルパス。マウントターゲットの作成時に使用します。これを変更すると、新しいリソースが強制的に作成されます。</block>
   <block id="5e51835c1dd28fa3cab3636a6beb8016" category="cell">* az _capacity_pool_size *</block>
   <block id="a0faef0851b4294c06f2b94bb1cb2044" category="cell">整数</block>
-  <block id="35d9ed053f40a07b6df4021b8ced2423" category="cell">（必須）容量プールサイズ（ TB ）。</block>
   <block id="32c4a6ca695ae0fd3f41efe5ab8d3ffc" category="cell">* az_vnet_creation_bool *</block>
   <block id="27226c864bac7454a8504f8edb15d95b" category="cell">ブール値</block>
   <block id="55a1cc8d235c0ca9bd0cf384e2db1fb2" category="cell">（必須）新しい VNet を作成する場合は、このブール値を「 true 」に設定します。既存の VNet を使用するには、このパラメータを「 false 」に設定します。</block>
@@ -10031,7 +10028,6 @@
   <block id="56978261632f1f36ad5f3f3ea6d2cb4b" category="paragraph">このセクションでは、 Azure でデータ保護を使用して ANF （ Azure NetApp Files ）ボリュームを導入 / 設定するためのさまざまな Terraform 設定ファイルについて説明します。</block>
   <block id="9b3e184737a0a337479622611ba072b7" category="list-text">vars/azure_anf_data_protection_tfvars の変数値を更新します。</block>
   <block id="bf052e3d77cd2cde5fa905542df51c46" category="paragraph">「 ANF データ保護」</block>
-  <block id="ca374bb23355afcc469fefca9eb99ced" category="paragraph">データ保護が有効な単一の ANF ボリュームに対しては、 Terraform をさまざまに使用します。</block>
   <block id="17745d8782266e5f08c77485447c8727" category="cell">* AZ_alt_location *</block>
   <block id="3bfeadf4c47a658ca94a6066aee32aaa" category="cell">（必須）セカンダリボリュームを作成する Azure の場所</block>
   <block id="2558355ccfd79f11c2c7771d473c28a9" category="cell">* AZ_vnet_primary_address_space *</block>
@@ -10091,7 +10087,6 @@
   <block id="a753ff452c91c6e4de63b907e8253e05" category="paragraph">Snapshot を使用する単一の ANF ボリューム用の変数を Terraform します。</block>
   <block id="57bd49c8f9a43967f48ec8f1f3ca2846" category="cell">* AZ_SNAPSHOT_ID *</block>
   <block id="ff461cb79e6adda28ae488782f0da97f" category="cell">（必須）新しい ANF ボリュームを作成する際に使用する Snapshot ID 。</block>
-  <block id="6af253bfaad5b16a3b1d7d2892c1d583" category="paragraph">このセクションでは、 Azure でシングルノード CVO （ Cvloud Volumes ONTAP ）を導入 / 構成するためのさまざまな Terraform 構成ファイルを取り上げます。</block>
   <block id="04107ff6b0460381c55ff620a1021254" category="list-text">変数 \azure_CVO-SILE_NODE_deployment.tfvars の変数を更新します。</block>
   <block id="73b95097cc4819b49af28734c8da85f9" category="paragraph">単一ノードの Cloud Volumes ONTAP （ CVO ）用の Terraform 変数。</block>
   <block id="3226e634f46cb19ab313171144dd34bd" category="cell">* refresh_token *</block>
@@ -10120,11 +10115,8 @@
   <block id="e0f32faffed9caaca61e86caae050f17" category="cell">（必須）コネクタのユーザ名。</block>
   <block id="425624e10c5de04d471a55e4a8b35e31" category="cell">* AZ_CVO-NAME *</block>
   <block id="52ebf6980a494c352ee150c2b801af6e" category="cell">* AZ_CVF_location*</block>
-  <block id="722769acb8681ee52ccaaf29f539866d" category="cell">（必須）作業環境を作成する場所。</block>
   <block id="8da06548b40415fd473a86a6dba80f82" category="cell">* AZ_CVO-subnet_id *</block>
-  <block id="8ad5f0c73733e0e6f16835416c9cc81a" category="cell">（必須）： Cloud Volumes ONTAP システムのサブネットの名前。</block>
   <block id="f71ced0388b772479b4e5fba15c83077" category="cell">* AZ_CVO-vnet_id *</block>
-  <block id="0b3cb9636c3749b52c20181a74644b24" category="cell">（必須）仮想ネットワークの名前。</block>
   <block id="7d2219b61301dda6352db570bb7c5034" category="cell">* AZ_CVO-vnet_resource_group *</block>
   <block id="fecf56abdc6b5472c8da399cad7791b3" category="cell">（必須）仮想ネットワークに関連付けられた Azure 内のリソースグループ。</block>
   <block id="c63d2e90acb0448db277b1b5b8a8d1fa" category="cell">* AZ_CVO-data_encryption_type*</block>
@@ -10152,10 +10144,17 @@
   <block id="587bfaa720a64e832c9eef635797e8d8" category="cell">（必須） Azure に登録されているアプリケーション / サービスプリンシパルのアプリケーション ID 。</block>
   <block id="67830019a9948cfd51759684b5f8a262" category="cell">* AZ_application_key *</block>
   <block id="56d6515673e3c08156696c47a943c020" category="cell">（必須） Azure に登録されているアプリケーション / サービスプリンシパルのアプリケーションキー。</block>
-  <block id="eebf102c9b4ea2f3eac16cf21640a1d5" category="paragraph">このセクションでは、 Azure 上で CVO （ Cloud Volumes ONTAP ） HA （ハイアベイラビリティ）を導入 / 構成するためのさまざまな Terraform 構成ファイルを取り上げます。</block>
   <block id="522a4529185faee9fa34a9398ab7263f" category="list-text">変数 \azure_CVF_HA_deployment.tfvars の変数を更新します。</block>
   <block id="e2da3e968f76091801635ce624569dcb" category="paragraph">HA ペア・インスタンス</block>
   <block id="86ed32721429fbcc7b5e123836e3ebcd" category="paragraph">HA ペアの Cloud Volumes ONTAP （ CVO ）の変数は Terraform です。</block>
   <block id="72170ff3a9ca936d7855297f0bbd1eeb" category="cell">（必須）選択したライセンスタイプに応じて使用するインスタンスのタイプ。 Explore ： [`Standard_DS3_v2'Standard ： [`Standard_DS4_v2'Standard_DS13_v2'Standard_L8s_v2'Premium ： [`Standard_DS5_v2', 'Standard_DS14_v2''BYOL ： PAYGO 用に定義されたすべてのインスタンス・タイプサポートされるインスタンスタイプの詳細については、 Cloud Volumes ONTAP リリースノートを参照してください。デフォルトは 'Standard_DS4_v2' です</block>
   <block id="b515d8e49b6ef626aa91dbd970708132" category="cell">（必須）使用するライセンスのタイプ。シングルノードの場合： [`azure-CO-EXPLOR-paygo, azure-CO-standard-paygo, azure-CO-Premium-pole-BYOL 、 capacity-paygo`]HA の場合： [`azure-HA-COT-standard-paygo, azure-HA-CO-Premium-paygo, azure-HA-CO-Premium-BYOL 、 HA-capacity-paygo`]デフォルトは「 azure-CO-standard-paygo 」です。「 Capacity-paygo 」または「 HA-Capacity-paygo 」を使用して、「 Bring Your Own License Type Capacity Based 」または「 Freemium 」を選択します。「 Bring Your Own License Type Node-Based 」を選択した場合は、「 azure-CO-Premium-BYOL 」または「 azure-HA-CO-Premium-BYOL 」を使用します。</block>
+  <block id="728aafab2377ad85ce4ae3f6a4b3dd33" category="cell">（必須）インスタンスのセキュリティグループの ID 。複数のセキュリティグループをで区切って指定できます。</block>
+  <block id="fbd9a83d6df239351ac0498cbaa58065" category="paragraph">この解決策 では、 Terraform モジュールを使用して、 AWS （ CVO シングルノード、 CVO HA 、 FSX ONTAP ）および Azure （ CVO シングルノード、 CVO HA 、 ANF ）への Cloud Volume の自動導入を文書化しています。コードは、から入手できます<block ref="d07ec9f91b2ccc52b0d628a1b144c1d8" category="inline-link-rx"></block></block>
+  <block id="0db20ddc31a427cc02802395aa53db7f" category="cell">（必須）容量プールサイズ（ TB ）。</block>
+  <block id="c47acd947f63c78f7729c5c176778d53" category="paragraph">データ保護が有効になっている単一の ANF ボリューム用の変数を Terraform します。</block>
+  <block id="ca7ce11916c29a2c94b4fd33dc0b6313" category="paragraph">このセクションでは、 Azure 上にシングルノード CVO （ Cloud Volumes ONTAP ）を導入 / 構成するための各種 Terraform 構成ファイルを紹介します。</block>
+  <block id="7bd8d7a58d3957cf7697ceb3467bffae" category="cell">（必須）作業環境を作成する場所。</block>
+  <block id="a5ab436e757f5af2106d5ed5e5dd9df0" category="cell">（必須） Cloud Volumes ONTAP システムのサブネットの名前。</block>
+  <block id="353190ef77d18ad13aeb6b4f0f3ddd66" category="paragraph">このセクションでは、 Azure 上で CVO （ Cloud Volumes ONTAP ） HA （ハイアベイラビリティ）を導入 / 構成するためのさまざまな Terraform 構成ファイルを取り上げます。</block>
 </blocks>
