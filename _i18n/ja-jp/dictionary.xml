@@ -10157,4 +10157,92 @@
   <block id="7bd8d7a58d3957cf7697ceb3467bffae" category="cell">（必須）作業環境を作成する場所。</block>
   <block id="a5ab436e757f5af2106d5ed5e5dd9df0" category="cell">（必須） Cloud Volumes ONTAP システムのサブネットの名前。</block>
   <block id="353190ef77d18ad13aeb6b4f0f3ddd66" category="paragraph">このセクションでは、 Azure 上で CVO （ Cloud Volumes ONTAP ） HA （ハイアベイラビリティ）を導入 / 構成するためのさまざまな Terraform 構成ファイルを取り上げます。</block>
+  <block id="3adefdd7d79d9a7c848b2dd81fd4feff" category="paragraph">このセクションでは、 GCP （ Google Cloud Platform ）でシングルノードの NetApp CVO （ Cloud Volumes ONTAP ）を導入 / 構成するための、さまざまな Terraform 構成ファイルについて説明します。</block>
+  <block id="b05dddcb6f00ee8dba8395d241b9d24d" category="list-text">GCP 認証キー JSON ファイルをディレクトリに保存します。</block>
+  <block id="44b4381353a1686f5b81f73f018d336c" category="list-text">変数 /GCP_CVP_SILE_Node_deployment.tfvar' の変数値を更新します</block>
+  <block id="2ac544064187c52d64d3eec81700dd42" category="admonition">変数「 gCP_Connector_deploy_bool 」の値を「 true 」または「 false 」に設定することで、コネクタの配置を選択できます。</block>
+  <block id="283162995c6eba560352663fa7cafbb3" category="paragraph">NetApp GCP Connector インスタンスの CVO 導入用の Terraform 変数。</block>
+  <block id="c0b4a62bb4903159c66ef5fd828dbb35" category="cell">* gCP_Connector_deploy_bool *</block>
+  <block id="3448a02a5105e0eeb2a6243836814f36" category="cell">* GCP_Connector_name *</block>
+  <block id="982137a628765a4ede6a620653ab8bf6" category="cell">* gCP_Connector_project_id *</block>
+  <block id="816194da363b92545a1114d46c4943f1" category="cell">（必須）コネクタを作成する GCP PROJECT_ID 。</block>
+  <block id="49a94de7b7e8762f961e471d657496eb" category="cell">* gCP_Connector_zone *</block>
+  <block id="ff9633a62f1e60af63fc951afd6966bc" category="cell">（必須）コネクタを作成する GCP ゾーン。</block>
+  <block id="c667eb31817317b5455e6a8883f4664a" category="cell">* gp_connector_company*</block>
+  <block id="9d1203849926481ebb6be1fb1d6ec3de" category="cell">* gCP_Connector_service_account_email*</block>
+  <block id="d4a302e18b412231fe06e54e038aed80" category="cell">（必須） Connector インスタンスの SERVICE_ACCOUNT の電子メール。このサービスアカウントは、コネクタによるクラウドボリューム ONTAP の作成を許可するために使用されます。</block>
+  <block id="0e3852268e0e5a3a486b8fcf6e3ae1c1" category="cell">* gCP_Connector_service_account_path *</block>
+  <block id="f863e677d176e63d3642e53ae6b336b5" category="cell">（必須） GCP 認証に使用する service_account JSON ファイルのローカルパス。このサービスアカウントは、 GCP でコネクタを作成するために使用します。</block>
+  <block id="cfd7e4961aa34c5626712429d469ed18" category="cell">* gCP_Connector_account_id *</block>
+  <block id="231d57c65fc42941f6a520976dc80ec3" category="cell">（オプション）コネクタを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウント ID は、 Cloud Manager のアカウントタブにあります<block ref="ed21e31bd71ab546f26978ff562b5c5d" category="inline-link-rx"></block>。</block>
+  <block id="9ea10c86ddbbfa93db9af98d0a38e7d7" category="paragraph">GCP 上の単一の NetApp CVO インスタンスの Terraform 変数。</block>
+  <block id="9d8a021dcdac02b1cffc5ee14bc79241" category="cell">* GCP_CVO-NAME *</block>
+  <block id="bc023aad2be985e1a3252a959cb2c43b" category="cell">* GCP_CVO-PROJECT_ID *</block>
+  <block id="c7a61709c9cf6aa90f854f8e30110412" category="cell">（必須） GCP プロジェクトの ID 。</block>
+  <block id="6f74a6834cfd9c72b6694ae9ecb7f332" category="cell">* GCP_CVP_ZONE *</block>
+  <block id="dea2d3525e8ec98bbd9a7931a8ed9921" category="cell">（必須）作業環境を作成するリージョンのゾーン。</block>
+  <block id="2c09e34e29e9c5f65d5d8ac921fd8105" category="cell">* GCP_CVP_GCP_SERVICE_ACCOUNT *</block>
+  <block id="77853ddcc7178537c8d9c0301b71c991" category="cell">（必須）コールドデータを Google Cloud Storage に階層化できるようにするための、 GCP_SERVICE_ACCOUNT 電子メール。</block>
+  <block id="ffb5588c947a413a01016a81af9ddbc7" category="cell">* GCP_CVO-svm_svm_password* をクリックします</block>
+  <block id="9507c3b760db1c7e6c8d1674933449e4" category="cell">* GCP_CVP_Workspace_id *</block>
+  <block id="4efb152d95f2b6b19ca1387a26e8f750" category="cell">（オプション） Cloud Volumes ONTAP を導入する Cloud Manager ワークスペースの ID 。指定しない場合、 Cloud Manager は最初のワークスペースを使用します。ID は、の [ ワークスペース（ Workspace ） ] タブで確認できます<block ref="ed21e31bd71ab546f26978ff562b5c5d" category="inline-link-rx"></block>。</block>
+  <block id="7cbf1746ddada50a540811a75b633bfa" category="cell">* GCP_CVP_LICENSE_TYPE *</block>
+  <block id="108ccbda23ae580baf5fb86c14613837" category="cell">（任意）使用するライセンスのタイプ。シングルノードの場合： [ 容量 - 給与 ] 、 [ GCP - COT - EXPLORTe-paygo ] 、 [GCP - COT - standard-paygo] 、 [GCP - COT - Premium-paygo] 、 [GCP - COT - Premium-BYOL ] 、 HA の場合： [ HA キャパシティ - ペイゴー ] 、 [ GCP - HA - ベッド - 探検 - ペイゴー ] 、 [GCP - HA - ベビーベッド - スタンダード - ペイゴー ] 、 [GCP - HA - ベビーベッド - プレミアム - ペイゴー ] 、 [GCP - HA - ベビーベッド - プレミアム - BYOL ] 。デフォルトは、単一ノードの場合は「 capacity-paygo 」、 HA の場合は「 ha-capacity-paygo 」です。</block>
+  <block id="ec6c16de8b82f3fc6c55f03f1d9a0848" category="cell">* GCP_CVP_capacity package_name *</block>
+  <block id="564565c1364213fe3ffcef055b61947b" category="cell">（オプション）容量パッケージの名前： ['Essential','Professional','Freemium'] 。デフォルトは「 Essential 」です。</block>
+  <block id="ac245610a2b7e434b78946f9ab069afe" category="paragraph">このセクションでは、 GCP （ Google Cloud Platform ）のハイアベイラビリティペアで NetApp CVO （ Cloud Volumes ONTAP ）を導入 / 構成するための、さまざまな Terraform 構成ファイルについて説明します。</block>
+  <block id="00c7a940cc525046dc63cee112a8ef2d" category="list-text">変数 /GCP_CVP_HA_deployment.tfvars の変数値を更新します。</block>
+  <block id="657426021b9624d6c24fae901c9998c1" category="paragraph">GCP の HA ペアの NetApp CVO インスタンスの Terraform 変数。</block>
+  <block id="2a20062f50c253ff821e16ab60e9bd71" category="cell">* GCP_CVP_is_HA *</block>
+  <block id="c7d1d567eb3eec5faac1c3efbf5c63d6" category="cell">* GCP_CVP_node1 _ZONE *</block>
+  <block id="2cb70db8c1982b17ac705ceace5b64ae" category="cell">（オプション）ノード 1 のゾーン。</block>
+  <block id="b231cdca0a533a8afcbf95810dcdd937" category="cell">* GCP_CVP_node2 _ZONE *</block>
+  <block id="2aad8f424dde09a3fb42570367a156de" category="cell">（オプション）ノード 2 のゾーン。</block>
+  <block id="7dd3bb55d8d71efcb06fc86bbb29993a" category="cell">* GCP_CVP_mediator_zone *</block>
+  <block id="767c5594dfa391fbb74bd9360557a0a8" category="cell">（オプション）メディエーター用のゾーン。</block>
+  <block id="4ecd0da4e352bb336bd4c5925e627fbb" category="cell">* GCP_CVP_vPC_id *</block>
+  <block id="0a49d29112682612dc74e881a68deed0" category="cell">（オプション） VPC の名前。</block>
+  <block id="eedae790807f6f5998c1d5b2eccfcf91" category="cell">* GCP_CVP_subnet_id *</block>
+  <block id="dbb13624053bb884443eb3a8a891a35e" category="cell">（オプション） Cloud Volumes ONTAP のサブネットの名前。デフォルトは「 default 」です。</block>
+  <block id="5fbbd2383d042b5ab01878b936e467ff" category="cell">* GCP_CVP_vpc0_Node_or_data_connectivity*</block>
+  <block id="24239aec58a00d53d32147d2e71cca4d" category="cell">（オプション） NIC 1 の VPC パス。ノードとデータの接続に必要です。共有 VPC を使用する場合は、 netwrok_project_id を指定する必要があります。</block>
+  <block id="b1dd5e2b134fc3db50406e05c7ae6c38" category="cell">* GCP_CVP_vpc1_cluster_connectivity*</block>
+  <block id="714e5d0cdfde4cbf4df83df266c672e7" category="cell">（オプション） NIC 2 の VPC パス。クラスタ接続に必要です。</block>
+  <block id="f8d315b03e4b926495b923dfe4b49b23" category="cell">* GCP_CVP_vpc2_HA_Connectivity *</block>
+  <block id="5c144c2c76f5d988024f4d7398060d71" category="cell">（オプション） HA 接続に必要な NIC 3 の VPC パス。</block>
+  <block id="1366961106ddc181e83c467cf5559a14" category="cell">* GCP_CVP_vpc3_data_replication *</block>
+  <block id="b4be5ce15bf4e51acd3167c47e79955f" category="cell">（オプション）データレプリケーションに必要な NIC4 の VPC パス。</block>
+  <block id="065308400ba1fac48f2ca62781d79dff" category="cell">* GCP_CVP_SUBnet0_Node_or_data_connectivity*</block>
+  <block id="2a33bb449fd47fa1f379b60f3e1473ca" category="cell">（任意）ノードおよびデータ接続に必要な NIC1 のサブネットパス。共有 VPC を使用する場合は、 netwrok_project_id を指定する必要があります。</block>
+  <block id="da8a35439720c0bc705f001b954bd61e" category="cell">* GCP_CVP_SUBnet1_cluster_connectivity*</block>
+  <block id="01b515c3b8d74ae94df6572b47a3f06d" category="cell">（オプション）クラスタ接続に必要な NIC 2 のサブネット・パス</block>
+  <block id="7ea43f4ca8d2a868f20df11b9e0b39b2" category="cell">* GCP_CVP_SUBnet2_HA_connectivity *</block>
+  <block id="a35bd275122015b3834d13c0dc72b87f" category="cell">（任意） HA 接続に必要な NIC 3 のサブネットパス。</block>
+  <block id="16c5273854a933d221200af8f06d106a" category="cell">* GCP_CVP_SUBnet3_data_replication *</block>
+  <block id="b36fab455a4e11803791a090935906af" category="cell">（任意）データ複製に必要な NIC4 のサブネット・パス</block>
+  <block id="e69179170f564daf56d8694c1c5d35fe" category="cell">* GCP_CVP_GCP_volume_size *</block>
+  <block id="eb01714b284e762b9c44adfa5575690c" category="cell">（オプション）最初のデータアグリゲートの GCP ボリュームサイズ。GB の場合、単位は [100 または 500] です。TB の場合、単位は [1,2,4,8] です。デフォルトは「 1 」です。</block>
+  <block id="4c767d9b6ddddf4abeaece5590c0b101" category="cell">* GCP_CVP_GCP_volume_size_unit *</block>
+  <block id="944ce323a5a1ffb09543fd409911cc88" category="open-title">CVS ボリューム</block>
+  <block id="ffcc65b297748299934a184d39035ae4" category="paragraph">このセクションでは、 GCP （ Google Cloud Platform ）で NetApp CVS （ Cloud Volume サービス）ボリュームを導入 / 設定するためのさまざまな Terraform 設定ファイルについて説明します。</block>
+  <block id="732c3eabba1449281a4fddb59dbddcac" category="paragraph">Terraform ドキュメント :<block ref="35b7d5c9a11899e5d5e07079551e8cef" category="inline-link-rx"></block></block>
+  <block id="d203294ba4c28418657d90a7f8a7510d" category="list-text">変数 /gcp_cvs_volume_.tfvars の変数値を更新します</block>
+  <block id="40686c9084c59387baf48000dd09e6ab" category="paragraph">「 CVS ボリューム」</block>
+  <block id="3efdf9b0e7f4af483444f271367d6361" category="paragraph">NetApp GCP CVS ボリュームの Terraform 変数。</block>
+  <block id="0ffdc0b2b4889601b216ab5087650d46" category="cell">* gcp_cvs_name *</block>
+  <block id="8ff48dd93ed73eb9adc26090e58ed80b" category="cell">（必須） NetApp CVS ボリュームの名前。</block>
+  <block id="b6759cef3cfc5890deb6a790f73c8b79" category="cell">* gcp_cvs_project_id *</block>
+  <block id="b0257576709acc899b5376a171c3cd98" category="cell">（必須） CVS ボリュームを作成する GCP project_id 。</block>
+  <block id="447b0e81ae249b907128b7ea83e045c5" category="cell">* gcp_cvs_gcp_service_account_path *</block>
+  <block id="820ecb1b7a653c1e2dece0176d15eaed" category="cell">（必須） GCP 認証に使用する service_account JSON ファイルのローカルパス。このサービスアカウントは、 GCP で CVS ボリュームを作成するために使用します。</block>
+  <block id="6cb8bdefdf91cd2d80f6d9849de25fb8" category="cell">* gcp_cvs_region *</block>
+  <block id="ec9461de174e3ad866c58b577c94034b" category="cell">（必須） CVS ボリュームを作成する GCP ゾーン。</block>
+  <block id="fc944aa114b94de895d84f5375000c0b" category="cell">* gcp_cvs_network *</block>
+  <block id="23a1cb77eeeabfd36bbab18e5de9f0dc" category="cell">（必須）ボリュームのネットワーク VPC 。</block>
+  <block id="31681a1878caf611cea11e159a4fc1aa" category="cell">* gcp_cvs_size *</block>
+  <block id="6f84d4d0c83121512056657a2dc0e808" category="cell">（必須）ボリュームのサイズは、 1024~102400 で（ GiB 単位）。</block>
+  <block id="5c1eb3efe4738cb21efadc992aeeef81" category="cell">* gcp_cvs_volume_path *</block>
+  <block id="bacdc6093d23e2f886b0cb0609418030" category="cell">（オプション）ボリュームのボリュームパスの名前。</block>
+  <block id="0467ee670bdb8fff57da77368d6d5385" category="cell">* gcp_cvs_protocol_types *</block>
+  <block id="b91db1bd1a57ea4c9953036d82a63e95" category="cell">（必須）ボリュームの protocol_type 。NFS の場合は「 NFSv3 」または「 NFSv4 」を、 SMB の場合は「 CIFS 」または「 MB 」を使用します。</block>
 </blocks>
