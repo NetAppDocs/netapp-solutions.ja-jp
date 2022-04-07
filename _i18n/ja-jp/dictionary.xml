@@ -2276,7 +2276,6 @@
   <block id="265e673c00294cf97a90c3b0d4fcb076" category="list-text">ONTAP クラスタ内の各ノードの各 SVM で、 1 つの論理インターフェイス（ LIF ）を使用します。データストアごとの LIF の過去の推奨事項は不要になりました。直接アクセス（同じノード上の LIF とデータストア）は最適ですが、パフォーマンスへの影響は一般に最小（マイクロ秒）であるため、間接アクセスを考慮しないでください。</block>
   <block id="83deede0d0158f0f2469080b6208e88a" category="list-text">VMware は、 VMware Infrastructure 3 以降で NFSv3 をサポートしています。vSphere 6.0 では NFSv4.1 がサポートされるようになり、 Kerberos セキュリティなどの高度な機能が使用できるようになりました。NFSv3 ではクライアント側のロックが使用され、 NFSv4.1 ではサーバ側のロックが使用されます。ONTAP ボリュームは両方のプロトコルでエクスポートできますが、 ESXi は 1 つのプロトコルでしかマウントできません。この単一プロトコルのマウントにより、他の ESXi ホストが同じデータストアを別のバージョンでマウントすることができるわけではありません。すべてのホストが同じバージョン、つまり同じロック形式を使用するように、マウント時に使用するプロトコルバージョンを指定してください。NFS のバージョンをホスト間で混在させないでください。可能であれば、ホストプロファイルを使用して準拠しているかどうかを確認します</block>
   <block id="ae4c5baa79e370d8f601cc7082f8123e" category="list-text">NFSv3 と NFSv4.1 間ではデータストアが自動変換されないため、新しい NFSv4.1 データストアを作成し、 Storage vMotion を使用して新しいデータストアに VM を移行します。</block>
-  <block id="a9577e779ab70bdd45392b1e0125cc77" category="list-text">本レポートの執筆時点では、ネットアップは VMware との連携を継続して、 NFSv4.1 データストアの問題やストレージフェイルオーバーの問題を解決しています。これらの問題は、近日中に解決される予定です。</block>
   <block id="04826f858f8ad9c66b9d805ca9ff88a3" category="list-text">NFS エクスポートポリシーは、 vSphere ホストによるアクセスの制御に使用されます。複数のボリューム（データストア）で 1 つのポリシーを使用できます。NFSv3 では、 ESXi で sys （ UNIX ）セキュリティ形式が使用され、 VM を実行するためにルートマウントオプションが必要となります。ONTAP では、このオプションはスーパーユーザと呼ばれます。スーパーユーザオプションを使用する場合は、匿名ユーザ ID を指定する必要はありません。-anon` と --allow-suid に異なる値を持つエクスポートポリシールールは、 ONTAP 原因ツールで SVM の検出に関する問題が発生する可能性があることに注意してください。ポリシーの例を次に示します。</block>
   <block id="822366735aef72f1a9429ac86dda7338" category="list-text">Access Protocol ： nfs3</block>
   <block id="69abbd5c7cd9c1b3828b9aa5a894ff47" category="list-text">クライアント一致仕様： 192.168.42.21</block>
@@ -10245,4 +10244,6 @@
   <block id="bacdc6093d23e2f886b0cb0609418030" category="cell">（オプション）ボリュームのボリュームパスの名前。</block>
   <block id="0467ee670bdb8fff57da77368d6d5385" category="cell">* gcp_cvs_protocol_types *</block>
   <block id="b91db1bd1a57ea4c9953036d82a63e95" category="cell">（必須）ボリュームの protocol_type 。NFS の場合は「 NFSv3 」または「 NFSv4 」を、 SMB の場合は「 CIFS 」または「 MB 」を使用します。</block>
+  <block id="8065bff4940ae8d7161f926b0df47ac4" category="inline-link">NetApp Interoperability Matrix Tool で確認できます</block>
+  <block id="1479ddf58c038ab7d220ff734c74deaf" category="list-text">に記載されている NFS v4.1 と相互運用性に関する表の注を参照してください<block ref="8813559f5b95abb5411182be29200aff" category="inline-link-rx"></block> をサポートするには、特定の ESXi パッチレベルが必要です。</block>
 </blocks>
