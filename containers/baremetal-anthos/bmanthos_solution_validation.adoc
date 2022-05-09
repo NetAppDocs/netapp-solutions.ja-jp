@@ -1,6 +1,6 @@
 ---
 sidebar: sidebar 
-permalink: containers/bmanthos_solution_validation.html 
+permalink: containers/baremetal-anthos/bmanthos_solution_validation.html 
 keywords: validation, google cloud, nginx 
 summary: この解決策の現在の展開は、 Google Cloud チームが提供するツールを使用して、 2 つの厳格な検証プロセスを実施しました。 
 ---
@@ -10,7 +10,7 @@ summary: この解決策の現在の展開は、 Google Cloud チームが提供
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./../media/
+:imagesdir: ./../../media/
 
 
 この解決策の現在の展開は、 Google Cloud チームが提供するツールを使用して、 2 つの厳格な検証プロセスを実施しました。これらの検証には、次のテストのサブセットが含まれます。
@@ -28,9 +28,9 @@ summary: この解決策の現在の展開は、 Google Cloud チームが提供
 * Anthos 対応ストレージのパートナー検証：
 +
 ** 永続的ボリューム要求を使用して導入を作成します。
-** NetApp Trident を使用して、要求された永続的ボリュームをプロビジョニングし、 NetApp ONTAP から接続します。
-** 永続ボリュームの接続解除と再接続を検証してください。
-** ノード上の他のポッドからの永続ボリュームへの読み取り専用アクセスをマルチ接続で検証する。
+** NetApp Astra Tridentを使用して、要求された永続的ボリュームをNetApp ONTAP からプロビジョニングして接続します。
+** 永続ボリュームの接続解除および再接続機能を検証します。
+** ノード上の他のポッドから永続ボリュームへのマルチ接続、読み取り専用アクセスを検証する。
 ** オフラインボリュームのサイズ変更処理を検証します。
 ** クラスタの拡張処理が永続的ボリュームに実行されていることを確認します。
 

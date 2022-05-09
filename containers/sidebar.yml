@@ -1,7 +1,39 @@
 ---
 section: containers
 title: コンテナ
+url: "/containers/index.html"
 entries:
+- title: ネットアップAstraを使用したDevOps
+  type: solutions
+  url: "/containers/devops_with_netapp/dwn_solution_overview.html"
+  entries:
+  - title: DevOpsの概要
+    url: "/containers/devops_with_netapp/dwn_overview_devops.html"
+  - title: ネットアップストレージシステムの概要
+    url: "/containers/devops_with_netapp/dwn_overview_netapp.html"
+    entries:
+    - title: NetApp ONTAP
+      url: "/containers/devops_with_netapp/dwn_netapp_ontap.html"
+  - title: ネットアップとストレージの統合の概要
+    url: "/containers/devops_with_netapp/dwn_overview_storint.html"
+    entries:
+    - title: NetApp Astra Control Center の概要
+      url: "/containers/devops_with_netapp/dwn_overview_astra.html"
+    - title: NetApp Astra Trident の概要
+      url: "/containers/devops_with_netapp/dwn_overview_trident.html"
+  - title: ユースケースの検証
+    url: "/containers/devops_with_netapp/dwn_use_cases_overview.html"
+    entries:
+    - title: NetApp Astra Controlにより、CI / CDパイプラインへの保護を統合
+      url: "/containers/devops_with_netapp/dwn_use_case_integrated_data_protection.html"
+    - title: アストラ制御を活用して、事後分析とアプリケーションの復元を容易にします
+      url: "/containers/devops_with_netapp/dwn_use_case_postmortem_with_restore.html"
+    - title: ネットアップのFlexCloneでソフトウェア開発を高速化
+      url: "/containers/devops_with_netapp/dwn_use_case_flexclone.html"
+  - title: ビデオ / デモ
+    url: "/containers/devops_with_netapp/dwn_videos_and_demos.html"
+  - title: 追加情報
+    url: "/containers/devops_with_netapp/dwn_additional_information.html"
 - title: ネットアップを利用した Red Hat OpenShift
   type: solutions
   url: "/containers/rh-os-n_solution_overview.html"
@@ -76,20 +108,20 @@ entries:
           url: "/containers/rh-os-n_use_case_multitenancy_cluster_admin_tasks.html"
         - title: ストレージ管理者のタスク
           url: "/containers/rh-os-n_use_case_multitenancy_storage_admin_tasks.html"
-      - title: 検証
-        url: "/containers/rh-os-n_use_case_multitenancy_validation.html"
-      - title: 拡張性
-        url: "/containers/rh-os-n_use_case_multitenancy_scaling.html"
-    - title: NetApp ONTAP を使用した Red Hat OpenShift Virtualization
+        - title: 検証
+          url: "/containers/rh-os-n_use_case_multitenancy_validation.html"
+        - title: 拡張性
+          url: "/containers/rh-os-n_use_case_multitenancy_scaling.html"
+  - title: NetApp ONTAP を使用した Red Hat OpenShift Virtualization
+    entries:
+    - title: 概要
+      url: "/containers/rh-os-n_use_case_openshift_virtualization_overview.html"
+    - title: 導入
       entries:
-      - title: 概要
-        url: "/containers/rh-os-n_use_case_openshift_virtualization_overview.html"
-      - title: 導入
-        entries:
-        - title: 前提条件
-          url: "/containers/rh-os-n_use_case_openshift_virtualization_deployment_prerequisites.html"
-        - title: オペレータを介して展開します
-          url: "/containers/rh-os-n_use_case_openshift_virtualization_deployment.html"
+      - title: 前提条件
+        url: "/containers/rh-os-n_use_case_openshift_virtualization_deployment_prerequisites.html"
+      - title: オペレータを介して展開します
+        url: "/containers/rh-os-n_use_case_openshift_virtualization_deployment.html"
       - title: ワークフロー
         entries:
         - title: VM を作成します
@@ -100,16 +132,16 @@ entries:
           url: "/containers/rh-os-n_use_case_openshift_virtualization_workflow_clone_vm.html"
         - title: Snapshot から VM を作成します
           url: "/containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_from_snapshot.html"
-    - title: ネットアップを使用した Red Hat OpenShift での Kubernetes 向けの高度なクラスタ管理
+  - title: ネットアップを使用した Red Hat OpenShift での Kubernetes 向けの高度なクラスタ管理
+    entries:
+    - title: 概要
+      url: "/containers/rh-os-n_use_case_advanced_cluster_management_overview.html"
+    - title: 導入
       entries:
-      - title: 概要
-        url: "/containers/rh-os-n_use_case_advanced_cluster_management_overview.html"
-      - title: 導入
-        entries:
-        - title: 前提条件
-          url: "/containers/rh-os-n_use_case_advanced_cluster_management_deployment_prerequisites.html"
-        - title: オペレータを介して展開します
-          url: "/containers/rh-os-n_use_case_advanced_cluster_management_deployment.html"
+      - title: 前提条件
+        url: "/containers/rh-os-n_use_case_advanced_cluster_management_deployment_prerequisites.html"
+      - title: オペレータを介して展開します
+        url: "/containers/rh-os-n_use_case_advanced_cluster_management_deployment.html"
       - title: の機能
         entries:
         - title: クラスタのライフサイクル管理
@@ -126,21 +158,66 @@ entries:
     url: "/containers/rh-os-n_videos_and_demos.html"
   - title: 追加情報
     url: "/containers/rh-os-n_additional_information.html"
-- title: Google Anthos
+- title: Anthos with NetAppの特長
+  type: solutions
+  url: "/containers/anthos-with-netapp/a-w-n_solution_overview.html"
+  entries:
+  - title: Anthosの概要
+    url: "/containers/anthos-with-netapp/a-w-n_overview_anthos.html"
+    entries:
+    - title: VMware上のAnthosクラスタ
+      url: "/containers/anthos-with-netapp/a-w-n_anthos_VMW.html"
+    - title: ベアメタルの Anthos
+      url: "/containers/anthos-with-netapp/a-w-n_anthos_BM.html"
+  - title: ネットアップストレージシステムの概要
+    url: "/containers/anthos-with-netapp/a-w-n_overview_netapp.html"
+    entries:
+    - title: NetApp ONTAP
+      url: "/containers/anthos-with-netapp/a-w-n_netapp_ontap.html"
+    - title: NetApp Element
+      url: "/containers/anthos-with-netapp/a-w-n_netapp_element.html"
+  - title: ネットアップとストレージの統合の概要
+    url: "/containers/anthos-with-netapp/a-w-n_overview_storint.html"
+    entries:
+    - title: NetApp Astra Trident の概要
+      url: "/containers/anthos-with-netapp/a-w-n_overview_trident.html"
+      entries:
+      - title: NetApp ONTAP NFS
+        url: "/containers/anthos-with-netapp/a-w-n_trident_ontap_nfs.html"
+      - title: NetApp ONTAP iSCSI の略
+        url: "/containers/anthos-with-netapp/a-w-n_trident_ontap_iscsi.html"
+      - title: NetApp Element iSCSI の略
+        url: "/containers/anthos-with-netapp/a-w-n_trident_element_iscsi.html"
+  - title: Anthosの高度な構成オプション
+    entries:
+    - title: ロードバランサオプションの確認
+      url: "/containers/anthos-with-netapp/a-w-n_load_balancers.html"
+      entries:
+      - title: F5 BIG-IP
+        url: "/containers/anthos-with-netapp/a-w-n_LB_F5BigIP.html"
+      - title: シーソー
+        url: "/containers/anthos-with-netapp/a-w-n_LB_SeeSaw.html"
+  - title: 解決策の検証とユースケース
+    url: "/containers/anthos-with-netapp/a-w-n_use_cases.html"
+  - title: ビデオ / デモ
+    url: "/containers/anthos-with-netapp/a-w-n_videos_and_demos.html"
+  - title: 追加情報
+    url: "/containers/anthos-with-netapp/a-w-n_additional_information.html"
+- title: アーカイブされたソリューション
   entries:
   - title: ベアメタルの Anthos
-    url: "/containers/bmanthos_introduction.html"
+    url: "/containers/baremetal-anthos/bmanthos_introduction.html"
     type: solutions
     entries:
     - title: 解決策の概要
-      url: "/containers/bmanthos_solution_overview.html"
+      url: "/containers/baremetal-anthos/bmanthos_solution_overview.html"
     - title: 解決策の要件
-      url: "/containers/bmanthos_solution_requirements.html"
+      url: "/containers/baremetal-anthos/bmanthos_solution_requirements.html"
     - title: 導入の概要
-      url: "/containers/bmanthos_deployment_summary.html"
+      url: "/containers/baremetal-anthos/bmanthos_deployment_summary.html"
     - title: 解決策の検証
-      url: "/containers/bmanthos_solution_validation.html"
+      url: "/containers/baremetal-anthos/bmanthos_solution_validation.html"
     - title: まとめ
-      url: "/containers/bmanthos_conclusion.html"
+      url: "/containers/baremetal-anthos/bmanthos_conclusion.html"
     - title: 追加情報の参照先
-      url: "/containers/bmanthos_where_to_find_additional_information.html"
+      url: "/containers/baremetal-anthos/bmanthos_where_to_find_additional_information.html"

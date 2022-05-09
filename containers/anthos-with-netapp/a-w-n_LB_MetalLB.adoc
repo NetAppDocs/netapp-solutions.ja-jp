@@ -1,0 +1,115 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_LB_MetalLB.html 
+summary: このページでは、 MetalLB ロードバランサのインストールおよび設定手順について説明します。 
+keywords: Red Hat OpenShift, Kubernetes, MetalLB, LoadBalancer, Astra, Astra Control Center 
+---
+= MetalLB ロードバランサのインストール：ネットアップでの Red Hat OpenShift
+:allow-uri-read: 
+
+
+このページでは、 MetalLB ロードバランサのインストールおよび設定手順を示します。
+
+MetalLB は、 OpenShift クラスタにインストールされた自己ホスト型ネットワークロードバランサであり、クラウドプロバイダで実行されないクラスタでタイプロードバランサの OpenShift サービスを作成できます。LoadBalancer サービスをサポートするために連携する MetalLB の 2 つの主な機能は、アドレス割り当てと外部アナウンスメントです。
+
+
+
+== MetalLB 設定オプション
+
+MetalLB が OpenShift クラスタの外部でロードバランササービスに割り当てられた IP アドレスをどのようにアナウンスするかに基づいて、次の 2 つのモードで動作します。
+
+* * レイヤ 2 モード。 * このモードでは、 OpenShift クラスタ内の 1 つのノードがサービスの所有権を取得し、その IP の ARP 要求に応答して、 OpenShift クラスタ外で到達可能にします。IP をアドバタイズするのはノードだけなので、帯域幅のボトルネックと低速フェールオーバーの制限があります。詳細については、のドキュメントを参照してください link:https://metallb.universe.tf/concepts/layer2/["こちらをご覧ください"]。
+* * このモードでは、 OpenShift クラスタ内のすべてのノードがルータとの BGP ピアリングセッションを確立し、トラフィックをサービス IP に転送するためにルートをアドバタイズします。このための前提条件は、 MetalLB をそのネットワーク内のルータと統合することです。BGP のハッシュメカニズムにより、サービスの IP-to-Node マッピングが変更されることがあります。詳細については、のドキュメントを参照してください link:https://metallb.universe.tf/concepts/bgp/["こちらをご覧ください"]。
+
+
+
+NOTE: このマニュアルでは、レイヤ 2 モードで MetalLB を設定します。
+
+
+
+== MetalLB ロードバランサをインストールします
+
+. MetalLB リソースをダウンロードします。
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ wget https://raw.githubusercontent.com/metallb/metallb/v0.10.2/manifests/namespace.yaml
+[netapp-user@rhel7 ~]$ wget https://raw.githubusercontent.com/metallb/metallb/v0.10.2/manifests/metallb.yaml
+----
+. ファイル「 metallb.yaml 」を編集し、「 pec.template.spec.securityContext` 」をコントローラ展開とスピーカー DemonSet から削除します。
++
+* 削除する行数： *
+
++
+[listing]
+----
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 65534
+----
+. 「 metallb-system' 」ネームスペースを作成します。
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ oc create -f namespace.yaml
+namespace/metallb-system created
+----
+. MetalLB CR を作成します。
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ oc create -f metallb.yaml
+podsecuritypolicy.policy/controller created
+podsecuritypolicy.policy/speaker created
+serviceaccount/controller created
+serviceaccount/speaker created
+clusterrole.rbac.authorization.k8s.io/metallb-system:controller created
+clusterrole.rbac.authorization.k8s.io/metallb-system:speaker created
+role.rbac.authorization.k8s.io/config-watcher created
+role.rbac.authorization.k8s.io/pod-lister created
+role.rbac.authorization.k8s.io/controller created
+clusterrolebinding.rbac.authorization.k8s.io/metallb-system:controller created
+clusterrolebinding.rbac.authorization.k8s.io/metallb-system:speaker created
+rolebinding.rbac.authorization.k8s.io/config-watcher created
+rolebinding.rbac.authorization.k8s.io/pod-lister created
+rolebinding.rbac.authorization.k8s.io/controller created
+daemonset.apps/speaker created
+deployment.apps/controller created
+----
+. MetalLB スピーカを設定する前に、スピーカ DemonSet の昇格特権を与えて、ロードバランサを動作させるために必要なネットワーク設定を実行できるようにします。
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ oc adm policy add-scc-to-user privileged -n metallb-system -z speaker
+clusterrole.rbac.authorization.k8s.io/system:openshift:scc:privileged added: "speaker"
+----
+. 「 metalLB - システム」ネームスペースに「 ConfigMap 」を作成して、 MetalLB を設定します。
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ vim metallb-config.yaml
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: metallb-system
+  name: config
+data:
+  config: |
+    address-pools:
+    - name: default
+      protocol: layer2
+      addresses:
+      - 10.63.17.10-10.63.17.200
+
+[netapp-user@rhel7 ~]$ oc create -f metallb-config.yaml
+configmap/config created
+----
+. これで、ロードバランササービスが作成されると、 MetalLB は外部 IP をサービスに割り当て、 ARP 要求に応答して IP アドレスをアドバタイズします。
++
+
+NOTE: BGP モードで MetalLB を設定する場合は、上記の手順 6 を省略し、 MetalLB マニュアルの手順に従います link:https://metallb.universe.tf/concepts/bgp/["こちらをご覧ください"]。
+
+
+
+link:rh-os-n_use_cases.html["次：解決策の検証 / ユースケース：ネットアップを使用した Red Hat OpenShift 。"]

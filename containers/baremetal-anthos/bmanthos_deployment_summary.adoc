@@ -1,6 +1,6 @@
 ---
 sidebar: sidebar 
-permalink: containers/bmanthos_deployment_summary.html 
+permalink: containers/baremetal-anthos/bmanthos_deployment_summary.html 
 keywords: Summary, World Wide Technology, ATC, WWT, Advanced Technology Center, bmctl tool, Cisco UCS B200M3, Cisco Nexus 5548, Red Hat Enterprise Linux 8.2, CentOS 8.2, Ubuntu 20.04 LTS, or Ubuntu 18.04 LTS 
 summary: この解決策の初期検証では、 WWT のアドバンスト・テクノロジー・センター（ ATC ）で環境を構築するために、ネットアップはワールド・ワイド・テクノロジー（ WWT ）と提携しました。Anthos は、 Google Cloud が提供する bmctl ツールを使用してベアメタルインフラに導入されています。次のセクションでは、検証に使用する導入環境について詳しく説明します。 
 ---
@@ -10,7 +10,7 @@ summary: この解決策の初期検証では、 WWT のアドバンスト・テ
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./../media/
+:imagesdir: ./../../media/
 
 
 この解決策の初期検証では、 WWT のアドバンスト・テクノロジー・センター（ ATC ）で環境を構築するために、ネットアップはワールド・ワイド・テクノロジー（ WWT ）と提携しました。Anthos は、 Google Cloud が提供する bmctl ツールを使用してベアメタルインフラに導入されています。次のセクションでは、検証に使用する導入環境について詳しく説明します。
@@ -21,7 +21,7 @@ NetApp 解決策を搭載したベアメタル環境の Anthos は、 3 台の A
 
 ワーカーノードは、 HP ProLiant DL360 ノードで、それぞれベアメタルの Anthos でサポートされている Linux ディストリビューションの 1 つである Red Hat Enterprise Linux 8.2 、 CentOS 8.2 、 Ubuntu 20.04 LTS 、または Ubuntu 18.04 LTS を実行していました。Red Hat Enterprise Linux 8 および CentOS 8 のノードは、 LACP モードで NIC チームを実行し、フォールトトレランスを実現するために Nexus 9K C93180YC-FX スイッチ 2 つにケーブル接続しました。Ubuntu サーバを LACP モードでネットワークボンディング用に設定し、フォールトトレランスを実現するために、同じ Nexus 9K スイッチペアに接続しました。
 
-ONTAP 9.7 ソフトウェアを実行する NetApp AFF A300 ストレージシステムを設置し、 Anthos ワーカーノードと同じ Nexus 9K スイッチペアに物理的に接続しました。これらのネットワークアップリンクをインターフェイスグループ（ a0a ）に集約し、ワーカーノードがストレージシステムと対話できるよう適切なデータネットワーク VLAN をタグ付けしました。Storage Virtual Machine （ SVM ）は、 NFS プロトコルをサポートするデータ LIF と Trident のストレージ処理専用の SVM を使用して作成されたもので、ベアメタルクラスタの Anthos に導入されたコンテナに永続的ストレージを提供します。永続ボリュームは、完全にサポートされている Kubernetes 向け NetApp オープンソースストレージオーケストレーションツールの最新リリースである NetApp Trident 20.10 によって提供されました。
+ONTAP 9.7 ソフトウェアを実行する NetApp AFF A300 ストレージシステムを設置し、 Anthos ワーカーノードと同じ Nexus 9K スイッチペアに物理的に接続しました。これらのネットワークアップリンクをインターフェイスグループ（ a0a ）に集約し、ワーカーノードがストレージシステムと対話できるよう適切なデータネットワーク VLAN をタグ付けしました。Storage Virtual Machine （ SVM ）は、 NFS プロトコルをサポートするデータ LIF と Trident のストレージ処理専用の SVM を使用して作成されたもので、ベアメタルクラスタの Anthos に導入されたコンテナに永続的ストレージを提供します。この永続ボリュームは、ネットアップが提供したTrident 20.10によって提供されました。Tridentは、完全にサポートされているKubernetes向けオープンソースストレージオーケストレーションツールの最新リリースです。
 
 次の図は、解決策と上部のラックデータセンタースイッチを物理的にケーブル接続した図です。
 
