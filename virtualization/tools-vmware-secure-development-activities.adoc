@@ -65,34 +65,34 @@ permitted by applicable law.
 
 
 |===
-| TCP v4 / V6 ポート番号 | 機能 
+| TCP v4 / V6 ポート番号 | 方向（ Direction ） | 機能 
 
 
-| 8143 インバウンド | REST API 用の HTTPS 接続 
+| 8143 | インバウンド | REST API 用の HTTPS 接続 
 
 
-| 8043 インバウンド | HTTPS 接続 
+| 8043 | インバウンド | HTTPS 接続 
 
 
-| 9060 インバウンド | HTTPS 接続で SOAP over https 接続に使用される HTTPS 接続このポートを開いて、クライアントが ONTAP ツール API サーバに接続できるようにする必要があります。 
+| 9060 | インバウンド | HTTPS 接続で SOAP over https 接続に使用される HTTPS 接続このポートを開いて、クライアントが ONTAP ツール API サーバに接続できるようにする必要があります。 
 
 
-| 22 インバウンド | SSH （デフォルトでは無効） 
+| 22 | インバウンド | SSH （デフォルトでは無効） 
 
 
-| 9080 インバウンド | HTTPS 接続 - VP および SRA - ループバックからの内部接続のみ 
+| 9080 | インバウンド | HTTPS 接続 - VP および SRA - ループバックからの内部接続のみ 
 
 
-| 9083 インバウンド | HTTPS 接続 - HTTPS 経由の SOAP 接続に使用する VP および SRA 
+| 9083 年 | インバウンド | HTTPS 接続 - HTTPS 経由の SOAP 接続に使用する VP および SRA 
 
 
-| 1162 インバウンド | VP SNMP トラップパケット 
+| 1162 | インバウンド | VP SNMP トラップパケット 
 
 
-| 1527 内部のみ | Derby データベースポート。このコンピュータとそれ自体の間のみ、外部接続は許可されません -- 内部接続のみ 
+| 1527 | 内部のみ | Derby データベースポート。このコンピュータとそれ自体の間のみ、外部接続は許可されません -- 内部接続のみ 
 
 
-| 443 双方向 | ONTAP クラスタへの接続に使用します 
+| 443 | 双方向 | ONTAP クラスタへの接続に使用します 
 |===
 * * 認証局（ CA ）署名証明書のサポート。 * VMware vSphere 用の ONTAP ツールは CA 署名証明書をサポートしています。を参照してください https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Software/VSC_and_VASA_Provider/Virtual_Storage_Console%3A_Implementing_CA_signed_certificates["こちらの技術情報アーティクル"^] を参照してください。
 * * 監査ログ。 * サポートバンドルはダウンロード可能で、非常に詳細です。ONTAP ツールは、すべてのユーザログインおよびログアウトアクティビティを個別のログファイルに記録します。VASA API 呼び出しは、専用の VASA 監査ログ（ローカルの cxf.log ）に記録されます。
