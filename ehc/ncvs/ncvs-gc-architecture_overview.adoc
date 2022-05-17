@@ -1,0 +1,36 @@
+---
+sidebar: sidebar 
+permalink: ehc/ncvs/ncvs-gc-architecture_overview.html 
+keywords: architecture overview, control plane, data plane 
+summary: クラウド解決策 を信頼する一部は、アーキテクチャとその保護方法を理解していることです。このセクションでは、GoogleのCloud Volumes Service アーキテクチャのさまざまな側面を紹介し、データのセキュリティ保護に関する潜在的な懸念を軽減するとともに、最も安全な導入を実現するために追加の設定手順が必要な領域について説明します。 
+---
+= 概要
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+link:ncvs-gc-security-considerations-and-attack-surfaces.html["前の手順：セキュリティに関する考慮事項と攻撃対象"]
+
+クラウド解決策 を信頼する一部は、アーキテクチャとその保護方法を理解していることです。このセクションでは、GoogleのCloud Volumes Service アーキテクチャのさまざまな側面を紹介し、データのセキュリティ保護に関する潜在的な懸念を軽減するとともに、最も安全な導入を実現するために追加の設定手順が必要な領域について説明します。
+
+Cloud Volumes Service の一般的なアーキテクチャは、コントロールプレーンとデータプレーンの2つの主要コンポーネントに分類できます。
+
+
+
+== コントロールプレーン
+
+Cloud Volumes Service のコントロールプレーンは、Cloud Volumes Service 管理者とネットアップの標準の自動化ソフトウェアが管理するバックエンドインフラです。このプレーンはエンドユーザに対して完全に透過的であり、ネットワーキング、ストレージハードウェア、ソフトウェアアップデートなどが含まれており、Cloud Volumes Service などのクラウド常駐解決策 に価値を提供します。
+
+
+
+== データプレーン
+
+Cloud Volumes Service のデータプレーンには、実際のデータボリュームとCloud Volumes Service の全体的な設定（アクセス制御、Kerberos認証など）が含まれています。データプレーンは、エンドユーザとCloud Volumes Service プラットフォームの消費者の制御下に完全にあります。
+
+各平面の保護および管理方法には、異なる違いがあります。以降のセクションでは、Cloud Volumes Service アーキテクチャの概要から始めて、これらの違いについて説明します。
+
+link:ncvs-gc-cloud-volumes-service-architecture.html["次の例は、Cloud Volumes Service のアーキテクチャです。"]

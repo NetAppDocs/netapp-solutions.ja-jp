@@ -10891,4 +10891,1062 @@
   <block id="59b5f97219239806c778ffff9bda8ad0" category="sidebar">ユースケースの検証</block>
   <block id="1a4f47ee7c7d8b59e68be952ac121268" category="sidebar">Anthosの高度な構成オプション</block>
   <block id="b0ed101b405f642695988c7ef3313b52" category="sidebar">アーカイブされたソリューション</block>
+  <block id="9eb662185982de390339607d2ee459a4" category="summary">Google CloudのCloud Volumes Service は、さまざまな方法でデータをネイティブに保護します。</block>
+  <block id="52aa20c1efa9dfeda78d72f4c056c23f" category="doc">Google CloudのCloud Volumes Service でデータを保護する方法</block>
+  <block id="c0db72d078098472051229dbdb83118e" category="inline-link-macro">前へ：概要。</block>
+  <block id="78dad9c3bba77d55493b24502dbe6a1d" category="paragraph"><block ref="78dad9c3bba77d55493b24502dbe6a1d" category="inline-link-macro-rx"></block></block>
+  <block id="9967209a1408f78f781d93dd0cdf88c4" category="section-title">セキュアなアーキテクチャとテナンシーモデル</block>
+  <block id="9ba9e0f1cce71f64d3188bfdc502a43d" category="inline-link-macro">「Cloud Volumes Service アーキテクチャ」</block>
+  <block id="33186704f78f73f32736a9ba7f8ddc85" category="inline-link">プライベートサービスへのアクセス</block>
+  <block id="00d6cadb7a586713782bbffe59d5bc21" category="paragraph">Cloud Volumes Service は、異なるエンドポイント間でサービス管理（コントロールプレーン）とデータアクセス（データプレーン）をセグメント化することで、Google Cloudのセキュアなアーキテクチャを提供します。これにより、どちらも他方に影響を与えることはありません（を参照） <block ref="d861c2ffd2960acc200167f08fd40005" category="inline-link-macro-rx"></block>）。Googleを使用している<block ref="1ac65cff0d913f26dd36736caeefd5b7" category="inline-link-rx"></block> （PSA）サービスを提供するためのフレームワーク。このフレームワークでは、ネットアップが提供、運用するサービスプロデューサーと、Cloud Volumes Service ファイル共有にアクセスするクライアントをホストする顧客プロジェクトのVirtual Private Cloud（VPC；仮想プライベートクラウド）であるサービスコンシューマが区別されます。</block>
+  <block id="5971da0242ce7b616ff2972978613cef" category="inline-link-macro">「テナンシーモデル」</block>
+  <block id="01760cb04e3a4a93404ab2c878b036db" category="inline-link-macro">「共有VPC」</block>
+  <block id="e70da8f06ec706ed45906f411481eda0" category="paragraph">このアーキテクチャでは、テナント（セクションを参照） <block ref="0a088dd892133b6a77304655c2b8b829" category="inline-link-macro-rx"></block>）は、ユーザーが明示的に接続していない限り、互いに完全に分離されたGoogle Cloudプロジェクトとして定義されます。テナントを使用すると、Cloud Volumes Service ボリュームプラットフォームを使用して、データボリューム、外部ネームサービス、その他の重要な解決策 を他のテナントから完全に分離できます。Cloud Volumes Service プラットフォームはVPCピアリングを通じて接続されるため、その分離環境 も接続されます。共有VPCを使用して、複数のプロジェクト間でのCloud Volumes Service ボリュームの共有を有効にすることができます（を参照） <block ref="c2426c8c5bcdce9adb82a8906c5a3478" category="inline-link-macro-rx"></block>）。SMB共有およびNFSエクスポートにアクセス制御を適用することで、データセットを表示または変更できるユーザまたはユーザを制限できます。</block>
+  <block id="35a0e1620a03f33da8739635aaa3b607" category="section-title">コントロールプレーンの強力なアイデンティティ管理</block>
+  <block id="4504de40d15959838801111af31d224e" category="inline-link">IDアクセス管理（IAM）</block>
+  <block id="d242c9a4fc4e118d87391841845ef44b" category="paragraph">Cloud Volumes Service 構成が行われるコントロールプレーンでは、を使用してアイデンティティ管理を管理します<block ref="490163f8d94b8a8397824811fb91c5ec" category="inline-link-rx"></block>。IAMは、Google Cloudプロジェクトインスタンスに対する認証（ログイン）と許可（権限）を制御できる標準サービスです。すべての設定は、TLS 1.2暗号化を使用したセキュアなHTTPS転送を介してCloud Volumes Service APIで実行され、セキュリティを強化するためにJWTトークンを使用して認証が実行されます。Cloud Volumes Service 用のGoogleコンソールUIは、ユーザ入力をCloud Volumes Service API呼び出しに変換します。</block>
+  <block id="688247a9da881160b1073a4b76442640" category="section-title">セキュリティ強化-攻撃面の制限</block>
+  <block id="4901056002c8d64da3b67da6a5a2dbbb" category="paragraph">効果的なセキュリティの一部は、サービスで使用できる攻撃対象の数を制限することです。攻撃対象には、保管データ、転送中転送、ログイン、データセット自体など、さまざまなものが含まれます。</block>
+  <block id="733e720a346376b07eb9adac497c4063" category="inline-link-macro">"サービスオペレーション"</block>
+  <block id="aa6187208cb06e0a43851ee1783a370c" category="paragraph">マネージドサービスを使用すると、本質的に設計上の攻撃対象の一部が削除されます。の説明に従って、インフラストラクチャ管理を行います <block ref="ddbc8ce5f4099ff7254959018f566688" category="inline-link-macro-rx"></block> は専用チームによって処理され、人間が実際に構成に触れる回数を減らすために自動化されます。これにより、意図的なエラーや意図しないエラーの数を減らすことができます。必要なサービスだけが互いにアクセスできるように、ネットワークは遮断されます。暗号化はデータストレージに組み込まれており、Cloud Volumes Service 管理者はデータプレーンだけにセキュリティ上の注意を払う必要があります。APIインターフェイスの背後にあるほとんどの管理を隠すことで、攻撃対象を制限することでセキュリティを実現します。</block>
+  <block id="d8d81a048343e815b76f916e1c58e636" category="section-title">ゼロトラストモデル</block>
+  <block id="d2c4e1022fc22d0780bd913d3f16498e" category="paragraph">ITセキュリティの考え方は、これまでは信頼されていましたが、その信頼性は確認されており、脅威を軽減するために外部メカニズム（ファイアウォールや侵入検知システムなど）のみに依存していることが明示されてきました。しかし、攻撃や侵害は、フィッシング、ソーシャルエンジニアリング、内部の脅威など、ネットワークに侵入したり破壊的になったりするための検証を提供する方法によって、環境内での検証をバイパスするように進化しています。</block>
+  <block id="853f80d22a64d4fff24c05d305e800a8" category="paragraph">ゼロ・トラストは、セキュリティの新しい方法論になりました。現在のテーマは「すべてを検証しながらは何も信頼しない」です。 したがって、デフォルトではアクセスは許可されません。この問題は、標準ファイアウォールや侵入検知システム（IDS）など、さまざまな方法で実施されています。また、次の方法も適用されています。</block>
+  <block id="d07f4106373448c16aedf0c01749e560" category="list-text">強力な認証方法（AESで暗号化されたKerberosトークンやJWTトークンなど）</block>
+  <block id="4bbee6cac6b31b494ade66a9fc2f16e7" category="list-text">単一の強力なアイデンティティソース（Windows Active Directory、Lightweight Directory Access Protocol（LDAP）、Google IAMなど）</block>
+  <block id="da31693a70531052458cd4eff104672d" category="list-text">ネットワークのセグメント化とセキュアマルチテナンシー（デフォルトではテナントのみにアクセス可能）</block>
+  <block id="a8ce5780cff146b27ae2c2b3fddc0447" category="list-text">最小限の権限付きアクセスポリシーで詳細なアクセス制御を実現します</block>
+  <block id="493f70c348ea51d5c7cb8a28593df5a1" category="list-text">デジタル監査と紙の記録を使用した、信頼できる専任管理者の限定リスト</block>
+  <block id="fd5070ec3e2f12398e4de9b77b900cbf" category="paragraph">Google Cloudで実行されているCloud Volumes Service は、「何も信用しない、すべてを検証する」というスタンスを実装することで、ゼロトラストモデルに準拠しています。</block>
+  <block id="d7f2615c71a1567cc13cf3a7f7de0aea" category="section-title">暗号化</block>
+  <block id="83c3a5400dd4f14665a803a22add4a9d" category="inline-link-macro">「保存データの暗号化」</block>
+  <block id="a37154afafe65368d5170741a4669261" category="inline-link-macro">「SMB暗号化」</block>
+  <block id="e688fd1eb8866f914263d3493c30ccbb" category="inline-link-macro">「リージョン間レプリケーション」</block>
+  <block id="c05431edaaaefc20b48a7cd96f110e5d" category="inline-link-macro">「転送中のデータ暗号化」</block>
+  <block id="48aa29a35d8e13e796333876f4ea9f62" category="inline-link-macro">「Google Cloudネットワーク」</block>
+  <block id="31d64d3cd8b2a692701b32dd6a611c76" category="paragraph">保存データを暗号化する（を参照） <block ref="ce3046d8bb0cfdf8a89295f31068c29b" category="inline-link-macro-rx"></block>）転送には、NetApp Volume Encryption（NVE）および転送中のXTS-AES-256暗号を使用します <block ref="9963d74c8d0d381d9818a5c550dd7163" category="inline-link-macro-rx"></block> またはNFS Kerberos 5pをサポート。リージョン間レプリケーションの転送はTLS 1.2暗号化で保護されているので、安心して実行できます（を参照） <block ref="8b1fa1a1fab3125dbb820bfe80ca0428" category="inline-link-macro-rx"></block>）。さらに、Googleネットワークは暗号化された通信も提供します（を参照） <block ref="051d363ef6081e123484b5da28bebf19" category="inline-link-macro-rx"></block>）を使用してください。転送暗号化の詳細については、を参照してください <block ref="0e3bb83173de6418179f08aaa25b48dd" category="inline-link-macro-rx"></block>。</block>
+  <block id="db57ea7882be0cb73c78bf1ba25a6823" category="section-title">データ保護とバックアップ</block>
+  <block id="48b5832efbf50440742eee7bfd02733b" category="inline-link-macro">Cloud Volumes Service バックアップ</block>
+  <block id="cdb185875636a141b69ddabde6df7040" category="paragraph">セキュリティとは、攻撃の防御だけではありません。また、攻撃が発生した場合や発生した場合にどのように復旧するかについても説明します。この戦略には、データ保護とバックアップが含まれます。Cloud Volumes Service には、システム停止時に他のリージョンにレプリケートする方法が用意されています（を参照） <block ref="8b1fa1a1fab3125dbb820bfe80ca0428" category="inline-link-macro-rx"></block>）またはデータセットがランサムウェア攻撃の影響を受ける場合。を使用して、Cloud Volumes Service インスタンス以外の場所へのデータの非同期バックアップを実行することもできます <block ref="92f2015a7a07a74ffc21a27b08fadbb0" category="inline-link-macro-rx"></block>。定期的なバックアップにより、セキュリティイベントの緩和にかかる時間を短縮し、管理者にとってコストと不安を軽減できます。</block>
+  <block id="3b0aab94fdc89c539c78fcbbf0190080" category="section-title">業界をリードするSnapshotコピーでランサムウェアを迅速に軽減</block>
+  <block id="e7d51c7f9901730a4f176b908516d9f0" category="inline-link-macro">「不変のSnapshotコピー」</block>
+  <block id="613542b40dc5d23e9b7129726e6901e9" category="inline-link-macro">「サービスオペレーション」</block>
+  <block id="06646d879e1be0df7191f42262dc1293" category="paragraph">Cloud Volumes Service では、データ保護とバックアップに加えて、書き換え不可のSnapshotコピーもサポートしています（を参照） <block ref="46dfee0c3fc63af00a088b428ebe2c09" category="inline-link-macro-rx"></block>）ランサムウェア攻撃からのリカバリを可能にするボリューム（を参照） <block ref="f545e9c9b1aa4e21f947ee53ac36de63" category="inline-link-macro-rx"></block>）問題 を検出してから数秒以内に、システム停止を最小限に抑えることができます。リカバリ時間と影響はSnapshotスケジュールによって異なりますが、ランサムウェア攻撃ではわずか1時間の差分しか提供しないSnapshotコピーを作成できます。Snapshotコピーは、パフォーマンスや容量使用率にほとんど影響を与えず、データセットを保護するリスクが低く、効果も高くなります。</block>
+  <block id="f21f1562468eeb7bb67162f8fc79596c" category="inline-link-macro">次に、セキュリティに関する考慮事項と攻撃対象を示します。</block>
+  <block id="d6cb5b8910b7e61e1d2a16900dff7414" category="paragraph"><block ref="d6cb5b8910b7e61e1d2a16900dff7414" category="inline-link-macro-rx"></block></block>
+  <block id="9b6e8c1f1a4d79991136cfd2b3fde77a" category="summary">Cloud Volumes Service を使用すると、SMBユーザとUNIXユーザのIDを管理するために、Cloud Volumes Service インスタンスを外部のActive Directoryサーバに接続できます。Cloud Volumes Service でSMBを使用するには、Active Directory接続を作成する必要があります。</block>
+  <block id="d099e6eafff98e1042c1029849e2db1b" category="doc">Active Directory接続の作成に関する考慮事項</block>
+  <block id="1ca3bc7ee6e687110fa43103bcff28e9" category="inline-link-macro">以前のバージョン：デュアルプロトコル/マルチプロトコル</block>
+  <block id="90e9716dfe1097d996980af0b2d435b6" category="paragraph"><block ref="90e9716dfe1097d996980af0b2d435b6" category="inline-link-macro-rx"></block></block>
+  <block id="b092138563f7b68473c3bf2a6a23a434" category="inline-link">プライベート Google アクセス</block>
+  <block id="dd1f65c08f03e8278da92a88b4c609b5" category="inline-link">Google CloudでActive Directoryを使用する際のベストプラクティス</block>
+  <block id="758d9a1746e1f53cf6e7882ed864c1a4" category="paragraph">この構成には、セキュリティについて考慮する必要があるいくつかのオプションがあります。外部Active Directoryサーバは、オンプレミスインスタンスでもクラウドネイティブでもかまいません。オンプレミスのActive Directoryサーバを使用している場合は、ドメインを外部ネットワーク（DMZや外部IPアドレスなど）に公開しないでください。代わりに、を使用して、セキュアなプライベートトンネルまたはVPN、一方向フォレストトラスト、またはオンプレミスネットワークへの専用ネットワーク接続を使用します<block ref="76bc9bf9d2d87bee997fb1ade7da1eaa" category="inline-link-rx"></block>。詳細については、Google Cloudのドキュメントを参照してください<block ref="28831e2b31059cd3ce2ee26e8b5c8fcf" category="inline-link-rx"></block>。</block>
+  <block id="22900d9fe4089ff2f29ada31dfd82836" category="admonition">CVS-SWを使用するには、Active Directoryサーバを同じリージョンに配置する必要があります。CVS-SWで別の地域へのDC接続を試みた場合、試行は失敗します。CV-SWを使用する場合は、Active Directory DCを含むActive Directoryサイトを作成し、Cloud Volumes Service でサイトを指定して、リージョン間のDC接続の試行を回避してください。</block>
+  <block id="9f69695f33b67147c3fd64e477aa784b" category="section-title">Active Directoryのクレデンシャル</block>
+  <block id="2ae640f39e0e652f621ec44b74e57892" category="paragraph">NFS用のSMBまたはLDAPが有効な場合、Cloud Volumes Service はActive Directoryコントローラと通信して、認証に使用するマシンアカウントオブジェクトを作成します。これは、Windows SMBクライアントがドメインに参加する方法とまったく異なり、Active Directoryの組織単位（OU）への同じアクセス権を必要とします。</block>
+  <block id="d5b16e2c41dd06274f88cd52182d8034" category="paragraph">多くの場合、セキュリティグループでは、Cloud Volumes Service などの外部サーバでWindows管理者アカウントを使用できません。場合によっては、セキュリティのベストプラクティスとして、Windows Administratorユーザが完全に無効になっていることもあります。</block>
+  <block id="e33d961644188dff361a3a61603aee23" category="section-title">SMBマシンアカウントの作成に必要な権限</block>
+  <block id="7274d74c9decfd509d3c2a9c91098fca" category="inline-link">マシンアカウントオブジェクトを作成および変更する権限を委譲しました</block>
+  <block id="da90c2a52e7d047f641621a25fcd43c7" category="paragraph">Cloud Volumes Service マシンオブジェクトをActive Directoryに追加するには、ドメインに対する管理者権限を持つアカウント、またはが必要です<block ref="39a1d8c5f0c0a4ae053b3e24111592ed" category="inline-link-rx"></block> 指定したOUに移動する必要があります。Active Directoryの制御の委任ウィザードでこれを行うには、次のアクセス権限を持つコンピュータオブジェクトの作成/削除へのユーザーアクセスを提供するカスタムタスクを作成します。</block>
+  <block id="db3317ceb65be02e43db6f277e0ad94e" category="list-text">読み取り / 書き込み</block>
+  <block id="9da76760248a4997f94bdd63f1c04f01" category="list-text">すべての子オブジェクトを作成/削除します</block>
+  <block id="858ac25470b9539b8e2bb4d6958fde5b" category="list-text">すべてのプロパティの読み取り/書き込み</block>
+  <block id="e798906fb7bcd7b0403d97d21044e339" category="list-text">パスワードの変更/リセット</block>
+  <block id="4eb6bcf48028313e542c0964c09b46b9" category="paragraph">これにより、定義済みのユーザのセキュリティACLがActive DirectoryのOUに自動的に追加され、Active Directory環境へのアクセスが最小限に抑えられます。ユーザを委任した後、そのユーザ名とパスワードをActive Directoryクレデンシャルとしてこのウィンドウに入力できます。</block>
+  <block id="66d939bc6b363153976bbd24624850b8" category="admonition">Active Directoryドメインに渡されるユーザ名とパスワードは、マシンアカウントオブジェクトのクエリおよび作成時にKerberos暗号化を利用してセキュリティを強化します。</block>
+  <block id="8575c9ec9ca166098f9d546c3c12e9b1" category="section-title">Active Directory接続の詳細</block>
+  <block id="452740f6c26f32def386962441d5cb2c" category="inline-link">Active Directory接続の詳細</block>
+  <block id="af31d4ab1f284e1f94d3522fd1fa36fe" category="paragraph">。<block ref="9255123c1378b2d08be170075ba389b5" category="inline-link-rx"></block> 管理者がマシンアカウントの配置に関する特定のActive Directoryスキーマ情報を指定するためのフィールドを指定します。次に例を示します。</block>
+  <block id="353000b4dd170de2ebede38bb7420e40" category="list-text">* Active Directory接続タイプ。リージョン内のActive Directory接続を、Cloud Volumes Service またはCVS -パフォーマンスサービスタイプのボリュームに使用するかどうかを指定するために使用します。既存の接続で正しく設定しないと、使用または編集時に正しく機能しないことがあります。</block>
+  <block id="d5cc4c55027c65e3b8d52c15d308935d" category="list-text">*ドメイン。* Active Directoryドメイン名。</block>
+  <block id="c3fab9d188d8e1e4a9e0ba27a52306c6" category="inline-link">考慮事項</block>
+  <block id="925e235ec5866cd9c094261d9e20eec4" category="list-text">*サイト。* Active Directoryサーバを特定のサイトに制限して、セキュリティとパフォーマンスを確保します<block ref="cae534855afa8eaefaa37d26edea88d5" category="inline-link-rx"></block>。Cloud Volumes Service では現在、Cloud Volumes Service インスタンスとは別のリージョンにあるActive Directoryサーバへの認証要求の許可がサポートされていないため、複数のActive Directoryサーバがリージョンにまたがっている場合は、この設定が必要です。（たとえば、Active DirectoryドメインコントローラはCVS -パフォーマンスのみがサポートするリージョンにありますが、CVS - SWインスタンスにSMB共有が必要です）。</block>
+  <block id="bc3a6531a92e21b83c95f7d7044fd498" category="list-text">* DNSサーバ。*名前検索で使用するDNSサーバ。</block>
+  <block id="44ea07387884d17ba7d18393d327374b" category="inline-link-macro">Active DirectoryでのCloud Volumes Service の表示</block>
+  <block id="32b5af659fee51ef98e34710303d53ba" category="list-text">* NetBIOS名（オプション）。*必要に応じて、サーバのNetBIOS名。これは、Active Directory接続を使用して新しいマシンアカウントを作成するときに使用されます。たとえば、NetBIOS名がCVS - Eastに設定されている場合、マシンアカウント名はCVS - East -｛1234｝になります。を参照してください <block ref="0bba591d00c255586e052c023629a690" category="inline-link-macro-rx"></block> を参照してください。</block>
+  <block id="00a4c212426e322a34af5aeccdc494f7" category="list-text">*組織単位(OU)。*コンピュータアカウントを作成するための特定のOU。この機能は、マシンアカウントの制御を特定のOUに委任する場合に便利です。</block>
+  <block id="06852342816b885474a42d89311e2113" category="list-text">*AES暗号化。*AD認証用AES暗号化を有効にするチェックボックスをオンまたはオフにすることもできます。Active Directory認証用のAES暗号化を有効にすると、ユーザとグループの検索時にCloud Volumes Service からActive Directoryへの通信がセキュリティで保護されます。このオプションを有効にする前に、ドメイン管理者に問い合わせて、Active DirectoryドメインコントローラがAES認証をサポートしていることを確認してください。</block>
+  <block id="7d51d6a8b37a2763f6c84b7b3a3a7e97" category="admonition">デフォルトでは、ほとんどのWindowsサーバで弱い暗号（DESやRC4-HMACなど）は無効になりませんが、弱い暗号を無効にするように選択した場合は、Cloud Volumes Service Active Directory接続がAESを有効にするように設定されていることを確認してください。そうしないと、認証エラーが発生します。AES暗号化を有効にしても弱い暗号は無効になりませんが、Cloud Volumes Service SMBマシンアカウントにAES暗号のサポートが追加されます。</block>
+  <block id="3da975567fcd6ebd164f43cca13384f2" category="section-title">Kerberos Realmの詳細</block>
+  <block id="9a62ab6b4d79a99749d02cd8af945f25" category="paragraph">このオプションはSMBサーバには適用されません。Cloud Volumes Service システムでNFS Kerberosを設定するときに使用されます。これらの詳細を入力すると、NFS Kerberos Realmが設定され（Linuxではkrb5.confファイルと同様）、Cloud Volumes Service ボリュームの作成時にNFS Kerberosが指定されている場合にActive Directory接続がNFS Kerberos Distribution Center（KDC；Kerberos配布センター）として機能するために使用されます。</block>
+  <block id="e53ab7e80d5d436b4a496f0c2bef7cb2" category="admonition">現在、Windows以外のKDCはCloud Volumes Service との使用でサポートされていません。</block>
+  <block id="f447ac856e7e72435904956e3b15f433" category="section-title">地域</block>
+  <block id="38da42463bdc613d24159bd6e0405ba6" category="paragraph">リージョンを使用すると、Active Directory接続が存在する場所を指定できます。このリージョンはCloud Volumes Service ボリュームと同じである必要があります。</block>
+  <block id="4dfb982db9679a6eec578ccd86af978a" category="list-text">*このセクションでは、LDAPを使用するローカルNFSユーザを許可するオプションもあります。*このセクションでは、LDAPを使用するローカルNFSユーザを許可するオプションもあります。NFS（拡張グループ）の16グループの制限を超えてUNIXユーザグループメンバーシップのサポートを拡張する場合は、このオプションを選択しないでください。ただし、拡張グループを使用するには、UNIX ID用のLDAPサーバを設定する必要があります。LDAPサーバがない場合は、このオプションを選択しないでください。LDAPサーバがあり、ローカルUNIXユーザ（rootなど）も使用する場合は、このオプションを選択します。</block>
+  <block id="5059a39455b0e2649d69d289516cdf1b" category="section-title">バックアップユーザ</block>
+  <block id="0e051a51493712b34966f346e858a0c3" category="inline-link">そのユーザアクセスの監査を有効にします</block>
+  <block id="d3980aa1c5f0625161c9b0fb5a6cace0" category="paragraph">このオプションを使用すると、Cloud Volumes Service ボリュームに対するバックアップ権限を持つWindowsユーザを指定できます。一部のアプリケーションでNASボリュームのデータを正しくバックアップおよびリストアするには、バックアップ権限（SeBackupPrivilege）が必要です。このユーザにはボリューム内のデータへのアクセスレベルが高いため、考慮する必要があります<block ref="b5fba80299f6d29935863b6604a98277" category="inline-link-rx"></block>。有効にすると、Event Viewer &gt; Windows Logs &gt; Securityに監査イベントが表示されます。</block>
+  <block id="70136e0b9257bc91e1eb5216b32580de" category="paragraph"><block ref="70136e0b9257bc91e1eb5216b32580de" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="6833e65d65b96c0d79b7fc114c9a2968" category="section-title">セキュリティ権限ユーザ</block>
+  <block id="63a19a4d390181634079ba6ba20fe287" category="inline-link">たとえば、SQL Serverなどです</block>
+  <block id="c9a97779c6062109c66675cc5368a6b8" category="inline-link">ユーザのユーザアクセスを監査する</block>
+  <block id="296bdd6f36456d0f48d21431f3bd7853" category="paragraph">このオプションを使用すると、Cloud Volumes Service ボリュームに対するセキュリティの変更権限を持つWindowsユーザを指定できます。一部のアプリケーションにはセキュリティ権限（SeSecurityPrivilege）が必要です <block ref="cef5278acd430b226f8e7bcad71f9075" category="inline-link-rx"></block>)を使用して、インストール時に権限を適切に設定します。この権限は、セキュリティログを管理するために必要です。この権限はSeBackupPrivilegeほど強力ではありませんが、ネットアップでは推奨しています<block ref="2238ada9972b35c5f01addc7598ffd7a" category="inline-link-rx"></block> 必要に応じて、この権限レベルで設定します。</block>
+  <block id="f044d72e46ac4189129dc6e27333c449" category="inline-link">新しいログオンに割り当てられた特別な権限</block>
+  <block id="1384ec27890f8bac59aae8edf1ff83e9" category="paragraph">詳細については、を参照してください<block ref="791e82319c9cb432525cbf92f3a07623" category="inline-link-rx"></block>。</block>
+  <block id="3fc6256a9aed6803167ff54873f78a00" category="paragraph">Active Directoryでは、通常のマシンアカウントオブジェクトとしてCloud Volumes Service が表示されます。命名規則は次のとおりです。</block>
+  <block id="864917f152404280b59cd43c564f6733" category="list-text">CIFS/SMBおよびNFS Kerberosでは、個別のマシンアカウントオブジェクトが作成されます。</block>
+  <block id="79adcd3b0eb62b997e160c91e737deb2" category="list-text">NFSでLDAPが有効になっている場合、Kerberos LDAPバインド用にActive Directoryにマシンアカウントが作成されます。</block>
+  <block id="2ed35f8c3fa643ff6b7226a2163085c5" category="list-text">LDAPを使用したデュアルプロトコルボリュームでは、LDAPとSMBのCIFS / SMBマシンアカウントが共有されます。</block>
+  <block id="3028cc04aacef3f671388051ac5a05cf" category="list-text">CIFS / SMBマシンアカウントでは、マシンアカウントの名前付け規則として、name-1234（ランダムな4桁のIDに10文字未満の名前をハイフンで付加）を使用します。Active Directory接続では、NetBIOS名の設定で名前を定義できます（「」を参照）<block ref="7d2ad38c1c26cdc0446a7f473a720f92" category="inline-xref-macro-rx"></block>」）をクリックします。</block>
+  <block id="b3330aabe270fd3b52fec421dc299283" category="list-text">NFS Kerberosでは、命名規則としてnfs-name-1234を使用します（最大15文字）。15文字を超える文字が使用されている場合、名前はnfs-truncated-name-1234になります。</block>
+  <block id="50b0fcc303b033d01b24dbb96023de81" category="list-text">NFSのみのCVS - LDAPが有効なパフォーマンスインスタンスは、CIFS / SMBインスタンスと同じ命名規則を使用してLDAPサーバにバインドするためのSMBマシンアカウントを作成します。</block>
+  <block id="d4895b82fd7385bed173b438d89c807e" category="inline-link-macro">「デフォルトの非表示共有」</block>
+  <block id="6d7a9f810c1df414bda9e341201f414b" category="list-text">SMBマシンアカウントを作成すると、デフォルトの非表示の管理共有が表示されます（を参照） <block ref="15f1050f174b7bbba32ef5b54c17bc40" category="inline-link-macro-rx"></block>）も作成されます（c$、admin$、ipc$）が、ACLが割り当てられておらず、アクセスできない共有です。</block>
+  <block id="e1547130d9a70017a557e263270469eb" category="list-text">マシンアカウントオブジェクトはデフォルトではCN=Computersに配置されますが、必要に応じて別のOUを指定できます。「」を参照してください<block ref="99b866e46eaefba106810f4a564a9de4" category="inline-xref-macro-rx"></block>「Cloud Volumes Service のマシンアカウントオブジェクトを追加または削除するために必要なアクセス権については、を参照してください。</block>
+  <block id="5a1324cda45cd652ecb95755709fd8e1" category="paragraph">Cloud Volumes Service によってSMBマシンアカウントがActive Directoryに追加されると、次のフィールドが設定されます。</block>
+  <block id="650ca2f93573bbd3b4e7f2e4fc5d536e" category="list-text">CN（指定したSMBサーバ名を使用）</block>
+  <block id="493629591f73624fd57b9ff00cb6d94e" category="list-text">dNSHostName（SMBserver.domain.comを使用）</block>
+  <block id="ed877e9b9c0c0bb19ecf1f342cdda00f" category="list-text">msDs-SupportedEncryptionTypes（AES暗号化が有効でない場合は、DES-CBC_MD5、RC4_HMAC_MD5を許可します。AES暗号化が有効の場合は、DES-CBC_MD5、RC4_HMAC_MD5、AES128_CTS_HMAC_SHA1、AES256_CTC_HMAC_SHA1 96を許可します）</block>
+  <block id="987e945fa65d0a9e76f890e3892961cc" category="list-text">名前（SMBサーバ名を使用）</block>
+  <block id="6c4b390273352496044f436350e3e996" category="list-text">sAMAccountName（SMBserver$を使用）</block>
+  <block id="603c37960edbea70b7dd05f369016869" category="list-text">servicePrincipalName（Kerberosのホスト/ smbserver.domain.comおよびホスト/ smbserver SPNを使用）</block>
+  <block id="e4d5beb18aee5989e4944d5f91b181e4" category="paragraph">マシンアカウントで弱いKerberos暗号化タイプ(enctype)を無効にする場合は、マシンアカウントのmsDS-SupportedEncryptionTypes値を次の表のいずれかの値に変更してAESのみを許可することができます。</block>
+  <block id="d7b35b0eb85a800cd27ae4d86378e957" category="cell">msDs-SupportedEncryptionTypesの値</block>
+  <block id="b20e97401d06f2734903c9c8ce3bd34e" category="cell">暗号化タイプが有効です</block>
+  <block id="3afb17e90ee63072dfd4ad5496e22ecf" category="cell">des_cbc_md5</block>
+  <block id="427e6bbc6e437e1008a5c41adc923d0e" category="cell">RC4_HMAC</block>
+  <block id="16105c1a0d76dfdb5c1df287b56762db" category="cell">AES128_CTS_HMAC_SHA1 96のみ</block>
+  <block id="bdacd7093a31449b44a8d708a5a055de" category="cell">AES256_CTS_HMAC_SHA1_96のみ</block>
+  <block id="1ff1de774005f8da13f42943881c655f" category="cell">24</block>
+  <block id="ea8f561ef42d9f42f97782208f239797" category="cell">AES128_CTS_HMAC_SHA1_96およびAES256_CTS_HMAC_SHA1_96です</block>
+  <block id="34173cb38f07f89ddbebc2ac9128303f" category="cell">30</block>
+  <block id="bbfe7622403fb2a786b158ba768ac4ca" category="cell">DES_CBC_MD5、RC4_HMAC、AES128_CTS_HMAC_SHA1 96およびAES256_CTS_HMAC_SHA1 96</block>
+  <block id="adfa4c5560980c9b2841dda24bda5935" category="paragraph">SMBマシンアカウントのAES暗号化を有効にするには、Active Directory接続の作成時にAD認証のAES暗号化を有効にするをクリックします。</block>
+  <block id="fd0625de17999274e1465433cabc43a7" category="inline-link">Cloud Volumes Service のドキュメントを参照してください</block>
+  <block id="9e167fdd1e36cc753653d71cef598f95" category="paragraph">NFS KerberosのAES暗号化を有効にするには、<block ref="a1ea73992eb480d81ba9d6fd0002e272" category="inline-link-rx"></block>。</block>
+  <block id="c36c6a3451be9921bddbe958fc50f971" category="inline-link-macro">次の手順：その他のNASインフラストラクチャサービスの依存関係（KDC、LDAP、DNS）。</block>
+  <block id="0a243881b9403f37a34293a498b9dcb8" category="paragraph"><block ref="0a243881b9403f37a34293a498b9dcb8" category="inline-link-macro-rx"></block></block>
+  <block id="5e64a4b25a4f107aefb7d4e2a56b9dfb" category="summary">NAS共有にCloud Volumes Service を使用する場合は、正常に機能するために外部との依存関係が必要になることがあります。これらの依存関係は、特定の状況下で有効になっています。</block>
+  <block id="f4b5e0cbc9d84ca994a4dc85d6f45205" category="doc">その他のNASインフラストラクチャサービスの依存関係（KDC、LDAP、およびDNS）</block>
+  <block id="619169033066c83ff7d1cc580d748cd6" category="inline-link-macro">前の手順：Active Directory接続を作成する際の考慮事項</block>
+  <block id="a67d66e488b843722a2bb6124e92d2c0" category="paragraph"><block ref="a67d66e488b843722a2bb6124e92d2c0" category="inline-link-macro-rx"></block></block>
+  <block id="c4c97073fa9e6d604787db13592331a3" category="paragraph">NAS共有にCloud Volumes Service を使用する場合は、正常に機能するために外部との依存関係が必要になることがあります。これらの依存関係は、特定の状況下で有効になっています。次の表に、さまざまな設定オプションと、必要な依存関係を示します。</block>
+  <block id="c9b3a27f085427ada9b946daa430f1f8" category="cell">必須の依存関係です</block>
+  <block id="954898296a4e7ec7e15ab65964b50da0" category="cell">NFSv3のみ</block>
+  <block id="e69d896f8231ad7dd96dd4937ba18d07" category="cell">NFSv3 Kerberosのみ</block>
+  <block id="6040c1d5c15727690384a7cd3e8d3fa4" category="cell">Windows Active Directory：* KDC * DNS * LDAP</block>
+  <block id="b88d0e1e32f67294d9d45e05a25495e7" category="cell">NFSv4.1のみ</block>
+  <block id="1cc44815edb1648976dd6fa410f26802" category="cell">クライアントIDマッピング設定（/etc/idmap.conf）</block>
+  <block id="c2e2e93edfc9ea6acddd551b71be27bf" category="cell">NFSv4.1 Kerberosのみ</block>
+  <block id="411c501ecf4d59f4ef8d7e9c444b838a" category="list-text">Windows Active Directory：KDC DNS LDAP</block>
+  <block id="59b6dd4c5b36405b29c64750f1e82401" category="cell">SMBのみ</block>
+  <block id="11a431c64d07fefe0bbb5880e03069c5" category="cell">Active Directory：* KDC * DNS</block>
+  <block id="420da7f0cb45485c925482687369c1ad" category="cell">マルチプロトコルのNAS（NFSおよびSMB）</block>
+  <block id="b756e6f6a894749273e32e03e551180c" category="list-text">クライアントIDマッピングの設定（NFSv4.1のみ、/etc/idmap.conf）</block>
+  <block id="8777a112bd8b1e9205dda0717a12965b" category="section-title">マシンアカウントオブジェクトのKerberos keytabのローテーション/パスワードがリセットされます</block>
+  <block id="b8333cf0e11040ea157a74560b3a6d77" category="paragraph">SMBマシンアカウントの場合、Cloud Volumes Service はSMBマシンアカウントのパスワードリセットを定期的にスケジュールします。これらのパスワードはKerberos暗号化を使用してリセットされ、毎週日曜日の午後11時から午前1時までのランダムな時刻にスケジュールされます。これらのパスワードは、Kerberosキーのバージョンをリセットし、Cloud Volumes Service システムに格納されているキータブをローテーションし、Cloud Volumes Service で実行されるSMBサーバのセキュリティを強化するのに役立ちます。マシンアカウントのパスワードはランダム化され、管理者には知られていません。</block>
+  <block id="6df7123d2b1a64b11c7df1c2b837f752" category="paragraph">NFS Kerberosマシンアカウントの場合、パスワードのリセットは、新しいkeytabが作成され、KDCと交換されたときにのみ行われます。現在、Cloud Volumes Service では実行できません。</block>
+  <block id="7631991924ea0015e269781ad88bd8d3" category="section-title">LDAPおよびKerberosで使用するネットワークポート</block>
+  <block id="52d1b9583b81da6bee6ba24d74c4018b" category="inline-link">セキュリティに関する考慮事項についてのCloud Volumes Service のドキュメント</block>
+  <block id="1e21a0f8a8012a10d3db8d473ba52502" category="paragraph">LDAPおよびKerberosを使用する場合は、これらのサービスで使用されているネットワークポートを確認する必要があります。Cloud Volumes Service で使用されているすべてのポートの一覧については、を参照してください<block ref="0dc8f2243f86f97f7b6af9378a496f93" category="inline-link-rx"></block>。</block>
+  <block id="2363dee608bcd9f6ce7f980bfdad5789" category="section-title">LDAP</block>
+  <block id="d0a2de9b178b436803f7732ff69d0c14" category="paragraph">Cloud Volumes Service はLDAPクライアントとして機能し、UNIX IDのユーザおよびグループ検索に標準のLDAP検索クエリを使用します。Cloud Volumes Service が提供する標準のデフォルトユーザ以外のユーザとグループを使用する場合は、LDAPが必要です。また、ユーザプリンシパル（user1@domain.comなど）でNFS Kerberosを使用する場合も、LDAPが必要です。現在、Microsoft Active Directoryを使用するLDAPのみがサポートされています。</block>
+  <block id="2eaa173e56517db74fb0eb92806a0877" category="inline-link">RFC-2307 -bis</block>
+  <block id="50af1bf8bee07c6cb1c61e9c19599403" category="paragraph">Active DirectoryをUNIX LDAPサーバとして使用するには、UNIX IDに使用するユーザおよびグループに、必要なUNIX属性を設定する必要があります。Cloud Volumes Service では、に基づいて属性を照会するデフォルトのLDAPスキーマテンプレートが使用されます<block ref="54011f528a38d24d58a7f02f98da0d00" category="inline-link-rx"></block>。このため、次の表に、ユーザとグループにデータを入力するために最低限必要なActive Directory属性と、それぞれの属性がどのような目的で使用されているかを示します。</block>
+  <block id="a6e75b8341b03d08fb1d6817635b1d47" category="inline-link">デュアルプロトコルアクセスの管理</block>
+  <block id="c0f3d72f07b570cdf3f5d1376c72a389" category="paragraph">Active DirectoryでのLDAP属性の設定の詳細については、を参照してください<block ref="c2741a8ac44d0c827e11ee9004dcd081" category="inline-link-rx"></block></block>
+  <block id="f2bbdf9f72c085adc4d0404e370f0f4c" category="cell">属性</block>
+  <block id="b12c51b935d86f01d092fb23a1fa4f9f" category="cell">機能</block>
+  <block id="e266bea072e01571abba7fc5075c2c86" category="cell">UID *</block>
+  <block id="0689aaddc7bfae9cad3778f6d706bd7a" category="cell">UNIXユーザ名を指定します</block>
+  <block id="525f84e25602ba8efb61d7b8ca793b7c" category="cell">uidNumber *</block>
+  <block id="604edb3bb733537b2d6c63b0b84fa1ec" category="cell">UNIXユーザの数値IDを指定します</block>
+  <block id="825c2f924ee564de1d57d2b63edd800d" category="cell">gidNumber *</block>
+  <block id="eb91949970817d632278971bdf06baef" category="cell">UNIXユーザのプライマリグループの数値IDを指定します</block>
+  <block id="18b5aa92067bde95c39c3039f02bf70e" category="cell">objectclass *</block>
+  <block id="ce41297dde1628c606d60ef2bbe154cd" category="cell">使用するオブジェクトのタイプを指定します。Cloud Volumes Service では、オブジェクトクラスのリストに「user」を含める必要があります（デフォルトではほとんどのActive Directory展開に含まれています）。</block>
+  <block id="db108aa570113ecd6745a2e272d68544" category="cell">アカウントに関する一般的な情報（実際の名前、電話番号など、「gecos」とも呼ばれる）</block>
+  <block id="17a12df2f12fa6f25328eb6c9fcffedf" category="cell">unixUserPassword</block>
+  <block id="4306442303f7519026403fc1912e8e2e" category="cell">これを設定する必要はありません。NAS認証のUNIX ID検索では使用されません。設定すると、設定されたunixUserPasswordの値がプレーンテキストになります。</block>
+  <block id="d146b96a250f5bcf84b56d2a0f8a2f87" category="cell">unixHomeDirectory</block>
+  <block id="1208d15552f3ca8721989c162201e0de" category="cell">ユーザがLinuxクライアントからLDAPに照らして認証する場合のUNIXホームディレクトリへのパスを定義します。UNIXホームディレクトリの機能にLDAPを使用する場合は、このオプションを設定します。</block>
+  <block id="0693ba16c955b74875d26f79148b66f0" category="cell">loginShellの略</block>
+  <block id="61940c4af8b62a3bb77f4ab0eb491c08" category="cell">ユーザがLDAPに対して認証を行うときに、Linuxクライアントのbash/profileシェルへのパスを定義します。</block>
+  <block id="9ed4554644da662e0634bf83a7e18666" category="paragraph">*は、Cloud Volumes Service で適切に機能するために属性が必要であることを示します。残りの属性はクライアント側でのみ使用します。</block>
+  <block id="ac975e575ff07bee5423d326c261e07e" category="cell">CN *</block>
+  <block id="b982e168cd50ef73d1f3ce851cb4ddac" category="cell">UNIXグループ名を指定します。LDAPでActive Directoryを使用する場合は、オブジェクトの作成時に設定されますが、あとで変更することもできます。この名前を他のオブジェクトと同じにすることはできません。たとえば、user1という名前のUNIXユーザがLinuxクライアント上のuser1という名前のグループに属している場合、Windowsでは、同じcn属性を持つ2つのオブジェクトは許可されません。これを回避するには、Windowsユーザの名前を一意の名前（user1やunixなど）に変更します。Cloud Volumes Service のLDAPでは、UNIXユーザ名にuid属性を使用します。</block>
+  <block id="dc1d913bf6d70def379cf9f0d70abace" category="cell">UNIXグループの数値IDを指定します。</block>
+  <block id="1afbf0b9465b3d5c13329cd43dda4e9e" category="cell">使用するオブジェクトのタイプを指定します。Cloud Volumes Service では、オブジェクトクラスのリストにグループを含める必要があります（この属性はデフォルトでほとんどのActive Directory展開に含まれています）。</block>
+  <block id="5e4db984d78b91a65e9096eebf726d40" category="cell">memberUid</block>
+  <block id="6cd5795a9ccf8fa0d1da852e88da95cd" category="cell">UNIXグループのメンバーであるUNIXユーザを指定します。Cloud Volumes Service のActive Directory LDAPでは、このフィールドは必要ありません。Cloud Volumes Service LDAPスキーマでは、グループメンバーシップにMemberフィールドを使用します。</block>
+  <block id="cadd4e3eefdff4ed3ad7de830179c314" category="cell">メンバー*</block>
+  <block id="defbfcaae1980c16f810c5ddaa1ecb87" category="cell">グループメンバーシップ/セカンダリUNIXグループに必要です。このフィールドには、WindowsユーザをWindowsグループに追加します。ただし、WindowsグループにUNIX属性が入力されていない場合、UNIXユーザのグループメンバーシップリストには含まれません。NFSで使用できる必要があるグループは、次の表に示す必要なUNIXグループ属性を設定する必要があります。</block>
+  <block id="14476f6ea303cd9ac37328cb484a1fa1" category="section-title">LDAPバインド情報</block>
+  <block id="af0c1d97230a1daa0f7341dc35f53a29" category="paragraph">LDAPでユーザを照会するには、Cloud Volumes Service がLDAPサービスにバインド（ログイン）する必要があります。このログインには読み取り専用権限があり、LDAP UNIX属性を照会してディレクトリを検索するために使用されます。現在のところ、LDAPバインドはSMBマシンアカウントを使用した場合にのみ可能です。</block>
+  <block id="4a9b831487cab83d7de4d5a515e0eadd" category="paragraph">LDAPを有効にできるのは「CVS -パフォーマンス」インスタンスのみで、NFSv3、NFSv4.1、またはデュアルプロトコルボリュームでのみです。LDAP対応ボリュームを導入するには、Cloud Volumes Service ボリュームと同じリージョンにActive Directory接続を確立する必要があります。</block>
+  <block id="c41605f9de6fa81e35ab98dd9e8b1b02" category="paragraph">LDAPを有効にすると、特定の状況で次のような状況が発生します。</block>
+  <block id="f9f5dcaa4945ab96d402d905be4ed78c" category="list-text">Cloud Volumes Service プロジェクトにNFSv3またはNFSv4.1のみを使用する場合は、Active Directoryドメインコントローラに新しいマシンアカウントが作成され、Cloud Volumes Service 内のLDAPクライアントはマシンアカウントのクレデンシャルを使用してActive Directoryにバインドします。NFSボリュームおよびデフォルトの非表示の管理共有用にSMB共有は作成されません（を参照） <block ref="15f1050f174b7bbba32ef5b54c17bc40" category="inline-link-macro-rx"></block>）共有ACLを削除しておきます。</block>
+  <block id="f3dad67ce399cefb4b495c573d3ddcb8" category="list-text">Cloud Volumes Service プロジェクトにデュアルプロトコルボリュームを使用する場合は、SMBアクセス用に作成された1つのマシンアカウントのみを使用して、Cloud Volumes Service のLDAPクライアントがActive Directoryにバインドされます。追加のマシンアカウントは作成されません。</block>
+  <block id="7168c010de7dd97d077c0e69f48cfbb5" category="list-text">専用のSMBボリュームを個別に作成する場合（LDAPを使用するNFSボリュームの有効化前と無効化後）、LDAPバインド用マシンアカウントはSMBマシンアカウントと共有されます。</block>
+  <block id="248e702975c1b53305536e1e9c698e19" category="list-text">NFS Kerberosも有効になっている場合は、2つのマシンアカウントが作成されます。1つはSMB共有またはLDAPバインド用、もう1つはNFS Kerberos認証用です。</block>
+  <block id="738deb1a3cec2cc7d670e7de69d3a7c6" category="section-title">LDAPクエリ</block>
+  <block id="a204dba492103f34b09fe60e7ab98921" category="paragraph">LDAPバインドは暗号化されますが、LDAPクエリは共通のLDAPポート389を使用してプレーンテキストでワイヤ経由で渡されます。この既知のポートは、現在Cloud Volumes Service では変更できません。その結果、ネットワーク内のパケットスニファにアクセスできるユーザは、ユーザ名、グループ名、数値ID、およびグループメンバーシップを確認できます。</block>
+  <block id="d10f3c8108e06d8e622b7a6fb88adb08" category="inline-link-macro">「パケットのスニッフィング/トレースに関する考慮事項」</block>
+  <block id="b046f19aab64225d509f228ccd32fb2c" category="paragraph">ただし、Google Cloud VMは他のVMのユニキャストトラフィックをスニファできません。LDAPトラフィックにアクティブに参加している（バインド可能な）VMのみが、LDAPサーバからのトラフィックを表示できます。Cloud Volumes Service でのパケットスニファの詳細については、を参照してください <block ref="e06a781bd551a4c8ed55a5dfd008a50c" category="inline-link-macro-rx"></block></block>
+  <block id="d815e456141423f092087c21cd312f23" category="section-title">LDAPクライアント設定のデフォルト</block>
+  <block id="1c1b57ee3fb14f95067e88e579a44eec" category="paragraph">Cloud Volumes Service インスタンスでLDAPを有効にすると、デフォルトで特定の設定の詳細を使用してLDAPクライアント設定が作成されます。場合によっては、オプションがCloud Volumes Service に適用されない（サポートされない）か、設定できないことがあります。</block>
+  <block id="cc2eacdb2cc579f99a0f4359e61ed258" category="cell">LDAPクライアントオプション</block>
+  <block id="31ce3cdcd67850870b616f75b555bbc5" category="cell">デフォルト値</block>
+  <block id="216a8093d27a97d2912ed6822d19d410" category="cell">変更は可能ですか？</block>
+  <block id="ffe990396bf99448f8fe6e6fa1c3c3ea" category="cell">LDAPサーバリスト</block>
+  <block id="0b22102603051537f2c4bfccc964b74e" category="cell">クエリに使用するLDAPサーバ名またはIPアドレスを設定します。これはCloud Volumes Service では使用されません。代わりに、Active Directoryドメインを使用してLDAPサーバを定義します。</block>
+  <block id="9ba66a9f92056682b7d86a38b4bc18c0" category="cell">未設定</block>
+  <block id="f490d3302e7cd81f3dafead6c8311b60" category="cell">Active Directoryドメイン</block>
+  <block id="63dfe9dc44b2881b25560d6d5bd5dff6" category="cell">LDAPクエリに使用するActive Directoryドメインを設定します。Cloud Volumes Service は、DNSのLDAPのSRVレコードを利用して、ドメイン内のLDAPサーバを検索します。</block>
+  <block id="6575821e7d2ff9eec297128f6e66933a" category="cell">Active Directory接続で指定されているActive Directoryドメインに設定します。</block>
+  <block id="00227bc990a551282373139d6439feb4" category="cell">優先されるActive Directoryサーバ</block>
+  <block id="01d685ed68515214956910d3e26f1c71" category="cell">LDAPで使用する優先Active Directoryサーバを設定します。Cloud Volumes Service ではサポートされていません。代わりに、Active Directoryサイトを使用してLDAPサーバの選択を制御します。</block>
+  <block id="f41520c4ef898fb19bb93ee749be3fdd" category="cell">未設定。</block>
+  <block id="b626ddcd91311f0f7c4622fdcb7ba05e" category="cell">SMBサーバクレデンシャルを使用してバインド</block>
+  <block id="cb97b8ae4a5bb23e8ffa9e1547fe5078" category="cell">SMBマシンアカウントを使用してLDAPにバインドします。現在、Cloud Volumes Service でサポートされているLDAPバインド方式はのみです。</block>
+  <block id="f827cf462f62848df37c5e1e94a4da74" category="cell">正しいです</block>
+  <block id="d95e3278cf3c7f4cd1d7e40c5a89e7a7" category="cell">スキーマテンプレート</block>
+  <block id="33387315b367e8397cc901a4bf37ad44" category="cell">LDAPクエリに使用するスキーマテンプレート。</block>
+  <block id="16165a1c7229a30ce1a980b0e648d65f" category="cell">MS-AD-BIS を参照してください</block>
+  <block id="b825dd7cf8df99909db6f3117c567721" category="cell">LDAPサーバポート</block>
+  <block id="731fba188f3670e36bac64d2ca64db37" category="cell">LDAPクエリに使用するポート番号。Cloud Volumes Service では現在、標準のLDAPポート389のみが使用されています。LDAPS /ポート636は、現在サポートされていません。</block>
+  <block id="c86a7ee3d8ef0b551ed58e354a836f2b" category="cell">389</block>
+  <block id="9a76dbbba394b04594907973bb6c192e" category="cell">LDAPSが有効になっています</block>
+  <block id="98c3437e89f8128c7359f6b999731fcc" category="cell">LDAP over Secure Sockets Layer（SSL）をクエリおよびバインドに使用するかどうかを制御します。現在、Cloud Volumes Service ではサポートされていません。</block>
+  <block id="3452a15eecd4e9b3215025c747cfce4e" category="cell">クエリタイムアウト（秒）</block>
+  <block id="4fbc7a2f8fb9f56de093d04afac67fa3" category="cell">クエリがタイムアウトしました。クエリに指定した値よりも長い時間がかかると、クエリが失敗します。</block>
+  <block id="4211f908e9b523117776324e2349a87c" category="cell">最小バインド認証レベル</block>
+  <block id="cf6cfd37577ec3f1cc20caa7fb10bd45" category="cell">サポートされる最小バインドレベルを指定します。Cloud Volumes Service はLDAPバインドにマシンアカウントを使用し、デフォルトではActive Directoryは匿名バインドをサポートしないため、このオプションはセキュリティ上の理由から有効になりません。</block>
+  <block id="7079c72c21415131774625ba1d64f4b0" category="cell">匿名</block>
+  <block id="58384d924f3205aaac5f4a09d3b33801" category="cell">バインド DN</block>
+  <block id="4d73cec492ef07eaddad38a4a553639d" category="cell">シンプルバインドが使用されている場合にバインドに使用されるユーザ/識別名（DN）。Cloud Volumes Service は、LDAPバインドにマシンアカウントを使用しますが、現在のところ単純なバインド認証はサポートしていません。</block>
+  <block id="6c22befafec962f5002017b68e639f92" category="cell">ベースDN</block>
+  <block id="413689794b4599826344869870d6e0a7" category="cell">LDAP検索に使用するベースDN。</block>
+  <block id="796658213567ec39e68bd43e48ac6eff" category="cell">Active Directory接続に使用するWindowsドメイン（DN形式）（DC=domain、DC=local）</block>
+  <block id="30e8b85f236e0c0e7b13a8a98bd46d6f" category="cell">ベースの検索範囲</block>
+  <block id="26cbec2c997dd79e69cd5279817c5506" category="cell">ベースDN検索の検索範囲。値には、base、onelevel、subtreeのいずれかを指定できます。Cloud Volumes Service ではサブツリー検索のみがサポートされます。</block>
+  <block id="187c471e7dfcb7890077311c532fffd0" category="cell">サブツリー</block>
+  <block id="de20d00fd9f0840e6c05dce6aca169e4" category="cell">ユーザDN</block>
+  <block id="4ddd431d35193d0d6dc9555aeecf86e1" category="cell">ユーザがLDAPクエリの検索を開始するDNを定義します。現在Cloud Volumes Service ではサポートされていないため、すべてのユーザ検索はベースDNから開始されます。</block>
+  <block id="389048eda41eb7c0e810c83269814943" category="cell">ユーザの検索範囲</block>
+  <block id="0c5e0f35296916ccacc860481c53c663" category="cell">ユーザDN検索の検索範囲。値には、base、onelevel、subtreeのいずれかを指定できます。Cloud Volumes Service では、ユーザ検索範囲の設定はサポートされていません。</block>
+  <block id="68a7f97c57468e034a3f8016831c3c54" category="cell">グループDN</block>
+  <block id="5874ce023df38d8485da62d095f714f5" category="cell">グループ検索でLDAPクエリが開始されるDNを定義します。現在Cloud Volumes Service ではサポートされていないため、すべてのグループ検索はベースDNから開始されます。</block>
+  <block id="c76b264e7f1c2aadf6b61ca4a7b9dc52" category="cell">グループの検索範囲</block>
+  <block id="2d21b088cabd39a7f25a62fc99148f20" category="cell">グループDN検索の検索範囲。値には、base、onelevel、subtreeのいずれかを指定できます。Cloud Volumes Service では、グループ検索範囲の設定はサポートされていません。</block>
+  <block id="9819b4f0996b3e603488836501e3318e" category="cell">ネットグループDN</block>
+  <block id="b5e1f3448b6d3c978f83c2d3d12a2d1e" category="cell">ネットグループ検索でLDAPクエリの開始に使用するDNを定義します。現在Cloud Volumes Service ではサポートされていないため、ネットグループ検索はすべてベースDNから開始されます。</block>
+  <block id="de25b155c30a2cba210598b604a5b8c8" category="cell">ネットグループ検索範囲</block>
+  <block id="334dde86dbe71e59b3c942c6a2384d70" category="cell">ネットグループDN検索の検索範囲。値には、base、onelevel、subtreeのいずれかを指定できます。Cloud Volumes Service では、ネットグループ検索範囲の設定はサポートされていません。</block>
+  <block id="e2bdddbf27283c0eca38d39759107a44" category="cell">LDAPでstart_tlsを使用します</block>
+  <block id="24788f1c660aa47d895fa832d61d2fcf" category="cell">Start TLSを使用して、証明書ベースのLDAP接続をポート389経由で行います。現在、Cloud Volumes Service ではサポートされていません。</block>
+  <block id="cb64fc71803a6196ec2185116e525243" category="cell">ホスト単位のネットグループ検索を有効にします</block>
+  <block id="d92aed09a16438d9bc4cf2735e54815f" category="cell">ネットグループをすべてのメンバーの一覧に展開するのではなく、ホスト名によるネットグループ検索を有効にします。現在、Cloud Volumes Service ではサポートされていません。</block>
+  <block id="ae1e3e9f0f050830d9ad4ff1441a4080" category="cell">ホスト単位のネットグループDN</block>
+  <block id="6dc9eeb7bc11f937a1c509e27237db6f" category="cell">ホスト単位のネットグループ検索がLDAPクエリを開始するDNを定義します。ホスト単位のネットグループは、現在Cloud Volumes Service ではサポートされていません。</block>
+  <block id="0b5200ff3b38841dd95a404d7e6ff385" category="cell">ホスト単位のネットグループ検索範囲</block>
+  <block id="4ce621e884478e7fc52e17ed91eed525" category="cell">ホスト単位のネットグループDN検索の検索範囲。値には、base、onelevel、subtreeのいずれかを指定できます。ホスト単位のネットグループは、現在Cloud Volumes Service ではサポートされていません。</block>
+  <block id="19a0fc26f19842a9f7bc78040d0c381c" category="cell">クライアントセッションのセキュリティ</block>
+  <block id="f418eef9b6631e20135e14fc69c0bb8a" category="cell">LDAPで使用されるセッションセキュリティのレベルを定義します（sign、seal、none）。LDAP署名はCloud Volumes Service でサポートされていますが、シーリングは現在サポートされていません。</block>
+  <block id="16ed23b379774b2be1797f8efa0fe9a5" category="cell">LDAPリファーラルキャッシュ</block>
+  <block id="a408a02f7b8e36f4913d8dc2debb2b95" category="cell">複数のLDAPサーバを使用している場合、リファーラル追跡を使用すると、クライアントが最初のサーバでエントリが見つからなかったときに、リスト内の他のLDAPサーバを参照することができます。これは現在、Cloud Volumes Service ではサポートされていません。</block>
+  <block id="5f362229a019eb903f4b21e28b15a1f5" category="cell">グループメンバーシップフィルタ</block>
+  <block id="55ad576cc6cd581d8a2f558d69828312" category="cell">LDAPサーバからグループメンバーシップを検索するときに使用するカスタムのLDAP検索フィルタを提供します。Cloud Volumes Service では現在サポートされていません。</block>
+  <block id="b735835c02ee9b8eba41846beea27bc6" category="section-title">LDAPを使用した非対称ネームマッピング</block>
+  <block id="10d248b3ae3729560e0f9f75ff23f70e" category="paragraph">デフォルトでは、Cloud Volumes Service は、WindowsユーザとUNIXユーザを、特別な設定なしで双方向に同一のユーザ名でマッピングします。有効なUNIXユーザ（LDAPを使用）がCloud Volumes Service で検出されると、1：1のネームマッピングが発生します。たとえば、Windowsユーザjohnsmithが使用されている場合、Cloud Volumes Service がLDAPで「johnsmith」という名前のUNIXユーザを検索できた場合、そのユーザのネームマッピングは成功し、「johnsmith」によって作成されたすべてのファイルおよびフォルダに正しいユーザ所有権が表示されます。 また'johnsmithに影響を与えるすべてのACLは'NASプロトコルの使用に関係なく使用されますこれは対称ネームマッピングと呼ばれます。</block>
+  <block id="a4e6c429f8e2b5bc009025d9469cd6bd" category="paragraph">非対称ネームマッピングは、WindowsのユーザIDとUNIXのユーザIDが一致しない場合に使用します。たとえば'WindowsユーザjohnsmithがUNIX IDがjsmithの場合'UNIXのバリエーションをCloud Volumes Service に通知する必要がありますCloud Volumes Service は現在、静的なネームマッピングルールの作成をサポートしていないため、ファイルとフォルダの適切な所有権と予期される権限を確保するために、LDAPを使用してWindows IDとUNIX IDの両方のユーザのIDを検索する必要があります。</block>
+  <block id="159e0e9db457fce00641b7a639cdfef9" category="paragraph">デフォルトでは、Cloud Volumes Service のネームマップデータベースのインスタンスのns-switchに「ldap」が含まれているため、非対称名にLDAPを使用してネームマッピング機能を提供するために必要なのは、Cloud Volumes Service の検索内容を反映するためにユーザ/グループの属性の一部のみです。</block>
+  <block id="5083578eb1523417a04b030704e11a97" category="paragraph">次の表に、非対称ネームマッピング機能のためにLDAPに入力する必要がある属性を示します。ほとんどの場合、Active Directoryはすでに設定されています。</block>
+  <block id="2e4b53007a09bf23d9111917c46d1902" category="cell">Cloud Volumes Service 属性</block>
+  <block id="009097a0950f2d6565c2cb446aa081dd" category="cell">Cloud Volumes Service がネームマッピングに使用する値</block>
+  <block id="df642bb30c436da15b0b74923cb45806" category="cell">WindowsからUNIX objectClass</block>
+  <block id="75f68f87af42701b9e548f875f39cefe" category="cell">使用するオブジェクトのタイプを指定します。（ユーザ、グループ、posixAccountなど）</block>
+  <block id="2b731e8ed189a8b7587c21b21d6620cf" category="cell">userを含める必要があります（必要に応じて、他の値を複数含めることもできます）。</block>
+  <block id="288eebd1d2cddc03953f475edbcb2d5f" category="cell">WindowsからUNIXへの属性</block>
+  <block id="1b356493e583b25fdd7b1e44d6a4df0d" category="cell">作成時にWindowsユーザ名を定義します。Cloud Volumes Service では、これをWindowsからUNIXへのルックアップに使用します。</block>
+  <block id="5ce0ca6d681fede8d46460fed64bf8ef" category="cell">ここでは変更は必要ありません。sAMAccountNameはWindowsログイン名と同じです。</block>
+  <block id="e7d22294bdcb7133967c3548ece982e5" category="cell">UID</block>
+  <block id="d93b9102027ae26f7bbfa53ff0cd3f28" category="cell">UNIXユーザ名を定義します。</block>
+  <block id="abd2101078216980cdcf2dc6f87172b9" category="cell">必要なUNIXユーザ名。</block>
+  <block id="78e7065e65f76fc53c1953f598d424de" category="paragraph">Cloud Volumes Service では現在、LDAP検索でドメインプレフィックスが使用されないため、LDAPネームマップ検索で複数のドメインLDAP環境が正常に機能しません。</block>
+  <block id="1a19ad8ba3f26bc83d40bf699210c5b3" category="paragraph">次の例は、Windows名が「asymmetric」で、UNIX名が「unix-user」で、SMBとNFSの両方からファイルを書き込む際の動作を示しています。</block>
+  <block id="cf613896f3bf97cfe22b19367188faac" category="paragraph">次の図に、LDAP属性がWindowsサーバからどのように見えているかを示します。</block>
+  <block id="bb859b3ee7438471d7bd0441aec37b09" category="paragraph"><block ref="bb859b3ee7438471d7bd0441aec37b09" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="74a3bb1b92afc37821849f4d2c6a2e08" category="paragraph">NFSクライアントからは、UNIX名を照会できますが、Windows名は照会できません。</block>
+  <block id="9a9b54fd5d17009b1290538bd0bea332" category="paragraph">ファイルがNFSから「unix-user」として書き込まれると、NFSクライアントから次のような結果になります。</block>
+  <block id="2d78fc711a4a8afa3553c40cb81a7f5a" category="paragraph">Windowsクライアントでは、ファイルの所有者が適切なWindowsユーザに設定されていることを確認できます。</block>
+  <block id="dd276babf175f2baaf7d31c63630e9ce" category="paragraph">逆に、WindowsユーザがSMBクライアントから「asymmetric」で作成したファイルの場合、次のテキストに示すように、適切なUNIX所有者が表示されます。</block>
+  <block id="840e343f2946d2e3ecafb4d3af6751c5" category="paragraph">SMB：</block>
+  <block id="7369fcede1216c5a449bffa4016f597a" category="paragraph">NFS ：</block>
+  <block id="1a2ced64ce54d0878867c66c1264ef73" category="section-title">LDAPチャネルバインド</block>
+  <block id="7bc3122060898b084ade9ae81cb840d5" category="inline-link">マイクロソフトセキュリティアドバイザリADV190023</block>
+  <block id="9c2bd50d1c3b17373f80735ce60e0d91" category="paragraph">Windows Active Directoryドメインコントローラの脆弱性により、<block ref="9230172696f08489abbbe06ad2878984" category="inline-link-rx"></block> DCによるLDAPバインドの許可方法を変更します。</block>
+  <block id="c389bcb5002ce56cb9cf28680eb6ff4c" category="paragraph">Cloud Volumes Service による影響は、どのLDAPクライアントでも同じです。Cloud Volumes Service では現在、チャネルバインドはサポートされていません。Cloud Volumes Service はネゴシエーションを通じてデフォルトでLDAP署名をサポートしているため、LDAPチャネルバインドを問題 にすることはできません。チャネルバインドが有効な状態でLDAPにバインドする問題がある場合は、「ADV190023」の修正手順に従って、Cloud Volumes Service からのLDAPバインドを成功させるようにしてください。</block>
+  <block id="ed5f2bdecbd4bd349d09412d1ff6a6fb" category="section-title">DNS</block>
+  <block id="8cc300201cbc74e712f45393efb60e69" category="inline-link">動的DNS</block>
+  <block id="80052c998ef6da49a98a2d9004c75c33" category="paragraph">Active DirectoryとKerberosはどちらも、ホスト名からIP / IPを経由したホスト名解決で、DNSに依存します。DNSでは、ポート53を開く必要があります。Cloud Volumes Service では、DNSレコードに変更を加えたり、現在のところの使用をサポートしていません<block ref="2df544fb17221302fef729d1eb6bd715" category="inline-link-rx"></block> ネットワークインターフェイス。</block>
+  <block id="5f36386498075ef9c05d674112b69981" category="inline-link">Windows DNSを保護</block>
+  <block id="e3aa134886f9dad39f14489844fe7763" category="paragraph">Active Directory DNSを設定して、DNSレコードを更新できるサーバを制限できます。詳細については、を参照してください<block ref="1abda701cc77717e0b1a0b391ec2fed8" category="inline-link-rx"></block>。</block>
+  <block id="e8ba0470f4bd2498fbecdead3ab1b183" category="paragraph">Googleプロジェクト内のリソースは、既定ではGoogle Cloud DNSを使用しますが、Active Directory DNSには接続されていません。クラウドDNSを使用するクライアントは、Cloud Volumes Service から返されたUNCパスを解決できません。Active Directoryドメインに参加しているWindowsクライアントは、Active Directory DNSを使用するように設定され、このようなUNCパスを解決できます。</block>
+  <block id="71870bac7a9267067ab69566f75d36c3" category="inline-link">クライアントでSMB NetBIOS名を解決できないのはなぜですか？</block>
+  <block id="b0ffc266c9e05cd7ae80810305b932bf" category="paragraph">クライアントをActive Directoryに参加させるには、Active Directory DNSを使用するようにそのDNS設定を構成する必要があります。必要に応じて、Active Directory DNSに要求を転送するようにCloud DNSを設定することができます。を参照してください<block ref="d568657413aac86de4b237a9edcddc2d" category="inline-link-rx"></block>を参照してください。</block>
+  <block id="a0c7db04deaabb45ee60d5a501e67eb8" category="admonition">Cloud Volumes Service は現在DNSSECをサポートしておらず、DNSクエリはプレーンテキストで実行されます。</block>
+  <block id="c3a18bc4fd14cf11bc551540f29f6375" category="section-title">ファイルアクセスの監査</block>
+  <block id="cc6e776769986190d1536969ad7e5307" category="paragraph">現在、Cloud Volumes Service ではサポートされていません。</block>
+  <block id="5cffe1f133f0ed3a472da05d0b1d3f0d" category="section-title">アンチウイルスによる保護</block>
+  <block id="2b91875198ddd07e9b4cff7f1fe46663" category="paragraph">Cloud Volumes Service で、クライアントからNAS共有へのウィルススキャンを実行する必要があります。現在のところ、Cloud Volumes Service とウィルス対策はネイティブで統合されていません。</block>
+  <block id="f0e8b8e3bd62a1e919cd1935e44bf79c" category="inline-link-macro">次：サービスの処理。</block>
+  <block id="fba0107176535938bcee4c0774160668" category="paragraph"><block ref="fba0107176535938bcee4c0774160668" category="inline-link-macro-rx"></block></block>
+  <block id="fd7d290d66c64aa2fc13dd9bbca9c540" category="summary">Cloud Volumes Service では、適切なアクセス権限を維持しながら、SMBクライアントとNFSクライアントの両方で同じデータセットを共有できます。デュアルプロトコルこれを行うには、プロトコル間でIDマッピングを調整し、中央のバックエンドLDAPサーバを使用してUNIX IDをCloud Volumes Service に提供します。Windows Active Directoryを使用すると、WindowsとUNIXの両方のユーザに使いやすさを提供できます。</block>
+  <block id="d27d01220b09abd6dc8be87dd2b7f8d4" category="doc">デュアルプロトコル/マルチプロトコル</block>
+  <block id="8c14d6d170254470aea76e2185e26901" category="inline-link-macro">Previous：SMB。</block>
+  <block id="692e0ebc2797e7ae1a9618bdac0b5c02" category="paragraph"><block ref="692e0ebc2797e7ae1a9618bdac0b5c02" category="inline-link-macro-rx"></block></block>
+  <block id="9a5ba82ef925964774fad34d380585ce" category="inline-link">デュアルプロトコル</block>
+  <block id="afbf550dbb927e70d6e5e81aba4cf54e" category="paragraph">Cloud Volumes Service では、適切なアクセス権限を維持しながら、SMBクライアントとNFSクライアントの両方で同じデータセットを共有できます <block ref="090248040bf8d7cbf59e0f5bcb2aeb23" category="inline-link-rx"></block>）。これを行うには、プロトコル間でIDマッピングを調整し、中央のバックエンドLDAPサーバを使用してUNIX IDをCloud Volumes Service に提供します。Windows Active Directoryを使用すると、WindowsとUNIXの両方のユーザに使いやすさを提供できます。</block>
+  <block id="65bd83537129be15c8027ec94bec5bd3" category="section-title">Access Control の略</block>
+  <block id="b481dc764d87d694bd99e41051212b98" category="inline-link-macro">“ローカル/ BUILTIN管理者/バックアップ権限を持つアカウント”</block>
+  <block id="4349221797619aa2539cd1d814d55cf3" category="inline-link">MMC /コンピュータの管理</block>
+  <block id="ab67de3b2d37b16da324871c9cd7f96b" category="list-text">*共有アクセス制御。* NAS共有にアクセスできるクライアントまたはユーザーおよびグループを決定します。NFSの場合は、エクスポートへのクライアントアクセスを制御するエクスポートポリシーとルールがあります。NFSエクスポートはCloud Volumes Service インスタンスから管理されます。SMBは、CIFS / SMB共有と共有ACLを利用して、ユーザレベルおよびグループレベルでより細かく制御します。を使用して設定できるのは、SMBクライアントからのみ共有レベルのACLです<block ref="dbc4cec831b164bbb509e51caacd0209" category="inline-link-rx"></block> Cloud Volumes Service インスタンスに対する管理者権限を持つアカウントを使用する場合（を参照） <block ref="c9946e41ec7364b03516e2beacd1b339" category="inline-link-macro-rx"></block>）。</block>
+  <block id="1020ac8238c0e64a401514745b8a3c6a" category="list-text">*ファイルアクセス制御。*ファイルまたはフォルダレベルで権限を制御し、常にNASクライアントから管理します。NFSクライアントは、従来のモードビット（rwx）またはNFSv4 ACLを使用できます。SMBクライアントはNTFS権限を利用します。</block>
+  <block id="dcfd17a407b936210845de342300e631" category="paragraph">NFSとSMBの両方にデータを提供するボリュームのアクセス制御は、使用しているプロトコルによって異なります。デュアルプロトコルの権限については、「」を参照してください<block ref="7251f6a3aba1b22d43e125a8c39f6f0a" category="inline-xref-macro-rx"></block>」</block>
+  <block id="20d918db09dacfd5fbfbaadfaede2f80" category="section-title">ユーザマッピング</block>
+  <block id="c9677302c2548820abda217b496a541b" category="paragraph">クライアントがボリュームにアクセスすると、Cloud Volumes Service は受信ユーザを反対方向の有効なユーザにマッピングしようとします。これは、プロトコルを使用して適切なアクセスを決定し、アクセスを要求しているユーザが実際に誰であるかを確認するために必要です。</block>
+  <block id="7e9b11fc569fee58c3b42b689df2fbec" category="paragraph">たとえば、「joe」という名前のWindowsユーザがSMB経由でUNIXアクセス権を持つボリュームにアクセスしようとすると、Cloud Volumes Service は「joe」という名前の対応するUNIXユーザを検索します。存在する場合、Windowsユーザ「joe」としてSMB共有に書き込まれるファイルは、NFSクライアントからはUNIXユーザ「joe」と表示されます。</block>
+  <block id="b9e4f77748fb373f23ad2bc9eb2d3de0" category="paragraph">また、「joe」という名前のUNIXユーザがWindows権限を持つCloud Volumes Service ボリュームへのアクセスを試みる場合、そのUNIXユーザは有効なWindowsユーザにマッピングできる必要があります。そうしないと、ボリュームへのアクセスが拒否されます。</block>
+  <block id="98b9b81e4ad07f5198dd8381a0c5d43c" category="inline-link">AD接続の作成</block>
+  <block id="d6210f83492bb730b32d0e719a1d5100" category="paragraph">現時点では、LDAPを使用した外部UNIX IDの管理でサポートされているのはActive Directoryのみです。このサービスへのアクセスの設定の詳細については、を参照してください<block ref="cfe0f81fca904ab10d3dcbbfceb0f3de" category="inline-link-rx"></block>。</block>
+  <block id="7fc7c5bf3cd7f453807f2e17dc846957" category="section-title">アクセス許可モデル</block>
+  <block id="94b74cdf7c7dc9ef00fc04cf642127d9" category="paragraph">デュアルプロトコルのセットアップを使用する場合、Cloud Volumes Service では、ボリュームのセキュリティ形式を使用してACLのタイプを決定します。これらのセキュリティ形式は、Cloud Volumes Service ボリュームの作成時に選択したNASプロトコル、またはデュアルプロトコルの場合に選択したセキュリティ形式に基づいて設定されます。</block>
+  <block id="b3544688f5ad40244fc991f13471c525" category="list-text">NFSのみを使用している場合は、Cloud Volumes Service ボリュームでUNIX権限が使用されます。</block>
+  <block id="95b899e9e3d21a94ae7e8ce04eac3bb3" category="list-text">SMBのみを使用する場合、Cloud Volumes Service ボリュームはNTFS権限を使用します。</block>
+  <block id="51c16477dee3c257c4930e8614eda5ba" category="paragraph">デュアルプロトコルボリュームを作成する場合は、ボリュームの作成時にACL形式を選択できます。この決定は、必要な権限管理に基づいて行う必要があります。ユーザがWindows / SMBクライアントから権限を管理している場合は、NTFSを選択します。ユーザがNFSクライアントおよびchmod / chownを使用することを希望する場合は、UNIXセキュリティ形式を使用します。</block>
+  <block id="fd859db4ea28a81227f07e2c125fc927" category="inline-link-macro">次の手順：Active Directory接続を作成する際の考慮事項</block>
+  <block id="bc695a7a8573373413beec401ab691e1" category="paragraph"><block ref="bc695a7a8573373413beec401ab691e1" category="inline-link-macro-rx"></block></block>
+  <block id="451abeb07875465ff669fc3bfc502564" category="summary">特にストレージ管理者の管理権限がないクラウドでは、クラウドプロバイダが提供するサービスにデータを信頼することが何よりも重要です。このドキュメントでは、NetApp Cloud Volumes Service がGoogle Cloudで提供しているセキュリティサービスの概要について説明します。</block>
+  <block id="85f174d487aef272a0a9ea0f980e4827" category="doc">TR-4918：『Security Overview - NetApp Cloud Volumes Service in Google Cloud』</block>
+  <block id="09f7873d6f07efaef82aef2b95f42e0a" category="paragraph">ネットアップ、Oliver Krause、Justin Parisi</block>
+  <block id="1e06922fd676ae97f9dc69dbbfc93992" category="section-title">文書の範囲</block>
+  <block id="c2f1a37c5b3a149d2e79ad5a41c86139" category="inline-link">Cloud Volumes Service はGoogle Cloudで提供されます</block>
+  <block id="c2197b5184a5af948e5dc6e6dcf6e5c3" category="paragraph">特にストレージ管理者の管理権限がないクラウドでは、クラウドプロバイダが提供するサービスにデータを信頼することが何よりも重要です。本ドキュメントでは、ネットアップが提供するセキュリティソリューションの概要について説明します<block ref="b29f7971c7793aea2bb4311fa5c38ee0" category="inline-link-rx"></block>。</block>
+  <block id="f2b84afd0523a6df7547c404aa3647d8" category="section-title">対象読者</block>
+  <block id="75ff467aeacdad8bd3ed9fe31431d022" category="paragraph">このドキュメントの対象読者には、次の役割が含まれますが、これらに限定されません。</block>
+  <block id="3487d2ed085064f5b68318d25038bcd6" category="list-text">クラウドプロバイダ</block>
+  <block id="203ea32883f92321782cc1a312345903" category="list-text">ストレージ管理者</block>
+  <block id="7e89bd35a6b8558a95e9e4ec446df00d" category="list-text">ストレージアーキテクト</block>
+  <block id="528efe83de18ec1cf2eb982cc641bb89" category="list-text">フィールド用リソース</block>
+  <block id="a6205b388d7b872550efc1a57461e045" category="list-text">ビジネス上の意思決定者</block>
+  <block id="d9a404dc3c51a0dfc2360a6f7f97c00c" category="inline-link-macro">「お問い合わせください。」</block>
+  <block id="ec45e675f8dd5d470d6edacfc9ac6a2d" category="paragraph">このテクニカルレポートの内容について不明な点がある場合は、を参照してください <block ref="bbd2d7f57ba5e479a6b271845e2b7ec0" category="inline-link-macro-rx"></block></block>
+  <block id="b54d58d7e43c404563f91e38d3efbcac" category="cell">略語</block>
+  <block id="0b890b1926b90387673882e6ccae7fdc" category="cell">定義（ Definition ）</block>
+  <block id="e898e7a5df4dec909ad011657b510e2d" category="cell">CVS -ソフトウェア</block>
+  <block id="3b558136fa0b6447d030d5fd2d28765b" category="cell">Cloud Volumes Service 、サービスタイプCVS</block>
+  <block id="439d7969e09b4b31626fcf209b8fdcb7" category="cell">CVS - パフォーマンス</block>
+  <block id="3da305112390b1f2d5e6ad8818e00065" category="cell">Cloud Volume Service、サービスタイプCVS -パフォーマンス</block>
+  <block id="041159b903daf7d5923837346de98407" category="cell">PSA</block>
+  <block id="eb2108209f61048e4b7ebba4b61f91ee" category="inline-link-macro">次のステップ：Google CloudのCloud Volumes Service でデータを保護する方法をご紹介します。</block>
+  <block id="4c9538193c211d1d025b959f6407da23" category="paragraph"><block ref="4c9538193c211d1d025b959f6407da23" category="inline-link-macro-rx"></block></block>
+  <block id="60298c0c8282022dec640948e48114c1" category="summary">Cloud Volumes Service チームはGoogle Cloudでバックエンドサービスを管理し、複数の戦略を使用してプラットフォームを保護し、不要なアクセスを防止します。</block>
+  <block id="d5558f87207ef258cc599e6b4f31fa1f" category="doc">サービスの処理</block>
+  <block id="23fa70110ac44a6aa038c42f52919e60" category="inline-link-macro">Previous：その他のNAS Infrastructureサービスの依存関係（KDC、LDAP、DNS）。</block>
+  <block id="09db248feade063e1b222ff7a6fa8bae" category="paragraph"><block ref="09db248feade063e1b222ff7a6fa8bae" category="inline-link-macro-rx"></block></block>
+  <block id="01f3694459a5570182960c35de3adea0" category="paragraph">お客様ごとに固有のサブネットが割り当てられ、デフォルトで他のお客様から遮断されたアクセス権が付与される。Cloud Volumes Service の各テナントは、データを完全に分離するために独自のネームスペースとVLANを取得する。ユーザが認証されると、Service Delivery Engine（SDE；サービス提供エンジン）はそのテナントに固有の設定データのみを読み取ることができます。</block>
+  <block id="3efd389b601ec82d2d3d7d1fe8c7a952" category="section-title">物理的セキュリティ</block>
+  <block id="e6cbbd1872a42cfa36ceca16da55e6af" category="paragraph">事前承認が必要な場合、ケージとラックにアクセスできるのは、オンサイトエンジニアとネットアップ認定のフィールドサポートエンジニア（FSE）のみです。ストレージとネットワークの管理は許可されていません。ハードウェアのメンテナンス作業を実行できるのは、これらのオンサイトリソースのみです。</block>
+  <block id="f4cc7ff420af18ead26b06b01e65be30" category="paragraph">オンサイトエンジニアの場合は、作業仕様書（SOW）のチケットが発行されます。この作業内容には、ラックIDとデバイスの場所（RU）、その他すべての詳細情報が含まれます。NetApp FSEの場合、サイト訪問チケットはColoで発行する必要があります。チケットには、監査を目的とした訪問者の詳細、日付、時刻が含まれています。FSEのSOWは、社内でネットアップに通知されます。</block>
+  <block id="e6da80db21921cfa31a2ec8ae71c8a44" category="section-title">運用チーム</block>
+  <block id="575c886f27b4fd6adbc422b9466a7d77" category="paragraph">Cloud Volumes Service の運用チームは、クラウドボリュームサービス向けの生産エンジニアリングとサイト信頼性エンジニア（SRE）、およびハードウェア向けのネットアップフィールドサポートエンジニアとパートナーで構成されています。すべての運用チームメンバーは、Google Cloudでの作業が認定されており、発行されたチケットごとに詳細な作業記録が保持されています。また、各意思決定が適切に精査されるように、厳格な変更管理および承認プロセスが用意されています。</block>
+  <block id="62b92b1afcd6e99ad8ef6fc6e66fe1c6" category="paragraph">SREチームは、コントロールプレーンと、UI要求からCloud Volumes Service のバックエンドハードウェアおよびソフトウェアにデータをルーティングする方法を管理します。SREチームは、ボリュームやinodeの最大数などのシステムリソースも管理します。SREは、カスタマーデータとやり取りしたり、カスタマーデータにアクセスしたりすることはできません。SREは、バックエンドハードウェアに対する新しいディスク交換要求やメモリ交換要求などのReturn Material Authorizations（RMA）との調整も行います。</block>
+  <block id="20ac318b6aafb241498518b27a204f2d" category="section-title">お客様の責任</block>
+  <block id="5b18708f6a9b76d94aad073287e9c4aa" category="paragraph">Cloud Volumes Service のお客様は、組織のActive Directoryとユーザーの役割管理だけでなく、ボリュームとデータの操作も管理します。お客様は管理者ロールを割り当てられ、ネットアップとGoogle Cloudが提供する2つの事前定義されたロール（管理者とビューア）を使用して、同じGoogle Cloudプロジェクト内の他のエンドユーザに権限を委譲できます。</block>
+  <block id="70612d623f8ac2ccbad1aa9289e54eb2" category="paragraph">管理者は、お客様のプロジェクト内の任意のVPCを、お客様が適切と判断したCloud Volumes Service にピアリングできます。Google Cloud Marketplaceサブスクリプションへのアクセスの管理、およびデータプレーンへのアクセス権を持つVPCの管理は、お客様の責任において行ってください。</block>
+  <block id="1e9614b8d81927a9e9bad94fe64884d6" category="section-title">悪意のあるSRE保護</block>
+  <block id="1ced9b3b1b2408070d8594c7310def52" category="paragraph">Cloud Volumes Service は、悪意のあるSREが存在するシナリオやSRE資格情報が侵害された場合に、どのように保護するのかという懸念事項があります。</block>
+  <block id="0cf58dc2d9a00ecaeb191e61685b36e5" category="paragraph">本番環境へのアクセスには、限られた数のSRE担当者のみが使用されます。管理者権限は、経験豊富な一部の管理者にも制限されています。Cloud Volumes Service の運用環境で実行されるすべてのアクションは記録され、ベースラインまたは疑わしいアクティビティへの異常は、セキュリティ情報およびイベント管理（SIEM）脅威インテリジェンスプラットフォームによって検出されます。その結果、悪意のあるアクションを追跡し、Cloud Volumes Service バックエンドに過剰な損害が発生する前に軽減することができます。</block>
+  <block id="9893b21aa64e031fdfd6920fef8147a3" category="section-title">ボリュームのライフサイクル</block>
+  <block id="1135939baa7babe550972f3d2430315f" category="paragraph">Cloud Volumes Service は、サービス内のオブジェクトのみを管理し、ボリューム内のデータは管理しません。データ、ACL、ファイル所有者などを管理できるのは、ボリュームにアクセスしているクライアントだけです。これらのボリューム内のデータは保存中も暗号化され、Cloud Volumes Service インスタンスのテナントのみにアクセスできます。</block>
+  <block id="dd04bd242a373a0c9b066d0704ba4d66" category="paragraph">Cloud Volumes Service のボリュームライフサイクルはcreate-update-deleteです。ボリュームは、ボリュームが削除されるまでボリュームのSnapshotコピーを保持します。Cloud Volumes Service 内のボリュームを削除できるのは、検証済みのCloud Volumes Service 管理者だけです。管理者がボリューム削除を要求した場合、削除の確認のためにボリューム名を入力する手順が追加で必要になります。ボリュームを削除すると、そのボリュームは削除され、リカバリできなくなります。</block>
+  <block id="1744c1e09f5b1b7990b7f2b80a7a9500" category="paragraph">Cloud Volumes Service 契約を終了した場合、ネットアップは特定の期間が経過したボリュームに削除マークを付けます。この期間が終了する前に、お客様の要求に応じてボリュームをリカバリできます。</block>
+  <block id="13e637fe96062929286b911c16b3c2df" category="section-title">認定資格</block>
+  <block id="af06a002abcc2b02896192d8fd1052cd" category="inline-link">コンプライアンス：データ セキュリティ とデータプライバシー</block>
+  <block id="258a58248bd2280e3d97717c4150b3cf" category="paragraph">Google Cloud向けCloud Volume サービスは、現在ISO/IEC 27001：2013およびISO/IEC 27018：2019規格に準拠しています。サービスは最近、SOC2 Type Iアテステーションレポートを受信しました。ネットアップの データ セキュリティ への取り組みとプライバシーに関する詳細については、を参照してください<block ref="751448d9ace7c1569cfa25749b75ea26" category="inline-link-rx"></block>。</block>
+  <block id="4e94c8ad46c8aef1ca637841dfbe2159" category="section-title">GDPR</block>
+  <block id="ee69241049506ca93a3a1cd627e44851" category="inline-link">お客様との契約</block>
+  <block id="15655a5f67808f893102ffa3cbde3b01" category="inline-link">カスタマーデータ処理補遺</block>
+  <block id="cd0ae90a69c7d21d42b18252b9e1707d" category="inline-link">標準契約条項</block>
+  <block id="de315e46a9bdf4936de71254f87d2fe0" category="paragraph">プライバシーに対する当社のコミットメントとGDPRへの準拠は、当社のさまざまな方法で提供されています <block ref="c2118342007d8714fcb1b4f6106c575c" category="inline-link-rx"></block>などです<block ref="7f657124cd056ea8e74c57dcafd4df75" category="inline-link-rx"></block>が含まれます <block ref="85bd1a4ed188bfd53fcaef2fb6e1962a" category="inline-link-rx"></block> 欧州委員会が提供します。また、当社のプライバシーポリシーには、当社の企業行動規範に規定されている中核的な価値観に裏付けられたこれらのコミットメントを定めています。</block>
+  <block id="648d64814699b339816911e595b789cd" category="inline-link-macro">次：追加情報 、バージョン履歴、連絡先情報。</block>
+  <block id="259ea0e5275404f9f6b7793a369cf8d5" category="paragraph"><block ref="259ea0e5275404f9f6b7793a369cf8d5" category="inline-link-macro-rx"></block></block>
+  <block id="81e9930d895d3e301d9d41dffc998bf4" category="summary">クラウド解決策 を信頼する一部は、アーキテクチャとその保護方法を理解していることです。このセクションでは、GoogleのCloud Volumes Service アーキテクチャのさまざまな側面を紹介し、データのセキュリティ保護に関する潜在的な懸念を軽減するとともに、最も安全な導入を実現するために追加の設定手順が必要な領域について説明します。</block>
+  <block id="cce1d49f67059a9bd1ae8d0bdb0c40c6" category="inline-link-macro">前の手順：セキュリティに関する考慮事項と攻撃対象</block>
+  <block id="64ff582fefc046b48708216a4686161c" category="paragraph"><block ref="64ff582fefc046b48708216a4686161c" category="inline-link-macro-rx"></block></block>
+  <block id="e5a9d7217b1490853e4230120cdedb32" category="paragraph">Cloud Volumes Service の一般的なアーキテクチャは、コントロールプレーンとデータプレーンの2つの主要コンポーネントに分類できます。</block>
+  <block id="650717c72d7a99e6505592f83821e4ed" category="section-title">コントロールプレーン</block>
+  <block id="b2b6e947ec64376b51417e89ab29e213" category="paragraph">Cloud Volumes Service のコントロールプレーンは、Cloud Volumes Service 管理者とネットアップの標準の自動化ソフトウェアが管理するバックエンドインフラです。このプレーンはエンドユーザに対して完全に透過的であり、ネットワーキング、ストレージハードウェア、ソフトウェアアップデートなどが含まれており、Cloud Volumes Service などのクラウド常駐解決策 に価値を提供します。</block>
+  <block id="52a0e67f81bfbe486860a8219dfb3707" category="section-title">データプレーン</block>
+  <block id="9d4d4fccf74cab21d8073077985a0cf6" category="paragraph">Cloud Volumes Service のデータプレーンには、実際のデータボリュームとCloud Volumes Service の全体的な設定（アクセス制御、Kerberos認証など）が含まれています。データプレーンは、エンドユーザとCloud Volumes Service プラットフォームの消費者の制御下に完全にあります。</block>
+  <block id="099a80e29da5319c76116b6b2b41b2bf" category="paragraph">各平面の保護および管理方法には、異なる違いがあります。以降のセクションでは、Cloud Volumes Service アーキテクチャの概要から始めて、これらの違いについて説明します。</block>
+  <block id="69259c19ec0d9503c7d352a664a85953" category="inline-link-macro">次の例は、Cloud Volumes Service のアーキテクチャです。</block>
+  <block id="06ef1ecb5da986ebfb9901831437a0d8" category="paragraph"><block ref="06ef1ecb5da986ebfb9901831437a0d8" category="inline-link-macro-rx"></block></block>
+  <block id="9114bfd7ba3e781df4e595c0a3199bfb" category="summary">データのセキュリティを確保する方法を理解する最初のステップは、リスクと潜在的な攻撃対象を特定することです。</block>
+  <block id="d446619c29484b970941bed7884dfd57" category="doc">セキュリティに関する考慮事項と攻撃対象</block>
+  <block id="9835bd91d6121b399eb4318f5f6aecab" category="inline-link-macro">前のページ：Google CloudのCloud Volumes Service でデータを保護する方法</block>
+  <block id="00bbf283b6d94328be9e19fd69a5e57d" category="paragraph"><block ref="00bbf283b6d94328be9e19fd69a5e57d" category="inline-link-macro-rx"></block></block>
+  <block id="da24915274d8feb20f2be6f37c42bb43" category="paragraph">データのセキュリティを確保する方法を理解する最初のステップは、リスクと潜在的な攻撃対象を特定することです。これには、次のものが含まれます（ただし、これらに限定されません）。</block>
+  <block id="1f48f12466296c53740ed0375b4d0111" category="list-text">管理とログイン</block>
+  <block id="78b73d10586b526c3f0d3f97bd32dfba" category="list-text">保存データ</block>
+  <block id="42517361027a563c9ab61d813badc939" category="list-text">転送中のデータ</block>
+  <block id="58be36e591707c2a60f9bed405a8ef25" category="list-text">ネットワークとファイアウォール</block>
+  <block id="3a7d83d110f5fe7d4f435b9594806caf" category="list-text">ランサムウェア、マルウェア、ウイルス</block>
+  <block id="417a78919920edf51d22038b236740f1" category="paragraph">攻撃の対象となる面を理解することで、環境のセキュリティを強化できます。Google CloudのCloud Volumes Service は、これらのトピックの多くをすでに考慮しており、管理者の介入なしにデフォルトでセキュリティ機能を実装しています。</block>
+  <block id="70e43ccaf26985ea09dd44568ea9f36b" category="section-title">セキュアなログインの確保</block>
+  <block id="67fe2a3de92df4f2c45227cff1adea77" category="paragraph">重要なインフラコンポーネントを保護するには、承認されたユーザのみがログインして環境を管理できるようにすることが不可欠です。不良なアクターが管理資格情報に違反した場合、そのアクターは城へのキーを持ち、必要な操作（構成の変更、ボリュームとバックアップの削除、バックドアの作成、スナップショットスケジュールの無効化）を実行できます。</block>
+  <block id="3a2f2973e275ef04d08d1dda935f1ee0" category="paragraph">Cloud Volumes Service for Google Cloudを使用すると、ストレージサービス（StaaS）の難読化により、不正な管理ログインを防止できます。Cloud Volumes Service はクラウドプロバイダによって完全に管理されており、外部からのログインはできません。セットアップと設定の処理はすべて完全に自動化されているため、ごくまれな状況を除いて、人間の管理者がシステムを操作する必要はありません。</block>
+  <block id="22b01eb5fb8c08ffb16c6ef9ef8b71b6" category="inline-link-macro">「Cloud Volumes Service アーキテクチャ」</block>
+  <block id="b019d60ff2b9589700c94d2d71d13c8f" category="paragraph">ログインが必要な場合、Google CloudのCloud Volumes Service は、システムにログインするためのアクセス権を持つ信頼できる管理者のごく短いリストを保持することで、ログインを保護します。このゲートキーピングは、アクセス権を持つ潜在的な不正アクターの数を減らすのに役立ちます。さらに、Google Cloudネットワークは、ネットワークセキュリティの層の背後にあるシステムを隠し、外部に必要なものだけを公開します。Google CloudのCloud Volumes Service アーキテクチャについては、を参照してください <block ref="d008df97450ac642ad54d58196f67862" category="inline-link-macro-rx"></block></block>
+  <block id="582157e9744c945cab3000f99e5c51f4" category="section-title">クラスタの管理とアップグレード</block>
+  <block id="ac816ab3f2fb9ede37e87c223bf39690" category="paragraph">潜在的なセキュリティリスクを持つ2つの領域には、クラスタ管理（不正なアクターに管理者アクセス権がある場合に発生する動作）とアップグレード（ソフトウェアイメージが侵害された場合に発生する動作）があります。</block>
+  <block id="e3f83199a3d154c9a938a90ed76188d4" category="section-title">ストレージ管理の保護</block>
+  <block id="e9406b6097629a60364e6b24a83dd40b" category="inline-link-macro">「サービスオペレーション」</block>
+  <block id="a16c40cfa1517a64fe23c8a84e7fca32" category="paragraph">ストレージサービスとして提供されるため、クラウドデータセンターの外部にあるエンドユーザがアクセスするリスクが軽減され、管理者のリスクを高めることができます。代わりに、顧客がデータアクセスプレーンを対象とした唯一の設定が行われます。各テナントは固有のボリュームを管理し、テナントが他のCloud Volumes Service インスタンスにアクセスすることはできません。このサービスは自動化によって管理され、セクションで説明するプロセスを通じて、信頼できる管理者のごく一部にシステムへのアクセス権が付与されます <block ref="b466e98e9a7ec570a0e595b4839650b9" category="inline-link-macro-rx"></block></block>
+  <block id="bc94b58452719d0cfedd1ceb30c4fd53" category="paragraph">CVS -パフォーマンスサービスタイプでは、リージョンに障害が発生した場合に別のリージョンにデータを保護するオプションとして、リージョン間のレプリケーションを提供できます。このような場合は、Cloud Volumes Service を影響を受けない領域にフェイルオーバーしてデータアクセスを維持できます。</block>
+  <block id="b8bb5b62315a69e1364d070de73bbfa5" category="section-title">サービスのアップグレード</block>
+  <block id="a5e1144c0e37d7facbd53bdffaa58f52" category="paragraph">更新プログラムは、脆弱なシステムの保護に役立ちます。各アップデートには、セキュリティの強化機能とバグ修正が含まれており、攻撃対象となる面を最小限に抑えるソフトウェアの更新は、中央リポジトリからダウンロードされ、更新が許可される前に検証されて、公式イメージが使用されていること、およびアップグレードが不正なアクターによって侵害されていないことを確認します。</block>
+  <block id="79f1689ccfaec67bc50dd620185adbac" category="paragraph">Cloud Volumes Service を使用すると、クラウドプロバイダチームが更新を処理できるため、管理者チームは、プロセスの自動化と完全なテストに精通したエキスパートが設定とアップグレードに精通することで、リスクの危険性を回避できます。アップグレードは無停止で実行され、Cloud Volumes Service は全体的な最善の結果を得るために最新の更新を維持します。</block>
+  <block id="6a274e2791c8f2a1f59a7a6f87261122" category="paragraph">これらのサービスのアップグレードを実行する管理者チームの詳細については、を参照してください <block ref="b466e98e9a7ec570a0e595b4839650b9" category="inline-link-macro-rx"></block></block>
+  <block id="eeae9bcc33a487e1224ffb4815f79821" category="section-title">保存データを保護</block>
+  <block id="11062b94d57add7cf5c44a9ec7e9274c" category="paragraph">保管データの暗号化は、ディスクが盗難、返却、転用された場合に機密データを保護するために重要です。Cloud Volumes Service のデータは、ソフトウェアベースの暗号化を使用して保存データを保護します。</block>
+  <block id="ad04a8dc3b058793f75e8c97c787ceea" category="list-text">Googleで生成されたキーは、CVS-SWに使用されます。</block>
+  <block id="b114edcfa107ab9d459e2e75aea2cfdb" category="inline-link">FIPS 140-2認定番号4144</block>
+  <block id="855bcb8730de4b24527a09801b103d97" category="list-text">CVSパフォーマンスの場合、ボリューム単位のキーはCloud Volumes Service に組み込まれたキー管理ツールに格納されます。このキー管理ツールでは、NetApp ONTAP CryptoModを使用してAES-256暗号化キーが生成されます。CryptoModは、CMVP FIPS 140-2の検証済みモジュールのリストに表示されています。を参照してください<block ref="c8bf3ef21e8efdca1f27a1e57e809607" category="inline-link-rx"></block>。</block>
+  <block id="a934c8bfa11942a4baa792ed229b8bb8" category="paragraph">2021年11月より、CVSパフォーマンス向けにプレビューによる顧客管理暗号化（CMEK）機能が提供されました。この機能を使用すると、ボリュームごとのキーを、Google Key Management Service（KMS）でホストされているプロジェクトごとのリージョンごとのマスターキーで暗号化できます。KMSを使用すると、外部キー管理ツールを接続できます。</block>
+  <block id="fd313eaaaadfe56df9ec88896284165d" category="paragraph">CVS -パフォーマンス用のKMSの設定方法については、<block ref="905a3b34ffbfe930acdbf23dd47d698f" category="inline-link-rx"></block>。</block>
+  <block id="08a22fe6e00e4ceb40cd56453b4a5864" category="paragraph">アーキテクチャの詳細については、を参照してください <block ref="d008df97450ac642ad54d58196f67862" category="inline-link-macro-rx"></block></block>
+  <block id="fb787119808b111e9df5553be31361c8" category="section-title">転送中のデータを保護</block>
+  <block id="8255b8a6d9844c87b5ecd1d2287b2f60" category="paragraph">保存データを保護するだけでなく、Cloud Volumes Service インスタンスとクライアントまたはレプリケーションターゲットの間で転送中のデータも保護する必要があります。Cloud Volumes Service では、Kerberosを使用したSMB暗号化、パケットの署名と封印、データ転送のエンドツーエンド暗号化に使用するNFS Kerberos 5pなどの暗号化方式を使用して、NASプロトコルで転送中のデータを暗号化できます。</block>
+  <block id="c42b0018cf60c30c0490998e63dfdac1" category="paragraph">Cloud Volumes Service ボリュームのレプリケーションにはTLS 1.2が使用され、AES-GCM暗号化方式を利用できます。</block>
+  <block id="17882f1649689ee4f6fcf4aeba6d150b" category="paragraph">TelnetやNDMPなどのセキュアでないインフライトプロトコルのほとんどは、デフォルトで無効になっています。ただし、DNSはCloud Volumes Service によって暗号化されないため（DNSセキュリティはサポートされません）、可能な場合は外部ネットワーク暗号化を使用して暗号化する必要があります。を参照してください <block ref="051d363ef6081e123484b5da28bebf19" category="inline-link-macro-rx"></block> 転送中のデータの保護に関する詳細については、を参照してください。</block>
+  <block id="4bb00cc1adfaf9a4b73ae2593bc7d4e8" category="inline-link-macro">「NASプロトコル」。</block>
+  <block id="d47f2c6bf1e6a3776038244ab35f5415" category="paragraph">NASプロトコルの暗号化については、を参照してください <block ref="386abb448925212e530f9be720946265" category="inline-link-macro-rx"></block></block>
+  <block id="46dc4f8fa1d2951250a02fa29fccc4cb" category="section-title">NAS権限のユーザとグループ</block>
+  <block id="4a6786c54b7ea4a860834c0ffda11c7f" category="paragraph">クラウドでデータを保護するには、適切なユーザ認証とグループ認証が必要になります。この場合、データにアクセスするユーザは環境内の実ユーザとして検証され、グループには有効なユーザが含まれます。これらのユーザとグループは、初回の共有アクセスとエクスポートアクセスに加え、ストレージシステム内のファイルとフォルダの権限検証も提供します。</block>
+  <block id="52c7382ae7438c8a3366ad6f38d5d2a4" category="paragraph">Cloud Volumes Service では、SMB共有およびWindows形式の権限に対して、Active Directoryベースの標準のWindowsユーザ認証およびグループ認証を使用します。このサービスでは、NFSエクスポート、NFSv4 ID検証、Kerberos認証、NFSv4 ACL用のLDAPなど、UNIXユーザおよびグループのUNIX IDプロバイダも利用できます。</block>
+  <block id="59935480b9f5ac6361a1a360ad8a9ec2" category="admonition">現在のところ、Cloud Volumes Service for LDAP機能ではActive Directory LDAPのみがサポートされています。</block>
+  <block id="7c47e0b7c3aa389a1b437364885d5562" category="section-title">ランサムウェア、マルウェア、ウィルスの検出、防止、および軽減</block>
+  <block id="b647cba0e4b0ad0f479019e47713c5a2" category="paragraph">ランサムウェア、マルウェア、ウィルスは管理者にとって常に脅威であり、これらの脅威の検出、防止、および軽減は、エンタープライズ組織にとって常に最重要課題です。重要なデータセットでランサムウェアが1回発生すると、数百万ドルのコストがかかる可能性があるため、リスクを最小限に抑えるために何ができるかを実行することが有益です。</block>
+  <block id="ba1e21a6e8310b88e0349770718e717c" category="inline-link">ランサムウェアの自動検出</block>
+  <block id="b80fb0d337605da9f0fdaf2687c3de1e" category="paragraph">Cloud Volumes Service には、現在、アンチウイルス保護やなどのネイティブの検出や防止対策は含まれていませんが<block ref="2ed126fbf9f5caf3d13a90f230e3475a" category="inline-link-rx"></block>では、定期的なSnapshotスケジュールを有効にすることで、ランサムウェアのイベントから迅速にリカバリする方法がいくつかあります。Snapshotコピーは変更不可で、ファイルシステム内の変更されたブロックへの読み取り専用ポインタであり、ほぼ瞬時に作成されます。パフォーマンスへの影響は最小限で、データが変更または削除された場合にのみスペースを消費します。Snapshotコピーのスケジュールは、許容されるRecovery Point Objective（RPO；目標復旧時点）やRecovery Time Objective（RTO；目標復旧時間）に合わせて設定できます。また、ボリュームあたり最大1、024個のSnapshotコピーを保持できます。</block>
+  <block id="e9c1c7d4ca860adb553d87c2c1d9ef35" category="inline-link">『NetApp解決策 for Ransomware』</block>
+  <block id="85ebd62090617323187e9e7827c343e7" category="paragraph">Cloud Volumes Service では、Snapshotのサポートは追加料金なしで利用でき（Snapshotコピーによって保持される変更されたブロックやデータのストレージ料金を除く）、ランサムウェア攻撃が発生した場合には、攻撃が発生する前にSnapshotコピーにロールバックするために使用できます。Snapshotのリストアは完了までに数秒しかかかりませんが、リストア完了後は通常どおりデータを提供できます。詳細については、を参照してください<block ref="e347ba4858ee244fead32d2fe59a64dd" category="inline-link-rx"></block>。</block>
+  <block id="7994d1312e8f4fe2cdf2f7e13347d8bf" category="paragraph">ランサムウェアによるビジネスへの影響を回避するには、次のようなマルチレイヤアプローチが必要です。</block>
+  <block id="7aa2bd35ac13684bd5c9434296dd6b03" category="list-text">エンドポイント保護</block>
+  <block id="9cdff1d919782c79338864086178c7b0" category="list-text">ネットワークファイアウォールによる外部の脅威からの保護</block>
+  <block id="eb4079f2ecc7735fcfaa169c5562cbfd" category="list-text">データの異常を検出します</block>
+  <block id="aac3c67c846910bdfd381a7101344e96" category="list-text">重要なデータセットの複数のバックアップ（オンサイトおよびオフサイト）</block>
+  <block id="3845e8b5ec9d78bcebac29ec50d8077f" category="list-text">バックアップの定期的なリストアテスト</block>
+  <block id="a550fe6fd1b40af5260e9636cdea66fd" category="list-text">変更不可の読み取り専用NetApp Snapshotコピー</block>
+  <block id="533a4f72ffc639d4cc87d034dfe92f2c" category="list-text">重要なインフラに対する多要素認証</block>
+  <block id="b1d3b419f981a509b3c5203c7546b96b" category="list-text">システムログインのセキュリティ監査</block>
+  <block id="4e329c801824e6bdc0209c98146064c3" category="paragraph">このリストは、完全なものではありませんが、ランサムウェア攻撃の可能性を扱う際の青写真としては適しています。Google CloudのCloud Volumes Service では、ランサムウェアのイベントを保護してその影響を軽減する方法を複数提供しています。</block>
+  <block id="2fdb508dbc71674add1fe7fc21ccbf8e" category="section-title">変更不可のSnapshotコピー</block>
+  <block id="1682a7464d9210c8161ec78abc8010e2" category="paragraph">Cloud Volumes Service は、データを削除した場合や、ランサムウェア攻撃によってボリューム全体が影響を受けた場合に、カスタマイズ可能なスケジュールで作成された書き換え不可の読み取り専用Snapshotコピーを標準で提供します。以前の正常なSnapshotコピーへのSnapshotのリストアは高速で、Snapshotスケジュールの保持期間とRTO/RPOに基づいてデータ損失を最小限に抑えます。Snapshotテクノロジによるパフォーマンスへの影響はごくわずかです。</block>
+  <block id="c0bd33c36fff1f6dbb2bf9253a7f40dd" category="paragraph">Cloud Volumes Service のSnapshotコピーは読み取り専用であるため、ランサムウェアが大量に発生してデータセットにデータが拡散し、Snapshotコピーがランサムウェアによって感染した場合を除き、ランサムウェアに感染することはできません。そのため、ランサムウェアによるデータの異常を検出することも検討する必要があります。Cloud Volumes Service は、現在ネイティブでは検出機能を提供していませんが、外部監視ソフトウェアを使用することもできます。</block>
+  <block id="9b641219ac63451505f5a25a887038d4" category="section-title">バックアップとリストア</block>
+  <block id="5e2f84170723d4cfed011f9ebc6c557e" category="paragraph">Cloud Volumes Service は、標準のNASクライアントバックアップ機能（NFSまたはSMB経由のバックアップなど）を提供します。</block>
+  <block id="0d69441d7fc21e56d3cf2eb944fbf6c1" category="inline-link">ボリュームのレプリケーション</block>
+  <block id="9fd9d0ecc58c5d26f4934bc140ac2a41" category="list-text">CVS -パフォーマンスを利用すると、他のCVSパフォーマンスボリュームにリージョン間でボリュームをレプリケーションすることができます。詳細については、を参照してください<block ref="ec408a29560fd662bec08bf50f9ff3d6" category="inline-link-rx"></block> Cloud Volumes Service のドキュメントを参照してください。</block>
+  <block id="161b127f579db2727ace94e4fb6f9e5b" category="inline-link">クラウドバックアップ</block>
+  <block id="6a7870f99b17bbb49636a1e7be9d4be1" category="list-text">CVS-SWは、サービスネイティブのボリュームバックアップ/リストア機能を提供します。詳細については、を参照してください<block ref="2377dc7e4548195ed704b70f3ce6250c" category="inline-link-rx"></block> Cloud Volumes Service のドキュメントを参照してください。</block>
+  <block id="56a32ac982c7663e59f24c58cfb673d6" category="paragraph">ボリュームレプリケーションを実行すると、ソースボリュームの正確なコピーが作成されるため、ランサムウェアのイベントなどの災害が発生した場合に迅速にフェイルオーバーできます。</block>
+  <block id="ae2679a66d07f8c7efd50d972a34a112" category="section-title">クロスリージョンレプリケーション</block>
+  <block id="1a094951f7e9c42a89c4ef4b0b328eee" category="paragraph">CVS - Performanceを使用すると、Googleのネットワークで実行されているレプリケーションに使用される特定のインターフェイスを使用して、ネットアップが制御するバックエンドサービスネットワーク上でTLS1.2 AES 256 GCM暗号化を使用して、データ保護およびアーカイブのユースケース用にGoogle Cloudリージョン間でボリュームを安全に複製できます。プライマリ（ソース）ボリュームにはアクティブな本番データが格納され、セカンダリ（デスティネーション）ボリュームにレプリケートされてプライマリデータセットの正確なレプリカが提供されます。</block>
+  <block id="f8e2c7b5b15f4332525ac9687a100a28" category="paragraph">最初のレプリケーションではすべてのブロックが転送されますが、更新ではプライマリボリューム内の変更されたブロックのみが転送されます。たとえば、プライマリボリュームにある1TBのデータベースがセカンダリボリュームにレプリケートされている場合、最初のレプリケーションでは1TBのスペースが転送されます。このデータベースの初期化と次の更新の間に数百行（仮定としては数MB）のデータがある場合、変更された行を持つブロックだけがセカンダリに複製されます（数MB）。これにより、転送時間を短縮し、レプリケーションの料金を抑えることができます。</block>
+  <block id="fd25283b48ea77209e43fe9173df1354" category="paragraph">ファイルとフォルダに対する権限はすべてセカンダリボリュームにレプリケートされますが、共有のアクセス権限（エクスポートポリシーとルール、SMB共有と共有ACLなど）は別々に処理する必要があります。サイトフェイルオーバーの場合、デスティネーションサイトは同じネームサービスとActive Directoryドメイン接続を利用して、ユーザ、グループのIDおよび権限を一貫して処理する必要があります。災害が発生したときにセカンダリボリュームをフェイルオーバーターゲットとして使用するには、レプリケーション関係を解除します。これにより、セカンダリボリュームが読み書き可能に変換されます。</block>
+  <block id="940c6fa9c7eb366ae4e471e545edb27b" category="paragraph">ボリュームのレプリカは読み取り専用で、書き換え不可のデータのコピーをオフサイトに保管します。このため、ウィルスに感染したデータやランサムウェアによってプライマリデータセットが暗号化された場合に、データを迅速にリカバリできます。読み取り専用データは暗号化されませんが、プライマリボリュームに影響があり、レプリケーションが実行された場合は、感染したブロックもレプリケートされます。影響を受けない古いSnapshotコピーをリカバリに使用できますが、SLAは、攻撃が検出されるまでの時間に応じて、約束されたRTO/RPOの範囲外になる可能性があります。</block>
+  <block id="fe62647cc35dde214e0df1ae1fe9d0ab" category="inline-link">セキュリティに関する考慮事項</block>
+  <block id="344c8cea0d31ef9e8c7c56863c714a04" category="paragraph">また、Google Cloudのクロスリージョンレプリケーション（CRR）管理により、ボリュームの削除、Snapshotの削除、Snapshotスケジュールの変更など、悪意のある管理操作を防止できます。そのためには、ボリューム管理者を分離したカスタムロールを作成します。カスタムロールでは、ソースボリュームは削除できますが、ミラーを解除できないため、ボリューム操作を実行できないCRR管理者からデスティネーションボリュームを削除できません。を参照してください<block ref="bf2a9ccb864ad3a1fa1ddc1fec02a961" category="inline-link-rx"></block> 各管理者グループが許可する権限については、Cloud Volumes Service のマニュアルを参照してください。</block>
+  <block id="8ee215caafa31f1ecdd53056d288eb19" category="paragraph">Cloud Volumes Service はデータの保持性は高くなりますが、外部イベントによって原因 のデータが失われる可能性があります。ウィルスやランサムウェアなどのセキュリティイベントが発生した場合、バックアップとリストアは、データアクセスを迅速に再開するために不可欠なものになります。管理者が誤ってCloud Volumes Service ボリュームを削除した場合があります。また、ユーザは、データのバックアップバージョンを数カ月間保持し、Snapshotコピー用にボリューム内に余分なスペースを残しておくことがコストの課題となります。過去数週間にバックアップ・バージョンを維持して失われたデータをリストアする方法としてはSnapshotコピーを推奨しますが、Snapshotコピーはボリューム内に置かれており、ボリュームが失われると失われます。</block>
+  <block id="99144970696c7e366271871a0e83b6cd" category="paragraph">これらの理由から、NetApp Cloud Volumes Service は、を使用してバックアップサービスを提供します<block ref="253601e5d476a508040b734cbc7b3164" category="inline-link-rx"></block>。</block>
+  <block id="a5cef37749b0ea6b89d13e2bfc190bcc" category="paragraph">Cloud Volumes Service バックアップを使用すると、Google Cloud Storage（GCS）にボリュームのコピーが生成されます。バックアップされるのはボリュームに格納されている実際のデータのみで、空きスペースはバックアップされません。増分データとして永久に機能するため、ボリュームの内容は1回転送され、以降も変更されたデータのみのバックアップが続行されます。従来のバックアップの概念と比較して、複数のフルバックアップを使用する場合に比べて、大量のバックアップストレージを節約し、コストを削減できます。バックアップスペースは、ボリュームと比べて月単位で少なくて済むため、バックアップバージョンの間隔を長くしておくのが理想的です。</block>
+  <block id="d41618915810c18642064f885af2a835" category="paragraph">ユーザはCloud Volumes Service バックアップを使用して、同じリージョン内の同じボリュームまたは別のボリュームに任意のバックアップバージョンをリストアできます。ソースボリュームを削除した場合は、バックアップデータが保持され、個別に管理する必要があります（削除した場合など）。</block>
+  <block id="3289695e643b478f0efa19edc74cf567" category="inline-link">Cloud Volumes Service バックアップのドキュメント</block>
+  <block id="be7923d42a302a1a86fdaa9f096fde63" category="inline-link">サポートされる最大バックアップバージョン数</block>
+  <block id="59aab28b54594c59dab8d19afd9478e4" category="inline-link">価格設定</block>
+  <block id="57e8b261ab803839f73416e368f552bc" category="paragraph">Cloud Volumes Service バックアップは、Cloud Volumes Service Asオプションに組み込まれています。ユーザは、Cloud Volumes Service バックアップをボリューム単位でアクティブ化して保護するボリュームを決定できます。を参照してください<block ref="218d9dd384a48541f627c5084c286ade" category="inline-link-rx"></block> バックアップの詳細については、を参照してください<block ref="d724a11e2928bd8489b8ad8fe1eac94b" category="inline-link-rx"></block>、スケジュール、および<block ref="31e05107512c82ef17df4f5c4b3fe0bd" category="inline-link-rx"></block>。</block>
+  <block id="9a647ae53ed9b2a783aef42530e1fe97" category="paragraph">プロジェクトのすべてのバックアップデータはGCSバケットに格納されます。GCSバケットはサービスによって管理され、ユーザには表示されません。各プロジェクトで異なるバケットを使用します。現在、バケットはCloud Volumes Service ボリュームと同じリージョンにありますが、その他のオプションについては現在説明しています。最新のステータスについては、のドキュメントを参照してください。</block>
+  <block id="4e1c6d2a637d959db4ce4a09b3e5c580" category="paragraph">Cloud Volumes Service バケットからGCSへのデータ転送では、HTTPSとTLS1.2を使用したサービス内部のGoogleネットワークが使用されます。データはGoogleが管理するキーで保管中に暗号化されます。</block>
+  <block id="5e467dce18f46b1803b06097fae60b82" category="inline-link">役割/ netappcloudvolumes .admin</block>
+  <block id="de8a90c8653195ed30cc4920de8c7921" category="paragraph">Cloud Volumes Service バックアップの管理（バックアップの作成、削除、リストア）を行うには、が必要です<block ref="595f329bf934dbc7996bb735e9664896" category="inline-link-rx"></block> ロール。</block>
+  <block id="d5588adba169169b3d9fbc3d40fa9e91" category="inline-link-macro">次は、アーキテクチャの概要です。</block>
+  <block id="70c94a86f99e1aa5d40b6ca87c17a399" category="paragraph"><block ref="70c94a86f99e1aa5d40b6ca87c17a399" category="inline-link-macro-rx"></block></block>
+  <block id="6ab0778deb23383f6063990e47d38567" category="summary">Cloud Volumes Service 内のすべてのボリュームはAES-256暗号化を使用して暗号化されます。つまり、メディアに書き込まれたすべてのユーザデータが暗号化され、ボリューム単位のキーでのみ復号化できます。</block>
+  <block id="05a42723f4aebc1b8fea32f0da56f531" category="doc">保存データの暗号化</block>
+  <block id="914e9cc2016ed2891bc115163b671205" category="inline-link-macro">Previous：転送中のデータの暗号化。</block>
+  <block id="3ab72ed338391088a345040cc4ede7e0" category="paragraph"><block ref="3ab72ed338391088a345040cc4ede7e0" category="inline-link-macro-rx"></block></block>
+  <block id="4a41d68019f2643468ef37e122fc87a9" category="list-text">CVS - SWの場合は、Googleで生成されたキーが使用されます。</block>
+  <block id="68056df8fa340722ff859d534da347e4" category="list-text">CVS -パフォーマンスの場合は、ボリューム単位のキーが、Cloud Volumes Service に組み込まれているキー管理ツールに格納されます。</block>
+  <block id="e23c4fadd8e7d70663bc3393bca7d576" category="inline-link">Google Key Management Service（KMS）：</block>
+  <block id="387ccb6d293c8d2f51b2730c375c3f3a" category="paragraph">2021年11月より、顧客管理の暗号化キー（CMEK）機能のプレビューが提供されました。これにより、でホストされているプロジェクトごとのリージョンごとのマスターキーを使用して、ボリュームごとのキーを暗号化できます<block ref="145d140dc09dde7f8aacc53f1269c2de" category="inline-link-rx"></block> KMSを使用すると、外部キー管理ツールを接続できます。</block>
+  <block id="1988a6b2308f38718c8100c2e344eb5c" category="inline-link">お客様が管理する暗号化キーを設定する</block>
+  <block id="811bec2d7b00d479640fbf3259346fe6" category="paragraph">CVS -パフォーマンス用のKMSの設定については、を参照してください<block ref="a0d8b07d63b271255da3bba6f51651a4" category="inline-link-rx"></block>。</block>
+  <block id="6a2064a5b36d77d1da28e1bb96fe613e" category="inline-link-macro">次の例はファイアウォールです。</block>
+  <block id="d78ea12f26e93e819db4dd4772e8cb6e" category="paragraph"><block ref="d78ea12f26e93e819db4dd4772e8cb6e" category="inline-link-macro-rx"></block></block>
+  <block id="13a2c7416db43025d8318ec9db325859" category="summary">転送中のデータはNASプロトコルレイヤで暗号化でき、Google Cloudネットワーク自体は暗号化されます。これについては、次の項で説明します。</block>
+  <block id="f7ccd4455f141bba37dd989458bfd1f3" category="doc">転送中のデータ暗号化</block>
+  <block id="44782cad8de83a97138ea3bcbd36c028" category="inline-link-macro">前の例：データプレーンアーキテクチャ。</block>
+  <block id="9e17ee7c2f94201998bfd10292b5e098" category="paragraph"><block ref="9e17ee7c2f94201998bfd10292b5e098" category="inline-link-macro-rx"></block></block>
+  <block id="8de1715de3864b137091fa8f6d71053f" category="section-title">Google Cloudネットワーク</block>
+  <block id="a94ac9daf8e09a31f9e81f7de9ee7ab6" category="inline-link">転送中の暗号化</block>
+  <block id="57d5b464e5bc1a25ae2337c72e492c88" category="paragraph">Google Cloudは、に記載されているように、ネットワークレベルでトラフィックを暗号化します<block ref="df3d10947a311abbd08a64a5cc9629d3" category="inline-link-rx"></block> Googleのドキュメントを参照してください。「Cloud Volume サービスアーキテクチャ」セクションで説明したように、Cloud Volumes Service は、ネットアップが管理するPSAプロデューサープロジェクトから提供されます。</block>
+  <block id="4322a5ae7fc781564c1349bf92846311" category="paragraph">CVSソフトウェアの場合、プロデューサーテナントはGoogle VMを実行してサービスを提供します。ユーザーVMとCloud Volumes Service VM間のトラフィックは、Googleによって自動的に暗号化されます。</block>
+  <block id="d3072f2789ba193441ddf485cc806a82" category="inline-link">IEEE 802.1AE暗号化（MACSec）</block>
+  <block id="6141361c43c6e429fa93fd0f6f8b2dac" category="inline-link">カプセル化</block>
+  <block id="2a5cd9c0503b957ff28d59f12a8bb05a" category="paragraph">CVSパフォーマンスのデータパスはネットワークレイヤでは完全に暗号化されていませんが、ネットアップとGoogleでは組み合わせて使用しています<block ref="83e770b09a2e800e59cae429b60dde07" category="inline-link-rx"></block>、<block ref="c5a2137e5d30663db35a2f990a0275f0" category="inline-link-rx"></block> （データ暗号化）、および物理的に制限されたネットワークを使用して、Cloud Volumes Service CVS -パフォーマンスサービスタイプとGoogle Cloudの間で転送されるデータを保護します。</block>
+  <block id="95151e0beeb1cf14e98ed9e0e0ebc86f" category="section-title">NASプロトコル</block>
+  <block id="7661437a0dea607fd6013193db5363be" category="paragraph">NFSおよびSMB NASプロトコルは、プロトコルレイヤでオプションのトランスポート暗号化を提供します。</block>
+  <block id="198a269fc15076e5cc8ab572d6711771" category="section-title">SMB暗号化</block>
+  <block id="69c2cd6d510299a43f241a4afbeef373" category="paragraph"><block ref="ebb0763fea63f976f4d3ea586b6fe491" category="inline-link-rx"></block> SMBデータをエンドツーエンドで暗号化し、信頼されていないネットワーク上での盗聴からデータを保護します。クライアント/サーバのデータ接続（smb3.x対応クライアントでのみ使用可能）とサーバ/ドメインコントローラの認証の両方に対して暗号化を有効にできます。</block>
+  <block id="a8c42b910beec902a232a69b59a37847" category="paragraph">SMB暗号化が有効な場合、暗号化をサポートしていないクライアントは共有にアクセスできません。</block>
+  <block id="72635a952bf12498ca4ca124b1a14d51" category="paragraph">Cloud Volumes Service は、SMB暗号化でRC4-HMAC、AES-128 - CTS-HMAC-SHA1、およびAES-256 - HMAC-SHA1セキュリティ暗号をサポートしています。SMBは、サーバによってサポートされている最も高い暗号化タイプとネゴシエートします。</block>
+  <block id="980b28eb45b1ea66cdd07d05e78099a3" category="section-title">NFSv4.1 Kerberos</block>
+  <block id="b97e4c9117cfcc0dd5d7a10e1a7a2631" category="inline-link">RFC7530</block>
+  <block id="69a4f8e652e19cfdfb26e27d4447ae98" category="paragraph">NFSv4.1のCVSパフォーマンスでは、Kerberos認証を使用できます。を参照してください<block ref="526af9c532c496dd16998f764e15dc87" category="inline-link-rx"></block>。Kerberosはボリューム単位で有効にすることができます。</block>
+  <block id="b2833929a77bd8c490997197ed3f00be" category="paragraph">Kerberosで現在使用可能な最も強力な暗号化タイプは、AES-256、HMAC-SHA1です。NetApp Cloud Volumes Service は、NFS用にAES-256 - HMAC-SHA1、AES-128 - HMAC-SHA1、DES3、およびDESをサポートしています。CIFS / SMBトラフィックではARCFOUR-MHMAC（RC4）もサポートされますが、NFSではサポートされません。</block>
+  <block id="59417c70dd426d4c6a1a81a09043bb7b" category="paragraph">Kerberosでは、NFSマウントに対する3つの異なるセキュリティレベルが提供され、Kerberosセキュリティの強固な設定を選択できます。</block>
+  <block id="710c8a535ea62cee124026e31e71a5bd" category="inline-link">Common Mount Options（共通マウントオプション）</block>
+  <block id="224b49d2f24ee42bbb73b2ca635c6d9a" category="paragraph">RedHatの場合と同様です<block ref="1849b335749f623c227052141b2e8b11" category="inline-link-rx"></block> マニュアル：</block>
+  <block id="babd6b3b4aea27ca41d56a231f2625af" category="paragraph">一般的に、Kerberosセキュリティレベルを高くするほど、クライアントとサーバが送信する各パケットのNFS操作の暗号化と復号化に時間を費やすので、パフォーマンスが低下します。多くのクライアントとNFSサーバは、CPUにAES-NIオフロードをサポートして全体的なエクスペリエンスを向上していますが、Kerberos 5p（完全なエンドツーエンドの暗号化）のパフォーマンスへの影響はKerberos 5（ユーザ認証）の影響よりも大幅に大きくなります。</block>
+  <block id="986c123032dbfdac18bc180d1a2c3562" category="paragraph">次の表に、セキュリティとパフォーマンスの各レベルの違いを示します。</block>
+  <block id="f12149bd43eabe8557e021017cfb9b1f" category="cell">セキュリティレベル</block>
+  <block id="af75613ef5351b4f2563e49218c01d5b" category="cell">NFSv3：sys</block>
+  <block id="d65540b3d2f3c15e237b23f6d4d823e5" category="list-text">最小のセキュリティ。数値のユーザIDまたはグループIDを含むプレーンテキスト</block>
+  <block id="2310efb28386099d85b1dbcaf5f9c51f" category="list-text">UID、GID、クライアントIPアドレス、エクスポートパス、ファイル名を表示できる パケットキャプチャの権限</block>
+  <block id="07b50706d3894aa894686195ddeed426" category="list-text">ほとんどの場合に最適です</block>
+  <block id="54fcc149f825f18bfaaa374d6876e25a" category="cell">NFSv4.x - sys</block>
+  <block id="3777f761befcdc3f42a4d77cde2962fe" category="list-text">NFSv3（クライアントID、名前文字列/ドメイン文字列の照合）よりも安全ですが、それでもテキストは表示されません</block>
+  <block id="25199bb4f6f6a3eadd28c84579d0fcf7" category="list-text">UID、GID、クライアントIPアドレス、名前文字列、ドメインIDを表示できる パケットキャプチャでのエクスポートパス、ファイル名、権限</block>
+  <block id="5145a8956e4807aeba5a7a4a1677c598" category="list-text">シーケンシャルワークロード（VM、データベース、大容量ファイルなど）に適している</block>
+  <block id="bc96a40b0174b0ec2f9133e1e704d7cb" category="list-text">ファイル数が多い/メタデータが多い（30~50%悪化）</block>
+  <block id="f25baf1a23f237c73f28b4834def4161" category="cell">NFS—krb5</block>
+  <block id="0661ead41dc806181d0a0bff696e49df" category="list-text">すべてのNFSパケットのクレデンシャルのKerberos暗号化●GSSラッパー内のRPCコールでユーザ/グループのUID/GIDをラップします</block>
+  <block id="b012a8b71e44e4c118c2a97f94c11c1f" category="list-text">マウントを要求しているユーザは、有効なKerberosチケット（ユーザ名とパスワード、または手動のキータブ交換）を必要とします。チケットは指定した期間が経過すると有効期限が切れ、ユーザはアクセスを再認証する必要があります</block>
+  <block id="ab2293d06a9e3594a17eb02b827c471a" category="list-text">NFS処理またはmount / portmapper / NLMなどの補助プロトコル（エクスポートパス、IPアドレス、ファイルハンドル、権限、ファイル名を参照可能）の暗号化なし パケットキャプチャのatime / mtime）</block>
+  <block id="6d140d250a49ec533ff2211674c16138" category="list-text">ほとんどの場合Kerberosに適しており、AUTH_SYSよりも深刻です</block>
+  <block id="bc578f6162e4255fe0d1d4445ec8d975" category="cell">NFS—krb5i</block>
+  <block id="7886fbf427a34b659783d690ee4ad3dd" category="list-text">マウントを要求しているユーザは、有効なKerberosチケット（ユーザ名/パスワードまたは手動のキータブ交換を使用）を必要とします。チケットは指定した期間が経過すると失効し、ユーザはアクセスを再認証する必要があります</block>
+  <block id="49d02d7e5db8eb8139c3777891f63e2e" category="list-text">Kerberos GSSチェックサムが各パケットに追加されるため、パケットを傍受することはありません。チェックサムが一致する場合は、会話が許可されます。</block>
+  <block id="0ea3431437c971e8ac8f271b60694b38" category="list-text">NFSペイロードは暗号化されないため、krb5pよりも優れています。krb5よりも追加されたオーバーヘッドのみが整合性のチェックサムです。krb5iのパフォーマンスはkrb5よりもそれほど悪くはないが、多少の低下が見られる。</block>
+  <block id="facbd78bc28fa0b36f521d74ff5f0cec" category="cell">NFS–krb5p</block>
+  <block id="d11093694c8bd1d8897446e4cf645e48" category="list-text">マウントを要求しているユーザは、有効なKerberosチケット（ユーザ名とパスワード、または手動のkeytab交換を使用）を必要とします。チケットは指定した期間が経過すると有効期限が切れ、ユーザはアクセスを再認証する必要があります</block>
+  <block id="29af1c9e08784f1ef0e42433aef21eee" category="list-text">すべてのNFSパケットペイロードは、GSSラッパーで暗号化されます（パケットキャプチャではファイルハンドル、権限、ファイル名、atime/mtimeを確認できません）。</block>
+  <block id="70aa40903816c1fda65618ae32c56d8b" category="list-text">整合性チェックが含まれます。</block>
+  <block id="3e7dfd7567a414307d5fe93ea83ce4f6" category="list-text">NFSの処理タイプは表示されます（fsinfo、access、GETATTRなど）。</block>
+  <block id="6b375be1f905197ba21c586647e973f4" category="list-text">補助プロトコル（マウント、portmap、NLMなど）は暗号化されません-（エクスポートパス、IPアドレスを参照可能）</block>
+  <block id="6de6f14759a24d6fcb16973384e01c00" category="list-text">セキュリティレベルで最悪のパフォーマンス。krb5pは、暗号化や復号化がさらに必要です。</block>
+  <block id="6640e7cef3ca860543c49a5125ba4c5a" category="list-text">NFSv4.xに加えてkrb5pを使用した方がパフォーマンスが向上し、ファイル数の多いワークロードに対応できます。</block>
+  <block id="abac32415b4bfbaf4765dec9d36149cd" category="paragraph">Cloud Volumes Service では、設定されたActive DirectoryサーバがKerberosサーバおよびLDAPサーバとして使用されます（RFC2307互換スキーマからユーザIDを検索する場合）。それ以外のKerberosサーバまたはLDAPサーバはサポートされません。Cloud Volumes Service では、アイデンティティ管理にLDAPを使用することを強く推奨します。NFS Kerberosがパケットキャプチャにどのように表示されるかについては、を参照してください <block ref="e06a781bd551a4c8ed55a5dfd008a50c" category="inline-link-macro-rx"></block></block>
+  <block id="656b94b95418723e2acea6b86dc53e48" category="inline-link-macro">次の例：保存データの暗号化</block>
+  <block id="6ca1480f90da15333bae5670283ea19f" category="paragraph"><block ref="6ca1480f90da15333bae5670283ea19f" category="inline-link-macro-rx"></block></block>
+  <block id="d1a7050a3a677e1c229160462a179103" category="doc">追加情報 、バージョン履歴、および連絡先情報</block>
+  <block id="b67313323e9670f2b3cc78a36af15174" category="inline-link-macro">Previous：サービスの処理。</block>
+  <block id="5390c35bfa9dd0545fb51b84c8af3252" category="paragraph"><block ref="5390c35bfa9dd0545fb51b84c8af3252" category="inline-link-macro-rx"></block></block>
+  <block id="4780631a0451a6605045de3ace692cc6" category="list-text">Cloud Volumes Service 向けGoogle Cloudドキュメント</block>
+  <block id="6e0173c8a46418c9ee6c916c7c275ef8" category="inline-link"><block ref="6e0173c8a46418c9ee6c916c7c275ef8" category="inline-link-rx"></block></block>
+  <block id="8e65fc49f8ebbf3d9cc9651ce7940654" category="paragraph"><block ref="8e65fc49f8ebbf3d9cc9651ce7940654" category="inline-link-rx"></block></block>
+  <block id="0e8aec42089c0c73812fa42d1888b3c8" category="list-text">Googleプライベートサービスへのアクセス</block>
+  <block id="75956b9ee748b806549eeec3c9a81192" category="inline-link"><block ref="75956b9ee748b806549eeec3c9a81192" category="inline-link-rx"></block></block>
+  <block id="6c84917a571a2282fd9fb2a6f058a11e" category="paragraph"><block ref="6c84917a571a2282fd9fb2a6f058a11e" category="inline-link-rx"></block></block>
+  <block id="02aed7d7f25878a636d26b696ed151bb" category="list-text">ネットアップの製品マニュアル</block>
+  <block id="f670e58416e680d41a98914939ff8b4d" category="list-text">暗号化検証モジュールプログラム—NetApp CryptoMod</block>
+  <block id="904728949094c548bcec2129979a28a6" category="inline-link"><block ref="904728949094c548bcec2129979a28a6" category="inline-link-rx"></block></block>
+  <block id="50dc6dd0a76419597a78231ee45ad7f5" category="paragraph"><block ref="50dc6dd0a76419597a78231ee45ad7f5" category="inline-link-rx"></block></block>
+  <block id="fb35bc32af8e0bce21ef22bad9052b39" category="inline-link"><block ref="0ea855bd074e3e4be70d90c120079c12" category="inline-link-rx"></block></block>
+  <block id="56f0874ab11ee024b4419753f2a3f06f" category="paragraph"><block ref="801eea2aa1601f12cc3d53d718ad33a7" category="inline-link-rx"></block></block>
+  <block id="61eb0e8494826dc8f30af9122fd97664" category="list-text">TR-4616 ：『 NFS Kerberos in ONTAP 』</block>
+  <block id="ed78f5221deba5e60a950d28a62de702" category="inline-link"><block ref="ed78f5221deba5e60a950d28a62de702" category="inline-link-rx"></block></block>
+  <block id="d677acd46c811ecd9bac37aa26d8668c" category="paragraph"><block ref="d677acd46c811ecd9bac37aa26d8668c" category="inline-link-rx"></block></block>
+  <block id="b56a5394775a9f077c12cb3e770d913c" category="cell">2022年5月</block>
+  <block id="1bebe65011b1928d45d041533c04d2b1" category="paragraph">本テクニカルレポートの品質向上について、ご意見をお寄せください。</block>
+  <block id="8b1418ea0c579605e873907335ca62c7" category="paragraph">mailto：doccomments@netapp.com [ doccomments@netapp.com ^]までお問い合わせください。件名にはテクニカルレポート4918を含めてください。</block>
+  <block id="402d245fd6f48d88ea661814c622456e" category="summary">NASプロトコルは、ネットワーク上の複数のクライアントが、GCP上のCloud Volumes Service などのストレージシステム上の同じデータにアクセスするための方法です。NFSとSMBは定義済みのNASプロトコルであり、Cloud Volumes Service がサーバとして機能するクライアント/サーバベースで動作します。</block>
+  <block id="900608117b1be22303e2a172c6d9b280" category="doc">NASプロトコルの基本</block>
+  <block id="d23b6e095547133ec383cdcb0f080e6e" category="inline-link-macro">前のバージョン：NASプロトコルの概要。</block>
+  <block id="8de032a7ba389eddc7880273654515a6" category="paragraph"><block ref="8de032a7ba389eddc7880273654515a6" category="inline-link-macro-rx"></block></block>
+  <block id="b03874a8574793b2c634d05da5dae732" category="paragraph">NASプロトコルは、ネットワーク上の複数のクライアントが、GCP上のCloud Volumes Service などのストレージシステム上の同じデータにアクセスするための方法です。NFSとSMBは定義済みのNASプロトコルであり、Cloud Volumes Service がサーバとして機能するクライアント/サーバベースで動作します。クライアントは、アクセス要求、読み取り要求、および書き込み要求をサーバに送信します。サーバは、ファイルのロックメカニズムを調整し、権限を格納し、IDおよび認証要求を処理します。</block>
+  <block id="86a29faa66a25c7e3fd290cf1e53761c" category="paragraph">たとえば、NASクライアントがフォルダに新しいファイルを作成する場合は、次の一般的なプロセスが実行されます。</block>
+  <block id="817aaff54aa6b5cd0e96c54c0b20ea1d" category="list-text">クライアントは、ディレクトリに関する情報（権限、所有者、グループ、ファイルID、使用可能なスペース、 など）。要求元のクライアントとユーザが親フォルダに対して必要な権限を持っている場合、サーバは情報を返します。</block>
+  <block id="9ec40c2869366ebe8cf1a8c690bb6471" category="list-text">ディレクトリ上のアクセス許可がアクセスを許可されている場合、クライアントは、作成されるファイル名がファイルシステムにすでに存在するかどうかをサーバに確認します。ファイル名がすでに使用されている場合は、の作成に失敗します。ファイル名が存在しない場合、サーバーはクライアントに処理を続行できることを通知します。</block>
+  <block id="83a9d09522edde42d016b5f2649ad9b6" category="list-text">クライアントがサーバを呼び出して、ディレクトリハンドルとファイル名を指定してファイルを作成し、アクセス日時と変更日時を設定します。サーバは、一意のファイルIDをファイルに発行して、同じファイルIDで他のファイルが作成されないようにします。</block>
+  <block id="4884742626257d3e2fee8f3fa6d74f9c" category="list-text">クライアントは、書き込み処理の前に、ファイル属性をチェックする呼び出しを送信します。権限で許可されている場合、クライアントは新しいファイルを書き込みます。プロトコル/アプリケーションでロックが使用されている場合、クライアントは、データ破損を防ぐために、ロック中に他のクライアントがファイルにアクセスできないようにするために、サーバにロックを要求します。</block>
+  <block id="9f36fd781ab1b50b7d007cb7bbd31f1f" category="inline-link-macro">次の例：nfs。</block>
+  <block id="e120d5e9a70a32a053802947c9767294" category="paragraph"><block ref="e120d5e9a70a32a053802947c9767294" category="inline-link-macro-rx"></block></block>
+  <block id="432be93985cd954e5f755048381e528d" category="summary">NFSは、Request for Comments（RFC）で定義されたオープンIETF標準である分散ファイルシステムプロトコルで、誰でもこのプロトコルを実装できます。</block>
+  <block id="ba3cb198ccc0137ff2861f85eff2b3ce" category="inline-link-macro">以前：NASプロトコルの基本原則_overview</block>
+  <block id="2be8e5e3e57aed02dfb62a58afdadfad" category="paragraph"><block ref="2be8e5e3e57aed02dfb62a58afdadfad" category="inline-link-macro-rx"></block></block>
+  <block id="b53dfc952aa9d99343d94971cf6c3fee" category="paragraph">Cloud Volumes Service 内のボリュームは、クライアントまたはクライアントのセットからアクセスできるパスをエクスポートすることによって、NFSクライアントに共有されます。これらのエクスポートをマウントするための権限は、Cloud Volumes Service 管理者が設定可能なエクスポートポリシーとルールによって定義されます。</block>
+  <block id="0e3cb63bde3f98dbd812d470d8b100cf" category="paragraph">ネットアップのNFS実装はプロトコルのゴールドスタンダードとみなされ、無数のエンタープライズNAS環境で使用されています。以降のセクションでは、NFSと、Cloud Volumes Service で使用できる特定のセキュリティ機能、およびそれらの実装方法について説明します。</block>
+  <block id="8b575afc20d2914501471190a68364ed" category="section-title">デフォルトのローカルUNIXユーザおよびグループ</block>
+  <block id="c9f0864944a97085b2897c473c91dccc" category="paragraph">Cloud Volumes Service には、基本的な機能のさまざまなデフォルトUNIXユーザおよびグループが含まれています。このようなユーザおよびグループは、現在変更または削除できません。現在、新しいローカルユーザとローカルグループをCloud Volumes Service に追加することはできません。デフォルトのユーザとグループ以外のUNIXユーザおよびグループは、外部LDAPネームサービスによって提供する必要があります。</block>
+  <block id="8002bcf6ec4e483483e32633f99bee00" category="paragraph">次の表に、デフォルトのユーザとグループ、および対応する数値IDを示します。LDAPまたはローカルクライアントでこれらの数値IDを再使用する新しいユーザまたはグループを作成しないことを推奨します。</block>
+  <block id="0346306b31bbb7a0ae5245da13ec03c4" category="cell">デフォルトユーザ：数値ID</block>
+  <block id="c782adef8851cb8855543f329d548bb2" category="cell">デフォルトグループ：数値ID</block>
+  <block id="a38b2868ff594195dcec8e7fe562b0be" category="list-text">ルート：0</block>
+  <block id="44b4512252320c293616b69743e2a445" category="list-text">pcuser：65534</block>
+  <block id="95312f9502cf30aaff5cbbd3a4585a68" category="list-text">nobody：65535</block>
+  <block id="39fff4671c3793536f3df78e41aed899" category="list-text">デーモン：1.</block>
+  <block id="ffe991bd5946c28affb0a08326a88c3f" category="admonition">NFSv4.1を使用している場合、NFSクライアントでディレクトリリストコマンドを実行すると、rootユーザがnobodyと表示されることがあります。これは、クライアントのIDドメインマッピング設定が原因です。を参照してください <block ref="122d38ffc304701fda2219494370e55a" category="inline-xref-macro-rx"></block> この問題 の詳細および解決方法については、を参照してください。</block>
+  <block id="97d69dfca64d2bd85ec6cc9736cd662b" category="section-title">rootユーザ</block>
+  <block id="767a04b899f673915ec8d6d78f549f3b" category="paragraph">Linuxの場合、rootアカウントはLinuxベースのファイルシステムのすべてのコマンド、ファイル、フォルダにアクセスできます。このアカウントの権限のため、セキュリティのベストプラクティスでは、rootユーザを何らかの方法で無効にしたり制限したりする必要があります。NFSエクスポートでは、エクスポートポリシーとルール、およびroot squashと呼ばれる概念を使用して、rootユーザがファイルやフォルダを経由する際の電力をCloud Volumes Service で制御できます。</block>
+  <block id="7cd60419657f1f0735c557afd44724f0" category="inline-link">setuid / setgidコマンド（スティッキービット）</block>
+  <block id="b95ee7e499b2b5ee7f9c911c9c86f8a2" category="paragraph">rootの引き下げにより、NFSマウントにアクセスしているrootユーザーは、匿名の数値ユーザー65534に引き下げられます（「」を参照）<block ref="07a7b24bc0f7cda943dc05060d1188d8" category="inline-xref-macro-rx"></block>」）に設定されており、現在、CVSパフォーマンスを使用する場合にのみ利用できます。この場合は、エクスポートポリシールールの作成時にrootアクセスにOffを選択します。rootユーザを匿名ユーザに引き下げた場合、chownまたはを実行できなくなります<block ref="451ac5d05b7e3e41db0c92126d9290ad" category="inline-link-rx"></block> NFSマウント内のファイルまたはフォルダ、およびrootユーザが作成したファイルまたはフォルダについては、anon UIDが所有者/グループとして表示されます。また、NFSv4 ACLをrootユーザが変更することはできません。ただし、rootユーザは引き続きchmodにアクセスでき、削除されたファイルは明示的な権限を持っていません。rootユーザーのファイルおよびフォルダのアクセス権へのアクセスを制限する場合は、NTFS ACLを持つボリュームを使用し、「root」という名前のWindowsユーザーを作成し、必要なアクセス権をファイルまたはフォルダに適用することを検討してください。</block>
+  <block id="0b2cc4ee83c7e73e4426e294c95be2c7" category="section-title">匿名ユーザ</block>
+  <block id="f489703ccadc6e9616bab479ace6cf03" category="paragraph">匿名（anon）ユーザIDは、有効なNFSクレデンシャルのないクライアント要求に割り当てられるUNIXユーザIDまたはユーザ名です。これには、rootの引き下げが使用されている場合のrootユーザが含まれます。Cloud Volumes Service のanonユーザは65534です。</block>
+  <block id="48da046d67add0ab58d9cbc2c2da421c" category="paragraph">このUIDは、Linux環境では通常、ユーザ名「nobody」または「nfsnobody」に関連付けられます。Cloud Volumes Service はまた'ローカルUNIXユーザpcuserとして65534を使用します（を参照してください<block ref="21f1cd16f2baec63c7c604945762d1f2" category="inline-xref-macro-rx"></block>「）」と入力します。これは、有効な一致するUNIXユーザがLDAPで見つからない場合に、WindowsからUNIXへのネームマッピングのデフォルトフォールバックユーザでもあります。</block>
+  <block id="1a64786b80a72f5b468ee5a6c27c19bb" category="paragraph">LinuxとCloud Volumes Service のUID 65534ではユーザ名が異なるため、NFSv4.1を使用する場合に65534にマッピングされたユーザの名前文字列が一致しないことがあります。その結果、一部のファイルやフォルダでは「nobody」がユーザーとして表示されることがあります。「」を参照してください<block ref="122d38ffc304701fda2219494370e55a" category="inline-xref-macro-rx"></block>「この問題 の詳細と解決方法については、こちらをご覧ください。</block>
+  <block id="093b885796f6b6edbf133d153a574ee0" category="section-title">アクセス制御/エクスポート</block>
+  <block id="c40a72feaf9e622dcbd1a55edff6fdbf" category="paragraph">NFSマウントに対する最初のエクスポート/共有アクセスは、エクスポートポリシーに含まれるホストベースのエクスポートポリシールールによって制御されます。ホストIP、ホスト名、サブネット、ネットグループ、またはドメインが定義され、NFS共有へのアクセス、およびホストに許可されるアクセスレベルが許可されます。エクスポートポリシールールの設定オプションは、Cloud Volumes Service レベルによって異なります。</block>
+  <block id="519377bf4a5b0a2078c3d66b249040aa" category="paragraph">CVS - SWの場合は、エクスポートポリシー設定に次のオプションを使用できます。</block>
+  <block id="fdbbd602d808015eb2f536ce2add5b6e" category="list-text">*クライアント一致。* IPアドレスをカンマで区切ったリスト、ホスト名、サブネット、ネットグループ、ドメイン名をカンマで区切って指定します。</block>
+  <block id="fb467c38c5af2ca41ea3f09fe535144d" category="list-text">* RO/RWアクセスルール。*エクスポートへのアクセスレベルを制御するには、読み取り/書き込みまたは読み取り専用を選択します。CVS -パフォーマンスには、次のオプションがあります。</block>
+  <block id="4984ee657e0bd2919476369a84dfe159" category="list-text">* RO/RWアクセスルール。*エクスポートへのアクセスレベルを制御するには、読み取り/書き込みまたは読み取り専用を選択します。</block>
+  <block id="3a3236a433ddc1bb46fe40e058aad584" category="list-text">*ルートアクセス（オン/オフ）。*ルートスカッシュを設定します（「」を参照）<block ref="60067fcb7aeefdc389264d741499b983" category="inline-xref-macro-rx"></block>"詳細については、を参照してください。</block>
+  <block id="0c1b0b2a02124e4f1e2111f36d28432e" category="list-text">*プロトコル・タイプ。* NFSマウントへのアクセスを特定のプロトコル・バージョンに制限します。ボリュームに対してNFSv3とNFSv4.1の両方を指定する場合は、両方を空白にするか、両方のチェックボックスをオンにします。</block>
+  <block id="553de93bd85985676f0ef4762f4de2ab" category="list-text">* Kerberosセキュリティレベル（「Kerberosを有効にする」を選択した場合）。*読み取り専用アクセスまたは読み取り/書き込みアクセス用のkrb5、krb5i、およびkrb5pのオプションを提供します。</block>
+  <block id="a98abf6af551f8564e89efb200e37032" category="section-title">所有権の変更（chown）とグループの変更（chgrp）</block>
+  <block id="545978eda72a981e986a37d84621575d" category="paragraph">Cloud Volumes Service でNFSを使用すると、rootユーザに対してファイルとフォルダに対してchown / chgrpの実行のみを許可します。他のユーザーには「操作は許可されていません」というエラーが表示されます。これは、自分が所有しているファイルでもroot squashを使用する場合は、「」の項で説明されているようにしてください<block ref="60067fcb7aeefdc389264d741499b983" category="inline-xref-macro-rx"></block>」）、ルートはrootユーザに引き下げられ、chownおよびchgrpへのアクセスは許可されません。現時点では、Cloud Volumes Service でroot以外のユーザに対してchownとchgrpの両方を実行できるようにするための回避策はありません。所有権の変更が必要な場合は、デュアルプロトコルのボリュームを使用し、Windows側からアクセス権を制御するためにセキュリティ形式をNTFSに設定することを検討してください。</block>
+  <block id="b40637b973f7941123dacf09ceef0fba" category="section-title">権限の管理</block>
+  <block id="b48f3521890100492cddc30349f6e7b2" category="paragraph">Cloud Volumes Service では、UNIXセキュリティ形式を使用するボリュームのNFSクライアントに対する権限を制御するために、モードビット（rwxの場合に644、777など）とNFSv4.1 ACLの両方がサポートされます。標準の権限管理は、これら（chmod、chown、nfs4_setfaclなど）に対して使用し、これらをサポートするすべてのLinuxクライアントで機能します。</block>
+  <block id="a4f4a04396f203764eb677e59aeea059" category="paragraph">また、NTFSに設定されたデュアルプロトコルボリュームを使用する場合、NFSクライアントはWindowsユーザへのCloud Volumes Service ネームマッピングを利用でき、NTFSアクセス権の解決に使用されます。これには、Cloud Volumes Service へのLDAP接続で数値IDからユーザ名への変換が必要です。Cloud Volumes Service では、Windowsユーザ名に正しくマッピングするために有効なUNIXユーザ名が必要です。</block>
+  <block id="40c93306b7b5fa43d5bdeaaf6446b5c8" category="section-title">NFSv3にきめ細かなACLを提供</block>
+  <block id="38244b1450366af1bc12c6d85adcf6d2" category="paragraph">モードビットのアクセス権はセマンティクス上の所有者、グループ、その他すべてのユーザにのみ適用され、基本的なNFSv3については、細かいユーザアクセス制御は行われません。Cloud Volumes Service は、POSIX ACLおよび拡張属性（chattrなど）をサポートしていないため、次のシナリオでのみ詳細なACLを使用できます。</block>
+  <block id="15ad8d0b9866344d62ea9ffa4ae25982" category="list-text">有効なUNIXからWindowsへのユーザマッピングを使用するNTFSセキュリティ形式のボリューム（CIFSサーバが必要）。</block>
+  <block id="c14f9a108935fe84b2ee2c80664062d4" category="list-text">管理クライアントを使用してACLを適用したNFSv4.1 ACL。</block>
+  <block id="b90aebde70afe18a23fa55cafb7bd6e7" category="inline-link-macro">「LDAP」</block>
+  <block id="fc96ac54908c774cd60159cf8c65272e" category="paragraph">どちらの方法でも、UNIX IDを管理するためにLDAP接続が必要です。また、有効なUNIXユーザおよびグループの情報が入力されている必要があります（を参照） <block ref="941c88f858b9781fbfe78651e071df70" category="inline-link-macro-rx"></block>）とは、CVSパフォーマンスインスタンスでのみ使用できます。NFSでNTFSセキュリティ形式のボリュームを使用するには、SMB接続を確立していない場合でも、デュアルプロトコル（SMBおよびNFSv3）またはデュアルプロトコル（SMBおよびNFSv4.1）を使用する必要があります。NFSv3マウントでNFSv4.1 ACLを使用するには、プロトコルタイプとして「both（nfsv3 / NFSv4.1）」を選択する必要があります。</block>
+  <block id="b9fd9ad6fc3c3b72bb1d8b9db35c4ff8" category="inline-link">nfs4_acl - NFSv4アクセス制御リスト</block>
+  <block id="8454ec39d80a4c7dced33aed7bc5cc3c" category="paragraph">通常のUNIXモードビットでは、NTFSまたはNFSv4.x ACLが提供する権限レベルは異なります。次の表に、NFSv3モードビットとNFSv4.1 ACLの権限の単位を比較します。NFSv4.1 ACLの詳細については、を参照してください<block ref="6f8990d4da30b2d9c1096f2d7fdec422" category="inline-link-rx"></block>。</block>
+  <block id="04bf6ba29148b02f9bc0aece8b1ab976" category="cell">NFSv3 モードビット</block>
+  <block id="ec969632045eaebe3e92b63bc00edf03" category="cell">NFSv4.1 ACL</block>
+  <block id="b7073329ceba059aa3ad7875190c661f" category="list-text">実行時にユーザーIDを設定します</block>
+  <block id="573fa671705c50ff1c121cd141dfeb90" category="list-text">実行時にグループIDを設定します</block>
+  <block id="0ab8eb5c98bf5a8e01cc9dc03065fd63" category="list-text">スワップしたテキストを保存する(POSIXでは定義されていません</block>
+  <block id="78e3e57905e586d5d03519b5883d9b49" category="list-text">所有者の読み取り権限</block>
+  <block id="07ea3a6ddfd17ab896abc34a5fb98c32" category="list-text">所有者の書き込み権限</block>
+  <block id="ef1c725ac00a8daafb96e6f926b38e84" category="list-text">ファイルの所有者の実行権限、またはディレクトリ内の所有者の検索（検索）権限</block>
+  <block id="d51cc2a74a686e9f6b08108c215a677e" category="list-text">グループの読み取り権限</block>
+  <block id="6750a7dbc586cfe9c3c1e6fc348bc47f" category="list-text">グループの書き込み権限</block>
+  <block id="66471165b6102256624c1aaa1bf05ef9" category="list-text">ファイル上のグループの実行権限、またはディレクトリ内のグループの検索（検索）権限</block>
+  <block id="860c8444d0dfe3bf1e1818fdbe8c3733" category="list-text">他のユーザーの読み取り許可</block>
+  <block id="95663f359ae8aaa2910488b36c7168fb" category="list-text">他のユーザーの書き込み許可</block>
+  <block id="54384d9f12231abb228dd692b2c7a689" category="list-text">ファイルに対する他のユーザーのアクセス許可を実行するか、ディレクトリ内の他のユーザーの検索(検索)アクセス許可を設定します</block>
+  <block id="4d6deb7613496d18f12d0d0d0fe84ecb" category="paragraph">Access Control Entry（ACE;アクセス制御エントリ）タイプ（Allow/Deny/Audit）*継承フラグ* directory-inherit * file-inherit * no-propage-inherit * inherit-only</block>
+  <block id="13640bb94453faf76256f49439337e2e" category="paragraph">Permissions * read-data（ファイル）/list-directories* write-data（ディレクトリ）* write-data（ファイル）/create-file（ディレクトリ）* append-data/create-subdirectory（ディレクトリ）* execute（ファイル）/change-directory（ディレクトリ）* delete * delete -child * read-write attributes * read-write -named-acl属性* read-write -acl属性* write-owner-acl属性*</block>
+  <block id="0bfe97b6a2010bf8a46c30c256d9bc67" category="paragraph">最後に、NFSグループメンバーシップ（NFSv3とNFSv4.xの両方）は、RPCパケットの制限に従い、AUTH_SYSでのデフォルトの最大数である16に制限されています。NFS Kerberosでは、最大32のグループとNFSv4 ACLが提供され、ユーザおよびグループのACLをより細かく設定できるため（ACEごとに最大1024エントリ）、この制限は解消されます。</block>
+  <block id="27aabeb671232f388e6288cf9395fda9" category="inline-link">NFSボリュームの作成と管理</block>
+  <block id="b42b7de139bf4398a5d4b048ecf30c9f" category="paragraph">さらに、Cloud Volumes Service では、サポートされる最大グループ数を最大32まで拡張する拡張グループサポートが提供されています。そのためには、有効なUNIXユーザおよびグループのIDを含むLDAPサーバへのLDAP接続が必要です。この設定の詳細については、を参照してください<block ref="744e76592290230cb7381c9b8a5414da" category="inline-link-rx"></block> Googleのドキュメントを参照してください。</block>
+  <block id="75812520c9040a205064d0d2cb2263e9" category="section-title">NFSv3のユーザIDとグループID</block>
+  <block id="b1695eaaf5db3491be45228e42d7894f" category="paragraph">NFSv3のユーザIDとグループIDは、名前ではなく数値IDでネットワークに送信される。NFSv3では、UNIXセキュリティ形式のボリュームでモードビットのみを使用する場合、これらの数値IDに対するCloud Volumes Service でのユーザ名の解決は行われません。NFSv4.1 ACLが存在する場合は、NFSv3を使用している場合でも、ACLを適切に解決するために数値ID検索と名前文字列検索が必要です。NTFSセキュリティ形式のボリュームでは、Cloud Volumes Service が数値IDを有効なUNIXユーザに解決してから、有効なWindowsユーザにマッピングして、アクセス権をネゴシエートする必要があります。</block>
+  <block id="c88acee1e86a1d4e088392362c04bb3b" category="section-title">NFSv3のユーザIDとグループIDのセキュリティ制限</block>
+  <block id="51d0cb09f5edabf17b3490e1b53d7b22" category="paragraph">NFSv3では、クライアントとサーバは、ユーザが数値IDで読み取りまたは書き込みを実行しようとしても、有効であることを確認する必要はありません。これは暗黙的に信頼されます。これにより、任意の数値IDをスプーフィングするだけで、ファイルシステムが侵害される可能性があります。このようなセキュリティホールを回避するために、Cloud Volumes Service にはいくつかのオプションがあります。</block>
+  <block id="467b69ba310f54b371bbdbffe09e6497" category="list-text">NFSにKerberosを実装すると、ユーザはユーザ名とパスワードまたはkeytabファイルを使用して認証を受け、Kerberosチケットを取得してマウントにアクセスできるようになります。KerberosはCVS -パフォーマンスインスタンスで使用でき、NFSv4.1でのみ使用できます。</block>
+  <block id="9120b024c7fefc321f0ebc6fee670c59" category="list-text">エクスポートポリシールールでホストのリストを制限することで、Cloud Volumes Service ボリュームにアクセスできるNFSv3クライアントを制限できます。</block>
+  <block id="1b652183dcffb7bab733d50929de6844" category="list-text">デュアルプロトコルボリュームを使用し、NTFS ACLをボリュームに適用すると、NFSv3クライアントは数値IDを有効なUNIXユーザ名に解決して、マウントへのアクセスが正しく認証されるようになります。そのためには、LDAPを有効にし、UNIXのユーザおよびグループのIDを設定する必要があります</block>
+  <block id="8d5c591e079f79f63fd9e9807dc0f747" category="list-text">rootユーザをスクワッシャすると、rootユーザがNFSマウントで実行できる損傷が制限されますが、リスクを完全に排除することはできません。詳細については、「」を参照してください<block ref="60067fcb7aeefdc389264d741499b983" category="inline-xref-macro-rx"></block>」</block>
+  <block id="2013c75e17676506ba3c06142530277a" category="paragraph">最終的に、NFSセキュリティは、使用しているプロトコルのバージョンによって制限されます。NFSv3は、NFSv4.1よりもパフォーマンスが高いのに対し、セキュリティレベルは異なります。</block>
+  <block id="1d9f0263509a5bc0f447962105bb1a92" category="paragraph">NFSv4.1は、次の理由から、NFSv3に比べてセキュリティと信頼性に優れています。</block>
+  <block id="11d0cb4a0817a571de35b1a57bcd7b86" category="list-text">リースベースのメカニズムによる統合ロック</block>
+  <block id="2a7079f12b8b7175a78aa4192442cceb" category="list-text">ステートフルセッション</block>
+  <block id="78d4290f55bf351449981f773525bc0b" category="list-text">1つのポートですべてのNFS機能（2049）</block>
+  <block id="53ec1aa3e51de041ca30580dcd5695db" category="list-text">TCPのみ</block>
+  <block id="762c048886aaa3279e7ff7d4bbe56f5c" category="list-text">IDドメインマッピング</block>
+  <block id="7e6be8eb2ba9a556864cfd20857c1565" category="list-text">Kerberos統合（NFSv3ではKerberosを使用できますが、NFSのみを使用でき、NLMなどの補助プロトコルは使用できません）</block>
+  <block id="1f2bcbb2c0049fcc033a40cb665f19fc" category="section-title">NFSv4.1の依存関係</block>
+  <block id="f83a89d33e724f74ff5a673c34fe9ac6" category="paragraph">NFSv4.1のセキュリティ機能に加えて、NFSv3を使用するために必要とされなかった外部の依存関係もいくつかあります（SMBでActive Directoryなどの依存関係が必要とされる方法と似ています）。</block>
+  <block id="0e8ff8f10d56a8534800018ecdbcbfb7" category="paragraph">Cloud Volumes Service では、NFSv4.x ACLがサポートされています。NFSv4.x ACLは、次のような通常のPOSIX形式の権限とは異なる利点があります。</block>
+  <block id="e7c21967cc185dee47ba9548ba30b26e" category="list-text">ファイルやディレクトリへのユーザアクセスの詳細な制御</block>
+  <block id="a5e0d0cbd4020f568d08cdaed3dedd6b" category="list-text">NFS セキュリティが向上します</block>
+  <block id="fd272c227f4884473fc1b4409d1fa6f0" category="list-text">CIFS / SMBとの相互運用性が向上しました</block>
+  <block id="1c0d9e3bfe82d85776be6deeefb1b8d1" category="list-text">AUTH_SYSのセキュリティが設定された、ユーザあたり16個のグループに関するNFSの制限を削除</block>
+  <block id="37c82add6470c2f73fad45f1e887f214" category="list-text">ACLはグループID（GID）の解決の必要性をバイパスします。これにより、実質的にGIDの制限を解除することができ、Cloud Volumes Service からではなくNFSクライアントからNFSv4.1 ACLが制御されます。NFSv4.1 ACLを使用するには、クライアントのソフトウェアバージョンでサポートされていること、および適切なNFSユーティリティがインストールされていることを確認してください。</block>
+  <block id="f497540fbfe4bb6c8784249b7ca44322" category="section-title">NFSv4.1 ACLとSMBクライアントの互換性</block>
+  <block id="b18893becc5c5979b433330d581d0502" category="paragraph">NFSv4 ACLはWindowsのファイルレベルのACL（NTFS ACL）とは異なりますが、同様の機能を備えています。ただし、マルチプロトコルNAS環境でNFSv4.1 ACLが存在し、デュアルプロトコルアクセス（同じデータセットでNFSおよびSMB）を使用している場合、SMB2.0以降を使用するクライアントは、WindowsのセキュリティタブでACLを表示または管理できません。</block>
+  <block id="e24382a2de980eb4d0fad087c2279291" category="section-title">NFSv4.1 ACLの仕組み</block>
+  <block id="65da9b80e25e8e6b76e6f95a27e33773" category="paragraph">参考のために、次の用語が定義されています。</block>
+  <block id="3f33ebc7aedc435f5da6f0cdb363e903" category="list-text">*アクセス制御リスト(ACL)。*アクセス権エントリのリスト。</block>
+  <block id="e8b619b2feea9964d68e458010421937" category="list-text">*アクセス制御エントリ(ACE)。*リスト内のアクセス許可エントリ。</block>
+  <block id="e22c8ddaa933012f7b9658b15556e1d9" category="paragraph">クライアントがSETATTR操作でファイルにNFSv4.1 ACLを設定すると、Cloud Volumes Service は既存のACLに替わってそのACLをオブジェクトに設定します。ファイルにACLが設定されていない場合、ファイルのモード権限はOWNER@、GROUP@、およびEVERYONE@から計算されます。ファイルにSUID / SGID / STICKYのいずれかのビットが設定されている場合、それらのビットは影響を受けません。</block>
+  <block id="bbfc3dd393a8c0fb0275a317ea92cdb6" category="paragraph">クライアントがGETATTR操作でファイルのNFSv4.1 ACLを取得すると、Cloud Volumes Service はオブジェクトに関連付けられたNFSv4.1 ACLを読み取り、ACEのリストを作成してクライアントに返します。ファイルにNT ACLまたはモードビットが設定されている場合は、モードビットからACLが構築されてクライアントに返されます。</block>
+  <block id="e91b7b9c71eaf21c16d5232d74f4c5c3" category="paragraph">ACLにDENY ACEが存在する場合はアクセスが拒否され、ALLOW ACEが存在する場合はアクセスが許可されます。ただし、ACLにどちらのACEも存在しない場合も、アクセスが拒否されます。</block>
+  <block id="85e34118580ac115f838cd805832291e" category="paragraph">セキュリティ記述子は、セキュリティACL（SACL）と随意ACL（DACL）で構成されます。NFSv4.1がCIFS / SMBと連動する場合は、DACLはNFSv4とCIFSに1対1でマッピングされます。DACLは、ALLOW ACEとDENY ACEで構成されます。</block>
+  <block id="f26fe9c5bd9a38964b075295ff6b600f" category="paragraph">NFSv4.1 ACLが設定されたファイルまたはフォルダに対して基本的なchmodを実行すると、既存のユーザおよびグループのACLは維持されますが、デフォルトのOWNER@、GROUP@、およびEVERYONE@ ACLが変更されます。</block>
+  <block id="51cdc67f907418899df11513b246dd1c" category="inline-link">継承フラグ</block>
+  <block id="bfb9f4f4e0b3ee74bbf0624c3acb6f05" category="paragraph">NFSv4.1 ACLを使用するクライアントは、システム上のファイルとディレクトリにACLを設定し、そのACLを表示することができます。ACLが設定されているディレクトリ内にファイルやサブディレクトリを新しく作成すると、そのオブジェクトは、該当するACLでタグ付けされているACEをすべて継承します<block ref="efe32d9e162a0a9bfdfda1b55921a64c" category="inline-link-rx"></block>。</block>
+  <block id="4ede33bb65432e74e322d690608c2334" category="paragraph">ファイルまたはディレクトリにNFSv4.1 ACLが設定されている場合、そのACLを使用して、ファイルまたはディレクトリへのアクセスにどのプロトコルが使用されるかに関係なく、アクセスが制御されます。</block>
+  <block id="0d733f1633c2aa51a107a6e21dfd5644" category="paragraph">親ディレクトリのNFSv4 ACLのACEに正しい継承フラグが設定されていれば、ファイルやディレクトリは該当するACEを継承します（必要な変更が加えられる可能性があります）。</block>
+  <block id="a61aaa9a4f599d5b80e71c232d23147a" category="paragraph">ファイルやディレクトリがNFSv4要求によって作成される場合、作成されるファイルやディレクトリのACLは、ファイル作成要求にACLが含まれているか、または標準のUNIXファイルアクセス権限のみが含まれているかによって異なります。また、親ディレクトリにACLが設定されているかどうかによっても異なります。</block>
+  <block id="5ac8b682abcf5cc600bff1df60b6eeb0" category="list-text">要求に ACL が含まれる場合は、その ACL が使用されます。</block>
+  <block id="68d4655ff3b6740e5735fd80c7910023" category="list-text">要求に標準の UNIX ファイルアクセス権限のみが含まれ、親ディレクトリに ACL がない場合は、クライアントのファイルモードを使用して標準の UNIX ファイルアクセス権限が設定されます。</block>
+  <block id="2cf6ef9c801da66f5a80033edc51acf8" category="list-text">要求に標準UNIXファイルアクセス権限のみが含まれ、親ディレクトリに継承できないACLがある場合は、要求で渡されたモードビットに基づいてデフォルトのACLが設定されます。</block>
+  <block id="c1eac2f9759f1dd2f7680287789d03f9" category="list-text">要求に標準 UNIX ファイルアクセス権限のみが含まれ、親ディレクトリに ACL がある場合、親ディレクトリの ACL の ACE に適切な継承フラグのタグが付けられていれば、それらの ACE が新しいファイルやディレクトリに継承されます。</block>
+  <block id="1aeffd8cf8d8faca5f1d6379d7ad7b42" category="section-title">ACE権限</block>
+  <block id="be30a66f742a1c4b197f654c5456f525" category="inline-link">方法: NFSv4 ACLを使用します</block>
+  <block id="1e0ba766d5b81a0076401367c75ba49d" category="paragraph">NFSv4.1 ACLの権限では、大文字と小文字のアルファベットの一連の値（「rxtncy」など）を使用してアクセスが制御されます。これらの文字の値の詳細については、を参照してください<block ref="19e15d2b871d5802ed53b8bb943cfa1d" category="inline-link-rx"></block>。</block>
+  <block id="e5db87d9c7835194478e833b1c2341a3" category="section-title">umaskおよびACLの継承が設定されたNFSv4.1 ACLの動作</block>
+  <block id="2d01b8b9abf1cd5dd5dc3a87babfa478" category="inline-link">NFSv4 ACLでは、ACLを継承することができます</block>
+  <block id="90f70b82033cb9c398aab9c2ab8e4b97" category="inline-link">ACL継承フラグ</block>
+  <block id="b40177dea06ae321d6ba903c296a8bf4" category="paragraph"><block ref="a4a4eca6555a8c7e71d54636b6d02bd2" category="inline-link-rx"></block>。ACLの継承では、NFSv4.1 ACLが設定されているオブジェクトの下に作成されるファイルやフォルダに、の設定に基づいてACLを継承することができます<block ref="0dfdf6ea7cd5f3c14c3e752e09504ece" category="inline-link-rx"></block>。</block>
+  <block id="e3847e2a1d0d27fe2e50f7b68080126e" category="inline-link">umask</block>
+  <block id="391e42635de569b9fd15585f0b03777a" category="inline-link">RFC 5661</block>
+  <block id="a5147a6538ae36d50a705033dee8e1ea" category="paragraph"><block ref="63bfc707387dfd47bf50e485c5b4d27f" category="inline-link-rx"></block> は、管理者とのやり取りなしでディレクトリ内にファイルやフォルダを作成する権限レベルを制御するために使用します。デフォルトでは、Cloud Volumes Service は継承されたACLをumaskによって上書きします。これは、の想定される動作です<block ref="c202d210fe4151f93fd56939449ae558" category="inline-link-rx"></block>。</block>
+  <block id="c283f512453dfbe4a4d54a5de963c63a" category="section-title">ACLのフォーマット</block>
+  <block id="af26ba96448cb4f36fa75d37c0c24884" category="paragraph">NFSv4.1 ACLには特定の形式があります。次の例は、ファイルに設定されたACEを示しています。</block>
+  <block id="90bdfef72a7e9f73c8492c28764bfecc" category="paragraph">上記の例では、のACL形式のガイドラインに従います。</block>
+  <block id="7d665626903fe1069f3c052eb3b93597" category="inline-link"><block ref="7d665626903fe1069f3c052eb3b93597" category="inline-link-rx"></block></block>
+  <block id="192707027419e02a79fe3b9af5a845c4" category="paragraph">「A」のタイプは「許可」を意味します。 継承フラグはこの場合は設定されません。これは、プリンシパルがグループではなく、継承も含まれないためです。また、ACEは監査エントリではないため、監査フラグを設定する必要もありません。NFSv4.1 ACLの詳細については、を参照してください<block ref="588b628ed19e81b60db990218fbd0aa2" category="inline-link-rx"></block>。</block>
+  <block id="767a03c18193757348519856b05f7d1c" category="paragraph">NFSv4.1 ACLが適切に設定されていない場合（またはクライアントとサーバが名前文字列を解決できない場合）、ACLが想定どおりに動作しないか、ACLの変更を適用できずにエラーがスローされる可能性があります。</block>
+  <block id="e0ad83b43ccb7e44bcdb46bcdc1189d9" category="paragraph">エラーの例は次のとおりです。</block>
+  <block id="bf837e35002530c307569ba2ec195e9a" category="section-title">明示的なDENY</block>
+  <block id="68a14c985893a66fdf24403b891ddc6c" category="paragraph">NFSv4.1の権限では、OWNER、GROUP、およびEVERYONEに対する明示的なDENY属性を含めることができます。これは、NFSv4.1 ACLがdefault-denyであるためです。つまり、ACEによってACLが明示的に許可されなければ、ACLは拒否されます。明示的なDENY属性は、明示的なアクセスACEを上書きします。</block>
+  <block id="22759a58413e45c1ab8a0a53300ea43c" category="paragraph">拒否ACEは'D'の属性タグで設定されます</block>
+  <block id="3bce872a832106c5038ea04d532162ba" category="paragraph">次の例では、group@はすべての読み取りおよび実行権限を許可していますが、すべての書き込みアクセスは拒否されています。</block>
+  <block id="8b4ed201924d12a3d0ec41f5538460b2" category="paragraph">DENY ACEは複雑で混乱を招く可能性があるため、できるかぎり使用しないでください。明示的に定義されていないACLは暗黙的に拒否されます。DENY ACEを設定すると、アクセスを許可されるはずのユーザがアクセスを拒否される場合があります。</block>
+  <block id="fb976fa579c74ac9e0b64ac922a938d7" category="paragraph">上記の一連のACEは、モードビットの755に相当します。つまり、次のようになります。</block>
+  <block id="de9d71e2841fbf06bf2e96e40b0655d0" category="list-text">所有者にはフルアクセス権があります。</block>
+  <block id="391533122a44e47fc6d7eed8f3d46152" category="list-text">グループは読み取り専用です。</block>
+  <block id="233c314243fd8ff0f129355150358c9b" category="list-text">読み取り専用のものもあります。</block>
+  <block id="004367158d382df49675a222d852e2c2" category="paragraph">ただし、775と等しくなるように権限が調整されていても、EVERYONEに明示的なDENYが設定されているとアクセスが拒否される可能性があります。</block>
+  <block id="c9533a3d4ca28b597d9e4f0b7c2d7d28" category="section-title">NFSv4.1 IDドメインのマッピングの依存関係</block>
+  <block id="b8c7283821c3d4795f01644c47598298" category="paragraph">NFSv4.1では、セキュリティレイヤとしてIDドメインのマッピングロジックを利用して、NFSv4.1マウントへのアクセスを試みるユーザが、そのユーザの要求を実際に把握できるかどうかを検証します。このような場合は、NFSv4.1クライアントからのユーザ名とグループ名に名前文字列が付加されて、Cloud Volumes Service インスタンスに送信されます。ユーザ名/グループ名とID文字列の組み合わせが一致しない場合は'クライアントの/etc/idmapd.confファイルに指定されているデフォルトのnobodyユーザにユーザまたはグループが引き下げられます</block>
+  <block id="5aec5d2b81e4e7bc2bb96b8eee7f6a1f" category="paragraph">このID文字列は、特にNFSv4.1 ACLやKerberosを使用している場合に、適切な権限を順守するための要件です。そのため、ユーザやグループの名前IDが正しく解決されるように、クライアントとCloud Volumes Service 間で一貫性を確保するためには、LDAPサーバなどのネームサービスサーバに依存する必要があります。</block>
+  <block id="ea6c924c6846969cae29ab27aa4c3d9e" category="paragraph">Cloud Volumes Service は'静的なデフォルトIDドメイン名値defaultv4iddomain.comを使用しますNFSクライアントはデフォルトで'IDドメイン名設定のDNSドメイン名になりますが'/etc/idmapd.confでIDドメイン名を手動で調整できます</block>
+  <block id="a524142e9e2e4c80b2545aea06b82fb6" category="paragraph">Cloud Volumes Service でLDAPが有効になっている場合、Cloud Volumes Service はNFS IDドメインを自動化して、DNSの検索ドメインに設定されている内容に変更します。クライアントは、別のDNSドメイン検索名を使用しない限り、変更する必要はありません。</block>
+  <block id="13c371145cb8e423bcc06c41dafa7d27" category="paragraph">Cloud Volumes Service がローカルファイルまたはLDAPでユーザ名またはグループ名を解決できる場合は、ドメイン文字列が使用され、一致しないドメインIDが引き下げられてnobodyになります。ローカルファイルまたはLDAPでユーザ名またはグループ名が見つからない場合Cloud Volumes Service は、数値のID値が使用され、NFSクライアントが名前を適切に解決します（NFSv3の動作と似ています）。</block>
+  <block id="2920d1231c77a15a148be7e24a4224a8" category="paragraph">クライアントのNFSv4.1 IDドメインを、Cloud Volumes Service ボリュームで使用されているものと一致するように変更しないと、次のような動作が発生します。</block>
+  <block id="cf7f7139ed9bd9c2ce206642dd7fa858" category="list-text">Cloud Volumes Service 内にローカルエントリがあるUNIXユーザおよびグループ（ローカルのUNIXユーザとグループで定義されているrootなど）は、nobody値に引き下げられます。</block>
+  <block id="b4aa27a84e1a2079915902824805faed" category="list-text">LDAP内にエントリがあるUNIXユーザおよびグループ（Cloud Volumes Service でLDAPを使用するように設定されている場合）は、NFSクライアントとCloud Volumes Service でDNSドメインが異なる場合、そのハッシュがnobodyに引き下げられます。</block>
+  <block id="ef7ad0d3015777d2990a6af6b71f374b" category="list-text">ローカルエントリやLDAPエントリがないUNIXユーザおよびグループは、数値ID値を使用して、NFSクライアントで指定された名前に解決されます。クライアントに名前が存在しない場合は、数値IDのみが表示されます。</block>
+  <block id="62dcf28b3972264f1b30c2bd51a03def" category="paragraph">上記のシナリオの結果を次に示します。</block>
+  <block id="696c02f546b2ffcdac74d99c917daa24" category="paragraph">クライアントとサーバIDのドメインが一致した場合、同じファイルリストが表示されます。</block>
+  <block id="406ef9702da9a43b3a7b54a25411d799" category="paragraph">この問題 とその解決方法の詳細については、「」を参照してください<block ref="122d38ffc304701fda2219494370e55a" category="inline-xref-macro-rx"></block>」</block>
+  <block id="feb3aa3308fe030fd35a38b78a2300bd" category="section-title">Kerberosの依存関係</block>
+  <block id="40bbfae3ce12130d42058c7017ceb5ed" category="paragraph">NFSでKerberosを使用する場合は、Cloud Volumes Service で次の要件を満たす必要があります。</block>
+  <block id="97a82eff6d3d292af521c01da598a578" category="list-text">Kerberosキー配布センターサービス（KDC）用のActive Directoryドメイン</block>
+  <block id="7539d3051db830d97dee8f6d5d504289" category="list-text">LDAP機能のUNIX情報を入力したユーザおよびグループの属性を持つActive Directoryドメイン（Cloud Volumes Service のNFS Kerberosでは、正常に機能するためにユーザのSPNからUNIXユーザのマッピングが必要です）。</block>
+  <block id="39780a85d8e7edcc28fd4bc1f6b379f9" category="list-text">Cloud Volumes Service インスタンスでLDAPが有効になっている</block>
+  <block id="9b306ebe81f909f9a456adcadd197090" category="list-text">DNSサービスのActive Directoryドメインを指定します</block>
+  <block id="3f1e5b600401b83c49c16e0c80170842" category="section-title">NFSv4.1およびnobodyユーザ/グループ</block>
+  <block id="5c79e57a072b5ea9e69b08395268c3fe" category="paragraph">NFSv4.1設定でよく見られる問題の1つは、「user:group」の「nobody：nobody」の組み合わせによって所有されている「ls」を使用して一覧にファイルまたはフォルダが表示される場合です。</block>
+  <block id="2436a7de6f774d774219a86839e40d54" category="paragraph">数値IDは「99」です。</block>
+  <block id="89429eb5e6061e2e0b04707c39588b82" category="paragraph">場合によっては、ファイルに正しい所有者が表示されることもありますが、グループとして「nobody」が表示されることもあります。</block>
+  <block id="8155be8c03c24d2ae2a39ba5b9659708" category="paragraph">誰もいないのですか？</block>
+  <block id="01e2f333d529d07a7774464ebe7c0d52" category="paragraph">NFSv4.1のnobodyユーザはnfsnobodyユーザとは異なりますNFSクライアントが各ユーザーをどのように認識するかを表示するには'id'コマンドを実行します</block>
+  <block id="bb1a16c53f7bf27e8010e55518128316" category="paragraph">NFSv4.1では'idmapd.confファイルによって定義されたデフォルトのユーザである'nobod'ユーザを使用する任意のユーザとして定義できます</block>
+  <block id="25df38609547f38c12a30d2f7fa376e3" category="paragraph">なぜそうなるのでしょうか？</block>
+  <block id="0c52fa2fe9ffee5f1757712d7b9151d3" category="paragraph">NFSv4.1の処理では、ネーム文字列マッピングによるセキュリティが重要な条件となるため、名前文字列が適切に一致しない場合のデフォルトの動作は、ユーザとグループが所有するファイルやフォルダに通常アクセスできないユーザの引き下げです。</block>
+  <block id="ee345fce71ab8dd58d64ab30df90665d" category="paragraph">ファイルの一覧にユーザまたはグループの「nobody」が表示される場合は、通常、NFSv4.1の設定が誤っています。ここでは、大文字と小文字の区別が使用されます。</block>
+  <block id="6f0eaeb67bf8645d4cb5b6d6634d62e9" category="paragraph">たとえば、user1@CVSDEMO.LOCA L（uid 1234、gid 1234）がエクスポートにアクセスしている場合、Cloud Volumes Service はuser1@CVSDEMO.LOCA L（uid 1234、gid 1234）を検索できる必要があります。Cloud Volumes Service のユーザがUSER1@CVSDEMO.LOCA Lの場合、ユーザは一致しません（大文字のUSER1と小文字のuser1）。多くの場合、クライアント上のメッセージファイルに次の情報が表示されます。</block>
+  <block id="501dfba2ca7e696ebe3828fe0a72358d" category="paragraph">クライアントとサーバーは、ユーザーが実際に誰を要求しているかに同意する必要があります。そのため、Cloud Volumes Service が表示するユーザーと同じ情報がクライアントに表示されることを確認するには、次の項目を確認する必要があります。</block>
+  <block id="c45f88d46edf246ef524b5ae57bfd939" category="list-text">*NFSv4.x ID domain.* Client:idmapd.confファイル。Cloud Volumes Service は「defaultv4iddomain.com」を使用しており、手動で変更することはできません。Cloud Volumes Service でNFSv4.1を使用する場合、DNS検索ドメインのIDドメインが、ADドメインと同じになるように変更されます。</block>
+  <block id="4ad682a8c77e394fdf80dd7dc8013933" category="list-text">*ユーザー名と数値ID。*これは、クライアントがユーザー名を検索し、ネームサービススイッチ構成を利用する場所を決定します。client:nsswitch.conf'ローカルpasswdファイルとgroupファイルのいずれかまたは両方を使用します。Cloud Volumes Service では、この変更は許可されませんが、有効になっている場合は自動的にLDAPが構成に追加されます。</block>
+  <block id="278ba27763f1a046a43e86bd394f831b" category="list-text">*グループ名と数値ID。*これは、クライアントがグループ名を検索し、ネームサービススイッチ構成を利用する場所を決定します。client:nsswitch.conf'ローカルpasswdおよびgroupファイルのいずれかまたは両方を使用します。Cloud Volumes Service では、この変更は許可されていませんが、有効になっている場合は自動的にLDAPが構成に追加されます。</block>
+  <block id="6b9ce9cbf95dd872dc03e91534746dc9" category="paragraph">ほとんどの場合、クライアントからのユーザおよびグループの一覧に「nobody」が表示された場合、問題 はCloud Volumes Service とNFSクライアント間でのユーザまたはグループの名前ドメインIDの変換です。この状況を回避するには、LDAPを使用して、クライアントとCloud Volumes Service 間でユーザおよびグループの情報を解決します。</block>
+  <block id="55c4b4ea1ecc6c7d5d39c90a0b42830f" category="section-title">クライアントでのNFSv4.1の名前ID文字列の表示</block>
+  <block id="c194a1cc7281e9894e494f5ccc1267d9" category="paragraph">NFSv4.1を使用している場合、前述のように、NFS処理で実行される名前文字列のマッピングが存在します。</block>
+  <block id="600a8e1223f644dfc8fc6d9eaf7c6585" category="inline-link">nfsidmap -l</block>
+  <block id="315b0c6cb599d172afa3879fb5aff687" category="paragraph">/var/log/messagesを使用してNFSv4 IDを持つ問題 を検索することに加え、を使用することもできます<block ref="b0f2e0837ffda1ff0550aeef038779e7" category="inline-link-rx"></block> NFSクライアント上でコマンドを実行すると、NFSv4ドメインに適切にマッピングされているユーザ名が表示されます。</block>
+  <block id="c72321f4072e32fa1625318fcee53b38" category="paragraph">たとえば、クライアントで検出されたユーザとCloud Volumes Service がNFSv4.xマウントにアクセスすると、次のようなコマンドが出力されます。</block>
+  <block id="7fdd86c292924f1df8a7d9127ece25dc" category="paragraph">NFSv4.1 IDドメインに適切にマッピングされていないユーザ（この場合「netapp -user」）が同じマウントにアクセスしてファイルにアクセスしようとすると、「nobody：nobody」が割り当てられます（想定どおり）。</block>
+  <block id="bf667093961d1f59e9282ef8a28d89f7" category="paragraph">「nfsidmap -l」の出力には、ユーザ「pcuser」が表示されますが、「NetApp-user」は表示されません。これは、エクスポートポリシールールの匿名ユーザ（「65534」）です。</block>
+  <block id="5ec4dbbd0b1975ade000088ec562aebe" category="inline-link-macro">次：SMB。</block>
+  <block id="a1989578ae6cff04ad5b049565c028a6" category="paragraph"><block ref="a1989578ae6cff04ad5b049565c028a6" category="inline-link-macro-rx"></block></block>
+  <block id="f054dd8cc88786d8030b18d90271f377" category="summary">Cloud Volumes Service は、複数のTCPポートを公開してNFS共有とSMB共有を提供します。</block>
+  <block id="c5381dc540506dbb210e2d300554e4cd" category="doc">ファイアウォール：</block>
+  <block id="3081ff6911f8297ddc53dab3c34d0811" category="inline-link-macro">Previous：保存データの暗号化。</block>
+  <block id="4591bc0b4ed2ba115e753bad56145791" category="paragraph"><block ref="4591bc0b4ed2ba115e753bad56145791" category="inline-link-macro-rx"></block></block>
+  <block id="1e45092c94634e40f68ce647e16109a4" category="paragraph">Cloud Volumes Service は、複数のTCPポートを公開してNFS共有とSMB共有に対応します。</block>
+  <block id="8ace993e6a8c37342617dbf22185890a" category="inline-link">NFSアクセスに必要なポート</block>
+  <block id="c56328227fc3affbe6ed0ef4ba04f494" category="list-text"><block ref="c56328227fc3affbe6ed0ef4ba04f494" category="inline-link-rx"></block></block>
+  <block id="259c7a7ef42d8165caa2c0238cb6f9fe" category="inline-link">SMBアクセスに必要なポート</block>
+  <block id="c6563340810489dd712f25c2644eaed8" category="list-text"><block ref="c6563340810489dd712f25c2644eaed8" category="inline-link-rx"></block></block>
+  <block id="48e54afcf03ca45bfe38f6b7ff58764a" category="inline-link">を設定します</block>
+  <block id="2957bc03d53f1be7c11d427906ed1479" category="inline-link">DNSベースのDC検出</block>
+  <block id="150a343c955aa3114dca2e9c39571ad8" category="paragraph">さらに、Kerberosを含むLDAPを使用するSMB、NFS、およびデュアルプロトコル構成では、Windows Active Directoryドメインへのアクセスが必要になります。Active Directory接続はである必要があります<block ref="10ec0b3d8ec2c3b73be0dd7483e61c9e" category="inline-link-rx"></block> 地域単位で指定します。Active Directoryドメインコントローラ（DC）は、で識別できます<block ref="821541d595f9fee8c67d91aa5da861b4" category="inline-link-rx"></block> 指定したDNSサーバを使用しています。返されるDCはすべて使用されます。対象となるDCのリストは、Active Directoryサイトを指定することによって制限できます。</block>
+  <block id="02d7b2e18b6bb033bf88be07d39aab4c" category="inline-link">Cloud Volumes Service への参加</block>
+  <block id="7a9b1188e66f0581af9bc76ec3099a55" category="paragraph">Cloud Volumes Service は、「gcloud compute address」コマンドで割り当てられたCIDR範囲のIPアドレスで到達します<block ref="e8e0c669039859d9678de67879e03e1d" category="inline-link-rx"></block>。このCIDRをソースアドレスとして使用して、Active Directoryドメインコントローラへのインバウンドファイアウォールを設定できます。</block>
+  <block id="934adb56d62c2e8a1334785cbb6d4987" category="inline-link">ここで説明したCloud Volumes Service CIDRsにポートを公開します</block>
+  <block id="60bb23c83a123fdd2c99980eb34c8f80" category="paragraph">Active Directoryドメインコントローラは必須です<block ref="7b35a292c67c7ee0f89d3dd389e188e4" category="inline-link-rx"></block>。</block>
+  <block id="fa995eb117a30c2365b6a07bf00e36e4" category="inline-link-macro">次：NASプロトコルの概要</block>
+  <block id="6160acafbed3bd228bd0703f2991a4cb" category="paragraph"><block ref="6160acafbed3bd228bd0703f2991a4cb" category="inline-link-macro-rx"></block></block>
+  <block id="4a3327b1b286d1e67b6b26ccadab7e11" category="paragraph">mailto：doccomments@netapp.com [ doccomments@netapp.com ^]までお問い合わせください。件名にはテクニカルレポート4918を含めてください。</block>
+  <block id="8a7d64073f6ea3e3562e48ad7babe165" category="summary">NASプロトコルには、NFS（v3およびv4.1）とSMB / CIFS（2.xおよび3.x）があります。CVSでは、これらのプロトコルを使用して、複数のNASクライアント間でデータへの共有アクセスが許可されます。また、Cloud Volumes Service は、NAS共有内のファイルやフォルダのIDおよび権限の設定をすべて満たしながら、NFSクライアントとSMB / CIFSクライアントへのアクセスを同時に提供（デュアルプロトコル）できます。</block>
+  <block id="90654829f21fcf187b576a4c4bad0d65" category="doc">NASプロトコルの概要</block>
+  <block id="571468eb1eb9e9369a3f638191a66df7" category="inline-link-macro">前のバージョン：ファイアウォール。</block>
+  <block id="01d123c65f0dd57ade00e4f9754df7de" category="paragraph"><block ref="01d123c65f0dd57ade00e4f9754df7de" category="inline-link-macro-rx"></block></block>
+  <block id="2ea1602d2ad8b38f601e3e9a049c625d" category="paragraph">NASプロトコルには、NFS（v3およびv4.1）とSMB / CIFS（2.xおよび3.x）があります。CVSでは、これらのプロトコルを使用して、複数のNASクライアント間でデータへの共有アクセスが許可されます。また、Cloud Volumes Service は、NAS共有内のファイルやフォルダのIDおよび権限の設定をすべて満たしながら、NFSクライアントとSMB / CIFSクライアントへのアクセスを同時に提供（デュアルプロトコル）できます。最高レベルのデータ転送セキュリティを維持するため、Cloud Volumes Service は、SMB暗号化とNFS Kerberos 5pを使用して転送中のプロトコル暗号化をサポートしています。</block>
+  <block id="4fbbc372dd84225f54ba28f08d3ff4c7" category="admonition">デュアルプロトコルはCVSパフォーマンスでのみ使用できます。</block>
+  <block id="51f1eaeaea4deb044aabf0797f51c5c0" category="inline-link-macro">次は、NASプロトコルの基本です。</block>
+  <block id="fcb7e93b14f588cd063c2c111732d865" category="paragraph"><block ref="fcb7e93b14f588cd063c2c111732d865" category="inline-link-macro-rx"></block></block>
+  <block id="be0bbf78cc02e3b8c5c134bc7dd71544" category="summary">Cloud Volumes Service に対する管理操作は、すべてAPIを通じて実行されます。GCPクラウドコンソールに統合されたCloud Volumes Service 管理でも、Cloud Volumes Service APIを使用します。</block>
+  <block id="dd03419f7f2124dca2e83694ae1b7211" category="doc">コントロールプレーンのアーキテクチャ</block>
+  <block id="1d2a3e9b2f45b43494c66482366a665a" category="inline-link-macro">以前のバージョン：Cloud Volumes Service アーキテクチャ。</block>
+  <block id="f73a9343c8393a91c87eda2847dfab85" category="paragraph"><block ref="f73a9343c8393a91c87eda2847dfab85" category="inline-link-macro-rx"></block></block>
+  <block id="791716f366839a73d41b8ac1ae95bad0" category="section-title">IDおよびアクセス管理</block>
+  <block id="41dff7155cc7aeb11c06434f6a450bb3" category="inline-link">IAM</block>
+  <block id="d0455114933a93b857dff40ad9829c80" category="paragraph">IDおよびアクセス管理 <block ref="3e7f3b73b3f103986fbe162302b5e57e" category="inline-link-rx"></block>）は、Google Cloudプロジェクトインスタンスへの認証（ログイン）と許可（権限）を制御できる標準サービスです。Google IAMには、許可の承認と削除に関する完全な監査証跡が用意されています。現在、Cloud Volumes Service ではコントロールプレーンの監査を提供していません。</block>
+  <block id="697308a09680ed006fe009f5a90fd74c" category="section-title">承認/権限の概要</block>
+  <block id="cb5b383a5c27210bdf8f2fd443c68ebb" category="inline-link">詳細な権限の一覧をここに入力します</block>
+  <block id="73867c3747b10f9f7b4b54a4597ff38b" category="paragraph">IAMには、Cloud Volumes Service に対する詳細な権限があらかじめ組み込まれています。を見つけることができる<block ref="fefbe49b0be12af5b957eff3a3dc2826" category="inline-link-rx"></block>。</block>
+  <block id="f6c6a3fb346fa0197c1eeba05a4736c6" category="paragraph">IAMには、「netappcloudvolumes」と「netappcloudvolumes」という2つの事前定義された役割も用意されています。これらのロールは、特定のユーザまたはサービスアカウントに割り当てることができます。</block>
+  <block id="6d90e176a60105dd03d5580c615cc5fe" category="paragraph">IAMユーザにCloud Volumes Service の管理を許可する適切なロールと権限を割り当てます。</block>
+  <block id="010558e705f1d93db66b5a129431b39d" category="paragraph">きめ細かい権限の使用例を次に示します。</block>
+  <block id="cf95655b33a1e3a77d897074d8353e7e" category="list-text">ボリュームを削除できないように、権限の取得/リスト/作成/更新だけを指定してカスタムロールを作成します。</block>
+  <block id="fdc24340d58c0f0e7d38a4a3f6a7218c" category="list-text">「snapshot.*」権限のみを持つカスタム・ロールを使用して、アプリケーションと整合性のあるSnapshot統合を構築するために使用するサービス・アカウントを作成します。</block>
+  <block id="b1ef9a9445de9905dc5e0ab77e08e183" category="list-text">特定のユーザーに'volumeereplication.*'を委任するカスタムロールを作成します</block>
+  <block id="c33f7c2cbeaca5f1462c1b3e1c276145" category="section-title">サービスアカウント</block>
+  <block id="303e96f80576360d0c7b07ae7528fa4b" category="inline-link">テラフォーム</block>
+  <block id="b6d8efd38d2a5551a2c43104314740bd" category="paragraph">スクリプトまたはを使用してCloud Volumes Service API呼び出しを実行する<block ref="d99d6c9612fe6a2189c372e0abf640d5" category="inline-link-rx"></block>'roles/netappcloudvolumes .admin'ロールを持つサービスアカウントを作成する必要がありますこのサービスアカウントを使用して、Cloud Volumes Service API要求の認証に必要なJWTトークンを生成できます。これには、次の2つの方法があります。</block>
+  <block id="87cacfdb2dd389d5d00fef712c2f874b" category="list-text">JSONキーを生成し、Google APIを使用してJWTトークンを取得します。これは最もシンプルなアプローチですが、手動のシークレット（JSONキー）管理が必要になります。</block>
+  <block id="d77fb2baf15918343921ee724cfacb2f" category="inline-link">サービスアカウントのなりすまし</block>
+  <block id="9d8270b5a4616fc246d5f96cccc9f61e" category="inline-link">アプリケーションのデフォルトクレデンシャル</block>
+  <block id="c1f48ac217f6b993bda4f82835777177" category="list-text">使用<block ref="09540132e155f93461287a2e21a4e25d" category="inline-link-rx"></block> 「roles/iam.serviceAccountTokenCreator`」を指定します。コード（スクリプト、Terraformなど）はで実行されます<block ref="ffba44c35d88772fc8c63157b8dc0cf7" category="inline-link-rx"></block> また、サービスアカウントを偽装して権限を取得します。このアプローチは、Googleのセキュリティのベストプラクティスを反映しています。</block>
+  <block id="01aa2fa55c64df5a4122b637c9ababc7" category="inline-link">サービスアカウントと秘密鍵を作成しています</block>
+  <block id="00aa2e143f3d3b00e94456b23d239a8d" category="paragraph">を参照してください<block ref="5d862676de2107050ea35e71368d2326" category="inline-link-rx"></block> 詳細については、Google Cloudのドキュメントを参照してください。</block>
+  <block id="a325b85a1545e8c507701fb5aa32e6b8" category="section-title">Cloud Volumes Service APIの略</block>
+  <block id="d06e940dcf329e87ca49cb2a665f5fd8" category="inline-link">Google CloudドキュメントのCloud Volume API</block>
+  <block id="4a0d70491e56eae6b1e0743d9c3a3777" category="paragraph">Cloud Volumes Service APIでは、基盤となるネットワーク転送としてHTTPS（TLSv1.2）を使用してRESTベースのAPIを使用します。最新のAPI定義を確認できます<block ref="d30245d84ac801bb5beeb0b65de1621d" category="inline-link-rx"></block> およびでのAPIの使用方法に関する情報<block ref="00c944b7c7739b905457d5d21be6a7ef" category="inline-link-rx"></block>。</block>
+  <block id="de13c3e3b25af602f2652dd51a503a8a" category="paragraph">APIエンドポイントは、標準のHTTPS（TLSv1.2）機能を使用してネットアップによって処理および保護されます。</block>
+  <block id="8eac7c9151aa7742216ac387e27479a7" category="section-title">JWTトークン</block>
+  <block id="56ebd33e81a27d6c3c78f2f67f2d3c1a" category="inline-link">RFC-7519</block>
+  <block id="f2c16a4802323f9b9c1ac55acf92645f" category="paragraph">APIへの認証は、JWTベアラートークンを使用して実行されます <block ref="89a64c0d993ae56a4af8e7ccde6ee59e" category="inline-link-rx"></block>）。有効なJWTトークンは、Google Cloud IAM認証を使用して取得する必要があります。そのためには、サービスアカウントのJSONキーを指定してIAMからトークンを取得する必要があります。</block>
+  <block id="f45362733fe1dd1af3c58ae64471d466" category="section-title">監査ロギング</block>
+  <block id="1ccbd48d467dc56358432c49ba82e95a" category="paragraph">現在、ユーザがアクセスできるコントロールプレーン監査ログはありません。</block>
+  <block id="f2787c6d19935adb1d88d6c832b68083" category="inline-link-macro">次の図は、データプレーンのアーキテクチャです。</block>
+  <block id="9025e4ef245b32ed6f318a902095bafc" category="paragraph"><block ref="9025e4ef245b32ed6f318a902095bafc" category="inline-link-macro-rx"></block></block>
+  <block id="9dfacef1e7d01943a3363c481a0ab54f" category="summary">Cloud Volumes Service for Google Cloudは、Google Cloudプライベートサービスアクセスフレームワークを活用しています。このフレームワークでは、ユーザーはCloud Volumes Service に接続できます。このフレームワークでは、他のGoogleクラウド サービス のようなサービスネットワーキングとVPCピアリングの構成要素を使用して、テナント間の完全な分離を実現します。</block>
+  <block id="65d49b550fb0a0afd0ad601dc275ea12" category="doc">データプレーンアーキテクチャ</block>
+  <block id="bbabe197f6618c2911a8ad624a658a46" category="inline-link-macro">前のバージョン：コントロールプレーンのアーキテクチャ。</block>
+  <block id="dfb92e74bf9227851402850c5c488e3c" category="paragraph"><block ref="dfb92e74bf9227851402850c5c488e3c" category="inline-link-macro-rx"></block></block>
+  <block id="57e0a1cde7582cc59173756aff450054" category="paragraph">Cloud Volumes Service for Google CloudはGoogle Cloudを活用しています<block ref="466f20229cc0e1fa2efa2b4b45528417" category="inline-link-rx"></block> フレームワーク：このフレームワークでは、ユーザーはCloud Volumes Service に接続できます。このフレームワークでは、他のGoogleクラウド サービス のようなサービスネットワーキングとVPCピアリングの構成要素を使用して、テナント間の完全な分離を実現します。</block>
+  <block id="fabc0e878e19ad7e95bb8e906ab9e8a1" category="inline-link">Cloud Volumes Service のアーキテクチャ</block>
+  <block id="81001e33ae42635e6a292ced69cda439" category="paragraph">Cloud Volumes Service for Google Cloudのアーキテクチャの概要については、を参照してください<block ref="7e96ff285aa6f06b814f61dc37a8da61" category="inline-link-rx"></block>。</block>
+  <block id="dcfa6d27a1891efb4ad8492d3a127b28" category="paragraph">ユーザVPC（スタンドアロンまたは共有）は、Cloud Volumes Service で管理されるテナントプロジェクト内のVPCとピア関係にあり、VPC間でボリュームをホストします。</block>
+  <block id="fcf4e9439b20c7a36f8ee4116fd5bc6d" category="paragraph"><block ref="fcf4e9439b20c7a36f8ee4116fd5bc6d" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="7e3d4716c5a2ddac5bbd6a03d58d03af" category="paragraph">上の図は、3つのVPCネットワークがCloud Volumes Service に接続され、複数のCompute Engine VM（GCE1-7）がボリュームを共有しているプロジェクト（中央のCVSコンシューマプロジェクト）を示しています。</block>
+  <block id="fbf1e8aceed7750d8ed8c4e7168cdb02" category="list-text">VPC1では、GCE1がボリュームAおよびBにアクセスできます</block>
+  <block id="dc5d4ca9052ec8ea299a69ef985a32b0" category="list-text">VPC2は、GCE2とGCE4がボリュームCにアクセスできるようにします</block>
+  <block id="3274f78cc9286288af4912642932b72e" category="list-text">3つ目のVPCネットワークは共有VPCで、2つのサービスプロジェクトで共有されます。これにより、GCE3、GCE4、GCE5、およびGCE6がボリュームDおよびEにアクセスできるようになります共有VPCネットワークは、CVS -パフォーマンスサービスタイプのボリュームでのみサポートされます。</block>
+  <block id="be3759e5f4a6574585df9e1159c20c30" category="admonition">GCE7はどのボリュームにもアクセスできません。</block>
+  <block id="597134b02aeec788dec5f24fa0adba89" category="paragraph">データは転送中（Kerberos暗号化やSMB暗号化を使用）と保管中（Cloud Volumes Service ）の両方で暗号化できます。</block>
+  <block id="f8426b7150021bc2586e9c150051a408" category="inline-link-macro">次の例：転送中のデータ暗号化</block>
+  <block id="39148875a23c5a4ea00752d82ac14b14" category="paragraph"><block ref="39148875a23c5a4ea00752d82ac14b14" category="inline-link-macro-rx"></block></block>
+  <block id="3e7c5a939584e1a53201dd8eddfe85d1" category="summary">Cloud Volumes Service は、CloudSQL、Google Cloud VMware Engine（GCVE）、ファイルストアなど、他のGoogle Cloudネイティブサービスと同様に、Google PSAを使用してサービスを提供します。</block>
+  <block id="16929468b925d0d420441bcbba519e7d" category="doc">Cloud Volumes Service アーキテクチャ</block>
+  <block id="98cdf6a29cf39ecd5239e5071cb0dc88" category="inline-link">Google PSA</block>
+  <block id="d4d6aaf620a68430d28b38f847f2a6af" category="inline-link">vPCネットワークピアリング</block>
+  <block id="f84137720cfd9533352746a01677a6b2" category="paragraph">CloudSQL、Google Cloud VMware Engine（GCVE）、ファイルストアなど、他のGoogle Cloudネイティブサービスと同様の方法で、Cloud Volumes Service はを使用します<block ref="0f93a99b9e468a051182b66dabbf3bed" category="inline-link-rx"></block> サービスを提供します。PSAでは、サービスは、を使用するサービスプロデューサプロジェクト内に構築されます<block ref="2d8d4488e7ed7b53a7aafab379ba8587" category="inline-link-rx"></block> サービスコンシューマに接続するには、次の手順に従います。サービスプロデューサーはネットアップが提供して運用します。サービスコンシューマは、Cloud Volumes Service ファイル共有にアクセスするクライアントをホストする、お客様のプロジェクトのVPCです。</block>
+  <block id="353164decd5aa0c4f58b4e56559e1b13" category="inline-link">アーキテクチャセクション</block>
+  <block id="9448d83a67980a22f2db155347fa277c" category="paragraph">から参照される次の図<block ref="6a8b5039754626811ee5b8fe5289e273" category="inline-link-rx"></block> Cloud Volumes Service のドキュメントの概要をに示します。</block>
+  <block id="8055d5a25a1838f115c8636545abb21a" category="paragraph"><block ref="8055d5a25a1838f115c8636545abb21a" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="a6f34964d3060f5dd66e2cc7c8711679" category="paragraph">点線の上の部分は、ボリュームのライフサイクルを制御するサービスのコントロールプレーンを示しています。点線の下の部分は、データプレーンを示しています。左側の青いボックスはユーザVPC（サービスコンシューマ）を示し、右側の青いボックスはネットアップが提供するサービスプロデューサーです。どちらもVPCピアリングを介して接続されます。</block>
+  <block id="0d127864a05110e3053c2690dea7d914" category="section-title">テナンシーモデル</block>
+  <block id="dc947df9f7b14883cbc411bc0a7de469" category="paragraph">Cloud Volumes Service では、個々のプロジェクトが固有のテナントとみなされます。つまり、ボリュームやSnapshotコピーの操作はプロジェクト単位で実行されます。つまり、すべてのボリュームは、で作成されたプロジェクトによって所有され、そのプロジェクトだけが、デフォルトでボリューム内のデータを管理およびアクセスできます。これは、サービスのコントロールプレーンビューと見なされます。</block>
+  <block id="b9ea9f76a11191d80f8fe1abc9437eb6" category="section-title">共有 VPC</block>
+  <block id="cc11b3be8b129e07961938139b138eb5" category="paragraph">データプレーンビューでは、Cloud Volumes Service を共有VPCに接続できます。ボリュームは、ホスティングプロジェクトまたは共有VPCに接続されたサービスプロジェクトのいずれかで作成できます。その共有VPCに接続されたすべてのプロジェクト（ホストまたはサービス）が、ネットワークレイヤのボリュームにアクセスできます（TCP / IP）。共有VPCでネットワーク接続を確立しているすべてのクライアントはNASプロトコルを使用してデータにアクセスできる可能性があるため、個々のボリュームでのアクセス制御（ユーザ/グループのアクセス制御リスト（ACL）やNFSエクスポートのホスト名/ IPアドレスなど）を使用して、データにアクセスできるユーザを制御する必要があります。</block>
+  <block id="0b97558649d416ff7a157c6ebb3415d9" category="paragraph">Cloud Volumes Service は、顧客プロジェクトごとに最大5つのVPCに接続できます。コントロールプレーンでは、どのVPCに接続されているかに関係なく、作成されたすべてのボリュームをプロジェクトで管理できます。データプレーンではVPCが相互に分離され、各ボリュームは1つのVPCにのみ接続できます。</block>
+  <block id="be52fe1bd184b72048acd2ba911bb069" category="paragraph">個々のボリュームへのアクセスは、プロトコル固有の（NFS / SMB）アクセス制御メカニズムによって制御されます。</block>
+  <block id="a3328901555fee8fe9134fc5bd6e641b" category="paragraph">つまり、ネットワークレイヤでは、共有VPCに接続されているすべてのプロジェクトがボリュームを表示できますが、管理側では、コントロールプレーンでしか所有者プロジェクトにボリュームを表示できません。</block>
+  <block id="90f3668b3811dddcb8de24b77c6a6d64" category="section-title">vPCサービスコントロール</block>
+  <block id="d5fc4459a5e756d9c4ad2c88c260092b" category="paragraph">vPCサービスコントロールは、インターネットに接続され、世界中でアクセス可能なGoogleクラウド サービス の周辺にアクセス制御境界を確立します。これらのサービスは、ユーザIDを使用してアクセス制御を提供しますが、どのネットワークロケーション要求の送信元を制限することはできません。vPCサービスコントロールは、定義されたネットワークへのアクセスを制限する機能を導入することで、このギャップを解消します。</block>
+  <block id="601553f09795c6051748c4f4f63ce893" category="paragraph">Cloud Volumes Service データプレーンは外部インターネットには接続されず、明確に定義されたネットワーク境界（境界）を持つプライベートVPCに接続されます。ネットワーク内では、各ボリュームはプロトコル固有のアクセス制御を使用します。外部ネットワーク接続は、Google Cloudプロジェクト管理者によって明示的に作成されます。ただし、コントロールプレーンはデータプレーンと同じ保護機能を提供しません。また、有効なクレデンシャル（）を持つ任意の場所から誰でもアクセスできます<block ref="f0e6a8c8639b1f1713f124143221142a" category="inline-link-rx"></block>）。</block>
+  <block id="7755a392158406ad802334080cd41f73" category="paragraph">つまり、Cloud Volumes Service データプレーンは、VPCサービスコントロールをサポートする必要なく、ネットワークアクセス制御機能を提供します。VPCサービスコントロールは明示的に使用しません。</block>
+  <block id="892d60d0a1c71243b5ddff2c66ed584c" category="section-title">パケットのスニッフィング/トレースに関する考慮事項</block>
+  <block id="93b0389d05d1b6926967749b8692f2f6" category="paragraph">パケットキャプチャは、ネットワークの問題やその他の問題（NAS権限、LDAP接続など）のトラブルシューティングに役立ちますが、悪意を持ってネットワークIPアドレス、MACアドレス、ユーザ名およびグループ名、エンドポイントで使用されているセキュリティレベルなどの情報を取得することもできます。Google Cloudネットワーク、VPC、およびファイアウォールルールの設定方法が原因で、ユーザのログインクレデンシャルやを使用しないとネットワークパケットへの不要なアクセスを取得できなくなります <block ref="2a18c6d0cd80103144f47d02366a785f" category="inline-link-macro-rx"></block> クラウドインスタンスへ。パケットキャプチャはエンドポイント（仮想マシン（VM）など）でのみ可能であり、VPC内部のエンドポイントでのみ可能です。ただし、共有VPCまたは外部ネットワークトンネル/ IP転送を使用してエンドポイントへの外部トラフィックを明示的に許可している場合は除きます。クライアントの外部でトラフィックをスニファする方法はありません。</block>
+  <block id="e3c8aa9de972ad666251b2d84c256972" category="paragraph">共有VPCを使用する場合は、NFS Kerberosまたは/またはを使用した転送中の暗号化が可能です <block ref="639817e82862065dd236f0597e0b07ea" category="inline-link-macro-rx"></block> トレースから収集された情報の多くを隠すことができます。ただし、一部のトラフィックは、などのプレーンテキストで送信されます <block ref="c2e2f225386e22bd13a8b4b174f478da" category="inline-link-macro-rx"></block> および <block ref="86c1c13023c15e9d9a6317a0b69e7ce3" category="inline-link-macro-rx"></block>。次の図に、Cloud Volumes Service から発信されたプレーンテキストLDAPクエリからのパケットキャプチャと、公開されている可能性のある識別情報を示します。Cloud Volumes Service のLDAPクエリでは、現在、暗号化またはLDAP over SSLがサポートされていません。CVS - SWとCVS -パフォーマンスの両方がLDAP署名をサポートします。</block>
+  <block id="ce58b63a24bebe6bac29cfe248428477" category="paragraph"><block ref="ce58b63a24bebe6bac29cfe248428477" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="c72e76f5c978aa82e296df17081b6836" category="admonition">unixUserPasswordはLDAPによって照会され、プレーンテキストではなくソルトハッシュで送信されます。デフォルトでは、Windows LDAPではunixUserPasswordフィールドは読み込まれません。このフィールドは、LDAPを使用してクライアントへの対話型ログインを行う必要がある場合にのみ必要になります。Cloud Volumes Service では、インスタンスへの対話型LDAPログインはサポートされていません。</block>
+  <block id="01b21a51d124432b5b7fe641eae6a004" category="paragraph">次の図は、AUTH_SYSでNFSをキャプチャしたあとの、NFS Kerberos通信からのパケットキャプチャを示しています。トレースで使用できる情報が2つの違いと、転送中の暗号化を有効にすることでNASトラフィックの全体的なセキュリティが向上することに注意してください。</block>
+  <block id="0d66010f122b3df766abd8a0cb2ff598" category="paragraph"><block ref="0d66010f122b3df766abd8a0cb2ff598" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="5ba81028f56cfd4f5e21c7102a8eff68" category="paragraph"><block ref="5ba81028f56cfd4f5e21c7102a8eff68" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="04aa3ce627dbf5b220c8aa6d4955fb34" category="section-title">VMネットワークインターフェイス</block>
+  <block id="8ec45d68b7d371d25a3b82a76db3142b" category="inline-link">プロミスキャスモードです</block>
+  <block id="e59b81e20588b0d3a3c495a545d75322" category="paragraph">攻撃者のトリックの1つとして、のVMに新しいNIC（ネットワークインターフェイスカード）を追加する方法があります<block ref="39c80826df1f145e2784d4b04af9d477" category="inline-link-rx"></block> （ポートミラーリング）を使用するか、既存のNICでプロミスキャスモードを有効にして、すべてのトラフィックをスニファします。Google Cloudで新しいNICを追加するには、VMを完全にシャットダウンする必要があります。これによりアラートが生成されるため、攻撃者はこのことに気づかれません。</block>
+  <block id="b726bce4fa04e9b7a6d788f212f00c17" category="paragraph">また、NICをプロミスキャスモードに設定することはできず、Google Cloudでアラートをトリガーします。</block>
+  <block id="5be5e913f29871f00d216882fc58f26a" category="inline-link-macro">次の図は、コントロールプレーンのアーキテクチャです。</block>
+  <block id="f9f0b661819d64fded86dba6dee4dd6b" category="paragraph"><block ref="f9f0b661819d64fded86dba6dee4dd6b" category="inline-link-macro-rx"></block></block>
+  <block id="599e7197321e9ab772426d7187714f67" category="summary">SMBは、Microsoftが開発したネットワークファイル共有プロトコルです。イーサネットネットワークを介して複数のSMBクライアントにユーザ/グループの認証、権限、ロック、およびファイル共有を一元的に提供します。</block>
+  <block id="b4fdd997b1f33e0d4c6964444c2bf399" category="doc">SMB</block>
+  <block id="b619a787e67dd6b7b38f5db3e4da5e80" category="inline-link-macro">前のバージョン：NFS。</block>
+  <block id="d5c73fd283fc4c7fcf6fefda8649450f" category="paragraph"><block ref="d5c73fd283fc4c7fcf6fefda8649450f" category="inline-link-macro-rx"></block></block>
+  <block id="e0a515b0910f55d3d1d5adda978e8e4f" category="paragraph"><block ref="395dbbdb78e4ae6be8daf8ab2b7828a7" category="inline-link-rx"></block> は、Microsoftが開発したネットワークファイル共有プロトコルです。ユーザ/グループの認証、権限、ロック、およびファイル共有を、イーサネットネットワークを介して複数のSMBクライアントに一元的に提供します。ファイルとフォルダは共有を通じてクライアントに提供されます。共有は、さまざまな共有プロパティを設定したり、共有レベルの権限を通じてアクセスを制御したりすることができます。SMBは、Windows、Apple、Linuxクライアントなど、このプロトコルをサポートする任意のクライアントに提供できます。</block>
+  <block id="63f2e3eee09c9d71b23530e2205eb36a" category="paragraph">Cloud Volumes Service では、SMB 2.1および3.xバージョンのプロトコルがサポートされます。</block>
+  <block id="cc4a835dfb2ac9e7ba402c068a4ef9a0" category="section-title">アクセス制御/ SMB共有</block>
+  <block id="f122c057113b41c182d10fddf2a82817" category="list-text">Windowsユーザ名がCloud Volumes Service ボリュームへのアクセスを要求すると、Cloud Volumes Service はCloud Volumes Service 管理者が設定した方法を使用してUNIXユーザ名を検索します。</block>
+  <block id="ac960a1b86a1625e4ff98dbb3feef120" category="list-text">外部UNIXアイデンティティ・プロバイダ（LDAP）が設定されていて、Windows/UNIXユーザ名が同一の場合、Windowsユーザ名は、追加の設定を必要とせずに1:1でUNIXユーザ名にマッピングされます。LDAPを有効にすると、Active Directoryを使用してユーザオブジェクトとグループオブジェクトのUNIX属性がホストされます。</block>
+  <block id="3c60aff1fcf4407fc40492eebac8e37b" category="inline-link-macro">「LDAPを使用した非対称ネームマッピング」</block>
+  <block id="e4adb9d6d8d5650dfb0663dde5495dff" category="list-text">Windows名とUNIX名が同じ設定にならない場合は、Cloud Volumes Service がLDAPネームマッピングの設定を使用できるようにLDAPを設定する必要があります（を参照） <block ref="1cca6755f54a82023ec645e8be5d4c82" category="inline-link-macro-rx"></block>）。</block>
+  <block id="5205bf34161159f00d7f28cb5e6e2a89" category="list-text">LDAPが使用されていない場合、Windows SMBユーザは、Cloud Volumes Service で「pcuser」という名前のデフォルトのローカルUNIXユーザにマッピングされます。つまり'マルチプロトコルのNAS環境では'pcuserにマップされているユーザーによってWindowsに書き込まれたファイルは'UNIXの所有権をpcuserとして表示しますここでは'pcuserがLinux環境では'nobodyユーザー（UID 65534）となっています</block>
+  <block id="0ff58f508b02c651e0b4ee271b1792d9" category="paragraph">SMBのみの導入では、「pcuser」のマッピングは引き続き有効ですが、Windowsのユーザとグループの所有権が正しく表示され、SMBのみのボリュームへのNFSアクセスは許可されないため、問題ありません。また、SMBのみのボリュームでは、NFSまたはデュアルプロトコルのボリューム作成後のボリュームへの変換はサポートされません。</block>
+  <block id="9327392a148953617bfae88e7e46a666" category="paragraph">Windowsは、Active Directoryドメインコントローラでのユーザ名認証にKerberosを使用します。これには、Cloud Volumes Service インスタンスの外部にあるAD DCとのユーザ名/パスワードの交換が必要です。Kerberos認証は'\\servername'UNCパスがSMBクライアントによって使用され'次の場合に使用されます</block>
+  <block id="61caea7c1c859702c330a0781763fd23" category="list-text">servernameにはDNS A/AAAAエントリがあります</block>
+  <block id="de4327d512f4e62f9b3ae80f8bb719cc" category="list-text">servernameに対するSMB / CIFSアクセス用の有効なSPNが存在します</block>
+  <block id="f5c19a901f7d9431872c0e8893aaa498" category="inline-link-macro">「Cloud Volumes Service がActive Directoryにどのように表示されるか」</block>
+  <block id="93c756ce24f344cc333703bcd2e7a06e" category="paragraph">Cloud Volumes Service SMBボリュームを作成すると、セクションの定義に従ってマシンアカウント名が作成されます <block ref="087d516981f271a0b6f0df624ae1e840" category="inline-link-macro-rx"></block> Cloud Volumes Service は動的DNS（DDNS）を利用してDNSに必要なA/AAAAエントリとPTRエントリ、マシンアカウントプリンシパルの必要なSPNエントリを作成するため、そのマシンアカウント名もSMB共有アクセスパスになります。</block>
+  <block id="aafa8c8c59e359a65d0c657f05772244" category="admonition">PTRエントリを作成するには、Cloud Volumes Service インスタンスIPアドレスの逆引き参照ゾーンがDNSサーバ上に存在している必要があります。</block>
+  <block id="ecd31d9efcb752f09a0690c2f62bf88f" category="paragraph">たとえば、このCloud Volumes Service ボリュームはUNC共有パス「\\cvs-east-433d.cvsdemo.local」を使用します。</block>
+  <block id="c6ee58936680de9d2229f523a4c54ffb" category="paragraph">Active Directoryでは、次のエントリがCloud Volume サービスによって生成されたSPNエントリです。</block>
+  <block id="5c3c803198a53be899a500a43fcf1d24" category="paragraph"><block ref="5c3c803198a53be899a500a43fcf1d24" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="97422e33b69a5567af9908d5b2d397fc" category="paragraph">DNS前方/後方参照の結果は次のとおりです。</block>
+  <block id="1d3d964bf7fdd6249507cb3738908e54" category="paragraph">必要に応じて、Cloud Volumes Service 内のSMB共有に対してSMB暗号化を有効または要求することで、より多くのアクセス制御を適用できます。いずれかのエンドポイントでSMB暗号化がサポートされていない場合、アクセスは許可されません。</block>
+  <block id="e5e9be92303e18ef3f22dfa57dcbd0d3" category="section-title">SMB名エイリアスを使用する</block>
+  <block id="500c4de8d7a022d507313e514b85d485" category="paragraph">場合によっては、エンドユーザがCloud Volumes Service で使用するマシンアカウント名を把握することがセキュリティ上の懸念事項になることがあります。また、単にエンドユーザへのアクセスパスを単純化することもできます。このような場合は、SMBエイリアスを作成できます。</block>
+  <block id="6c7c194988807a9112adc7f6bc9b1dd5" category="paragraph">SMB共有パスのエイリアスを作成する場合は、DNSでCNAMEレコードと呼ばれるものを利用できます。たとえば'\\cvs-east-433d.cvsdemo.local'ではなく'`\\CIFS'という名前を使用して共有にアクセスするが'Kerberos認証を使用する場合は'A/AAAAレコードを指すDNSのCNAMEと'既存のマシンアカウントに追加されたSPNがKerberosアクセスを提供します</block>
+  <block id="620b0e4f14250d32e58b3411c5fd3044" category="paragraph"><block ref="620b0e4f14250d32e58b3411c5fd3044" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="9a030a66483dc3115cd014273bad041d" category="paragraph">CNAMEを追加したあとのDNS前方参照の結果を次に示します。</block>
+  <block id="97ec437207d5ac6fb22613655e7e395e" category="paragraph">新しいSPNを追加したあとのSPNクエリの結果を次に示します。</block>
+  <block id="5730e2788651b014b918d2ee1bfdfe67" category="paragraph"><block ref="5730e2788651b014b918d2ee1bfdfe67" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="df91b2b002b78b2f9f87c79b56293060" category="paragraph">パケットキャプチャでは、CNAMEに関連付けられたSPNを使用してセッション設定要求を確認できます。</block>
+  <block id="8b36b24049a6cda34019fd47ea0273fc" category="paragraph"><block ref="8b36b24049a6cda34019fd47ea0273fc" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="65cc39e4fb8a95d5fcc2098d620ff3b6" category="section-title">SMB認証ダイアレクト</block>
+  <block id="fe9fdc3d8157e10bf5b31e8d28fe7827" category="inline-link">方言</block>
+  <block id="c50c24feef6ada40d8e2f7be85359c0f" category="paragraph">Cloud Volumes Service では、次の機能がサポートされ<block ref="88f3097f4ad7d144185bbacf0330fbeb" category="inline-link-rx"></block> SMB認証の場合：</block>
+  <block id="dfd5b430bc4db2c2836d0227ad9ac0c4" category="list-text">LM</block>
+  <block id="d11322c1a7a2383491c23f13113c59ea" category="list-text">NTLM</block>
+  <block id="d0952ee882764dd5c3105f5b23a3e505" category="list-text">NTLMv2</block>
+  <block id="87b3695bfd6f672e2c7c4da7ca2b46a8" category="list-text">Kerberos</block>
+  <block id="11012bc0af4eda341c391c39cf6aa27c" category="paragraph">SMB共有アクセスのKerberos認証は、使用できる最も安全な認証レベルです。AESおよびSMB暗号化が有効になっていると、セキュリティレベルがさらに向上します。</block>
+  <block id="e5c584f1ac6fa07c9594321f8fc845e2" category="paragraph">Cloud Volumes Service では、LMおよびNTLM認証の下位互換性もサポートされています。Kerberosの設定が正しくない場合（SMBエイリアスの作成時など）、共有アクセスはより脆弱な認証方法（NTLMv2など）にフォールバックされます。これらのメカニズムは安全性が低いため、一部のActive Directory環境では無効になっています。より脆弱な認証方法が無効になっていて、Kerberosが適切に設定されていない場合、フォールバックする有効な認証方法がないため、共有アクセスは失敗します。</block>
+  <block id="d87250f3f8075c2dfbcfe941d0c7bde9" category="inline-link">ネットワークセキュリティ：LAN Manager認証レベル</block>
+  <block id="f4457a3dba045094cb39418e2233c8c1" category="paragraph">Active Directoryでサポートされている認証レベルの設定/表示については、を参照してください<block ref="d671b936eec72b8caa6e3a555955a849" category="inline-link-rx"></block>。</block>
+  <block id="6ccfb9a0791b337d38ef8ff2cdf26cf8" category="section-title">アクセス許可モデル</block>
+  <block id="b1728e361f14c53940f081871f87e6ee" category="section-title">NTFS /ファイル権限</block>
+  <block id="3e5348fb86c26b3cabf2912e6e597902" category="paragraph">NTFS権限とは、NTFSロジックに準拠したファイルシステム内のファイルおよびフォルダに適用される権限です。NTFSアクセス権は'Basic'または'Advanced'で適用でき'アクセス制御の場合は'allow'または[Deny]に設定できます</block>
+  <block id="80b0c49680a2b15ae6a40273fadefaa8" category="paragraph">基本的な権限は次のとおりです。</block>
+  <block id="704a2a0ea2e007dae9f25d038a988076" category="list-text">フルコントロール</block>
+  <block id="7f090bbab1cc7f9c08bf4e54d932d3c0" category="list-text">変更</block>
+  <block id="3ed713666b4f5112539dd5ffb9376ff4" category="list-text">読み取りと実行</block>
+  <block id="7a1a5f3e79fdc91edf2f5ead9d66abb4" category="list-text">読み取り</block>
+  <block id="1129c0e4d43f2d121652a7302712cff6" category="list-text">書き込み</block>
+  <block id="75484cb1059b92206b918bde1204007a" category="paragraph">ACEと呼ばれるユーザまたはグループに権限を設定すると、ACLに含まれます。NTFS権限では、UNIXモードビットと同じ読み取り/書き込み/実行の基本が使用されますが、所有権の取得、フォルダの作成/追加、データの書き込み、属性の書き込みなど、より詳細で拡張されたアクセス制御（特別な権限）にも拡張できます。</block>
+  <block id="77636166006179e57dc5edc6df25b80c" category="paragraph">標準UNIXモードビットは、NTFSアクセス権と同じレベルの粒度を提供しません（ACL内の個々のユーザおよびグループオブジェクトにアクセス権を設定したり、拡張属性を設定したりすることなど）。ただし、NFSv4.1 ACLは、NTFS ACLと同じ機能を提供します。</block>
+  <block id="9434d016806e0f50ac7f14efbfa3a3df" category="paragraph">NTFS権限は共有権限よりも限定的であり、共有権限と組み合わせて使用できます。NTFSの権限構造では、最も制限があります。このため、アクセス権を定義するときに、ユーザまたはグループに対する明示的な拒否もフルコントロールよりも優先されます。</block>
+  <block id="c0ad12f90a714e04744ab070d26a9c80" category="paragraph">NTFSアクセス権はWindows SMBクライアントから制御されます。</block>
+  <block id="ef950b5546945ec414f9da7909c4fe8a" category="section-title">共有権限</block>
+  <block id="3df5ef25e4045d2e51c43effb69aa5de" category="paragraph">共有権限は、NTFS権限（読み取り/変更/フルコントロールのみ）よりも一般的で、NFSエクスポートポリシールールの仕組みと同様に、SMB共有への最初のエントリを制御します。</block>
+  <block id="41123e00ec2463c8d7c60a10f3d3ede4" category="paragraph">NFSエクスポートポリシールールは、IPアドレスやホスト名などのホストベースの情報を介したアクセスを制御しますが、SMB共有権限は共有ACLでユーザおよびグループACEを使用してアクセスを制御できます。共有ACLは、WindowsクライアントまたはCloud Volumes Service 管理UIから設定できます。</block>
+  <block id="7f455f054b3ad11fb335d2f9ec69e3ff" category="paragraph">デフォルトでは、共有ACLと初期ボリュームACLにはフルコントロールを使用したすべてのメンバーが含まれます。ファイルACLを変更する必要がありますが、共有内のオブジェクトのファイル権限によって共有権限が上書きされます。</block>
+  <block id="8d37bee954f03966b12b65871768a438" category="paragraph">たとえば、ユーザにCloud Volumes Service ボリュームファイルACLへの読み取りアクセスのみが許可されている場合、次の図に示すように、共有ACLがフルコントロールを使用するEveryoneに設定されていても、ファイルおよびフォルダの作成アクセスは拒否されます。</block>
+  <block id="47ff9e7720c14a2a27bfa4ce12bbd268" category="paragraph"><block ref="47ff9e7720c14a2a27bfa4ce12bbd268" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="ef46360b81c847c0d6f5015920fd5f3e" category="paragraph"><block ref="ef46360b81c847c0d6f5015920fd5f3e" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="316a22056a64a8465269d31ac436fc22" category="paragraph">セキュリティ上の最善の結果を得るには、次の手順を実行します。</block>
+  <block id="09fced4bea14e9b030bd1179b95f3b89" category="list-text">共有およびファイルのACLからすべてのユーザを削除し、代わりにユーザまたはグループの共有アクセスを設定します。</block>
+  <block id="8941d253e49282460162b7dac68ad2ba" category="list-text">個々のユーザではなくグループを使用してアクセス制御を行うと、管理が容易になり、グループ管理を通じてユーザの削除や追加を迅速に行うことができます。</block>
+  <block id="f63df4fd4f9e10c567332b34b05d35ae" category="list-text">共有権限のACEに対する制限が厳しくなく、一般的な共有アクセスを許可し、ファイル権限を持つユーザとグループにロックダウンされて、より詳細なアクセス制御が可能になります。</block>
+  <block id="afe52910905ef63730591f8a01bcb75e" category="list-text">明示的なDENY ACLは、ALLOW ACLより優先されるため、一般的に使用しないでください。ファイルシステムへのアクセスを迅速に制限する必要があるユーザまたはグループに対する明示的なDENY ACLの使用を制限してください。</block>
+  <block id="9a2191ac8d9f65679cdf29455149f6cb" category="inline-link">ACLの継承</block>
+  <block id="780d68252d03e9f7617f6bf5fe95c1ce" category="list-text">に注意を払ってください<block ref="19af65d9616f33b3ccaee367e8d4dc82" category="inline-link-rx"></block> 権限を変更する際の設定。ファイル数の多いディレクトリまたはボリュームの最上位で継承フラグを設定すると、そのディレクトリまたはボリュームの下の各ファイルに継承された権限が追加されます。 これにより、各ファイルの調整時に意図しないアクセス/拒否や権限の大幅な変更など、不要な動作が発生する可能性があります。</block>
+  <block id="0c2104afa1bd6c96b5ccc9c7a7ee8a6a" category="section-title">SMB共有のセキュリティ機能</block>
+  <block id="05ec24f8004d55ad7596b79266cd4691" category="paragraph">Cloud Volumes Service でSMBアクセスを使用するボリュームを最初に作成するときに、そのボリュームを保護するための一連の選択肢が表示されます。</block>
+  <block id="53eaeead30ddbd2dcb1526241312aedf" category="paragraph">Cloud Volumes Service レベル（パフォーマンスまたはソフトウェア）に応じて、次の選択肢があります。</block>
+  <block id="d65a6ba5ce40987a368f3f757b5721ae" category="list-text">*スナップショット・ディレクトリを表示する（CVS -パフォーマンスとCVS - SWの両方で利用可能）*このオプションはSMBクライアントがSMB共有内のスナップショット・ディレクトリにアクセスできるかどうかを制御します（\\server\share\~snapshotタブまたはPrevious Versionsタブ）。デフォルトの設定はチェックされませんボリュームのデフォルトは'~snapshot'ディレクトリへのアクセスを非表示にして拒否し'ボリュームの[以前のバージョン]タブにスナップショット・コピーは表示されません</block>
+  <block id="9ebf5e1b6bf20c2942f0add8e979dd7a" category="paragraph"><block ref="9ebf5e1b6bf20c2942f0add8e979dd7a" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="baf0124343f1806f3ff44f011e92c73f" category="paragraph">セキュリティ上の理由、パフォーマンス上の理由（これらのフォルダをAVスキャンから非表示にする）、または設定上の理由から、エンドユーザに対してSnapshotコピーを非表示にすることが望ましい場合があります。Cloud Volumes Service スナップショットは読み取り専用であるため、これらのスナップショットが表示されていても、エンドユーザーはスナップショットディレクトリ内のファイルを削除または変更することはできません。Snapshotコピーが作成された時点のファイルまたはフォルダのファイル権限Snapshotコピー間でファイルまたはフォルダの権限が変更された場合、変更内容はSnapshotディレクトリ内のファイルまたはフォルダにも適用されます。ユーザとグループは、権限に基づいてこれらのファイルやフォルダにアクセスできます。Snapshotディレクトリ内のファイルの削除または変更はできませんが、ファイルまたはフォルダをSnapshotディレクトリからコピーすることは可能です。</block>
+  <block id="2716bd858fb85bb9b111c5d51138cb40" category="list-text">* SMB暗号化を有効にします（CVS -パフォーマンスとCVS - SWの両方で利用可能）。* SMB暗号化は、SMB共有ではデフォルトで無効になっています（オフ）。このチェックボックスをオンにすると、SMB暗号化が有効になります。つまり、SMBクライアントとサーバ間のトラフィックが、ネゴシエートされたサポート対象の最大暗号化レベルで転送中に暗号化されます。Cloud Volumes Service は、SMBで最大AES-256暗号化をサポートしています。SMB暗号化を有効にした場合、SMBクライアントが気づくことがあるパフォーマンス低下はありません。約10~20%の範囲になります。ネットアップでは、パフォーマンスへの影響が許容されるかどうかをテストで確認することを強く推奨してい</block>
+  <block id="ab7715a00a3e7691d84318bb2f1a3bc1" category="list-text">* SMB共有を非表示にします（CVS -パフォーマンスとCVS - SWの両方に利用できます）。*このオプションを設定すると、SMB共有パスが通常の閲覧から見えなくなります。つまり、共有パスがわからないクライアントは、デフォルトのUNCパス（例：\\cvs-smb）にアクセスすると共有を参照できません。このチェックボックスをオンにすると、SMB共有パスを明示的に知っているクライアント、またはグループポリシーオブジェクトによって定義された共有パスを持つクライアントだけが、このパスにアクセスできます（難読化によるセキュリティ）。</block>
+  <block id="67699a5a5f5ec8d69977d9f44b521201" category="inline-link">アクセスベースの列挙（ABE）の仕組み</block>
+  <block id="eb36f3383eadcd01f954bc9848b7de21" category="list-text">*アクセスベースの列挙（ABE）を有効にします（CVS - SWのみ）。* SMB共有を非表示にするのと似ています。ただし、共有やファイルは、オブジェクトへのアクセス権限がないユーザまたはグループに対してのみ表示されます。たとえば、Windowsユーザ「joe」に許可されているアクセス許可で少なくとも読み取りアクセスが許可されていない場合、Windowsユーザ「joe」はSMB共有またはファイルをまったく表示できません。このオプションはデフォルトでは無効になっており、チェックボックスを選択することで有効にできます。ABEの詳細については、ネットアップの技術情報アーティクルを参照してください<block ref="6d2d0139fec74415d85dc1015aa48640" category="inline-link-rx"></block></block>
+  <block id="5ff6480cf15803c821d9cc9bb3dcbe5c" category="inline-link">継続的可用性を備えたSMB共有</block>
+  <block id="17faa8cfb0bc70572c6d4f120cb6de10" category="list-text">*継続的可用性（CA）共有のサポートを有効にします（CVS -パフォーマンスのみ）。*<block ref="97476034cc2961d2c1c061d5bdcc519a" category="inline-link-rx"></block> Cloud Volumes Service バックエンドシステム内のノード間でロック状態をレプリケートすることで、フェイルオーバーイベント中のアプリケーションの停止を最小限に抑えることができます。これはセキュリティ機能ではありませんが、全体的な耐障害性は向上します。現在、この機能では、SQL ServerとFSLogixアプリケーションのみがサポートされています。</block>
+  <block id="f816f594817af59eac10c8385f34d319" category="section-title">デフォルトの非表示共有</block>
+  <block id="7ce84bf53b21b783ae6c62b61f60f9e3" category="inline-link">非表示の管理共有</block>
+  <block id="31a7b0c828b1a1039c3fe9e855430acd" category="paragraph">Cloud Volumes Service でSMBサーバを作成すると、その場所に配置されます<block ref="e698db250309574e2563e69229bd950f" category="inline-link-rx"></block> データボリュームのSMB共有に加えて作成される（$命名規則を使用）。これには、C$（名前空間アクセス）とIPC$（Microsoft管理コンソール（MMC）へのアクセスに使用されるリモート手順 呼び出し（RPC）などのプログラム間の通信用の名前付きパイプの共有）が含まれます。</block>
+  <block id="64667cec654fa57a129c5c1fe752d7ae" category="inline-link">Windowsは、これらの共有への匿名アクセスをデフォルトで禁止します</block>
+  <block id="7962a42fa319b5ea9ccf0429193d4f3c" category="paragraph">IPC$共有には共有ACLは含まれておらず、変更することはできません。これはRPC呼び出しおよびにのみ使用されます<block ref="582b1e06ccfbbf9885ff446ec79f8b0f" category="inline-link-rx"></block>。</block>
+  <block id="c2c8a4f76f99f203d14ee3c1adae3c40" category="paragraph">C$共有ではデフォルトでBUILTIN\Administratorsアクセスが許可されますが、Cloud Volumes Service 自動化によって共有ACLが削除され、C$共有へのアクセスによってCloud Volumes Service ファイルシステム内のマウントされたすべてのボリュームが可視化されるため、すべてのユーザにアクセスすることはできません。その結果'\\server\C$'への移動は失敗します</block>
+  <block id="444613ce56f4180cf88b531783a9e3bc" category="section-title">ローカル/ BUILTIN管理者/バックアップ権限を持つアカウント</block>
+  <block id="5659f387517ed75a127b9a6bda6f1329" category="paragraph">Cloud Volumes Service SMBサーバは、選択したドメインユーザおよびグループにアクセス権を適用するローカルグループ（BUILTIN\Administratorsなど）があることに、通常のWindows SMBサーバと同様の機能を維持します。</block>
+  <block id="709eb202e09b717ba82624b788948428" category="inline-link">SeBackupPrivilegeおよびSeRestorePrivilege</block>
+  <block id="03455d8db7797aab1e6e9efe9bf4d2a5" category="paragraph">バックアップユーザに追加するユーザを指定すると、そのActive Directory接続を使用するCloud Volumes Service インスタンスのBUILTIN\Backup Operatorsグループにユーザが追加され、が取得されます<block ref="3d66e5b4422b04db3b01ddbcafb3649a" category="inline-link-rx"></block>。</block>
+  <block id="b5b39a908a856900d75e0b129fb9e349" category="inline-link">SMB共有上のSQL Server</block>
+  <block id="52f5e8856edf4d634cf608cb64bec885" category="paragraph">Security Privilegeユーザにユーザを追加すると、そのユーザにはSeSecurityPrivilegeが付与されます。これは、などの一部のアプリケーションユースケースで役立ちます<block ref="b685ff2242ac25f5022af8207109cc39" category="inline-link-rx"></block>。</block>
+  <block id="99c9211b9f5166d96d9e6613c4be9f77" category="paragraph"><block ref="99c9211b9f5166d96d9e6613c4be9f77" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="59976878f4cfcf8cd4a9bccf37270fec" category="paragraph">Cloud Volumes Service ローカルグループメンバーシップは、適切な権限を持つMMCを使用して表示できます。次の図に、Cloud Volumes Service コンソールを使用して追加されたユーザを示します。</block>
+  <block id="9b02abec53251430b553f5124b676b1f" category="paragraph"><block ref="9b02abec53251430b553f5124b676b1f" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="09e7cb53843328fd35bff1d1075e8e04" category="paragraph">次の表に、デフォルトのBUILTINグループのリストと、デフォルトで追加されるユーザ/グループを示します。</block>
+  <block id="52087222d7968b7bd85e5698912f6cee" category="cell">ローカル/ BUILTINグループ</block>
+  <block id="c899fa178e9ccd9c46154a79773b9e8e" category="cell">デフォルトのメンバー</block>
+  <block id="f6c0ddae69a704e001f6cba9fba3f951" category="cell">builtin\Administrators*</block>
+  <block id="6930162f33d7d3cc792907afc2d709d6" category="cell">Domain\Domain Adminsの略</block>
+  <block id="291b9d53abc37bd4eeab64a68607df4f" category="cell">Builtin\Backup Operators*</block>
+  <block id="f87e4b3cc74234e59b0d07ad558b2c05" category="cell">組み込みのゲスト</block>
+  <block id="bea5dc29e529ecf572942e7f6cbbf19b" category="cell">Domain\Domainゲスト</block>
+  <block id="bafee069f6320499a0f630485028a961" category="cell">Builtin\Power Usersの場合</block>
+  <block id="d3ffae89384cc2219d9dc26887d6422c" category="cell">組み込みのドメインユーザ</block>
+  <block id="a26444fe66f07a77f6e392ad714158ff" category="cell">Domain\Domain Usersの略</block>
+  <block id="ee6df957412594fad1ce714d75089e5f" category="paragraph">*グループメンバーシップはCloud Volumes Service Active Directory接続設定で制御されます。</block>
+  <block id="c648fec724703de3d038fda21e884ef7" category="paragraph">MMCウィンドウにはローカルユーザとローカルグループ（およびグループメンバー）を表示できますが、このコンソールからオブジェクトの追加や削除、グループメンバーシップの変更はできません。デフォルトでは、Cloud Volumes Service のBUILTIN\AdministratorsグループとAdministratorのみが追加されます。現時点では、これを変更することはできません。</block>
+  <block id="39aedbfda9a943aea0e4c841bc68dc0a" category="paragraph"><block ref="39aedbfda9a943aea0e4c841bc68dc0a" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="0ae7d2b2ec0c231b6934886bf6690c9e" category="paragraph"><block ref="0ae7d2b2ec0c231b6934886bf6690c9e" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="255c5bd3cdece4dd4a7891941d9c964e" category="section-title">MMC /コンピュータ管理アクセス</block>
+  <block id="7f956759e187dbb2b65022241e8053cd" category="paragraph">Cloud Volumes Service のSMBアクセスはコンピュータの管理MMCへの接続を提供します。MMCを使用すると、共有の表示、共有ACLの管理、SMBセッションの表示と管理、および開いているファイルの表示を行うことができます。</block>
+  <block id="e3d561744b3b4f6ab5953c2f96daaad7" category="paragraph">MMCを使用してCloud Volumes Service のSMB共有およびセッションを表示するには、現在ログインしているユーザがドメイン管理者である必要があります。他のユーザには、MMCを使用したSMBサーバの表示または管理へのアクセスを許可されているほか、Cloud Volumes Service SMBインスタンスで共有やセッションを表示しようとすると、[You do not have Permissions]ダイアログボックスが表示されます。</block>
+  <block id="aaf8b324d80834b9d235cb6b6d84be89" category="paragraph">SMBサーバーに接続するには、[コンピューターの管理]を開き、[コンピューターの管理]を右クリックして、[別のコンピューターに接続]を選択します。コンピュータの選択ダイアログボックスが開き、SMBサーバ名（Cloud Volumes Service ボリューム情報に含まれています）を入力できます。</block>
+  <block id="c34ce8bbe19f26cf58867de938f87920" category="paragraph">適切な権限を持つSMB共有を表示すると、Active Directory接続を共有するCloud Volumes Service インスタンス内の使用可能なすべての共有が表示されます。この動作を制御するには、Cloud Volumes Service ボリュームインスタンスでSMB共有を非表示オプションを設定します。</block>
+  <block id="5bcf8cb715ebf788ba3e70915f4256c2" category="paragraph">リージョンごとに許可されるActive Directory接続は1つだけです。</block>
+  <block id="b939aeb87de29dc576ad4adc5fa19bce" category="paragraph"><block ref="b939aeb87de29dc576ad4adc5fa19bce" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="c57a1134332b8bafcaa5f411a65b4a49" category="paragraph"><block ref="c57a1134332b8bafcaa5f411a65b4a49" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="1325fb66f29e707e7e3402f0d45d59dc" category="paragraph">次の表に、MMCでサポートされる機能とサポートされない機能を示します。</block>
+  <block id="241bac47978fca670a6b9c52e3432067" category="cell">サポートされている機能</block>
+  <block id="fe2de21fdfcaf4ed19a251aab83bf0ff" category="cell">サポートされていない機能</block>
+  <block id="ad338fe21209358afd2f29eee14817c6" category="list-text">共有を表示します</block>
+  <block id="a5dc19ca94f052a57587a2f4f1433678" category="list-text">アクティブなSMBセッションを表示します</block>
+  <block id="ff50826288707e494282b4cf6bec983b" category="list-text">開いているファイルを表示します</block>
+  <block id="8c006cf58f2706f56d65e1431b1e128e" category="list-text">ローカルユーザとローカルグループを表示します</block>
+  <block id="bad02cc8e307a9ac8bf6899188811a54" category="list-text">ローカルグループメンバーシップを表示します</block>
+  <block id="5ab1c0d0251d23bc086198a8fc219a69" category="list-text">システムのセッション、ファイル、およびツリー接続のリストを列挙します</block>
+  <block id="bd7ff4b31e7eade785d74789a052242c" category="list-text">開いているファイルを閉じます</block>
+  <block id="3a6cd2ea18cf077c57b65c28c40f9851" category="list-text">開いているセッションを閉じます</block>
+  <block id="e5ded1413b3fd0a1690184029acf1845" category="list-text">共有を作成 / 管理します</block>
+  <block id="b4d1348a7ae3aa39ac1fbd299a07ebb9" category="list-text">新しいローカルユーザ / グループを作成しています</block>
+  <block id="5c3d34e6fdaee1edee0722fcef147f8a" category="list-text">既存のローカルユーザ/グループの管理/表示</block>
+  <block id="1c79052ffd16d848acb6278dd54f0d33" category="list-text">イベントまたはパフォーマンスログを表示します</block>
+  <block id="eedf037c0977372c4f0adaa359d5f6e0" category="list-text">ストレージの管理</block>
+  <block id="d5d1ca904ae55c0d5399eb923b8d6d21" category="list-text">サービスとアプリケーションの管理</block>
+  <block id="dddaf61539328810b230a60430960038" category="section-title">SMBサーバのセキュリティ情報</block>
+  <block id="7c7ff5a0c882bba2c6d86dc13caa6e49" category="paragraph">Cloud Volumes Service のSMBサーバでは、Kerberosのクロックスキュー、チケットの有効期間、暗号化など、SMB接続のセキュリティポリシーを定義する一連のオプションを使用します。</block>
+  <block id="bdf80cb84c583e3d6af81c4778921102" category="paragraph">次の表に、これらのオプションとその機能、デフォルト設定、およびCloud Volumes Service で変更できるかどうかを示します。一部のオプションはCloud Volumes Service には適用されません。</block>
+  <block id="708cc30ece03d9ba30511bea4ea09792" category="cell">セキュリティオプション</block>
+  <block id="ad67361f283520dada90173b5fbfaad7" category="cell">Kerberosの最大クロックスキュー（分）</block>
+  <block id="ebd83f9f3f1a10793a7aaf199f57a32b" category="cell">Cloud Volumes Service とドメインコントローラ間の最大時間スキューを指定します。時刻のずれが5分を超えるとKerberos認証は失敗します。これはActive Directoryのデフォルト値に設定されています。</block>
+  <block id="e4da3b7fbbce2345d7772b0674a318d5" category="cell">5.</block>
+  <block id="ccf9068a42f159a1b1cd3e07b84c5ecd" category="cell">Kerberosチケットの有効期間（時間）</block>
+  <block id="34c1c29ec6cffe3b75b5f4db3cd4e12f" category="cell">Kerberosチケットの有効期間が終了しないと更新が必要になります。10時間以内に更新が行われない場合は、新しいチケットを取得する必要があります。Cloud Volumes Service は、これらの更新を自動的に実行します。Active Directoryのデフォルト値は10時間です。</block>
+  <block id="b63288488b52af4af602d79dce8aa252" category="cell">Kerberosチケットの最大更新日数</block>
+  <block id="082ea39c709884c3439c0b1e937ee15a" category="cell">新しい許可要求が必要になるまでKerberosチケットを更新できる最大日数。Cloud Volumes Service はSMB接続のチケットを自動的に更新します。Active Directoryのデフォルト値は7日です。</block>
+  <block id="8f14e45fceea167a5a36dedd4bea2543" category="cell">7.</block>
+  <block id="2127af947646b417ab67c66e82922af5" category="cell">Kerberos KDC接続タイムアウト（秒）</block>
+  <block id="4a4dfa50ac48d9523d22b929a8df2e01" category="cell">KDC接続がタイムアウトするまでの秒数。</block>
+  <block id="09b779421f875a0831c9165f7730b710" category="cell">受信SMBトラフィックに署名を要求します</block>
+  <block id="8f4c5ae7b0c978c58bbe10790f9eb578" category="cell">SMBトラフィックに署名を要求するかどうかを設定します。trueに設定すると、署名をサポートしていないクライアントは接続に失敗します。</block>
+  <block id="c77326ff7e3ae38e2b7ed07e3bff97e8" category="cell">ローカルユーザアカウントに複雑なパスワードを要求します</block>
+  <block id="fab3a355aeb5f939ba8dcdc4ae0ea4b8" category="cell">ローカルSMBユーザのパスワードに使用します。Cloud Volumes Service ではローカルユーザの作成はサポートされないため、このオプションはCloud Volumes Service には適用されません。</block>
+  <block id="a3ab2beb782b5f0d7b6d1eb3cacdff1f" category="cell">Active Directory LDAP接続にはstart_tlsを使用します</block>
+  <block id="0e46800ed1870ec055aaa1a1193ff94e" category="cell">Active Directory LDAPのStart TLS接続を有効にするために使用します。現在、Cloud Volumes Service ではこの機能の有効化がサポートされていませ</block>
+  <block id="b3734582301f762d04b757dd4bc38917" category="cell">は、KerberosのAES-128およびAES-256暗号化を有効にします</block>
+  <block id="4f36af6c9bdde3ebcee7b34176ffe895" category="cell">Active Directory接続にAES暗号化を使用するかどうかを制御し、Active Directory接続の作成/変更時にActive Directory認証用のAES暗号化を有効にするオプションで制御します。</block>
+  <block id="60a39bccb81f56ddfcbb75f0ffcd1fb6" category="cell">LM互換性レベル</block>
+  <block id="a4ada97522d5a887e144bf5d59b41a79" category="cell">Active Directory接続でサポートされている認証ダイアレクトのレベル。「」を参照してください<block ref="17dc1460fa48a825f7967ddb6804d663" category="inline-xref-macro-rx"></block>」を参照してください。</block>
+  <block id="cba8970659f15f342022079c22a97ee9" category="cell">NTLMv2 - krb</block>
+  <block id="5e22abe32604d6b7925fa4768934bb5d" category="cell">受信CIFSトラフィックにSMB暗号化を要求します</block>
+  <block id="ae7c4fcb353d520e8996acadf9c9c42f" category="cell">すべての共有でSMB暗号化が必要です。これはCloud Volumes Service では使用されません。代わりに、ボリューム単位で暗号化を設定します（「」を参照）<block ref="6931acdfb95dc44f28af40d26d20d65c" category="inline-xref-macro-rx"></block>」）をクリックします。</block>
+  <block id="e00514b301b6206c1024de564d0d71fe" category="cell">クライアントセッションセキュリティ</block>
+  <block id="b9e69cb6a219e02ada3e29b808558c45" category="inline-link-macro">「LDAPチャネルバインディング」</block>
+  <block id="d16466e25f07f41d5c768e32becc9751" category="cell">LDAP通信の署名と封印を設定します。この機能は現在Cloud Volumes Service には設定されていませんが、今後のリリースでサポートする必要が生じる可能性があります。WindowsパッチによるLDAP認証の問題に対する修正については、セクションで説明しています <block ref="4bb24ef2f48443c7e6d43902d0f8498e" category="inline-link-macro-rx"></block>。</block>
+  <block id="b4c17f5cf25d927d8fb7dbab5e1d84c5" category="cell">DC接続のSMB2有効化</block>
+  <block id="31a7643648d0d4454c1fd8a860f1a12d" category="cell">DC接続にSMB2を使用します。デフォルトは有効です。</block>
+  <block id="2cd88a3568a04efbfd46abb6cce9a411" category="cell">システム-デフォルト</block>
+  <block id="6158881a00903bd45b66955e6487a27c" category="cell">LDAPリファーラル追跡</block>
+  <block id="4ddc9ad0bd193ba15a48f662666ccd96" category="cell">セキュアなActive Directory接続にLDAPSを使用します</block>
+  <block id="4182d7f699521f08b56835082e7caf27" category="cell">LDAP over SSLを有効にします。現在、Cloud Volumes Service ではサポートされていません。</block>
+  <block id="b31e0a21b1fa97ab2faf1479ea00c9db" category="cell">DC接続には暗号化が必要です</block>
+  <block id="23cc5b51f575d3c458ac112689f7a2f1" category="cell">DC接続を成功させるには暗号化が必要です。Cloud Volumes Service ではデフォルトで無効になっています。</block>
+  <block id="595451bb2138edcd7bd73c4e11f8890d" category="inline-link-macro">次の例：デュアルプロトコル/マルチプロトコル</block>
+  <block id="47b43136bb3740d6abdf3823c798bd7e" category="paragraph"><block ref="47b43136bb3740d6abdf3823c798bd7e" category="inline-link-macro-rx"></block></block>
+  <block id="3c22f403dc730d637a0fd61e97873829" category="sidebar">セキュリティの概要- NetApp Cloud Volumes Service in Google Cloud</block>
+  <block id="ebd8431a0b14e9588377860f5d21d80b" category="sidebar">アーキテクチャの概要</block>
+  <block id="a20fe2a1eb3b2546487a96f1e639d4f3" category="sidebar">その他のNASインフラストラクチャサービスの依存関係（KDC、LDAP、DNS）</block>
 </blocks>

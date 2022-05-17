@@ -1,0 +1,77 @@
+---
+sidebar: sidebar 
+permalink: ehc/ncvs/ncvs-gc-how-cloud-volumes-service-in-google-cloud-secures-your-data.html 
+keywords: secure, architecture, tenancy model, identity management, control plane, security hardening, encryption, zero trust, ransomware 
+summary: Google CloudのCloud Volumes Service は、さまざまな方法でデータをネイティブに保護します。 
+---
+= Google CloudのCloud Volumes Service でデータを保護する方法
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+link:ncvs-gc-overview.html["前へ：概要。"]
+
+Google CloudのCloud Volumes Service は、さまざまな方法でデータをネイティブに保護します。
+
+
+
+== セキュアなアーキテクチャとテナンシーモデル
+
+Cloud Volumes Service は、異なるエンドポイント間でサービス管理（コントロールプレーン）とデータアクセス（データプレーン）をセグメント化することで、Google Cloudのセキュアなアーキテクチャを提供します。これにより、どちらも他方に影響を与えることはありません（を参照） link:ncvs-gc-cloud-volumes-service-architecture.html["「Cloud Volumes Service アーキテクチャ」"]）。Googleを使用している https://cloud.google.com/vpc/docs/private-services-access?hl=en_US["プライベートサービスへのアクセス"^] （PSA）サービスを提供するためのフレームワーク。このフレームワークでは、ネットアップが提供、運用するサービスプロデューサーと、Cloud Volumes Service ファイル共有にアクセスするクライアントをホストする顧客プロジェクトのVirtual Private Cloud（VPC；仮想プライベートクラウド）であるサービスコンシューマが区別されます。
+
+このアーキテクチャでは、テナント（セクションを参照） link:ncvs-gc-cloud-volumes-service-architecture.html#tenancy-model["「テナンシーモデル」"]）は、ユーザーが明示的に接続していない限り、互いに完全に分離されたGoogle Cloudプロジェクトとして定義されます。テナントを使用すると、Cloud Volumes Service ボリュームプラットフォームを使用して、データボリューム、外部ネームサービス、その他の重要な解決策 を他のテナントから完全に分離できます。Cloud Volumes Service プラットフォームはVPCピアリングを通じて接続されるため、その分離環境 も接続されます。共有VPCを使用して、複数のプロジェクト間でのCloud Volumes Service ボリュームの共有を有効にすることができます（を参照） link:ncvs-gc-cloud-volumes-service-architecture.html#tenancy-model#shared-vpcs["「共有VPC」"]）。SMB共有およびNFSエクスポートにアクセス制御を適用することで、データセットを表示または変更できるユーザまたはユーザを制限できます。
+
+
+
+== コントロールプレーンの強力なアイデンティティ管理
+
+Cloud Volumes Service 構成が行われるコントロールプレーンでは、を使用してアイデンティティ管理を管理します https://cloud.google.com/iam/docs/overview["IDアクセス管理（IAM）"^]。IAMは、Google Cloudプロジェクトインスタンスに対する認証（ログイン）と許可（権限）を制御できる標準サービスです。すべての設定は、TLS 1.2暗号化を使用したセキュアなHTTPS転送を介してCloud Volumes Service APIで実行され、セキュリティを強化するためにJWTトークンを使用して認証が実行されます。Cloud Volumes Service 用のGoogleコンソールUIは、ユーザ入力をCloud Volumes Service API呼び出しに変換します。
+
+
+
+== セキュリティ強化-攻撃面の制限
+
+効果的なセキュリティの一部は、サービスで使用できる攻撃対象の数を制限することです。攻撃対象には、保管データ、転送中転送、ログイン、データセット自体など、さまざまなものが含まれます。
+
+マネージドサービスを使用すると、本質的に設計上の攻撃対象の一部が削除されます。の説明に従って、インフラストラクチャ管理を行います link:ncvs-gc-service-operation.html[""サービスオペレーション""] は専用チームによって処理され、人間が実際に構成に触れる回数を減らすために自動化されます。これにより、意図的なエラーや意図しないエラーの数を減らすことができます。必要なサービスだけが互いにアクセスできるように、ネットワークは遮断されます。暗号化はデータストレージに組み込まれており、Cloud Volumes Service 管理者はデータプレーンだけにセキュリティ上の注意を払う必要があります。APIインターフェイスの背後にあるほとんどの管理を隠すことで、攻撃対象を制限することでセキュリティを実現します。
+
+
+
+== ゼロトラストモデル
+
+ITセキュリティの考え方は、これまでは信頼されていましたが、その信頼性は確認されており、脅威を軽減するために外部メカニズム（ファイアウォールや侵入検知システムなど）のみに依存していることが明示されてきました。しかし、攻撃や侵害は、フィッシング、ソーシャルエンジニアリング、内部の脅威など、ネットワークに侵入したり破壊的になったりするための検証を提供する方法によって、環境内での検証をバイパスするように進化しています。
+
+ゼロ・トラストは、セキュリティの新しい方法論になりました。現在のテーマは「すべてを検証しながらは何も信頼しない」です。 したがって、デフォルトではアクセスは許可されません。この問題は、標準ファイアウォールや侵入検知システム（IDS）など、さまざまな方法で実施されています。また、次の方法も適用されています。
+
+* 強力な認証方法（AESで暗号化されたKerberosトークンやJWTトークンなど）
+* 単一の強力なアイデンティティソース（Windows Active Directory、Lightweight Directory Access Protocol（LDAP）、Google IAMなど）
+* ネットワークのセグメント化とセキュアマルチテナンシー（デフォルトではテナントのみにアクセス可能）
+* 最小限の権限付きアクセスポリシーで詳細なアクセス制御を実現します
+* デジタル監査と紙の記録を使用した、信頼できる専任管理者の限定リスト
+
+
+Google Cloudで実行されているCloud Volumes Service は、「何も信用しない、すべてを検証する」というスタンスを実装することで、ゼロトラストモデルに準拠しています。
+
+
+
+== 暗号化
+
+保存データを暗号化する（を参照） link:ncvs-gc-data-encryption-at-rest.html["「保存データの暗号化」"]）転送には、NetApp Volume Encryption（NVE）および転送中のXTS-AES-256暗号を使用します link:ncvs-gc-data-encryption-in-transit.html#nas-protocols#smb-encryption["「SMB暗号化」"] またはNFS Kerberos 5pをサポート。リージョン間レプリケーションの転送はTLS 1.2暗号化で保護されているので、安心して実行できます（を参照） link:ncvs-gc-security-considerations-and-attack-surfaces.html#detection,-prevention-and-mitigation-of-ransomeware,-malware,-and-viruses#cross-region-replication["「リージョン間レプリケーション」"]）。さらに、Googleネットワークは暗号化された通信も提供します（を参照） link:ncvs-gc-data-encryption-in-transit.html["「転送中のデータ暗号化」"]）を使用してください。転送暗号化の詳細については、を参照してください link:ncvs-gc-data-encryption-in-transit.html#google-cloud-network["「Google Cloudネットワーク」"]。
+
+
+
+== データ保護とバックアップ
+
+セキュリティとは、攻撃の防御だけではありません。また、攻撃が発生した場合や発生した場合にどのように復旧するかについても説明します。この戦略には、データ保護とバックアップが含まれます。Cloud Volumes Service には、システム停止時に他のリージョンにレプリケートする方法が用意されています（を参照） link:ncvs-gc-security-considerations-and-attack-surfaces.html#detection,-prevention-and-mitigation-of-ransomeware,-malware,-and-viruses#cross-region-replication["「リージョン間レプリケーション」"]）またはデータセットがランサムウェア攻撃の影響を受ける場合。を使用して、Cloud Volumes Service インスタンス以外の場所へのデータの非同期バックアップを実行することもできます link:ncvs-gc-security-considerations-and-attack-surfaces.html#detection,-prevention-and-mitigation-of-ransomeware,-malware,-and-viruses#cloud-volumes-service-backup["Cloud Volumes Service バックアップ"]。定期的なバックアップにより、セキュリティイベントの緩和にかかる時間を短縮し、管理者にとってコストと不安を軽減できます。
+
+
+
+== 業界をリードするSnapshotコピーでランサムウェアを迅速に軽減
+
+Cloud Volumes Service では、データ保護とバックアップに加えて、書き換え不可のSnapshotコピーもサポートしています（を参照） link:ncvs-gc-security-considerations-and-attack-surfaces.html#detection,-prevention-and-mitigation-of-ransomeware,-malware,-and-viruses#immutable-snapshot-copies["「不変のSnapshotコピー」"]）ランサムウェア攻撃からのリカバリを可能にするボリューム（を参照） link:ncvs-gc-service-operation.html["「サービスオペレーション」"]）問題 を検出してから数秒以内に、システム停止を最小限に抑えることができます。リカバリ時間と影響はSnapshotスケジュールによって異なりますが、ランサムウェア攻撃ではわずか1時間の差分しか提供しないSnapshotコピーを作成できます。Snapshotコピーは、パフォーマンスや容量使用率にほとんど影響を与えず、データセットを保護するリスクが低く、効果も高くなります。
+
+link:ncvs-gc-security-considerations-and-attack-surfaces.html["次に、セキュリティに関する考慮事項と攻撃対象を示します。"]
