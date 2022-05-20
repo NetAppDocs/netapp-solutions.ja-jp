@@ -20,6 +20,7 @@ summary:
 
 * link:#config["Azure で AVS を設定する"]
 * link:#datastore["AVS 向けのネットアップストレージオプション"]
+* link:#solutions["ネットアップとVMwareのクラウドソリューション"]
 
 
 
@@ -35,10 +36,12 @@ NOTE: Azure NetApp Files と Cloud Volumes ONTAP を Azure VMware 解決策に�
 
 セットアッププロセスは、次の手順に分けることができます。
 
-* link:azure-setup.html#register["リソースプロバイダを登録し、プライベートクラウドを作成"]
-* link:azure-setup.html#connect["新しい ExpressRoute 仮想ネットワークゲートウェイまたは既存の ExpressRoute 仮想ネットワークゲートウェイに接続します"]
-* link:azure-setup.html#validate["ネットワーク接続を検証し、プライベートクラウドにアクセス"]
+* リソースプロバイダを登録し、プライベートクラウドを作成
+* 新しい ExpressRoute 仮想ネットワークゲートウェイまたは既存の ExpressRoute 仮想ネットワークゲートウェイに接続します
+* ネットワーク接続を検証し、プライベートクラウドにアクセス
 
+
+詳細を表示します link:azure-setup.html["AVSの設定手順"]。
 
 
 
@@ -50,16 +53,27 @@ NOTE: Azure NetApp Files と Cloud Volumes ONTAP を Azure VMware 解決策に�
 
 Azure は、以下の構成でネットアップストレージをサポートします。
 
-* ゲスト接続ストレージ *
+* ゲスト接続ストレージとしての Azure NetApp Files （ ANF
+* Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用
+* ネイティブデータストアとしてのAzure NetApp Files （ANF）^1 ^
 
-* link:azure-guest.html#anf["ゲスト接続ストレージとしての Azure NetApp Files （ ANF"]
-* link:azure-guest.html#cvo["Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用"]
 
+詳細を表示します link:azure-guest.html["AVSのゲスト接続ストレージオプション"]。
 
-* ネイティブデータストア *
-
-* link:https://azure.microsoft.com/en-us/updates/azure-netapp-files-datastores-for-azure-vmware-solution-is-coming-soon/["ネイティブデータストアとしての Azure NetApp Files （ ANF ） ^1"^]
-
+詳細については、をご覧ください link:https://azure.microsoft.com/en-us/updates/azure-netapp-files-datastores-for-azure-vmware-solution-is-coming-soon/["ネイティブデータストアとしての Azure NetApp Files （ ANF ） ^1"^]。
 
 
 NOTE: 1- 現在プライベートプレビュー中です
+
+
+
+== 解決策のユースケース
+
+ネットアップと VMware のクラウドソリューションを使用すれば、多くのユースケースを Azure AVS で簡単に導入できます。SEケースは、VMwareが定義したクラウド領域ごとに定義されます。
+
+* 保護（ディザスタリカバリとバックアップ/リストアの両方を含む）
+* 拡張
+* 移動
+
+
+link:azure-solutions.html["Azure AVS 向けネットアップソリューションをご覧ください"]

@@ -16,10 +16,10 @@ summary:
 [role="lead"]
 サポートされている各ハイパースケーラで仮想化環境を設定する方法については、こちらで詳しく説明しています。
 
-
-
-=== AWS （ VMC ）の仮想化環境構成
-
+[role="tabbed-block"]
+====
+.AWS / VMC
+--
 このセクションでは、 AWS SDDC で VMware Cloud をセットアップおよび管理する方法と、ネットアップストレージの接続に使用できるオプションについて説明します。
 
 
@@ -27,14 +27,15 @@ NOTE: FSX ONTAP および Cloud Volumes ONTAP を AWS VMC に接続する方法�
 
 セットアッププロセスは、次の手順に分けることができます。
 
-* link:aws/aws-setup.html#deploy["VMware Cloud for AWS を導入して設定"]
-* link:aws/aws-setup.html#connect["VMware Cloud を FSX ONTAP に接続します"]
+* VMware Cloud for AWSを導入して設定
+* VMware Cloud を FSX ONTAP に接続します
 
 
+詳細を表示します link:aws/aws-setup.html["VMCの設定手順"]。
 
-
-=== Azure 向け仮想化環境の構成（ AVS ）
-
+--
+.Azure / AVS
+--
 このセクションでは、 Azure VMware 解決策をセットアップおよび管理する方法と、ネットアップストレージの接続に使用できるオプションについて説明します。
 
 
@@ -42,15 +43,16 @@ NOTE: Azure NetApp Files と Cloud Volumes ONTAP を Azure VMware 解決策に�
 
 セットアッププロセスは、次の手順に分けることができます。
 
-* link:azure/azure-setup.html#register["リソースプロバイダを登録し、プライベートクラウドを作成"]
-* link:azure/azure-setup.html#connect["新しい ExpressRoute 仮想ネットワークゲートウェイまたは既存の ExpressRoute 仮想ネットワークゲートウェイに接続します"]
-* link:azure/azure-setup.html#validate["ネットワーク接続を検証し、プライベートクラウドにアクセス"]
+* リソースプロバイダを登録し、プライベートクラウドを作成
+* 新しい ExpressRoute 仮想ネットワークゲートウェイまたは既存の ExpressRoute 仮想ネットワークゲートウェイに接続します
+* ネットワーク接続を検証し、プライベートクラウドにアクセス
 
 
+詳細を表示します link:azure/azure-setup.html["AVSの設定手順"]。
 
-
-=== GCP の仮想化環境構成（ GCVE ）
-
+--
+.GCP/GCVE
+--
 このセクションでは、 GCVE のセットアップと管理方法、およびネットアップストレージの接続に使用できるオプションとの組み合わせについて説明します。
 
 
@@ -58,6 +60,11 @@ NOTE: Cloud Volume と Cloud Volumes ONTAP サービスを GCVE に接続する�
 
 セットアッププロセスは、次の手順に分けることができます。
 
-* link:gcp/gcp-setup.html#deploy["GCVE を導入および設定します"]
-* link:gcp/gcp-setup.html#enable-access["GCVE へのプライベートアクセスを有効にします"]
+* GCVE を導入および設定します
+* GCVE へのプライベートアクセスを有効にします
 
+
+詳細を表示します link:gcp/gcp-setup.html["GCVEの設定手順"]。
+
+--
+====

@@ -14,16 +14,27 @@ summary:
 
 
 [role="lead"]
-Google Cloud は、次の構成でネットアップストレージをサポートします。
-
-* link:#cvo["Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用"]
-* link:#cvs["Cloud Volumes Service （ CVS ）をゲスト接続ストレージとして使用できるようになりました"]
+GCPは、Cloud Volumes ONTAP （CVO）またはCloud Volumes Service （CVS）でゲスト接続のネットアップストレージをサポートします。
 
 
 
+== Cloud Volumes ONTAP （CVO）
 
-== Cloud Volumes ONTAP を Google Cloud に導入（自分で導入）
+Cloud Volumes ONTAP （CVO）は、ネットアップのONTAP ストレージソフトウェアを基盤に構築された、業界をリードするクラウドデータ管理解決策 です。Amazon Web Services（AWS）、Microsoft Azure、Google Cloud Platform（GCP）でネイティブに利用できます。
 
+ソフトウェアで定義されるONTAP バージョンで、クラウドネイティブなストレージを消費し、クラウドとオンプレミスで同じストレージソフトウェアを使用できるため、まったく新しい方法でIT担当者のデータ管理を再トレーニングする必要がありません。
+
+CVOを使用すれば、エッジ、データセンター、クラウド間でシームレスにデータを移動し、ハイブリッドクラウドを統合できます。すべてを1画面の管理コンソールであるNetApp Cloud Managerで管理できます。
+
+設計上、CVOは卓越したパフォーマンスと高度なデータ管理機能を備えており、クラウドで最も要件の厳しいアプリケーションにも対応できます
+
+
+
+=== Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用
+
+====
+.Cloud Volumes ONTAP を Google Cloud に導入（自分で導入）
+=====
 Cloud Volumes ONTAP 共有と LUN は、 GCVE プライベートクラウド環境で作成された VM からマウントできます。Cloud Volumes ONTAP は iSCSI 、 SMB 、 NFS の各プロトコルをサポートしているため、 iSCSI 経由でマウントしたボリュームを Linux クライアントや Windows クライアントにマウントし、 LUN に Linux クライアントや Windows クライアントからブロックデバイスとしてアクセスすることもできます。Cloud Volumes ONTAP ボリュームは、いくつかの簡単な手順で設定できます。
 
 ディザスタリカバリや移行の目的でオンプレミス環境からクラウドにボリュームをレプリケートするには、サイト間 VPN または Cloud Interconnect を使用して Google Cloud へのネットワーク接続を確立します。オンプレミスから Cloud Volumes ONTAP へのデータのレプリケートについては、本ドキュメントでは扱いません。オンプレミスシステムと Cloud Volumes ONTAP システム間でデータをレプリケートする方法については、を参照してください link:mailto:CloudOwner@gve.local#setting-up-data-replication-between-systems["システム間のデータレプリケーションの設定"]。
@@ -75,10 +86,11 @@ image:gcve-cvo-guest-9.png[""]
 
 
 
-
-
-=== SMB ボリューム用の追加の設定
-
+=====
+====
+====
+.SMB ボリューム用の追加の設定
+=====
 . 作業環境の準備ができたら、 CIFS サーバに適切な DNS および Active Directory 設定パラメータが設定されていることを確認します。この手順は、 SMB ボリュームを作成する前に実行する必要があります。
 +
 ヒント：メニューアイコン（ º ）をクリックし、詳細設定を選択してオプションを表示し、 CIFS のセットアップを選択します。
@@ -113,10 +125,11 @@ image:gcve-cvo-guest-15.png[""]
 
 
 
-
-
-=== Cloud Volumes ONTAP 上の LUN をホストに接続します
-
+=====
+====
+====
+.Cloud Volumes ONTAP 上の LUN をホストに接続します
+=====
 Cloud Volumes ONTAP LUN をホストに接続するには、次の手順を実行します。
 
 . キャンバスページで、 Cloud Volumes ONTAP 作業環境をダブルクリックしてボリュームを作成および管理します。
@@ -170,10 +183,11 @@ Linux クライアントで、 iSCSI デーモンが実行されていること�
 image:gcve-cvo-guest-21.png[""]
 image:gcve-cvo-guest-22.png[""]
 
-
-
-=== Cloud Volumes ONTAP NFS ボリュームを Linux クライアントにマウント
-
+=====
+====
+====
+.Cloud Volumes ONTAP NFS ボリュームを Linux クライアントにマウント
+=====
 Cloud Volumes ONTAP (DIY) ファイルシステムを Google Cloud VMware Engine 内の VM からマウントするには、次の手順に従います。
 
 以下の手順に従ってボリュームをプロビジョニングします
@@ -205,20 +219,34 @@ image:gcve-cvo-guest-27.png[""]
 
 
 
+=====
+====
 
 
-== VMware Engine を使用して Cloud Volumes Service を設定します
+== Cloud Volumes Service （CVS）
 
+Cloud Volume サービス（CVS）は、高度なクラウドソリューションを提供するための包括的なデータサービスポートフォリオです。Cloud Volume サービスは、主要なクラウドプロバイダ向けに複数のファイルアクセスプロトコルをサポートしています（NFSとSMBのサポート）。
+
+その他のメリットと機能としては、Snapshotによるデータ保護とリストア、オンプレミスとクラウドの間でデータをレプリケート、同期、移行するための特別な機能、専用フラッシュストレージシステムのレベルで一貫した高パフォーマンスが挙げられます。
+
+
+
+=== Cloud Volumes Service （ CVS ）をゲスト接続ストレージとして使用できるようになりました
+
+====
+.VMware Engine を使用して Cloud Volumes Service を設定します
+=====
 Cloud Volumes Service 共有は、 VMware エンジン環境で作成された VM からマウントできます。Cloud Volumes Service では SMB プロトコルと NFS プロトコルがサポートされているため、ボリュームを Linux クライアントにマウントして Windows クライアントにマッピングすることもできます。Cloud Volumes Service ボリュームは簡単な手順で設定できます。
 
 Cloud Volume Service と Google Cloud VMware Engine のプライベートクラウドは同じリージョンに配置する必要があります。
 
 Google Cloud Marketplace で NetApp Cloud Volumes Service for Google Cloud を購入、有効化、設定するには、次の手順を実行します link:https://cloud.google.com/vmware-engine/docs/quickstart-prerequisites["ガイド"]。
 
-
-
-=== CVS NFS ボリュームを GCVE プライベートクラウドに作成する
-
+=====
+====
+====
+.CVS NFS ボリュームを GCVE プライベートクラウドに作成する
+=====
 NFS ボリュームを作成してマウントするには、次の手順を実行します。
 
 . Google クラウドコンソール内のパートナーソリューションから Cloud Volume にアクセスします。
@@ -269,10 +297,11 @@ image:gcve-cvs-guest-10.png[""]
 
 
 
-
-
-=== VMware Engine で実行されている VM に NFS エクスポートをマウントする
-
+=====
+====
+====
+.VMware Engine で実行されている VM に NFS エクスポートをマウントする
+=====
 NFS ボリュームのマウントを準備する前に、プライベート接続のピアステータスが Active と表示されていることを確認してください。ステータスが Active になったら、 mount コマンドを使用します。
 
 NFS ボリュームをマウントするには、次の手順を実行します。
@@ -311,10 +340,11 @@ image:gcve-cvs-guest-22.png[""]
 
 
 
-
-
-=== VMware Engine で実行されている VM に SMB 共有を作成してマウントします
-
+=====
+====
+====
+.VMware Engine で実行されている VM に SMB 共有を作成してマウントします
+=====
 SMB ボリュームの場合は、 SMB ボリュームを作成する前に、 Active Directory 接続が設定されていることを確認してください。
 
 image:gcve-cvs-guest-30.png[""]
@@ -382,3 +412,6 @@ image:gcve-cvs-guest-38.png[""]
 image:gcve-cvs-guest-39.png[""]
 
 
+
+=====
+====

@@ -9,24 +9,34 @@ summary:
 
 
 [role="lead"]
-Azure は、以下の構成でネットアップストレージをサポートします。
-
-* link:#anf["ゲスト接続ストレージとしての Azure NetApp Files （ ANF"]
-* link:#cvo["Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用"]
+Azureでは、ネイティブのAzure NetApp Files （ANF）サービスまたはCloud Volumes ONTAP （CVO）でゲスト接続ネットアップストレージをサポートしています。
 
 
 
+== Azure NetApp ファイル（ ANF ）
 
-== Azure VMware 解決策（ AVS ）を使用した Azure NetApp Files の設定
+Azure NetApp Files は、エンタープライズクラスのデータ管理とストレージをAzureに提供するため、ワークロードとアプリケーションを簡単に管理できます。パフォーマンスを低下させることなく、ワークロードをクラウドに移行して実行できます。
 
+Azure NetApp Files は障害を取り除き、ファイルベースのアプリケーションをすべてクラウドに移行できるようにします。初めてアプリケーションを再設計する必要はなく、アプリケーションの永続的ストレージを複雑化することもありません。
+
+このサービスはMicrosoft Azure Portalを通じて提供されるため、ユーザはMicrosoft Enterprise Agreementの一部としてフルマネージドサービスを利用できます。マイクロソフトが管理するワールドクラスのサポートにより、安心してご利用いただけます。この1つの解決策 で、マルチプロトコルワークロードをすばやく簡単に追加できます。従来の環境でも、WindowsとLinuxの両方のファイルベースアプリケーションを構築して導入できます。
+
+
+
+=== ゲスト接続ストレージとしての Azure NetApp Files （ ANF
+
+====
+.Azure VMware 解決策（ AVS ）を使用した Azure NetApp Files の設定
+=====
 解決策共有は、 Azure VMware Azure NetApp Files SDDC 環境で作成された VM からマウントできます。Azure NetApp Files では SMB プロトコルと NFS プロトコルがサポートされているため、ボリュームを Linux クライアントにマウントして Windows クライアントにマッピングすることもできます。Azure NetApp Files ボリュームは、 5 つの簡単な手順で設定できます。
 
 Azure NetApp Files と Azure VMware 解決策は、同じ Azure リージョンに配置する必要があります。
 
-
-
-=== Azure NetApp Files ボリュームを作成してマウント
-
+=====
+====
+====
+.Azure NetApp Files ボリュームを作成してマウント
+=====
 Azure NetApp Files ボリュームを作成してマウントするには、次の手順を実行します。
 
 . Azure ポータルにログインし、 Azure NetApp Files にアクセスします。Azure NetApp Files サービスへのアクセスを確認し、 Azure NetApp Files リソースプロバイダを登録するには、 _az プロバイダ登録 -- namespace Microsoft.NetApp – wait_command を使用します。登録が完了したら、ネットアップアカウントを作成します。
@@ -83,10 +93,27 @@ image:azure-anf-guest-9.png[""]
 
 
 
+=====
+====
 
 
-== Azure に新しい Cloud Volumes ONTAP を導入
+== Cloud Volumes ONTAP （CVO）
 
+Cloud Volumes ONTAP （CVO）は、ネットアップのONTAP ストレージソフトウェアを基盤に構築された、業界をリードするクラウドデータ管理解決策 です。Amazon Web Services（AWS）、Microsoft Azure、Google Cloud Platform（GCP）でネイティブに利用できます。
+
+ソフトウェアで定義されるONTAP バージョンで、クラウドネイティブなストレージを消費し、クラウドとオンプレミスで同じストレージソフトウェアを使用できるため、まったく新しい方法でIT担当者のデータ管理を再トレーニングする必要がありません。
+
+CVOを使用すれば、エッジ、データセンター、クラウド間でシームレスにデータを移動し、ハイブリッドクラウドを統合できます。すべてを1画面の管理コンソールであるNetApp Cloud Managerで管理できます。
+
+設計上、CVOは卓越したパフォーマンスと高度なデータ管理機能を備えており、クラウドで最も要件の厳しいアプリケーションにも対応できます
+
+
+
+=== Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用
+
+====
+.Azure に新しい Cloud Volumes ONTAP を導入
+=====
 解決策共有および LUN は、 Azure VMware Cloud Volumes ONTAP SDDC 環境で作成された VM からマウントできます。Cloud Volumes ONTAP は iSCSI 、 SMB 、 NFS の各プロトコルをサポートしているため、このボリュームは Linux クライアントおよび Windows クライアントにもマウントできます。Cloud Volumes ONTAP ボリュームは、いくつかの簡単な手順で設定できます。
 
 ディザスタリカバリや移行の目的でオンプレミス環境からクラウドにボリュームをレプリケートするには、サイト間 VPN または ExpressRoute を使用して、 Azure へのネットワーク接続を確立します。オンプレミスから Cloud Volumes ONTAP へのデータのレプリケートについては、本ドキュメントでは扱いません。オンプレミスシステムと Cloud Volumes ONTAP システム間でデータをレプリケートする方法については、を参照してください link:https://docs.netapp.com/us-en/occm/task_replicating_data.html#setting-up-data-replication-between-systems["システム間のデータレプリケーションの設定"]。
@@ -140,10 +167,11 @@ image:azure-cvo-guest-11.png[""]
 
 
 
-
-
-=== SMB ボリューム用の追加の設定
-
+=====
+====
+====
+.SMB ボリューム用の追加の設定
+=====
 . 作業環境の準備ができたら、 CIFS サーバに適切な DNS および Active Directory 設定パラメータが設定されていることを確認します。この手順は、 SMB ボリュームを作成する前に実行する必要があります。
 +
 image:azure-cvo-guest-20.png[""]
@@ -166,10 +194,11 @@ image:azure-cvo-guest-24.png[""]
 
 
 
-
-
-=== LUN をホストに接続します
-
+=====
+====
+====
+.LUN をホストに接続します
+=====
 LUN をホストに接続するには、次の手順を実行します。
 
 . キャンバスページで、 Cloud Volumes ONTAP 作業環境をダブルクリックしてボリュームを作成および管理します。
@@ -217,3 +246,6 @@ Windows ホストから初めてアクセスした時点では、新しい LUN �
 image:azure-cvo-guest-33.png[""]
 
 image:azure-cvo-guest-34.png[""]
+
+=====
+====

@@ -1,0 +1,53 @@
+= 
+:allow-uri-read: 
+
+
+. Ansible コントロールノードの要件：
++
+.. 次のパッケージがインストールされた Ubuntu / Debian マシン：
++
+... Python3
+... Pip3
+... Ansible （バージョン 2.10.0 より前）
+... Git
+
+
+
+
+
+
+上記の要件がインストールされていない新しい Ubuntu / Debian マシンを使用している場合は、次の手順に従ってそのマシンを Ansible の制御ノードとしてセットアップします。
+
+. .sh ファイルを作成します
++
+[source, cli]
+----
+vi setup.sh
+----
+. 以下の内容をファイルに貼り付けます
++
+[source, cli]
+----
+#!/bin/bash
+echo "Installing Python ------>"
+sudo apt-get -y install python3 >/dev/null
+echo "Installing Python Pip ------>"
+sudo apt-get -y install python3-pip >/dev/null
+echo "Installing Ansible ------>"
+python3 -W ignore -m pip --disable-pip-version-check install ansible >/dev/null
+echo "Installing git ------>"
+sudo apt-get -y install git >/dev/null
+----
+. ファイルを実行可能にします
++
+[source, cli]
+----
+chmod +x setup.sh
+----
+. スクリプトの実行（ルートとして）
++
+[source, cli]
+----
+./setup.sh
+----
+

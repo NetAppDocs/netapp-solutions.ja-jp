@@ -22,15 +22,8 @@ NOTE: Azure NetApp Files と Cloud Volumes ONTAP を Azure VMware 解決策に�
 
 セットアッププロセスは、次の手順に分けることができます。
 
-* link:#register["リソースプロバイダを登録し、プライベートクラウドを作成"]
-* link:#connect["新しい ExpressRoute 仮想ネットワークゲートウェイまたは既存の ExpressRoute 仮想ネットワークゲートウェイに接続します"]
-* link:#validate["ネットワーク接続を検証し、プライベートクラウドにアクセス"]
-
-
-
-
-== リソースプロバイダを登録し、プライベートクラウドを作成
-
+.リソースプロバイダを登録し、プライベートクラウドを作成
+====
 Azure VMware 解決策を使用するには、まず、特定されたサブスクリプションにリソースプロバイダを登録します。
 
 . Azure ポータルにサインインします。
@@ -68,10 +61,9 @@ Azure VMware 解決策プライベートクラウドには Azure Virtual Network
 
 image:avs-register-create-pc-4.png[""]
 
-
-
-== 新しい ExpressRoute 仮想ネットワークゲートウェイまたは既存の ExpressRoute 仮想ネットワークゲートウェイに接続します
-
+====
+.新しい ExpressRoute 仮想ネットワークゲートウェイまたは既存の ExpressRoute 仮想ネットワークゲートウェイに接続します
+====
 新しい Azure Virtual Network （ VNet ）を作成するには、 Azure VNet Connect （ Azure VNet 接続）タブを選択します。または、 Create Virtual Network ウィザードを使用して、 Azure ポータルから手動で作成することもできます。
 
 . Azure VMware 解決策プライベートクラウドに移動し、管理オプションで接続にアクセスします。
@@ -96,10 +88,9 @@ image:azure-connect-gateway-2.png[""]
 
 NOTE: VNet を手動で作成する場合は、適切な SKU と ExpressRoute をゲートウェイタイプとして使用して仮想ネットワークゲートウェイを作成します。導入が完了したら、認証キーを使用して、 ExpressRoute 接続を、 Azure VMware 解決策プライベートクラウドを含む仮想ネットワークゲートウェイに接続します。詳細については、を参照してください link:https://docs.microsoft.com/en-us/azure/azure-vmware/tutorial-configure-networking#create-a-vnet-manually["Azure で VMware プライベートクラウド用のネットワークを設定します"]。
 
-
-
-== ネットワーク接続を検証し、 Azure VMware 解決策プライベートクラウドにアクセスします
-
+====
+.ネットワーク接続を検証し、 Azure VMware 解決策プライベートクラウドにアクセスします
+====
 Azure VMware 解決策では、オンプレミスの VMware vCenter でプライベートクラウドを管理することはできません。代わりに、ジャンプホストが Azure VMware 解決策 vCenter インスタンスに接続する必要があります。指定したリソースグループにジャンプホストを作成し、 Azure VMware 解決策 vCenter にサインインします。このジャンプホストは、接続用に作成された同じ仮想ネットワーク上の Windows VM であり、 vCenter と NSX Manager の両方にアクセスできる必要があります。
 
 image:azure-validate-network-1.png[""]
@@ -122,3 +113,5 @@ image:azure-validate-network-4.png[""]
 image:azure-validate-network-5.png[""]
 
 これで、 Azure VMware 解決策 SDDC の導入と設定が完了しました。ExpressRoute グローバルリーチを活用して、オンプレミス環境を Azure VMware 解決策プライベートクラウドに接続します。詳細については、を参照してください link:https://docs.microsoft.com/en-us/azure/azure-vmware/tutorial-expressroute-global-reach-private-cloud["オンプレミス環境から Azure VMware 解決策へのピアリング"]。
+
+====

@@ -1,0 +1,240 @@
+---
+sidebar: sidebar 
+permalink: automation/getting-started.html 
+summary: ネットアップのソリューションを自動化すれば、多くの一般的なインフラタスクやアプリケーションタスクの導入、設定、実行を自動化できます。 
+keywords: netapp, awx, tower, ansible tower, solutions, automation, ansible, getting, started 
+---
+= NetApp解決策 自動化の導入
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:table-stripes: odd
+:imagesdir: ./../media/
+
+
+[role="lead"]
+ネットアップのソリューションで使用される一般的なタスクの多くに、NetApp解決策 の自動化機能でシンプルさと再現性が提供されます。
+
+解決策 の自動化を実行する前に、自動化の実行方法に合わせて環境を設定する必要があります。コマンドラインから、またはAWXやタワーなどのツールを使用して自動化を実行するオプションがあります。
+
+以降のセクションでは、それぞれの環境について、環境を設定するために必要な手順について説明します。
+
+====
+.RHEL に CLI を導入するための Ansible Control Node をセットアップします /CentOS
+=====
+. Ansible コントロールノードの要件：
++
+.. 次のパッケージがインストールされた RHEL / CentOS マシン：
++
+... Python3
+... Pip3
+... Ansible （バージョン 2.10.0 より前）
+... Git
+
+
+
+
+
+
+上記の要件がインストールされていない新しい RHEL / CentOS マシンがある場合は、次の手順に従ってそのマシンを Ansible の制御ノードとしてセットアップします。
+
+. RHEL-8/RHEL-7 の Ansible リポジトリを有効にします
++
+.. RHEL-8 （ root として次のコマンドを実行）
++
+[source, cli]
+----
+subscription-manager repos --enable ansible-2.9-for-rhel-8-x86_64-rpms
+----
+.. RHEL-7 （ root として次のコマンドを実行）
++
+[source, cli]
+----
+subscription-manager repos --enable rhel-7-server-ansible-2.9-rpms
+----
+
+
+. .sh ファイルを作成します
++
+[source, cli]
+----
+vi setup.sh
+----
+. 以下の内容をファイルに貼り付けます
++
+[source, cli]
+----
+#!/bin/bash
+echo "Installing Python ------>"
+sudo yum -y install python3 >/dev/null
+echo "Installing Python Pip ------>"
+sudo yum -y install python3-pip >/dev/null
+echo "Installing Ansible ------>"
+python3 -W ignore -m pip --disable-pip-version-check install ansible >/dev/null
+echo "Installing git ------>"
+sudo yum -y install git >/dev/null
+----
+. ファイルを実行可能にします
++
+[source, cli]
+----
+chmod +x setup.sh
+----
+. スクリプトの実行（ルートとして）
++
+[source, cli]
+----
+./setup.sh
+----
+
+
+=====
+====
+====
+.Ubuntu で CLI 環境に Ansible Control Node をセットアップします /Debian
+=====
+. Ansible コントロールノードの要件：
++
+.. 次のパッケージがインストールされた Ubuntu / Debian マシン：
++
+... Python3
+... Pip3
+... Ansible （バージョン 2.10.0 より前）
+... Git
+
+
+
+
+
+
+上記の要件がインストールされていない新しい Ubuntu / Debian マシンを使用している場合は、次の手順に従ってそのマシンを Ansible の制御ノードとしてセットアップします。
+
+. .sh ファイルを作成します
++
+[source, cli]
+----
+vi setup.sh
+----
+. 以下の内容をファイルに貼り付けます
++
+[source, cli]
+----
+#!/bin/bash
+echo "Installing Python ------>"
+sudo apt-get -y install python3 >/dev/null
+echo "Installing Python Pip ------>"
+sudo apt-get -y install python3-pip >/dev/null
+echo "Installing Ansible ------>"
+python3 -W ignore -m pip --disable-pip-version-check install ansible >/dev/null
+echo "Installing git ------>"
+sudo apt-get -y install git >/dev/null
+----
+. ファイルを実行可能にします
++
+[source, cli]
+----
+chmod +x setup.sh
+----
+. スクリプトの実行（ルートとして）
++
+[source, cli]
+----
+./setup.sh
+----
+
+
+=====
+====
+====
+.タワー / AWX 環境用の Ansible タワーまたは AWX をセットアップします
+=====
+このセクションでは、ネットアップの自動化ソリューションを使用する環境を準備する AWX/Ansible タワーのパラメータを設定するために必要な手順について説明します。
+
+. インベントリを設定します。
++
+.. リソース→インベントリ→追加と進み、インベントリの追加をクリックします。
+.. 名前と組織の詳細を入力し、 [ 保存 ] をクリックします。
+.. インベントリページで、作成したインベントリリソースをクリックします。
+.. インベントリ変数がある場合は、その変数を変数フィールドに貼り付けます。
+.. [ グループ ] サブメニューに移動し、 [ 追加 ] をクリックします。
+.. グループの名前を入力し、必要に応じてグループ変数にコピーして、 [ 保存 ] をクリックします。
+.. 作成したグループをクリックし、 Hosts サブメニューに移動して、 Add New Host をクリックします。
+.. ホストのホスト名と IP アドレスを入力し、必要に応じてホスト変数に貼り付けて、 Save をクリックします。
+
+
+. クレデンシャルタイプを作成する。ONTAP 、 Element 、 VMware 、またはその他の HTTPS ベースの転送接続を使用するソリューションの場合は、ユーザ名とパスワードのエントリに一致するクレデンシャルタイプを設定する必要があります。
++
+.. [ 管理 ] → [ 資格情報の種類 ] に移動して、 [ 追加 ] をクリックし
+.. 名前と概要を指定します。
+.. 次の内容を入力構成に貼り付けます。
+
+
+
+
+[listing]
+----
+fields:
+- id: username
+type: string
+label: Username
+- id: password
+type: string
+label: Password
+secret: true
+- id: vsadmin_password
+type: string
+label: vsadmin_password
+secret: true
+----
+. インジェクタの設定に次の内容を貼り付けます。
+
+
+[listing]
+----
+extra_vars:
+password: '{{ password }}'
+username: '{{ username }}'
+vsadmin_password: '{{ vsadmin_password }}'
+----
+. クレデンシャルの設定
++
+.. リソース→資格情報に移動して、追加をクリックします。
+.. 名前と組織の詳細を入力します
+.. 正しいクレデンシャルタイプを選択します。標準 SSH ログインを使用する場合は、「 Machine 」タイプを選択するか、作成したカスタムクレデンシャルタイプを選択します。
+.. 対応するその他の詳細情報を入力し、 [ 保存 ] をクリックします。
+
+
+. プロジェクトを設定します。
++
+.. リソース→プロジェクトに移動し ' 追加をクリックします
+.. 名前と組織の詳細を入力します
+.. ソース管理資格情報タイプとして Git を選択します。
+.. 特定の解決策に対応するソース制御 URL （または git クローン URL ）を貼り付けます。
+.. Git URL がアクセス制御されている場合は、必要に応じて、 Source Control Credential で対応するクレデンシャルを作成して添付します。
+.. [ 保存 ] をクリックします .
+
+
+. ジョブテンプレートを設定します。
++
+.. [ リソース ] → [ テンプレート ] → [ 追加 ] に移動し、 [ ジョブテンプレートの追加 ] をクリックします。
+.. 名前と概要を入力します
+.. ジョブタイプを選択します。 Run は、プレイブックに基づいてシステムを設定し、 Check は実際にシステムを設定することなく、プレイブックの事前チェックを実行します。
+.. このプレイブックに対応するインベントリ、プロジェクト、クレデンシャルを選択します
+.. ジョブテンプレートの一部として実行するプレイブックを選択します。
+.. 通常、変数は実行時に貼り付けられます。そのため、実行時に変数を入力するように求めるプロンプトを表示するには、必ず [ 変数 ] フィールドに対応する [ 起動時にプロンプトを表示 ] チェックボックスをオンにしてください。
+.. 必要に応じてその他の詳細情報を入力し、 [ 保存 ] をクリックします。
+
+
+. ジョブテンプレートを起動します。
++
+.. [ リソース ] → [ テンプレート ] に移動します。
+.. 目的のテンプレートをクリックし、 [ 起動 ] をクリックします。
+.. 起動時にプロンプトが表示されたら変数を入力し、 [ 再起動 ] をクリックします。
+
+
+
+
+=====
+====

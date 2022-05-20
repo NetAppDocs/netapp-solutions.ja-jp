@@ -1,0 +1,69 @@
+= 
+:allow-uri-read: 
+
+
+. Ansible コントロールノードの要件：
++
+.. 次のパッケージがインストールされた RHEL / CentOS マシン：
++
+... Python3
+... Pip3
+... Ansible （バージョン 2.10.0 より前）
+... Git
+
+
+
+
+
+
+上記の要件がインストールされていない新しい RHEL / CentOS マシンがある場合は、次の手順に従ってそのマシンを Ansible の制御ノードとしてセットアップします。
+
+. RHEL-8/RHEL-7 の Ansible リポジトリを有効にします
++
+.. RHEL-8 （ root として次のコマンドを実行）
++
+[source, cli]
+----
+subscription-manager repos --enable ansible-2.9-for-rhel-8-x86_64-rpms
+----
+.. RHEL-7 （ root として次のコマンドを実行）
++
+[source, cli]
+----
+subscription-manager repos --enable rhel-7-server-ansible-2.9-rpms
+----
+
+
+. .sh ファイルを作成します
++
+[source, cli]
+----
+vi setup.sh
+----
+. 以下の内容をファイルに貼り付けます
++
+[source, cli]
+----
+#!/bin/bash
+echo "Installing Python ------>"
+sudo yum -y install python3 >/dev/null
+echo "Installing Python Pip ------>"
+sudo yum -y install python3-pip >/dev/null
+echo "Installing Ansible ------>"
+python3 -W ignore -m pip --disable-pip-version-check install ansible >/dev/null
+echo "Installing git ------>"
+sudo yum -y install git >/dev/null
+----
+. ファイルを実行可能にします
++
+[source, cli]
+----
+chmod +x setup.sh
+----
+. スクリプトの実行（ルートとして）
++
+[source, cli]
+----
+./setup.sh
+----
+

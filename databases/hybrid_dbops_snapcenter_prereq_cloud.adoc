@@ -1,0 +1,73 @@
+---
+sidebar: sidebar 
+permalink: databases/hybrid_dbops_snapcenter_prereq_cloud.html 
+summary: Cloud Manager Connector と Cloud Volumes ONTAP をインストールして SnapMirror を設定する前に、クラウド環境向けの準備を行う必要があります。このページでは、 Cloud Volumes ONTAP を導入する際に考慮すべき点と同様に、実行する必要がある作業について説明します。 
+keywords: prerequisites, aws, azure, gcp, cloud central, cloud volumes ontap 
+---
+= パブリッククラウドの前提条件
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:table-stripes: odd
+:imagesdir: ./../media/
+
+
+link:hybrid_dbops_snapcenter_prereq_onprem.html["前：オンプレミスの前提条件"]
+
+Cloud Manager Connector と Cloud Volumes ONTAP をインストールして SnapMirror を設定する前に、クラウド環境向けの準備を行う必要があります。このページでは、 Cloud Volumes ONTAP を導入する際に考慮すべき点と同様に、実行する必要がある作業について説明します。
+
+
+
+=== Cloud Manager と Cloud Volumes ONTAP の導入の前提条件チェックリスト
+
+* NetApp Cloud Central へのログイン
+* Web ブラウザから複数のエンドポイントへのネットワークアクセス
+* コネクタのネットワーク上の場所
+* クラウドプロバイダの権限
+* 個々のサービスのネットワーク
+
+
+開始する必要がある項目の詳細については、を参照してください https://docs.netapp.com/us-en/occm/reference_checklist_cm.html["クラウドのドキュメント"^]。
+
+
+
+== 考慮事項
+
+
+
+=== 1. Cloud Manager Connector とは
+
+ほとんどの場合、 Cloud Central アカウント管理者はクラウドまたはオンプレミスネットワークにコネクタを導入する必要があります。Connector を使用すると、 Cloud Manager でパブリッククラウド環境内のリソースとプロセスを管理できます。
+
+コネクタの詳細については、を参照してください https://docs.netapp.com/us-en/occm/concept_connectors.html["クラウドのドキュメント"^]。
+
+
+
+=== 2. Cloud Volumes ONTAP のサイジングとアーキテクチャ
+
+Cloud Volumes ONTAP を導入する際には、事前定義されたパッケージを選択するか、独自の設定を作成するかを選択できます。これらの値の多くはあとで無停止で変更することができますが、クラウドに導入するワークロードに基づいていくつかの重要な決定を行う必要があります。
+
+クラウドプロバイダごとに導入オプションが異なり、ほぼすべてのワークロードに独自のプロパティがあります。ネットアップには、があります https://cloud.netapp.com/cvo-sizer["CVO のサイジングツール"^] これは、容量とパフォーマンスに基づいて導入の規模を正しく決定するのに役立ちますが、次の点を考慮していくつかの基本的な概念を中心に構築されています。
+
+* 容量が必要です
+* クラウド仮想マシンのネットワーク機能
+* クラウドストレージのパフォーマンス特性
+
+
+重要な点は、現在の容量とパフォーマンスの要件を満たすだけでなく、将来の拡張も考慮する構成を計画することです。これは、一般に容量ヘッドルームおよびパフォーマンスヘッドルームと呼ばれます。
+
+詳細については、の計画に関するドキュメントを参照してください https://docs.netapp.com/us-en/occm/task_planning_your_config.html["AWS"^]、 https://docs.netapp.com/us-en/occm/task_planning_your_config_azure.html["Azure"^]および https://docs.netapp.com/us-en/occm/task_planning_your_config_gcp.html["GCP"^]。
+
+
+
+=== 3. シングルノードとハイアベイラビリティのどちらか？
+
+どのクラウドでも、 CVO を導入できるノードは 1 つだけです。 2 つのノードで構成されるクラスタハイアベイラビリティペアにもなります。ユースケースによっては、コストを削減するためにシングルノードを導入したり、可用性と冗長性を向上させるために HA ペアを導入したりすることができます。
+
+DR のユースケースでは、開発とテストのために一時的なストレージをスピンアップする場合でも、突然のゾーンの停止やインフラの停止による影響が小さいため、シングルノードが一般的です。ただし、本番環境では、データが 1 箇所だけに格納されている場合や、データセットの冗長性と可用性を高める必要がある場合に、高可用性を推奨します。
+
+各クラウドバージョンのハイアベイラビリティのアーキテクチャの詳細については、のドキュメントを参照してください https://docs.netapp.com/us-en/occm/concept_ha.html["AWS"^]、 https://docs.netapp.com/us-en/occm/concept_ha_azure.html["Azure"^] および https://docs.netapp.com/us-en/occm/concept_ha_google_cloud.html["GCP"^]。
+
+link:hybrid_dbops_snapcenter_getting_started.html["次の手順：概要。"]

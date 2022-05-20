@@ -1,0 +1,202 @@
+---
+sidebar: sidebar 
+permalink: databases/sql-srv-anf_reference_design_real-time_high-level_design.html 
+keywords: data layout, migration, backup, recovery, dev test, thick clones, business continuity, hybrid storage, snapshot, archive, 
+summary: このセクションでは、 Azure NetApp Files SMB ボリュームを使用して AOAG 構成に SQL データベース資産をリアルタイムで導入する方法について説明します。 
+---
+= リアルタイムの高レベル・リファレンス・デザイン
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+このセクションでは、 Azure NetApp Files SMB ボリュームを使用して AOAG 構成に SQL データベース資産をリアルタイムで導入する方法について説明します。
+
+* ノード数： 4.
+* データベース数： 21
+* 可用性グループの数： 4.
+* バックアップの保持： 7 日
+* バックアップアーカイブ： 365 日
+
+
+
+NOTE: Azure NetApp Files 共有を使用して Azure 仮想マシンに SQL Server と FCI を導入すると、コスト効率に優れたモデルでデータのコピーを 1 つ作成できます。この解決策では、ファイルパスがセカンダリレプリカと異なる場合に、追加ファイル操作の問題を回避できます。
+
+image:sql-srv-anf_image5.png["エラー：グラフィックイメージがありません"]
+
+次の図は、 AOAG 内のデータベースがノード全体に分散していることを示しています。
+
+image:sql-srv-anf_image6.png["エラー：グラフィックイメージがありません"]
+
+
+
+== データレイアウト
+
+ユーザデータベースファイル（ .mdf ）とユーザデータベーストランザクションログファイル（ .ldf ）は、 tempdb とともに同じボリュームに格納されます。サービスレベルは Ultra です。
+
+構成は 4 つのノードと 4 つの AGS で構成されます。21 個のデータベース（ Dynamic AX 、 SharePoint 、 RDS コネクションブローカー、インデックスサービスの一部）はすべて Azure NetApp Files ボリュームに格納されます。ノード上のリソースを効果的に使用するために、 AOAG ノード間でデータベースが分散されます。WSFC には、 AOAG 構成に属する 4 つの D32 v3 インスタンスが追加されています。これらの 4 つのノードは Azure Virtual Network でプロビジョニングされ、オンプレミスから移行されることはありません。
+
+* 注： *
+
+* アプリケーションの性質と実行するクエリに応じて、ログのパフォーマンスとスループットが向上する必要がある場合は、データベースファイルを Premium サービスレベルに配置し、 Ultra サービスレベルでログを格納できます。
+* tempdb ファイルが Azure NetApp Files に配置されている場合は、 Azure NetApp Files ボリュームをユーザのデータベースファイルから分離する必要があります。AOAG でのデータベースファイルの配布例を次に示します。
+
+
+* 注： *
+
+* Snapshot コピーベースのデータ保護のメリットを維持するために、データとログのデータを同じボリュームに統合しないことを推奨します。
+* セカンダリデータベースのファイルパスが対応するプライマリデータベースのパスと異なる場合、プライマリレプリカで実行されるアドオンファイル処理がセカンダリデータベースで失敗する可能性があります。この状況は、プライマリノードとセカンダリノードで共有パスが異なる場合（コンピュータアカウントが異なることが原因）に発生することがあります。この障害が発生すると、セカンダリデータベースが原因によって中断される可能性があります。拡張またはパフォーマンスのパターンを予測できず、あとでファイルを追加する予定の場合は、 Azure NetApp Files を使用した SQL Server フェイルオーバークラスタも許容される解決策です。ほとんどの環境では、 Azure NetApp Files がパフォーマンス要件を満たしています。
+
+
+
+
+=== データ移行
+
+オンプレミスの SQL Server ユーザデータベースを Azure 仮想マシンの SQL Server に移行するには、いくつかの方法があります。移行はオンラインとオフラインのどちらでも実行できます。選択するオプションは、 SQL Server のバージョン、ビジネス要件、および組織内で定義されている SLA によって異なります。データベース移行プロセス中のダウンタイムを最小限に抑えるために、 AlwaysOn オプションまたはトランザクションレプリケーションオプションのどちらかを使用することを推奨します。これらの方法を使用できない場合は、データベースを手動で移行できます。
+
+マシン間でデータベースを移動するための最もシンプルで徹底的にテストされたアプローチは、バックアップとリストアです。通常は、データベースバックアップのあとにデータベースバックアップのコピーを Azure に作成します。そのあとでデータベースをリストアできます。最適なデータ転送パフォーマンスを実現するには、圧縮されたバックアップファイルを使用してデータベースファイルを Azure VM に移行します。本ドキュメントで紹介している高度な設計では、 Azure ファイルストレージのバックアップ方法と Azure ファイルの同期を使用し、 Azure NetApp Files にリストアするアプローチを採用しています。
+
+
+NOTE: Azure Migrate は、 SQL Server ワークロードの検出、評価、移行に使用できます。
+
+移行を実行するには、次の手順を実行します。
+
+. 要件に基づいて、接続をセットアップします。
+. オンプレミスのファイル共有場所へのフルデータベースバックアップを実行
+. Azure ファイル同期を使用して、バックアップファイルを Azure ファイル共有にコピーします。
+. 目的のバージョンの SQL Server で VM をプロビジョニングします。
+. コマンド・プロンプトから copy コマンドを使用して ' バックアップ・ファイルを VM にコピーします
+. フルデータベースを Azure 仮想マシン上の SQL Server にリストアします。
+
+
+
+NOTE: 21 のデータベースをリストアするには、約 9 時間かかりました。この方法はこのシナリオに特有です。ただし、状況や要件に応じて、以下に示すその他の移行方法を使用できます。
+
+オンプレミスの SQL Server から Azure NetApp Files にデータを移動するためのその他の移行オプションには、次のものがあります。
+
+* データファイルとログファイルを切り離し、 Azure Blob Storage にコピーして、 URL からマウントされた ANF ファイル共有を使用して Azure VM 内の SQL Server に接続します。
+* 常時稼働の可用性グループをオンプレミスに導入する場合は、を使用します https://docs.microsoft.com/en-us/previous-versions/azure/virtual-machines/windows/sqlclassic/virtual-machines-windows-classic-sql-onprem-availability["Azure レプリカの追加ウィザード"^] をクリックして Azure でレプリカを作成し、フェイルオーバーを実行します。
+* SQL Server を使用します https://docs.microsoft.com/en-us/sql/relational-databases/replication/transactional/transactional-replication["トランザクションレプリケーション"^] Azure SQL Server インスタンスをサブスクライバとして設定するには、レプリケーションを無効にして、ユーザに Azure データベースインスタンスをポイントさせます。
+* Windows インポート / エクスポートサービスを使用して、ハードドライブを出荷します。
+
+
+
+
+=== バックアップとリカバリ
+
+バックアップとリカバリは、 SQL Server 環境にとって重要な要素です。AOAG などの高可用性ソリューションと組み合わせて、さまざまなデータ障害および損失シナリオから迅速にリカバリするための適切な安全ネットを用意する必要があります。CommVault などのサードパーティ製バックアップツールでは、 SQL Server データベースの休止ツール、 Azure バックアップ（ストリーミング）、またはアプリケーションと整合性のあるデータベースバックアップを実行できます。
+
+Azure NetApp Files の Snapshot テクノロジを使用すると、パフォーマンスやネットワーク利用率に影響を与えることなく、ユーザデータベースのポイントインタイム（ PiT ）コピーを簡単に作成できます。また、このテクノロジを使用すると、新しいボリュームに Snapshot コピーをリストアしたり、ボリュームの状態を、ボリュームリバート機能を使用して Snapshot コピーが作成された時点の状態にすばやくリバートしたりできます。Azure NetApp Files スナップショットプロセスは非常に高速で効率的で、 Azure バックアップのストリーミングバックアップとは異なり、毎日のバックアップを複数作成できます。1 日に複数の Snapshot コピーを作成できるため、 RPO と RTO が大幅に短縮されます。Snapshot コピーの作成前にデータに損傷がなく、ディスクに適切にフラッシュされるようにアプリケーションの整合性を追加するには、 SQL Server データベースの休止ツールを使用します (https://mysupport.netapp.com/site/tools/tool-eula/scsqlapi["SCSQLAPI ツール"^]; このリンクにアクセスするには、 NetApp SSO ログインクレデンシャルが必要です）。このツールは PowerShell から実行できます。 PowerShell では、 SQL Server データベースを休止し、アプリケーションと整合性のあるバックアップ用ストレージ Snapshot コピーを作成できます。
+
+* 注： *
+
+* SCSQLAPI ツールは、 2016 および 2017 バージョンの SQL Server のみをサポートします。
+* SCSQLAPI ツールは、一度に 1 つのデータベースでのみ動作します。
+* 各データベースのファイルを別々の Azure NetApp Files ボリュームに配置して、それらのファイルを分離します。
+
+
+SCSQL API には大きな制限があるため、 https://docs.microsoft.com/en-us/azure/backup/backup-azure-sql-database["Azure バックアップ"^] SLA 要件を満たすためにデータ保護に使用されていた。Azure Virtual Machine と Azure NetApp Files で実行される SQL Server のストリームベースのバックアップを提供します。Azure Backup では、 15 分の RPO を実現し、ログバックアップと PIT リカバリを最大 1 秒まで頻繁に実行できます。
+
+
+
+=== 監視
+
+Azure NetApp Files は、時系列データ用の Azure Monitor と統合されており、割り当てられたストレージ、実際のストレージ使用量、ボリューム IOPS 、スループット、ディスク読み取りバイト / 秒に関する指標を提供します。 ディスク書き込みバイト / 秒、ディスク読み取り / 秒、ディスク書き込み / 秒、および関連するレイテンシ。このデータを使用して、アラート生成によるボトルネックを特定し、健常性チェックを実行して、 SQL Server 環境が最適な構成で実行されていることを確認できます。
+
+この HLD では、 ScienceLogic を使用して、適切なサービスプリンシパルを使用してメトリックを公開することで Azure NetApp Files を監視します。次の図は、 Azure NetApp Files Metric オプションの例です。
+
+image:sql-srv-anf_image8.png["エラー：グラフィックイメージがありません"]
+
+
+
+=== シッククローンを使用した DevTest
+
+Azure NetApp Files を使用すると、アプリケーション開発サイクル中に現在のデータベースの構造とコンテンツを使用して実装が必要な機能をテストするためのデータベースのコピーを瞬時に作成でき、データの抽出と操作を行うツールを使用してデータウェアハウスにデータを取り込むことができます。 また、誤って削除または変更されたデータをリカバリすることもできます。このプロセスでは Azure Blob コンテナからデータをコピーする必要がないため、非常に効率的です。ボリュームのリストア後は読み取り / 書き込み処理に使用できるため、検証と製品化までの時間が大幅に短縮されます。この機能は、 SCSQLAPI と併用してアプリケーションの整合性を保つ必要があります。このアプローチでは、別の継続的なコスト最適化手法に加えて、 Restore to New volume オプションを活用する Azure NetApp Files も提供されます。
+
+* 注： *
+
+* Snapshot コピーから作成されたボリュームに Restore New Volume オプションを使用すると、容量プールの容量が使用されます。
+* REST または Azure CLI を使用してクローンボリュームを削除すると、追加のコストを回避できます（容量プールの拡張が必要になった場合）。
+
+
+
+
+=== ハイブリッドストレージの選択肢
+
+ネットアップでは、 SQL Server 可用性グループのすべてのノードに同じストレージを使用することを推奨していますが、場合によっては複数のストレージオプションを使用できます。このシナリオは、 Azure NetApp Files で、 AOAG のノードが Azure NetApp Files SMB ファイル共有に接続され、 2 つ目のノードが Azure Premium ディスクに接続されている場合に発生します。このような場合は、 Azure NetApp Files SMB 共有にユーザデータベースのプライマリコピーが保持され、 Premium ディスクがセカンダリコピーとして使用されていることを確認してください。
+
+* 注： *
+
+* このような環境でフェイルオーバーの問題を回避するには、 SMB ボリュームで継続的可用性が有効になっていることを確認してください。継続的可用性属性を持たないストレージレイヤでバックグラウンドでメンテナンスを実施すると、データベースで障害が発生する可能性があります。
+* データベースのプライマリコピーは Azure NetApp Files SMB ファイル共有に保持します。
+
+
+
+
+=== ビジネス継続性
+
+ディザスタリカバリは、一般にあらゆる導入で後回しになっています。ただし、ビジネスへの影響を回避するために、設計および導入の初期段階でディザスタリカバリに対処する必要があります。Azure NetApp Files では、クロスリージョンレプリケーション（ CRR ）機能を使用して、予期しないリージョンの停止を処理するためにブロックレベルでボリュームデータをペアリングされたリージョンにレプリケートできます。CRR 対応のデスティネーション・ボリュームは読み取り処理に使用できるため、災害復旧シミュレーションに最適です。さらに 'CRR デスティネーションを最小のサービス・レベル（ Standard など）で割り当てることにより ' 全体的な TCO を削減できますフェイルオーバーが発生した場合はレプリケーションを解除することで対応するボリュームを読み取り / 書き込み可能にすることができます。また、動的なサービスレベル機能を使用してディザスタリカバリコストを大幅に削減することで、ボリュームのサービスレベルを変更することもできます。これは Azure NetApp Files 独自の機能で、 Azure 内でブロックレプリケーションを実行します。
+
+
+
+=== 長期的な Snapshot コピーのアーカイブ
+
+多くの組織では、 Snapshot データをデータベースファイルから長期的に保持することが必須のコンプライアンス要件として求められています。このプロセスはこの HLD では使用されませんが、を使用した単純なバッチスクリプトを使用すると簡単に実行できます https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10["AzCopy"^] をクリックして Azure BLOB コンテナに Snapshot ディレクトリをコピーします。スケジュールされたタスクを使用して、特定のスケジュールに基づいてバッチスクリプトを実行できます。このプロセスは簡単で、次の手順で構成されます。
+
+. AzCopy V10 実行ファイルをダウンロードします。これは 'exe` ファイルであるため ' インストールするものはありません
+. コンテナレベルで適切な権限を持つ SAS トークンを使用して 'AzCopy を承認します
+. AzCopy が承認されると、データ転送が開始されます。
+
+
+* 注： *
+
+* バッチファイルでは、 SAS トークンに表示される % 文字をエスケープする必要があります。そのためには、 SAS トークン文字列で既存の % 文字の横に % 文字を追加します。
+* 。 https://docs.microsoft.com/en-us/azure/storage/common/storage-require-secure-transfer["セキュアな転送が必要です"^] ストレージアカウントの設定によって、ストレージアカウントへの接続が Transport Layer Security （ TLS ）で保護されるかどうかが決まります。この設定はデフォルトで有効になっています。次のバッチスクリプト例は、 Snapshot コピーディレクトリから指定された BLOB コンテナにデータを再帰的にコピーします。
+
+
+....
+SET source="Z:\~snapshot"
+echo %source%
+SET dest="https://testanfacct.blob.core.windows.net/azcoptst?sp=racwdl&st=2020-10-21T18:41:35Z&se=2021-10-22T18:41:00Z&sv=2019-12-12&sr=c&sig=ZxRUJwFlLXgHS8As7HzXJOaDXXVJ7PxxIX3ACpx56XY%%3D"
+echo %dest%
+....
+PowerShell で次のコマンドが実行されます。
+
+....
+ –recursive
+....
+....
+INFO: Scanning...
+INFO: Any empty folders will not be processed, because source and/or destination doesn't have full folder support
+Job b3731dd8-da61-9441-7281-17a4db09ce30 has started
+Log file is located at: C:\Users\niyaz\.azcopy\b3731dd8-da61-9441-7281-17a4db09ce30.log
+0.0 %, 0 Done, 0 Failed, 2 Pending, 0 Skipped, 2 Total,
+INFO: azcopy.exe: A newer version 10.10.0 is available to download
+0.0 %, 0 Done, 0 Failed, 2 Pending, 0 Skipped, 2 Total,
+Job b3731dd8-da61-9441-7281-17a4db09ce30 summary
+Elapsed Time (Minutes): 0.0333
+Number of File Transfers: 2
+Number of Folder Property Transfers: 0
+Total Number of Transfers: 2
+Number of Transfers Completed: 2
+Number of Transfers Failed: 0
+Number of Transfers Skipped: 0
+TotalBytesTransferred: 5
+Final Job Status: Completed
+....
+* 注： *
+
+* 長期保持用の同様のバックアップ機能も、近日中に Azure NetApp Files で使用可能になります。
+* バッチスクリプトは、任意のリージョンの BLOB コンテナにデータをコピーする必要がある場合に使用できます。
+
+
+
+
+=== コストの最適化
+
+ボリュームの形状変更とサービスレベルの動的変更をデータベースに対して完全に透過的に行うことで、 Azure NetApp Files は Azure で継続的なコスト最適化を実現します。この HLD では、この機能を使用して、ワークロードの急増に対処するためにストレージを追加でオーバープロビジョニングすることを回避しています。
+
+ボリュームのサイズ変更は、 Azure 機能と Azure アラートログを組み合わせて作成すると簡単に実行できます。

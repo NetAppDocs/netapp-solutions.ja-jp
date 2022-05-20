@@ -1,0 +1,60 @@
+---
+sidebar: sidebar 
+permalink: databases/marketing_overview.html 
+keywords: Linux, RHEL Oracle19c, NFS, ONTAP, Ansible 
+summary: このページでは、 NetApp ONTAP ストレージ上に Oracle19c を導入するための自動化方式について説明します。 
+---
+= 解決策の概要
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== Oracle19c for ONTAP の NFS への自動導入
+
+組織は環境を自動化して、効率を高め、導入を高速化し、手動作業を削減しています。Ansible などの構成管理ツールを使用して、エンタープライズデータベースの運用を合理化しています。この解決策では、 Ansible を使用して、 Oracle 19C のプロビジョニングと設定を NetApp ONTAP で自動化する方法を紹介します。ストレージ管理者、システム管理者、 DBA は、新しいストレージの一貫した迅速な導入、データベースサーバの構成、 Oracle 19C ソフトウェアのインストールを可能にすることで、次のようなメリットを得ることができます。
+
+* 設計の複雑さと人為的ミスを排除し、繰り返し実行可能な一貫した導入とベストプラクティスを実装する
+* ストレージのプロビジョニング、 DB ホストの構成、 Oracle のインストールにかかる時間を短縮
+* データベース管理者、システム管理者、ストレージ管理者の生産性を向上
+* ストレージとデータベースを簡単に拡張できます
+
+
+ネットアップは、検証済みの Ansible モジュールとロールをお客様に提供し、 Oracle データベース環境の導入、構成、ライフサイクル管理を迅速化します。この解決策では、以下の作業に役立つ Ansible の Playbook コードを提供しています。
+
+* Oracle データベース用の ONTAP NFS ストレージを作成して設定します
+* Oracle 19C を Red Hat Enterprise Linux 7/8 または Oracle にインストールします Linux 7/8.
+* ONTAP NFS ストレージ上に Oracle 19C を設定します
+
+
+詳細または概要については、以下の概要ビデオをご覧ください。
+
+
+
+=== AWX / タワー型の導入
+
+* パート 1 ：はじめに、要件、自動化の詳細、 AWX/Tower の初期構成
+
+
+video::oracle_deployment_auto_v1.mp4[]
+* パート 2 ：変数とプレイブックの実行
+
+
+video::oracle_deployment_auto_v2.mp4[]
+
+
+=== CLI の導入
+
+* パート 1 ：はじめに、要件、自動化の詳細、 Ansible Control Host Setup を確認する
+
+
+video::oracle_deployment_auto_v4.mp4[]
+* パート 2 ：変数とプレイブックの実行
+
+
+video::oracle3.mp4[]

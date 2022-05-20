@@ -20,6 +20,7 @@ summary:
 
 * link:#config["AWS で VMC を設定しています"]
 * link:#datastore["VMC のネットアップストレージオプション"]
+* link:#solutions["ネットアップとVMwareのクラウドソリューション"]
 
 
 
@@ -35,9 +36,11 @@ NOTE: FSX ONTAP および Cloud Volumes ONTAP を AWS VMC に接続する方法�
 
 セットアッププロセスは、次の手順に分けることができます。
 
-* link:aws-setup.html#deploy["VMware Cloud for AWS を導入して設定"]
-* link:aws-setup.html#connect["VMware Cloud を FSX ONTAP に接続します"]
+* VMware Cloud for AWSを導入して設定
+* VMware Cloud を FSX ONTAP に接続します
 
+
+詳細を表示します link:aws-setup.html["VMCの設定手順"]。
 
 
 
@@ -49,16 +52,27 @@ NOTE: FSX ONTAP および Cloud Volumes ONTAP を AWS VMC に接続する方法�
 
 AWS は、次の構成でネットアップストレージをサポートします。
 
-* ゲスト接続ストレージ *
+* ゲスト接続ストレージとしての FSX ONTAP
+* Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用
+* ネイティブデータストアとしてのFSX ONTAP ^1 ^
 
-* link:aws-guest.html#fsx-ontap["ゲスト接続ストレージとしての FSX ONTAP"]
-* link:aws-guest.html#cvo["Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用"]
 
+詳細を表示します link:aws-guest.html["VMCのゲスト接続ストレージオプション"]。
 
-* ネイティブデータストア *
-
-* link:https://blogs.vmware.com/cloud/2021/12/01/vmware-cloud-on-aws-going-big-reinvent2021/["ネイティブデータストアとしての FSX ONTAP ^1"^]
-
+詳細については、をご覧ください link:https://blogs.vmware.com/cloud/2021/12/01/vmware-cloud-on-aws-going-big-reinvent2021/["ネイティブデータストアとしての FSX ONTAP ^1"^]。
 
 
 NOTE: 1- 現在プライベートプレビュー中です
+
+
+
+== 解決策のユースケース
+
+ネットアップと VMware のクラウドソリューションを使用すれば、多くのユースケースを AWS VMC に簡単に導入できます。ユースケースは、VMwareが定義したクラウド領域ごとに定義されます。
+
+* 保護（ディザスタリカバリとバックアップ/リストアの両方を含む）
+* 拡張
+* 移動
+
+
+link:aws-solutions.html["ネットアップの AWS VMC 向けソリューションをご覧ください"]
