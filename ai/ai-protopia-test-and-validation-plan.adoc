@@ -1,0 +1,25 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-protopia-test-and-validation-plan.html 
+keywords: validation scenarios, obfuscation, batch inferencing job 
+summary: このセクションでは、この解決策 で検証された3つのシナリオの概要を説明します。 
+---
+= テストと検証の計画
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:ai-protopia-technology-overview.html["前のページ：テクノロジの概要"]
+
+この解決策 設計では、次の3つのシナリオが検証されました。
+
+* Kubernetes向けNetApp DataOpsツールキットを使用してオーケストレーションされたJupyterLabワークスペース内で、Protopia難読化を使用するかどうかに関係なく、推論タスクを実行します。
+* Kubernetesでの一括推論ジョブ。Protopia難読化を使用するかどうかにかかわらず、NetApp DataOps Toolkit for Kubernetesを使用してオーケストレーションされたデータボリュームを使用します。
+* Kubernetes向けNetApp DataOpsツールキットを使用してオーケストレーションされた、NVIDIA Triton Inference Serverインスタンスを使用した推論タスク。Triton推論APIを呼び出す前に、Protopia難読化を画像に適用して、ネットワーク経由で送信されるデータを難読化する必要がある一般的な要件をシミュレートしました。このワークフローは、信頼できるゾーン内でデータが収集され、推論のためにその信頼できるゾーンの外部に渡される必要があるユースケースに該当します。Protopia難読化を使用しないと'機密データが信頼ゾーンから離れることなく'このタイプのワークフローを実装できません
+
+
+link:ai-protopia-test-configuration.html["次の手順：設定をテストします。"]

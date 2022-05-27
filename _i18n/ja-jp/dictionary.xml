@@ -11907,4 +11907,210 @@
   <block id="8d9d90a84ad6b34129f140e0b3e23326" category="sidebar">NetApp for GCP / GCVE</block>
   <block id="a3e92580de1a77cd25163bb63cd24a7d" category="inline-image-macro">リンク=<block ref="9b22e52230cfacf7992c01194e7a95d2" category="inline-link-rx"></block></block>
   <block id="f9da9dedda46425dea9fe2b0092e4b1a" category="paragraph"><block ref="f9da9dedda46425dea9fe2b0092e4b1a" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="46ded0be5f6c48090d38435b6dafa3e2" category="summary">このセクションでは、この解決策 で検証された3つのシナリオの概要を説明します。</block>
+  <block id="71446ef316489c70b5279867eb81a86b" category="doc">テストと検証の計画</block>
+  <block id="8e593eca45d74047c3d169456d36d74a" category="paragraph"><block ref="8e593eca45d74047c3d169456d36d74a" category="inline-link-macro-rx"></block></block>
+  <block id="68cdc250e271cc43502e5f009d0ebec7" category="paragraph">この解決策 設計では、次の3つのシナリオが検証されました。</block>
+  <block id="83c38d8dc6bc37fe6bb9691e75d0f881" category="list-text">Kubernetes向けNetApp DataOpsツールキットを使用してオーケストレーションされたJupyterLabワークスペース内で、Protopia難読化を使用するかどうかに関係なく、推論タスクを実行します。</block>
+  <block id="da4ec54ac3b4b67b77d52ccf0ebaefc0" category="list-text">Kubernetesでの一括推論ジョブ。Protopia難読化を使用するかどうかにかかわらず、NetApp DataOps Toolkit for Kubernetesを使用してオーケストレーションされたデータボリュームを使用します。</block>
+  <block id="5526e24c695504cfa8b2187b0a3da212" category="list-text">Kubernetes向けNetApp DataOpsツールキットを使用してオーケストレーションされた、NVIDIA Triton Inference Serverインスタンスを使用した推論タスク。Triton推論APIを呼び出す前に、Protopia難読化を画像に適用して、ネットワーク経由で送信されるデータを難読化する必要がある一般的な要件をシミュレートしました。このワークフローは、信頼できるゾーン内でデータが収集され、推論のためにその信頼できるゾーンの外部に渡される必要があるユースケースに該当します。Protopia難読化を使用しないと'機密データが信頼ゾーンから離れることなく'このタイプのワークフローを実装できません</block>
+  <block id="9a1eb36c3c2949c4b9618b70f9947341" category="paragraph"><block ref="9a1eb36c3c2949c4b9618b70f9947341" category="inline-link-macro-rx"></block></block>
+  <block id="91bc87f1c8c087219cec868bb9eec3e7" category="summary">この検証では、rawイメージのセットを使用して、イメージ検出のユースケースに対して推論を実行しました。次に、同じイメージセットに対して、推論の前にProtopia難読化が追加された同じ推論タスクを実行しました。このタスクでは、Protopia難読化コンポーネントに異なる値のalphaを使用しています。</block>
+  <block id="f63c4677c27e0489f346c0711720cc39" category="doc">推論の精度の比較</block>
+  <block id="c06030c36071611ee2f3a9a21205eaf8" category="paragraph"><block ref="c06030c36071611ee2f3a9a21205eaf8" category="inline-link-macro-rx"></block></block>
+  <block id="0c71eb4e1fba60fba81db988197da57d" category="paragraph">この検証では、rawイメージのセットを使用して、イメージ検出のユースケースに対して推論を実行しました。次に、同じイメージセットに対して、推論の前にProtopia難読化が追加された同じ推論タスクを実行しました。このタスクでは、Protopia難読化コンポーネントに異なる値のalphaを使用しています。Protopia難読化のコンテキストでは、アルファ値は適用される難読化の量を表し、アルファ値が大きいほど難読化のレベルが高くなります。次に、これらの異なる実行間の推論の精度を比較しました。</block>
+  <block id="93d52a2c23957d4188c7b2ce8b2ae884" category="paragraph">以下の2つの表に、ネットアップのユースケースとその概要を示します。</block>
+  <block id="65a3419ae19e457df9db4c0e110b2538" category="paragraph">Protopiaは、お客様と直接協力して、特定のユースケースに適したアルファ値を決定します。</block>
+  <block id="e558777bd1568637c97294a33389e930" category="cell">フェースボックス(PyTorch)-</block>
+  <block id="20172a059ee71423ad0d94393e819e10" category="cell">FDDBデータセット</block>
+  <block id="06a8fb4576a28a6488c929097c870fe1" category="cell">Protopia難読化</block>
+  <block id="002101f8725e5c78d9f30d87f3fa4c87" category="cell">アルファ</block>
+  <block id="d78f1fb7e69f7cddcf3e168f2663db20" category="cell">精度</block>
+  <block id="646738dcd35eaf5c3f3c9bfdc6a90b78" category="cell">0.9337148153739079</block>
+  <block id="b14399cbaac6da4b5b733b483106383f" category="cell">0.05</block>
+  <block id="bcf8c22771ff8c7065180f5a6526d4a6" category="cell">0.9028766627325002</block>
+  <block id="cb5ae17636e975f9bf71ddf5bc542075" category="cell">0.1</block>
+  <block id="1336b1cb08d93aa0a453c53e27efa594" category="cell">0.9024301009661478</block>
+  <block id="b1cb1b288bfae3850c74795f5691dc4e" category="cell">0.9081836283186224</block>
+  <block id="b9e8c964d5c5d3e7c815896cd6235239" category="cell">0.9073066107482036</block>
+  <block id="57489d9101ec373d9e2841292a5b3af9" category="cell">0.8847816568680239</block>
+  <block id="57eeec0a6974ecb4e9fcf68fab052f7b" category="cell">0.8</block>
+  <block id="8ab8d7756b82eb70d635bc66c1bc532b" category="cell">0.8841195749171925</block>
+  <block id="a894124cc6d5c5c71afe060d5dde0762" category="cell">0.9</block>
+  <block id="226cc0951c1f30973a4c71f0f567936a" category="cell">0.8455427675252052</block>
+  <block id="248a7444f08189bb31ba143eabebe4e5" category="cell">0.95</block>
+  <block id="0f39c006b0d74178bc826c1d567a79dc" category="inline-link-macro">次の例は、難読化の速度です。</block>
+  <block id="ca9c4b25b025c5564f5ffb65a712a47c" category="paragraph"><block ref="ca9c4b25b025c5564f5ffb65a712a47c" category="inline-link-macro-rx"></block></block>
+  <block id="a41206687a4ac62c15fc883554a75883" category="summary">このセクションでは、解決策 設計検証環境について説明します。</block>
+  <block id="172ddae93475d6ccf42e145bb593da46" category="inline-link-macro">前：テストと検証の計画</block>
+  <block id="9ea432ca0ec547aa219093f8f5f560cc" category="paragraph"><block ref="9ea432ca0ec547aa219093f8f5f560cc" category="inline-link-macro-rx"></block></block>
+  <block id="0d013965bb31fe1cc0ba44ef3b846d09" category="paragraph">次の表に、解決策 設計検証環境の概要を示します。</block>
+  <block id="32f014d18e1f60596057834de2864322" category="cell">1.1.6</block>
+  <block id="b0f69588db488e358ab3c85429ab6b3a" category="cell">NetApp Astra Trident CSIドライバ</block>
+  <block id="297924c1d3fec9d97f9a1f3b49ee0709" category="cell">Kubernetes向けNetApp DataOpsツールキット</block>
+  <block id="70e2b24f7d348efe6b30b41469d5070c" category="cell">2.3.0</block>
+  <block id="2c5e74d45708e2fae638e03f88353b75" category="cell">NVIDIA Triton 推論サーバ</block>
+  <block id="099d96b4d8f70fb73f1d4661f98c337a" category="cell">21.11-py3.</block>
+  <block id="53e01217bc7db361f46a1f8e0e601655" category="paragraph"><block ref="53e01217bc7db361f46a1f8e0e601655" category="inline-link-macro-rx"></block></block>
+  <block id="fcd8d375e90bbb5d8febe3b3eac09c2b" category="doc">追加情報 、確認応答、およびバージョン履歴の参照先</block>
+  <block id="86a4acc956f71e307a08f732dd442d3f" category="paragraph"><block ref="86a4acc956f71e307a08f732dd442d3f" category="inline-link-macro-rx"></block></block>
+  <block id="f85150beb9ce598095b212b1de60815f" category="list-text">NetApp ONTAP データ管理ソフトウェア—ONTAP 情報ライブラリ</block>
+  <block id="eb87ce8a565e070f3b8c09faa4e840c1" category="inline-link"><block ref="eb87ce8a565e070f3b8c09faa4e840c1" category="inline-link-rx"></block></block>
+  <block id="20a0f3ab42054c3aa4add8c8901b4aa9" category="paragraph"><block ref="20a0f3ab42054c3aa4add8c8901b4aa9" category="inline-link-rx"></block></block>
+  <block id="2cd8f6bd0ec1bbc37315b8bc134e16c5" category="list-text">コンテナ向けNetApp Persistent Storage—NetApp Astra Trident</block>
+  <block id="89f170193efdf8434f549c8e91adf860" category="list-text">Protopia AI—Confidential Inference（機密情報推論）</block>
+  <block id="62faa8d62bfb6098877b809cce925de5" category="inline-link"><block ref="62faa8d62bfb6098877b809cce925de5" category="inline-link-rx"></block></block>
+  <block id="45b79877f4c11139882c88df94d50fa6" category="paragraph"><block ref="45b79877f4c11139882c88df94d50fa6" category="inline-link-rx"></block></block>
+  <block id="2c54e28a12ce15452929a28550a30a96" category="inline-link"><block ref="2c54e28a12ce15452929a28550a30a96" category="inline-link-rx"></block></block>
+  <block id="bc5345c4517d46bdf8a87f10d404839f" category="paragraph"><block ref="bc5345c4517d46bdf8a87f10d404839f" category="inline-link-rx"></block></block>
+  <block id="fba4b133e329411c361e02e05efed0b9" category="list-text">NVIDIA Triton Inference Serverのドキュメント</block>
+  <block id="cce40efbd4a717916ccbab694b676e9c" category="inline-link"><block ref="cce40efbd4a717916ccbab694b676e9c" category="inline-link-rx"></block></block>
+  <block id="170ba65f4e4807f3643de39afb3f2e16" category="paragraph"><block ref="170ba65f4e4807f3643de39afb3f2e16" category="inline-link-rx"></block></block>
+  <block id="ba1d5cc71378020998752955821460b2" category="list-text">PyTorchのフェイスボックス</block>
+  <block id="ace8d80d2ede0fadf07325408b376b83" category="inline-link"><block ref="ace8d80d2ede0fadf07325408b376b83" category="inline-link-rx"></block></block>
+  <block id="a688d324b63c4f882d06673058aa2f61" category="paragraph"><block ref="a688d324b63c4f882d06673058aa2f61" category="inline-link-rx"></block></block>
+  <block id="121ef407a6a3c08ce9fa247e382d7637" category="list-text">ネットアップ、プリンシパルプロダクトマネージャー、Mark Cates氏</block>
+  <block id="fb345adb43ea24ffc891d20327bdca09" category="list-text">ネットアップ、テクニカルマーケティングエンジニア、Sufian Ahmad氏</block>
+  <block id="711ba3fec382e550526a6ab0f49bdf3a" category="list-text">最高技術責任者兼Protopia AI教授、Hadi Esmaeilzadeh氏</block>
+  <block id="0844bd2427e754de1d07ca91d15284a5" category="cell">ドキュメントバージョン履歴</block>
+  <block id="cd24a85c5cf2d1a7af0bade6066be0aa" category="summary">データは保管中、転送中、コンピューティング中の3つの状態に存在します。AI推論サービスの重要な部分は、プロセス全体における脅威からのデータの保護である必要があります。推論の実行中にデータを保護することが重要です。これは、外部のお客様と推論サービスを提供するビジネスの両方の個人情報がこのプロセスによって公開される可能性があるためです。</block>
+  <block id="fd8d4cefd4e31d8ce81b0b6c4cf90ae2" category="inline-link-macro">前のバージョン：難読化の速度。</block>
+  <block id="12deb7181b69808aaa08117bd40978a3" category="paragraph"><block ref="12deb7181b69808aaa08117bd40978a3" category="inline-link-macro-rx"></block></block>
+  <block id="4282c9ab06938351529fcc9258e39d5a" category="paragraph">データは、保管中、転送中、コンピューティング中の3つの状態に存在します。AI推論サービスの重要な部分は、プロセス全体における脅威からのデータの保護である必要があります。推論の実行中にデータを保護することが重要です。これは、外部のお客様と推論サービスを提供するビジネスの両方の個人情報がこのプロセスによって公開される可能性があるためです。Protopia AIは、今日の市場における機密性の高いAI推論を行うための、悪意のないソフトウェアのみの解決策 です。Protopiaを使用すると、AIには、AI / MLタスクを実行するために必要なデータレコードの変換された情報のみが渡されます。これ以外にも、データレコードには何も入力されません。この確率的変化はマスキングの形式ではなく、キュレーションされたノイズを使用してデータの表現を数学的に変更することに基づいています。</block>
+  <block id="945691f1b395ce7af4d5e818b4e62b9b" category="paragraph">ONTAP 機能を備えたネットアップのストレージシステムは、ローカルSSDストレージと同等以上のパフォーマンスを提供します。また、NetApp DataOpsツールキットと組み合わせることで、データサイエンティスト、データエンジニア、AI / ML開発者、ビジネスまたはエンタープライズITの意思決定者に次のようなメリットをもたらします。</block>
+  <block id="2d1d64cb5768a8ce2a6d6bda322d2ecd" category="list-text">ディザスタリカバリ、ビジネス継続性、規制要件に対応するエンタープライズクラスのデータ保護とデータガバナンス。</block>
+  <block id="58b8e67477c25a96d3b430f4ee8d75cf" category="list-text">データ管理操作の簡単な呼び出し。データサイエンティストのワークスペースのSnapshotコピーを迅速に作成し、Jupyterノートブック内のNetApp DataOpsツールキットからバックアップとトレーサビリティを実現します。</block>
+  <block id="57e858ddb0a3e1c340cfe4ba7d5c3a14" category="paragraph">ネットアップとProtopia解決策 は、エンタープライズクラスのAI推論環境に最適な、柔軟性に優れたスケールアウトアーキテクチャを提供します。データ保護を実現し、オンプレミス環境とハイブリッドクラウド環境の両方で、AI推論の機密要件を満たすことができる機密情報のプライバシーを提供します。</block>
+  <block id="6073423c521e84b849e3b84fa1cc380c" category="inline-link-macro">Next：追加情報 、確認応答、およびバージョン履歴の参照先。</block>
+  <block id="9eebc409a853e8c97008be61e4a0b83a" category="paragraph"><block ref="9eebc409a853e8c97008be61e4a0b83a" category="inline-link-macro-rx"></block></block>
+  <block id="6bee97571af49e4c38ff85a4abbbe0e9" category="summary">このセクションでは、検証を完了するために必要なタスクについて説明します。</block>
+  <block id="c17e6835560e56c00184a993e1b0bfdb" category="paragraph"><block ref="c17e6835560e56c00184a993e1b0bfdb" category="inline-link-macro-rx"></block></block>
+  <block id="df06a8aa3d194f798e70c253c55d915c" category="paragraph">このセクションで説明するタスクを実行するには、次のツールをインストールして設定したLinuxまたはmacOSホストにアクセスできる必要があります。</block>
+  <block id="c0ffe26d3756a5c964ff9bc591e1fc16" category="list-text">Kubectl（既存のKubernetesクラスタへのアクセスを設定）</block>
+  <block id="e436fe7c4ecfcca0f0327b41471955df" category="list-text">インストールと設定の手順については、を参照してください<block ref="f6d4f9e359e394de0cb3015a4518672c" category="inline-link-rx"></block>。</block>
+  <block id="e3e34254666d96b8967227676b54e135" category="list-text">インストール手順が記載されています<block ref="9535953c30e005e9672e48b24a3ac733" category="inline-link-rx"></block>。</block>
+  <block id="1a66086f406852b100e9d8f85d007b87" category="section-title">シナリオ1–JupyterLabにおけるオンデマンド推論</block>
+  <block id="28876e2d40a33fcbc3630d7408b14046" category="list-text">AI / ML推論ワークロード用のKubernetesネームスペースを作成します。</block>
+  <block id="1464ad61957a8ed3db5f67edbc20cc41" category="list-text">NetApp DataOpsツールキットを使用して、推論を実行するデータを格納する永続的ボリュームをプロビジョニングします。</block>
+  <block id="da33a6119aa0b49526bd284e9a865ed5" category="list-text">NetApp DataOpsツールキットを使用して、JupyterLabの新しいワークスペースを作成します。前の手順で作成した永続ボリュームを'--mount-pvcオプションを使用してマウントします必要に応じて'--nvidia -GPU'オプションを使用して'NVIDIA GPUをワークスペースに割り当てます</block>
+  <block id="810e88d69a6b7f454f24db3a25ba375a" category="paragraph">次の例では'永続ボリュームinerial-data'が'/home/jovyan/data'のJupyterLabワークスペースコンテナにマウントされています公式のProject Jupyterコンテナイメージを使用する場合、「/home/jovyan」はJupyterLab Webインターフェイス内の最上位ディレクトリとして表示されます。</block>
+  <block id="ecca64929aad192e0cdba66d89af6fc2" category="list-text">「create jupyterlab」コマンドの出力で指定したURLを使用して、JupyterLabワークスペースにアクセスします。データディレクトリは、ワークスペースにマウントされた永続ボリュームを表します。</block>
+  <block id="1f069f45990199d6afbe5926fb26f127" category="paragraph"><block ref="1f069f45990199d6afbe5926fb26f127" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="b5989087fa6f30a7b2ad79b3b28f4f68" category="list-text">「data」ディレクトリを開き、推論を実行するファイルをアップロードします。ファイルがデータディレクトリにアップロードされると、ワークスペースにマウントされた永続ボリュームに自動的に保存されます。ファイルをアップロードするには、次の図に示すように、[ファイルのアップロード]アイコンをクリックします。</block>
+  <block id="f6d07c27f458648455903cf09530655f" category="paragraph"><block ref="f6d07c27f458648455903cf09530655f" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="c6da42e23b9d4e193c2fb146b8189581" category="list-text">トップレベルのディレクトリに戻り、新しいノートブックを作成します。</block>
+  <block id="59e51e40d73317a796f7d0b25d8fa003" category="paragraph"><block ref="59e51e40d73317a796f7d0b25d8fa003" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="8d6d5c0ae1c38484d2d4fd513ff80f90" category="list-text">ノートブックに推論コードを追加します。次の例は、イメージ検出のユースケースの推論コードを示しています。</block>
+  <block id="901ae9d6148669912b400c6d2647bfbf" category="paragraph"><block ref="901ae9d6148669912b400c6d2647bfbf" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="45f10850488ed018cdad31f8ac9e8bab" category="paragraph"><block ref="45f10850488ed018cdad31f8ac9e8bab" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="296d40736553e2033f5cf8817174bc7c" category="list-text">推測コードにProtopia難読化を追加します。Protopiaは、お客様と直接協力してユースケースに固有のドキュメントを提供しますが、本書では取り上げません。次の例は、Protopia難読化を追加した場合のイメージ検出の推論コードを示しています。</block>
+  <block id="5a10342224477df560528e700989b536" category="paragraph"><block ref="5a10342224477df560528e700989b536" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="20f77c05fa583bdc62074b26870e07e7" category="paragraph"><block ref="20f77c05fa583bdc62074b26870e07e7" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="9d5709eb5c3d3d4a700397ee447f9818" category="section-title">シナリオ2–Kubernetesでのバッチ推論</block>
+  <block id="77b69d61f1889c8321dce66f3c3e2e1a" category="list-text">新しい永続ボリュームに、推論を実行するデータを入力します。</block>
+  <block id="8b6983cc7986c7b0553983d8ab669289" category="inline-link">NetApp DataOpsツールキットS3 Data Moverの機能</block>
+  <block id="2933df0ebac7b47c349bd6bd7099fb90" category="paragraph">PVCにデータをロードする方法はいくつかあります。データがNetApp StorageGRID やAmazon S3などのS3互換オブジェクトストレージプラットフォームに現在格納されている場合は、を使用できます<block ref="5d1617256d53e0547b237f3cf3fda5b0" category="inline-link-rx"></block>。また、JupyterLabワークスペースを作成し、JupyterLab Webインターフェイスを使用してファイルをアップロードする方法も簡単です。手順3～5を参照してください<block ref="db54c391b2f7c3a38c2e40a69aa744e3" category="inline-xref-macro-rx"></block>」</block>
+  <block id="a62147e18dbac7ad5eab17791c371ad4" category="list-text">バッチ推論タスク用のKubernetesジョブを作成します。次の例は、イメージ検出のユースケースに対するバッチ推論ジョブを示しています。このジョブは、一連のイメージ内の各イメージに対して推論を実行し、stdoutに推論の精度の指標を書き込みます。</block>
+  <block id="a883fb9f7bda67c6fbcab6dfb8f091ce" category="list-text">推論ジョブが正常に完了したことを確認します。</block>
+  <block id="590888c60942c47f5268c19f273109ee" category="list-text">推測ジョブにProtopia難読化を追加します。Protopiaの難読化を追加する手順は、このテクニカルレポートでは説明していませんが、Protopiaから直接追加できます。次の例は、アルファ値0.8を使用してProtopia難読化を行った場合のフェース検出のバッチ推論ジョブを示しています。このジョブは、一連のイメージ内の各イメージに対して推論を実行する前にProtopia難読化を適用し、stdoutに推論の精度指標を書き込みます。</block>
+  <block id="7a1adb5cebbf78f3eddc08a64751149e" category="inline-link-macro">「推論の精度比較」</block>
+  <block id="da2c9dc305dff324654e67571156b295" category="paragraph">このステップは、アルファ値0.05、0.1、0.2、0.4、0.6について繰り返しました。 0.8、0.9、および0.95。結果はに表示されます <block ref="af158494e4986d64d04037857fed2d1c" category="inline-link-macro-rx"></block></block>
+  <block id="76d6540fbdbbcd913fb6272a50d0e3f2" category="section-title">シナリオ3–NVIDIA Triton Inference Server</block>
+  <block id="c470d7124546c64e8539c39ced806428" category="list-text">NetApp DataOpsツールキットを使用して、NVIDIA Triton Inference Serverのモデルリポジトリとして使用する永続的ボリュームをプロビジョニングします。</block>
+  <block id="1ddcb92ade31c8fbd370001f9b29a7d9" category="inline-link">の形式で入力し</block>
+  <block id="97be18cb741b4fd763ebe22e034705fa" category="list-text">の新しい永続ボリュームにモデルを保存します<block ref="bfcdc35d352d3deff6efdd3b8b2ac7ac" category="inline-link-rx"></block> これはNVIDIA Triton Inference Serverによって認識されます。</block>
+  <block id="6c21d87641bab7a6c49bc29065185e4f" category="paragraph">PVCにデータをロードする方法はいくつかあります。簡単な方法としては、「」の手順3～5で説明しているように、JupyterLabワークスペースを作成し、JupyterLab Webインターフェイスを使用してファイルをアップロードする方法があります<block ref="db54c391b2f7c3a38c2e40a69aa744e3" category="inline-xref-macro-rx"></block>。」</block>
+  <block id="fc35606f82a544f9c79f09561d7a234d" category="list-text">NetApp DataOpsツールキットを使用して、新しいNVIDIA Triton Inference Serverインスタンスを導入します。</block>
+  <block id="27a920b35a8f949700a98b22803c70fc" category="list-text">推論タスクを実行するには、TritonクライアントSDKを使用します。次のPythonコードの抜粋では、Triton PythonクライアントSDKを使用して、フェース検出のユースケースに対する推論タスクを実行しています。この例では、推論のためにTriton APIを呼び出し、イメージを渡します。次に、Triton Inference Serverが要求を受信し、モデルを呼び出して、API結果の一部として推論出力を返します。</block>
+  <block id="7b5e296090a5d063fdbd3ebb69fc6547" category="list-text">推測コードにProtopia難読化を追加します。Protopia難読化を追加する手順はProtopiaから直接確認できますが、この手順については本テクニカルレポートでは説明していません。次の例は、前述の手順5と同じPythonコードを示していますが、Protopia難読化が追加されています。</block>
+  <block id="c3069165ee6fb9d5dde8d8472d8b4602" category="paragraph">Triton APIに渡される前に、Protopia難読化が画像に適用されることに注意してください。このため、難読化されていない画像はローカルマシンから離れることはありません。難読化されたイメージだけがネットワークを通過します。このワークフローは、信頼できるゾーン内でデータが収集され、推論のためにその信頼できるゾーンの外部に渡す必要があるユースケースに該当します。Protopiaの難読化がなければ、機密データが信頼できるゾーンから離れることなく、このタイプのワークフローを実装することはできません。</block>
+  <block id="38bb883cb543c747fc0f113099f5072d" category="inline-link-macro">次の例は、推論の精度の比較です。</block>
+  <block id="1f2c820475fbde991c6219936a645aea" category="paragraph"><block ref="1f2c820475fbde991c6219936a645aea" category="inline-link-macro-rx"></block></block>
+  <block id="c46aabfbeb0af662ede62f7325853fa2" category="summary">デジタル画像処理には多くの利点があり、多くの組織が視覚表現に関連するデータを最大限に活用できるようになっています。このネットアップとProtopia解決策 は、ML / DLのライフサイクル全体にわたってAI / MLデータを保護し、民営化するための、独自のAI推論設計を提供しています。お客様は機密データの所有権を維持し、プライバシーに関する懸念を解消して、拡張性と効率性を高めるためにパブリッククラウドまたはハイブリッドクラウドの導入モデルを使用できます。また、エッジでAI推論を導入することもできます。</block>
+  <block id="b7aff368ab91b524750e403085893177" category="paragraph"><block ref="b7aff368ab91b524750e403085893177" category="inline-link-macro-rx"></block></block>
+  <block id="55ece983a5251583397e3db1cd3926ec" category="section-title">環境インテリジェンス</block>
+  <block id="d0f24bc92f5b7838f03e893b41066a90" category="paragraph">業界は、環境上の危険がある領域で地理空間分析を活用する方法が数多くあります。政府や公共事業部は、公衆衛生や天候に関する実用的な洞察を得ることができ、パンデミックや野生火災などの自然災害時の国民へのアドバイスを向上させることができます。たとえば、空港や病院などの公共スペースで新型コロナウイルス感染症の患者を特定する際に、該当する個人のプライバシーを侵害することなく、必要な安全対策を講じるために各当局および近隣の公衆に警告を出すことができます。</block>
+  <block id="4f9352e4f65872238d755155cd23edec" category="section-title">エッジデバイスのウェアラブル</block>
+  <block id="315a1bbca88dbcbdc95471a0061c333f" category="paragraph">軍事演習や戦場では、エッジでのAI推論をウェアラブルデバイスとして使用することで、兵士の健康状態を追跡し、運転者の行動を監視し、軍車に接近する際の安全および関連するリスクについて当局に警告しながら、兵士のプライバシーを守り、保護することができます。軍事の未来は、Internet of Battlefield Things（IOBT）とInternet of Military Things（IANMT）でハイテク化を進めています。この製品は、兵士が敵を特定し、高速エッジコンピューティングを使用して戦闘でより良いパフォーマンスを発揮するのに役立ちます。ドローンやウェアラブル・ギアなどのエッジデバイスから収集した視覚的なデータを保護し、保護することは、ハッカーや敵をベイに維持するために不可欠です。</block>
+  <block id="d6dded41a42f767150e641793fc0c929" category="section-title">非燃焼型避難作業</block>
+  <block id="c5b381de9b2a4ee73bcc524aa380d725" category="paragraph">非戦闘員避難行動（Neos）は、米国市民および国民、DoD民間人、および指定された人（HN）および第3国国民（TCN）の避難を支援するために、国防総省によって実施されます。所定の管理制御では、主に手動による退避対象者スクリーニングプロセスが使用されます。ただし、高度に自動化されたAI / MLツールとAI / MLビデオ難読化テクノロジを組み合わせることで、避難先の識別、退避対象の追跡、脅威スクリーニングの精度、セキュリティ、速度を向上させることができます。</block>
+  <block id="2d930616ec617ae047b7b7eaefb0822c" category="section-title">AI / ML分析のクラウド移行</block>
+  <block id="073395e7b5fc53b602884ac0aaf757fb" category="inline-link">データ保護</block>
+  <block id="e8f037292ae13077891a982b214e0739" category="paragraph">エンタープライズのお客様は従来、AI / MLモデルのトレーニングを受け、オンプレミスで導入してきました。スケールメリットと効率性の理由から、AI / ML機能をパブリッククラウド、ハイブリッドクラウド、マルチクラウド環境に移行するお客様が増えています。ただし、他のインフラにどのようなデータを公開できるかによって制限されます。ネットアップのソリューションは、に求められるあらゆるサイバーセキュリティの脅威に対処します<block ref="9da3a9a08c9461b229d33f221e8caa37" category="inline-link-rx"></block> また、セキュリティ評価を行い、Protopiaのデータ変換と組み合わせることで、画像処理AI / MLワークロードをクラウドに移行する際のリスクを最小限に抑えることができます。</block>
+  <block id="c9f2e6462caf995f1d336ab4bb33a7c2" category="inline-link">TR-4886『エッジでのAI推論』</block>
+  <block id="ae1b6ac445119145d739025d55fe616f" category="inline-link">インテリジェンスとプライバシー</block>
+  <block id="215649425fa669fb4825e25a6ace492e" category="paragraph">他の業界のエッジコンピューティングとAI推論のその他のユースケースについては、を参照してください<block ref="922342ea98ca297422c6dc441f974a04" category="inline-link-rx"></block> NetApp AIブログ、<block ref="bc130be57ffb0325128dc7274bbdbc64" category="inline-link-rx"></block>。</block>
+  <block id="5318c453b0f0b1d5351026eca9f9899d" category="paragraph"><block ref="5318c453b0f0b1d5351026eca9f9899d" category="inline-link-macro-rx"></block></block>
+  <block id="4c787c1632a0a940cb0b44706b1d24c6" category="summary">このセクションでは、この解決策 を完了するために必要なさまざまな技術コンポーネントの概要を説明します。</block>
+  <block id="2c6beb1e15771dbe426409f9b5d4aaf9" category="inline-link-macro">前のページ：解決策 Areas</block>
+  <block id="8a26bc3756fc01f4b929845a326e9b9d" category="paragraph"><block ref="8a26bc3756fc01f4b929845a326e9b9d" category="inline-link-macro-rx"></block></block>
+  <block id="a6d48b22bcf266404bdb8c57102c14a4" category="section-title">プロトピア</block>
+  <block id="b2cbc1ff8afd6c872961a852572e1782" category="paragraph">Protopia AIは、今日の市場における機密性の高い推論のための、目立たないソフトウェア型解決策 を提供します。Protopia解決策 は、機密情報の漏洩を最小限に抑えることで、推論サービスに対する比類のない保護機能を提供します。AIには、データレコード内の情報のみが提供されます。この情報は、実際にはタスクを実行するために不可欠であり、それ以上何も必要ありません。ほとんどの推論タスクでは、すべてのデータレコードに存在するすべての情報が使用されるわけではありません。画像、音声、ビデオ、構造化された表形式データのどれをAIが消費しているかにかかわらず、Protopiaは推論サービスが必要としているものだけを提供します。特許取得済みのコアテクノロジーは、数学的にキュレーションされたノイズを使用してデータを変革し、特定のMLサービスでは必要のない情報を蓄積します。この解決策 はデータをマスクするのではなく、キュレーションされたランダムなノイズを使用してデータ表現を変更します。</block>
+  <block id="46ce082967eab6fe2e33798614d50861" category="paragraph">Protopia解決策 は、モデルの機能に関して、入力フィーチャースペースの関連情報を保持する勾配ベースの摂動最大化方法としてリプレゼンテーションを変更する問題を計算します。このディスカバリプロセスは、MLモデルのトレーニング終了時に微調整パスとして実行されます。このパスによって確率分布のセットが自動的に生成されると、オーバーヘッドが低いデータ変換によって、これらの分布から生成されたノイズサンプルがデータに適用され、これが難読化されてから推論モデルに渡されます。</block>
+  <block id="4fb9892dc0183c3142a3629cecc3104a" category="paragraph">DGX A100システムとネットアップのクラウド対応ストレージシステムを基盤とするNetApp ONTAP AIリファレンスアーキテクチャは、ネットアップとNVIDIAによって開発、検証されました。IT 組織には、次のようなメリットをもたらすアーキテクチャが提供されます。</block>
+  <block id="988d7b305f79b990bbacdaed46f4b2bf" category="paragraph">ONTAP AIは、DGX A100システムとNetApp AFF A800ストレージシステムを最先端のネットワークと緊密に統合します。ONTAP AIは、設計の複雑さと推測に頼らず、AI導入を簡易化します。小規模構成から始めて、システムを停止することなく拡張でき、エッジからコア、クラウドまで、データをインテリジェントに管理できます。</block>
+  <block id="57e22b018aa5130ece9890cd6b45e779" category="paragraph">次の図は、DGX A100システムを使用したONTAP AIソリューションファミリーのいくつかのバリエーションを示しています。AFF A800システムのパフォーマンスは、最大8台のDGX A100システムで検証されます。ONTAP クラスタにストレージコントローラペアを追加することで、アーキテクチャを複数のラックに拡張して、パフォーマンスがリニアに向上したDGX A100システムとペタバイト規模のストレージ容量をサポートできます。このアプローチにより、使用されるDLモデルのサイズと必要なパフォーマンス指標に基づいて、コンピューティングとストレージの比率を個別に変更できる柔軟性が得られます。</block>
+  <block id="316a5094893ef1b058844a75c53aaf04" category="paragraph"><block ref="316a5094893ef1b058844a75c53aaf04" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="ecc164061fb57b585c892f0faa6f4dcf" category="inline-link">NVA-1153：NVIDIA DGX A100システムとMellanox Spectrumイーサネットスイッチを搭載したNetApp ONTAP AI</block>
+  <block id="3046083f382853b50c004323f2cda8f9" category="paragraph">追加情報 About ONTAP AIについては、を参照してください<block ref="2c1616ab9baa55036487e7ef75b3821d" category="inline-link-rx"></block></block>
+  <block id="862dcadd0f2887701abaa60bf59d5aa5" category="paragraph">ネットアップが提供する最新世代のストレージ管理ソフトウェアONTAP 9.11を使用すれば、インフラを刷新し、クラウド対応データセンターに移行できます。ONTAP は、業界をリードするデータ管理機能を活用して、データの格納場所に関係なく、単一のツールセットでデータの管理と保護を実現します。エッジ、コア、クラウドなど、必要な場所に自由にデータを移動することもできます。ONTAP 9.11には、データ管理を簡易化し、重要なデータを高速化、保護し、ハイブリッドクラウドアーキテクチャ全体で次世代インフラ機能を実現するためのさまざまな機能が搭載されています。</block>
+  <block id="94c4b42bd5bfaa12f328387b161a1686" category="paragraph">NetApp DataOpsツールキットはPythonライブラリで、開発者、データサイエンティスト、DevOpsエンジニア、データエンジニアは、新しいデータボリュームやJupyterLabワークスペースのほぼ瞬時のプロビジョニング、データボリュームやJupyterLabワークスペースのほぼ瞬時のクローニングなど、さまざまなデータ管理タスクを簡単に実行できます。 トレーサビリティやベースライン化のために、データボリュームまたはJupyterLabワークスペースのスナップショットをほぼ瞬時に作成できます。このPythonライブラリは、任意のPythonプログラムまたはJupyterノートブックに読み込むことができるコマンドラインユーティリティまたは関数のライブラリとして機能します。</block>
+  <block id="dea84e2e635ce73ddc479a38d5616c98" category="paragraph">NVIDIA Triton Inference Serverは、オープンソースの推論サービスソフトウェアです。モデルの導入と実行を標準化し、高速で拡張性に優れたAIを本番環境に提供できます。Triton Inference Serverは、GPUベースまたはCPUベースのインフラ上のあらゆるフレームワークからトレーニング済みAIモデルを導入、実行、拡張できるため、AI推論が合理化されます。Triton Inference Serverは、TensorFlow、NVIDIA TensorRT、PyTorch、MXNetなどの主要なフレームワークをすべてサポートします。 OpenVNOなど。TritonはKubernetesと統合し、オーケストレーションと拡張を実現します。主要なパブリッククラウドのAIプラットフォームとKubernetesプラットフォームで使用できます。また、多くのMLOpsソフトウェアソリューションと統合されています。</block>
+  <block id="95b88f180e9eb5678e0f9ebac2cbe643" category="section-title">PyTorch</block>
+  <block id="04f7f16178ab3e9bddfd0837b64d21a2" category="paragraph"><block ref="7b17fc2d2143dfdbd3bff6783f73e17c" category="inline-link-rx"></block> はオープンソースのMLフレームワークです。GPUとCPUを使用するディープラーニング用に最適化されたテンソルライブラリです。PyTorchパッケージには多次元テンソル用のデータ構造が含まれており、他の有用なユーティリティ間でテンソルを効率的にシリアル化するための多くのユーティリティを提供します。また、コンピューティング機能を備えたNVIDIA GPUでテンソル計算を実行できるCUDA対応製品もあります。この検証では、OpenCV-Python (CV2)ライブラリを使用してモデルを検証しながら、Pythonで最も直感的なコンピュータビジョンの概念を活用しています。</block>
+  <block id="47b2e74e56111387efd2ff8314d1154c" category="paragraph">データ管理は、AIアプリケーションの運用やAI / MLデータセットのトレーニングに適切なリソースを使用できるように、エンタープライズIT運用とデータサイエンティストにとって非常に重要です。以下に記載するネットアップテクノロジに関する追加情報 は、この検証の対象外ですが、導入環境によっては関連性がある場合もあります。</block>
+  <block id="31c0318dee8b7049a328f752c457824f" category="paragraph">ONTAP データ管理ソフトウェアには、運用を合理化および簡易化し、総運用コストを削減するための次の機能が含まれています。</block>
+  <block id="258ce6748736436345d3a4ade7bfcd47" category="list-text">インラインデータコンパクション、強化された重複排除：データコンパクションはストレージブロック内の無駄なスペースを削減し、重複排除は実効容量を大幅に増やします。この環境データはローカルに格納され、データはクラウドに階層化されます。</block>
+  <block id="e0243dd3e4c9bff6b7a18cab1c1e37c8" category="list-text">最小、最大、アダプティブのQuality of Service（AQoS）。きめ細かいサービス品質（QoS）管理機能により、高度に共有された環境で重要なアプリケーションのパフォーマンスレベルを維持できます。</block>
+  <block id="c3528a5e48bbe189e76cf8d737aa5961" category="inline-link">TR-4598：『FabricPool best bests』</block>
+  <block id="adc171e1d8b6a0bed3a98762139c9875" category="list-text">NetApp FabricPool の略。Amazon Web Services（AWS）、Azure、NetApp StorageGRID ストレージ解決策 など、パブリッククラウドとプライベートクラウドのストレージオプションへコールドデータを自動的に階層化します。FabricPool の詳細については、を参照してください<block ref="234c921b7066bc1bdd676ae1a510e5c5" category="inline-link-rx"></block>。</block>
+  <block id="d9cd75773d759d63134b34db3490eab3" category="paragraph">ONTAP は、卓越したパフォーマンスとデータ保護を実現し、以下の方法でこれらの機能を拡張します。</block>
+  <block id="cdea8196113c492688981e0a035baa29" category="list-text">パフォーマンスとレイテンシの低下：ONTAP は、可能なかぎり最小のレイテンシで最高のスループットを提供します。</block>
+  <block id="fa126db4297464dd03b3ceef190df0d0" category="list-text">データ保護ONTAP には、組み込みのデータ保護機能が用意されており、すべてのプラットフォームを共通の管理機能で管理できます。</block>
+  <block id="892dd840b39835d7da795bbd29f99987" category="list-text">NetApp Volume Encryption（NVE）：ONTAP は、オンボードと外部キー管理の両方をサポートし、ボリュームレベルでのネイティブな暗号化を実現します。</block>
+  <block id="1f17e94c6f48114ff29ad3267277420c" category="list-text">マルチテナンシーおよび多要素認証ONTAP を使用すると、最高レベルのセキュリティでインフラリソースを共有できます。</block>
+  <block id="836ed833c0dea3b588f04d16ca3f850d" category="paragraph">ONTAP は、次の機能を備えており、要件が厳しく、絶えず変化するビジネスニーズに対応できます。</block>
+  <block id="b816bfff9511bcd88a9aa06fe0fd6389" category="list-text">シームレスな拡張とノンストップオペレーションONTAP を使用すると、既存のコントローラとスケールアウトクラスタに無停止で容量を追加できます。NVMe や 32Gb FC などの最新テクノロジへのアップグレードも、コストのかかるデータ移行やシステム停止を行わずに実行できます。</block>
+  <block id="74c384c0caae9c39b0e414cecc8c66ea" category="list-text">クラウドへの接続：ONTAP は、すべてのパブリッククラウドでSoftware-Defined Storage（ONTAP Select ）とクラウドネイティブインスタンス（NetApp Cloud Volumes Service ）のオプションを選択できる、マルチクラウドに対応した最もクラウド対応のストレージ管理ソフトウェアです。</block>
+  <block id="2a7e7bc180cc3d059089e02f091bac27" category="list-text">新しいアプリケーションとの統合：ONTAP は、既存のエンタープライズアプリケーションをサポートするインフラを使用して、自律走行車、スマートシティ、インダストリー4.0などの次世代プラットフォームやアプリケーション向けにエンタープライズクラスのデータサービスを提供します。</block>
+  <block id="377c9a91b43c5423691b5ce75db91350" category="section-title">ネットアップアストラコントロール</block>
+  <block id="35b46e301702b6fcb16192f9f4cf4533" category="inline-link">Astra 制御サービス</block>
+  <block id="eb75cc706ac8cc6c0f4cb17f4fb073dd" category="paragraph">ネットアップの Astra 製品ファミリーは、オンプレミスとパブリッククラウドの Kubernetes アプリケーション向けに、ネットアップのストレージテクノロジとデータ管理テクノロジを基盤とするストレージサービスとアプリケーション対応データ管理サービスを提供します。Kubernetesアプリケーションのバックアップ、データの別のクラスタへの移行、作業用アプリケーションのクローンの瞬時作成を簡単に実行できます。パブリッククラウドで実行されているKubernetesアプリケーションを管理する必要がある場合は、のドキュメントを参照してください<block ref="6d442ad773e9d31651277931acd1583a" category="inline-link-rx"></block>。Astra Control Service は、 Google Kubernetes Engine （ GKE ）および Azure Kubernetes Service （ AKS ）で Kubernetes クラスタのアプリケーション対応データ管理を提供する、ネットアップが管理するサービスです。</block>
+  <block id="545b3003eeeed3a05db492712188eaa8" category="paragraph">アストラ<block ref="b792e70a7bbe82fe69049fd18abe3c18" category="inline-link-rx"></block> ネットアップは、 Docker と Kubernetes 向けのオープンソースの動的ストレージオーケストレーションツールであり、永続的ストレージの作成、管理、使用を簡易化します。KubernetesネイティブアプリケーションであるTridentは、Kubernetesクラスタ内で直接実行されます。Trident を使用すると、 DL コンテナイメージをネットアップストレージにシームレスに導入し、エンタープライズクラスの AI コンテナ環境を実現できます。Kubernetesユーザ（ML開発者、データサイエンティストなど）は、オーケストレーションとクローニングを作成、管理、自動化し、ネットアップテクノロジを基盤とする高度なデータ管理機能を活用できます。</block>
+  <block id="434636f83b39076d7f319707cddbd844" category="paragraph"><block ref="f0ec1a9d50acb3759e364a1cdfa9961d" category="inline-link-rx"></block> 迅速かつセキュアなデータ同期を実現するネットアップのサービスです。オンプレミスの NFS または SMB ファイル共有、 NetApp StorageGRID 、 NetApp ONTAP S3 、 NetApp Cloud Volumes Service 、 Azure NetApp Files 、 Amazon Simple Storage Service （ Amazon S3 ）、 Amazon Elastic File System （ Amazon EFS ）、 Azure Blob 、 Google Cloud Storage 間でファイルを転送する必要があるかどうか または、 IBM Cloud Object Storage を使用すると、 Cloud Sync で必要な場所に迅速かつ安全にファイルを移動できます。転送されたデータは、ソースとターゲットの両方で完全に使用できます。Cloud Sync は、事前に定義されたスケジュールに基づいてデータを継続的に同期し、差分のみを移動するため、データレプリケーションにかかる時間とコストを最小限に抑えることができます。Cloud Sync は、セットアップや使用がきわめて簡単なソフトウェアサービス（SaaS）ツールです。Cloud Sync によって実行されるデータ転送は、データブローカーによって実行されます。Cloud Sync データブローカーは、 AWS 、 Azure 、 Google Cloud Platform 、オンプレミスに導入できます。</block>
+  <block id="66b5cd4a3c9ce410ceb216447176b92c" category="section-title">ネットアップのクラウドデータの意味</block>
+  <block id="37b37a18c5e4fe4e0985503adba1ee06" category="paragraph">強力なAIアルゴリズム、 <block ref="41205542004b3a03df744ae454bd65c9" category="inline-link-rx"></block> データ資産全体の管理とデータガバナンスを自動化します。コスト削減を容易に特定し、コンプライアンスやプライバシーに関する懸念を特定し、最適化の機会を見つけることができます。クラウドデータセンスダッシュボードを使用すると、重複データを特定して冗長性を排除し、個人データ、個人データ、機密データをマッピングし、機密データや異常に関するアラートを有効にすることができます。</block>
+  <block id="b391770315ecce50e9dae3b6506d3513" category="inline-link-macro">次のステップ：テストと検証の計画</block>
+  <block id="d063081c0d1c6aff0b7c690b473d4045" category="paragraph"><block ref="d063081c0d1c6aff0b7c690b473d4045" category="inline-link-macro-rx"></block></block>
+  <block id="fb0e25ed6b061ae8d5a55a94457e445e" category="summary">この検証では、Protopia難読化を1920 x 1080ピクセル画像に5回適用し、難読化手順が完了するまでに毎回かかった時間を測定しました。</block>
+  <block id="9c6852dd5556b48ff70dd2583a5d3aa0" category="doc">難読化の速度</block>
+  <block id="237d31dab91fe077925e5102e132072f" category="inline-link-macro">前の例：推論の精度の比較。</block>
+  <block id="6e3fd8b18c15e04e41fb57acfcafc5aa" category="paragraph"><block ref="6e3fd8b18c15e04e41fb57acfcafc5aa" category="inline-link-macro-rx"></block></block>
+  <block id="d6edf1cfcac22abc6c577706f85eb816" category="paragraph">この検証では、Protopia難読化を1920 x 1080ピクセル画像に5回適用し、難読化手順が完了するまでに毎回かかった時間を測定しました。単一のNVIDIA V100 GPUで動作するPyTorchを使用して難読化を適用し、実行間のGPUキャッシュをクリアしました。難読化手順では、5回の実行でそれぞれ5.47ミリ秒、5.27ミリ秒、4.54ミリ秒、5.24ミリ秒、および4.84ミリ秒が実行されました。平均速度は5.072msでした。</block>
+  <block id="eee25724989c730f34a19e19a1db23b2" category="paragraph"><block ref="eee25724989c730f34a19e19a1db23b2" category="inline-link-macro-rx"></block></block>
+  <block id="6d01d0026564c98aa0d6274cd39c586a" category="summary">本ドキュメントでは、プライバシーの保護と責任あるAI解決策 の導入に関連する画像難読化機能を使用した、または使用しない、3つの異なるシナリオにおける検証済み設計解決策 について説明します。</block>
+  <block id="5a438ff2cdda37bd7827c08d5bd3df59" category="doc">TR-4928：『Responsible AI and Confidential Inferencing - NetApp AI with Protopia Image Transformation』</block>
+  <block id="0bbb7f0a0d464779fc0832c366f3a4e7" category="paragraph">Sathish Thyagarajan氏、Michael Oglesby氏、NetApp Byung Hoon Ahn氏、Jennifer Cwagenberg氏、Protopia氏</block>
+  <block id="c110f3156d66710a207ebd7135164ec1" category="paragraph">画像の撮影や画像処理の出現とのコミュニケーションには、視覚的な解釈が不可欠です。デジタル画像処理における人工知能（AI）は、がんやその他の疾患識別のための医療分野などの新たなビジネスチャンスをもたらします。また、地球空間での視覚分析による環境ハザード調査、パターン認識、犯罪と闘うためのビデオ処理などにも活用できます。しかし、この機会には特別な責任も伴います。</block>
+  <block id="0159205b6d54375adfabd56a2258fcb9" category="paragraph">AIを導入する意思決定が増えるほど、データのプライバシー、セキュリティ、法律、倫理、規制に関する問題に関連するリスクを受け入れることができます。責任あるAIは、大企業のAIに欠かせない信頼とガバナンスを企業や政府機関が構築できるようにするための実践を可能にします。本ドキュメントでは、ネットアップが3つの異なるシナリオで検証したAI推論解決策 について説明します。この検証では、Protopiaデータ難読化ソフトウェアとネットアップのデータ管理テクノロジを併用して、機密データをプライベート化し、リスクと倫理的な懸念を軽減します。</block>
+  <block id="fade8b24490b0ba74a7ffa05d3f8631a" category="paragraph">毎日何百万もの画像が生成され、消費者とビジネスエンティティの両方がさまざまなデジタルデバイスを使用します。その結果、データとコンピューティングのワークロードが急増し、企業はクラウドコンピューティングプラットフォームを利用して、拡張性と効率性を高めることになります。一方、画像データに含まれる機密情報に関するプライバシーの懸念は、パブリッククラウドへの転送によって生じます。画像処理AIシステムの導入における主な障壁は、セキュリティとプライバシーの欠如です。</block>
+  <block id="e9ac7ec9dd27fe52477986ab1dccbcae" category="inline-link">イレイジャーコーディングの権利</block>
+  <block id="49dca35d3e0662046425327194fd8965" category="inline-link">プライバシー法</block>
+  <block id="f615b294f87bd53494e01691ab95c654" category="paragraph">また、もあります<block ref="ac9ac606204db63758cb1efd6e89e43e" category="inline-link-rx"></block> GDPRでは、組織がすべての個人データを消去するように要求する権利が個人に与えられます。また、もあります<block ref="fd57f794f9c27951b4a5b543db96bdb6" category="inline-link-rx"></block>は、公正な情報慣行のコードを確立します。写真などのデジタル画像は、GDPRに基づく個人データを構成し、データの収集、処理、消去の方法を規定します。これを怠るとGDPRに準拠できず、組織に深刻な損害を与える可能性があるコンプライアンス違反に対する多額の罰金が科せられる可能性があります。プライバシーに関する原則は、機械学習（ML）モデルとディープラーニング（DL）モデルの予測において公平性を確保し、プライバシーや規制へのコンプライアンス違反に伴うリスクを軽減する、責任あるAIを実装するためのバックボーンとなっています。</block>
+  <block id="d365f4ef3ed2b414236f81df850880a3" category="paragraph">このドキュメントでは、プライバシーの保護と責任あるAI解決策 の導入に関連する画像難読化機能を使用した、または使用しない、3つの異なるシナリオにおける検証済み設計解決策 について説明します。</block>
+  <block id="bd12a6b0ed0be7808c1e30b1e360bee6" category="list-text">*シナリオ1.* Jupyterノートブック内でのオンデマンド推論。</block>
+  <block id="bf93b5af78256f2e49d2c0351133b08d" category="list-text">*シナリオ2.* Kubernetesでのバッチ推論。</block>
+  <block id="d5a10e810e1d293a064388e4980bde15" category="list-text">*シナリオ3.* NVIDIA * Triton推論サーバ。</block>
+  <block id="870f1cf4b101c66b438e8dd024f24118" category="paragraph">この解決策 では、フェース検出データセットとベンチマーク（FDDB）を使用します。これは、フェース検出の問題を調査するために設計されたフェース領域のデータセットで、PyTorch機械学習フレームと組み合わせて、フェースボックスを実装するためのフレームワークです。このデータセットには、さまざまな解像度の2845枚の画像セットに5171個の面の注釈が含まれています。さらに、このテクニカルレポートでは、この解決策 を適用できる状況において、ネットアップのお客様やフィールドエンジニアから収集した解決策 の領域と関連するユースケースを紹介します。</block>
+  <block id="e28a169eb64ee1d32c878a26595922f0" category="paragraph">このテクニカルレポートは、次のような方を対象としています。</block>
+  <block id="167e9693dfa764051f26b64ec22356a9" category="list-text">公共スペースでの顔画像処理に関するデータ保護やプライバシーの問題に対処するために、責任あるAIの設計と導入を希望するビジネスリーダーおよびエンタープライズアーキテクト。</block>
+  <block id="304e871b0b1ea55fe3e4f07ead7a7d42" category="list-text">データサイエンティスト、データエンジニア、AI /機械学習（ML）研究者、AI / MLシステム開発者は、プライバシーの保護と維持を目指します。</block>
+  <block id="dcf26996b3ab9f385a95f72c1d0a0dce" category="list-text">GDPR、CCPA、国防総省（DoD）や政府機関のプライバシー法などの規制基準に準拠するAI / MLモデルおよびアプリケーション向けのデータ難読化ソリューションを設計するエンタープライズアーキテクト。</block>
+  <block id="bb6887ed7c7b07cbb7bd3ec71f951e6f" category="list-text">データサイエンティストとAIエンジニアは、機密情報を保護するディープラーニング（DL）モデルとAI / ML / DL推論モデルを効率的に導入する方法を探しています。</block>
+  <block id="69adf8f52a6229e7062bda4b2b9679fb" category="paragraph">この解決策 は、GPUの処理能力と従来のCPUを併用することで、大規模なデータセットにおけるAIワークロードのリアルタイムおよびバッチ推論を処理するように設計されています。この検証では、MLのプライバシー保護推論と、責任のあるAI導入を求めている組織に必要な最適なデータ管理が実証されています。この解決策 は、エッジコンピューティングとクラウドコンピューティングを連携させる単一ノードまたはマルチノードのKubernetesプラットフォームに適したアーキテクチャを提供します。このプラットフォームは、オンプレミスのコアソフトウェアであるNetApp ONTAP AI、NetApp DataOpsツールキット、およびJupyter LabとCLIインターフェイスを使用したProtopia難読化ソフトウェアと連携します。次の図は、ネットアップのDataOpsツールキットとProtopiaを使用したデータファブリックの論理アーキテクチャの概要を示しています。</block>
+  <block id="950724ad73ee22fd3b76ae9570281f64" category="paragraph"><block ref="950724ad73ee22fd3b76ae9570281f64" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="7dfea85fd355e4966805c3504348aa8b" category="paragraph">Protopia難読化ソフトウェアは、NetApp DataOpsツールキットの上でシームレスに実行され、ストレージサーバから離れる前にデータを変換します。</block>
+  <block id="3d68457cd44385c7acbd55eeda70e8f8" category="inline-link-macro">次の例：解決策 Areas</block>
+  <block id="55da59d3fe9630935dbd4fc25d52b939" category="paragraph"><block ref="55da59d3fe9630935dbd4fc25d52b939" category="inline-link-macro-rx"></block></block>
+  <block id="c94ba9961c97321b49a2f0af40a3c81b" category="sidebar">AIと機密性の高い推論を担当-ネットアップのAIとProtopia Image Transformation</block>
 </blocks>

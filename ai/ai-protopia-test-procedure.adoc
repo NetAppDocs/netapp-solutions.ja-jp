@@ -1,0 +1,412 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-protopia-test-procedure.html 
+keywords: prerequisites, scenario, jupyter lab, batch inference, kubernetes, NVIDIA Triton Inference Server 
+summary: このセクションでは、検証を完了するために必要なタスクについて説明します。 
+---
+= 手順をテストします
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:ai-protopia-test-configuration.html["前の手順：設定をテストします。"]
+
+このセクションでは、検証を完了するために必要なタスクについて説明します。
+
+
+
+== 前提条件
+
+このセクションで説明するタスクを実行するには、次のツールをインストールして設定したLinuxまたはmacOSホストにアクセスできる必要があります。
+
+* Kubectl（既存のKubernetesクラスタへのアクセスを設定）
++
+** インストールと設定の手順については、を参照してください https://kubernetes.io/docs/tasks/tools/["こちらをご覧ください"^]。
+
+
+* Kubernetes向けNetApp DataOpsツールキット
++
+** インストール手順が記載されています https://github.com/NetApp/netapp-dataops-toolkit/tree/main/netapp_dataops_k8s["こちらをご覧ください"^]。
+
+
+
+
+
+
+== シナリオ1–JupyterLabにおけるオンデマンド推論
+
+. AI / ML推論ワークロード用のKubernetesネームスペースを作成します。
++
+....
+$ kubectl create namespace inference
+namespace/inference created
+....
+. NetApp DataOpsツールキットを使用して、推論を実行するデータを格納する永続的ボリュームをプロビジョニングします。
++
+....
+$ netapp_dataops_k8s_cli.py create volume --namespace=inference --pvc-name=inference-data --size=50Gi
+Creating PersistentVolumeClaim (PVC) 'inference-data' in namespace 'inference'.
+PersistentVolumeClaim (PVC) 'inference-data' created. Waiting for Kubernetes to bind volume to PVC.
+Volume successfully created and bound to PersistentVolumeClaim (PVC) 'inference-data' in namespace 'inference'.
+....
+. NetApp DataOpsツールキットを使用して、JupyterLabの新しいワークスペースを作成します。前の手順で作成した永続ボリュームを'--mount-pvcオプションを使用してマウントします必要に応じて'--nvidia -GPU'オプションを使用して'NVIDIA GPUをワークスペースに割り当てます
++
+次の例では'永続ボリュームinerial-data'が'/home/jovyan/data'のJupyterLabワークスペースコンテナにマウントされています公式のProject Jupyterコンテナイメージを使用する場合、「/home/jovyan」はJupyterLab Webインターフェイス内の最上位ディレクトリとして表示されます。
+
++
+....
+$ netapp_dataops_k8s_cli.py create jupyterlab --namespace=inference --workspace-name=live-inference --size=50Gi --nvidia-gpu=2 --mount-pvc=inference-data:/home/jovyan/data
+Set workspace password (this password will be required in order to access the workspace):
+Re-enter password:
+Creating persistent volume for workspace...
+Creating PersistentVolumeClaim (PVC) 'ntap-dsutil-jupyterlab-live-inference' in namespace 'inference'.
+PersistentVolumeClaim (PVC) 'ntap-dsutil-jupyterlab-live-inference' created. Waiting for Kubernetes to bind volume to PVC.
+Volume successfully created and bound to PersistentVolumeClaim (PVC) 'ntap-dsutil-jupyterlab-live-inference' in namespace 'inference'.
+Creating Service 'ntap-dsutil-jupyterlab-live-inference' in namespace 'inference'.
+Service successfully created.
+Attaching Additional PVC: 'inference-data' at mount_path: '/home/jovyan/data'.
+Creating Deployment 'ntap-dsutil-jupyterlab-live-inference' in namespace 'inference'.
+Deployment 'ntap-dsutil-jupyterlab-live-inference' created.
+Waiting for Deployment 'ntap-dsutil-jupyterlab-live-inference' to reach Ready state.
+Deployment successfully created.
+Workspace successfully created.
+To access workspace, navigate to http://192.168.0.152:32721
+....
+. 「create jupyterlab」コマンドの出力で指定したURLを使用して、JupyterLabワークスペースにアクセスします。データディレクトリは、ワークスペースにマウントされた永続ボリュームを表します。
++
+image:ai-protopia-image3.png["エラー：グラフィックイメージがありません"]
+
+. 「data」ディレクトリを開き、推論を実行するファイルをアップロードします。ファイルがデータディレクトリにアップロードされると、ワークスペースにマウントされた永続ボリュームに自動的に保存されます。ファイルをアップロードするには、次の図に示すように、[ファイルのアップロード]アイコンをクリックします。
++
+image:ai-protopia-image4.png["エラー：グラフィックイメージがありません"]
+
+. トップレベルのディレクトリに戻り、新しいノートブックを作成します。
++
+image:ai-protopia-image5.png["エラー：グラフィックイメージがありません"]
+
+. ノートブックに推論コードを追加します。次の例は、イメージ検出のユースケースの推論コードを示しています。
++
+image:ai-protopia-image6.png["エラー：グラフィックイメージがありません"]
+
++
+image:ai-protopia-image7.png["エラー：グラフィックイメージがありません"]
+
+. 推測コードにProtopia難読化を追加します。Protopiaは、お客様と直接協力してユースケースに固有のドキュメントを提供しますが、本書では取り上げません。次の例は、Protopia難読化を追加した場合のイメージ検出の推論コードを示しています。
++
+image:ai-protopia-image8.png["エラー：グラフィックイメージがありません"]
+
++
+image:ai-protopia-image9.png["エラー：グラフィックイメージがありません"]
+
+
+
+
+
+== シナリオ2–Kubernetesでのバッチ推論
+
+. AI / ML推論ワークロード用のKubernetesネームスペースを作成します。
++
+....
+$ kubectl create namespace inference
+namespace/inference created
+....
+. NetApp DataOpsツールキットを使用して、推論を実行するデータを格納する永続的ボリュームをプロビジョニングします。
++
+....
+$ netapp_dataops_k8s_cli.py create volume --namespace=inference --pvc-name=inference-data --size=50Gi
+Creating PersistentVolumeClaim (PVC) 'inference-data' in namespace 'inference'.
+PersistentVolumeClaim (PVC) 'inference-data' created. Waiting for Kubernetes to bind volume to PVC.
+Volume successfully created and bound to PersistentVolumeClaim (PVC) 'inference-data' in namespace 'inference'.
+....
+. 新しい永続ボリュームに、推論を実行するデータを入力します。
++
+PVCにデータをロードする方法はいくつかあります。データがNetApp StorageGRID やAmazon S3などのS3互換オブジェクトストレージプラットフォームに現在格納されている場合は、を使用できます https://github.com/NetApp/netapp-dataops-toolkit/blob/main/netapp_dataops_k8s/docs/data_movement.md["NetApp DataOpsツールキットS3 Data Moverの機能"^]。また、JupyterLabワークスペースを作成し、JupyterLab Webインターフェイスを使用してファイルをアップロードする方法も簡単です。手順3～5を参照してください<<Scenario 1 – On-demand inferencing in JupyterLab>>」
+
+. バッチ推論タスク用のKubernetesジョブを作成します。次の例は、イメージ検出のユースケースに対するバッチ推論ジョブを示しています。このジョブは、一連のイメージ内の各イメージに対して推論を実行し、stdoutに推論の精度の指標を書き込みます。
++
+....
+$ vi inference-job-raw.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: netapp-inference-raw
+  namespace: inference
+spec:
+  backoffLimit: 5
+  template:
+    spec:
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: inference-data
+      - name: dshm
+        emptyDir:
+          medium: Memory
+      containers:
+      - name: inference
+        image: netapp-protopia-inference:latest
+        imagePullPolicy: IfNotPresent
+        command: ["python3", "run-accuracy-measurement.py", "--dataset", "/data/netapp-face-detection/FDDB"]
+        resources:
+          limits:
+            nvidia.com/gpu: 2
+        volumeMounts:
+        - mountPath: /data
+          name: data
+        - mountPath: /dev/shm
+          name: dshm
+      restartPolicy: Never
+$ kubectl create -f inference-job-raw.yaml
+job.batch/netapp-inference-raw created
+....
+. 推論ジョブが正常に完了したことを確認します。
++
+....
+$ kubectl -n inference logs netapp-inference-raw-255sp
+100%|██████████| 89/89 [00:52<00:00,  1.68it/s]
+Reading Predictions : 100%|██████████| 10/10 [00:01<00:00,  6.23it/s]
+Predicting ... : 100%|██████████| 10/10 [00:16<00:00,  1.64s/it]
+==================== Results ====================
+FDDB-fold-1 Val AP: 0.9491256561145955
+FDDB-fold-2 Val AP: 0.9205024466101926
+FDDB-fold-3 Val AP: 0.9253013871078468
+FDDB-fold-4 Val AP: 0.9399781485863011
+FDDB-fold-5 Val AP: 0.9504280149478732
+FDDB-fold-6 Val AP: 0.9416473519339292
+FDDB-fold-7 Val AP: 0.9241631566241117
+FDDB-fold-8 Val AP: 0.9072663297546659
+FDDB-fold-9 Val AP: 0.9339648715035469
+FDDB-fold-10 Val AP: 0.9447707905560152
+FDDB Dataset Average AP: 0.9337148153739079
+=================================================
+mAP: 0.9337148153739079
+....
+. 推測ジョブにProtopia難読化を追加します。Protopiaの難読化を追加する手順は、このテクニカルレポートでは説明していませんが、Protopiaから直接追加できます。次の例は、アルファ値0.8を使用してProtopia難読化を行った場合のフェース検出のバッチ推論ジョブを示しています。このジョブは、一連のイメージ内の各イメージに対して推論を実行する前にProtopia難読化を適用し、stdoutに推論の精度指標を書き込みます。
++
+このステップは、アルファ値0.05、0.1、0.2、0.4、0.6について繰り返しました。 0.8、0.9、および0.95。結果はに表示されます link:ai-protopia-inferencing-accuracy-comparison.html["「推論の精度比較」"]
+
++
+....
+$ vi inference-job-protopia-0.8.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: netapp-inference-protopia-0.8
+  namespace: inference
+spec:
+  backoffLimit: 5
+  template:
+    spec:
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: inference-data
+      - name: dshm
+        emptyDir:
+          medium: Memory
+      containers:
+      - name: inference
+        image: netapp-protopia-inference:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: ALPHA
+          value: "0.8"
+        command: ["python3", "run-accuracy-measurement.py", "--dataset", "/data/netapp-face-detection/FDDB", "--alpha", "$(ALPHA)", "--noisy"]
+        resources:
+          limits:
+            nvidia.com/gpu: 2
+        volumeMounts:
+        - mountPath: /data
+          name: data
+        - mountPath: /dev/shm
+          name: dshm
+      restartPolicy: Never
+$ kubectl create -f inference-job-protopia-0.8.yaml
+job.batch/netapp-inference-protopia-0.8 created
+....
+. 推論ジョブが正常に完了したことを確認します。
++
+....
+$ kubectl -n inference logs netapp-inference-protopia-0.8-b4dkz
+100%|██████████| 89/89 [01:05<00:00,  1.37it/s]
+Reading Predictions : 100%|██████████| 10/10 [00:02<00:00,  3.67it/s]
+Predicting ... : 100%|██████████| 10/10 [00:22<00:00,  2.24s/it]
+==================== Results ====================
+FDDB-fold-1 Val AP: 0.8953066115834589
+FDDB-fold-2 Val AP: 0.8819580264029936
+FDDB-fold-3 Val AP: 0.8781107458462862
+FDDB-fold-4 Val AP: 0.9085731346308461
+FDDB-fold-5 Val AP: 0.9166445508275378
+FDDB-fold-6 Val AP: 0.9101178994188819
+FDDB-fold-7 Val AP: 0.8383443678423771
+FDDB-fold-8 Val AP: 0.8476311547659464
+FDDB-fold-9 Val AP: 0.8739624502111121
+FDDB-fold-10 Val AP: 0.8905468076424851
+FDDB Dataset Average AP: 0.8841195749171925
+=================================================
+mAP: 0.8841195749171925
+....
+
+
+
+
+== シナリオ3–NVIDIA Triton Inference Server
+
+. AI / ML推論ワークロード用のKubernetesネームスペースを作成します。
++
+....
+$ kubectl create namespace inference
+namespace/inference created
+....
+. NetApp DataOpsツールキットを使用して、NVIDIA Triton Inference Serverのモデルリポジトリとして使用する永続的ボリュームをプロビジョニングします。
++
+....
+$ netapp_dataops_k8s_cli.py create volume --namespace=inference --pvc-name=triton-model-repo --size=100Gi
+Creating PersistentVolumeClaim (PVC) 'triton-model-repo' in namespace 'inference'.
+PersistentVolumeClaim (PVC) 'triton-model-repo' created. Waiting for Kubernetes to bind volume to PVC.
+Volume successfully created and bound to PersistentVolumeClaim (PVC) 'triton-model-repo' in namespace 'inference'.
+....
+. の新しい永続ボリュームにモデルを保存します https://github.com/triton-inference-server/server/blob/main/docs/model_repository.md["の形式で入力し"^] これはNVIDIA Triton Inference Serverによって認識されます。
++
+PVCにデータをロードする方法はいくつかあります。簡単な方法としては、「」の手順3～5で説明しているように、JupyterLabワークスペースを作成し、JupyterLab Webインターフェイスを使用してファイルをアップロードする方法があります<<Scenario 1 – On-demand inferencing in JupyterLab>>。」
+
+. NetApp DataOpsツールキットを使用して、新しいNVIDIA Triton Inference Serverインスタンスを導入します。
++
+....
+$ netapp_dataops_k8s_cli.py create triton-server --namespace=inference --server-name=netapp-inference --model-repo-pvc-name=triton-model-repo
+Creating Service 'ntap-dsutil-triton-netapp-inference' in namespace 'inference'.
+Service successfully created.
+Creating Deployment 'ntap-dsutil-triton-netapp-inference' in namespace 'inference'.
+Deployment 'ntap-dsutil-triton-netapp-inference' created.
+Waiting for Deployment 'ntap-dsutil-triton-netapp-inference' to reach Ready state.
+Deployment successfully created.
+Server successfully created.
+Server endpoints:
+http: 192.168.0.152: 31208
+grpc: 192.168.0.152: 32736
+metrics: 192.168.0.152: 30009/metrics
+....
+. 推論タスクを実行するには、TritonクライアントSDKを使用します。次のPythonコードの抜粋では、Triton PythonクライアントSDKを使用して、フェース検出のユースケースに対する推論タスクを実行しています。この例では、推論のためにTriton APIを呼び出し、イメージを渡します。次に、Triton Inference Serverが要求を受信し、モデルを呼び出して、API結果の一部として推論出力を返します。
++
+....
+# get current frame
+frame = input_image
+# preprocess input
+preprocessed_input = preprocess_input(frame)
+preprocessed_input = torch.Tensor(preprocessed_input).to(device)
+# run forward pass
+clean_activation = clean_model_head(preprocessed_input)  # runs the first few layers
+######################################################################################
+#          pass clean image to Triton Inference Server API for inferencing           #
+######################################################################################
+triton_client = httpclient.InferenceServerClient(url="192.168.0.152:31208", verbose=False)
+model_name = "face_detection_base"
+inputs = []
+outputs = []
+inputs.append(httpclient.InferInput("INPUT__0", [1, 128, 32, 32], "FP32"))
+inputs[0].set_data_from_numpy(clean_activation.detach().cpu().numpy(), binary_data=False)
+outputs.append(httpclient.InferRequestedOutput("OUTPUT__0", binary_data=False))
+outputs.append(httpclient.InferRequestedOutput("OUTPUT__1", binary_data=False))
+results = triton_client.infer(
+    model_name,
+    inputs,
+    outputs=outputs,
+    #query_params=query_params,
+    headers=None,
+    request_compression_algorithm=None,
+    response_compression_algorithm=None)
+#print(results.get_response())
+statistics = triton_client.get_inference_statistics(model_name=model_name, headers=None)
+print(statistics)
+if len(statistics["model_stats"]) != 1:
+    print("FAILED: Inference Statistics")
+    sys.exit(1)
+
+loc_numpy = results.as_numpy("OUTPUT__0")
+pred_numpy = results.as_numpy("OUTPUT__1")
+######################################################################################
+# postprocess output
+clean_pred = (loc_numpy, pred_numpy)
+clean_outputs = postprocess_outputs(
+    clean_pred, [[input_image_width, input_image_height]], priors, THRESHOLD
+)
+# draw rectangles
+clean_frame = copy.deepcopy(frame)  # needs to be deep copy
+for (x1, y1, x2, y2, s) in clean_outputs[0]:
+    x1, y1 = int(x1), int(y1)
+    x2, y2 = int(x2), int(y2)
+    cv2.rectangle(clean_frame, (x1, y1), (x2, y2), (0, 0, 255), 4)
+....
+. 推測コードにProtopia難読化を追加します。Protopia難読化を追加する手順はProtopiaから直接確認できますが、この手順については本テクニカルレポートでは説明していません。次の例は、前述の手順5と同じPythonコードを示していますが、Protopia難読化が追加されています。
++
+Triton APIに渡される前に、Protopia難読化が画像に適用されることに注意してください。このため、難読化されていない画像はローカルマシンから離れることはありません。難読化されたイメージだけがネットワークを通過します。このワークフローは、信頼できるゾーン内でデータが収集され、推論のためにその信頼できるゾーンの外部に渡す必要があるユースケースに該当します。Protopiaの難読化がなければ、機密データが信頼できるゾーンから離れることなく、このタイプのワークフローを実装することはできません。
+
++
+....
+# get current frame
+frame = input_image
+# preprocess input
+preprocessed_input = preprocess_input(frame)
+preprocessed_input = torch.Tensor(preprocessed_input).to(device)
+# run forward pass
+not_noisy_activation = noisy_model_head(preprocessed_input)  # runs the first few layers
+##################################################################
+#          obfuscate image locally prior to inferencing          #
+#          SINGLE ADITIONAL LINE FOR PRIVATE INFERENCE           #
+##################################################################
+noisy_activation = noisy_model_noise(not_noisy_activation)
+##################################################################
+###########################################################################################
+#          pass obfuscated image to Triton Inference Server API for inferencing           #
+###########################################################################################
+triton_client = httpclient.InferenceServerClient(url="192.168.0.152:31208", verbose=False)
+model_name = "face_detection_noisy"
+inputs = []
+outputs = []
+inputs.append(httpclient.InferInput("INPUT__0", [1, 128, 32, 32], "FP32"))
+inputs[0].set_data_from_numpy(noisy_activation.detach().cpu().numpy(), binary_data=False)
+outputs.append(httpclient.InferRequestedOutput("OUTPUT__0", binary_data=False))
+outputs.append(httpclient.InferRequestedOutput("OUTPUT__1", binary_data=False))
+results = triton_client.infer(
+    model_name,
+    inputs,
+    outputs=outputs,
+    #query_params=query_params,
+    headers=None,
+    request_compression_algorithm=None,
+    response_compression_algorithm=None)
+#print(results.get_response())
+statistics = triton_client.get_inference_statistics(model_name=model_name, headers=None)
+print(statistics)
+if len(statistics["model_stats"]) != 1:
+    print("FAILED: Inference Statistics")
+    sys.exit(1)
+
+loc_numpy = results.as_numpy("OUTPUT__0")
+pred_numpy = results.as_numpy("OUTPUT__1")
+###########################################################################################
+
+# postprocess output
+noisy_pred = (loc_numpy, pred_numpy)
+noisy_outputs = postprocess_outputs(
+    noisy_pred, [[input_image_width, input_image_height]], priors, THRESHOLD * 0.5
+)
+# get reconstruction of the noisy activation
+noisy_reconstruction = decoder_function(noisy_activation)
+noisy_reconstruction = noisy_reconstruction.detach().cpu().numpy()[0]
+noisy_reconstruction = unpreprocess_output(
+    noisy_reconstruction, (input_image_width, input_image_height), True
+).astype(np.uint8)
+# draw rectangles
+for (x1, y1, x2, y2, s) in noisy_outputs[0]:
+    x1, y1 = int(x1), int(y1)
+    x2, y2 = int(x2), int(y2)
+    cv2.rectangle(noisy_reconstruction, (x1, y1), (x2, y2), (0, 0, 255), 4)
+....
+
+
+link:ai-protopia-inferencing-accuracy-comparison.html["次の例は、推論の精度の比較です。"]
