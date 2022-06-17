@@ -639,7 +639,6 @@
   <block id="eaec7f01752b17abf6125d8f29a8543c" category="paragraph">実行に必要なその他のソフトウェア要件： AI は、から入手できます<block ref="98bb21d82bcd499a183c82dcfc9b02f3" category="inline-link-rx"></block>。</block>
   <block id="cc352f05f03c970b081b8afa29693b60" category="inline-link-macro">次のステップ： AI を実行することでクラスタと GPU の利用率を最適化</block>
   <block id="b1b09355c9538fe149372d3728c98bb1" category="paragraph"><block ref="b1b09355c9538fe149372d3728c98bb1" category="inline-link-macro-rx"></block></block>
-  <block id="7fd01fa95033c040ddfe882c5258bda9" category="paragraph">== hardbreaks ::nofooter: icons:font:linkattrs::imagesdir ::./../media/</block>
   <block id="dbb4dd9a11f48db13d63eedaae717fe5" category="doc">データサイエンスチームのプロジェクトを作成し、 GPU を割り当てる</block>
   <block id="22d09d229a06f294b0f45804f8e639d3" category="paragraph">研究者は、 AI CLI や Kubeflow などのプロセスを使ってワークロードを送信できます。リソースの割り当てを合理化して優先順位を設定するために、 Run ： AI では「プロジェクト」という概念が導入されています。プロジェクトは、プロジェクト名を GPU 割り当てと優先設定に関連付けるクォータエンティティです。複数のデータサイエンスチームを管理するシンプルで便利な方法です。</block>
   <block id="c0bd05e9d88cf015eac684873bfd14c7" category="paragraph">ワークロードを送信する研究者は、プロジェクトをワークロード要求に関連付ける必要があります。Run ： AI スケジューラは、リクエストを現在の割り当てとプロジェクトと比較して、ワークロードにリソースを割り当てることができるかどうか、またはワークロードを保留中の状態にするかどうかを判断します。</block>
@@ -9487,9 +9486,6 @@
   <block id="6238d4091e12ffa6643c0dc68d72ceab" category="list-text">Astra Control Center をインストールする OpenShift クラスタに管理者としてアクセスできる kubeconfig ファイルを作成または取得します。</block>
   <block id="b736c713f352ab43e7543fda4589e96f" category="list-text">ディレクトリを na_Astra_control_site に変更します。</block>
   <block id="4f31682e7040024757006eed6ba0344a" category="list-text">変数 / 変数 .yml ファイルを編集し、必要な情報を入力します。</block>
-  <block id="084d6dacfbcd3e90106780f3cb2699fa" category="list-text">プレイブックを実行して Astra Control Center を導入します。Playbook には、特定の構成用の root 権限が必要です。</block>
-  <block id="1b9af2e27b0d249822ccdef7fe087cfc" category="paragraph">そのため、この Playbook を実行しているユーザが root である場合やパスワードを使用しない sudo が設定されている場合は、以下のコマンドを実行してこの Playbook を実行してください。</block>
-  <block id="9081796e9cbb144a0c6cc05a62c75b37" category="paragraph">ユーザにパスワードベースの sudo アクセスが設定されている場合は、次のコマンドを実行してこの Playbook を実行し、 sudo パスワードを入力します。</block>
   <block id="8d1e5f9175948d3e6f932794744cde16" category="section-title">インストール後の手順</block>
   <block id="8b70487815961b708f216595f5817311" category="paragraph">2022 年 1 月にリリースされた最新バージョンの Astra Trident は 22.01 です。Trident のどのバージョンがサポートされているかを確認できます Kubernetes ディストリビューションのテストに使用<block ref="34562000b9988739736848a0014e5230" category="inline-link-rx"></block>。</block>
   <block id="b5d9e69ac9444a6a1cfd78cf106c057e" category="list-text">インストールアーカイブを管理ワークステーションにダウンロードし、内容を展開します。Trident の最新バージョンは 22.01 で、ダウンロードできます<block ref="defadeb91446b93776c7f5696677985c" category="inline-link-rx"></block>。</block>
@@ -9544,7 +9540,6 @@
   <block id="1188d1aaa4a5f54ec1dab3da3576377a" category="list-text"><block ref="1188d1aaa4a5f54ec1dab3da3576377a" category="inline-link-macro-rx"></block></block>
   <block id="ce932b248d7f57bcada97c64dd7429a7" category="inline-link-macro">NetApp Astra Control Center ：アプリケーションのデータ管理を容易にするボタン</block>
   <block id="0d47bfb381dd96470ac538b5a112db04" category="list-text"><block ref="0d47bfb381dd96470ac538b5a112db04" category="inline-link-macro-rx"></block></block>
-  <block id="31dfd224530c16d63981c7742bfefc2b" category="list-text">Ansible プレイブックを使用して Astra Control Center を導入するには、 Ansible がインストールされた Ubuntu / RHEL マシンが必要です。説明に従って、手順 に従います<block ref="3c36e2d6ece22f6d90a18a4cf2722cef" category="inline-link-rx"></block> Ubuntu およびそれに含まれています<block ref="1988083261a6d1d93abe49ae6e6435ae" category="inline-link-rx"></block> RHEL の場合：</block>
   <block id="6546814199e52492fa0efe5fbff08d5a" category="paragraph">この解決策 では、 SnapCenter で現在サポートされているすべてのデータベースがサポートされます。ここでは、 Oracle データベースと SQL Server データベースのみを示します。この解決策は仮想データベースワークロードに対して検証済みですが、ベアメタルワークロードもサポートされています。</block>
   <block id="f2a59783d2b5c7be84fec0d6de7a5ae9" category="cell">2022 年 8 月 3 日</block>
   <block id="eab6f1cc9736be0f5d62999f998bf36a" category="cell">新しいビデオデモ「 Accelerate Software Development with Astra Control and NetApp FlexClone Technology 」を追加</block>
@@ -10014,7 +10009,6 @@
   <block id="c46717c86eab6ada72e202311e47bf46" category="paragraph">クラウド接続環境では、 Cloud Insights を使用して高度なモニタリングとテレメトリを提供します。Cloud Insights 接続がない場合は、限定的な監視と計測（7日間の指標）を使用でき、オープン指標エンドポイントを介してKubernetesの標準の監視ツール（PrometheusとGrafana）にエクスポートされます。</block>
   <block id="b5348ca8ff6fec2e5b760e7176813e60" category="paragraph">Astra Control Center の有料版に加え、 90 日間の評価ライセンスも提供されています。評価版は、EメールとSlackコミュニティチャネルを通じてサポートされます。お客様は、これらのリソース、その他のナレッジベース記事、および製品サポートダッシュボードから入手できるドキュメントにアクセスできます。</block>
   <block id="8b05a70d35504af755eb73a78fd137f0" category="paragraph">Astraポートフォリオの詳細については、を参照してください <block ref="230f9d60eb4e7cc8be41a0e702c37eff" category="inline-link-macro-rx"></block>。</block>
-  <block id="1f65ad1f14a5566fbf1c37af1bf0c380" category="paragraph">Astra Tridentは、コンテナやKubernetesディストリビューション向けの、完全にサポートされているオープンソースのストレージオーケストレーションツールです。｛k8s_distribution_name｝などが挙げられます。Trident は、 NetApp ONTAP や Element ストレージシステムを含むネットアップストレージポートフォリオ全体と連携し、 NFS 接続と iSCSI 接続もサポートします。Trident を使用すると、ストレージ管理者の手を煩わせることなく、エンドユーザがネットアップストレージシステムからストレージをプロビジョニングして管理できるため、 DevOps ワークフローが高速化されます。</block>
   <block id="82c67e38528d52fd46de6b6ba7370337" category="paragraph">Astra Tridentは、迅速な開発サイクルを実現し、Kubernetesと同様、年間4回リリースされます。</block>
   <block id="ed42e52f359216f47260ed1d21ef331c" category="paragraph">20.04 リリース以降、 Trident のセットアップは Trident オペレータによって実行されます。オペレータが大規模な導入を容易にし、Tridentのインストールの一部として導入されるポッドの自己修復などの追加サポートを提供します。</block>
   <block id="ef55276f0238c6b1a3f893bc026b5644" category="summary">ネットアップコンテナソリューションは、Kubernetesベースの人気の高いコンテナオーケストレーションツールの多くを検証済みで導入し、ネットアップのストレージ管理システムやソフトウェアと統合します。</block>
@@ -12260,4 +12254,236 @@
   <block id="e1ea84e227dd99913363ade155774bcf" category="cell">NVIDIA DGX SuperPODとネットアップの設計ガイドを追加しました</block>
   <block id="1edbb6849585c57ecbf402c0706ecf2d" category="sidebar">NVIDIA DGX SuperPOD with NetApp（設計ガイド）</block>
   <block id="e340bc103d02ce2b8e016eb60705029c" category="sidebar">SAP と SAP HANA に対応しています</block>
+  <block id="f1fc5bef6accc6d1fab4ab73142df7f3" category="list-text">Ansibleプレイブックを使用してAstra Control Centerを導入するには、AnsibleがインストールされたUbuntu / RHELマシンが必要です。手順 に従います<block ref="3c36e2d6ece22f6d90a18a4cf2722cef" category="inline-link-rx"></block> Ubuntuおよび手順 の場合<block ref="94346839427703f278bfb2bc5962a814" category="inline-link-rx"></block> RHEL の場合：</block>
+  <block id="703fd9e283392bf196948a4c2ed72680" category="list-text">ネットアップサポートサイトにログインし、最新バージョンのNetApp Astra Control Centerをダウンロードします。そのためには、ネットアップアカウントにライセンスを関連付ける必要があります。tar ファイルをダウンロードしたら、ワークステーションに転送します。</block>
+  <block id="42042ccfc3ffee97e94beca237148ed4" category="list-text">Astra Control CenterをインストールするOpenShiftクラスタにadminとしてアクセスし、kubeconfigファイルを作成または取得します。</block>
+  <block id="aff7b433e7f33e585c67f69803192117" category="list-text">「vars/vars.yml」ファイルを編集し、必要な情報を変数に入力します。</block>
+  <block id="b4ca5df207a7b1e22a2f19cac43dd6ad" category="paragraph">ユーザにパスワードベースのsudoアクセスが設定されている場合は、次のコマンドを実行してこのPlaybookを実行し、sudoパスワードを入力します。</block>
+  <block id="f04c9d184475a1c831571242df5998ca" category="paragraph">支払い済みのAstra Control Centerに加えて、90日間の評価ライセンスも利用できます。評価版は、EメールとSlackコミュニティチャネルを通じてサポートされます。お客様は、これらのリソース、その他のナレッジベース記事、および製品サポートダッシュボードから入手できるドキュメントにアクセスできます。</block>
+  <block id="9c38b2d834f16a22a033cc493828d911" category="paragraph">NetApp Cloud Volumes ONTAP は、クラウドで導入されるNetApp ONTAP のバージョンで、Amazon AWS、Microsoft Azure、Google Cloudなどのさまざまなパブリッククラウドに導入できます。</block>
+  <block id="c48c25afacd7dddac49ab104ad056df0" category="paragraph">Astra Tridentは、コンテナやKubernetesディストリビューション向けの、完全にサポートされているオープンソースのストレージオーケストレーションツールです。｛k8s_distribution_name｝などが挙げられます。Trident は、 NetApp ONTAP や Element ストレージシステムを含むネットアップストレージポートフォリオ全体と連携し、 NFS 接続と iSCSI 接続もサポートします。Trident を使用すると、ストレージ管理者の手を煩わせることなく、エンドユーザがネットアップストレージシステムからストレージをプロビジョニングして管理できるため、 DevOps ワークフローが高速化されます。</block>
+  <block id="7654a00ca744e9bf01021439190e3119" category="doc">VMware Tanzu Kubernetes Grid Integrated Edition（TKGI）の概要</block>
+  <block id="644bd75ee9c13f7d8778e4638d9eb2b2" category="paragraph">VMware Tanzu Kubernetes Grid Integrated（TKGI）Editionは、従来のVMware Enterprise PKSと呼ばれていた、スタンドアロンのコンテナオーケストレーションプラットフォームであり、ライフサイクル管理、クラスタの健常性監視、高度なネットワーク、コンテナレジストリなどの機能を備えています。TKGIは、BOSHとOps Managerで構成されるTKGIコントロールプレーンを使用してKubernetesクラスタをプロビジョニングおよび管理します。</block>
+  <block id="a84b33dfae5a2fdc1618084442bc3df0" category="paragraph">TKGIは、オンプレミスのvSphere環境またはOpenStack環境、あるいは各IaaSサービス上の主要なパブリッククラウドのいずれかにインストールして操作できます。さらに、TKGIとNSXおよびNSXとNSXとの統合により、エンタープライズワークロードの幅広いユースケースが可能になります。TKGIとその機能の詳細については、のマニュアルを参照してください <block ref="0b1e387b87be5caa8371b58b8e02b1f8" category="inline-link-macro-rx"></block>。</block>
+  <block id="26f1f37ed65557967fe3a789aa75c364" category="paragraph">TKGIは、さまざまなユースケースとデザインに基づいて、さまざまなプラットフォームにさまざまな構成でインストールされています。ガイドに従ってください <block ref="54093918574a441541c9219fc9d087f1" category="inline-link-macro-rx"></block> TKGIとその前提条件をインストールおよび構成するには、次の手順に従います。TKGIは、改ざん不可の構成イメージを実行するTanzu Kubernetesクラスタのノードとして、Bosh VMを使用します。また、Bosh VMに対する手動変更は、リブート後も維持されません。</block>
+  <block id="58959a34911d9e88e191f3453ddc81f0" category="paragraph">重要事項：</block>
+  <block id="d7fc6fcd5f3c3c3fca9edded9bf380e1" category="list-text">NetApp Tridentでは、特権コンテナへのアクセスが必要です。そのため、TKGIのインストール中に、Tanzu Kubernetesクラスタノードプランを構成する手順でEnable Privileged Containers（特権コンテナを有効にする）チェックボックスを選択してください。</block>
+  <block id="651650f759262b05cb38b56003e55784" category="image-alt">TKGIの特権コンテナ</block>
+  <block id="956d281862a0ec3c4bb386cd28bf959c" category="list-text">ワークロードの要件を満たすようにワーカーノードの構成を選択し、すべての本番環境を複数のマスター環境に導入してフォールトトレランスを実現することを推奨します。したがって、推奨されるTKGIクラスタ計画は、少なくとも3つのマスターと、少なくとも4つのvCPUと12GBのRAMを持つ3人のワーカーで構成され、負荷の高いワークロードを実現します。</block>
+  <block id="74d32c3e98de18a4adf66bd3f05e6088" category="inline-link-macro">次：ネットアップストレージシステムの概要</block>
+  <block id="86de08c652cda2ec18cd6f36a36cfcfa" category="paragraph"><block ref="86de08c652cda2ec18cd6f36a36cfcfa" category="inline-link-macro-rx"></block></block>
+  <block id="71417a3dd01aa388d35bf54aa4c401fa" category="summary">このページには、本ドキュメントで説明している機能の一部を紹介するビデオへのリンクが記載されています。</block>
+  <block id="952be0b8dee874c73cd76a4d6a526b27" category="doc">ビデオとデモ：VMware Tanzu with NetApp</block>
+  <block id="811263b3dba6ff02a02f70eb9730ca2e" category="inline-link-macro">Astra Tridentを使用して、VMware Tanzuに永続的ストレージをプロビジョニング</block>
+  <block id="6aa25c5e03abeab0ced9fac672bb2330" category="list-text"><block ref="6aa25c5e03abeab0ced9fac672bb2330" category="inline-link-macro-rx"></block></block>
+  <block id="03a87e35f2de41c34385d72c2c717acf" category="inline-link-macro">Astra Control Centerを使用して、VMware Tanzuのアプリケーションをクローニングできます</block>
+  <block id="591774815c932f725e0adbded50b634b" category="list-text"><block ref="591774815c932f725e0adbded50b634b" category="inline-link-macro-rx"></block></block>
+  <block id="bf6a387fea3d3444126eab19bcb4bbcd" category="inline-link-macro">次のレポート：追加情報 ：ネットアップを使用したVMwareのTanzuの紹介</block>
+  <block id="df2a7ac55fe19fad5a5006603cfd8662" category="paragraph"><block ref="df2a7ac55fe19fad5a5006603cfd8662" category="inline-link-macro-rx"></block></block>
+  <block id="84053bd81ac19b225e107ad3b65ca58d" category="paragraph"><block ref="84053bd81ac19b225e107ad3b65ca58d" category="inline-link-macro-rx"></block></block>
+  <block id="de15ad9e760a3587b2effb60a58133b1" category="summary">Astra Tridentは、VMware TanzuなどのコンテナやKubernetesディストリビューション向けの、オープンソースで完全にサポートされているストレージオーケストレーションツールです。</block>
+  <block id="143c9ea21ac76ba425aa94411fbba07b" category="doc">Astra Tridentの概要</block>
+  <block id="ebe5598ec22d01fe25c02071b488309b" category="section-title">Helmを使用してTridentオペレータを導入</block>
+  <block id="a082551b03c5e35829be23792317ac16" category="list-text">NetApp Astra Trident Helmリポジトリを追加</block>
+  <block id="836237f5ff429cb9283688cdfaa56c76" category="list-text">Helmリポジトリを更新します。</block>
+  <block id="875c7439b686e253522033c63d909efe" category="list-text">Tridentをインストールするための新しいネームスペースを作成します。</block>
+  <block id="82b1cf842f022e618212caef5d3c942d" category="list-text">DockerHubのクレデンシャルを使用してシークレットを作成し、Astra Tridentイメージをダウンロードします。</block>
+  <block id="e5073fdda88ef7d6b18ac4f938abbece" category="list-text">TKGS（vSphere with Tanzu）またはTKG（管理クラスタを含む）で管理されるユーザまたはワークロードクラスタの場合、次の手順 を実行してAstra Tridentをインストールします。</block>
+  <block id="d409e9c69dd2082fd0ed8a86d87258e8" category="list-text">ログインしているユーザに、tridentネームスペースにサービスアカウントを作成する権限があり、tridentネームスペースのサービスアカウントにポッドを作成する権限があることを確認します。</block>
+  <block id="397ae57f2a6cbd8444c419c896f19886" category="list-text">以下のHelmコマンドを実行し、作成したネームスペースにTridentオペレータをインストールします。</block>
+  <block id="eef6352658410e2218bd7027ae8ff351" category="list-text">TKGI導入によって管理されるユーザまたはワークロードクラスタの場合は、次のHelmコマンドを実行して、作成されたネームスペースにTridentオペレータをインストールします。</block>
+  <block id="12d34565a0d56eff4f8d3f99b138e11a" category="list-text">Tridentポッドが稼働中であることを確認します。</block>
+  <block id="f48fa73c7f509e20ce14901e4639f13d" category="paragraph">Astra Trident Operator のインストールが完了したら、使用するネットアップストレージプラットフォームに合わせてバックエンドを設定する必要があります。次のリンクに従って、Astra Tridentのセットアップと設定を続けてください。</block>
+  <block id="c060cacb4d77409e1402a5dcab49bf8b" category="list-text"><block ref="c060cacb4d77409e1402a5dcab49bf8b" category="inline-link-macro-rx"></block></block>
+  <block id="2280e7f4e3cc9a8caee65d058e1db860" category="list-text"><block ref="2280e7f4e3cc9a8caee65d058e1db860" category="inline-link-macro-rx"></block></block>
+  <block id="fca47dd46473e4571bb1904fe2d5f3f5" category="inline-link-macro">次：ビデオとデモ：ネットアップが提供するVMware Tanzu</block>
+  <block id="61a5a682a4430d961b9bc43c2f902e94" category="paragraph"><block ref="61a5a682a4430d961b9bc43c2f902e94" category="inline-link-macro-rx"></block></block>
+  <block id="fa6f7af807ffa3ac6e2efb5c31463a4f" category="paragraph">TridentをNFS経由でNetApp ONTAP ストレージシステムと統合するには、ストレージシステムとの通信を可能にするバックエンドを作成する必要があります。この解決策 では基本的なバックエンドを設定しますが、よりカスタマイズされたオプションを探している場合は、のマニュアルを参照してください <block ref="f72d871ae286e7b7cf7d9ea12426661a" category="inline-link-macro-rx"></block>。</block>
+  <block id="aaa6c6e969e6e978f9a8bce54e31b5f7" category="section-title">ONTAP でSVMを作成します</block>
+  <block id="b1c04b7e96694453a1307ecc81208ae5" category="list-text">ONTAP System Managerにログインし、Storage &gt; Storage VMの順に選択し、Addをクリックします。</block>
+  <block id="f53bd08113ff367a9bcd470b70a036d8" category="list-text">SVMの名前を入力し、NFSプロトコルを有効にし、NFSクライアントアクセスを許可チェックボックスをオンにして、ワークロードクラスタ内でボリュームをPVSとしてマウントできるように、ワーカーノードがオンになっているサブネットをエクスポートポリシールールに追加します。</block>
+  <block id="0cdb2a8f015b7a7d81ab5c3d73de88a5" category="image-alt">SVM - NFSを使用して作成</block>
+  <block id="e570ad3092406b5118fcd78a9374e048" category="admonition">NSX -Tを使用したユーザクラスタまたはワークロードクラスタのNAT配置を使用する場合は、出力サブネット（TKGS0の場合はフローティングIPサブネット（TKGIの場合））をエクスポートポリシールールに追加する必要があります。</block>
+  <block id="8f254daa71e82320e11e55258b095b00" category="list-text">データLIFの詳細とSVM管理アカウントの詳細を指定し、保存をクリックします。</block>
+  <block id="02ffb816541fbf18a204c877564fb92e" category="image-alt">SVMのデータLIFとSVMの管理</block>
+  <block id="491df82049a4ac2d8b8b2fe6b773d65d" category="list-text">アグリゲートをSVMに割り当てます。Storage &gt; Storage VMsと進み、新しく作成したSVMの横にある省略記号をクリックして、Editをクリックします。ボリュームの作成を優先ローカル階層に制限するチェックボックスをオンにして、必要なアグリゲートを関連付けます。</block>
+  <block id="85c5adc69f6da0ebb2ebf365c4211508" category="image-alt">SVMアグリゲートの割り当て</block>
+  <block id="95fdf7e31ffa1073f8c42359589c334e" category="list-text">Tridentをインストールするユーザまたはワークロードクラスタに対してNATを使用して配置した場合、ストレージマウント要求はSNATのために非標準ポートから到達する可能性があります。デフォルトでは、ONTAP は、ルートポートから作成されたボリュームマウント要求のみを許可します。したがって、ONTAP CLIにログインし、非標準ポートからのマウント要求を許可する設定を変更してください。</block>
+  <block id="03c8ff4111bb9cfc032f786c9bd7c6e8" category="section-title">バックエンドとStorageClassesを作成します</block>
+  <block id="e15177ebae9bfb9adab94a9ccf5f2e96" category="list-text">NFSを提供しているNetApp ONTAP システムの場合は、backendName、managementLIF、dataLIF、SVM、ユーザ名を指定してjumphostでバックエンド構成ファイルを作成します。 パスワードなどの詳細情報。</block>
+  <block id="c75cfbdcbbe9d48dc121fc816d4a2ccf" category="list-text">次のコマンドを実行してTridentバックエンドを作成します。</block>
+  <block id="ad2008cda12d454189828df19b2f9742" category="list-text">バックエンドを作成したら、次にストレージクラスを作成する必要があります。次のストレージクラス定義の例では、必須フィールドと基本フィールドが強調表示されています。パラメータbackendTypeは'新しく作成されたTridentバックエンドのストレージ・ドライバを反映する必要があります</block>
+  <block id="0286d73690ed0ef54af06bd9175945cd" category="list-text">kubectlコマンドを実行して、ストレージクラスを作成します。</block>
+  <block id="8d8b689e86dbd34b31294b3f829db499" category="list-text">ストレージクラスを作成したら、最初の永続的ボリューム要求（ PVC ）を作成する必要があります。PVC定義の例を次に示します。[storageClassName](ストレージクラス名)フィールドが'作成したストレージクラスの名前と一致していることを確認しますプロビジョニングするワークロードに応じて、PVC定義を必要に応じてさらにカスタマイズできます。</block>
+  <block id="c764ff1d25a2f9241afec7161127f74d" category="list-text">kubectlコマンドを発行して、PVCを作成します。作成中の元のボリュームのサイズによっては作成にしばらく時間がかかることがあるため、作成が完了した時点でこのプロセスを監視できます。</block>
+  <block id="5f87e8fbf603b28eb84592d8e64980c6" category="doc">追加情報 ：ネットアップを使用したVMwareのTanzuの紹介</block>
+  <block id="a6f4f5f0d313fa8894e4ad13a09339c0" category="list-text">VMware Tanzuのドキュメント</block>
+  <block id="57a35ee57ca4eb666386f668ebc74599" category="inline-link"><block ref="57a35ee57ca4eb666386f668ebc74599" category="inline-link-rx"></block></block>
+  <block id="35d5768f9d0ee829a3e2cae0cba15216" category="paragraph"><block ref="35d5768f9d0ee829a3e2cae0cba15216" category="inline-link-rx"></block></block>
+  <block id="2839dd9e9e31ca41ba6399c0a64d3333" category="list-text">VMware Tanzu Kubernetes Gridのドキュメント</block>
+  <block id="94ecd750f91f6d1908b92ec42eb37398" category="inline-link"><block ref="94ecd750f91f6d1908b92ec42eb37398" category="inline-link-rx"></block></block>
+  <block id="f0a59887fc9e8ee88512ff6312c13efa" category="paragraph"><block ref="f0a59887fc9e8ee88512ff6312c13efa" category="inline-link-rx"></block></block>
+  <block id="9cf21c31f745a435ac892addf1fd1a3f" category="list-text">VMware Tanzu Kubernetes Grid Serviceに関するドキュメント</block>
+  <block id="98978b88e05533d45b79613d9ee6f26d" category="inline-link"><block ref="98978b88e05533d45b79613d9ee6f26d" category="inline-link-rx"></block></block>
+  <block id="56c4cea9b33fd23cf082d00ca92d5a46" category="paragraph"><block ref="56c4cea9b33fd23cf082d00ca92d5a46" category="inline-link-rx"></block></block>
+  <block id="c23715ed7437fed1084a24cebb89e63c" category="list-text">VMware Tanzu Kubernetes Grid Integrated Editionのドキュメント</block>
+  <block id="fd2560680b89b39b1b988587bf383fb4" category="inline-link"><block ref="fd2560680b89b39b1b988587bf383fb4" category="inline-link-rx"></block></block>
+  <block id="f4b2873e621660e86074a62e5a6c5eac" category="paragraph"><block ref="f4b2873e621660e86074a62e5a6c5eac" category="inline-link-rx"></block></block>
+  <block id="3ff1ba174bc4d7824738ba1a0c0b4035" category="summary">NetApp Astra Control Centerは、ネットアップの信頼できるデータ保護テクノロジを基盤とするオンプレミス環境に導入された、ステートフルKubernetesワークロード向けの豊富なストレージサービスとアプリケーション対応データ管理サービスを提供します。</block>
+  <block id="678f429fd30f5d3718b72e260e17f5f0" category="paragraph">すぐに利用できる、Astra Control REST APIと連携するためのソフトウェア開発ツールキットを探している場合、ネットアップはAstra Control Python SDKのツールキットを提供しています。このツールキットはダウンロードが可能です <block ref="ccffe56769527505ab07c82206690bfe" category="inline-link-macro-rx"></block>。</block>
+  <block id="6b24baf9bd0e230b887612f836d0fbd5" category="paragraph">プログラミングが適していない状況で構成管理ツールを使用する場合は、ネットアップが公開しているAnsibleプレイブックをクローニングして実行できます <block ref="8c91b346fb645d82eb54fe01a7c0cd36" category="inline-link-macro-rx"></block>。</block>
+  <block id="c90524de7ee251d8a5128ac3f59847c6" category="paragraph">Astra Control Centerのインストールには、次の前提条件が必要です。</block>
+  <block id="9f2559e9a5f31fdb3d5489aa3367ae35" category="list-text">1つ以上のTanzu Kubernetesクラスタは、管理クラスタまたはTKGSまたはTKGIによって管理されます。TKGワークロードクラスタ1.4 +およびTKGIユーザークラスタ1.12.2+がサポートされています。</block>
+  <block id="c94e1287a80d82c490967572d336083d" category="list-text">各Tanzu KubernetesクラスタにAstra Tridentがインストールおよび設定されている必要があります。</block>
+  <block id="ba1c516a3e7a998469a5ac73695127ce" category="admonition">サイトにある各Tanzu Kubernetesインストールでは、永続的ストレージ用の専用SVMを使用することを推奨します。マルチサイト環境では、追加のストレージシステムが必要です。</block>
+  <block id="c756010e6a027d7d6ae199c033f4b1db" category="list-text">Tridentストレージバックエンドは、ONTAP クラスタから作成されたSVMを含む各Tanzu Kubernetesクラスタで設定する必要があります。</block>
+  <block id="dd7ed1e31baf27a40282a08242cf6efc" category="list-text">各Tanzu Kubernetesクラスタに設定されたデフォルトのStorageClassには、Astra Tridentをストレージプロビジョニングツールとして使用します。</block>
+  <block id="e8ed7f9c94a716f73364706e6db9c1c6" category="list-text">ingressType「AccTraefik」を使用している場合は、ロードバランシングとアストラコントロールセンターの公開のために、各Tanzu Kubernetesクラスタにロードバランサをインストールし、設定する必要があります。</block>
+  <block id="6b769b6cd8bf0a312e04e05973e13018" category="list-text">ingressType「Generic」を使用している場合は、Astra Control Centerを公開するために、各Tanzu Kubernetesクラスタに入力コントローラをインストールし、設定する必要があります。</block>
+  <block id="0e6886020b4adf5871ebc7346b63c3a0" category="list-text">Astra Control CenterをインストールしているTanzu Kubernetesクラスタにクラスタ管理者としてアクセスできる必要があります。</block>
+  <block id="8bd3433e327d75f3a3c33d9998840fce" category="list-text">RHELまたはUbuntuの管理ワークステーション。</block>
+  <block id="ed060d0439d2eda03baa2005199d9bc1" category="paragraph">この解決策 では、Ansibleプレイブックを使用してAstra Control Centerをインストールするための自動手順 について説明します。手順 を手動でインストールしてAstra Control Centerをインストールする場合は、詳細なインストールと操作のガイドに従ってください <block ref="30c5ae998902105fcf03dc0b9654af4c" category="inline-link-macro-rx"></block>。</block>
+  <block id="662609908ab8e0f372d83dea3511370b" category="inline-link">手順</block>
+  <block id="8575c02ec176b0f64904bcbd79e81cba" category="list-text">Astra Control Centerを導入するAnsibleプレイブックを使用するには、AnsibleがインストールされたUbuntu / RHELマシンが必要です。これを実行します<block ref="c1972c5d94c51919767b49f6cefbf6ba" category="inline-link-rx"></block> Ubuntuおよびこれの場合<block ref="c4dab530b5bf152ded398881b8308451" category="inline-link-rx"></block> RHEL の場合：</block>
+  <block id="df57d245f4173d8ac23df756917bb6ae" category="list-text">Astra Control CenterをインストールするユーザまたはワークロードのTanzu Kubernetesクラスタに管理者アクセスでkubeconfigファイルを作成または取得します。</block>
+  <block id="b2d9440273952d4b05aed1b36c66494d" category="list-text">ディレクトリを'na_Astra_control_siteに変更します</block>
+  <block id="7489123185b81a6e11b42218fabb4c3b" category="list-text">「vars/vars.yml」ファイルを編集し、必要な情報を変数に入力します。</block>
+  <block id="2b6b49be82749b9e141c2f0a23c8d11f" category="paragraph">プレイブックを実行しているユーザがrootである場合、またはパスワードなしのsudoが設定されている場合は、次のコマンドを実行してプレイブックを実行します。</block>
+  <block id="111dd0947a16442f317af649a2aac536" category="list-text">ingressTypeがAccTraefikの場合は、traefikサービスロードバランサIPを取得します。</block>
+  <block id="25ce05402248633e67c7cbc234573b60" category="list-text">Astra Control Centerのすべての機能が動作するには、ライセンスが必要です。ライセンスを追加するには、 ［ アカウント ］ &gt; ［ ライセンス ］ の順に選択し、 ［ ライセンスの追加 ］ をクリックして、ライセンスファイルをアップロードします。</block>
+  <block id="bf3293f2603ff733102e45d1152bc0a1" category="admonition">NetApp Astra Control Center のインストールまたは設定で問題が発生した場合は、既知の問題のナレッジベースを利用できます<block ref="695f48b1d8b7348c0e2828947d24161e" category="inline-link-rx"></block>。</block>
+  <block id="1e89038a8ae648db9dd4b203267abd3a" category="inline-link-macro">次は、Tanzu Kubernetesクラスタを登録します。</block>
+  <block id="c7f57c40ce02379584ec7748d9444ee0" category="paragraph"><block ref="c7f57c40ce02379584ec7748d9444ee0" category="inline-link-macro-rx"></block></block>
+  <block id="318a4bce7f9fca07a60ed82408fbcd29" category="doc">VMware Tanzu Kubernetes Grid（TKG）の概要</block>
+  <block id="11e5f8209ef45e9884518caf7b5bc68d" category="paragraph">TKGとも呼ばれるVMware Tanzu Kubernetes Gridを使用すると、ハイブリッドクラウド環境やパブリッククラウド環境にTanzu Kubernetesクラスタを導入できます。TKGはKubernetesクラスタそのものである管理クラスタとしてインストールされ、Tanzu Kubernetesクラスタを導入および運用します。これらのTanzu Kubernetesクラスタは、実際のワークロードが導入されているワークロードのKubernetesクラスタです。</block>
+  <block id="9a67a32e17609515d2fc11383d1a7b59" category="paragraph">Tanzu Kubernetes Gridは、いくつかの有望なアップストリームコミュニティプロジェクトに基づいて構築され、VMwareが開発、販売、サポートするKubernetesプラットフォームを提供します。Kubernetesディストリビューションに加え、Tanzu Kubernetes Gridには、レジストリ、ロードバランシング、認証などの重要な本番環境クラスのサービスであるアドオンが追加されています。管理クラスタを備えたVMware TKGはvSphere 6.7環境で広く使用されていますが、それがサポートされていても、TKGSにはvSphere 7とのネイティブ統合機能があるため、vSphere 7環境への導入は推奨されません。</block>
+  <block id="4e6c29e9760f3e53993a64a5f6c63aaa" category="image-alt">管理クラスタを使用したVMware Tanzu Kubernetes Gridのソリューション</block>
+  <block id="ec30336a82729146050b0931adab64f2" category="paragraph">Tanzu Kubernetes Gridの詳細については、のドキュメントを参照してください <block ref="f4dbc56b610d9f5cd603e1a13bb6dedf" category="inline-link-macro-rx"></block>。</block>
+  <block id="86fcbed2a7f5b8edced11b10bd1e4266" category="paragraph">Tanzu Kubernetes GridがvSphereクラスタまたはクラウド環境にインストールされているかどうかに応じて、インストールガイドに従ってTanzu Kubernetes Gridを準備して導入します <block ref="492c3fae38681e036fd18bedc1bf8ae5" category="inline-link-macro-rx"></block>。</block>
+  <block id="c1f07986544fbf96897f8099577b0e72" category="paragraph">Tanzu Kubernetes Gridの管理クラスタをインストールしたら、のドキュメントに従って、必要に応じてユーザクラスタまたはワークロードクラスタを導入します <block ref="7d3f6d9f879d392af501006eacd0d221" category="inline-link-macro-rx"></block>。VMware TKG管理クラスタでは、Tanzu Kubernetesクラスタのインストールと運用にSSHキーが必要です。このキーは'capv'ユーザを使用してクラスタ・ノードにログインするために使用できます</block>
+  <block id="07f15dfb0f84a062c67184adcee67a8b" category="summary">このリファレンスガイドでは、Tanzu Kubernetes Grid（TKG）、Tanzu Kubernetes Grid Service（TKGS）、またはTanzu Kubernetes Grid Integrated（TKGI）のいずれかとして、ネットアップによって検証済みの複数のデータセンター環境に導入された、さまざまなVMware Tanzu Kubernetesソリューションの導入方法を検証します。</block>
+  <block id="bec8bc9f783c7d01005b7e64d1ad1785" category="doc">NVA-1166：ネットアップを使用したVMware Tanzuの評価</block>
+  <block id="c837e955d75d674feb57af7e68b3d74c" category="paragraph">このリファレンスガイドでは、Tanzu Kubernetes Grid（TKG）、Tanzu Kubernetes Grid Service（TKGS）、またはTanzu Kubernetes Grid Integrated（TKGI）のいずれかとして、ネットアップによって検証済みの複数のデータセンター環境に導入された、さまざまなVMware Tanzu Kubernetesソリューションの導入方法を検証します。また、ネットアップストレージシステムとAstra Tridentストレージオーケストレーションツールとのストレージ統合についても説明します。Tridentストレージオーケストレーションツールを使用して永続的ストレージを管理し、Astra Control Centerで、永続的ストレージを使用してステートフルアプリケーションのバックアップとクローニングを実行できます。最後に、解決策 の統合と検証のビデオデモを紹介します。</block>
+  <block id="c0a14f456cfcfac669f2cf374f60561b" category="paragraph">NetApp解決策 を搭載したVMware Tanzuは、次のユースケースにおいて、お客様に卓越した価値を提供するように設計されています。</block>
+  <block id="8cc1d80dbdd5d6d142f0173d8c8f2261" category="list-text">VMware vSphereに導入され、ネットアップストレージシステムと統合されたVMware Tanzu Kubernetes Gridサービスの導入と管理が簡単です。</block>
+  <block id="8796988ff3c4f065733c3b887d886609" category="list-text">VMware Tanzu Kubernetes Gridソリューションは、エンタープライズコンテナと仮想化ワークロードの機能を統合したものです。</block>
+  <block id="d7071bc518e2fa9a30b1debdd8e721f1" category="list-text">VMware Tanzuの機能にネットアップのストレージやネットアップのAstra製品スイートを使用した実際の構成とユースケース</block>
+  <block id="3d4565b89cb9591acc32839ce0d48627" category="list-text">VMware Tanzu Kubernetes Gridクラスタに導入されたコンテナ化ワークロードを、Astra Control Centerを使用してネットアップストレージシステムにアプリケーションと整合性のある方法で保護または移行</block>
+  <block id="29375f7cc2c5eece7fdd9c99f40eb3f8" category="list-text">オンプレミスのデータセンターとクラウドの両方でコンテナを実行するハイブリッドクラウドモデルに導入できます。</block>
+  <block id="ddea0381617b5a4b43a0a98a440c6658" category="paragraph">ネットアップのVMware Tanzuにはこのような課題があることを認め、お客様が選択したハイブリッドクラウド環境にVMware Tanzu Kubernetesソリューションを導入することで、それぞれの問題に対処できる解決策 が示されています。</block>
+  <block id="c57f369df48137f738543c0e5012006c" category="paragraph">NetApp解決策 を搭載したVMware Tanzuは、次の主要コンポーネントで構成されています。</block>
+  <block id="67d7b0b61202e57bcae8cda82f02e2b3" category="section-title">VMware Tanzu Kubernetesプラットフォーム</block>
+  <block id="55ad4cb8f0feecb71e184ef92cff1f70" category="paragraph">VMware Tanzuには、ネットアップのソリューションエンジニアリングチームがラボで検証したさまざまなフレーバーがあります。各Tanzuリリースはネットアップのストレージポートフォリオと正常に統合されており、各リリースが特定のインフラ要件を満たすのに役立ちます。次の各バージョンのTanzuの特徴と機能については、このドキュメントで説明します。</block>
+  <block id="5849f8d5cb1d66cb095da163e533dea7" category="paragraph">VMware Tanzu Kubernetes Grid（TKG）</block>
+  <block id="45915535ce313f81567f3b3c41571fe9" category="list-text">VMware vSphere環境に展開される標準のアップストリームKubernetes環境。</block>
+  <block id="32fcd5c42dc47b5cc021d74a489dee4f" category="list-text">以前はEssential PKSと呼ばれていました（Heptio買収により、2019年2月に取得）。</block>
+  <block id="16196833d09cc8d52a1ef3790b4e15d3" category="list-text">TKGは、vSphere 6.7U3以降でサポートされる独立した管理クラスタインスタンスとともに導入されています。</block>
+  <block id="08f2ff1c0826ffc53a185010cce7dac7" category="list-text">TKGの導入は、AWSやAzureと同様にクラウドにも導入できます。</block>
+  <block id="15aa7eec2d32a1ba74b5cea8af5241ec" category="list-text">WindowsまたはLinuxのワーカーノード（Ubuntu / Photon）を使用できます。</block>
+  <block id="89a8813ef0f3f2c1a9b0f20dab87e2a2" category="list-text">NSXとT、HA Proxy、AVIネットワーク、またはロードバランサをコントロールプレーンに使用できます。</block>
+  <block id="2ad16c86af27df82ae725dfd15176212" category="list-text">TKGはアプリケーション/データプレーンでMetalLBをサポートしています。</block>
+  <block id="7bf259c507ef53db8da3607757164b2e" category="list-text">vSphere CSIおよびNetApp Astra TridentなどのサードパーティCSISを使用可能</block>
+  <block id="c840af216b38aff44cc5ba246da60e17" category="paragraph">VMware Tanzu Kubernetes Grid Service（TKGS）</block>
+  <block id="27077307fac1683851c72a97ba11c62e" category="list-text">TKGSは、vSphere 7.0U1以降でのみスーパーバイザクラスタおよびワークロードクラスタとともに配置されます。</block>
+  <block id="3ee27cde76894c76ad60736ecbca78da" category="list-text">TKGSはアプリケーション/データプレーンでMetalLBをサポートしています。</block>
+  <block id="443c9bd7eeb4bc3d39f67cc555b4aab2" category="list-text">は、Tanzuを使用したvSphereポッドのサポートを提供し、環境内の有効なESXiホストでポッドを直接実行できるようにします。</block>
+  <block id="ee195ce9ae2ef58590118a13425fce2a" category="paragraph">VMware Tanzu Kubernetes Grid Integrated（TKGI）</block>
+  <block id="f4ef19f9ee886fa602632ef3f35019ad" category="list-text">以前の名称はEnterprise PKS（Heptio取得、2019年2月）です。</block>
+  <block id="28789df26df63aa440b3aded601e67a6" category="list-text">NSXとT、HAプロキシ、AVIのいずれかを使用できます。独自のロードバランサを指定することもできます。</block>
+  <block id="2b681f710a75cd56332534e50fe625ff" category="list-text">vSphere 6.7U3以降、およびAWS、Azure、GCPでサポートされます。</block>
+  <block id="f09eefe449cf027cce033ceb064c2fae" category="list-text">ウィザードを使用してセットアップすると、導入が簡単になります。</block>
+  <block id="78c9a89b579a1005676bf4b1a4b3aad7" category="list-text">BOSHが管理する変更不可の制御VMでTanzuを実行します。</block>
+  <block id="46c96f35ab6c6f57dd96776e1f115737" category="list-text">NetApp Astra Tridentのように、vSphere CSIやサードパーティのCSISを利用できる（一部の条件が適用される）</block>
+  <block id="b63d5ee355078976e86c94b5c978788e" category="paragraph">NetApp Astra Control Centerは、ステートフルKubernetesワークロード向けの充実したストレージおよびアプリケーション対応のデータ管理サービスを提供します。オンプレミス環境に導入され、信頼できるネットアップのデータ保護テクノロジを基盤としています。</block>
+  <block id="e764fe6b8f8825a307a87cedbef45678" category="cell">22.04</block>
+  <block id="63355c54bd7e8ff73915da41610ec6f7" category="cell">22.04.0</block>
+  <block id="54acb57afb70110fb7f8e1de35e176b4" category="cell">1.3.1</block>
+  <block id="22053fd2d26d3a313aea03b09e9a776c" category="cell">VMware Tanzu Kubernetes Gridサービス</block>
+  <block id="c99c6e88d4de8db879b1b5ec64d1f7ed" category="cell">0.0.15 [vSphere名前空間]</block>
+  <block id="8eb1302ead60c09b6d757b2b7ab84040" category="cell">1.22.6 [スーパーバイザクラスタのKubernetes ]</block>
+  <block id="caf617dd6edf29fd289caff7469ea66b" category="cell">VMware Tanzu Kubernetes Grid統合</block>
+  <block id="1d5bc9367c9565bbe31cc00aa1f870a4" category="cell">1.13.3</block>
+  <block id="5d9dd4ee62c5446f01e895cd118d98dd" category="cell">VMware NSX -Tデータセンター</block>
+  <block id="7bc09c21b8fa1161768459982f0ec89e" category="cell">ネットワークとセキュリティ</block>
+  <block id="b1179856b0372cb8777975cb658548ac" category="cell">3.1.3</block>
+  <block id="cc540661734771d2e0272e8b4ef5c228" category="cell">VMware NSX Advanced Load Balancerの略</block>
+  <block id="50382c1137e78c7c038faabadb85d9fd" category="cell">ロードバランサ</block>
+  <block id="d08680d7e9b745c4d4b81a2d6df7a012" category="cell">20.1.3</block>
+  <block id="743cb170909d5e6e5936fc4783a59de5" category="inline-link-macro">次のステップ：VMware Tanzuの概要</block>
+  <block id="4b362af24230ce2d990680198c520d44" category="paragraph"><block ref="4b362af24230ce2d990680198c520d44" category="inline-link-macro-rx"></block></block>
+  <block id="30a7219728f2665214ac7ae0458c27a8" category="list-text"><block ref="30a7219728f2665214ac7ae0458c27a8" category="inline-link-macro-rx"></block></block>
+  <block id="40ef898131b1ea0532620ff9cb12840c" category="summary">このページには、Astra Tridentを使用してVMware Tanzuに永続的ストレージをプロビジョニングする方法に関するビデオデモのリンクが掲載されています。</block>
+  <block id="e0d2648924bbf778345db6153fddf464" category="doc">VMware Tanzuで永続的ストレージをプロビジョニングするには、Astra Tridentを使用してください</block>
+  <block id="db70f2aaf062f269f45b2fe61ad31160" category="admonition">このデモは、TKGのバージョン1.3.1とAstra Control Centerのバージョン21.12を使用して、テクニカルプレビューとして記録されました。サポートされている公式バージョンについては、サポートマトリックスを参照してください。</block>
+  <block id="945f7593bacdce2a986b2ea8ab58220b" category="summary">このページは、Astra Control Centerを使用してVMware Tanzuのアプリケーションをクローニングする方法を説明するビデオデモへのリンクです。</block>
+  <block id="ff56b2be4aa6be0d45adf0bbeb76166d" category="doc">Astra Control Centerを使用して、VMware Tanzuのアプリケーションをクローニングできます</block>
+  <block id="15693c045ae1b118bd5c3f8e9cee5c08" category="summary">Astra Control Centerでワークロードを管理できるようにするには、まずTanzu Kubernetesクラスタを登録する必要があります。</block>
+  <block id="3a16c17a7d5ce69951add72b2e46c340" category="doc">VMware Tanzu KubernetesクラスタをAstra Control Centerに登録します</block>
+  <block id="a723b0aede16ae3d3bdd6761d359595b" category="section-title">VMware Tanzu Kubernetesクラスタを登録します</block>
+  <block id="779e6578abb36499d7c5399b33269c9c" category="list-text">最初の手順は、Tanzu KubernetesクラスタをAstra Control Centerに追加して管理することです。[クラスタ]に移動して[クラスタの追加]をクリックし、Tanzu Kubernetesクラスタのkubeconfigファイルをアップロードして、[ストレージの選択]をクリックします。</block>
+  <block id="d9687c204aa759a004b29f4f41e01908" category="list-text">クラスタが追加されると、Astra Control Centerがクラスタを検査し、必要なエージェントをインストールしながら、クラスタはDiscoveringステータスに移行します。正常に登録されると、クラスタ・ステータスは「Healthy」に変わります。</block>
+  <block id="1e7084bafe0fe7d10e28e10eea2641aa" category="admonition">Astra Control Centerで管理するすべてのTanzu Kubernetesクラスタは、管理対象クラスタにインストールされたエージェントとしてそのインストールに使用されたイメージレジストリにアクセスできる必要があります。このレジストリからイメージがプルされます。</block>
+  <block id="f3eca6ba1067d4a61b1229f18ab1a463" category="list-text">ONTAP クラスタをストレージリソースとして Astra Control Center でバックエンドとして管理するようにインポートします。Tanzu KubernetesクラスタがAstraに追加され、ストレージクラスが設定されている場合、ストレージクラスをサポートするONTAP クラスタは自動的に検出されて検査されますが、管理対象のAstraコントロールセンターにはインポートされません。</block>
+  <block id="3c786ecd99f0ebd5edd64d81ad32375c" category="list-text">ONTAP クラスタをインポートするには、バックエンドに移動し、ドロップダウンをクリックして、管理対象のONTAP クラスタの横にあるManageを選択します。ONTAP クラスタの資格情報を入力し、 [ 情報の確認 ] をクリックして、 [ ストレージバックエンドのインポート ] をクリックします。</block>
+  <block id="af64f63e0642401224fc8f9c2ec7d1c5" category="list-text">バックエンドを追加すると、ステータスが Available に変わります。これらのバックエンドには、Tanzu Kubernetesクラスタ内の永続ボリュームおよびONTAP システム上の対応するボリュームに関する情報が含まれるようになりました。</block>
+  <block id="688cdc8b62507f4c74f7452e7889821d" category="list-text">Astra Control Centerを使用してTanzu Kubernetesクラスタ間でバックアップおよびリストアを実行するには、S3プロトコルをサポートするオブジェクトストレージバケットをプロビジョニングする必要があります。現在サポートされているオプションは、ONTAP S3、StorageGRID 、AWS S3、およびMicrosoft Azure Blob Storageです。このインストールのために、 AWS S3 バケットを設定します。バケットに移動し、バケットの追加をクリックして、汎用 S3 を選択します。S3バケットとクレデンシャルの詳細を入力してアクセスし、Make this Bucket the Default Bucket for the Cloud（このバケットをクラウドのデフォルトバケットにする）チェックボックスをオンにして、Add（追加）をクリックします。</block>
+  <block id="f1b8312f03a9ec379a8e0fc00f20be33" category="paragraph"><block ref="f1b8312f03a9ec379a8e0fc00f20be33" category="inline-link-macro-rx"></block></block>
+  <block id="9c5a4b54facfb25c9699e51ca3728574" category="summary">VMware Tanzu Kubernetesクラスタを登録したら、Astra Control Centerを使用して導入および管理されているアプリケーションを検出できます。</block>
+  <block id="ada6daf9261af1429947be91dd72757b" category="paragraph">Tanzu Kubernetesクラスタを登録したら、Astra Control Centerを使用して導入および管理されているアプリケーションを検出できます。</block>
+  <block id="48652ad0d003928f33825c84d5c8d950" category="list-text">Tanzu KubernetesクラスタとONTAP バックエンドがAstraコントロールセンターに登録されると、コントロールセンターは指定されたONTAP バックエンドで構成されたストレージクラスを使用しているすべてのネームスペース内のアプリケーションを自動的に検出します。</block>
+  <block id="a013472d7ab7df6d0e423dbb7e238f7a" category="paragraph"><block ref="a013472d7ab7df6d0e423dbb7e238f7a" category="inline-link-macro-rx"></block></block>
+  <block id="96b5419ab713b49685af4d923930ce22" category="summary">NetApp ONTAP ストレージシステムをiSCSI経由で永続ボリューム用のVMware Tanzu Kubernetesクラスタと統合するためには、まず各ノードにログインし、iSCSIボリュームをマウントするためのiSCSIユーティリティまたはパッケージを設定してノードを準備します。</block>
+  <block id="da883967924519350a1c423bd85906dd" category="paragraph">NetApp ONTAP ストレージシステムをiSCSI経由で永続ボリューム用のVMware Tanzu Kubernetesクラスタと統合するには、まず各ノードにログインし、iSCSIボリュームをマウントするためのiSCSIユーティリティまたはパッケージを設定してノードを準備します。そのためには、この『手順 』に記載されている手順に従ってください <block ref="fb2092145032d18c9376d95ca453f9a7" category="inline-link-macro-rx"></block>。</block>
+  <block id="50c35de69200a8b9e4be302372e74851" category="admonition">NATによるVMware Tanzu Kubernetesクラスタの導入には、この手順 は推奨されません。</block>
+  <block id="bfc5022105ee1678e96b6f9991116647" category="admonition">TKGIは、変更不可の構成イメージを実行するTanzu Kubernetesクラスタのノードとして、Bosh VMを使用します。また、Bosh VMでiSCSIパッケージを手動で変更しても、リブート後も維持されません。そのため、TKGIによって導入、運用されているTanzu Kubernetesクラスタの永続ストレージにはNFSボリュームを使用することを推奨します。</block>
+  <block id="16e4431f428a4ec8abdfbee6ec2c2889" category="paragraph">iSCSIボリュームのクラスタノードの準備が完了したら、ストレージシステムとの通信を可能にするバックエンドを作成する必要があります。この解決策 では基本的なバックエンドを設定しましたが、よりカスタマイズ可能なオプションを探している場合は、のドキュメントを参照してください <block ref="f151238ff3a8d488c82b6303d676eaa3" category="inline-link-macro-rx"></block>。</block>
+  <block id="31cd969d7cf1970993d449ccccaeddfe" category="paragraph">ONTAP でSVMを作成するには、次の手順を実行します。</block>
+  <block id="70d94c82da2765251783d499556773b7" category="list-text">SVMの名前を入力し、iSCSIプロトコルを有効にして、データLIFの詳細を指定します。</block>
+  <block id="9305b9f7555d613129963713b0c214e6" category="image-alt">iSCSI SVMデータLIF</block>
+  <block id="f9edece6d4cf48c209a5fe7da61f0ecb" category="list-text">SVM管理アカウントの詳細を入力し、保存をクリックします。</block>
+  <block id="2b44a7a64e9a3efc0b4e423d6339aaa7" category="image-alt">iSCSI SVMの管理</block>
+  <block id="f61c0f70e825557a7be7fe0ac432bdf7" category="list-text">アグリゲートをSVMに割り当てるには、Storage &gt; Storage VMに移動し、新しく作成したSVMの横にある省略記号をクリックしてEditをクリックします。ボリュームの作成を優先ローカル階層に制限するチェックボックスをオンにし、必要なアグリゲートを関連付けます。</block>
+  <block id="74ede5d2e56e369e9eda54f4095292f5" category="list-text">バックエンドを作成したら、次にストレージクラスを作成する必要があります。次のストレージクラス定義の例では、必須フィールドと基本フィールドが強調表示されています。パラメータbackendTypeは'新しく作成されたTridentバックエンドのストレージ・ドライバを反映する必要がありますまた、名前フィールドの値もメモしておきます。この値は、以降の手順で参照する必要があります。</block>
+  <block id="cf2c5963ca8332d4f43e6c3a955da4da" category="admonition">このファイルに定義されているオプションのフィールド「 fsType 」があります。iSCSIバックエンドでは、この値を特定のLinuxファイルシステムタイプ（XFS、ext4など）に設定するか、またはTanzu Kubernetesクラスタが使用するファイルシステムを決定できるようにするために削除できます。</block>
+  <block id="af4fcf3aff174981414dc5c9fce2f4ec" category="section-title">アプリケーションスナップショットを作成します</block>
+  <block id="29335406e75e8b137ee91c9f44068bc6" category="paragraph">アプリケーションのSnapshotコピーを作成すると、ONTAP Snapshotコピーとアプリケーションメタデータのコピーが作成されます。このコピーを使用して、アプリケーションを特定の時点の状態にリストアまたはクローニングできます。</block>
+  <block id="9bb92323cd91f66cadcdc492341cddd5" category="section-title">アプリケーションのバックアップを作成します</block>
+  <block id="c4c29bc3f7db6d04fde98415386e1e7f" category="list-text">アプリケーションを復元するには、[アプリ]&gt;[管理]タブに移動し、該当するアプリをクリックします。アプリケーション名の横にあるドロップダウンメニューをクリックし、[復元]をクリックします。</block>
+  <block id="2c0d64177d5c89bc452e9f1eb0fd4f65" category="list-text">新しいネームスペースの詳細を入力し、クローニング先のクラスタを選択します。クローンを既存のSnapshotから作成するか、バックアップから作成するか、アプリケーションの現在の状態から作成するかを選択します。詳細を確認したら、[次へ]をクリックし、確認ペインの[複製]をクリックします。</block>
+  <block id="ef0b684dddd1cea4885513d892f39cfa" category="paragraph"><block ref="ef0b684dddd1cea4885513d892f39cfa" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="3901d4e16e17c29d42ccb430b94cc402" category="paragraph"><block ref="3901d4e16e17c29d42ccb430b94cc402" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="62772f599e4130a9b43b483c82338681" category="summary">VMware Tanzuは、企業がアプリケーションおよび実行するインフラストラクチャを最新化できるようにする製品ポートフォリオです。VMware Tanzuの機能の完全なスタックにより、開発チームとIT運用チームが1つのプラットフォーム上に統合され、オンプレミスとハイブリッドクラウド環境全体でアプリケーションとインフラストラクチャの両方の最新化を一貫して活用し、継続的に優れたソフトウェアを本番環境に提供します。</block>
+  <block id="969f4a20d38cf3096e1659b96da1b729" category="doc">VMware Tanzuの概要</block>
+  <block id="c395793804bd9dfa82ff727781faf3c5" category="image-alt">VMware Tanzuポートフォリオ</block>
+  <block id="3614585a8ed284306a5eadc9e31585b8" category="paragraph">Tanzuポートフォリオのさまざまなサービスとその機能の詳細については、ドキュメントを参照してください <block ref="e9fed892b98a6bbccfc15bfe67c5aa96" category="inline-link-macro-rx"></block>。</block>
+  <block id="3ff60e0bc78c13ace612734741c1e1da" category="paragraph">TanzuのKubernetes Operationsカタログについて、VMwareはTanzu Kubernetes Gridのためのさまざまな実装を提供しています。これらはすべて、さまざまなプラットフォームでTanzu Kubernetesクラスタのライフサイクルをプロビジョニングおよび管理します。Tanzu Kubernetesクラスタは、VMwareによって構築およびサポートされる本格的なKubernetesディストリビューションです。</block>
+  <block id="caaf1eb22b79381e3d4a2b2b9a7d1698" category="paragraph">ネットアップでは、VMware Tanzuポートフォリオに含まれる次の製品の導入と相互運用性について、ラボでテストを実施して検証しています。</block>
+  <block id="0fe3792ebba34a6c12f05656d54ecb49" category="list-text"><block ref="0fe3792ebba34a6c12f05656d54ecb49" category="inline-link-macro-rx"></block></block>
+  <block id="eac001284f9380ccf17ee4490dbe13e1" category="list-text"><block ref="eac001284f9380ccf17ee4490dbe13e1" category="inline-link-macro-rx"></block></block>
+  <block id="d6a1da4b26eb2ae838f5db5e80c44aee" category="inline-link-macro">VMware Tanzu Kubernetes Grid Integrated（TKGI）</block>
+  <block id="57729a0bf5ad457403cd6505bdfeb143" category="list-text"><block ref="57729a0bf5ad457403cd6505bdfeb143" category="inline-link-macro-rx"></block></block>
+  <block id="aa7b3dace1453f21689852e3b066f673" category="summary">VMware Tanzu Kubernetes Grid Service（別名「Tanzu」）を使用すると、Tanzu KubernetesクラスタをvSphereでネイティブに作成および運用できます。また、一部の小規模なワークロードをESXiホストで直接実行することもできます。</block>
+  <block id="b71ad38bc3fd2c1a10efc2b09270e430" category="doc">VMware Tanzu Kubernetes Grid Service（TKGS）の概要</block>
+  <block id="9f0bacdd758242392df6d215d34d9b8e" category="paragraph">VMware Tanzu Kubernetes Grid Service（別名「Tanzu」）を使用すると、Tanzu KubernetesクラスタをvSphereでネイティブに作成および運用できます。また、一部の小規模なワークロードをESXiホストで直接実行することもできます。vSphereをプラットフォームに変換して、コンテナ化されたワークロードをハイパーバイザーレイヤでネイティブに実行できます。Tanzu Kubernetes Grid Serviceは、ワークロードに必要なクラスタを導入および運用することを有効にすると、vSphereにスーパーバイザクラスタを導入します。vSphere 7とネイティブに統合されており、vCenter SSO、コンテンツライブラリ、vSphereネットワーク、vSphereストレージ、vSphere HAおよびDRS、vSphereセキュリティなど、信頼性の高いvSphereの機能を活用して、Kubernetesのシームレスなエクスペリエンスを実現します。</block>
+  <block id="6b25ac3e69375bd4a52dbffeb5c9cb14" category="paragraph">Tanzuを搭載したvSphereは、ハイブリッドアプリケーション環境向けの単一プラットフォームを提供します。このプラットフォームでは、コンテナ内またはVM内でアプリケーションコンポーネントを実行できるため、開発者、DevOpsエンジニア、およびvSphere管理者はより可視性が高く、運用が容易になります。VMware TKGSはvSphere 7環境でのみサポートされており、Tanzu Kubernetes運用ポートフォリオの中で、ESXiホストでポッドを直接実行できる唯一の製品です。</block>
+  <block id="0e1d3327747a52bdd78d80247d5b6500" category="image-alt">VMware Tanzu Kubernetes Serviceの略</block>
+  <block id="6e1adc41159b779c5ef1a0c9c934a673" category="paragraph">Tanzu Kubernetes Grid Serviceの詳細については、のドキュメントを参照してください <block ref="0cdaad1423fdb034ad0ee788d57a7a82" category="inline-link-macro-rx"></block>。</block>
+  <block id="767b04965a47baa63782400d36a0c62e" category="paragraph">機能セットやネットワークなどに関するアーキテクチャ上の考慮事項は多数あります。選択したアーキテクチャによっては、Tanzu Kubernetes Grid Serviceの前提条件と導入プロセスが異なります。このガイドに従って、環境にTanzu Kubernetes Grid Serviceを導入および設定してください <block ref="5e5ad4985bdb8ab17883db4008c7c4a2" category="inline-link-macro-rx"></block>。さらに、TKGS経由で導入されたTanzu Kubernetesクラスタノードにログインするには、このに記載されている手順 に従ってください<block ref="7db41b551ba1165c4dfa4cf2d8a36e55" category="inline-link-rx"></block>。</block>
+  <block id="46d890e88b951c5a84a444aad08079ae" category="paragraph">必要なワークロードの要件を満たすためには、ワーカーノードの構成を選択して、複数のマスター環境にすべての本番環境を導入してフォールトトレランスを実現することを推奨します。したがって、負荷の高いワークロードに推奨されるVMクラスには、少なくとも4つのvCPUと12GBのRAMがあります。</block>
+  <block id="e8a4d3a2e07c429150e133b7fedebd64" category="paragraph">Tanzu Kubernetesクラスタがネームスペース内に作成されると、「owner」または「edit」権限を持つユーザは、ユーザアカウントを使用してポッドを任意のネームスペース内に直接作成できます。これは'所有者または編集権限を持つユーザーには'クラスタ管理者の役割が割り当てられているためですただし、展開、デーモンセット、ステートフルセット、またはその他の名前空間を作成する場合は、対応するサービスアカウントに必要な権限を持つロールを割り当てる必要があります。これは、展開またはデーモンセットがサービスアカウントを使用してポッドを展開するために必要です。</block>
+  <block id="dc4ab077311e2aad5b5af968844fc5fe" category="paragraph">ClusterRoleBindingの次の例を参照して、クラスタ内のすべてのサービスアカウントにクラスタ管理者ロールを割り当てます。</block>
+  <block id="5851271128193658704cec246f4fd21c" category="doc">ネットアップストレージ統合の概要</block>
+  <block id="c21c42ee74a060038cdb9ea059b7702a" category="list-text"><block ref="c21c42ee74a060038cdb9ea059b7702a" category="inline-link-macro-rx"></block></block>
+  <block id="bbf3919625853b65280d28c2d26004fd" category="list-text"><block ref="bbf3919625853b65280d28c2d26004fd" category="inline-link-macro-rx"></block></block>
+  <block id="7c83f61ffb36cd4e6fa256ea9573bcff" category="inline-link-macro">次のステップ：ネットアップAstra Controlの概要</block>
+  <block id="9fefc82351a3a2abfcae01d825253856" category="paragraph"><block ref="9fefc82351a3a2abfcae01d825253856" category="inline-link-macro-rx"></block></block>
+  <block id="22a3cd730895fa6285f7ee2b7838bc34" category="list-text">Astra Control Centerをインストールする｛k8s_usercluster_name｝クラスタへの管理者アクセスがあるkubeconfigファイルを作成または取得します。</block>
+  <block id="c67346d734cf1873532bdc9f9a1421da" category="list-text">仮想ワークロードとコンテナ化されたワークロードを同時に実行できます</block>
+  <block id="71d00a17a6d603b0b4ebb168354950db" category="list-text">ワークロードのニーズに応じてインフラを個別に拡張できること</block>
+  <block id="1722f248c3b6574ad844b53f30ac236c" category="sidebar">ネットアップを活用したVMware Tanzuの評価</block>
+  <block id="c9fc26b21b932419e6f167a5ef97a61a" category="sidebar">VMware TanzuのWebサイト</block>
+  <block id="8a22a6c667b205ca4e784c0364ccc5ea" category="sidebar">VMware TKG（Tanzu Kubernetes Grid）の概要</block>
+  <block id="e5103defcbafcf380570238b4848f4a1" category="sidebar">VMware TKGS（Tanzu Kubernetes Grid Service）の概要</block>
+  <block id="a2ec151aed88d77a34df663b329daf31" category="sidebar">VMware TKGI（Tanzu Kubernetes Grid Integrated Edition）の概要</block>
+  <block id="e47703dd1fad3279269dda3b343b2272" category="sidebar">Tanzu Kubernetesクラスタを登録します</block>
 </blocks>

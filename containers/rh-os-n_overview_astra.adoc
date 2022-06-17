@@ -11,6 +11,7 @@ summary: NetApp Astra Control Center は、 NetApp の信頼できるデータ�
 :icons: font
 :linkattrs: 
 :imagesdir: ./../media/
+:k8s_usercluster_name: OpenShift
 
 
 NetApp Astra Control Center は、オンプレミス環境に導入され、ネットアップのデータ保護テクノロジを基盤とするステートフル Kubernetes ワークロード向けの充実したストレージサービスとアプリケーション対応データ管理サービスを提供します。
@@ -276,26 +277,26 @@ image::redhat_openshift_image129.jpg[ACC インスタンスを作成します]
 --
 .自動化された [Ansible ]
 --
-. Ansible プレイブックを使用して Astra Control Center を導入するには、 Ansible がインストールされた Ubuntu / RHEL マシンが必要です。説明に従って、手順 に従います https://docs.netapp.com/us-en/netapp-solutions/automation/automation_ubuntu_debian_setup.html["こちらをご覧ください"] Ubuntu およびそれに含まれています https://docs.netapp.com/us-en/netapp-solutions/automation/automation_rhel_centos_setup.html["リンク"] RHEL の場合：
+. Ansibleプレイブックを使用してAstra Control Centerを導入するには、AnsibleがインストールされたUbuntu / RHELマシンが必要です。手順 に従います https://docs.netapp.com/us-en/netapp-solutions/automation/automation_ubuntu_debian_setup.html["こちらをご覧ください"] Ubuntuおよび手順 の場合 https://docs.netapp.com/us-en/netapp-solutions/automation/automation_rhel_centos_setup.html["こちらをご覧ください"] RHEL の場合：
 . Ansible コンテンツをホストする GitHub リポジトリをクローニングします。
 +
 [source, cli]
 ----
 git clone https://github.com/NetApp-Automation/na_astra_control_suite.git
 ----
-. ネットアップサポートサイトにログインし、最新バージョンの NetApp Astra Control Center をダウンロードします。そのためには、ネットアップアカウントにライセンスを関連付ける必要があります。tar ファイルをダウンロードしたら、ワークステーションに転送します。
+. ネットアップサポートサイトにログインし、最新バージョンのNetApp Astra Control Centerをダウンロードします。そのためには、ネットアップアカウントにライセンスを関連付ける必要があります。tar ファイルをダウンロードしたら、ワークステーションに転送します。
 +
 
 NOTE: Astra Control の試用版ライセンスの使用を開始するには、にアクセスしてください https://cloud.netapp.com/astra-register["Astra 登録サイト"^]。
 
-. Astra Control Center をインストールする OpenShift クラスタに管理者としてアクセスできる kubeconfig ファイルを作成または取得します。
+. Astra Control CenterをインストールするOpenShiftクラスタにadminとしてアクセスし、kubeconfigファイルを作成または取得します。
 . ディレクトリを na_Astra_control_site に変更します。
 +
 [source, cli]
 ----
 cd na_astra_control_suite
 ----
-. 変数 / 変数 .yml ファイルを編集し、必要な情報を入力します。
+. 「vars/vars.yml」ファイルを編集し、必要な情報を変数に入力します。
 +
 [source, cli]
 ----
@@ -305,11 +306,16 @@ push_images: yes
 #The directory hosting the Astra Control Center installer
 installer_directory: /home/admin/
 
+#Specify the ingress type. Allowed values - "AccTraefik" or "Generic"
+#"AccTraefik" if you want the installer to create a LoadBalancer type service to access ACC, requires MetalLB or similar.
+#"Generic" if you want to create or configure ingress controller yourself, installer just creates a ClusterIP service for traefik.
+ingress_type: "AccTraefik"
+
 #Name of the Astra Control Center installer (Do not include the extension, just the name)
-astra_tar_ball_name: astra-control-center-21.12.60
+astra_tar_ball_name: astra-control-center-22.04.0
 
 #The complete path to the kubeconfig file of the kubernetes/openshift cluster Astra Control Center needs to be installed to.
-hosting_ocp_kubeconfig_path: /home/admin/ocp-kubeconfig
+hosting_k8s_cluster_kubeconfig_path: /home/admin/cluster-kubeconfig.yml
 
 #Namespace in which Astra Control Center is to be installed
 astra_namespace: netapp-astra-cc
@@ -340,7 +346,7 @@ astra_registry_password: "password"
 astra_registry_secret_name: "astra-registry-credentials"
 
 #Astra Control Center FQDN
-acc_fqdn_address: astra-control-center-ui.cie.netapp.com
+acc_fqdn_address: astra-control-center.cie.netapp.com
 
 #Name of the Astra Control Center instance
 acc_account_name: ACC Account Name
@@ -350,22 +356,22 @@ admin_email_address: admin@example.com
 admin_first_name: Admin
 admin_last_name: Admin
 ----
-. プレイブックを実行して Astra Control Center を導入します。Playbook には、特定の構成用の root 権限が必要です。
+. プレイブックを実行して Astra Control Center を導入します。Playbookには、特定の構成用のroot権限が必要です。
 +
-そのため、この Playbook を実行しているユーザが root である場合やパスワードを使用しない sudo が設定されている場合は、以下のコマンドを実行してこの Playbook を実行してください。
+このプレイブックを実行しているユーザがrootである場合、またはパスワードを使用しないsudoが設定されている場合は、次のコマンドを実行してプレイブックを実行します。
 
 +
 [source, cli]
 ----
-ansible-playbook playbook.yml
+ansible-playbook install_acc_playbook.yml
 ----
 +
-ユーザにパスワードベースの sudo アクセスが設定されている場合は、次のコマンドを実行してこの Playbook を実行し、 sudo パスワードを入力します。
+ユーザにパスワードベースのsudoアクセスが設定されている場合は、次のコマンドを実行してこのPlaybookを実行し、sudoパスワードを入力します。
 
 +
 [source, cli]
 ----
-ansible-playbook playbook.yml -K
+ansible-playbook install_acc_playbook.yml -K
 ----
 
 

@@ -1,0 +1,28 @@
+---
+sidebar: sidebar 
+permalink: containers/tanzu_with_netapp/vtwn_overview_tkg.html 
+keywords: VMware Tanzu, Tanzu, Tanzu Kubernetes Grid, DevOps, Netapp, Astra Trident, Astra Control, Astra 
+summary:  
+---
+= VMware Tanzu Kubernetes Grid（TKG）の概要
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+TKGとも呼ばれるVMware Tanzu Kubernetes Gridを使用すると、ハイブリッドクラウド環境やパブリッククラウド環境にTanzu Kubernetesクラスタを導入できます。TKGはKubernetesクラスタそのものである管理クラスタとしてインストールされ、Tanzu Kubernetesクラスタを導入および運用します。これらのTanzu Kubernetesクラスタは、実際のワークロードが導入されているワークロードのKubernetesクラスタです。
+
+Tanzu Kubernetes Gridは、いくつかの有望なアップストリームコミュニティプロジェクトに基づいて構築され、VMwareが開発、販売、サポートするKubernetesプラットフォームを提供します。Kubernetesディストリビューションに加え、Tanzu Kubernetes Gridには、レジストリ、ロードバランシング、認証などの重要な本番環境クラスのサービスであるアドオンが追加されています。管理クラスタを備えたVMware TKGはvSphere 6.7環境で広く使用されていますが、それがサポートされていても、TKGSにはvSphere 7とのネイティブ統合機能があるため、vSphere 7環境への導入は推奨されません。
+
+image::vtwn_image02.png[管理クラスタを使用したVMware Tanzu Kubernetes Gridのソリューション]
+
+Tanzu Kubernetes Gridの詳細については、のドキュメントを参照してください link:https://docs.vmware.com/en/VMware-Tanzu-Kubernetes-Grid/1.5/vmware-tanzu-kubernetes-grid-15/GUID-release-notes.html["こちらをご覧ください"^]。
+
+Tanzu Kubernetes GridがvSphereクラスタまたはクラウド環境にインストールされているかどうかに応じて、インストールガイドに従ってTanzu Kubernetes Gridを準備して導入します link:https://docs.vmware.com/en/VMware-Tanzu-Kubernetes-Grid/1.5/vmware-tanzu-kubernetes-grid-15/GUID-mgmt-clusters-prepare-deployment.html["こちらをご覧ください"^]。
+
+Tanzu Kubernetes Gridの管理クラスタをインストールしたら、のドキュメントに従って、必要に応じてユーザクラスタまたはワークロードクラスタを導入します link:https://docs.vmware.com/en/VMware-Tanzu-Kubernetes-Grid/1.5/vmware-tanzu-kubernetes-grid-15/GUID-tanzu-k8s-clusters-index.html["こちらをご覧ください"^]。VMware TKG管理クラスタでは、Tanzu Kubernetesクラスタのインストールと運用にSSHキーが必要です。このキーは'capv'ユーザを使用してクラスタ・ノードにログインするために使用できます
+
+link:vtwn_overview_netapp.html["次：ネットアップストレージシステムの概要"]
