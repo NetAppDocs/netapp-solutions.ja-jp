@@ -5079,7 +5079,7 @@
 <p class="page-details">
   
     
-    <time datetime="2022-06-08 17:13:02 +0000">06/08/2022</time>
+    <time datetime="2022-06-17 02:30:15 +0000">06/17/2022</time>
     
   
 
@@ -5668,7 +5668,74 @@
 <div class="title">ログボリュームのレプリケーション</div>
 <div class="content">
 <div class="paragraph">
-<p>&lt;stdin&gt;で未解決のディレクティブ:../_iinclude/db_protection_log_replication.adoc[]</p>
+<p>ログ・レプリケーション・プレイブックのスケジュール</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>ジョブテンプレートを設定して起動します。</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>以前に作成したジョブテンプレートをコピーします。</p>
+<div class="olist lowerroman">
+<ol class="lowerroman" type="i">
+<li>
+<p>[ リソース ] → [ テンプレート ] に移動します。</p>
+</li>
+<li>
+<p>「 ONTAP/CVO Setup Template 」を探して、右端で「 Copy Template 」をクリックします</p>
+</li>
+<li>
+<p>コピーしたテンプレートで [ テンプレートの編集 ] をクリックし、名前を [ ログレプリケーションのプレイブック ] に変更します。</p>
+</li>
+<li>
+<p>テンプレートの同じインベントリ、プロジェクト、資格情報を保持します。</p>
+</li>
+<li>
+<p>実行するプレイブックとして ora_replication_loges.yml を選択します。</p>
+</li>
+<li>
+<p>変数は変更されませんが、 CVO クラスタの IP は変数 dst_cluster_ip に設定する必要があります。</p>
+</li>
+<li>
+<p>[ 保存 ] をクリックします .</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>ジョブテンプレートをスケジュールします。</p>
+<div class="olist lowerroman">
+<ol class="lowerroman" type="i">
+<li>
+<p>[ リソース ] → [ テンプレート ] に移動します。</p>
+</li>
+<li>
+<p>Log Replication Playbook テンプレートをクリックし、一番上のオプションセットにある Schedules （スケジュール）をクリックします。</p>
+</li>
+<li>
+<p>[ 追加 ] をクリックし、 [ ログ複製の名前スケジュールの追加 ] をクリックし、時間の開始時に開始日時を選択し、 [ ローカルタイムゾーン ] と [ 実行頻度 ] を選択します。実行頻度は、多くの場合、 SnapMirror レプリケーションが更新されます。</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<img src="/us-en/netapp-solutions/images/note.svg" alt="注記">
+</td>
+<td class="content">
+1 時間ごとの最新の更新に確実にリカバリできるように、ログスケジュールを 1 時間ごとに更新するように設定することを推奨します。
+</td>
+</tr>
+</table>
+</div>
+</li>
+</ol>
 </div>
 </div>
 </div>
