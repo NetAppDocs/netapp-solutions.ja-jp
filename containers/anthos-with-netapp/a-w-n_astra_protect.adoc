@@ -29,7 +29,7 @@ image:redhat_openshift_image131.jpg["Astra Control Center でスナップショ�
 
 == アプリケーションのバックアップを作成しています
 
-アプリケーションのバックアップは、アプリケーションのアクティブな状態とそのリソースの設定をキャプチャしてファイルに変換し、リモートのオブジェクトストレージバケットに格納します。
+アプリケーションのバックアップには、アプリケーションのアクティブな状態とそのリソースの設定がキャプチャされ、ファイルに変換されて、リモートのオブジェクトストレージバケットに格納されます。
 
 Astra Control Center で管理対象アプリケーションのバックアップとリストアを行うには、バッキング ONTAP システムのスーパーユーザ設定を前提条件として設定する必要があります。そのためには、次のコマンドを入力します。
 
@@ -38,14 +38,17 @@ Astra Control Center で管理対象アプリケーションのバックアッ�
 ONTAP::> export-policy rule modify -vserver ocp-trident -policyname default -ruleindex 1 -superuser sys
 ONTAP::> export-policy rule modify -policyname default -ruleindex 1 -anon 65534 -vserver ocp-trident
 ----
-. Astra Control Center で管理対象アプリケーションのバックアップを作成するには、 [ アプリ ] > [ 管理 ] タブに移動し、バックアップを作成するアプリケーションをクリックします。アプリケーション名の横にあるドロップダウンメニューをクリックし、 [ バックアップ ] をクリックします。
+アプリケーションのバックアップを作成するには、次の手順を実行します。
+
+. Astra Control Centerで管理対象アプリケーションのバックアップを作成するには、[アプリ]>[管理対象]の順に選択し、バックアップを作成するアプリケーションをクリックします。アプリケーション名の横にあるドロップダウンメニューをクリックし、 [ バックアップ ] をクリックします。
 +
 image:redhat_openshift_image132.jpg["Astra Control Center のバックアップボタン"]
 
 . バックアップの詳細を入力し、バックアップファイルを保持するオブジェクトストレージバケットを選択して、次へをクリックします。詳細を確認したら、[バックアップ]をクリックします。アプリケーションとデータのサイズによっては、バックアップに数分かかることがあります。バックアップが正常に完了すると、バックアップのステータスは「available」になります。
-
-
++
 image:redhat_openshift_image133.jpg["Astra Control Center でバックアップを作成"]
+
+
 
 
 
@@ -53,7 +56,9 @@ image:redhat_openshift_image133.jpg["Astra Control Center でバックアップ�
 
 ボタンを押すだけで、アプリケーションを同じクラスタ内の元のネームスペースまたはリモートクラスタにリストアし、アプリケーションを保護してディザスタリカバリに使用できます。
 
-. アプリケーションを復元するには、 [ アプリ ] > [ 管理 ] タブに移動し、該当するアプリをクリックします。アプリケーション名の横にあるドロップダウンメニューをクリックし、[復元]をクリックします。
+アプリケーションをリストアするには、次の手順を実行します。
+
+. [アプリ]>[管理]タブに移動し、該当するアプリをクリックします。アプリケーション名の横にあるドロップダウンメニューをクリックし、[復元]をクリックします。
 +
 image:redhat_openshift_image134.jpg["Astra Control Center のクローンボタン"]
 
@@ -65,8 +70,9 @@ image:redhat_openshift_image135.jpg["Astra Control Center の復元"]
 +
 image:redhat_openshift_image136.jpg["Astra Control Center 復元のレビュー"]
 
-. 新しいアプリケーションは、 Astra Control Center が選択したクラスタ上のアプリケーションを復元している間、 Restoring 状態になります。アプリケーションのすべてのリソースが Astra によってインストールおよび検出されると、アプリケーションは Available 状態になります。
 
+
+新しいアプリケーションは、 Astra Control Center が選択したクラスタ上のアプリケーションを復元している間、 Restoring 状態になります。アプリケーションのすべてのリソースが Astra によってインストールおよび検出されると、アプリケーションは Available 状態になります。
 
 image:redhat_openshift_image137.jpg["Astra Control Center の新しいアプリが検出されました"]
 
@@ -80,11 +86,11 @@ image:redhat_openshift_image137.jpg["Astra Control Center の新しいアプリ�
 +
 image:redhat_openshift_image138.jpg["Astra Control Center のクローンボタン"]
 
-. 新しいネームスペースの詳細を入力し、クローニング先のクラスタを選択します。クローンを既存の Snapshot 、バックアップ、またはアプリケーションの現在の状態から作成するかどうかを選択します。次に、[次へ]をクリックし、詳細を確認した後、[レビュー]ペインの[複製]をクリックします。
+. 新しいネームスペースの詳細を入力し、クローニング先のクラスタを選択して、既存のSnapshot、バックアップ、またはアプリケーションの現在の状態からクローニングするかどうかを選択します。詳細を確認したら、[次へ]をクリックし、[レビュー]ペインの[複製]をクリックします。
 +
 image:redhat_openshift_image139.jpg["Astra Control Center の復元"]
 
-. 新しいアプリケーションは Discovering 状態になり、 Astra Control Center は選択したクラスタにアプリケーションを作成します。アプリケーションのすべてのリソースが Astra によってインストールおよび検出されると、アプリケーションは Available 状態になります。
+. 新しいアプリケーションはDiscovering状態になり、Astra Control Centerは選択したクラスタにアプリケーションを作成します。アプリケーションのすべてのリソースがAstraによってインストールおよび検出されると、アプリケーションはAvailable状態になります。
 +
 image:redhat_openshift_image140.jpg["Astra Control Center の新しいアプリが検出されました"]
 

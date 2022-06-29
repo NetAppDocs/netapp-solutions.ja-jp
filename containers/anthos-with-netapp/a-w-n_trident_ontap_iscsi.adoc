@@ -1,10 +1,10 @@
 ---
 sidebar: sidebar 
 permalink: containers/anthos-with-netapp/a-w-n_trident_ontap_iscsi.html 
-summary:  
+summary: Trident を NetApp ONTAP ストレージシステムと統合するには、ストレージシステムとの通信を可能にするバックエンドを作成する必要があります。 
 keywords: Trident, Astra Trident, ONTAP, AFF, FAS, iSCSI 
 ---
-= NetApp ONTAP iSCSI構成：ネットアップを使用したAnthos
+= NetApp ONTAP iSCSI 構成
 :allow-uri-read: 
 
 
@@ -14,8 +14,8 @@ Trident を NetApp ONTAP ストレージシステムと統合するには、ス�
 +
 [listing]
 ----
-[ubuntu@gke-admin-ws-2021-07-15 trident-installer]$ cp sample-input/backends-samples/ontap-san/backend-ontap-san.json ./
-[ubuntu@gke-admin-ws-2021-07-15 trident-installer]$ vi backend-ontap-san.json
+[ubuntu@gke-admin-ws-2022-05-03 trident-installer]$ cp sample-input/backends-samples/ontap-san/backend-ontap-san.json ./
+[ubuntu@gke-admin-ws-2022-05-03 trident-installer]$ vi backend-ontap-san.json
 ----
 . このファイルで管理 LIF 、データ LIF 、 SVM 、ユーザ名、パスワードの値を編集します。
 +
@@ -35,7 +35,7 @@ Trident を NetApp ONTAP ストレージシステムと統合するには、ス�
 +
 [listing]
 ----
-[ubuntu@gke-admin-ws-2021-07-15 trident-installer]$ ./tridentctl -n trident create backend -f backend-ontap-san.json
+[ubuntu@gke-admin-ws-2022-05-03 trident-installer]$ ./tridentctl -n trident create backend -f backend-ontap-san.json
 +------------------------+----------------+--------------------------------------+--------+---------+
 |          NAME          | STORAGE DRIVER |                 UUID                 | STATE  | VOLUMES |
 +------------------------+----------------+--------------------------------------+--------+---------+
@@ -46,8 +46,8 @@ Trident を NetApp ONTAP ストレージシステムと統合するには、ス�
 +
 [listing]
 ----
-[ubuntu@gke-admin-ws-2021-07-15 trident-installer]$ cp sample-input/storage-class-samples/storage-class-csi.yaml.templ ./storage-class-basic.yaml
-[ubuntu@gke-admin-ws-2021-07-15 trident-installer]$ vi storage-class-basic.yaml
+[ubuntu@gke-admin-ws-2022-05-03 trident-installer]$ cp sample-input/storage-class-samples/storage-class-csi.yaml.templ ./storage-class-basic.yaml
+[ubuntu@gke-admin-ws-2022-05-03 trident-installer]$ vi storage-class-basic.yaml
 ----
 . このファイルに対して行う必要がある唯一の編集は ' バックエンドタイプの値を ' 新しく作成されたバックエンドのストレージドライバの名前に定義することですまた、名前フィールドの値もメモしておきます。この値は、以降の手順で参照する必要があります。
 +
@@ -63,21 +63,21 @@ parameters:
 ----
 +
 
-NOTE: このファイルに定義されているオプションのフィールド「 fsType 」があります。iSCSIバックエンドでは、この値を特定のLinuxファイルシステムタイプ（XFS、ext4など）に設定するか、OpenShiftで使用するファイルシステムを決定できるようにするために削除できます。
+NOTE: このファイルに定義されているオプションのフィールド「 fsType 」があります。iSCSIバックエンドでは、この値を特定のLinuxファイルシステムタイプ（XFS、ext4など）に設定するか、OpenShiftが使用するファイルシステムを決定できるようにするためにこの値を削除できます。
 
 . kubectl コマンドを実行して ' ストレージ・クラスを作成します
 +
 [listing]
 ----
-[ubuntu@gke-admin-ws-2021-07-15 trident-installer]$ kubectl create -f storage-class-basic.yaml
+[ubuntu@gke-admin-ws-2022-05-03 trident-installer]$ kubectl create -f storage-class-basic.yaml
 storageclass.storage.k8s.io/basic-csi created
 ----
 . ストレージクラスを作成したら、最初の永続的ボリューム要求（ PVC ）を作成する必要があります。sample_inputs にもあるこのアクションを実行するために使用できるサンプルの 'pvc-basicy.yaml ファイルがあります
 +
 [listing]
 ----
-[ubuntu@gke-admin-ws-2021-07-15 trident-installer]$ cp sample-input/pvc-samples/pvc-basic.yaml ./
-[ubuntu@gke-admin-ws-2021-07-15 trident-installer]$ vi pvc-basic.yaml
+[ubuntu@gke-admin-ws-2022-05-03 trident-installer]$ cp sample-input/pvc-samples/pvc-basic.yaml ./
+[ubuntu@gke-admin-ws-2022-05-03 trident-installer]$ vi pvc-basic.yaml
 ----
 . このファイルに対して行う必要がある唯一の編集は '`torageClassName` フィールドが作成したものと一致することを確認することですプロビジョニングするワークロードによって必要に応じて、 PVC 定義をさらにカスタマイズできます。
 +
@@ -99,13 +99,13 @@ spec:
 +
 [listing]
 ----
-[ubuntu@gke-admin-ws-2021-07-15 trident-installer]$ kubectl create -f pvc-basic.yaml
+[ubuntu@gke-admin-ws-2022-05-03 trident-installer]$ kubectl create -f pvc-basic.yaml
 persistentvolumeclaim/basic created
 
-[ubuntu@gke-admin-ws-2021-07-15 trident-installer]$ kubectl get pvc
+[ubuntu@gke-admin-ws-2022-05-03 trident-installer]$ kubectl get pvc
 NAME    STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
 basic   Bound    pvc-7ceac1ba-0189-43c7-8f98-094719f7956c   1Gi        RWO            basic-csi      3s
 ----
 
 
-link:a-w-n_overview_advanced.html["次のオプション：高度な構成オプション：ネットアップを使用したAnthos"]
+link:a-w-n_overview_advanced.html["次の手順：詳細設定オプション。"]
