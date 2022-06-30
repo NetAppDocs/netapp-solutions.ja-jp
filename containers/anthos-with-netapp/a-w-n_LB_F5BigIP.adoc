@@ -99,7 +99,7 @@ image:big-IP_config_7.PNG["BIG-IP Configuration 、パート 7"]
 
 . ウィザードの最初のページでは冗長性が設定されます。デフォルトのままで Next （次へ）をクリックします。次のページでは、ロードバランサに内部インターフェイスを設定できます。インターフェイス1.1は、OVF DeploymentウィザードでInternalというラベルの付いたVMNICにマッピングされます。
 +
-image:big-IP_config_8.png["BIG-IP Configuration 、パート 8"]
+image:big-IP_config_8.PNG["BIG-IP Configuration 、パート 8"]
 
 +
 
@@ -107,7 +107,7 @@ NOTE: このページの「自己IPアドレス」、「ネットマスク」、
 
 . 次のページでは、 Kubernetes で導入されたポッドにサービスをマッピングするために使用する外部ネットワークを設定できます。VM_Network の範囲内の静的 IP 、適切なサブネットマスク、および同じ範囲のフローティング IP を選択します。インターフェイス1.2は、OVF導入ウィザードでExternalというラベルのVMNICにマッピングされます。
 +
-image:big-IP_config_9.png["BIG-IP Configuration 、パート 9"]
+image:big-IP_config_9.PNG["BIG-IP Configuration 、パート 9"]
 
 . 環境に複数の仮想アプライアンスを導入する場合は、次のページで内部 HA ネットワークを設定できます。続行するには、 Self-IP Address フィールドと Netmask フィールドに値を入力し、 VLAN インターフェイスとしてインターフェイス 1.3 を選択し、 OVF テンプレートウィザードで定義された HA ネットワークにマッピングする必要があります。
 +
@@ -189,4 +189,4 @@ image:big-IP_config_12.PNG["BIG-IP Configuration 、パート 12"]
     # (Optional) Run two LB VMs to achieve high availability (default: false)
     #   enableHA: false
 ----
-link:a-w-n_use_cases.html["次は、解決策の検証 / ユースケースです。"]
+link:a-w-n_LB_MetalLB.html["次の例：MetalLBロードバランサをインストールします。"]
