@@ -18,7 +18,7 @@ summary: このページでは、 Kubernetes クラスタに Kubeflow を導入�
 
 
 
-=== 前提条件
+== 前提条件
 
 このセクションで説明する導入の演習を行う前に、次の作業をすでに実行していることを前提としています。
 
@@ -28,7 +28,7 @@ summary: このページでは、 Kubernetes クラスタに Kubeflow を導入�
 
 
 
-=== デフォルトの Kubernetes StorageClass を設定します
+== デフォルトの Kubernetes StorageClass を設定します
 
 Kubeflow を導入する前に、 Kubernetes クラスタ内でデフォルトの StorageClass を指定する必要があります。Kubeflow の導入プロセスでは、デフォルトの StorageClass を使用して新しい永続ボリュームのプロビジョニングが試行されます。StorageClass がデフォルトの StorageClass として指定されていない場合、導入は失敗します。クラスタ内のデフォルトの StorageClass を指定するには、導入ジャンプホストから次のタスクを実行します。クラスタ内ですでにデフォルトの StorageClass を指定している場合は、この手順を省略できます。
 
@@ -56,7 +56,7 @@ ontap-ai-flexvols-retain (default)   csi.trident.netapp.io   54s
 ....
 
 
-=== NVIDIA DeepOps を使用して Kubeflow を導入します
+== NVIDIA DeepOps を使用して Kubeflow を導入します
 
 NVIDIA DeepOps が提供する Kubeflow 導入ツールを使用することを推奨します。DeepOps 導入ツールを使用して Kubernetes クラスタに Kubeflow を導入するには、導入ジャンプホストから次のタスクを実行します。
 
