@@ -258,11 +258,13 @@
           <div id="react-search" 
           data-search-html="/ja-jp/netapp-solutions/search.html"
           data-type="widget" 
-          data-placeholder="ドキュメントを検索" 
-          data-no-results-found="{query}に該当する結果はありません" 
-          data-did-you-mean="{suggestion} を検索" 
-          data-no-results-found-did-you-mean="{query} に該当する結果はありません。{suggestion} の間違いではありませんか?" 
-          data-results-found="{hitCount} 件見つかりました"  
+          data-placeholder="ドキュメントを検索"
+          data-no-results-found="{query}に該当する結果はありません"
+          data-did-you-mean="{suggestion} を検索"
+          data-no-results-found-did-you-mean="{query} に該当する結果はありません。{suggestion} の間違いではありませんか?"
+          data-results-found="{hitCount} 件見つかりました"
+          data-error-message="We're sorry, an issue occurred when fetching your results. Please try again."
+          data-error-reset="Reset Search"
           data-sk-es-pf-indexes=""
           data-flavor=""></div>
           <button class="n-property-bar__search-toggle-button" type="button">
@@ -5111,7 +5113,7 @@
 <p class="page-details">
   
     
-    <time datetime="2022-05-20 19:33:01 +0000">05/20/2022</time>
+    <time datetime="2022-07-15 19:02:09 +0000">07/15/2022</time>
     
   
 
@@ -5125,8 +5127,9 @@
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="ユースケース-1-ストレージの最適化">ユースケース 1 ：ストレージの最適化</h3>
+<div class="sect1">
+<h2 id="ユースケース-1-ストレージの最適化">ユースケース 1 ：ストレージの最適化</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>RVtools の出力を使用したサイジングの演習では、馬力（ vCPU / vMem ）のスケールがストレージと平行になっていることが常に明らかです。多くの場合、組織は、ストレージスペースを必要とするだけでなく、クラスタのサイズを十分に拡張して処理能力を必要とする状況に遭遇します。</p>
 </div>
@@ -5134,8 +5137,10 @@
 <p>NetApp Cloud Volume を統合することで、組織は vSphere ベースのクラウド解決策を簡単な移行アプローチで実現できます。再プラットフォーム化や IP の変更は不要で、アーキテクチャの変更も必要ありません。また、この最適化により、ホストの数を vSphere で必要な量以上に抑えながらストレージの設置面積を拡張できます。ただし、ストレージ階層、セキュリティ、ファイルは変更されません。これにより、導入を最適化し、全体的な TCO を 35 ～ 45% 削減できます。この統合により、ウォームストレージから本番環境レベルのパフォーマンスまで、ストレージを数秒で拡張できます。</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="ユースケース-2-クラウドへの移行">ユースケース 2 ：クラウドへの移行</h3>
+</div>
+<div class="sect1">
+<h2 id="ユースケース-2-クラウドへの移行">ユースケース 2 ：クラウドへの移行</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>企業は、次のような理由から、オンプレミスのデータセンターからパブリッククラウドへのアプリケーション移行を迫られています。設備投資（ CAPEX ）から運用コスト（ OPEX ）に移行するための資金調達ディレクティブや、すべてをクラウドへ移行するというトップダウンの指示など、さまざまな理由があります。</p>
 </div>
@@ -5143,14 +5148,18 @@
 <p>スピードが重要な場合は、合理化された移行アプローチのみが可能です。これは、クラウド固有の IaaS プラットフォームに適応するためのアプリケーションの再プラットフォーム化とリファクタリングが低速でコストがかかるためですが、多くの場合、数か月かかることがあります。ネットアップの Cloud Volume とゲスト接続ストレージ用の帯域幅効率に優れた SnapMirror レプリケーションを組み合わせることで、アプリケーションと整合性のある Snapshot コピーと HCX 、クラウド固有の移行（例 Azure Migrate ）、または VM のレプリケーションに使用するサードパーティ製品）。この移行は、時間のかかる I/O フィルタメカニズムを使用する場合よりも簡単です。</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="ユースケース-3-データセンターの拡張">ユースケース 3 ：データセンターの拡張</h3>
+</div>
+<div class="sect1">
+<h2 id="ユースケース-3-データセンターの拡張">ユースケース 3 ：データセンターの拡張</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>季節によって変動する需要の急増や、わずかに変動する有機的な成長によってデータセンターの容量が上限に達し解決策た場合、 NetApp Cloud Volume と一緒にクラウドホスト型の VMware 環境に移行するのは簡単です。NetApp Cloud Volume を利用すると、アベイラビリティゾーン全体の高可用性と動的な拡張機能を提供することで、ストレージの作成、レプリケーション、拡張が非常に簡単に行えます。NetApp Cloud Volume を活用すると、ストレッチクラスタが不要になるため、ホストクラスタの容量を最小限に抑えることができます。</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="ユースケース-4-クラウドへのディザスタリカバリ">ユースケース 4 ：クラウドへのディザスタリカバリ</h3>
+</div>
+<div class="sect1">
+<h2 id="ユースケース-4-クラウドへのディザスタリカバリ">ユースケース 4 ：クラウドへのディザスタリカバリ</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>従来のアプローチでは、災害が発生した場合、クラウドに複製された VM は、クラウドに復元する前にクラウド独自のハイパーバイザプラットフォームに変換する必要があります。これは、危機的な状況では対処できません。</p>
 </div>
@@ -5158,10 +5167,13 @@
 <p>SnapCenter を使用してゲスト接続ストレージに NetApp Cloud Volume を使用し、オンプレミスからの SnapMirror レプリケーションとパブリッククラウド仮想化ソリューションを使用することで、ディザスタリカバリに対する優れたアプローチを考案できます。これにより、完全に一貫性のある VMware SDDC インフラ上で VM レプリカをリカバリできるようになり、クラウド固有のリカバリツールも利用できます Azure Site Recovery を参照）、または Veeam などの同等のサードパーティツールが必要です。また、このアプローチにより、ランサムウェアからのディザスタリカバリ訓練やリカバリも迅速に実行できます。また、テスト用や災害時に、ホストをオンデマンドで追加することで、フル本番環境に拡張することもできます。</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="ユースケース-5-アプリケーションの最新化">ユースケース 5 ：アプリケーションの最新化</h3>
+</div>
+<div class="sect1">
+<h2 id="ユースケース-5-アプリケーションの最新化">ユースケース 5 ：アプリケーションの最新化</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>アプリケーションがパブリッククラウドに配置されたら、組織は数百もの強力なクラウドサービスを活用して最新化と拡張を実現したいと考えています。NetApp Cloud Volume を使用すると、アプリケーションデータが vSAN にロックされず、 Kubernetes などの幅広いユースケースでデータを移動できるため、最新化は簡単なプロセスです。</p>
+</div>
 </div>
 </div>
 <div class="sect1">

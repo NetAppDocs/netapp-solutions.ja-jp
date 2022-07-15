@@ -258,11 +258,13 @@
           <div id="react-search" 
           data-search-html="/ja-jp/netapp-solutions/search.html"
           data-type="widget" 
-          data-placeholder="ドキュメントを検索" 
-          data-no-results-found="{query}に該当する結果はありません" 
-          data-did-you-mean="{suggestion} を検索" 
-          data-no-results-found-did-you-mean="{query} に該当する結果はありません。{suggestion} の間違いではありませんか?" 
-          data-results-found="{hitCount} 件見つかりました"  
+          data-placeholder="ドキュメントを検索"
+          data-no-results-found="{query}に該当する結果はありません"
+          data-did-you-mean="{suggestion} を検索"
+          data-no-results-found-did-you-mean="{query} に該当する結果はありません。{suggestion} の間違いではありませんか?"
+          data-results-found="{hitCount} 件見つかりました"
+          data-error-message="We're sorry, an issue occurred when fetching your results. Please try again."
+          data-error-reset="Reset Search"
           data-sk-es-pf-indexes=""
           data-flavor=""></div>
           <button class="n-property-bar__search-toggle-button" type="button">
@@ -5111,7 +5113,7 @@
 <p class="page-details">
   
     
-    <time datetime="2022-04-18 06:36:27 +0000">04/18/2022</time>
+    <time datetime="2022-07-15 19:02:09 +0000">07/15/2022</time>
     
   
 
@@ -5137,8 +5139,9 @@ Kubernetes 以外のプラットフォームに通気を導入することも可
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="前提条件">前提条件</h3>
+<div class="sect1">
+<h2 id="前提条件">前提条件</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>このセクションで説明する導入の演習を行う前に、次の作業をすでに実行していることを前提としています。</p>
 </div>
@@ -5153,20 +5156,26 @@ Kubernetes 以外のプラットフォームに通気を導入することも可
 </ol>
 </div>
 </div>
-<div class="sect2">
-<h3 id="helm-をインストールします">Helm をインストールします</h3>
+</div>
+<div class="sect1">
+<h2 id="helm-をインストールします">Helm をインストールします</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>エアフローは、 Kubernetes の一般的なパッケージマネージャである Helm を使用して導入されます。エアーフローを導入する前に、導入ジャンプホストに Helm をインストールする必要があります。Helm を配置ジャンプホストにインストールするには、に従ってください <a href="https://helm.sh/docs/intro/install/" target="_blank" rel="noopener">"インストール手順"</a> Helm の公式ドキュメントを参照してください。</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="デフォルトの-kubernetes-storageclass-を設定します">デフォルトの Kubernetes StorageClass を設定します</h3>
+</div>
+<div class="sect1">
+<h2 id="デフォルトの-kubernetes-storageclass-を設定します">デフォルトの Kubernetes StorageClass を設定します</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>通気を導入する前に、 Kubernetes クラスタ内にデフォルトのストレージクラスを指定する必要があります。エアフロー導入プロセスでは、デフォルトのストレージクラスを使用して新しい永続ボリュームのプロビジョニングが試行されます。StorageClass がデフォルトの StorageClass として指定されていない場合、導入は失敗します。クラスタ内でデフォルトの StorageClass を指定するには、の手順に従ってください <a href="aicp_kubeflow_deployment_overview.html">"Kubeflow の導入"</a>。クラスタ内ですでにデフォルトの StorageClass を指定している場合は、この手順を省略できます。</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="helm-を使用してエアフローを展開します">Helm を使用してエアフローを展開します</h3>
+</div>
+<div class="sect1">
+<h2 id="helm-を使用してエアフローを展開します">Helm を使用してエアフローを展開します</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Helm を使用して Kubernetes クラスタに通気を導入するには、導入ジャンプホストから次のタスクを実行します。</p>
 </div>
@@ -5280,6 +5289,7 @@ $ echo http://$NODE_IP:$NODE_PORT/</pre>
 </div>
 <div class="paragraph">
 <p><a href="aicp_example_apache_airflow_workflows_overview.html">"次の例： Apache Airflow ワークフロー"</a></p>
+</div>
 </div>
 </div>
 

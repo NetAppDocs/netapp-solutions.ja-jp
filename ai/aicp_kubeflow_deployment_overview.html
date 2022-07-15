@@ -258,11 +258,13 @@
           <div id="react-search" 
           data-search-html="/ja-jp/netapp-solutions/search.html"
           data-type="widget" 
-          data-placeholder="ドキュメントを検索" 
-          data-no-results-found="{query}に該当する結果はありません" 
-          data-did-you-mean="{suggestion} を検索" 
-          data-no-results-found-did-you-mean="{query} に該当する結果はありません。{suggestion} の間違いではありませんか?" 
-          data-results-found="{hitCount} 件見つかりました"  
+          data-placeholder="ドキュメントを検索"
+          data-no-results-found="{query}に該当する結果はありません"
+          data-did-you-mean="{suggestion} を検索"
+          data-no-results-found-did-you-mean="{query} に該当する結果はありません。{suggestion} の間違いではありませんか?"
+          data-results-found="{hitCount} 件見つかりました"
+          data-error-message="We're sorry, an issue occurred when fetching your results. Please try again."
+          data-error-reset="Reset Search"
           data-sk-es-pf-indexes=""
           data-flavor=""></div>
           <button class="n-property-bar__search-toggle-button" type="button">
@@ -5111,7 +5113,7 @@
 <p class="page-details">
   
     
-    <time datetime="2022-04-18 06:36:27 +0000">04/18/2022</time>
+    <time datetime="2022-07-15 19:02:09 +0000">07/15/2022</time>
     
   
 
@@ -5125,8 +5127,9 @@
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="前提条件">前提条件</h3>
+<div class="sect1">
+<h2 id="前提条件">前提条件</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>このセクションで説明する導入の演習を行う前に、次の作業をすでに実行していることを前提としています。</p>
 </div>
@@ -5141,8 +5144,10 @@
 </ol>
 </div>
 </div>
-<div class="sect2">
-<h3 id="デフォルトの-kubernetes-storageclass-を設定します">デフォルトの Kubernetes StorageClass を設定します</h3>
+</div>
+<div class="sect1">
+<h2 id="デフォルトの-kubernetes-storageclass-を設定します">デフォルトの Kubernetes StorageClass を設定します</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Kubeflow を導入する前に、 Kubernetes クラスタ内でデフォルトの StorageClass を指定する必要があります。Kubeflow の導入プロセスでは、デフォルトの StorageClass を使用して新しい永続ボリュームのプロビジョニングが試行されます。StorageClass がデフォルトの StorageClass として指定されていない場合、導入は失敗します。クラスタ内のデフォルトの StorageClass を指定するには、導入ジャンプホストから次のタスクを実行します。クラスタ内ですでにデフォルトの StorageClass を指定している場合は、この手順を省略できます。</p>
 </div>
@@ -5184,8 +5189,10 @@ ontap-ai-flexvols-retain (default)   csi.trident.netapp.io   54s</pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="nvidia-deepops-を使用して-kubeflow-を導入します">NVIDIA DeepOps を使用して Kubeflow を導入します</h3>
+</div>
+<div class="sect1">
+<h2 id="nvidia-deepops-を使用して-kubeflow-を導入します">NVIDIA DeepOps を使用して Kubeflow を導入します</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>NVIDIA DeepOps が提供する Kubeflow 導入ツールを使用することを推奨します。DeepOps 導入ツールを使用して Kubernetes クラスタに Kubeflow を導入するには、導入ジャンプホストから次のタスクを実行します。</p>
 </div>
@@ -5390,6 +5397,7 @@ mysql-pv-claim   Bound    pvc-b2429afd-d028-11e9-9b9d-00505681a82d   20Gi       
 </div>
 <div class="paragraph">
 <p><a href="aicp_example_kubeflow_operations_and_tasks_overview.html">"次の例： Kubeflow の操作とタスク"</a></p>
+</div>
 </div>
 </div>
 
