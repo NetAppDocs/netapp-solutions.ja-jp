@@ -3049,6 +3049,8 @@
 
 
 
+
+
         </li>
       </ul>
     
@@ -3121,6 +3123,56 @@
   
 
 
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/NetApp_for_Azure___AVS.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" alt="" width="16" height="16"/>
+            NetApp for Azure / AVS
+          </a>
+          
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" 
+            
+              href="/ja-jp/netapp-solutions/pdfs/sidebar/ワークロードの保護.pdf" 
+            
+          >
+            <img src="/ja-jp/netapp-solutions/images/pdf.png" alt="" width="16" height="16"/>
+            ワークロードの保護
+          </a>
+          
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
 
 
 
@@ -4770,6 +4822,8 @@
       </a>
       <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/aws/aws-guest.html">
         VMC用のゲスト接続ストレージ
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/azure/azure-native-overview.html">
+        AVSのネイティブデータストア
       </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/azure/azure-guest.html">
         AVS対応のゲスト接続ストレージ
       </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/gcp/gcp-guest.html">
@@ -4794,9 +4848,19 @@
       </a>
       <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/aws/aws-regions.html">
         リージョンによるNFSデータストアのサポート
-      </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/azure/index.html">
-        NetApp for Azure / AVS
-      </a></li><li class="subfolders "><a href="/ja-jp/netapp-solutions/ehc/gcp/index.html">
+      </a></li></ul></li><li class="subfolders "><a href="/ja-jp/netapp-solutions/ehc/azure/index.html">
+        <div class="na-navbar-padding"> NetApp for Azure / AVS</div>
+      </a>
+      <ul><li class="subfolders "><a href="#">
+        <div class="na-navbar-padding"> ワークロードの保護</div>
+      </a>
+      <ul><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/azure/azure-native-dr-jetstream.html">
+        JetStreamを使用したディザスタリカバリ（ネイティブデータストア）
+      </a></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/azure/azure-guest-dr-jetstream.html">
+        CVOとJetStream（ゲスト接続ストレージ）を使用したディザスタリカバリ
+      </a></li></ul></li><li class=" "><a class="na-navbar-padding" href="/ja-jp/netapp-solutions/ehc/azure/azure-regions.html">
+        リージョンによるNFSデータストアのサポート
+      </a></li></ul></li><li class="subfolders "><a href="/ja-jp/netapp-solutions/ehc/gcp/index.html">
         <div class="na-navbar-padding"> NetApp for GCP / GCVE</div>
       </a>
       <ul><li class="subfolders "><a href="#">
@@ -5111,7 +5175,7 @@
 <p class="page-details">
   
     
-    <time datetime="2022-06-07 18:00:02 +0000">06/07/2022</time>
+    <time datetime="2022-07-25 13:44:29 +0000">07/25/2022</time>
     
   
 
@@ -5148,8 +5212,17 @@
 <div class="paragraph">
 <p>詳細を表示します <a href="aws/aws-guest.html">"VMCのゲスト接続ストレージオプション"</a>。</p>
 </div>
-<div class="paragraph">
-<p>FSX ONTAP の詳細については、AWS Press Releaseからネイティブデータストアパブリックプレビュー版をご覧ください（近日公開予定）。</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<img src="/us-en/netapp-solutions/images/note.svg" alt="注記">
+</td>
+<td class="content">
+VMCの1-FSxNは現在IA（Initial Availability）にあります。詳細については、ネットアップの営業担当までお問い合わせください。
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -5175,8 +5248,17 @@
 <div class="paragraph">
 <p>詳細を表示します <a href="azure/azure-guest.html">"AVSのゲスト接続ストレージオプション"</a>。</p>
 </div>
-<div class="paragraph">
-<p>詳細については、をご覧ください <a href="https://docs.microsoft.com/en-us/azure/azure-vmware/attach-azure-netapp-files-to-azure-vmware-solution-hosts?branch=main&amp;tabs=azure-portal">"Azure NetApp Files （ANF）をネイティブデータストアとして使用-パブリックプレビュー"</a>。</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<img src="/us-en/netapp-solutions/images/note.svg" alt="注記">
+</td>
+<td class="content">
+1 - AVSのネイティブデータストアとしてのANFは、現時点ではパブリックプレビュー版です。詳細はこちら <a href="https://docs.microsoft.com/en-us/azure/azure-vmware/attach-azure-netapp-files-to-azure-vmware-solution-hosts?branch=main&amp;tabs=azure-portal">"こちらをご覧ください"</a>。
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
