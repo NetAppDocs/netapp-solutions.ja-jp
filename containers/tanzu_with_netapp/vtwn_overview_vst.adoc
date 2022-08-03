@@ -13,24 +13,24 @@ summary:
 :imagesdir: ./../../media/
 
 
-VMware vSphere with Tanzu（vSphereポッドとも呼ばれます）を使用すると、VMware vSphere環境のESXiハイパーバイザーノードをベアメタルのKubernetes環境でワーカーノードとして利用できます。
+VMware vSphereとvSphereポッドとも呼ばれるTanzuを使用すると、VMware vSphere環境のESXiハイパーバイザーノードをベアメタルKubernetes環境のワーカーノードとして使用できます。
 
 image::vtwn_image30.png[VMware vSphereとKubernetes]
 
 Tanzu環境を備えたVMware vSphereは、ネイティブのTKGSクラスタと同様にWorkload Managementで有効になります。
 
-仮想化されたSupervisor Clusterは、Kubernetesの高可用性コントロールプレーンを提供するために作成され、各アプリケーションの個人ネームスペースが作成されて、ユーザーのリソースを分離します。
+仮想化されたSupervisor Clusterは、Kubernetesの高可用性コントロールプレーンを提供するために作成され、ユーザのリソース分離を確実にするために、アプリケーションごとに個別の名前空間が作成されます。
 
 image::vtwn_image29.png[Supervisorクラスタ]
 
-Tanzuを含むVMware vSphereを有効にすると、各ESXiホストにSpherletアプリケーションがインストールされて設定されます。このアプリケーションを使用すると、各ノードがKubernetes環境でワーカーとして機能し、各ノードに導入されたポッドを管理できます。
+Tanzuを含むVMware vSphereを有効にすると、球レットアプリケーションが各ESXiホストにインストールされて設定されます。これにより、各ノードがKubernetes環境でワーカーとして機能し、各ノードに導入されたポッドを管理できます。
 
 image::vtwn_image28.png[ネームスペース]
 
-現在、VMware vSphereとTanzuポッドおよびvSphereポッドは、ローカルのvSphere CSIドライバのみをサポートしています。これは、vSphere Clientで、vSphereデータストアとして現在使用できるストレージターゲットからストレージポリシーを選択するように管理者に許可し、コンテナ化されたアプリケーション用の永続ボリュームを作成する際に使用することによって機能します。
+現在、VMware vSphereでは、TanzuポッドおよびvSphereポッドを使用していますが、ローカルのvSphere CSIドライバのみをサポートしています。これは、vSphere Clientで、vSphereデータストアとして現在使用できるストレージターゲットから選択するストレージポリシーを作成するように管理者を設定することで機能します。これらのポリシーは、コンテナ化されたアプリケーション用の永続ボリュームを作成するために使用されます。
 
 
-NOTE: 現時点では、ネットアップAstra Trident CSIドライバはサポートされていませんが、外部のONTAP およびElementストレージアレイに直接接続できるようになっています。 ネットアップのストレージシステムは、多くの場合、vSphere環境のプライマリストレージをサポートするために使用されます。ネットアップの高度なデータ管理ツールやStorage Efficiencyツールは、この方法で活用できます。
+NOTE: ネットアップでは、現在、外部のONTAP ストレージアレイやElementストレージアレイに直接接続できるNetApp Astra CSIドライバはサポートしていませんが、多くの場合、これらのネットアップストレージシステムを使用してvSphere環境のプライマリストレージをサポートしています。 また、ネットアップの高度なデータ管理ツールやStorage Efficiencyツールをこれらの方法で使用できます。
 
 TanzuによるVMware vSphereの詳細については、のドキュメントを参照してください link:https://docs.vmware.com/en/VMware-vSphere/7.0/vmware-vsphere-with-tanzu/GUID-152BE7D2-E227-4DAA-B527-557B564D9718.html["こちらをご覧ください"^]。
 
