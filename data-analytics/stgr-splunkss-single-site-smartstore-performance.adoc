@@ -1,0 +1,191 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/stgr-splunkss-single-site-smartstore-performance.html 
+keywords: configuration, warm data, cold data, cache storage, indexer, eventgen, event generator, search head 
+summary: このページでは、NetApp StorageGRID コントローラでのSplunk SmartStoreのパフォーマンスについて説明します。Splunk SmartStoreが、パフォーマンス検証の対象であるStorageGRID オブジェクトストレージであるリモートストレージにウォームデータを移動します。 
+---
+= 単一サイトのSmartStoreのパフォーマンス
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:stgr-splunkss-splunk-architecture.html["それまでの環境：Splunkのアーキテクチャが"]
+
+このセクションでは、NetApp StorageGRID コントローラでのSplunk SmartStoreのパフォーマンスについて説明します。Splunk SmartStoreがウォームデータをリモートストレージに移動します。この場合は、パフォーマンス検証の対象となるStorageGRID オブジェクトストレージになります。
+
+image:stgr-splunkss-image10.png["エラー：グラフィックイメージがありません"]
+
+EF600はホットキャッシュストレージに使用し、StorageGRID 6060はリモートストレージに使用しました。パフォーマンス検証には次のアーキテクチャを使用しました。2つの検索ヘッドと4つの大きなフォワーダを使用してデータをインデクサに転送し、7つのSplunk Event Generator（Eventgens）を使用してリアルタイムデータを生成し、18のインデクサにデータを格納しました。
+
+image:stgr-splunkss-image11.png["エラー：グラフィックイメージがありません"]
+
+
+
+== 設定
+
+次の表に、SmartStorageのパフォーマンス検証に使用するハードウェアを示します。
+
+|===
+| Splunkコンポーネント | タスク | 数量 | コア数 | メモリ | OS 
+
+
+| 大規模なフォワーダ | データを取り込み、インデクサにデータを転送する責任があります | 4. | 16コア | 32GB RAM | SLED 15 SP2 
+
+
+| インデクサ | ユーザデータを管理します | 18 | 16コア | 32GB RAM | SLED 15 SP2 
+
+
+| ヘッドを検索します | ユーザーフロントエンドはインデクサでデータを検索します | 2. | 16コア | 32GB RAM | SLED 15 SP2 
+
+
+| HEAD Deployerを検索します | 検索ヘッドクラスタの更新を処理します | 1. | 16コア | 32GB RAM | SLED 15 SP2 
+
+
+| クラスタマスター | Splunkのインストールやインデックスを管理します | 1. | 16コア | 32GB RAM | SLED 15 SP2 
+
+
+| Monitoring Consoleとライセンスマスター | Splunk環境全体を一元的に監視し、Splunkライセンスを管理します | 1. | 16コア | 32GB RAM | SLED 15 SP2 
+|===
+
+
+== SmartStoreリモートストアのパフォーマンス検証
+
+このパフォーマンス検証では、すべてのインデクサ上のローカルストレージにSmartStoreキャッシュを10日間にわたって設定しました。Splunkクラスタマネージャで「maxDataSize=auto」（750MBのバケットサイズ）を有効にし、すべてのインデクサに変更をプッシュしました。アップロードのパフォーマンスを測定するために、10日間は1日あたり10TBを取り込み、すべてのホットバケットをまとめてウォームアップしました。同時に、インスタンスあたりの最大スループットと平均スループットを取得し、展開全体をSmartStore Monitoring Consoleダッシュボードから取得しました。
+
+この図は、1日以内に取り込まれたデータを示しています。
+
+image:stgr-splunkss-image12.png["エラー：グラフィックイメージがありません"]
+
+クラスタマスターから次のコマンドを実行しました（インデックス名は「eventgen-test」）。次に、SmartStore Monitoring Consoleダッシュボードを使用して、インスタンスあたりのアップロードの最大スループットと平均スループット、および展開全体のスループットをキャプチャしました。
+
+....
+for i in rtp-idx0001 rtp-idx0002 rtp-idx0003 rtp-idx0004 rtp-idx0005 rtp-idx0006 rtp-idx0007 rtp-idx0008 rtp-idx0009 rtp-idx0010 rtp-idx0011 rtp-idx0012 rtp-idx0013011 rtdx0014 rtp-idx0015 rtp-idx0016 rtp-idx0017 rtp-idx0018 ; do  ssh $i "hostname;  date; /opt/splunk/bin/splunk _internal call /data/indexes/eventgen-test/roll-hot-buckets -auth admin:12345678; sleep 1  "; done
+....
+
+NOTE: クラスタマスターは、すべてのインデクサに対してパスワードなしの認証を行います（rtp-idx0001…rtp-idx0018）。
+
+ダウンロードパフォーマンスを測定するために、次のコマンドでevict CLIを2回実行して、キャッシュからすべてのデータを削除しました。
+
+
+NOTE: クラスタマスターから次のコマンドを実行し、StorageGRID のリモートストアにある10日間のデータの上で検索ヘッドから検索を実行しました。次に、SmartStore Monitoring Consoleダッシュボードを使用して、インスタンスあたりのアップロードの最大スループットと平均スループット、および展開全体のスループットをキャプチャしました。
+
+....
+for i in rtp-idx0001 rtp-idx0002 rtp-idx0003 rtp-idx0004 rtp-idx0005 rtp-idx0006 rtp-idx0007 rtp-idx0008 rtp-idx0009 rtp-idx0010 rtp-idx0011 rtp-idx0012 rtp-idx0013 rtp-idx0014 rtp-idx0015 rtp-idx0016 rtp-idx0017 rtp-idx0018 ; do  ssh $i " hostname;  date; /opt/splunk/bin/splunk _internal call /services/admin/cacheman/_evict -post:mb 1000000000 -post:path /mnt/EF600 -method POST  -auth admin:12345678;   “; done
+....
+インデクサ構成は、SmartStoreクラスタマスターからプッシュされました。クラスタマスターは、インデクサに対して次のような設定を行いました。
+
+....
+Rtp-cm01:~ # cat /opt/splunk/etc/master-apps/_cluster/local/indexes.conf
+[default]
+maxDataSize = auto
+#defaultDatabase = eventgen-basic
+defaultDatabase = eventgen-test
+hotlist_recency_secs = 864000
+repFactor = auto
+[volume:remote_store]
+storageType = remote
+path = s3://smartstore2
+remote.s3.access_key = U64TUHONBNC98GQGL60R
+remote.s3.secret_key = UBoXNE0jmECie05Z7iCYVzbSB6WJFckiYLcdm2yg
+remote.s3.endpoint = 3.sddc.netapp.com:10443
+remote.s3.signature_version = v2
+remote.s3.clientCert =
+[eventgen-basic]
+homePath = $SPLUNK_DB/eventgen-basic/db
+coldPath = $SPLUNK_DB/eventgen-basic/colddb
+thawedPath = $SPLUNK_DB/eventgen-basic/thawed
+[eventgen-migration]
+homePath = $SPLUNK_DB/eventgen-scale/db
+coldPath = $SPLUNK_DB/eventgen-scale/colddb
+thawedPath = $SPLUNK_DB/eventgen-scale/thaweddb
+[main]
+homePath = $SPLUNK_DB/$_index_name/db
+coldPath = $SPLUNK_DB/$_index_name/colddb
+thawedPath = $SPLUNK_DB/$_index_name/thaweddb
+[history]
+homePath = $SPLUNK_DB/$_index_name/db
+coldPath = $SPLUNK_DB/$_index_name/colddb
+thawedPath = $SPLUNK_DB/$_index_name/thaweddb
+[summary]
+homePath = $SPLUNK_DB/$_index_name/db
+coldPath = $SPLUNK_DB/$_index_name/colddb
+thawedPath = $SPLUNK_DB/$_index_name/thaweddb
+[remote-test]
+homePath = $SPLUNK_DB/$_index_name/db
+coldPath = $SPLUNK_DB/$_index_name/colddb
+#for storagegrid config
+remotePath = volume:remote_store/$_index_name
+thawedPath = $SPLUNK_DB/$_index_name/thaweddb
+[eventgen-test]
+homePath = $SPLUNK_DB/$_index_name/db
+maxDataSize=auto
+maxHotBuckets=1
+maxWarmDBCount=2
+coldPath = $SPLUNK_DB/$_index_name/colddb
+#for storagegrid config
+remotePath = volume:remote_store/$_index_name
+thawedPath = $SPLUNK_DB/$_index_name/thaweddb
+[eventgen-evict-test]
+homePath = $SPLUNK_DB/$_index_name/db
+coldPath = $SPLUNK_DB/$_index_name/colddb
+#for storagegrid config
+remotePath = volume:remote_store/$_index_name
+thawedPath = $SPLUNK_DB/$_index_name/thaweddb
+maxDataSize = auto_high_volume
+maxWarmDBCount = 5000
+rtp-cm01:~ #
+....
+検索ヘッドで次の検索クエリを実行し、パフォーマンスマトリックスを収集しました。
+
+image:stgr-splunkss-image13.png["エラー：グラフィックイメージがありません"]
+
+パフォーマンス情報はクラスタマスターから収集しました。ピークパフォーマンスは61.34GBpsです。
+
+image:stgr-splunkss-image14.png["エラー：グラフィックイメージがありません"]
+
+平均パフォーマンスは約29GBpsです。
+
+image:stgr-splunkss-image15.png["エラー：グラフィックイメージがありません"]
+
+
+
+== StorageGRID のパフォーマンス
+
+SmartStoreのパフォーマンスは、大量のデータから特定のパターンや文字列を検索することに基づいています。この検証では、を使用してイベントが生成されます https://github.com/splunk/eventgen["Eventgenのサポートを提供し"^] 検索ヘッドからSplunkの特定のインデックス（eventgen-test）にアクセスし、ほとんどのクエリはStorageGRID に送信されます。次の図は、クエリデータのヒットとミスを示しています。ヒットデータはローカルディスクからで、ミスデータはStorageGRID コントローラから取得されます。
+
+
+NOTE: 緑の色はヒットデータを示し、オレンジ色はミスデータを示します。
+
+image:stgr-splunkss-image16.png["エラー：グラフィックイメージがありません"]
+
+StorageGRID で検索を実行するクエリを次の図に示すように、StorageGRID からのS3読み出し速度の時間が表示されます。
+
+image:stgr-splunkss-image17.png["エラー：グラフィックイメージがありません"]
+
+
+
+== StorageGRID ハードウェアの使用状況
+
+StorageGRID インスタンスには、1つのロードバランサと3つのStorageGRID コントローラがあります。3台のコントローラすべてのCPU利用率は75%～100%です。
+
+image:stgr-splunkss-image18.png["エラー：グラフィックイメージがありません"]
+
+
+
+== SmartStoreとNetAppストレージコントローラ-お客様にとってのメリット
+
+* *コンピューティングとストレージの分離* Splunk SmartStoreは、コンピューティングとストレージを分離し、個別に拡張できます。
+* *データはオンデマンドで提供されます。* SmartStoreは、データをオンデマンドのコンピューティングに近く、コンピューティングとストレージの柔軟性とコスト効率を提供し、大規模なデータ保持をより長期化します。
+* * AWS S3 API準拠。* SmartStoreは、AWS S3およびS3 API準拠のStorageGRID などのオブジェクトストアであるリストアストレージと通信するためにAWS S3 APIを使用しています。
+* *ストレージ要件とコストを削減* SmartStoreは、古いデータ（ウォーム/コールド）の保存要件を軽減します。データのコピーを1つだけ必要とするのは、ネットアップストレージがデータ保護を提供し、障害や高可用性に対処するためです。
+* *ハードウェア障害。* SmartStore展開でのノード障害により、データにアクセスできなくなり、ハードウェア障害やデータの不均衡からのインデクサリカバリが大幅に高速化されています。
+* アプリケーションおよびデータ対応キャッシュ。
+* インデクサの追加とセットアップティアダウンクラスタをオンデマンドで実行。
+* ストレージ階層はハードウェアに固定されなくなりました。
+
+
+link:stgr-splunkss-conclusion.html["次は終わりです"]

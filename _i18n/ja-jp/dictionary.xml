@@ -7966,7 +7966,6 @@
   <block id="c91fcac1d7192250f9c73d72ad06e051" category="section-title">情報ライフサイクル管理ポリシー</block>
   <block id="3eee81ca69cbbee2bec24db63e4dea0d" category="section-title">ロードバランサとエンドポイントの設定</block>
   <block id="5b42fd120a40ecd7cc8ac5cdedde8ceb" category="paragraph">StorageGRID の管理ノードは、 StorageGRID システムを表示、設定、管理するための Grid Manager UI （ユーザインターフェイス）エンドポイントと REST API エンドポイント、およびシステムアクティビティを追跡するための監査ログを提供します。そこで、 Conluent Kafka の階層化ストレージに可用性の高い S3 エンドポイントを提供するために、 StorageGRID ロードバランサを実装しました。このロードバランサは、管理ノードとゲートウェイノードでサービスとして実行されます。また、ロードバランサはローカルトラフィックを管理し、ディザスタリカバリに役立つ GSLB （グローバルサーバロードバランシング）と通信します。</block>
-  <block id="ebe4bf9f44a65ad044fdede621409388" category="paragraph">エンドポイントの設定をさらに強化するために、 StorageGRID は管理ノードに組み込まれたトラフィック分類ポリシーを提供し、ワークロードトラフィックを監視し、さまざまな Quality of Service （ QoS ；サービス品質）制限をワークロードに適用できます。トラフィック分類ポリシーは、ゲートウェイノードおよび管理ノードの StorageGRID ロードバランササービス上のエンドポイントに適用されます。これらのポリシーは、トラフィックの制限と監視に役立ちます。</block>
   <block id="bb2bd99338b18762ef6953ad2cbfafc7" category="section-title">Apache Kafka です</block>
   <block id="d1675da945892e06b2f84c42c32b7074" category="paragraph"><block ref="d1675da945892e06b2f84c42c32b7074" category="inline-image-macro-rx" type="image"></block></block>
   <block id="c50889322e9d7d913a4218be06b94d9d" category="paragraph">Kafka には、 Producer と呼ばれる任意の数のプロセスから生成されるキーと値のメッセージが格納されます。データは、異なるトピック内の異なるパーティションにパーティショニングできます。パーティション内では、メッセージはオフセット（パーティション内のメッセージの位置）によって厳密に順序付けされ、インデックスが作成され、タイムスタンプとともに格納されます。コンシューマと呼ばれる他のプロセスは、パーティションからメッセージを読み取ることができます。Kafka はストリーム処理用の API を提供しており、 Kafka からデータを利用する Java アプリケーションを作成して Kafka に結果を書き込むことができます。Apache Kafka は、 Apache Apex 、 Apache Flink 、 Apache Spark 、 Apache Storm 、 Apache NiFi などの外部ストリーム処理システムとも連携します。</block>
@@ -12261,7 +12260,6 @@
   <block id="b63d5ee355078976e86c94b5c978788e" category="paragraph">NetApp Astra Control Centerは、ステートフルKubernetesワークロード向けの充実したストレージおよびアプリケーション対応のデータ管理サービスを提供します。オンプレミス環境に導入され、信頼できるネットアップのデータ保護テクノロジを基盤としています。</block>
   <block id="e764fe6b8f8825a307a87cedbef45678" category="cell">22.04</block>
   <block id="63355c54bd7e8ff73915da41610ec6f7" category="cell">22.04.0</block>
-  <block id="54acb57afb70110fb7f8e1de35e176b4" category="cell">1.3.1</block>
   <block id="22053fd2d26d3a313aea03b09e9a776c" category="cell">VMware Tanzu Kubernetes Gridサービス</block>
   <block id="c99c6e88d4de8db879b1b5ec64d1f7ed" category="cell">0.0.15 [vSphere名前空間]</block>
   <block id="8eb1302ead60c09b6d757b2b7ab84040" category="cell">1.22.6 [スーパーバイザクラスタのKubernetes ]</block>
@@ -13452,4 +13450,337 @@
   <block id="b8aef6e50d3ed85ad8f7568c45050629" category="sidebar">ワークロードの保護</block>
   <block id="c90d3565dac770d258e528bf1d0f0354" category="sidebar">JetStreamを使用したディザスタリカバリ（ネイティブデータストア）</block>
   <block id="497820483e8c674ccb7cd2e35d2d61b3" category="sidebar">CVOとJetStream（ゲスト接続ストレージ）を使用したディザスタリカバリ</block>
+  <block id="fdcb85733d1a2ba6bfb7a8ba947efd6d" category="paragraph">Tanzuを備えたvSphere（vSphereポッド）</block>
+  <block id="c77e6b248ec0adc44384f6336fa4a966" category="list-text">vSphereネイティブポッドは、完全な分離のために、処方された仮想ハードウェアを使用して、薄い光子ベースのレイヤで実行されます。</block>
+  <block id="3dd0287f26179660762f136eacfabb73" category="list-text">NSXは必須ですが'Harborイメージ・レジストリなどの機能を追加サポートすることができます</block>
+  <block id="53f2b5f5c06efa27ad0bcad5156e7170" category="list-text">TKGSなどの仮想スーパーバイザクラスタを使用してvSphere 7.0U1以降に導入および管理し、ESXiノードでポッドを直接実行します。</block>
+  <block id="bda03c816727fd53e15712cdb73795b2" category="list-text">vSphere管理者による完全なvSphere統合、最高レベルの可視性と制御。</block>
+  <block id="131afa56e2eb221420188e64332a6a7e" category="list-text">独立したCRXベースのポッドにより、最高レベルのセキュリティを実現。</block>
+  <block id="67a05356c1a5b95953959967caf83acc" category="list-text">vSphere CSIの永続的ストレージ/サードパーティ製ストレージオーケストレーションツールはサポートされていません。</block>
+  <block id="a3e69dd4d9f892aab0dcbf0a5dd246e2" category="cell">1.4以降</block>
+  <block id="f78d920d9d248820ddf7a3acdd9a34c0" category="doc">Tanzuを使用したVMware vSphereの概要</block>
+  <block id="890263ac9ed806fc2ad4e8ded7b148ce" category="paragraph">VMware vSphere with Tanzu（vSphereポッドとも呼ばれます）を使用すると、VMware vSphere環境のESXiハイパーバイザーノードをベアメタルのKubernetes環境でワーカーノードとして利用できます。</block>
+  <block id="bac31e763c1b2955be0a10de0a4d8012" category="image-alt">VMware vSphereとKubernetes</block>
+  <block id="c2e55cf1007600b25e0708bfe26a41f3" category="paragraph">Tanzu環境を備えたVMware vSphereは、ネイティブのTKGSクラスタと同様にWorkload Managementで有効になります。</block>
+  <block id="6ce239d17953480f1d42476092b07270" category="paragraph">仮想化されたSupervisor Clusterは、Kubernetesの高可用性コントロールプレーンを提供するために作成され、各アプリケーションの個人ネームスペースが作成されて、ユーザーのリソースを分離します。</block>
+  <block id="9ff6aa8ffa487db2f0aebe3967972d77" category="image-alt">Supervisorクラスタ</block>
+  <block id="34c71a47cbfeda14847af84cef64b054" category="paragraph">Tanzuを含むVMware vSphereを有効にすると、各ESXiホストにSpherletアプリケーションがインストールされて設定されます。このアプリケーションを使用すると、各ノードがKubernetes環境でワーカーとして機能し、各ノードに導入されたポッドを管理できます。</block>
+  <block id="b3ba0fe968ce39dcfc6fe8cc0f1b02da" category="image-alt">ネームスペース</block>
+  <block id="2524066cdd842f3246c3cc93e6a6a375" category="paragraph">現在、VMware vSphereとTanzuポッドおよびvSphereポッドは、ローカルのvSphere CSIドライバのみをサポートしています。これは、vSphere Clientで、vSphereデータストアとして現在使用できるストレージターゲットからストレージポリシーを選択するように管理者に許可し、コンテナ化されたアプリケーション用の永続ボリュームを作成する際に使用することによって機能します。</block>
+  <block id="c3b3ca8068590dc06adb9dc27ac27523" category="admonition">現時点では、ネットアップAstra Trident CSIドライバはサポートされていませんが、外部のONTAP およびElementストレージアレイに直接接続できるようになっています。 ネットアップのストレージシステムは、多くの場合、vSphere環境のプライマリストレージをサポートするために使用されます。ネットアップの高度なデータ管理ツールやStorage Efficiencyツールは、この方法で活用できます。</block>
+  <block id="22e7543595b40ad24276e99cd5b1c198" category="paragraph">TanzuによるVMware vSphereの詳細については、のドキュメントを参照してください <block ref="0cdaad1423fdb034ad0ee788d57a7a82" category="inline-link-macro-rx"></block>。</block>
+  <block id="516a32af5ad38dd3b9ca9c156da39add" category="inline-link-macro">VMware vSphereとTanzu（vSphereポッド）</block>
+  <block id="a6726486b20bc2510c7d0b189955e69c" category="list-text"><block ref="a6726486b20bc2510c7d0b189955e69c" category="inline-link-macro-rx"></block></block>
+  <block id="9fa345c6a2f967ec80e8b940a9d2a1c3" category="summary">Splunkのデータ分析を最大限に活用し、使いやすさを実感しているお客様には、増え続けるデータの索引付けが当然求められています。データ量の増加に伴い、コンピューティングとストレージのインフラも拡張に対応しなければなりません。</block>
+  <block id="f9a3e09b74e61e83c0352f2953dcdc87" category="doc">インテリジェントな階層化とコスト削減</block>
+  <block id="7bcf31269131a9e7ab4d163f239fc4e5" category="inline-link-macro">Previous：この解決策 のメリット</block>
+  <block id="b27eab207fc06febce259cb1c08777a3" category="paragraph"><block ref="b27eab207fc06febce259cb1c08777a3" category="inline-link-macro-rx"></block></block>
+  <block id="e09913e41f1a0082ec190482abfeff57" category="paragraph">Splunkのデータ分析を最大限に活用し、使いやすさを実感しているお客様には、増え続けるデータの索引付けが当然求められています。データ量の増加に伴い、コンピューティングとストレージのインフラも拡張に対応しなければなりません。古いデータはあまり参照されないため、同じ量のコンピューティングリソースをコミットし、高価なプライマリストレージを消費する作業は、ますます効率的になりつつあります。大規模な運用では、ウォームデータを対費用効果の高い階層に移動することで、コンピューティングとプライマリストレージをホットデータ用に解放できます。</block>
+  <block id="f7300ec91634b8cd535c45fd11ee503f" category="paragraph">StorageGRID を使用したSplunk SmartStoreは、拡張性とパフォーマンスに優れたコスト効率の高い解決策 を提供します。SmartStoreはデータ認識機能を持つため、データアクセスパターンを自動的に評価して、リアルタイム分析（ホットデータ）用にアクセス可能なデータと、低コストの長期保存（ウォームデータ）に格納するデータを決定します。SmartStoreは業界標準のAWS S3 APIを動的かつインテリジェントに使用し、StorageGRID が提供するS3ストレージにデータを配置します。StorageGRID の柔軟なスケールアウトアーキテクチャにより、ウォームデータ階層は、必要に応じてコスト効率よく拡張できます。StorageGRID のノードベースのアーキテクチャにより、パフォーマンスとコストの要件が最適に満たされます。</block>
+  <block id="d75fb5ef86bb0625c22c38dd2229c627" category="paragraph">次の図は、SplunkとStorageGRID の階層化を示しています。</block>
+  <block id="821f09f0a5870b1dd3ee40e65f17b546" category="paragraph"><block ref="821f09f0a5870b1dd3ee40e65f17b546" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="b6821c40fa59a17fa0f78dbb9e556be5" category="paragraph">業界をリードするSplunk SmartStoreとNetApp StorageGRID の組み合わせにより、フルスタックの解決策 を使用して、分離アーキテクチャのメリットを享受できます。</block>
+  <block id="32c614a5724d73faf7f06f754330bbac" category="paragraph"><block ref="32c614a5724d73faf7f06f754330bbac" category="inline-link-macro-rx"></block></block>
+  <block id="f362fde28c17f629ded4d965d576f423" category="summary">Splunk Enterpriseは、セキュリティ、IT、DevOpsの各チームの成果を高める、市場をリードするSIEM解決策 です。Splunkの使用率は、お客様の組織全体で大幅に増加しています。そのため、データソースをさらに追加し、そのデータを長期間保持して、Splunkインフラに重点を置く必要があります。</block>
+  <block id="3613797d0f4ca076e9cb8ba4c75e87e6" category="inline-link-macro">前のバージョン：単一サイトのSmartStoreのパフォーマンス。</block>
+  <block id="5fdd4eaa62513aac277472bf713d1bee" category="paragraph"><block ref="5fdd4eaa62513aac277472bf713d1bee" category="inline-link-macro-rx"></block></block>
+  <block id="25c2a1fd1c8874a3e0526920fe7f440d" category="paragraph">Splunk SmartStoreとNetApp StorageGRID を組み合わせることで、SmartStoreとStorageGRID オブジェクトストレージにより取り込みパフォーマンスを向上させ、複数の地域にわたるSplunk環境の拡張性を高める、拡張性に優れたアーキテクチャを実現できます。</block>
+  <block id="fbf1f1e6f0848252d39ef48e7e18146f" category="list-text">NetApp StorageGRID のドキュメントリソース</block>
+  <block id="68d4d5362a15088f2ac3fa494c971af5" category="inline-link"><block ref="68d4d5362a15088f2ac3fa494c971af5" category="inline-link-rx"></block></block>
+  <block id="580c43c30953ec671dd4a70120e1b513" category="paragraph"><block ref="580c43c30953ec671dd4a70120e1b513" category="inline-link-rx"></block></block>
+  <block id="2e85fc867cab94d246e0bf6043b361cd" category="paragraph"><block ref="2e85fc867cab94d246e0bf6043b361cd" category="inline-link-rx"></block></block>
+  <block id="e145cc414457b4a232fb0b63ce9f44ab" category="list-text">Splunk Enterpriseに関するドキュメント</block>
+  <block id="f710d46c12a05abcfde056d779cb608c" category="inline-link"><block ref="f710d46c12a05abcfde056d779cb608c" category="inline-link-rx"></block></block>
+  <block id="2ab8bf37a62983163c96b3c2f9a275d4" category="paragraph"><block ref="2ab8bf37a62983163c96b3c2f9a275d4" category="inline-link-rx"></block></block>
+  <block id="14c366ebe94ed0bdf5d5eecad5a08411" category="list-text">SmartStore向けSplunk Enterprise</block>
+  <block id="98bda64923adc1da4a0e009dd52832a4" category="inline-link"><block ref="98bda64923adc1da4a0e009dd52832a4" category="inline-link-rx"></block></block>
+  <block id="86d261d18a8cb6ce8f95f58af41452e5" category="paragraph"><block ref="86d261d18a8cb6ce8f95f58af41452e5" category="inline-link-rx"></block></block>
+  <block id="b437e6537685614b8004334bad18e424" category="list-text">Splunk Enterprise Distributed Deployment Manual』を参照してください</block>
+  <block id="048c67f334d3e1bbcb765e563d076b7d" category="inline-link"><block ref="048c67f334d3e1bbcb765e563d076b7d" category="inline-link-rx"></block></block>
+  <block id="0a25fd44eb7af79f8d9bb0e91d7dfec3" category="paragraph"><block ref="0a25fd44eb7af79f8d9bb0e91d7dfec3" category="inline-link-rx"></block></block>
+  <block id="d043516086780b04d9c8b38186019be3" category="list-text">Splunk Enterpriseインデクサとインデクサのクラスタを管理しています</block>
+  <block id="87fbe590fc8f855078f14ba53325eb46" category="inline-link"><block ref="87fbe590fc8f855078f14ba53325eb46" category="inline-link-rx"></block></block>
+  <block id="d0438efbc1a0dbee965023150ccf9334" category="paragraph"><block ref="d0438efbc1a0dbee965023150ccf9334" category="inline-link-rx"></block></block>
+  <block id="e4c2e8edac362acab7123654b9e73432" category="cell">1.0</block>
+  <block id="d1cdbd3c8324f3afbc5b420ce471feff" category="cell">2022年7月</block>
+  <block id="881214767967db331c99550277ceb793" category="summary">このページでは、Splunkのアーキテクチャについて、キーの定義、Splunkの分散環境、Splunk SmartStore、データフロー、 ハードウェアとソフトウェアの要件、単一サイトやマルチサイトなど。</block>
+  <block id="1e6ade59f7284c0bca28eaeeeeed0a30" category="doc">Splunkのアーキテクチャ</block>
+  <block id="aa91789a439fe45bd8d608e61ca9da8c" category="inline-link-macro">以前：Splunk SmartStore向けの柔軟なStorageGRID 機能が搭載されていました。</block>
+  <block id="263af6ab01a543147e86a15ed7794682" category="paragraph"><block ref="263af6ab01a543147e86a15ed7794682" category="inline-link-macro-rx"></block></block>
+  <block id="a8449bda57f23b9282f766113987bdf2" category="section-title">キーの定義</block>
+  <block id="56eee8e9cc278d0a414a6d5697a4675f" category="paragraph">次の2つの表に、Splunk環境で使用されているSplunkとネットアップのコンポーネントをまとめます。</block>
+  <block id="5078bea36734bcaa4a0c1e3a0e6e4606" category="paragraph">この表は、Splunk Enterpriseの分散構成向けにSplunkのハードウェアコンポーネントをまとめたものです。</block>
+  <block id="5e536c35aec296fa99efa02703d1eb07" category="cell">Splunkコンポーネント</block>
+  <block id="84f200201a8fe699d8d701c940bade8e" category="cell">インデクサ</block>
+  <block id="a5aa1df4c3c47c407c84c66303cf0ece" category="cell">Splunk Enterpriseデータ用のリポジトリ</block>
+  <block id="872c8a2437dfbfa5be0882eabc86bcd3" category="cell">ユニバーサルフォワーダ</block>
+  <block id="66d25b75f626d8f6c535a4b4d25c9906" category="cell">データを取り込み、インデクサにデータを転送する責任があります</block>
+  <block id="c91b59f2eae5ebf309d600609f87a36f" category="cell">ヘッドを検索します</block>
+  <block id="5873147385b9bd833ffd9a046374c97b" category="cell">インデクサでデータを検索するために使用されるユーザーフロントエンド</block>
+  <block id="a6230a0628a31d41191b4ef7800745ed" category="cell">クラスタマスター</block>
+  <block id="e4ae9d4eb2313305a17cde160f405a17" category="cell">インデクサと検索ヘッドのSplunkのインストールを管理します</block>
+  <block id="805ac84d9852820feaf2e2b643a07efb" category="cell">Monitoring Consoleの略</block>
+  <block id="5cf5006c1d7fdc954614a4e4185a2c62" category="cell">導入全体で使用される一元化された監視ツール</block>
+  <block id="fdccec582408614d1e2f7428910b1c8f" category="cell">ライセンスマスター</block>
+  <block id="7c3b9b8892864eb6fa5cb2a32b85cc93" category="cell">ライセンスマスターがSplunk Enterpriseのライセンスを処理し</block>
+  <block id="06262b5ad14fe5851defa5b0b70c86c6" category="cell">導入サーバ</block>
+  <block id="ebe1fa5d8a359a6db13876ab1142fa50" category="cell">構成を更新し、アプリケーションを処理コンポーネントに配布します</block>
+  <block id="4fabea287d13a082b71f046f9d8be91d" category="cell">ストレージコンポーネント</block>
+  <block id="b1edd0b37872fd00feb3bb2738987b41" category="cell">ホット階層データの管理に使用されるオールフラッシュストレージ。ローカルストレージとも呼ばれます。</block>
+  <block id="518d90155e7eb8bf96c6b7852ba519a6" category="cell">ウォーム階層データの管理に使用するS3オブジェクトストレージ。SmartStoreがホット階層とウォーム階層の間でデータを移動するために使用します。リモートストレージとも呼ばれます。</block>
+  <block id="310a27e25811a8eca9b6e5edd921a267" category="paragraph">次の表は、Splunkストレージアーキテクチャのコンポーネントを示しています。</block>
+  <block id="40f14800d20c9cecbec85dbb2cf35592" category="cell">責任あるコンポーネント</block>
+  <block id="a5847d984bf6ac525e00b95b93be4e94" category="cell">SmartStore</block>
+  <block id="6b64d740ca8627e515d54827d95bc7cb" category="cell">インデクサに、ローカルストレージからオブジェクトストレージにデータを階層化する機能を提供します。</block>
+  <block id="2f9304fe9b427489507405bef9a0bb9f" category="cell">Splunk</block>
+  <block id="4194726ee334e1085d93e002837b73f0" category="cell">ホット</block>
+  <block id="cc42c7d2fb33f9ccc06f2e23486a9b0e" category="cell">ユニバーサルフォワーダが新しく書き込まれたデータを配置するランディングスポット。ストレージは書き込み可能で、データは検索可能です。このデータ階層は、通常SSDまたは高速HDDで構成されます。</block>
+  <block id="f156996831cd546988bf05451ede7b02" category="cell">Cache Managerの略</block>
+  <block id="52520fc1f4cef574661d086d8efcb1f8" category="cell">インデックス付きデータのローカルキャッシュを管理し、検索が行われたときにリモートストレージからウォームデータを取得し、キャッシュから使用頻度の低いデータを削除します。</block>
+  <block id="18297117d3d251afceed9ecbe797c849" category="cell">ウォーム</block>
+  <block id="810be2ef6ffed5e543f948bf5984d544" category="cell">データはバケットに論理的にロールされ、ホット階層から先にウォーム階層に名前が変更されます。この階層内のデータは保護され、ホット階層と同様に大容量のSSDまたはHDDで構成できます。一般的なデータ保護ソリューションを使用すると、増分バックアップとフルバックアップの両方がサポートされます。</block>
+  <block id="392d70ca39f31f10bd637936769788df" category="cell">StorageGRID</block>
+  <block id="7cf9c58117f9052c5d5a43b3add7f6a4" category="section-title">Splunkの分散環境</block>
+  <block id="11c2b5859cb0c1d37b40f8df716542e2" category="paragraph">多くのマシンでデータが発生する大規模な環境をサポートするには、大量のデータを処理する必要があります。多数のユーザがデータを検索する必要がある場合は、Splunk Enterpriseインスタンスを複数のマシンに分散することで、環境を拡張できます。これを分散配置と呼びます。</block>
+  <block id="113f0bd975880424e2c87874233b2afb" category="paragraph">一般的な分散環境では、Splunk Enterpriseインスタンスごとに特別なタスクを実行し、メインの処理機能に対応する3つの処理階層のいずれかに配置されます。</block>
+  <block id="ac31b29e5bbd68654aeb200e66227fb8" category="paragraph">次の表に、Splunk Enterpriseの処理階層を示します。</block>
+  <block id="9483f17a69bd0b52dbc44f9106718634" category="cell">階層</block>
+  <block id="7d38267cdf833b2983d3487954ebf88e" category="cell">データ入力</block>
+  <block id="2d361d5fe6d74b7550e0aa35d94342ec" category="cell">運送会社</block>
+  <block id="b2eebf5023a2a2ba3b35711069723656" category="cell">フォワーダはデータを消費し、インデクサのグループにデータを転送します。</block>
+  <block id="521d4edc7c22d5f63bc5912ff2afa61a" category="cell">インデックス作成</block>
+  <block id="65265b43bef75c5bacc53c21e38eb8fc" category="cell">インデクサは、通常フォワーダのグループから受信する着信データをインデックス化します。インデクサはデータをイベントに変換し、イベントをインデックスに格納します。インデクサは、検索ヘッドからの検索要求に応答して、インデックス付きデータも検索します。</block>
+  <block id="ff5b0dc94726e93d5db5cf7922183f2b" category="cell">検索管理</block>
+  <block id="d4c174b1ebc77694020097497547d218" category="cell">検索ヘッドは、検索の中心となるリソースとして機能します。クラスタ内の検索ヘッドは交換可能であり、検索ヘッドクラスタの任意のメンバーから同じ検索、ダッシュボード、ナレッジオブジェクトなどにアクセスできます。</block>
+  <block id="86f51d8f8fa8928e0f6ddba31139676e" category="paragraph">次の表に、Splunk Enterpriseの分散環境で使用される重要なコンポーネントを示します。</block>
+  <block id="dee8af298acfc4c4bcb9fda657125917" category="cell">責任</block>
+  <block id="3b656ff8459bec2d80d19d367bd71d19" category="cell">クラスタマスターのインデックスを作成します</block>
+  <block id="407a3e34682f31b649e8cbd865fdf50c" category="cell">インデクサクラスタのアクティビティと更新を調整します</block>
+  <block id="dad2f7ca532f008e8192d418406da758" category="cell">インデックス管理</block>
+  <block id="85ba71585b2b8c323c8eb899fa033227" category="cell">インデックスクラスタ</block>
+  <block id="f13c7b75bef35de7c42cc0569f76e366" category="cell">相互にデータをレプリケートするように設定されたSplunk Enterpriseインデクサのグループ</block>
+  <block id="f8b32f50f478eb80dca360b13aa78e92" category="cell">HEAD Deployerを検索します</block>
+  <block id="9f45bd6fe25c3f5597af0f46bfdb20db" category="cell">クラスタマスターへの導入と更新を処理します</block>
+  <block id="bc2eef462c1a0c8b778b607c304ba877" category="cell">検索ヘッド管理</block>
+  <block id="58f4a17edb05ffec840bf2b176bf6eca" category="cell">HEADクラスタを検索してください</block>
+  <block id="70f36c7a653c3724df8921edce177b22" category="cell">検索の中心となるリソースとして機能する検索ヘッドのグループ</block>
+  <block id="2ddcaa7e88a6ad9c095422ca4e601d85" category="cell">ロードバランサ</block>
+  <block id="fe613dab61d63209235cf49513b00d8a" category="cell">クラスタ化されたコンポーネントが、検索ヘッド、インデックス化、S3ターゲットによって増大する需要に対応し、クラスタ化されたコンポーネントに負荷を分散するために使用されます。</block>
+  <block id="184f98cf6a6dd19d0815179e63be4298" category="cell">クラスタ構成部品のロード管理</block>
+  <block id="e32d50596edede1bfe3978d8b7b5c5ac" category="paragraph">Splunk Enterpriseの分散環境には、次のようなメリットがあります。</block>
+  <block id="9431943c093a5cc181eccd505ca50f4c" category="list-text">多様なデータソースや分散したデータソースにアクセス</block>
+  <block id="e825b2fa62f5af51541982cc503c8825" category="list-text">企業の規模や複雑さに関係なく、データのニーズに対応する機能を提供します</block>
+  <block id="c63fa16ec4ed3d9b3803c2d1e1548fe6" category="list-text">データレプリケーションとマルチサイト環境で高可用性を実現し、ディザスタリカバリを確実に実現できます</block>
+  <block id="fb289ff7f529e1f2477823c61e7d9c8f" category="section-title">Splunk SmartStoreからダウンロードできます</block>
+  <block id="e2475a05ae25f0e8f31932cc309db3f1" category="paragraph">SmartStoreは、Amazon S3などのリモートオブジェクトストアにインデックス付きデータを格納できるインデクサ機能です。導入のデータボリュームが増えるにつれて、ストレージの需要がコンピューティングリソースを消費するようになることがよくあります。SmartStoreを使用すると、インデクサのストレージリソースとコンピューティングリソースを個別に拡張することで、コスト効率の高い方法で管理できます。</block>
+  <block id="4b253fe4960ecb87fdd7a6c05a125003" category="paragraph">SmartStoreでは、リモートストレージ階層とキャッシュマネージャが導入されています。これらの機能を使用すると、インデックスサーバー上またはリモートストレージ層上にデータをローカルに配置できます。キャッシュマネージャは、インデクサに設定されているインデクサとリモートストレージ層の間のデータ移動を管理します。</block>
+  <block id="98941a2e255442c92447b445a4a6bc6e" category="paragraph">SmartStoreを使用すると、インデクサのストレージ設置面積を最小限に抑え、I/O最適化コンピューティングリソースを選択できます。ほとんどのデータはリモートストレージに格納されます。インデクサは、ホットバケット、アクティブまたは最近の検索に参加しているウォームバケットのコピー、バケットメタデータなど、最小限のデータを含むローカルキャッシュを維持します。</block>
+  <block id="2d153b33a50f3343c2aeb68789ee8e26" category="section-title">Splunk SmartStoreのデータフロー</block>
+  <block id="3306b50d7dd22a0698c2245e7cd06bee" category="paragraph">さまざまなソースからのデータがインデクサに達すると、データはインデックス付けされ、ホットバケットにローカルに保存されます。インデクサは、ホットバケットデータをターゲットインデクサにもレプリケートします。これまでのデータフローは、非SmartStoreインデックスのデータフローと同じです。</block>
+  <block id="ad1e15c21ba7587e1631977abe48ab09" category="paragraph">ホットバケットがウォームにロールすると、データフローは変化します。ソースインデクサは、ウォームバケットをリモートオブジェクトストア（リモートストレージ階層）にコピーしますが、既存のコピーはキャッシュに残しておきます。これは、最近インデックスが作成されたデータを検索する傾向があるためです。ただし、ターゲットインデクサはコピーを削除します。これは、リモートストアが複数のローカルコピーを維持せずに高可用性を提供するためです。これで、バケットのマスターコピーがリモートストアに配置されます。</block>
+  <block id="3d39641a906c56e9e12b0f019f23bc1d" category="paragraph">次の図は、Splunk SmartStoreのデータフローを示しています。</block>
+  <block id="9fb3b10aa394792f93ac799606bd8ed5" category="paragraph"><block ref="9fb3b10aa394792f93ac799606bd8ed5" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="7fa16046e839496393e84b6a20e9604e" category="paragraph">インデクサのキャッシュマネージャは、SmartStoreデータフローの中心になります。検索要求を処理するために必要に応じて、リモートストアからバケットのコピーを取得します。また、時間が経過すると検索に参加する可能性が低下するため、バケットの古いコピーや検索されていないコピーもキャッシュから削除されます。</block>
+  <block id="715f39bb7952ceb84a6bd1bb44c1ac4d" category="paragraph">キャッシュマネージャの仕事は、必要なバケットに検索がすぐにアクセスできるようにしながら、使用可能なキャッシュの使用を最適化することです。</block>
+  <block id="4b2ba4c21a026c9139cf1484818f31c0" category="paragraph">次の表に、解決策 の実装に必要なソフトウェアコンポーネントを示します。解決策の実装で使用されるソフトウェアコンポーネントは、お客様の要件に応じて異なる場合があります。</block>
+  <block id="aa76f43f5e0552119cc8d5313c67296e" category="cell">製品ファミリー</block>
+  <block id="df644ae155e79abf54175bd15d75f363" category="cell">製品名</block>
+  <block id="892b5a336dfe285f2d5c04ccd3d6c465" category="cell">製品バージョン</block>
+  <block id="1b3e6de2b0fe97c3177ea5a4ad142554" category="cell">StorageGRID オブジェクトストレージ</block>
+  <block id="36552b079970ffb2dd1314115af76c4b" category="cell">11.6</block>
+  <block id="66985170e641a7e20698bfec3c1d889f" category="cell">CentOS 7.x</block>
+  <block id="5dba46907e72d7502229329d2aafd8a2" category="cell">Splunk Enterpriseの</block>
+  <block id="9d8d169ace12276d008f0d0b88b61261" category="cell">SmartStoreを使用したSplunk Enterprise</block>
+  <block id="75809dde56e3fe2c2fb740f1b55807ac" category="cell">8.0.3</block>
+  <block id="3192356dc19e9b4ec43ba340bad657ee" category="section-title">単一のマルチサイト要件</block>
+  <block id="98b8bd4f9670277f1f0e59a574019582" category="paragraph">Splunkを使用している大規模環境で、多数のマシンからデータを取得し、多数のユーザがデータを検索する必要がある場合は、1つのサイトと複数のサイトにSplunk Enterpriseインスタンスを分散することで、環境を拡張できます。</block>
+  <block id="22e1b76cf9acbfd35603b013eefcb079" category="paragraph">次の表に、Splunk Enterpriseの分散環境で使用されるコンポーネントを示します。</block>
+  <block id="1fbd0b2f11fe7779db6380b6d09478df" category="cell">相互のデータをレプリケートするように構成されたSplunk Enterpriseインデクサのグループ</block>
+  <block id="4e21e57c1860bf98fe3d0af8068f827d" category="cell">ロードバランサ</block>
+  <block id="03d7fbb295d0abb68bf4d3ce22d6d448" category="cell">クラスタ化されたコンポーネントの負荷管理</block>
+  <block id="a0ebc1066e0250b1b42f1a66ae974836" category="paragraph">次の図は、単一サイトの分散環境の例を示しています。</block>
+  <block id="733ecc3327823660187d1d7d76df7079" category="paragraph"><block ref="733ecc3327823660187d1d7d76df7079" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="cf99a89b389bc74dc1a403695b28d6cd" category="paragraph">次の図は、マルチサイト分散配置の例を示しています。</block>
+  <block id="d10d5e57a05119c14c599013d15d6553" category="paragraph"><block ref="d10d5e57a05119c14c599013d15d6553" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="80d955d16c5178cc40e347dfe675a443" category="paragraph">次の表に、解決策 の実装に必要なハードウェアコンポーネントの最小数を示します。解決策の特定の実装で使用されるハードウェアコンポーネントは、お客様の要件に応じて異なる場合があります。</block>
+  <block id="40b955882ffd3093985177c3721cfed2" category="admonition">Splunk SmartStoreとStorageGRID を単一サイトに導入したか複数サイトに導入したかに関係なく、すべてのシステムを単一のコンソールでStorageGRID グリッドマネージャから管理できます。詳細については、「Grid Managerによるシンプルな管理」を参照してください。</block>
+  <block id="1605af3a62fa950fe8374a69086fdc94" category="paragraph">次の表は、単一サイトで使用されるハードウェアを示しています。</block>
+  <block id="380dbc8d9d2c8a17f6ebb0b2c62d3e85" category="cell">ディスク</block>
+  <block id="b3e1f4c67ee07a73dcdaff1cf34f2640" category="cell">使用可能容量</block>
+  <block id="3b0649c72650c313a357338dcdfb64ec" category="cell">注</block>
+  <block id="1c594a38f9aafa3a439c25bc55815b40" category="cell">SG1000 StorageGRID の略</block>
+  <block id="b179d20c2d3e6e91708b69931e8fcf32" category="cell">管理ノードとロードバランサ</block>
+  <block id="48f09b085e666c51e35dbe89367de826" category="cell">StorageGRID SG6060の略</block>
+  <block id="ab570142c34522356bdf33666f6532a3" category="cell">X48、8TB（NL-SAS HDD）</block>
+  <block id="1792805a48a4da5ef5a78aa014da1f84" category="cell">1PBを提供</block>
+  <block id="ecefe4d01bf4079d1e2833e9a7de2db7" category="cell">リモートストレージ</block>
+  <block id="9327a762e04913fc832ee2b182848716" category="paragraph">次の表に、マルチサイト構成に使用されるハードウェアをサイトごとに示します。</block>
+  <block id="41cac74c281e47bb6feb1ef8db664ce4" category="cell">管理ノードとロードバランサ</block>
+  <block id="aadc7d80b20e9c743c2920297937f9fd" category="section-title">NetApp StorageGRID ロードバランサ：SG1000</block>
+  <block id="b3f51763a6ba0ae7fe6d83095cb24299" category="paragraph">オブジェクトストレージでは、ロードバランサを使用してクラウドストレージネームスペースを提供する必要があります。StorageGRID は、F5やCitrixなどの主要ベンダーのサードパーティ製ロードバランサをサポートしていますが、多くのお客様が、エンタープライズクラスのStorageGRID バランサを選択してシンプルさ、耐障害性、高パフォーマンスを実現しています。StorageGRID ロードバランサは、VM、コンテナ、または専用アプライアンスとして使用できます。</block>
+  <block id="01f9bf7333b91ead20b7d1ac12ba4bca" category="paragraph">StorageGRID SG1000では、S3データパス接続に対してハイアベイラビリティ（HA）グループとインテリジェントなロードバランシングを使用できます。カスタマイズしたロードバランサを提供するオンプレミスのオブジェクトストレージシステムは他にありません。</block>
+  <block id="2f1a2bc20d9d0cddf636827860bdeb21" category="paragraph">SG1000アプライアンスには次の機能があります。</block>
+  <block id="fee5222c1281869dd7c4e3e4b7225065" category="list-text">ロードバランサと、必要に応じて管理ノードもStorageGRID システムに対して機能します</block>
+  <block id="7ea5a035cfe0609861da7628e7dedc64" category="list-text">ノードの導入と設定を簡易化するStorageGRID アプライアンスインストーラ</block>
+  <block id="224d05cfece712836874ae47446c6d1b" category="list-text">S3エンドポイントとSSLの簡単な設定</block>
+  <block id="59bf11863992b10be7d53c81c21a0220" category="list-text">専用帯域幅（他社製ロードバランサを他のアプリケーションと共有する場合との比較）</block>
+  <block id="1436fddc15afc971733cc42610be3718" category="list-text">100Gbpsアグリゲートイーサネット帯域幅×最大4</block>
+  <block id="4ff66456ad21f2aa88ad918b2a19287d" category="paragraph">次の図は、SG1000 Gateway Servicesアプライアンスを示しています。</block>
+  <block id="3e44556364ce6907a44a9fb5c09eab69" category="paragraph"><block ref="3e44556364ce6907a44a9fb5c09eab69" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="c69ff1785c16ab7db216e04b62e5ef4f" category="section-title">SG6060 の設計</block>
+  <block id="40b11d9d6e72b8f3d6f6cd150ea6d5b3" category="paragraph">StorageGRID SG6060アプライアンスには、コンピューティングコントローラ（SG6060）と、2台のストレージコントローラと60本のドライブを搭載したストレージコントローラシェルフ（EシリーズE2860）が含まれています。このアプライアンスには次のような特長があります。</block>
+  <block id="5d61368716b8937ccfa3ae30bdeb3add" category="list-text">単一のネームスペースで最大400PBまでスケールアップできます。</block>
+  <block id="b08da7d555d413c82fa9476b78a3d1b4" category="list-text">25Gbpsアグリゲートイーサネット帯域幅×最大4</block>
+  <block id="3b384482ee0276a75964f52aab736cac" category="list-text">ノードの導入と設定を簡易化するStorageGRID アプライアンスインストーラが搭載されています。</block>
+  <block id="3d6b68fb6989ac04a76612b7d50b5046" category="list-text">各SG6060アプライアンスには、合計180本のドライブを搭載できる拡張シェルフを1台または2台追加できます。</block>
+  <block id="470503fbecc72cbe91b61c6e9b999cbe" category="list-text">EシリーズE2800コントローラ×2（デュプレックス構成）-ストレージコントローラのフェイルオーバーをサポートします。</block>
+  <block id="920a659800fa3289516e73f0b8d0cd70" category="list-text">5ドロワードライブシェルフ- 3.5インチドライブを60本（SSD×2、NL-SASドライブ×58）収容します。</block>
+  <block id="d60b006794c926c67e95ce7f49fffbed" category="paragraph">次の図はSG6060アプライアンスを示しています。</block>
+  <block id="8d3bb0a39a1d477f7f0b8789769c96c5" category="paragraph"><block ref="8d3bb0a39a1d477f7f0b8789769c96c5" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="ad24897680a673883f3a8e9467ea3271" category="section-title">Splunkの設計</block>
+  <block id="c2d7b4acc3efe890969906f2a0be4bea" category="paragraph">次の表に、単一サイトのSplunk構成を示します。</block>
+  <block id="95dd022b7af0f9fcfb9ed21236830169" category="cell">コア数</block>
+  <block id="5132d0e71971db5ca9827d470220eae9" category="cell">16コア</block>
+  <block id="f4e3903ba78addf6fadac4a2d7285203" category="cell">32GB RAM</block>
+  <block id="3988099dd7392a8b60a290ca560ac95d" category="cell">CentOS 8.1</block>
+  <block id="aa7f73db0dcc93a83403f1afb650efdd" category="cell">ユーザデータを管理します</block>
+  <block id="86e7f660faa5812369ca3195a6ab944a" category="cell">ユーザーフロントエンドはインデクサ内のデータを検索します</block>
+  <block id="e14f0b3b9201c717d9cae1db6969fb64" category="cell">検索ヘッドクラスタの更新を処理します</block>
+  <block id="0ac993c5a472613a0cd368ccfefd6009" category="cell">Splunkのインストールやインデックスを管理します</block>
+  <block id="a91966f90c29f7d9420d2fd902f4aac2" category="cell">Monitoring Consoleとライセンスマスター</block>
+  <block id="0cb149f6f77c10496cf7645357f9fd17" category="cell">Splunk環境全体を一元的に監視し、Splunkライセンスを管理します</block>
+  <block id="9bc779a08fe3e6d54c4355c4ee8c4a95" category="paragraph">次の表に、マルチサイト構成のSplunkの設定を示します。</block>
+  <block id="9605b47d211de50422182b81685da619" category="paragraph">次の表に、マルチサイト構成（サイトA）のSplunkの設定を示します。</block>
+  <block id="d9de1b6846e3235226dba66773043a15" category="cell">データを取り込み、インデクサにデータを転送する責任があります。</block>
+  <block id="76132c1712ff61ff02378720304f6529" category="cell">Splunk環境全体を一元的に監視し、Splunkライセンスを管理します。</block>
+  <block id="2d3db4a7f27e8f892b40be60e8c003b4" category="paragraph">次の表に、マルチサイト構成（サイトB）のSplunkの設定を示します。</block>
+  <block id="b9006101b0f69e04590f5276d5cab52a" category="inline-link-macro">次の例：単一サイトのSmartStoreのパフォーマンス。</block>
+  <block id="f7c6952971373a408f0b926fb7202e6f" category="paragraph"><block ref="f7c6952971373a408f0b926fb7202e6f" category="inline-link-macro-rx"></block></block>
+  <block id="722462e25c63551f73985fc89f6a2139" category="summary">解決策 を使用すると、コンピューティング、ホットストレージ、またはS3リソースを追加して、ユーザ数や単一のマルチサイト環境全体での取り込み速度の増加に対応することができます。</block>
+  <block id="0dd05c4d24d98f033770c01356b3ce26" category="paragraph"><block ref="0dd05c4d24d98f033770c01356b3ce26" category="inline-link-macro-rx"></block></block>
+  <block id="bf89e1232480b95d07f648df24c3695b" category="list-text">*パフォーマンス*。Splunk SmartStoreとNetApp StorageGRID を組み合わせることで、オブジェクトストレージを使用して、ホットバケットとウォームバケット間でデータを迅速に移行できます。StorageGRID は、大規模なオブジェクトワークロードに高速なパフォーマンスを提供することで、移行プロセスを大幅に高速化します。</block>
+  <block id="e0be1ad556d6601e63eb8f1b6208c55e" category="list-text">*マルチサイト対応。* StorageGRID 分散アーキテクチャにより、Splunk SmartStoreは単一のグローバルネームスペースを介して単一サイトと複数サイトに展開を拡張でき、データの場所に関係なく、あらゆるサイトからデータにアクセスできます。</block>
+  <block id="9efd709ebdaac869f02b49e17fe9e92b" category="list-text">*拡張性の向上。* Splunk環境のニーズやニーズの変化に合わせて、コンピューティングリソースから独立してストレージリソースを拡張できるため、TCOが削減されます。</block>
+  <block id="52fb1ca9da3811c1cb86cd4347f98a64" category="list-text">*容量*。StorageGRID を使用して、1つのネームスペースを560PB以上に拡張することで、Splunk環境の急速に拡大しているボリュームに対応できます。</block>
+  <block id="ff501c8a6a8c7b1ee7a3c656b6f4055a" category="list-text">*データの可用性。*データの可用性、パフォーマンス、地理的な分散、保持、保護、 また、データのビジネスバリューの変化に応じて動的に調整できるメタデータベースのポリシーに基づくストレージコストも発生します。</block>
+  <block id="bf1b0e32d877d343f0b3bc9ba43cb688" category="inline-link">Splunkから提供されるガイドライン</block>
+  <block id="29c3e2f956fc4b206ef3c7bbbb3730b0" category="paragraph">SmartStoreキャッシュは、ローカル（ホット）ストレージとリモート（ウォーム）ストレージ間のバケットコピーの転送を処理するインデクサのコンポーネントである。この解決策 のSplunkのサイジングは、に基づいています<block ref="d615ab802f29a9ee4a18e420480d049f" category="inline-link-rx"></block>。解決策 を使用すると、コンピューティング、ホットストレージ、またはS3リソースを追加して、ユーザ数や単一のマルチサイト環境全体での取り込み速度の増加に対応することができます。</block>
+  <block id="a013f15cce9510e1b717f058d9322b0f" category="inline-link-macro">次のステップ：インテリジェントな階層化とコスト削減。</block>
+  <block id="1dd4851efea44091fc608ccfa49a8da6" category="paragraph"><block ref="1dd4851efea44091fc608ccfa49a8da6" category="inline-link-macro-rx"></block></block>
+  <block id="c7ebb883721f7d9264fd6ef2ae03fc71" category="summary">このテクニカルレポートでは、Splunk SmartStore解決策 にネットアップが提供するメリットを紹介するとともに、環境内のSplunk SmartStoreの設計とサイジングを行うためのフレームワークを紹介します。その結果、シンプルで拡張性と耐障害性に優れた解決策 が実現し、説得力のあるTCOが実現します。</block>
+  <block id="766d1a96c4f198ecfe92484b980e9b31" category="doc">TR-4869：『NetApp StorageGRID with Splunk SmartStore』</block>
+  <block id="2dafc6e921d43527cceb2ba642abf973" category="paragraph">カーティケヤンナガリンガム、ボビー・オムメン、ジョセフ・カンダティルバビル</block>
+  <block id="648e525fafbee4c7b749ab8740beb0d3" category="paragraph">Splunk Enterpriseは、市場をリードするSecurity Information and Event Management（SIEM）解決策 であり、セキュリティ、IT、DevOpsの各チームの成果を生み出します。データ量は急激に増大し続けており、この膨大なリソースを活用できる大企業にとって大きな販売機会となります。Splunk Enterpriseは、今後もさまざまなユースケースに採用されていきます。ユースケースの増加に伴い、Splunk Enterpriseが取り込んで処理するデータ量も増えています。Splunk Enterpriseの従来型アーキテクチャは、優れたデータアクセスと可用性を提供する分散型スケールアウト設計です。しかし、このアーキテクチャを使用している企業は、急速に拡大するデータ量に対応するための拡張に伴うコストの増大に直面しています。</block>
+  <block id="6a7254f4c4c618a79510973c24f6b258" category="paragraph">Splunk SmartStoreとNetApp StorageGRID は、コンピューティングとストレージが分離された新しい導入モデルを提供することで、この課題を解決します。また、Splunkエンタープライズ環境に比類のない拡張性と柔軟性をもたらす解決策 を導入して、単一サイトから複数サイトに拡張できます。コンピューティングとストレージを個別に拡張し、コストを削減しながら、コスト効率に優れたクラウドベースのS3オブジェクトストレージにインテリジェントな階層化を追加することで、コストを削減できます。</block>
+  <block id="f8ff71716eed4ad221efc3e0d60beaf6" category="paragraph">解決策 を使用すると、検索パフォーマンスを維持しながらローカルストレージ内のデータ量を最適化できるため、コンピューティングとストレージをオンデマンドで拡張できます。SmartStoreは、データアクセスパターンを自動的に評価して、リアルタイム分析用にアクセス可能なデータと、低コストのS3オブジェクトストレージに格納するデータを決定します。</block>
+  <block id="5c56ae45ba2fb5c42451dffdb2e64b55" category="paragraph">このテクニカルレポートでは、Splunk SmartStore解決策 にネットアップが提供するメリットを紹介するとともに、環境内のSplunk SmartStoreの設計とサイジングを行うためのフレームワークを紹介します。その結果、シンプルで拡張性と耐障害性に優れた解決策 が実現し、説得力のあるTCOが実現します。StorageGRID は、拡張性と対費用効果に優れたS3プロトコル/ APIベースのオブジェクトストレージであり、リモートストレージとも呼ばれます。そのため、Splunk解決策 を低コストで拡張しながら、耐障害性を高めることができます。</block>
+  <block id="9841b81741e6066deac80b48e24f10fd" category="admonition">Splunk SmartStoreは、オブジェクトストレージをリモートストアまたはリモートストレージ階層と呼んでいます。</block>
+  <block id="4c1ead791cca9ec5a7b94356255ce5ef" category="section-title">NetApp StorageGRID について</block>
+  <block id="57f13ae6637bd7ac5af4d0b1c4342cf7" category="paragraph">NetApp StorageGRID は、大規模アーカイブ、メディアリポジトリ、Webデータストア向けの、ソフトウェア定義型のオブジェクトストレージ解決策 です。ネットアップは、StorageGRID を導入したことで、業界をリードするイノベーションソリューションとデータ管理ソリューションの提供に関して20年に及ぶ経験を活かし、オンプレミス環境とパブリッククラウド環境、プライベートクラウド環境、ハイブリッドクラウド環境の両方で、情報の価値を最大限に管理、最大限に引き出しています。</block>
+  <block id="6281e52aec6aad8556d89bbf44d95436" category="paragraph">StorageGRID は、大規模な非構造化データを長期間保管するためのセキュアなストレージを提供します。メタデータベースの統合ライフサイクル管理ポリシーによって、データのライフサイクルを通して最適な保存先が選択されます。コンテンツは適切な場所、適切なタイミングで、適切なストレージ階層に配置されるため、コストを削減できます。単一のネームスペースを使用すると、StorageGRID ストレージの地理的な場所に関係なく、単一の呼び出しでデータにアクセスできます。データセンターとクラウドインフラの間に複数のStorageGRID インスタンスを導入、管理できます。</block>
+  <block id="d0a72d49cbe69b32b6e889db2e1429c9" category="paragraph">StorageGRID システムは、グローバルに分散された冗長で種類の異なる複数のノードで構成され、既存および次世代のクライアントアプリケーションと統合することができます。</block>
+  <block id="5680b078511221b1538af544a52a477e" category="paragraph"><block ref="5680b078511221b1538af544a52a477e" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="4077a77339f68c64c1e50f20961e468f" category="paragraph">IDC MarketScape：Worldwide Object-Based Storage 2019 Vendor Assessmentで、ネットアップを最新レポートのリーダーに位置付けました。StorageGRID は、最も要件の厳しい業界で20年近くの本番環境の導入実績があり、非構造化データのリーダーとして認められています。</block>
+  <block id="a2146cca70b8afc5500f690b84357813" category="paragraph">StorageGRID を使用すると、次のことが可能になります。</block>
+  <block id="0d29e2d2977160f50fc59018cd24d6ee" category="list-text">複数のStorageGRID インスタンスを導入して、データセンターとクラウドの間のあらゆる場所から、数百ペタバイトまで簡単に拡張できる単一のネームスペースを通じてデータにアクセスします。</block>
+  <block id="770d656b5273d26168b61ba6ede38cfd" category="list-text">複数のインフラにわたって導入と一元管理を柔軟に行うことができます。</block>
+  <block id="5926e6b363cbfe237a46219c7f92fe02" category="list-text">階層型イレイジャーコーディング（EC）を活用し、99.999%を超えるデータ保持性で、卓越したデータ保持性を実現します。</block>
+  <block id="77a48d0beb74ba75ef47c32ed1115a01" category="list-text">Amazon S3 GlacierとAzure Blobに検証済みの統合により、ハイブリッドマルチクラウド機能をさらに有効化</block>
+  <block id="ffa0a5ca524779112b69eb9e53aacf31" category="list-text">独自のAPIやベンダーロックインを使用せずに、改ざん防止機能を備えたデータ保持によって、法規制義務を満たし、コンプライアンスを促進します。</block>
+  <block id="6e9d67cdb6f2e5564ae28e0389bcc679" category="inline-link">NetApp StorageGRID のホームページ</block>
+  <block id="206008935f811359069d9b35cb5c874e" category="paragraph">StorageGRID を使用して、最も複雑な非構造化データ管理の問題を解決する方法の詳細については、を参照してください<block ref="56ef38793a035acc851dabaa0c795287" category="inline-link-rx"></block>。</block>
+  <block id="04bfb82e5f80fda36ff56ad540caaa63" category="section-title">Splunk Enterpriseについて</block>
+  <block id="a643f0cfa3f1b40b8f79f3609f0aa84f" category="paragraph">Splunk Enterpriseは、データを活用するためのプラットフォームです。ログファイル、Webサイト、デバイス、センサー、アプリケーションなど、さまざまなソースで生成されたデータがSplunkのインデクサーに送信されて解析されるため、豊富な分析情報をデータから取得できます。データ漏えいの特定、お客様や製品のトレンドの指摘、インフラの最適化の機会の発見、さまざまなユースケースにわたる実用的な分析情報の提供などが含まれます。</block>
+  <block id="6118f726dd6c9b9e82e01638e958e5c8" category="section-title">Splunk SmartStoreについて</block>
+  <block id="9ce6098334cce9db7edb3314ee645a2e" category="paragraph">Splunk SmartStoreを使用すると、Splunkアーキテクチャのメリットがさらに広がり、コスト効率の高い方法で拡張できます。コンピューティングリソースとストレージリソースを分離することで、I/O用に最適化されたインデクサノードには、データのサブセットだけをキャッシュとして格納できるため、ストレージの必要性を大幅に削減できます。コンピューティングリソースとストレージリソースのどちらか1つしか必要ない場合は追加しなくても、コストを大幅に削減できます。対費用効果が高く、拡張性に優れたS3ベースのオブジェクトストレージを使用できます。これにより、環境がさらに簡易化され、コストが削減され、より大規模なデータセットを保持できます。</block>
+  <block id="fde880b7e5def5ccc70e3e98ba15b442" category="paragraph">Splunk SmartStoreは、次のような企業に大きな価値をもたらします。</block>
+  <block id="16fc7d5921f88ca7b8070e1913a6fb74" category="list-text">コストが最適化されたS3オブジェクトストレージにウォームデータを移動することで、ストレージコストを削減する</block>
+  <block id="9ce78e75b3ecebf85fe0d43f2cf80505" category="list-text">ストレージとコンピューティングを分離してシームレスに拡張</block>
+  <block id="1dd6f3d1f3ac2a43dc2e69386b1b15ca" category="list-text">耐障害性に優れたクラウドネイティブストレージを活用して、ビジネス継続性を簡易化</block>
+  <block id="8db09dd9a1d2508a1e11189bfe47d246" category="inline-link-macro">次のページ:この解決策 の利点。</block>
+  <block id="0032cf08702e09af53bf601b3f83e323" category="paragraph"><block ref="0032cf08702e09af53bf601b3f83e323" category="inline-link-macro-rx"></block></block>
+  <block id="95ae2f11a98975eca88411c818226d25" category="paragraph">エンドポイントの設定をさらに強化するために、 StorageGRID は管理ノードに組み込まれたトラフィック分類ポリシーを提供し、ワークロードトラフィックを監視し、さまざまな Quality of Service （ QoS ；サービス品質）制限をワークロードに適用できます。トラフィック分類ポリシーは、ゲートウェイノードおよび管理ノードの StorageGRID ロードバランササービス上のエンドポイントに適用されます。これらのポリシーは、トラフィックシェーピングおよびモニタリングに役立ちます。</block>
+  <block id="7d68f597b217695f6702ae71ae4eb455" category="summary">StorageGRID には、変化し続ける環境に合わせて、ユーザが利用し、カスタマイズできるさまざまな機能があります。Splunk SmartStoreの導入から拡張に至るまで、環境には変更を迅速に採用することが求められ、Splunkを無停止で使用する必要があります。StorageGRID の柔軟なデータ管理ポリシー（ILM）とトラフィック分類子（QoS）を使用すると、環境を計画して適合させることができます。</block>
+  <block id="0fc3cf31004e01f169ca3af4ef687576" category="doc">Splunk SmartStore向けの柔軟なStorageGRID 機能</block>
+  <block id="0a0da304981bebd25b6bd55cb6151bf0" category="paragraph"><block ref="0a0da304981bebd25b6bd55cb6151bf0" category="inline-link-macro-rx"></block></block>
+  <block id="5b552d68210e15d5ed4e4d186264b453" category="paragraph">Grid Managerはブラウザベースのグラフィカルインターフェイスで、次の図に示すように、世界中に分散された複数の場所にまたがるStorageGRID システムの設定、管理、および監視を1つの画面で実行できます。</block>
+  <block id="9c4d5c64a1fc501b7fb5d68cb8048ddc" category="paragraph"><block ref="9c4d5c64a1fc501b7fb5d68cb8048ddc" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="52d198c85ec187eb3bbff17442a01baa" category="paragraph">Grid Managerインターフェイスを使用して次のタスクを実行します。</block>
+  <block id="356e4420bfe7b6226984261d66ec9e0b" category="section-title">Splunk向けNetApp StorageGRID アプリ</block>
+  <block id="d4503ceebebf47c506c3003f760662a2" category="paragraph">Splunk Enterprise向けNetApp StorageGRID アプリケーションは、Splunk Enterprise向けのアプリケーションです。このアプリケーションは、Splunk向けNetApp StorageGRID アドオンと連携して動作します。StorageGRID の健全性、アカウントの使用状況、セキュリティ監査の詳細、リソースの使用状況や監視などを確認できます。</block>
+  <block id="c7b8ad57a7270e26eba0ed9da1fa0b6c" category="paragraph">次の図は、Splunk向けStorageGRID アプリケーションを示しています。</block>
+  <block id="7c39625522ddbadc65ea87056e2d32c9" category="paragraph"><block ref="7c39625522ddbadc65ea87056e2d32c9" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="a7e07b036910adce42ba90efc47f818e" category="section-title">ILMポリシー</block>
+  <block id="fce13f2ee25ffdd1859d6a17a94b0e73" category="paragraph">StorageGRID には、オブジェクトの複数のコピーを保持し、2+1や4+2などのEC（イレイジャーコーディング）スキームを使用して、特定のパフォーマンスやデータ保護の要件に応じてオブジェクトを格納するなど、柔軟なデータ管理ポリシーが用意されています。ワークロードと要件が時間の経過とともに変化する場合、 ILM ポリシーも時間の経過とともに変化する必要があることがよくあります。ILM ポリシーの変更は中核的な機能であり、絶えず変化する環境に StorageGRID のお客様がすばやく簡単に適応できるようにします。</block>
+  <block id="3f7d13681fac5c1ca00c53ae2a27efaa" category="paragraph">StorageGRID は SG5712 、 SG5760 、 SG6060 、 SGF6024 などのベアメタルアプライアンスまたは専用アプライアンスであるノードを追加することで、パフォーマンスを拡張します。テストでは、SG6060アプライアンスを使用した最小サイズの3ノードグリッドを使用して、SmartStoreの主要パフォーマンス要件を超えました。Splunkインフラを拡張し、インデクサを追加すれば、ストレージノードを追加してパフォーマンスと容量を高めることができます。</block>
+  <block id="8a0453356d4720c8c5a67e5e2a16b419" category="section-title">ロードバランサとエンドポイントの設定</block>
+  <block id="08de46c3a8d44cfa799d969abfa407eb" category="paragraph">StorageGRID の管理ノードは、 StorageGRID システムを表示、設定、管理するための Grid Manager UI （ユーザインターフェイス）エンドポイントと REST API エンドポイント、およびシステムアクティビティを追跡するための監査ログを提供します。Splunk SmartStoreリモートストレージに可用性の高いS3エンドポイントを提供するために、管理ノードとゲートウェイノードでサービスとして実行されるStorageGRID ロードバランサを実装しました。また、ロードバランサはローカルトラフィックを管理し、ディザスタリカバリに役立つ GSLB （グローバルサーバロードバランシング）と通信します。</block>
+  <block id="d2134190f6b031237d4b1523c86c29a2" category="paragraph">エンドポイントの設定をさらに強化するために、管理ノードに組み込まれたトラフィック分類ポリシーをStorageGRID で使用して、ワークロードトラフィックを監視し、さまざまなQuality of Service（QoS；サービス品質）制限をワークロードに適用できます。トラフィック分類ポリシーは、ゲートウェイノードおよび管理ノードの StorageGRID ロードバランササービス上のエンドポイントに適用されます。これらのポリシーは、トラフィックの制限と監視に役立ちます。</block>
+  <block id="923a187b8784c27278acc68df21738b8" category="inline-link-macro">次はSplunkのアーキテクチャです。</block>
+  <block id="ec27327edf763f5474f1428dfcc067b1" category="paragraph"><block ref="ec27327edf763f5474f1428dfcc067b1" category="inline-link-macro-rx"></block></block>
+  <block id="b27064a5ca31ea524411e6ce281c8f0c" category="paragraph">ネットアップはSplunk SmartStore向けのシンプルで拡張性に優れた解決策 を提供し、パフォーマンスと耐障害性を最大限に高めながら、魅力的なTCOを実現します。</block>
+  <block id="39e4c49e9af8047395aa4031e5c5f3a9" category="summary">このページでは、NetApp StorageGRID 、Splunk Enterprise、Splunk SmartStoreなど、解決策 の設定に使用するコンポーネントについて説明します。</block>
+  <block id="0f641483b3a1a8cfcb4b0ad971a2d016" category="inline-link-macro">従来：インテリジェントな階層化とコスト削減を実現</block>
+  <block id="b1320bfc03a3d1edb16e0f717149a713" category="paragraph"><block ref="b1320bfc03a3d1edb16e0f717149a713" category="inline-link-macro-rx"></block></block>
+  <block id="5ab9d0d9b506bd4b5bf294baccd4ef0a" category="paragraph">NetApp StorageGRID は、高性能で対費用効果の高いオブジェクトストレージプラットフォームです。ノードベースの分散グリッドアーキテクチャを使用して、インテリジェントなポリシーベースのグローバルデータ管理を実現します。数ペタバイトの非構造化データと数十億のオブジェクトを、ユビキタスなグローバルオブジェクトネームスペースと高度なデータ管理機能を組み合わせることでシンプルに管理できます。単一コールのオブジェクトアクセスはサイト間を拡張し、高可用性アーキテクチャを簡素化しながら、サイトやインフラストラクチャの停止に関係なく、オブジェクトへの継続的なアクセスを保証します。</block>
+  <block id="d67c579ad5ceca0ec4f8fe6a86f203cf" category="paragraph">マルチテナンシーを使用すると、複数のクラウドやエンタープライズ非構造化データアプリケーションを同じグリッド内で安全に処理できるため、StorageGRID のROIとユースケースが向上します。メタデータベースのオブジェクトライフサイクルポリシーを使用して複数のサービスレベルを作成し、複数の地域にわたってデータの保持、保護、パフォーマンス、ローカリティを最適化できます。ユーザは、要件の変化に応じて、ポリシーを調整し、システムを停止せずにデータの再配置を行うことができます。</block>
+  <block id="0d2b0fb2b312d872db772396e149b541" category="paragraph">SmartStoreはStorageGRID をリモートストレージ階層として活用し、地理的に分散した複数のサイトを展開して、単一のオブジェクトネームスペースとして提供される堅牢な可用性と耐久性を実現します。これにより、Splunk SmartStoreは、StorageGRID の高パフォーマンス、高密度の容量、および単一のURLを使用して複数の物理サイトにまたがる数百のノードに拡張可能な機能を活用し、オブジェクトとやり取りできます。また、 1 つの URL だけで、ストレージの拡張、アップグレード、修復を、 1 つのサイトだけでなく無停止で実行することもできます。StorageGRID 独自のデータ管理ポリシーエンジンにより、最適なレベルのパフォーマンスと耐久性が実現し、データローカリティ要件への準拠が実現します。</block>
+  <block id="f9ed96cf2d028d3cfa9c658c6ec5ae72" category="paragraph">Splunkは、マシン生成データの収集と分析を行うリーダーであり、運用分析機能を通じてITを簡易化、刷新します。また、ビジネス分析、セキュリティ、IoTのユースケースにも対応します。Splunkソフトウェアを適切に導入するためには、ストレージが欠かせません。</block>
+  <block id="1812fb837f2c63812e909b4457b0fa17" category="paragraph">マシン生成データは、最も急速に増加しているビッグデータのタイプです。フォーマットは予測不能であり、多くの異なるソースから得られます。多くの場合、高レートで大量に発生します。このようなワークロード特性は、一般にデジタルエキゾーストと呼ばれます。Splunk SmartStoreを使用すると、こうしたデータを把握し、最もコスト効率の高いストレージ階層にホットデータとウォームデータを最適な場所に配置できるように、スマートなデータ階層化を実現できます。</block>
+  <block id="bd069a1be23f237559be08ae79727806" category="paragraph">Splunk SmartStoreは、StorageGRID などのオブジェクトストレージ（リモートストレージまたはリモートストレージ階層とも呼ばれます）を使用して、S3プロトコルを使用してウォームデータを格納するインデクサ機能です。</block>
+  <block id="9e5e9e455aa469c6579c4cde82cf69fc" category="paragraph">導入のデータボリュームが増加すると、ストレージの需要がコンピュータリソースの需要を上回ってしまうことがよくあります。SmartStoreでは、コンピューティングとストレージを個別に拡張することにより、インデックスサーバのストレージリソースとコンピューティングリソースをコスト効率よく管理できます。</block>
+  <block id="1ab3873a2fa155a27933ac3e2b4ae709" category="paragraph">SmartStoreでは、S3プロトコルとキャッシュマネージャを使用して、リモートストレージ層を導入しています。これらの機能を使用すると、インデックスサーバー上またはリモートストレージ上にデータをローカルに配置できます。インデクサに常駐するキャッシュマネージャは'インデクサとリモートストレージ階層の間のデータ移動を管理しますデータはバケットメタデータと一緒にバケットに（ホットおよびウォーム）格納されます。</block>
+  <block id="85a6e51e1b2fd3e4be531f269e108f39" category="paragraph">SmartStoreを使用すると、ほとんどのデータがリモートストレージ階層に存在するため、インデクサのストレージ設置面積を最小に抑え、I/O最適化コンピューティングリソースを選択できます。インデクサは、要求され予測された結果を返すために必要な最小限のデータ量を表すローカルキャッシュを維持します。ローカルキャッシュには、ホットバケット、アクティブまたは最新の検索に使用されるウォームバケットのコピー、およびバケットメタデータが格納されます。</block>
+  <block id="8cc78103debf2dcfe53620b96565dad4" category="paragraph">StorageGRID を搭載したSplunk SmartStoreを使用すると、高パフォーマンスでコスト効率の高いリモートストレージを使用して環境を段階的に拡張でき、解決策 全体にも高い柔軟性を提供できます。これにより、お客様は任意の量のコンポーネント（ホットストレージやウォームS3ストレージ）をいつでも追加でき、インデックスの追加、データの保持の変更、システム停止なしの取り込み速度の向上が可能です。</block>
+  <block id="5cb48860c8dadcd442724a4122e031bd" category="inline-link-macro">次に、Splunk SmartStore向けの柔軟なStorageGRID 機能を紹介します。</block>
+  <block id="9a206b91ebbd6c75f73fba261d1eed1c" category="paragraph"><block ref="9a206b91ebbd6c75f73fba261d1eed1c" category="inline-link-macro-rx"></block></block>
+  <block id="5273463fa2459ed38da1af200de6f150" category="summary">このページでは、NetApp StorageGRID コントローラでのSplunk SmartStoreのパフォーマンスについて説明します。Splunk SmartStoreが、パフォーマンス検証の対象であるStorageGRID オブジェクトストレージであるリモートストレージにウォームデータを移動します。</block>
+  <block id="b646ed758d0eaa12ba9fab12788f9ad4" category="doc">単一サイトのSmartStoreのパフォーマンス</block>
+  <block id="47251bcda6f5d3ff81fc5968fa702aad" category="inline-link-macro">それまでの環境：Splunkのアーキテクチャが</block>
+  <block id="10da3263ceac590ab423073945a99eac" category="paragraph"><block ref="10da3263ceac590ab423073945a99eac" category="inline-link-macro-rx"></block></block>
+  <block id="b72db8dc34d5e01f398d66c9de42c11f" category="paragraph">このセクションでは、NetApp StorageGRID コントローラでのSplunk SmartStoreのパフォーマンスについて説明します。Splunk SmartStoreがウォームデータをリモートストレージに移動します。この場合は、パフォーマンス検証の対象となるStorageGRID オブジェクトストレージになります。</block>
+  <block id="1d01dcffdd1257afb01e4194d766d2f9" category="paragraph"><block ref="1d01dcffdd1257afb01e4194d766d2f9" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="32b74ac1eb4eb0530a3f976e96e3120d" category="paragraph">EF600はホットキャッシュストレージに使用し、StorageGRID 6060はリモートストレージに使用しました。パフォーマンス検証には次のアーキテクチャを使用しました。2つの検索ヘッドと4つの大きなフォワーダを使用してデータをインデクサに転送し、7つのSplunk Event Generator（Eventgens）を使用してリアルタイムデータを生成し、18のインデクサにデータを格納しました。</block>
+  <block id="a2fd19ff7e04cf04d5d99320b979cd00" category="paragraph"><block ref="a2fd19ff7e04cf04d5d99320b979cd00" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="45940e86de61b51821b0ec7959b3d551" category="paragraph">次の表に、SmartStorageのパフォーマンス検証に使用するハードウェアを示します。</block>
+  <block id="2fda610cb12c654fe037d4130498d5ae" category="cell">大規模なフォワーダ</block>
+  <block id="6d53d218eec402993fef5394aef9acdf" category="cell">16コア</block>
+  <block id="d3dd61dd737f0e824caf9d717bc1a59d" category="cell">SLED 15 SP2</block>
+  <block id="6f4922f45568161a8cdf4ad2299f6d23" category="cell">18</block>
+  <block id="21dd53b3176e5a03137d603514a60ece" category="cell">ユーザーフロントエンドはインデクサでデータを検索します</block>
+  <block id="c247e74124395bc7279d790ac384786e" category="section-title">SmartStoreリモートストアのパフォーマンス検証</block>
+  <block id="30cf0ca744869370aafb6cfecdd7b4c6" category="paragraph">このパフォーマンス検証では、すべてのインデクサ上のローカルストレージにSmartStoreキャッシュを10日間にわたって設定しました。Splunkクラスタマネージャで「maxDataSize=auto」（750MBのバケットサイズ）を有効にし、すべてのインデクサに変更をプッシュしました。アップロードのパフォーマンスを測定するために、10日間は1日あたり10TBを取り込み、すべてのホットバケットをまとめてウォームアップしました。同時に、インスタンスあたりの最大スループットと平均スループットを取得し、展開全体をSmartStore Monitoring Consoleダッシュボードから取得しました。</block>
+  <block id="4fc95542b54fee8da424a2e0ab281aeb" category="paragraph">この図は、1日以内に取り込まれたデータを示しています。</block>
+  <block id="c1b0c9568cd6b9bf236fb9566021d8a4" category="paragraph"><block ref="c1b0c9568cd6b9bf236fb9566021d8a4" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="b72140907b2e824ba4a35a2f01bac4e6" category="paragraph">クラスタマスターから次のコマンドを実行しました（インデックス名は「eventgen-test」）。次に、SmartStore Monitoring Consoleダッシュボードを使用して、インスタンスあたりのアップロードの最大スループットと平均スループット、および展開全体のスループットをキャプチャしました。</block>
+  <block id="94a0389fcc3ce42eea7a3f351f5d39b5" category="admonition">クラスタマスターは、すべてのインデクサに対してパスワードなしの認証を行います（rtp-idx0001…rtp-idx0018）。</block>
+  <block id="d27688c7ebc58e3f620120997e317180" category="paragraph">ダウンロードパフォーマンスを測定するために、次のコマンドでevict CLIを2回実行して、キャッシュからすべてのデータを削除しました。</block>
+  <block id="4faf8abcf7e17175784cdc9d58df1608" category="admonition">クラスタマスターから次のコマンドを実行し、StorageGRID のリモートストアにある10日間のデータの上で検索ヘッドから検索を実行しました。次に、SmartStore Monitoring Consoleダッシュボードを使用して、インスタンスあたりのアップロードの最大スループットと平均スループット、および展開全体のスループットをキャプチャしました。</block>
+  <block id="995931f06acb79ea5ac83df17d692a1d" category="paragraph">インデクサ構成は、SmartStoreクラスタマスターからプッシュされました。クラスタマスターは、インデクサに対して次のような設定を行いました。</block>
+  <block id="514109dd07ed0bb93081e9e36291b879" category="paragraph">検索ヘッドで次の検索クエリを実行し、パフォーマンスマトリックスを収集しました。</block>
+  <block id="39b8fe84a2982bcbeb6d733343e0678d" category="paragraph"><block ref="39b8fe84a2982bcbeb6d733343e0678d" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="67e03c2395d7a876b5160fefc76f9bb9" category="paragraph">パフォーマンス情報はクラスタマスターから収集しました。ピークパフォーマンスは61.34GBpsです。</block>
+  <block id="0feb590fe449a8a847517a38f1e0415f" category="paragraph"><block ref="0feb590fe449a8a847517a38f1e0415f" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="2850e7edd48f5666ab4f82242ddb37d2" category="paragraph">平均パフォーマンスは約29GBpsです。</block>
+  <block id="2a1437158884c9696a6d4cac546972b1" category="paragraph"><block ref="2a1437158884c9696a6d4cac546972b1" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="283456e93c96a11ef44a18693dd6c886" category="section-title">StorageGRID のパフォーマンス</block>
+  <block id="f5451e9a153b2f625ec0bc944af01be5" category="inline-link">Eventgenのサポートを提供し</block>
+  <block id="764a1901ab00adf1e8e26712bf39c23a" category="paragraph">SmartStoreのパフォーマンスは、大量のデータから特定のパターンや文字列を検索することに基づいています。この検証では、を使用してイベントが生成されます<block ref="6cec2d19baf7e588a52847e567dab457" category="inline-link-rx"></block> 検索ヘッドからSplunkの特定のインデックス（eventgen-test）にアクセスし、ほとんどのクエリはStorageGRID に送信されます。次の図は、クエリデータのヒットとミスを示しています。ヒットデータはローカルディスクからで、ミスデータはStorageGRID コントローラから取得されます。</block>
+  <block id="3b8a6855a0eb4beaf2c787f34a2428d7" category="admonition">緑の色はヒットデータを示し、オレンジ色はミスデータを示します。</block>
+  <block id="0bf13ffd9c4e3655384eea9760fdd547" category="paragraph"><block ref="0bf13ffd9c4e3655384eea9760fdd547" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="e6fa8244cc2900d6f36b3144c7e748ac" category="paragraph">StorageGRID で検索を実行するクエリを次の図に示すように、StorageGRID からのS3読み出し速度の時間が表示されます。</block>
+  <block id="5e789be14498e5bac09395d944ced093" category="paragraph"><block ref="5e789be14498e5bac09395d944ced093" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="5e3fd399eb98a5a8fae1dc144ff614f3" category="section-title">StorageGRID ハードウェアの使用状況</block>
+  <block id="8e8a6c088425467c00be94a9d15d015b" category="paragraph">StorageGRID インスタンスには、1つのロードバランサと3つのStorageGRID コントローラがあります。3台のコントローラすべてのCPU利用率は75%～100%です。</block>
+  <block id="5c78f5ad926b76e88a749362fb6e3412" category="paragraph"><block ref="5c78f5ad926b76e88a749362fb6e3412" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="140097f96ea2b213b6f37f9d71009a5e" category="section-title">SmartStoreとNetAppストレージコントローラ-お客様にとってのメリット</block>
+  <block id="7f18772207b4ab40d0e7574fc68b95b6" category="list-text">*コンピューティングとストレージの分離* Splunk SmartStoreは、コンピューティングとストレージを分離し、個別に拡張できます。</block>
+  <block id="4e1a3208fe0742415bc087d082943293" category="list-text">*データはオンデマンドで提供されます。* SmartStoreは、データをオンデマンドのコンピューティングに近く、コンピューティングとストレージの柔軟性とコスト効率を提供し、大規模なデータ保持をより長期化します。</block>
+  <block id="f3295a31a8b7a9b5d76cb1a1e7f67f28" category="list-text">* AWS S3 API準拠。* SmartStoreは、AWS S3およびS3 API準拠のStorageGRID などのオブジェクトストアであるリストアストレージと通信するためにAWS S3 APIを使用しています。</block>
+  <block id="4fda7aba03882818928ff7bc3a03f0e5" category="list-text">*ストレージ要件とコストを削減* SmartStoreは、古いデータ（ウォーム/コールド）の保存要件を軽減します。データのコピーを1つだけ必要とするのは、ネットアップストレージがデータ保護を提供し、障害や高可用性に対処するためです。</block>
+  <block id="c27703d92f7f2316dfa63670f02dd6b6" category="list-text">*ハードウェア障害。* SmartStore展開でのノード障害により、データにアクセスできなくなり、ハードウェア障害やデータの不均衡からのインデクサリカバリが大幅に高速化されています。</block>
+  <block id="ed20f2e9df3c744293f044d87722ce0f" category="list-text">アプリケーションおよびデータ対応キャッシュ。</block>
+  <block id="f57d44dedead861d1eef7e912b9cbd86" category="list-text">インデクサの追加とセットアップティアダウンクラスタをオンデマンドで実行。</block>
+  <block id="98613866f09e0e2416018bef4be916d3" category="list-text">ストレージ階層はハードウェアに固定されなくなりました。</block>
+  <block id="a2a5916477583887c69c752ae6366750" category="paragraph"><block ref="a2a5916477583887c69c752ae6366750" category="inline-link-macro-rx"></block></block>
 </blocks>

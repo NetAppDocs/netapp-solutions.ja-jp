@@ -93,6 +93,16 @@ VMware Tanzu Kubernetes Grid Integrated（TKGI）
 * NetApp Astra Tridentのように、vSphere CSIやサードパーティのCSISを利用できる（一部の条件が適用される）
 
 
+Tanzuを備えたvSphere（vSphereポッド）
+
+* vSphereネイティブポッドは、完全な分離のために、処方された仮想ハードウェアを使用して、薄い光子ベースのレイヤで実行されます。
+* NSXは必須ですが'Harborイメージ・レジストリなどの機能を追加サポートすることができます
+* TKGSなどの仮想スーパーバイザクラスタを使用してvSphere 7.0U1以降に導入および管理し、ESXiノードでポッドを直接実行します。
+* vSphere管理者による完全なvSphere統合、最高レベルの可視性と制御。
+* 独立したCRXベースのポッドにより、最高レベルのセキュリティを実現。
+* vSphere CSIの永続的ストレージ/サードパーティ製ストレージオーケストレーションツールはサポートされていません。
+
+
 
 
 === ネットアップストレージシステム
@@ -132,7 +142,7 @@ Astra Tridentは、VMware TanzuなどのコンテナやKubernetesディストリ
 | ネットアップアストラト Trident | ストレージオーケストレーション | 22.04.0 
 
 
-| VMware Tanzu Kubernetesグリッド | コンテナオーケストレーション | 1.3.1 
+| VMware Tanzu Kubernetesグリッド | コンテナオーケストレーション | 1.4以降 
 
 
 .2+| VMware Tanzu Kubernetes Gridサービス .2+| コンテナオーケストレーション | 0.0.15 [vSphere名前空間] 

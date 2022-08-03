@@ -1,0 +1,66 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/stgr-splunkss-flexible-storagegrid-features-for-splunk-smartstore.html 
+keywords: ILM policies, Grid Manager, performance, Load Balancer, endpoint configuration 
+summary: StorageGRID には、変化し続ける環境に合わせて、ユーザが利用し、カスタマイズできるさまざまな機能があります。Splunk SmartStoreの導入から拡張に至るまで、環境には変更を迅速に採用することが求められ、Splunkを無停止で使用する必要があります。StorageGRID の柔軟なデータ管理ポリシー（ILM）とトラフィック分類子（QoS）を使用すると、環境を計画して適合させることができます。 
+---
+= Splunk SmartStore向けの柔軟なStorageGRID 機能
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:stgr-splunkss-solution-overview.html["Previous ：解決策の概要を示します。"]
+
+StorageGRID には、変化し続ける環境に合わせて、ユーザが利用し、カスタマイズできるさまざまな機能があります。Splunk SmartStoreの導入から拡張に至るまで、環境には変更を迅速に採用することが求められ、Splunkを無停止で使用する必要があります。StorageGRID の柔軟なデータ管理ポリシー（ILM）とトラフィック分類子（QoS）を使用すると、環境を計画して適合させることができます。
+
+
+
+== Grid Manager で管理を簡易化
+
+Grid Managerはブラウザベースのグラフィカルインターフェイスで、次の図に示すように、世界中に分散された複数の場所にまたがるStorageGRID システムの設定、管理、および監視を1つの画面で実行できます。
+
+image:stgr-splunkss-image3.png["エラー：グラフィックイメージがありません"]
+
+Grid Managerインターフェイスを使用して次のタスクを実行します。
+
+* イメージ、ビデオ、レコードなどのオブジェクトを収めた、グローバルに分散されたペタバイト規模のリポジトリを管理します。
+* グリッドノードとサービスを監視してオブジェクトの可用性を確保します。
+* Information Lifecycle Management （ ILM ；情報ライフサイクル管理）ルールを使用してオブジェクトデータの配置を継続的に管理します。これらのルールによって、取り込まれたオブジェクトのデータの処理、損失から保護する方法、格納場所と保管期間が決まります。
+* システム内のトランザクション、パフォーマンス、処理を監視します。
+
+
+
+
+== Splunk向けNetApp StorageGRID アプリ
+
+Splunk Enterprise向けNetApp StorageGRID アプリケーションは、Splunk Enterprise向けのアプリケーションです。このアプリケーションは、Splunk向けNetApp StorageGRID アドオンと連携して動作します。StorageGRID の健全性、アカウントの使用状況、セキュリティ監査の詳細、リソースの使用状況や監視などを確認できます。
+
+次の図は、Splunk向けStorageGRID アプリケーションを示しています。
+
+image:stgr-splunkss-image4.png["エラー：グラフィックイメージがありません"]
+
+
+
+== ILMポリシー
+
+StorageGRID には、オブジェクトの複数のコピーを保持し、2+1や4+2などのEC（イレイジャーコーディング）スキームを使用して、特定のパフォーマンスやデータ保護の要件に応じてオブジェクトを格納するなど、柔軟なデータ管理ポリシーが用意されています。ワークロードと要件が時間の経過とともに変化する場合、 ILM ポリシーも時間の経過とともに変化する必要があることがよくあります。ILM ポリシーの変更は中核的な機能であり、絶えず変化する環境に StorageGRID のお客様がすばやく簡単に適応できるようにします。
+
+
+
+== パフォーマンス
+
+StorageGRID は SG5712 、 SG5760 、 SG6060 、 SGF6024 などのベアメタルアプライアンスまたは専用アプライアンスであるノードを追加することで、パフォーマンスを拡張します。テストでは、SG6060アプライアンスを使用した最小サイズの3ノードグリッドを使用して、SmartStoreの主要パフォーマンス要件を超えました。Splunkインフラを拡張し、インデクサを追加すれば、ストレージノードを追加してパフォーマンスと容量を高めることができます。
+
+
+
+== ロードバランサとエンドポイントの設定
+
+StorageGRID の管理ノードは、 StorageGRID システムを表示、設定、管理するための Grid Manager UI （ユーザインターフェイス）エンドポイントと REST API エンドポイント、およびシステムアクティビティを追跡するための監査ログを提供します。Splunk SmartStoreリモートストレージに可用性の高いS3エンドポイントを提供するために、管理ノードとゲートウェイノードでサービスとして実行されるStorageGRID ロードバランサを実装しました。また、ロードバランサはローカルトラフィックを管理し、ディザスタリカバリに役立つ GSLB （グローバルサーバロードバランシング）と通信します。
+
+エンドポイントの設定をさらに強化するために、管理ノードに組み込まれたトラフィック分類ポリシーをStorageGRID で使用して、ワークロードトラフィックを監視し、さまざまなQuality of Service（QoS；サービス品質）制限をワークロードに適用できます。トラフィック分類ポリシーは、ゲートウェイノードおよび管理ノードの StorageGRID ロードバランササービス上のエンドポイントに適用されます。これらのポリシーは、トラフィックの制限と監視に役立ちます。
+
+link:stgr-splunkss-splunk-architecture.html["次はSplunkのアーキテクチャです。"]
