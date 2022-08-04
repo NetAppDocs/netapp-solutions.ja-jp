@@ -1,0 +1,149 @@
+---
+sidebar: sidebar 
+permalink: ehc/aws/aws-guest-dr-technology.html 
+keywords: technology, vmware cloud foundation, vsphere, nsx, snapcenter, veeam, VMware Cloud on AWS, Amazon FSx 
+summary: このセクションでは、この解決策 に電力を供給するさまざまな技術構成要素の概要を説明します。 
+---
+= テクノロジ
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+link:aws-guest-dr-solution-overview.html["Previous ：解決策の概要を示します。"]
+
+この解決策 には、ネットアップ、VMware、Amazon Web Services（AWS）、Veeamの革新的なテクノロジが含まれています。
+
+
+
+== VMware
+
+
+
+=== VMware Cloud Foundationの場合
+
+VMware Cloud Foundationプラットフォームには複数の製品が統合されており、管理者は異機種混在環境全体に論理インフラストラクチャをプロビジョニングできます。これらのインフラ（ドメイン）は、プライベートクラウドとパブリッククラウドの間で一貫した運用を実現します。Cloud Foundationソフトウェアに付属するコンポーネントは、検証済みで条件を満たすコンポーネントを特定するための部品表で、お客様のリスクを軽減し、導入を容易にします。
+
+Cloud Foundation BOMには、次のコンポーネントが含まれています。
+
+* Cloud Builder
+* SDDCマネージャ
+* VMware vCenter Server Appliance の略
+* VMware ESXi
+* VMware NSX
+* vRealize Automation
+* vRealize Suite Lifecycle Managerの略
+* vRealize Log Insightの特長
+
+
+VMware Cloud Foundationの詳細については、を参照してください https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["VMware Cloud Foundationのドキュメント"^]。
+
+
+
+=== VMware vSphere の場合
+
+VMware vSphereは、物理リソースをコンピューティング、ネットワーク、ストレージのプールに変換する仮想化プラットフォームで、お客様のワークロードおよびアプリケーション要件を満たすために使用できます。VMware vSphereの主なコンポーネントは次のとおりです。
+
+* * ESXi。*このVMwareハイパーバイザーは、コンピューティングプロセッサ、メモリ、ネットワーク、その他のリソースを抽象化して、仮想マシンやコンテナワークロードで利用できるようにします。
+* * vCenter。* VMware vCenterは、仮想インフラストラクチャの一部として、コンピューティングリソース、ネットワーク、ストレージとやり取りするための一元的な管理エクスペリエンスを提供します。
+
+
+ネットアップのONTAP は、製品の緊密な統合、強力なサポート、強力な機能とストレージ効率化機能を備えており、vSphere環境のポテンシャルを最大限に引き出し、堅牢なハイブリッドマルチクラウド環境を構築します。
+
+VMware vSphereの詳細については、を参照してください https://docs.vmware.com/en/VMware-vSphere/index.html["リンクをクリックしてください"^]。
+
+VMwareを使用したネットアップのソリューションの詳細については、以下を参照してください https://docs.netapp.com/us-en/netapp-solutions/virtualization/netapp-vmware.html["リンクをクリックしてください"^]。
+
+
+
+=== VMware NSX
+
+一般にネットワークハイパーバイザと呼ばれるVMware NSXは、ソフトウェア定義モデルを使用して仮想化されたワークロードを接続します。VMware NSXは、オンプレミスとAWS上のVMware Cloudに広く導入されており、お客様のアプリケーションやワークロードのネットワーク仮想化とセキュリティを強化します。
+
+VMware NSXの詳細については'を参照してください https://docs.vmware.com/en/VMware-NSX-T-Data-Center/index.html["リンクをクリックしてください"^]。
+
+
+
+== ネットアップ
+
+
+
+=== NetApp ONTAP
+
+NetApp ONTAP ソフトウェアは、 VMware vSphere 環境向けのストレージ解決策を約 20 年にわたって業界をリードしてきました。また、コストを削減しながら管理を簡易化する革新的な機能を継続的に追加しています。vSphere と ONTAP を併用すると、ホストハードウェアと VMware ソフトウェアのコストを削減できます。また、標準搭載のStorage Efficiency機能を活用しながら、一貫した高パフォーマンスで低コストでデータを保護できます。
+
+NetApp ONTAP の詳細については、以下を参照してください https://docs.vmware.com/en/VMware-Cloud-on-AWS/index.html["リンクをクリックしてください"^]。
+
+
+
+=== VMware向けのNetApp ONTAP ツール
+
+VMware向けONTAP ツールでは、複数のプラグインを1つの仮想アプライアンスに統合して、ネットアップストレージシステムを使用するVMware環境で仮想マシンのエンドツーエンドのライフサイクル管理を実現しています。VMware用のONTAP ツールには、次のものがあります。
+
+* * Virtual Storage Console（VSC）。*ネットアップストレージを使用して、VMとデータストアの包括的な管理タスクを実行します。
+* * VASA Provider for ONTAP 。* Storage Policy-Based Management（SPBM）をVMwareのVirtual Volume（VVol）とネットアップストレージで有効化。
+* * Storage Replication Adapter（SRA）*。VMware Site Recovery Manager（SRM）と組み合わせて使用すると、障害が発生した場合にvCenterのデータストアと仮想マシンをリカバリできます。
+
+
+VMware用のONTAP ツールを使用すると、外付けストレージだけでなく、VVolおよびVMware Site Recovery Managerとの統合も管理できます。これにより、vCenter環境からネットアップストレージを簡単に導入して運用することができます。
+
+VMware向けNetApp ONTAP ツールの詳細については、以下を参照してください https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["リンクをクリックしてください"^]。
+
+
+
+=== NetApp SnapCenter
+
+NetApp SnapCenter ソフトウェアは、使いやすいエンタープライズプラットフォームで、アプリケーション、データベース、ファイルシステム全体でデータ保護をセキュアに調整、管理できます。SnapCenter は、ストレージシステムのアクティビティを監視および制御する機能を犠牲にすることなく、これらのタスクをアプリケーション所有者にオフロードすることで、バックアップ、リストア、クローンのライフサイクル管理を簡易化します。SnapCenter は、ストレージベースのデータ管理を活用することで、パフォーマンスと可用性を向上させるとともに、テストや開発の時間を短縮します。
+
+SnapCenter Plug-in for VMware vSphereでは、仮想マシン（VM）、データストア、および仮想マシンディスク（VMDK）に対して、crash-consistentおよびVMと整合性のあるバックアップおよびリストア処理がサポートされます。また、SnapCenter アプリケーション固有のプラグインもサポートしているため、仮想化されたデータベースやファイルシステムについて、アプリケーションと整合性のあるバックアップおよびリストア処理を保護できます。
+
+NetApp SnapCenter の詳細については、以下を参照してください https://docs.netapp.com/us-en/snapcenter/["リンクをクリックしてください"^]。
+
+
+
+== サードパーティのデータ保護
+
+
+
+=== Veeam Backup & Replicationの統合によって
+
+Veeam Backup & Replicationは、クラウド、仮想、物理の各ワークロード向けのバックアップ、リカバリ、データ管理解決策 です。Veeam Backup & Replicationには、NetApp Snapshotテクノロジとの統合が特殊化されており、vSphere環境をさらに保護します。
+
+Veeam Backup & Replicationの詳細については、以下を参照してください https://www.veeam.com/vm-backup-recovery-replication-software.html["リンクをクリックしてください"^]。
+
+
+
+== パブリッククラウド
+
+
+
+=== AWS IDおよびアクセス管理
+
+AWS環境には、コンピューティング、ストレージ、データベース、ネットワーク、分析、 さらに、ビジネス上の課題を解決するためのサポートも充実しています。企業は、これらの製品、サービス、およびリソースへのアクセスを許可されたユーザーを定義できる必要があります。ユーザーが構成を操作、変更、または追加できる条件を決定することも同様に重要です。
+
+AWS Identity and Access Management（AIM；アイデンティティアクセス管理）は、AWSのサービスと製品へのアクセスを管理するためのセキュアなコントロールプレーンです。ユーザ、アクセスキー、および権限が適切に設定されていれば、AWSとAmazon FSXにVMware Cloudを導入できます。
+
+AIMの詳細については、以下を参照してください https://docs.aws.amazon.com/iam/index.html["リンクをクリックしてください"^]。
+
+
+
+=== AWS 上の VMware Cloud
+
+VMware Cloud on AWS は、 VMware のエンタープライズクラスの SDDC ソフトウェアを AWS クラウドに提供し、ネイティブ AWS サービスへのアクセスを最適化します。VMware Cloud Foundationを基盤とするVMware Cloud on AWSは、VMwareのコンピューティング、ストレージ、ネットワーク仮想化製品（VMware vSphere、VMware vSAN、VMware NSX）と、専用の柔軟なベアメタルAWSインフラストラクチャ上で実行できるように最適化されたVMware vCenter Server管理を統合します。
+
+AWS上のVMware Cloudの詳細については、以下を参照してください https://docs.vmware.com/en/VMware-Cloud-on-AWS/index.html["リンクをクリックしてください"^]。
+
+
+
+=== NetApp ONTAP 対応の Amazon FSX
+
+Amazon FSX for NetApp ONTAP は、フル機能を備えたフルマネージドのONTAP システムで、ネイティブのAWSサービスとして利用できます。NetApp ONTAP を基盤に構築されており、使い慣れた機能に加えて、フルマネージドのクラウドサービスが簡易化されています。
+
+Amazon FSX for ONTAP は、パブリッククラウドまたはオンプレミスのVMwareなど、さまざまなコンピューティングタイプにマルチプロトコルサポートを提供します。今日のゲスト接続のユースケースや、テクニカルプレビューのNFSデータストアで利用できるAmazon FSX for ONTAP を使用すると、企業は自社のオンプレミス環境やクラウドで使い慣れた機能を活用できます。
+
+NetApp ONTAP のAmazon FSXの詳細については、以下を参照してください https://aws.amazon.com/fsx/netapp-ontap/["リンクをクリックしてください"]。
+
+link:aws-guest-dr-overview.html["次のページ：概要- AWSゲスト接続ストレージのディザスタリカバリ。"]

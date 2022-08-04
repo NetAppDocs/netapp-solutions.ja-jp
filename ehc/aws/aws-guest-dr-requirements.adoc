@@ -1,0 +1,299 @@
+---
+sidebar: sidebar 
+permalink: ehc/aws/aws-guest-dr-requirements.html 
+keywords: adminstrative, ESXi hosts, VMware vCenter, nsx, MS SQL, oracle, Veeam, cloud, aws, Amazon FSx, vmc 
+summary: このセクションでは、オンプレミスのリソース、VMware Cloud、Amazon FSX ONTAP にアクセスして設定するための要件を詳しく説明します。 
+---
+= 要件
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+link:aws-guest-dr-overview.html["前：概要- AWSゲスト接続ストレージのディザスタリカバリ。"]
+
+このセクションでは、オンプレミスのリソース、VMware Cloud、Amazon FSX ONTAP にアクセスして設定するための要件を詳しく説明します。
+
+
+
+== スキルと知識
+
+Cloud Volumes Service for AWSにアクセスするには、次のスキルと情報が必要です。
+
+* VMwareとONTAP のオンプレミス環境へのアクセスと知識を提供します。
+* VMware CloudおよびAWSへのアクセスとその知識。
+* AWSおよびAmazon FSX ONTAP へのアクセスとその知識。
+* SDDCとAWSのリソースに関する知識
+* オンプレミスリソースとクラウドリソース間のネットワーク接続に関する知識。
+* ディザスタリカバリシナリオの実用的な知識。
+* VMware上に導入されたアプリケーションに関する実務的な知識。
+
+
+
+
+== 管理
+
+オンプレミスでもクラウドでも、ユーザや管理者は、必要なときに利用資格に応じてリソースをプロビジョニングでき、利用資格が付与されている必要があります。ONTAP やVMwareなどのオンプレミスシステムと、VMwareクラウドやAWSなどのクラウドリソースに対する役割と権限の相互作用は、ハイブリッドクラウドの導入を成功させるために最も重要です。
+
+VMwareとONTAP を使用してオンプレミスでDR解決策 を構築し、AWSとFSX ONTAP 上でVMwareクラウドを構築するには、次の管理タスクを実行する必要があります。
+
+* 次のプロビジョニングを可能にするロールとアカウント：
++
+** ONTAP ストレージリソース
+** VMwareのVMやデータストアなど
+** AWS VPCとセキュリティグループ
+
+
+* オンプレミスのVMware環境とONTAP をプロビジョニング
+* VMwareクラウド環境
+* ONTAP ファイルシステム用のAmazon
+* オンプレミス環境とAWS間の接続
+* AWS VPCへの接続
+
+
+
+
+== オンプレミス
+
+VMware仮想環境には、次の図に示すように、ESXiホスト、VMware vCenter Server、NSXネットワーク、およびその他のコンポーネントのライセンスが含まれます。いずれのライセンス方法も異なるため、基盤となるコンポーネントが使用可能なライセンス容量をどのように消費するかを理解しておくことが重要です。
+
+image:dr-vmc-aws-image2.png["エラー:グラフィックイメージがありません,100,100"]
+
+
+
+=== ESXiホスト
+
+VMware環境のコンピューティングホストはESXiとともに導入されます。さまざまな容量階層でvSphereのライセンスを取得することで、仮想マシンは各ホストの物理CPUおよび該当する使用権のある機能を利用できます。
+
+
+
+=== VMware vCenter
+
+ESXiホストとストレージの管理は、vCenter Serverを使用してVMware管理者が利用できるさまざまな機能の1つです。VMware vCenter 7.0以降では、ライセンスに応じて、次の3つのエディションのVMware vCenterを使用できます。
+
+* vCenter Server Essentials
+* vCenter Server Foundation
+* vCenter Server Standardの略
+
+
+
+
+=== VMware NSX
+
+VMware NSXは、管理者が高度な機能を有効にするために必要な柔軟性を提供します。機能は、ライセンスが付与されているNSX Editionのバージョンに応じて有効になります。
+
+* プロフェッショナル
+* 詳細設定
+* Enterprise Plus
+* リモートオフィス/ブランチオフィス
+
+
+
+
+=== NetApp ONTAP
+
+NetApp ONTAP のライセンスとは、管理者がネットアップストレージのさまざまな機能を利用する方法を指します。ライセンスには、ソフトウェアの使用権が 1 つ以上記録されています。ライセンスキーをインストールすることはライセンスコードとも呼ばれ、ストレージシステムで特定の機能やサービスを使用できるようになります。たとえば、ONTAP は業界標準の主要なクライアントプロトコル（NFS、SMB、FC、FCoE、iSCSI、 およびNVMe/FC）のサポートも提供します。
+
+Data ONTAP の機能ライセンスはパッケージとして発行されます。各パッケージには複数または単一の機能が含まれます。パッケージにはライセンスキーが必要であり、キーをインストールすることで、パッケージのすべての機能にアクセスできるようになります。
+
+ライセンスタイプは次のとおりです。
+
+* *ノードロックライセンス。*ノードロックライセンスをインストールすると、ライセンスされた機能をノードに対して使用できるようになります。ライセンスされた機能をクラスタで使用するには、少なくとも 1 つのノードで、その機能のライセンスが有効になっている必要があります。
+* *マスター/サイトライセンス。*マスターライセンスまたはサイトライセンスは、特定のシステムシリアル番号に関連付けられません。サイトライセンスをインストールすると、クラスタ内のすべてのノードで、ライセンスされた機能を使用できるようになります。
+* *デモ/一時ライセンス。*デモライセンスまたは一時ライセンスは、一定時間が経過すると失効します。このライセンスを使用すると、ライセンスを購入せずに特定のソフトウェア機能を試すことができます。
+* *容量ライセンス（ONTAP Select およびFabricPool のみ）。* ONTAP Select インスタンスのライセンスは、ユーザーが管理するデータの量に応じて付与されます。ONTAP 9.4以降では、FabricPool でサードパーティのストレージ階層（AWSなど）を使用する場合に容量ライセンスが必要になります。
+
+
+
+
+=== NetApp SnapCenter
+
+SnapCenter でデータ保護処理を有効にするには、複数のライセンスが必要です。インストールする SnapCenter ライセンスのタイプは、ストレージ環境および使用する機能によって異なります。SnapCenter Standardライセンスでは、アプリケーション、データベース、ファイルシステム、および仮想マシンが保護されます。SnapCenter にストレージシステムを追加する前に、 1 つ以上の SnapCenter ライセンスをインストールする必要があります。
+
+アプリケーション、データベース、ファイルシステム、および仮想マシンを保護するには、FAS またはAFF ストレージシステムにStandardコントローラベースのライセンスをインストールするか、ONTAP Select およびCloud Volumes ONTAP プラットフォームにStandard容量ベースのライセンスをインストールする必要があります。
+
+この解決策 の次のSnapCenter バックアップの前提条件を参照してください。
+
+* オンプレミスのONTAP システムに作成されたボリュームとSMB共有。バックアップされたデータベースと構成ファイルを検索します。
+* オンプレミスのONTAP システムと、AWSアカウントのFSXまたはCVOとの間のSnapMirror関係。バックアップされたSnapCenter データベースおよび構成ファイルを含むSnapshotの転送に使用されます。
+* EC2インスタンスまたはVMware Cloud SDDC内のVMに、クラウドアカウントにWindows Serverをインストールします。
+* SnapCenter は、VMware CloudのWindows EC2インスタンスまたはVMにインストールします。
+
+
+
+
+=== MS SQLの場合
+
+この解決策 検証の一環として、ディザスタリカバリのデモにはMS SQLを使用します。
+
+MS SQLとNetApp ONTAP のベストプラクティスの詳細については、以下を参照してください https://www.netapp.com/media/8585-tr4590.pdf["リンクをクリックしてください"^]。
+
+
+
+=== Oracle の場合
+
+この解決策 検証の一環として、Oracleを使用してディザスタリカバリを実施します。OracleとNetApp ONTAP のベストプラクティスの詳細については、以下を参照してください https://www.netapp.com/media/8744-tr3633.pdf["リンクをクリックしてください"^]。
+
+
+
+=== Veeamの統合によって
+
+この解決策 検証の一環として、Veeamを使用してディザスタリカバリを実証します。VeeamとNetApp ONTAP のベストプラクティスの詳細については、以下を参照してください https://www.veeam.com/wp-netapp-configuration-best-practices-guide.html["リンクをクリックしてください"^]。
+
+
+
+== クラウド
+
+
+
+=== AWS
+
+次のタスクを実行できる必要があります。
+
+* ドメインサービスを導入して設定します。
+* 所定のVPCに、アプリケーション要件ごとにFSX ONTAP を導入します。
+* AWS Compute GatewayにVMware Cloudを設定して、FSX ONTAP からのトラフィックを許可します。
+* AWSサブネット上のVMware Cloudと、FSX ONTAP サービスが導入されているAWS VPCサブネットとの間の通信を許可するようにAWSセキュリティグループを設定します。
+
+
+
+
+=== VMwareクラウド
+
+次のタスクを実行できる必要があります。
+
+* AWS SDDCでVMware Cloudを構成
+
+
+
+
+=== Cloud Managerアカウントの検証
+
+NetApp Cloud Managerを使用してリソースを導入できる必要があります。次のタスクを実行して、を実行できることを確認します。
+
+* https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-signing-up.html["Cloud Centralに登録"^] まだお持ちでない場合は、
+* https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-logging-in.html["Cloud Managerにログイン"^]。
+* https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-setting-up-netapp-accounts.html["ワークスペースとユーザーをセットアップする"^]。
+* https://docs.netapp.com/us-en/cloud-manager-setup-admin/concept-connectors.html["コネクタを作成します"^]。
+
+
+
+
+=== NetApp ONTAP 対応の Amazon FSX
+
+AWSアカウントを作成したら、次のタスクを実行できます。
+
+* NetApp ONTAP ファイルシステム用にAmazon FSXをプロビジョニングできるIAM管理ユーザを作成します。
+
+
+
+
+== 設定の前提条件
+
+お客様のトポロジはさまざまであるため、このセクションでは、オンプレミスからクラウドリソースへの通信に必要なポートについて説明します。
+
+
+
+=== 必要なポートとファイアウォールに関する考慮事項
+
+次の表に、インフラ全体で有効にする必要があるポートを示します。
+
+Veeam Backup & Replicationソフトウェアに必要なポートの一覧については、を参照してください https://helpcenter.veeam.com/docs/backup/vsphere/used_ports.html?zoom_highlight=port+requirements&ver=110["リンクをクリックしてください"^]。
+
+SnapCenter のより包括的なポート要件については、を参照してください https://docs.netapp.com/ocsc-41/index.jsp?topic=%2Fcom.netapp.doc.ocsc-isg%2FGUID-6B5E4464-FE9A-4D2A-B526-E6F4298C9550.html["リンクをクリックしてください"^]。
+
+次の表に、Microsoft Windows Serverに関するVeeamのポート要件を示します。
+
+|===
+| 移動元 | 終了： | プロトコル | ポート | 注： 
+
+
+| バックアップサーバ | Microsoft Windowsサーバ | TCP | 445 | Veeam Backup & Replicationコンポーネントの導入に必要なポート。 
+
+
+| バックアッププロキシ |  | TCP | 6160 | Veeamインストーラサービスで使用されるデフォルトのポート。 
+
+
+| バックアップリポジトリ |  | TCP | 2500～3500 | データ転送チャネルおよびログファイルの収集に使用されるデフォルトのポート範囲。 
+
+
+| サーバをマウントします |  | TCP | 6162 | Veeam Data Moverで使用されるデフォルトのポート。 
+|===
+
+NOTE: ジョブが使用するTCP接続ごとに、この範囲のポートが1つ割り当てられます。
+
+次の表に、VeeamによるLinux Serverのポート要件を示します。
+
+|===
+| 移動元 | 終了： | プロトコル | ポート | 注： 
+
+
+| バックアップサーバ | Linuxサーバ | TCP | 22 | コンソールからターゲットLinuxホストへの制御チャネルとして使用されるポート。 
+
+
+|  |  | TCP | 6162 | Veeam Data Moverで使用されるデフォルトのポート。 
+
+
+|  |  | TCP | 2500～3500 | データ転送チャネルおよびログファイルの収集に使用されるデフォルトのポート範囲。 
+|===
+
+NOTE: ジョブが使用するTCP接続ごとに、この範囲のポートが1つ割り当てられます。
+
+次の表に、Veeam Backup Serverのポート要件を示します。
+
+|===
+| 移動元 | 終了： | プロトコル | ポート | 注： 
+
+
+| バックアップサーバ | vCenter Server の各サービスを提供 | HTTPS、TCP | 443 | vCenter Serverへの接続に使用されるデフォルトのポート。コンソールからターゲットLinuxホストへの制御チャネルとして使用されるポート。 
+
+
+|  | Veeam Backup & Replication構成データベースをホストしているMicrosoft SQL Server | TCP | 1443 | Veeam Backup & Replication構成データベースが導入されているMicrosoft SQL Serverとの通信に使用するポート（Microsoft SQL Serverのデフォルトインスタンスを使用している場合）。 
+
+
+|  | すべてのバックアップサーバの名前解決を伴うDNSサーバ | TCP | 3389 | DNSサーバとの通信に使用するポート 
+|===
+
+NOTE: vCloud Directorを使用する場合は、基盤となるvCenter Serverでポート443を開きます。
+
+次の表に、Veeam Backup Proxyのポート要件を示します。
+
+|===
+| 移動元 | 終了： | プロトコル | ポート | 注： 
+
+
+| バックアップサーバ | バックアッププロキシ | TCP | 6210 | SMBファイル共有のバックアップ時にVSS Snapshotを作成するためにVeeam Backup VSS Integration Serviceで使用されるデフォルトのポート。 
+
+
+| バックアッププロキシ | vCenter Server の各サービスを提供 | TCP | 1443 | vCenterの設定でカスタマイズ可能なデフォルトのVMware Webサービスポート。 
+|===
+次の表に、SnapCenter ポートの要件を示します。
+
+|===
+| ポートタイプ（ Port Type ） | プロトコル | ポート | 注： 
+
+
+| SnapCenter 管理ポート | HTTPS | 8146 | このポートは、SnapCenter クライアント（SnapCenter ユーザ）とSnapCenter サーバ間の通信に使用されます。プラグインホストから SnapCenter サーバへの通信にも使用されます。 
+
+
+| SnapCenter SMCore の通信ポート | HTTPS | 8043 | このポートは、SnapCenter サーバとSnapCenter プラグインがインストールされているホストの間の通信に使用されます。 
+
+
+| Windowsプラグインホスト、インストール | TCP | 135、445 | これらのポートは、SnapCenter サーバとプラグインがインストールされているホストとの間の通信に使用されます。ポートはインストール後に閉じることができます。さらに、Windows Instrumentation Servicesは、ポート49152~65535を検索します。これらのポートは必ず開いておく必要があります。 
+
+
+| Linuxプラグインホスト、インストール | SSH | 22 | これらのポートは、SnapCenter サーバとプラグインがインストールされているホストとの間の通信に使用されます。ポートは、プラグインパッケージのバイナリをLinuxプラグインホストにコピーするためにSnapCenter で使用されます。 
+
+
+| Windows / Linux用のSnapCenter Plug-insパッケージ | HTTPS | 8145 | SMCoreとSnapCenter プラグインがインストールされているホストの間の通信に使用されます。 
+
+
+| VMware vSphere vCenter Server のポート | HTTPS | 443 | このポートは、SnapCenter Plug-in for VMware vSphereとvCenter Serverの間の通信に使用されます。 
+
+
+| SnapCenter Plug-in for VMware vSphereのポート | HTTPS | 8144 | このポートは、vCenter vSphere Web ClientおよびSnapCenter Serverからの通信に使用されます。 
+|===
+link:aws-guest-dr-networking.html["次の例は、ネットワークです。"]

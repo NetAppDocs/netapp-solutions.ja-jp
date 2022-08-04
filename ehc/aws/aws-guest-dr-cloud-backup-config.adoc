@@ -1,0 +1,69 @@
+---
+sidebar: sidebar 
+permalink: ehc/aws/aws-guest-dr-cloud-backup-config.html 
+keywords: secondary, windows, snapcenter server, veeam server 
+summary: アプリケーションVMおよびデータベースボリュームをAWSで実行されているVMware Cloud Volumeサービスにフェイルオーバーするには、SnapCenter サーバとVeeam Backup and Replication Serverの両方の実行中のインスタンスをインストールして設定する必要があります。フェイルオーバーが完了したら、オンプレミスのデータセンターへのフェイルバックが計画されて実行されるまで、通常のバックアップ処理を再開するようにこれらのツールも設定する必要があります。 
+---
+= クラウドバックアップツールと設定
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+link:aws-guest-dr-config-veeam.html["前のリリース：Veeam Backup Serverを導入して設定します。"]
+
+アプリケーションVMおよびデータベースボリュームをAWSで実行されているVMware Cloud Volumeサービスにフェイルオーバーするには、SnapCenter サーバとVeeam Backup and Replication Serverの両方の実行中のインスタンスをインストールして設定する必要があります。フェイルオーバーが完了したら、オンプレミスのデータセンターへのフェイルバックが計画されて実行されるまで、通常のバックアップ処理を再開するようにこれらのツールも設定する必要があります。
+
+
+
+== セカンダリWindows SnapCenter サーバを導入します
+
+SnapCenter サーバは、VMware Cloud SDDCに導入するか、VPC内のEC2インスタンスにインストールし、VMware Cloud環境にネットワーク接続します。
+
+SnapCenter ソフトウェアはネットアップサポートサイトから入手でき、ドメインまたはワークグループ内にあるMicrosoft Windowsシステムにインストールできます。詳細な計画ガイドとインストール手順については、を参照してください https://docs.netapp.com/us-en/snapcenter/install/install_workflow.html["ネットアップドキュメントセンター"^]。
+
+SnapCenter ソフトウェアは、から入手できます https://mysupport.netapp.com["リンクをクリックしてください"^]。
+
+
+
+== セカンダリWindows SnapCenter サーバを設定します
+
+FSX ONTAP にミラーリングされたアプリケーション・データのリストアを実行するには'まずオンプレミスのSnapCenter データベースのフル・リストアを実行する必要がありますこのプロセスが完了すると、VMとの通信が再確立され、プライマリストレージとしてFSX ONTAP を使用してアプリケーションのバックアップを再開できるようになります。
+
+これを行うには、SnapCenter サーバで次の項目を完了する必要があります。
+
+. コンピュータ名を、元のオンプレミスSnapCenter サーバと同じ名前に設定します。
+. VMware CloudおよびFSX ONTAP インスタンスと通信するためのネットワークを設定します。
+. 手順 を完了してSnapCenter データベースをリストアします。
+. SnapCenter がディザスタリカバリモードになっていることを確認し、FSXがバックアップ用のプライマリストレージになったことを確認します。
+. リストアした仮想マシンとの通信が再確立されたことを確認します。
+
+
+これらの手順の実行方法の詳細については、「～」の項を参照してください link:aws-guest-dr-failover.html#snapcenter-database-restore-process["SnapCenter データベースのリストアプロセス"]。
+
+
+
+== セカンダリVeeam Backup & Replicationサーバを導入する
+
+Veeam Backup & Replicationサーバは、AWS上のVMware CloudまたはEC2インスタンス上のWindowsサーバにインストールできます。実装の詳細なガイダンスについては、を参照してください https://www.veeam.com/documentation-guides-datasheets.html["Veeam Help Centerテクニカルドキュメント"^]。
+
+
+
+== セカンダリVeeam Backup & Replicationサーバを設定する
+
+Amazon S3ストレージにバックアップされた仮想マシンをリストアするには、WindowsサーバにVeeamサーバをインストールし、VMware Cloud、FSX ONTAP 、および元のバックアップリポジトリが格納されたS3バケットと通信するように設定する必要があります。また、リストア後にVMの新しいバックアップを実行するために、FSX ONTAP に新しいバックアップリポジトリが設定されている必要があります。
+
+このプロセスを実行するには、次の項目を完了する必要があります。
+
+. VMware Cloud、FSX ONTAP 、および元のバックアップリポジトリを含むS3バケットと通信するためのネットワークを設定します。
+. FSX ONTAP 上のSMB共有を新しいバックアップリポジトリとして設定します。
+. スケールアウトバックアップリポジトリの一部として使用されていた元のS3バケットをオンプレミスにマウントします。
+. VMをリストアしたら、SQL VMとOracle VMを保護するための新しいバックアップジョブを確立します。
+
+
+Veeamを使用したVMのリストアの詳細については、を参照してください link:aws-guest-dr-restore-veeam-full.html["アプリケーションVMをVeeam Full Restoreでリストアします"]。
+
+link:aws-guest-dr-snapcenter-db-backup.html["Next：ディザスタリカバリ用のSnapCenter データベースバックアップ。"]

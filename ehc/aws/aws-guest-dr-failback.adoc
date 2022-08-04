@@ -1,0 +1,24 @@
+---
+sidebar: sidebar 
+permalink: ehc/aws/aws-guest-dr-failback.html 
+keywords: failback, mirror, on prem, ONTAP 
+summary: アプリケーションデータボリュームをFSX for ONTAP からオンプレミスのONTAP ストレージシステムにミラーリングするようにSnapCenter を設定できます。同様に、スケールアウトバックアップリポジトリを使用してAmazon S3にバックアップコピーをレプリケートするようにVeeamを設定し、オンプレミスのデータセンターにあるVeeamバックアップサーバからこれらのバックアップにアクセスできるようにします。 
+---
+= フェイルバック
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+link:aws-guest-dr-restore-oracle-data.html["前へ：Oracleアプリケーションデータをリストアします。"]
+
+この解決策 で概説しているフェイルオーバープロセスが正常に完了すると、SnapCenter とVeeamがAWSで実行されるバックアップ機能を再開します。FSX for ONTAP は、元のオンプレミスデータセンターとの間にSnapMirror関係が確立されていないプライマリストレージとして指定されます。オンプレミスで通常の機能が再開されたら、本ドキュメントに記載されているプロセスと同じ方法で、オンプレミスのONTAP ストレージシステムにデータをミラーリングできます。
+
+また、このドキュメントで説明しているように、アプリケーションデータボリュームをFSX for ONTAP からオンプレミスのONTAP ストレージシステムにミラーリングするようにSnapCenter を設定することもできます。同様に、スケールアウトバックアップリポジトリを使用してAmazon S3にバックアップコピーをレプリケートするようにVeeamを設定し、オンプレミスのデータセンターにあるVeeamバックアップサーバからこれらのバックアップにアクセスできるようにします。
+
+フェイルバックについてはこのドキュメントでは説明していませんが、フェイルバックについてはここで説明する詳細なプロセスとはほとんど異なります。
+
+link:aws-guest-dr-conclusion.html["次は終わりです"]

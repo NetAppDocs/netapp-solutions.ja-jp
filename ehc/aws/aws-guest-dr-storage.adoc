@@ -1,0 +1,94 @@
+---
+sidebar: sidebar 
+permalink: ehc/aws/aws-guest-dr-storage.html 
+keywords: on premises, on prem, cloud storage, Amazon FSx, Network interface, vm datastore 
+summary: NetApp AFF Aシリーズシステムは、柔軟なデータ管理オプションを備えたハイパフォーマンスなストレージインフラを提供します。クラウドに対応しているため、さまざまなエンタープライズシナリオに対応できます。この解決策 では、ONTAP AFF A300をプライマリオンプレミスストレージシステムとして使用しました。 
+---
+= ストレージ
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+link:aws-guest-dr-networking.html["前のページ：ネットワーク。"]
+
+NetApp AFF Aシリーズシステムは、柔軟なデータ管理オプションを備えたハイパフォーマンスなストレージインフラを提供します。クラウドに対応しているため、さまざまなエンタープライズシナリオに対応できます。この解決策 では、ONTAP AFF A300をプライマリオンプレミスストレージシステムとして使用しました。
+
+解決策 では、NetApp ONTAP とONTAP Tools for VMwareおよびSnapCenter を併用して、VMware vSphereと緊密に統合された包括的な管理機能およびアプリケーションバックアップ機能を提供しています。
+
+
+
+== オンプレミス
+
+仮想マシンとそのVMDKファイルをホストしているVMwareデータストアには、ONTAP ストレージを使用しました。VMwareでは、接続されたデータストアに対して複数のストレージプロトコルをサポートしています。この解決策 では、ESXiホスト上のデータストアにNFSボリュームを使用しました。ただし、ONTAP ストレージシステムは、VMwareがサポートするすべてのプロトコルをサポートしています。
+
+次の図は、VMwareストレージオプションを示しています。
+
+image:dr-vmc-aws-image7.png["エラー：グラフィックイメージがありません"]
+
+アプリケーションVM用に、iSCSIゲスト接続ストレージとNFSゲスト接続ストレージの両方にONTAP ボリュームを使用しました。アプリケーションデータには次のストレージプロトコルを使用しました。
+
+* ゲスト接続のOracleデータベースファイル用のNFSボリューム。
+* ゲスト接続のMicrosoft SQL Serverデータベースおよびトランザクションログ用のiSCSI LUN。
+
+
+|===
+| オペレーティングシステム | データベースタイプ | ストレージプロトコル | Volume概要 の略 
+
+
+| Windows Server 2019 | SQL Server 2019 | iSCSI | データベースファイル 
+
+
+|  |  | iSCSI | ログファイル 
+
+
+| Oracle Linux 8.5. | Oracle 19C | NFS | Oracleバイナリ 
+
+
+|  |  | NFS | Oracleデータ 
+
+
+|  |  | NFS | Oracleリカバリ・ファイル 
+|===
+また、ONTAP ストレージは、Veeamのプライマリバックアップリポジトリや、SnapCenter データベースのバックアップターゲットにも使用しました。
+
+* Veeamバックアップリポジトリ用のSMB共有。
+* SnapCenter データベースのバックアップ先としてのSMB共有
+
+
+
+
+== クラウドストレージ
+
+この解決策 には、フェイルオーバープロセスの一環としてリストアされた仮想マシンをホストするためのVMware Cloud on AWSが含まれています。本書の執筆時点では、VMwareはVMおよびVMDKをホストするデータストア用のVSANストレージをサポートしています。
+
+FSX for ONTAP は、SnapCenter およびSyncMirror を使用してミラーリングされるアプリケーションデータのセカンダリストレージとして使用されます。フェイルオーバー・プロセスの一環として'FSX for ONTAP クラスタはプライマリ・ストレージに変換され'データベース・アプリケーションはFSXストレージ・クラスタ上で実行される通常の機能を再開できます
+
+
+
+=== NetApp ONTAP セットアップ用のAmazon FSX
+
+Cloud Managerを使用してAWS FSX for NetApp ONTAP を導入するには、の手順に従います https://docs.netapp.com/us-en/cloud-manager-fsx-ontap/start/task-getting-started-fsx.html["リンクをクリックしてください"^]。
+
+FSX ONTAP を導入したら、オンプレミスのONTAP インスタンスをFSX ONTAP にドラッグアンドドロップして、ボリュームのレプリケーションセットアップを開始します。
+
+次の図は、FSX ONTAP 環境を示しています。
+
+image:dr-vmc-aws-image8.png["エラー：グラフィックイメージがありません"]
+
+
+
+=== ネットワークインタフェースが作成されました
+
+NetApp ONTAP のFSXには、ネットワークインターフェイスが事前に設定されており、iSCSI、NFS、SMB、およびクラスタ間ネットワークに使用できる状態になっています。
+
+
+
+=== VMデータストアストレージ
+
+VMware Cloud SDDCには、「vsandatastore」および「workloaddatastore」という名前の2つのVSANデータストアが付属しています。Cloudadmin認証情報へのアクセスが制限された管理VMをホストするには、「vsandatastore」を使用しました。ワークロードには'workloaddatastore.'を使用しました
+
+link:aws-guest-dr-compute.html["次のステップ：コンピューティング。"]

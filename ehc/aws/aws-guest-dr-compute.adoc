@@ -1,0 +1,36 @@
+---
+sidebar: sidebar 
+permalink: ehc/aws/aws-guest-dr-compute.html 
+keywords: on premises, on prem, cloud, compute, HPE Proliant, Windows Server, SQL Server 
+summary: VMware vSphereは、データセンターと主要なすべてのクラウドプロバイダで仮想化インフラを提供します。このエコシステムは、場所を問わず仮想コンピューティングの一貫性を維持するディザスタリカバリシナリオに最適です。この解決策 では、データセンターロケーションとAWS上のVMwareクラウドの両方で、VMware仮想化コンピューティングリソースを使用します。 
+---
+= コンピューティング
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+link:aws-guest-dr-storage.html["Previous：ストレージ。"]
+
+VMware vSphereは、データセンターと主要なすべてのクラウドプロバイダで仮想化インフラを提供します。このエコシステムは、場所を問わず仮想コンピューティングの一貫性を維持するディザスタリカバリシナリオに最適です。この解決策 では、データセンターロケーションとAWS上のVMwareクラウドの両方で、VMware仮想化コンピューティングリソースを使用します。
+
+
+
+== オンプレミス
+
+この解決策 では、VMware vSphere v7.0U3を実行するHPE ProLiant DL360 Gen 10サーバを使用します。コンピューティングインスタンスを6つ導入し、SQL ServerとOracleサーバに適切なリソースを提供しました。
+
+ネットアップは、SQL Server 2019で10台のWindows Server 2019 VMを導入しました。それぞれのVMはデータベースサイズが異なるうえ、Oracle 19Cを実行するOracle Linux 8.5 VMを10台導入し、データベースサイズもさまざまです。
+
+
+
+== クラウド
+
+当社では、プライマリサイトからリストアされた仮想マシンを実行するための十分なリソースを提供するために、2台のホストを持つVMware Cloud on AWSにSDDCを導入しました。
+
+image:dr-vmc-aws-image9.png["エラー：グラフィックイメージがありません"]
+
+link:aws-guest-dr-cloud-backup-tools.html["次のステップ：Cloud Backup Tools"]

@@ -1,0 +1,35 @@
+---
+sidebar: sidebar 
+permalink: ehc/aws/aws-guest-dr-snapcenter-overview.html 
+keywords: overview, dr, snapcenter, data replication, snapmirror 
+summary: この解決策 では、SnapCenter は、SQL ServerおよびOracleアプリケーションデータ用に、アプリケーションと整合性のあるSnapshotを提供します。この構成とSnapMirrorテクノロジを組み合わせることで、オンプレミスのAFF とFSX ONTAP クラスタ間で高速なデータレプリケーションを実現できます。また、Veeam Backup & Replicationは、仮想マシンのバックアップとリストア機能も提供します。 
+---
+= Overview：災害復旧
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+link:aws-guest-dr-cloud-backup-tools.html["前のページ：Cloud Backup Tools"]
+
+この解決策 では、SnapCenter は、SQL ServerおよびOracleアプリケーションデータ用に、アプリケーションと整合性のあるSnapshotを提供します。この構成とSnapMirrorテクノロジを組み合わせることで、オンプレミスのAFF とFSX ONTAP クラスタ間で高速なデータレプリケーションを実現できます。また、Veeam Backup & Replicationは、仮想マシンのバックアップとリストア機能も提供します。
+
+ここでは、バックアップとリストアの両方について、SnapCenter 、SnapMirror、およびVeeamの構成について説明します。
+
+次のセクションでは、セカンダリサイトでフェイルオーバーを完了するために必要な設定と手順について説明します。
+
+* SnapMirrorと保持のスケジュールを設定（セカンダリストレージ）
+* Windows SnapCenter サーバをオンプレミスに導入して設定
+* Veeam Backup & Replicationサーバをオンプレミスに導入して設定
+* クラウドバックアップツール、SnapCenter 、Veeamを導入、設定
+* ディザスタリカバリに備えたSnapCenter データベースバックアップ。
+* セカンダリサイトでのSnapCenter データベースのリストア
+* Veeam Backup & Replicationを使用してアプリケーション仮想マシンをリストアします。
+* SQL Serverアプリケーションデータをリストアする。
+* Oracleアプリケーションデータをリストアします。
+
+
+link:aws-guest-dr-config-snapmirror.html["次：SnapMirror関係と保持スケジュールを設定します。"]

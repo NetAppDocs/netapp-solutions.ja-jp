@@ -1,0 +1,122 @@
+---
+sidebar: sidebar 
+permalink: ehc/aws/aws-guest-dr-snapcenter-db-backup.html 
+keywords: SnapCenter backup, restore process, Swagger, authorization token, NFS, CIFS, file share, XCOPY utility 
+summary: SnapCenter を使用すると、災害発生時にSnapCenter サーバをリカバリできるように、基盤となるMySQLデータベースおよび設定データのバックアップとリカバリを行うことができます。解決策 では、VPC内のAWS EC2インスタンスでSnapCenter データベースと設定をリカバリしました。 
+---
+= ディザスタリカバリに備えたSnapCenter データベースバックアップ
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+link:aws-guest-dr-cloud-backup-config.html["Previous：クラウドバックアップツールと構成"]
+
+SnapCenter を使用すると、災害発生時にSnapCenter サーバをリカバリできるように、基盤となるMySQLデータベースおよび設定データのバックアップとリカバリを行うことができます。解決策 では、VPC内のAWS EC2インスタンスでSnapCenter データベースと設定をリカバリしました。この手順の詳細については、を参照してください https://docs.netapp.com/us-en/snapcenter/sc-automation/rest_api_workflows_disaster_recovery_of_snapcenter_server.html["リンクをクリックしてください"^]。
+
+
+
+== SnapCenter バックアップの前提条件
+
+SnapCenter バックアップを実行するには、次の前提条件が必要です。
+
+* オンプレミスのONTAP システムに作成されたボリュームとSMB共有。バックアップされたデータベースと構成ファイルを検索します。
+* オンプレミスのONTAP システムと、AWSアカウントのFSXまたはCVOとの間のSnapMirror関係。この関係は、バックアップされたSnapCenter データベースおよび構成ファイルを含むSnapshotの転送に使用されます。
+* EC2インスタンスまたはVMware Cloud SDDC内のVMに、クラウドアカウントにWindows Serverをインストールします。
+* SnapCenter は、VMware CloudのWindows EC2インスタンスまたはVMにインストールします。
+
+
+
+
+== SnapCenter のバックアップとリストアのプロセスの概要
+
+* バックアップのdbファイルと構成ファイルをホストするボリュームをオンプレミスのONTAP システムに作成します。
+* オンプレミスとFSX/CVOの間にSnapMirror関係を設定
+* SMB共有をマウント
+* APIタスクを実行するためのSwagger承認トークンを取得します。
+* dbのリストア・プロセスを開始します。
+* xcopyユーティリティを使用して、dbおよびconfigファイルのローカルディレクトリをSMB共有にコピーします。
+* FSXで、ONTAP ボリュームのクローンを作成する（オンプレミスからSnapMirror経由でコピーする）。
+* FSXからEC2/VMware CloudにSMB共有をマウントします。
+* SMB共有からローカルディレクトリにリストアディレクトリをコピーします。
+* SwaggerからSQL Serverのリストアプロセスを実行します。
+
+
+
+
+== SnapCenter データベースと設定をバックアップします
+
+SnapCenter は、REST APIコマンドを実行するためのWebクライアントインターフェイスを提供します。Swagger経由でのREST APIへのアクセスについては、SnapCenter のドキュメントを参照してください https://docs.netapp.com/us-en/snapcenter/sc-automation/overview_rest_apis.html["リンクをクリックしてください"^]。
+
+
+
+=== Swaggerにログインし、認証トークンを取得します
+
+Swaggerページに移動したら、認証トークンを取得してデータベースリストアプロセスを開始する必要があります。
+
+. SnapCenter Swagger API Webページ（\\ https://<SnapCenterサーバIP >：8146 /スワッガ/_）にアクセスします。
++
+image:dr-vmc-aws-image40.png["エラー：グラフィックイメージがありません"]
+
+. [Auth]セクションを展開し、[Try it Out]をクリックします。
++
+image:dr-vmc-aws-image41.png["エラー：グラフィックイメージがありません"]
+
+. UserOperationContext領域で、SnapCenter の資格情報と役割を入力し、Executeをクリックします。
++
+image:dr-vmc-aws-image42.png["エラー：グラフィックイメージがありません"]
+
+. 以下の応答本文では、トークンを確認できます。バックアッププロセス実行時に、認証用のトークンテキストをコピーします。
++
+image:dr-vmc-aws-image43.png["エラー：グラフィックイメージがありません"]
+
+
+
+
+
+=== SnapCenter データベースのバックアップを実行する
+
+次に、Swaggerページのディザスタリカバリ領域に移動して、SnapCenter バックアッププロセスを開始します。
+
+. [Disaster Recovery]領域をクリックして展開します。
++
+image:dr-vmc-aws-image44.png["エラー：グラフィックイメージがありません"]
+
+. 「/4.6/disasterrecovery/sa/backup」セクションを展開し、「試してみてください」をクリックします。
++
+image:dr-vmc-aws-image45.png["エラー：グラフィックイメージがありません"]
+
+. SmDRBackupRequestセクションで、正しいローカルターゲットパスを追加し、Executeを選択してSnapCenter データベースと設定のバックアップを開始します。
++
+
+NOTE: バックアッププロセスでは、NFSまたはCIFSのファイル共有に直接バックアップすることはできません。
+
++
+image:dr-vmc-aws-image46.png["エラー：グラフィックイメージがありません"]
+
+
+
+
+
+=== SnapCenter からバックアップジョブを監視
+
+データベースリストアプロセスを開始するときに、SnapCenter にログインしてログファイルを確認します。Monitorセクションでは、SnapCenter サーバのディザスタリカバリバックアップの詳細を表示できます。
+
+image:dr-vmc-aws-image47.png["エラー：グラフィックイメージがありません"]
+
+
+
+=== XCOPYユーティリティを使用してデータベースバックアップファイルをSMB共有にコピーします
+
+次に、SnapCenter サーバ上のローカルドライブから、SnapMirrorによってデータがAWSのFSXインスタンス上のセカンダリサイトにコピーされるCIFS共有にバックアップを移動する必要があります。ファイルのアクセス権を保持する特定のオプションを指定してxcopyを使用します
+
+管理者としてコマンドプロンプトを開きます。コマンドプロンプトで、次のコマンドを入力します。
+
+....
+xcopy  <Source_Path>  \\<Destination_Server_IP>\<Folder_Path> /O /X /E /H /K
+xcopy c:\SC_Backups\SnapCenter_DR \\10.61.181.185\snapcenter_dr /O /X /E /H /K
+....
+link:aws-guest-dr-failover.html["次の例：フェイルオーバー。"]

@@ -1,0 +1,113 @@
+---
+sidebar: sidebar 
+permalink: ehc/aws/aws-guest-dr-restore-oracle-data.html 
+keywords: Oracle application data, VMware Cloud Services, aws, mount NFS volumes, Oracle Server 
+summary: 次のプロセスでは、オンプレミスサイトが動作不能になった場合に、VMwareクラウド サービス でAWSでOracleアプリケーションデータをリカバリする方法について説明します。 
+---
+= Oracleアプリケーションデータをリストアします
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+link:aws-guest-dr-restore-sql-data.html["前へ：SQL Serverアプリケーションデータをリストアします。"]
+
+次のプロセスでは、オンプレミスサイトが動作不能になった場合に、VMwareクラウド サービス でAWSでOracleアプリケーションデータをリカバリする方法について説明します。
+
+リカバリ手順を続行するには、次の前提条件を満たしている必要があります。
+
+. Veeam Full Restoreを使用して、Oracle LinuxサーバVMがVMware Cloud SDDCにリストアされている。
+. セカンダリSnapCenter サーバが確立され、このセクションで説明する手順でSnapCenter データベースおよび構成ファイルがリストアされている link:aws-guest-dr-snapcenter-db-backup.html#snapcenter-backup-and-restore-process-summary["SnapCenter のバックアップとリストアのプロセスの概要"]
+
+
+Oracleアプリケーションデータのリカバリプロセスの概要は次のとおりです。
+
+. リストアプロセスに備えてVMを設定します。
+. iSCSIアクセス用にFSXをセットアップします。
+. NFSアクセス用にLinux VMをセットアップします。
+. SQL Serverデータベースを接続し、オンラインにします。
+. SnapCenter とSnapCenter SQL Serverプラグインの間の通信を確認します。
+
+
+Oracle Serverのフェイルオーバープロセスの概要は次のとおりです。
+
+. Veeamを使用して、Oracle VMをVMware Cloudにリストアします。
+. リストアプロセスに備えてVMをクリーンアップします。
++
+.. 必要に応じてIPアドレスを変更します。
+.. 元のFQDNと同じシステムをDNSに追加します。
+
+
+. NFSアクセス用にFSXをセットアップします。
+. Oracle Linux ServerにNFSボリュームをマウントします。
+
+
+
+
+== Oracleリストア用にFSXを設定する–SnapMirror関係を解除します
+
+FSxNインスタンスでホストされているセカンダリストレージボリュームにOracleサーバからアクセスできるようにするには、まず既存のSnapMirror関係を解除する必要があります。
+
+. FSX CLIにログインした後、次のコマンドを実行して、正しい名前でフィルタリングされたボリュームを表示します。
++
+....
+FSx-Dest::> volume show -volume VolumeName*
+....
++
+image:dr-vmc-aws-image77.png["エラー：グラフィックイメージがありません"]
+
+. 次のコマンドを実行して、既存のSnapMirror関係を解除します。
++
+....
+FSx-Dest::> snapmirror break -destination-path DestSVM:DestVolName
+....
++
+image:dr-vmc-aws-image78.png["エラー：グラフィックイメージがありません"]
+
+. Amazon FSX Web Clientでjunction-pathを更新します。
++
+image:dr-vmc-aws-image79.png["エラー：グラフィックイメージがありません"]
+
+. ジャンクションパス名を追加し、更新（Update）をクリックする。OracleサーバからNFSボリュームをマウントする際に、このジャンクションパスを指定します。
++
+image:dr-vmc-aws-image80.png["エラー：グラフィックイメージがありません"]
+
+
+
+
+
+== Oracle ServerにNFSボリュームをマウントします
+
+Cloud Managerでは、Oracleデータベースファイルとログを格納するNFSボリュームをマウントするための、正しいNFS LIFのIPアドレスを指定してmountコマンドを取得できます。
+
+. Cloud Managerで、FSXクラスタのボリュームのリストにアクセスします。
++
+image:dr-vmc-aws-image81.png["エラー：グラフィックイメージがありません"]
+
+. アクションメニューからマウントコマンドを選択し、Oracle Linuxサーバで使用するマウントコマンドを表示してコピーします。
++
+image:dr-vmc-aws-image82.png["エラー：グラフィックイメージがありません"]
+
++
+image:dr-vmc-aws-image83.png["エラー：グラフィックイメージがありません"]
+
+. NFSファイルシステムをOracle Linux Serverにマウントします。NFS共有をマウントするためのディレクトリがOracle Linuxホスト上にすでに存在している。
+. Oracle Linuxサーバから、mountコマンドを使用してNFSボリュームをマウントします。
++
+....
+FSx-Dest::> mount -t oracle_server_ip:/junction-path
+....
++
+Oracleデータベースに関連付けられたボリュームごとに、この手順を繰り返します。
+
++
+
+NOTE: 再起動時にNFSマウントを維持するには'/etc/fstabファイルを編集してマウント・コマンドを追加します
+
+. Oracleサーバをリブートします。Oracleデータベースは正常に起動し、使用できるようになっている必要があります。
+
+
+link:aws-guest-dr-failback.html["次：フェイルバック。"]
