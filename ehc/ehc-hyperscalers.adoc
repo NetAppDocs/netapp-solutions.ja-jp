@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-ネットアップが提供する 3 つの主要ハイパースケーラ（ゲスト接続ストレージデバイスまたはネイティブデータストアとしてのネットアップのソリューションから、ワークフローの移行、クラウドへの拡張 / バースト対応、バックアップ / リストア、ディザスタリカバリ）の機能の詳細をご確認ください。
+ネットアップが提供する3つの主要ハイパースケーラ（ゲスト接続ストレージデバイスまたはNFSデータストアとしてのネットアップ提供）の機能について、詳しくはこちらをご覧ください。また、ワークフローの移行、クラウドへの拡張/バースト対応、バックアップ/リストア、ディザスタリカバリも行っています。
 
 クラウドを選択して、ネットアップに任せてください。
 
@@ -92,7 +92,7 @@ NOTE: Cloud Volume と Cloud Volumes ONTAP サービスを GCVE に接続する�
 
 == ネットアップストレージオプション
 
-ネットアップのストレージは、 3 つの主要なハイパースケーラそれぞれで、接続されているかネイティブのデータストアとして、いくつかの方法で利用できます。
+ネットアップのストレージは、3つの主要なハイパースケーラそれぞれで、接続されている推測データストアまたはNFSデータストア補助として、複数の方法で利用できます。
 
 にアクセスしてください link:ehc-support-configs.html["サポートされているネットアップストレージオプション"] を参照してください。
 
@@ -104,7 +104,7 @@ AWS は、次の構成でネットアップストレージをサポートしま�
 
 * ゲスト接続ストレージとしての FSX ONTAP
 * Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用
-* ネイティブデータストアとしてのFSX ONTAP ^1 ^
+* NFSデータストアとしてのFSX ONTAP ^1^
 
 
 詳細を表示します link:aws/aws-guest.html["VMCのゲスト接続ストレージオプション"]。
@@ -119,13 +119,13 @@ Azure は、以下の構成でネットアップストレージをサポート�
 
 * ゲスト接続ストレージとしての Azure NetApp Files （ ANF
 * Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用
-* ネイティブデータストアとしてのAzure NetApp Files （ANF）^1 ^
+* Azure NetApp Files （ANF）をNFSデータストア^1の補足情報として使用しています
 
 
 詳細を表示します link:azure/azure-guest.html["AVSのゲスト接続ストレージオプション"]。
 
 
-NOTE: 1 - AVSのネイティブデータストアとしてのANFは、現時点ではパブリックプレビュー版です。詳細はこちら https://docs.microsoft.com/en-us/azure/azure-vmware/attach-azure-netapp-files-to-azure-vmware-solution-hosts?branch=main&tabs=azure-portal["こちらをご覧ください"]。
+NOTE: 1 - AVSの補足的なNFSデータストアであるANFは、現在パブリックプレビュー版です。詳細はこちら https://docs.microsoft.com/en-us/azure/azure-vmware/attach-azure-netapp-files-to-azure-vmware-solution-hosts?branch=main&tabs=azure-portal["こちらをご覧ください"]。
 
 --
 .GCP/GCVE
@@ -134,12 +134,12 @@ Google Cloud は、次の構成でネットアップストレージをサポー�
 
 * Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用
 * Cloud Volumes Service （ CVS ）をゲスト接続ストレージとして使用できるようになりました
-* ネイティブデータストアとしてのCloud Volumes Service （CVS）^1 ^
+* Cloud Volumes Service （CVS）をNFSデータストア^1^として追加で作成します
 
 
 詳細を表示します link:gcp/gcp-guest.html["GCVEのゲスト接続ストレージオプション"]。
 
-詳細については、をご覧ください link:https://www.netapp.com/google-cloud/google-cloud-vmware-engine-registration/["ネイティブデータストアとしての Cloud Volumes Service （ CVS ） ^1"^]。
+詳細については、をご覧ください link:https://www.netapp.com/google-cloud/google-cloud-vmware-engine-registration/["Cloud Volumes Service （CVS）をNFSデータストア^1の補足情報として追加しました"^]。
 
 
 NOTE: 1- 現在プライベートプレビュー中です

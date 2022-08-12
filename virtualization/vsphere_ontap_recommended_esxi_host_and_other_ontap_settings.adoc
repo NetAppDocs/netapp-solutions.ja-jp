@@ -18,83 +18,86 @@ summary:
 |===
 
 
-| ホスト設定 | ネットアップが推奨する値 
+| *ホスト設定* | *ネットアップが推奨する値* | *再起動が必要です* 
 
 
-| * ESXi の高度な設定 * |  
+3+| * ESXi Advanced Configuration * 
 
 
-| VMFS3.HardwareAcceleratedLocking | そのままにします（ VMware のデフォルトは 1 ）。 
+| VMFS3.HardwareAcceleratedLocking | そのまま使用（VMwareのデフォルトは1） | いいえ 
 
 
-| VMFS3.EnableBlockDelete の 2 つのオプションがあります | そのままにします（ VMware のデフォルトは 0 ですが、 VMFS6 では必要ありません）。詳細については、 VMware の技術情報アーティクルを参照してください link:https://kb.vmware.com/selfservice/microsites/search.do?language=en_US&cmd=displayKC&externalId=2007427["2007427"^]。 
+| VMFS3.EnableBlockDelete の 2 つのオプションがあります | そのままにします（ VMware のデフォルトは 0 ですが、 VMFS6 では必要ありません）。詳細については、を参照してください link:https://kb.vmware.com/selfservice/microsites/search.do?language=en_US&cmd=displayKC&externalId=2007427["VMware KB 2007427"] | いいえ 
 
 
-| * NFS 設定 * |  
+3+| * NFS 設定 * 
 
 
-| Net.TcpipHeapSize の場合 | vSphere 6.0 以降： 32 に設定他のすべての NFS 設定の場合は、 30 に設定されます。 
+| Net.TcpipHeapSize の場合 | vSphere 6.0 以降： 32 に設定他のすべてのNFS設定の場合は、30に設定されます | はい。 
 
 
-| Net.TcpipHeapMax | vSphere 6.Xのほとんどのリリースでは512 MBに設定されています。6.5U3、6.7U3、7.0以降の場合は、1024MBに設定します。 
+| Net.TcpipHeapMax | vSphere 6.Xのほとんどのリリースでは512 MBに設定されています。6.5U3、6.7U3、7.0以降の場合は、1024MBに設定します。 | はい。 
 
 
-| NFS.MaxVolumes の場合 | vSphere 6.0 以降では、 256 に設定されます。他のすべての NFS 構成では、 64 に設定されます。 
+| NFS.MaxVolumes の場合 | vSphere 6.0以降では、ほかのすべてのNFS構成で256を64に設定。 | いいえ 
 
 
-| NFS41.MaxVolumes の場合 | vSphere 6.0 以降では、 256 に設定されます。 
+| NFS41.MaxVolumes の場合 | vSphere 6.0 以降では、 256 に設定されます。 | いいえ 
 
 
-| NFS.MaxQueueDepth | vSphere 6.0 以降では、 128 に設定されます。 
+| NFS.MaxQueueDepth^1 ^ | vSphere 6.0以降では、128に設定されます | いいえ 
 
 
-| NFS.HeartbeatMaxFailures の略 | すべての NFS 設定について、 10 に設定されます。 
+| NFS.HeartbeatMaxFailures の略 | すべてのNFS設定について、10に設定されます | いいえ 
 
 
-| nfs.HeartbeatFrequency | すべての NFS 設定について、 12 に設定されます。 
+| nfs.HeartbeatFrequency | すべてのNFS設定について、12に設定されます | いいえ 
 
 
-| nfs.HeartbeatTimeout | すべての NFS 設定について、 5 に設定されます。 
+| nfs.HeartbeatTimeout | すべての NFS 設定について、 5 に設定されます。 | いいえ 
 
 
-| SunRPC.MaxConnPerIP | vSphere 7.0 以降では 128 に設定されます。 
+| SunRPC.MaxConnPerIP | vSphere 7.0 以降では 128 に設定されます。 | いいえ 
 
 
-| * FC / FCoE 設定 * |  
+3+| * FC / FCoE 設定 * 
 
 
-| パス選択ポリシー | FC パスの ALUA を使用する場合は、 RR （ラウンドロビン）に設定されます。それ以外の構成では、すべて FIXED に設定されます。この値を RR に設定すると、最適化されたすべてのアクティブなパスで負荷を分散できます。FIXED は、 ALUA に対応していない従来の構成用の値で、プロキシ I/O を防止できますつまり、 Data ONTAP 7-Mode を実行する環境でハイアベイラビリティ（ HA ）ペアの他方のノードに I/O が送られないようにすることができます。 
+| パス選択ポリシー | FC パスの ALUA を使用する場合は、 RR （ラウンドロビン）に設定されます。それ以外の構成では、すべて FIXED に設定されます。この値を RR に設定すると、最適化されたすべてのアクティブなパスで負荷を分散できます。FIXED は、 ALUA に対応していない従来の構成用の値で、プロキシ I/O を防止できますつまり、Data ONTAP 7-Modeを実行する環境でハイアベイラビリティ（HA）ペアの他方のノードにI/Oが送られないようにすることができます | いいえ 
 
 
-| Disk.QFullSampleSize | すべての構成で 32 に設定されます。この値を設定すると、 I/O エラーの防止に役立ちます。 
+| Disk.QFullSampleSize | すべての構成で 32 に設定されます。この値を設定すると、 I/O エラーの防止に役立ちます。 | いいえ 
 
 
-| Disk.qFullThreshold | すべての構成で 8 に設定します。この値を設定すると、 I/O エラーの防止に役立ちます。 
+| Disk.qFullThreshold | すべての構成で 8 に設定します。この値を設定すると、 I/O エラーの防止に役立ちます。 | いいえ 
 
 
-| Emulex FC HBA タイムアウト | デフォルト値を使用します。 
+| Emulex FC HBA タイムアウト | デフォルト値を使用します。 | いいえ 
 
 
-| QLogic FC HBA タイムアウト | デフォルト値を使用します。 
+| QLogic FC HBA タイムアウト | デフォルト値を使用します。 | いいえ 
 
 
-| * iSCSI 設定 * |  
+3+| * iSCSI 設定 * 
 
 
-| パス選択ポリシー | すべての iSCSI パスで RR （ラウンドロビン）に設定されます。この値を RR に設定すると、最適化されたすべてのアクティブなパスで負荷を分散できます。 
+| パス選択ポリシー | すべての iSCSI パスで RR （ラウンドロビン）に設定されます。この値を RR に設定すると、最適化されたすべてのアクティブなパスで負荷を分散できます。 | いいえ 
 
 
-| Disk.QFullSampleSize | すべての構成で 32 に設定されます。この値を設定すると、 I/O エラーの防止に役立ちます。 
+| Disk.QFullSampleSize | すべての構成で 32 に設定されます。この値を設定すると、I/Oエラーの防止に役立ちます | いいえ 
 
 
-| Disk.qFullThreshold | すべての構成で 8 に設定します。この値を設定すると、 I/O エラーの防止に役立ちます。 
+| Disk.qFullThreshold | すべての構成で 8 に設定します。この値を設定すると、 I/O エラーの防止に役立ちます。 | いいえ 
 |===
+
+NOTE: VMware vSphere ESXi 7.0.1およびVMware vSphere ESXi 7.0.2を使用する場合、1-NFSの高度な設定オプションMaxQueueDepthが想定どおりに機能しないことがあります。参照してください link:https://kb.vmware.com/s/article/86331?lang=en_US["VMware KB 86331"] を参照してください。
+
 ONTAP ツールでは、 ONTAP FlexVol および LUN の作成時に特定のデフォルト設定も指定されます。
 
 |===
 
 
-| ONTAP ツール | デフォルト設定です 
+| * ONTAP ツール* | *デフォルト設定* 
 
 
 | Snapshot リザーブ（ -percent-snapshot-space ） | 0 
