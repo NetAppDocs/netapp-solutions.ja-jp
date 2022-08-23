@@ -1,0 +1,122 @@
+---
+sidebar: sidebar 
+permalink: ehc/gcp/gcp-app-dr-sc-cvo-veeam.html 
+keywords: gcp, gcve, snapcenter, cvo, iscsi, guest connect, dr, disaster recovery 
+summary: クラウドへのディザスタリカバリは、耐障害性と対費用効果に優れた方法で、サイトの停止やランサムウェアなどのデータ破損からワークロードを保護します。NetApp SnapMirrorを使用すると、ゲスト接続ストレージを使用するオンプレミスのVMwareワークロードを、Google Cloudで実行されているNetApp Cloud Volumes ONTAP にレプリケートできます。 
+---
+= SnapCenter 、Cloud Volumes ONTAP 、Veeamレプリケーションを使用したアプリケーションディザスタリカバリ
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+
+
+== 概要
+
+執筆者：ネットアップSuresh Thoppay
+
+クラウドへのディザスタリカバリは、耐障害性と対費用効果に優れた方法で、サイトの停止やランサムウェアなどのデータ破損からワークロードを保護します。NetApp SnapMirrorを使用すると、ゲスト接続ストレージを使用するオンプレミスのVMwareワークロードを、Google Cloudで実行されているNetApp Cloud Volumes ONTAP にレプリケートできます。これはアプリケーションデータに適用されますが、実際のVM自体についてはどうでしょうか。ディザスタリカバリは、仮想マシン、VMDK、アプリケーションデータなど、依存するすべてのコンポーネントを対象にする必要があります。これを実現するために、SnapMirrorとVeeamを併用すれば、オンプレミスからCloud Volumes ONTAP にレプリケートしたワークロードをシームレスにリカバリしながら、VM VMDKにvSANストレージを使用することができます。
+
+このドキュメントでは、NetApp SnapMirror、Veeam、Google Cloud VMware Engine（GCVE）を使用してディザスタリカバリを設定および実行するためのステップバイステップ形式のアプローチについて説明します。
+
+image:dr-cvo-gcve-image1.png["エラー：グラフィックイメージがありません"]
+
+
+
+== 前提条件
+
+本ドキュメントでは、アプリケーションデータ用のゲスト内ストレージ（ゲスト接続とも呼ばれます）を中心に説明します。オンプレミス環境では、アプリケーションと整合性のあるバックアップにSnapCenter を使用していると想定しています。
+
+
+NOTE: 本ドキュメントは、環境 サードパーティ製バックアップまたはリカバリ用解決策 に関するものです。環境で使用されている解決策 に応じて、ベストプラクティスに従って、組織のSLAを満たすバックアップポリシーを作成してください。
+
+オンプレミス環境とGoogle Cloudネットワーク間の接続には、専用のインターコネクトやCloud VPNなどの接続オプションを使用します。オンプレミスVLANの設計に基づいてセグメントを作成する必要があります。
+
+
+NOTE: オンプレミスのデータセンターをGoogle Cloudに接続する方法は複数ありますが、この方法では、このドキュメントの特定のワークフローの概要を説明することはできません。オンプレミスからGoogleへの適切な接続方法については、Google Cloudのドキュメントを参照してください。
+
+
+
+== DR解決策 の導入
+
+
+
+=== 解決策 の導入の概要
+
+. SnapCenter を使用して、必要なRPO要件に従ってアプリケーションデータがバックアップされていることを確認してください。
+. 適切なサブスクリプションと仮想ネットワーク内で、Cloud Managerを使用して、適切なインスタンスサイズでCloud Volumes ONTAP をプロビジョニングします。
++
+.. 該当するアプリケーションボリュームに対してSnapMirrorを設定します。
+.. スケジュールされたジョブの実行後にSnapMirror更新をトリガーするには、SnapCenter でバックアップポリシーを更新してください。
+
+
+. Veeamソフトウェアをインストールし、Google Cloud VMware Engineインスタンスへの仮想マシンのレプリケーションを開始します。
+. 災害発生時は、Cloud Managerを使用してSnapMirror関係を解除し、仮想マシンとVeeamのフェイルオーバーをトリガーします。
++
+.. アプリケーションVMのiSCSI LUNおよびNFSマウントを再接続します。
+.. アプリケーションをオンラインにします。
+
+
+. プライマリサイトのリカバリ後にSnapMirrorを逆再同期して、保護サイトへのフェイルバックを開始します。
+
+
+
+
+=== 展開の詳細
+
+.Google CloudでCVOを構成し、ボリュームをCVOにレプリケート
+====
+最初の手順は、Google CloudでCloud Volumes ONTAP を設定することです (https://docs.netapp.com/us-en/netapp-solutions/ehc/gcp/gcp-guest.html["CVOを確認して"^]）をクリックし、必要なボリュームを、必要な頻度とSnapshotの保持を使用してCloud Volumes ONTAP にレプリケートします。
+
+image:dr-cvo-gcve-image2.png["エラー：グラフィックイメージがありません"]
+
+SnapCenter の設定およびデータのレプリケートの手順の例については、を参照してください https://docs.netapp.com/us-en/netapp-solutions/ehc/aws/aws-guest-dr-config-snapmirror.html["SnapCenter を使用してレプリケーションを設定する"]
+
+video::dr-cvo-gcve-video2.mp4[Review of SQL VM protection with SnapCenter]
+====
+.GCVEホストとCVOデータアクセスを設定する
+====
+SDDCを導入する際に考慮すべき2つの重要な要素は、GCVE解決策 のSDDCクラスタのサイズと、SDDCの稼働時間です。ディザスタリカバリ解決策 に関する以下の2つの重要な考慮事項は、全体的な運用コストの削減に役立ちます。SDDCは、3台のホストの規模に対応し、フルスケールの導入ではマルチホストクラスタにまで対応できます。
+
+Cloud Volumes ONTAP は任意のVPCに導入でき、GCVEはそのVPCへのプライベート接続でiSCSI LUNに接続する必要があります。
+
+GCVE SDDCを設定するには、を参照してください https://docs.netapp.com/us-en/netapp-solutions/ehc/gcp/gcp-setup.html["Google Cloud Platform （ GCP ）への仮想化環境の導入と構成"^]。前提条件として、接続が確立された後で、GCVEホストに存在するゲストVMがCloud Volumes ONTAP からデータを使用できることを確認します。
+
+Cloud Volumes ONTAP とGCVEを適切に設定したら、Veeamのレプリケーション機能を使用して、Cloud Volumes ONTAP へのアプリケーションボリュームコピーにSnapMirrorを利用することで、オンプレミスのワークロードのGCVE（アプリケーションVMDKおよびゲストストレージを搭載したVM）へのリカバリを自動化するようにVeeamを設定します。
+
+====
+.Veeamコンポーネントをインストールします
+====
+導入シナリオに基づいて、Veeamバックアップサーバ、バックアップリポジトリ、およびバックアッププロキシを導入する必要があります。このユースケースでは、Veeam用のオブジェクトストアとスケールアウトリポジトリも必要ありません。https://helpcenter.veeam.com/docs/backup/qsg_vsphere/deployment_scenarios.html["インストール手順 については、Veeamの製品ドキュメントを参照してください"]
+
+====
+.VMレプリケーションをVeeamとセットアップする
+====
+オンプレミスのvCenterとGCVEのvCenterをVeeamに登録する必要があります。 https://helpcenter.veeam.com/docs/backup/qsg_vsphere/replication_job.html["vSphere VMレプリケーションジョブをセットアップします"] ウィザードの[ゲスト処理]ステップで、[アプリケーション対応のバックアップとリカバリにSnapCenter を使用するので、アプリケーション処理を無効にする]を選択します。
+
+video::dr-cvo-gcve-video1.mp4[Veeam Replication Job of SQL VM]
+====
+.Microsoft SQL Server VMのフェイルオーバー
+====
+video::dr-cvo-gcve-video3.mp4[Failover of SQL VM]
+====
+
+
+== この解決策 の利点
+
+* 効率性と耐障害性に優れたSnapMirrorレプリケーションを使用します。
+* ONTAP スナップショットの保持により、利用可能な任意の時点までリカバリします。
+* ストレージ、コンピューティング、ネットワーク、アプリケーションの検証から、数百~数千のVMのリカバリに必要なすべての手順を完全に自動化できます。
+* SnapCenter では、レプリケートされたボリュームを変更しないクローニングメカニズムが使用されます。
++
+** これにより、ボリュームとSnapshotのデータが破損するリスクを回避できます。
+** DRテストのワークフロー中にレプリケーションが中断されるのを回避します
+** 開発とテスト、セキュリティテスト、パッチとアップグレードのテスト、修正テストなど、DR以外のワークフローにDRデータを活用します。
+
+
+* Veeam Replicationでは、DRサイトのVMのIPアドレスを変更できます。
+
