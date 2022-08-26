@@ -1,0 +1,77 @@
+---
+sidebar: sidebar 
+permalink: ai/nvaie_ngc_tensorflow.html 
+keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, NVIDIA AI Enterprise, NVAIE, VMware, NGC 
+summary: NVIDIA AI Enterpriseとネットアップ、VMwareを利用- NVIDIA NGCソフトウェアを活用-ユースケース- TensorFlowトレーニングジョブの例 
+---
+= 使用例- TensorFlowトレーニングジョブ
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:nvaie_ngc_setup.html["前へ：セットアップ。"]
+
+このセクションでは、NVIDIA AI Enterprise環境内でTensorFlowトレーニングジョブを実行するために実行する必要があるタスクについて説明します。
+
+
+
+== 前提条件
+
+ここで説明する手順を実行する前に、に記載されている手順に従ってゲストVMテンプレートを作成済みであることを前提としています link:nvaie_ngc_setup.html["セットアップ（ Setup ）"] ページ
+
+
+
+== テンプレートからゲストVMを作成します
+
+最初に、前のセクションで作成したテンプレートから新しいゲストVMを作成する必要があります。テンプレートから新しいゲストVMを作成するには、VMware vSphereにログインし、テンプレート名を右クリックして「このテンプレートからVMを新規作成...」を選択し、ウィザードに従います。
+
+image:nvaie_image4.png["エラー：グラフィックイメージがありません"]
+
+
+
+== データボリュームを作成してマウント
+
+次に、トレーニングデータセットを格納する新しいデータボリュームを作成する必要があります。NetApp DataOpsツールキットを使用して、新しいデータボリュームを簡単に作成できます。次のコマンド例は、「ImageNet」という名前のボリュームを作成し、容量を2TBにしています。
+
+....
+$ netapp_dataops_cli.py create vol -n imagenet -s 2TB
+....
+データボリュームにデータを入力する前に、ゲストVM内でデータボリュームをマウントする必要があります。NetApp DataOpsツールキットを使用して、データボリュームを簡単にマウントできます。次のコマンド例は、前の手順で作成したボリュームをアンマウントしています。
+
+....
+$ sudo -E netapp_dataops_cli.py mount vol -n imagenet -m ~/imagenet
+....
+
+
+== データボリュームの取り込み
+
+新しいボリュームのプロビジョニングとマウントが完了したら、トレーニングデータセットをソースの場所から取得して、新しいボリュームに配置できます。通常はS3またはHadoopのデータレイクからデータを取得する必要があり、場合によってはデータエンジニアの支援も必要になります。
+
+
+
+== TensorFlowトレーニングジョブを実行する
+
+これで、TensorFlowトレーニングジョブを実行する準備が整いました。TensorFlowトレーニングジョブを実行するには、次のタスクを実行します。
+
+. NVIDIA NGC Enterprise TensorFlowコンテナイメージを取得します。
++
+....
+$ sudo docker pull nvcr.io/nvaie/tensorflow-2-1:22.05-tf1-nvaie-2.1-py3
+....
+. NVIDIA NGCエンタープライズTensorFlowコンテナのインスタンスを起動します。「-v」オプションを使用して、データボリュームをコンテナに接続します。
++
+....
+$ sudo docker run --gpus all -v ~/imagenet:/imagenet -it --rm nvcr.io/nvaie/tensorflow-2-1:22.05-tf1-nvaie-2.1-py3
+....
+. コンテナ内でTensorFlowトレーニングプログラムを実行します。次のコマンド例は、コンテナイメージに含まれるResNet-50トレーニングプログラムの実行例を示しています。
++
+....
+$ python ./nvidia-examples/cnn/resnet.py --layers 50 -b 64 -i 200 -u batch --precision fp16 --data_dir /imagenet/data
+....
+
+
+link:nvaie_additional_information.html["次へ：追加情報 の検索場所。"]
