@@ -1,0 +1,262 @@
+---
+sidebar: sidebar 
+permalink: ehc/aws/aws-native-nfs-datastore-option.html 
+keywords:  
+summary:  
+---
+= AWSのNFSデータストアの追加オプション
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+VMware Cloudの準備が完了してAWS VPCに接続したら、接続元のVPCまたは既存のデフォルトVPCではなく、新しく指定したVPCにAmazon FSX for NetApp ONTAP を導入する必要があります。
+
+まず、SDDCが配置されている同じリージョンとアベイラビリティゾーンにVPCを追加で導入し、そのVPCにAmazon FSX for NetApp ONTAP を導入します。 https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-6B20CA3B-ABCD-4939-9176-BCEA44473C2B.html["VMware Cloud内のSDDCグループの構成"^] コンソールを使用すると、FSX for ONTAP を導入する、新しく指定したVPCに接続するために必要なネットワーク設定オプションを使用できます。
+
+
+NOTE: FSX for ONTAP は、AWS SDDC上のVMwareクラウドと同じ可用性ゾーンに導入します。
+
+
+NOTE: 接続されたVPCにFSX for ONTAP を導入することはできません。代わりに、新しい指定VPCに導入してから、SDDCグループを介してVPCをVMware Managed Transit Gateway（vTGW）に接続する必要があります。
+
+.手順1：指定のVPCにAmazon FSX for ONTAP を作成する
+====
+NetApp ONTAP ファイルシステム用のAmazon FSXを作成してマウントするには、次の手順を実行します。
+
+. Amazon FSXコンソール（https://console.aws.amazon.com/fsx/`）を開き、* Create file system *を選択して、* File System Creation *ウィザードを開始します。
+. [ファイルシステムタイプの選択]ページで、[*Amazon FSX for NetApp ONTAP *]を選択し、[次へ]をクリックします。[ファイルシステムの作成*]ページが表示されます。
++
+image:fsx-nfs-image2.png["エラー：グラフィックイメージがありません"]
+
+. 作成方法には、*標準作成*を選択します。
++
+image:fsx-nfs-image3.png["エラー：グラフィックイメージがありません"]
+
++
+image:fsx-nfs-image4.png["エラー：グラフィックイメージがありません"]
+
+. Virtual Private Cloud（VPC）の「*ネットワーク」セクションで、ルートテーブルに加えて適切なVPCと優先サブネットを選択します。この場合は、ドロップダウンメニューからDemo-FSxforONTAP -VPCが選択されます。
++
+
+NOTE: 接続されたVPCではなく、新しい指定のVPCであることを確認してください。
+
++
+
+NOTE: デフォルトでは、ONTAP のFSXは、ファイルシステムのデフォルトのエンドポイントIPアドレス範囲として、「198.19.0.0/16」を使用します。エンドポイントのIPアドレス範囲が、AWSインフラ上のVMCと競合しないことを確認してください。よくわからない場合は、重複しない範囲を使用してください。
+
++
+image:fsx-nfs-image5.png["エラー：グラフィックイメージがありません"]
+
+. 暗号化キーの「* Security & Encryption *」セクションで、ファイルシステムの保存データを保護するAWS Key Management Service（AWS KMS）暗号化キーを選択します。*File System Administrative Password*には'fsxadminユーザーの安全なパスワードを入力します
++
+image:fsx-nfs-image6.png["エラー：グラフィックイメージがありません"]
+
+. 「* Default Storage Virtual Machine Configuration *」セクションで、SVMの名前を指定します。
++
+
+NOTE: GAでは4つのNFSデータストアがサポートされます。
+
++
+image:fsx-nfs-image7.png["エラー：グラフィックイメージがありません"]
+
+. 「*デフォルトのボリューム構成*」セクションで、データストアに必要なボリューム名とサイズを指定し、「*次へ*」をクリックします。これはNFSv3ボリュームである必要があります。Storage Efficiency *の場合、「* enabled *」を選択して、ONTAP のStorage Efficiency機能（圧縮、重複排除、コンパクション）を有効にします。作成後、シェルを使用してボリュームのパラメータを次のように変更します。
++
+|===
+| 設定 | 設定 
+
+
+| ボリュームギャランティ | なし（シンプロビジョニング）。デフォルト設定はnoneです 
+
+
+| fractional_reserve | 0% 
+
+
+| スナップリザーブ | 0% 
+
+
+| オートサイズ | オン 
+
+
+| ストレージ効率 | 有効 
+
+
+| 自動削除 | ボリューム/古い順に選択します 
+
+
+| ボリューム階層化ポリシー | Snapshotのみ 
+
+
+| 最初に試行してください | 自動拡張 
+
+
+| スナップショットポリシー | なし 
+|===
++
+image:fsx-nfs-image8.png["エラー：グラフィックイメージがありません"]
+
++
+image:fsx-nfs-image9.png["エラー：グラフィックイメージがありません"]
+
+. [ファイルシステムの作成]ページに表示されているファイルシステム構成を確認します。
+. [ファイルシステムの作成*]をクリックします。
++
+image:fsx-nfs-image10.png["エラー：グラフィックイメージがありません"]
+
++
+image:fsx-nfs-image11.png["エラー：グラフィックイメージがありません"]
+
++
+
+NOTE: 容量とパフォーマンスの要件に従って、これまでの手順を繰り返し、ファイルシステムとデータストアボリュームを作成します。
+
+
+
+Amazon FSX for ONTAP のパフォーマンスについては、を参照してください https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/performance.html["Amazon FSX for NetApp ONTAP のパフォーマンス"^]。
+
+====
+.手順2：SDDCグループを作成します
+====
+ファイルシステムとSVMを作成したら、VMwareコンソールを使用してSDDCグループを作成し、VMware Transit Connectを設定します。これを行うには、次の手順を実行します。VMware Cloud ConsoleとAWSコンソールの間を移動する必要があります。
+
+. VMCコンソールにhttps://vmc.vmware.com`からログインします。
+. [*インベントリ*]ページで、[*SDDCグループ*]をクリックします。
+. [*SDDCグループ*]タブで、[*actions*]をクリックし、[*SDDCグループの作成*]を選択します。SDDCグループの名前は「FSxONTAPDatastoreGrp」です。
+. [メンバシップ]グリッドで、グループメンバとして含めるSDDCを選択します。
++
+image:fsx-nfs-image12.png["エラー：グラフィックイメージがありません"]
+
+. 「Configuring VMware Transit Connect for your group will iss Charges per attachment and data transfers」（グループごとのVMwareトランジット接続の設定で添付ファイルおよびデータ転送ごとの料金が発生する）が選択されていることを確認し、「*グループの作成このプロセスが完了するまでに数分かかることがあります。
++
+image:fsx-nfs-image13.png["エラー：グラフィックイメージがありません"]
+
+
+
+====
+.手順3：VMware Transit Connectを設定します
+====
+. 新しく作成した代表VPCをSDDCグループに接続します。[* External VPC *（外部VPC *）]タブを選択し、に従います https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-A3D03968-350E-4A34-A53E-C0097F5F26A9.html["グループに外部VPCを接続する手順"^]。このプロセスは、完了までに10～15分かかる場合があります。
++
+image:fsx-nfs-image14.png["エラー：グラフィックイメージがありません"]
+
+. ［*アカウントの追加*］をクリックします。
++
+.. ONTAP ファイルシステム用のFSXのプロビジョニングに使用したAWSアカウントを指定します。
+.. [ 追加（ Add ） ] をクリックします。
+
+
+. AWSコンソールに戻り、同じAWSアカウントにログインして、* Resource Access Manager *サービスページに移動します。リソース共有を承認するボタンがあります。
++
+image:fsx-nfs-image15.png["エラー：グラフィックイメージがありません"]
+
++
+
+NOTE: 外部VPCプロセスの一部として、AWSコンソールからResource Access Manager経由で新しい共有リソースへのアクセスを求められます。共有リソースは、VMware Transit Connectで管理されているAWS Transit Gatewayです。
+
+. [*リソース共有を許可する*]をクリックします。
++
+image:fsx-nfs-image16.png["エラー：グラフィックイメージがありません"]
+
+. VMCコンソールに戻り、外部VPCが関連付けられた状態になっています。表示されるまでに数分かかることがあります。
+
+
+====
+.手順4：中継ゲートウェイの接続を作成します
+====
+. AWSコンソールでVPCサービスページに移動し、FSXファイルシステムのプロビジョニングに使用したVPCに移動します。ここでは、右側のナビゲーションペインで*Transit Gateway Attachment*をクリックして、トランジットゲートウェイの添付ファイルを作成します。
+. [*VPC Attachment*]で、[DNS Support]がオンになっていることを確認し、FSX for ONTAP が展開されているVPCを選択します。
++
+image:fsx-nfs-image17.png["エラー：グラフィックイメージがありません"]
+
+. [*トランジットゲートウェイの添付ファイルの作成*]をクリックします。
++
+image:fsx-nfs-image18.png["エラー：グラフィックイメージがありません"]
+
+. VMware Cloud Consoleに戻り、SDDC Group > External VPCタブに戻ります。FSXに使用するAWSアカウントIDを選択し、VPCをクリックして* Accept *をクリックします。
++
+image:fsx-nfs-image19.png["エラー：グラフィックイメージがありません"]
+
++
+image:fsx-nfs-image20.png["エラー：グラフィックイメージがありません"]
+
++
+
+NOTE: このオプションが表示されるまでに数分かかることがあります。
+
+. 次に、[* Routes *]列の[* External VPC *]タブで、[* Add Routes *]オプションをクリックして、必要なルートを追加します。
++
+** ネットアップONTAP フローティングIPを含むAmazon FSXのフローティングIP範囲のルート。
+** 新しく作成される外部 VPC アドレススペースのルート。
++
+image:fsx-nfs-image21.png["エラー：グラフィックイメージがありません"]
+
++
+image:fsx-nfs-image22.png["エラー：グラフィックイメージがありません"]
+
+
+
+
+
+====
+.手順5：ルーティング（AWS VPCとSDDC）とセキュリティグループを設定する
+====
+. AWSコンソールのVPCサービスページでVPCを検索し、VPCの* main * routeテーブルを選択して、SDDCに戻るルートを作成します。
+. 下部パネルでルートテーブルを参照し、*ルートの編集*をクリックします。
++
+image:fsx-nfs-image23.png["エラー：グラフィックイメージがありません"]
+
+. ルートの編集*パネルで、*ルートの追加*をクリックし、*トランジットゲートウェイ*と関連付けられたTGW IDを選択してSDDCインフラストラクチャのCIDRを入力します。[ 変更の保存 *] をクリックします。
++
+image:fsx-nfs-image24.png["エラー：グラフィックイメージがありません"]
+
+. 関連付けられたVPC内のセキュリティグループが、SDDCグループCIDRの正しいインバウンドルールで更新されていることを確認します。
++
+image:fsx-nfs-image25.png["エラー：グラフィックイメージがありません"]
+
++
+
+NOTE: SDDCインフラストラクチャのCIDRブロックを使用してインバウンドルールを更新します。
+
++
+
+NOTE: 接続の問題を回避するために、VPC（FSX for ONTAP が存在する場合）のルートテーブルが更新されていることを確認します。
+
++
+
+NOTE: NFSトラフィックを受け入れるようにセキュリティグループを更新します。
+
+
+
+これは、適切なSDDCへの接続を準備する最後のステップです。ファイルシステムの構成、ルートの追加、セキュリティグループの更新が完了したら、次にデータストアをマウントします。
+
+====
+.手順6：NFSボリュームをデータストアとしてSDDCクラスタに接続する
+====
+ファイルシステムをプロビジョニングして接続を確立したら、VMware Cloud ConsoleにアクセスしてNFSデータストアをマウントします。
+
+. VMCコンソールで、SDDCの*ストレージ*タブを開きます。
++
+image:fsx-nfs-image27.png["エラー：グラフィックイメージがありません"]
+
+. attach datastore *をクリックし、必要な値を入力します。
++
+
+NOTE: NFSサーバアドレスは、NFS IPアドレスです。このアドレスは、AWSコンソールのFSX > Storage Virtual Machines（ストレージ仮想マシン）タブ> Endpoints（エンドポイント）にあります。
+
++
+image:fsx-nfs-image28.png["エラー：グラフィックイメージがありません"]
+
+. データストアの接続*をクリックして、データストアをクラスタに接続します。
++
+image:fsx-nfs-image29.png["エラー：グラフィックイメージがありません"]
+
+. 次の図のようにvCenterにアクセスしてNFSデータストアを検証します。
++
+image:fsx-nfs-image30.png["エラー：グラフィックイメージがありません"]
+
+
+
+====

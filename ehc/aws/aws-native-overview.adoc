@@ -1,0 +1,62 @@
+---
+sidebar: sidebar 
+permalink: ehc/aws/aws-native-overview.html 
+keywords:  
+summary:  
+---
+= TR-4938：AWSにVMware CloudでNFSデータストアとしてAmazon FSX for ONTAP をマウント
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+ネットアップ、 Niyaz Mohamed
+
+
+
+== はじめに
+
+成功を収めている組織は、変革と刷新の道を歩んでいます。このプロセスの一環として、企業は通常、既存のVMwareへの投資を使用して、クラウドのメリットを活用し、プロセスの移行、バースト、拡張、ディザスタリカバリを可能なかぎりシームレスに実行する方法を模索しています。クラウドに移行するお客様は、柔軟性とバースト性、データセンターの終了、データセンターの統合、ライフサイクルの終了、合併、合併などのユースケースを評価する必要があります。 買収など。
+
+VMware Cloud on AWSはお客様に独自のハイブリッド機能を提供するため、大多数のお客様に適していますが、ネイティブストレージの選択肢が限られているため、ストレージの負荷が高い組織での有用性が制限されています。ストレージはホストに直接関連付けられているため、ストレージを拡張する唯一の方法は、ホストを追加することです。これにより、ストレージを大量に消費するワークロードのコストを35～40%以上増加させることができます。このようなワークロードには、追加の処理能力ではなく、ストレージと分離されたパフォーマンスが必要ですが、追加のホストに料金を支払うことになります。ここでは、を行います https://aws.amazon.com/about-aws/whats-new/2022/08/announcing-vmware-cloud-aws-integration-amazon-fsx-netapp-ontap/["最近の統合"^] ONTAP 向けFSXは、VMware Cloud on AWSを使用して、大量のストレージとパフォーマンスを必要とするワークロードに最適です。
+
+次のシナリオを考えてみましょう。お客様は8台のホストで馬力を求めています（vCPU / vMem）が必要ですが、ストレージにも大きな要件があります。評価に基づいて、ストレージ要件を満たすために16台のホストが必要です。これにより、必要な容量をすべて追加購入するだけで、より多くのストレージが必要になるため、全体的なTCOが増加します。これは、移行、ディザスタリカバリ、バースト、開発/テストなど、あらゆるユースケースに当てはまります。 など。
+
+このドキュメントでは、AWS上のVMware Cloud用のNFSデータストアとしてONTAP 用のFSXをプロビジョニングして接続するために必要な手順を説明します。
+
+
+
+== 接続オプション
+
+ここでは、ハイレベルな接続アーキテクチャと、ホストを追加することなくSDDCクラスタ内のストレージを拡張するために解決策 を実装するために必要な手順について説明します。
+
+Amazon FSX for NetApp ONTAP はフルマネージドサービスで、広く普及しているNetApp ONTAP ファイルシステムを基盤に、信頼性、拡張性、パフォーマンス、機能豊富なファイルストレージを提供します。Amazon FSX for NetApp ONTAP （Multi-AZ）は、フローティングIPアドレスを使用して、アベイラビリティゾーンレベルで障害が発生した場合にNASトラフィックのフェイルオーバー機能を有効にします。このIPアドレスはVPC CIDRアドレススペースの外部にあるため、ENIを介してSDDCにルーティングすることはできません。したがって、VMware Transit Connectを使用して、NASインターフェイスのフローティングIPアドレスに接続してください。
+
+image:fsx-nfs-image1.png["エラー：グラフィックイメージがありません"]
+
+導入手順の概要は次のとおりです。
+
+. 新しい指定VPCでAmazon FSX for ONTAP を作成します。
+. SDDCグループを作成します。
+. VMware Transit ConnectとTGWの添付ファイルを作成します。
+. ルーティング（AWS VPCとSDDC）とセキュリティグループを設定する。
+. NFSボリュームをデータストアとしてSDDCクラスタに接続します。
+
+
+ONTAP 用のFSXをNFSデータストアとしてプロビジョニングして接続する前に、まずCloud SDDC環境でVMwareをセットアップするか、またはv1.20以上にアップグレードした既存のSDDCを取得する必要があります。詳細については、を参照してください link:https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws.getting-started/GUID-3D741363-F66A-4CF9-80EA-AA2866D1834E.html["AWSでのVMware Cloudの導入"^]。
+
+
+NOTE: ONTAP のFSXは、現在、ストレッチクラスタではサポートされていません。
+
+
+
+== まとめ
+
+このドキュメントでは、AWSでVMwareクラウドを使用してAmazon FSX for ONTAP を設定するために必要な手順について説明します。Amazon FSX for ONTAP は、アプリケーションワークロードとファイルサービスを導入および管理する優れたオプションを提供し、データ要件をアプリケーションレイヤとシームレスにすることでTCOを削減します。どのようONTAP なユースケースでも、オンプレミスからAWSにクラウドのメリット、一貫したインフラ、運用を迅速に実現するためには、AWS対応のVMwareクラウドとAmazon FSXを選択し、ワークロードの双方向の移動性、エンタープライズクラスの容量とパフォーマンスを実現できます。ストレージの接続に使用する一般的なプロセスと手順は同じです。新しい名前と同様に変更されたデータの位置にすぎないことを忘れないでください。ツールとプロセスはすべて変わらないので、Amazon FSX for ONTAP を使用すると、全体的な導入を最適化できます。
+
+このプロセスの詳細については、詳細なウォークスルービデオをご覧ください。
+
+video::FSx for ONTAP Datastore mount - Detailed Walkthrough.mp4[Mount Amazon FSx for ONTAP Volumes on VMC SDDC]

@@ -317,10 +317,10 @@ Cloud Volumes Service のSMBサーバでは、Kerberosのクロックスキュ�
 | は、KerberosのAES-128およびAES-256暗号化を有効にします | Active Directory接続にAES暗号化を使用するかどうかを制御し、Active Directory接続の作成/変更時にActive Directory認証用のAES暗号化を有効にするオプションで制御します。 | いいえ | はい。 
 
 
-| LM互換性レベル | Active Directory接続でサポートされている認証ダイアレクトのレベル。「」を参照してください<<SMB authentication dialects>>」を参照してください。 | NTLMv2 - krb | いいえ 
+| LM互換性レベル | Active Directory接続でサポートされている認証ダイアレクトのレベル。「」を参照してください authentication dialects」を参照してください。 | NTLMv2 - krb | いいえ 
 
 
-| 受信CIFSトラフィックにSMB暗号化を要求します | すべての共有でSMB暗号化が必要です。これはCloud Volumes Service では使用されません。代わりに、ボリューム単位で暗号化を設定します（「」を参照）<<SMB share security features>>」）をクリックします。 | いいえ | いいえ 
+| 受信CIFSトラフィックにSMB暗号化を要求します | すべての共有でSMB暗号化が必要です。これはCloud Volumes Service では使用されません。代わりに、ボリューム単位で暗号化を設定します（「」を参照） share security features」）をクリックします。 | いいえ | いいえ 
 
 
 | クライアントセッションセキュリティ | LDAP通信の署名と封印を設定します。この機能は現在Cloud Volumes Service には設定されていませんが、今後のリリースでサポートする必要が生じる可能性があります。WindowsパッチによるLDAP認証の問題に対する修正については、セクションで説明しています link:ncvs-gc-other-nas-infrastructure-service-dependencies.html#ldap#ldap-channel-binding["「LDAPチャネルバインディング」"]。 | なし | いいえ 
