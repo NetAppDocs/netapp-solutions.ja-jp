@@ -21,9 +21,9 @@ VMware Cloudの準備が完了してAWS VPCに接続したら、接続元のVPC�
 NOTE: FSX for ONTAP は、AWS SDDC上のVMwareクラウドと同じ可用性ゾーンに導入します。
 
 
-NOTE: 接続されたVPCにFSX for ONTAP を導入することはできません。代わりに、新しい指定VPCに導入してから、SDDCグループを介してVPCをVMware Managed Transit Gateway（vTGW）に接続する必要があります。
+NOTE: 接続されたVPCにFSX for ONTAP を導入することはできません。代わりに、新しい指定されたVPCに導入してから、SDDCグループを介してVPCをVMware Managed Transit Gateway（vTGW）に接続する必要があります。
 
-.手順1：指定のVPCにAmazon FSX for ONTAP を作成する
+.手順1：新しい指定のVPCにAmazon FSX for ONTAP を作成する
 ====
 NetApp ONTAP ファイルシステム用のAmazon FSXを作成してマウントするには、次の手順を実行します。
 
@@ -39,6 +39,10 @@ image:fsx-nfs-image3.png["エラー：グラフィックイメージがありま
 +
 image:fsx-nfs-image4.png["エラー：グラフィックイメージがありません"]
 
++
+
+NOTE: データストアのサイズは、お客様によってかなり異なります。NFSデータストアごとの仮想マシンの推奨数は主観的ですが、各データストアに配置できるVMの最適な数は、さまざまな要因によって決まります。ほとんどの管理者が考慮するのは容量だけですが、VMDKに同時に送信されるI/Oの量は、全体的なパフォーマンスにとって最も重要な要因の1つです。オンプレミスのパフォーマンス統計を使用して、それに応じてデータストアボリュームのサイズを設定します。
+
 . Virtual Private Cloud（VPC）の「*ネットワーク」セクションで、ルートテーブルに加えて適切なVPCと優先サブネットを選択します。この場合は、ドロップダウンメニューからDemo-FSxforONTAP -VPCが選択されます。
 +
 
@@ -46,7 +50,7 @@ NOTE: 接続されたVPCではなく、新しい指定のVPCであることを�
 
 +
 
-NOTE: デフォルトでは、ONTAP のFSXは、ファイルシステムのデフォルトのエンドポイントIPアドレス範囲として、「198.19.0.0/16」を使用します。エンドポイントのIPアドレス範囲が、AWSインフラ上のVMCと競合しないことを確認してください。よくわからない場合は、重複しない範囲を使用してください。
+NOTE: デフォルトでは、ONTAP のFSXは、ファイルシステムのデフォルトのエンドポイントIPアドレス範囲として198.19.0.0/16を使用します。エンドポイントのIPアドレス範囲が、AWS SDDCのVMC、関連付けられたVPCサブネット、およびオンプレミスインフラと競合しないことを確認してください。よくわからない場合は、重複しない範囲を使用してください。
 
 +
 image:fsx-nfs-image5.png["エラー：グラフィックイメージがありません"]
@@ -63,31 +67,31 @@ NOTE: GAでは4つのNFSデータストアがサポートされます。
 +
 image:fsx-nfs-image7.png["エラー：グラフィックイメージがありません"]
 
-. 「*デフォルトのボリューム構成*」セクションで、データストアに必要なボリューム名とサイズを指定し、「*次へ*」をクリックします。これはNFSv3ボリュームである必要があります。Storage Efficiency *の場合、「* enabled *」を選択して、ONTAP のStorage Efficiency機能（圧縮、重複排除、コンパクション）を有効にします。作成後、シェルを使用してボリュームのパラメータを次のように変更します。
+. 「*デフォルトのボリューム構成*」セクションで、データストアに必要なボリューム名とサイズを指定し、「*次へ*」をクリックします。これはNFSv3ボリュームである必要があります。Storage Efficiency *の場合、「* enabled *」を選択して、ONTAP のStorage Efficiency機能（圧縮、重複排除、コンパクション）を有効にします。作成後、シェルを使用して、*_volume modify _*を使用して次のようにボリュームパラメータを変更します。
 +
 |===
 | 設定 | 設定 
 
 
-| ボリュームギャランティ | なし（シンプロビジョニング）。デフォルト設定はnoneです 
+| ボリュームギャランティ（スペースギャランティ形式） | なし（シンプロビジョニング）–デフォルトで設定されます 
 
 
-| fractional_reserve | 0% 
+| fractional_reserve（フラクショナルリザーブ） | 0%–デフォルトで設定されます 
 
 
-| スナップリザーブ | 0% 
+| snap_reserve（percent-snapshot-space） | 0% 
 
 
-| オートサイズ | オン 
+| オートサイズ（autosize-mode） | grow_shrink 
 
 
-| ストレージ効率 | 有効 
+| ストレージ効率 | enabled–デフォルトで設定されます 
 
 
 | 自動削除 | ボリューム/古い順に選択します 
 
 
-| ボリューム階層化ポリシー | Snapshotのみ 
+| ボリューム階層化ポリシー | Snapshotのみ–デフォルトで設定されます 
 
 
 | 最初に試行してください | 自動拡張 
@@ -96,10 +100,34 @@ image:fsx-nfs-image7.png["エラー：グラフィックイメージがありま
 | スナップショットポリシー | なし 
 |===
 +
+次のSSHコマンドを使用して、ボリュームを作成および変更します。
+
++
+*新しいデータストアボリュームをシェルから作成するコマンド：*
+
++
+ volume create -vserver FSxONTAPDatastoreSVM -volume DemoDS002 -aggregate aggr1 -size 1024GB -state online -tiering-policy snapshot-only -percent-snapshot-space 0 -autosize-mode grow -snapshot-policy none -junction-path /DemoDS002
++
+*注：*シェルで作成したボリュームは、AWSコンソールに表示されるまでに数分かかります。
+
++
+*デフォルトで設定されていないボリューム・パラメータを変更するコマンド：*
+
++
+....
+volume modify -vserver FSxONTAPDatastoreSVM -volume DemoDS002 -fractional-reserve 0
+volume modify -vserver FSxONTAPDatastoreSVM -volume DemoDS002 -space-mgmt-try-first vol_grow
+volume modify -vserver FSxONTAPDatastoreSVM -volume DemoDS002 -autosize-mode grow
+....
++
 image:fsx-nfs-image8.png["エラー：グラフィックイメージがありません"]
 
 +
 image:fsx-nfs-image9.png["エラー：グラフィックイメージがありません"]
+
++
+
+NOTE: 初期移行シナリオでは、デフォルトのSnapshotポリシーで原因 データストアの容量がフルの問題を解決できます。これを克服するには、必要に応じてSnapshotポリシーを変更します。
 
 . [ファイルシステムの作成]ページに表示されているファイルシステム構成を確認します。
 . [ファイルシステムの作成*]をクリックします。
@@ -111,7 +139,7 @@ image:fsx-nfs-image11.png["エラー：グラフィックイメージがあり�
 
 +
 
-NOTE: 容量とパフォーマンスの要件に従って、これまでの手順を繰り返し、ファイルシステムとデータストアボリュームを作成します。
+NOTE: 容量とパフォーマンスの要件に従って、これまでの手順を繰り返し、SVMまたはファイルシステム、およびデータストアボリュームを作成します。
 
 
 
@@ -212,13 +240,10 @@ image:fsx-nfs-image23.png["エラー：グラフィックイメージがあり�
 +
 image:fsx-nfs-image24.png["エラー：グラフィックイメージがありません"]
 
-. 関連付けられたVPC内のセキュリティグループが、SDDCグループCIDRの正しいインバウンドルールで更新されていることを確認します。
+. 次の手順では、関連付けられたVPC内のセキュリティグループが、SDDCグループCIDRに対する正しいインバウンドルールで更新されていることを確認します。
+. SDDCインフラストラクチャのCIDRブロックを使用してインバウンドルールを更新します。
 +
 image:fsx-nfs-image25.png["エラー：グラフィックイメージがありません"]
-
-+
-
-NOTE: SDDCインフラストラクチャのCIDRブロックを使用してインバウンドルールを更新します。
 
 +
 
@@ -230,7 +255,7 @@ NOTE: NFSトラフィックを受け入れるようにセキュリティグル�
 
 
 
-これは、適切なSDDCへの接続を準備する最後のステップです。ファイルシステムの構成、ルートの追加、セキュリティグループの更新が完了したら、次にデータストアをマウントします。
+これは、適切なSDDCへの接続を準備する最後のステップです。ファイルシステムを構成し、ルートを追加し、セキュリティグループを更新したら、次にデータストアをマウントします。
 
 ====
 .手順6：NFSボリュームをデータストアとしてSDDCクラスタに接続する
