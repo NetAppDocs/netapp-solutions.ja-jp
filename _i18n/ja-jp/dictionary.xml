@@ -2336,7 +2336,6 @@
   <block id="33aa22e838a3c843929f5b6b75f6c56c" category="paragraph">SRA は、 VMware Site Recovery Manager （ SRM ）と一緒に使用され、本番サイトとディザスタリカバリサイト間のデータレプリケーションを管理して、 DR レプリカの無停止でのテストを行います。検出、リカバリ、再保護のタスクを自動化します。Windows SRM サーバおよび SRM アプライアンス用の SRA サーバアプライアンスと SRA アダプタの両方が含まれています。SRA は、 VMware vSphere 用の ONTAP ツールに含まれています。</block>
   <block id="a1c13ec555198266776a3a7b904810dd" category="paragraph">次の図は、 vSphere 用の ONTAP ツールを示しています。</block>
   <block id="f7e876d450acee7c9ed7b18438440fb2" category="paragraph"><block ref="f7e876d450acee7c9ed7b18438440fb2" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="d9a06854085afcd104157eb7f0b66c3a" category="summary">ネットアップソリューションの自動化では、構成と管理に RedHat Ansible を利用します。</block>
   <block id="a123daaac5749e4d0965aca160f0adfd" category="doc">NetApp 解決策の自動化</block>
   <block id="d1029167179320d8b6d70b11c3d01bd3" category="list-text">Ansible コントロールノードの要件：</block>
   <block id="9ced761647f5d80fe615526ffff63937" category="list-text">次のパッケージがインストールされた Ubuntu / Debian マシン：</block>
@@ -2353,12 +2352,6 @@
   <block id="90305bb6fba97091f683e8b82f9bf805" category="summary">ネットアップのソリューションを自動化すれば、多くの一般的なインフラタスクやアプリケーションタスクの導入、設定、実行を自動化できます。</block>
   <block id="0b79795d3efc95b9976c7c5b933afce2" category="section-title">はじめに</block>
   <block id="d78228187c1a83d3bb4d8e97cd657807" category="paragraph">自動化によってネットアップのソリューションの利用が簡易化されます。</block>
-  <block id="88b11dbb43daa1023e1e0eac175e0e04" category="section-title">Ansible Control ノードのセットアップ</block>
-  <block id="cc720ba6fbd83dd2b0c222e5b1d4419c" category="paragraph">Ansible はエージェントレスの自動化ツールであるため、 1 台のマシン（ Ansible の制御ノード）にインストールするだけで済みます。制御ノードを使用すると、リモートマシン全体を管理できます。リモートマシンの設定を追加する必要はありません。</block>
-  <block id="1fd37248272971c6b09693c66e545794" category="inline-link-macro">RHEL8/CentOS8</block>
-  <block id="62cb08c48fa7398e2b2fbf365a240e90" category="inline-link-macro">RHEL7/CentOS7</block>
-  <block id="7eaf289636bc8d4f8b29b333a0f32dc2" category="inline-link-macro">Ubuntu / Debian</block>
-  <block id="e10dea45c0463fb061f253f8deef6de6" category="paragraph">Ansible をインストールする OS のタイプに基づいて、次のいずれかのリンクをクリックして制御ノードのセットアップの詳細な手順を確認します。 <block ref="7dc121073254da4302fc5dcbe0722747" category="inline-link-macro-rx"></block>。 <block ref="965292dac53abeffbcc140f60ed9445a" category="inline-link-macro-rx"></block>。 <block ref="9c83d13c300fc83e32dbf47b4d277c36" category="inline-link-macro-rx"></block></block>
   <block id="5c263f30899f93ff7ccd457ad3eb956f" category="list-text">次のパッケージがインストールされた RHEL / CentOS マシン：</block>
   <block id="7b643b0eef9cf1199195fa05b77fc3c8" category="paragraph">上記の要件がインストールされていない新しい RHEL / CentOS マシンがある場合は、次の手順に従ってそのマシンを Ansible の制御ノードとしてセットアップします。</block>
   <block id="d2052f202108defaf6afc7831ba59362" category="list-text">RHEL-8/RHEL-7 の Ansible リポジトリを有効にします</block>
@@ -2436,10 +2429,6 @@
   <block id="87e25a8d0e462ac8d7158e587f376605" category="sidebar">VMware と NVIDIA GPU を使用したエンドユーザコンピューティング（設計ガイド）</block>
   <block id="d840a196af6c9e07c3ac3b20b15fb724" category="sidebar">VMware と NVIDIA GPU を使用したエンドユーザコンピューティング（導入ガイド）</block>
   <block id="f93781578174ca3309bd3ac126884af4" category="sidebar">VMware for 3D Graphics によるエンドユーザコンピューティング</block>
-  <block id="8619770bb94b4ac2d3ef4a8639dac91f" category="sidebar">Ansible コントロールノードをセットアップ（ CLI ベースの導入向け）</block>
-  <block id="47ac29a4a2e3c3e4581e035d792ee4ac" category="sidebar">RHEL / CentOS マシンの場合</block>
-  <block id="d74c216bc36310fb7cb045522918e606" category="sidebar">Ubuntu / Debian マシンの場合</block>
-  <block id="073616205ad0e6bcb86754e5a151281a" category="sidebar">AWX/Ansible タワーをセットアップします （ AWX/ タワーベースの導入の場合）</block>
   <block id="22d04ecae9fae88d0b8d4548a46a545b" category="sidebar">自動化を申請</block>
   <block id="427d072a2c1690c6d9ece23bef05477b" category="sidebar">『 Apache Spark Workload with NetApp Storage 解決策』（導入ガイド）</block>
   <block id="b278438874f41a76068d02368e65aa3e" category="doc">このリポジトリについて</block>
@@ -14848,4 +14837,5 @@
   <block id="9761d5208d76a88ba5a08152c4431c2f" category="admonition">Cloud Volumes ONTAP をAzure VMware解決策 に接続する方法としてサポートされているのは、ゲスト内ストレージだけです。</block>
   <block id="bb19e956b854f8e209f51237a29feb31" category="admonition">現在、Cloud Volumes ONTAP （CVO）をAWS VMCに接続する方法としてサポートされているのは、ゲスト内ストレージだけです。</block>
   <block id="36c48411397a73fcbe7ccac93862641b" category="admonition">本ドキュメントの作成時点で使用可能な唯一のオプションは、ゲスト内ストレージでした。NFSデータストアの補足サポートが提供されるようになりましたが、それ以外のドキュメントも提供されます <block ref="2feee9d08b57f121d415095bba26ae78" category="inline-link-macro-rx"></block>。</block>
+  <block id="44db359cccfc9a14e67b800f405a2078" category="sidebar">自動化環境を設定します</block>
 </blocks>
