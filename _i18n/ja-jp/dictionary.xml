@@ -14838,4 +14838,469 @@
   <block id="bb19e956b854f8e209f51237a29feb31" category="admonition">現在、Cloud Volumes ONTAP （CVO）をAWS VMCに接続する方法としてサポートされているのは、ゲスト内ストレージだけです。</block>
   <block id="36c48411397a73fcbe7ccac93862641b" category="admonition">本ドキュメントの作成時点で使用可能な唯一のオプションは、ゲスト内ストレージでした。NFSデータストアの補足サポートが提供されるようになりましたが、それ以外のドキュメントも提供されます <block ref="2feee9d08b57f121d415095bba26ae78" category="inline-link-macro-rx"></block>。</block>
   <block id="44db359cccfc9a14e67b800f405a2078" category="sidebar">自動化環境を設定します</block>
+  <block id="1c08b76510a159f0dcb62c62d5584a78" category="paragraph"><block ref="1c08b76510a159f0dcb62c62d5584a78" category="inline-link-macro-rx"></block></block>
+  <block id="b5062caa115b4047ecd2ef0d7177923b" category="paragraph">このTRでは次の資料を参照しています。</block>
+  <block id="7a5b516d0c7b523466aabf4d65c5920e" category="list-text">Apache Sparkのアーキテクチャとコンポーネント</block>
+  <block id="71792c2d1ea80e0e082f8dc3cbdabfdd" category="inline-link"><block ref="71792c2d1ea80e0e082f8dc3cbdabfdd" category="inline-link-rx"></block></block>
+  <block id="e37c2ea27f7286c4bd6a5fda415b8de8" category="paragraph"><block ref="e37c2ea27f7286c4bd6a5fda415b8de8" category="inline-link-rx"></block></block>
+  <block id="63e2d6091a94e7952a98f50aab0149ce" category="list-text">Apache Sparkのユースケース</block>
+  <block id="f2b9f91de80e495bcbc6169f57a4bd2d" category="inline-link"><block ref="f2b9f91de80e495bcbc6169f57a4bd2d" category="inline-link-rx"></block></block>
+  <block id="7bc4162d3088ec5f539bb8bccd911d30" category="paragraph"><block ref="7bc4162d3088ec5f539bb8bccd911d30" category="inline-link-rx"></block></block>
+  <block id="506326e78695dcca6de9cbc14a77c5b7" category="list-text">Apacheの課題</block>
+  <block id="6f8995e5d73fedcfa04d4c714e6f7a46" category="inline-link"><block ref="6f8995e5d73fedcfa04d4c714e6f7a46" category="inline-link-rx"></block></block>
+  <block id="a4047ab5c68e6bd8f8ad5dfc79e46847" category="paragraph"><block ref="a4047ab5c68e6bd8f8ad5dfc79e46847" category="inline-link-rx"></block></block>
+  <block id="635dbe8a61ae76776533cf731db5ca3d" category="list-text">SparkのNLPです</block>
+  <block id="164b938eda63c6ce2631a3fcf3f37e5f" category="inline-link"><block ref="164b938eda63c6ce2631a3fcf3f37e5f" category="inline-link-rx"></block></block>
+  <block id="4f2faa20c7d825b4d0501e1086305aac" category="paragraph"><block ref="4f2faa20c7d825b4d0501e1086305aac" category="inline-link-rx"></block></block>
+  <block id="94f39b7b282094c13473d8b26a45d1f1" category="inline-link"><block ref="94f39b7b282094c13473d8b26a45d1f1" category="inline-link-rx"></block></block>
+  <block id="aff4ff24147d7c4a2645c7781e081f7f" category="paragraph"><block ref="aff4ff24147d7c4a2645c7781e081f7f" category="inline-link-rx"></block></block>
+  <block id="b507f78e88e67a8302f19d731bc75b06" category="list-text">広告クリック予測のためのディープおよびクロスネットワーク</block>
+  <block id="8ebbe970a3e3c77f7c8e00655ce2e505" category="inline-link"><block ref="8ebbe970a3e3c77f7c8e00655ce2e505" category="inline-link-rx"></block></block>
+  <block id="ae454d032cd3c53237c03ee439566905" category="paragraph"><block ref="ae454d032cd3c53237c03ee439566905" category="inline-link-rx"></block></block>
+  <block id="4a695ebb62ee4f32f7dd893fa1e282f9" category="inline-link"><block ref="4a695ebb62ee4f32f7dd893fa1e282f9" category="inline-link-rx"></block></block>
+  <block id="c0ce2c750c3848619c847bc001ba66be" category="paragraph"><block ref="c0ce2c750c3848619c847bc001ba66be" category="inline-link-rx"></block></block>
+  <block id="becd6832ca6f3b6680d480b5802d1435" category="list-text">ストリーミングETL</block>
+  <block id="b5924cfbbd0aa8b99cd3b6953ae625a3" category="inline-link"><block ref="b5924cfbbd0aa8b99cd3b6953ae625a3" category="inline-link-rx"></block></block>
+  <block id="8d325f57229e685a7ad47c71dd567604" category="paragraph"><block ref="8d325f57229e685a7ad47c71dd567604" category="inline-link-rx"></block></block>
+  <block id="31a31ad34b829349beab62dc154bb53c" category="list-text">NetApp EシリーズHadoop向けソリューション</block>
+  <block id="7cc9f35180bb40054e46d3046347f4fd" category="inline-link"><block ref="7cc9f35180bb40054e46d3046347f4fd" category="inline-link-rx"></block></block>
+  <block id="ea07fc98557e1b8c5b675972fe1621da" category="paragraph"><block ref="ea07fc98557e1b8c5b675972fe1621da" category="inline-link-rx"></block></block>
+  <block id="6e1ead71812900db964474f24a84ff5e" category="list-text">顧客コミュニケーションからネットアップAIとの感情分析</block>
+  <block id="270a8289ec3296709282f87be3043182" category="inline-link"><block ref="270a8289ec3296709282f87be3043182" category="inline-link-rx"></block></block>
+  <block id="5d6e0d6396516ff7be3c4a58b49ef3a7" category="paragraph"><block ref="5d6e0d6396516ff7be3c4a58b49ef3a7" category="inline-link-rx"></block></block>
+  <block id="a435d889d8c30f88d959b581e585cb98" category="inline-link"><block ref="a435d889d8c30f88d959b581e585cb98" category="inline-link-rx"></block></block>
+  <block id="2e0db0f40c94a679b5a5692c131d03f4" category="paragraph"><block ref="2e0db0f40c94a679b5a5692c131d03f4" category="inline-link-rx"></block></block>
+  <block id="794cb725c5631ad99b5b7c000307f0df" category="list-text">SnapMirror</block>
+  <block id="c932e562e101240deed6e4be0656dfd6" category="inline-link"><block ref="c932e562e101240deed6e4be0656dfd6" category="inline-link-rx"></block></block>
+  <block id="750daab11890513d7529766b651ae531" category="paragraph"><block ref="750daab11890513d7529766b651ae531" category="inline-link-rx"></block></block>
+  <block id="a7ac1d2e69b9bbb9a2accb2ec30a1d69" category="list-text">XCP</block>
+  <block id="e7d54d48522774aa8774f3733414d084" category="inline-link"><block ref="f575d0e12f7a285daadcaf60a35e305e" category="inline-link-rx"></block></block>
+  <block id="a0b810672fcf48d5064bdbf73f520d55" category="paragraph"><block ref="d41dfcb87efb2171f45941c801c9f5cc" category="inline-link-rx"></block></block>
+  <block id="90a11f9647f9e3f6cfead9fdd4f0789d" category="inline-link"><block ref="90a11f9647f9e3f6cfead9fdd4f0789d" category="inline-link-rx"></block></block>
+  <block id="b8cfbcc5c9748a8f12142a1b9aae0e67" category="paragraph"><block ref="b8cfbcc5c9748a8f12142a1b9aae0e67" category="inline-link-rx"></block></block>
+  <block id="ce9b5cd96205262213c417b501e9ed55" category="list-text">DataOpsツールキット</block>
+  <block id="90f0f970ed32524c528ba2778079d485" category="summary">ネットアップには、FAS / AFF、Eシリーズ、Cloud Volumes ONTAP の3つのストレージポートフォリオがあります。AFF とONTAP を搭載したEシリーズは、Apache Spark搭載のHadoopソリューション向けに検証済みです。ネットアップのデータファブリックは、データ管理のサービスとアプリケーション（ビルディングブロック）を統合して、データのアクセス、制御、保護、セキュリティを実現します。</block>
+  <block id="12a9f57585cd6b3b985dd451bf552845" category="doc">NetApp Sparkソリューションの概要</block>
+  <block id="255ce02d0613433bc0a7c76f4afde71e" category="inline-link-macro">以前のバージョン：解決策 テクノロジ。</block>
+  <block id="dd12a34c3b567f24a9da980ebdd52821" category="paragraph"><block ref="dd12a34c3b567f24a9da980ebdd52821" category="inline-link-macro-rx"></block></block>
+  <block id="5e1c0d548834c9871fb6687dd0f1adab" category="paragraph">ネットアップには、FAS / AFF、Eシリーズ、Cloud Volumes ONTAP の3つのストレージポートフォリオがあります。AFF とONTAP を搭載したEシリーズは、Apache Spark搭載のHadoopソリューション向けに検証済みです。ネットアップのデータファブリックは、以下の図に示すように、データアクセス、制御、保護、セキュリティのためのデータ管理サービスとアプリケーション（ビルディングブロック）を統合しています。</block>
+  <block id="710b54a5dd637d8e21574c4fb3eea545" category="inline-image-macro">データファブリックは、データ管理のサービスとアプリケーションを提供します。</block>
+  <block id="84996abc8bbc3c77ef59d8a39c852d30" category="paragraph"><block ref="84996abc8bbc3c77ef59d8a39c852d30" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="829a597c83ae2b02e991f062bb891ace" category="list-text">* NetApp NFS 直接アクセス。 * 最新の Hadoop クラスタと Spark クラスタを、ソフトウェアやドライバの追加の必要なしに NetApp NFS ボリュームに直接アクセスできます。</block>
+  <block id="d075304bce816c2722d405cac9bf4877" category="list-text">* NetApp SnapMirrorテクノロジ。*オンプレミスとONTAP クラウドまたはNPSインスタンス間のデータ保護機能を提供します。</block>
+  <block id="bd162abba0390e6a6e2e2581d449bf77" category="paragraph">次の図は、Sparkの解決策 とネットアップストレージを示しています。</block>
+  <block id="0ec1ecf37e474c5f4116ab4ae95e84d9" category="inline-image-macro">Sparkの解決策 とネットアップストレージ</block>
+  <block id="0847e549ec9fd7e676ad66196c4210a2" category="paragraph"><block ref="0847e549ec9fd7e676ad66196c4210a2" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="bc4d71ccd96e1b29bc3437c1cb6a245e" category="paragraph">ONTAP Spark解決策 は、既存の本番データへのアクセスを使用して、インプレース分析、AI、ML、DLのワークフローに、ネットアップNFSダイレクトアクセスプロトコルを使用しています。Hadoopノードで使用可能な本番データは、インプレース分析ジョブ、AIジョブ、MLジョブ、DLジョブを実行するためにエクスポートされます。データにアクセスしてHadoopノード内で処理することができ、NetApp NFSに直接アクセスするかどうかは関係ありません。Sparkでは、スタンドアロンのクラスタマネージャまたは「yarn」クラスタマネージャを使用して、「」を使用してNFSボリュームを構成できます<block ref="7667eac59549f5d64cbcc9214ea613f8" category="inline-link-rx"></block>。3つのユースケースに異なるデータセットを使用して検証しました。これらの検証の詳細については、「テスト結果」セクションを参照してください。 （XRef）</block>
+  <block id="955ae639ea2500f38215e8263610b119" category="paragraph">次の図は、NetApp Apache Spark / Hadoopストレージの位置付けを示しています。</block>
+  <block id="78157b6c5aece6e0b7b7ea998dce3a8a" category="inline-image-macro">NetApp Apache Spark / Hadoopストレージの位置付け。</block>
+  <block id="5af92584fa4ab2b78abca73f9bbdcf42" category="paragraph"><block ref="5af92584fa4ab2b78abca73f9bbdcf42" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="3cf3adbf38f17f8e0c86c8531fc379b7" category="paragraph">また、EシリーズSparkの解決策 、AFF / FAS ONTAP Spark解決策 、StorageGRID Spark解決策 の独自の機能を特定し、詳細な検証とテストを実施しました。ネットアップでは、今回の調査結果に基づいStorageGRID て、新規導入時と拡張性に優れた新規導入時にEシリーズ解決策 を使用し、既存のNFSデータを使用したインプレース分析、AI、ML、DL、DLのワークロードにはAFF / FAS解決策 を、オブジェクトストレージが必要な場合には最新のデータ分析に使用することを推奨しています。</block>
+  <block id="675ed5324aa6eda280e015498c583161" category="inline-image-macro">Sparkに対してネットアップのソリューションをお勧めしました。</block>
+  <block id="d3deaa8bf3eb6619cb86d00d661a22e9" category="paragraph"><block ref="d3deaa8bf3eb6619cb86d00d661a22e9" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="aa7b20f32446fa30f765cd0b1ca93739" category="paragraph">データレイクは、分析、AI、ML、DLの各ジョブに使用できる、ネイティブ形式の大規模データセット用のストレージリポジトリです。Eシリーズ、AFF / FAS、StorageGRID SG6060 Sparkソリューション用のデータレイクリポジトリを構築しました。Eシリーズシステムでは、Hadoop SparkクラスタへのHDFSアクセスが提供されますが、既存の本番環境のデータには、NFSの直接アクセスプロトコルを通じてHadoopクラスタへアクセスされます。オブジェクトストレージに配置されるデータセットに対しては、NetApp StorageGRID によってS3とS3aのセキュアなアクセスが提供されます。</block>
+  <block id="22ad538f7c0e01603f9410a9bdc10d04" category="inline-link-macro">次：ユースケースの概要</block>
+  <block id="5de3601bc15319fca36066c272d6321d" category="paragraph"><block ref="5de3601bc15319fca36066c272d6321d" category="inline-link-macro-rx"></block></block>
+  <block id="fd79b6614eaf33c0131b98cf6d33aef4" category="summary">このページでは、主なAI、ML、DLのユースケースとアーキテクチャについて詳しく説明します。</block>
+  <block id="029e93fe56123e362c90a853d36c91c9" category="doc">AI、ML、DLの主なユースケースとアーキテクチャ</block>
+  <block id="4204e74b027f3052d00f7e876556fd90" category="inline-link-macro">Previous：ユースケースの概要。</block>
+  <block id="8fc7ffb01920f82159e7c7fc73617df5" category="paragraph"><block ref="8fc7ffb01920f82159e7c7fc73617df5" category="inline-link-macro-rx"></block></block>
+  <block id="38fe3ee7a8452539638ebb43094bf303" category="paragraph">主なAI、ML、DLのユースケースと手法は、以下のセクションに分類できます。</block>
+  <block id="28ab286fd15a84ffcfa82ffe262b2d07" category="section-title">SparkのNLPパイプラインとTensorFlow分散推論です</block>
+  <block id="b66d8859b0ca8adab0c5459ef44ed90c" category="paragraph">次のリストには、データサイエンスコミュニティで採用されている最も一般的なオープンソースのNLPライブラリが、さまざまな開発レベルで含まれています。</block>
+  <block id="357d19386660ae0694f2fa195678b61a" category="inline-link">Natural Language Toolkit（NLTK）</block>
+  <block id="b7c0dd146600af70e881dce2c233cdb9" category="list-text"><block ref="202d1986e5208977bf54b6b767767c39" category="inline-link-rx"></block>。すべてのNLP手法に対応する完全なツールキットです。2000年代初頭から維持されています。</block>
+  <block id="76e3c26aea345cd63928dae30c7683b8" category="inline-link">TextBLOB</block>
+  <block id="9733a294c2e8cbac3f50f2b1c6165ac9" category="list-text"><block ref="29dbbb204c6bb7c5433e577a001773ba" category="inline-link-rx"></block>。NLTKとPatternの上に構築された使いやすいNLPツールPython API。</block>
+  <block id="b8dc45aaa0db9ddabebf51171beed13a" category="inline-link">Stanford Core NLP</block>
+  <block id="e566a3c30415cf2003b1ae965e897b0c" category="list-text"><block ref="3aea58940b1efe70ecaf2254ccc89f1e" category="inline-link-rx"></block>。Stanford NLP Groupが開発したJavaのNLPサービスとパッケージ。</block>
+  <block id="7013def92af3dd7db98d1285170b5c5a" category="inline-link">Gensim氏</block>
+  <block id="f669b3f1322541dcae0edc94f45435ac" category="list-text"><block ref="7b679f834cae0cff7425a8dc62e2ec2e" category="inline-link-rx"></block>。人間のトピックモデリングは、チェコデジタル数学ライブラリプロジェクトのPythonスクリプトの集合として開始されました。</block>
+  <block id="2840ef6b507856e3306a32ffe28a8886" category="inline-link">スパレーシー</block>
+  <block id="418cc23cee80079d8aa2ccd37169bfc0" category="list-text"><block ref="bc5121a0541ff390725a7d480b19b87f" category="inline-link-rx"></block>。PythonとCythonを使用した、トランスフォーマ用GPUアクセラレーションを備えたエンドツーエンドの産業用NLPワークフロー。</block>
+  <block id="e0b205fce51b69be7136044a22a371ab" category="inline-link">Fasttextの場合</block>
+  <block id="07ad1b642fbcf4cbc6f67e8f5b7ce593" category="list-text"><block ref="53fd0bea11d98e3b7893bc4fbf501c85" category="inline-link-rx"></block>。FacebookのAI Research（Fair）ラボで作成された単語埋め込みや文分類の学習用の無料の軽量オープンソースNLPライブラリです。</block>
+  <block id="12680128425c827ef65d76f354329e97" category="inline-link">Spark ML</block>
+  <block id="27e7661d3fd9daf238bb981e30734c3c" category="paragraph">Spark NLPは、あらゆるNLPタスクと要件に対応する単一のユニファイド解決策 です。拡張性が高く、パフォーマンスが高く、精度の高いNLPベースのソフトウェアを、実稼働環境で使用できます。また、転移学習を活用し、研究やさまざまな業界における最新のアルゴリズムとモデルを実装しています。Sparkは上記のライブラリを完全にサポートしていないため、Spark NLPはの上に構築されました<block ref="3b3cfa486b6d50798f20e9b1ded08f31" category="inline-link-rx"></block> Sparkの汎用インメモリ分散データ処理エンジンを、ミッションクリティカルな本番ワークフロー向けのエンタープライズクラスのNLPライブラリとして活用しよう。アノテータは、ルールベースのアルゴリズム、機械学習、TensorFlowを利用してディープラーニングの実装を強化しています。トークン化、レマタイ化、語幹化、部分読み上げタギング、名前付きエンティティー認識など、一般的なNLPタスクを取り上げますが、これらに限定されません。 スペルチェックと感情分析。</block>
+  <block id="5f29df192bff436cf72d454f30a968c1" category="paragraph">トランスフォーマー（BERT）の双方向エンコーダリプレゼンテーションは、NLPのトランスベースの機械学習技術です。事前トレーニングと微調整の概念を普及させました。BERTの変圧器アーキテクチャは機械翻訳から生まれたもので、回帰型ニューラルネットワーク（RNN）ベースの言語モデルよりも長期的な依存関係をモデル化します。また、マスク言語モデリング（MLM）タスクも導入されました。このタスクでは、すべてのトークンのランダムな15%がマスクされ、モデルによって予測され、真の双方向性が実現されます。</block>
+  <block id="8f1fadc17d848b3be53c2009f5f9070a" category="inline-link">FinBert</block>
+  <block id="f12fa7d8a39cc8394ad5dfb1afe14bee" category="inline-link">ロイターTRRC2</block>
+  <block id="3795ebdf5b8232c65a11ceced659b1d5" category="inline-link">金融PhraseBankの</block>
+  <block id="575e9b077146ddbbac786ed0a40a1a21" category="inline-link">財務ニュースの業況分析</block>
+  <block id="189f0cc22e5920c5fbe48e7f7a384fa4" category="inline-link">ドキュメントDLについて説明する</block>
+  <block id="8171f59448f55698ad8ecd07ce1633b6" category="paragraph">金融感情の分析は、専門的な言語と、その分野のラベル付けされたデータが不足しているために困難になっています。<block ref="9c44f0ce83f7021f3ece2b04fda553fb" category="inline-link-rx"></block>事前に訓練されたBERTに基づく言語モデルであるBERTは、ドメインに適合しています<block ref="a21d1b93ad8a312fcc9c56c81567ecca" category="inline-link-rx"></block>、金融コーパス、およびラベル付けされたデータと微調整された(<block ref="14fa31c8eadcc29b01046706cfe3add5" category="inline-link-rx"></block>）を参照してください。研究者たちは、財務用語を使ってニュース記事から4、500件の文章を抽出した。次に、16人の専門家と修士の学生が、財務上の背景にポジティブ、ニュートラル、ネガティブのラベルを付けています。2016年から2020年までの間に、FinBERTと他の2つの事前トレーニングパイプライン（）を使用してNASDAQ企業収益の売上高記録の感情を分析するために、Sparkのエンドツーエンドのワークフローを構築しました<block ref="6d4ea12c876c5a993aa1b5d0f03f167f" category="inline-link-rx"></block>、<block ref="520f5e4ba9970dad735654cb1f0d1138" category="inline-link-rx"></block>）をSparkのNLPから取得します。</block>
+  <block id="026dcbbbfad27f6209a41e9dab2f3aed" category="paragraph">Spark NLPの基礎となるディープラーニングエンジンは、機械学習向けのエンドツーエンドのオープンソースプラットフォームであるTensorFlowです。モデル構築が容易で、どこでも堅牢なML生産を実現し、研究のための強力な実験を可能にします。このため、Sparkの「yarn cluster」モードでパイプラインを実行する場合、基本的には分散TensorFlowを実行し、1つのマスターノードと複数のワーカーノード、およびクラスタにマウントされたネットワーク接続型ストレージにわたって、データとモデルの並列化を行いました。</block>
+  <block id="159bdf3f5d37e56033c6c1736f86b085" category="section-title">Horovodの分散トレーニング</block>
+  <block id="ba6c44669e2888938a004611469c95dc" category="inline-link">TR-3969：『NetApp Solutions for Hadoop』</block>
+  <block id="6f5ab42847eab5c573282c94e51100a9" category="paragraph">MapReduce関連のパフォーマンスの中核となるHadoop検証は、TeraGen、TeraSort、TeraValidate、およびDFSIO（読み取りおよび書き込み）を使用して実行されます。に、TeraGenおよびTeraSortの検証結果を示します<block ref="c56c49d0c7359320f900743306997a3c" category="inline-link-rx"></block> Eシリーズおよび「ストレージ階層化」（xref）for AFF のセクションに記載されています。</block>
+  <block id="2c41734dc7928bdea8c2eab845ad7074" category="inline-link">Hovorod on Spark（SparkでのHovorod</block>
+  <block id="7509c08cb8b336b99de5f0cd33f545fd" category="paragraph">お客様からの要望に基づいて、Sparkを使用したトレーニングの配布は、さまざまなユースケースで最も重要なトレーニングの1つと考えています。このドキュメントでは、を使用しました<block ref="e46884ff7ae14dc4a4c2907aa0145199" category="inline-link-rx"></block> ネットアップのオンプレミス、クラウドネイティブ、ハイブリッドクラウドソリューションでSparkのパフォーマンスを検証するには、AFF ストレージコントローラ、Azure NetApp Files 、FAS StorageGRID をご利用ください。</block>
+  <block id="57b5eacba6da62ec21ea18f95421ef6b" category="paragraph">Horovod on Sparkパッケージは、Horovodの便利なラッパーを提供します。このラッパーはSparkクラスタで分散されたトレーニングワークロードを簡単に実行できるようにするものです。厳密なモデル設計ループでは、トレーニングデータと推論データが存在するSparkで、データ処理、モデルトレーニング、モデル評価がすべて行われます。</block>
+  <block id="e556cc2b256f6dd2bbe1cdfdb528c858" category="inline-link">Kagle Rossmann Store Sales</block>
+  <block id="f2280eb8ac361218b35f9fc97d4027b4" category="paragraph">SparkでHorovodを実行するためのAPIには、高レベルのエスティメータAPIと低レベルの実行APIの2つがあります。どちらも、Sparkの実行者に対してHorovodを起動するために同じ基盤メカニズムを使用していますが、Estimator APIはデータ処理、モデルトレーニングループ、モデルチェックポイント、メトリック収集、および分散トレーニングを抽象化します。Horovod Spark Estimators、TensorFlow、Kerasを使用して、に基づくエンドツーエンドのデータ準備と分散トレーニングワークフローを実施しました<block ref="d30b6f4a07a765f48b43dd15bf3bc8ea" category="inline-link-rx"></block> 競合他社</block>
+  <block id="fa3406903536d0cf09bf8e66ae33aebf" category="inline-link-macro">主なユースケースごとにPythonスクリプトを使用できます。</block>
+  <block id="94f33f4ba60c5f66bf0c60c3e391a81b" category="paragraph">スクリプト「kers_spark_horovod_Rossmann _ estimator.py」は、のセクションにあります <block ref="9843d2ebe8b4d4385946214b6f8e40b8" category="inline-link-macro-rx"></block> 次の3つの部分で構成されます</block>
+  <block id="1e0ac520c0a0627793f8b0ca3703e8e1" category="list-text">最初の部分では、Kaggleが提供し、コミュニティが収集した最初のCSVファイルのセットを介して、さまざまなデータ前処理ステップを実行します。入力データは'Validation'サブセットとテストデータセットで構成されるトレーニングセットに分かれています</block>
+  <block id="80ee77d4db5b8f731e911e7c47803afa" category="list-text">2番目の部分では、対数シグスモイド活性化関数とAdamオプティマイザを使用してKeras Deep Neural Network（DNN）モデルを定義し、Sparkに対してHorovodを使用してモデルの分散トレーニングを実行します。</block>
+  <block id="6c32e5a10a8b9f7e225e92b30c4eb494" category="list-text">3番目の部分では、検証セット全体の平均絶対エラーを最小化する最適なモデルを使用して、テストデータセットの予測を実行します。次に、出力CSVファイルが作成されます。</block>
+  <block id="ca1ff924f88675800b52c7c1b223b4a2" category="inline-link-macro">「機械学習」</block>
+  <block id="a67083c66285446e108268f795b72b24" category="paragraph">を参照してください <block ref="65cdc2076a502903b78fb8128fc1a214" category="inline-link-macro-rx"></block> を参照してください。</block>
+  <block id="840da3122eba37f84480a8dc769a8cc3" category="section-title">CTR予測にKerasを使用したマルチワーカーディープラーニング</block>
+  <block id="4debf96216c552af520b74d3d0d2f2dc" category="paragraph">ML プラットフォームとアプリケーションの最近の進歩により、現在は大規模な学習が注目されています。クリックスルー率（ CTR ）は、オンライン広告インプレッション数 100 件あたりの平均クリックスルー数（パーセンテージ）と定義されています。デジタルマーケティング、小売、 E コマース、サービスプロバイダなど、さまざまな業界やユースケースで重要な指標として広く採用されています。を参照してください<block ref="5e9febd4c244550b32d7bb781b595741" category="inline-link-rx"></block> Kubernetes、分散データETL、DaskおよびCUDA MLを使用したモデルトレーニングなど、CTRのアプリケーションとエンドツーエンドのクラウドAIワークフロー実装の詳細を確認できます。</block>
+  <block id="45c832c8d01426bfb65d74b7c547ad0c" category="inline-link">Criteo Terabyteのログデータセットをクリックします</block>
+  <block id="be1115ec919e48805da898209ea2c15a" category="paragraph">このテクニカルレポートでは、別のを使用しました<block ref="1a19f40e7660b78c77663f74c89e1e7b" category="inline-link-rx"></block> （TR-4904を参照）。Kerasを使用した複数のワーカーによる分散型ディープラーニングで、Deep NetworkモデルとCross Network（DCN）モデルを使用したSparkワークフローを構築し、ログ損失エラー機能のパフォーマンスをベースラインSparkのSpark ML Logistic Regression(ログ記録的回帰)モデルと比較します。DCNは、制限された角度の効率的な機能の相互作用を効率的にキャプチャし、高度な非線形相互作用を学習し、手動によるフィーチャーエンジニアリングや完全な検索を必要とせず、計算コストも低くなります。</block>
+  <block id="71b755d753dcdba2aeca91b65c167330" category="paragraph">Webスケールのレコメンダシステムのデータはほとんどが個別に分類されるため、フィーチャーの探索には困難な大規模でスパースな機能スペースが必要になります。これは、大規模なシステムのほとんどをロジスティック回帰などの線形モデルに限定しています。しかし、予測可能な機能を頻繁に特定すると同時に、見過ごしていない機能やまれなクロス機能を調べることが、予測を適切に行うための鍵となります。線形モデルは単純で、解析可能で、簡単にスケール変更できますが、表現力は限られています。</block>
+  <block id="793743a945a26aaa07de844420d013af" category="paragraph">一方、クロス機能は、モデルの表現力を向上させる上で重要であることが示されています。残念なことに、このような機能を特定するには、手動での機能開発や完全な検索が必要になることがよくあります目に見えない機能の相互作用を一般化することは、しばしば困難です。DCNのような十字型ニューラルネットワークを使用すると、自動で機能交差を明示的に適用することで、タスク固有の機能エンジニアリングを回避できます。クロスネットワークは複数のレイヤで構成されており、レイヤの深さによって高度な相互作用がプロバンスされます。各レイヤは、既存のレイヤに基づいて上位の相互作用を生成し、以前のレイヤからの相互作用を保持します。</block>
+  <block id="70725839e7d887ef6f8c815f325d4592" category="paragraph">Deep Neural Network（DNN；ディープニューラルネットワーク）は、さまざまな機能で非常に複雑なインタラクションをキャプチャすることを約束します。ただし、DCNと比較して、必要なパラメータの数は非常に多く、クロス機能を明示的に形成できず、一部のタイプの機能の相互作用を効率的に学習できない場合があります。クロスネットワークはメモリ効率が高く、実装も簡単です。クロスコンポーネントとDNNコンポーネントを共同でトレーニングし、予測機能のインタラクションを効率的に取り込み、Crito CTRデータセットで最先端のパフォーマンスを提供します。</block>
+  <block id="9830e1f81f623b33106acc186b93374e" category="inline-link">ml</block>
+  <block id="fefc70efb4580c1020c62303f76330f7" category="inline-link">ミリリブ</block>
+  <block id="2c9e5f067c0c14c56aa757d792108648" category="inline-link">Deepctr</block>
+  <block id="75e8e622ae2ef0cb646ef505a0b3f7be" category="paragraph">DCNモデルは、埋め込みレイヤーとスタッキングレイヤーから始まり、クロスネットワークとディープネットワークが並行して使用されます。次に、2つのネットワークからの出力を組み合わせた最終的な組み合わせレイヤを示します。入力データは、スパースフィーチャーとデンスフィーチャーを持つベクトルにすることができます。Sparkでは、その両方です<block ref="e0c7aa0ef7a63ea331cba99be2697841" category="inline-link-rx"></block> および<block ref="495fc8cfd173be827e5c6c8258a34e04" category="inline-link-rx"></block> ライブラリには「SparseVector」タイプが含まれます。したがって、ユーザーがそれぞれの機能やメソッドを呼び出す際には、2つの機能を区別し、注意することが重要です。CTR予測などのWebスケールの推薦システムでは、入力は主に「country = USA」などの分類的な機能です。このような機能は、多くの場合、1つのホットベクトルとしてエンコードされます。たとえば、「[0,1,0,..]」のようになります。「SparseVector」を使用したワン・ホット・エンコーディング（OHE）は、絶えず変化する語彙や拡大する語彙を持つ実世界のデータセットを扱う場合に便利です。で例を変更しました<block ref="0be922124247f224cab64b030781eed7" category="inline-link-rx"></block> 大きなボキャブラリを処理するために、DCNの埋め込みレイヤーとスタッキングレイヤーに埋め込みベクトルを作成します。</block>
+  <block id="565d2d07d9c220babb78adab27c2243a" category="inline-link">Critoディスプレイ広告のデータセット</block>
+  <block id="d05de658e793ee731e5a3782c453caa6" category="paragraph">。<block ref="8cb83117ecfa6e6678785dbda34d1999" category="inline-link-rx"></block> 広告のクリックスルーレートを予測します。13の整数型の機能と、各カテゴリの基数が多い26の分類的な機能があります。このデータセットでは、入力サイズが大きいため、ログロスの0.001が実質的に大きく改善されています。大規模なユーザベースの予測精度がわずかに向上すると、企業の収益が大きく増加する可能性があります。データセットには7日間の11GBのユーザログが格納されており、これは約4100万レコードに相当します。Sparkのdataframe .randomSplit()関数を使用して、トレーニング用のデータ(80%)、クロス検証(10%)、およびテスト用の残りの10%をランダムに分割しました。</block>
+  <block id="e871e132ed2e9c6d6213da57972adec1" category="paragraph">DCNは、Kerasを使用したTensorFlowに実装されました。DCNを使用したモデルトレーニングプロセスの実装には、次の4つの主要コンポーネントがあります。</block>
+  <block id="18aca2eb061782e34fcc772d780e4327" category="list-text">*データ処理と埋め込み。*ログトランスフォームを適用することで、リアルタイム機能が正規化されます。カテゴリフィーチャーの場合、寸法6×（カテゴリの基数）1/4の密度の高いベクトルにフィーチャーを埋め込みます。すべての埋め込み結果を次元1026のベクトルに連結します。</block>
+  <block id="190befa8188b0e07126d23d7488e79e7" category="list-text">*最適化* Adam Optimizerを使用してミニバッチ確率的最適化を適用しました。バッチサイズは512に設定されています。ディープネットワークにバッチ正規化が適用され、グラジエントクリップの基準が100に設定されました。</block>
+  <block id="023b8b252258fa415118862dec994bbf" category="list-text">*均一化。*私達はL2の均一化かドロップアウトが有効であることが見つけられなかったので早い停止を使用した。</block>
+  <block id="5f7ce3c44b690052b88504fd4c0ff7bb" category="list-text">* Hyperparameters*。非表示レイヤー数、非表示レイヤーサイズ、初期学習レート、およびクロスレイヤー数に基づくグリッド検索に基づく結果を報告します。非表示レイヤーの数は2～5で、非表示レイヤーのサイズは32～1024です。DCNの場合、クロスレイヤの数は1～6です。初期学習レートは0.0001から0.001に調整され、0.0001単位で増加しました。すべての実験は訓練ステップ150,000で早期停止を適用し、それを超えて過剰なフィッティングが発生し始めました。</block>
+  <block id="a5203fd5d2ee4a156e177b2b5b5ecb45" category="inline-link">DeepFM</block>
+  <block id="ca099c15c1ba89f9956f37979064b6ea" category="inline-link">xDeepFM</block>
+  <block id="43d5f147547ecf24ebc038feb06a8312" category="inline-link">自動内部（AutoInt</block>
+  <block id="79249d5f44965bf593f3105190bac784" category="inline-link">DCN v2</block>
+  <block id="ebca0d5eb18ce917a3f0d2d49746eb3d" category="paragraph">DCNに加えて、CTRの予測に使用される他の一般的なディープラーニングモデルもテストしました<block ref="256b68047e4850e72fc6a1a263d88e86" category="inline-link-rx"></block>、<block ref="dc65ad48383bc08407486976f4411f66" category="inline-link-rx"></block>、<block ref="a61c3ddacc920697ed1145d7ed359d25" category="inline-link-rx"></block>および<block ref="8b59d0e884bf752e43135b866516c089" category="inline-link-rx"></block>。</block>
+  <block id="408be753ce98edae615db82036085d63" category="section-title">検証に使用するアーキテクチャ</block>
+  <block id="2150013c97241fde077622292dd996b4" category="paragraph">この検証では、4つのワーカーノードと1つのマスターノードにAFF-A800 HAペアを使用しました。すべてのクラスタ・メンバーを、10GbEネットワーク・スイッチを介して接続しました。</block>
+  <block id="de404d7688ac5c78348bfea711a12792" category="paragraph">今回のNetApp Sparkの解決策 検証では、E5760、E5724、AFF-A800の3種類のストレージコントローラを使用しました。Eシリーズストレージコントローラは、12Gbps SAS接続の5つのデータノードに接続されました。AFF のHAペアストレージコントローラは、エクスポートされたNFSボリュームを10GbEでHadoopワーカーノードに接続することで提供します。Hadoopクラスタのメンバーは、Eシリーズ、AFF 、およびStorageGRID のHadoopソリューションで10GbE接続を介して接続されます。</block>
+  <block id="f3952bdea9a512245a3b2e368bdd17a4" category="inline-image-macro">検証に使用するアーキテクチャ。</block>
+  <block id="2f2f17293788ab5e5b754a35afe8b3b5" category="paragraph"><block ref="2f2f17293788ab5e5b754a35afe8b3b5" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="d69bb7b5d4a03684a8454a168278a99a" category="inline-link-macro">次の手順：テスト結果</block>
+  <block id="8e32abf231872a250f5352294ee7f66d" category="paragraph"><block ref="8e32abf231872a250f5352294ee7f66d" category="inline-link-macro-rx"></block></block>
+  <block id="ca052b24845534e817869836d49d519a" category="summary">本ドキュメントでは、Apache Sparkのアーキテクチャ、お客様のユースケース、ビッグデータ分析と人工知能に関連するネットアップストレージポートフォリオについて説明します。また、一般的なHadoopシステムに対して業界標準のAI、機械学習、ディープラーニングツールを使用してさまざまなテスト結果を提示することで、適切なSpark解決策 を選択できます。</block>
+  <block id="58b2293adcda372fb415412d23f01a8e" category="doc">TR-4570：『NetApp Storage Solutions for Apache Spark：Architecture、Use Cases、Performance Results』</block>
+  <block id="057e5f9ddc5d049ab86855dceffd6d14" category="paragraph">ネットアップKarthikeyan Nagalingam、Rick Huang氏</block>
+  <block id="550fd771b94cb8eb3739d16af31243f3" category="paragraph">本ドキュメントでは、Apache Sparkのアーキテクチャ、お客様のユースケース、ビッグデータ分析と人工知能（AI）に関連するネットアップストレージポートフォリオについて説明します。また、一般的なHadoopシステムに対して業界標準のAI、機械学習（ML）、ディープラーニング（DL）ツールを使用してさまざまなテスト結果を提示することで、適切なSpark解決策 を選択できます。まず、Sparkアーキテクチャ、適切なコンポーネント、2つの配置モード（クラスタとクライアント）が必要です。</block>
+  <block id="9e19cfda234e917201ce19469f25275b" category="paragraph">このドキュメントでは、構成の問題に対処するためのユースケースも紹介しています。また、Sparkでのビッグデータ分析、AI、ML、DLに関連するネットアップのストレージポートフォリオの概要についても説明しています。その後、Spark固有のユースケースとNetApp Sparkの解決策 ポートフォリオから得られたテスト結果をご紹介します。</block>
+  <block id="ce663ffc6a85b2c97e60368b5a9c76e3" category="paragraph">このセクションでは、小売、デジタルマーケティング、銀行業務、ディスクリート製造、プロセス製造などのデータ成長業界におけるビッグデータ分析とAI / ML / DLに関するお客様の課題に焦点を当てます。 政府機関やプロフェッショナルサービスも利用できます。</block>
+  <block id="8a5bab0d8f4c0d1b73de5ada6b1c91e6" category="section-title">予測不可能なパフォーマンス</block>
+  <block id="9790dc49aa09b4759e4c6ebc65fb4c42" category="paragraph">従来型のHadoop導入では、一般にコモディティハードウェアを使用します。パフォーマンスを向上させるには、ネットワーク、オペレーティングシステム、Hadoopクラスタ、Sparkなどのエコシステムコンポーネント、ハードウェアをチューニングする必要があります。それぞれのレイヤを調整しても、Hadoopは環境内のハイパフォーマンスを想定して設計されていないコモディティハードウェア上で実行されるため、必要なパフォーマンスレベルを達成することは困難です。</block>
+  <block id="b496a0269649d7b570c2052646fd23b6" category="section-title">メディアおよびノードの障害</block>
+  <block id="21af95409591262fb36555acb96262d8" category="paragraph">通常の状態でも、コモディティハードウェアは障害が発生しやすくなります。データノードの1つのディスクに障害が発生すると、Hadoopマスターはデフォルトでそのノードを正常な状態ではないとみなします。次に、レプリカから正常なノードに、そのノードからネットワーク経由で特定のデータをコピーします。このプロセスにより、Hadoopジョブのネットワークパケット速度が低下します。正常な状態に戻ったら、クラスタでデータを再度コピーしてレプリケートデータを削除する必要があります。</block>
+  <block id="03d4836e0d1deb07679d400b8c88a880" category="section-title">Hadoopベンダーロックイン</block>
+  <block id="bb33286c56b053ae85ab21a377bd4347" category="paragraph">Hadoopディストリビュータは独自のバージョン管理機能を備えたHadoopディストリビューションを所有しており、これによってお客様はこれらのディストリビューションにロックされます。ただし、多くのお客様が、特定のHadoopディストリビューションにお客様を結び付けることのないインメモリ分析をサポートしている必要があります。ディストリビューションを自由に変更し、分析機能を活用する必要があります。</block>
+  <block id="a940c960f38c44b75bf1da78215690c2" category="section-title">複数の言語をサポートしていない</block>
+  <block id="65a27ee7da3f8c68004d31f60ab65e55" category="paragraph">MapReduce Javaプログラムに加えて、ジョブを実行するために複数の言語のサポートが必要になることがよくあります。SQLやスクリプトなどのオプションを使用すると、回答を取得する柔軟性が高まり、データを整理して取得するためのオプションが増え、データを分析フレームワークにすばやく移動できます。</block>
+  <block id="f3e2f69098f73bd8bb3cf61330433955" category="section-title">使用の難しさ</block>
+  <block id="e2bdfb6bb3e956b38b6aacde957996df" category="paragraph">しばらくの間、Hadoopが使いにくいとユーザからクレームを受けています。Hadoopは新しいバージョンが登場するたびにシンプルかつ強力になりましたが、今もこの批評家は存続しています。Hadoopを使用するには、JavaおよびMapReduceのプログラミングパターンを理解する必要があります。これは、データベース管理者や、従来のスクリプトスキルセットを持つユーザにとっての課題です。</block>
+  <block id="5f5f8f99cf4c6ebc0b81445be5328bf6" category="section-title">複雑なフレームワークとツール</block>
+  <block id="74faacaf156cd022099bed5469595b3e" category="paragraph">企業のAIチームは、さまざまな課題に直面します。導入エコシステムやアプリケーションごとに専門的なデータサイエンスの知識があるとしても、ツールやフレームワークは単に相互に変換されるわけではありません。データサイエンスプラットフォームは、Spark上に構築された対応するビッグデータプラットフォームとシームレスに統合する必要があります。データ移動が容易で、再利用可能なモデル、すぐに使えるコード、プロトタイプ作成、検証、バージョン管理、共有、再利用といったベストプラクティスに対応するツールを備えています。 また、モデルを迅速に本番環境に導入できます。</block>
+  <block id="067be0651f3de8fd60ec45827a4078ed" category="section-title">ネットアップを選ぶ理由</block>
+  <block id="8ff43bcedde084850831da9cdcc5a43a" category="paragraph">ネットアップでは、次の方法でSpark体験を向上させています。</block>
+  <block id="dc5106ccf618944587be46565f5585cd" category="list-text">NetApp NFSから直接アクセスする（次の図を参照）ことで、データを移動したりコピーしたりすることなく、既存または新規のNFSv3 / NFSv4データに対してビッグデータ分析ジョブを実行できます。データの複数のコピーが作成されるため、ソースとデータを同期する必要がありません。</block>
+  <block id="38bc62edaebd471500fa64a4758f7f04" category="list-text">ストレージ効率が向上し、サーバのレプリケーションが不要になります。たとえば、NetApp EシリーズHadoop解決策 にはデータのレプリカが3つではなく2つ必要であり、FAS Hadoop解決策 にはデータソースが必要ですが、データのレプリケーションやコピーは必要ありません。ネットアップのストレージソリューションは、サーバ間のトラフィックも削減します。</block>
+  <block id="2fc945668748ad0173e63b5db34773e7" category="list-text">ドライブおよびノードの障害時のHadoopジョブとクラスタの動作が向上します。</block>
+  <block id="343500ea6d724fe727d127f6409b86c2" category="list-text">データ取り込みのパフォーマンスが向上します。</block>
+  <block id="109f256618c8d9037bb2cd6cc28f5959" category="inline-image-macro">別のApache Spark設定。</block>
+  <block id="ce1f5d61aacdba15be898e2d6408542f" category="paragraph"><block ref="ce1f5d61aacdba15be898e2d6408542f" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="40771867b1bf0db74b9505757197a17a" category="paragraph">たとえば、金融機関や医療機関では、ある場所から別の場所へデータを移動する際に法的義務を果たす必要がありますが、これは容易な作業ではありません。このシナリオでは、NetApp NFSから直接アクセスして、財務データと医療データを元の場所から分析します。もう1つの主なメリットは、NetApp NFS直接アクセスを使用することで、ネイティブのHadoopコマンドを使用してHadoopデータを簡単に保護できるようになることと、ネットアップの充実したデータ管理ポートフォリオでデータ保護ワークフローを実現できることです。</block>
+  <block id="a9e81b3240a7c1ae64fc23e96c84f4ea" category="paragraph">NetApp NFS直接アクセスでは、HadoopクラスタとSparkクラスタに対して次の2種類の導入オプションを提供しています。</block>
+  <block id="4e8fe573a9fe74b6429508c87337b99b" category="list-text">デフォルトでは、HadoopクラスタまたはSparkクラスタは、データストレージとデフォルトのファイルシステムにHadoop Distributed File System（HDFS；Hadoop分散ファイルシステム）を使用しています。NetApp NFSから直接アクセスできるため、デフォルトのHDFSをデフォルトのファイルシステムとしてNFSストレージに置き換えることができ、NFSデータを直接分析できます。</block>
+  <block id="071998ed00d39b3ff27f5410b196f9cc" category="list-text">もう1つの導入オプションでは、NetApp NFS直接アクセスを使用して、1つのHadoopクラスタまたはSparkクラスタ内でHDFSを追加のストレージとして構成することもできます。この場合、 NFS エクスポートを介してデータを共有し、 HDFS データと同じクラスタからデータにアクセスできます。</block>
+  <block id="c1923befca33cfe6cc9ace80af8580b6" category="paragraph">NetApp NFS直接アクセスを使用する主な利点は次のとおりです。</block>
+  <block id="91221d408b0c171556751f29fb9d8071" category="list-text">現在の場所からデータを分析することで、分析データをHDFSなどのHadoopインフラに移動するための時間とパフォーマンスのかかる作業を回避できます。</block>
+  <block id="1675635f440b61b7219bf7ed2bb2ed27" category="list-text">レプリカの数を3分の1から1に削減。</block>
+  <block id="16f81b84f137a7a52da9ba8d798af622" category="list-text">ユーザを分離してコンピューティングとストレージを分離し、個別に拡張</block>
+  <block id="71946d3c421aea3a8238a481bebe1919" category="list-text">ONTAP の充実したデータ管理機能を活用して、エンタープライズデータを保護</block>
+  <block id="abebb9b977d736f599ab76c517961b24" category="list-text">Hortonworksデータプラットフォームの認定。</block>
+  <block id="3c41c2d3511fa95c83687fae6fb57754" category="list-text">ハイブリッドデータ分析の導入を実現</block>
+  <block id="05550a44691e53e07f81616af5d58e20" category="list-text">動的なマルチスレッド機能を活用してバックアップ時間を短縮</block>
+  <block id="009b0bd3acc58fbc1c3db15692583fa9" category="paragraph">を参照してください<block ref="217abb9bc41aa22d30da41b7958b4152" category="inline-link-rx"></block> Hadoopデータのバックアップ、クラウドからオンプレミスへのバックアップ、ディザスタリカバリ、既存のHadoopデータに対するDevTestの有効化、データ保護とマルチクラウド接続の実現、分析ワークロードの高速化を実現します。</block>
+  <block id="3100ca44a05fa97ed5f07875f442084e" category="paragraph">次のセクションでは、Sparkのお客様にとって重要なストレージ機能について説明します。</block>
+  <block id="da2518ef48c60077e2b2c0be7fed7193" category="section-title">ストレージ階層化</block>
+  <block id="d9a83ca3a623dce37a2f84027f1495ce" category="paragraph">Hadoopストレージ階層化を使用すると、ストレージポリシーに従ってさまざまなタイプのファイルを格納できます。ストレージ・タイプには' hot ''cold ''warm ''all_sssd ''one _sssd 'が含まれます 「lazy_persist`」。</block>
+  <block id="6a3bcc36155e13e7b4cdcebeb2b3c96e" category="paragraph">ネットアップのAFF ストレージコントローラと、ストレージポリシーが異なるSSDおよびSASドライブを搭載したEシリーズストレージコントローラでHadoopストレージの階層化を検証しました。AFF-A800のSparkクラスタには4つのコンピュートワーカーノードがあり、Eシリーズのクラスタには8つのノードがあります。</block>
+  <block id="36edc8f5974bdf6ad51a220254b99dfb" category="paragraph">次の図に、ネットアップのHadoop SSD向けソリューションのパフォーマンスを示します。</block>
+  <block id="d09520ed9b4a17ada38e70314907675f" category="inline-image-macro">1TBのデータをソートする時間です。</block>
+  <block id="55fdf8b2dd620bd73dcd37db50e0f0e5" category="paragraph"><block ref="55fdf8b2dd620bd73dcd37db50e0f0e5" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="c2f530d95c6332b106d86a53b41e4a36" category="inline-link">TR-3969『NetApp Eシリーズ解決策 for Hadoop』</block>
+  <block id="8cdadd1c9614abebd1b476daba691f36" category="list-text">ベースラインNL-SAS構成では、8つのコンピューティングノードと96本のNL-SASドライブを使用しました。この構成では、1TBのデータが4分38秒で生成され、を参照してください<block ref="f08cd7da48b5d74d9eaab10199016f47" category="inline-link-rx"></block> クラスタとストレージ構成の詳細については、を参照してください。</block>
+  <block id="f895fa75cdc40f4e672bba6f7a873e25" category="list-text">TeraGenを使用した場合、SSD構成ではNL-SAS構成よりも1TBのデータが15.66x高速で生成されました。さらに、SSD構成では、コンピューティングノードの半分とディスクドライブの半分（合計24本のSSDドライブ）が使用されていました。ジョブの完了時間に基づき、NL-SAS構成の約2倍の速さで処理されました。</block>
+  <block id="459f180fc71a8f8bb773d3c879314e39" category="list-text">SSD構成は、TeraSortを使用してNL-SAS構成の1TBのデータを1138.36倍高速にソートしました。さらに、SSD構成では、コンピューティングノードの半分とディスクドライブの半分（合計24本のSSDドライブ）が使用されていました。そのため、ドライブあたりの速度は、NL-SAS構成の約3倍です。</block>
+  <block id="c13c2e056adb51078f3067ba570d2780" category="section-title">パフォーマンスの拡張-スケールアウト</block>
+  <block id="beb08cca1e99e0bdbf11c74ebb62d5ea" category="paragraph">AFF 解決策 のHadoopクラスタの処理能力を強化する必要がある場合は、適切な数のストレージコントローラを使用してデータノードを追加できます。ワークロードの特性に応じて、ストレージコントローラアレイごとにデータノードを4つから始めて、ストレージコントローラごとにデータノードを8つに増やすことを推奨します。</block>
+  <block id="431bd1a68814e184bc49ff7231450049" category="paragraph">AFF とFAS はインプレース分析に最適です。コンピューティング要件に基づいて、ノードマネージャを追加できます。また、ノンストップオペレーション機能により、ダウンタイムなしでストレージコントローラをオンデマンドで追加できます。AFF とFAS を備えた豊富な機能を備えており、NVMeメディアのサポート、効率性の保証、データ削減、QoS、予測分析、 クラウドの階層化、レプリケーション、クラウドの導入、セキュリティお客様が要件を満たせるように、ネットアップでは、追加のライセンスコストなしでファイルシステム分析、クォータ、オンボックスロードバランシングなどの機能を提供しています。ネットアップは、同時ジョブ数やレイテンシの低減、処理の簡易化、1秒あたりのスループットの向上といった、競合他社よりも優れたパフォーマンスを提供しています。さらに、ネットアップのCloud Volumes ONTAP は、主要な3つのクラウドプロバイダすべてで動作します。</block>
+  <block id="ccfed4ad520d8db8b13dc91438d30680" category="section-title">パフォーマンスの拡張-スケールアップ</block>
+  <block id="9341bdabe891be81d2be3440a4c413b5" category="paragraph">ストレージ容量を追加する必要がある場合は、スケールアップ機能を使用して、AFF 、FAS 、およびEシリーズシステムにディスクドライブを追加できます。Cloud Volumes ONTAP を使用してストレージをPBレベルに拡張するには、使用頻度の低いデータをブロックストレージからオブジェクトストレージに階層化し、追加のコンピューティングなしでCloud Volumes ONTAP ライセンスをスタックするという2つの要素を組み合わせます。</block>
+  <block id="1a4f71bef2c7cfcc6846e82e9e0e0331" category="section-title">複数のプロトコル</block>
+  <block id="11d6ae97757031ae53e1437c9c9b61bd" category="paragraph">ネットアップシステムは、SAS、iSCSI、FCP、InfiniBandなど、Hadoop導入のほとんどのプロトコルをサポートしています。 およびNFSが必要です。</block>
+  <block id="98ed4f29e9a08c43fe10dda6782e567e" category="section-title">運用およびサポートされるソリューション</block>
+  <block id="dc15faa991f0a6740734b42c6e08c347" category="inline-link">MapR</block>
+  <block id="464e596f1568de8e5f19e16e09beaaa8" category="inline-link">Hortonworks</block>
+  <block id="f1fd1913c968a1c383c88631e335a7ca" category="inline-link">認定資格</block>
+  <block id="7454739e907f5595ae61d84b8547f574" category="inline-link">パートナー</block>
+  <block id="b1202a92f536818c64c3005cf78d8e35" category="paragraph">本ドキュメントに記載されているHadoopソリューションは、ネットアップによってサポートされています。これらのソリューションは、主要なHadoopディストリビュータでも認定されています。詳細については、を参照してください<block ref="cc609e66e0173716d91f0397bfa09e1b" category="inline-link-rx"></block> サイト、<block ref="030fa12946d3d4653223853ac09b7183" category="inline-link-rx"></block> サイト、Cloudera<block ref="110185abc20d52e7eb83135b84742416" category="inline-link-rx"></block> および<block ref="a573734769be98dedf1aa2242c0eb40c" category="inline-link-rx"></block> サイト：</block>
+  <block id="7a2a776baec23a88727e6039089b8193" category="inline-link-macro">次のステップ：対象となるお客様</block>
+  <block id="e8020665ce34622c78e50d808e554235" category="paragraph"><block ref="e8020665ce34622c78e50d808e554235" category="inline-link-macro-rx"></block></block>
+  <block id="49c9a66d1f76b5f264fea5d54130b82a" category="summary">TeraGenベンチマークツールでTeraSortおよびTeraValidateスクリプトを使用して、E5760、E5724、およびAFF-A800構成でのSparkのパフォーマンス検証を測定しました。さらに、SparkのNLPパイプラインとTensorFlow分散トレーニング、Horovod分散トレーニング、KerasによるディープFMでのCTR予測を使用した複数ワーカーのディープラーニングの3つの主なユースケースをテストしました。</block>
+  <block id="41be8de44faa8ba43210d7494ee095d2" category="doc">テスト結果</block>
+  <block id="0daa7dd4f2822f3e63bdac1bd5870a75" category="inline-link-macro">以前：主要なAI、ML、DLのユースケースとアーキテクチャ</block>
+  <block id="26d27784aaeb94a4670d31f46185d57d" category="paragraph"><block ref="26d27784aaeb94a4670d31f46185d57d" category="inline-link-macro-rx"></block></block>
+  <block id="60637296d8b6dcd84aaff3afc778241d" category="paragraph">TeraGenベンチマークツールでTeraSortおよびTeraValidateスクリプトを使用して、E5760、E5724、およびAFF-A800構成でのSparkのパフォーマンス検証を測定しました。さらに、SparkのNLPパイプラインとTensorFlow分散トレーニング、Horovod分散トレーニング、Kerasを使用したディープFMでのCTR予測を利用した複数ワーカーのディープラーニングという、3つの主なユースケースをテストしました。</block>
+  <block id="653a9ba51c0af0c11aab6af3ecfdc8c6" category="paragraph">EシリーズとStorageGRID の検証には、Hadoopレプリケーションファクタ2を使用しました。AFF の検証に使用したデータソースは1つだけです。</block>
+  <block id="6cdf0c4c6177a49f44f3688dd2a5b9ad" category="paragraph">次の表に、Sparkのパフォーマンス検証のハードウェア構成を示します。</block>
+  <block id="00e536f9715964bf964b4961d7287f95" category="cell">Hadoopワーカーノード</block>
+  <block id="ce1dc110e77caccbe12e51dce2d1c9b7" category="cell">ドライブタイプ</block>
+  <block id="c8fafade5cff4119459018fc205beed1" category="cell">ノードあたりのドライブ数</block>
+  <block id="bb43878952414106e66a5d3e8902dd46" category="cell">ストレージコントローラ</block>
+  <block id="2db46c628cfb3bd1545d3b5a14b4a9c5" category="cell">（ SAS ）。</block>
+  <block id="d748fcab9e84c60a5a7b1e5ed2d052c8" category="cell">単一のハイアベイラビリティ（HA）ペア</block>
+  <block id="fb5e436e0878dfd2227011932c4eb93c" category="cell">E5760</block>
+  <block id="072b030ba126b2f4b2374f342be9ed44" category="cell">60</block>
+  <block id="6303aa59a000812ac121a6f5238d6c2c" category="cell">単一のHAペア</block>
+  <block id="83ac07c2ad3d90f5c6608cfaa2eec573" category="cell">E5724</block>
+  <block id="26b9fff68b23131979be5c2d9a456454" category="cell">AFF800が必要です</block>
+  <block id="bddda15d92b567df6d8aa197c281ddc4" category="paragraph">次の表に、ソフトウェア要件を示します。</block>
+  <block id="8b6f93f33bce541c7f50f8aff637e2e1" category="cell">RHEL</block>
+  <block id="299e5505ce975112afaefec130cc83e0" category="cell">7.9</block>
+  <block id="bedb19167c4cde670f36a4985efbadd2" category="cell">OpenJDKランタイム環境</block>
+  <block id="4fda350b2148254bcd9e67bbdbecdc93" category="cell">1.8.0</block>
+  <block id="b185818332a596af6cda9cae4dc594f6" category="cell">OpenJDK 64ビットのServer VM</block>
+  <block id="681eea6b2a996d12035edc50dc4cb4c2" category="cell">25.302</block>
+  <block id="30a2ec41610037af662087fe85d19a4d" category="cell">2.24.1</block>
+  <block id="87f16b82c65c9274a67305d08b5dfecb" category="cell">GCC/G++</block>
+  <block id="b87ed8b82b1cf2cb4e4ddaa75ec9e0e4" category="cell">11.2.1.</block>
+  <block id="8cde774d6f7333752ed72cacddb05126" category="cell">火花</block>
+  <block id="f2f87b58be0d57ecf71ada8df361a2d9" category="cell">3.2.1</block>
+  <block id="17e918efeeeb8f100c695e284d5c0a08" category="cell">PySpark</block>
+  <block id="1f4e00506ff9fb5fe179f2ba1c60ff61" category="cell">3.1.2</block>
+  <block id="401534b4a193f467279a370076ccb955" category="cell">SparkNLPです</block>
+  <block id="de8a4e99bb5f22ded6d686cfd948274b" category="cell">3.4.2</block>
+  <block id="074dd699710da0ec1eb45f13b31788e3" category="cell">TensorFlowです</block>
+  <block id="7fee7bb66f4294c3e32783efa7d9bafc" category="cell">クラス</block>
+  <block id="35a0c5fdc22109515a67a96e5e7fb914" category="cell">0.24.3</block>
+  <block id="14bdb1335d2386afb42f726416a2a83b" category="section-title">財務心理分析</block>
+  <block id="559cf37b505e9001d46e6d6bd73e746c" category="inline-link">NVIDIA Riva SDKを参照してください</block>
+  <block id="e65b49198d65919095402991b0cf5624" category="inline-link">Taoフレームワーク</block>
+  <block id="3f57666cb1b915db482629c0554b2d92" category="paragraph">公開しました<block ref="36713788fc49ad5281ee4a8956df0b3b" category="inline-link-rx"></block>を使用して、エンドツーエンドの会話型AIパイプラインを構築しました<block ref="5d9fb1d86d92052bc5dca8ba91d13ff2" category="inline-link-rx"></block>、AFF ストレージ、NVIDIA DGXシステムパイプラインは、DataOpsツールキットを活用して、バッチオーディオ信号処理、Automatic Speech Recognition（ASR）、転送学習、感情分析を実行します。<block ref="8702bd0254f484bdfe9f1ec1c2a853b1" category="inline-link-rx"></block>および<block ref="bba656873bd8ccd45c0c4fc908390474" category="inline-link-rx"></block>。金融サービス業界へのセンチメント分析のユースケースの拡大、SparkNLPワークフローの構築、特定事業体の認識など、さまざまなNLPタスクに対する3つのBERTモデルのロード、NASDAQ Top 10 Companiesの四半期収益コールに関するセンテンスレベルのセンチメントの取得。</block>
+  <block id="ffeb7ccd27ad1e7d783757733dadec57" category="paragraph">次のスクリプト「センチメント_アナリシス_スパーク」。PY’はFinBERTモデルを使用してHDFS内のトランスクリプトを処理し、次の表に示すようにポジティブでニュートラルでネガティブな感情カウントを生成します。</block>
+  <block id="077259b584adffb379f7f2638be91edc" category="paragraph">次の表に、2016年から2020年までのNASDAQトップ10企業の収益/コール、センテンスレベルの感情分析を示します。</block>
+  <block id="30702e828192097c5634358e6047d0cf" category="cell">センチメントの数値と割合</block>
+  <block id="7838fb6ed7918fca8c7797b3b68952d2" category="cell">10社すべて</block>
+  <block id="8b10e4ae9eeb5684921a9ab27e4d87aa" category="cell">AAPL</block>
+  <block id="48af4341f745163f945fa838eeabb062" category="cell">AMD</block>
+  <block id="261fd26b0151a81370d097e4ed4c6505" category="cell">AMZN</block>
+  <block id="85fd1bb0e226da6a33e9b5dc1a4952f1" category="cell">CSCO</block>
+  <block id="e15ce71ff533c9125f11a46c09e2412b" category="cell">GOOGL</block>
+  <block id="fc39dab34bbe435680d30933db783ba0" category="cell">INTC</block>
+  <block id="b004b3ecde24c85e32c1923f10d3fb62" category="cell">マイクロソフト</block>
+  <block id="7f5f6a07b14840f4d8a22caa3df2aed0" category="cell">NVDA</block>
+  <block id="4f65a47dc5d0d8a27379f2b1b4d9281b" category="cell">正の数</block>
+  <block id="9e6adb1432c4a75a33d48693328e4159" category="cell">7447</block>
+  <block id="18d10dc6e666eab6de9215ae5b3d54df" category="cell">1567年</block>
+  <block id="5c572eca050594c7bc3c36e7e8ab9550" category="cell">743</block>
+  <block id="f90f2aca5c640289d0a29417bcb63a37" category="cell">290</block>
+  <block id="08d98638c6fcd194a4b1e6992063e944" category="cell">682</block>
+  <block id="795c7a7a5ec6b460ec00c5841019b9e9" category="cell">826</block>
+  <block id="677e09724f0e2df9b6c000b75b5da10d" category="cell">824</block>
+  <block id="f47d0ad31c4c49061b9e505593e3db98" category="cell">904</block>
+  <block id="41ae36ecb9b3eee609d05b90c14222fb" category="cell">417</block>
+  <block id="be201b8b1b0b81005e46d49fd301124c" category="cell">ニュートラルカウント</block>
+  <block id="1ab0418ab8dc5325176cd1e26660234f" category="cell">64067</block>
+  <block id="34ad9bc83e3c72c62281cb2c744ac966" category="cell">6856</block>
+  <block id="1796a48fa1968edd5c5d10d42c7b1813" category="cell">7596</block>
+  <block id="71e63ef5b7249cfc60852f0e0f5bf4c8" category="cell">5086</block>
+  <block id="126c2da128e5b044dc53405c25b4d8de" category="cell">6650</block>
+  <block id="dd5bfdeb57f7c75d400de61e99d78e2e" category="cell">5914</block>
+  <block id="80c0e8c4457441901351e4abbcf8c75c" category="cell">6099</block>
+  <block id="6e4243f5511fd6ef0f03e9f386d54403" category="cell">5715</block>
+  <block id="67ba02d73c54f0b83c05507b7fb7267f" category="cell">6189</block>
+  <block id="e65849536f4b2170d6b42c8309222fac" category="cell">負の数</block>
+  <block id="d860bd12ce9c026814bbdfc1c573f0f5" category="cell">1787年になります</block>
+  <block id="c24cd76e1ce41366a4bbe8a49b02a028" category="cell">253</block>
+  <block id="979d472a84804b9f647bc185a877a8b5" category="cell">213</block>
+  <block id="68d30a9594728bc39aa24be94b319d21" category="cell">84</block>
+  <block id="a2557a7b2e94197ff767970b67041697" category="cell">189</block>
+  <block id="e2ef524fbf3d9fe611d5a8e90fefdc9c" category="cell">97</block>
+  <block id="6a9aeddfc689c1d0e3b9ccc3ab651bc5" category="cell">282</block>
+  <block id="7647966b7343c29048673252e490f736" category="cell">89</block>
+  <block id="691ec36991472d115c60f32cd84bfc5b" category="cell">分類なしのカウント</block>
+  <block id="084b6fbb10729ed4da8c3d3f5a3ae7c9" category="cell">196</block>
+  <block id="fbd7939d674997cdb4692d34de8633c4" category="cell">76</block>
+  <block id="2706e1e04688749582425d394866306e" category="cell">（合計数）</block>
+  <block id="b72e37e992d9e460ce2a491a974d13b5" category="cell">73497</block>
+  <block id="9f6f2381bc56ef668e94f6d1fb4f6309" category="cell">8676</block>
+  <block id="a563b6d5abbf137175059d6bb14672cc" category="cell">8552.</block>
+  <block id="1134ac57b5b1d38b7d70c1b6feaa28cf" category="cell">5536</block>
+  <block id="e1e1f667ce4596e5644be6fab627c226" category="cell">7521</block>
+  <block id="176bf6219855a6eb1f3a30903e34b6fb" category="cell">6837</block>
+  <block id="75da5036f659fe64b53f3d9b39412967" category="cell">7205.</block>
+  <block id="e6be4c22a5963ab00dfe8f3b695b5332" category="cell">6822</block>
+  <block id="2ea1202aed1e0ce30d41be4919b0cc99" category="cell">6695</block>
+  <block id="14d1ed13bbef7783a73cfb9346480ce2" category="paragraph">割合の点では、CEOとCFOが話している文のほとんどは事実上であり、中立的な感情を持っています。決算発表時に、アナリストは肯定的または否定的な感情を伝える可能性のある質問をします。また、マイナスやプラスの心理が株価に与える影響についても、取引日の同日または翌日に定量的に調査することもできます。</block>
+  <block id="3957e5ecad1215aa086504cf2c9ba9cc" category="paragraph">次の表に、NASDAQトップ10企業の文章レベルの感情分析をパーセントで示します。</block>
+  <block id="e8a6f3527192d64ba338192ce83f6283" category="cell">センチメントの割合</block>
+  <block id="3289297424e01eda5b788c083bbf3147" category="cell">肯定的</block>
+  <block id="3e263985564016f5774bfb75e31efb0d" category="paragraph">10.13%</block>
+  <block id="d983b23f5dc08dfb28a31a898b6fbb6a" category="cell">18.06％</block>
+  <block id="ed5f9ec0b398f0f53408828898412855" category="cell">8.69%</block>
+  <block id="4d8e8cc0a97724584c1cd94c9485d555" category="cell">5.24%</block>
+  <block id="d43cdfa633a84f9ca5043f4eb9363a38" category="cell">9.07%</block>
+  <block id="a134c476ebd0c219b3cc879185d436ce" category="cell">12.08%</block>
+  <block id="27cd80a0bdc79a724fdc31fa8841e19b" category="cell">11.44%</block>
+  <block id="e954976d9376dfe5860acd553772a6df" category="cell">13.25%</block>
+  <block id="d30929e6786318e19a22c88447dcc97c" category="cell">6.23%</block>
+  <block id="e9bb5320b3890b6747c91b5a71ae5a01" category="cell">ニュートラル</block>
+  <block id="6c3d5ec0fc8197d1a8f8366e142e37aa" category="cell">87.17%</block>
+  <block id="578429551436bef848f19eccdd93fb73" category="cell">79.02%</block>
+  <block id="bd443bde0360eb444a5906bea9d081b0" category="cell">88.82%</block>
+  <block id="97840fcb1a1f07bef3a12ef2d7975f09" category="cell">91.87%</block>
+  <block id="32edca53c1f1f00d865543b435d4ce3a" category="cell">88.42%</block>
+  <block id="407967ec786c26ce4ee7608c076fa6d7" category="cell">86.50%</block>
+  <block id="9784395b081e78ec535161a5ba0ffd1e" category="cell">84.65%</block>
+  <block id="5d4b03024bcea7385ffc5808dd9c3b74" category="cell">83.77%</block>
+  <block id="b73c3663139621b36cfdafbeab44fae9" category="cell">92.44%</block>
+  <block id="ffb9356ff2b7da85c75c92fa7ea03b8b" category="cell">負</block>
+  <block id="672484e7c4fb5894b2ec75fd7e277fe4" category="cell">2.43%</block>
+  <block id="c1fbc8ff600d3f571e0c440833db1a10" category="cell">2.92％</block>
+  <block id="161a790eac04cd27fc3e4ffd23ba452d" category="cell">2.49％</block>
+  <block id="5fd44dd7fb1198b1903141531424bb54" category="cell">1.52%</block>
+  <block id="6916237a9f5c4ed45ddfff6fe37f45e7" category="cell">2.51 %</block>
+  <block id="43045dfce9b4c190cfa4dad2e4bf9457" category="cell">1.42 %</block>
+  <block id="248199b9ac50bd355476016ad093ac09" category="cell">3.91%</block>
+  <block id="1cdf97682ca1bcd645e8dbcebb105529" category="cell">2.96 %</block>
+  <block id="8098f29a2cea86e839d8ca03f50d52ce" category="cell">1.33%</block>
+  <block id="0d015d96f63a8c12d96b8399482b593f" category="cell">分類なし</block>
+  <block id="1291f0b93a9f9d5a7e7391a09b5ec0cc" category="cell">0.27%</block>
+  <block id="6a040d1ee7200a1dc349a598a163cc38" category="cell">1.37 %</block>
+  <block id="d9fd62085e1ade721df051f8bc4c320d" category="cell">0.01%</block>
+  <block id="28bf86a8e29245437d4ad59ea6e80962" category="paragraph">ワークフローの実行時間に関しては'local'モードからHDFSの分散環境に至るまで4.78倍の大幅な改善が見られましたまた'NFSを活用することで'さらに0.14%の向上が見られました</block>
+  <block id="87509d62c8804cdab48bea9e54013be4" category="paragraph">次の図に示すように、データとモデルの並列処理によって、データ処理と分散TensorFlowモデルの推論速度が向上しています。NFSのデータの場所では、トレーニング済みのモデルがワークフローのボトルネックになっているため、ランタイムが若干向上しました。Transcriptデータセットのサイズを増やすと、NFSの方が明らかになります。</block>
+  <block id="493d0790c882abcf160f461d269c7ec5" category="inline-image-macro">SparkのNLP感情分析のエンドツーエンドワークフローランタイム。</block>
+  <block id="bb9cd55aa92ceddf07506d9a2aaaa151" category="paragraph"><block ref="bb9cd55aa92ceddf07506d9a2aaaa151" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="3484d035679c83a95496eb633ffde0d3" category="section-title">Horovodのパフォーマンスを使用した分散トレーニング</block>
+  <block id="319e0ff7f30f4729140562f5e123c5cb" category="inline-link-macro">「主要な各ユースケース用のPythonスクリプト」</block>
+  <block id="e37af8307fb97140dbcc0c8e2293d58f" category="paragraph">次のコマンドでは、1つのコアを持つ160個の実行者を持つ単一の「マスター」ノードを使用して、Sparkクラスタ内にランタイム情報とログファイルを生成しました。実行者メモリはメモリ不足エラーを回避するために5GBに制限されていました。を参照してください <block ref="033a864c436cdbcbe38983e75952a07f" category="inline-link-macro-rx"></block> データ処理、モデル・トレーニング、およびモデル精度計算の詳細については、「kers_spark_horovod_Rossmann _dimator.py」を参照してください。</block>
+  <block id="6281f693bbc375a45312622b626d3bcd" category="paragraph">トレーニング期間が10回の場合の結果、次のようになりました。</block>
+  <block id="842bc4f8403cd2df9f22939e3df59aee" category="paragraph">入力データの処理、DNNモデルのトレーニング、精度の計算、TensorFlowチェックポイントと予測結果のCSVファイルの作成に43分以上かかりました。トレーニング期間を10に制限しました。実際には100に設定されていることが多く、モデルの精度が十分であることを確認しています。トレーニング時間は通常、エポックの数に比例して拡大します。</block>
+  <block id="1e580bbdb11118035631867d15ad9f25" category="paragraph">次に、クラスタで使用可能な4つのワーカーノードを使用して、HDFS内のデータで「yarn」モードで同じスクリプトを実行しました。</block>
+  <block id="3661bcf870f3d2b11b0489ed7f0585a7" category="paragraph">結果として得られる実行時間は次のように改善されました。</block>
+  <block id="206c83ab2ec1ea280656b18c0e2dc4dd" category="paragraph">HorovodのモデルとSparkのデータの並列化により、「yarn」と「local」モードを比較したランタイムが5.29x短縮され、トレーニング期間が10時間に短縮されました。次の図に、凡例に「hdfs」と「Local」を示します。基盤となるTensorFlow DNNモデルのトレーニングを、GPUがあればさらに高速化できます。このテストを実施し、今後のテクニカルレポートに結果を公開する予定です。</block>
+  <block id="216851565edc166c4409515484cac08b" category="paragraph">次のテストでは、NFSとHDFSの入力データをランタイムで比較しました。AFF A800のNFSボリュームは、Sparkクラスタ内の5つのノード（マスター1つ、ワーカー4つ）にまたがって「/sparkdemo/horovod」にマウントされました。前のテストと同様のコマンドを実行しましたが'--data-dir'パラメータは現在NFSマウントを指しています</block>
+  <block id="3ba4d622f15813cc383c433722b46d27" category="paragraph">NFSを使用した場合の実行時間は次のようになりました。</block>
+  <block id="7e1d2a49ae0a0e06a39a62e2c7c74877" category="paragraph">次の図に示すように、1.43倍の速度がさらに向上しました。このため、ネットアップのオールフラッシュストレージをクラスタに接続することで、Horovod Sparkワークフローの高速データ転送と配信というメリットを享受し、1つのノードで実行する場合と比べて7.55x高速化を達成できます。</block>
+  <block id="88caa92ecc3ebb345f81205aa696e3ac" category="inline-image-macro">Horovod Sparkのワークフローランタイム。</block>
+  <block id="56085b16b09d835f05c89b29473a0e73" category="paragraph"><block ref="56085b16b09d835f05c89b29473a0e73" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="b32c8309a0c0ca3edc35cb1597b9182c" category="section-title">CTR予測パフォーマンスのディープラーニングモデル</block>
+  <block id="6ff877f80b732c197c0a432029ad1920" category="paragraph">クリック率を最大化するように設計されたレコメンダシステムでは、低い順に数学的に計算される可能性のある、ユーザーの行動の背後にある高度な機能の相互作用を学習する必要があります。低次と高次の両方の機能の相互作用は、どちらか一方をバイアスすることなく、ディープラーニングモデルにとっても同様に重要です。新しいニューラルネットワークアーキテクチャでの機能学習に向けて、界面活性化機械ベースのニューラルネットワークであるDeep Factorization Machine（DeepFM）は、界面活性化装置を組み合わせた推奨製品です。</block>
+  <block id="a22645195470eca2abbe24e7d40cde8e" category="inline-link">ワイド・モデルとディープ・モデル</block>
+  <block id="4028a7777950de6e915d72e379bde75d" category="paragraph">従来の三角分解機械は、機能間の潜伏ベクトルの内側としてのペアワイズ機能の相互作用をモデル化しますが、理論的には高次情報をキャプチャすることができます。実際には、機械学習の実践では、一般的に、計算と保管の複雑さが高いため、二次フィーチャーの相互作用しか使用しませGoogleなどのディープニューラルネットワークのバリエーション<block ref="6c51a2ff49c9929908a73e863a1421f0" category="inline-link-rx"></block> 一方、リニアワイドモデルとディープモデルを組み合わせて、ハイブリッドネットワーク構造で高度な機能の相互作用を学習します。</block>
+  <block id="a22f6dcc8bc499f7332ab04cdb36fcf9" category="paragraph">このワイド・ディープ・モデルには2つの入力があります。1つは基本的なワイド・モデル用で、もう1つはディープのためです。後者の部分では、エキスパートフィーチャー・エンジニアリングが必要です。このため、この手法は他のドメインには一般的にできません。ワイド・ディープ・モデルとは異なり、DeepFMはフィーチャー・エンジニアリングなしでRAW機能を使用して効率的にトレーニングできます。ワイド・パートとディープ・パートは同じ入力と埋め込みベクトルを共有するためです。</block>
+  <block id="03eaefcaa3f1aca8b4ffa8b95a4798b9" category="inline-link-macro">「主なユースケースごとにPythonスクリプトを用意しています。」</block>
+  <block id="105a0d9d76e001ecdab02b77ca3a98ae" category="paragraph">私たちはまず'セクションのrun_classification_Crito_spark.pyを使用して'ctr_trine.csv'という名前のCSVファイルにCrito'trine.csv'をNFSマウント'/sparkdemo/tr-4570-data'に格納しました <block ref="43e008bfee5963b21d09b0af490bfdd7" category="inline-link-macro-rx"></block> このスクリプト内で'関数process_input_file'は'タブを削除し'区切り文字として''を'改行として''を挿入するための複数の文字列メソッドを実行しますコードブロックがコメントとして表示されるように、元の「train .txt」を1回だけ処理する必要があることに注意してください。</block>
+  <block id="c960954a8d119eab5ff32a80d7fcc8e8" category="paragraph">以下の異なるDLモデルのテストでは、「ctr_train .csv」を入力ファイルとして使用しました。その後のテスト実行では、入力CSVファイルがSpark DataFrameに読み込まれ、スキーマに「label」のフィールド、整数の高密度フィーチャー「I1」、「I2」、「I3」、…、「I13」が含まれています。 また'希薄な機能は''C1'、'C2'、'C3'、…、'C26']`です次の「spark-smSubmit」コマンドは、入力CSVで実行し、クロス検証用に20%のスプリットを備えたDeepFMモデルをトレーニングし、10回のトレーニング期間後に最適なモデルを選択して、テストセットの予測精度を計算します。</block>
+  <block id="52703dd8fd8c710b0aed616d19ddc0fb" category="paragraph">データファイル「ctr_train .csv」は11 GBを超えるため、エラーを回避するには、データセットサイズよりも十分な「spark.driver.maxResultSize」を設定する必要があります。</block>
+  <block id="650f108a9978f10b1e3b0a8cbdcd6ac1" category="inline-link">Apache Arrowの</block>
+  <block id="caa01fc7f9a1a61f1bc803760af8e97f" category="paragraph">上記のSparkSession.Builder'構成でも有効になっています<block ref="d19d750623d06d371730c4055a0fbbbf" category="inline-link-rx"></block>は、SparkのDataFrameを「df.toPandas ()」メソッドを使用してPandas DataFrameに変換します。</block>
+  <block id="e20380d4fed48eae6cd24a0df1477ba7" category="paragraph">ランダムにスプリットした後、トレーニングデータセットに3、6M行以上、テストセットに9、000サンプル以上が存在します。</block>
+  <block id="e6219a2eedbe95f3aa16ed53c4733845" category="paragraph">このテクニカルレポートでは、GPUを使用せずにCPUテストに焦点を当てているため、適切なコンパイラフラグを使用してTensorFlowを構築することが重要です。これにより、GPUアクセラレーションライブラリの呼び出しを回避し、TensorFlowのAdvanced Vector Extensions（AVX）およびAVX2命令を最大限に活用できます。これらの機能は、ベクトル化された加算、フィードフォワード内の行列乗算、またはバック伝播DNNトレーニングなどの線形代数計算用に設計されています。256ビット浮動小数点(FP)レジスタを使用したAVX2で使用可能なFMA (fMultiply Add)命令は、整数コードとデータ型に最適で、最大2倍の速度を実現します。FPコードとデータ型の場合、AVX2はAVXと比較して8%の高速化を実現します。</block>
+  <block id="6c396013ff0ebff6a2a96cdc20a4ba4c" category="inline-link">バザー</block>
+  <block id="97139e366bae36e316c93ce5b5e7e10b" category="paragraph">ソースからTensorFlowを構築する場合は、を使用することを推奨します<block ref="0bf1f7ee55f693a3c117cb75493ba615" category="inline-link-rx"></block>。今回の環境では、シェルプロンプトで以下のコマンドを実行して、「リタイア」、「リタイヤ」、「バザール」をインストールしました。</block>
+  <block id="29fe549665f940a68b9303eae3e3a61e" category="paragraph">ビルドプロセス中にC++ 17の機能を使用するには、GCC 5以降を有効にする必要があります。この機能は、RHELがソフトウェアコレクションライブラリ(SCL)とともに提供します。次のコマンドは'devtoolset'とGCC 11.2.1をRHEL 7.9クラスタにインストールします</block>
+  <block id="92a2b5cb9c6906035c2864fa225e1940" category="inline-link">記事</block>
+  <block id="d4b82f54dfee1e5c527d0d5f8cb0d7aa" category="paragraph">最後の2つのコマンドは'devtoolsets-11'を有効にしますこれには'/opt/r/devtoolset11-root//usr/bin/gcc`(GCC 11.2.1)が使用されますまた'gitのバージョンが1.8.3よりも大きいことを確認してください(RHEL 7.9に付属しています)これを参照してください<block ref="7d93914bddb4046675adee0145ba45bd" category="inline-link-rx"></block> 「git」を2.24.1に更新します。</block>
+  <block id="dc06a2e6ab4959266b8e70b6a4ecc45c" category="inline-link-macro">「主なユースケースごとにPythonスクリプトを用意しています。」</block>
+  <block id="c55692ca5ecd175c73f55ba5b9319688" category="paragraph">最新のTensorFlowマスターリポジトリもすでにクローニング済みであるとします。次に'workspace'ファイルを使用して'workspace'ディレクトリを作成し'AVX、AVX2、FMAを使用してソースからTensorFlowを構築しますconfigureファイルを実行し、正しいPythonバイナリの場所を指定します。<block ref="be1c72ed18fb5f637a2d34d959decb73" category="inline-link-rx"></block> はGPUを使用していないため、テストでは無効になっています。設定に応じて'`. bazelrc'ファイルが生成されますさらに、ファイルを編集し、HDFSのサポートを有効にするために「build--define=no_hdfs_support=false」を設定しました。セクションの「. bazelrc」を参照してください <block ref="2aec9284f17908b1690444cda81e493c" category="inline-link-macro-rx"></block> 設定とフラグの完全なリストについては、を参照してください。</block>
+  <block id="8329b0f29ec7368fd026b86d981f9dc7" category="paragraph">適切なフラグを使用してTensorFlowを構築したら、次のスクリプトを実行してCritoディスプレイ広告データセットを処理し、DeepFMモデルをトレーニングし、予測スコアからReceiver Operating Characteristic Curve（ROC AUC）の下の領域を計算します。</block>
+  <block id="d5a94c8db568912353007fdff822667e" category="paragraph">トレーニング期間が10回終了したら、テストデータセットのAUCスコアを取得しました。</block>
+  <block id="e3c9ed451390735cd8c4f8e5eb0e31f5" category="paragraph">以前のユースケースと同様に、Sparkワークフローランタイムを異なる場所にあるデータと比較しました。次の図は、SparkワークフローランタイムのディープラーニングのCTR予測の比較を示しています。</block>
+  <block id="3737826be0460f743becdc4c64050946" category="inline-image-macro">SparkワークフローランタイムのディープラーニングのCTR予測の比較。</block>
+  <block id="d27b678d975cf1fb0769c3e664f4f2dd" category="paragraph"><block ref="d27b678d975cf1fb0769c3e664f4f2dd" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="f7eb641fcfa1ced825edab271ee870e9" category="inline-link-macro">次のステップ：ハイブリッドクラウドの解決策</block>
+  <block id="3f5dc233ecdfc868e2a067d1eb7d8811" category="paragraph"><block ref="3f5dc233ecdfc868e2a067d1eb7d8811" category="inline-link-macro-rx"></block></block>
+  <block id="bd8f37587e7778e9d19d350dd4bd6d3a" category="summary">このセクションでは、この解決策 のコンテンツに関心のあるユーザーについて説明します。</block>
+  <block id="c1416f7786ac2faa1173c4336b6eb03e" category="paragraph"><block ref="c1416f7786ac2faa1173c4336b6eb03e" category="inline-link-macro-rx"></block></block>
+  <block id="49997701037fef2c24b57a2e7186d0ab" category="paragraph">分析とデータサイエンスの世界は、ITとビジネスのさまざまな分野に影響を与えています。</block>
+  <block id="529ac4605b034914d0e8b489a81e45e0" category="list-text">DevOpsエンジニアは、新しいAIアプリケーションやMLアプリケーションをCIパイプラインやCDパイプラインに統合するためのツールを必要としています。</block>
+  <block id="090e55ccd8633a454f9d471ca3ed004d" category="list-text">クラウド管理者とアーキテクトは、ハイブリッドクラウドリソースを設定し、管理できる必要があります。</block>
+  <block id="3cb782c6019ddcbb4e7f6bf8ae154d40" category="list-text">ビジネスユーザは、分析、AI、ML、DLアプリケーションにアクセスしたいと考えています。</block>
+  <block id="3dfd24951a51ec1661b0294f59bea86e" category="paragraph">このテクニカルレポートでは、NetApp AFF 、Eシリーズ、StorageGRID 、NFSへの直接アクセス、Apache Spark HorovodとKerasは、これらの役割のそれぞれがビジネスに価値をもたらすのを支援します。</block>
+  <block id="1f3c9b64432ff113f81d3897c98ed74b" category="inline-link-macro">次の例は、解決策 テクノロジです。</block>
+  <block id="fdd31e37014fd5b0f491f1d30b29c4c3" category="paragraph"><block ref="fdd31e37014fd5b0f491f1d30b29c4c3" category="inline-link-macro-rx"></block></block>
+  <block id="727c63651b565bca2eb7d8a48e0fefd9" category="summary">このセクションでは、Apache Spark向けのネットアップストレージソリューションに関する本ドキュメントの概要を示します。</block>
+  <block id="265d8449fb55764666dffa0a87f0c3fc" category="inline-link-macro">以前のバージョン：主なユースケースごとにPythonスクリプトを使用していました。</block>
+  <block id="7fc4ed21f18b26424c49779d455d4f51" category="paragraph"><block ref="7fc4ed21f18b26424c49779d455d4f51" category="inline-link-macro-rx"></block></block>
+  <block id="900200cfc3f2577215c327d16f34840a" category="paragraph">本ドキュメントでは、Apache Sparkのアーキテクチャ、お客様のユースケース、ネットアップストレージポートフォリオについて、ビッグデータ、最新の分析、AI、ML、DLに関連する情報をご紹介します。業界標準のベンチマークツールとお客様からの要望に基づくネットアップのパフォーマンス検証テストでは、NetApp Sparkソリューションは、ネイティブのHadoopシステムと比較して優れたパフォーマンスを実証しました。このレポートで紹介したお客様のユースケースとパフォーマンス結果を組み合わせることで、導入環境に適したSpark解決策 を選択できます。</block>
+  <block id="7772bd81086ccf1a440798ec74c6c795" category="paragraph"><block ref="7772bd81086ccf1a440798ec74c6c795" category="inline-link-macro-rx"></block></block>
+  <block id="dce4db89f623baec1071c07c6784f4b1" category="summary">最新のエンタープライズデータセンターとは、複数の分散インフラ環境を、オンプレミスや複数のパブリッククラウドと一貫した運用モデルで継続的なデータ管理プレーンを通じて接続するハイブリッドクラウドです。ハイブリッドクラウドを最大限に活用するには、データの変換やアプリケーションのリファクタリングを行わなくても、オンプレミス環境とマルチクラウド環境間でデータをシームレスに移動できる必要があります。</block>
+  <block id="e27d277adca53504bfe79d8a5e7c2084" category="doc">Hybrid Cloud解決策 の略</block>
+  <block id="bbbb8f5ce180b59d7cf72bfd9ff78bf6" category="inline-link-macro">前の手順：テスト結果</block>
+  <block id="e8be57661ebf09e93d86ee83e74adbc3" category="paragraph"><block ref="e8be57661ebf09e93d86ee83e74adbc3" category="inline-link-macro-rx"></block></block>
+  <block id="9cf7905c60934870d86a546076b272e4" category="paragraph">データ保護などのユースケースでセカンダリストレージをクラウドに移行するか、アプリケーション開発やDevOpsなどのビジネスクリティカルなワークロードをクラウドに移行することで、ハイブリッドクラウドへの移行を開始するとお客様から指摘を受けています。そして、より重要なワークロードに移行します。Webおよびコンテンツホスティング、DevOpsやアプリケーション開発、データベース、分析、コンテナ化されたアプリケーションは、最も一般的なハイブリッドクラウドワークロードです。エンタープライズAIプロジェクトの複雑さ、コスト、リスクは、これまでAIの導入を試験段階から本番運用に妨げていました。</block>
+  <block id="38ddba87301d0e027f020fd24b8a5ade" category="paragraph">ネットアップのハイブリッドクラウド解決策 なら、セキュリティ、データガバナンス、コンプライアンスの統合ツールを活用できます。また、分散環境全体でデータとワークフローを一元管理できる単一のコントロールパネルを使用して、総所有コストを消費量に応じて最適化できます。次の図は、お客様のビッグデータ分析データにマルチクラウド接続を提供するという課題を抱えるクラウドサービスパートナーの解決策 の例です。</block>
+  <block id="10ebc90118ac5ab60f289bf34b75d978" category="inline-image-macro">クラウドサービスパートナーの解決策 の例。</block>
+  <block id="ad71e01672e98de491e72d22ba403059" category="paragraph"><block ref="ad71e01672e98de491e72d22ba403059" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="207f35bf95973770d860aeee0abe32a2" category="paragraph">このシナリオでは、AWSでさまざまなソースから受け取ったIoTデータが、NetApp Private Storage（NPS）内の1箇所に保存されます。NPSストレージは、AWSとAzure上にあるSparkクラスタやHadoopクラスタに接続されているため、複数のクラウドで同じデータにアクセスするビッグデータ分析アプリケーションを実行できます。このユースケースの主な要件と課題は次のとおりです。</block>
+  <block id="bf871745f8e53cd8c13aca4c2ae67522" category="list-text">オンプレミス環境やクラウド環境などのさまざまなソースから、さまざまなセンサーやハブを介してデータを受信する必要があります。</block>
+  <block id="cb1726ae6d68d40c3bc9861c2b26a1a0" category="list-text">解決策 は、効率性とコスト効率に優れている必要があります。</block>
+  <block id="6dc7db5e9c1da14f7d61e2a7f4428219" category="list-text">主な課題は、コスト効率と効率に優れた解決策 を構築し、オンプレミス環境とクラウド環境の間でハイブリッド分析サービスを提供することです。</block>
+  <block id="cc4772ffa75dd53e0fb87df4b15528cd" category="paragraph">ネットアップのデータ保護機能とマルチクラウド接続解決策 は、複数のハイパースケーラにわたるクラウド分析アプリケーションの課題を解決します。上の図に示すように、センサーからのデータはストリーミングされ、 Kafka を介して AWS Spark クラスタに取り込まれます。データは NPS 内の NFS 共有に格納されます。 NPS は、 Equinix データセンター内のクラウドプロバイダの外部にあります。</block>
+  <block id="88971c24837a2734fa58ba8805336328" category="paragraph">NetApp NPSは、それぞれDirect Connect接続とExpress Route接続を通じてAmazon AWSとMicrosoft Azureに接続されているため、インプレース分析モジュールを利用して、AmazonとAWS両方の分析クラスタからデータにアクセスできます。そのため、オンプレミスストレージとNPSストレージの両方でONTAP ソフトウェアが実行され、<block ref="fcca72a796080b3a5e2b7b1394bd00ad" category="inline-link-rx"></block> NPSデータをオンプレミスクラスタにミラーリングし、オンプレミスと複数のクラウドにわたってハイブリッドクラウド分析を実現できます。</block>
+  <block id="6e53d162faf0b7bc51e81ca980f05f86" category="paragraph">パフォーマンスを最大限に高めるために、通常は複数のネットワークインターフェイスと直接接続またはエクスプレスルートを使用してクラウドインスタンスからデータにアクセスすることを推奨します。ネットアップには、ほかにも、などのData Moverソリューションがあります<block ref="0adb843c17d646acd72646e9688dde2b" category="inline-link-rx"></block> および<block ref="4c1cade27212922d2ee7525beab5b4a9" category="inline-link-rx"></block> お客様がアプリケーション対応でセキュア、コスト効率に優れたハイブリッドクラウドSparkクラスタを構築できるよう支援します。</block>
+  <block id="1e73bec6e2f584224cb16d4550039696" category="inline-link-macro">次の例：主なユースケースごとにPythonスクリプトを使用します。</block>
+  <block id="cf6b62d678290b47b2c7abc2f11eb6d5" category="paragraph"><block ref="cf6b62d678290b47b2c7abc2f11eb6d5" category="inline-link-macro-rx"></block></block>
+  <block id="edeeafbd44ff39ea2ff14f5de4488b69" category="summary">このページでは、この解決策 を使用できるさまざまな領域について説明します。</block>
+  <block id="bf9bdab57c82171f2cc9bcebdc37b2c2" category="doc">ユースケースの概要</block>
+  <block id="2a4bf885433f99fb55281d25340cf2b5" category="inline-link-macro">以前：NetApp Sparkソリューションの概要はこちらでした。</block>
+  <block id="105ad1f4294f02452bad1ed7ad67aa5d" category="paragraph"><block ref="105ad1f4294f02452bad1ed7ad67aa5d" category="inline-link-macro-rx"></block></block>
+  <block id="badfbf9255d6b555592b41ab34e4efc6" category="section-title">ストリーミングデータ</block>
+  <block id="4cc7dbb8e0e56a0e190e0ad588a8ba78" category="paragraph">Apache Sparkはストリーミングデータを処理できます。ストリーミングデータは、抽出、変換、読み込み（ETL）プロセス、データのエンリッチ化、イベント検出のトリガー、複雑なセッション分析に使用されます。</block>
+  <block id="35658693f34a1c5dc8b752f79caeb198" category="list-text">*ストリーミングETL。*データは継続的に消去され、データストアにプッシュされる前に集約されます。Netflixでは、KafkaストリーミングとSparkストリーミングを使用して、リアルタイムのオンラインムービーの推奨事項とデータ監視解決策 を構築しています。このソリューションでは、さまざまなデータソースから1日数十億件のイベントを処理できます。ただし、従来のETLではバッチ処理の処理方法が異なります。このデータは最初に読み取られ、次にデータベースに書き込まれる前にデータベース形式に変換されます。</block>
+  <block id="1e8d9d663f583499f32f92ca2486e7df" category="list-text">*データのエンリッチ化。* Sparkストリーミングは、静的データを活用してライブデータを強化し、よりリアルタイムのデータ分析を可能にします。たとえば、オンライン広告主は、顧客行動に関する情報に基づいてパーソナライズされたターゲット広告を配信できます。</block>
+  <block id="e3c0d503686e9ab8960903bc80d3f700" category="list-text">*イベント検出のトリガ。* Sparkストリーミングを使用すると、重大な問題を示す可能性のある異常な動作をすばやく検出して対応することができます。たとえば、金融機関はトリガーを使用して不正取引を検出および停止し、病院はトリガーを使用して患者のバイタルサインで検出された危険な健康状態変化を検出します。</block>
+  <block id="af8f12b6a4cff696802c46442e36e264" category="list-text">*複雑なセッション分析。* Sparkストリーミングは、Webサイトやアプリケーションにログインした後で、ユーザーのアクティビティなどのイベントを収集し、それらをグループ化して分析します。たとえば、Netflixでは、この機能を使用してリアルタイムの動画推奨を提供しています。</block>
+  <block id="61fb23ef88a4d1404b2410cf94238fb5" category="paragraph">より多くのストリーミングデータ構成、ConFluent Kafkaの検証、およびパフォーマンステストについては、を参照してください<block ref="10063fdbf72f58440f18bb49eb2309fe" category="inline-link-rx"></block>。</block>
+  <block id="2a80513f40f0c2a9c11009fa83049bd9" category="section-title">機械学習</block>
+  <block id="c2e9a1abebd45c1d446eb49fb690afd7" category="paragraph">Sparkの統合フレームワークを使用すると、機械学習ライブラリ（MLlib）を使用してデータセットに対して繰り返しクエリを実行できます。MLlibは、予測インテリジェンス、マーケティング目的での顧客セグメンテーション、感情分析など、一般的なビッグデータ機能のためのクラスタリング、分類、次元縮小などの領域で使用されます。MLlibは、ネットワークセキュリティで、悪意のあるアクティビティの兆候を示すデータパケットをリアルタイムで検査するために使用されます。セキュリティプロバイダは、新しい脅威について学び、ハッカーの一歩先を行きながら、クライアントをリアルタイムで保護することができます。</block>
+  <block id="03d3e10f072ae25d491b55767b4fc37e" category="section-title">ディープラーニング</block>
+  <block id="b45690b6bb62bd55da7e1911ed880ec6" category="paragraph">TensorFlowは、業界全体で使用されている一般的なディープラーニングフレームワークです。TensorFlowは、CPUまたはGPUクラスタでの分散トレーニングをサポートしています。このトレーニングは分散されているため、ユーザはディープレイヤを大量に含む大容量のデータを使用してトレーニングを実行できます。</block>
+  <block id="9981faa66d13ca7ba415a6c70dc52893" category="paragraph">最近まで、Apache SparkとTensorFlowを使用したい場合は、PySparkでTensorFlowに必要なすべてのETLを実行し、中間ストレージにデータを書き込む必要がありました。そのデータは、実際のトレーニングプロセス用にTensorFlowクラスタにロードされます。このワークフローでは、ETL用とTensorFlowの分散トレーニング用の2つの異なるクラスタを管理する必要がありました。複数のクラスタを実行して保守する作業は、一般に煩雑で時間もかかりました。</block>
+  <block id="082ad29f115c5cd4ab167c596b90688c" category="paragraph">以前のSparkバージョンのデータフレームとRDDは、ランダムアクセスが制限されていたため、ディープラーニングには適していませんでした。Spark 3.0では、プロジェクト水素を使用してディープラーニングフレームワークのネイティブサポートが追加されました。このアプローチにより、Sparkクラスタで非MapReduceベースのスケジューリングが可能になります。</block>
+  <block id="44cd5d1ec9ffc51f82d838faf685ef6e" category="section-title">対話式解析</block>
+  <block id="11bb4412e7e82514a739cb60053e30df" category="paragraph">Apache Sparkは、SQL、R、Pythonを含むSpark以外の開発言語でサンプリングしなくても、探索クエリを実行するのに十分な速さです。Sparkは視覚化ツールを使用して複雑なデータを処理し、対話式に視覚化します。Spark with structured streamingは、Web分析のライブデータに対してインタラクティブなクエリを実行します。これにより、Web訪問者の現在のセッションに対してインタラクティブなクエリを実行できます。</block>
+  <block id="d89f01bf7c0ceacaf30849bab08e0939" category="section-title">推薦システム</block>
+  <block id="38c79706797b854a06f30876828ee766" category="paragraph">推薦システムは長年にわたり、オンラインショッピング、オンラインエンターテインメント、その他多くの業界の劇的な変化に企業や消費者が対応してきたため、私たちの生活に大きな変化をもたらしてきました。実際、これらのシステムは、AIの本番運用における成功事例として最も顕著に表れています。多くの実用的なユースケースでは、推薦システムを会話型AIやチャットボットと組み合わせてNLPバックエンドに接続することで、関連情報を取得し、有益な推論を作成しています。</block>
+  <block id="6346d11f3fda24eb2d12fa4ac478fe3b" category="paragraph">現在、多くの小売業者は、オンラインでの購入や店舗での集荷、縁石側での集荷、セルフチェックアウト、スキャンと外出など、新しいビジネスモデルを採用しています。これらのモデルは、COVID-19のパンデミックでショッピングの安全性と消費者の利便性を高めることで、注目を引くようになっています。このようなデジタルトレンドの拡大には、AIが欠かせません。こうしたトレンドは消費者の行動に左右され、その逆も同様です。お客様のニーズの高まりに応え、カスタマーエクスペリエンスの強化、運用効率の向上、収益の拡大を実現するために、ネットアップは、機械学習とディープラーニングのアルゴリズムを使用して、より迅速で正確な推奨システムを設計できるよう、大企業のお客様とビジネスを支援しています。</block>
+  <block id="b32f1d719ba1fea2cad3538a4795c552" category="paragraph">コラボレーションフィルタリング、コンテンツベースのシステム、ディープラーニングレコメンダモデル（DLRM）、ハイブリッド手法など、推奨事項を提供するために使用される一般的な手法がいくつかあります。以前は、PySparkを使って、推奨システムを作成するためのコラボレーションフィルタリングを実装していました。Spark MLlibは、コラボレーションフィルタリングのために交互に最小二乗（ALS）を実装しています。これは、DLRMが増加する前に、企業間で非常に人気のあるアルゴリズムです。</block>
+  <block id="9389b39b238fbd5ad61de2fea371853d" category="section-title">自然言語処理</block>
+  <block id="18bfab6309a4addeb7e1dae07d2a4b89" category="inline-link">Gartner社</block>
+  <block id="47fa981bf7641c90f0ce83a88c21234e" category="paragraph">会話型AIは、自然言語処理（NLP）によって実現され、コンピュータが人間と通信するのを支援するAIのブランチです。NLPは、スマートアシスタントやチャットボット、Google検索、予測テキストなど、業界のあらゆる業種や多くのユースケースで広く使用されています。に従って<block ref="be3a50ddc5683c6936ee69409b86e212" category="inline-link-rx"></block> 予測：2022年までに、人の70%が日常的に会話型AIプラットフォームとやり取りしています。人間と機械の間で質の高い会話を行うには、応答が迅速かつインテリジェントで、自然な音声である必要があります。</block>
+  <block id="9cac4209da8ee0481a45fa299b66e587" category="paragraph">お客様は、NLPモデルとAutomatic Speech Recognition（ASR）モデルを処理してトレーニングするために大量のデータを必要としています。また、エッジ、コア、クラウドにわたってデータを移動する必要もあり、推論を数ミリ秒で実行して人間との自然な通信を確立する機能も必要です。NetApp AIとApache Sparkは、コンピューティング、ストレージ、データ処理、モデルトレーニング、微調整、 そして展開。</block>
+  <block id="33984e410ab674dcea1f21af4c5db4ec" category="paragraph">感情分析とは、NLP内で、肯定的、否定的、または中立的な感情がテキストから抽出される研究領域のことです。感情分析には、サポートセンターの従業員のパフォーマンスを発信者との会話から適切な自動チャットボット応答まで、さまざまなユースケースがあります。また、四半期ごとの収益呼において、企業の代表者と対象者の間のやり取りに基づいて会社の株価を予測するためにも使用されています。さらに、感情分析を使用して、ブランドが提供する製品、サービス、サポートに関するお客様の見解を判断できます。</block>
+  <block id="511405f2428e9a6a71530b7f2cdcbc21" category="inline-link">ジョンスノーラボ</block>
+  <block id="351594930581e8fa82cf694de7562fd2" category="inline-link">財務ニュースのセンチメント</block>
+  <block id="322f98ff217f4c12ea8f1b3ea41f4024" category="paragraph">使用しました<block ref="0f17ea1334fb20ed83c3ab03268616d7" category="inline-link-rx"></block> ライブラリ元<block ref="22825786ea861b373c2a5fdda9f62d81" category="inline-link-rx"></block> を含むTransformers（BERT）モデルから事前にトレーニングされたパイプラインと双方向エンコーダリプレゼンテーションをロードするため<block ref="25bfdf207733b5ead40d4d36ea328e85" category="inline-link-rx"></block> および<block ref="9c44f0ce83f7021f3ece2b04fda553fb" category="inline-link-rx"></block>トークン化、Named Entity Recognition、モデルトレーニング、フィッティング、センチメント分析を大規模に実施しています。Spark NLPは、BERT、Albert、Electra、XLNet、DistilBERTなどの最先端のトランスを提供する唯一のオープンソースNLPライブラリです。 Roberta、DeberTa、XLM-Roberta、Longform, Elmo ユニバーサルセンテンスエンコーダー、Google T5、MarianMT、およびGPT2。このライブラリはPythonとRだけでなく、Apache Sparkをネイティブに拡張することで、JVMエコシステム（Java、Scala、Kotlin）でも大規模に動作します。</block>
+  <block id="e4f0ac4ff07b9b5031299d0b3702fedb" category="inline-link-macro">次のステップ：主要なAI、ML、DLのユースケースとアーキテクチャ</block>
+  <block id="84fcdcaf39dee89e28f1b44c28ad46ef" category="paragraph"><block ref="84fcdcaf39dee89e28f1b44c28ad46ef" category="inline-link-macro-rx"></block></block>
+  <block id="7e838102a13e780977b21c90f648a5d0" category="summary">このセクションでは、Apache Sparkの性質とコンポーネント、およびそれらがこの解決策 にどのように貢献するかについて説明します。</block>
+  <block id="b47e85e30f997f214c7850de9dd795da" category="inline-link-macro">前のページ：対象読者</block>
+  <block id="9e972d78946023378ffbea0f999c2d03" category="paragraph"><block ref="9e972d78946023378ffbea0f999c2d03" category="inline-link-macro-rx"></block></block>
+  <block id="f4387c90411f7b92618497bc53b16256" category="paragraph">Apache Sparkは、Hadoop Distributed File System（HDFS）と直接連携するHadoopアプリケーションを作成するための一般的なプログラミングフレームワークです。Sparkは本番環境に対応しており、ストリーミングデータの処理をサポートしています。MapReduceよりも高速です。Sparkには、効率的なイテレーションのためのメモリ内データキャッシングが設定可能であり、Sparkシェルはデータの学習と探索のためにインタラクティブです。Sparkでは、Python、Scala、Javaでアプリケーションを作成できます。Sparkアプリケーションは、1つ以上のタスクを持つ1つ以上のジョブで構成されています。</block>
+  <block id="6a696023a577a0d26763ef9c382b4b1f" category="paragraph">すべてのSparkアプリケーションにはSparkドライバがあります。yarn -クライアントモードでは、ドライバはクライアント上でローカルに実行されます。Yarn -クラスタモードでは、ドライバはアプリケーションマスター上のクラスタで実行されます。クラスタモードでは、クライアントが切断してもアプリケーションは引き続き実行されます。</block>
+  <block id="fed4e6478ab0d82b2e98b4f5bd62f0e2" category="paragraph"><block ref="fed4e6478ab0d82b2e98b4f5bd62f0e2" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="6feb0bd2b4db4693572a9fc2e517e888" category="paragraph">クラスタマネージャは3種類あります。</block>
+  <block id="4c79d7007667a60b712836e2f93d6bfc" category="list-text">*スタンドアロン。*このマネージャーはSparkの一部であり、クラスタのセットアップが簡単です。</block>
+  <block id="c0a5bce529ff277ee2735538a7b43913" category="list-text">* Apache Mesos.* MapReduceなどのアプリケーションも実行される一般的なクラスタマネージャです。</block>
+  <block id="24683e4dfc33dc5b20a0d9a75c0ff150" category="list-text">* Hadoop糸。*これはHadoop 3のリソースマネージャーです。</block>
+  <block id="569531fd384ec251943946598eb00dcb" category="paragraph">レジリエントな分散データセット（RDD）はSparkの主要コンポーネントです。RDDは、クラスタ内のメモリに格納されているデータから、失われたデータや欠落しているデータを再作成し、ファイルから取得した初期データまたはプログラムによって作成された初期データを格納します。RDDは、ファイル、メモリ内のデータ、または別のRDDから作成されます。Sparkプログラミングは、変換とアクションという2つの操作を実行します。既存のRDDに基づいて新しいRDDが作成されます。アクションはRDDから値を返します。</block>
+  <block id="06b482c7bd2522ec4a62ccc70b71c37e" category="paragraph">変換とアクションはSparkのデータセットとDataFramesにも適用されます。データセットとは、分散されたデータの集合であり、Spark SQLの最適化された実行エンジンの利点とともに、RDDの利点（強力なタイピング、ラムダ関数の使用）を提供します。データセットはJVMオブジェクトから作成し、機能変換（マップ、フラットマップ、フィルタなど）を使用して操作できます。DataFrameは、名前付き列に編成されたデータセットです。概念的には、リレーショナルデータベースのテーブルまたはR/Pythonのデータフレームに相当します。データフレームは、構造化データファイル、HiveまたはHBaseのテーブル、オンプレミスまたはクラウドの外部データベース、既存のRDDなど、さまざまなソースから構築できます。</block>
+  <block id="89d836212e4c5086ebcd9e5fbd6a4b37" category="paragraph">Sparkアプリケーションには1つ以上のSparkジョブが含まれています。ジョブは実行者でタスクを実行し、実行者はYarnコンテナで実行します。各実行者は1つのコンテナで実行され、実行者はアプリケーションのライフサイクルを通して存在します。実行者はアプリケーションの起動後に修正され、yarnは割り当て済みのコンテナのサイズを変更しません。実行者は、メモリ内のデータに対してタスクを同時に実行できます。</block>
+  <block id="93b777568c6fc956b8dcbf6cb778cf8e" category="inline-link-macro">次のステップ：NetApp Sparkソリューションの概要</block>
+  <block id="2e9d493fc7f04097c722ddfd7bf4cba7" category="paragraph"><block ref="2e9d493fc7f04097c722ddfd7bf4cba7" category="inline-link-macro-rx"></block></block>
+  <block id="43fc68a998702bc80e46c46de6c28621" category="doc">主なユースケースごとにPythonスクリプトを使用できます</block>
+  <block id="6af3c467ec5223400f1d1e91f69cb12b" category="inline-link-macro">従来のソリューション：ハイブリッドクラウド解決策</block>
+  <block id="45d040833437bf9dd9f64d4dfa4981c4" category="paragraph"><block ref="45d040833437bf9dd9f64d4dfa4981c4" category="inline-link-macro-rx"></block></block>
+  <block id="cfb5f1c014066f18d7979fa1d35a934d" category="paragraph">以下の3つのPythonスクリプトは、テストした3つの主なユースケースに対応しています。1つ目は'ecimation_analysis _sparknlp.pyです</block>
+  <block id="d3abf6f12cafa2cc1b795b31cd547c75" category="paragraph">2番目のスクリプトは'kers_spark_horovod_Rossmann _ estimator.pyです</block>
+  <block id="6e9120b39f924b2eed528e3bcdd009ac" category="paragraph">3番目のスクリプトは'run_classification_Crito_spark.pyです</block>
+  <block id="be0ba1bf6a99c201834567c4d58fc40e" category="paragraph"><block ref="be0ba1bf6a99c201834567c4d58fc40e" category="inline-link-macro-rx"></block></block>
+  <block id="2ce0710320aace7b17c3af20eaac2918" category="sidebar">ユースケースの概要</block>
 </blocks>
