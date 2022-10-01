@@ -14469,8 +14469,6 @@
   <block id="0970f21d33cd70a68d82d99f1d6abd42" category="list-text">GCVEとCVSの可用性を確認します <block ref="007e08d33d89c24a1316c16966bb4055" category="inline-link-macro-rx"></block>。</block>
   <block id="52d36923e6e7f21dede2a88e87bd5528" category="list-text">CVS補助NFSデータストアの可用性を確認する <block ref="007e08d33d89c24a1316c16966bb4055" category="inline-link-macro-rx"></block>。</block>
   <block id="46c2094fdbb2fbdc301a330fb7419074" category="paragraph">AWS / VMCで追加のNFSデータストアを使用できるかどうかは、Amazonによって定義されています。まず、VMCとFSxNの両方が指定されたリージョンで利用可能かどうかを確認する必要があります。次に、FSxNの補足的なNFSデータストアがそのリージョンでサポートされているかどうかを確認する必要があります。</block>
-  <block id="de54e36625e385487e1439a76f1cd888" category="list-text">VMCの可用性を確認します <block ref="faf92213cf4b20619002c82be58d43a0" category="inline-link-macro-rx"></block>。</block>
-  <block id="a4733e713406133b92f58f977aef720b" category="list-text">Amazonの価格設定ガイドには、FSxN（FSX ONTAP ）が提供されている場所に関する情報が記載されています。この情報は次のページで確認できます <block ref="d3f36798b026a566c0fbacff08326428" category="inline-link-macro-rx"></block>。</block>
   <block id="c10e413ea65850b7369ee5ae6f60b460" category="list-text">VMCのFSxN補足的なNFSデータストアがまもなく利用可能になります。</block>
   <block id="a1838a4ac0f386c517d82fae26f2372e" category="paragraph">次の表に、情報がまだリリースされている間に、VMC、FSxN、およびFSxNの現在のサポート状況をNFSデータストアとして示します。</block>
   <block id="97be15a34c6b82b6177132129dd0b293" category="doc">Region Availability - VMCの補助的なNFSデータストア</block>
@@ -15317,4 +15315,321 @@
   <block id="329ecbed66c88e6c0c049d051ad6aa9a" category="paragraph">ネットアップDavid ArnetteとSung-Han Lin</block>
   <block id="d940dfad6ae514d8235749f5f5bf92ed" category="paragraph">NVA-1151設計には、NetApp AFF A800ストレージシステム、NVIDIA DGX A100システム、NVIDIA Mellanoxネットワークスイッチを使用した、マシンラーニングと人工知能のワークロードに対応するネットアップの検証済みアーキテクチャが記載されています。また、実装されているアーキテクチャのベンチマークテスト結果も含まれます。</block>
   <block id="20821bbf55dddb9fb677efca1bfcf4d1" category="paragraph"><block ref="20821bbf55dddb9fb677efca1bfcf4d1" category="inline-link-rx"></block></block>
+  <block id="16550c71fdf2102ec8face86a5d82746" category="cell">2022年9月30日</block>
+  <block id="8485ff07404cda7656a72c1d11b2e278" category="cell">VMware HCXを使用してFSxNデータストアにワークロードを移行するための解決策 を追加</block>
+  <block id="bee0d36d9b0ec64a15bf59019a6ec2e2" category="cell">2022/09/29</block>
+  <block id="b6942044de91f49e700f684f12314907" category="cell">VMware HCXを使用したANFデータストアへのワークロード移行に関する解決策 を追加</block>
+  <block id="fa3811ba5828de9b5ce35701ec38d154" category="list-text">VMCの可用性を確認します <block ref="bd516ef46cad23535fac2e4d7f54defe" category="inline-link-macro-rx"></block>。</block>
+  <block id="0ecaf171a89c41ea509c3f45896220b8" category="list-text">Amazonの価格設定ガイドには、FSxN（FSX ONTAP ）が提供されている場所に関する情報が記載されています。この情報は次のページで確認できます <block ref="2d4b4b449ef448fbb3000f58e542f4ee" category="inline-link-macro-rx"></block>。</block>
+  <block id="4573434025dab87886cfb0b766c70cb1" category="paragraph">最終更新日：2022年9月28日</block>
+  <block id="d8cefe0428d28368238dbbeabef9c83f" category="open-title">ハイブリッドマルチクラウド（HMC）</block>
+  <block id="493f775d3c83d2c658056477b1d58f74" category="paragraph">[下線]#* AWS/VMC *#用ビデオ</block>
+  <block id="638eb9310db06d086fac0c3c069669af" category="video-title">AWS上のVMware Cloud追加データストア、Amazon FSX for NetApp ONTAP</block>
+  <block id="6f605e77e59dfe45ae918965ba0bd336" category="video-title">Amazon FSX for NetApp ONTAP を使用すると、VMware Cloud on AWSのTCOを削減できます</block>
+  <block id="d7d56735bb43053ca43b2d9698b2623c" category="video-title">VMCのVMware HCX展開と構成のセットアップ</block>
+  <block id="c6434a9743fb403cd78cd2d3a42d9683" category="video-title">VMCおよびFSxN向けVMware HCXでのVMotionのデモ</block>
+  <block id="e906083dc0b31806eab68df2c340504f" category="video-title">VMware HCX for VMCおよびFSxNを使用したコールドマイグレーションデモ</block>
+  <block id="62184265581f788d642b26b13c273b93" category="paragraph">[underline]#* Azure/AVSのビデオ*#</block>
+  <block id="62766d3266d403114a010bc02e7b4004" category="video-title">Azure NetApp Files を使用したAzure VMware解決策 補足データストアの概要</block>
+  <block id="4864ff1c07b9b500fd46c4a1c5918fd8" category="video-title">Cloud Volumes ONTAP 、SnapCenter 、JetStreamを使用したAzure VMware解決策 DR</block>
+  <block id="8eb2fa7c0d2a676485a155077b770fdd" category="video-title">VMware HCX for AVSとANFを使用したコールドマイグレーションデモ</block>
+  <block id="664115ac899ebaf481e2b75540d5c56c" category="video-title">VMware HCX for AVSとANFでのvMotionのデモ</block>
+  <block id="914c1d4cdf840b7b030978f1b07915d8" category="video-title">AVSとANF向けVMware HCXの一括移行デモ</block>
+  <block id="1709b8b454125c7d55fd44e302c8aee3" category="example-title">VMware Cloud on AWS Migrate with FSxN、VMware HCX</block>
+  <block id="9de15a07d3a8b75e451c50d7fa64fae9" category="example-title">Azure VMware Services on AzureとAzure NetApp Files （ANF）</block>
+  <block id="875970986c8d6a0d19f47ed744bf33e1" category="example-title">Azure VMware解決策 Migrate with ANF、VMware HCX</block>
+  <block id="04a1b40e30ee3bddef53c85ca68c8b36" category="inline-link-macro">VMware HCXを使用して、ワークロードをAzure NetApp Files データストアに移行します</block>
+  <block id="edf47ba9dc6467e3104102f10bafe323" category="list-text"><block ref="edf47ba9dc6467e3104102f10bafe323" category="inline-link-macro-rx"></block></block>
+  <block id="668f202e4850de68f941501493126dea" category="doc">TR-4640：『VMware HCX-Quickstart guide』を使用してワークロードをAzure NetApp Files データストアに移行する</block>
+  <block id="ddfd90f2a10c16cbd6548844b07532c2" category="paragraph">執筆者：NetApp Solutions Engineering</block>
+  <block id="e5baae71bfede792aee5ab0c09fbcd23" category="section-title">概要：VMware HCX、Azure NetApp Files データストア、Azure VMware解決策 を使用した仮想マシンの移行</block>
+  <block id="45c532c5535fe16cf9a5868bbd9a3fcd" category="paragraph">Azure VMware解決策 およびAzure NetApp Files データストアの最も一般的なユースケースの1つは、VMwareワークロードの移行です。VMware HCXは推奨されるオプションであり、オンプレミスの仮想マシン（VM）とそのデータをAzure NetApp Files データストアに移動するためのさまざまな移行メカニズムを提供します。</block>
+  <block id="a2ee24315378af7416f8fef29e0f0efa" category="paragraph">VMware HCXは、主に移行プラットフォームであり、クラウド間でのアプリケーションの移行、ワークロードの再バランシング、ビジネス継続性の簡素化を目的として設計されています。Azure VMware解決策 プライベートクラウドの一部として提供され、ワークロードを移行して、ディザスタリカバリ（DR）処理に使用できるさまざまな方法を提供します。</block>
+  <block id="227830ba037f63bb97cffeeb98e3a13e" category="paragraph">このドキュメントでは、Azure NetApp Files データストアのプロビジョニングの手順を追ったガイダンスを示し、その後、さまざまなVM移行メカニズムを有効にするためのインターコネクト、ネットワーク拡張、WAN最適化を含む、オンプレミスおよびAzure VMware解決策 サイドのすべての主要コンポーネントを含む、VMware HCXのダウンロード、導入、設定を行います。</block>
+  <block id="a7441e9f968c9ea792320876fd73622a" category="admonition">VMware HCXはVMレベルで移行されるため、どのデータストアタイプでも動作します。このドキュメントAzure NetApp Files は、解決策 コスト効率に優れたVMwareクラウドの導入を計画している、ネットアップの既存のお客様と、ネットアップ以外のお客様を対象としています。</block>
+  <block id="0ba40ecb813b20bd8c3277c4afcbd451" category="example-title">手順の概要</block>
+  <block id="9a40c0b2781fd2a3a99aa2a6c0c4616e" category="paragraph">次のリストは、Azureクラウド側でHCX Cloud Managerをインストールおよび設定し、オンプレミスでHCX Connectorをインストールするために必要な手順の概要を示しています。</block>
+  <block id="d7bfcf4345887ee24f2c3083038c6327" category="list-text">AzureポータルからHCXをインストールします。</block>
+  <block id="ea0d203a776b5c56ae3ed2c61269d2a9" category="list-text">HCX Connector Open Virtualization Appliance（OVA）インストーラをオンプレミスのVMware vCenter Serverにダウンロードして導入します。</block>
+  <block id="2be88e0d3f6d4e20f4bf2bcca7895d7b" category="list-text">ライセンスキーを使用してHCXをアクティブにします。</block>
+  <block id="6a0721ebaaff6c0b1564863ac23c2509" category="list-text">オンプレミスのVMware HCXコネクタをAzure VMware解決策 HCX Cloud Managerとペアリングします。</block>
+  <block id="612a4c795715d17bfff4e0ba3a8f66d1" category="list-text">ネットワークプロファイル、コンピューティングプロファイル、およびサービスメッシュを設定します。</block>
+  <block id="81feabec43f9f1bcb7230fd62f89fb76" category="list-text">（オプション）移行中に再IPが発生しないように、ネットワーク拡張を実行します。</block>
+  <block id="dbed86346a8d7cb3692ba413f7e14f56" category="list-text">アプライアンスのステータスを検証し、移行が可能であることを確認します。</block>
+  <block id="2f2c97fb0d914a7fc7bcb2c8fad16868" category="list-text">VMワークロードを移行する。</block>
+  <block id="f2f281974ab353b606093268f9d5335e" category="paragraph">作業を開始する前に、次の前提条件が満たされていることを確認してください。詳細については、を参照してください<block ref="88354f8e41d1a2e6cea84b3d932b3286" category="inline-link-rx"></block>。接続などの前提条件が整ったら、Azure VMware解決策 ポータルからライセンスキーを生成して、HCXを設定してアクティブにします。OVAインストーラをダウンロードしたら、次の手順に従ってインストールプロセスを実行します。</block>
+  <block id="f52b030029e78590ca66fbf452dfcb14" category="admonition">HCx advancedはデフォルトオプションであり、VMware HCX Enterprise Editionはサポートチケットを通じても利用でき、追加料金なしでサポートされます。</block>
+  <block id="67863abb3ec8a28f54adf852298b392b" category="inline-link">ネットアップのリンク</block>
+  <block id="d2a5cfbad293008f62b5d4e58457a6d1" category="inline-link">Microsoftのリンク</block>
+  <block id="1ed491d88e9198d83430469156bf2665" category="list-text">既存のAzure VMware解決策 Software-Defined Data Center（SDDC）を使用するか、またはこれを使用してプライベートクラウドを作成します<block ref="db330bdc7708ed0196dccd83d189a8ae" category="inline-link-rx"></block> またはこれ<block ref="5633c6477a16a80a8050560dab9783c9" category="inline-link-rx"></block>。</block>
+  <block id="e265f4db94070f55784ef698e7f4f29b" category="inline-link">サイト間VPNまたはエクスプレスルートグローバルリーチ接続をセットアップします</block>
+  <block id="bb764f1df90a85d77eec079e03bd9764" category="list-text">オンプレミスのVMware vSphere対応データセンターからVMと関連データを移行するには、データセンターからSDDC環境へのネットワーク接続が必要です。ワークロードを移行する前に、<block ref="31180ecf5c9f25ba891b891b395a9305" category="inline-link-rx"></block> オンプレミス環境とそれぞれのプライベートクラウドの間。</block>
+  <block id="d08fd3825f77e870dd8e93463aea245d" category="list-text">オンプレミスのVMware vCenter Server環境からAzure VMware解決策 プライベートクラウドへのネットワークパスで、vMotionを使用したVMの移行がサポートされている必要があります。</block>
+  <block id="f3b5e5598d4c0c196bd2fd79b000637f" category="inline-link">ファイアウォールルールとポート</block>
+  <block id="e1be03b35dc8e9fb114970b06dcd6c18" category="list-text">必要なを確認します<block ref="69c9d7a74dad51c1c47ea8141c218514" category="inline-link-rx"></block> オンプレミスのvCenter ServerとSDDC vCenter間のvMotionトラフィックに許可されます。プライベートクラウドでは、vMotionネットワーク上のルーティングはデフォルトで設定されます。</block>
+  <block id="444617dcfe0d17ad386105e865d21113" category="list-text">Azure NetApp Files NFSボリュームは、Azure VMware解決策 でデータストアとしてマウントする必要があります。詳細な手順を実行します<block ref="1b959b45bbb3571141089802677ad765" category="inline-link-rx"></block> を使用して、Azure NetApp Files データストアをAzure VMwareソリューションホストに接続します。</block>
+  <block id="2f660e9fff52e5ac1b7818a029d3b447" category="example-title">アーキテクチャの概要</block>
+  <block id="69b7dff83090c9a5eb5c6939b05acd80" category="paragraph">テスト用に、この検証に使用したオンプレミスのラボ環境をサイト間VPNでAzure Virtual WAN Hubに接続しました。これにより、Azure VMware解決策 へのオンプレミス接続が可能になります。</block>
+  <block id="0048e42e38e4c6f587f210afe26fcb4a" category="inline-image-macro">この図は、この解決策 で使用されているアーキテクチャの概要を示しています。</block>
+  <block id="39fc1d64ec4b3a4ff5306e55bdaf2c0f" category="paragraph"><block ref="39fc1d64ec4b3a4ff5306e55bdaf2c0f" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="d84f7e9d42c2c0ee4f87ddeaa2e09bb2" category="paragraph">一連の手順に従って、この解決策 の導入を完了します。</block>
+  <block id="4c8f77e6ab4a9e453faf4063978f94d5" category="example-title">手順1：アドオンオプションを使用して、Azure PortalからHCXをインストールする</block>
+  <block id="f4ca86f94d0e12644ce102e7c48d6030" category="paragraph">インストールを実行するには、次の手順を実行します。</block>
+  <block id="7d4c34e9f83446ef58ad083cd2c29580" category="list-text">Azureポータルにログインし、Azure VMware解決策 プライベートクラウドにアクセスします。</block>
+  <block id="16671eada5939f5c2129db7e8f9522a0" category="list-text">適切なプライベートクラウドを選択し、アドオンにアクセスします。これを行うには、* Manage &gt; Add-ons *に移動します。</block>
+  <block id="de23e32bd14f5f77d4178bb7d56c2eb0" category="list-text">[HCX Workload Mobility]セクションで、[* Get Started*]をクリックします。</block>
+  <block id="239ba3d7293041d0d4dcb4c5b538ea74" category="inline-image-macro">[HCX Workload Mobility]セクションのスクリーンショット。</block>
+  <block id="91a36107da2b4f5cbc4963027f871289" category="paragraph"><block ref="91a36107da2b4f5cbc4963027f871289" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="de66be71be828600d682c9f0bdb03a18" category="list-text">[*契約条件に同意します*]オプションを選択し、[*有効化して展開*]をクリックします。</block>
+  <block id="e26184583d86572b90efcca3db66731e" category="admonition">デフォルトの展開はHCX Advancedです。エンタープライズエディションを有効にするには、サポートリクエストを開きます。</block>
+  <block id="adafe418547291754cadbfc0d2c5c1dc" category="admonition">導入には約25～30分かかります。</block>
+  <block id="e39769185df95d6577314b0c683cf848" category="inline-image-macro">[HCX Workload Mobility]セクションの完了のスクリーンショット。</block>
+  <block id="6df468c8490be1137779d8811f53bddb" category="paragraph"><block ref="6df468c8490be1137779d8811f53bddb" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="ae33ed8b7695cc113850f5a13bab6e56" category="example-title">手順2：オンプレミスのvCenter ServerにインストーラOVAを導入する</block>
+  <block id="e957ef97a04368fda5e2652e51c19d1d" category="paragraph">オンプレミスコネクタをAzure VMware解決策 のHCX Managerに接続するには、オンプレミス環境で適切なファイアウォールポートが開いていることを確認します。</block>
+  <block id="0c216cee9411e03f1127e6ffc2bf025d" category="paragraph">HCX ConnectorをオンプレミスのvCenter Serverにダウンロードしてインストールするには、次の手順を実行します。</block>
+  <block id="c28009ba42c1703c33046d99285a0a10" category="list-text">AzureポータルからAzure VMware解決策 にアクセスし、プライベートクラウドを選択して、* Manage &gt; Add-ons &gt; Migration * using HCXを選択し、HCX Cloud ManagerポータルをコピーしてOVAファイルをダウンロードします。</block>
+  <block id="3a858d6f55c84c77db797aafa874a8a5" category="admonition">HCXポータルにアクセスするには、デフォルトのCloudAdminユーザー資格情報を使用します。</block>
+  <block id="7efdfa090ad75b0c0f02e115ab8e56bd" category="inline-image-macro">HCX OVAファイルをダウンロードするAzureポータルのスクリーンショット。</block>
+  <block id="ab9fbdf98484d630980bec96dac55284" category="paragraph"><block ref="ab9fbdf98484d630980bec96dac55284" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="69d5565b77c91d5d6d289858e4d7ea91" category="list-text">jumphostを使用してmailto：cloudadmin@vsphere.loca l [cloudadmin@vsphere.loca l^]でHCXポータルにアクセスしたら、* Administration &gt; System Updates *に移動し、* Request Download Link *をクリックします。</block>
+  <block id="f6b26e036b373b18f11dc0da33ef5268" category="admonition">OVAをダウンロードするか、OVAにコピーしてブラウザに貼り付け、オンプレミスのvCenter Serverに導入するVMware HCX Connector OVAファイルのダウンロードプロセスを開始します。</block>
+  <block id="894d2481892f65fcae6dfc0ac7b9ec0d" category="inline-image-macro">エラー：OVAダウンロードリンクのスクリーンショット。</block>
+  <block id="2a8ced383f2ab7fb9d4a69fc8d344b0e" category="paragraph"><block ref="2a8ced383f2ab7fb9d4a69fc8d344b0e" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="12e1c817f24a0aa94d2ae26ea6535479" category="list-text">OVAをダウンロードしたら、* Deploy OVF Template *オプションを使用して、OVAをオンプレミスのVMware vSphere環境に導入します。</block>
+  <block id="fc1a0933af5c68cc43dbb90b50c1b0d3" category="inline-image-macro">エラー：正しいOVAテンプレートを選択するためのスクリーンショット。</block>
+  <block id="d36fa73d8072d1ab34f185f12d5fede5" category="paragraph"><block ref="d36fa73d8072d1ab34f185f12d5fede5" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="8ba87ef75729cfcffc74d93e0a0852a1" category="list-text">OVA導入に必要なすべての情報を入力し、「*次へ*」をクリックしてから、「*完了」をクリックしてVMware HCX Connector OVAを導入します。</block>
+  <block id="ed1aadd2fcd5906dd58f9a89179a638e" category="admonition">仮想アプライアンスの電源を手動でオンにします。</block>
+  <block id="dca749083ce6c763573225ed6a46a64e" category="inline-link">VMware HCXユーザーガイド</block>
+  <block id="e10fbd147d2ee50fbbb460ad2f18fa14" category="paragraph">手順については、を参照してください<block ref="856d054195f2a40a0c4a2869d5895904" category="inline-link-rx"></block>。</block>
+  <block id="6897bb7015f874baf69560eef515010c" category="example-title">手順3：ライセンスキーを使用してHCXコネクタをアクティブにします</block>
+  <block id="4aa14207b82768ed77473306cc7a65c2" category="paragraph">VMware HCX Connector OVAをオンプレミスに導入してアプライアンスを起動したら、次の手順を実行してHCX Connectorをアクティブにします。Azure VMware解決策 ポータルからライセンスキーを生成し、VMware HCXマネージャでアクティブ化します。</block>
+  <block id="3535419e37127ca2de6abd9538414466" category="list-text">AzureポータルからAzure VMware解決策 にアクセスし、プライベートクラウドを選択して、* Manage &gt; Add-ons &gt; Migration Using HCX*を選択します。</block>
+  <block id="436402d536d27aaa2091a54751a60036" category="list-text">[* HCXキーを使用してオンプレミスと接続する*]で、[*追加]をクリックしてアクティベーションキーをコピーします。</block>
+  <block id="0b053e667d8c9baa8cbb4a5402fe69e1" category="inline-image-macro">HCXキーを追加するためのスクリーンショット。</block>
+  <block id="5d9de146e997662a8510bd175e5c593a" category="paragraph"><block ref="5d9de146e997662a8510bd175e5c593a" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="03fc385dd3b54c80a78341c5aa2189a3" category="admonition">導入されているオンプレミスのHCXコネクタごとに別々のキーが必要です。</block>
+  <block id="e8edfbded2eb5193c58170d5f9073d7d" category="inline-link"><block ref="e8edfbded2eb5193c58170d5f9073d7d" category="inline-link-rx"></block></block>
+  <block id="b6d4af6a25f46f3687120681e525d833" category="list-text">オンプレミスのVMware HCX Managerにログインします<block ref="f9ac10929d1e2f12c4fea5c57d73b3eb" category="inline-link-rx"></block> 管理者のクレデンシャルを使用</block>
+  <block id="b2719f92794cef282f9cd7684baca4c4" category="admonition">OVAの導入時に定義されたパスワードを使用します。</block>
+  <block id="a864855f2120d5c8d4793a4866b6a7bb" category="list-text">ライセンスで、手順3からコピーしたキーを入力し、[* Activate*（有効化*）]をクリックします。</block>
+  <block id="e5c8d88f2fa7af9f1a719e04c4b17740" category="admonition">オンプレミスのHCXコネクタにはインターネットアクセスが必要です。</block>
+  <block id="ee746d79ab481579a8c0202a94e8d378" category="list-text">[*Datacenter Location]には、VMware HCX Managerをオンプレミスにインストールするために最も近い場所を指定します。[* Continue （続行） ] をクリックします</block>
+  <block id="c72431b355c96ffdfb7baece307881f0" category="list-text">システム名*で名前を更新し、*続行*をクリックします。</block>
+  <block id="030627b8e0e3f6ba69c6a9e524d8e9c0" category="list-text">[はい、続行]をクリックします。</block>
+  <block id="05399e57e0b2a25ce8cef32f3628b2e3" category="list-text">[* vCenterの接続*]で、vCenter Serverの完全修飾ドメイン名（FQDN）またはIPアドレスと適切なクレデンシャルを入力し、[*続行]をクリックします。</block>
+  <block id="96b1cf77a862dc0408a3e2e9678b2165" category="admonition">あとで接続の問題が発生しないようにFQDNを使用してください。</block>
+  <block id="390f6c76fee2d7fb6d09bcedc3622467" category="list-text">Configure SSO/PSC *で、プラットフォームサービスコントローラのFQDNまたはIPアドレスを入力し、* Continue *をクリックします。</block>
+  <block id="b070c615098fb975bc2bc3a9f6c67b3e" category="admonition">VMware vCenter ServerのFQDNまたはIPアドレスを入力します。</block>
+  <block id="f4bb2b9a4de7e44c942457943977fd34" category="list-text">入力された情報が正しいことを確認し、[* Restart]をクリックします。</block>
+  <block id="a565e4f9db7c03385f61c3bdb0f4b806" category="list-text">サービスが再起動すると、表示されるページに緑で表示されます。vCenter ServerとSSOの両方に適切な設定パラメータが必要です。これは前のページと同じである必要があります。</block>
+  <block id="457446477fbd3326ba80d1248eaca490" category="admonition">この処理には10~20分かかります。また、プラグインをvCenter Serverに追加する必要があります。</block>
+  <block id="1181827ced4ce13f7bd91097d9b10dac" category="inline-image-macro">完了したプロセスを示すスクリーンショット</block>
+  <block id="534d4f43f7a513cf2f2152686da775ae" category="paragraph"><block ref="534d4f43f7a513cf2f2152686da775ae" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="e0b94fcafcd5f76f4f84be761263d657" category="example-title">手順4：オンプレミスのVMware HCXコネクタをAzure VMware解決策 HCX Cloud Managerとペアリングします</block>
+  <block id="ae37843769e741d076e2422772db5395" category="paragraph">オンプレミスとAzure VMware解決策 の両方にHCX Connectorをインストールした後、このペアリングを追加して、オンプレミスのVMware HCX Connector for Azure VMware解決策 プライベートクラウドを構成します。サイトペアリングを設定するには、次の手順を実行します。</block>
+  <block id="28b0363954066139335c413f28022037" category="list-text">オンプレミスのvCenter環境とAzure VMware解決策 SDDCの間にサイトペアを作成するには、オンプレミスのvCenter Serverにログインし、新しいHCX vSphere Web Clientプラグインにアクセスします。</block>
+  <block id="f4f57342a1f5bfd667f7d19048c4aa85" category="inline-image-macro">HCX vSphere Web Clientプラグインのスクリーンショット。</block>
+  <block id="1ecb33e8c47a03470ff03bb6c09a1d87" category="paragraph"><block ref="1ecb33e8c47a03470ff03bb6c09a1d87" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="302ca8cbe91eb456c9defb6fe514b81e" category="list-text">[インフラストラクチャ]で、[サイトペアリングの追加*]をクリックします。</block>
+  <block id="cd6182a85ca09ca99bda2787165407d9" category="admonition">プライベートクラウドにアクセスするための、Azure VMware解決策 HCXのURLまたはIPアドレス、およびCloudAdminロールのクレデンシャルを入力します。</block>
+  <block id="407d1d705e5bdedf2e1c5e9257c0c1ef" category="inline-image-macro">CloudAdminロールのURLまたはIPアドレスとクレデンシャルのスクリーンショット。</block>
+  <block id="6e861dfeca468a35e2aa6f6a42b2ad5f" category="paragraph"><block ref="6e861dfeca468a35e2aa6f6a42b2ad5f" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="9bccd838ddedeb361e65189136ac5c0f" category="list-text">[ 接続 ] をクリックします。</block>
+  <block id="7630a70e4d4511de5ac0f8ce18edd594" category="admonition">VMware HCX Connectorは、ポート443経由でHCX Cloud Manager IPにルーティングできる必要があります。</block>
+  <block id="ddea1cbf444f5d4e69d68b23eb0b4b59" category="list-text">ペアリングが作成されると、新しく構成されたサイトペアリングがHCXダッシュボードで使用できるようになります。</block>
+  <block id="8cdce778f46399f121d65006767f466a" category="inline-image-macro">HCXダッシュボードで完了したプロセスのスクリーンショット</block>
+  <block id="a71387f99ef8fc06b56323de8e6a67e6" category="paragraph"><block ref="a71387f99ef8fc06b56323de8e6a67e6" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="38bca9c1088c36da27f6910232836b09" category="example-title">手順5：ネットワークプロファイル、コンピューティングプロファイル、およびサービスメッシュを設定します</block>
+  <block id="a030f25f2e21cc0db80d6a88646adb63" category="paragraph">VMware HCX Interconnectサービスアプライアンスは、インターネットを介したレプリケーションおよびvMotionベースの移行機能を提供し、ターゲットサイトへのプライベート接続を提供します。インターコネクトは、暗号化、トラフィックエンジニアリング、VMモビリティを提供します。インターコネクトサービスアプライアンスを作成するには、次の手順を実行します。</block>
+  <block id="efb9332572aac00947298fc1ed65c0da" category="list-text">インフラストラクチャー（Infrastructure）で、*インターコネクト（Interconnect）&gt;マルチサイトサービスメッシュ（Multi-Site Service Mesh）&gt;プロファイル計算（Compute Profiles）&gt;コンピュートプロファイル作成（Create Compute Profile）*を選択</block>
+  <block id="96e78a381f203820b7fb0d823994f764" category="admonition">コンピューティングプロファイルでは、導入されるアプライアンスや、HCXサービスからアクセスできるVMwareデータセンターの部分などの導入パラメータを定義します。</block>
+  <block id="df03fa88f502c44f3476981d50c25ae4" category="inline-image-macro">vSphere Client Interconnectページのスクリーンショット</block>
+  <block id="0f7d2c9383c1f40641b39e9f65126dcf" category="paragraph"><block ref="0f7d2c9383c1f40641b39e9f65126dcf" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="ba9d884b8a48f110e052a2644f36c6bb" category="list-text">コンピューティングプロファイルを作成したら、*マルチサイトサービスメッシュ&gt;ネットワークプロファイル&gt;ネットワークプロファイルの作成*を選択して、ネットワークプロファイルを作成します。</block>
+  <block id="7e461f559c367396eca97f75c2262003" category="paragraph">ネットワークプロファイルは、HCXが仮想アプライアンスに使用するIPアドレスとネットワークの範囲を定義します。</block>
+  <block id="12618dff60108a0e440afb082e782c71" category="admonition">この手順には複数のIPアドレスが必要です。これらのIPアドレスは、管理ネットワークからインターコネクトアプライアンスに割り当てられます。</block>
+  <block id="9f137734809298c4fa85b07a7ddb6c5f" category="inline-image-macro">vSphere Client InterconnectページにIPアドレスを追加したスクリーンショット</block>
+  <block id="c1fdcb13f1a622ccbe4f21a52d31bcb1" category="paragraph"><block ref="c1fdcb13f1a622ccbe4f21a52d31bcb1" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="9f78591a00b39059d077f422f8695286" category="list-text">現時点では、コンピューティングプロファイルとネットワークプロファイルは正常に作成されています。</block>
+  <block id="5e8122825414e5afe12c228e3afb9f77" category="list-text">[Interconnect（相互接続）]オプションの[* Service Mesh（サービスメッシュ*）]タブを選択してサービスメッシュを作成し、オンプレミスサイトとAzure SDDCサイトを選択します。</block>
+  <block id="efe6cc3fe15f7c67781cd956f1aa3b8e" category="list-text">サービスメッシュは、ローカルとリモートのコンピューティングプロファイルとネットワークプロファイルのペアを指定します。</block>
+  <block id="292b454f1874f04a4b6f9258b5f933e4" category="admonition">このプロセスの一部として、セキュアなトランスポートファブリックを作成するために、ソースサイトとターゲットサイトの両方にHCXアプライアンスが展開され、自動的に設定されます。</block>
+  <block id="0433a192b31baf05b1deba1471c492ff" category="inline-image-macro">vSphere Client InterconnectページのService Meshタブのスクリーンショット</block>
+  <block id="55551523a891564fc7b09d6dec2fe75f" category="paragraph"><block ref="55551523a891564fc7b09d6dec2fe75f" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="9df03f8fa3fc5e40e9100c8ebbd3a2ad" category="list-text">これが設定の最後の手順です。導入が完了するまでに約30分かかります。サービスメッシュを設定すると、ワークロードVMを移行するためのIPsecトンネルが正常に作成され、環境の準備が整います。</block>
+  <block id="532b4e992bd2794e777d1c1320e94f98" category="inline-image-macro">vSphere Client Interconnectのページで完了したプロセスのスクリーンショット</block>
+  <block id="9158466ef9c7277d9287f86080b2c362" category="paragraph"><block ref="9158466ef9c7277d9287f86080b2c362" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="e0e8a1058909962c26cdead8b3fab020" category="example-title">手順6：ワークロードを移行する</block>
+  <block id="80ea378666ca268305d30933ca376035" category="paragraph">さまざまなVMware HCX移行テクノロジを使用して、オンプレミスとAzure SDDC間でワークロードを双方向に移行できます。VMは、HCXバルク移行、HCX vMotion、HCXコールド移行、HCX Replication Assisted vMotion（HCX Enterprise Editionで利用可能）、HCX OS Assisted Migration（HCX Enterprise Editionで利用可能）などの複数の移行テクノロジーを使用して、VMware HCXでアクティブ化されたエンティティとの間で移動できます。</block>
+  <block id="94638809b72d557d4335dfce65f69e35" category="inline-link">VMware HCXの移行タイプ</block>
+  <block id="aa52e427086548446f11ad8e43c6e998" category="paragraph">さまざまなHCX移行メカニズムの詳細については、を参照してください<block ref="17989ba7d4a97ba4d6ebb072be2dc216" category="inline-link-rx"></block>。</block>
+  <block id="998d1ed8e82c8145e094c99bf11f8408" category="paragraph">*一括移行*</block>
+  <block id="15a3af99dcf6c8651b8f168e13625c61" category="paragraph">このセクションでは、一括移行のメカニズムについて詳しく説明します。HCXの一括移行機能では、移行先のvSphere HCXインスタンスでVMを再作成する際に、vSphere Replicationを使用してディスクファイルを移行します。</block>
+  <block id="181b4946601ef2026e3d3ca16145a722" category="paragraph">VMの一括移行を開始するには、次の手順を実行します。</block>
+  <block id="76b01c506c1450a5b0ff6dccaeb0e9b7" category="list-text">[*Services]&gt;[Migration*]の下の[*Migrate*]タブにアクセスします。</block>
+  <block id="bdfca72da9e5f7e7bfcd81aa9844aa45" category="inline-image-macro">vSphere Clientの移行セクションのスクリーンショット。</block>
+  <block id="005bf2b00a4806639f3ea37ea4509f6b" category="paragraph"><block ref="005bf2b00a4806639f3ea37ea4509f6b" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="cc18384d5bbc3aa89ffea93d51abc451" category="list-text">[リモートサイト接続*]で、リモートサイト接続を選択し、ソースとデスティネーションを選択します。この例では、デスティネーションはAzure VMware解決策 SDDC HCXエンドポイントです。</block>
+  <block id="251b1066293b131079328f5d09e33aca" category="list-text">[移行するVMの選択]をクリックします。これにより、すべてのオンプレミスVMが一覧表示されます。match:value式に基づいてVMを選択し、* Add *をクリックします。</block>
+  <block id="70dc92c7c0c3752e5757560b72fa8f04" category="list-text">[*転送と配置*]セクションで、移行プロファイルを含む必須フィールド（*クラスタ*、*ストレージ*、*デスティネーション*、*ネットワーク*）を更新し、[*検証*]をクリックします。</block>
+  <block id="009e0b54f8062ebadb85388889541f12" category="inline-image-macro">vSphere Clientの転送と配置のセクションのスクリーンショット</block>
+  <block id="e5cde894c26fccdfef420936d570829b" category="paragraph"><block ref="e5cde894c26fccdfef420936d570829b" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="7599f8a3668b692ca7501152d4682c07" category="list-text">検証チェックが完了したら、*移動*をクリックして移行を開始します。</block>
+  <block id="79af22f136dbfe3d3bf950a72f2c5f5b" category="inline-image-macro">移行開始のスクリーンショット。</block>
+  <block id="c40f6796f391e80926e1a459f389859b" category="paragraph"><block ref="c40f6796f391e80926e1a459f389859b" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="c1969ef22141ce348651d2b0f4eb5dd8" category="admonition">この移行では、移行元VMディスクのデータをプレースホルダディスクにレプリケートできるように、移行先vCenter内の指定したAzure NetApp Files データストアにプレースホルダディスクが作成されます。HBRはターゲットへの完全な同期に対してトリガーされ、ベースラインが完了すると、RPO（目標復旧時点）サイクルに基づいて増分同期が実行されます。フル/増分同期が完了すると、特定のスケジュールが設定されていないかぎり、スイッチオーバーが自動的にトリガーされます。</block>
+  <block id="c0b39ee3609ffbaf676e9119dd912e9b" category="list-text">移行が完了したら、移行先のSDDC vCenterにアクセスして同じことを検証します。</block>
+  <block id="5d882ffc756bfb07c0785abe30634c3c" category="paragraph"><block ref="5d882ffc756bfb07c0785abe30634c3c" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="0d785f8302edf28ffd50ba9bd9a1e3e5" category="paragraph">さまざまな移行オプションの詳細と、HCXを使用してオンプレミスからAzure VMware解決策 にワークロードを移行する方法については、を参照してください<block ref="15dbc17e63bae3f57dd4aa8612bacb9d" category="inline-link-rx"></block>。</block>
+  <block id="73e6478a04a38e6c1af3fd112abd351f" category="paragraph">このプロセスの詳細については、次の詳細なウォークスルービデオをご覧ください。</block>
+  <block id="128dd96b5323b02401db618a27f67394" category="paragraph">HCX vMotionオプションのスクリーンショットを次に示します。</block>
+  <block id="d77e1c6edbcf98bc28017153ba737ae7" category="paragraph"><block ref="d77e1c6edbcf98bc28017153ba737ae7" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="efb5f7e867e5fc98adcdcb1d219cdd4a" category="admonition">移行に十分な帯域幅を使用できることを確認します。</block>
+  <block id="6147587d84b933dcb429334a5e2594f9" category="admonition">移行先のANFデータストアには、移行を処理するための十分なスペースが必要です。</block>
+  <block id="d7372a0d2d0e1ec31f9e1d607d52e246" category="paragraph">オンプレミスのあらゆるタイプ/ベンダーストレージに存在するオールクラウドやハイブリッドクラウド、データのいずれをターゲットとしている場合でも、Azure NetApp Files とHCXは、アプリケーションワークロードを展開して移行するための優れたオプションを提供し、データ要件をアプリケーションレイヤとシームレスにすることでTCOを削減します。どのようなユースケースでも、クラウドのメリット、一貫したインフラ、オンプレミスと複数のクラウドにわたる運用、ワークロードの双方向の移動、エンタープライズクラスの容量とパフォーマンスを迅速に実現するには、Azure VMware解決策 とAzure NetApp Files を選択してください。VMware vSphere Replication、VMware vMotion、Network File Copy（NFC；ネットワークファイルコピー）を使用してストレージの接続やVMの移行を行う場合と同じ手順を実行します。</block>
+  <block id="7a7f4f94771d5c3f94a76599dcacb0cf" category="list-text">Azure NetApp Files をAzure VMware解決策 SDDC上のデータストアとして使用できるようになりました。</block>
+  <block id="44b43fa706a816b30490196d187959c4" category="list-text">オンプレミスからAzure NetApp Files データストアへのデータの移行は簡単です。</block>
+  <block id="bc6808bfb84f0a05f9640103114929fa" category="list-text">Azure NetApp Files データストアは、移行アクティビティ中に必要な容量やパフォーマンスに合わせて簡単に拡張および縮小することができます。</block>
+  <block id="61af664797ae795435faba35dd141335" category="inline-link"><block ref="61af664797ae795435faba35dd141335" category="inline-link-rx"></block></block>
+  <block id="ab19b6733f7a9500ff9d392433071ef2" category="paragraph"><block ref="ab19b6733f7a9500ff9d392433071ef2" category="inline-link-rx"></block></block>
+  <block id="7c5ba33b986ba469d277c4ca9f906e55" category="inline-link-macro">VMware HCXを使用して、ワークロードをFSxNデータストアに移行します</block>
+  <block id="c037991d132128e15cdbfefe3ac8e997" category="list-text"><block ref="c037991d132128e15cdbfefe3ac8e997" category="inline-link-macro-rx"></block></block>
+  <block id="205406ae98b10b31699eb910e29a7241" category="doc">TR 4942：VMware HCXを使用して、FSX ONTAP （FSxN）データストアにワークロードを移行する</block>
+  <block id="086d898e7d4a481c2147d4eb71dff1f6" category="section-title">概要：VMware HCX、FSX ONTAP 補足データストア、およびVMware Cloudを使用した仮想マシンの移行</block>
+  <block id="82778188ea3c0ca7871389afec5bfd03" category="paragraph">Amazon Web Services（AWS）上のVMware Cloud（VMC）の一般的なユースケースであり、Amazon FSX for NetApp ONTAP 上の追加のNFSデータストアは、VMwareワークロードの移行です。VMware HCXは、オンプレミスの仮想マシン（VM）とそのデータを、VMwareがサポートする任意のデータストア上で実行して、FSX for ONTAP の補足的なNFSデータストアを含むVMCデータストアに移動するための、さまざまな移行方法を推奨します。</block>
+  <block id="2fbfc2601ddccd56b7728df6f0a658e1" category="paragraph">VMware HCXは、主に、クラウド間でのワークロードの移行、ワークロードの再バランシング、ビジネス継続性を簡素化するように設計されたモビリティプラットフォームです。VMware Cloud on AWSに含まれており、ワークロードを移行して、ディザスタリカバリ（DR）処理に使用するためのさまざまな方法が用意されています。</block>
+  <block id="aabc04eb6cd0b22670013ea8212b7a4f" category="paragraph">このドキュメントでは、VMware HCXの導入と構成に関するステップバイステップ形式のガイダンスを提供します。これには、VMware HCXのすべての主要コンポーネント、オンプレミス、クラウドデータセンター側などが含まれ、さまざまなVM移行メカニズムが可能になります。</block>
+  <block id="d493b7ce0e1cf6434fdce9bd4fa1c847" category="inline-link">HCXの導入の概要</block>
+  <block id="274e6762dc6bf155637729306a74154b" category="inline-link">チェックリストB-HCXとVMware CloudをAWS SDDCデスティネーション環境にインストールします</block>
+  <block id="1db2f90540d47d2fe14bfc6cad01537a" category="paragraph">詳細については、を参照してください<block ref="871067259283ae637dd3ddcf90a49e5d" category="inline-link-rx"></block> および<block ref="b5449e907f27219538721e57c42a92c0" category="inline-link-rx"></block>。</block>
+  <block id="18ad70c16d20c99de2753c4da7fb1291" category="paragraph">VMware HCXのインストールと構成の手順の概要を次に示します。</block>
+  <block id="b9b7e6b65417eaac8eeb13d3f809942d" category="list-text">VMwareクラウド サービス コンソールを使用して、VMC Software-Defined Data Center（SDDC）のHCXをアクティブにします。</block>
+  <block id="76f775a9fe0b12df87ae0ad6b34efdd9" category="list-text">HCX Connector OVAインストーラをオンプレミスのvCenter Serverにダウンロードして導入します。</block>
+  <block id="f970657dc986e56f66a60a02b1210c43" category="list-text">ライセンスキーを使用してHCXをアクティブにします。</block>
+  <block id="2d7e8f746bd165e0f342b659b51cff2c" category="list-text">オンプレミスのVMware HCX ConnectorとVMC HCX Cloud Managerをペアリングします。</block>
+  <block id="a9f9ba84cb2c76d9b8033c6f9ad14642" category="list-text">（任意）ネットワーク拡張を実行してネットワークを拡張し、再IP化を回避します。</block>
+  <block id="f5633594a47ccbe1e89229d43cbce0ec" category="inline-link">HCXインストールの準備中</block>
+  <block id="ecdf05ad108113e6a7e36c14f4d8e596" category="paragraph">作業を開始する前に、次の前提条件が満たされていることを確認してください。詳細については、を参照してください<block ref="c59343d9a8c2798bf6815397e3f08bd3" category="inline-link-rx"></block>。接続性を含む前提条件を満たした後、VMCのVMware HCXコンソールからライセンスキーを生成して、HCXを構成してアクティブ化します。HCXがアクティブ化されると、vCenter Plug-inが展開され、管理にvCenterコンソールを使用してアクセスできるようになります。</block>
+  <block id="f0983a6fa9c97fbc87ff3ad43495e008" category="paragraph">HCXのアクティベーションと展開を行う前に、次のインストール手順を完了する必要があります。</block>
+  <block id="dba413fdbeffb35a4459e9d3f45be3bd" category="inline-link">VMwareへのリンク</block>
+  <block id="b390c6b07bec05579868558e66fda8e2" category="list-text">既存のVMC SDDCを使用するか、次の手順で新しいSDDCを作成します<block ref="11000cc7aedbe4805fa20a67d23d81ac" category="inline-link-rx"></block> またはこれ<block ref="5f912d133d878a69c5af374752da199e" category="inline-link-rx"></block>。</block>
+  <block id="67cff13cad47354f1f51ce3ef47c6ddc" category="list-text">オンプレミスのvCenter環境からVMC SDDCへのネットワークパスで、vMotionを使用したVMの移行がサポートされている必要があります。</block>
+  <block id="c9f9609ee5731fe3777e57937464dc54" category="list-text">必要なを確認します<block ref="69c9d7a74dad51c1c47ea8141c218514" category="inline-link-rx"></block> オンプレミスのvCenter ServerとSDDC vCenter間のvMotionトラフィックに許可されます。</block>
+  <block id="aa8db0799849f7e0b11c7c3594394423" category="list-text">ONTAP NFSボリュームのFSXは、VMC SDDCに補助的なデータストアとしてマウントする必要があります。NFSデータストアを適切なクラスタに接続するには、以下の手順を実行します<block ref="2d161daeb93489b09b5e8bcd39dbc4b1" category="inline-link-rx"></block> またはこれ<block ref="6eb21d78e613b27f69be6d996a6367b3" category="inline-link-rx"></block>。</block>
+  <block id="915747189317f7496ecb2bcdc22e83b5" category="paragraph">テスト目的では、この検証に使用したオンプレミスのラボ環境をサイト間VPNを介してAWS VPCに接続しました。これにより、オンプレミスでAWSに接続し、さらに外部の中継ゲートウェイ経由でVMwareクラウドSDDCに接続できるようになりました。HCx移行およびネットワーク拡張トラフィックは、オンプレミスとVMwareクラウドのデスティネーションSDDC間でインターネットを介して送信されます。このアーキテクチャは、Direct Connectプライベート仮想インターフェイスを使用するように変更できます。</block>
+  <block id="20c789c477f416c40ed37a0a96f352d5" category="paragraph">次の図は、アーキテクチャの概要を示しています。</block>
+  <block id="9f4db1da9d84fe1111fd9ae7c377f786" category="paragraph"><block ref="9f4db1da9d84fe1111fd9ae7c377f786" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="5189f076565998395f00538902b201d3" category="example-title">手順1：アドオンオプションを使用してVMC SDDC経由でHCXをアクティブにします</block>
+  <block id="84d84827fbe9c4b33c9c3b806b314d3f" category="inline-link">vmc.vmware.com</block>
+  <block id="db44791d0479a0d2c9f5549eac8850ad" category="list-text">でVMCコンソールにログインします<block ref="98f8f917cb7f10ee415fb6ce242d9349" category="inline-link-rx"></block> Inventoryにアクセスします。</block>
+  <block id="049aac4163d4ee979d2ebd21434216a2" category="list-text">適切なSDDCを選択し、アドオンにアクセスするには、[SDDCで詳細を表示]をクリックして、[Add ONS]タブを選択します。</block>
+  <block id="933c74bf858432dc81f521597cffbfbb" category="list-text">Activate for VMware HCXをクリックします。</block>
+  <block id="7335132a517aad5765c48773404c2687" category="admonition">この手順の完了には最大25分かかります。</block>
+  <block id="be7b0f3d5e22843c4a2107342b36330b" category="paragraph"><block ref="be7b0f3d5e22843c4a2107342b36330b" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="fcf3d539a908f48f7d82acf7470675f7" category="list-text">導入が完了したら、HCX Managerとそれに関連するプラグインがvCenterコンソールで使用可能であることを確認して、導入を検証します。</block>
+  <block id="8c0cff0c106bc3f5a4dd79c01c3de7a9" category="list-text">適切な管理ゲートウェイファイアウォールを作成して、HCX Cloud Managerへのアクセスに必要なポートを開きます。HCX Cloud ManagerはHCX操作に対応しています。</block>
+  <block id="6eac4c95d8f88bfb601f7b87770513ab" category="paragraph">オンプレミスコネクタがVMCのHCXマネージャと通信するためには、適切なファイアウォールポートがオンプレミス環境で開いていることを確認します。</block>
+  <block id="185b9319145cb225cdb1256b494e0595" category="list-text">VMCコンソールからHCXダッシュボードに移動し、管理に移動して、システム更新タブを選択します。HCX Connector OVAイメージのRequest a Download Linkをクリックします。</block>
+  <block id="039b399de18508b9f1029358886fea99" category="list-text">HCXコネクタをダウンロードした状態で、OVAをオンプレミスのvCenter Serverに導入します。vSphere Clusterを右クリックし、Deploy OVF Templateオプションを選択します。</block>
+  <block id="bd18e96a29eec74967666d876a146937" category="paragraph"><block ref="bd18e96a29eec74967666d876a146937" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="e8df6b0257b180b48db7d56e06e4da54" category="list-text">Deploy OVF Templateウィザードで必要な情報を入力し、NextをクリックしてからFinishをクリックして、VMware HCX Connector OVAを導入します。</block>
+  <block id="8925cbdefd949dca662858e368d4ccfb" category="list-text">仮想アプライアンスの電源を手動でオンにします。詳しい手順については、を参照してください<block ref="856d054195f2a40a0c4a2869d5895904" category="inline-link-rx"></block>。</block>
+  <block id="fab9859fcf95f41f7bb654e91e6876b4" category="paragraph">VMware HCX Connector OVAをオンプレミスに導入してアプライアンスを起動したら、次の手順を実行してHCX Connectorをアクティブにします。VMCのVMware HCXコンソールからライセンスキーを生成し、VMware HCX Connectorのセットアップ中にライセンスを入力します。</block>
+  <block id="fddda62632eb91015346909c9da3cf70" category="list-text">VMware Cloud Consoleで、Inventory（インベントリ）に移動し、SDDCを選択してView Details（詳細の表示）をクリックします。アドオンタブのVMware HCXタイルで、HCXを開くをクリックします。</block>
+  <block id="51e51578490c90a69c673d41361b0070" category="list-text">Activation Keysタブで、Create Activation Keyをクリックします。システムタイプをHCXコネクタとして選択し、確認をクリックしてキーを生成します。アクティベーションキーをコピーします。</block>
+  <block id="e30847f53a6e375f1da81f871c44e963" category="paragraph"><block ref="e30847f53a6e375f1da81f871c44e963" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="c410deb9d7b04917aff523f97f944894" category="admonition">オンプレミスに配置されたHCXコネクタごとに、個別のキーが必要です。</block>
+  <block id="1111fa8f5187058abdce3daca03b7e32" category="inline-link"><block ref="1111fa8f5187058abdce3daca03b7e32" category="inline-link-rx"></block></block>
+  <block id="d9432955aa7705a1f97c9e94c730fdc9" category="list-text">オンプレミスのVMware HCX Connectorにログインします<block ref="ece20a9f7dc6720cdeb30c7e7733cd22" category="inline-link-rx"></block> 管理者のクレデンシャルを使用</block>
+  <block id="f5f8371708aa6ae3ddb84d1f4d9b5d17" category="list-text">[ライセンス交付（Licensing）]セクションで、手順2からコピーしたアクティベーションキーを入力し、[有効化（Activate）]をクリックします。</block>
+  <block id="404a7c7a7d73b870628663e76e974d09" category="admonition">有効化を正常に完了するには、オンプレミスHCXコネクタにインターネットアクセスが必要です。</block>
+  <block id="564ed09bba79e1d4262e37fc94987fbe" category="list-text">データセンターの場所で、VMware HCX Managerをオンプレミスにインストールする場所を指定します。Continue をクリックします。 .</block>
+  <block id="61ce05ace76ff1424841e5e551873a97" category="list-text">[システム名]で名前を更新し、[続行]をクリックします。</block>
+  <block id="4bc852451f43c4b3df306f35e67e4178" category="list-text">[はい]を選択してから、[続行]</block>
+  <block id="7eefbebbdefe472b13ce5d0bce410737" category="list-text">[vCenterの接続]で、IPアドレスまたは完全修飾ドメイン名（FQDN）とvCenter Serverの資格情報を入力し、[続行]をクリックします。</block>
+  <block id="47a7ea3464363cf9baa528c91d3aa4dc" category="admonition">あとで通信の問題が発生しないようにFQDNを使用してください。</block>
+  <block id="eb7e70dd1954a71454c2e6a0cb9ed5f8" category="list-text">Configure SSO/PSC（SSO/PSCの設定）で、Platform Services ControllerのFQDNまたはIPアドレスを入力し、Continue（続行）をクリックします。</block>
+  <block id="1f2f2ed2ec24b1f1ab37799a6f27fa40" category="admonition">vCenter ServerのIPアドレスまたはFQDNを入力します。</block>
+  <block id="24b993e60859697b0875bc838cfe12aa" category="list-text">情報が正しく入力されていることを確認し、[再起動]をクリックします。</block>
+  <block id="b0fca3e3f2889bbec562577014fafd9a" category="list-text">完了すると、vCenter Serverは緑で表示されます。vCenter ServerとSSOの両方で、前のページと同じ設定パラメータを指定する必要があります。</block>
+  <block id="8463d9f0fc95490bc0c65d3ba9063dea" category="admonition">この処理には10~20分かかります。また、プラグインをvCenter Serverに追加することもできます。</block>
+  <block id="a56ac8f65b53b91dba588aafc428f8b2" category="paragraph"><block ref="a56ac8f65b53b91dba588aafc428f8b2" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="65d6e263d26134bb05aeec17adc73a06" category="example-title">手順4：オンプレミスのVMware HCXコネクタをVMC HCX Cloud Managerとペアリングします</block>
+  <block id="f68b6001164eba9a9e765e551c59a3c1" category="list-text">オンプレミスのvCenter ServerとVMC SDDCの間にサイトペアを作成するには、オンプレミスのvCenter Serverにログインして、HCX vSphere Web Clientプラグインにアクセスします。</block>
+  <block id="10f9af0781b3c0a9d621bac0b8719365" category="paragraph"><block ref="10f9af0781b3c0a9d621bac0b8719365" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="1af79e59a8d820cc101f77efa75cb01d" category="list-text">[インフラストラクチャ]で、[サイトペアリングの追加]をクリックします。リモートサイトを認証するには、VMC HCX Cloud ManagerのURLまたはIPアドレス、およびCloudAdminロールのクレデンシャルを入力します。</block>
+  <block id="1b49b2932a225dd49cc6f5298ad6cc8f" category="paragraph"><block ref="1b49b2932a225dd49cc6f5298ad6cc8f" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="2a7c72a1b7e925abd687d2c7a4ac5a2f" category="admonition">HCx情報は、SDDC Settingsページから取得できます。</block>
+  <block id="1272226ee970b8e49c49d25af6f4b6b8" category="paragraph"><block ref="1272226ee970b8e49c49d25af6f4b6b8" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="838d70471e28171464ffd4fed8d9df3a" category="paragraph"><block ref="838d70471e28171464ffd4fed8d9df3a" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="dbcfb2058c277401b0872487463fe313" category="list-text">サイトのペアリングを開始するには、[接続]をクリックします。</block>
+  <block id="2147cde45e80d7c6a5db679f7180eab4" category="admonition">VMware HCX Connectorは、ポート443経由でHCX Cloud Manager IPと通信できる必要があります。</block>
+  <block id="618a4f677a45dc2b53f7c464b5598c28" category="paragraph">VMware HCX Interconnect（HCX-IX）アプライアンスは、インターネットを介したセキュアなトンネル機能と、レプリケーションおよびvMotionベースの機能を実現するターゲットサイトへのプライベート接続を提供します。インターコネクトは、暗号化、トラフィックエンジニアリング、SD-WANを提供します。HCI IX Interconnect Applianceを作成するには、次の手順を実行します。</block>
+  <block id="f32fcca3303979d42a8f0be055fc36dd" category="list-text">インフラストラクチャー（Infrastructure）で、相互接続（Interconnect）&gt;マルチサイトサービスメッシュ（Multi-Site Service Mesh）&gt;プロファイル計算（Compute Profiles）&gt;コンピュートプロファイルの作成（Create Compute Profile</block>
+  <block id="46c0e6a1b2dbd6331bcea8e4726de843" category="admonition">コンピューティングプロファイルには、インターコネクト仮想アプライアンスの導入に必要なコンピューティング、ストレージ、およびネットワーク導入のパラメータが含まれています。また、VMwareデータセンターのどの部分にHCXサービスからアクセスできるかを指定します。</block>
+  <block id="46a447d35c4917802c9d612dd8ede3b5" category="inline-link">計算プロファイルの作成</block>
+  <block id="9fc475734bed02e370e17ea150a74fd3" category="paragraph">手順の詳細については、を参照してください<block ref="3e2a71be9bcd47a34446e38d1b8f4987" category="inline-link-rx"></block>。</block>
+  <block id="648388c6923f0b4fc45138b46fb56158" category="paragraph"><block ref="648388c6923f0b4fc45138b46fb56158" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="ad3c8534d57516f63a1f263c7e4a4c7a" category="list-text">コンピューティングプロファイルを作成したら、Multi-Site Service Mesh &gt; Network Profiles &gt; Create Network Profileを選択して、ネットワークプロファイルを作成します。</block>
+  <block id="52d18a4f9043fce9a1e9d57e92fc77a4" category="list-text">ネットワークプロファイルは、HCXが仮想アプライアンスに使用するIPアドレスとネットワークの範囲を定義します。</block>
+  <block id="2565e95c468130be3fbdbb45da6cadeb" category="admonition">これには2つ以上のIPアドレスが必要です。これらのIPアドレスは、管理ネットワークから仮想アプライアンスに割り当てられます。</block>
+  <block id="f62f78e1c7b4b764032cbdad0c61a6d0" category="paragraph"><block ref="f62f78e1c7b4b764032cbdad0c61a6d0" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="d9fad750cff1511b959d686e3a0829f0" category="inline-link">ネットワークプロファイルの作成</block>
+  <block id="51cbf458571723275b781ce4b3fec323" category="paragraph">手順の詳細については、を参照してください<block ref="fb1b37f7979e3209d40171b59e47f33b" category="inline-link-rx"></block>。</block>
+  <block id="784e6023ad40986353535651f974e468" category="admonition">インターネット経由でSD-WANに接続する場合は、[ネットワークとセキュリティ]セクションでパブリックIPを予約する必要があります。</block>
+  <block id="c1b5864550e5f67407a0efd2cbe55b67" category="list-text">サービスメッシュを作成するには、InterconnectオプションのService Meshタブを選択し、オンプレミスサイトとVMC SDDCサイトを選択します。</block>
+  <block id="295ecbce57290e03752d2e06d4575fff" category="paragraph">サービスメッシュによって、ローカルとリモートのコンピューティングプロファイルとネットワークプロファイルのペアが確立されます。</block>
+  <block id="1e21db3cc04207cfb46fd912cdfef571" category="paragraph"><block ref="1e21db3cc04207cfb46fd912cdfef571" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="dba94996b6f6f31ef7ea483dc8f0046c" category="admonition">このプロセスの一部では、ソースサイトとターゲットサイトの両方で自動的に構成されるHCXアプライアンスを展開し、セキュアなトランスポートファブリックを作成します。</block>
+  <block id="b7e93bb3e8f576437ca086d1702a7994" category="list-text">ソースとリモートのコンピューティングプロファイルを選択し、Continue（続行）をクリックします。</block>
+  <block id="ef7ca07b9da6362e4aa341061333a66c" category="paragraph"><block ref="ef7ca07b9da6362e4aa341061333a66c" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="e42fcfe670e1a9e7a259fb3c9d3dad87" category="list-text">アクティブにするサービスを選択し、[続行]をクリックします。</block>
+  <block id="ff89555f65d5e42967fac9abcecb74c8" category="paragraph"><block ref="ff89555f65d5e42967fac9abcecb74c8" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="f8438ec331921e82a31eaa97deb5f8c0" category="admonition">Replication Assisted vMotion Migration、SRM Integration、およびOS Assisted Migrationには、HCX Enterpriseライセンスが必要です。</block>
+  <block id="9a44378d7dd14730acf075e18d7d8c29" category="list-text">サービスメッシュの名前を作成し、完了をクリックして作成プロセスを開始します。導入が完了するまでに約30分かかります。サービスメッシュを設定したら、ワークロードVMの移行に必要な仮想インフラとネットワークを作成します。</block>
+  <block id="725a12cf06f45e850e7588b816663c20" category="paragraph"><block ref="725a12cf06f45e850e7588b816663c20" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="d0de3992884fcc0e48531f19cce447e7" category="example-title">手順6：ワークロードを移行する</block>
+  <block id="af65fc6bdee93e32363bfe5c2cf8ee3a" category="paragraph">HCxは、オンプレミスやVMC SDDCなど、2つ以上の異なる環境間で双方向の移行サービスを提供します。HCXバルク移行、HCX vMotion、HCXコールド移行、HCX Replication Assisted vMotion（HCX Enterprise Editionで利用可能）、HCX OS Assisted Migration（HCX Enterprise Editionで利用可能）などのさまざまな移行テクノロジーを使用して、HCXでアクティブ化されたサイトとの間でアプリケーションワークロードを移行できます。</block>
+  <block id="0afeac0ffbe358cc58864e34fc54c9b2" category="paragraph">使用可能なHCX移行テクノロジの詳細については、を参照してください<block ref="17989ba7d4a97ba4d6ebb072be2dc216" category="inline-link-rx"></block></block>
+  <block id="97957dd6d4c5d792035241d68a97795e" category="paragraph">HCX-IXアプライアンスは、Mobility Agentサービスを使用して、vMotion、コールド、およびReplication Assisted vMotion（RAV）の移行を実行します。</block>
+  <block id="2234ed56b9cbb2a083fd5fe49a89bce1" category="admonition">HCX-IXアプライアンスは、Mobility AgentサービスをvCenter Serverのホストオブジェクトとして追加します。このオブジェクトに表示されるプロセッサ、メモリ、ストレージ、およびネットワークのリソースは、IXアプライアンスをホストする物理ハイパーバイザーでの実際の消費量を表していません。</block>
+  <block id="c3735752087d3a11c85329680057de55" category="paragraph"><block ref="c3735752087d3a11c85329680057de55" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="5c14d0d24d8dccac2ac3ca3ddacf8ba8" category="example-title">VMware HCX vMotion</block>
+  <block id="8f2dbd716f60bbee8012a3f0e361fc65" category="paragraph">このセクションでは、HCX vMotionメカニズムについて説明します。この移行テクノロジは、VMware vMotionプロトコルを使用してVMをVMC SDDCに移行します。vMotion移行オプションは、一度に1つのVMのVM状態を移行するために使用します。このマイグレーション方式では、サービスは中断されません。</block>
+  <block id="0c1394a246edcdcb98e3c5fe3cedabbb" category="admonition">IPアドレスを変更せずにVMを移行するには、ネットワーク拡張を設定する必要があります（VMが接続されているポートグループの場合）。</block>
+  <block id="896f227a656a8b0f4a64aa3e12b2506e" category="list-text">オンプレミスのvSphereクライアントから、Inventoryに移動し、移行するVMを右クリックして、HCX Actions &gt; Migrate to HCX Target Siteを選択します。</block>
+  <block id="d683c9596c42727fea13c654874f39be" category="paragraph"><block ref="d683c9596c42727fea13c654874f39be" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="d4479366aca979ecb9be874cab7bc543" category="list-text">仮想マシンの移行ウィザードで、リモートサイト接続（ターゲットVMC SDDC）を選択します。</block>
+  <block id="09ca4fea7b9ff384e38622ce7cc20a9c" category="paragraph"><block ref="09ca4fea7b9ff384e38622ce7cc20a9c" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="67358e55b470861e1e14c63c30156dd4" category="list-text">グループ名を追加し、[転送と配置]の下で必須フィールド(クラスタ、ストレージ、および宛先ネットワーク)を更新し、[検証]をクリックします。</block>
+  <block id="1ce9ff194ee5bdbf4df7b739baf9b3d2" category="paragraph"><block ref="1ce9ff194ee5bdbf4df7b739baf9b3d2" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="7a961199f9300128fcaa431e9245ac13" category="list-text">検証チェックが完了したら、Goをクリックして移行を開始します。</block>
+  <block id="f3d5cf5ffd51c9062748a6a292f749f7" category="inline-link">VMware HCX vMotionとコールドマイグレーションについて理解する</block>
+  <block id="136739244c82e4bdcdb6a1b1c3712d3b" category="admonition">vMotionによる転送では、VMのアクティブメモリ、実行状態、IPアドレス、およびMACアドレスがキャプチャされます。HCX vMotionの要件と制限の詳細については、を参照してください<block ref="011541f11351d17074bdfa0823ec743b" category="inline-link-rx"></block>。</block>
+  <block id="f2ca81fdc3e7326c354dc180a98c7ef2" category="list-text">VMotionの進捗状況と完了は'HCX＞Migrationダッシュボードから監視できます</block>
+  <block id="b41362505f00e258d5e04636a0edaf7c" category="paragraph"><block ref="b41362505f00e258d5e04636a0edaf7c" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="1e4900648931ee918be9251a268e792c" category="example-title">VMware Replication Assisted vMotionの場合</block>
+  <block id="3bb995dd361711179fda278eb498a385" category="paragraph">VMwareのドキュメントに気づいたように、VMware HCX Replication Assisted vMotion（RAV）は、バルク移行とvMotionのメリットを組み合わせています。一括移行では、vSphere Replicationを使用して複数のVMが同時に移行されます。これは、スイッチオーバー中にVMがリブートされるためです。HCx vMotionはダウンタイムなしで移行を行いますが、レプリケーショングループで一度に1つのVMが順次実行されます。RAVは、VMを並行して複製し、スイッチオーバーウィンドウまで同期させます。スイッチオーバープロセスでは、VMを停止することなく一度に1つずつ移行します。</block>
+  <block id="93e2f4753a86232a37f8bd57209f626d" category="paragraph">次のスクリーンショットは、マイグレーションプロファイルをReplication Assisted vMotionとして示しています。</block>
+  <block id="7c12abc7edfaeb45279b8ee126759269" category="paragraph"><block ref="7c12abc7edfaeb45279b8ee126759269" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="a740a2796b321475f6bd003fafa67e5b" category="paragraph">レプリケーションの所要時間は、少数のVMのvMotionよりも長くなる可能性があります。RAVでは、差分のみを同期し、メモリの内容を含めます。以下はマイグレーションステータスのスクリーンショットです。マイグレーションの開始時刻がVMごとに異なり、終了時刻も表示されます。</block>
+  <block id="27e8bd561ebb9d9ee4d23860c10a3883" category="paragraph"><block ref="27e8bd561ebb9d9ee4d23860c10a3883" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="e61c2a41cf1924a0a1e3d5217e16a084" category="paragraph">HCXマイグレーションオプションと、HCXを使用してオンプレミスからAWS上のVMware Cloudにワークロードを移行する方法については、を参照してください追加情報<block ref="15dbc17e63bae3f57dd4aa8612bacb9d" category="inline-link-rx"></block>。</block>
+  <block id="f261622b527cc27756d5ba83c22662f8" category="admonition">VMware HCX vMotionには、100 Mbps以上のスループット機能が必要です。</block>
+  <block id="60bd242580d7de82c0a2e6eee14d2f50" category="admonition">ONTAP データストア用のターゲットVMC FSXには、移行に対応できる十分なスペースが必要です。</block>
+  <block id="17e30673228b69814c7132c287c12ecb" category="paragraph">オールクラウドとハイブリッドクラウドのどちらをターゲットとしていても、オンプレミスのあらゆるタイプ/ベンダーストレージに保存されているデータを対象としている場合でも、NetApp ONTAP 対応のAmazon FSXとHCXは、データ要件をアプリケーションレイヤにシームレスにすることで、ワークロードの導入と移行を実現する優れたオプションを提供します。どのようなユースケースでも、VMCとFSX for ONTAP データストアを選択すれば、オンプレミスと複数のクラウドにわたるクラウドのメリット、一貫したインフラ、運用、ワークロードの双方向の移動、エンタープライズクラスの容量とパフォーマンスを迅速に実現できます。VMware vSphereレプリケーション、VMware vMotion、さらにはNFCコピーを使用してストレージを接続し、VMを移行するための一般的なプロセスと手順は同じです。</block>
+  <block id="273435500e4b837aea488094a233f579" category="list-text">Amazon FSX ONTAP をVMC SDDCを使用するデータストアとして使用できるようになりました。</block>
+  <block id="cbbc4fc2bc12f5fd25f84b44f93fd5f3" category="list-text">ONTAP データストア用のFSXを使用して、任意のオンプレミスデータセンターからVMCに簡単にデータを移行できます</block>
+  <block id="9004e09f6485129980daf3188affad35" category="list-text">移行アクティビティ中に容量とパフォーマンスの要件を満たすために、FSX ONTAP データストアを簡単に拡張および縮小できます。</block>
+  <block id="34e948a9d10cb991d2da187e3e54caef" category="list-text">VMware Cloudのドキュメント</block>
+  <block id="56f2ce0be9d32c6c0e3c983d011be4d7" category="inline-link"><block ref="56f2ce0be9d32c6c0e3c983d011be4d7" category="inline-link-rx"></block></block>
+  <block id="1427dee608f6801474787ea58df57a2c" category="paragraph"><block ref="1427dee608f6801474787ea58df57a2c" category="inline-link-rx"></block></block>
+  <block id="cc788b7e72b2a734dd0985bd1e0e9fe3" category="list-text">Amazon FSX for NetApp ONTAP のドキュメント</block>
+  <block id="9c7174d13497f84bdd0b3e21af13794d" category="inline-link"><block ref="9c7174d13497f84bdd0b3e21af13794d" category="inline-link-rx"></block></block>
+  <block id="05c89cf5b898c5c58986dac08f22a2a1" category="paragraph"><block ref="05c89cf5b898c5c58986dac08f22a2a1" category="inline-link-rx"></block></block>
+  <block id="33efddb311b6c85bba97e5349040815f" category="sidebar">ワークロード移行ソリューション</block>
+  <block id="e946411f5b47d53428345ae0e0e5f5fd" category="sidebar">ワークロードのマイグレート</block>
+  <block id="22945ba986f07dffbdafb6711d87ec03" category="sidebar">VMware HCXを使用したAzure NetApp Files データストアへのワークロードの移行</block>
 </blocks>
