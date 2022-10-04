@@ -1,0 +1,62 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-sc-solution.html 
+keywords: solution architecture, confluent platform, linux, Fujitsu primergy, intel xenon 
+summary: このセクションでは、階層型ストレージ用のNetApp ONTAP を使用した、Conluent Platform環境でのパフォーマンス検証に使用するハードウェアとソフトウェアについて説明します。次の表に、解決策 のアーキテクチャと基本コンポーネントを示します。 
+---
+= 解決策
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:kafka-sc-overview.html["前へ：概要。"]
+
+ONTAP を搭載したNetApp AFF A900ストレージコントローラは、データストリーム向けに設計された分散システムです。どちらも水平方向に拡張可能で、耐障害性に優れており、負荷時に優れたパフォーマンスを提供します。データ量を最小限に抑えるデータ削減テクノロジにより、分散型データストリーミングとストリーム処理を相互に補完し、ストレージコストを削減します。AFF A900ストレージコントローラは優れたパフォーマンスを提供すると同時に、コンピューティングリソースとデータストレージリソースを分離できます。これにより、システム管理が簡素化され、リソースを個別に拡張できます。
+
+image:kafka-sc-image3.png["解決策 の概要を示す画像。"]
+
+
+
+== 解決策アーキテクチャの詳細
+
+このセクションでは、階層型ストレージ用のNetApp ONTAP を使用した、Conluent Platform環境でのパフォーマンス検証に使用するハードウェアとソフトウェアについて説明します。次の表に、解決策 のアーキテクチャと基本コンポーネントを示します。
+
+|===
+| プラットフォームコンポーネント | 環境の構成 
+
+
+| 矛盾するプラットフォームバージョン6.2  a| 
+* ゾーニングキーパー×3
+* ブローカーサーバ×8
+* 5台のツールサーバ
+* Grafana×1
+* 1 xコントロールセンター
+
+
+
+
+| すべてのノード上のオペレーティングシステム | Linux （ Ubuntu 18.04 ） 
+
+
+| NetApp ONTAP ：ウォームバケット用  a| 
+* AFF A900ハイアベイラビリティ（HA）ペア×1
+* 24 本、 800 本の SSD × 4
+* S3 プロトコル
+* 100GbE
+
+
+
+
+| Fujitsu Primergy RX2540 サーバ × 15  a| 
+* CPU×2、合計16個の物理コア
+* インテルXeon
+* 256GBの物理メモリ
+* 100GbEデュアルポート
+
+
+|===
+link:kafka-sc-technology-overview.html["次のステップ：テクノロジの概要"]

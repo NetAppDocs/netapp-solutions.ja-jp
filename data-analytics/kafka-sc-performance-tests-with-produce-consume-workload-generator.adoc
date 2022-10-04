@@ -1,0 +1,36 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-sc-performance-tests-with-produce-consume-workload-generator.html 
+keywords: data graphs, kafka throughput, s3 tiering traffic, aff a900, resource utilization 
+summary: 'NetAppストレージ・コントローラ1台のAFF A900を使用して"ワークロードの生成中に5ノードまたは8ノードのブローカ・ノードを使用して階層型ストレージのテストを実施しました今回のテストでは、AFF A900のリソース使用率が100%に達するまで、ブローカーノードの数に合わせて完了までの時間とパフォーマンスの結果が拡張されました。ONTAP ストレージコントローラには、少なくとも1つのHAペアが必要です。' 
+---
+= ワークロードジェネレータを使用したパフォーマンステスト
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:kafka-sc-confluent-performance-validation.html["前の手順：パフォーマンスの検証が流暢になりました。"]
+
+NetAppストレージ・コントローラ1台のAFF A900を使用して'ワークロードの生成中に5ノードまたは8ノードのブローカ・ノードを使用して階層型ストレージのテストを実施しました今回のテストでは、AFF A900のリソース使用率が100%に達するまで、ブローカーノードの数に合わせて完了までの時間とパフォーマンスの結果が拡張されました。ONTAP ストレージコントローラには、少なくとも1つのHAペアが必要です。
+
+S3読み出し処理のパフォーマンスは、ブローカーノードの数に基づいてリニアに向上しました。ONTAP ストレージコントローラを使用すると、1つの環境で最大12個のHAペアをサポートできます。
+
+次のグラフは、S3の階層化トラフィックと5ノードまたは8ノードのブローカーを組み合わせたものです。AFF A900の単一HAペアのパフォーマンスを最大化しました。
+
+image:kafka-sc-image9.png["このデータグラフには、S3の階層化トラフィックと5ノードまたは8ノードのブローカーが組み合わされて表示されます。"]
+
+次のグラフは、Kafkaのスループットを約31.74GBpsで示しています。
+
+image:kafka-sc-image10.png["このデータグラフは、Kafkaのスループットを約31.74GBpsで示しています。"]
+
+また、ONTAP ストレージコントローラの「perfstat」レポートでも同様のスループットが確認されました。
+
+....
+object_store_server:wle-mendocino-07-08:get_data:34080805907b/ s
+object_store_server:wle-mendocino-07-08:put_data:484236974b/ s
+....
+link:kafka-sc-performance-best-practice-guidelines.html["次：パフォーマンスに関するベストプラクティスのガイドライン"]

@@ -15630,4 +15630,156 @@
   <block id="f1afd91555fd6fb162a6343cf91fdc05" category="list-text"><block ref="f1afd91555fd6fb162a6343cf91fdc05" category="inline-link-macro-rx"></block></block>
   <block id="70fc473134508f4cbdb235049ab72bc6" category="inline-link-macro">Red Hat OpenShiftを搭載したネットアップのビデオをご覧ください</block>
   <block id="f86f2e66a68f28ad563c787ff0145ba4" category="list-text"><block ref="f86f2e66a68f28ad563c787ff0145ba4" category="inline-link-macro-rx"></block></block>
+  <block id="c9fee86e220b694a9ca26cb5d3943276" category="summary">本ドキュメントでは、ティアストレージベンチマークキットを使用した、NetApp ONTAP 上の流暢なプラットフォームのパフォーマンスベンチマークについて説明します。</block>
+  <block id="5514e652e396365ccb56f1b2b5371569" category="doc">TR-4941：ネットアップのONTAP ストレージコントローラに精通していること</block>
+  <block id="1e0e02def11263577d232ee8ce69c727" category="paragraph">Karthikeyan Nagalingam、Joe Scott、NetApp Rankesh Kumar、Conluent</block>
+  <block id="f79dab50e0f9664c4b4d604319a8cbbe" category="paragraph">Conluent Platformの拡張性と柔軟性を高めるには、ワークロードを非常に迅速に拡張し、バランスを調整できる必要があります。階層型ストレージを使用すると、このような運用上の負担が軽減されるため、大量のデータを管理しやすくなります。基本的には、データストレージとデータ処理を分離することで、各ストレージを個別に簡単に拡張できるようにすることが重要です。</block>
+  <block id="44f523cee834fac14fc6966d940c5e92" category="paragraph">業界をリードする革新的なテクノロジを搭載したNetApp ONTAP データ管理ソフトウェアは、データの保存場所にかかわらず、多様なメリットを提供します。</block>
+  <block id="ff221b4a7c17defefb1a32cf9136086d" category="inline-link-macro">次へ：解決策</block>
+  <block id="700a1e72f5247529520dfae6b0d991e3" category="paragraph"><block ref="700a1e72f5247529520dfae6b0d991e3" category="inline-link-macro-rx"></block></block>
+  <block id="b7d338a537a3a1d0186080c4c4ba47eb" category="summary">このページでは、この解決策 で使用されるテクノロジーについて説明します。</block>
+  <block id="1ac2a5604ed02bc66c4d6241b534d13b" category="inline-link-macro">前へ：解決策。</block>
+  <block id="9ec2e79862a05fa25e8c20aa973e0d4b" category="paragraph"><block ref="9ec2e79862a05fa25e8c20aa973e0d4b" category="inline-link-macro-rx"></block></block>
+  <block id="7f1512274139985d5f21a72e13808522" category="section-title">NetApp ONTAP ストレージコントローラ</block>
+  <block id="b691cb82ce5ecb3d94f82b73ef3c2219" category="paragraph">NetApp ONTAP は、ハイパフォーマンスなエンタープライズクラスのストレージオペレーティングシステムです。</block>
+  <block id="f8b80927eb906c831742041c4c139be1" category="paragraph">NetApp ONTAP 9.8では、Amazon Simple Storage Service（S3）APIがサポートされるようになりました。ONTAP は、Amazon Web Services（AWS）S3 APIアクションのサブセットをサポートしており、クラウドプロバイダ（AWS、Azure、GCP）とオンプレミスの両方のONTAPベースシステムでデータをオブジェクトとして表すことができます。</block>
+  <block id="9496ba5a97ab04d734dc449f86646ffe" category="paragraph">ネットアップのStorageGRID ソフトウェアは、オブジェクトストレージ向けの主力製品であるネットアップの解決策 です。ONTAP は、エッジ上での取り込み/前処理ポイントを提供することでStorageGRID を補完します。ネットアップが提供するオブジェクトデータ向けデータファブリックを拡張し、ネットアップ製品ポートフォリオの価値を高めます。</block>
+  <block id="d6e8f345bdd21d285f35171c2da8cd3a" category="paragraph">S3バケットへのアクセスは、許可されたユーザアプリケーションとクライアントアプリケーションを介して提供されます。次の図は、S3バケットにアクセスするアプリケーションを示しています。</block>
+  <block id="a38dfb3b286ff4854c6f5d67ebc15e13" category="inline-image-macro">次の図は、S3バケットにアクセスするアプリケーションを示しています。</block>
+  <block id="6090835a60a6e1de5e0c995ca8c5e5f8" category="paragraph"><block ref="6090835a60a6e1de5e0c995ca8c5e5f8" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="d5088428c842a8d5e45f2e6597af4138" category="section-title">主なユースケース</block>
+  <block id="5c2f4a513e63ae351e5dc0b7412a43c2" category="paragraph">S3 APIをサポートする主な目的は、ONTAP でオブジェクトへのアクセスを提供することです。ONTAP ユニファイドストレージアーキテクチャで、ファイル（NFSおよびSMB）、ブロック（FCおよびiSCSI）、オブジェクト（S3）がサポートされるようになりました。</block>
+  <block id="1af2e65957e458000d1181bb9eba2517" category="section-title">ネイティブS3アプリケーション</block>
+  <block id="c0889d6b193afe7d0069e3d99bc5f310" category="paragraph">S3を使用したオブジェクトアクセスにONTAP のサポートを利用できるアプリケーションが増えています。大容量のアーカイブワークロードには適していますが、ネイティブS3アプリケーションではハイパフォーマンスが急速に拡大しており、次のようなニーズがあります。</block>
+  <block id="a768caa988605a2846599cf7e2d0c26a" category="list-text">分析</block>
+  <block id="9d0996a44c6d51cf223e833dceecb286" category="list-text">人工知能</block>
+  <block id="1669cbc398e4228e7e05d6b2e030cbe7" category="list-text">エッジからコアへの取り込み</block>
+  <block id="bd1a4166acf45c62946d7592a64ad52d" category="paragraph">ONTAP System Managerなど、使い慣れた管理ツールを使用して、ONTAP の開発や運用に使用できる高性能オブジェクトストレージを迅速にプロビジョニングできるようになりました。そのため、ONTAP のStorage Efficiency機能とセキュリティを活用できます。</block>
+  <block id="50472ac5cace1b7798b3f92db5c3049e" category="section-title">FabricPool エンドポイント</block>
+  <block id="5050f2389b47df5462550d8e11451e9d" category="paragraph">ONTAP 9.8以降では、FabricPool でONTAP のバケットへの階層化がサポートされるため、ONTAP間で階層化できます。これは、既存のFAS インフラをオブジェクトストアのエンドポイントとして転用する場合に最適なオプションです。</block>
+  <block id="10beb552e5ed01d5c890a260a1d6af16" category="paragraph">FabricPool では、次の2つの方法でONTAP への階層化がサポートさ</block>
+  <block id="1e53159984d41f5ea848cdf412430a06" category="list-text">*ローカルクラスタ階層化。*非アクティブなデータは、クラスタLIFを使用してローカルクラスタにあるバケットに階層化されます。</block>
+  <block id="08be0ca0511f2294cbbaf9d92327996b" category="list-text">*リモートクラスタの階層化。*非アクティブなデータは、FabricPool クライアントのIC LIFとONTAP オブジェクトストアのデータLIFを使用して、従来のFabricPool クラウド階層と同様に、リモートクラスタにあるバケットに階層化されます。</block>
+  <block id="bda29d8d2c5de29e5ec15858a0f72c79" category="paragraph">ONTAP S3 は、ハードウェアや管理の追加なしで既存のクラスタの S3 機能を利用する場合に適しています。300TBを超える導入については、NetApp StorageGRID ソフトウェアを引き続き、オブジェクトストレージ向けの主要なネットアップ解決策 としてご利用いただけます。ONTAP またはStorageGRID をクラウド階層として使用する場合は、FabricPool ライセンスは必要ありません。</block>
+  <block id="5a7adb78ef640711a870d82123f00775" category="section-title">格納域の優れた階層化ストレージを実現するNetApp ONTAP</block>
+  <block id="9a5bc88300f877a695de175398887e0e" category="paragraph">すべてのデータセンターで、ビジネスクリティカルなアプリケーションの稼働を維持し、重要なデータの可用性とセキュリティを確保する必要があります。新しいNetApp AFF A900システムは、ONTAP Enterprise Editionソフトウェアを搭載し、耐障害性に優れた設計を採用しています。ネットアップの新しい高速NVMeストレージシステムは、ミッションクリティカルな運用の中断をなくし、パフォーマンスの調整を最小限に抑え、ランサムウェア攻撃からデータを保護します。</block>
+  <block id="42dfa85904e1fd1b7fb41d4278c38047" category="paragraph">初期導入から流暢なクラスタの拡張に至るまで、ビジネスクリティカルなアプリケーションに影響を伴わない変化に迅速に適応する必要があります。ONTAP のエンタープライズデータ管理、Quality of Service（QoS；サービス品質）、およびパフォーマンスにより、お客様の環境を計画して適合させることができます。</block>
+  <block id="36509bd95b243830a012c72c8a2d5844" category="paragraph">ネットアップのONTAP とConluent Tiered Storageを併用すると、スケールアウトストレージターゲットとしてONTAP を利用することでApache Kafkaクラスタの管理が簡素化され、流暢なコンピューティングリソースとストレージリソースを個別に拡張できます。</block>
+  <block id="e09818a7d7d98185cdb0309cf3aca8f5" category="paragraph">ONTAP S3サーバは、成熟したONTAP のスケールアウトストレージ機能を基盤としています。ONTAP クラスタをシームレスONTAP に拡張するには、新しく追加したノードを使用するようにS3バケットを拡張します。</block>
+  <block id="1ccfe00aee80492f09968d6b208801d5" category="section-title">ONTAP システムマネージャを使用してシンプルな管理を実現</block>
+  <block id="4fdad8328864e9de2db5338bb25291fc" category="paragraph">ONTAP System Managerは、ブラウザベースのグラフィカルインターフェイスで、ONTAP ストレージコントローラの設定、管理、監視を、単一のコンソールから世界中に分散して実行できます。</block>
+  <block id="c99eb67a4e6cbe9ba119a72c95161fab" category="inline-image-macro">この図は、ONTAP System Managerのワークスペースを示しています。</block>
+  <block id="45e8e67e3e5407c5dc518dd00eb8249b" category="paragraph"><block ref="45e8e67e3e5407c5dc518dd00eb8249b" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="783157c9c38b4e88d7eefffe21cd97d3" category="paragraph">ONTAP S3は、System ManagerおよびONTAP CLIを使用して設定および管理できます。System Managerを使用してS3を有効にしてバケットを作成する場合、ONTAP では、シンプルな設定を実現するためのデフォルトのベストプラクティスが提供されます。CLIからS3サーバとバケットを設定した場合は、必要に応じてSystem Managerでそれらを管理することも、その逆も可能です。</block>
+  <block id="d1623a9fec2de2642847391236e62e9b" category="paragraph">System Manager を使用して S3 バケットを作成すると、 ONTAP によって、システムで最も使用可能なパフォーマンスサービスレベルがデフォルトで設定されます。たとえば、AFF システムの場合、デフォルト設定は「最高レベル」です。パフォーマンスサービスレベルは、事前定義されたアダプティブQoSポリシーグループです。カスタムの QoS ポリシーグループを指定する場合は、デフォルトのサービスレベルのいずれかを指定する代わりに、ポリシーグループを指定しなくてもかまいません。</block>
+  <block id="bbcb9e2700fba39c3b7b7fd438155100" category="paragraph">事前定義されたアダプティブQoSポリシーグループには次のものがあります。</block>
+  <block id="f1ec0b0c482a42bad395f01e7f2b6c1d" category="list-text">*最高レベル*。低レイテンシと最高レベルのパフォーマンスを必要とするアプリケーションに使用されます。</block>
+  <block id="06e90efc82fff7e3090ba9ff1a3bd2a3" category="list-text">*パフォーマンス。*適度なパフォーマンスとレイテンシが求められるアプリケーションに使用します。</block>
+  <block id="7aa0f5702784b1be0a3c5ed9e6f3df8e" category="list-text">*値。スループットと容量がレイテンシよりも重要なアプリケーションに使用。</block>
+  <block id="113d20f8cc4d864cdfea1b0f611cbb0a" category="list-text">*カスタム。*カスタムのQoSポリシーを指定するか、QoSポリシーなしで指定します。</block>
+  <block id="42cc32e2c7857ba980019c70438e92ed" category="paragraph">[ 階層化に使用する *] を選択した場合、パフォーマンスサービスレベルは選択されず、階層化データに最適なパフォーマンスを備えた低コストのメディアを選択しようとします。</block>
+  <block id="5cc287af927b81043d030fc6a1ece879" category="paragraph">ONTAP は、選択したサービスレベルを満たす最も適切なディスクを含むローカル階層でこのバケットをプロビジョニングしようとします。ただし、バケットに含めるディスクを指定する必要がある場合は、 CLI でローカル階層（アグリゲート）を指定して S3 オブジェクトストレージを設定することを検討してください。CLI から S3 サーバを設定した場合も、必要に応じて System Manager で管理できます。</block>
+  <block id="74869eb3dfe4756dab5491da2a3de2ad" category="paragraph">バケットに使用するアグリゲートを指定できるようにするには、 CLI を使用する必要があります。</block>
+  <block id="0c0e3a803cf68a8772ebf58a68b20124" category="paragraph">Conflicent Platform は、データへのアクセス、保存、管理を継続的なリアルタイムストリームとして簡単に行うことができる、フルスケールのデータストリーミングプラットフォームです。ConFluent では、 Apache Kafka を作成した元のクリエイターが開発したサービスを利用して、 Kafka のメリットをエンタープライズクラスの機能で拡張しながら、 Kafka の管理や監視の負担を軽減することができます。現在、Fortune 100企業の80%以上がデータストリーミングテクノロジを採用しており、大部分が活用されています。</block>
+  <block id="d3c11d67f567698de4c90210b84c554d" category="paragraph">Conflicent Platform を使用すると、データが異なるシステム間でどのように転送または統合されるかなど、基本的なメカニズムを気にすることなく、データからビジネス価値を引き出す方法に集中できます。具体的には、 Con裕福 なプラットフォームによって、 Kafka へのデータソースの接続やストリーミングアプリケーションの構築、 Kafka インフラの保護、監視、管理が簡易化されます。現在、Conluent Platformは、金融サービス、オムニチャネル小売、自律走行車から不正検出、マイクロサービス、IoTまで、さまざまな業界で幅広く使用されています。</block>
+  <block id="870b2318ccfd123ac0f7e9ef1396d49d" category="paragraph">次の図は、流暢なプラットフォームのコンポーネントを示しています。</block>
+  <block id="9d880468cb22c04bd894fc612814dbab" category="inline-image-macro">この図は、流暢なプラットフォームのコンポーネントを示しています。</block>
+  <block id="f64c3e5205853c0df35b5f05dcb208a1" category="paragraph"><block ref="f64c3e5205853c0df35b5f05dcb208a1" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="05fafb4336e843d4634bd9ac122177c8" category="section-title">流暢なイベントストリーミング技術の概要</block>
+  <block id="51be25b0145a0beca811de24a62b5cb4" category="inline-link">カフカ</block>
+  <block id="0139d991fe55319f2e19e039da969fcf" category="paragraph">流暢なプラットフォームの中核はです<block ref="66a1a9ec54e6ef0a1c109ad94b972ac9" category="inline-link-rx"></block>最も人気の高いオープンソース分散ストリーミングプラットフォームです。Kafkaの主な機能は次のとおりです。</block>
+  <block id="82ff0b3d0476bb8ca2283ff06c017658" category="section-title">流暢なプラットフォームのエンタープライズ機能の概要</block>
+  <block id="ed2c640e88db15d474de830703c8783b" category="list-text">* ConFluent Control Center * Kafkaの管理と監視を行うためのUIベースのシステムです。Kafka Connect の管理や、他のシステムとの接続の作成、編集、管理を簡単に行うことができます。</block>
+  <block id="d63f46631d40c1c76b1a1a46445584aa" category="list-text">* Kafka Connectコネクタ。*コネクタはKafka Connect APIを使用して、Kafkaと他のシステム（データベース、キーバリューストア、検索インデックス、ファイルシステムなど）との接続に使用します。Confluent Hub には、一般的なデータソースおよびシンク用のダウンロード可能なコネクタがあります。これには、 Conluent Platform でこれらのコネクタの完全なテストとサポートされたバージョンが含まれます。詳細については、を参照してください<block ref="2f0cdf69523bef6b3b17324f38f83353" category="inline-link-rx"></block>。</block>
+  <block id="9103a2961d6b4c593517d3d641763e5c" category="list-text">* セルフバランシングクラスタ。 * 自動ロードバランシング、障害検出、自己修復機能を提供します。また、必要に応じてブローカーの追加や運用停止も可能で、手動での調整は不要です。</block>
+  <block id="c1712fa040f6accce664a82ba6d58b94" category="list-text">*流暢な自動データバランサ。*ブローカーの数、パーティションのサイズ、パーティションの数、およびクラスタ内のリーダーの数について、クラスタを監視します。これにより、データを移動してクラスタ全体で均等なワークロードを作成しながら、トラフィックのリバランシングを調整して、リバランシング中の本番ワークロードへの影響を最小限に抑えることができます。</block>
+  <block id="0265b0b07689b6439fc600eec3164763" category="inline-link-macro">次の例は、パフォーマンスの検証を流暢に行います。</block>
+  <block id="7d58203770f3360011c58049bd5dc048" category="paragraph"><block ref="7d58203770f3360011c58049bd5dc048" category="inline-link-macro-rx"></block></block>
+  <block id="dbb940c31f0b7d7563745993661f70d4" category="summary">NetAppストレージ・コントローラ1台のAFF A900を使用して'ワークロードの生成中に5ノードまたは8ノードのブローカ・ノードを使用して階層型ストレージのテストを実施しました今回のテストでは、AFF A900のリソース使用率が100%に達するまで、ブローカーノードの数に合わせて完了までの時間とパフォーマンスの結果が拡張されました。ONTAP ストレージコントローラには、少なくとも1つのHAペアが必要です。</block>
+  <block id="91e1cb9730965860cb465802520e6a45" category="doc">ワークロードジェネレータを使用したパフォーマンステスト</block>
+  <block id="3daa014912cbb3dddcdeae426aea8652" category="inline-link-macro">前の手順：パフォーマンスの検証が流暢になりました。</block>
+  <block id="262b5107278b398d0de9b7ef6b52e5d0" category="paragraph"><block ref="262b5107278b398d0de9b7ef6b52e5d0" category="inline-link-macro-rx"></block></block>
+  <block id="b15c40872cdd0b1e0a152907f2194e69" category="paragraph">S3読み出し処理のパフォーマンスは、ブローカーノードの数に基づいてリニアに向上しました。ONTAP ストレージコントローラを使用すると、1つの環境で最大12個のHAペアをサポートできます。</block>
+  <block id="ec043d5e2714e1035038cbeb1aa3cba8" category="paragraph">次のグラフは、S3の階層化トラフィックと5ノードまたは8ノードのブローカーを組み合わせたものです。AFF A900の単一HAペアのパフォーマンスを最大化しました。</block>
+  <block id="ffff2891cfdd07445c4e1e5261739c68" category="inline-image-macro">このデータグラフには、S3の階層化トラフィックと5ノードまたは8ノードのブローカーが組み合わされて表示されます。</block>
+  <block id="388c51cbcac77b72c2e68dc334f9cf73" category="paragraph"><block ref="388c51cbcac77b72c2e68dc334f9cf73" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="1efe906cedfd00618bda4d39b41a52fd" category="paragraph">次のグラフは、Kafkaのスループットを約31.74GBpsで示しています。</block>
+  <block id="e7aff80741661a5eb60f57649077f9c5" category="inline-image-macro">このデータグラフは、Kafkaのスループットを約31.74GBpsで示しています。</block>
+  <block id="1dc39288e0903ff9947d26bba4d46cef" category="paragraph"><block ref="1dc39288e0903ff9947d26bba4d46cef" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="bc6821411dfc3b7f483da21b37082dfc" category="paragraph">また、ONTAP ストレージコントローラの「perfstat」レポートでも同様のスループットが確認されました。</block>
+  <block id="12521f8f565efeb65b076c8966841804" category="inline-link-macro">次：パフォーマンスに関するベストプラクティスのガイドライン</block>
+  <block id="4d8306a1e68c76874ac5d8c93a819977" category="paragraph"><block ref="4d8306a1e68c76874ac5d8c93a819977" category="inline-link-macro-rx"></block></block>
+  <block id="4ea8220421596c898f8150bfebdf4ccb" category="summary">この検証テストは、NetApp ONTAP ストレージコントローラを使用した流暢な階層化のスループットが31.74GBpsに達しました。</block>
+  <block id="f86bb9f7d3cb6d2f8473494c8bd135ec" category="inline-link-macro">Previous：パフォーマンスのベストプラクティスのガイドライン</block>
+  <block id="65b905a56baa366aa274945ca5b7cad4" category="paragraph"><block ref="65b905a56baa366aa274945ca5b7cad4" category="inline-link-macro-rx"></block></block>
+  <block id="93a10982e8e304323ad8af9a9387d775" category="paragraph">この検証テストは、NetApp ONTAP ストレージコントローラを使用した流暢なティアのスループットが31.74GBpsに達しました。</block>
+  <block id="0f2f674cce6910ae97ee7ecc7bd9de18" category="list-text">流暢とは</block>
+  <block id="e6deab0ab2821160c056af4c7766624c" category="inline-link"><block ref="e6deab0ab2821160c056af4c7766624c" category="inline-link-rx"></block></block>
+  <block id="ce3026317a00b57c81627bd64a1b3311" category="paragraph"><block ref="ce3026317a00b57c81627bd64a1b3311" category="inline-link-rx"></block></block>
+  <block id="58a229be829dc9196abdaff6a4a26864" category="list-text">ONTAP におけるS3のベストプラクティスです</block>
+  <block id="f47b79954bb4ad3165d7f99db02fe933" category="inline-link"><block ref="f47b79954bb4ad3165d7f99db02fe933" category="inline-link-rx"></block></block>
+  <block id="e98b34b649783312d3b317c7441a20a5" category="paragraph"><block ref="e98b34b649783312d3b317c7441a20a5" category="inline-link-rx"></block></block>
+  <block id="3075344c29b864c90ae1411c1db26e87" category="list-text">S3オブジェクトストレージの管理</block>
+  <block id="cdc54c0262b6c0a6146ee416a9ca2113" category="inline-link"><block ref="cdc54c0262b6c0a6146ee416a9ca2113" category="inline-link-rx"></block></block>
+  <block id="8a93310a8dd4b405a8711f82adeb3c23" category="paragraph"><block ref="8a93310a8dd4b405a8711f82adeb3c23" category="inline-link-rx"></block></block>
+  <block id="1b70ac0a972fddf1e1a33e6ed9df49c7" category="cell">2022年9月</block>
+  <block id="331c0d2ba7a09b3ae7f6fac4652625da" category="summary">このページでは、この解決策 のパフォーマンスを向上させるためのベストプラクティスについて説明します。</block>
+  <block id="69cefd131c612b28f058caddd20f5cac" category="doc">パフォーマンスのベストプラクティスのガイドライン</block>
+  <block id="25075404ed18180817b5ff523b98b3ea" category="inline-link-macro">前のテスト：ワークロードジェネレータを使用したパフォーマンステスト。</block>
+  <block id="78f6cc0a5eeea34ea4a6b6d750751008" category="paragraph"><block ref="78f6cc0a5eeea34ea4a6b6d750751008" category="inline-link-macro-rx"></block></block>
+  <block id="21414169b395738292b2ac2fd8ca50a9" category="list-text">ONTAP の場合は、可能なかぎりGETサイズ&gt;= 1MBを使用します。</block>
+  <block id="ce2e9b8aaceb2d2993c90188d874af95" category="list-text">ブローカ・ノードでserver.properties`にあるnum.network.threads`と'num.io.threadsを増やすと'階層化アクティビティの増加をS3階層にプッシュできますこれらの結果は'num.network.threads`と'num.io.threads'32に設定されています</block>
+  <block id="1a48e01d01924d18e32943982eb6d924" category="list-text">S3バケットは、メンバーアグリゲートごとに8つのコンスティチュエントをターゲットとする</block>
+  <block id="b5a9dc3c7ec54467d103e00eaa0efb21" category="list-text">S3トラフィックを伝送するイーサネットリンクでは、ストレージとクライアントの両方で可能な場合、MTU 9、000を使用する必要があります。</block>
+  <block id="9a2dcec18734a6b09898eef44edd5f9a" category="paragraph"><block ref="9a2dcec18734a6b09898eef44edd5f9a" category="inline-link-macro-rx"></block></block>
+  <block id="614eb548d72efbb3690b5c131745db1b" category="summary">このページでは、この解決策 のパラメータに含まれる流出のパフォーマンス検証について説明します。</block>
+  <block id="28052d386826afbb88768d0629570b19" category="doc">競合する性能検証</block>
+  <block id="e0c5d30e7d8ab807973bb9e8800f9f30" category="paragraph"><block ref="e0c5d30e7d8ab807973bb9e8800f9f30" category="inline-link-macro-rx"></block></block>
+  <block id="3ec7b1ca1aaf25c9bbca707f1ca8e466" category="paragraph">この検証は、NetApp ONTAP 上の階層型ストレージについて、流暢なプラットフォームで実施しました。ネットアップと流暢なチームがこの検証に協力し、必要なテストケースを実施しました。</block>
+  <block id="1f567e45477749710cbc14cf6b10afc4" category="section-title">矛盾する設定です</block>
+  <block id="99b45ae42dbbf816c910ba27197525dc" category="paragraph">セットアップには、3台の動物園、5台のブローカー、256GBのRAMと16個のCPUを搭載した5台のテストサーバを使用しました。ネットアップストレージには、AFF A900 HAペアでONTAP を使用しました。ストレージとブローカーは、100GbE接続経由で接続されています。</block>
+  <block id="77727c2ca2ac5beb0de2853929b43367" category="paragraph">次の図に、階層型ストレージの検証に使用する構成のネットワークトポロジを示します。</block>
+  <block id="57e8d3257fec5774d2e8d38588771a69" category="inline-image-macro">この図は、階層型ストレージの検証に使用する構成のネットワークトポロジを示しています。</block>
+  <block id="e1265b0a6795e57b3d1df5094ecde2bb" category="paragraph"><block ref="e1265b0a6795e57b3d1df5094ecde2bb" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="1d9b75f4efe285b9777255f14c81323b" category="paragraph">ツールサーバは、Conluentノードとの間でイベントを送受信するアプリケーションクライアントとして機能します。</block>
+  <block id="1068af448bd05a968329fd2341036bfb" category="paragraph">テストには次のパラメータを使用しました。</block>
+  <block id="3bfb3f2755d25ed45d39dad8b3ed3008" category="paragraph">検証にはHTTPプロトコルにONTAP を使用しましたが、HTTPSも使用しました。アクセスキーとシークレットキーは、「 confliclus.tir.s3.cred.file.path 」パラメータで指定したファイル名に格納されます。</block>
+  <block id="86d7ae5e1e87e4958b4fafcbca603956" category="section-title">ネットアップストレージコントローラ–ONTAP</block>
+  <block id="b915ce35d395a0d68a794b87705f95fa" category="paragraph">ONTAP では、検証用に単一のHAペア構成を設定しました。</block>
+  <block id="b9d2b35b3cfffa153fd4ed3401cb9dd9" category="inline-image-macro">この図は、検証用に単一のHAペアとして構成された環境を示しています。</block>
+  <block id="0ccd17060e15591b9c8588dc7d974ecd" category="paragraph"><block ref="0ccd17060e15591b9c8588dc7d974ecd" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="7069b530e46a91698a16159b7d083019" category="section-title">検証結果</block>
+  <block id="3af1efc909fae49a716fe2d22ba24290" category="paragraph">以下の 5 つの検証ケースを完了しました。最初の 2 つは機能テストで、残りの 3 つはパフォーマンステストです。</block>
+  <block id="09da8339466c8b6111e4f310f1b78cb5" category="paragraph">このテストでは、API呼び出しを使用して階層化ストレージに使用されるオブジェクトストアで、GET、PUT、DELETEなどの基本的な処理を実行します。</block>
+  <block id="622ce818e2b8228cee071a827a43e1b2" category="paragraph">このテストでは、オブジェクトストレージのエンドツーエンド機能をチェックします。トピックを作成し、新たに作成されたトピックにイベントストリームを生成し、ブローカーがオブジェクトストレージにセグメントをアーカイブするのを待機し、イベントストリームを消費して、消費されたストリームが生成されたストリームと一致するかどうかを検証します。このテストは、オブジェクトストアフォールト挿入の有無にかかわらず実施しました。ONTAP のいずれかのノードでサービスマネージャサービスを停止し、エンドツーエンド機能がオブジェクトストレージで機能することを検証することで、ノード障害をシミュレートしました。</block>
+  <block id="2712a580ff4c3586c7ba3534b78aad18" category="section-title">ワークロードジェネレータを消費</block>
+  <block id="0c22172129c2d0d58a5685fa1094fca0" category="paragraph">このテストでは、セグメントをアーカイブすることにより、オブジェクトストアへの書き込みワークロードを間接的に生成します。コンシューマグループがセグメントを取得すると、読み取りワークロード（セグメント読み取り）がオブジェクトストレージから生成されました。このワークロードはTOCCスクリプトによって生成されました。このテストでは、並列スレッドでのオブジェクトストレージの読み取りと書き込みのパフォーマンスをチェックしました。階層化機能の正確性テストと同様に、オブジェクトストアフォールト挿入を使用したテストと使用しなかったテストを実施しました。</block>
+  <block id="2a7273e52c0214e6f0b27bf1e870960e" category="section-title">保持ワークロードジェネレータ</block>
+  <block id="48771387cb6a84889bc1db951598f78c" category="paragraph">このテストでは、トピックの保持ワークロードが多い場合のオブジェクトストレージの削除パフォーマンスを確認しました。保存ワークロードは、テストトピックと並行して多数のメッセージを生成するTOCCスクリプトを使用して生成されました。テストトピックでは、サイズベースおよび時間ベースの強力な保持設定を使用してイベントストリームをオブジェクトストアから継続的にパージするように設定しました。その後、セグメントがアーカイブされました。その結果、ブローカーによるオブジェクトストレージの削除や、オブジェクトストアの削除処理のパフォーマンス収集が行われ、多くの削除が発生していました。</block>
+  <block id="047fb529cf71ef63efe04d4185302684" category="paragraph">検証の詳細については、を参照してください<block ref="86830f666762f920df1dddf1c71e6509" category="inline-link-rx"></block> Webサイト。</block>
+  <block id="0e20876ceb73ae36999db9f6c412bdc5" category="inline-link-macro">次は、ワークロードジェネレータを使用したパフォーマンステストです。</block>
+  <block id="ab82cfabb720bf1d31365b6ce33825f9" category="paragraph"><block ref="ab82cfabb720bf1d31365b6ce33825f9" category="inline-link-macro-rx"></block></block>
+  <block id="b0c400a1c1ac5de2cbdc877645b349a0" category="summary">このセクションでは、階層型ストレージ用のNetApp ONTAP を使用した、Conluent Platform環境でのパフォーマンス検証に使用するハードウェアとソフトウェアについて説明します。次の表に、解決策 のアーキテクチャと基本コンポーネントを示します。</block>
+  <block id="8bfa311863541e343a5f46427c473c16" category="paragraph"><block ref="8bfa311863541e343a5f46427c473c16" category="inline-link-macro-rx"></block></block>
+  <block id="5197b1c9433e86b5ed33786625f77786" category="paragraph">ONTAP を搭載したNetApp AFF A900ストレージコントローラは、データストリーム向けに設計された分散システムです。どちらも水平方向に拡張可能で、耐障害性に優れており、負荷時に優れたパフォーマンスを提供します。データ量を最小限に抑えるデータ削減テクノロジにより、分散型データストリーミングとストリーム処理を相互に補完し、ストレージコストを削減します。AFF A900ストレージコントローラは優れたパフォーマンスを提供すると同時に、コンピューティングリソースとデータストレージリソースを分離できます。これにより、システム管理が簡素化され、リソースを個別に拡張できます。</block>
+  <block id="8ebef54f33ae0fdc7c4dcb83539b6eac" category="inline-image-macro">解決策 の概要を示す画像。</block>
+  <block id="52dff9f6353660d69eddc1e9fdee4a83" category="paragraph"><block ref="52dff9f6353660d69eddc1e9fdee4a83" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="7a785978a6b38bb45ae8786c30a1781e" category="cell">プラットフォームコンポーネント</block>
+  <block id="c704d8c873b1a8d5d0243075656aa1f5" category="cell">環境の構成</block>
+  <block id="f75094292f4afb812bc29237348d9948" category="cell">矛盾するプラットフォームバージョン6.2</block>
+  <block id="5cc4fd015c7740c575d319eefacbce83" category="list-text">ゾーニングキーパー×3</block>
+  <block id="8f6a506566bd03a47cafb69561bafe0f" category="list-text">ブローカーサーバ×8</block>
+  <block id="aa76981d988c82fc8b387682968887e6" category="list-text">5台のツールサーバ</block>
+  <block id="b56d58a9a181bae1fa65f36407ea002c" category="list-text">Grafana×1</block>
+  <block id="4af3adf9207f6f8d2d6d9edda08f0638" category="list-text">1 xコントロールセンター</block>
+  <block id="29c331c65dbb1c85faa29881b295fbfc" category="cell">すべてのノード上のオペレーティングシステム</block>
+  <block id="de4d788671df5cf79fda01236d8fc9a6" category="cell">NetApp ONTAP ：ウォームバケット用</block>
+  <block id="37e0c77638b1388d83b997c8dffdb6d3" category="list-text">AFF A900ハイアベイラビリティ（HA）ペア×1</block>
+  <block id="2e1c9b5ce764f890af0aebf38f1a500a" category="list-text">100GbE</block>
+  <block id="983e16c42b860c2511053f17d60918c8" category="list-text">CPU×2、合計16個の物理コア</block>
+  <block id="ce4750dd79017960eed95bd3b2677eb4" category="list-text">インテルXeon</block>
+  <block id="01dcc4e221fc9ff7472c5102b082eaf4" category="list-text">256GBの物理メモリ</block>
+  <block id="433304c312dd41f05955324749c0a47f" category="list-text">100GbEデュアルポート</block>
+  <block id="39bc57d27d632df4261bc60caf39a90c" category="paragraph"><block ref="39bc57d27d632df4261bc60caf39a90c" category="inline-link-macro-rx"></block></block>
+  <block id="b98ea9630b58bea0f022799ecefe4062" category="sidebar">NetApp ONTAP ストレージコントローラとKafkaが競合します</block>
 </blocks>
