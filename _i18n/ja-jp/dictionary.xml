@@ -15347,7 +15347,6 @@
   <block id="e1be03b35dc8e9fb114970b06dcd6c18" category="list-text">必要なを確認します<block ref="69c9d7a74dad51c1c47ea8141c218514" category="inline-link-rx"></block> オンプレミスのvCenter ServerとSDDC vCenter間のvMotionトラフィックに許可されます。プライベートクラウドでは、vMotionネットワーク上のルーティングはデフォルトで設定されます。</block>
   <block id="444617dcfe0d17ad386105e865d21113" category="list-text">Azure NetApp Files NFSボリュームは、Azure VMware解決策 でデータストアとしてマウントする必要があります。詳細な手順を実行します<block ref="1b959b45bbb3571141089802677ad765" category="inline-link-rx"></block> を使用して、Azure NetApp Files データストアをAzure VMwareソリューションホストに接続します。</block>
   <block id="2f660e9fff52e5ac1b7818a029d3b447" category="example-title">アーキテクチャの概要</block>
-  <block id="69b7dff83090c9a5eb5c6939b05acd80" category="paragraph">テスト用に、この検証に使用したオンプレミスのラボ環境をサイト間VPNでAzure Virtual WAN Hubに接続しました。これにより、Azure VMware解決策 へのオンプレミス接続が可能になります。</block>
   <block id="0048e42e38e4c6f587f210afe26fcb4a" category="inline-image-macro">この図は、この解決策 で使用されているアーキテクチャの概要を示しています。</block>
   <block id="39fc1d64ec4b3a4ff5306e55bdaf2c0f" category="paragraph"><block ref="39fc1d64ec4b3a4ff5306e55bdaf2c0f" category="inline-image-macro-rx" type="image"></block></block>
   <block id="d84f7e9d42c2c0ee4f87ddeaa2e09bb2" category="paragraph">一連の手順に従って、この解決策 の導入を完了します。</block>
@@ -15474,7 +15473,6 @@
   <block id="ab19b6733f7a9500ff9d392433071ef2" category="paragraph"><block ref="ab19b6733f7a9500ff9d392433071ef2" category="inline-link-rx"></block></block>
   <block id="7c5ba33b986ba469d277c4ca9f906e55" category="inline-link-macro">VMware HCXを使用して、ワークロードをFSxNデータストアに移行します</block>
   <block id="c037991d132128e15cdbfefe3ac8e997" category="list-text"><block ref="c037991d132128e15cdbfefe3ac8e997" category="inline-link-macro-rx"></block></block>
-  <block id="205406ae98b10b31699eb910e29a7241" category="doc">TR 4942：VMware HCXを使用して、FSX ONTAP （FSxN）データストアにワークロードを移行する</block>
   <block id="086d898e7d4a481c2147d4eb71dff1f6" category="section-title">概要：VMware HCX、FSX ONTAP 補足データストア、およびVMware Cloudを使用した仮想マシンの移行</block>
   <block id="82778188ea3c0ca7871389afec5bfd03" category="paragraph">Amazon Web Services（AWS）上のVMware Cloud（VMC）の一般的なユースケースであり、Amazon FSX for NetApp ONTAP 上の追加のNFSデータストアは、VMwareワークロードの移行です。VMware HCXは、オンプレミスの仮想マシン（VM）とそのデータを、VMwareがサポートする任意のデータストア上で実行して、FSX for ONTAP の補足的なNFSデータストアを含むVMCデータストアに移動するための、さまざまな移行方法を推奨します。</block>
   <block id="2fbfc2601ddccd56b7728df6f0a658e1" category="paragraph">VMware HCXは、主に、クラウド間でのワークロードの移行、ワークロードの再バランシング、ビジネス継続性を簡素化するように設計されたモビリティプラットフォームです。VMware Cloud on AWSに含まれており、ワークロードを移行して、ディザスタリカバリ（DR）処理に使用するためのさまざまな方法が用意されています。</block>
@@ -15609,7 +15607,6 @@
   <block id="05c89cf5b898c5c58986dac08f22a2a1" category="paragraph"><block ref="05c89cf5b898c5c58986dac08f22a2a1" category="inline-link-rx"></block></block>
   <block id="33efddb311b6c85bba97e5349040815f" category="sidebar">ワークロード移行ソリューション</block>
   <block id="e946411f5b47d53428345ae0e0e5f5fd" category="sidebar">ワークロードのマイグレート</block>
-  <block id="22945ba986f07dffbdafb6711d87ec03" category="sidebar">VMware HCXを使用したAzure NetApp Files データストアへのワークロードの移行</block>
   <block id="747616909dea0c52e547cd52a7d5a12c" category="example-title">人工知能（AI）と最新データ分析</block>
   <block id="b0d7b47f43a6efe75ff49bfd5e21f6fd" category="list-text"><block ref="b0d7b47f43a6efe75ff49bfd5e21f6fd" category="inline-link-macro-rx"></block></block>
   <block id="90e97692c42b1eb0ec22c639049d78a1" category="list-text"><block ref="90e97692c42b1eb0ec22c639049d78a1" category="inline-link-macro-rx"></block></block>
@@ -15784,4 +15781,7 @@
   <block id="953fa9bc59561d97ed62ce854465ba35" category="paragraph">vSphere 5.5 以降では、 vmkfstools – y コマンドに代わって、空きブロック数を指定する esxcli storage vmfs unmap コマンドが使用されます（ VMware KB を参照）<block ref="1d61bd4e8925f7d5aac61e083b728439" category="inline-link-rx"></block> 詳細については、を参照してください）。vSphere 6.5 以降では、 VMFS 6 を使用している場合、スペースは自動的に非同期で再利用される必要があります（を参照）<block ref="a9ae15a1c91a14939aefb313015202e6" category="inline-link-rx"></block> vSphere のドキュメントを参照）。ただし、必要に応じて手動で実行することもできます。この自動マッピング解除は ONTAP でサポートされ、 VMware vSphere 用の ONTAP ツールでは低優先度に設定されます。VMFSデータストアとして使用するためにLUNをプロビジョニングする場合は、LUNに対してspace-allocationオプションを手動で有効にする必要があります。VMware vSphere用のONTAP ツールを使用している場合、スペースの請求がサポートされるようにLUNが自動的に設定されるため、それ以上の操作は必要ありません。を参照してください<block ref="fca823934ad533ca13947daa01d8e441" category="inline-link-rx"></block> 詳細については、ナレッジベースの記事を参照してください。</block>
   <block id="a436da0007911ed6531e093688e82535" category="paragraph">共有VPCを使用する場合は、NFS Kerberosまたは/またはを使用した転送中の暗号化が可能です <block ref="639817e82862065dd236f0597e0b07ea" category="inline-link-macro-rx"></block> トレースから収集された情報の多くを隠すことができます。ただし、一部のトラフィックは、などのプレーンテキストで送信されます <block ref="c2e2f225386e22bd13a8b4b174f478da" category="inline-link-macro-rx"></block> および <block ref="86c1c13023c15e9d9a6317a0b69e7ce3" category="inline-link-macro-rx"></block>。次の図に、Cloud Volumes Service から発信されたプレーンテキストLDAPクエリからのパケットキャプチャと、公開されている可能性のある識別情報を示します。Cloud Volumes Service のLDAPクエリでは、現在、暗号化またはLDAP over SSLがサポートされていません。CVS - Active Directoryから要求された場合に、パフォーマンスがLDAP署名をサポートします。CVS-SWではLDAP署名はサポートされません。</block>
   <block id="b95b607ac94c4a8cb830243ecb537f59" category="cell">LDAPで使用されるセッションセキュリティのレベルを定義します（sign、seal、none）。LDAP署名は、Active Directoryから要求された場合にCVSパフォーマンスでサポートされます。CVS-SWではLDAP署名はサポートされません。どちらのタイプのサービスでも、現時点ではシーリングはサポートされていません。</block>
+  <block id="ce32836b59e052d959dee4d2358e5a21" category="paragraph">テスト目的で、この検証に使用したオンプレミスのラボ環境はサイト間VPNを介して接続されており、オンプレミスでAzure VMware解決策 に接続できます。</block>
+  <block id="0bcfdba2f090838df9da44d825fedc49" category="doc">TR-4942：『Migrate workloads to FSX ONTAP datastore using VMware HCX』</block>
+  <block id="dd5244d49dea74bb9effd68426155ca2" category="sidebar">VMware HCXを使用したONTAP データストアのFSXへのワークロードの移行</block>
 </blocks>
