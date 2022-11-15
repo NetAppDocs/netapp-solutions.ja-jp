@@ -27,7 +27,7 @@ IDおよびアクセス管理 (https://cloud.google.com/iam/docs/overview["IAM"^
 
 === 承認/権限の概要
 
-IAMには、Cloud Volumes Service に対する詳細な権限があらかじめ組み込まれています。を見つけることができる https://cloud.google.com/architecture/partners/netapp-cloud-volumes/security-considerations["詳細な権限の一覧をここに入力します"^]。
+IAMには、Cloud Volumes Service に対する詳細な権限があらかじめ組み込まれています。を見つけることができる https://cloud.google.com/architecture/partners/netapp-cloud-volumes/security-considerations?hl=en_US["詳細な権限の一覧をここに入力します"^]。
 
 IAMには、「netappcloudvolumes」と「netappcloudvolumes」という2つの事前定義された役割も用意されています。これらのロールは、特定のユーザまたはサービスアカウントに割り当てることができます。
 
@@ -50,13 +50,13 @@ IAMユーザにCloud Volumes Service の管理を許可する適切なロール�
 * 使用 https://cloud.google.com/iam/docs/impersonating-service-accounts["サービスアカウントのなりすまし"^] 「roles/iam.serviceAccountTokenCreator`」を指定します。コード（スクリプト、Terraformなど）はで実行されます https://google.aip.dev/auth/4110["アプリケーションのデフォルトクレデンシャル"^] また、サービスアカウントを偽装して権限を取得します。このアプローチは、Googleのセキュリティのベストプラクティスを反映しています。
 
 
-を参照してください https://cloud.google.com/architecture/partners/netapp-cloud-volumes/api["サービスアカウントと秘密鍵を作成しています"^] 詳細については、Google Cloudのドキュメントを参照してください。
+を参照してください https://cloud.google.com/architecture/partners/netapp-cloud-volumes/api?hl=en_US["サービスアカウントと秘密鍵を作成しています"^] 詳細については、Google Cloudのドキュメントを参照してください。
 
 
 
 == Cloud Volumes Service APIの略
 
-Cloud Volumes Service APIでは、基盤となるネットワーク転送としてHTTPS（TLSv1.2）を使用してRESTベースのAPIを使用します。最新のAPI定義を確認できます https://cloudvolumesgcp-api.netapp.com/swagger.json["こちらをご覧ください"^] およびでのAPIの使用方法に関する情報 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/api["Google CloudドキュメントのCloud Volume API"^]。
+Cloud Volumes Service APIでは、基盤となるネットワーク転送としてHTTPS（TLSv1.2）を使用してRESTベースのAPIを使用します。最新のAPI定義を確認できます https://cloudvolumesgcp-api.netapp.com/swagger.json["こちらをご覧ください"^] およびでのAPIの使用方法に関する情報 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/api?hl=en_US["Google CloudドキュメントのCloud Volume API"^]。
 
 APIエンドポイントは、標準のHTTPS（TLSv1.2）機能を使用してネットアップによって処理および保護されます。
 
