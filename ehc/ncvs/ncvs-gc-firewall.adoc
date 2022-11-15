@@ -17,14 +17,14 @@ link:ncvs-gc-data-encryption-at-rest.html["Previous：保存データの暗号�
 
 Cloud Volumes Service は、複数のTCPポートを公開してNFS共有とSMB共有に対応します。
 
-* https://cloud.google.com/architecture/partners/netapp-cloud-volumes/security-considerations?hl=en_US["NFSアクセスに必要なポート"^]
-* https://cloud.google.com/architecture/partners/netapp-cloud-volumes/security-considerations?hl=en_US["SMBアクセスに必要なポート"^]
+* https://cloud.google.com/architecture/partners/netapp-cloud-volumes/security-considerations["NFSアクセスに必要なポート"^]
+* https://cloud.google.com/architecture/partners/netapp-cloud-volumes/security-considerations["SMBアクセスに必要なポート"^]
 
 
-さらに、Kerberosを含むLDAPを使用するSMB、NFS、およびデュアルプロトコル構成では、Windows Active Directoryドメインへのアクセスが必要になります。Active Directory接続はである必要があります https://cloud.google.com/architecture/partners/netapp-cloud-volumes/creating-smb-volumes?hl=en_US["を設定します"^] 地域単位で指定します。Active Directoryドメインコントローラ（DC）は、で識別できます https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-adts/7fcdce70-5205-44d6-9c3a-260e616a2f04["DNSベースのDC検出"^] 指定したDNSサーバを使用しています。返されるDCはすべて使用されます。対象となるDCのリストは、Active Directoryサイトを指定することによって制限できます。
+さらに、Kerberosを含むLDAPを使用するSMB、NFS、およびデュアルプロトコル構成では、Windows Active Directoryドメインへのアクセスが必要になります。Active Directory接続はである必要があります https://cloud.google.com/architecture/partners/netapp-cloud-volumes/creating-smb-volumes["を設定します"^] 地域単位で指定します。Active Directoryドメインコントローラ（DC）は、で識別できます https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-adts/7fcdce70-5205-44d6-9c3a-260e616a2f04["DNSベースのDC検出"^] 指定したDNSサーバを使用しています。返されるDCはすべて使用されます。対象となるDCのリストは、Active Directoryサイトを指定することによって制限できます。
 
-Cloud Volumes Service は、「gcloud compute address」コマンドで割り当てられたCIDR範囲のIPアドレスで到達します https://cloud.google.com/architecture/partners/netapp-cloud-volumes/setting-up-private-services-access?hl=en_US["Cloud Volumes Service への参加"^]。このCIDRをソースアドレスとして使用して、Active Directoryドメインコントローラへのインバウンドファイアウォールを設定できます。
+Cloud Volumes Service は、に割り当てられているCIDR範囲のIPアドレスを使用して到達します `gcloud compute address` コマンドを実行中です https://cloud.google.com/architecture/partners/netapp-cloud-volumes/setting-up-private-services-access["Cloud Volumes Service への参加"^]。このCIDRをソースアドレスとして使用して、Active Directoryドメインコントローラへのインバウンドファイアウォールを設定できます。
 
-Active Directoryドメインコントローラは必須です https://cloud.google.com/architecture/partners/netapp-cloud-volumes/security-considerations?hl=en_US["ここで説明したCloud Volumes Service CIDRsにポートを公開します"^]。
+Active Directoryドメインコントローラは必須です https://cloud.google.com/architecture/partners/netapp-cloud-volumes/security-considerations["ここで説明したCloud Volumes Service CIDRsにポートを公開します"^]。
 
 link:ncvs-gc-nas-protocols_overview.html["次：NASプロトコルの概要"]

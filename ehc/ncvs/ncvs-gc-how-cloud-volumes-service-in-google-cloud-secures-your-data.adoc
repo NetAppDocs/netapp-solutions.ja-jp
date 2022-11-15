@@ -21,7 +21,7 @@ Google CloudのCloud Volumes Service は、さまざまな方法でデータを�
 
 == セキュアなアーキテクチャとテナンシーモデル
 
-Cloud Volumes Service は、異なるエンドポイント間でサービス管理（コントロールプレーン）とデータアクセス（データプレーン）をセグメント化することで、Google Cloudのセキュアなアーキテクチャを提供します。これにより、どちらも他方に影響を与えることはありません（を参照） link:ncvs-gc-cloud-volumes-service-architecture.html["「Cloud Volumes Service アーキテクチャ」"]）。Googleを使用している https://cloud.google.com/vpc/docs/private-services-access?hl=en_US["プライベートサービスへのアクセス"^] （PSA）サービスを提供するためのフレームワーク。このフレームワークでは、ネットアップが提供、運用するサービスプロデューサーと、Cloud Volumes Service ファイル共有にアクセスするクライアントをホストする顧客プロジェクトのVirtual Private Cloud（VPC；仮想プライベートクラウド）であるサービスコンシューマが区別されます。
+Cloud Volumes Service は、異なるエンドポイント間でサービス管理（コントロールプレーン）とデータアクセス（データプレーン）をセグメント化することで、Google Cloudのセキュアなアーキテクチャを提供します。これにより、どちらも他方に影響を与えることはありません（を参照） link:ncvs-gc-cloud-volumes-service-architecture.html["「Cloud Volumes Service アーキテクチャ」"]）。Googleを使用している https://cloud.google.com/vpc/docs/private-services-access["プライベートサービスへのアクセス"^] （PSA）サービスを提供するためのフレームワーク。このフレームワークでは、ネットアップが提供、運用するサービスプロデューサーと、Cloud Volumes Service ファイル共有にアクセスするクライアントをホストする顧客プロジェクトのVirtual Private Cloud（VPC；仮想プライベートクラウド）であるサービスコンシューマが区別されます。
 
 このアーキテクチャでは、テナント（セクションを参照） link:ncvs-gc-cloud-volumes-service-architecture.html#tenancy-model["「テナンシーモデル」"]）は、ユーザーが明示的に接続していない限り、互いに完全に分離されたGoogle Cloudプロジェクトとして定義されます。テナントを使用すると、Cloud Volumes Service ボリュームプラットフォームを使用して、データボリューム、外部ネームサービス、その他の重要な解決策 を他のテナントから完全に分離できます。Cloud Volumes Service プラットフォームはVPCピアリングを通じて接続されるため、その分離環境 も接続されます。共有VPCを使用して、複数のプロジェクト間でのCloud Volumes Service ボリュームの共有を有効にすることができます（を参照） link:ncvs-gc-cloud-volumes-service-architecture.html#tenancy-model#shared-vpcs["「共有VPC」"]）。SMB共有およびNFSエクスポートにアクセス制御を適用することで、データセットを表示または変更できるユーザまたはユーザを制限できます。
 
