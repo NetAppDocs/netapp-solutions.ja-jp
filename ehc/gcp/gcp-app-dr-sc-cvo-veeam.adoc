@@ -69,6 +69,7 @@ NOTE: オンプレミスのデータセンターをGoogle Cloudに接続する�
 === 展開の詳細
 
 .Google CloudでCVOを構成し、ボリュームをCVOにレプリケート
+[%collapsible]
 ====
 最初の手順は、Google CloudでCloud Volumes ONTAP を設定することです (https://docs.netapp.com/us-en/netapp-solutions/ehc/gcp/gcp-guest.html["CVOを確認して"^]）をクリックし、必要なボリュームを、必要な頻度とSnapshotの保持を使用してCloud Volumes ONTAP にレプリケートします。
 
@@ -79,6 +80,7 @@ SnapCenter の設定およびデータのレプリケートの手順の例につ
 video::dr-cvo-gcve-video2.mp4[Review of SQL VM protection with SnapCenter]
 ====
 .GCVEホストとCVOデータアクセスを設定する
+[%collapsible]
 ====
 SDDCを導入する際に考慮すべき2つの重要な要素は、GCVE解決策 のSDDCクラスタのサイズと、SDDCの稼働時間です。ディザスタリカバリ解決策 に関する以下の2つの重要な考慮事項は、全体的な運用コストの削減に役立ちます。SDDCは、3台のホストの規模に対応し、フルスケールの導入ではマルチホストクラスタにまで対応できます。
 
@@ -90,19 +92,20 @@ Cloud Volumes ONTAP とGCVEを適切に設定したら、Veeamのレプリケー
 
 ====
 .Veeamコンポーネントをインストールします
+[%collapsible]
 ====
-導入シナリオに基づいて、Veeamバックアップサーバ、バックアップリポジトリ、およびバックアッププロキシを導入する必要があります。このユースケースでは、Veeam用のオブジェクトストアとスケールアウトリポジトリも必要ありません。
-
-https://helpcenter.veeam.com/docs/backup/qsg_vsphere/deployment_scenarios.html["インストール手順 については、Veeamの製品ドキュメントを参照してください"]
+導入シナリオに基づいて、Veeamバックアップサーバ、バックアップリポジトリ、およびバックアッププロキシを導入する必要があります。このユースケースでは、Veeam用のオブジェクトストアとスケールアウトリポジトリも必要ありません。https://helpcenter.veeam.com/docs/backup/qsg_vsphere/deployment_scenarios.html["インストール手順 については、Veeamの製品ドキュメントを参照してください"]
 
 ====
 .VMレプリケーションをVeeamとセットアップする
+[%collapsible]
 ====
 オンプレミスのvCenterとGCVEのvCenterをVeeamに登録する必要があります。 https://helpcenter.veeam.com/docs/backup/qsg_vsphere/replication_job.html["vSphere VMレプリケーションジョブをセットアップします"] ウィザードの[ゲスト処理]ステップで、[アプリケーション対応のバックアップとリカバリにSnapCenter を使用するので、アプリケーション処理を無効にする]を選択します。
 
 video::dr-cvo-gcve-video1.mp4[Veeam Replication Job of SQL VM]
 ====
 .Microsoft SQL Server VMのフェイルオーバー
+[%collapsible]
 ====
 video::dr-cvo-gcve-video3.mp4[Failover of SQL VM]
 ====

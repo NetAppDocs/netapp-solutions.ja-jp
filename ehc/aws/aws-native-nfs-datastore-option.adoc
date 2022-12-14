@@ -24,6 +24,7 @@ NOTE: FSX for ONTAP は、AWS SDDC上のVMwareクラウドと同じ可用性ゾ�
 NOTE: 接続されたVPCにFSX for ONTAP を導入することはできません。代わりに、新しい指定されたVPCに導入してから、SDDCグループを介してVPCをVMware Managed Transit Gateway（vTGW）に接続する必要があります。
 
 .手順1：新しい指定のVPCにAmazon FSX for ONTAP を作成する
+[%collapsible]
 ====
 NetApp ONTAP ファイルシステム用のAmazon FSXを作成してマウントするには、次の手順を実行します。
 
@@ -147,6 +148,7 @@ Amazon FSX for ONTAP のパフォーマンスについては、を参照して�
 
 ====
 .手順2：SDDCグループを作成します
+[%collapsible]
 ====
 ファイルシステムとSVMを作成したら、VMwareコンソールを使用してSDDCグループを作成し、VMware Transit Connectを設定します。これを行うには、次の手順を実行します。VMware Cloud ConsoleとAWSコンソールの間を移動する必要があります。
 
@@ -165,6 +167,7 @@ image:fsx-nfs-image13.png["エラー：グラフィックイメージがあり�
 
 ====
 .手順3：VMware Transit Connectを設定します
+[%collapsible]
 ====
 . 新しく作成した代表VPCをSDDCグループに接続します。[* External VPC *（外部VPC *）]タブを選択し、に従います https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-A3D03968-350E-4A34-A53E-C0097F5F26A9.html["グループに外部VPCを接続する手順"^]。このプロセスは、完了までに10～15分かかる場合があります。
 +
@@ -193,6 +196,7 @@ image:fsx-nfs-image16.png["エラー：グラフィックイメージがあり�
 
 ====
 .手順4：中継ゲートウェイの接続を作成します
+[%collapsible]
 ====
 . AWSコンソールでVPCサービスページに移動し、FSXファイルシステムのプロビジョニングに使用したVPCに移動します。ここでは、右側のナビゲーションペインで*Transit Gateway Attachment*をクリックして、トランジットゲートウェイの添付ファイルを作成します。
 . [*VPC Attachment*]で、[DNS Support]がオンになっていることを確認し、FSX for ONTAP が展開されているVPCを選択します。
@@ -230,6 +234,7 @@ image:fsx-nfs-image22.png["エラー：グラフィックイメージがあり�
 
 ====
 .手順5：ルーティング（AWS VPCとSDDC）とセキュリティグループを設定する
+[%collapsible]
 ====
 . AWSコンソールのVPCサービスページでVPCを検索し、VPCの* main * routeテーブルを選択して、SDDCに戻るルートを作成します。
 . 下部パネルでルートテーブルを参照し、*ルートの編集*をクリックします。
@@ -259,6 +264,7 @@ NOTE: NFSトラフィックを受け入れるようにセキュリティグル�
 
 ====
 .手順6：NFSボリュームをデータストアとしてSDDCクラスタに接続する
+[%collapsible]
 ====
 ファイルシステムをプロビジョニングして接続を確立したら、VMware Cloud ConsoleにアクセスしてNFSデータストアをマウントします。
 

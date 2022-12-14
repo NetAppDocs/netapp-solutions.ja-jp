@@ -108,11 +108,11 @@ Active Directoryでは、通常のマシンアカウントオブジェクトと�
 * CIFS/SMBおよびNFS Kerberosでは、個別のマシンアカウントオブジェクトが作成されます。
 * NFSでLDAPが有効になっている場合、Kerberos LDAPバインド用にActive Directoryにマシンアカウントが作成されます。
 * LDAPを使用したデュアルプロトコルボリュームでは、LDAPとSMBのCIFS / SMBマシンアカウントが共有されます。
-* CIFS / SMBマシンアカウントでは、マシンアカウントの名前付け規則として、name-1234（ランダムな4桁のIDに10文字未満の名前をハイフンで付加）を使用します。Active Directory接続では、NetBIOS名の設定で名前を定義できます（「」を参照） Directory connection details」）をクリックします。
+* CIFS / SMBマシンアカウントでは、マシンアカウントの名前付け規則として、name-1234（ランダムな4桁のIDに10文字未満の名前をハイフンで付加）を使用します。Active Directory接続では、NetBIOS名の設定で名前を定義できます（「」を参照）<<Active Directory接続の詳細>>」）をクリックします。
 * NFS Kerberosでは、命名規則としてnfs-name-1234を使用します（最大15文字）。15文字を超える文字が使用されている場合、名前はnfs-truncated-name-1234になります。
 * NFSのみのCVS - LDAPが有効なパフォーマンスインスタンスは、CIFS / SMBインスタンスと同じ命名規則を使用してLDAPサーバにバインドするためのSMBマシンアカウントを作成します。
 * SMBマシンアカウントを作成すると、デフォルトの非表示の管理共有が表示されます（を参照） link:ncvs-gc-smb.html#default-hidden-shares["「デフォルトの非表示共有」"]）も作成されます（c$、admin$、ipc$）が、ACLが割り当てられておらず、アクセスできない共有です。
-* マシンアカウントオブジェクトはデフォルトではCN=Computersに配置されますが、必要に応じて別のOUを指定できます。「」を参照してください needed to create SMB machine accounts「Cloud Volumes Service のマシンアカウントオブジェクトを追加または削除するために必要なアクセス権については、を参照してください。
+* マシンアカウントオブジェクトはデフォルトではCN=Computersに配置されますが、必要に応じて別のOUを指定できます。「」を参照してください<<SMBマシンアカウントの作成に必要な権限>>「Cloud Volumes Service のマシンアカウントオブジェクトを追加または削除するために必要なアクセス権については、を参照してください。
 
 
 Cloud Volumes Service によってSMBマシンアカウントがActive Directoryに追加されると、次のフィールドが設定されます。

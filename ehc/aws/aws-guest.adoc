@@ -33,6 +33,7 @@ FSX for ONTAP は、機能豊富で高速で柔軟性に優れた共有ファイ
 === ゲスト接続ストレージとしての FSX ONTAP
 
 .AWS で VMware Cloud を使用して、 NetApp ONTAP 用に Amazon FSX を設定します
+[%collapsible]
 ====
 Amazon FSX for NetApp ONTAP ファイル共有および LUN は、 AWS の VMware クラウドにある VMware SDDC 環境内で作成された VM からマウントできます。また、このボリュームは、 Linux クライアントにマウントして NFS または SMB プロトコルを使用して Windows クライアントにマッピングすることもできます。また、 iSCSI 経由でマウントした場合、 Linux クライアントまたは Windows クライアントから LUN にブロックデバイスとしてアクセスできます。NetApp ONTAP ファイルシステム用の Amazon FSX は、次の手順ですばやく設定できます。
 
@@ -41,6 +42,7 @@ NOTE: パフォーマンスを向上させ、アベイラビリティゾーン�
 
 ====
 .ONTAP ボリューム用に Amazon FSX を作成してマウントします
+[%collapsible]
 ====
 NetApp ONTAP ファイルシステム用に Amazon FSX を作成してマウントするには、次の手順を実行します。
 
@@ -103,6 +105,7 @@ image:aws-fsx-guest-11.png[""]
 
 ====
 .FSX ONTAP ボリュームを Linux クライアントにマウントします
+[%collapsible]
 ====
 前の手順で作成した FSX ONTAP ボリュームをマウントします。AWS SDDC 上の VMC 内の Linux VM から、次の手順を実行します。
 
@@ -126,6 +129,7 @@ image:aws-fsx-guest-21.png[""]
 video::vmc_linux_vm_nfs.mp4[]
 ====
 .FSX ONTAP ボリュームを Microsoft Windows クライアントに接続します
+[%collapsible]
 ====
 Amazon FSX ファイルシステム上のファイル共有を管理およびマッピングするには、共有フォルダ GUI を使用する必要があります。
 
@@ -159,6 +163,7 @@ image:aws-fsx-guest-26.png[""]
 
 ====
 .iSCSI を使用して、 NetApp ONTAP LUN の FSX をホストに接続します
+[%collapsible]
 ====
 video::vmc_windows_vm_iscsi.mp4[]
 FSX の iSCSI トラフィックは、前のセクションで説明したルートを介して、 VMware Transit Connect/AWS Transit Gateway を経由します。NetApp ONTAP 用に Amazon FSX 内の LUN を設定するには、該当するマニュアルを参照してください link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/supported-fsx-clients.html["こちらをご覧ください"]。
@@ -169,6 +174,7 @@ Linux クライアントでは、 iSCSI デーモンが実行されているこ�
 
 ====
 .NetApp ONTAP の FSX で LUN をプロビジョニングします。
+[%collapsible]
 ====
 . ONTAP ファイルシステムの FSX の管理ポートを使用して、 NetApp ONTAP CLI にアクセスします。
 . サイジング結果から得られるように、必要なサイズの LUN を作成します。
@@ -283,6 +289,7 @@ CVOを使用すれば、エッジ、データセンター、クラウド間で�
 === Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用
 
 .AWS に新しい Cloud Volumes ONTAP インスタンスを導入（自分で実行）
+[%collapsible]
 ====
 Cloud Volumes ONTAP 共有および LUN は、 AWS SDDC 環境の VMware クラウドで作成された VM からマウントできます。Cloud Volumes ONTAP では iSCSI 、 SMB 、 NFS の各プロトコルがサポートされているため、このボリュームをネイティブの AWS VM Linux Windows クライアントにマウントすることもでき、 iSCSI 経由でマウントする場合は、 Linux クライアントまたは Windows クライアントからブロックデバイスとして LUN にアクセスできます。Cloud Volumes ONTAP ボリュームは、いくつかの簡単な手順で設定できます。
 
@@ -351,6 +358,7 @@ image:aws-cvo-guest-14.png[""]
 
 ====
 .SMB ボリューム用の追加の設定
+[%collapsible]
 ====
 . 作業環境の準備ができたら、 CIFS サーバに適切な DNS および Active Directory 設定パラメータが設定されていることを確認します。この手順は、 SMB ボリュームを作成する前に実行する必要があります。
 +
@@ -374,6 +382,7 @@ image:aws-cvo-guest-24.png[""]
 
 ====
 .LUN をホストに接続します
+[%collapsible]
 ====
 Cloud Volumes ONTAP LUN をホストに接続するには、次の手順を実行します。
 
@@ -423,6 +432,7 @@ Linux クライアントで、 iSCSI デーモンが実行されていること�
 
 ====
 .Cloud Volumes ONTAP NFS ボリュームを Linux クライアントにマウント
+[%collapsible]
 ====
 Cloud Volumes ONTAP （ DIY ）ファイルシステムを VMC 内の VM から AWS SDDC にマウントするには、次の手順を実行します。
 

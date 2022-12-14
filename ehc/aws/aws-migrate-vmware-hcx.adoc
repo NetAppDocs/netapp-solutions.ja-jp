@@ -29,6 +29,7 @@ VMware HCXは、主に、クラウド間でのワークロードの移行、ワ�
 詳細については、を参照してください https://docs.vmware.com/en/VMware-HCX/4.4/hcx-getting-started/GUID-DE0AD0AE-A6A6-4769-96ED-4D200F739A68.html["HCXの導入の概要"^] および https://docs.vmware.com/en/VMware-HCX/4.4/hcx-getting-started/GUID-70F9C40C-804C-4FC8-9FBD-77F9B2FA77CA.html["チェックリストB-HCXとVMware CloudをAWS SDDCデスティネーション環境にインストールします"^]。
 
 .手順の概要
+[%collapsible]
 ====
 VMware HCXのインストールと構成の手順の概要を次に示します。
 
@@ -44,6 +45,7 @@ VMware HCXのインストールと構成の手順の概要を次に示します�
 
 ====
 .前提条件
+[%collapsible]
 ====
 作業を開始する前に、次の前提条件が満たされていることを確認してください。詳細については、を参照してください https://docs.vmware.com/en/VMware-HCX/4.4/hcx-user-guide/GUID-A631101E-8564-4173-8442-1D294B731CEB.html["HCXインストールの準備中"^]。接続性を含む前提条件を満たした後、VMCのVMware HCXコンソールからライセンスキーを生成して、HCXを構成してアクティブ化します。HCXがアクティブ化されると、vCenter Plug-inが展開され、管理にvCenterコンソールを使用してアクセスできるようになります。
 
@@ -57,6 +59,7 @@ HCXのアクティベーションと展開を行う前に、次のインスト�
 
 ====
 .アーキテクチャの概要
+[%collapsible]
 ====
 テスト目的では、この検証に使用したオンプレミスのラボ環境をサイト間VPNを介してAWS VPCに接続しました。これにより、オンプレミスでAWSに接続し、さらに外部の中継ゲートウェイ経由でVMwareクラウドSDDCに接続できるようになりました。HCx移行およびネットワーク拡張トラフィックは、オンプレミスとVMwareクラウドのデスティネーションSDDC間でインターネットを介して送信されます。このアーキテクチャは、Direct Connectプライベート仮想インターフェイスを使用するように変更できます。
 
@@ -72,6 +75,7 @@ image:fsx-hcx-image1.png["エラー：グラフィックイメージがありま
 一連の手順に従って、この解決策 の導入を完了します。
 
 .手順1：アドオンオプションを使用してVMC SDDC経由でHCXをアクティブにします
+[%collapsible]
 ====
 インストールを実行するには、次の手順を実行します。
 
@@ -91,6 +95,7 @@ image:fsx-hcx-image2.png["エラー：グラフィックイメージがありま
 
 ====
 .手順2：オンプレミスのvCenter ServerにインストーラOVAを導入する
+[%collapsible]
 ====
 オンプレミスコネクタがVMCのHCXマネージャと通信するためには、適切なファイアウォールポートがオンプレミス環境で開いていることを確認します。
 
@@ -105,6 +110,7 @@ image:fsx-hcx-image5.png["エラー：グラフィックイメージがありま
 
 ====
 .手順3：ライセンスキーを使用してHCXコネクタをアクティブにします
+[%collapsible]
 ====
 VMware HCX Connector OVAをオンプレミスに導入してアプライアンスを起動したら、次の手順を実行してHCX Connectorをアクティブにします。VMCのVMware HCXコンソールからライセンスキーを生成し、VMware HCX Connectorのセットアップ中にライセンスを入力します。
 
@@ -152,6 +158,7 @@ image:fsx-hcx-image8.png["エラー：グラフィックイメージがありま
 
 ====
 .手順4：オンプレミスのVMware HCXコネクタをVMC HCX Cloud Managerとペアリングします
+[%collapsible]
 ====
 . オンプレミスのvCenter ServerとVMC SDDCの間にサイトペアを作成するには、オンプレミスのvCenter Serverにログインして、HCX vSphere Web Clientプラグインにアクセスします。
 +
@@ -181,6 +188,7 @@ NOTE: VMware HCX Connectorは、ポート443経由でHCX Cloud Manager IPと通�
 
 ====
 .手順5：ネットワークプロファイル、コンピューティングプロファイル、およびサービスメッシュを設定します
+[%collapsible]
 ====
 VMware HCX Interconnect（HCX-IX）アプライアンスは、インターネットを介したセキュアなトンネル機能と、レプリケーションおよびvMotionベースの機能を実現するターゲットサイトへのプライベート接続を提供します。インターコネクトは、暗号化、トラフィックエンジニアリング、SD-WANを提供します。HCI IX Interconnect Applianceを作成するには、次の手順を実行します。
 
@@ -242,6 +250,7 @@ image:fsx-hcx-image18.png["エラー：グラフィックイメージがあり�
 
 ====
 .手順6：ワークロードを移行する
+[%collapsible]
 ====
 HCxは、オンプレミスやVMC SDDCなど、2つ以上の異なる環境間で双方向の移行サービスを提供します。HCXバルク移行、HCX vMotion、HCXコールド移行、HCX Replication Assisted vMotion（HCX Enterprise Editionで利用可能）、HCX OS Assisted Migration（HCX Enterprise Editionで利用可能）などのさまざまな移行テクノロジーを使用して、HCXでアクティブ化されたサイトとの間でアプリケーションワークロードを移行できます。
 
@@ -255,6 +264,7 @@ NOTE: HCX-IXアプライアンスは、Mobility AgentサービスをvCenter Serv
 image:fsx-hcx-image19.png["エラー：グラフィックイメージがありません"]
 
 .VMware HCX vMotion
+[%collapsible]
 =====
 このセクションでは、HCX vMotionメカニズムについて説明します。この移行テクノロジは、VMware vMotionプロトコルを使用してVMをVMC SDDCに移行します。vMotion移行オプションは、一度に1つのVMのVM状態を移行するために使用します。このマイグレーション方式では、サービスは中断されません。
 
@@ -286,6 +296,7 @@ image:fsx-hcx-image23.png["エラー：グラフィックイメージがあり�
 
 =====
 .VMware Replication Assisted vMotionの場合
+[%collapsible]
 =====
 VMwareのドキュメントに気づいたように、VMware HCX Replication Assisted vMotion（RAV）は、バルク移行とvMotionのメリットを組み合わせています。一括移行では、vSphere Replicationを使用して複数のVMが同時に移行されます。これは、スイッチオーバー中にVMがリブートされるためです。HCx vMotionはダウンタイムなしで移行を行いますが、レプリケーショングループで一度に1つのVMが順次実行されます。RAVは、VMを並行して複製し、スイッチオーバーウィンドウまで同期させます。スイッチオーバープロセスでは、VMを停止することなく一度に1つずつ移行します。
 

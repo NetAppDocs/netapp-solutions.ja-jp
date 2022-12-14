@@ -30,6 +30,7 @@ VMware HCXは、主に移行プラットフォームであり、クラウド間�
 NOTE: VMware HCXはVMレベルで移行されるため、どのデータストアタイプでも動作します。このドキュメントAzure NetApp Files は、解決策 コスト効率に優れたVMwareクラウドの導入を計画している、ネットアップの既存のお客様と、ネットアップ以外のお客様を対象としています。
 
 .手順の概要
+[%collapsible]
 ====
 次のリストは、Azureクラウド側でHCX Cloud Managerをインストールおよび設定し、オンプレミスでHCX Connectorをインストールするために必要な手順の概要を示しています。
 
@@ -45,6 +46,7 @@ NOTE: VMware HCXはVMレベルで移行されるため、どのデータスト�
 
 ====
 .前提条件
+[%collapsible]
 ====
 作業を開始する前に、次の前提条件が満たされていることを確認してください。詳細については、を参照してください https://docs.microsoft.com/en-us/azure/azure-vmware/configure-vmware-hcx["リンク"^]。接続などの前提条件が整ったら、Azure VMware解決策 ポータルからライセンスキーを生成して、HCXを設定してアクティブにします。OVAインストーラをダウンロードしたら、次の手順に従ってインストールプロセスを実行します。
 
@@ -60,6 +62,7 @@ NOTE: HCx advancedはデフォルトオプションであり、VMware HCX Enterp
 
 ====
 .アーキテクチャの概要
+[%collapsible]
 ====
 テスト目的で、この検証に使用したオンプレミスのラボ環境はサイト間VPNを介して接続されており、オンプレミスでAzure VMware解決策 に接続できます。
 
@@ -73,6 +76,7 @@ image:anfd-hcx-image1.png["この図は、この解決策 で使用されてい�
 一連の手順に従って、この解決策 の導入を完了します。
 
 .手順1：アドオンオプションを使用して、Azure PortalからHCXをインストールする
+[%collapsible]
 ====
 インストールを実行するには、次の手順を実行します。
 
@@ -95,6 +99,7 @@ image:anfd-hcx-image3.png["[HCX Workload Mobility]セクションの完了のス
 
 ====
 .手順2：オンプレミスのvCenter ServerにインストーラOVAを導入する
+[%collapsible]
 ====
 オンプレミスコネクタをAzure VMware解決策 のHCX Managerに接続するには、オンプレミス環境で適切なファイアウォールポートが開いていることを確認します。
 
@@ -131,6 +136,7 @@ NOTE: 仮想アプライアンスの電源を手動でオンにします。
 
 ====
 .手順3：ライセンスキーを使用してHCXコネクタをアクティブにします
+[%collapsible]
 ====
 VMware HCX Connector OVAをオンプレミスに導入してアプライアンスを起動したら、次の手順を実行してHCX Connectorをアクティブにします。Azure VMware解決策 ポータルからライセンスキーを生成し、VMware HCXマネージャでアクティブ化します。
 
@@ -179,6 +185,7 @@ image:anfd-hcx-image8.png["完了したプロセスを示すスクリーンシ�
 
 ====
 .手順4：オンプレミスのVMware HCXコネクタをAzure VMware解決策 HCX Cloud Managerとペアリングします
+[%collapsible]
 ====
 オンプレミスとAzure VMware解決策 の両方にHCX Connectorをインストールした後、このペアリングを追加して、オンプレミスのVMware HCX Connector for Azure VMware解決策 プライベートクラウドを構成します。サイトペアリングを設定するには、次の手順を実行します。
 
@@ -207,6 +214,7 @@ image:anfd-hcx-image11.png["HCXダッシュボードで完了したプロセス�
 
 ====
 .手順5：ネットワークプロファイル、コンピューティングプロファイル、およびサービスメッシュを設定します
+[%collapsible]
 ====
 VMware HCX Interconnectサービスアプライアンスは、インターネットを介したレプリケーションおよびvMotionベースの移行機能を提供し、ターゲットサイトへのプライベート接続を提供します。インターコネクトは、暗号化、トラフィックエンジニアリング、VMモビリティを提供します。インターコネクトサービスアプライアンスを作成するには、次の手順を実行します。
 
@@ -247,6 +255,7 @@ image:anfd-hcx-image15.png["vSphere Client Interconnectのページで完了し�
 
 ====
 .手順6：ワークロードを移行する
+[%collapsible]
 ====
 さまざまなVMware HCX移行テクノロジを使用して、オンプレミスとAzure SDDC間でワークロードを双方向に移行できます。VMは、HCXバルク移行、HCX vMotion、HCXコールド移行、HCX Replication Assisted vMotion（HCX Enterprise Editionで利用可能）、HCX OS Assisted Migration（HCX Enterprise Editionで利用可能）などの複数の移行テクノロジーを使用して、VMware HCXでアクティブ化されたエンティティとの間で移動できます。
 

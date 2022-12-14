@@ -6,10 +6,12 @@
 ====
 .CVO シングルノードの導入
 --
+.GCPにNetApp CVO（シングルノードインスタンス）を導入するためのTerraform構成ファイル
 このセクションでは、 GCP （ Google Cloud Platform ）でシングルノードの NetApp CVO （ Cloud Volumes ONTAP ）を導入 / 構成するための、さまざまな Terraform 構成ファイルについて説明します。
 
 Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
 
+.手順
 テンプレートを実行するには、次の手順を実行します。
 
 . リポジトリをクローニングします。
@@ -62,6 +64,7 @@ NOTE: 変数「 gCP_Connector_deploy_bool 」の値を「 true 」または「 f
 ----
     terraform destroy
 ----
+.降水量：
 「コネクタ」
 
 NetApp GCP Connector インスタンスの CVO 導入用の Terraform 変数。
@@ -131,10 +134,12 @@ GCP 上の単一の NetApp CVO インスタンスの Terraform 変数。
 --
 .CVO HA の導入
 --
+.NetApp CVO（HAペア）をGCPに導入するための構成ファイルをTerraformしています
 このセクションでは、 GCP （ Google Cloud Platform ）のハイアベイラビリティペアで NetApp CVO （ Cloud Volumes ONTAP ）を導入 / 構成するための、さまざまな Terraform 構成ファイルについて説明します。
 
 Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
 
+.手順
 テンプレートを実行するには、次の手順を実行します。
 
 . リポジトリをクローニングします。
@@ -187,6 +192,7 @@ NOTE: 変数「 gCP_Connector_deploy_bool 」の値を「 true 」または「 f
 ----
     terraform destroy
 ----
+.降水量：
 「コネクタ」
 
 NetApp GCP Connector インスタンスの CVO 導入用の Terraform 変数。
@@ -304,10 +310,12 @@ GCP の HA ペアの NetApp CVO インスタンスの Terraform 変数。
 --
 .CVS ボリューム
 --
+.GCPにNetApp CVSボリュームを導入するためのTerraform構成ファイル
 このセクションでは、 GCP （ Google Cloud Platform ）で NetApp CVS （ Cloud Volume サービス）ボリュームを導入 / 設定するためのさまざまな Terraform 設定ファイルについて説明します。
 
 Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-gcp/latest/docs[]
 
+.手順
 テンプレートを実行するには、次の手順を実行します。
 
 . リポジトリをクローニングします。
@@ -356,6 +364,7 @@ Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/ne
 ----
     terraform destroy
 ----
+.降水量：
 「 CVS ボリューム」
 
 NetApp GCP CVS ボリュームの Terraform 変数。

@@ -33,6 +33,7 @@ CVOを使用すれば、エッジ、データセンター、クラウド間で�
 === Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用
 
 .Cloud Volumes ONTAP を Google Cloud に導入（自分で導入）
+[%collapsible]
 ====
 Cloud Volumes ONTAP 共有と LUN は、 GCVE プライベートクラウド環境で作成された VM からマウントできます。Cloud Volumes ONTAP は iSCSI 、 SMB 、 NFS の各プロトコルをサポートしているため、 iSCSI 経由でマウントしたボリュームを Linux クライアントや Windows クライアントにマウントし、 LUN に Linux クライアントや Windows クライアントからブロックデバイスとしてアクセスすることもできます。Cloud Volumes ONTAP ボリュームは、いくつかの簡単な手順で設定できます。
 
@@ -87,6 +88,7 @@ image:gcve-cvo-guest-9.png[""]
 
 ====
 .SMB ボリューム用の追加の設定
+[%collapsible]
 ====
 . 作業環境の準備ができたら、 CIFS サーバに適切な DNS および Active Directory 設定パラメータが設定されていることを確認します。この手順は、 SMB ボリュームを作成する前に実行する必要があります。
 +
@@ -124,6 +126,7 @@ image:gcve-cvo-guest-15.png[""]
 
 ====
 .Cloud Volumes ONTAP 上の LUN をホストに接続します
+[%collapsible]
 ====
 Cloud Volumes ONTAP LUN をホストに接続するには、次の手順を実行します。
 
@@ -180,6 +183,7 @@ image:gcve-cvo-guest-22.png[""]
 
 ====
 .Cloud Volumes ONTAP NFS ボリュームを Linux クライアントにマウント
+[%collapsible]
 ====
 Cloud Volumes ONTAP (DIY) ファイルシステムを Google Cloud VMware Engine 内の VM からマウントするには、次の手順に従います。
 
@@ -226,6 +230,7 @@ Cloud Volume サービス（CVS）は、高度なクラウドソリューショ�
 === Cloud Volumes Service （ CVS ）をゲスト接続ストレージとして使用できるようになりました
 
 .VMware Engine を使用して Cloud Volumes Service を設定します
+[%collapsible]
 ====
 Cloud Volumes Service 共有は、 VMware エンジン環境で作成された VM からマウントできます。Cloud Volumes Service では SMB プロトコルと NFS プロトコルがサポートされているため、ボリュームを Linux クライアントにマウントして Windows クライアントにマッピングすることもできます。Cloud Volumes Service ボリュームは簡単な手順で設定できます。
 
@@ -235,6 +240,7 @@ Google Cloud Marketplace で NetApp Cloud Volumes Service for Google Cloud を�
 
 ====
 .CVS NFS ボリュームを GCVE プライベートクラウドに作成する
+[%collapsible]
 ====
 NFS ボリュームを作成してマウントするには、次の手順を実行します。
 
@@ -288,6 +294,7 @@ image:gcve-cvs-guest-10.png[""]
 
 ====
 .VMware Engine で実行されている VM に NFS エクスポートをマウントする
+[%collapsible]
 ====
 NFS ボリュームのマウントを準備する前に、プライベート接続のピアステータスが Active と表示されていることを確認してください。ステータスが Active になったら、 mount コマンドを使用します。
 
@@ -329,6 +336,7 @@ image:gcve-cvs-guest-22.png[""]
 
 ====
 .VMware Engine で実行されている VM に SMB 共有を作成してマウントします
+[%collapsible]
 ====
 SMB ボリュームの場合は、 SMB ボリュームを作成する前に、 Active Directory 接続が設定されていることを確認してください。
 

@@ -6,10 +6,12 @@
 ====
 .CVO シングルノードの導入
 --
+.NetApp CVO（シングルノードインスタンス）をAWSに導入するための構成ファイルがTerraformにあります
 このセクションでは、 AWS （ Amazon Web Services ）上でシングルノードの NetApp CVO （ Cloud Volumes ONTAP ）を導入 / 構成するための、さまざまな Terraform 構成ファイルを提供しています。
 
 Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
 
+.手順
 テンプレートを実行するには、次の手順を実行します。
 
 . リポジトリをクローニングします。
@@ -74,6 +76,7 @@ NOTE: 変数「 AWS_Connector_deploy_bool 」の値を true または false に�
 ----
     terraform destroy
 ----
+.降水量：
 「コネクタ」
 
 CVO 導入用の NetApp AWS Connector インスタンスの Terraform 変数。
@@ -146,10 +149,12 @@ CVO 導入用の NetApp AWS Connector インスタンスの Terraform 変数。
 --
 .CVO HA の導入
 --
+.NetApp CVO（HAペア）をAWSに導入するための構成ファイルがTerraformにあります
 このセクションでは、 AWS （ Amazon Web Services ）のハイアベイラビリティペアに NetApp CVO （ Cloud Volumes ONTAP ）を導入 / 構成するための、さまざまな Terraform 構成ファイルを提供しています。
 
 Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
 
+.手順
 テンプレートを実行するには、次の手順を実行します。
 
 . リポジトリをクローニングします。
@@ -214,6 +219,7 @@ NOTE: 変数「 AWS_Connector_deploy_bool 」の値を true または false に�
 ----
     terraform destroy
 ----
+.降水量：
 「コネクタ」
 
 CVO 導入用の NetApp AWS Connector インスタンスの Terraform 変数。
@@ -313,10 +319,12 @@ HA ペアの NetApp CVO インスタンスの変数はテラフォームされ�
 --
 .FSX の導入
 --
+.NetApp ONTAP FSXをAWSに導入するためのTerraform構成ファイル
 このセクションには、 AWS （ Amazon Web Services ）上で NetApp ONTAP FSX を導入 / 設定するための、さまざまな Terraform 構成ファイルが含まれています。
 
 Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
 
+.手順
 テンプレートを実行するには、次の手順を実行します。
 
 . リポジトリをクローニングします。
@@ -381,6 +389,7 @@ NOTE: 変数「 AWS_Connector_deploy_bool 」の値を true または false に�
 ----
     terraform destroy
 ----
+.レシピ：
 「コネクタ」
 
 NetApp AWS Connector インスタンスの Terraform 変数。

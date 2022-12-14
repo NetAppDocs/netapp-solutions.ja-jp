@@ -58,15 +58,18 @@ terraform {
 == 実行中の特定のモジュール
 
 .AWS
+[%collapsible]
 ====
 [role="tabbed-block"]
 =====
 .CVO シングルノードの導入
 --
+.NetApp CVO（シングルノードインスタンス）をAWSに導入するための構成ファイルがTerraformにあります
 このセクションでは、 AWS （ Amazon Web Services ）上でシングルノードの NetApp CVO （ Cloud Volumes ONTAP ）を導入 / 構成するための、さまざまな Terraform 構成ファイルを提供しています。
 
 Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
 
+.手順
 テンプレートを実行するには、次の手順を実行します。
 
 . リポジトリをクローニングします。
@@ -131,6 +134,7 @@ NOTE: 変数「 AWS_Connector_deploy_bool 」の値を true または false に�
 ----
     terraform destroy
 ----
+.降水量：
 「コネクタ」
 
 CVO 導入用の NetApp AWS Connector インスタンスの Terraform 変数。
@@ -203,10 +207,12 @@ CVO 導入用の NetApp AWS Connector インスタンスの Terraform 変数。
 --
 .CVO HA の導入
 --
+.NetApp CVO（HAペア）をAWSに導入するための構成ファイルがTerraformにあります
 このセクションでは、 AWS （ Amazon Web Services ）のハイアベイラビリティペアに NetApp CVO （ Cloud Volumes ONTAP ）を導入 / 構成するための、さまざまな Terraform 構成ファイルを提供しています。
 
 Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
 
+.手順
 テンプレートを実行するには、次の手順を実行します。
 
 . リポジトリをクローニングします。
@@ -271,6 +277,7 @@ NOTE: 変数「 AWS_Connector_deploy_bool 」の値を true または false に�
 ----
     terraform destroy
 ----
+.降水量：
 「コネクタ」
 
 CVO 導入用の NetApp AWS Connector インスタンスの Terraform 変数。
@@ -370,10 +377,12 @@ HA ペアの NetApp CVO インスタンスの変数はテラフォームされ�
 --
 .FSX の導入
 --
+.NetApp ONTAP FSXをAWSに導入するためのTerraform構成ファイル
 このセクションには、 AWS （ Amazon Web Services ）上で NetApp ONTAP FSX を導入 / 設定するための、さまざまな Terraform 構成ファイルが含まれています。
 
 Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
 
+.手順
 テンプレートを実行するには、次の手順を実行します。
 
 . リポジトリをクローニングします。
@@ -438,6 +447,7 @@ NOTE: 変数「 AWS_Connector_deploy_bool 」の値を true または false に�
 ----
     terraform destroy
 ----
+.レシピ：
 「コネクタ」
 
 NetApp AWS Connector インスタンスの Terraform 変数。
@@ -526,15 +536,18 @@ NetApp ONTAP FSX インスタンスの Terraform 変数。
 =====
 ====
 .Azure
+[%collapsible]
 ====
 [role="tabbed-block"]
 =====
 .ANF
 --
+.AzureにANFボリュームを導入するための環境設定ファイルを用意しています
 このセクションでは、 Azure に ANF （ Azure NetApp Files ）ボリュームを導入 / 設定するためのさまざまな Terraform 設定ファイルを示します。
 
 Terraform ドキュメント : https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs[]
 
+.手順
 テンプレートを実行するには、次の手順を実行します。
 
 . リポジトリをクローニングします。
@@ -592,6 +605,7 @@ NOTE: 既存の VNet およびサブネットを使用して ANF ボリューム
 ----
   terraform destroy
 ----
+.降水量：
 「シングルノードインスタンス」
 
 単一のネットアップ ANF ボリュームに対応する Terraform 変数。
@@ -646,10 +660,12 @@ NOTE: 既存の VNet およびサブネットを使用して ANF ボリューム
 --
 .ANF データ保護
 --
+.Azure上にデータ保護機能を備えたANFボリュームを導入するための構成ファイルを用意しています
 このセクションでは、 Azure でデータ保護を使用して ANF （ Azure NetApp Files ）ボリュームを導入 / 設定するためのさまざまな Terraform 設定ファイルについて説明します。
 
 Terraform ドキュメント : https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs[]
 
+.手順
 テンプレートを実行するには、次の手順を実行します。
 
 . リポジトリをクローニングします。
@@ -707,6 +723,7 @@ NOTE: 既存の VNet およびサブネットを使用して ANF ボリューム
 ----
   terraform destroy
 ----
+.降水量：
 「 ANF データ保護」
 
 データ保護が有効になっている単一の ANF ボリューム用の変数を Terraform します。
@@ -797,10 +814,12 @@ NOTE: 既存の VNet およびサブネットを使用して ANF ボリューム
 --
 .ANF デュアルプロトコル
 --
+.Azure上にデュアルプロトコルを使用してANFボリュームを導入するための構成ファイルが用意されています
 このセクションでは、 Azure でデュアルプロトコルを有効にした ANF （ Azure NetApp Files ）ボリュームを導入 / 設定するためのさまざまな Terraform 設定ファイルについて説明します。
 
 Terraform ドキュメント : https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs[]
 
+.手順
 テンプレートを実行するには、次の手順を実行します。
 
 . リポジトリをクローニングします。
@@ -858,6 +877,7 @@ NOTE: 既存の VNet およびサブネットを使用して ANF ボリューム
 ----
   terraform destroy
 ----
+.降水量：
 「シングルノードインスタンス」
 
 デュアルプロトコルが有効な単一の ANF ボリューム用の Terraform 変数。
@@ -924,10 +944,12 @@ NOTE: 既存の VNet およびサブネットを使用して ANF ボリューム
 --
 .Snapshot からの ANF ボリューム
 --
+.Azure上のSnapshotからANFボリュームを導入するための構成ファイルをテラフォームしてください
 このセクションでは、 Azure 上の Snapshot から ANF （ Azure NetApp Files ）ボリュームを導入 / 設定するためのさまざまな Terraform 設定ファイルを示します。
 
 Terraform ドキュメント : https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs[]
 
+.手順
 テンプレートを実行するには、次の手順を実行します。
 
 . リポジトリをクローニングします。
@@ -986,6 +1008,7 @@ NOTE: 既存の VNet およびサブネットを使用して ANF ボリューム
 ----
   terraform destroy
 ----
+.降水量：
 「シングルノードインスタンス」
 
 Snapshot を使用する単一の ANF ボリューム用の変数を Terraform します。
@@ -1040,10 +1063,12 @@ Snapshot を使用する単一の ANF ボリューム用の変数を Terraform �
 --
 .CVO シングルノードの導入
 --
+.AzureにシングルノードのCVOを導入するための構成ファイルがTerraformに用意されています
 このセクションでは、 Azure 上にシングルノード CVO （ Cloud Volumes ONTAP ）を導入 / 構成するための各種 Terraform 構成ファイルを紹介します。
 
 Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
 
+.手順
 テンプレートを実行するには、次の手順を実行します。
 
 . リポジトリをクローニングします。
@@ -1097,6 +1122,7 @@ Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/ne
 ----
   terraform destroy
 ----
+.降水量：
 「シングルノードインスタンス」
 
 単一ノードの Cloud Volumes ONTAP （ CVO ）用の Terraform 変数。
@@ -1202,10 +1228,12 @@ Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/ne
 --
 .CVO HA の導入
 --
+.AzureにCVO HAを導入するための構成ファイルがTerraformに用意されています
 このセクションでは、 Azure 上で CVO （ Cloud Volumes ONTAP ） HA （ハイアベイラビリティ）を導入 / 構成するためのさまざまな Terraform 構成ファイルを取り上げます。
 
 Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
 
+.手順
 テンプレートを実行するには、次の手順を実行します。
 
 . リポジトリをクローニングします。
@@ -1259,6 +1287,7 @@ Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/ne
 ----
   terraform destroy
 ----
+.降水量：
 HA ペア・インスタンス
 
 HA ペアの Cloud Volumes ONTAP （ CVO ）の変数は Terraform です。
@@ -1365,15 +1394,18 @@ HA ペアの Cloud Volumes ONTAP （ CVO ）の変数は Terraform です。
 =====
 ====
 .GCP
+[%collapsible]
 ====
 [role="tabbed-block"]
 =====
 .CVO シングルノードの導入
 --
+.GCPにNetApp CVO（シングルノードインスタンス）を導入するためのTerraform構成ファイル
 このセクションでは、 GCP （ Google Cloud Platform ）でシングルノードの NetApp CVO （ Cloud Volumes ONTAP ）を導入 / 構成するための、さまざまな Terraform 構成ファイルについて説明します。
 
 Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
 
+.手順
 テンプレートを実行するには、次の手順を実行します。
 
 . リポジトリをクローニングします。
@@ -1426,6 +1458,7 @@ NOTE: 変数「 gCP_Connector_deploy_bool 」の値を「 true 」または「 f
 ----
     terraform destroy
 ----
+.降水量：
 「コネクタ」
 
 NetApp GCP Connector インスタンスの CVO 導入用の Terraform 変数。
@@ -1495,10 +1528,12 @@ GCP 上の単一の NetApp CVO インスタンスの Terraform 変数。
 --
 .CVO HA の導入
 --
+.NetApp CVO（HAペア）をGCPに導入するための構成ファイルをTerraformしています
 このセクションでは、 GCP （ Google Cloud Platform ）のハイアベイラビリティペアで NetApp CVO （ Cloud Volumes ONTAP ）を導入 / 構成するための、さまざまな Terraform 構成ファイルについて説明します。
 
 Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
 
+.手順
 テンプレートを実行するには、次の手順を実行します。
 
 . リポジトリをクローニングします。
@@ -1551,6 +1586,7 @@ NOTE: 変数「 gCP_Connector_deploy_bool 」の値を「 true 」または「 f
 ----
     terraform destroy
 ----
+.降水量：
 「コネクタ」
 
 NetApp GCP Connector インスタンスの CVO 導入用の Terraform 変数。
@@ -1668,10 +1704,12 @@ GCP の HA ペアの NetApp CVO インスタンスの Terraform 変数。
 --
 .CVS ボリューム
 --
+.GCPにNetApp CVSボリュームを導入するためのTerraform構成ファイル
 このセクションでは、 GCP （ Google Cloud Platform ）で NetApp CVS （ Cloud Volume サービス）ボリュームを導入 / 設定するためのさまざまな Terraform 設定ファイルについて説明します。
 
 Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-gcp/latest/docs[]
 
+.手順
 テンプレートを実行するには、次の手順を実行します。
 
 . リポジトリをクローニングします。
@@ -1720,6 +1758,7 @@ Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/ne
 ----
     terraform destroy
 ----
+.降水量：
 「 CVS ボリューム」
 
 NetApp GCP CVS ボリュームの Terraform 変数。

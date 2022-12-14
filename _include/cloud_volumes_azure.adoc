@@ -6,10 +6,12 @@
 ====
 .ANF
 --
+.AzureにANFボリュームを導入するための環境設定ファイルを用意しています
 このセクションでは、 Azure に ANF （ Azure NetApp Files ）ボリュームを導入 / 設定するためのさまざまな Terraform 設定ファイルを示します。
 
 Terraform ドキュメント : https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs[]
 
+.手順
 テンプレートを実行するには、次の手順を実行します。
 
 . リポジトリをクローニングします。
@@ -67,6 +69,7 @@ NOTE: 既存の VNet およびサブネットを使用して ANF ボリューム
 ----
   terraform destroy
 ----
+.降水量：
 「シングルノードインスタンス」
 
 単一のネットアップ ANF ボリュームに対応する Terraform 変数。
@@ -121,10 +124,12 @@ NOTE: 既存の VNet およびサブネットを使用して ANF ボリューム
 --
 .ANF データ保護
 --
+.Azure上にデータ保護機能を備えたANFボリュームを導入するための構成ファイルを用意しています
 このセクションでは、 Azure でデータ保護を使用して ANF （ Azure NetApp Files ）ボリュームを導入 / 設定するためのさまざまな Terraform 設定ファイルについて説明します。
 
 Terraform ドキュメント : https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs[]
 
+.手順
 テンプレートを実行するには、次の手順を実行します。
 
 . リポジトリをクローニングします。
@@ -182,6 +187,7 @@ NOTE: 既存の VNet およびサブネットを使用して ANF ボリューム
 ----
   terraform destroy
 ----
+.降水量：
 「 ANF データ保護」
 
 データ保護が有効になっている単一の ANF ボリューム用の変数を Terraform します。
@@ -272,10 +278,12 @@ NOTE: 既存の VNet およびサブネットを使用して ANF ボリューム
 --
 .ANF デュアルプロトコル
 --
+.Azure上にデュアルプロトコルを使用してANFボリュームを導入するための構成ファイルが用意されています
 このセクションでは、 Azure でデュアルプロトコルを有効にした ANF （ Azure NetApp Files ）ボリュームを導入 / 設定するためのさまざまな Terraform 設定ファイルについて説明します。
 
 Terraform ドキュメント : https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs[]
 
+.手順
 テンプレートを実行するには、次の手順を実行します。
 
 . リポジトリをクローニングします。
@@ -333,6 +341,7 @@ NOTE: 既存の VNet およびサブネットを使用して ANF ボリューム
 ----
   terraform destroy
 ----
+.降水量：
 「シングルノードインスタンス」
 
 デュアルプロトコルが有効な単一の ANF ボリューム用の Terraform 変数。
@@ -399,10 +408,12 @@ NOTE: 既存の VNet およびサブネットを使用して ANF ボリューム
 --
 .Snapshot からの ANF ボリューム
 --
+.Azure上のSnapshotからANFボリュームを導入するための構成ファイルをテラフォームしてください
 このセクションでは、 Azure 上の Snapshot から ANF （ Azure NetApp Files ）ボリュームを導入 / 設定するためのさまざまな Terraform 設定ファイルを示します。
 
 Terraform ドキュメント : https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs[]
 
+.手順
 テンプレートを実行するには、次の手順を実行します。
 
 . リポジトリをクローニングします。
@@ -461,6 +472,7 @@ NOTE: 既存の VNet およびサブネットを使用して ANF ボリューム
 ----
   terraform destroy
 ----
+.降水量：
 「シングルノードインスタンス」
 
 Snapshot を使用する単一の ANF ボリューム用の変数を Terraform します。
@@ -515,10 +527,12 @@ Snapshot を使用する単一の ANF ボリューム用の変数を Terraform �
 --
 .CVO シングルノードの導入
 --
+.AzureにシングルノードのCVOを導入するための構成ファイルがTerraformに用意されています
 このセクションでは、 Azure 上にシングルノード CVO （ Cloud Volumes ONTAP ）を導入 / 構成するための各種 Terraform 構成ファイルを紹介します。
 
 Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
 
+.手順
 テンプレートを実行するには、次の手順を実行します。
 
 . リポジトリをクローニングします。
@@ -572,6 +586,7 @@ Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/ne
 ----
   terraform destroy
 ----
+.降水量：
 「シングルノードインスタンス」
 
 単一ノードの Cloud Volumes ONTAP （ CVO ）用の Terraform 変数。
@@ -677,10 +692,12 @@ Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/ne
 --
 .CVO HA の導入
 --
+.AzureにCVO HAを導入するための構成ファイルがTerraformに用意されています
 このセクションでは、 Azure 上で CVO （ Cloud Volumes ONTAP ） HA （ハイアベイラビリティ）を導入 / 構成するためのさまざまな Terraform 構成ファイルを取り上げます。
 
 Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
 
+.手順
 テンプレートを実行するには、次の手順を実行します。
 
 . リポジトリをクローニングします。
@@ -734,6 +751,7 @@ Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/ne
 ----
   terraform destroy
 ----
+.降水量：
 HA ペア・インスタンス
 
 HA ペアの Cloud Volumes ONTAP （ CVO ）の変数は Terraform です。

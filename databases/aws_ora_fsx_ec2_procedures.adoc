@@ -204,7 +204,7 @@ NOTE: iSCSI LUNの作成は、現在FSXコンソールではサポートされ�
 
 === Ansibleコントローラを準備して自動化を実行します
 
-セクションの指示に従ってください" and connecting to an EC2 instance for hosting Oracle database「Ansibleコントローラを実行するための小規模なEC2 Linuxインスタンスをプロビジョニングします。RedHatを使用するのではなく、2vCPUと8G RAMのAmazon Linux T2.largeで十分です。
+セクションの指示に従ってください"<<OracleデータベースをホストするEC2インスタンスを作成して接続します>>「Ansibleコントローラを実行するための小規模なEC2 Linuxインスタンスをプロビジョニングします。RedHatを使用するのではなく、2vCPUと8G RAMのAmazon Linux T2.largeで十分です。
 
 
 
@@ -226,7 +226,7 @@ git clone https://github.com/NetApp-Automation/na_rds_fsx_oranfs_config.git
 
 詳細な手順を参照してください link:https://docs.netapp.com/us-en/netapp-solutions/databases/cli_automation.html["CLI による Oracle 19C データベースの導入"^] Oracle 19CをCLI自動化機能で導入するには、次の手順を実行ホストアクセスの認証にパスワードではなくSSHキーペアを使用しているため、コマンド構文には少し変更があり、プレイブックを実行することができます。概要を次に示します。
 
-. デフォルトでは、EC2インスタンスはアクセス認証にSSHキーペアを使用します。Ansibleコントローラの自動化ルートディレクトリ'/home/ec2-user/na_oracle19c_deploy`と'/home/ec2-user/na_rds_fsx_oranfs_config'から'ステップで導入したOracleホストのSSHキー'accesstkey.pem'のコピーを作成します and connecting to an EC2 instance for hosting Oracle database. 」
+. デフォルトでは、EC2インスタンスはアクセス認証にSSHキーペアを使用します。Ansibleコントローラの自動化ルートディレクトリ'/home/ec2-user/na_oracle19c_deploy`と'/home/ec2-user/na_rds_fsx_oranfs_config'から'ステップで導入したOracleホストのSSHキー'accesstkey.pem'のコピーを作成します<<OracleデータベースをホストするEC2インスタンスを作成して接続します>>. 」
 . EC2インスタンスDBホストにEC2-USERとしてログインし、python3ライブラリをインストールします。
 +
 [source, cli]
@@ -492,7 +492,7 @@ NOTE: バックアップポリシーでOracleアーカイブログの削除を�
 
 SnapCenter のデータベースバックアップはユーザが設定でき、個別に設定することも、リソースグループ内でグループとして設定することもできます。バックアップ間隔は、RTOとRPOの目標によって異なります。フルデータベースバックアップを数時間おきに実行し、ログバックアップのアーカイブを10～15分などの頻度でアーカイブして、迅速なリカバリを実現することを推奨します。
 
-のOracleのセクションを参照してください link:https://docs.netapp.com/us-en/netapp-solutions/databases/hybrid_dbops_snapcenter_getting_started_onprem.html#8-implement-backup-policy-to-protect-database["データベースを保護するためのバックアップポリシーを実装する"^] セクションで作成したバックアップポリシーを実装するための詳細な手順については、を参照してください  backup policy for Oracle database およびを使用してスケジュールを設定します。
+のOracleのセクションを参照してください link:https://docs.netapp.com/us-en/netapp-solutions/databases/hybrid_dbops_snapcenter_getting_started_onprem.html#8-implement-backup-policy-to-protect-database["データベースを保護するためのバックアップポリシーを実装する"^] セクションで作成したバックアップポリシーを実装するための詳細な手順については、を参照してください <<Oracleデータベースのバックアップポリシーを設定する>> およびを使用してスケジュールを設定します。
 
 次の図は、Oracleデータベースをバックアップするように設定されたリソースグループの例を示しています。
 

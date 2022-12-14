@@ -20,6 +20,7 @@ summary:
 セットアッププロセスは、次の手順に分けることができます。
 
 .リソースプロバイダを登録し、プライベートクラウドを作成
+[%collapsible]
 ====
 Azure VMware 解決策を使用するには、まず、特定されたサブスクリプションにリソースプロバイダを登録します。
 
@@ -60,6 +61,7 @@ image:avs-register-create-pc-4.png[""]
 
 ====
 .新しい ExpressRoute 仮想ネットワークゲートウェイまたは既存の ExpressRoute 仮想ネットワークゲートウェイに接続します
+[%collapsible]
 ====
 新しい Azure Virtual Network （ VNet ）を作成するには、 Azure VNet Connect （ Azure VNet 接続）タブを選択します。または、 Create Virtual Network ウィザードを使用して、 Azure ポータルから手動で作成することもできます。
 
@@ -87,6 +89,7 @@ NOTE: VNet を手動で作成する場合は、適切な SKU と ExpressRoute �
 
 ====
 .ネットワーク接続を検証し、 Azure VMware 解決策プライベートクラウドにアクセスします
+[%collapsible]
 ====
 Azure VMware 解決策では、オンプレミスの VMware vCenter でプライベートクラウドを管理することはできません。代わりに、ジャンプホストが Azure VMware 解決策 vCenter インスタンスに接続する必要があります。指定したリソースグループにジャンプホストを作成し、 Azure VMware 解決策 vCenter にサインインします。このジャンプホストは、接続用に作成された同じ仮想ネットワーク上の Windows VM であり、 vCenter と NSX Manager の両方にアクセスできる必要があります。
 

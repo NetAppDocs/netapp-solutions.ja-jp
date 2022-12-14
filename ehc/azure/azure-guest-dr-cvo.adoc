@@ -69,6 +69,7 @@ NOTE: オンプレミスのデータセンターをAzureに接続する方法は
 === 展開の詳細
 
 .AzureでCVOを構成し、ボリュームをCVOにレプリケート
+[%collapsible]
 ====
 まず、AzureでCloud Volumes ONTAP を設定します (https://docs.netapp.com/us-en/netapp-solutions/ehc/azure/azure-guest.html["リンク"^]）をクリックし、必要なボリュームを、必要な頻度とSnapshotの保持を使用してCloud Volumes ONTAP にレプリケートします。
 
@@ -76,6 +77,7 @@ image:dr-cvo-avs-image2.png["エラー：グラフィックイメージがあり
 
 ====
 .AVSホストとCVOデータアクセスを設定
+[%collapsible]
 ====
 SDDCを導入する際に考慮すべき2つの重要な要素は、Azure VMware解決策 内のSDDCクラスタのサイズと、SDDCの稼働期間です。ディザスタリカバリ解決策 に関する以下の2つの重要な考慮事項は、全体的な運用コストの削減に役立ちます。SDDCは、3台のホストの規模に対応し、フルスケールの導入ではマルチホストクラスタにまで対応できます。
 
@@ -89,6 +91,7 @@ Cloud Volumes ONTAP とAVSを適切に設定したら、VAIOメカニズムを�
 
 ====
 .JetStream DRをオンプレミスデータセンターにインストールします
+[%collapsible]
 ====
 Jetstream DRソフトウェアは、JetStream DR Management Server Virtual Appliance（MSA）、DR Virtual Appliance（DRVA）、およびホストコンポーネント（I/Oフィルタパッケージ）の3つの主要コンポーネントで構成されています。MSAは、コンピューティングクラスタにホストコンポーネントをインストールおよび構成し、JetStream DRソフトウェアを管理するために使用されます。インストールプロセスは次のとおりです。
 
@@ -196,6 +199,7 @@ image:dr-cvo-avs-image20.png["エラー：グラフィックイメージがあ�
 
 ====
 .プライベートクラウドでAVS向けJetStream DRをインストールします
+[%collapsible]
 ====
 リカバリサイト（AVS）では、3ノードのパイロットライトクラスタを事前に作成することを推奨します。これにより、以下を含むリカバリサイトのインフラを事前に設定できます。
 
@@ -268,6 +272,7 @@ image:dr-cvo-avs-image26.png["エラー：グラフィックイメージがあ�
 
 ====
 .フェイルオーバーとフェイルバック
+[%collapsible]
 ====
 . オンプレミス環境の保護対象クラスタで障害が発生した場合（部分的または完全な障害）、該当するアプリケーションボリュームのSnapMirror関係を解除したあと、Jetstreamを使用してVMのフェイルオーバーをトリガーできます。
 +
