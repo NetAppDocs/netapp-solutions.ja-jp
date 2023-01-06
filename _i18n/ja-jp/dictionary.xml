@@ -14824,7 +14824,6 @@
   <block id="c2f530d95c6332b106d86a53b41e4a36" category="inline-link">TR-3969『NetApp Eシリーズ解決策 for Hadoop』</block>
   <block id="8cdadd1c9614abebd1b476daba691f36" category="list-text">ベースラインNL-SAS構成では、8つのコンピューティングノードと96本のNL-SASドライブを使用しました。この構成では、1TBのデータが4分38秒で生成され、を参照してください<block ref="f08cd7da48b5d74d9eaab10199016f47" category="inline-link-rx"></block> クラスタとストレージ構成の詳細については、を参照してください。</block>
   <block id="f895fa75cdc40f4e672bba6f7a873e25" category="list-text">TeraGenを使用した場合、SSD構成ではNL-SAS構成よりも1TBのデータが15.66x高速で生成されました。さらに、SSD構成では、コンピューティングノードの半分とディスクドライブの半分（合計24本のSSDドライブ）が使用されていました。ジョブの完了時間に基づき、NL-SAS構成の約2倍の速さで処理されました。</block>
-  <block id="459f180fc71a8f8bb773d3c879314e39" category="list-text">SSD構成は、TeraSortを使用してNL-SAS構成の1TBのデータを1138.36倍高速にソートしました。さらに、SSD構成では、コンピューティングノードの半分とディスクドライブの半分（合計24本のSSDドライブ）が使用されていました。そのため、ドライブあたりの速度は、NL-SAS構成の約3倍です。</block>
   <block id="c13c2e056adb51078f3067ba570d2780" category="section-title">パフォーマンスの拡張-スケールアウト</block>
   <block id="beb08cca1e99e0bdbf11c74ebb62d5ea" category="paragraph">AFF 解決策 のHadoopクラスタの処理能力を強化する必要がある場合は、適切な数のストレージコントローラを使用してデータノードを追加できます。ワークロードの特性に応じて、ストレージコントローラアレイごとにデータノードを4つから始めて、ストレージコントローラごとにデータノードを8つに増やすことを推奨します。</block>
   <block id="431bd1a68814e184bc49ff7231450049" category="paragraph">AFF とFAS はインプレース分析に最適です。コンピューティング要件に基づいて、ノードマネージャを追加できます。また、ノンストップオペレーション機能により、ダウンタイムなしでストレージコントローラをオンデマンドで追加できます。AFF とFAS を備えた豊富な機能を備えており、NVMeメディアのサポート、効率性の保証、データ削減、QoS、予測分析、 クラウドの階層化、レプリケーション、クラウドの導入、セキュリティお客様が要件を満たせるように、ネットアップでは、追加のライセンスコストなしでファイルシステム分析、クォータ、オンボックスロードバランシングなどの機能を提供しています。ネットアップは、同時ジョブ数やレイテンシの低減、処理の簡易化、1秒あたりのスループットの向上といった、競合他社よりも優れたパフォーマンスを提供しています。さらに、ネットアップのCloud Volumes ONTAP は、主要な3つのクラウドプロバイダすべてで動作します。</block>
@@ -16141,9 +16140,7 @@
   <block id="e482c7b116916a3d87aba2ab1365190b" category="inline-link"><block ref="e482c7b116916a3d87aba2ab1365190b" category="inline-link-rx"></block></block>
   <block id="b916fd292760d6ae01e337bf2a132edb" category="paragraph"><block ref="b916fd292760d6ae01e337bf2a132edb" category="inline-link-rx"></block></block>
   <block id="5d0dd45a93153403c2446a809dcb5fc3" category="sidebar">AWS EC2上のSQL ServerでAmazon FSX for NetApp ONTAP を使用</block>
-  <block id="a91e5d479805e8e523b723cccc32c826" category="paragraph">ネットアップのAFF ストレージコントローラと、ストレージポリシーが異なるSSDおよびSASドライブを搭載したEシリーズストレージコントローラでHadoopストレージの階層化を検証しました。AFF-A800のSparkクラスタには4つのコンピュートワーカーノードがあり、Eシリーズのクラスタには8つのノードがあります。これは主に、ソリッドステートドライブとハードドライブディスクのパフォーマンスを比較するために行いました。</block>
   <block id="dc406f8350f51d99347d8d026c0435a5" category="list-text">つまり、回転式ディスクからオールフラッシュに移行することでパフォーマンスが向上します。コンピューティングノードの数がボトルネックになっていません。ネットアップのオールフラッシュストレージなら、ランタイムのパフォーマンスを大幅に向上できます。</block>
-  <block id="2334ec557e1d4fadaa1ebe6292ad3d06" category="list-text">NFSでは、データがすべてプールされる機能と同等で、ワークロードに応じてコンピューティングノードの数を減らすことができました。コンピューティングノードの数を変更した場合、Apache Sparkクラスタユーザは手動でデータをリバランシングする必要がありません。</block>
   <block id="67c8804409fa1f91b1b477b7c99d1d71" category="paragraph">執筆者：Chris Reno、Josh Powell、Suresh Thoppay - NetApp Solutions Engineering</block>
   <block id="37242160d8bbd9ad700322c3c2499272" category="section-title">前提条件、前提条件、コンポーネントの概要</block>
   <block id="3ea8c755cca91dd6bbeec88e906263e9" category="paragraph">この解決策 を導入する前に、コンポーネントの概要、解決策 を導入するための前提条件、およびこの解決策 のドキュメント化に記載した前提条件を確認してください。</block>
@@ -16156,4 +16153,41 @@
   <block id="ed8b9b5c064b716d4c1d3f30a595410f" category="example-title">Veeamのバックアップとレプリケーション</block>
   <block id="42c8c901c8d4c00c90f9f66d69df3cdb" category="example-title">Veeam Backup &amp; Replicationサーバが必要です</block>
   <block id="17f0b02d31e76cb9b2878b4a08f19eb5" category="example-title">Veeam Backup &amp; Replicationの構成</block>
+  <block id="53f8aa6361303e58854a4451a706df5e" category="doc">WP-7355：『SnapCenter Plug-in VMware vSphere - Product security』</block>
+  <block id="ae9e79ac4b60eba67cf1c7508417b42c" category="paragraph">NetApp SnapCenter Plug-in for VMware vSphereのソフトウェアエンジニアリングでは、次のような安全な開発作業を行います。</block>
+  <block id="b25a1098aff7d0c5ee590f1e1a114bb9" category="list-text">*動的アプリケーションセキュリティテスト(DAST)。*実行中のアプリケーションの脆弱な状態を検出するように設計されたテクノロジ。DAST は、 Web 対応アプリケーションの公開 HTTP および HTML インターフェイスをテストします。</block>
+  <block id="6cc1fee6b4fc48755d78e93170bbed93" category="list-text">*サードパーティのコード通貨。*ソフトウェアの開発およびオープンソースソフトウェア（OSS）の使用の一環として、製品に組み込まれているOSSに関連するセキュリティの脆弱性に対処することが重要です。これは、OSSコンポーネントのバージョンに、いつでも新たに検出された脆弱性が報告される可能性があるため、継続的な取り組みです。</block>
+  <block id="87bd0fb9b4198f33535e0e1888a809f5" category="list-text">*ペネトレーションテスト。*ペネトレーションテストは、システム、Webアプリケーション、またはネットワークを評価して、攻撃者によって悪用される可能性のあるセキュリティの脆弱性を検出するプロセスです。ネットアップでのペネトレーションテスト（ペンテスト）は、承認された信頼できる第三者企業のグループが実施します。このテスト範囲には、高度な攻撃方法やツールを使用した悪意のある侵入者やハッカーなどのアプリケーションやソフトウェアに対する攻撃の開始が含まれます。</block>
+  <block id="e3a3be4b4b04c5e0b6a5f1b5ea388380" category="list-text">*製品セキュリティインシデント対応活動。*セキュリティの脆弱性は、社内外で発見され、タイムリーに対処しないと、ネットアップの評判に深刻なリスクをもたらす可能性があります。このプロセスを容易にするために、Product Security Incident Response Team（PSIRT）は脆弱性を報告して追跡します。</block>
+  <block id="e91db3b3278f7bd95cc704d74c5c9597" category="paragraph">NetApp SnapCenter Plug-in for VMware vSphereの各リリースには、次のセキュリティ機能が含まれています。</block>
+  <block id="4abd7d1d5d223683d3346671efb7e89c" category="list-text">*制限付きシェルアクセス。* SSHはデフォルトで無効になっており、1回限りのログインはVMコンソールから有効にした場合にのみ許可されます。</block>
+  <block id="8c264fa5ca2c588d960d98bd30cbc897" category="list-text">*ログインバナーのアクセス警告*ログインプロンプトにユーザ名を入力すると、次のログインバナーが表示されます。</block>
+  <block id="0d6633ada3a9803e206b2359d859e892" category="paragraph">ユーザがSSHチャネルを介したログインを完了すると、次の出力が表示されます。</block>
+  <block id="83e463bb73b12d9ca6e419327073c8a4" category="list-text">*ロールベースアクセス制御（RBAC）。*ネットアップのONTAP ツールには、次の2種類のRBAC制御が関連付けられています。</block>
+  <block id="b883bf79639dfce77e395b8458ee69e4" category="list-text">vCenter Server標準の権限。</block>
+  <block id="721796b1cb3468f0daf819180184d460" category="inline-link">ロールベースアクセス制御（ RBAC ）</block>
+  <block id="1d08c46b7567a29be0690a92b9722a58" category="list-text">VMware vCenterプラグインに固有の権限。詳細については、を参照してください<block ref="f351263ad3706bd0a472039400dece78" category="inline-link-rx"></block>。</block>
+  <block id="acab4c655c4a7b4db67fc07e22b86222" category="list-text">*暗号化された通信チャネル。*すべての外部通信は、TLSを使用してHTTPS経由で行われます。</block>
+  <block id="47a37e2d5fc8b7c936ad9b2b7a569a08" category="paragraph">次の表に、オープンポートの詳細を示します。</block>
+  <block id="10bd16a816f831080065e807daa36a9a" category="cell">TCP v4 / V6ポート番号</block>
+  <block id="d4a973e303ec37692cc8923e3148eef7" category="cell">8080 です</block>
+  <block id="2c25c3d66f80eeaa8d6e5a144c6f942e" category="cell">OVA GUIでのHTTPS接続</block>
+  <block id="14b3e670eec63cc0cc456fd904bbfbd9" category="cell">SSH（デフォルトでは無効）</block>
+  <block id="16fc18d787294ad5171100e33d05d4e2" category="cell">3306</block>
+  <block id="4cbf9c234f6b34c242a110cb993252bd" category="cell">mysql（内部接続のみ。外部接続はデフォルトで無効）</block>
+  <block id="29ab4efbdb7c727c81ee1382593bc5e2" category="cell">nginx（データ保護サービス）</block>
+  <block id="89f152cad33314315b4995ed1ca71535" category="inline-link">SnapCenter Plug-in for VMware vSphere（SCV）にSSL証明書を作成/インポートする方法</block>
+  <block id="450adc59e39f23172756ac9369494a2d" category="list-text">*認証局（CA）署名証明書のサポート。* SnapCenter Plug-in for VMware vSphereは、CA署名証明書の機能をサポートしています。を参照してください<block ref="9f83d87d5d9f604d96288df21d450fac" category="inline-link-rx"></block>。</block>
+  <block id="05a1aa8021df4579874c4eeb8788e5c9" category="list-text">*パスワードポリシー。*次のパスワードポリシーが有効です。</block>
+  <block id="2c87609dbbc3630573c64e271de8207d" category="list-text">クレデンシャル情報はすべてSHA256ハッシュを使用して保存されます。</block>
+  <block id="0f1a6fa0a65f9d5c3c4a16b070104d7a" category="list-text">*基本オペレーティングシステムイメージ。*この製品は、アクセス制限とシェルアクセスが無効になったOVA用のDebianベースOSに同梱されています。これにより、攻撃のフットプリントが削減されます。すべてのSnapCenter リリースベースのオペレーティングシステムには、最大限のセキュリティを適用できる最新のセキュリティパッチが適用されています。</block>
+  <block id="83cd5867ba912e517fa1100299fd1cf3" category="paragraph">ネットアップでは、SnapCenter Plug-in for VMware vSphereアプライアンスに関連するソフトウェア機能およびセキュリティパッチを開発し、その後、バンドルソフトウェアプラットフォームとしてお客様にリリースします。ネットアップでは、これらのアプライアンスにはLinuxのサブシステムに固有の依存関係と独自のソフトウェアが含まれているため、サブオペレーティングシステムを変更しないことを推奨します。これは、ネットアップアプライアンスに影響を及ぼす可能性が高いためです。これは、ネットアップがアプライアンスをサポートできるかどうかに影響します。アプライアンスはセキュリティ関連の問題にパッチを適用するためにリリースされているため、最新のコードバージョンをテストして導入することを推奨します。</block>
+  <block id="e50e258ecc9eaa88d6c653c3a24cb319" category="cell">2022 年 3 月</block>
+  <block id="3107c066ea7eeb48bd5f87594a08fd7a" category="paragraph">&lt;&lt;&lt;&lt;そこで、NetApp AFF ストレージコントローラと、ストレージポリシーが異なるSSDとSASドライブを搭載したEシリーズストレージコントローラでHadoopストレージの階層化を検証しました。AFF-A800のSparkクラスタには4つのコンピュートワーカーノードがあり、Eシリーズのクラスタには8つのノードがあります。主な用途は、ソリッドステートドライブ（SSD）とハードドライブディスク（HDD）のパフォーマンスを比較することです。</block>
+  <block id="dba657bcaa661bcf5461e260c00e4f06" category="paragraph">ネットアップのAFF ストレージコントローラと、ストレージポリシーが異なるSSDおよびSASドライブを搭載したEシリーズストレージコントローラでHadoopストレージの階層化を検証しました。AFF-A800のSparkクラスタには4つのコンピュートワーカーノードがあり、Eシリーズのクラスタには8つのノードがあります。これは主に、ソリッドステートドライブとハードドライブディスクのパフォーマンスを比較するために行いました。&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;a51c9ddf73ca69e1120ce05edc7b0b9607b96eae</block>
+  <block id="f14f651fb8150de92c527d88344df494" category="list-text">SSD構成は、TeraSortを使用してNL-SAS構成の1TBのデータを1138.36倍高速にソートしました。さらに、SSD構成では、コンピューティングノードの半分とディスクドライブの半分（合計24本のSSDドライブ）が使用されていました。そのため、ドライブあたりの速度は、NL-SAS構成の約3倍です。&lt; &lt; &lt; &lt; &lt; &lt; &lt; &lt; &lt; &lt; &lt; &lt; &lt; &lt; 頭部</block>
+  <block id="52be2edb04819f386804af38bd53a55d" category="list-text">ここで重要なのは、回転式ディスクからオールフラッシュに移行することでパフォーマンスを向上させることです。コンピューティングノードの数がボトルネックになっていません。ネットアップのオールフラッシュストレージなら、ランタイムのパフォーマンスを大幅に向上できます。</block>
+  <block id="8cc25131075ed11b8263304fceebc5c6" category="list-text">NFSでは、データがすべてプールされる機能と同等で、ワークロードに応じてコンピューティングノードの数を減らすことができました。コンピューティングノードの数を変更した場合、Apache Sparkクラスタユーザは手動でデータをリバランシングする必要がありません。</block>
+  <block id="6ed171c4fe1ca516676ea457d91105b1" category="list-text">NFSでは、データがすべてプールされる機能と同等で、ワークロードに応じてコンピューティングノードの数を減らすことができました。コンピューティングノードの数を変更した場合、Apache Sparkクラスタユーザは手動でデータをリバランシングする必要がありません。&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;a51c9ddf73ca69e1120ce05edc7b0b9607b96eae</block>
+  <block id="2668a3fec665f31a26e9e428b4ee62a7" category="sidebar">SnapCenter Plug-in VMware vSphere -製品のセキュリティ</block>
 </blocks>
