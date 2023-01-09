@@ -17,7 +17,7 @@ summary: ONTAP は、仮想化に使用されるすべての主要なストレ�
 
 == プロトコル
 
-ONTAP は、仮想化に使用されるすべての主要なストレージプロトコルをサポートしています。たとえば、 SAN 環境向けの iSCSI 、 Fibre Channel （ FC ）、 Fibre Channel over Ethernet （ FCoE ）、 Non-Volatile Memory Express over Fibre Channel （ NVMe/FC ）、ゲスト接続用の NFS （ v3 および v4.1 ）、 SMB または S3 などです。お客様は、自社の環境に最適なものを自由に選び、 1 つのシステム上で必要に応じてプロトコルを組み合わせることができます（たとえば、 NFS データストアの一般的な使用方法を、いくつかの iSCSI LUN やゲスト共有で強化できます）。
+ONTAP は、SAN環境向けのiSCSI、Fibre Channel（FC）、Fibre Channel over Ethernet（FCoE）、Non-Volatile Memory Express over Fibre Channel（NVMe/FC）、ゲスト接続用のNFS（v3およびv4.1）、SMBまたはS3など、仮想化に使用されるすべての主要なストレージプロトコルをサポートしています。お客様は、環境に最適なものを自由に選択でき、必要に応じてプロトコルを 1 つのシステムで組み合わせることができます。たとえば、いくつかのiSCSI LUNやゲスト共有でNFSデータストアの一般的な使用を補うことができます。
 
 
 
@@ -27,14 +27,16 @@ ONTAP は、仮想化に使用されるすべての主要なストレージプ�
 
 ONTAP の基本機能の詳細は、以下のとおりです。
 
-* * ネットアップの Snapshot コピー。 * ONTAP は、 Snapshot コピーの作成時や使用時にパフォーマンスに影響を与えることなく、 VM やデータストアの Snapshot コピーを瞬時に作成できます。パッチの適用前またはシンプルなデータ保護のために、 VM のリストアポイントを作成する際に使用できます。これらは VMware （整合性）スナップショットとは異なります。ONTAP の Snapshot コピーを作成する最も簡単な方法は、 SnapCenter Plug-in for VMware vSphere を使用して VM とデータストアをバックアップすることです。
+* *ネットアップのSnapshotコピー。* ONTAP は、Snapshotコピーの作成時や使用時にパフォーマンスへの影響を伴わない、VMまたはデータストアの瞬時のSnapshotコピーを提供します。パッチの適用前またはシンプルなデータ保護のために、 VM のリストアポイントを作成する際に使用できます。これらは VMware （整合性）スナップショットとは異なります。ONTAP の Snapshot コピーを作成する最も簡単な方法は、 SnapCenter Plug-in for VMware vSphere を使用して VM とデータストアをバックアップすることです。
 * * Storage Efficiency 。 * ONTAP は、インラインおよびバックグラウンドの重複排除と圧縮、ゼロブロック重複排除、データコンパクションをサポートしています。
 * * ボリュームと LUN の移動。 * ONTAP クラスタ内の vSphere データストアと VVOL をサポートするボリュームや LUN を無停止で移動できます。これにより、パフォーマンスと容量のバランスを取り、無停止での保守とアップグレードをサポートできます。
 * * QoS により、個々の LUN 、ボリューム、またはファイルのパフォーマンスを管理できます。この機能を使用すると、不明な VM や Bully VM を制限したり、重要な VM に十分なパフォーマンスリソースを確保したりできます。
-* * NetApp Volume Encryption 、 NetApp Aggregate Encryption 。 * ネットアップの暗号化オプションは、ソフトウェアベースで簡単に保存データを保護します。
+* * NetApp Volume EncryptionとNetApp Aggregate Encryption *。ネットアップの暗号化オプションは、ソフトウェアベースの簡単な暗号化機能で保存データを保護します。
 * * FabricPool 。 * この機能は、コールドデータをブロックレベルで自動的に別のオブジェクトストアに階層化し、高価なフラッシュストレージを解放します。
-* * REST 、 Ansible * https://devnet.netapp.com/restapi["ONTAP REST API"^] ストレージとデータの管理を自動化するには、を参照してください https://netapp.io/configuration-management-and-automation/["Ansible モジュール"^] ONTAP システムの構成を管理します。 ONTAP の一部の機能は vSphere のワークロードには適していません。たとえば、 ONTAP 9.8 より前の FlexGroup では完全なクローニングはサポートされておらず、 vSphere ではテストされていません（ vSphere での使用に関する最新情報については、「 FlexGroup 」の項を参照してください）。FlexCache は、読み取り主体のワークロード向けに設計されているため、 vSphere にも最適ではありません。キャッシュが元のボリュームから切断されていると、両方の側で NFS データストアエラーが発生する場合があります。
+* * RESTとAnsible *を使用します https://devnet.netapp.com/restapi["ONTAP REST API"^] ストレージとデータの管理を自動化するには、を参照してください https://netapp.io/configuration-management-and-automation/["Ansible モジュール"^] ONTAP システムの構成管理に使用します。
 
+
+一部のONTAP 機能は、vSphereのワークロードには適していません。たとえば、ONTAP 9.8より前のFlexGroup テクノロジでは完全なクローニングはサポートされておらず、vSphereではテストされていません（vSphereでの使用に関する最新情報については、「FlexGroup 」の項を参照してください）。FlexCache テクノロジは、読み取り主体のワークロード向けに設計されたものであるため、vSphereにも最適ではありません。キャッシュが元のボリュームから切断されていると、両方の側で NFS データストアエラーが発生する場合があります。
 
 
 
@@ -68,26 +70,19 @@ SnapMirror は Site Recovery Manager を使用した SRA レプリケーショ�
 
 === VMware vSphere 用の ONTAP ツール
 
-VMware vSphere 用の ONTAP ツールは、 vSphere とともに ONTAP ストレージを使用するための一連のツールです。vCenter プラグインは、以前 Virtual Storage Console （ VSC ）と呼ばれていたもので、 SAN と NAS のどちらを使用している場合でも、ストレージ管理と効率化機能の簡易化、可用性の向上、ストレージコストと運用オーバーヘッドの削減を実現します。データストアのプロビジョニングのベストプラクティスを使用して、 NFS 環境およびブロックストレージ環境用の ESXi ホスト設定を最適化します。以上のメリットのために、ネットアップでは、 ONTAP ソフトウェアを実行しているシステムで vSphere を使用する際のベストプラクティスとして、これらの ONTAP ツールを使用することを推奨します。vCenter のサーバアプライアンスとユーザインターフェイス拡張機能の両方が含まれています。
+VMware vSphere 用の ONTAP ツールは、 vSphere とともに ONTAP ストレージを使用するための一連のツールです。vCenter プラグインは、以前 Virtual Storage Console （ VSC ）と呼ばれていたもので、 SAN と NAS のどちらを使用している場合でも、ストレージ管理と効率化機能の簡易化、可用性の向上、ストレージコストと運用オーバーヘッドの削減を実現します。データストアのプロビジョニングのベストプラクティスを使用して、 NFS 環境およびブロックストレージ環境用の ESXi ホスト設定を最適化します。以上のメリットのために、ネットアップでは、 ONTAP ソフトウェアを実行しているシステムで vSphere を使用する際のベストプラクティスとして、これらの ONTAP ツールを使用することを推奨します。サーバアプライアンス、vCenter、VASA Provider、Storage Replication Adapterのユーザインターフェイス拡張機能が含まれています。ONTAP ツールのほぼすべてを、最新の自動化ツールで利用できるシンプルなREST APIを使用して自動化できます。
+
+* * vCenter UIの拡張機能* ONTAP ツールのUI拡張機能は、vCenter UIにホストとストレージを管理するための使いやすいコンテキスト依存メニュー、情報ポートレット、およびネイティブアラート機能を直接組み込み、ワークフローを合理化することで、運用チームやvCenter管理者の業務を簡素化します。
+* * VASA Provider for ONTAP 。* VASA Provider for ONTAP は、VMware vStorage APIs for Storage Awareness（VASA）フレームワークをサポートしています。VMware vSphere 用の ONTAP ツールの一部として提供され、導入を容易にする単一の仮想アプライアンスとして提供されます。VASA Provider では、 VM ストレージのプロビジョニングと監視に役立つように vCenter Server と ONTAP を接続します。VMware Virtual Volumes （ VVol ）のサポート、ストレージ機能プロファイルと個々の VM VVol のパフォーマンスの管理、およびプロファイルの容量と準拠状況の監視用アラームが可能になります。
+* * Storage Replication Adapter. SRAは、VMware Site Recovery Manager（SRM）と併用して、本番サイトと災害復旧サイト間のデータ複製を管理し、DRレプリカを無停止でテストします。検出、リカバリ、再保護のタスクを自動化します。Windows SRM サーバおよび SRM アプライアンス用の SRA サーバアプライアンスと SRA アダプタの両方が含まれています。
+
+
+次の図は、 vSphere 用の ONTAP ツールを示しています。
+
+image:vsphere_ontap_image1.png["エラー：グラフィックイメージがありません"]
 
 
 
 === NFS Plug-in for VMware VAAI のこと
 
-NetApp NFS Plug-in for VMware は、 ESXi ホストが ONTAP 上の NFS データストアで VAAI 機能を使用できるようにするためのプラグインです。クローン処理、シック仮想ディスクファイル用のスペースリザベーション、 Snapshot コピーオフロードをサポートしています。コピー処理をストレージにオフロードしても、完了までの時間が必ずしも短縮されるとは限りませんが、 CPU サイクル、バッファ、キューなどのホストリソースがオフロードされます。VMware vSphere 用の ONTAP ツールを使用して、 ESXi ホストにプラグインをインストールできます。
-
-
-
-=== VASA Provider for ONTAP の略
-
-VASA Provider for ONTAP は、 VMware vStorage APIs for Storage Awareness （ VASA ）フレームワークをサポートしています。VMware vSphere 用の ONTAP ツールの一部として提供され、導入を容易にする単一の仮想アプライアンスとして提供されます。VASA Provider では、 VM ストレージのプロビジョニングと監視に役立つように vCenter Server と ONTAP を接続します。VMware Virtual Volumes （ VVol ）のサポート、ストレージ機能プロファイルと個々の VM VVol のパフォーマンスの管理、およびプロファイルの容量と準拠状況の監視用アラームが可能になります。
-
-
-
-=== Storage Replication Adapter の各サポートレベル
-
-SRA は、 VMware Site Recovery Manager （ SRM ）と一緒に使用され、本番サイトとディザスタリカバリサイト間のデータレプリケーションを管理して、 DR レプリカの無停止でのテストを行います。検出、リカバリ、再保護のタスクを自動化します。Windows SRM サーバおよび SRM アプライアンス用の SRA サーバアプライアンスと SRA アダプタの両方が含まれています。SRA は、 VMware vSphere 用の ONTAP ツールに含まれています。
-
-次の図は、 vSphere 用の ONTAP ツールを示しています。
-
-image:vsphere_ontap_image1.png["エラー：グラフィックイメージがありません"]
+NetApp NFS Plug-in for VMware VAAIはESXiホスト向けのプラグインで、ONTAP 上のNFSデータストアでVAAI機能を使用できます。クローン処理、シック仮想ディスクファイル用のスペースリザベーション、 Snapshot コピーオフロードをサポートしています。コピー処理をストレージにオフロードしても、完了までの時間が必ずしも短縮されるとは限りませんが、ネットワーク帯域幅の要件が軽減され、CPUサイクル、バッファ、キューなどのホストリソースがオフロードされます。VMware vSphere用のONTAP ツールを使用して、ESXiホストまたはサポートされている場合はvSphere Lifecycle Manager（VLCM）にプラグインをインストールできます。
