@@ -2055,29 +2055,21 @@
   <block id="0c157ce4e4fd6289dbf0b282993c2f80" category="list-text">* その他。 * NetApp AFF A シリーズアレイの卓越したパフォーマンスを活用して、コストを管理しながら仮想インフラを高速化できます。スケールアウト ONTAP クラスタを使用して、ストレージシステムのメンテナンスからアップグレード、完全な交換まで、完全なノンストップオペレーションを実現します。ネットアップの暗号化機能を追加コストなしで使用して、保存データを保護できます。きめ細かいサービス品質機能により、パフォーマンスがビジネスサービスレベルを満たしていることを確認します。これらはすべて、業界をリードするエンタープライズデータ管理ソフトウェアである ONTAP に付属する幅広い機能の一部です。</block>
   <block id="7be2e69e5d19c282db8d81c60a51c862" category="summary">このページでは、 VMware vSphere 環境に NetApp ONTAP ストレージ解決策を実装するためのベストプラクティスについて説明します。</block>
   <block id="ff53ee8001042abcefe5c912d0b5012f" category="section-title">vSphere のデータストアとプロトコルの機能</block>
-  <block id="7a787d6880ccfe1032af2f4288ce3901" category="paragraph">VMware vSphere と ONTAP ソフトウェアを実行しているシステム上のデータストアの接続には、次の 5 つのプロトコルが使用されます。</block>
-  <block id="6b8f0029ce30f9b4d5fe0def33875511" category="list-text">FC</block>
   <block id="14eae6ee278098bfad4f8a10fd6c1195" category="list-text">FCoE</block>
   <block id="26bcb9f1cb6f391f4b2c18e676bb458d" category="list-text">NVMe/FC</block>
   <block id="e4e1c13bb0b14f6cb7608cbecea948ef" category="list-text">iSCSI</block>
-  <block id="cbc9a42283809f1edcb32b4a495813f9" category="paragraph">FC 、 FCoE 、 NVMe/FC 、および iSCSI はブロックプロトコルで、 vSphere Virtual Machine File System （ VMFS ）を使用して、 ONTAP ボリューム内の ONTAP LUN またはネームスペースに VM を格納します。vSphere 7.0 以降では、 VMware は本番環境でのソフトウェア FCoE をサポートしなくなりました。NFS はファイルプロトコルで、 VM をデータストア（ ONTAP ボリューム）に配置し、 VMFS を必要としません。SMB 、 iSCSI 、 NFS は、ゲスト OS から ONTAP に直接使用することもできます。</block>
   <block id="0f2f72ef3f176b98134caf100a06cf5f" category="inline-link">VMware 構成の最大数</block>
-  <block id="6a6d2374b838393f6805b58d97c2c490" category="paragraph">以下の表に、 vSphere でサポートされる従来のデータストア機能と ONTAP を示します。この情報は VVOL データストアには該当しませんが、通常は、サポートされている ONTAP リリースを使用する環境 vSphere 6.x および 7.x リリースには該当します。を参照することもできます<block ref="26c5407c98ec413c85131fd8c0d178b4" category="inline-link-rx"></block> 個々の vSphere リリースに固有の制限を確認するため。</block>
   <block id="9da73946f1bc3be4a41898d06c9d2e8b" category="cell">機能 / 特徴</block>
   <block id="c982f804d02e2d7e937f125d2cac1024" category="cell">FC / FCoE</block>
   <block id="520d0db389f362bf79ef56ca0af3dcab" category="cell">の形式で入力し</block>
   <block id="99a3142584ca8ad0a3afadeaa6f2ef69" category="cell">VMFS または raw デバイスマッピング（ RDM ）</block>
   <block id="26aae26f61844ac20ab7b04ba6f5c515" category="cell">VMFS または RDM</block>
   <block id="8dc6d0c66219ddb809322c0d248e55e6" category="cell">データストアまたは LUN の最大数</block>
-  <block id="468abcddfc22ae5cb2288b9937b300fb" category="cell">256 ターゲット / HBA</block>
-  <block id="72097e262592a146da0e4e856068965b" category="cell">256 個のターゲット</block>
   <block id="2774ddb6f193789c5d9a480b9e53a38d" category="cell">256 でデフォルトの NFS がマウントされます。MaxVolumes は 8 です。VMware vSphere 用の ONTAP ツールを使用して 256 まで増やす。</block>
   <block id="51c0dc217976e27de06e262947947a62" category="cell">データストアの最大サイズ</block>
   <block id="856c997f909830b8249756c07dc9452b" category="cell">64TB</block>
   <block id="8e5d3a4b085389c59a1a7af7c4067a9b" category="cell">100TB 以上の FlexVol ボリュームと FlexGroup ボリューム</block>
-  <block id="a4b27c6cd629522064dc48306e2bf8bb" category="cell">データストアの最大ファイルサイズ （ vSphere バージョン 5.5 および VMFS 5 またはを使用する VMDK 用 以降）</block>
   <block id="d10549beb2f7bd1e91e5ef8965edd84a" category="cell">62TB</block>
-  <block id="ddf38e51732c3f7da57dc13c31a5483b" category="cell">vSphere でサポートされる最大サイズは 16TB 62TB です。</block>
   <block id="9aa56a79640231adaec83bc53e59c929" category="cell">LUN またはファイルシステムごとのキューの深さの最適値</block>
   <block id="ea5d2f1c4608232e07d3aa3d998e5135" category="cell">64</block>
   <block id="edc5121cb9b42a76b718b8ece9d67437" category="paragraph">次の表に、サポートされる VMware ストレージ関連機能を示します。</block>
@@ -2096,7 +2088,6 @@
   <block id="4ee7af004efef335d6a14c60ee758f5e" category="cell">はい VAAI を使用しない場合、 NFS 上のすべての VM に対してこの設定がデフォルトです。</block>
   <block id="13bc264ff420559de4156ec40980a4b9" category="cell">VMware 標準マルチパス</block>
   <block id="8339c514e73f5cced3b83d504d60441b" category="inline-link">Windows Server フェールオーバークラスタリングのセットアップ</block>
-  <block id="547211ca8a6b93fee863925a03cd341b" category="paragraph">* VMFS データストア内でマルチライター対応の VMDK を使用する代わりに、 Microsoft クラスタにゲスト内 iSCSI を使用することを推奨します。このアプローチは Microsoft と VMware によって完全にサポートされており、 ONTAP （オンプレミスまたはクラウドの ONTAP システムへの SnapMirror ）を使用した優れた柔軟性、設定と自動化が容易で、 SnapCenter で保護できます。vSphere 7 で、新しいクラスタ化された VMDK オプションが追加されました。これは、マルチライター対応の VMDK とは異なりますが、クラスタ化された VMDK をサポートする FC プロトコル経由で提供されるデータストアが必要です。その他の制限が適用されます。「 VMware 」を参照してください<block ref="b158594c147457b5b6417413cb30f800" category="inline-link-rx"></block> 設定ガイドラインについては、ドキュメントを参照してください</block>
   <block id="a06819d91a165d0491c5816c54b41234" category="paragraph">次の表に、サポートされる ONTAP ストレージ管理機能を示します。</block>
   <block id="f8d61013f1a3bbf1342f4ced3279c7cf" category="cell">データ重複排除</block>
   <block id="72167540968147afed9deb59f0e9fe00" category="cell">アレイ内での容量削減</block>
@@ -2131,10 +2122,7 @@
   <block id="530c759326761c6ac026b313985b255f" category="list-text">* ストレージスペースの透過性。 * シンプロビジョニングによって削減効果が即座に現れるため、 NFS 環境では一般にストレージ利用率が見やすくなります。同様に、重複排除とクローニングによる削減効果は、同じデータストア内の他の VM や他のストレージシステムボリュームで即座に利用できます。一般に、 VM の密度は NFS データストア内でも高くなります。管理するデータストアが少ないため、重複排除による削減効果が向上すると同時に管理コストも削減されます。</block>
   <block id="16ee928b12bc598bf52b0f312879ec95" category="section-title">データストアのレイアウト</block>
   <block id="066ed1c180617b2f9028c1f789078de4" category="paragraph">ONTAP ストレージシステムは、 VM および仮想ディスク用のデータストアを柔軟に作成できます。を使用する場合、 ONTAP の多くのベストプラクティスが適用されますが vSphere 用のデータストアをプロビジョニングする VSC （を参照） <block ref="311a0f5ed21de3c81d57d9c08f2ace49" category="inline-link-macro-rx"></block>) 、考慮すべきその他のガイドラインを次に示します。</block>
-  <block id="73ab3808ccb313675f9b890edf67fd09" category="list-text">ONTAP NFS データストアを使用して vSphere を導入することで、高性能でありながら管理が容易な実装を実現でき、ブロックベースのストレージプロトコルでは達成できない VM / データストア比率が提供されます。このアーキテクチャでは、データストア密度を 10 倍に増やすことも可能で、それに伴いデータストアの数は減少します。データストアのサイズを大きくするとストレージ効率が向上し、運用上のメリットが得られますが、ハードウェアリソースのパフォーマンスを最大限に引き出すためには、少なくとも 4 つのデータストア（ FlexVol ボリューム）を使用して 1 つの ONTAP コントローラに VM を格納することを検討してください。また、異なるリカバリポリシーを使用してデータストアを確立することもできます。ビジネスニーズに応じて、他のバックアップやレプリケーションの頻度を増やすことができます。設計に応じて拡張できるため、 FlexGroup ボリュームで複数のデータストアを使用する必要はありません。</block>
-  <block id="68281e9d236ee27e21f68ce5838462f1" category="list-text">FlexVol ボリューム、および ONTAP 9.8 以降の FlexGroup ボリューム、 NFS データストアの使用を推奨します。VMware vSphere 用の ONTAP ツールでは現在サポートされていないため、 qtree などの他の ONTAP ストレージコンテナの使用は一般に推奨されません。データストアレベルのクォータや VM ファイルクローンの恩恵を受ける高度に自動化された環境では、 1 つのボリューム内の複数の qtree としてデータストアを導入すると便利です。</block>
   <block id="dc4d78be836807b32c7ef7f42028b1ef" category="list-text">FlexVol ボリュームデータストアの適切なサイズは 4~8TB です。このサイズは、パフォーマンス、管理のしやすさ、データ保護のバランスが取れた適切なサイズです。小規模構成から開始して（ 4TB など）、必要に応じてデータストアを拡張します（最大 100TB まで）。小規模なデータストアは、バックアップや災害からのリカバリにかかる時間が短く、クラスタ間で迅速に移動できます。使用済みスペースの変化に応じてボリュームを自動的に拡張または縮小するには、 ONTAP のオートサイズを使用することを検討してください。VMware vSphere データストアプロビジョニングウィザードの ONTAP ツールでは、新しいデータストアに対してデフォルトでオートサイズが使用されます。拡張および縮小のしきい値と最大および最小サイズは、 System Manager またはコマンドラインを使用して追加でカスタマイズできます。</block>
-  <block id="12346208f1923ebe162c32f3c4ccf23a" category="list-text">または、 VMFS データストアを、 FC 、 iSCSI または FCoE でアクセスする LUN で構成することもできます。VMFS を使用すると、クラスタ内の各 ESX サーバから同時に従来型の LUN にアクセスすることができます。VMFS データストアは、最大 64TB まで拡張でき、最大 32 個の 2TB LUN （ VMFS 3 ）または単一の 64TB LUN （ VMFS 5 ）で構成できます。ONTAP の最大 LUN サイズは、ほとんどのシステムで 16TB で、すべての SAN アレイシステムで 128TB です。したがって、ほとんどの ONTAP システムでは、最大サイズの VMFS 5 データストアを、 4 つの 16TB LUN を使用して作成できます。複数の LUN （ハイエンドの FAS または AFF システムを使用）で構成される高 I/O ワークロードではパフォーマンス上のメリットがありますが、このメリットは、データストア LUN の作成、管理、保護の複雑さが増し、可用性のリスクが高まることによって相殺されます。ネットアップでは、通常、各データストアに 1 つの大きな LUN を使用し、 16TB を超えるデータストアを追加する必要がある場合にのみスパンすることを推奨しています。NFS と同様に、複数のデータストア（ボリューム）を使用することで、 1 台の ONTAP コントローラのパフォーマンスを最大化することを検討してください。</block>
   <block id="c74cab014e402128efd8102b941c0b0c" category="list-text">古いゲストオペレーティングシステム（ OS ）では、パフォーマンスとストレージ効率を最大化するために、ストレージシステムとのアライメントが必要でした。しかし、 Microsoft や Linux ディストリビュータ（ Red Hat など）が提供する、ベンダーがサポートする最新の OS では、ファイルシステムのパーティションを仮想環境の基盤となるストレージシステムのブロックにアライメントするように調整する必要はありません。アライメントが必要な古い OS を使用している場合は、ネットアップサポートの技術情報で「 VM のアライメント」に関する記事を検索するか、ネットアップの営業担当者またはパートナー担当者に TR-3747 のコピーを請求してください。</block>
   <block id="3c8b400142a84af9ebe6262bce512ccb" category="list-text">パフォーマンス上のメリットはなく、ストレージ効率と Snapshot コピーのスペース使用量にも影響するため、ゲスト OS でのデフラグユーティリティの使用は避けてください。また、仮想デスクトップのゲスト OS で検索インデックスを無効にすることを検討してください。</block>
   <block id="14abb814748566a24367c4459a54840b" category="list-text">ONTAP は、革新的な Storage Efficiency 機能で業界をリードし、使用可能なディスクスペースを最大限に活用できるようにしています。AFF システムでは、デフォルトのインライン重複排除機能と圧縮機能により、この効率性がさらに向上しています。データはアグリゲート内のすべてのボリュームにわたって重複排除されるため、類似するオペレーティングシステムやアプリケーションを 1 つのデータストア内にまとめて、最大限の削減効果を得る必要はありません。</block>
@@ -2161,10 +2149,6 @@
   <block id="3745abd352adaa2cdec42c798060eef6" category="list-text">ネットワークフロー制御は、 ONTAP クラスタ内のクラスタネットワークポートでのみ無効にすることを推奨します。データトラフィックに使用される残りのネットワークポートについては、推奨されるベストプラクティスはありません。必要に応じて有効または無効にしてください。を参照してください<block ref="bdfb81665a0ef86d871a52c0e6ebc591" category="inline-link-rx"></block> を参照してください。</block>
   <block id="730a8287f758961d602b1b050bbe2751" category="list-text">ESXi および ONTAP ストレージアレイをイーサネットストレージネットワークに接続するときは、接続先のイーサネットポートを Rapid Spanning Tree Protocol （ RSTP ；高速スパニングツリープロトコル）のエッジポートとして設定するか、 Cisco の PortFast 機能を使用して設定することを推奨します。ネットアップでは、 Cisco の PortFast 機能を使用していて、 ESXi サーバまたは ONTAP ストレージアレイへの 802.1Q VLAN トランキングが有効になっている環境では、 Spanning-Tree PortFast trunk 機能を有効にすることを推奨します。</block>
   <block id="ac4976538e1fc8726f77afc202561afc" category="list-text">リンクアグリゲーションのベストプラクティスとして次を推奨します。</block>
-  <block id="102e4f88579e89519d8c614561d5e302" category="list-text">Cisco の Virtual PortChannel （ vPC ）などのマルチシャーシリンクアグリゲーショングループアプローチを使用して、 2 つの別々のスイッチシャーシ上のポートのリンクアグリゲーションをサポートするスイッチを使用します。</block>
-  <block id="f331781b955fd46506835e783c953ed4" category="list-text">LACP が設定された dvSwitches 5.1 以降を使用していない場合、 ESXi に接続されているスイッチポートの LACP を無効にします。</block>
-  <block id="eb8cf3a79d16ed9f0e2c1de65c379bc5" category="list-text">IP ハッシュを使用したダイナミックマルチモードインターフェイスグループを使用して、 ONTAP ストレージシステム用のリンクアグリゲートを作成するために LACP を使用します。</block>
-  <block id="8ebcba6104088fb46f64395277d21edd" category="list-text">ESXi で IP ハッシュチーミングポリシーを使用します。</block>
   <block id="2432030fc6183a1a6c52cf5e93f3e9ae" category="paragraph">次の表に、ネットワーク設定項目とその適用先をまとめます。</block>
   <block id="7d74f3b92b19da5e606d737d339a9679" category="cell">項目</block>
   <block id="1aa66ef3a8e34a7a538960a80d2e1e31" category="cell">ESXi</block>
@@ -2189,7 +2173,6 @@
   <block id="bcc0e5a3e08cd34e80692195d056b06d" category="cell">フェイルオーバーグループ</block>
   <block id="a4d1a66a448e327c12d3e287098a31d5" category="cell">○（作成）</block>
   <block id="465d5674eb6808b997037470f4dace73" category="cell">○（選択）</block>
-  <block id="93e04df6f821105fd0ab88e95eaee167" category="paragraph">* SVM LIF は、 VLAN や MTU などが設定されたポート、インターフェイスグループ、または VLAN インターフェイスに接続されますが、設定は SVM レベルで管理されません。</block>
   <block id="50ecdab93bf5a2f1bfb4cd8f81b9bd3d" category="paragraph">** これらのデバイスには管理用に独自の IP アドレスがありますが、 ESXi ストレージネットワークのコンテキストでは使用されません。</block>
   <block id="efd0bde36323238fec688b9cdf0c75a3" category="section-title">SAN （ FC 、 FCoE 、 NVMe/FC 、 iSCSI ）、 RDM</block>
   <block id="29cdd488736a6111699f7348320bbed7" category="paragraph">vSphere では、ブロックストレージ LUN を 3 通りの方法で使用します。</block>
@@ -2201,7 +2184,6 @@
   <block id="6bf646772584de04f877d166e564b5ff" category="paragraph">NMP と NetApp ONTAP はどちらも、 Asymmetric Logical Unit Access （ ALUA ；非対称論理ユニットアクセス）による最適パスと非最適パスのネゴシエーションをサポートします。ONTAP では、アクセス対象の LUN をホストするノード上のターゲットポートを使用する直接データパスが、 ALUA の最適パスとなります。ALUA は、 vSphere と ONTAP の両方でデフォルトで有効になっています。NMP は ONTAP クラスタを ALUA として認識し、 ALUA ストレージアレイタイププラグイン（ VMW_SATP_ALUA ）を使用し、ラウンドロビンパス選択プラグイン（「 VMW_PSP_RR 」）を選択します。</block>
   <block id="b284ee628d89c3e804c4def2a90f0520" category="paragraph">ESXi 6 は、最大 256 個の LUN と、 LUN への最大 1 、 024 個の合計パスをサポートします。これらの制限を超える LUN やパスは、 ESXi で認識されません。最大数の LUN を使用した場合、 LUN あたりのパス数は最大 4 つです。大規模な ONTAP クラスタでは、 LUN 数の上限に達する前にパス数の制限に達する可能性があります。この制限に対処するため、 ONTAP では、リリース 8.3 以降の選択的 LUN マップ（ SLM ）がサポートされています。</block>
   <block id="8466b1e5abb4751e931c5feb1af4e469" category="inline-link">TR-4080</block>
-  <block id="a1319b3463fde689889152797a3cf966" category="paragraph">SLM は、特定の LUN へのパスをアドバタイズするノードを制限します。ネットアップのベストプラクティスでは、各 SVM のノードごとに少なくとも 1 つの LIF を配置し、 SLM を使用して、 LUN とその HA パートナーをホストするノードへのアドバタイズパスを制限することを推奨しています。他のパスは存在しますが、デフォルトではアドバタイズされません。SLM 内で、レポートノードの追加引数および削除引数を使用して通知されたパスを変更することができます。8.3 より前のリリースで作成された LUN ではすべてのパスがアドバタイズされるため、ホストしている HA ペアへのパスのみがアドバタイズされるように変更する必要があることに注意してください。SLM の詳細については、のセクション 5.9 を参照してください<block ref="c6b12416d518b4689065ffe16afe88db" category="inline-link-rx"></block>。以前のポートセットの方式を使用すると、 LUN の使用可能なパスをさらに削減できます。ポートセットを使用すると、 igroup 内のイニシエータが LUN を認識する際に経由可能なパス数を減らすことができます。</block>
   <block id="4157f0c23fc104508f492dc846f187f3" category="list-text">SLM はデフォルトでは有効になっています。ポートセットを使用しないかぎり、これ以上の設定は必要ありません。</block>
   <block id="597f1433ad810b3b86c7ae0f8f95afa8" category="list-text">Data ONTAP 8.3 より前のバージョンで作成した LUN の場合、 lun mapping remove-reporting-nodes コマンドを実行して SLM を手動で適用し、 LUN レポートノードを削除し、 LUN へのアクセスを LUN の所有者ノードとその HA パートナーに制限します。</block>
   <block id="43919b4d4d6d446ed498e26bff62db84" category="paragraph">ブロックプロトコル（ iSCSI 、 FC 、 FCoE ）は、一意の名前に加え、 LUN ID とシリアル番号を使用して LUN にアクセスします。FC と FCoE は Worldwide Name （ WWNN および WWPN ）を使用し、 iSCSI は iSCSI Qualified Name （ IQN ）を使用します。ストレージ内での LUN へのパスはブロックプロトコルにとっては意味がないため、どこにも表示されません。したがって、 LUN のみが含まれるボリュームは内部でマウントする必要がなく、データストアで使用される LUN を含むボリュームのジャンクションパスも必要ありません。ONTAP の NVMe サブシステムも同様に機能します。</block>
@@ -2219,26 +2201,15 @@
   <block id="f2a693e1f056b96566c4551fcab418f2" category="paragraph">vSphere を使用すると、エンタープライズクラスの NFS アレイを使用して、 ESXi クラスタ内のすべてのノードへのデータストアへの同時アクセスを提供できます。データストアのセクションで説明したように、 vSphere で NFS を使用すると、使いやすさが向上し、ストレージ効率を可視化できるというメリットがあります。</block>
   <block id="743fa5a7bc7d4ba215b096e34779d298" category="paragraph">vSphere で ONTAP NFS を使用する際に推奨されるベストプラクティスは次のとおりです。</block>
   <block id="265e673c00294cf97a90c3b0d4fcb076" category="list-text">ONTAP クラスタ内の各ノードの各 SVM で、 1 つの論理インターフェイス（ LIF ）を使用します。データストアごとの LIF の過去の推奨事項は不要になりました。直接アクセス（同じノード上の LIF とデータストア）は最適ですが、パフォーマンスへの影響は一般に最小（マイクロ秒）であるため、間接アクセスを考慮しないでください。</block>
-  <block id="83deede0d0158f0f2469080b6208e88a" category="list-text">VMware は、 VMware Infrastructure 3 以降で NFSv3 をサポートしています。vSphere 6.0 では NFSv4.1 がサポートされるようになり、 Kerberos セキュリティなどの高度な機能が使用できるようになりました。NFSv3 ではクライアント側のロックが使用され、 NFSv4.1 ではサーバ側のロックが使用されます。ONTAP ボリュームは両方のプロトコルでエクスポートできますが、 ESXi は 1 つのプロトコルでしかマウントできません。この単一プロトコルのマウントにより、他の ESXi ホストが同じデータストアを別のバージョンでマウントすることができるわけではありません。すべてのホストが同じバージョン、つまり同じロック形式を使用するように、マウント時に使用するプロトコルバージョンを指定してください。NFS のバージョンをホスト間で混在させないでください。可能であれば、ホストプロファイルを使用して準拠しているかどうかを確認します</block>
   <block id="ae4c5baa79e370d8f601cc7082f8123e" category="list-text">NFSv3 と NFSv4.1 間ではデータストアが自動変換されないため、新しい NFSv4.1 データストアを作成し、 Storage vMotion を使用して新しいデータストアに VM を移行します。</block>
-  <block id="04826f858f8ad9c66b9d805ca9ff88a3" category="list-text">NFS エクスポートポリシーは、 vSphere ホストによるアクセスの制御に使用されます。複数のボリューム（データストア）で 1 つのポリシーを使用できます。NFSv3 では、 ESXi で sys （ UNIX ）セキュリティ形式が使用され、 VM を実行するためにルートマウントオプションが必要となります。ONTAP では、このオプションはスーパーユーザと呼ばれます。スーパーユーザオプションを使用する場合は、匿名ユーザ ID を指定する必要はありません。-anon` と --allow-suid に異なる値を持つエクスポートポリシールールは、 ONTAP 原因ツールで SVM の検出に関する問題が発生する可能性があることに注意してください。ポリシーの例を次に示します。</block>
   <block id="822366735aef72f1a9429ac86dda7338" category="list-text">Access Protocol ： nfs3</block>
   <block id="69abbd5c7cd9c1b3828b9aa5a894ff47" category="list-text">クライアント一致仕様： 192.168.42.21</block>
   <block id="bd6cc42f9cd65cca72cbd56d2f4bf43d" category="list-text">RO アクセスルール： sys</block>
   <block id="581c470a5099548fc9865a4bab8761f8" category="list-text">RW アクセスルール： sys</block>
-  <block id="0fd74b9f6a61e12b4a204b3489bd05a9" category="list-text">匿名 UID ：</block>
   <block id="59d5d8c898df18115bd4ced36c6bc0de" category="list-text">superuser ： sys</block>
   <block id="c184ce6b86d2e6fbf8681d61637c101b" category="list-text">NetApp NFS Plug-in for VMware VAAI を使用する場合、エクスポートポリシールールの作成時または変更時にプロトコルを「 nfs 」に設定する必要があります。VAAI コピーオフロードが機能するためには NFSv4 プロトコルが必要です。プロトコルを「 nfs 」に指定すると、 NFSv3 バージョンと NFSv4 バージョンの両方が自動的に組み込まれます。</block>
-  <block id="44e8816851b6d24723bf0e06c3b8b40d" category="list-text">NFS データストアのボリュームは SVM のルートボリュームからジャンクションされるため、 ESXi がデータストアボリュームに移動してマウントするためにはルートボリュームへのアクセス権も必要となります。ルートボリューム、およびデータストアボリュームのジャンクションがネストされているその他のボリュームのエクスポートポリシーには、 ESXi サーバに読み取り専用アクセスを許可するルールが含まれている必要があります。VAAI プラグインを使用したルートボリュームのポリシーの例を次に示します。</block>
-  <block id="88b77eec23ea926d7dac5b6ec36713d2" category="list-text">Access Protocol の略。nfs （ nfs3 と nfs4 の両方を含む）</block>
-  <block id="2e5d116b123742b0c1f9b9266e3d45e4" category="list-text">クライアント一致仕様。192.168.42.21</block>
-  <block id="e79bd23a286e2e109f901ac7b9fc1052" category="list-text">RO アクセスルール。システム</block>
-  <block id="6854a3cd4d70ef13145d55305c745f1c" category="list-text">RW アクセスルール：なし（ルートボリュームに最適なセキュリティ）</block>
-  <block id="629cac79e5ae376b5235b5cb87c8c03d" category="list-text">匿名 UID の形式です。</block>
-  <block id="e76eb6f8b3ceafc6b70386efb46a8295" category="list-text">スーパーユーザ：sys （ VAAI を使用するルートボリュームでも必要）</block>
   <block id="4c571520a8128d1692fc709ffbfb2b1e" category="list-text">VMware vSphere 用の ONTAP ツール（最も重要なベストプラクティス）を使用：</block>
   <block id="b8d278c6184cb65727ca5ae729db92d7" category="list-text">VMware vSphere 用の ONTAP ツールを使用してデータストアをプロビジョニングすると、エクスポートポリシーの自動管理が簡易化されます。</block>
-  <block id="55cf2206291fced620eed577cb8c8a42" category="list-text">プラグインを使用して VMware クラスタ用のデータストアを作成するときは、単一の ESX サーバではなくクラスタを選択します。これにより、データストアがクラスタ内のすべてのホストに自動的にマウントされます。</block>
   <block id="e4e62770daaf9887c7868fbc8e248a4b" category="list-text">プラグインのマウント機能を使用して、既存のデータストアを新しいサーバに適用します。</block>
   <block id="928562eb576ed6ae31cb1a149d3e751a" category="list-text">VMware vSphere 用の ONTAP ツールを使用しない場合は、すべてのサーバ、または追加のアクセス制御が必要なサーバクラスタごとに、 1 つのエクスポートポリシーを使用します。</block>
   <block id="7bccab0fa4c0864835c645c9fde7ebf6" category="list-text">ONTAP にはフレキシブルボリュームのネームスペース構造が用意されており、ジャンクションを使用してボリュームをツリーにまとめることができますが、このアプローチは vSphere には価値がありません。ストレージのネームスペース階層に関係なく、データストアのルートに各 VM 用のディレクトリが作成されます。そのため、単に SVM のルートボリュームに vSphere のボリュームのジャンクションパスをマウントすることがベストプラクティスです。これは、 VMware vSphere 用の ONTAP ツールでデータストアをプロビジョニングする方法です。ジャンクションパスがネストされていないと、ルートボリューム以外のボリュームに依存しているボリュームがないこと、またボリュームをオフラインにするか破棄するかによって意図的に他のボリュームへのパスに影響が及ぶこともありません。</block>
@@ -2258,11 +2229,9 @@
   <block id="56d43ad1a280ada5e16fd2960ae44b32" category="cell">SRM の場合</block>
   <block id="d595c8f30866b71ea121ced5cde66b1d" category="cell">仮想ボリューム</block>
   <block id="6ad5114acf73f68a85c72f11646920cb" category="cell">ハードウェアアクセラレーション（ VAAI ）</block>
-  <block id="aa32fdb70496d9a7395ef0d3ccb1c986" category="cell">○（ vSphere 6.5 以降、 NetApp VAAI プラグイン 1.1.2 ）</block>
   <block id="ad37ded9046268d8e5ea7cb253bb5dda" category="cell">Kerberos 認証</block>
   <block id="45701e6ef9bc09dca07f8f4abe661dc6" category="cell">○（ vSphere 6.5 以降で拡張して、 AES 、 krb5i ）</block>
   <block id="76969a36155d2f41fc6cc3bd3faff244" category="cell">マルチパスのサポート</block>
-  <block id="4cdf980fd6cee432c76402bb142269e9" category="cell">× （ ESXi 6.5 以降ではセッショントランキングを通じてサポートされ、 ONTAP では pNFS を通じてサポートされます）</block>
   <block id="54452390cac5f65f3bcec580ba079531" category="section-title">FlexGroup</block>
   <block id="f203949f2e35204098b66b9c1519b66e" category="paragraph">ONTAP 9.8 では、 vSphere で FlexGroup データストアがサポートされるようになり、 VMware vSphere 9.8 リリース用の ONTAP ツールも追加されています。FlexGroup を使用すると、大容量のデータストアを簡単に作成でき、複数のコンスティチュエントボリュームを自動的に作成して、 ONTAP システムのパフォーマンスを最大限に高めることができます。フル機能の ONTAP クラスタを利用して、拡張性に優れた単一の vSphere データストアで FlexGroup を使用できます。</block>
   <block id="6829bc8d3038be0130fd2b409ad5e560" category="paragraph">ONTAP 9.8 では、 vSphere のワークロードを使用した広範なシステムテストに加えて、 FlexGroup データストアのコピーオフロードメカニズムも新たに追加されました。強化されたコピーエンジンを使用して、バックグラウンドのコンスティチュエント間でファイルをコピーすると同時に、ソースとデスティネーションの両方でアクセスを許可します。複数のコピーを使用すると、構成要素内で、スペース効率に優れた使用可能なファイルクローンを、大規模に応じて即座に利用できます。</block>
@@ -2271,7 +2240,6 @@
   <block id="d190c5fcdf8146c1dd7aad1140be4e64" category="list-text">FlexGroup プロビジョニングのデフォルトを使用する。VMware vSphere 用の ONTAP ツールは vSphere 内で FlexGroup を作成およびマウントするため推奨されますが、 ONTAP System Manager やコマンドラインを使用すると特別なニーズを満たすことができます。さらに、ノードあたりのコンスティチュエントメンバー数などのデフォルトも使用します。これは、 vSphere でテスト済みの構成メンバー数であるためです。</block>
   <block id="9f3fa65c2cc36eabd2228b984c30c5e1" category="list-text">FlexGroup データストアのサイジングを行う場合、 FlexVol は、より大容量のネームスペースを作成する複数の小さい FlexGroup で構成されることに注意してください。そのため、最大の仮想マシンの 8 倍以上のサイズのデータストアに設定してください。たとえば、使用している環境に 6TB の VM がある場合、 FlexGroup データストアのサイズは 48TB 以上にする必要があります。</block>
   <block id="5fbee6b763967c822bb1e4a31665b11d" category="list-text">FlexGroup によるデータストアスペースの管理を許可します。オートサイズと Elastic サイジングは、 vSphere データストアでテスト済みです。データストアの容量がフルに近くなった場合は、 VMware vSphere 用の ONTAP ツールまたは別のツールを使用して、 FlexGroup ボリュームのサイズを変更します。FlexGroup は、容量と inode をコンスティチュエント間で分散して維持し、容量が許容される場合はフォルダ（ VM ）内のファイルに同じコンスティチュエントへの優先順位を付けます。</block>
-  <block id="c4528ad57baf62254d165d4e907e6f59" category="list-text">VMware とネットアップは、現在、一般的なマルチパスネットワークアプローチをサポートしていません。NFSv4.1 では、ネットアップは pNFS をサポートしていますが、 VMware はセッショントランキングをサポートしています。NFSv3 は、ボリュームへの複数の物理パスをサポートしていません。ONTAP 9.8 を使用した FlexGroup の場合、 VMware vSphere 用の ONTAP ツールを 1 つのマウントにすることを推奨します。これは、間接アクセスによる影響が通常は最小限（マイクロ秒）であるためです。ラウンドロビン DNS を使用して、 FlexGroup 内の異なるノード上の LIF に ESXi ホストを分散することは可能ですが、その場合、 VMware vSphere 用の ONTAP ツールを使用せずに FlexGroup を作成してマウントする必要があります。その場合、パフォーマンス管理機能は使用できません。</block>
   <block id="f5f11bb6aa98d02453eca36d5d1d2e19" category="list-text">FlexGroup vSphere データストアのサポートは、 9.8 リリースで最大 1500 台の VM でテスト済みです。</block>
   <block id="f48591b3ae898f29a551a2995a7dcfe8" category="list-text">コピーオフロードには、 NFS Plug-in for VMware VAAI を使用します。クローニングは FlexGroup データストア内で強化 ONTAP されますが、 FlexVol ボリュームと FlexGroup ボリュームの間で VM をコピーする場合に、 ESXi ホストコピーと比べてパフォーマンス面で大きなメリットはありません。</block>
   <block id="57a0d1deb8da99d321814990d26d21ed" category="list-text">VMware vSphere 9.8 用の ONTAP ツールを使用すると、 ONTAP メトリック（ダッシュボードと VM レポート）を使用して FlexGroup VM のパフォーマンスを監視し、個々の VM の QoS を管理できます。現時点では、これらの指標は ONTAP コマンドや API では使用できません。</block>
@@ -16194,4 +16162,43 @@
   <block id="70542da4927194cf41c777029ebe56be" category="cell">ブログを追加：「Protect Your SQL Server Workloads Using NetApp SnapCenter with Amazon FSX for NetApp ONTAP 」をご覧ください</block>
   <block id="577322186c067590a18f8891be57e7e4" category="inline-link-macro">NetApp SnapCenter とAmazon FSX for NetApp ONTAP を使用して、SQL Serverのワークロードを保護します</block>
   <block id="c1b7f59fc598d7a811682707bcd4eb40" category="list-text"><block ref="c1b7f59fc598d7a811682707bcd4eb40" category="inline-link-macro-rx"></block></block>
+  <block id="af8dcb8c7a1e8b7e614e570806d8dcee" category="paragraph">VMware vSphereとONTAP ソフトウェアを実行しているシステム上のデータストアの接続には、次の7つのプロトコルが使用されます。</block>
+  <block id="a7c815fafe60ae637d38216fa6300395" category="list-text">FCP</block>
+  <block id="8b7c42123642e2e4ea7dd426aeb2de58" category="list-text">NVMe/FC</block>
+  <block id="f7d773fd2896401c143676940bc001fc" category="list-text">NFS v3</block>
+  <block id="0b99b245267ef194ca3b9f6e694b0983" category="list-text">NFS v4.1</block>
+  <block id="cfa070ed8af17c3125cfd1530fbd387a" category="paragraph">FCP、FCoE、NVMe/FC、NVMe/FC、NVMe/FC、NVMe/FC、およびiSCSIはブロックプロトコルで、vSphere Virtual Machine File System（VMFS）を使用して、ONTAP FlexVol ボリュームに含まれるONTAP LUNまたはNVMeネームスペースにVMを格納します。vSphere 7.0 以降では、 VMware は本番環境でのソフトウェア FCoE をサポートしなくなりました。NFS はファイルプロトコルで、 VM をデータストア（ ONTAP ボリューム）に配置し、 VMFS を必要としません。SMB（CIFS）、iSCSI、NVMe/FC、NFSもゲストOSからONTAP に直接使用できます。</block>
+  <block id="7469c178e150e10730dcab1094765f10" category="paragraph">以下の表に、 vSphere でサポートされる従来のデータストア機能と ONTAP を示します。この情報はVVOLデータストアには該当しませんが、通常は、サポートされているONTAP リリースを使用する環境 vSphere 6.x以降のリリースで使用されます。を参照することもできます<block ref="26c5407c98ec413c85131fd8c0d178b4" category="inline-link-rx"></block> 個々の vSphere リリースに固有の制限を確認するため。</block>
+  <block id="6151632541dcd80356c6c76b34d69d0c" category="cell">NVMe-oF</block>
+  <block id="18263a30df8afc60a733e59c60676ac0" category="cell">VMFS</block>
+  <block id="aa23f9914ce1939ea7a4d479edfdc915" category="cell">ホストあたり1、024個のLUN</block>
+  <block id="1af3b27207afc48a363629a315d76b59" category="cell">サーバあたり1、024個のLUN</block>
+  <block id="0705fd627c25b5fba17cd9a022ed7d72" category="cell">サーバごとに256名を指定します</block>
+  <block id="b4fb1d41fedaec79072964cbb4d16e3d" category="cell">データストアの最大ファイルサイズ</block>
+  <block id="fe299bb060ce245b8fe190de21d3978e" category="cell">16TBまたは62TB（ONTAP 9.12.1RC1以降で大容量ファイルが有効な場合）</block>
+  <block id="ca6e77250a239af7b4aed9a1ac058825" category="cell">自動ネゴシエーション</block>
+  <block id="bad19bc2587cd465cab5cec5a13aa306" category="cell">のNFS.MaxQueueDepthを参照してください<block ref="0391a4aaf03ed2bf80fb4efb215797d0" category="inline-link-rx"></block>。</block>
+  <block id="d6407966cf588d8d78d4f7e65f1ea6fd" category="cell">v3のみ**</block>
+  <block id="50ed43e1a7a22335069a344bc706b600" category="cell">はい、新しい高性能プラグイン（HPP）を使用して</block>
+  <block id="5663fa28fe2a703e07072185e3a90a94" category="paragraph">* VMFSデータストア内でマルチライター対応のVMDKを使用するのではなく、Microsoftクラスタにゲスト内iSCSIを使用することを推奨します。このアプローチは Microsoft と VMware によって完全にサポートされており、 ONTAP （オンプレミスまたはクラウドの ONTAP システムへの SnapMirror ）を使用した優れた柔軟性、設定と自動化が容易で、 SnapCenter で保護できます。vSphere 7 で、新しいクラスタ化された VMDK オプションが追加されました。これは、マルチライター対応のVMDKとは異なります。マルチライター対応のVMDKを使用するには、クラスタ化されたVMDKをサポートするFCプロトコルを介して提供されるデータストアが必要です。その他の制限が適用されます。「 VMware 」を参照してください<block ref="b158594c147457b5b6417413cb30f800" category="inline-link-rx"></block> 設定ガイドラインについては、ドキュメントを参照してください</block>
+  <block id="e2bd40041a6472b580305ce9017b0b2e" category="paragraph">** NVMe-oFとNFS v4.1を使用するデータストアには、vSphereレプリケーションが必要です。アレイベースのレプリケーションはSRMではサポートされていません。</block>
+  <block id="b8c499c7b537f5bd4e51b0a6d6a1e9d0" category="list-text">ONTAP NFS データストアを使用して vSphere を導入することで、高性能でありながら管理が容易な実装を実現でき、ブロックベースのストレージプロトコルでは達成できない VM / データストア比率が提供されます。このアーキテクチャでは、データストア密度を 10 倍に増やすことも可能で、それに伴いデータストアの数は減少します。データストアのサイズを大きくするとストレージ効率が向上し、運用上のメリットが得られますが、ハードウェアリソースのパフォーマンスを最大限に引き出すためには、少なくとも 4 つのデータストア（ FlexVol ボリューム）を使用して 1 つの ONTAP コントローラに VM を格納することを検討してください。また、異なるリカバリポリシーを使用してデータストアを確立することもできます。ビジネスニーズに基づいて、他のバックアップや複製の頻度を高められるものもあります。FlexGroup ボリュームは設計上拡張できるため、複数のデータストアを使用する必要はありません。</block>
+  <block id="241f8fed1e3a823fcd4d0c1eb705b1a2" category="list-text">FlexVol ボリューム、および ONTAP 9.8 以降の FlexGroup ボリューム、 NFS データストアの使用を推奨します。VMware vSphere 用の ONTAP ツールでは現在サポートされていないため、 qtree などの他の ONTAP ストレージコンテナの使用は一般に推奨されません。データストアレベルのクォータや VM ファイルクローンの恩恵を受ける高度に自動化された環境では、 1 つのボリューム内の複数の qtree としてデータストアを導入すると便利です。</block>
+  <block id="964a81e46088ae1cc6306072464a9d73" category="list-text">または、 VMFS データストアを、 FC 、 iSCSI または FCoE でアクセスする LUN で構成することもできます。VMFS を使用すると、クラスタ内の各 ESX サーバから同時に従来型の LUN にアクセスすることができます。VMFS データストアは、最大 64TB まで拡張でき、最大 32 個の 2TB LUN （ VMFS 3 ）または単一の 64TB LUN （ VMFS 5 ）で構成できます。ONTAP の最大LUNサイズは、ほとんどのシステムで16TBで、オールSANアレイシステムでは128TBです。したがって、ほとんどの ONTAP システムでは、最大サイズの VMFS 5 データストアを、 4 つの 16TB LUN を使用して作成できます。複数のLUN（ハイエンドのFAS またはAFF システムを使用）を使用する高I/Oワークロードではパフォーマンス上のメリットを得られますが、データストアLUNの作成、管理、保護の複雑さが増し、可用性のリスクが増大することで、このメリットを相殺することができます。ネットアップでは、通常、各データストアに 1 つの大きな LUN を使用し、 16TB を超えるデータストアを追加する必要がある場合にのみスパンすることを推奨しています。NFS と同様に、複数のデータストア（ボリューム）を使用することで、 1 台の ONTAP コントローラのパフォーマンスを最大化することを検討してください。</block>
+  <block id="040ffbbbbeda558bdae1e07f5371b4f5" category="list-text">CiscoのVirtual PortChannel（vPC）などのマルチシャーシリンクアグリゲーショングループアプローチを使用して、2つの別 々 のスイッチシャーシ上のポートのリンクアグリゲーションをサポートするスイッチを使用します。</block>
+  <block id="19d137845c7f6687c99b386dfad0aa97" category="list-text">LACPが設定されたdvSwitches 5.1以降を使用していない場合、ESXiに接続されているスイッチポートのLACPを無効にします。</block>
+  <block id="30254a2bb3e4b3b958b06d08c724e7db" category="list-text">LACPを使用して、IPハッシュを持つダイナミックマルチモードインターフェイスグループを持つONTAP ストレージシステムのリンクアグリゲートを作成します。</block>
+  <block id="d608421cceb8e4c584a2a32d9127879e" category="list-text">ESXiでIPハッシュチーミングポリシーを使用します。</block>
+  <block id="ba78d695573c8d4f1205452c675fa539" category="paragraph">* SVM LIFは、VLANやMTUなどが設定されたポート、インターフェイスグループ、またはVLANインターフェイスに接続します。ただし、設定の管理はSVMレベルではありません。</block>
+  <block id="631e164314a103fe3183b00b759057b2" category="paragraph">SLM は、特定の LUN へのパスをアドバタイズするノードを制限します。ネットアップのベストプラクティスでは、各 SVM のノードごとに少なくとも 1 つの LIF を配置し、 SLM を使用して、 LUN とその HA パートナーをホストするノードへのアドバタイズパスを制限することを推奨しています。他のパスは存在しますが、デフォルトではアドバタイズされません。SLM 内で、レポートノードの追加引数および削除引数を使用して通知されたパスを変更することができます。8.3 より前のリリースで作成された LUN ではすべてのパスがアドバタイズされるため、ホストしている HA ペアへのパスのみがアドバタイズされるように変更する必要があることに注意してください。SLM の詳細については、のセクション 5.9 を参照してください<block ref="c6b12416d518b4689065ffe16afe88db" category="inline-link-rx"></block>。以前のポートセットの方式を使用すると、 LUN の使用可能なパスをさらに削減できます。ポートセットを使用すると、 igroup 内のイニシエータが LUN を認識する際に経由可能なパス数を減らすことができます。</block>
+  <block id="7b997b3be9c993d49799dd9d71d8c3f6" category="list-text">VMware は、 VMware Infrastructure 3 以降で NFSv3 をサポートしています。vSphere 6.0 では NFSv4.1 がサポートされるようになり、 Kerberos セキュリティなどの高度な機能が使用できるようになりました。NFSv3 ではクライアント側のロックが使用され、 NFSv4.1 ではサーバ側のロックが使用されます。ONTAP ボリュームは両方のプロトコルでエクスポートできますが、 ESXi は 1 つのプロトコルでしかマウントできません。この単一プロトコルのマウントにより、他の ESXi ホストが同じデータストアを別のバージョンでマウントすることができるわけではありません。すべてのホストが同じバージョン、つまり同じロック形式を使用するように、マウント時に使用するプロトコルバージョンを指定してください。NFS のバージョンをホスト間で混在させないでください。可能であれば、ホストプロファイルを使用して準拠しているかどうかを確認します</block>
+  <block id="d8119941da55a672db49a624330ea7f0" category="list-text">NFS エクスポートポリシーは、 vSphere ホストによるアクセスの制御に使用されます。複数のボリューム（データストア）で 1 つのポリシーを使用できます。NFSv3 では、 ESXi で sys （ UNIX ）セキュリティ形式が使用され、 VM を実行するためにルートマウントオプションが必要となります。ONTAP では、このオプションはスーパーユーザと呼ばれます。スーパーユーザオプションを使用する場合は、匿名ユーザ ID を指定する必要はありません。の値が異なるエクスポートポリシールールに注意してください<block ref="ea72d12ecaa06afdb0c8a3b15e485e95" prefix=" " category="inline-code"></block> および<block ref="df809a941c1287d18c08bb5927b639dc" prefix=" " category="inline-code"></block> 原因 SVM検出がONTAP ツールで問題を検出できるかどうか。ポリシーの例を次に示します。</block>
+  <block id="0bbc71e6a4ea49af70dd616d3807e524" category="list-text">匿名UIDの形式です</block>
+  <block id="49bb4e84b97bfe104e9fe7eb7df07a38" category="list-text">NFS データストアのボリュームは SVM のルートボリュームからジャンクションされるため、 ESXi がデータストアボリュームに移動してマウントするためにはルートボリュームへのアクセス権も必要となります。ルートボリューム、およびデータストアボリュームのジャンクションがネストされているその他のボリュームのエクスポートポリシーには、 ESXi サーバに読み取り専用アクセスを許可するルールが含まれている必要があります。VAAI プラグインを使用したルートボリュームのポリシーの例を次に示します。</block>
+  <block id="8c93fb3ff528165613797962f5a0ed9c" category="list-text">Access Protocol：nfs（nfs3とnfs4の両方を含む）</block>
+  <block id="80e6a4f964e826c69c1c62bd5ea67590" category="list-text">RW Access Rule：never（ルートボリュームに最適なセキュリティ）</block>
+  <block id="f96625174b4a06d13267f9b0a5a96d59" category="list-text">superuser：sys（VAAIを使用するルートボリュームの場合も必要）</block>
+  <block id="23aa7b9aeed3fba2a1ec43e630313af7" category="list-text">プラグインを使用してVMwareクラスタ用のデータストアを作成するときは、単一のESXサーバではなくクラスタを選択します。これにより、データストアがクラスタ内のすべてのホストに自動的にマウントされます。</block>
+  <block id="313611996c05f7257ad3043572759306" category="cell">ESXi 7.0U3f以降では、ONTAP 9.12.1RC1以降でのセッショントランキングがサポートされます</block>
+  <block id="1abaee3673de53b378351ee9dc679daa" category="list-text">VMware とネットアップは、現在、一般的なマルチパスネットワークアプローチをサポートしていません。NFSv4.1 では、ネットアップは pNFS をサポートしていますが、 VMware はセッショントランキングをサポートしています。NFSv3 は、ボリュームへの複数の物理パスをサポートしていません。ONTAP 9.8 を使用した FlexGroup の場合、 VMware vSphere 用の ONTAP ツールを 1 つのマウントにすることを推奨します。これは、間接アクセスによる影響が通常は最小限（マイクロ秒）であるためです。ラウンドロビン DNS を使用して、 FlexGroup 内の異なるノード上の LIF に ESXi ホストを分散することは可能ですが、その場合、 VMware vSphere 用の ONTAP ツールを使用せずに FlexGroup を作成してマウントする必要があります。その場合、パフォーマンス管理機能は使用できません。</block>
 </blocks>
