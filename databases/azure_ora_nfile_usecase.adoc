@@ -1,0 +1,27 @@
+---
+sidebar: sidebar 
+permalink: databases/azure_ora_nfile_usecase.html 
+summary: このベストプラクティスガイドでは、Azure NetApp Files StorageとAzure VM上にOracleデータベースを導入し、保護するための解決策 について詳しく説明します。 
+keywords: database, Oracle, Azure NetApp files, Azure 
+---
+= TR-4954：『Oracle Database Deployment and Protection on Azure NetApp Files 』
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:table-stripes: odd
+:imagesdir: ./../media/
+
+
+ネットアップ、Niyaz Mohamed、Allen Cao氏
+
+ミッションクリティカルなOracleエンタープライズデータベースの多くはオンプレミスでホストされており、多くの企業はこれらのOracleデータベースをパブリッククラウドに移行しようとしています。このようなOracleデータベースはアプリケーション中心のものであるため、ユーザ固有の設定が必要になることがよくあります。これは、多くのパブリッククラウドサービスが提供するデータベースサービスに欠けている機能です。そのため、現在のデータベース環境では、パフォーマンスと拡張性に優れたコンピューティングおよびストレージサービスを基盤に構築されたパブリッククラウドベースのOracleデータベース解決策 が、独自の要件に対応できるようになっている必要があります。Azure仮想マシンのコンピューティングインスタンスとAzure NetApp Files ストレージサービスが、ミッションクリティカルなOracleデータベースワークロードの構築とパブリッククラウドへの移行に利用できる不足しているパズルのピースになるかもしれません。
+
+Azure仮想マシンは、Azureが提供するオンデマンドで拡張性に優れたコンピューティングリソースのうちの1つです。通常、コンピューティング環境をより細かく制御する必要がある場合は、他の選択肢よりも仮想マシンを選択します。Azure仮想マシンを使用すると、コンピューティング負荷の高いワークロードでもメモリ負荷の高いワークロードでも、Oracleデータベースの実行に必要な特定の構成を備えたコンピュータをすばやく簡単に作成できます。Azure Virtual Network内の仮想マシンは、セキュリティで保護されたVPNトンネルなどを介して、組織のネットワークに簡単に接続できます。
+
+Azure NetApp Files はフルマネージドのMicrosoftサービスで、これまで以上に高速かつ安全にデータベースワークロードをクラウドに移行できます。Oracleデータベースなどのハイパフォーマンスワークロードをクラウドで実行する場合のコア要件を満たすように設計されており、実際に必要とされるIOPS、低レイテンシ、高可用性、高耐久性、大規模な管理性を反映したパフォーマンス階層を提供します。高速で効率的なバックアップ、リカバリ、クローニングを実現します。Azure NetApp Files は、Azureデータセンター環境内で実行される物理オールフラッシュNetApp ONTAP システムに基づいているため、これらの機能を実現できます。Azure NetApp Files は、Azure DCおよびポータルに完全に統合されており、お客様は、他のAzureオブジェクトと同様に、共有ファイルの作成と管理に、同じ快適なグラフィカルインターフェイスとAPIを使用できます。Azure NetAppのファイルを使用すれば、リスク、コスト、時間を増やすことなくAzureのすべての機能を活用し、Azureネイティブの唯一のエンタープライズファイルサービスを信頼できます。
+
+本ドキュメントでは、オンプレミスシステムと同様のパフォーマンスと耐久性を提供するAzure仮想マシンとAzure NetApp Files ストレージサービスを使用して、Oracleデータベースを導入、設定、および保護する方法について詳しく説明します。ベストプラクティスのガイダンスについては、TR-4780を参照してください link:https://www.netapp.com/media/17105-tr4780.pdf["Microsoft Azure上のOracleデータベース"^]。さらに重要なのは、AzureパブリッククラウドでOracleデータベースワークロードの導入、構成、データ保護、移行、管理に必要なほとんどのタスクを自動化する自動化ツールキットも提供されている点です。自動化ツールキットは、ネットアップのパブリックGitHubサイトからダウンロードできます。 link:https://github.com/NetApp-Automation/["ネットアップ-自動化"^]。
+
+link:azure_ora_nfile_architecture.html["次は、ソリューションアーキテクチャです。"]

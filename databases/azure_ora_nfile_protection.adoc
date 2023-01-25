@@ -1,0 +1,243 @@
+---
+sidebar: sidebar 
+permalink: databases/azure_ora_nfile_protection.html 
+summary: このセクションでは、azacsnapツールを使用してOracleデータベースを保護し、Azure Blobに対してスナップショットのバックアップ、リストア、およびスナップショットの階層化を行う方法について説明します。 
+keywords: Oracle, Azure, database, backup, restore 
+---
+= AzureクラウドでOracleデータベースを保護
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:table-stripes: odd
+:imagesdir: ./../media/
+
+
+link:azure_ora_nfile_procedures.html["前の手順：導入手順"]
+
+
+
+== AzAcSnapツールを使用して、Oracleデータベースをスナップショットとともにバックアップします
+
+Azure Application-consistent Snapshotツール（AzAcSnap）は、サードパーティデータベースのデータ保護を可能にするコマンドラインツールです。このツールでは、ストレージスナップショットを取得する前に、それらをアプリケーションと整合性のある状態にするために必要なすべてのオーケストレーションを処理し、データベースを運用状態に戻します。
+
+Oracleの場合は、データベースをバックアップモードにしてSnapshotを作成し、データベースをバックアップモードから解除します。
+
+
+
+=== バックアップデータとログボリューム
+
+データベース・サーバ・ホストでは、snapshotコマンドを実行する単純なシェル・スクリプトを使用して、バックアップを設定できます。スクリプトは'crontabから実行するようにスケジュールできます
+
+一般に、バックアップの頻度はRTOとRPOに左右されます。Snapshotを頻繁に作成すると、より多くのストレージスペースが消費されバックアップの頻度とスペース消費のどちらを重視するかで差はありません。
+
+通常、データボリュームはログボリュームよりも多くのストレージスペースを消費します。したがって、数時間ごとにデータボリュームにSnapshotを作成し、ログボリュームには15~30分ごとにSnapshotを作成することができます。
+
+バックアップスクリプトおよびスケジュールの例を次に示します。
+
+データボリュームSnapshotの場合：
+
+[source, cli]
+----
+ # /bin/sh
+cd /home/azacsnap/bin
+. ~/.bash_profile
+azacsnap -c backup --volume data --prefix acao-ora01-data --retention 36
+azacsnap -c backup --volume other --prefix acao-ora01-log --retention 250
+----
+ログボリュームSnapshotの場合：
+
+[source, cli]
+----
+ # /bin/sh
+cd /home/azacsnap/bin
+. ~/.bash_profile
+azacsnap -c backup --volume other --prefix acao-ora01-log --retention 250
+----
+crontabスケジュール：15,30,45**/ HOME /azacsnap/ snap_log.sh 0*/2 */home/azacsnap/ snap_data.sh
+
+
+NOTE: バックアップを設定する場合 `azacsnap.json` 構成ファイルで、バイナリボリュームを含むすべてのデータボリュームをに追加します `dataVolume` すべてのログボリュームをに追加します `otherVolume`。Snapshotの最大保持数は250個です。
+
+
+
+=== Snapshotを検証します
+
+Azure portal > Azure NetApp Files / volumesに移動して、Snapshotが正常に作成されているかどうかを確認します。
+
+image:db_ora_azure_anf_snap_01.PNG["このスクリーンショットは、Snapshotリスト内の2つのファイルを示しています。"]
+image:db_ora_azure_anf_snap_02.PNG["このスクリーンショットは、Snapshotリスト内の8つのファイルを示しています。"]
+
+
+
+== ローカルバックアップからのOracleのリストアとリカバリ
+
+Snapshotバックアップには、ソースデータベースボリュームと共存できるという大きなメリットがあります。プライマリデータベースボリュームは、ほぼ瞬時にロールバックできます。
+
+
+
+=== プライマリ・サーバ上のOracleのリストアとリカバリ
+
+次の例は、同じOracleホストのAzureダッシュボードとCLIからOracleデータベースをリストアおよびリカバリする方法を示しています。
+
+. リストアするデータベースにテストテーブルを作成します。[oracle @acao - ora01 ~] sqlplus / as sysdba
++
+SQL*Plus:リリース19.0.0.0.0 -生産開始(月)19:02:35 2022バージョン19.8.0.0.0
+
++
+Copyright （ c ） 1982 、 2019 、 OracleAll rights reserved.
+
++
+接続先： Oracle Database 19C Enterprise Edition Release 19.0.0.0.0 - Production Version 19.8.0.0.0
+
++
+SQL> CREATE TABLE testsnapshot（id integer、event varchar（100）、dt timestamp）；
+
++
+テーブルが作成されました
+
++
+SQL>テストスナップショット値に挿入（1、「スナップショットリストアを検証するためのデータマーカーの挿入」、sysdate）；
+
++
+1行が作成されました。
+
++
+SQL>コミット；
+
++
+コミットが完了しました。
+
++
+SQL > testsnapshotから*を選択；
+
++
+ ID
++
+[listing]
+----
+EVENT
+--------------------------------------------------------------------------------
+DT
+---------------------------------------------------------------------------
+         1
+insert a data marker to validate snapshot restore
+12-SEP-22 07.07.35.000000 PM
+----
+. Snapshotバックアップのあとにテーブルを削除します。
++
+[oracle @acao - ora01 ~] sqlplus / as sysdba
+
++
+SQL * Plus：リリース19.0.0.0.0 -運用開始9月13日14：20：22 2022バージョン19.8.0.0.0
+
++
+Copyright （ c ） 1982 、 2019 、 OracleAll rights reserved.
+
++
+接続先： Oracle Database 19C Enterprise Edition Release 19.0.0.0.0 - Production Version 19.8.0.0.0
+
++
+SQL>ドロップテーブルtestsnapshot；
+
++
+テーブルがドロップされました
+
++
+SQL> Select * from testsnapshot；select * from testsnapshot * error at line 1：ORA-00942：table or view does not exist
+
++
+SQL>即時シャットダウン'データベースが閉じましたデータベースがディスマウントされてOracleインスタンスがシャットダウンされます。SQL> EXIT disconnected from Oracle Database 19C Enterprise Edition Release 19.0.0.0.0 - Production Version 19.8.0.0.0
+
+. Azure NetApp Files ダッシュボードで、ログボリュームを最新の使用可能なSnapshotにリストアします。「ボリュームを元に戻す」を選択します。
++
+image:db_ora_azure_anf_restore_01.PNG["このスクリーンショットは、ANFダッシュボードに表示されるボリュームのSnapshotリバートの方法を示しています。"]
+
+. ボリュームの復元を確認し、*復帰*をクリックして、ボリュームを使用可能な最新のバックアップに復元します。
++
+image:db_ora_azure_anf_restore_02.PNG["「よろしいですか？」スナップショットリバートのページです。"]
+
+. データボリュームに対して同じ手順を繰り返し、リカバリするテーブルがバックアップに含まれていることを確認します。
++
+image:db_ora_azure_anf_restore_03.PNG["このスクリーンショットは、ANFダッシュボードに表示されるデータボリュームのSnapshotリバートの方法を示しています。"]
+
+. ボリュームが復元されたことを再度確認し、[元に戻す]をクリックします。
++
+image:db_ora_azure_anf_restore_04.PNG["「よろしいですか？」データボリュームのSnapshotリバートに関するページ。"]
+
+. 制御ファイルのコピーが複数ある場合は、それらの制御ファイルを再同期し、古い制御ファイルを使用可能な最新のコピーに置き換えます。
++
+[Oracle@acao - ora01~]$MV/u02/ORATST/control01.ctal/u02/ORATST/control01.ctl.bk [Oracle@acao - ora01~]$cp /u03/orareco/ORATST/control02.ctl/ata/ctrla/ctrl01/ctrla/ctrla/ctrl01/ctrla/ctrla/ctrla/ctrla/ctrla/ctrl01/ctrla/ctrla/ctrla/ctrla/ctrla/ctrla/ctrla/
+
+. OracleサーバVMにログインしてsqlplusを使用してデータベースリカバリを実行してください。
++
+[oracle @acao - ora01 ~] sqlplus / as sysdba
+
++
+SQL * Plus：リリース19.0.0.0.0 -運用開始9月13日（火）15：10：17 2022バージョン19.8.0.0.0
+
++
+Copyright （ c ） 1982 、 2019 、 OracleAll rights reserved.
+
++
+アイドルインスタンスに接続されています。
+
++
+SQL>startup mount; Oracleインスタンスが開始されました。
+
++
+システム全体のグローバル領域6442448984バイト固定サイズ8910936バイト可変サイズ1090519040バイトデータベースバッファ5335154688バイトREDOバッファ7864320バイトデータベースをマウントSQL> RECOVER database using backup controlfile until cancel；ORA-00279：change 3188523 generated at 09/13/2022 10：00：09 THREAD 1 ORA-00289：suggestion：/u03/orareco/ORATST/archivelog /2022 _09_13/o1_mf_1_43_22rnq923 arc&rnq239q239q23 for thread sequence：/u03289239289239289_arc'スレッドで生成されたデータベースを変更する必要な場合：/u03
+
++
+ログを指定してください：｛<RET> = Suggested|filename|auto|cancel｝
+
++
+ORA-00279：Change 3188862 generated at 09/13/2022 10：01：20 needed for thread 1 ORA-00289：suggestion：/u03/orareco/ORATST/archivelog/2022 _09_13/o1_mf_1_29f2lgb5_ara.ara-002gb5_arc-00282ra-00289:20 for thread q122283_q13 for thread q12289_q13 arch_q12289_q12289_q/arc'1 for q13 arch_q1222_q13 for r309_q'309_arc'30' for r12289_arc'30' for rq1222_q'30289_q'30
+
++
+ログを指定してください：｛<RET> = Suggested|filename|auto|cancel｝
+
++
+ORA-00279：Change 3193117 generated at 09/13/2022 12:00:00 08 needed for thread 1 ORA-00289：suggestion：/u03/orareco/ORATST/archivelog/2022 _09_13/o1_mf_1_45_29h6qyw_ara.arc-002278' for thread 30_arc'1 for arch_00382030_g&qb350.3&qt_garc=00309_arc&q12289_arc&qt&q12220.3&qa3090.3&qa3090.3&qa309&qa3090.3&qa3090.3703&qa3090.3&qa309
+
++
+ログを指定してください：｛<RET> = Suggested|filename|auto|cancel｝
+
++
+ORA-00279：Change 3193440 generated at 09/13/2022 12：01：20 needed for thread 1 ORA-00289：suggestion：/u03/orareco/ORATST/archivelog/2022 _09_13/o1_mf_1_46% u_.arc ORA-00280：change 3193440 for thread qaq12289_ar' for thread q12_0030' arc'0030289_arc'30_qa30'に必要なリカバリには、次の場合は次の場合は次の場合に必要ですか、次の場合は次の場合は次の場合は次の場合は次の場合に必要です。/302022_q122022_q12_q
+
++
+ログを指定してください：｛<RET> = Suggested|filename|auto|cancel｝メディアリカバリがキャンセルされました。SQL> ALTER DATABASE OPEN resetlogs；
+
++
+データベースが変更されました
+
++
+SQL > testsnapshotから*を選択；
+
++
+ ID
++
+[listing]
+----
+EVENT
+--------------------------------------------------------------------------------
+DT
+---------------------------------------------------------------------------
+         1
+insert a data marker to validate snapshot restore
+12-SEP-22 07.07.35.000000 PM
+
+
+SQL> select systimestamp from dual;
+
+ SYSTIMESTAMP
+---------------------------------------------------------------------------
+13-SEP-22 03.28.52.646977 PM +00:00
+----
+
+
+この画面は、削除されたテーブルがローカルスナップショットバックアップを使用してリカバリされたことを示しています。
+
+link:azure_ora_nfile_migration.html["次：データベースの移行："]

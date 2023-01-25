@@ -12112,20 +12112,13 @@
   <block id="b25a4c32c9b6cc39890fa799e15301dc" category="paragraph">OracleサーバEC2インスタンスが制限要因となった場合、プロビジョニングされたFSXストレージ容量にIOPSまたはスループットが到達しませんでした。したがって、で説明するように、ユーザアプリケーションレベルのトランザクションボリュームに基づいて、コンピューティングとストレージのサイズを適切に設定する必要があります <block ref="fa519ff010063f0b425f11c556e4445d" category="inline-link-macro-rx"></block></block>
   <block id="fefc87f11b675de356ca673f3a346ac7" category="inline-link-macro">次：データベースの移行：</block>
   <block id="8996ba3a1cc79692db90ae4be7ef8dd3" category="paragraph"><block ref="8996ba3a1cc79692db90ae4be7ef8dd3" category="inline-link-macro-rx"></block></block>
-  <block id="20da1f90c59ba57d043ded8994bb7619" category="summary">このセクションでは、RDSとFSX ONTAP ストレージをカスタマイズした解決策 のカスタム導入アーキテクチャを説明します。</block>
   <block id="c739a7ae4891c6665d1f2f715d2efa3f" category="paragraph"><block ref="c739a7ae4891c6665d1f2f715d2efa3f" category="inline-link-macro-rx"></block></block>
   <block id="ca449b8ca808c6d325abf6b1a047318c" category="paragraph">次のアーキテクチャ図は、FSXストレージサービスを使用したAWS EC2インスタンスへの可用性の高いOracleデータベースの導入を示しています。同様の導入方式ですが、別のリージョンにスタンバイがある場合は、ディザスタリカバリ用に設定できます。</block>
-  <block id="a0cdfa3b119f53b827ebc38a9519b32d" category="paragraph">環境内では、OracleコンピューティングインスタンスはAWS EC2インスタンスコンソールを介して導入されます。コンソールから複数のEC2インスタンスタイプを使用できます。ネットアップでは、データベース指向のEC2インスタンスタイプ（RedHat Enterprise Linux 8を使用したm5 Amiイメージや最大10Gpsのネットワーク帯域幅など）を導入することを推奨しています。</block>
   <block id="228488653f80c4dfe7bd79d5f9634ea4" category="paragraph">一方、FSXボリューム上のOracleデータベースストレージは、AWS FSXコンソールまたはCLIとともに導入されます。その後、Oracleバイナリ、データ、またはログのボリュームが提供され、EC2インスタンスのLinuxホストにマウントされます。各データボリュームまたはログボリュームには、採用するストレージプロトコルに応じて複数のLUNを割り当てることができます。</block>
-  <block id="736415956026dd8a803e8e2f7c5f0f42" category="paragraph"><block ref="736415956026dd8a803e8e2f7c5f0f42" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="0537fe1ac97a9f2e83612f0789e84585" category="paragraph">FSXストレージ・クラスタは'二重の冗長性を備えて設計されているため'プライマリ・ストレージ・クラスタとスタンバイ・ストレージ・クラスタの両方が2つの異なるアベイラビリティ・ゾーンに配置されますデータベース・ボリュームは'すべてのOracleバイナリ'データ'およびログ・ボリュームに対して'ユーザーが構成可能な間隔で'プライマリFSXクラスタからスタンバイFSXクラスタに複製されます</block>
-  <block id="7a9829ab1a28b0d6ca9ddaee5874655a" category="paragraph">この高可用性Oracle環境は、AnsibleコントローラノードとSnapCenter バックアップサーバおよびUIツールで管理されます。Oracleのインストール、設定、レプリケーションは、Ansibleプレイブックベースのツールキットを使用して自動化されています。Oracle EC2インスタンスカーネルのオペレーティングシステムまたはOracleパッチ適用に対するすべての更新を並行して実行することで、プライマリとスタンバイを同期させることができます。実際、初期の自動化セットアップを簡単に拡張して、必要に応じて日々のOracleタスクを何度も実行することができます。</block>
   <block id="be571c48040d6c3bf764ba40188888d2" category="paragraph">SnapCenter では、Oracleデータベースのポイントインタイムリカバリや、必要に応じてプライマリゾーンまたはスタンバイゾーンでのデータベースクローニングのワークフローを提供しています。SnapCenter UIを使用して'OracleデータベースのバックアップとスタンバイFSXストレージへのレプリケーションを構成し'RTO（目標復旧時間）またはRPO（目標復旧時間）に基づいて高可用性または災害復旧を実現できます</block>
   <block id="be22c0b35f58a932be14c9e55b163ac4" category="paragraph">解決策 は、Oracle RACおよびData Guardの導入と同様の機能を提供する代替プロセスを提供します。</block>
   <block id="72db8e2a11aee3fd6b5ea401c9adcbd6" category="inline-link-macro">次の手順：導入手順</block>
-  <block id="6487ec60d16ab8bf4ce0aa7ebaf86b4f" category="paragraph"><block ref="6487ec60d16ab8bf4ce0aa7ebaf86b4f" category="inline-link-macro-rx"></block></block>
   <block id="f3b25b37995dab3a1b6c753dd74ca21e" category="summary">このセクションでは、AWS RDSコンソールUIに加え、SnapCenter UIを使用してOracleデータベース用のAWS RDSカスタムを管理する方法を詳しく説明します。</block>
-  <block id="021f869e266a6eaa7e446e54dfc71149" category="doc">EC2/FSX Oracleデータベース管理</block>
   <block id="39ebdf3133bce223758100b117a98e70" category="inline-link-macro">前の手順：導入手順</block>
   <block id="cac2d984db56d4f9cd9b1f85b3cf0c5c" category="paragraph"><block ref="cac2d984db56d4f9cd9b1f85b3cf0c5c" category="inline-link-macro-rx"></block></block>
   <block id="cf8b301cbf8aa698c578ff1f8e64ccc2" category="paragraph">このOracle環境では、AWS EC2とFSXの管理コンソールに加え、Ansible制御ノードとSnapCenter UIツールを使用してデータベースを管理できます。</block>
@@ -12234,7 +12227,6 @@
   <block id="c3fd0f78855e219b0fd44077ce74e7b5" category="paragraph">これらの手順は、NetApp Automation Toolkitを使用して実行できます。このツールキットは、パブリックのNetApp GitHubサイトからダウンロードできます。</block>
   <block id="ba4d6e5d6eeea04cdc5a4f243b1e5dd8" category="paragraph">セットアップとフェイルオーバーのテストを行う前に、READMEの手順をよくお読みください。</block>
   <block id="7d34df46082e5771e092eb8736597ee0" category="summary">このセクションでは、FSXストレージを使用してOracle RDSカスタムデータベースを導入する手順について説明します。</block>
-  <block id="b8a2bfa78779af1958bed97119657167" category="doc">AWS EC2/FSXでのOracleの導入手順をステップバイステップで説明します</block>
   <block id="072a1cb4963593f78b428b4c9a0dcc4f" category="inline-link-macro">以前のバージョン：解決策 アーキテクチャ。</block>
   <block id="ef081c8f35bca2da08c6dbdd6f48a6cd" category="paragraph"><block ref="ef081c8f35bca2da08c6dbdd6f48a6cd" category="inline-link-macro-rx"></block></block>
   <block id="f70ec60e40ece5900605229a28081b13" category="section-title">EC2コンソールを使用して、OracleのEC2 Linuxインスタンスを導入します</block>
@@ -12390,7 +12382,6 @@
   <block id="b2d9cc2beb2b12bdad529e6d42551092" category="inline-link-macro">次の例は、データベース管理です。</block>
   <block id="454fb11269c81c93532752028abffbcd" category="paragraph"><block ref="454fb11269c81c93532752028abffbcd" category="inline-link-macro-rx"></block></block>
   <block id="8a1d7e9120e3db2795bd53b504018b4e" category="summary">このホワイトペーパーでは、AWS向けにカスタマイズされたOracle RDSデータベースHAおよびDR用の解決策 の概要と検証について説明し、複数のアベイラビリティゾーン環境でAWS FSXストレージサービスを利用しています。</block>
-  <block id="9ae9d82ee587bffe09c5b3c745d93c1c" category="doc">WP-7357：『Oracle Database Deployment on EC2/FSX Best Practices Introduction』</block>
   <block id="b4c8c277e19db14e178b1060214b896e" category="paragraph">ネットアップ、Niyaz Mohamed、Jeffrey Steiner、Allen Cao氏</block>
   <block id="6848412b0f30d614f7e0bcd903cac052" category="paragraph">ミッションクリティカルなエンタープライズOracleデータベースの多くはオンプレミスでホストされており、多くの企業はこれらのOracleデータベースをパブリッククラウドに移行しようとしています。このようなOracleデータベースはアプリケーション中心のものであるため、ユーザ固有の設定が必要になることがよくあります。これは、多くのパブリッククラウドサービスが提供するデータベースサービスに欠けている機能です。そのため、現在のデータベース環境では、パフォーマンスと拡張性に優れたコンピューティングおよびストレージサービスを基盤に構築されたパブリッククラウドベースのOracleデータベース解決策 が、独自の要件に対応できるようになっている必要があります。AWS EC2コンピューティングインスタンスとAWS FSXストレージサービスは、ミッションクリティカルなOracleデータベースワークロードを構築してパブリッククラウドに移行するためのパズルのピースとして欠けているかもしれません。</block>
   <block id="37b7c86d51875922e0a9f122a670aa62" category="paragraph">Amazon Elastic Compute Cloud（Amazon EC2）は、サイズ変更が可能なセキュアなコンピューティング容量をクラウドで提供するWebサービスです。Webスケールのクラウドコンピューティングを企業にとって容易にするように設計されています。シンプルなAmazon EC2 Webサービスインターフェイスを使用すると、摩擦を最小限に抑えて容量を取得し、設定できます。コンピューティングリソースを完全に管理し、Amazonの実績あるコンピューティング環境で実行できます。</block>
@@ -12678,7 +12669,6 @@
   <block id="18d4f7e36efb77494db296ea83bc4753" category="paragraph">ネットアップとともに導入されたベアメタルクラスタ上のAnthosの詳細については、を参照してください <block ref="eb911f2bc48f3132c014132a2870169f" category="inline-link-macro-rx"></block>。</block>
   <block id="d6c97ba6a05169248582981cf5627522" category="inline-link-macro">次の例は、VMware環境のAnthosクラスタです。</block>
   <block id="9954fadf8d7c9568ecdb434ffa0a15c1" category="paragraph"><block ref="9954fadf8d7c9568ecdb434ffa0a15c1" category="inline-link-macro-rx"></block></block>
-  <block id="d42437507a421bfdd38119d600ab0014" category="sidebar">AWS EC2/FSXのベストプラクティスにOracleデータベースを導入する</block>
   <block id="5ac7b083aa99c6ec0d7a272c37dc611d" category="sidebar">導入手順</block>
   <block id="71ab9d8f34c9ab92ef83627b823e9825" category="sidebar">データベース管理</block>
   <block id="c3b88d5ff29715f5f8dd3c907b3f1bc3" category="sidebar">データベースの移行</block>
@@ -16194,4 +16184,325 @@
   <block id="1abaee3673de53b378351ee9dc679daa" category="list-text">VMware とネットアップは、現在、一般的なマルチパスネットワークアプローチをサポートしていません。NFSv4.1 では、ネットアップは pNFS をサポートしていますが、 VMware はセッショントランキングをサポートしています。NFSv3 は、ボリュームへの複数の物理パスをサポートしていません。ONTAP 9.8 を使用した FlexGroup の場合、 VMware vSphere 用の ONTAP ツールを 1 つのマウントにすることを推奨します。これは、間接アクセスによる影響が通常は最小限（マイクロ秒）であるためです。ラウンドロビン DNS を使用して、 FlexGroup 内の異なるノード上の LIF に ESXi ホストを分散することは可能ですが、その場合、 VMware vSphere 用の ONTAP ツールを使用せずに FlexGroup を作成してマウントする必要があります。その場合、パフォーマンス管理機能は使用できません。</block>
   <block id="4ad396cb9b6773b012067ead8cf08611" category="doc">NetApp Disaster Recovery Orchestrator（DRO）の概要</block>
   <block id="88ac8db9784908706c34feb6caee9044" category="paragraph"><block ref="88ac8db9784908706c34feb6caee9044" category="inline-link-macro-rx"></block></block>
+  <block id="03b125f503e8b797be1fe5a21a10d220" category="summary">このセクションでは、azacsnapツールを使用してOracleデータベースを保護し、Azure Blobに対してスナップショットのバックアップ、リストア、およびスナップショットの階層化を行う方法について説明します。</block>
+  <block id="b47faaf85acf415e557bd0b669342659" category="doc">AzureクラウドでOracleデータベースを保護</block>
+  <block id="cec4dbc9c066ab7b22ef743151be75eb" category="paragraph"><block ref="cec4dbc9c066ab7b22ef743151be75eb" category="inline-link-macro-rx"></block></block>
+  <block id="06a2961d48a854a133ddfe05c7912732" category="section-title">AzAcSnapツールを使用して、Oracleデータベースをスナップショットとともにバックアップします</block>
+  <block id="30462dbcf926561966ea824afd44e355" category="paragraph">Azure Application-consistent Snapshotツール（AzAcSnap）は、サードパーティデータベースのデータ保護を可能にするコマンドラインツールです。このツールでは、ストレージスナップショットを取得する前に、それらをアプリケーションと整合性のある状態にするために必要なすべてのオーケストレーションを処理し、データベースを運用状態に戻します。</block>
+  <block id="07612935f16f2665ef52f490f9b1f43b" category="paragraph">Oracleの場合は、データベースをバックアップモードにしてSnapshotを作成し、データベースをバックアップモードから解除します。</block>
+  <block id="070d0b63c9af5e43d43102c1869d4262" category="section-title">バックアップデータとログボリューム</block>
+  <block id="7dd57abd8929da4f18cc94d1940161a1" category="paragraph">データベース・サーバ・ホストでは、snapshotコマンドを実行する単純なシェル・スクリプトを使用して、バックアップを設定できます。スクリプトは'crontabから実行するようにスケジュールできます</block>
+  <block id="087916fda35dba838b68193ed8bc3aeb" category="paragraph">一般に、バックアップの頻度はRTOとRPOに左右されます。Snapshotを頻繁に作成すると、より多くのストレージスペースが消費されバックアップの頻度とスペース消費のどちらを重視するかで差はありません。</block>
+  <block id="e2ece357797b760af1c814632edcf99d" category="paragraph">通常、データボリュームはログボリュームよりも多くのストレージスペースを消費します。したがって、数時間ごとにデータボリュームにSnapshotを作成し、ログボリュームには15~30分ごとにSnapshotを作成することができます。</block>
+  <block id="2a2c2eb0d2bde8c24cc55a11862ca857" category="paragraph">バックアップスクリプトおよびスケジュールの例を次に示します。</block>
+  <block id="e048ccd48425229cea678849ba68a190" category="paragraph">データボリュームSnapshotの場合：</block>
+  <block id="f0d6345b8e5345f55c21610283eaeedd" category="paragraph">ログボリュームSnapshotの場合：</block>
+  <block id="68b7e37ef318c0e56eabf3e1aded4216" category="paragraph">crontabスケジュール：15,30,45**/ HOME /azacsnap/ snap_log.sh 0*/2 */home/azacsnap/ snap_data.sh</block>
+  <block id="adf4ba1e0f3190afb18557f038ae1ecf" category="admonition">バックアップを設定する場合<block ref="8ed8c6bfea85d72bc4a36772490109c7" prefix=" " category="inline-code"></block> 構成ファイルで、バイナリボリュームを含むすべてのデータボリュームをに追加します<block ref="0fb9dff864caebba259b119756a2ce17" prefix=" " category="inline-code"></block> すべてのログボリュームをに追加します<block ref="5e5fb0a2540d102aeebc3dac60712494" prefix=" " category="inline-code"></block>。Snapshotの最大保持数は250個です。</block>
+  <block id="a93091ed018686dcf478589ba04fd6f6" category="section-title">Snapshotを検証します</block>
+  <block id="8a46f2968d5dc184634cff75cd1b8b8e" category="paragraph">Azure portal &gt; Azure NetApp Files / volumesに移動して、Snapshotが正常に作成されているかどうかを確認します。</block>
+  <block id="3542e11f657b779fcef8cc387987e9f2" category="inline-image-macro">このスクリーンショットは、Snapshotリスト内の2つのファイルを示しています。</block>
+  <block id="c2dd243538b072e19882bdcd6ac2c6c9" category="inline-image-macro">このスクリーンショットは、Snapshotリスト内の8つのファイルを示しています。</block>
+  <block id="af143d815dcd69aae3ff8d8bdde9fd58" category="paragraph"><block ref="bf87ea8d7de67f1fdc628b6bb4b400e5" category="inline-image-macro-rx" type="image"></block>
+<block ref="1d682e6513772285b95199f0646e28da" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="7479b02641600cb6142d8594c1360d11" category="section-title">ローカルバックアップからのOracleのリストアとリカバリ</block>
+  <block id="76265d8fce7f282b6ff5a8581df8879c" category="paragraph">Snapshotバックアップには、ソースデータベースボリュームと共存できるという大きなメリットがあります。プライマリデータベースボリュームは、ほぼ瞬時にロールバックできます。</block>
+  <block id="878609e3e12819fffdd7247406f655be" category="section-title">プライマリ・サーバ上のOracleのリストアとリカバリ</block>
+  <block id="8733b7b64c8d2c32caa423c7eb2955fc" category="paragraph">次の例は、同じOracleホストのAzureダッシュボードとCLIからOracleデータベースをリストアおよびリカバリする方法を示しています。</block>
+  <block id="aa30a622663e0f34541394e008fe82cd" category="list-text">リストアするデータベースにテストテーブルを作成します。[oracle @acao - ora01 ~] sqlplus / as sysdba</block>
+  <block id="ea16560565f3889db4dabf938628b462" category="paragraph">SQL*Plus:リリース19.0.0.0.0 -生産開始(月)19:02:35 2022バージョン19.8.0.0.0</block>
+  <block id="0409b2fce118cc126a532dea158d2943" category="paragraph">SQL&gt; CREATE TABLE testsnapshot（id integer、event varchar（100）、dt timestamp）；</block>
+  <block id="bec6da77877c0793c1d3eb6c6896e98e" category="paragraph">テーブルが作成されました</block>
+  <block id="a5b83945adfd5370663cb2d9c4f31d09" category="paragraph">SQL&gt;テストスナップショット値に挿入（1、「スナップショットリストアを検証するためのデータマーカーの挿入」、sysdate）；</block>
+  <block id="6ba18fa8fa7d170dfd8fc80f0f3d39f7" category="paragraph">1行が作成されました。</block>
+  <block id="d1d2dcb121f8bf8fd39724ea075c6409" category="paragraph">SQL&gt;コミット；</block>
+  <block id="a92090dde5e820fde0a68705ee3f2bd0" category="paragraph">コミットが完了しました。</block>
+  <block id="fd9736dfc88a182f9cb6e5f6a2b97487" category="paragraph">SQL &gt; testsnapshotから*を選択；</block>
+  <block id="2817b9cf9fc0cd0d8bf9fb03acbfc93f" category="list-text">Snapshotバックアップのあとにテーブルを削除します。</block>
+  <block id="07b56c53a9fec8c477afb0cb5f2394af" category="paragraph">[oracle @acao - ora01 ~] sqlplus / as sysdba</block>
+  <block id="dcd4d50ecf59b4752c161f0ddc44df44" category="paragraph">SQL * Plus：リリース19.0.0.0.0 -運用開始9月13日14：20：22 2022バージョン19.8.0.0.0</block>
+  <block id="bee0f13528c2f6f5b67053dc1e942328" category="paragraph">SQL&gt;ドロップテーブルtestsnapshot；</block>
+  <block id="cd85f26775e453b2177d5fcc6265b31d" category="paragraph">テーブルがドロップされました</block>
+  <block id="07e18ec921a195478cdbab47d8d68d89" category="paragraph">SQL&gt; Select * from testsnapshot；select * from testsnapshot * error at line 1：ORA-00942：table or view does not exist</block>
+  <block id="f06f4fbf6e3e0e45b0d4b241ceaf19c9" category="paragraph">SQL&gt;即時シャットダウン'データベースが閉じましたデータベースがディスマウントされてOracleインスタンスがシャットダウンされます。SQL&gt; EXIT disconnected from Oracle Database 19C Enterprise Edition Release 19.0.0.0.0 - Production Version 19.8.0.0.0</block>
+  <block id="09d4fe137595af1cc975247ba704462d" category="list-text">Azure NetApp Files ダッシュボードで、ログボリュームを最新の使用可能なSnapshotにリストアします。「ボリュームを元に戻す」を選択します。</block>
+  <block id="33ba8417b2640d4172513bbf9cbc3e55" category="inline-image-macro">このスクリーンショットは、ANFダッシュボードに表示されるボリュームのSnapshotリバートの方法を示しています。</block>
+  <block id="546b967f1ce32832a90c77282f0cdf2b" category="paragraph"><block ref="546b967f1ce32832a90c77282f0cdf2b" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="4b728fe18b10b9b611a1d3ab6acc0df9" category="list-text">ボリュームの復元を確認し、*復帰*をクリックして、ボリュームを使用可能な最新のバックアップに復元します。</block>
+  <block id="5c7deeb27ad1e0e4c1d6d52b2a2a1bfc" category="inline-image-macro">「よろしいですか？」スナップショットリバートのページです。</block>
+  <block id="ef80226ab5a9d2865852e606297da2cf" category="paragraph"><block ref="ef80226ab5a9d2865852e606297da2cf" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="18b9906dd2c95b12fdb987b7c2aa9917" category="list-text">データボリュームに対して同じ手順を繰り返し、リカバリするテーブルがバックアップに含まれていることを確認します。</block>
+  <block id="a38e609b2fd5c2dee1b4ccb1cbbac7d4" category="inline-image-macro">このスクリーンショットは、ANFダッシュボードに表示されるデータボリュームのSnapshotリバートの方法を示しています。</block>
+  <block id="f0d819988fad0119995986a2bdfd9ad6" category="paragraph"><block ref="f0d819988fad0119995986a2bdfd9ad6" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="fc824d4f774a64498f954eb2ebbc093b" category="list-text">ボリュームが復元されたことを再度確認し、[元に戻す]をクリックします。</block>
+  <block id="5e2296a09eabbd34b62da3492091ff33" category="inline-image-macro">「よろしいですか？」データボリュームのSnapshotリバートに関するページ。</block>
+  <block id="af5f9a99ee2d86856d0e2477e417dc4c" category="paragraph"><block ref="af5f9a99ee2d86856d0e2477e417dc4c" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="170b40e31285910539e0d464f2bf33a6" category="list-text">制御ファイルのコピーが複数ある場合は、それらの制御ファイルを再同期し、古い制御ファイルを使用可能な最新のコピーに置き換えます。</block>
+  <block id="952cd3804f479f3c31f123d064ccbdf5" category="paragraph">[Oracle@acao - ora01~]$MV/u02/ORATST/control01.ctal/u02/ORATST/control01.ctl.bk [Oracle@acao - ora01~]$cp /u03/orareco/ORATST/control02.ctl/ata/ctrla/ctrl01/ctrla/ctrla/ctrl01/ctrla/ctrla/ctrla/ctrla/ctrla/ctrl01/ctrla/ctrla/ctrla/ctrla/ctrla/ctrla/ctrla/</block>
+  <block id="bd99bc18393147b05e3f350eb6a61f47" category="list-text">OracleサーバVMにログインしてsqlplusを使用してデータベースリカバリを実行してください。</block>
+  <block id="125ab5cbfb90c4a6d038bcca4da6fdc4" category="paragraph">SQL * Plus：リリース19.0.0.0.0 -運用開始9月13日（火）15：10：17 2022バージョン19.8.0.0.0</block>
+  <block id="010621501012cd31b6666d17dad683d2" category="paragraph">アイドルインスタンスに接続されています。</block>
+  <block id="6bd3f70e5ab38ca26f8cabd390e15fc0" category="paragraph">SQL&gt;startup mount; Oracleインスタンスが開始されました。</block>
+  <block id="424459a4363a5afdd1e45d31fcd11efe" category="paragraph">システム全体のグローバル領域6442448984バイト固定サイズ8910936バイト可変サイズ1090519040バイトデータベースバッファ5335154688バイトREDOバッファ7864320バイトデータベースをマウントSQL&gt; RECOVER database using backup controlfile until cancel；ORA-00279：change 3188523 generated at 09/13/2022 10：00：09 THREAD 1 ORA-00289：suggestion：/u03/orareco/ORATST/archivelog /2022 _09_13/o1_mf_1_43_22rnq923 arc&amp;rnq239q239q23 for thread sequence：/u03289239289239289_arc'スレッドで生成されたデータベースを変更する必要な場合：/u03</block>
+  <block id="db9afd3f7adaff3fe1135208fa6b6a09" category="paragraph">ログを指定してください：｛&lt;RET&gt; = Suggested|filename|auto|cancel｝</block>
+  <block id="abc467423916c8ee7c16f566b4ab4ca8" category="paragraph">ORA-00279：Change 3188862 generated at 09/13/2022 10：01：20 needed for thread 1 ORA-00289：suggestion：/u03/orareco/ORATST/archivelog/2022 _09_13/o1_mf_1_29f2lgb5_ara.ara-002gb5_arc-00282ra-00289:20 for thread q122283_q13 for thread q12289_q13 arch_q12289_q12289_q/arc'1 for q13 arch_q1222_q13 for r309_q'309_arc'30' for r12289_arc'30' for rq1222_q'30289_q'30</block>
+  <block id="479d2dfa77fdcde3bfd41fcdebbca1ff" category="paragraph">ORA-00279：Change 3193117 generated at 09/13/2022 12:00:00 08 needed for thread 1 ORA-00289：suggestion：/u03/orareco/ORATST/archivelog/2022 _09_13/o1_mf_1_45_29h6qyw_ara.arc-002278' for thread 30_arc'1 for arch_00382030_g&amp;qb350.3&amp;qt_garc=00309_arc&amp;q12289_arc&amp;qt&amp;q12220.3&amp;qa3090.3&amp;qa3090.3&amp;qa309&amp;qa3090.3&amp;qa3090.3703&amp;qa3090.3&amp;qa309</block>
+  <block id="c76ff2f7e10a42adf7faec8f9e6faeab" category="paragraph">ORA-00279：Change 3193440 generated at 09/13/2022 12：01：20 needed for thread 1 ORA-00289：suggestion：/u03/orareco/ORATST/archivelog/2022 _09_13/o1_mf_1_46% u_.arc ORA-00280：change 3193440 for thread qaq12289_ar' for thread q12_0030' arc'0030289_arc'30_qa30'に必要なリカバリには、次の場合は次の場合は次の場合に必要ですか、次の場合は次の場合は次の場合は次の場合は次の場合に必要です。/302022_q122022_q12_q</block>
+  <block id="0e98028493ec8c4a1d181c0d71c3ec7b" category="paragraph">ログを指定してください：｛&lt;RET&gt; = Suggested|filename|auto|cancel｝メディアリカバリがキャンセルされました。SQL&gt; ALTER DATABASE OPEN resetlogs；</block>
+  <block id="f6c9ea366c01da7d664a8c7c3813e0bd" category="paragraph">データベースが変更されました</block>
+  <block id="8ad5254ade1fed8d3ccc482196b4c36c" category="paragraph">この画面は、削除されたテーブルがローカルスナップショットバックアップを使用してリカバリされたことを示しています。</block>
+  <block id="34d73a671fa85d8d86ba1eff63b238d8" category="paragraph"><block ref="34d73a671fa85d8d86ba1eff63b238d8" category="inline-link-macro-rx"></block></block>
+  <block id="0c55b956af322a2409f5dd75af116fee" category="doc">WP-7357：『Oracle Database Deployment on EC2 and FSX Best Practices Introduction』</block>
+  <block id="b985336298cf9391b91c898572090625" category="summary">このセクションでは、Azure仮想マシンとAzure NetApp Files ストレージを使用するOracleデータベースの導入とデータ保護の解決策 アーキテクチャについて説明します。</block>
+  <block id="fc6024ee9167308c3126789695e7353f" category="paragraph"><block ref="fc6024ee9167308c3126789695e7353f" category="inline-link-macro-rx"></block></block>
+  <block id="91e17bfb5f535513b5320d68f6afe1fc" category="paragraph">次のアーキテクチャ図は、Azure VMインスタンスとAzure NetApp Files ストレージへの可用性の高いOracleデータベースの導入を示しています。</block>
+  <block id="520c5c426000f1dbbd8ac385d5547603" category="paragraph">環境内では、OracleコンピューティングインスタンスはAzureサービスのVMコンソールを介して導入されます。コンソールから複数のAzureインスタンスタイプを使用できます。想定ワークロードを満たすデータベース指向のAzure VMインスタンスを導入することを推奨します。</block>
+  <block id="9e20ded809aa2fa1bd072f48ceacfdd8" category="paragraph">一方、Oracleデータベースストレージは、Azure NetApp Files サービスとともにAzureコンソールから導入されます。その後、Oracleバイナリ、データ、またはログボリュームが提供され、Azure VMインスタンスLinuxホストにマウントされます。</block>
+  <block id="6b5cae77dbc9c4b759bf654b117eb10b" category="inline-image-macro">この図は、プライマリサイト、スタンバイサイト、およびこの各サイトのVNetピアリング間の関係を示しています。これは、4つの個別の仮想ネットワークを形成します。</block>
+  <block id="2246b51fdf61c77213e0ce37d743cd03" category="paragraph"><block ref="2246b51fdf61c77213e0ce37d743cd03" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="03aa17a1290e1122adecd07d53463cde" category="paragraph">多くの点で、AzureクラウドへのAzure NetApp Files の実装は、オンプレミスのONTAP データストレージアーキテクチャと非常によく似ており、RAIDコントローラやデュアルコントローラなど、冗長性が多数組み込まれています。ディザスタリカバリの場合は、スタンバイサイトを別の地域でセットアップでき、アプリケーションレベルのレプリケーション（Oracle Data Guardなど）を使用してデータベースをプライマリサイトと同期できます。</block>
+  <block id="6f1714a5ced243b141295d01d4038364" category="paragraph">次の図に示すように、Oracleデータベースの導入とデータ保護のテスト検証では、単一のAzure VMにOracleデータベースを導入します。</block>
+  <block id="fef3344ae2f384e724a169b6e9d90be7" category="inline-image-macro">この図は、VNetピアリングを備えた単一のAzure VMを構成し、2つの独立した仮想ネットワークを構成したものです。</block>
+  <block id="f3699a22a9267b8e767816c81f821522" category="paragraph"><block ref="f3699a22a9267b8e767816c81f821522" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="69cf5342936c24c9fac1c6529c4f825f" category="paragraph">Azure Oracle環境は、ネットアップが提供するツールキットを使用して、Ansibleコントローラノードで管理して、データベースの導入、バックアップ、リカバリ、データベースの移行を実行できます。Oracle Azure VMインスタンスのオペレーティングシステムカーネルやOracleパッチの適用を更新するたびに、プライマリとスタンバイの同期を維持するために、更新を並行して実行することができます。実際、初期ツールキットを簡単に拡張して、必要に応じて日 々 のOracleタスクを実行できます。CLIのAnsibleコントローラのセットアップに関するヘルプが必要な場合は、を参照してください <block ref="03bbd03f7d2552fa2076b42f86a04360" category="inline-link-macro-rx"></block> をダウンロードしてご確認ください。</block>
+  <block id="149b87e0b981bcf1e3d652831c207e04" category="inline-link-macro">次のステップ：考慮すべき要因</block>
+  <block id="0a9d288b4b8679857f2d7e7f0d5a63f6" category="paragraph"><block ref="0a9d288b4b8679857f2d7e7f0d5a63f6" category="inline-link-macro-rx"></block></block>
+  <block id="41f2543265fcbcf566ce925409c1bfbb" category="summary">このセクションでは、OracleデータベースをオンプレミスからAzure NetApp Files に移行する方法と、その逆の移行方法について詳しく説明します。</block>
+  <block id="3b99478aefcc6039ddcb29f19ce3f1ee" category="doc">オンプレミスからAzureクラウドへのデータベース移行</block>
+  <block id="964310198f864c746c945ff1c6fffe3f" category="inline-link-macro">Previous：データベース保護。</block>
+  <block id="413dcfd081f137889743981159ac9abe" category="paragraph"><block ref="413dcfd081f137889743981159ac9abe" category="inline-link-macro-rx"></block></block>
+  <block id="3c2b924258f32094eb64883db57a778a" category="paragraph">Oracleは、シングルインスタンスデータベースのフェーズアウトを決定した結果、多くの組織で、シングルインスタンスのOracleデータベースをマルチテナントコンテナデータベースに変換しています。これにより、PDBと呼ばれるコンテナデータベースの一部を、最大の可用性オプションでクラウドに簡単に再配置できるため、移行中のダウンタイムを最小限に抑えることができます。</block>
+  <block id="a221bb2d4b0b28bb7e9aa40527e36333" category="paragraph">ただし、Oracleデータベースのインスタンスが1つしかない場合は、PDBの再配置を試行する前に、まずマルチテナントコンテナデータベースに変換できます。</block>
+  <block id="3312d9383c6e42558bb6c7ffa86498b5" category="paragraph">以降のセクションでは、どちらのシナリオでも、オンプレミスのOracleデータベースをAzureクラウドに移行する方法について詳しく説明します。</block>
+  <block id="d7acbe14b605ece64e94636c2ac85151" category="section-title">マルチテナントCDBで単一インスタンスの非CDBをPDBに変換します</block>
+  <block id="b65ba7cc82289837e3a44b6025b8a104" category="paragraph">シングルインスタンスのOracleデータベースが残っている場合、そのデータベースをクラウドに移行するかどうかにかかわらず、マルチテナントコンテナデータベースに変換する必要があります。これは、Oracleがシングルインスタンスデータベースのサポートをしばらくの間停止するためです。</block>
+  <block id="60a4157f0722b484d4ce9ec02662db31" category="paragraph">次の手順では、1つのインスタンスデータベースをプラグイン可能なデータベースまたはPDBとしてコンテナデータベースに接続します。</block>
+  <block id="aefccbe3e9382cbdd83d84fee06a408d" category="list-text">シングルインスタンスデータベースと同じホスト上に別のホスト内にシェルコンテナデータベースを構築します<block ref="e1f651debac4f720c13ae930ff3ca14a" prefix=" " category="inline-code"></block>。</block>
+  <block id="182e093a477c76844c12680be3deb7a4" category="list-text">シングルインスタンスデータベースをシャットダウンし、読み取り専用モードで再起動します。</block>
+  <block id="48270a516aeb2dd47c2b7f5d897c3182" category="list-text">を実行します<block ref="707fc638546e97f4dca068fcf2fbe277" prefix=" " category="inline-code"></block> 手順 を使用してデータベースメタデータを生成します。</block>
+  <block id="61c2d2d903cc3e2bc374cc66b3a1572d" category="list-text">シングルインスタンスデータベースをシャットダウンします。</block>
+  <block id="d0e90ac40083de7010746f1c7afa8680" category="list-text">コンテナデータベースを起動します。</block>
+  <block id="c9b14b140c5af8df85a71e71e823fcd9" category="list-text">を実行します<block ref="6f6e7bfe46efb74f46338dcd4b8d7530" prefix=" " category="inline-code"></block> 非CDBがCDBと互換性があるかどうかを判断する関数です。</block>
+  <block id="b4579eff709cfd4a9e9d9b3c7823a470" category="paragraph">出力がYESの場合は、CDB以外の互換性があるため、次の手順に進むことができます。</block>
+  <block id="b788542aadbeda07cae67fad51f01ecf" category="paragraph">出力がnoの場合は、CDB以外の互換性がないため、を確認できます<block ref="40bcd9431704d488bfba8de25bdd0469" prefix=" " category="inline-code"></block> 互換性がない理由については、を参照してください。続行する前にすべての違反を修正する必要があります。たとえば、バージョンまたはパッチの不一致は、アップグレードユーティリティまたはopatchユーティリティを実行して解決する必要があります。違反を修正したら、を実行します<block ref="6f6e7bfe46efb74f46338dcd4b8d7530" prefix=" " category="inline-code"></block> この場合も、CDB以外のファイルがCDBと互換性があることを確認してください。</block>
+  <block id="3dc81f6d88ee2f38ca30676e4b371634" category="list-text">単一インスタンスの非CDBを接続します。</block>
+  <block id="10a9ce9a6e151e6ff04bee976e0cb1de" category="admonition">ホストに十分なスペースがない場合は、を実行します<block ref="4777c7eb130280b37f5b4b3abde7c586" prefix=" " category="inline-code"></block> オプションを使用してPDBを作成できます。この場合、元のデータファイルがPDBに使用されているため、PDBとしてプラグインしたあとは、単一インスタンスの非CDBは使用できません。変換前にバックアップを作成し、何か問題が発生したときに元に戻す必要があるものがあることを確認してください。</block>
+  <block id="03d9f2c68151dce9edd03b346e5b110c" category="list-text">ソースのシングルインスタンス非CDBとターゲットCDBとの間のバージョンが異なる場合は、変換後にPDBアップグレードを開始してください。バージョンが同じ場合は、この手順をスキップできます。</block>
+  <block id="81954d0087f2bc7590c39792b2d3ff79" category="paragraph">のアップグレードログファイルを確認します<block ref="8940bd010306ed7bc730469a2815003c" prefix=" " category="inline-code"></block> ディレクトリ。</block>
+  <block id="65f9a981d9b9caaa37a227c9d787c280" category="list-text">プラグイン可能なデータベースを開き、PDBプラグイン違反がないかどうかを確認し、無効なオブジェクトを再コンパイルします。</block>
+  <block id="f4d5586e12195159e664b1f0a78cccd3" category="list-text">実行<block ref="30636d635a272a80dff68679e08f1c7a" prefix=" " category="inline-code"></block> データディクショナリを更新します。</block>
+  <block id="182d7c995640cc8ef16b728a670fbe58" category="paragraph">コンテナDBをシャットダウンして再起動します。ncdbは制限モードから除外されます。</block>
+  <block id="d6af386b8be94481db3de6778b3fc24a" category="section-title">PDBの再配置で、オンプレミスのOracleデータベースをAzureに移行</block>
+  <block id="da5d44e97cbc406251573e1664b5e1f0" category="paragraph">最大可用性オプションを指定したOracle PDB再配置は、PDBホットクローンテクノロジを使用して、PDBをターゲットにコピーする際にソースPDBの可用性を確保します。スイッチオーバー時には、セッションと接続は自動的にターゲットPDBにリダイレクトされます。したがって、移動するPDBのサイズに関係なく、ダウンタイムを最小限に抑えることができます。ネットアップは、移行手順 を自動化するAnsibleベースのツールキットを提供しています。</block>
+  <block id="a8efacce1c06e5f64504448dec25740a" category="list-text">Azure VM上のAzureパブリッククラウドに、バージョンとパッチレベルが同じCDBを作成します。</block>
+  <block id="0f09a4e81820f79a89d0b433bb0de6ca" category="list-text">Ansibleコントローラから、自動化ツールキットのコピーをクローニングします。</block>
+  <block id="33abd0ac6a3fb7ef8c104725e8360e85" category="list-text">READMEファイルの手順を読みます。</block>
+  <block id="59082266ab8171963eb8785041055ee1" category="list-text">ソースとターゲットの両方のOracleサーバ、および名前解決用のDBサーバホストの構成ファイルに対してAnsibleホスト変数ファイルを設定します。</block>
+  <block id="166811e58fa2fd17b3ab3305ca4b1948" category="list-text">AnsibleコントローラにAnsibleコントローラの前提条件をインストールする。</block>
+  <block id="e40dd1f176a77cef20eb421dee4fea9f" category="list-text">オンプレミスサーバに対して移行前のタスクを実行</block>
+  <block id="aba7f3209eb8c49aca729c7368fb42fe" category="admonition">adminユーザは、sudo権限があるオンプレミスのOracleサーバホストの管理ユーザです。adminユーザはパスワードで認証されます。</block>
+  <block id="a1da14dd2e192d36a7fe7bae327c2b23" category="list-text">オンプレミスからターゲットのAzure OracleホストへのOracle PDBの再配置を実行します。</block>
+  <block id="39f1871870cabd138bd313c450662e67" category="admonition">Ansibleコントローラは、オンプレミスとAzureクラウドのどちらにも配置できます。コントローラは、オンプレミスのOracleサーバホストおよびAzure Oracle VMホストに接続する必要があります。オンプレミスのOracleサーバホストとAzure Oracle VMホストの間で、Oracleデータベースポート（1521など）が開いている。</block>
+  <block id="63a48a0f7ee4b39ef32c11b92acc2baa" category="section-title">その他のOracleデータベース移行オプション</block>
+  <block id="7619081ba13aebf0c83d5660f9bf01bb" category="inline-link-macro">Oracleデータベースの移行を決定するプロセス</block>
+  <block id="0257ad9cf0c221fcf0c611f835c027ca" category="paragraph">その他の移行オプションについては、Microsoftのドキュメントを参照してください。 <block ref="421a85ebca6e289a6eff559e7e35faf8" category="inline-link-macro-rx"></block>。</block>
+  <block id="a73e5c65844b18c49122a8a79ef3fa65" category="doc">Azure VMおよびAzure NetApp Files へのOracleの導入手順を順を追って説明します</block>
+  <block id="f8de11946f5850d6f1597a7cf5fc2234" category="inline-link-macro">Previous：考慮する要素。</block>
+  <block id="e9704920b930163220a6e7564d7d680e" category="paragraph"><block ref="e9704920b930163220a6e7564d7d680e" category="inline-link-macro-rx"></block></block>
+  <block id="cf2fb9f52eae11aaa1b6818cc22ade30" category="section-title">Azure portalコンソールを使用して、ANF for Oracle対応Azure VMを導入します</block>
+  <block id="5e89dc82cb54763baa7cece42e7c3189" category="paragraph">Azureを初めて使用する場合は、まずAzureアカウント環境をセットアップする必要があります。これには、Azure Active Directoryを使用するための組織への登録も含まれます。次のセクションでは、これらの手順を簡単に説明します。詳細については、リンクされたAzure固有のドキュメントを参照してください。</block>
+  <block id="c743c9c56cd6cc2acf874405ef178af3" category="section-title">Azureリソースを作成、利用する</block>
+  <block id="cc59653114a0ca329e90c87f8de8f2da" category="paragraph">Azure環境をセットアップし、アカウントを作成してサブスクリプションに関連付けると、そのアカウントでAzureポータルにログインし、Oracleの実行に必要なリソースを作成できるようになります。</block>
+  <block id="4848dfd418cc69fdc8a92da472ac41b8" category="section-title">1.仮想ネットワークまたはVNetを作成します</block>
+  <block id="dd587303db328c6fc30f15fbf133eade" category="paragraph">Azure Virtual Network（VNet；Azure仮想ネットワーク）は、Azureのプライベートネットワークの基本的なビルディングブロックです。VNetを使用すると、Azure Virtual Machines（VM；Azure仮想マシン）などのさまざまなタイプのAzureリソース間、インターネット、オンプレミスネットワーク間で安全に通信できるようになります。Azure VMをプロビジョニングする前に、VNet（VMが導入される場所）を設定しておく必要があります。</block>
+  <block id="2b9029fce84bbf7056c94e4b86015679" category="inline-link-macro">Azureポータルを使用して仮想ネットワークを作成する</block>
+  <block id="698a842fc17e080abbf6b6796628879b" category="paragraph">を参照してください <block ref="f497c9708f9505977884a23053323735" category="inline-link-macro-rx"></block> VNetを作成するために使用します。</block>
+  <block id="66d98f4e89afee6dc557332b0e9ebe43" category="section-title">2. ANF用のネットアップストレージアカウントと容量プールを作成します</block>
+  <block id="fecd60b0aedf111caefb4cf98b8d7be5" category="paragraph">この導入シナリオでは、Azure VM OSは通常のAzureストレージを使用してプロビジョニングされますが、ANFボリュームはNFS経由でOracleデータベースを実行するようにプロビジョニングされます。まず、ネットアップストレージアカウントと、ストレージボリュームをホストするための容量プールを作成する必要があります。</block>
+  <block id="76dc01e3f39d83b88a3d3ad36c338654" category="inline-link-macro">Azure NetApp Files をセットアップし、NFSボリュームを作成</block>
+  <block id="8a57d5f988c678cd141c2f704e110472" category="paragraph">を参照してください <block ref="2337ae471c0cc5402cdba65ad3b4dc78" category="inline-link-macro-rx"></block> でANF容量プールを設定してください。</block>
+  <block id="ed39ba49be7769bdf483ae876d88cdff" category="section-title">3. Oracle用にAzure VMをプロビジョニング</block>
+  <block id="acb4908e71af4ce0945c90f9039d0fc2" category="paragraph">ワークロードに基づいて、必要なAzure VMのタイプ、およびOracle用に導入するVM vCPUおよびRAMのサイズを決定します。次に、AzureコンソールでVMのアイコンをクリックして、VM導入ワークフローを起動します。</block>
+  <block id="20d1e12ba2a72916f3917e44ff29b40a" category="list-text">Azure VMのページで、* Create *をクリックし、* Azure Virtual Machine *を選択します。</block>
+  <block id="94f088d23454b3c408a17cfff3cb8989" category="inline-image-macro">このスクリーンショットは、使用可能なAzure VMのリストを示しています。</block>
+  <block id="e28fc410c2020dcbd93af60f3d700d99" category="paragraph"><block ref="e28fc410c2020dcbd93af60f3d700d99" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="78ba4b8df4acae5536f056217b16c353" category="list-text">導入のサブスクリプションIDを選択し、リソースグループ、リージョン、ホスト名、VMイメージ、サイズ、および認証方式を指定します。ディスクページに移動します。</block>
+  <block id="cbbcba216ab68f94c8fab62d9c907a00" category="inline-image-macro">このスクリーンショットは、Create a Virtual Machine（仮想マシンの作成）ページの入力を示しています。</block>
+  <block id="825d4c0973e48f04ab75cc30df85bbdc" category="inline-image-macro">このスクリーンショットは、Create a Virtual Machine（仮想マシンの作成）ページの追加の入力を示しています。</block>
+  <block id="84982a7e7b9cc89bde9621d68800978e" category="paragraph"><block ref="a493253d19b28a6711494154a3160350" category="inline-image-macro-rx" type="image"></block>
+<block ref="81b338659efc8df55ae98546f396c5b0" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="2c435f9a03a03e7cff44b06c9efafa31" category="list-text">OSローカルの冗長性には* Premium SSD *を選択し、ANFストレージからデータディスクがマウントされているため、データディスクは空白のままにしておきます。[ネットワーク]ページに移動します。</block>
+  <block id="04faa74bfe9ea34a9831d24d039dc159" category="inline-image-macro">このスクリーンショットは、Create a Virtual Machine Disks（仮想マシンディスクの作成）ページの入力を示しています。</block>
+  <block id="2e21daafaa3607d62dda1a3411975b12" category="paragraph"><block ref="2e21daafaa3607d62dda1a3411975b12" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="f9c5742f2bffff7dd4a50e578bfb093b" category="list-text">VNetとサブネットを選択します。外部VMアクセス用にパブリックIPを割り当てます。次に、管理ページに移動します。</block>
+  <block id="0c0077e9a9d4700a64e70d30e9d110df" category="inline-image-macro">このスクリーンショットは、Create a Virtual Machine（仮想マシンの作成）ページの詳細な入力を示しています。</block>
+  <block id="4aea6dbf72aa0b36bd98ced95acebcbd" category="paragraph"><block ref="4aea6dbf72aa0b36bd98ced95acebcbd" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="6d5e4bb7568c6e8fb6a1f49aea08e975" category="list-text">Managementのデフォルトをすべて保持し、Advancedページに移動します。</block>
+  <block id="45291c6293e8de1084c3b8de71bfe120" category="inline-image-macro">このスクリーンショットは、Create a Virtual Machine Management（仮想マシンの作成）ページの入力を示しています。</block>
+  <block id="b031dac11379aafec2eb9832f71648ba" category="paragraph"><block ref="b031dac11379aafec2eb9832f71648ba" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="22b5d3beb0289dfe21618d5664538321" category="list-text">カスタムスクリプトを使用して導入後にVMをカスタマイズする必要がない場合は、Advancedページのデフォルトの設定をすべて使用します。次に、[タグ]ページに移動します。</block>
+  <block id="1a911a2f1237ad150a29236bcfe044a0" category="inline-image-macro">このスクリーンショットは、仮想マシンの作成の詳細ページの入力を示しています。</block>
+  <block id="00d8612fb98dc237476c6ecd9e0f52c9" category="paragraph"><block ref="00d8612fb98dc237476c6ecd9e0f52c9" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="46dfe2059392afeb84a872afb7cd09d5" category="list-text">必要に応じてVMのタグを追加します。次に、[レビュー+作成]ページに移動します。</block>
+  <block id="85e3843de649be49b63e3b04c6887bcd" category="inline-image-macro">このスクリーンショットは、[Create a Virtual Machine Tags]ページの入力を示しています。</block>
+  <block id="ddeecdecd575fb71cf4e83d7f09717bc" category="paragraph"><block ref="ddeecdecd575fb71cf4e83d7f09717bc" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="57a6346e9ebfe8164361d5e2facffb62" category="list-text">導入ワークフローでは構成の検証が実行され、検証にパスした場合は、* Create *をクリックしてVMを作成します。</block>
+  <block id="dec1fd75845506029d8751bb7979c797" category="inline-image-macro">「このスクリーンショットは、「仮想マシンの作成」の確認と作成のページの入力を示しています。</block>
+  <block id="786b4cd98c208b72f71277850831c1aa" category="paragraph"><block ref="786b4cd98c208b72f71277850831c1aa" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="c18c3fe2e695bda0cb8b3e7ecccbdc4e" category="section-title">4. Oracle用にANFデータベースボリュームをプロビジョニングします</block>
+  <block id="f162c2b2b89920293c1f24ac435c520e" category="paragraph">Oracleバイナリボリューム、データボリューム、ログボリューム用のANF容量プール用に3つのNFSボリュームを作成する必要があります。</block>
+  <block id="09d8c19d5844128b31e1fa195808b215" category="list-text">AzureコンソールのAzureサービスのリストで、Azure NetApp Files をクリックしてボリューム作成ワークフローを開きます。複数のANFストレージアカウントがある場合は、ボリュームのプロビジョニング元となるアカウントをクリックします。</block>
+  <block id="733cf6b848c8e38a49b4b604225141a5" category="inline-image-macro">このスクリーンショットはAzure Servicesのページを示しており、ANFは強調表示されています。</block>
+  <block id="cc553796f259bc80d8c801687c0c1cd0" category="paragraph"><block ref="cc553796f259bc80d8c801687c0c1cd0" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="a8972cd5a80e6e385a27023ce45537a9" category="list-text">ネットアップストレージアカウントで、「* Volumes *」をクリックし、「* Add volume *」をクリックして新しいOracleボリュームを作成します。</block>
+  <block id="c8ce9170654447aba6747494e61bf3a2" category="inline-image-macro">このスクリーンショットは、ネットアップストレージアカウントのランディング画面を示しています。</block>
+  <block id="b0d2d575f2aee1703b6e2896d43b72f9" category="inline-image-macro">このスクリーンショットは、ネットアップストレージアカウントで使用可能なボリュームを示しています。</block>
+  <block id="3371cc932d04403ab2cd0788634d63e5" category="paragraph"><block ref="7266705f76a6cb3a106c34a6e8dc5540" category="inline-image-macro-rx" type="image"></block>
+<block ref="f59831fbf7eaa0d216e8685698d0c55b" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="cbeaec71dc2b8275a14b23283d51cc04" category="list-text">ベストプラクティスとして、VMのホスト名をプレフィックスとして持つOracleボリュームを特定し、そのあとにOracleバイナリの場合はu01、Oracleデータの場合はu02、Oracleログの場合はu03などのホスト上のマウントポイントを指定することを推奨します。ボリュームにはVMと同じVNetを選択します。[次へ：プロトコル&gt;*]をクリックします。</block>
+  <block id="ce4ff1bdb6d954e6967a7c241ff89518" category="inline-image-macro">ボリューム作成画面。</block>
+  <block id="bacf4983022360caacd6f75352136f59" category="paragraph"><block ref="bacf4983022360caacd6f75352136f59" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="b50bdcda066df8ed373847c60bc2f546" category="list-text">NFSプロトコルを選択し、許可されたクライアントにOracleホストのIPアドレスを追加して、すべてのIPアドレスを許可するデフォルトポリシー0.0.0.0/0を削除します。[次へ：タグ&gt;*]をクリックします。</block>
+  <block id="f8bc211f91c2b350b268959a57418393" category="inline-image-macro">ボリューム作成画面でプロトコルが入力されました。</block>
+  <block id="8ac138d8c4a217ce018b45be622db1ed" category="paragraph"><block ref="8ac138d8c4a217ce018b45be622db1ed" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="fffcdc9cd5233d4718046c8f6d19c80b" category="list-text">必要に応じてボリュームタグを追加次に、[* Review + Create]&gt;[*]をクリックします。</block>
+  <block id="05864b350d713935d13966f3c8fcbcd7" category="inline-image-macro">ボリューム作成画面で入力するタグを指定します。</block>
+  <block id="9bead8568a27fcf83faf41e77f52b246" category="paragraph"><block ref="9bead8568a27fcf83faf41e77f52b246" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="6e574c0c875926f1fe654026995f3543" category="list-text">検証に合格したら、* Create *をクリックしてボリュームを作成します。</block>
+  <block id="4a585922412f050ac4a7fbcc34a2655b" category="inline-image-macro">ボリューム作成画面のステージを確認して作成します。</block>
+  <block id="e9c713f1ad3a3f0b14801d722fb77f16" category="paragraph"><block ref="e9c713f1ad3a3f0b14801d722fb77f16" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="2d2dbc217706d8bb1248bc209e0ab9da" category="section-title">Azure VMにANFを使用してOracleをインストールし、設定する</block>
+  <block id="7beaf3d9487c79b7245a1d9ae42d46aa" category="paragraph">ネットアップのソリューションチームが開発したAnsibleベースの自動化ツールキットは、OracleをAzureにスムーズに導入するのに役立ちます。OracleをAzure VMに導入するには、次の手順を実行します。</block>
+  <block id="0c782f45b1de4e6d016eafeeb60d286f" category="section-title">Ansibleコントローラをセットアップします</block>
+  <block id="58a105c56c05508f7233082bc282a654" category="paragraph">Ansibleコントローラが設定されていない場合は、を参照してください <block ref="03bbd03f7d2552fa2076b42f86a04360" category="inline-link-macro-rx"></block>に、Ansibleコントローラのセットアップ方法の詳細が記載されています。</block>
+  <block id="ce9ef6052d2c6ac4b97c01049ee4ec2b" category="section-title">Oracle Deployment Automationツールキットを入手する</block>
+  <block id="52eae91ee8ea917bc73df6d9f1792469" category="paragraph">Ansibleコントローラへのログインに使用するユーザIDの下のホームディレクトリに、Oracle導入ツールキットのコピーをクローニングします。</block>
+  <block id="19cd6e3dfb797a7325548b346dc358f1" category="section-title">ツールキットを構成に応じて実行します</block>
+  <block id="aa98393908153ea46a2cef869e7dd100" category="paragraph">を参照してください <block ref="e7ab084e08308da08da1b2dd8151530b" category="inline-link-macro-rx"></block> をクリックして、CLIでプレイブックを実行します。ONTAP ではなくAzureコンソールからデータベースボリュームを作成する場合、グローバルVARファイル内の変数設定の部分は無視できます。</block>
+  <block id="24e16cc700e2ced028e529370af380e1" category="admonition">このツールキットには、RU 19.8でOracle 19Cがデフォルトで導入されています。他のパッチレベルにも簡単に適応でき、デフォルトの設定を若干変更することもできます。また、デフォルトのシードデータベースアクティブログファイルもデータボリュームに導入されます。ログボリュームにアクティブなログファイルが必要な場合は、最初の導入後にログファイルを再配置します。必要に応じて、ネットアップの解決策 チームにご連絡ください。</block>
+  <block id="dd52a71d2066e527d28efdbd46784e07" category="section-title">Oracle向けのアプリケーション整合性スナップショット用のAzAcSnapバックアップツールをセットアップします</block>
+  <block id="211e60df4f320c617afaa9a96f62758f" category="paragraph">Azure Application-consistent Snapshotツール（AzAcSnap）は、ストレージスナップショットを作成する前に、アプリケーションと整合性のある状態にするために必要なすべてのオーケストレーションを処理することで、サードパーティデータベースのデータを保護できるコマンドラインツールです。これらのデータベースは、動作状態に戻ります。このツールはデータベースサーバホストにインストールすることを推奨します。次のインストールおよび設定手順を参照してください。</block>
+  <block id="40390144ce134a2e38bfef9f590f867b" category="section-title">AzAcSnapツールをインストールします</block>
+  <block id="c2d834909e264a2f3bf3d3facd27740b" category="inline-link-macro">AzArcSnapインストーラ</block>
+  <block id="aed9be57adbc2906c27b7f325e1322aa" category="list-text">の最新バージョンを取得します <block ref="696590d44d21e9b71649cae0895a0bca" category="inline-link-macro-rx"></block>。</block>
+  <block id="243004130aa732bde904924170fa2e5c" category="list-text">ダウンロードした自己インストーラをターゲットシステムにコピーします。</block>
+  <block id="1aa45c54511185e4e2043ee91e8969bc" category="list-text">デフォルトのインストールオプションを使用して、rootユーザとして自己インストーラを実行します。必要に応じて、を使用してファイルを実行可能にします<block ref="48c01707d676030dd223de543c6beb09" prefix=" " category="inline-code"></block> コマンドを実行します</block>
+  <block id="483944250a0e1f955ad6fec7c6578bde" category="section-title">Oracle接続を設定します</block>
+  <block id="b6f7df8a3ada5b45cee3400740b83c9a" category="paragraph">SnapshotツールはOracleデータベースと通信します。バックアップモードを有効または無効にするためには、適切な権限を持つデータベースユーザが必要です。</block>
+  <block id="6cd11918e51f60b6ce021e9d56c9e74a" category="section-title">1. AzAcSnapデータベースユーザーを設定します</block>
+  <block id="84fe6666ea577b7ede5c61912d97705e" category="paragraph">次の例は、Oracleデータベースユーザのセットアップと、sqlplusを使用したOracleデータベースへの通信を示しています。この例のコマンドでは、Oracleデータベースでユーザ（AZACSNAP）を設定し、必要に応じてIPアドレス、ユーザ名、およびパスワードを変更します。</block>
+  <block id="342df2b2fb63c81cdd53e5e7bc5d00b9" category="list-text">Oracleデータベースのインストールからsqlplusを起動して、データベースにログインします。</block>
+  <block id="ab0840eee4ba613870ae404c907c1948" category="list-text">ユーザを作成します。</block>
+  <block id="e90b9dc19df07f784e3fc408169077df" category="list-text">ユーザに権限を付与します。次の例では、データベースをバックアップモードにするためのAZACSNAPユーザの権限を設定します。</block>
+  <block id="f508d634fc1aa5df7fed84e6b58afce9" category="list-text">デフォルトのユーザパスワードの有効期限を「unlimited」に変更します。</block>
+  <block id="bc5fff092e99ce3d1966b94061cb5953" category="list-text">データベースのazacsnap接続を検証します。</block>
+  <block id="8e0d0fb1cb3a50066ecd397700dfd22e" category="section-title">2. Oracleウォレットを使用したDBアクセス用に、linuxユーザazacsnapを設定します</block>
+  <block id="7140a904f4b795616fdc3c3efbdcd066" category="paragraph">AzAcSnapのデフォルトインストールでは、azacsnap OSユーザが作成されます。Bashシェル環境では、Oracleウォレットに格納されたパスワードを使用してOracleデータベースにアクセスするように設定する必要があります。</block>
+  <block id="c54cf7bb99b0e669ce6dc05ec8272470" category="list-text">rootユーザとして、を実行します<block ref="760381f8107a856bc583301b7b272917" prefix=" " category="inline-code"></block> ホスト上のORACLE_HOME変数とORACLE_SID変数を識別するコマンドです。</block>
+  <block id="2a4941dc3f20c8f34a09b066691e66a5" category="list-text">azacsnapのユーザbashプロファイルにORACLE_HOME、ORACLE_SID、TNS_Admin、およびパス変数を追加します。必要に応じて変数を変更します。</block>
+  <block id="e3c85fad3d30c470aac355430e98dc21" category="list-text">Linuxユーザazacsnapとして、ウォレットを作成します。ウォレットパスワードの入力を求められます。</block>
+  <block id="83617bd12022f2dd9ba94816c7e56670" category="list-text">Oracle Walletに接続文字列クレデンシャルを追加します。次のコマンド例では、AZACSNAPはAzAcSnapで使用されるConnectString、azacsnapはOracleデータベースユーザー、AzPasswd1はOracleユーザーのデータベースパスワードです。ウォレットパスワードの入力を求められます。</block>
+  <block id="02f08719de6240015b4e67725107792a" category="list-text">を作成します<block ref="9de875b13677cf9b036a438bf9aedf5c" prefix=" " category="inline-code"></block> ファイル。次のコマンド例では、hostをOracleデータベースのIPアドレスに設定し、Server SIDをOracleデータベースSIDに設定します。</block>
+  <block id="0eec77cc5ed96c42afb08c83ea3f1e3b" category="list-text">を作成します<block ref="0501c2d94325e267bf15055591fb8157" prefix=" " category="inline-code"></block> ファイル。</block>
+  <block id="cafefcc0e796f3e73bc39de23dfc6b68" category="list-text">ウォレットを使用してOracleアクセスをテストします。</block>
+  <block id="8bf6bfb76bcf25b5e1bb9c1d4ede3d34" category="paragraph">コマンド[azacsnap@aco-ora01~]$sqlplus /@AZACSNAPからの想定される出力はSYSBACKUPです</block>
+  <block id="9fac4799a7cb503012dac3d131cf3c15" category="paragraph">SQL*Plus:リリース19.0.0.0.0 -木曜日の9月8日18:02:07 2022バージョン19.8.0.0.0</block>
+  <block id="54eb020b97d7e8a9f56d67e93754e270" category="section-title">ANF接続を設定する</block>
+  <block id="8c9356aaf30e863db064ba22b7d4b204" category="paragraph">このセクションでは、（VMとの）Azure NetApp Files との通信を有効にする方法について説明します。</block>
+  <block id="d78964ac0334c0f69ef24aada9864028" category="list-text">Azure Cloud Shellセッションで、サービスプリンシパルに関連付けるサブスクリプションにデフォルトでログインしていることを確認します。</block>
+  <block id="8611ff0fcccf2f05ff0dbde909379c14" category="list-text">サブスクリプションが正しくない場合は、次のコマンドを使用します。</block>
+  <block id="2d66e076b40e24c73ffa7a1704d985db" category="list-text">Azure CLIを使用して、次の例のようにサービスプリンシパルを作成します。</block>
+  <block id="707cc085819c641d15b9ea2b3b13cb53" category="paragraph">想定される出力：</block>
+  <block id="e8e3af5b539b9415092afd10fc182ff7" category="paragraph">｛"ClientID"："00aa000a-aaa-0000-00aa000aa000aaaa0a "、"clientSecret"："00aa000a-aaaa-0000-00a0-00aa000aa000aa""、"SubscriptionID"："00aa000a-aaa-0000-00aa000a0-00aa000aaa000aaa000aaa0aaa0aaa0aaaa00aaa0aaa0aaa0aaa0a00a00aaa0aaaaaaa00aaaaa00a00aaaaaaaaa0a00a00aaaaaa0aaa0aaaa <block ref="abe1a2134e98a87862a225c33f62cde4" category="inline-link-rx"></block>,"resourceManagerEndpointUrl": <block ref="5bbe1c35abcaa8749119f86fe8d12120" category="inline-link-rx"></block>、"activeDirectoryGraphResourceId"： <block ref="91645ab7f47cce4ce23956a6c4c7df7c" category="inline-link-rx"></block>,"sqlManagementEndpointUrl"： <block ref="2ce5923f710fffcd9fdcfffa2d0db664" category="inline-link-rx"></block>、「galleryEndpointUrl」： <block ref="92fb62298a12469265ac683928098931" category="inline-link-rx"></block>、"managementEndpointUrl"： <block ref="9a3197a885535f07c09e058a5f76aa0c" category="inline-link-rx"></block>｝</block>
+  <block id="c51a1e8c830ed4f63c489347dbcce1a7" category="list-text">出力コンテンツをというファイルにカットアンドペーストします<block ref="b50999884a39c5efe8da46cd87acfeb2" prefix=" " category="inline-code"></block> Linuxユーザazacsnapのユーザbinディレクトリに格納され、適切なシステム権限でファイルを保護します。</block>
+  <block id="211f39ae9cd979a9f01bb800eca0b832" category="admonition">JSONファイルの形式が、特に二重引用符（"）で囲まれたURLで、前述のとおりになっていることを確認してください。</block>
+  <block id="c1f6adfa882cba0dbd256d4909ac588c" category="section-title">AzAcSnapツールのセットアップを完了します</block>
+  <block id="e0e7b63ff02eb3221940162934949dd0" category="paragraph">スナップショットツールを設定およびテストするには、次の手順を実行します。テストに成功したら、最初のデータベースと整合性のあるストレージSnapshotを実行できます。</block>
+  <block id="fe615094ac9bb468d26149280e3769d7" category="list-text">Snapshotユーザアカウントに移動します。</block>
+  <block id="4ef9af49185e683998d060aa71c30e2b" category="list-text">コマンドの場所を変更します。</block>
+  <block id="412d274adbc3fc7cb51ab315d7a77f82" category="list-text">ストレージバックアップの詳細ファイルを設定これにより、が作成されます<block ref="8ed8c6bfea85d72bc4a36772490109c7" prefix=" " category="inline-code"></block> 構成ファイル</block>
+  <block id="d4c18f094b4959d27f52ee2a9709a6b9" category="paragraph">Oracleボリュームが3つある場合の想定出力は次のとおりです。</block>
+  <block id="849abd2456a4bd2ccddb94a12dfcc37d" category="paragraph">[azacsnap@aco-ora01 bin]$azacsnap-c configure --configuration new config file（コメントの追加を終了する空白のエントリ）configファイルにコメントを追加します（コメントの追加を終了する空白のエントリ）：追加するデータベースタイプ、'hana'、'oracle'、'、'exit（Oracleデータベースの場合）を入力します</block>
+  <block id="fa7ad5b9d050b7a5baa27ffcd8863c42" category="paragraph">=== Oracleデータベースの詳細を追加=== OracleデータベースSID（CDB1など）:ORATSTデータベースサーバーのアドレス（ホスト名またはIPアドレス）:172.30.137.142 Oracle接続文字列（例：//@ACAZSNAP）:@AZACSNAP</block>
+  <block id="44b11046a63da89febd351b4213758cf" category="paragraph">=== Azure NetApp Files ストレージの詳細===データベースにAzure NetApp Files を使用していますか? （y/n）[n]: y --データボリュームは'スナップショットの前にアプリケーションが整合性の取れた状態になります--データベース構成のデータボリュームセクションにAzure NetApp Files リソースを追加しますか? （y/n）[n]：y Full Azure NetApp Files ストレージボリュームのリソースID（/Subscriptions /.../resourceGroups/.../providers / Microsoft.NetApp/netAppAccounts/.../capacityPools/Premium/volumes/...):/Subscriptions / 0efa2dfb-917c-4497 -b3f4eadb8111 /resourceGroups/ANFAVSRG/providers / Microsoft.NetApp/netAppAccounts/ANFAVSAcct/capacityPools/CapPool/volumes/acao-ora01-u01サービスプリンシパル認証ファイル名やAzure認証ファイル名など）<block ref="88c14b7c14e63dd3e0345f1f112a2bd3" category="inline-link-rx"></block> oracle.jsonデータベース構成のデータボリュームセクションにAzure NetApp Files リソースを追加するか（y/n）[n]：y Full Azure NetApp Files ストレージボリュームのリソースID（/Subscriptions /.../resourceGroups/.../providers / Microsoft.NetApp/netAppAccounts/.../capacityPools/Premium/volumes/...):/Subscriptions / 0efa2dfb-917c-4497 -b3f4eadb8111 /resourceGroups/ANFAVSRG/providers / Microsoft.NetApp/netAppAccounts/ANFAVSAcct/capacityPools/CapPool/volumes/acao-ora01-u02サービスプリンシパル認証ファイル名やAzure認証ファイル名など）<block ref="88c14b7c14e63dd3e0345f1f112a2bd3" category="inline-link-rx"></block> oracle.jsonデータベース構成のデータボリュームセクションにAzure NetApp Files リソースを追加するか（y/n）[n]：n --他のボリュームはスナップショットのためのアプリケーションを準備せずにすぐにスナップショットになります--データベース構成の他のボリュームセクションにAzure NetApp Files リソースを追加しますか? （y/n）[n]：y Full Azure NetApp Files ストレージボリュームのリソースID（/Subscriptions /.../resourceGroups/.../providers / Microsoft.NetApp/netAppAccounts/.../capacityPools/Premium/volumes/...):/Subscriptions / 0efa2dfb-917c-4497 -b3f4eadb8111 /resourceGroups/ANFAVSRG/providers / Microsoft.NetApp/netAppAccounts/ANFAVSAcct/capacityPools/CapPool/volumes/acao-ora01-u03サービスプリンシパル認証ファイル名やAzure認証ファイル名など）<block ref="88c14b7c14e63dd3e0345f1f112a2bd3" category="inline-link-rx"></block> oracle.jsonデータベース構成の他のボリュームセクションにAzure NetApp Files リソースを追加するか（y/n）[n]：n</block>
+  <block id="e16c4d13d5c9c936ac3ca975a729784f" category="paragraph">=== Azure Managed Diskの詳細===データベースにAzure Managed Disksを使用していますか？（y/n）[n]：n</block>
+  <block id="e5e08e0b27271cd7952c3cd754436294" category="paragraph">=== Azure大規模インスタンス（ベアメタル）ストレージの詳細===データベースにAzure大規模インスタンス（ベアメタル）を使用していますか？（y/n）[n]：n</block>
+  <block id="cec7485a9812da8e268c6d53917d0776" category="paragraph">追加するデータベースタイプ、「HANA」、「Oracle」、または「exit」（データベースなし）を入力します。exit</block>
+  <block id="c63145a4ad8c93cb8bdff88f44cf483b" category="paragraph">設定の編集が完了し、「azacsnap.json」に出力を書き込んでいます。</block>
+  <block id="72b0a1cda785576a979ca4ee2e3c8c62" category="list-text">azacsnap Linuxユーザとして、Oracleバックアップに対してazacsnap testコマンドを実行します。</block>
+  <block id="ce9bfcddebc567805a4fdb6bcdf15515" category="paragraph">[azacsnap@aco-ora01 bin]$azacsnap-c test --test oracle --configfile azacsnap.json begin：「oracle」BEGIN：Test process started for 'Oracle' BEGIN：Oracle DB test passed：Successful connectivity to Oracle DB version 1908000000 end：Test process complete for 'Oracle'[azacsnap@aco-ora01]</block>
+  <block id="7be23e8f29bfc799fd8fbcdc55fe0e77" category="list-text">最初のSnapshotバックアップを実行します。</block>
+  <block id="42481f217667e9b11be3ea64c971056a" category="inline-link-macro">次：データベース保護：</block>
+  <block id="d39c73ea41fa36408b518637e929e754" category="paragraph"><block ref="d39c73ea41fa36408b518637e929e754" category="inline-link-macro-rx"></block></block>
+  <block id="87561d435f6cd79a59659b543d2991ca" category="summary">このセクションでは、RDSとFSX ONTAP ストレージをカスタマイズした解決策 のカスタム導入アーキテクチャを説明します。</block>
+  <block id="312f941d9e8f224f54ae372016e8f35a" category="paragraph">環境内では、OracleコンピューティングインスタンスはAWS EC2インスタンスコンソールを介して導入されます。コンソールから複数のEC2インスタンスタイプを使用できます。ネットアップでは、データベース指向のEC2インスタンスタイプ（RedHat Enterprise Linux 8を使用したm5 Amiイメージや最大10Gpsのネットワーク帯域幅など）を導入することを推奨しています。</block>
+  <block id="830579b4d0c33e9e4fa1f11c61cb73a7" category="inline-image-macro">この図は、プライマリHAクラスタ、スタンバイHAクラスタ管理ノード、および関連する接続ノードを含むアーキテクチャの例を示しています。</block>
+  <block id="73793421735093db194ae82163f894b3" category="paragraph"><block ref="73793421735093db194ae82163f894b3" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="e3d0f7ae75ed6e0e3b522ecc7cac710b" category="paragraph">FSXストレージ・クラスタは'二重の冗長性を備えて設計されているため'プライマリ・ストレージ・クラスタとスタンバイ・ストレージ・クラスタの両方が2つの異なるアベイラビリティ・ゾーンに配置されますデータベース・ボリュームは'すべてのOracleバイナリ'データ'およびログ・ボリュームに対して'ユーザーが構成可能な間隔で'プライマリFSXクラスタからスタンバイFSXクラスタに複製されます</block>
+  <block id="0008c12bed67fcf1f82ece8ff10b5c81" category="paragraph">この高可用性Oracle環境は、AnsibleコントローラノードとSnapCenter バックアップサーバおよびUIツールで管理されます。Oracleのインストール、設定、レプリケーションは、Ansibleプレイブックベースのツールキットを使用して自動化されています。Oracle EC2インスタンスカーネルのオペレーティングシステムまたはOracleパッチ適用に対するすべての更新を並行して実行することで、プライマリとスタンバイを同期させることができます。実際、初期の自動化セットアップを簡単に拡張して、必要に応じて日々のOracleタスクを何度も実行することができます。</block>
+  <block id="1332f9ef53fc751a6087660a11f07ba6" category="paragraph"><block ref="1332f9ef53fc751a6087660a11f07ba6" category="inline-link-macro-rx"></block></block>
+  <block id="1572d96530c843cddbe2d0a8b47abf8a" category="summary">このベストプラクティスガイドでは、Azure NetApp Files StorageとAzure VM上にOracleデータベースを導入し、保護するための解決策 について詳しく説明します。</block>
+  <block id="2e0520fcae6cb49914d2308fbaf4e1a8" category="doc">TR-4954：『Oracle Database Deployment and Protection on Azure NetApp Files 』</block>
+  <block id="7e6f7643afec42d9c47efa933debef3e" category="paragraph">ネットアップ、Niyaz Mohamed、Allen Cao氏</block>
+  <block id="b2bd5134cf9b573edd93cbfe6ee4559d" category="paragraph">ミッションクリティカルなOracleエンタープライズデータベースの多くはオンプレミスでホストされており、多くの企業はこれらのOracleデータベースをパブリッククラウドに移行しようとしています。このようなOracleデータベースはアプリケーション中心のものであるため、ユーザ固有の設定が必要になることがよくあります。これは、多くのパブリッククラウドサービスが提供するデータベースサービスに欠けている機能です。そのため、現在のデータベース環境では、パフォーマンスと拡張性に優れたコンピューティングおよびストレージサービスを基盤に構築されたパブリッククラウドベースのOracleデータベース解決策 が、独自の要件に対応できるようになっている必要があります。Azure仮想マシンのコンピューティングインスタンスとAzure NetApp Files ストレージサービスが、ミッションクリティカルなOracleデータベースワークロードの構築とパブリッククラウドへの移行に利用できる不足しているパズルのピースになるかもしれません。</block>
+  <block id="a58dc8965e4de69beb97a33a5a1935ea" category="paragraph">Azure仮想マシンは、Azureが提供するオンデマンドで拡張性に優れたコンピューティングリソースのうちの1つです。通常、コンピューティング環境をより細かく制御する必要がある場合は、他の選択肢よりも仮想マシンを選択します。Azure仮想マシンを使用すると、コンピューティング負荷の高いワークロードでもメモリ負荷の高いワークロードでも、Oracleデータベースの実行に必要な特定の構成を備えたコンピュータをすばやく簡単に作成できます。Azure Virtual Network内の仮想マシンは、セキュリティで保護されたVPNトンネルなどを介して、組織のネットワークに簡単に接続できます。</block>
+  <block id="466d154dd31c873c4a2fd7113dc6b818" category="paragraph">Azure NetApp Files はフルマネージドのMicrosoftサービスで、これまで以上に高速かつ安全にデータベースワークロードをクラウドに移行できます。Oracleデータベースなどのハイパフォーマンスワークロードをクラウドで実行する場合のコア要件を満たすように設計されており、実際に必要とされるIOPS、低レイテンシ、高可用性、高耐久性、大規模な管理性を反映したパフォーマンス階層を提供します。高速で効率的なバックアップ、リカバリ、クローニングを実現します。Azure NetApp Files は、Azureデータセンター環境内で実行される物理オールフラッシュNetApp ONTAP システムに基づいているため、これらの機能を実現できます。Azure NetApp Files は、Azure DCおよびポータルに完全に統合されており、お客様は、他のAzureオブジェクトと同様に、共有ファイルの作成と管理に、同じ快適なグラフィカルインターフェイスとAPIを使用できます。Azure NetAppのファイルを使用すれば、リスク、コスト、時間を増やすことなくAzureのすべての機能を活用し、Azureネイティブの唯一のエンタープライズファイルサービスを信頼できます。</block>
+  <block id="30106aaa3e986f62cbb327f935569bca" category="inline-link-macro">Microsoft Azure上のOracleデータベース</block>
+  <block id="bdb41d103336edebf957f48add0f3554" category="inline-link-macro">ネットアップ-自動化</block>
+  <block id="c2add34b573ef3798dd7c5b8972c008a" category="paragraph">本ドキュメントでは、オンプレミスシステムと同様のパフォーマンスと耐久性を提供するAzure仮想マシンとAzure NetApp Files ストレージサービスを使用して、Oracleデータベースを導入、設定、および保護する方法について詳しく説明します。ベストプラクティスのガイダンスについては、TR-4780を参照してください <block ref="43d70d3cb7600babfb5820086b5480b6" category="inline-link-macro-rx"></block>。さらに重要なのは、AzureパブリッククラウドでOracleデータベースワークロードの導入、構成、データ保護、移行、管理に必要なほとんどのタスクを自動化する自動化ツールキットも提供されている点です。自動化ツールキットは、ネットアップのパブリックGitHubサイトからダウンロードできます。 <block ref="1b9adaed0e4ba13a6d8f6edc7ab8f2d8" category="inline-link-macro-rx"></block>。</block>
+  <block id="3d7dbc3eeea5e87b5d14c9f00c66dd47" category="paragraph"><block ref="3d7dbc3eeea5e87b5d14c9f00c66dd47" category="inline-link-macro-rx"></block></block>
+  <block id="cffc2899d8dda4926e6563cef4e76608" category="summary">このセクションでは、Azure仮想マシンおよびAzure NetApp Files ストレージにOracleデータベースを導入する際に考慮する必要がある要素について詳しく説明します。</block>
+  <block id="3cc4738ed2ec2e682ab2002688fa632b" category="paragraph"><block ref="3cc4738ed2ec2e682ab2002688fa632b" category="inline-link-macro-rx"></block></block>
+  <block id="1a6a6241c0105da34f664d1e12534598" category="paragraph">以降のセクションでは、Azure NetApp Files ストレージを使用してAzure仮想マシンインスタンス上のAzureパブリッククラウドにOracleデータベースを導入する場合の主な考慮事項について説明します。</block>
+  <block id="c2b3b1e82aa97a133f0f6bbc12843085" category="section-title">VMのタイプとサイジング</block>
+  <block id="4ca9712a9cd82ea80c8e225977fae1bb" category="inline-link-macro">Azureの仮想マシンのサイズ</block>
+  <block id="7c4a17715675ccfa7ce507eea6098318" category="paragraph">パブリッククラウドのリレーショナルデータベースのパフォーマンスを最適化するには、適切なVMタイプとサイズを選択することが重要です。Azure仮想マシンは、Oracleデータベースワークロードのホストに使用できるさまざまなコンピューティングインスタンスを提供します。Microsoftのドキュメントを参照してください <block ref="d854faa84ea41d8819c42ca3741a3561" category="inline-link-macro-rx"></block> を参照してください。一般に、Oracleデータベースの導入には汎用のAzure仮想マシンを使用することを推奨します。大規模なOracleデータベースを導入する場合は、メモリ向けに最適化されたAzure VMが適しています。使用可能なRAMが増えれば、Oracle SGAまたはスマートフラッシュキャッシュのサイズを増やして、物理I/Oを削減するように設定することも、データベースのパフォーマンスを向上させることもできます。</block>
+  <block id="84942a15b69259aab0ff7c2620afcaf6" category="inline-link-macro">TR-4780：『Oracle Databases on Microsoft Azure』</block>
+  <block id="760a7b6c1bd4f6ebab6918d42feb4825" category="paragraph">Azure NetApp Files は、Azure仮想マシンに接続されたNFSマウントとして機能します。これにより、スループットが向上し、ローカルストレージでストレージ向けに最適化されたVMのスループット制限を克服できます。したがって、Azure NetApp Files 上でOracleを実行すると、ライセンス可能なOracle CPUコア数とライセンスコストを削減できます。を参照してください <block ref="b46cbe9b7b18b9ff8101a014c206465f" category="inline-link-macro-rx"></block>、セクション7 - Oracleライセンスの仕組み</block>
+  <block id="71b93ac808ac25bb511ebcbb028e32e8" category="paragraph">その他に考慮すべき要素は次のとおりです。</block>
+  <block id="592bc946b588ad0e83c05f528895bcc8" category="list-text">ワークロードの特性に基づいて、正しいvCPUとRAMの組み合わせを選択してください。VMのRAMサイズが大きくなると、vCPUコア数も増加します。Oracleのライセンス料はvCPUコア数に基づいて課金されるため、ある時点でバランスを取る必要があります。</block>
+  <block id="fb9844eb7ee0ff341d6f7066f78918ff" category="list-text">VMにスワップスペースを追加する。デフォルトのAzure VM環境ではスワップスペースは作成されませんが、これはデータベースには最適な方法ではありません。</block>
+  <block id="81afc696937e3786d5701212de79c536" category="section-title">Azure NetApp Files のパフォーマンス</block>
+  <block id="c7bc5faed38f5284386f25a6fc3a5752" category="paragraph">Azure NetApp Files ボリュームは容量プールから割り当てられます。Azure NetApp Files ストレージアカウントでプロビジョニングする必要があります。各容量プールは次のように割り当てられます。</block>
+  <block id="3af20f4cec87eac026d0990a8a3f4169" category="list-text">全体的なパフォーマンス機能を定義するサービスレベルへの階層化。</block>
+  <block id="dd1fb66595c069d1b267fb8ca87e46eb" category="list-text">その容量プール用に最初にプロビジョニングされたストレージ容量または階層化。プロビジョニングされたスペースあたりの全体的な最大スループットを定義するサービス品質（QoS）レベル。</block>
+  <block id="9dc50220b7e70511b5aeebb862346fad" category="paragraph">サービスレベルと初期プロビジョニングされるストレージ容量によって、特定のOracleデータベースボリュームのパフォーマンスレベルが決まります。</block>
+  <block id="59b8b6b998c3c0fcd2f1b107a68c290a" category="section-title">1. Azure NetApp Files のサービスレベル</block>
+  <block id="f02ad1a8080bf1b50f8a15cb346ed483" category="paragraph">Azure NetApp Files は、Ultra、Premium、Standardの3つのサービスレベルをサポートします。</block>
+  <block id="3eec40f71dc46b07f32031c9703968ec" category="list-text">* Ultraストレージ。*この階層は、割り当てられたボリュームクォータ1TiBあたり最大128MiBpsのスループットを提供します。</block>
+  <block id="1b0fa75a1e8b815e03fb38f8a90d2a73" category="list-text">* Premiumストレージ。*この階層は、割り当てられたボリュームクォータ1TiBあたり最大64MiBpsのスループットを提供します。</block>
+  <block id="00792f6ec40d3e2833834d90802a7aa5" category="list-text">*標準ストレージ。*この階層は、割り当てられたボリュームクォータの1TiBあたり最大16MiBpsのスループットを提供します。</block>
+  <block id="7a720602d11a97fd37964c9979e2f1a5" category="section-title">2.容量プールとサービス品質</block>
+  <block id="36ac84521252c58a4238292bf0c21d92" category="paragraph">必要な各サービスレベルには、プロビジョニングされた容量に関連するコストがあり、プロビジョニングされたスペースの全体的な最大スループットを定義するサービス品質（QoS）レベルが含まれています。</block>
+  <block id="7a93db9cf06fd65415faf241927e2087" category="paragraph">たとえば、サービスレベルがPremiumの10TiBのプロビジョニング済みシングル容量プールは、この容量プール内のすべてのボリュームの合計スループットを10倍64MBpsにするため、640、000（16K）IOPSで40、000（8K）IOPSになります。</block>
+  <block id="18dc8b2cbfb938a0ba32c141664fba0e" category="paragraph">プールの最小サイズは4TiBです。ストレージのニーズとコストを管理するためにワークロードの要件が変化した場合は、1TiB単位で容量プールのサイズを変更できます。</block>
+  <block id="8a26494cf7b0c3c3ca7cd38e89c068eb" category="section-title">3.データベース・ボリュームでのサービス・レベルを計算します</block>
+  <block id="9ce59559a0b99338ee0bad0c153c961a" category="paragraph">Oracleデータベースボリュームのスループットの制限は、ボリュームが属する容量プールのサービスレベルとボリュームに割り当てられたクォータの各要素の組み合わせによって決まります。</block>
+  <block id="b87e1c6e437216fc2d3719c3dad93cb8" category="paragraph">次の図に、Oracleデータベースボリュームのスループット制限の計算方法を示します。</block>
+  <block id="1624b6f83446cd1719c94bae28cbbeb7" category="inline-image-macro">この図は、3つの容量階層に適用された関係式を示しており、総スループットを決定します。</block>
+  <block id="4d06f88a6f007c9821ac2ea5741860c5" category="paragraph"><block ref="4d06f88a6f007c9821ac2ea5741860c5" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="7ce3321601c29c87cb29ae9817843b8d" category="paragraph">例1では、Premiumストレージ階層で2TiBのクォータが割り当てられた大容量プールのボリュームのスループット制限は、128MiBps（2TiB×64MiBps）になります。このシナリオは、容量プールのサイズや実際のボリューム消費量に関係なく適用されます。</block>
+  <block id="69da5d3e48cc26414a9177d843bd55d9" category="paragraph">例2では、Premiumストレージ階層から100GiBのクォータが割り当てられた大容量プールのボリュームに、スループットの制限が6.25MiBps（0.09765625TiB * 64MiBps）に割り当てられます。このシナリオは、容量プールのサイズや実際のボリューム消費量に関係なく適用されます。</block>
+  <block id="def2c2ae4fa72ee296eada07b44a0cc9" category="paragraph">最小ボリュームサイズは100GiBです。</block>
+  <block id="78ad659ec79d8ee9e7432271167d18d3" category="list-text">小規模データベースでは、すべてのOracleファイルに対して単一ボリュームのレイアウトを使用します。</block>
+  <block id="51672f1f7a65c28f28e5e113376309bd" category="inline-image-macro">この図は、データファイル、REDOログ、アーカイブログ、および制御ファイルがそれぞれ1つの容量プール内に格納された3つのデータベース（DB1、DB2、およびDB3）を示しています。</block>
+  <block id="6dab61143f0fe37930fbd783e5c57c81" category="paragraph"><block ref="6dab61143f0fe37930fbd783e5c57c81" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="816445ad7ba016a8c0be293c985f068b" category="list-text">大規模なデータベースの場合、ボリュームのレイアウトとしてOracleデータ用と重複する制御ファイル用、Oracleアクティブログ、アーカイブログ、および制御ファイル用のボリュームを1つずつ複数使用することを推奨します。データベースを新しいホストに再配置して迅速にリストアできるように、ローカルドライブではなくOracleバイナリにボリュームを割り当てることを強く推奨します。</block>
+  <block id="955db4ecf8716abf17a3ea3f8e113671" category="inline-image-macro">この図は、それぞれ2つのボリュームを含む2つのデータベースを示しています。最初のボリュームにはデータファイルが、各データベースの2番目のボリュームにはREDOログ、アーカイブログ、および制御ファイルが格納されています。すべて単一の容量プール内で実現</block>
+  <block id="7432b939dcc290776a34b2e9610a2775" category="paragraph"><block ref="7432b939dcc290776a34b2e9610a2775" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="efeaafaa286e164985a0c325f0727cf1" category="paragraph">最も一般的なオペレーティングシステムであるLinuxには、ネイティブのNFS機能が含まれています。Oracleは、Oracleにネイティブに統合されたDirect NFS（dNFS）クライアントを提供しています。Oracle dNFSはOSキャッシュをバイパスし、並列処理を可能にしてデータベースのパフォーマンスを向上させます。Oracleでは20年以上NFSv3がサポートされており、NFSv4はOracle 12.1.0.2以降でサポートされています。</block>
+  <block id="be5ef2ba2540e077db09ca784b1ac18f" category="paragraph">Oracle 11g以降で使用可能なdNFSを使用したAzure Virtual Machineで実行されるOracleデータベースは、ネイティブのNFSクライアントよりも大幅に多くのI/Oを処理できます。NetApp Automation Toolkitを使用したOracleの自動導入で、NFSv3ではdNFSが自動的に設定されます。</block>
+  <block id="632bf0b812e05925eff22d7d0a7677c2" category="paragraph">次の図は、Oracle dNFSを使用したAzure NetApp Files のSLOBベンチマークを示しています。</block>
+  <block id="08826656fd88155bdfaebbb292320e33" category="inline-image-macro">このグラフは、dNFSによってKNFS上でのDBシーケンシャルファイルのレイテンシ（ミリ秒）が改善されたことを劇的に示しています。</block>
+  <block id="258bafba486e8ac35578ed4c5fff8ab1" category="paragraph"><block ref="258bafba486e8ac35578ed4c5fff8ab1" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="24019b0d54b5da3a46b400c6a6dfee77" category="paragraph">パフォーマンスを最適化し、パフォーマンスの問題を回避するには、TCPスロットテーブルを制御するカーネルパラメータを128に調整します。</block>
+  <block id="754e164c2de7ed1f02667d5f74297a0e" category="list-text">次の表に、Linux NFSv3の単一インスタンスに対する推奨されるNFSマウントオプションを示します。</block>
+  <block id="fa7abb28d1b83f9ee23d95aff1d3123b" category="inline-image-macro">次の表に、制御ファイル、データファイル、REDOログ、ORACLE_HOMEのNFSマウントオプションについて、詳細なNFSマウントオプションを示します。およびORACLE_BASEの場合に使用します。</block>
+  <block id="082aad17dee7d03a3d502a422c1a8c53" category="paragraph"><block ref="082aad17dee7d03a3d502a422c1a8c53" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="b71b592b003a6232eebe484a1736be7a" category="paragraph"><block ref="b71b592b003a6232eebe484a1736be7a" category="inline-link-macro-rx"></block></block>
+  <block id="d0dfaca5f0573d672a0f4dc66997c002" category="doc">EC2およびFSX Oracleデータベース管理</block>
+  <block id="4020b36b638694a9834cb01b53b25ffe" category="doc">AWS EC2およびFSXでのOracleの導入手順をステップバイステップで説明します</block>
+  <block id="d842058c0e8814799a596324a98e5323" category="sidebar">AWS EC2およびFSXのベストプラクティスにOracleデータベースを導入する</block>
+  <block id="879f2366c198b1fc05740657cacebcc1" category="sidebar">Azure NetApp Files へのOracleデータベースの導入と保護</block>
+  <block id="fc305603a3cb90ea71cabdf327aaf437" category="sidebar">データベースの保護</block>
 </blocks>
