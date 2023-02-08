@@ -24,16 +24,20 @@ link:aws_ora_fsx_ec2_mgmt.html["Previous：データベース管理。"]
 
 == ONTAP ストレージはオンプレミスで利用できます
 
-オンプレミスのOracleデータベースがONTAP ストレージアレイに配置されている場合は、NetApp SnapCenter UIツールを使用してデータベースを移行するためのレプリケーションを簡単に設定できます。
+オンプレミスのOracleデータベースがONTAP ストレージアレイに配置されている場合は、AWS FSX ONTAP ストレージに組み込まれているNetApp SnapMirrorテクノロジを使用して、データベースを移行するためのレプリケーションを簡単に設定できます。移行プロセスは、NetApp BlueXPコンソールを使用してオーケストレーションできます。
 
 . オンプレミスのインスタンスと一致するターゲットコンピューティングEC2インスタンスを構築します。
 . FSXコンソールから、同じサイズの一致するデータベースボリュームをプロビジョニングします。
 . FSXデータベースボリュームをEC2インスタンスにマウントします。
 . オンプレミスのデータベースボリュームとターゲットのFSXデータベースボリュームとの間にSnapMirrorレプリケーションを設定します。初期同期ではプライマリソースデータの移動に時間がかかる場合がありますが、次の差分更新の方がはるかに高速です。
-. スイッチオーバー時に、プライマリアプリケーションをシャットダウンしてすべてのトランザクションを停止します。SnapCenter で、ログバックアップを実行して残りのトランザクションをターゲットにフラッシュします。
+. スイッチオーバー時に、プライマリアプリケーションをシャットダウンしてすべてのトランザクションを停止します。Oracleのsqlplus CLIインターフェイスから、Oracleオンラインログスイッチを実行し、SnapMirrorの同期を有効にして、最後にアーカイブされたログをターゲットボリュームにプッシュします。
 . ミラーボリュームを切断し、ターゲットでOracleリカバリを実行し、データベースを稼働状態にしてサービスを開始します。
 . アプリケーションをクラウド内のOracleデータベースに指定します。
 
+
+次のビデオでは、NetApp BlueXPコンソールとSnapMirrorレプリケーションを使用して、OracleデータベースをオンプレミスからAWS FSX/EC2に移行する方法を紹介します。
+
+link:https://docs.netapp.com/us-en/netapp-solutions/media/oracle-aws-fsx-part2b-migration-snapmirror_callout.mp4["オンプレミスからFSX/EC2へ、SnapMirrorとBlueXPを使用したOracleデータベースの移行"^]
 
 
 
@@ -56,18 +60,26 @@ AWS S3は、データベースの移動と移行のステージングストレ�
 
 
 
-== OracleマルチテナンシーCDB/PDBアーキテクチャを使用して、OracleデータベースをAWSに統合します
+== PDBの再配置によって可用性を最大限に高め、オンプレミスのOracleデータベースをAWS FSX/EC2に移行
 
-. AWSパブリッククラウドにCDBを作成します。
-. CDB / PDBのマルチテナンシーにオンプレミスデータベースも導入されている場合は、移行するPDBを取り外します。
-. メタデータと下線付きのOracleデータファイルをターゲットCDBインスタンスに転送します。
-. Oracleの検証手順との互換性を検証
-. 互換性検証に合格した場合は、未接続のPDBをターゲットCDBコンテナに接続します。
-. 必要に応じてデータディクショナリを更新します。
-. アクセスできるように、移行されたPDBをバックアップして開きます。
+この移行アプローチは、PDB / CDBマルチテナントモデルですでに導入されているOracleデータベースに最適です。ONTAP ストレージはオンプレミスでは利用できません。PDBの再配置方式では、サービスの中断を最小限に抑えながら、Oracle PDBのホットクローンテクノロジを使用して、ソースCDBとターゲットCDB間でPDBを移動します。
 
+まず、オンプレミスから移行するPDBをホストするための十分なストレージを備えたAWS FSX/EC2にCDBを作成します。複数のオンプレミスPDBを一度に1つずつ再配置できます。
+
+. マルチテナントのPDB / CDBモデルではなく単一のインスタンスにオンプレミスデータベースを導入している場合は、の手順に従います link:https://docs.netapp.com/us-en/netapp-solutions/databases/azure_ora_nfile_migration.html#converting-a-single-instance-non-cdb-to-a-pdb-in-a-multitenant-cdb["マルチテナントCDBで単一インスタンスの非CDBをPDBに変換します"^] 単一のインスタンスをマルチテナントPDB / CDBに変換します。次に、変換したPDBをAWS FSX/EC2内のCDBに移行する手順を実行します。
+. マルチテナントのPDB / CDBモデルにオンプレミスデータベースがすでに導入されている場合は、の手順に従います link:https://docs.netapp.com/us-en/netapp-solutions/databases/azure_ora_nfile_migration.html#migrate-on-premises-oracle-databases-to-azure-with-pdb-relocation["PDBの再配置で、オンプレミスのOracleデータベースをクラウドに移行"^] 移行を実行します。
 
 
-NOTE: PDBのプラグインとプラグインを取り外すには、移行計画の際に考慮すべきアプリケーションのダウンタイムが必要です。
+次のビデオでは、PDB（Oracle Database）を、最大限の可用性を備えたPDBの再配置を使用してFSX/EC2に移行する方法について説明します。
 
-繰り返しになりますが、ネットアップの自動化チームが提供する移行ツールキットを使用すれば、オンプレミスからAWSクラウドへのOracleデータベースの移行をスムーズに進めることができます。ネットアップのパブリックGitHubサイトで、最新のデータベース移行ツールを確認してください。
+link:https://www.netapp.tv/insight/details/29998?playlist_id=0&mcid=85384745435828386870393606008847491796["オンプレミスのOracle PDBをAWS CDBに移行し、可用性を最大限に高めます"^]
+
+
+NOTE: ステップ1と2の手順をAzureパブリッククラウドのコンテキストで説明していますが、この手順は変更を加えることなくAWSクラウドに適用できます。
+
+NetApp Solutions Automationチームが提供する移行ツールキットを使用すれば、オンプレミスからAWSクラウドへのOracleデータベースの移行をスムーズに進めることができます。PDBの再配置用のOracleデータベース移行ツールキットをダウンロードするには、次のコマンドを使用します。
+
+[source, cli]
+----
+git clone https://github.com/NetApp-Automation/na_ora_aws_migration.git
+----
