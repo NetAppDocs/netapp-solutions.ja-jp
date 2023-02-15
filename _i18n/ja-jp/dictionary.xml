@@ -16590,4 +16590,101 @@
   <block id="049e44fe327f7679318c6cf222207da7" category="list-text">UIには次の方法でアクセスします。</block>
   <block id="b7bd19f19df4ca5ef3102741951e7a1b" category="paragraph">次のデフォルトクレデンシャルを使用：</block>
   <block id="d644796f5eb5712add7807df8829ee58" category="admonition">パスワードは、Change Passwordオプションを使用して変更できます。</block>
+  <block id="653a98af1c9a004c51b4e7358f06db9a" category="summary">解決策 は、FSX ONTAP ストレージ製品に組み込まれたNetApp SnapMirrorテクノロジとAWSのNetApp Ansible Automation Toolkitに基づいて、PostgreSQLデータベースの導入とHA/DRのセットアップ、フェイルオーバー、再同期の概要と詳細を提供します。</block>
+  <block id="e5f44d648a9d8c4db4e2b580d3370fbf" category="doc">TR-4956：『Automated PostgreSQL High Availability Deployment and Disaster Recovery in AWS FSX/EC2』</block>
+  <block id="03784a7c5600d29113972955e602a944" category="inline-link-macro">DB-Engines（DBエンジン）</block>
+  <block id="1d8f1bdc206db1d9edd9fa46f02aa08c" category="paragraph">PostgreSQLは広く利用されているオープンソースデータベースで、最も普及しているデータベースエンジンの上位10位に4位にランクされています <block ref="6e2d0e5987102894082cbdb135303e4d" category="inline-link-macro-rx"></block>。一方、PostgreSQLは、まだ高度な機能を持っている一方で、ライセンスフリーのオープンソースモデルから人気を得ています。一方、オープンソースのため、高可用性とディザスタリカバリ（HA/DR）分野では、本番環境レベルのデータベース導入に関する詳細なガイダンスが不足しており、特にパブリッククラウドでは不足しています。一般的に、ホットスタンバイやウォームスタンバイ、ストリーミングレプリケーションなどを使用した一般的なPostgreSQL HA/DRシステムのセットアップは困難です。スタンバイサイトを昇格させてからプライマリに戻すことで、HA / DR環境をテストすると、本番環境が停止する可能性があります。ストリーミングホットスタンバイに読み取りワークロードが導入されている場合、プライマリにはパフォーマンスの問題が詳しく文書化されています。</block>
+  <block id="a685f8093823e999c5eaf32bef74906d" category="paragraph">このドキュメントでは、アプリケーションレベルのPostgreSQLストリーミングHA / DR解決策 を使用して、データベースファイルやPostgreSQL DBサーバなどのEC2コンピューティングインスタンス用のAWS FSX ONTAP ストレージに基づいてPostgreSQL HA/DR解決策 を構築する方法を説明します。解決策 は、シンプルで同等のシステムを構築し、従来のPostgreSQLアプリケーションレベルのHA/DRストリーミングレプリケーションと比較して同等の結果を提供します。</block>
+  <block id="e2543d0568626be8ab6adad9d9a78652" category="paragraph">この解決策 は、実績のある成熟したネットアップのSnapMirrorストレージレベルのレプリケーションテクノロジを基盤としており、PostgreSQLのHA / DR用にAWSネイティブのFSX ONTAP クラウドストレージで利用できます。実装には、ネットアップのソリューションチームが提供する自動化ツールキットが必要同様の機能を提供すると同時に、アプリケーションレベルのストリーミングベースのHA / DR解決策 によって、プライマリサイトにおける複雑さやパフォーマンスの低下を解消します。解決策 は、アクティブなプライマリサイトに影響を与えることなく、簡単に導入してテストできます。</block>
+  <block id="f67bd3c0833b1d6bf90bb26a55f0a9ce" category="list-text">パブリックAWSクラウドにPostgreSQL向けの本番グレードのHA/DRを導入します</block>
+  <block id="420a5f3809172bb0dc9d501758fe94d2" category="list-text">パブリックAWSクラウドでのPostgreSQLワークロードのテストと検証</block>
+  <block id="c9d6a5076f52c5abce5f2003446ab211" category="list-text">NetApp SnapMirrorレプリケーションテクノロジをベースにしたPostgreSQLのHA / DR戦略をテストし検証しています</block>
+  <block id="82aa3e78c2089a2941fb745bb8c72f01" category="paragraph">この解決策 は、次のユーザーを対象としています。</block>
+  <block id="4a7bde15fa2753ce507cef621fd789b2" category="list-text">パブリックAWSクラウドにHA/DRでPostgreSQLを導入することに関心をお持ちのDBA。</block>
+  <block id="c5e04df584e0992a5dbdae10d89ded97" category="list-text">パブリックAWSクラウドでのPostgreSQLワークロードのテストに関心をお持ちのデータベース解決策 アーキテクト。</block>
+  <block id="ba083ee91407315383bac538162833ff" category="list-text">AWS FSXストレージに導入されたPostgreSQLインスタンスの導入と管理に関心をお持ちのストレージ管理者。</block>
+  <block id="73ad058c671f3e1e105d92585f5ece7a" category="list-text">AWS FSX/EC2でPostgreSQL環境の立ち上げに関心があるアプリケーション所有者。</block>
+  <block id="d17a638ff086388dc5bfbe98528ccfab" category="section-title">解決策 のテストおよび検証環境</block>
+  <block id="863fb5b3a3b3b63b57a387bab70de0a9" category="paragraph">この解決策 のテストと検証は、最終的な導入環境と一致しないAWS FSXおよびEC2環境で実行しました。詳細については、を参照してください <block ref="8ea96e516bccf9a47ca2d74131eb7519" category="inline-xref-macro-rx"></block>。</block>
+  <block id="bfa420253f0a67626a51ce1fa045944c" category="image-alt">この図は、オンプレミス側やAWSサイトなど、PostgreSQLハイブリッドクラウド解決策 の構成の詳細を示しています。</block>
+  <block id="34d0b9b49aa480630e91a3619ba7ffb2" category="section-title">ハードウェアおよびソフトウェアコンポーネント</block>
+  <block id="a09dc18a1bff4fa8388afca4627d0911" category="cell">FSX ONTAP ストレージ</block>
+  <block id="011fedf4050817b8826f95a53d9555b2" category="cell">現在のバージョン</block>
+  <block id="0b70cdec9293f5625e5aaae9cdd38526" category="cell">プライマリおよびスタンバイのHAクラスタと同じVPCおよびアベイラビリティゾーンに2つのFSX HAペア</block>
+  <block id="6a79356b19d3b59e92b358357c5b9053" category="cell">コンピューティングのEC2インスタンス</block>
+  <block id="cc4def82629f09f253176dba801a85f0" category="cell">t2.xlarge / 4vCPU / 16G</block>
+  <block id="e3d6d4b94f9415561957f8c22f5fea2e" category="cell">2つのEC2 T2 xlargeをプライマリおよびスタンバイコンピューティングインスタンスとして使用できます</block>
+  <block id="3008feb4272787858d4d27f7e8acb08b" category="cell">Ansibleコントローラ</block>
+  <block id="26b9568eac10de69d574b84626735921" category="cell">オンプレミスCentOS VM / 4vCPU / 8G</block>
+  <block id="7f151fffe66dad0021b1918085977654" category="cell">オンプレミスまたはクラウドでAnsible自動化コントローラをホストするVM</block>
+  <block id="8b56d55f3caeb71ab2513c28fb1a52fc" category="cell">Red Hat Linux</block>
+  <block id="52359c9653f33c68cd1b454f7d05a27b" category="cell">RHEL-8.6.0_HVM-20220503-x86_64-2- Hourly2-gp2の場合</block>
+  <block id="fe6120dacb84838d71b1f43da1a3a514" category="cell">テスト用にRedHatサブスクリプションを導入</block>
+  <block id="8003cafa06ec27e11cb235ec9544ef74" category="cell">CentOS Linuxの場合</block>
+  <block id="04cd32c57cf3229ae9374fc80cd50d96" category="cell">CentOS Linuxリリース8.2.2004（コア）</block>
+  <block id="63b6df5ba9d257bb0f6fbda5541d9171" category="cell">オンプレミスのラボに導入されたAnsibleコントローラをホストする</block>
+  <block id="399bd1ee587245ecac6f39beaa99886f" category="cell">PostgreSQL</block>
+  <block id="a3c20b719830dc5fda947c7b6f3e42be" category="cell">バージョン14.5</block>
+  <block id="f8c3d3a84c62eb07a1009aacdc46a50f" category="cell">Automationは、PostgreSQLの.ora yum repoから最新バージョンのPostgreSQLを取得します</block>
+  <block id="202351f581b52c61061d29151c81d061" category="cell">バージョン2.10.3</block>
+  <block id="d222003898249e4a560d569acb0b5563" category="cell">要件Playbookがインストールされた必須のコレクションとライブラリの前提条件</block>
+  <block id="cd1aedf83959dd52fc058b9120f500e3" category="section-title">導入にあたって考慮すべき主な要因</block>
+  <block id="b062352f67359ac6729601c60a9a57a2" category="list-text">* PostgreSQLデータベースのバックアップ、復元、および回復。* PostgreSQLデータベースは、pg_dumpを使用した論理バックアップ、pg_basbackupまたは下位レベルのOSバックアップコマンドを使用した物理オンラインバックアップ、ストレージレベルの整合性のあるスナップショットなど、多くのバックアップ方法をサポートしています。この解決策 は、PostgreSQLデータベースデータおよびスタンバイサイトでのWALボリュームのバックアップ、リストア、およびリカバリに、ネットアップの整合グループスナップショットを使用します。ネットアップの整合性グループボリュームのSnapshotは、ストレージに書き込まれる時点でのI/Oシーケンスを検証し、データベースデータファイルの整合性を保護します。</block>
+  <block id="a28c157802547f294e145f164007d752" category="list-text">* EC2コンピューティングインスタンス。*このテストと検証では、PostgreSQLデータベースコンピューティングインスタンスにAWS EC2 t2.xlargeインスタンスタイプを使用しました。データベースワークロード向けに最適化されているため、導入環境ではPostgreSQLのコンピューティングインスタンスとしてM5タイプEC2インスタンスを使用することを推奨します。スタンバイコンピューティングインスタンスは、FSX HAクラスタ用に展開されたパッシブ（スタンバイ）ファイルシステムと同じゾーンに常に配置する必要があります。</block>
+  <block id="d7aed04148f8b6ba1b91a7ed84d3fd10" category="list-text">* FSXストレージHAクラスタのシングルゾーンまたはマルチゾーン展開。*このテストと検証では、FSX HAクラスタを単一のAWSアベイラビリティゾーンに導入しました。本番環境では、FSX HAペアを2つの異なるアベイラビリティゾーンに導入することを推奨します。ビジネス継続性のためのディザスタリカバリスタンバイHAペアは、プライマリとスタンバイの間に特定の距離が必要な場合、別のリージョンに設定できます。FSX HAクラスタは、アクティブ/パッシブファイルシステムのペアで同期ミラーされるHAペアで、ストレージレベルの冗長性を提供するために割り当てられます。</block>
+  <block id="c6f1f46bc7e80b73e6d77a7f862e0625" category="list-text">* PostgreSQLデータとログの配置。*一般的なPostgreSQL環境では、データファイルとログファイルに同じルートディレクトリまたはボリュームを共有しています。テストと検証では、PostgreSQLのデータを分離し、パフォーマンスのために2つのボリュームにログを作成しました。データディレクトリ内のソフトリンクは、PostgreSQL WALログとアーカイブされたWALログをホストするログディレクトリまたはボリュームを指すために使用されます。</block>
+  <block id="6e6dddb70c24cf218d0163faa3fb6a8f" category="list-text">* PostgreSQLサービスの起動遅延タイマー。*この解決策 は、NFSマウントボリュームを使用してPostgreSQLデータベースファイルとWALログファイルを保存します。データベース・ホストの再起動中に、ボリュームがマウントされていない状態でPostgreSQLサービスが起動を試みることがあります。その結果、データベースサービスの起動に失敗します。PostgreSQLデータベースを正しく起動するには、10～15秒のタイマー遅延が必要です。</block>
+  <block id="ee79ca09fee704e63d972baa3c1319a2" category="list-text">*ビジネス継続性のためのRPO / RTO。* DRのプライマリからスタンバイへのFSXデータレプリケーションは非同期に基づいているため、RPOはSnapshotバックアップとSnapMirrorレプリケーションの頻度に依存します。SnapshotコピーとSnapMirrorレプリケーションの頻度を高くすると、RPOが短縮されます。そのため、災害時のデータ損失と、ストレージコストの増加というバランスを取ることができます。これまでのところ、RPOではSnapshotコピーとSnapMirrorレプリケーションをわずか5分間隔で実装できると判断しており、一般にRTOでは、DRスタンバイサイトでPostgreSQLを1分以内にリカバリできます。</block>
+  <block id="cbeb123cc0c2c950a65a0c39f8412dc4" category="list-text">*データベースのバックアップ。* PostgreSQLデータベースを実装した後、またはオンプレミスのデータセンターからAWS FSXストレージに移行した後、データは保護のためにFSX HAペアで自動的に同期されます。災害発生時に、複製されたスタンバイサイトによってデータがさらに保護されます。長期のバックアップ保持やデータ保護を実現するために、組み込みのPostgreSQL pg_basbackupユーティリティを使用して、S3 BLOBストレージに移植可能なフルデータベースバックアップを実行することを推奨します。</block>
+  <block id="d2598d7d09e212cad1231cd233c5f7dc" category="paragraph">この解決策 の導入は、以下に示す詳細な手順に従って、NetApp Ansibleベースの自動化ツールキットを使用して自動的に完了できます。</block>
+  <block id="7cfbd2a753781ece3080a48b0a56dad2" category="inline-link-macro">na_postgresql_AWS_DEプロイ_hadr</block>
+  <block id="fce91619a13ef0fd71e3ffe1da6b5724" category="list-text">自動化ツールキットreadme.mdの手順を確認します <block ref="139722adb31b9bbcb8f923b221d78595" category="inline-link-macro-rx"></block>。</block>
+  <block id="9a1c6815d4b1e7dc53acf5a926ab662e" category="list-text">次のビデオを見ていきましょう。</block>
+  <block id="c73ece4b7be6bb88143afe096ded59aa" category="list-text">必要なパラメータファイルを設定します <block ref="85cf4e6d42a71e693fd780c8b29accdd" prefix="(" category="inline-code"></block>、<block ref="0c83664bfb17d8d2c0bbc3551297e488" prefix=" " category="inline-code"></block>、<block ref="cb8e25d5e6251a20afadf4c5f4b626bb" prefix=" " category="inline-code"></block>）を使用して、関連セクションのテンプレートにユーザー固有のパラメータを入力します。次に、コピーボタンを使用してAnsibleコントローラホストにファイルをコピーします。</block>
+  <block id="00aaa5ff8fbd0841ab311f7d9b1e4e78" category="section-title">導入を自動化するための前提条件</block>
+  <block id="fd10b9eacfe4eed8040bda8cae9ea050" category="paragraph">導入には、次の前提条件が必要です。</block>
+  <block id="e7491272f69c8efda69a595782f44d45" category="list-text">AWSアカウントが設定され、必要なVPCとネットワークセグメントがAWSアカウント内に作成されている。</block>
+  <block id="f71558e9ad22e37a70099d8b5d8ac06c" category="inline-link-macro">Linuxインスタンスのユーザーガイド</block>
+  <block id="eb03aa8f939650517c1c56a6d0b9ad2f" category="list-text">AWS EC2コンソールでは、2つのEC2 Linuxインスタンスを導入する必要があります。1つはプライマリのPostgreSQL DBサーバ、もう1つはスタンバイのDRサイトです。プライマリおよびスタンバイDRサイトでのコンピューティングの冗長性を確保するために、2つの追加EC2 LinuxインスタンスをスタンバイPostgreSQL DBサーバとして配置します。環境セットアップの詳細については、前のセクションのアーキテクチャ図を参照してください。また、も参照してください <block ref="32934851360be4fd00506586c2cbc221" category="inline-link-macro-rx"></block> を参照してください。</block>
+  <block id="933d3e5f984811b21da2922f3deb56c4" category="list-text">AWS EC2コンソールから、FSX ONTAP ストレージHAクラスタを2つ導入して、PostgreSQLデータベースボリュームをホストします。FSXストレージの導入に慣れていない場合は、マニュアルを参照してください <block ref="d73b8b529985c5c89147bd81cb29dbfb" category="inline-link-macro-rx"></block> を参照してください。</block>
+  <block id="7053a216e34d0f83be18a65f22ce62ce" category="list-text">AnsibleコントローラをホストするCentOS Linux VMを構築します。Ansibleコントローラは、オンプレミスとAWSクラウドのどちらにも配置できます。オンプレミスにある場合は、VPC、EC2 Linuxインスタンス、およびFSXストレージクラスタへのSSH接続が必要です。</block>
+  <block id="d1186b859105640e1dc347ae7b714afa" category="list-text">のセクション「RHEL / CentOSへのCLI導入に使用するAnsible Control Nodeのセットアップ」の説明に従って、リソースからAnsibleコントローラをセットアップします <block ref="a9149ecc8f33f363a4eae3089d5c6cb7" category="inline-link-macro-rx"></block>。</block>
+  <block id="007fa0067fff9abdcd3e5b9ce9f20c06" category="list-text">パブリックのNetApp GitHubサイトから、自動化ツールキットのコピーをクローニングします。</block>
+  <block id="0ca21e6da2c89e765706d9a77f412898" category="list-text">ツールキットのルートディレクトリで、必要なプレイブックを実行して、Ansibleコントローラに必要なコレクションとライブラリをインストールします。</block>
+  <block id="df40cb16c4a24c991c143fbddeedd0bc" category="list-text">DBホスト変数ファイルに必要なEC2 FSXインスタンスパラメータを取得します<block ref="ea858a411f1af6150f14b84176148712" prefix=" " category="inline-code"></block> およびグローバル変数ファイル<block ref="cb8e25d5e6251a20afadf4c5f4b626bb" prefix=" " category="inline-code"></block> 設定</block>
+  <block id="57c7844b0a299340cf9b625ce4a0745a" category="section-title">hostsファイルを設定します</block>
+  <block id="ed578fbfbec5634c4fa508cde5bc4e85" category="paragraph">プライマリFSX ONTAP クラスタ管理IPとEC2インスタンスがhostsファイルに名前を入力します。</block>
+  <block id="6ef214427ca7b42201d0b0508f56df98" category="section-title">host_varsフォルダでhost_name.ymlファイルを設定します</block>
+  <block id="6967d323b85203ba993572c1cd814dc1" category="paragraph">お使いのシステムに対応するパラメータを青い下線付きフィールドに入力し、エントリをコピーしてに貼り付けます<block ref="caa6779553864dba00727ae27752b182" prefix=" " category="inline-code"></block> Ansibleコントローラ内のファイル<block ref="3342582e194d63e4c91b56623752c9c6" prefix=" " category="inline-code"></block> フォルダ。</block>
+  <block id="77ac1da2cd356e327eb4bfc4c5a21bcc" category="section-title">グローバルFSX_vars.ymlファイルをvarsフォルダに設定します</block>
+  <block id="7876ddba2c3af67cbee2b37f64072428" category="paragraph">システムに対応するパラメータを青い下線付きフィールドに入力し、エントリをコピーしてに貼り付けます<block ref="cb8e25d5e6251a20afadf4c5f4b626bb" prefix=" " category="inline-code"></block> Ansibleコントローラホストにあるファイル。</block>
+  <block id="d56625a35762821798a2f3dd55ead05d" category="section-title">PostgreSQLの導入とHA/DRのセットアップ</block>
+  <block id="943a124028d8f011631df765453640dc" category="paragraph">次のタスクでは、PostgreSQL DBサーバサービスを展開し、プライマリEC2 DBサーバホストのプライマリサイトでデータベースを初期化します。スタンバイプライマリEC2 DBサーバホストは、スタンバイサイトで設定されます。最後に、DBボリュームのレプリケーションは、ディザスタリカバリ用にプライマリサイトのFSXクラスタからスタンバイサイトのFSXクラスタにセットアップされます。</block>
+  <block id="08f6dd070ef1adfcbe3d7f3c70b08905" category="list-text">プライマリFSXクラスタにDBボリュームを作成し、プライマリEC2インスタンスホストにPostgreSQLをセットアップします。</block>
+  <block id="bf22091495c9a041dcbdba3a97795095" category="list-text">スタンバイDR EC2インスタンスホストを設定します。</block>
+  <block id="f2dd18dfc82378171d01bdd3f956bc6f" category="list-text">FSX ONTAP クラスタピアリングとデータベースボリュームレプリケーションをセットアップします。</block>
+  <block id="d681aef28cf1f863d0683a6896f12995" category="list-text">前の手順を1ステップのPostgreSQL展開とHA/DRセットアップに統合します。</block>
+  <block id="fe217a2e30a79cebc71db6d5cb676a71" category="list-text">プライマリサイトまたはスタンバイサイトのいずれかでスタンバイPostgreSQL DBホストを設定するには、hostsファイル[dr_gresql]セクションの他のすべてのサーバをコメントアウトし、それぞれのターゲットホスト（プライマリサイトのpsql_01psまたはスタンバイEC2コンピューティングインスタンスなど）でpostgresql_standby_setup.ymlプレイブックを実行します。などのホストパラメータファイルを確認します<block ref="7c0f59fa275836ef9c4f28bec839acca" prefix=" " category="inline-code"></block> は、の下で設定します<block ref="3342582e194d63e4c91b56623752c9c6" prefix=" " category="inline-code"></block> ディレクトリ。</block>
+  <block id="d3ecdce9695eacdb90ec80fa276865d4" category="section-title">PostgreSQLデータベーススナップショットのバックアップとスタンバイサイトへのレプリケーション</block>
+  <block id="3b320790a7f864b473e3baa86de785fe" category="paragraph">PostgreSQLデータベーススナップショットのバックアップとスタンバイサイトへのレプリケーションは、ユーザー定義の間隔でAnsibleコントローラで制御および実行できます。間隔は5分程度に短くなることが確認されました。したがって、プライマリサイトで障害が発生した場合、スケジュールされている次のSnapshotバックアップの直前に障害が発生した場合、データ損失が5分間発生する可能性があります。</block>
+  <block id="421057a9fa982de2a1c1f79f5f03d750" category="section-title">DRのスタンバイサイトにフェイルオーバーします</block>
+  <block id="6ddcc779c247e4adb5b5a56a34edd75d" category="paragraph">PostgreSQLのHA / DRシステムをDR用にテストするには、次のプレイブックを実行して、スタンバイサイトのプライマリスタンバイEC2 DBインスタンスでフェイルオーバーとPostgreSQLデータベースリカバリを実行します。実際のDRシナリオでは、同じ手順を実行してDRサイトへの実際のフェイルオーバーを行います。</block>
+  <block id="724a617bc1dcc9b26fedb732f63a569d" category="section-title">フェイルオーバーテスト後にレプリケートされたDBボリュームを再同期</block>
+  <block id="6a08e960bd12a4fcddfd08082fbece4b" category="paragraph">フェイルオーバーテスト後にresyncを実行して、データベースとボリュームのSnapMirrorレプリケーションを再確立します。</block>
+  <block id="145966bc8e38b26c384abaf4e450f6a7" category="section-title">EC2コンピューティングインスタンス障害のため、プライマリEC2 DBサーバからスタンバイEC2 DBサーバへのフェイルオーバーを実行します</block>
+  <block id="bab50aeeeaabfc4e129f95b2d8d125e5" category="paragraph">ライセンスが必要なOSクラスタウェアが十分に確立された状態で手動フェイルオーバーを実行することを推奨します。</block>
+  <block id="73bc97f640d8c1cae3fa624183216b41" category="inline-link-macro"><block ref="73bc97f640d8c1cae3fa624183216b41" category="inline-link-rx"></block></block>
+  <block id="40285fa8e3dc4d66bfadb679f67dfde6" category="paragraph"><block ref="40285fa8e3dc4d66bfadb679f67dfde6" category="inline-link-macro-rx"></block></block>
+  <block id="68253b5715937494905ba0cb9db91d2e" category="inline-link-macro"><block ref="be48c1546d351a5e48dcf4f28738754b" category="inline-link-rx"></block></block>
+  <block id="6dcfba5adaa9302bd59dd5a601b947a2" category="paragraph"><block ref="95bfcff1050e9160bb2bd645993e8c18" category="inline-link-macro-rx"></block></block>
+  <block id="6d183e6080727fa3b49f82e41b18c061" category="inline-link-macro"><block ref="6d183e6080727fa3b49f82e41b18c061" category="inline-link-rx"></block></block>
+  <block id="8fb430b477f47c3062d0f4afb8a9195b" category="paragraph"><block ref="8fb430b477f47c3062d0f4afb8a9195b" category="inline-link-macro-rx"></block></block>
+  <block id="031004dd1775e5fd9d35b534e33217ea" category="paragraph">[下線]#*オープンソースデータベース用のビデオ*#</block>
+  <block id="5b70a7f45ddd32cacfe28af238662d3d" category="video-title">PostgreSQLの自動導入、HA/DRレプリケーションのセットアップ、フェイルオーバー、再同期</block>
+  <block id="61c8e892dd7e1908020eb0a312fd4bbb" category="cell">202/15/2023</block>
+  <block id="2ee6a0567aa163f6ace02183cb041cbd" category="cell">AWS FSX/EC2にPostgreSQLの高可用性導入とディザスタリカバリ機能を追加しました</block>
+  <block id="a54420e6e0f519f841f4280cf2545365" category="sidebar">オープンソースデータベース</block>
+  <block id="67bb2ef7cf3c5ff59f35f28e513bfda3" category="sidebar">PostgreSQL High Availability Deployment and Disaster Recovery in AWS FSX/EC2を参照してください</block>
+  <block id="1ae3eccde141a365ede8f18b188ae588" category="sidebar">AWS FSX/EC2へのPostgreSQL HAの自動導入とDR</block>
+  <block id="6fabfc29f0b3a196c8407c190bb67293" category="sidebar">データベースのSnapCenter</block>
 </blocks>

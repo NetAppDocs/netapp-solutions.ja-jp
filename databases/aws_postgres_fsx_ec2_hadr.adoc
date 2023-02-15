@@ -1,0 +1,288 @@
+---
+sidebar: sidebar 
+permalink: databases/aws_postgres_fsx_ec2_hadr.html 
+keywords: PostgreSQL, AWS, FSx ONTAP, Database, Open Source Database 
+summary: 解決策 は、FSX ONTAP ストレージ製品に組み込まれたNetApp SnapMirrorテクノロジとAWSのNetApp Ansible Automation Toolkitに基づいて、PostgreSQLデータベースの導入とHA/DRのセットアップ、フェイルオーバー、再同期の概要と詳細を提供します。 
+---
+= TR-4956：『Automated PostgreSQL High Availability Deployment and Disaster Recovery in AWS FSX/EC2』
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+ネットアップ、Niyaz Mohamed、Allen Cao氏
+
+
+
+== 目的
+
+PostgreSQLは広く利用されているオープンソースデータベースで、最も普及しているデータベースエンジンの上位10位に4位にランクされています link:https://db-engines.com/en/ranking["DB-Engines（DBエンジン）"^]。一方、PostgreSQLは、まだ高度な機能を持っている一方で、ライセンスフリーのオープンソースモデルから人気を得ています。一方、オープンソースのため、高可用性とディザスタリカバリ（HA/DR）分野では、本番環境レベルのデータベース導入に関する詳細なガイダンスが不足しており、特にパブリッククラウドでは不足しています。一般的に、ホットスタンバイやウォームスタンバイ、ストリーミングレプリケーションなどを使用した一般的なPostgreSQL HA/DRシステムのセットアップは困難です。スタンバイサイトを昇格させてからプライマリに戻すことで、HA / DR環境をテストすると、本番環境が停止する可能性があります。ストリーミングホットスタンバイに読み取りワークロードが導入されている場合、プライマリにはパフォーマンスの問題が詳しく文書化されています。
+
+このドキュメントでは、アプリケーションレベルのPostgreSQLストリーミングHA / DR解決策 を使用して、データベースファイルやPostgreSQL DBサーバなどのEC2コンピューティングインスタンス用のAWS FSX ONTAP ストレージに基づいてPostgreSQL HA/DR解決策 を構築する方法を説明します。解決策 は、シンプルで同等のシステムを構築し、従来のPostgreSQLアプリケーションレベルのHA/DRストリーミングレプリケーションと比較して同等の結果を提供します。
+
+この解決策 は、実績のある成熟したネットアップのSnapMirrorストレージレベルのレプリケーションテクノロジを基盤としており、PostgreSQLのHA / DR用にAWSネイティブのFSX ONTAP クラウドストレージで利用できます。実装には、ネットアップのソリューションチームが提供する自動化ツールキットが必要同様の機能を提供すると同時に、アプリケーションレベルのストリーミングベースのHA / DR解決策 によって、プライマリサイトにおける複雑さやパフォーマンスの低下を解消します。解決策 は、アクティブなプライマリサイトに影響を与えることなく、簡単に導入してテストできます。
+
+この解決策 は、次のユースケースに対応します。
+
+* パブリックAWSクラウドにPostgreSQL向けの本番グレードのHA/DRを導入します
+* パブリックAWSクラウドでのPostgreSQLワークロードのテストと検証
+* NetApp SnapMirrorレプリケーションテクノロジをベースにしたPostgreSQLのHA / DR戦略をテストし検証しています
+
+
+
+
+== 対象者
+
+この解決策 は、次のユーザーを対象としています。
+
+* パブリックAWSクラウドにHA/DRでPostgreSQLを導入することに関心をお持ちのDBA。
+* パブリックAWSクラウドでのPostgreSQLワークロードのテストに関心をお持ちのデータベース解決策 アーキテクト。
+* AWS FSXストレージに導入されたPostgreSQLインスタンスの導入と管理に関心をお持ちのストレージ管理者。
+* AWS FSX/EC2でPostgreSQL環境の立ち上げに関心があるアプリケーション所有者。
+
+
+
+
+== 解決策 のテストおよび検証環境
+
+この解決策 のテストと検証は、最終的な導入環境と一致しないAWS FSXおよびEC2環境で実行しました。詳細については、を参照してください <<Key Factors for Deployment Consideration>>。
+
+
+
+=== アーキテクチャ
+
+image::aws_postgres_fsx_ec2_architecture.PNG[この図は、オンプレミス側やAWSサイトなど、PostgreSQLハイブリッドクラウド解決策 の構成の詳細を示しています。]
+
+
+
+=== ハードウェアおよびソフトウェアコンポーネント
+
+|===
+
+
+3+| * ハードウェア * 
+
+
+| FSX ONTAP ストレージ | 現在のバージョン | プライマリおよびスタンバイのHAクラスタと同じVPCおよびアベイラビリティゾーンに2つのFSX HAペア 
+
+
+| コンピューティングのEC2インスタンス | t2.xlarge / 4vCPU / 16G | 2つのEC2 T2 xlargeをプライマリおよびスタンバイコンピューティングインスタンスとして使用できます 
+
+
+| Ansibleコントローラ | オンプレミスCentOS VM / 4vCPU / 8G | オンプレミスまたはクラウドでAnsible自動化コントローラをホストするVM 
+
+
+3+| *ソフトウェア* 
+
+
+| Red Hat Linux | RHEL-8.6.0_HVM-20220503-x86_64-2- Hourly2-gp2の場合 | テスト用にRedHatサブスクリプションを導入 
+
+
+| CentOS Linuxの場合 | CentOS Linuxリリース8.2.2004（コア） | オンプレミスのラボに導入されたAnsibleコントローラをホストする 
+
+
+| PostgreSQL | バージョン14.5 | Automationは、PostgreSQLの.ora yum repoから最新バージョンのPostgreSQLを取得します 
+
+
+| Ansible | バージョン2.10.3 | 要件Playbookがインストールされた必須のコレクションとライブラリの前提条件 
+|===
+
+
+=== 導入にあたって考慮すべき主な要因
+
+* * PostgreSQLデータベースのバックアップ、復元、および回復。* PostgreSQLデータベースは、pg_dumpを使用した論理バックアップ、pg_basbackupまたは下位レベルのOSバックアップコマンドを使用した物理オンラインバックアップ、ストレージレベルの整合性のあるスナップショットなど、多くのバックアップ方法をサポートしています。この解決策 は、PostgreSQLデータベースデータおよびスタンバイサイトでのWALボリュームのバックアップ、リストア、およびリカバリに、ネットアップの整合グループスナップショットを使用します。ネットアップの整合性グループボリュームのSnapshotは、ストレージに書き込まれる時点でのI/Oシーケンスを検証し、データベースデータファイルの整合性を保護します。
+* * EC2コンピューティングインスタンス。*このテストと検証では、PostgreSQLデータベースコンピューティングインスタンスにAWS EC2 t2.xlargeインスタンスタイプを使用しました。データベースワークロード向けに最適化されているため、導入環境ではPostgreSQLのコンピューティングインスタンスとしてM5タイプEC2インスタンスを使用することを推奨します。スタンバイコンピューティングインスタンスは、FSX HAクラスタ用に展開されたパッシブ（スタンバイ）ファイルシステムと同じゾーンに常に配置する必要があります。
+* * FSXストレージHAクラスタのシングルゾーンまたはマルチゾーン展開。*このテストと検証では、FSX HAクラスタを単一のAWSアベイラビリティゾーンに導入しました。本番環境では、FSX HAペアを2つの異なるアベイラビリティゾーンに導入することを推奨します。ビジネス継続性のためのディザスタリカバリスタンバイHAペアは、プライマリとスタンバイの間に特定の距離が必要な場合、別のリージョンに設定できます。FSX HAクラスタは、アクティブ/パッシブファイルシステムのペアで同期ミラーされるHAペアで、ストレージレベルの冗長性を提供するために割り当てられます。
+* * PostgreSQLデータとログの配置。*一般的なPostgreSQL環境では、データファイルとログファイルに同じルートディレクトリまたはボリュームを共有しています。テストと検証では、PostgreSQLのデータを分離し、パフォーマンスのために2つのボリュームにログを作成しました。データディレクトリ内のソフトリンクは、PostgreSQL WALログとアーカイブされたWALログをホストするログディレクトリまたはボリュームを指すために使用されます。
+* * PostgreSQLサービスの起動遅延タイマー。*この解決策 は、NFSマウントボリュームを使用してPostgreSQLデータベースファイルとWALログファイルを保存します。データベース・ホストの再起動中に、ボリュームがマウントされていない状態でPostgreSQLサービスが起動を試みることがあります。その結果、データベースサービスの起動に失敗します。PostgreSQLデータベースを正しく起動するには、10～15秒のタイマー遅延が必要です。
+* *ビジネス継続性のためのRPO / RTO。* DRのプライマリからスタンバイへのFSXデータレプリケーションは非同期に基づいているため、RPOはSnapshotバックアップとSnapMirrorレプリケーションの頻度に依存します。SnapshotコピーとSnapMirrorレプリケーションの頻度を高くすると、RPOが短縮されます。そのため、災害時のデータ損失と、ストレージコストの増加というバランスを取ることができます。これまでのところ、RPOではSnapshotコピーとSnapMirrorレプリケーションをわずか5分間隔で実装できると判断しており、一般にRTOでは、DRスタンバイサイトでPostgreSQLを1分以内にリカバリできます。
+* *データベースのバックアップ。* PostgreSQLデータベースを実装した後、またはオンプレミスのデータセンターからAWS FSXストレージに移行した後、データは保護のためにFSX HAペアで自動的に同期されます。災害発生時に、複製されたスタンバイサイトによってデータがさらに保護されます。長期のバックアップ保持やデータ保護を実現するために、組み込みのPostgreSQL pg_basbackupユーティリティを使用して、S3 BLOBストレージに移植可能なフルデータベースバックアップを実行することを推奨します。
+
+
+
+
+== 解決策 の導入
+
+この解決策 の導入は、以下に示す詳細な手順に従って、NetApp Ansibleベースの自動化ツールキットを使用して自動的に完了できます。
+
+. 自動化ツールキットreadme.mdの手順を確認します link:https://github.com/NetApp-Automation/na_postgresql_aws_deploy_hadr["na_postgresql_AWS_DEプロイ_hadr"]。
+. 次のビデオを見ていきましょう。
++
+video::aws_postgres_fsx_ec2_deploy_hadr.mp4[]
+. 必要なパラメータファイルを設定します (`hosts`、 `host_vars/host_name.yml`、 `fsx_vars.yml`）を使用して、関連セクションのテンプレートにユーザー固有のパラメータを入力します。次に、コピーボタンを使用してAnsibleコントローラホストにファイルをコピーします。
+
+
+
+
+=== 導入を自動化するための前提条件
+
+導入には、次の前提条件が必要です。
+
+. AWSアカウントが設定され、必要なVPCとネットワークセグメントがAWSアカウント内に作成されている。
+. AWS EC2コンソールでは、2つのEC2 Linuxインスタンスを導入する必要があります。1つはプライマリのPostgreSQL DBサーバ、もう1つはスタンバイのDRサイトです。プライマリおよびスタンバイDRサイトでのコンピューティングの冗長性を確保するために、2つの追加EC2 LinuxインスタンスをスタンバイPostgreSQL DBサーバとして配置します。環境セットアップの詳細については、前のセクションのアーキテクチャ図を参照してください。また、も参照してください link:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html["Linuxインスタンスのユーザーガイド"] を参照してください。
+. AWS EC2コンソールから、FSX ONTAP ストレージHAクラスタを2つ導入して、PostgreSQLデータベースボリュームをホストします。FSXストレージの導入に慣れていない場合は、マニュアルを参照してください link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-file-systems.html["ONTAP ファイルシステム用のFSXを作成しています"] を参照してください。
+. AnsibleコントローラをホストするCentOS Linux VMを構築します。Ansibleコントローラは、オンプレミスとAWSクラウドのどちらにも配置できます。オンプレミスにある場合は、VPC、EC2 Linuxインスタンス、およびFSXストレージクラスタへのSSH接続が必要です。
+. のセクション「RHEL / CentOSへのCLI導入に使用するAnsible Control Nodeのセットアップ」の説明に従って、リソースからAnsibleコントローラをセットアップします link:https://docs.netapp.com/us-en/netapp-solutions/automation/getting-started.html["NetApp解決策 自動化の導入"]。
+. パブリックのNetApp GitHubサイトから、自動化ツールキットのコピーをクローニングします。
++
+[source, cli]
+----
+git clone https://github.com/NetApp-Automation/na_postgresql_aws_deploy_hadr.git
+----
+. ツールキットのルートディレクトリで、必要なプレイブックを実行して、Ansibleコントローラに必要なコレクションとライブラリをインストールします。
++
+[source, cli]
+----
+ansible-playbook -i hosts requirements.yml
+----
++
+[source, cli]
+----
+ansible-galaxy collection install -r collections/requirements.yml --force --force-with-deps
+----
+. DBホスト変数ファイルに必要なEC2 FSXインスタンスパラメータを取得します `host_vars/*` およびグローバル変数ファイル `fsx_vars.yml` 設定
+
+
+
+
+=== hostsファイルを設定します
+
+プライマリFSX ONTAP クラスタ管理IPとEC2インスタンスがhostsファイルに名前を入力します。
+
+....
+# Primary FSx cluster management IP address
+[fsx_ontap]
+172.30.15.33
+....
+....
+# Primary PostgreSQL DB server at primary site where database is initialized at deployment time
+[postgresql]
+psql_01p ansible_ssh_private_key_file=psql_01p.pem
+....
+....
+# Primary PostgreSQL DB server at standby site where postgresql service is installed but disabled at deployment
+# Standby DB server at primary site, to setup this server comment out other servers in [dr_postgresql]
+# Standby DB server at standby site, to setup this server comment out other servers in [dr_postgresql]
+[dr_postgresql] --
+psql_01s ansible_ssh_private_key_file=psql_01s.pem
+#psql_01ps ansible_ssh_private_key_file=psql_01ps.pem
+#psql_01ss ansible_ssh_private_key_file=psql_01ss.pem
+....
+
+
+=== host_varsフォルダでhost_name.ymlファイルを設定します
+
+お使いのシステムに対応するパラメータを青い下線付きフィールドに入力し、エントリをコピーしてに貼り付けます `host_name.yml` Ansibleコントローラ内のファイル `host_vars` フォルダ。
+
+
+
+
+=== グローバルFSX_vars.ymlファイルをvarsフォルダに設定します
+
+システムに対応するパラメータを青い下線付きフィールドに入力し、エントリをコピーしてに貼り付けます `fsx_vars.yml` Ansibleコントローラホストにあるファイル。
+
+
+
+
+=== PostgreSQLの導入とHA/DRのセットアップ
+
+次のタスクでは、PostgreSQL DBサーバサービスを展開し、プライマリEC2 DBサーバホストのプライマリサイトでデータベースを初期化します。スタンバイプライマリEC2 DBサーバホストは、スタンバイサイトで設定されます。最後に、DBボリュームのレプリケーションは、ディザスタリカバリ用にプライマリサイトのFSXクラスタからスタンバイサイトのFSXクラスタにセットアップされます。
+
+. プライマリFSXクラスタにDBボリュームを作成し、プライマリEC2インスタンスホストにPostgreSQLをセットアップします。
++
+[source, cli]
+----
+ansible-playbook -i hosts postgresql_deploy.yml -u ec2-user --private-key psql_01p.pem -e @vars/fsx_vars.yml
+----
+. スタンバイDR EC2インスタンスホストを設定します。
++
+[source, cli]
+----
+ansible-playbook -i hosts postgresql_standby_setup.yml -u ec2-user --private-key psql_01s.pem -e @vars/fsx_vars.yml
+----
+. FSX ONTAP クラスタピアリングとデータベースボリュームレプリケーションをセットアップします。
++
+[source, cli]
+----
+ansible-playbook -i hosts fsx_replication_setup.yml -e @vars/fsx_vars.yml
+----
+. 前の手順を1ステップのPostgreSQL展開とHA/DRセットアップに統合します。
++
+[source, cli]
+----
+ansible-playbook -i hosts postgresql_hadr_setup.yml -u ec2-user -e @vars/fsx_vars.yml
+----
+. プライマリサイトまたはスタンバイサイトのいずれかでスタンバイPostgreSQL DBホストを設定するには、hostsファイル[dr_gresql]セクションの他のすべてのサーバをコメントアウトし、それぞれのターゲットホスト（プライマリサイトのpsql_01psまたはスタンバイEC2コンピューティングインスタンスなど）でpostgresql_standby_setup.ymlプレイブックを実行します。などのホストパラメータファイルを確認します `psql_01ps.yml` は、の下で設定します `host_vars` ディレクトリ。
++
+[source, cli]
+----
+[dr_postgresql] --
+#psql_01s ansible_ssh_private_key_file=psql_01s.pem
+psql_01ps ansible_ssh_private_key_file=psql_01ps.pem
+#psql_01ss ansible_ssh_private_key_file=psql_01ss.pem
+----
++
+[source, cli]
+----
+ansible-playbook -i hosts postgresql_standby_setup.yml -u ec2-user --private-key psql_01ps.pem -e @vars/fsx_vars.yml
+----
+
+
+
+
+=== PostgreSQLデータベーススナップショットのバックアップとスタンバイサイトへのレプリケーション
+
+PostgreSQLデータベーススナップショットのバックアップとスタンバイサイトへのレプリケーションは、ユーザー定義の間隔でAnsibleコントローラで制御および実行できます。間隔は5分程度に短くなることが確認されました。したがって、プライマリサイトで障害が発生した場合、スケジュールされている次のSnapshotバックアップの直前に障害が発生した場合、データ損失が5分間発生する可能性があります。
+
+[source, cli]
+----
+*/15 * * * * /home/admin/na_postgresql_aws_deploy_hadr/data_log_snap.sh
+----
+
+
+=== DRのスタンバイサイトにフェイルオーバーします
+
+PostgreSQLのHA / DRシステムをDR用にテストするには、次のプレイブックを実行して、スタンバイサイトのプライマリスタンバイEC2 DBインスタンスでフェイルオーバーとPostgreSQLデータベースリカバリを実行します。実際のDRシナリオでは、同じ手順を実行してDRサイトへの実際のフェイルオーバーを行います。
+
+[source, cli]
+----
+ansible-playbook -i hosts postgresql_failover.yml -u ec2-user --private-key psql_01s.pem -e @vars/fsx_vars.yml
+----
+
+
+=== フェイルオーバーテスト後にレプリケートされたDBボリュームを再同期
+
+フェイルオーバーテスト後にresyncを実行して、データベースとボリュームのSnapMirrorレプリケーションを再確立します。
+
+[source, cli]
+----
+ansible-playbook -i hosts postgresql_standby_resync.yml -u ec2-user --private-key psql_01s.pem -e @vars/fsx_vars.yml
+----
+
+
+=== EC2コンピューティングインスタンス障害のため、プライマリEC2 DBサーバからスタンバイEC2 DBサーバへのフェイルオーバーを実行します
+
+ライセンスが必要なOSクラスタウェアが十分に確立された状態で手動フェイルオーバーを実行することを推奨します。
+
+
+
+== 追加情報の参照先
+
+このドキュメントに記載されている情報の詳細については、以下のドキュメントや Web サイトを参照してください。
+
+* NetApp ONTAP 対応の Amazon FSX
++
+link:https://aws.amazon.com/fsx/netapp-ontap/["https://aws.amazon.com/fsx/netapp-ontap/"^]
+
+* Amazon EC2
++
+link:https://aws.amazon.com/pm/ec2/?trk=36c6da98-7b20-48fa-8225-4784bced9843&sc_channel=ps&s_kwcid=AL!4422!3!467723097970!e!!g!!aws%20ec2&ef_id=Cj0KCQiA54KfBhCKARIsAJzSrdqwQrghn6I71jiWzSeaT9Uh1-vY-VfhJixF-xnv5rWwn2S7RqZOTQ0aAh7eEALw_wcB:G:s&s_kwcid=AL!4422!3!467723097970!e!!g!!aws%20ec2["https://aws.amazon.com/pm/ec2/?trk=36c6da98-7b20-48fa-8225-4784bced9843&sc_channel=ps&s_kwcid=AL!4422!3!467723097970!e!!g!!aws%20ec2&ef_id=Cj0KCQiA54KfBhCKARIsAJzSrdqwQrghn6I71jiWzSeaT9Uh1-vY-VfhJixF-xnv5rWwn2S7RqZOTQ0aAh7eEALw_wcB:G:s&s_kwcid=AL!4422!3!467723097970!e!!g!!aws%20ec2"^]
+
+* NetApp 解決策の自動化
++
+link:https://review.docs.netapp.com/us-en/netapp-solutions_ajc_psql_aws/automation/automation_introduction.html["https://review.docs.netapp.com/us-en/netapp-solutions_ajc_psql_aws/automation/automation_introduction.html"^]
+
+
