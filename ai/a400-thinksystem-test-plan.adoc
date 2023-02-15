@@ -1,0 +1,23 @@
+---
+sidebar: sidebar 
+permalink: ai/a400-thinksystem-test-plan.html 
+keywords: test plan, validation, image recognition training, processes 
+summary: この検証では、MLPerf v2.0の規定に従って画像認識トレーニングを実施しました。特に、ImageNetデータセットを使用してResNet v2.0モデルをトレーニングしました。主な指標は、目的の精度に到達するまでの時間です。また、1秒あたりの画像数でトレーニングの帯域幅をレポートし、スケールアウトの効率性をより適切に判断します。 
+---
+= テスト計画
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:a400-thinksystem-technology-overview.html["前のページ：テクノロジの概要"]
+
+[role="lead"]
+この検証では、MLPerf v2.0の規定に従って画像認識トレーニングを実施しました。具体的には、ImageNetデータセットを使用してResNet v2.0モデルのトレーニングを行い、精度が76.1%になるようにしました。主な指標は、目的の精度に到達するまでの時間です。また、1秒あたりの画像数でトレーニングの帯域幅をレポートし、スケールアウトの効率性をより適切に判断します。
+
+プライマリテストケースで、複数の独立したトレーニングプロセス（ノードごとに1つ）を同時に実行して評価しました。これは、複数のデータサイエンティストが使用する共有システムである主なユースケースをシミュレートします。2つ目のテストケースでは、スケールアウトの効率性を評価しました。
+
+link:a400-thinksystem-test-results.html["次の手順：テスト結果"]

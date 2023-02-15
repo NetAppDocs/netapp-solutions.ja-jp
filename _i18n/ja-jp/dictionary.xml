@@ -16687,4 +16687,178 @@
   <block id="67bb2ef7cf3c5ff59f35f28e513bfda3" category="sidebar">PostgreSQL High Availability Deployment and Disaster Recovery in AWS FSX/EC2を参照してください</block>
   <block id="1ae3eccde141a365ede8f18b188ae588" category="sidebar">AWS FSX/EC2へのPostgreSQL HAの自動導入とDR</block>
   <block id="6fabfc29f0b3a196c8407c190bb67293" category="sidebar">データベースのSnapCenter</block>
+  <block id="1f599c1b266e901a2c8d38e266e23c6f" category="summary">このセクションでは、手順 の詳細なテスト結果について説明します。</block>
+  <block id="c87fa6e515cf0976291b387e5a8ab6f6" category="doc">手順 のテストと詳細な結果</block>
+  <block id="5a05f12c2c7f8b9ff569496691352e05" category="paragraph"><block ref="5a05f12c2c7f8b9ff569496691352e05" category="inline-link-macro-rx"></block></block>
+  <block id="b70dd619781891706b7d2f44c418a2b5" category="section-title">ONTAP のResNetを使用した画像認識トレーニング</block>
+  <block id="bf523bb892b07c71c90bd7ea34a091a9" category="paragraph">1台および2台のSR670 V2サーバでResNet50ベンチマークを実行しました。このテストでは、MXNet 22.04-py3 NGCコンテナを使用してトレーニングを実行しました。</block>
+  <block id="a08c4eedb9047aae68f44b82037739b0" category="paragraph">この検証では、次のテスト手順 を使用しました。</block>
+  <block id="df1a5f60f20e6aa3336812f58095e04f" category="list-text">スクリプトを実行する前にホストキャッシュをクリアして、データがキャッシュされていないことを確認しました。</block>
+  <block id="ab93a65fabd2eaae21f5a6e097320730" category="list-text">ベンチマークスクリプトを実行し、サーバストレージ（ローカルSSDストレージ）とNetApp AFF ストレージシステムのImageNetデータセットを使用しました。</block>
+  <block id="9f98453c4a6eede45b87d72527b49e7e" category="list-text">を使用してネットワークとローカルストレージのパフォーマンスを検証しました<block ref="1aabac6d068eef6a7bad3fdf50a05cc8" prefix=" " category="inline-code"></block> コマンドを実行します</block>
+  <block id="47b048d9dcf1d84d76bddb033b842b3b" category="list-text">シングルノードの実行では、次のコマンドを使用しました。</block>
+  <block id="014e128029d9142b6957ca4f1b291090" category="list-text">分散ランでは、パラメータサーバの並列化モデルを使用しました。ノードごとに2つのパラメータサーバを使用し、エポックの数をシングルノード実行と同じに設定しました。これは、分散トレーニングではプロセス間の完全な同期が行われないため、多くの場合、エポックの数が多くなるためです。エポックの数が異なると、シングルノードケースと分散ケースの比較が歪む場合があります。</block>
+  <block id="8f74be345dbaeac65cc3a488503b2a1f" category="section-title">データの読み取り速度：ローカルストレージとネットワークストレージの比較</block>
+  <block id="16d8fe364e1a7846c093983bec75e764" category="paragraph">読み取り速度は、を使用してテストしました<block ref="1aabac6d068eef6a7bad3fdf50a05cc8" prefix=" " category="inline-code"></block> ImageNetデータセットのいずれかのファイルに対してコマンドを実行します。具体的には、ローカルデータとネットワークデータに対して次のコマンドを実行しました。</block>
+  <block id="c685a224eb9a88c5b7bd2be45fe5a128" category="paragraph">どちらの値もほぼ同じで、ネットワークストレージがローカルストレージとほぼ同じ速度でデータを提供できることを示しています。</block>
+  <block id="aa613e8f689a1a64605aef401595bfd2" category="section-title">共有の使用事例：複数の独立した同時ジョブ</block>
+  <block id="7e4312d3e922a98bfc1dc4a84c80f12c" category="paragraph">このテストでは、この解決策 で想定されるユースケースをシミュレートしました。マルチジョブ、マルチユーザAIトレーニングです。共有ネットワークストレージを使用する際には、各ノードで独自のトレーニングを実行しました。次の図に、解決策 ケースでは、すべてのジョブが個 々 のジョブと基本的に同じ速度で実行されている場合に優れたパフォーマンスが得られたことを示します。合計スループットはノード数に比例して増加しました。</block>
+  <block id="2b9215e7cc3c2422637b6f95b0d47d97" category="inline-image-macro">この図は、1秒あたりのアグリゲートイメージ数を示しています。</block>
+  <block id="5224aacbc4b8472eb40ead3ee8856b90" category="paragraph"><block ref="5224aacbc4b8472eb40ead3ee8856b90" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="45f5fcaaad259a917b031b3169cd5ad4" category="inline-image-macro">この図は、ランタイムを分単位で示しています。</block>
+  <block id="8255e8c790967568129f1f898048f1c5" category="paragraph"><block ref="8255e8c790967568129f1f898048f1c5" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="289b386724c768cabf5ad786a3842335" category="paragraph">このグラフは、同時トレーニングモデルと単一のトレーニングモデルを組み合わせた、100GbEクライアントネットワーク上の各サーバから8基のGPUを使用したコンピューティングノードのランタイムを分単位で示し、1秒あたりの総イメージを示しています。トレーニングモデルの平均実行時間は35分9秒でした。各ランタイムは34分32秒、36分21秒、34分37秒、35分25秒、34分31秒でした。トレーニングモデルの1秒あたりの平均画像数は22、573で、1秒あたりの個別画像数は21、764、23、438、22、556、22、564、22、547でした。</block>
+  <block id="ce47a442fe1dc7c09bf9a3ec5ed71236" category="paragraph">今回の検証に基づき、ネットアップのデータランタイムを使用した独立型トレーニングモデルは34分54秒、画像数は22、231秒でしたローカルデータ(DAS)ランタイムを持つ独立したトレーニングモデルは、34分21秒、22,102枚/秒でしたNVIDIAとSMIで見られた平均GPU利用率は96%でした。この平均値には、GPUが使用されていないテストフェーズが含まれ、CPU利用率はmpstatで測定された40%であることに注意してください。これは、それぞれのケースでデータ配信率が十分であることを示しています。</block>
+  <block id="f63534f8e2150e0624ee2af349f77999" category="inline-link-macro">次の例は、アーキテクチャの調整です。</block>
+  <block id="92a7087794ac4c23f482ff2db8cf1742" category="paragraph"><block ref="92a7087794ac4c23f482ff2db8cf1742" category="inline-link-macro-rx"></block></block>
+  <block id="686ebb62ce1be84dcfae0007fb84562d" category="summary">検証に使用するセットアップは、他のユースケースに合わせて調整できます。</block>
+  <block id="bf46169695d75ff844d955af09f33e75" category="doc">アーキテクチャの調整</block>
+  <block id="747bf7dbe4329cb636a09e1a7e4b297b" category="inline-link-macro">前のページ：手順 のテストと詳細な結果</block>
+  <block id="61862ef71b0230e76d56381617d456b0" category="paragraph"><block ref="61862ef71b0230e76d56381617d456b0" category="inline-link-macro-rx"></block></block>
+  <block id="1cf27bd587c6c632877c322cf42c0d97" category="paragraph">この検証に使用するセットアップは、他のユースケースに合わせて調整できます。</block>
+  <block id="a752efb5fb2512dc99b2045f032779f7" category="section-title">CPU調整</block>
+  <block id="122acc941b98ef5a11208d23ed0a8090" category="paragraph">この検証には、Lenovoが推奨するSkylake Intel Xeon Platinum 8360Yプロセッサを使用しました。Intel Xeon Gold 6330プロセッサと同等のCascade Lake CPUが同等のパフォーマンスを発揮することが期待されています。これは、このワークロードがCPUに制限されていないためです。</block>
+  <block id="3cc37c167d58a1828b00c13cc6018ae8" category="section-title">ストレージ容量が拡張されました</block>
+  <block id="f40ff1aaa4f2e4ccd4189adfb3584e29" category="paragraph">追加のディスクシェルフとコントローラモデルがある場合は、必要なストレージ容量に基づいて、共有ストレージ（NFSボリューム）をオンデマンドで拡張できます。管理ユーザは、CLIまたはストレージコントローラのネットアップWebインターフェイスから実行できます。</block>
+  <block id="326221403d8b3298094c46f2012726ea" category="paragraph"><block ref="326221403d8b3298094c46f2012726ea" category="inline-link-macro-rx"></block></block>
+  <block id="f737e7cc3d8aa89c5b49c4fe701e9e40" category="summary">この検証では、MLPerf v2.0の規定に従って画像認識トレーニングを実施しました。特に、ImageNetデータセットを使用してResNet v2.0モデルをトレーニングしました。主な指標は、目的の精度に到達するまでの時間です。また、1秒あたりの画像数でトレーニングの帯域幅をレポートし、スケールアウトの効率性をより適切に判断します。</block>
+  <block id="813c7764ec170fb5498e50560d32a97f" category="paragraph"><block ref="813c7764ec170fb5498e50560d32a97f" category="inline-link-macro-rx"></block></block>
+  <block id="0f25983094bc4cf5cea830260da8ee75" category="paragraph">この検証では、MLPerf v2.0の規定に従って画像認識トレーニングを実施しました。具体的には、ImageNetデータセットを使用してResNet v2.0モデルのトレーニングを行い、精度が76.1%になるようにしました。主な指標は、目的の精度に到達するまでの時間です。また、1秒あたりの画像数でトレーニングの帯域幅をレポートし、スケールアウトの効率性をより適切に判断します。</block>
+  <block id="ac3e6a4fbe8e02d639c2defeebeac17f" category="paragraph">プライマリテストケースで、複数の独立したトレーニングプロセス（ノードごとに1つ）を同時に実行して評価しました。これは、複数のデータサイエンティストが使用する共有システムである主なユースケースをシミュレートします。2つ目のテストケースでは、スケールアウトの効率性を評価しました。</block>
+  <block id="e34017da9a1a8d672a4859eb7c75947a" category="paragraph"><block ref="e34017da9a1a8d672a4859eb7c75947a" category="inline-link-macro-rx"></block></block>
+  <block id="1d126a9d86b70dcdbc0585754993a848" category="summary">この解決策 は、ネットアップストレージと人工知能のワークロードに最適化されたLenovoサーバを使用したエントリレベルとミッドレンジの両方のクラスタアーキテクチャに焦点を当てています。これは、ほとんどのコンピューティングジョブがシングルノード（シングルまたはマルチGPU）であるか、いくつかのコンピューティングノードに分散される、中小規模のチームを対象としています。日常的なAIトレーニングジョブはほとんどがシングルノードであるため、これは大きな制限事項ではありません。</block>
+  <block id="119a956725a313a60a3ef97db900f9fa" category="doc">TR-4810：『NetApp AFF A400 with Lenovo ThinkSystem SR670 V2 for AI and ML Model Training』</block>
+  <block id="4bdd810ac842a2485ea52dbd42c4d5f8" category="paragraph">Sathish Thyagarajan、David Arnette、NetApp Mircea Troaca、Lonovo</block>
+  <block id="252875fbe73a0c4ecbd42a23cc730022" category="paragraph">この解決策 は、ネットアップストレージと、人工知能（AI）ワークロード向けに最適化されたLenovoサーバを使用したミッドレンジのクラスタアーキテクチャを提供します。これは、ほとんどのコンピューティングジョブがシングルノード（シングルまたはマルチGPU）であるか、少数のコンピューティングノードに分散される、中小企業を対象としています。この解決策 は、多くの企業で日 々 行われているAIトレーニングの業務に対応しています。</block>
+  <block id="2fd79dc2b0743358191fe41cd806d103" category="paragraph">本ドキュメントでは、8台のGPU Lenovo SR670V2サーバ、ミッドレンジのNetApp AFF A400ストレージシステム、100GbEインターコネクトスイッチで構成されるコンピューティングとストレージの構成のテストと検証について説明します。パフォーマンスを測定するために、ResNet50をImageNetデータセットで使用し、バッチサイズを408、ハーフ精度、CUDA、cuDNNにしました。このアーキテクチャは、NetApp ONTAP クラウド対応データストレージのエンタープライズクラスの機能を必要とするAIイニシアチブから始めた中堅企業のお客様に、効率性と対費用効果に優れた解決策 を提供します。</block>
+  <block id="a186cc4a556d59a6e7b787796afd96a6" category="list-text">データサイエンティスト、データエンジニア、データ管理者、AIシステムの開発者</block>
+  <block id="9f16d751276619605acf16a23befe48e" category="list-text">AIモデルの開発のためのソリューションを設計するエンタープライズアーキテクト</block>
+  <block id="e8982c30a351cd862612b0062923a81e" category="list-text">ディープラーニング（DL）と機械学習（ML）の開発目標を達成するための効率的な方法を探しているデータサイエンティストとデータエンジニア</block>
+  <block id="ca84e34dfe1115f7b462050a20377876" category="list-text">AI導入の市場投入までの時間を最短に短縮したいと考えているビジネスリーダーや、OT / ITの意思決定者</block>
+  <block id="a2dac0ecb0b60ec2625d20a5003869fb" category="paragraph">Lenovo ThinkSystemサーバを搭載したこの解決策 と、AFF ストレージを搭載したNetApp ONTAP は、GPUの処理能力と従来のCPUを組み合わせて、大規模なデータセットでAIトレーニングを処理するように設計されています。この検証では、1台のNetApp AFF A400ストレージシステムに加え、Lenovo SR670 V2サーバを1台、2台、または4台使用するスケールアウトアーキテクチャにより、パフォーマンスの向上と最適なデータ管理を実現します。次の図に、アーキテクチャの概要を示します。</block>
+  <block id="9eaa73568302c6f5b850762b65b3f334" category="inline-image-macro">この図は、管理サーバに囲まれたイーサネットスイッチを表しています。4つのSR670 V2はそれぞれ8つのGPUを搭載し、1つのNetApp ONTAP ストレージシステムが搭載されています。</block>
+  <block id="d0d5bc4c21e600127e347c093cc29e80" category="paragraph"><block ref="d0d5bc4c21e600127e347c093cc29e80" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="9336931f4103d973313cb8539e5c2613" category="list-text">複数のトレーニングジョブを並行して実行する場合、効率性とコスト効率に優れたパフォーマンスを実現します</block>
+  <block id="81c3992924ee5cdc4cb02692dcae98b4" category="list-text">Lenovoのサーバの数や、ネットアップストレージコントローラのさまざまなモデルに基づく拡張性に優れたパフォーマンス</block>
+  <block id="bdcea52fecbcd9741f95a6bc0dbbde0f" category="list-text">堅牢なデータ保護により、データ損失ゼロで目標復旧時点（RPO）と目標復旧時間（RTO）を達成</block>
+  <block id="98393526d67c065feb588e5665301706" category="list-text">Snapshotとクローンを使用してデータ管理を最適化し、開発ワークフローを合理化</block>
+  <block id="c8da2691d0a05080662301b92e048a74" category="paragraph"><block ref="c8da2691d0a05080662301b92e048a74" category="inline-link-macro-rx"></block></block>
+  <block id="2d316c5d9e0cd748d1890ee69f57dc6c" category="summary">このセクションでは、この解決策 でのテスト結果の概要を示します。</block>
+  <block id="6385fabeefcfa0be0a013cdd61625e31" category="paragraph"><block ref="6385fabeefcfa0be0a013cdd61625e31" category="inline-link-macro-rx"></block></block>
+  <block id="80b6b969d6707ba1b92d65466e8325f0" category="paragraph">次の表は、この解決策 に対して実行されたすべてのテストの結果をまとめたものです。</block>
+  <block id="f5bc14ae022ba581c26f3bdb35badef1" category="cell">概要 をテストします</block>
+  <block id="34d8129946f1108a296f033dc66db266" category="cell">結果の概要</block>
+  <block id="ab0d993807168c3a70cdd2952d4edfc0" category="cell">画像認識トレーニング：複数のジョブを同時に実行できます</block>
+  <block id="290ba1c81812edd0651d8e18c5895054" category="cell">効率性に優れたパフォーマンス。クラスタが完全に使用されていても、すべてのジョブがフルスピードで実行されました。ネットアップのストレージシステムは、ローカルのSSDストレージと同等のトレーニングパフォーマンスを提供すると同時に、サーバ間でデータを簡単に共有できるようにしました。</block>
+  <block id="d58827ca3ccfccb5c83b1dc9c7e12289" category="cell">画像認識トレーニング：スケールアウト</block>
+  <block id="afb4fda11ecde317daa521e054df2bd4" category="cell">最大4ノードまで効率性に優れています。この時点では、スケールアウトの効率は低下していましたが、まだ実現可能です。高速のコンピューティングネットワークを使用すると、拡張性が向上します。ネットアップのストレージシステムは、ローカルのSSDストレージと同等のトレーニングパフォーマンスを提供すると同時に、サーバ間でデータを簡単に共有できるようにしました。</block>
+  <block id="09011e7c7cce04b0b96cec58ace75585" category="paragraph"><block ref="09011e7c7cce04b0b96cec58ace75585" category="inline-link-macro-rx"></block></block>
+  <block id="bd7c9d63c88eb380170362e93db6ba46" category="summary">このセクションでは、テストした構成、ネットワークインフラ、SR670 V2サーバ、およびストレージプロビジョニングの詳細について説明します。</block>
+  <block id="86473a82da3bbf22df039db481fe256f" category="paragraph"><block ref="86473a82da3bbf22df039db481fe256f" category="inline-link-macro-rx"></block></block>
+  <block id="a1052c50691421535c201fa50690a1ca" category="paragraph">このセクションでは、テストした構成、ネットワークインフラ、SR670 V2サーバ、およびネットアップストレージプロビジョニングの詳細について説明します。</block>
+  <block id="7c8d74d4c719b2f2e30a143bb98717ad" category="paragraph">次の表に示す解決策 コンポーネントを使用して、この検証を実施しました。</block>
+  <block id="35c99b744e4464f42b9b61595c1a1e79" category="list-text">それぞれ8台のNVIDIA A100 80GB GPUカードを搭載したSR670 V2サーバ2台</block>
+  <block id="222a9edda77d8676279c651c1b06d653" category="list-text">各サーバには、Intel Xeon Platinum 8360Y CPU（28個の物理コア）2個と1TBのRAMが搭載されています</block>
+  <block id="e18f1a9d73bf89b2b1245e5af1a99cf4" category="cell">Linux（Ubuntu–20.04とCUDA 11.8）</block>
+  <block id="2113187ee3a9451b60e960fdea11bbac" category="cell">NetApp AFF ストレージシステム（HAペア）</block>
+  <block id="73b4d2da39f967445be9b79a6016c84c" category="list-text">NetApp ONTAP 9.10.1ソフトウェア</block>
+  <block id="4028b206981977bc3aea334fd55f4cb9" category="list-text">コントローラごとに1つのインターフェイスグループ（ifgrp）。マウントポイント用に4つの論理IPアドレスが必要です</block>
+  <block id="82693066c3bae0719e01ba8060494172" category="paragraph">この検証では、MLPerf v2.0で指定されたImageNetベースでResNet v2.0を使用しました。データセットは、NFSプロトコルを使用してNetApp AFF ストレージシステムに保存されます。SR670sは、100GbEスイッチ経由でNetApp AFF A400ストレージシステムに接続されています。</block>
+  <block id="e4869dda2a4e140bc138f43895626550" category="paragraph">ImageNetは、頻繁に使用されるイメージデータセットです。これには、合計で144 GBの約130万枚の画像が含まれています。平均画像サイズは108KBです。</block>
+  <block id="3961f6874ee29dab2f4982bc3e0a1be5" category="paragraph">次の図は、テストした構成のネットワークトポロジを示しています。</block>
+  <block id="d015822ec6fd4a7fc9867768f5a27898" category="inline-image-macro">この図は、コンピューティングレイヤ、Lenovo ThinkSystem SR670 V2、ネットワークレイヤ、Lenovoイーサネットスイッチ、およびNetApp AFF A400ストレージコントローラで構成されるストレージレイヤを示しています。すべてのネットワーク接続が含まれます。</block>
+  <block id="1ee331a29f95ebce1684e5e998f3e70c" category="paragraph"><block ref="1ee331a29f95ebce1684e5e998f3e70c" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="18866bc1d6ba54b48522f7a219e02740" category="paragraph">次の表に、ストレージ構成を示します。</block>
+  <block id="f64bc191156dac76ffce8622c16cb21d" category="cell">アグリゲートのサイズ</block>
+  <block id="6bb41960470a19d97556b9240ac0b3ff" category="cell">ボリュームサイズ</block>
+  <block id="abd2beb6abe5072ffab5f1aad1a8c27f" category="cell">オペレーティングシステムのマウントポイント</block>
+  <block id="a38b6dcf7d1d2c2957803ba9a28b472e" category="cell">/ 400-100g</block>
+  <block id="43f5cd38d362fc55ace2f313e6b5cf09" category="cell">9.9TB</block>
+  <block id="09808554056bf39d02319e3dbc2d6667" category="cell">19TB</block>
+  <block id="a27053e11ec415312f3dc32f4e351b67" category="admonition">/400-100gフォルダには、ResNet検証に使用されるデータセットが含まれています。</block>
+  <block id="1ea4953a2e32bbad1a47dd39cbfe929a" category="inline-link-macro">次の手順：手順 をテストして詳細な結果を確認します。</block>
+  <block id="b20175407b354f0dfc3a4d6a98917f6f" category="paragraph"><block ref="b20175407b354f0dfc3a4d6a98917f6f" category="inline-link-macro-rx"></block></block>
+  <block id="15977ebfd8c3685ca2d8911f74efcc2d" category="summary">このネットアップとLenovo解決策 は柔軟なスケールアウトアーキテクチャであり、ミッドレベルのエンタープライズAIへのエントリに最適です。ネットアップのストレージは、ローカルのSSDストレージと同等以上のパフォーマンスを提供し、データサイエンティスト、データエンジニア、IT意思決定者に次のようなメリットをもたらします。</block>
+  <block id="632d8fd87d5999301cfd5bd0c0f29b5f" category="inline-link-macro">前のセクション：アーキテクチャの調整。</block>
+  <block id="b145bbef70e5528880cc5abbbe8575cd" category="paragraph"><block ref="b145bbef70e5528880cc5abbbe8575cd" category="inline-link-macro-rx"></block></block>
+  <block id="aa91666790d55bdaa993592c884df440" category="paragraph">ネットアップとLenovo解決策 は、柔軟性に優れたスケールアウトアーキテクチャを採用しており、ミッドレベルのエンタープライズAI導入に最適です。ネットアップのストレージは、ローカルのSSDストレージと同等以上のパフォーマンスを提供し、データサイエンティスト、データエンジニア、IT意思決定者に次のようなメリットをもたらします。</block>
+  <block id="6127562591a3f60f8ac270d3967754dd" category="list-text">個別に拡張可能なコンピューティングとストレージにより、コストを最小限に抑え、リソースの使用率を向上させます。</block>
+  <block id="74902bcc2ed17395305301b925afee3f" category="list-text">統合されたSnapshotとクローンを使用して開発と導入のワークフローを合理化し、ユーザのワークスペースを瞬時にスペース効率よく利用できるようにし、バージョン管理を統合し、導入を自動化します。</block>
+  <block id="42e2aaa2f651d8ad800a51f65a258f1e" category="list-text">ディザスタリカバリとビジネス継続性を実現するエンタープライズクラスのデータ保護</block>
+  <block id="2ea563f362255807faae7242f06c9881" category="list-text">ネットアップテクニカルマーケティングエンジニアKarthikeyan Nagalingam氏</block>
+  <block id="cccf21ceeae034a9e54b62eb00d9b6b3" category="list-text">Lenovo、AIラボシステム、管理者Jarrett Upton氏</block>
+  <block id="fdc944d7a0de8d8e3dfff03c6a0e03c6" category="list-text">NetApp All Flash Arraysの製品ページです</block>
+  <block id="d875955d78b62e4aff0847425410f79a" category="inline-link"><block ref="d875955d78b62e4aff0847425410f79a" category="inline-link-rx"></block></block>
+  <block id="45f6f9585c85146b389a4f896653a5f9" category="paragraph"><block ref="45f6f9585c85146b389a4f896653a5f9" category="inline-link-rx"></block></block>
+  <block id="ec5282877903d9d2aceb3db45b21da54" category="list-text">NetApp AFF A400のページです</block>
+  <block id="1f84bc4168c48270f2cc931b900d9eb4" category="inline-link"><block ref="1f84bc4168c48270f2cc931b900d9eb4" category="inline-link-rx"></block></block>
+  <block id="04438df627d0343d17b2f6f307b489ed" category="paragraph"><block ref="04438df627d0343d17b2f6f307b489ed" category="inline-link-rx"></block></block>
+  <block id="9d92155996555576a58d20e697fc2bd6" category="list-text">NetApp ONTAP データ管理ソフトウェアの製品紹介ページ</block>
+  <block id="dae4be95628a9cc8cb5ecb4b90cd738e" category="inline-link"><block ref="dae4be95628a9cc8cb5ecb4b90cd738e" category="inline-link-rx"></block></block>
+  <block id="2f08744b4a39af375744e1fc4a15b53a" category="paragraph"><block ref="2f08744b4a39af375744e1fc4a15b53a" category="inline-link-rx"></block></block>
+  <block id="45913847e0b47b72b60766711f7a8c21" category="inline-link"><block ref="45913847e0b47b72b60766711f7a8c21" category="inline-link-rx"></block></block>
+  <block id="229469a202dbd3052c7b165bd55eda87" category="paragraph"><block ref="229469a202dbd3052c7b165bd55eda87" category="inline-link-rx"></block></block>
+  <block id="dedba6b3261804ab1e5c2b75051c62ac" category="list-text">NVIDIA SMI（NVIDIA - SMI）</block>
+  <block id="f5800a0bf7fbf711d11868c2913c218f" category="inline-link"><block ref="f5800a0bf7fbf711d11868c2913c218f" category="inline-link-rx"></block></block>
+  <block id="41299b529a1014318d5e7776b9f92ad1" category="paragraph"><block ref="41299b529a1014318d5e7776b9f92ad1" category="inline-link-rx"></block></block>
+  <block id="cf2dfa7ef96d78d1f3ec76316e1481d0" category="cell">2020年2月</block>
+  <block id="54858f2e7ecb57a17b7c0be2dedfcd7b" category="cell">初版リリースTensorFlowを搭載したSR670およびAFF A220の検証。</block>
+  <block id="abb14d21829ba186172f6e1d0b64b55b" category="cell">2023年1月</block>
+  <block id="c04468d92a14823a475df983d69e5f9f" category="cell">更新されたリリース。SR 670 V2およびAFF A400とMXNetの検証</block>
+  <block id="e59b92fc604ecde201ab865ddefca7c2" category="summary">このセクションでは、この解決策 の主なコンポーネントについて詳しく説明します。</block>
+  <block id="56cdae354d8e4efeaa936d576b919c49" category="paragraph"><block ref="56cdae354d8e4efeaa936d576b919c49" category="inline-link-macro-rx"></block></block>
+  <block id="995049066ee0a46858d3a35e74f687fc" category="paragraph">NetApp AFF ストレージシステムは、業界をリードするパフォーマンス、卓越した柔軟性、クラウド統合、業界最高のデータ管理機能を備えており、エンタープライズストレージの要件を満たすことができます。フラッシュに特化して設計されたAFF システムは、ビジネスクリティカルなデータの高速化、管理、保護に役立ちます。</block>
+  <block id="bd06e3e9a11cc16a8f389477f9ed6a95" category="paragraph">NetApp AFF A400は、FAS2650ハードウェアとSSDフラッシュメディアを基盤とするミッドレンジのNVMeフラッシュストレージシステムです。</block>
+  <block id="9cdcb25bd8b8e9dd029f0c58f1c1ce14" category="inline-image-macro">この図は、NetApp AFF A400ストレージコントローラの前面を示しています。</block>
+  <block id="55f69aa150e5e2d9b4339594dbb70471" category="paragraph"><block ref="55f69aa150e5e2d9b4339594dbb70471" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="6a4c41eb7420fce0589579f0f045df87" category="inline-image-macro">この図は、NetApp AFF A400ストレージコントローラの背面を示しています。</block>
+  <block id="e83035ebe127e618e86974c913d42589" category="paragraph"><block ref="e83035ebe127e618e86974c913d42589" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="5062a65c6ae4cbe0c015396c4011a811" category="paragraph">NetApp AFF A400はミッドレンジのストレージシステムで、以下の機能を搭載しています。</block>
+  <block id="722f61060a76e673835749dd7040109c" category="list-text">最大実効容量：702.7PB</block>
+  <block id="9b150a217729988c3dd54fdaf7b0f9b3" category="list-text">最大スケールアウト：2~24ノード（HAペア×12）</block>
+  <block id="ae3b033d221455bb2825ac51bee7200e" category="list-text">25GbEおよび16Gb FCホストがサポートされます</block>
+  <block id="e16f4e2b178ce47880c3556c501efea4" category="list-text">NVMe拡張ストレージシェルフへの100GbE RDMA over Converged Ethernet（RoCE）接続</block>
+  <block id="2f5979909b8c4a0d58f13de4881feaf1" category="list-text">NVMeシェルフが接続されていない場合は、100GbE RoCEポートをホストネットワークの接続に使用できます</block>
+  <block id="dff1410020c1b676f56ee973acea57d3" category="list-text">拡張ストレージシェルフに12Gbps SAS接続を提供します</block>
+  <block id="565637725a05c879995851c50d41275c" category="list-text">次の2つの構成があります。</block>
+  <block id="8e707b713d26c4b020eda98a37207373" category="list-text">イーサネット：25Gbイーサネット（SFP28）ポート×4</block>
+  <block id="1d3c6ad9f15fc70a1cf63e449e90436a" category="list-text">ファイバチャネル：16Gb FC（SFP+）ポート×4</block>
+  <block id="6a2a811bcec501901ab6f8f94694d1b2" category="list-text">100% 8KBのランダムリード、レイテンシは0.4ミリ秒、400k IOPS</block>
+  <block id="d3309961dfabc3043c3ea1878752450b" category="paragraph">エントリレベルのAI / ML環境向けのNetApp AFF A250には、次のような機能があります。</block>
+  <block id="68448ae40d26fce5bb74cd3bf75999c4" category="list-text">最大実効容量：35PB</block>
+  <block id="83fa45e9cc2def5751527547e3c57b61" category="list-text">最大スケールアウト：2~24ノード（HAペア×12）</block>
+  <block id="1283cfcd2651148a611c2c4b105458c3" category="list-text">最新のNetApp ONTAP リリースONTAP 9.8以降を基盤としています</block>
+  <block id="f31903137775862e1157677f447b0f52" category="list-text">HAおよびクラスタインターコネクト用に25GBのイーサネットポートを2つ</block>
+  <block id="f6c48fdc99c510156e0364e03a6fbd9e" category="paragraph">ネットアップは、AFF A800やAFF A700など、大規模なAI / ML環境に優れたパフォーマンスと拡張性を提供するストレージシステムも提供しています。</block>
+  <block id="b2c0ed3ea756cb47f24ee9aef32e0f01" category="paragraph">ネットアップが提供する最新世代のストレージ管理ソフトウェアONTAP 9を使用すれば、インフラを最新化し、クラウド対応のデータセンターに移行できます。ONTAP は、業界をリードするデータ管理機能を活用して、データの格納場所に関係なく、単一のツールセットでデータの管理と保護を実現します。データは、エッジ、コア、クラウドなど、必要な場所に自由に移動することもできます。ONTAP 9には、データ管理を簡易化し、重要なデータの高速化と保護を実現するさまざまな機能が搭載されており、ハイブリッドクラウドアーキテクチャ全体で将来のニーズに対応できるインフラを実現できます。</block>
+  <block id="ddf38f965aeb6f6b5785254e6f143a09" category="list-text">* ONTAP FabricPool 。*この機能は、Amazon Web Services（AWS）、Azure、NetApp StorageGRID オブジェクトストレージなどのパブリックおよびプライベートクラウドストレージオプションに、コールドデータを自動的に階層化します。</block>
+  <block id="2a228ac6322b6d496b4cb0cf22cfbfe4" category="list-text">* パフォーマンスと低レイテンシ。 * ONTAP は、可能な限り低いレイテンシで最高のスループットを提供します。</block>
+  <block id="cf4d3359e3cce4324a54d8e1864d2647" category="paragraph">ONTAP 9は、要求の厳しい絶えず変化するビジネスニーズに対応するのに役立ちます。</block>
+  <block id="99f4fd3a9ea4a861a7095bfe26937f28" category="list-text">*シームレスな拡張とノンストップオペレーション。* ONTAP は、既存のコントローラやスケールアウトクラスタに無停止で容量を追加できます。NVMe や 32Gb FC などの最新テクノロジへのアップグレードも、コストのかかるデータ移行やシステム停止を行わずに実行できます。</block>
+  <block id="ba1e7aff40da44f3c5b86ba78a62e7d0" category="list-text">*新しいアプリケーションとの統合。* ONTAP は、既存のエンタープライズアプリケーションをサポートする同じインフラを使用して、OpenStack、Hadoop、MongoDBなどの次世代プラットフォームやアプリケーションにエンタープライズクラスのデータサービスを提供します。</block>
+  <block id="0fdd508a09442b5caa00e47bc0563112" category="section-title">NetApp FlexGroup ボリューム</block>
+  <block id="641653fdc449e0b1e30f3ee9d04182ab" category="paragraph">一般に、トレーニングデータセットは数十億個のファイルからなる可能性があります。ファイルには、テキスト、オーディオ、ビデオなどの形式の非構造化データを含めることができます。これらのデータは、並行して読み込まれるように保存して処理する必要があります。ストレージシステムは、多数の小さなファイルを格納し、シーケンシャルI/OとランダムI/Oの両方で、それらのファイルを並列に読み取る必要があります</block>
+  <block id="e6ad1152aea2aa4f79a47e3b80410fce" category="paragraph">FlexGroup ボリューム（次の図）は、複数のコンスティチュエントメンバーボリュームで構成された単一のネームスペースで、ストレージ管理者はNetApp FlexVol と同様に使用および管理することができます。FlexGroup ボリューム内のファイルは、個々のメンバーボリュームに割り当てられ、複数のボリュームやノードにまたがってストライプされることはありません。次の機能が有効になります。</block>
+  <block id="381a99cae8c29b3b8fd64a207b811935" category="list-text">メタデータ比率の高いワークロード向けに、最大20ペタバイトの容量と予測可能な低レイテンシを実現します</block>
+  <block id="b0e05251a53a0118d23cd469db4b1903" category="list-text">同じネームスペースに最大4、000億個のファイルを格納できます</block>
+  <block id="4eb6665794643a2afabf63f90ddbe4da" category="list-text">CPU、ノード、アグリゲート、コンスティチュエントFlexVol ボリューム全体でNASワークロードの並行処理をサポート</block>
+  <block id="19adba666d12642fc956c8a4c4607a66" category="inline-image-macro">次の図は、FlexGroup 内に主要ファイルを含む多数のボリュームを含むストレージコントローラのHAペアを示しています。</block>
+  <block id="67243c21916276b166b8cad21f937c57" category="paragraph"><block ref="3998ac0cd0b54d5528002049c9fb6e1f" category="inline-image-macro-rx" type="image"></block>"</block>
+  <block id="f52dbcd9b43086f1d2957e6eb89f4113" category="section-title">Lenovo ThinkSystemポートフォリオ</block>
+  <block id="c5ac419e5467e7539d60c18be3da4b99" category="paragraph">Lenovo ThinkSystemサーバを導入する主なメリットは次のとおりです。</block>
+  <block id="c19629173ec04d03fae09e96ce30b98c" category="list-text">ビジネスとともに成長する拡張性に優れたモジュラ設計</block>
+  <block id="9ac34c98220e3dd285a7cd6c8679caeb" category="paragraph">Lenovo は、 AI 分野において、企業がワークロードに ML と AI のメリットを理解し、採用できるようにするための実践的なアプローチをとっています。Lenovo のお客様は、 Lenovo AI Innovation Center で Lenovo AI 製品を調査および評価し、特定のユースケースの価値を十分に理解することができます。価値実現までの時間を短縮するために、このお客様中心のアプローチでは、AI向けに最適化され、すぐに使用できる解決策 開発プラットフォームのコンセプトの実証が可能です。</block>
+  <block id="7cbc0e3d7cff391aa0e61b487dc29df1" category="section-title">Lenovo SR670 V2</block>
+  <block id="5889950b76dcc45f10977523225c92a8" category="paragraph">Lenovo ThinkSystem SR670 V2ラックサーバは、AIの高速化とハイパフォーマンスコンピューティング（HPC）に最適なパフォーマンスを提供します。SR670 V2は、最大8基のGPUをサポートし、機械学習、DL、推論の負荷が高いワークロード要件に対応します。</block>
+  <block id="327669874a587f6f9336f608f83d451d" category="inline-image-macro">この図は、3つのSR670構成を示しています。1つ目は、2.5インチHSドライブ8基とPCIe I/Oスロット2基を搭載したSXM GPU 4基です。2つ目は、ダブルワイドまたはシングルワイドのGPUスロットを4つ、および2.5インチまたは3.5インチのHSドライブを8台搭載したPCIe I/Oスロットを2つ示しています。3つ目の図は、8つのダブルワイドGPUスロットと6つのEDSFF HSドライブ、2つのPCIe I/Oスロットを示しています。</block>
+  <block id="f3ebf0cd9319acd4d10b09be0d9220c2" category="paragraph"><block ref="f3ebf0cd9319acd4d10b09be0d9220c2" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="85b1e2eb4bc61f3bdaea9a9f040eb3a0" category="paragraph">ハイエンドGPU（NVIDIA A100 80GB PCIe 8x GPUを含む）をサポートする最新の拡張性に優れたIntel Xeon CPUを搭載したThinkSystem SR670 V2は、AIおよびHPCワークロード向けに最適化された高速なパフォーマンスを提供します。</block>
+  <block id="d7ed5fdb2102567c3c051078e7c72e11" category="paragraph">アクセラレータのパフォーマンスを使用するワークロードが増えるにつれて、GPU密度の需要も増加しています。小売、金融サービス、エネルギー、医療などの業界では、GPUを使用して分析情報を引き出し、ML、DL、推論の手法でイノベーションを推進しています。</block>
+  <block id="89a846b0823ae167964c8a02382225cf" category="paragraph">ThinkSystem SR670 V2は、高速化されたHPCおよびAIワークロードを本番環境に導入するためのエンタープライズクラスの最適化された解決策 で、次世代プラットフォームを使用したスーパーコンピューティングクラスタのデータセンター密度を維持しながら、システムパフォーマンスを最大限に高めます。</block>
+  <block id="9378d87a3787bb6ab3fe4605dd558aaf" category="paragraph">その他の機能は次のとおりです。</block>
+  <block id="fe62ffc0b0188329f10e2bfc0c560ece" category="list-text">GPUに高速ネットワークアダプタを直接接続し、I/Oパフォーマンスを最大化するGPU直接RDMA I/Oのサポート。</block>
+  <block id="03e5fd8f257caa94eae847639e18b1a9" category="list-text">NVMeドライブをGPUに直接接続してストレージのパフォーマンスを最大限に高める、GPU直接ストレージのサポート。</block>
+  <block id="ad7857a40388167e99516cfe367478d5" category="paragraph">MLPerf は、 AI のパフォーマンスを評価するための業界をリードするベンチマークスイートです。この検証では、最も人気の高いAIフレームワークの1つであるMXNetで画像分類ベンチマークを使用しました。MXNet_benchmarksトレーニングスクリプトは、AIトレーニングの促進に使用されました。このスクリプトには、複数の一般的な従来型モデルの実装が含まれており、できる限り高速になるように設計されています。単一のマシンで実行することも、複数のホスト間で分散モードで実行することもできます。</block>
+  <block id="a29118c3c40b6309f6b6354a52631e91" category="paragraph"><block ref="a29118c3c40b6309f6b6354a52631e91" category="inline-link-macro-rx"></block></block>
+  <block id="f0cbafc85a7a8d2836dd3a3d51266f61" category="sidebar">AIおよびMLモデルトレーニング用のLenovo ThinkSystem SR670 V2搭載NetApp AFF A400</block>
 </blocks>
