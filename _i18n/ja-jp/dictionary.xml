@@ -2353,7 +2353,6 @@
   <block id="9a9891facf2fa1c878c0fc18c6638005" category="sidebar">AI 統合インフラ</block>
   <block id="2967ab4748573d0cb6f2c4084c4fd70f" category="sidebar">NetApp E シリーズリファレンスアーキテクチャを使用した BeeGFS</block>
   <block id="1db760587a86f5c1b9ab39aa8cf8cf3d" category="sidebar">NetApp E シリーズストレージによる IBM Spectrum Scale の導入</block>
-  <block id="08479c0355c887a02e772206b0d5d7f5" category="sidebar">AI および ML 向けの NetApp ONTAP および Lenovo ThinkSystem SR670 トレーニングワークロードのモデル化</block>
   <block id="e648dd2d4df65a903e9c1204d81abaed" category="sidebar">用 NetApp AFF A800 および富士通サーバ PRIMERGY GX2570 M5 AI と ML モデルのトレーニングワークロード</block>
   <block id="6a571fb799acb43b64f874729f838e2a" category="sidebar">データパイプライン、データレイク、管理</block>
   <block id="c79bd5ac7ebc0eae5588b9ad529a380f" category="sidebar">自動運転ワークロード向けの NetApp StorageGRID データレイク</block>
@@ -15608,8 +15607,6 @@
   <block id="7bfbd6c5c294b7f81d430bd31f53aea3" category="paragraph">NVA-1153 -設計には、NetApp AFF A800ストレージシステム、NVIDIA DGX A100システム、NVIDIA Mellanox NVIDIA Spectrum SN3700V 200GBのイーサネットスイッチを使用した、機械学習（ML）と人工知能（AI）のワークロードに対応するネットアップの検証済みアーキテクチャが記述されています。この設計では、コンピューティングクラスタインターコネクトファブリック用のRDMA over Converged Ethernet（RoCE）を特徴としており、ハイパフォーマンスワークロード向けに完全なイーサネットベースのアーキテクチャを提供します。また、実装されているアーキテクチャのベンチマークテスト結果も記載します。</block>
   <block id="981ed5a5ebc4fbc2a64f69a42d9ef36c" category="paragraph">ネットアップ、David Arnette</block>
   <block id="0e2b7ed1591c52ac15ea956ecb6a5701" category="paragraph">TR-4851は、機械学習（ML）とディープラーニング（DL）のソフトウェア開発のためのデータリポジトリおよび管理システムとして、NetApp StorageGRID オブジェクトストレージを使用する方法を示しています。このホワイトペーパーでは、自律走行車ソフトウェア開発におけるデータフローと要件、およびデータライフサイクルを合理化するStorageGRID 機能について説明します。この 解決策 環境 は、MLおよびDL開発プロセスで一般的なマルチステージのデータパイプラインワークフローです。</block>
-  <block id="5ebb854a0e7b0964891f587bfc1d231a" category="paragraph">Karthikeyan Nagalingam、NetApp Miroslav Hodak、Lenovo</block>
-  <block id="17f161066b709ea249da0f86319938b3" category="paragraph">TR-4810は、コスト効率に優れたエントリレベルのコンピューティングおよびストレージアーキテクチャを説明し、ネットアップのストレージコントローラとLenovo ThinkSystemサーバにGPUベースの人工知能（AI）トレーニングを導入します。このセットアップは、複数のトレーニングジョブを並行して実行する小規模から中規模のチーム向けの共有リソースとして設計されています。</block>
   <block id="290beddb4a567cd98ba4f9116eee11b4" category="paragraph">NVA-1151 - NetApp AFF A800ストレージシステム、NVIDIA DGX A100システム、NVIDIA Mellanoxネットワークスイッチを使用した、機械学習（ML）と人工知能（AI）のワークロード向けのNetApp Verified Architecture（NVA）でのストレージシステムの導入手順を記載します。また、導入完了後に検証ベンチマークテストを実行する手順についても説明します。</block>
   <block id="806008ac96286a2e08058ba3a3daa601" category="paragraph">ネットアップ、Ryan Rodine氏</block>
   <block id="3e22ed7172d7770cfa1457b7e70b2b06" category="doc">TR-4915：『Data movement with E-Series and BeeGFS for AI and analytics workflows』</block>
@@ -16508,9 +16505,6 @@
   <block id="4f8b12df588cb1e82eb6d578f26c6c62" category="paragraph"><block ref="4f8b12df588cb1e82eb6d578f26c6c62" category="inline-link-macro-rx"></block></block>
   <block id="7054aac0ed39fa340a2d8034700f7366" category="doc">NVA-1151-design：NVIDIA DGX A100を搭載したNetApp ONTAP AIのシステム設計ガイド</block>
   <block id="c3e7dfc3691f26701d35cccf4caf7151" category="paragraph"><block ref="c3e7dfc3691f26701d35cccf4caf7151" category="inline-link-macro-rx"></block></block>
-  <block id="4357c1771697cec588056fc32ddcb708" category="doc">TR-4810：『NetApp ONTAP and Lenovo ThinkSystem SR670 for AI and ML model training workloads』</block>
-  <block id="e0f6e346d478416affd57903ead08043" category="paragraph">TR-4810は、V100 GPU上のTensorFlowでのイメージ分類トレーニングを評価する業界標準のMLPerfベンチマークのパフォーマンスデータを提供します。パフォーマンスを測定するために、ResNet50をImageNetデータセット、バッチサイズ512、ハーフ精度、CUDA、cuDNNで使用しました。この分析は、4台のGPU SR670サーバとエントリレベルのネットアップストレージシステムを使用して実施しました。このテストでは、共有、マルチユーザ、マルチジョブの各ケースでテストした複数のユースケースで、パフォーマンスの効率が非常に優れており、個 々 のジョブで最大4台のサーバを拡張できます。大規模なスケールアウトジョブは効率が低下していましたが、まだ実行可能です。</block>
-  <block id="f19874be6cd1b381c570f4157608de5f" category="paragraph"><block ref="f19874be6cd1b381c570f4157608de5f" category="inline-link-macro-rx"></block></block>
   <block id="c95fe91ba2d256285401bdabdd666ca7" category="doc">NVA-1151-deploy：NVIDIA DGX A100システムを搭載したNetApp ONTAP AI</block>
   <block id="3f8a5951b902f50dcbc39690406ade15" category="paragraph"><block ref="3f8a5951b902f50dcbc39690406ade15" category="inline-link-macro-rx"></block></block>
   <block id="83c4efb371f86415987632c0baa2d086" category="doc">NVA-1156設計：NVIDIA DGX A100システムとBeeGFSを搭載したNetApp EFシリーズAI</block>
@@ -16594,7 +16588,6 @@
   <block id="e5f44d648a9d8c4db4e2b580d3370fbf" category="doc">TR-4956：『Automated PostgreSQL High Availability Deployment and Disaster Recovery in AWS FSX/EC2』</block>
   <block id="03784a7c5600d29113972955e602a944" category="inline-link-macro">DB-Engines（DBエンジン）</block>
   <block id="1d8f1bdc206db1d9edd9fa46f02aa08c" category="paragraph">PostgreSQLは広く利用されているオープンソースデータベースで、最も普及しているデータベースエンジンの上位10位に4位にランクされています <block ref="6e2d0e5987102894082cbdb135303e4d" category="inline-link-macro-rx"></block>。一方、PostgreSQLは、まだ高度な機能を持っている一方で、ライセンスフリーのオープンソースモデルから人気を得ています。一方、オープンソースのため、高可用性とディザスタリカバリ（HA/DR）分野では、本番環境レベルのデータベース導入に関する詳細なガイダンスが不足しており、特にパブリッククラウドでは不足しています。一般的に、ホットスタンバイやウォームスタンバイ、ストリーミングレプリケーションなどを使用した一般的なPostgreSQL HA/DRシステムのセットアップは困難です。スタンバイサイトを昇格させてからプライマリに戻すことで、HA / DR環境をテストすると、本番環境が停止する可能性があります。ストリーミングホットスタンバイに読み取りワークロードが導入されている場合、プライマリにはパフォーマンスの問題が詳しく文書化されています。</block>
-  <block id="a685f8093823e999c5eaf32bef74906d" category="paragraph">このドキュメントでは、アプリケーションレベルのPostgreSQLストリーミングHA / DR解決策 を使用して、データベースファイルやPostgreSQL DBサーバなどのEC2コンピューティングインスタンス用のAWS FSX ONTAP ストレージに基づいてPostgreSQL HA/DR解決策 を構築する方法を説明します。解決策 は、シンプルで同等のシステムを構築し、従来のPostgreSQLアプリケーションレベルのHA/DRストリーミングレプリケーションと比較して同等の結果を提供します。</block>
   <block id="e2543d0568626be8ab6adad9d9a78652" category="paragraph">この解決策 は、実績のある成熟したネットアップのSnapMirrorストレージレベルのレプリケーションテクノロジを基盤としており、PostgreSQLのHA / DR用にAWSネイティブのFSX ONTAP クラウドストレージで利用できます。実装には、ネットアップのソリューションチームが提供する自動化ツールキットが必要同様の機能を提供すると同時に、アプリケーションレベルのストリーミングベースのHA / DR解決策 によって、プライマリサイトにおける複雑さやパフォーマンスの低下を解消します。解決策 は、アクティブなプライマリサイトに影響を与えることなく、簡単に導入してテストできます。</block>
   <block id="f67bd3c0833b1d6bf90bb26a55f0a9ce" category="list-text">パブリックAWSクラウドにPostgreSQL向けの本番グレードのHA/DRを導入します</block>
   <block id="420a5f3809172bb0dc9d501758fe94d2" category="list-text">パブリックAWSクラウドでのPostgreSQLワークロードのテストと検証</block>
@@ -16672,13 +16665,10 @@
   <block id="724a617bc1dcc9b26fedb732f63a569d" category="section-title">フェイルオーバーテスト後にレプリケートされたDBボリュームを再同期</block>
   <block id="6a08e960bd12a4fcddfd08082fbece4b" category="paragraph">フェイルオーバーテスト後にresyncを実行して、データベースとボリュームのSnapMirrorレプリケーションを再確立します。</block>
   <block id="145966bc8e38b26c384abaf4e450f6a7" category="section-title">EC2コンピューティングインスタンス障害のため、プライマリEC2 DBサーバからスタンバイEC2 DBサーバへのフェイルオーバーを実行します</block>
-  <block id="bab50aeeeaabfc4e129f95b2d8d125e5" category="paragraph">ライセンスが必要なOSクラスタウェアが十分に確立された状態で手動フェイルオーバーを実行することを推奨します。</block>
   <block id="73bc97f640d8c1cae3fa624183216b41" category="inline-link-macro"><block ref="73bc97f640d8c1cae3fa624183216b41" category="inline-link-rx"></block></block>
   <block id="40285fa8e3dc4d66bfadb679f67dfde6" category="paragraph"><block ref="40285fa8e3dc4d66bfadb679f67dfde6" category="inline-link-macro-rx"></block></block>
   <block id="68253b5715937494905ba0cb9db91d2e" category="inline-link-macro"><block ref="be48c1546d351a5e48dcf4f28738754b" category="inline-link-rx"></block></block>
   <block id="6dcfba5adaa9302bd59dd5a601b947a2" category="paragraph"><block ref="95bfcff1050e9160bb2bd645993e8c18" category="inline-link-macro-rx"></block></block>
-  <block id="6d183e6080727fa3b49f82e41b18c061" category="inline-link-macro"><block ref="6d183e6080727fa3b49f82e41b18c061" category="inline-link-rx"></block></block>
-  <block id="8fb430b477f47c3062d0f4afb8a9195b" category="paragraph"><block ref="8fb430b477f47c3062d0f4afb8a9195b" category="inline-link-macro-rx"></block></block>
   <block id="031004dd1775e5fd9d35b534e33217ea" category="paragraph">[下線]#*オープンソースデータベース用のビデオ*#</block>
   <block id="5b70a7f45ddd32cacfe28af238662d3d" category="video-title">PostgreSQLの自動導入、HA/DRレプリケーションのセットアップ、フェイルオーバー、再同期</block>
   <block id="61c8e892dd7e1908020eb0a312fd4bbb" category="cell">202/15/2023</block>
@@ -16861,4 +16851,8 @@
   <block id="ad7857a40388167e99516cfe367478d5" category="paragraph">MLPerf は、 AI のパフォーマンスを評価するための業界をリードするベンチマークスイートです。この検証では、最も人気の高いAIフレームワークの1つであるMXNetで画像分類ベンチマークを使用しました。MXNet_benchmarksトレーニングスクリプトは、AIトレーニングの促進に使用されました。このスクリプトには、複数の一般的な従来型モデルの実装が含まれており、できる限り高速になるように設計されています。単一のマシンで実行することも、複数のホスト間で分散モードで実行することもできます。</block>
   <block id="a29118c3c40b6309f6b6354a52631e91" category="paragraph"><block ref="a29118c3c40b6309f6b6354a52631e91" category="inline-link-macro-rx"></block></block>
   <block id="f0cbafc85a7a8d2836dd3a3d51266f61" category="sidebar">AIおよびMLモデルトレーニング用のLenovo ThinkSystem SR670 V2搭載NetApp AFF A400</block>
+  <block id="3ba3cda3d91af072810327bfd691205c" category="paragraph">このドキュメントでは、アプリケーションレベルのPostgreSQLストリーミングHA / DR解決策 を使用して、ストレージレベルのレプリケーションを使用してAWS FSX ONTAP ストレージとEC2コンピューティングインスタンスに基づいてPostgreSQL HA / DR解決策 を構築する方法を説明します。解決策 は、シンプルで同等のシステムを構築し、従来のPostgreSQLアプリケーションレベルのHA/DRストリーミングレプリケーションと比較して同等の結果を提供します。</block>
+  <block id="32d16eeba786f125b3c1e4750ad34e08" category="paragraph">手動フェイルオーバーを実行するか、ライセンスが必要なOSクラスタウェアを十分に確立して使用することを推奨します。</block>
+  <block id="0a6f7f4424be62bd8f9208328496eeaf" category="inline-link-macro"><block ref="0a6f7f4424be62bd8f9208328496eeaf" category="inline-link-rx"></block></block>
+  <block id="b898d8d538a4529dfdb2b8bf025323c2" category="paragraph"><block ref="b898d8d538a4529dfdb2b8bf025323c2" category="inline-link-macro-rx"></block></block>
 </blocks>
