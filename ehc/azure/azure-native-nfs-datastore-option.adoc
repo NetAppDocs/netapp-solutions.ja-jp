@@ -86,9 +86,6 @@ Azure NetApp Files との新たな統合により、Azure VMware解決策 リソ
 
 NOTE: 最適なパフォーマンスを実現するには、プライベートクラウドと同じアベイラビリティゾーンにAzure NetApp Files を導入します。エクスプレスルートファストパスを使用するコロケーション施設は、ネットワークレイテンシを最小限に抑えて最高のパフォーマンスを提供します。
 
-
-NOTE: この機能は現在パブリックプレビューにあります。
-
 Azure NetApp FileボリュームをAzure VMware解決策 プライベートクラウドのVMwareデータストアとして接続するには、次の前提条件を満たしていることを確認します。
 
 .前提条件
@@ -167,7 +164,7 @@ image:vmware-dr-image3.png["エラー：グラフィックイメージがあり�
 
  a| 
 * Azure NetApp Files のデータストアではNFSv3がサポートされています。
-* 最高のパフォーマンスを得るには、PremiumまたはUltra Tierを使用します。
+* 容量バインドされたワークロードにはPremium階層、デフォルトのvSANストレージを補完する場合にはUltra Tierを、必要に応じてパフォーマンスが制限されたワークロードにはUltra Tierとして使用します。
 
 
 |===
@@ -177,12 +174,15 @@ image:vmware-dr-image3.png["エラー：グラフィックイメージがあり�
 
 image:vmware-dr-image4.png["エラー：グラフィックイメージがありません"]
 
-サイズまたはクォータ別のAzure NetApp Files ボリュームのパフォーマンスについては、を参照してください https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-performance-considerations["Azure NetApp Files のパフォーマンスに関する考慮事項"^]。
+サイズまたはクォータ別のAzure NetApp Files ボリュームのパフォーマンスについては、を参照してください link:https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-performance-considerations["Azure NetApp Files のパフォーマンスに関する考慮事項"^]。
 
 ====
 .Azure NetApp Files データストアをプライベートクラウドに追加する
 [%collapsible]
 ====
+
+NOTE: Azure NetApp Files ボリュームは、Azureポータルを使用してプライベートクラウドに接続できます。これを実行します link:https://learn.microsoft.com/en-us/azure/azure-vmware/attach-azure-netapp-files-to-azure-vmware-solution-hosts?tabs=azure-portal["Microsoftからのリンク"] Azureポータルを使用してAzure NetApp Files データストアをマウントする詳しい手順については、を参照してください。
+
 Azure NetApp Files データストアをプライベートクラウドに追加するには、次の手順を実行します。
 
 . 必要な機能を登録したら、適切なコマンドを実行して、Azure VMware解決策 プライベートクラウドクラスタにNFSデータストアを接続します。
@@ -230,13 +230,15 @@ image:vmware-dr-image6.png["エラー：グラフィックイメージがあり�
 
 詳細については、を参照してください https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-service-levels["Azure NetApp Files のサービスレベル"^]。
 
+これを参照してください link:https://learn.microsoft.com/en-us/azure/azure-netapp-files/performance-benchmarks-azure-vmware-solution["Microsoftからのリンク"] サイジングの演習で使用できる詳細なパフォーマンスベンチマークについては、を参照してください。
+
 |===
 | 覚えておいてください 
 
 
  a| 
-* パフォーマンスを最適化するには、PremiumまたはUltraティアをデータストアボリュームに使用します。
-* ゲストVMのファイル共有の要件については、StandardまたはPremiumのいずれかのボリュームを使用してください。
+* 容量とパフォーマンスを最適化するには、PremiumまたはStandard階層をデータストアボリュームに使用します。パフォーマンスが必要な場合は、Ultra Tierを使用できます。
+* ゲストのマウント要件を満たすには、PremiumまたはUltraティアを使用し、ゲストVMのファイル共有要件にはStandardまたはPremium階層のボリュームを使用します。
 
 
 |===
@@ -250,6 +252,8 @@ Azure NetApp Files ボリュームで使用可能な帯域幅を増やすには�
 
 帯域幅を広くするためには、複数のANFボリュームを使用して複数のデータストアを作成し、VMDKを作成して、複数のVMDKに論理ボリュームをストライプするのがベストプラクティスです。
 
+これを参照してください link:https://learn.microsoft.com/en-us/azure/azure-netapp-files/performance-benchmarks-azure-vmware-solution["Microsoftからのリンク"] サイジングの演習で使用できる詳細なパフォーマンスベンチマークについては、を参照してください。
+
 |===
 | 覚えておいてください 
 
@@ -258,30 +262,7 @@ Azure NetApp Files ボリュームで使用可能な帯域幅を増やすには�
 * Azure VMware解決策 では、デフォルトで8つのNFSデータストアがサポートされます。これは、サポートリクエストによって増やすことができます。
 * ERファストパスとUltra SKUを併用することで、帯域幅の向上とレイテンシの低減を実現できます。詳細情報
 * Azure NetApp Files の「基本」のネットワーク機能を使用すると、Azure VMware解決策 からの接続は、ExpressRoute回線の帯域幅とExpressRouteゲートウェイにバインドされます。
-* 「標準」のネットワーク機能（現在はパブリックプレビュー）を使用するAzure NetApp Files ボリュームでは、ExpressRouteファストパスがサポートされます。この機能を有効にすると、FastPathはネットワークトラフィックを直接Azure NetApp Files ボリュームに送信し、ゲートウェイをバイパスして、より高い帯域幅と低レイテンシを実現します。
-
-
-|===
-
-
-== パフォーマンスの最適化
-
-NFSデータストアごとの仮想マシンの推奨数は主観的ですが、各データストアに配置できるVMの最適な数は、さまざまな要因によって決まります。ほとんどの管理者が考慮するのは容量だけですが、VMDKに同時に送信されるI/Oの量は、全体的なパフォーマンスにとって最も重要な要因の1つです。ESXiホストには、データストアリソースに対して競合する仮想マシン間の公平性を確保するための多くのメカニズムがあります。ただし、パフォーマンスを制御する最も簡単な方法は、各データストアに配置する仮想マシンの数を制御することです。仮想マシンの同時I/Oパターンがデータストアに大量のトラフィックを送信している場合は、ディスクのキューがいっぱいになり、レイテンシが高くなります。
-
-
-
-== ボリュームとデータストアのサイジング
-
-データストア用にAzure NetApp Files 上にボリュームを作成する場合は、必要以上にボリュームを作成することを推奨します。最大ボリュームサイズは100TBまで拡張できますが、最初は小規模なデータストアの容量から始めて、必要に応じて拡張することを推奨します。データストアを適切にサイジングすることで、データストアに多数の仮想マシンを誤って配置してしまうのを防止し、リソースの競合を減らすことができます。仮想マシンに追加の容量が必要な場合にデータストアとVMDKのサイズを簡単に拡張できるため、必要以上に大きいデータストアを作成する必要はありません。最適なパフォーマンスを実現するには、データストアのサイズを大きくするのではなく、データストアの数を増やすことを推奨します。
-
-|===
-| 覚えておいてください 
-
-
- a| 
-* ANF NFSデータストアのサイズは4TBから8TBに変更できます。
-* 15～20台のVMを1つのデータストアに配置します。VMの要件に応じて、これを35-40 VMに増やすことができます。
-* 最大限のパフォーマンスと管理性を実現するためには、データベースなどの高I/Oアプリケーション用にゲストによって管理されるNFS / SMBファイルシステムなどのゲスト所有のファイルシステムを検討してください。
+* 「標準」のネットワーク機能を使用するAzure NetApp Files ボリュームでは、ExpressRouteファストパスがサポートされます。この機能を有効にすると、FastPathはネットワークトラフィックを直接Azure NetApp Files ボリュームに送信し、ゲートウェイをバイパスして、より高い帯域幅と低レイテンシを実現します。
 
 
 |===
@@ -297,7 +278,7 @@ NFSデータストアごとの仮想マシンの推奨数は主観的ですが�
 
  a| 
 * ボリュームの形状変更と動的なサービスレベル機能により、安定状態のワークロードのサイジングを行い、オーバープロビジョニングを回避してコストを最適化できます。
-* パブリックプレビューでは、VAAIは有効になりません。
+* VAAIが有効になっていません。
 
 
 |===

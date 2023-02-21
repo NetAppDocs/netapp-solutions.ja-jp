@@ -12969,7 +12969,6 @@
   <block id="feb87b8a766262f1649eb73f664b5237" category="paragraph">つまり、ユースケースは次の2つの方法で分類できます。</block>
   <block id="113270f68f35ffcbf2a57597bd22e665" category="list-text">ANFデータストアを使用したストレージ容量の拡張</block>
   <block id="a46f3b69652b37f2becc5ad8def389fe" category="list-text">オンプレミスまたはAzureリージョン内のSoftware-Defined Storage（SDDC）間で、ANFデータストアをディザスタリカバリターゲットとして使用することで、コストを最適化したリカバリワークフローを実現できます。このガイドでは、Azure NetApp Files を使用してデータストアに最適化されたストレージを提供する方法を説明します（現時点ではパブリックプレビュー版です）。 Azure VMware解決策 の業界最高のデータ保護機能とDR機能を組み合わせることで、VSANストレージからストレージ容量をオフロードできます。</block>
-  <block id="301964836d84fb491fca23f51f902cd0" category="admonition">Azure NetApp Files データストア機能は現在パブリックプレビュー版です。追加情報 の地域のネットアップまたはMicrosoft解決策 アーキテクトにお問い合わせください。</block>
   <block id="9d5486edf9a5ddec98d7f7509d50101c" category="section-title">AzureのVMware Cloudオプション</block>
   <block id="809dd7fcec8077467eab0222ea68e259" category="paragraph">Azure VMware解決策 （AVS）は、Microsoft Azureパブリッククラウド内でVMware SDSを完全に機能させるハイブリッドクラウドサービスです。AVSはMicrosoftが完全に管理およびサポートするファーストパーティの解決策 で、Azureインフラストラクチャを使用するVMwareにより検証されています。そのため、コンピューティング仮想化用のVMware ESXi、ハイパーコンバージドストレージ用のVSAN、ネットワークとセキュリティ用のNSXを、Microsoft Azureのグローバルプレゼンス、クラス最高レベルのデータセンター施設、ネイティブのAzureサービスとソリューションの豊富なエコシステムの近くで利用できます。Azure VMware解決策 SDDCとAzure NetApp Files を組み合わせることで、ネットワークレイテンシを最小限に抑えながら最高のパフォーマンスを実現できます。</block>
   <block id="8718654ef588a85b2a2e46a7727fa16d" category="paragraph">VMware SDDCを導入する際、使用するクラウドに関係なく、最初のクラスタには次のコンポーネントが含まれます。</block>
@@ -13017,7 +13016,6 @@
   <block id="b2666a13d31389019b43a9085ffd2fe8" category="section-title">Azure VMware解決策 でAzure NetApp Files を設定</block>
   <block id="dbfbac0b1aee2557c747f90a52c200ed" category="paragraph">Azure NetApp Files との新たな統合により、Azure VMware解決策 リソースプロバイダAPI / CLIを使用してAzure NetApp Files ボリュームを使用してNFSデータストアを作成し、選択したクラスタにデータストアをプライベートクラウドにマウントできるようになりました。VMとアプリケーションのVMDKを収容する以外に、Azure NetApp Filesボリュームは、Azure VMware解決策 SDDC環境で作成されたVMからマウントすることもできます。Azure NetApp Files はサーバメッセージブロック（SMB）プロトコルとネットワークファイルシステム（NFS）プロトコルをサポートしているため、ボリュームをLinuxクライアントにマウントしてWindowsクライアントにマッピングできます。</block>
   <block id="3fcf61e60f3486b366489a2db86e92c0" category="admonition">最適なパフォーマンスを実現するには、プライベートクラウドと同じアベイラビリティゾーンにAzure NetApp Files を導入します。エクスプレスルートファストパスを使用するコロケーション施設は、ネットワークレイテンシを最小限に抑えて最高のパフォーマンスを提供します。</block>
-  <block id="2a499560ec410b1e1caeb95f6021ac1e" category="admonition">この機能は現在パブリックプレビューにあります。</block>
   <block id="7042805ebe69bccc6ab09f9518f94556" category="paragraph">Azure NetApp FileボリュームをAzure VMware解決策 プライベートクラウドのVMwareデータストアとして接続するには、次の前提条件を満たしていることを確認します。</block>
   <block id="49588f95c73f4a9df95958ba5e856d0c" category="list-text">AZログインを使用し、サブスクリプションがMicrosoft.AVSネームスペースのCloudSanExperience機能に登録されていることを確認します。</block>
   <block id="c0e46e4183896be214bad3fd077b5834" category="list-text">登録されていない場合は、登録します。</block>
@@ -13033,11 +13031,9 @@
   <block id="187927c7525fb36ec9428b4d84fe0aff" category="list-text">ネットアップアカウントを作成したら、必要なサービスレベルとサイズの容量プールをセットアップします。詳細については、こちらを参照してください<block ref="0a52e91c67ac030fc237a7b13d0404c6" category="inline-link-rx"></block>。</block>
   <block id="c7d6fd5f235d0c8a960facf04a79e4a7" category="paragraph"><block ref="c7d6fd5f235d0c8a960facf04a79e4a7" category="inline-image-macro-rx" type="image"></block></block>
   <block id="c573a9eace62b9790820458dd59448b0" category="list-text">Azure NetApp Files のデータストアではNFSv3がサポートされています。</block>
-  <block id="62dfd4c1cc43e59ef3c56bb615d3b182" category="list-text">最高のパフォーマンスを得るには、PremiumまたはUltra Tierを使用します。</block>
   <block id="0d55d5c3a7459f59fd437a2311322791" category="list-text">Azure NetApp Files の委任されたサブネットを設定し、ボリュームを作成する際にこのサブネットを指定します。委任されたサブネットを作成する詳細な手順については、を参照してください<block ref="e84891bed408b1977d062f4ccc1816aa" category="inline-link-rx"></block>。</block>
   <block id="36fc58c2c3fa32ac586d5628570e9499" category="list-text">容量プールブレード下のボリュームブレードを使用して、データストア用のNFSボリュームを追加します。</block>
   <block id="2832d137c1714a9759f87412fb05253e" category="paragraph"><block ref="2832d137c1714a9759f87412fb05253e" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="47e7f43ca3ba65dbd1b1edbe26db8cc4" category="paragraph">サイズまたはクォータ別のAzure NetApp Files ボリュームのパフォーマンスについては、を参照してください<block ref="bcd13cd67f856c9e615d78327e957b9c" category="inline-link-rx"></block>。</block>
   <block id="372d7a6604390fe9757888aff0a92970" category="example-title">Azure NetApp Files データストアをプライベートクラウドに追加する</block>
   <block id="0f9e7cabe2f81455810e96baca91c6a7" category="paragraph">Azure NetApp Files データストアをプライベートクラウドに追加するには、次の手順を実行します。</block>
   <block id="b1248573ef968f7d6fc7eaa453fa4d45" category="list-text">必要な機能を登録したら、適切なコマンドを実行して、Azure VMware解決策 プライベートクラウドクラスタにNFSデータストアを接続します。</block>
@@ -13048,8 +13044,6 @@
   <block id="078f601da77f62e8c7e097d5744f9b1b" category="section-title">サイジングとパフォーマンスの最適化</block>
   <block id="2954ff66e26b577154cf218d077ff1a9" category="paragraph">Azure NetApp Files は、 Standard （テラバイトあたり 16mbps ）、 Premium （テラバイトあたり 64MBps ）、 Ultra （テラバイトあたり 128MBps ）の 3 つのサービスレベルをサポートします。データベースワークロードのパフォーマンスを最適化するには、適切なボリュームサイズをプロビジョニングすることが重要です。Azure NetApp Files では、次の要素に基づいてボリュームのパフォーマンスとスループット制限が決定されます。</block>
   <block id="a5d62ae512b963e1f05e839467577f19" category="paragraph"><block ref="a5d62ae512b963e1f05e839467577f19" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="9ce18fddaa7dc898334afc4ab63a163b" category="list-text">パフォーマンスを最適化するには、PremiumまたはUltraティアをデータストアボリュームに使用します。</block>
-  <block id="f681df268b9e05fa5155bbf1f38d672f" category="list-text">ゲストVMのファイル共有の要件については、StandardまたはPremiumのいずれかのボリュームを使用してください。</block>
   <block id="1261ba8eeb83d9d138ff9e9a37214a7e" category="section-title">パフォーマンスに関する考慮事項</block>
   <block id="f4479400cc63a0bc54ea3a609d8d89aa" category="paragraph">NFSバージョン3では、ESXiホストと単一のストレージターゲット間の接続に使用できるアクティブなパイプは1つだけであることに注意してください。そのため、フェイルオーバーには別の接続を使用できる場合もありますが、1つのデータストアと基盤となるストレージの帯域幅は、1つの接続で提供可能な量に制限されます。</block>
   <block id="f4c57c87dfa0d5843279b51c6e10d0a6" category="paragraph">Azure NetApp Files ボリュームで使用可能な帯域幅を増やすには、ESXiホストからストレージターゲットへの接続が複数必要です。この問題 に対応するには、各データストアでESXiホストとストレージ間の接続を分けることで、複数のデータストアを設定します。</block>
@@ -13057,19 +13051,10 @@
   <block id="c01a936a44f773bc3d0a636cb655c28c" category="list-text">Azure VMware解決策 では、デフォルトで8つのNFSデータストアがサポートされます。これは、サポートリクエストによって増やすことができます。</block>
   <block id="cd58e3b202d882202a16834028640630" category="list-text">ERファストパスとUltra SKUを併用することで、帯域幅の向上とレイテンシの低減を実現できます。詳細情報</block>
   <block id="6ef5173b6cc36d0f4efabbafeeee7443" category="list-text">Azure NetApp Files の「基本」のネットワーク機能を使用すると、Azure VMware解決策 からの接続は、ExpressRoute回線の帯域幅とExpressRouteゲートウェイにバインドされます。</block>
-  <block id="0a8e9b67042320d1a2f3f6155fc3e096" category="list-text">「標準」のネットワーク機能（現在はパブリックプレビュー）を使用するAzure NetApp Files ボリュームでは、ExpressRouteファストパスがサポートされます。この機能を有効にすると、FastPathはネットワークトラフィックを直接Azure NetApp Files ボリュームに送信し、ゲートウェイをバイパスして、より高い帯域幅と低レイテンシを実現します。</block>
-  <block id="1b75d86136a5cde892b315650fd5ea43" category="section-title">パフォーマンスの最適化</block>
-  <block id="213debd5ccd87a89487239a8460a0f0e" category="paragraph">NFSデータストアごとの仮想マシンの推奨数は主観的ですが、各データストアに配置できるVMの最適な数は、さまざまな要因によって決まります。ほとんどの管理者が考慮するのは容量だけですが、VMDKに同時に送信されるI/Oの量は、全体的なパフォーマンスにとって最も重要な要因の1つです。ESXiホストには、データストアリソースに対して競合する仮想マシン間の公平性を確保するための多くのメカニズムがあります。ただし、パフォーマンスを制御する最も簡単な方法は、各データストアに配置する仮想マシンの数を制御することです。仮想マシンの同時I/Oパターンがデータストアに大量のトラフィックを送信している場合は、ディスクのキューがいっぱいになり、レイテンシが高くなります。</block>
-  <block id="f9fd5bbf2764cc5b16e9eeeb8b57ee91" category="section-title">ボリュームとデータストアのサイジング</block>
-  <block id="01ab7b17836cfa3916b003d7febafe43" category="paragraph">データストア用にAzure NetApp Files 上にボリュームを作成する場合は、必要以上にボリュームを作成することを推奨します。最大ボリュームサイズは100TBまで拡張できますが、最初は小規模なデータストアの容量から始めて、必要に応じて拡張することを推奨します。データストアを適切にサイジングすることで、データストアに多数の仮想マシンを誤って配置してしまうのを防止し、リソースの競合を減らすことができます。仮想マシンに追加の容量が必要な場合にデータストアとVMDKのサイズを簡単に拡張できるため、必要以上に大きいデータストアを作成する必要はありません。最適なパフォーマンスを実現するには、データストアのサイズを大きくするのではなく、データストアの数を増やすことを推奨します。</block>
   <block id="fad725216d945a6443f15949ae73b316" category="cell">覚えておいてください</block>
-  <block id="28c7e0cc515aa1271633669cf0e579ad" category="list-text">ANF NFSデータストアのサイズは4TBから8TBに変更できます。</block>
-  <block id="90f9dde25089c324af635a76b75a7509" category="list-text">15～20台のVMを1つのデータストアに配置します。VMの要件に応じて、これを35-40 VMに増やすことができます。</block>
-  <block id="3236c97f9f8c9cb7fcbc35b9ff162ab3" category="list-text">最大限のパフォーマンスと管理性を実現するためには、データベースなどの高I/Oアプリケーション用にゲストによって管理されるNFS / SMBファイルシステムなどのゲスト所有のファイルシステムを検討してください。</block>
   <block id="0d3f5dc8a647758ee9ad71d0af34e75e" category="section-title">データストアのサイズを拡張する</block>
   <block id="9ae97248366686f76c6f9f6ac9b8d073" category="paragraph">ボリュームの形状変更と動的なサービスレベル変更は、SDDCに対して完全に透過的に行われます。Azure NetApp Files では、これらの機能によって、パフォーマンス、容量、コストの最適化を継続的に実施できます。Azure PortalまたはCLIからボリュームのサイズを変更するか、NFSデータストアのサイズを拡張してください。完了したら、vCenterにアクセスし、データストアタブに移動して適切なデータストアを右クリックし、容量情報の更新を選択します。この手法を使用すると、データストアの容量を増やし、ダウンタイムを生じさせずにデータストアのパフォーマンスを動的に向上させることができます。このプロセスは、アプリケーションに対しても完全に透過的です。</block>
   <block id="264b475cf0374b319edf3b094fe25874" category="list-text">ボリュームの形状変更と動的なサービスレベル機能により、安定状態のワークロードのサイジングを行い、オーバープロビジョニングを回避してコストを最適化できます。</block>
-  <block id="c38ea7c6c5e1aef9a1df0cebd81737d9" category="list-text">パブリックプレビューでは、VAAIは有効になりません。</block>
   <block id="35084d885dea7b061e6894c1cf3036d9" category="section-title">ワークロード</block>
   <block id="f7458ac9343d5418ff038f156d9b29fc" category="paragraph">最も一般的なユースケースの1つはマイグレーションです。VMware HCXまたはvMotionを使用して、オンプレミスのVMを移動します。また、Rivermeadowを使用してAzure NetApp Files データストアにVMを移行することもできます。</block>
   <block id="36e402ac6b1a4b9a31bd376a7f89c68e" category="paragraph">VMのバックアップと迅速なリカバリは、ANFデータストアの大きなメリットの1つです。Snapshotコピーを使用すると、パフォーマンスに影響を与えることなくVMやデータストアのコピーをすばやく作成し、Azureストレージに送信して長期的なデータ保護を実現したり、ディザスタリカバリ目的でリージョン間レプリケーションを使用してセカンダリリージョンに送信したりできます。このアプローチでは、変更された情報のみを格納することで、ストレージスペースとネットワーク帯域幅を最小限に抑えます。</block>
@@ -14374,7 +14359,6 @@
   <block id="477aa009d1d8f0ca50a38092473e92c8" category="paragraph">このドキュメントでは、AWS上のVMware Cloud用のNFSデータストアとしてONTAP 用のFSXをプロビジョニングして接続するために必要な手順を説明します。</block>
   <block id="dfc876546f6dc1183356f103bca8c9bf" category="section-title">接続オプション</block>
   <block id="96ebe87ba2bf6e2436936fad5261faee" category="paragraph">ここでは、ハイレベルな接続アーキテクチャと、ホストを追加することなくSDDCクラスタ内のストレージを拡張するために解決策 を実装するために必要な手順について説明します。</block>
-  <block id="373604cc33724c808b5ea035d2c5d911" category="paragraph">Amazon FSX for NetApp ONTAP はフルマネージドサービスで、広く普及しているNetApp ONTAP ファイルシステムを基盤に、信頼性、拡張性、パフォーマンス、機能豊富なファイルストレージを提供します。Amazon FSX for NetApp ONTAP （Multi-AZ）は、フローティングIPアドレスを使用して、アベイラビリティゾーンレベルで障害が発生した場合にNASトラフィックのフェイルオーバー機能を有効にします。このIPアドレスはVPC CIDRアドレススペースの外部にあるため、ENIを介してSDDCにルーティングすることはできません。したがって、VMware Transit Connectを使用して、NASインターフェイスのフローティングIPアドレスに接続してください。</block>
   <block id="f86935ff4bae98bba5454898ea941c13" category="paragraph"><block ref="f86935ff4bae98bba5454898ea941c13" category="inline-image-macro-rx" type="image"></block></block>
   <block id="b5dfb62423539055e813d9c1ad0de5ec" category="paragraph">導入手順の概要は次のとおりです。</block>
   <block id="a7e048390e1de16427d130135387bbfa" category="list-text">新しい指定VPCでAmazon FSX for ONTAP を作成します。</block>
@@ -16855,4 +16839,18 @@
   <block id="0a6f7f4424be62bd8f9208328496eeaf" category="inline-link-macro"><block ref="0a6f7f4424be62bd8f9208328496eeaf" category="inline-link-rx"></block></block>
   <block id="b898d8d538a4529dfdb2b8bf025323c2" category="paragraph"><block ref="b898d8d538a4529dfdb2b8bf025323c2" category="inline-link-macro-rx"></block></block>
   <block id="db297dc3a6b72858a5039fa6507a2b34" category="paragraph">Sathish Thyagarajan、David Arnette、NetApp Mircea Troaca、Lenovo</block>
+  <block id="c12ff13215c1f6de4c6dad4b8a475398" category="paragraph">[下線]#* SQL Serverデータベース用ビデオ*#</block>
+  <block id="b4aaa3fbc0d85cfa527c7cb7f59187fd" category="video-title">Amazon FSX for NetApp ONTAP を使用して、AWS EC2にSQL Serverを導入します</block>
+  <block id="785e5e204bcb101e73976a8c3ad22887" category="paragraph">このプロセスの詳細については、次のビデオをご覧ください。</block>
+  <block id="c91dcf7c665570f3603fa32cb3a8c644" category="list-text">容量バインドされたワークロードにはPremium階層、デフォルトのvSANストレージを補完する場合にはUltra Tierを、必要に応じてパフォーマンスが制限されたワークロードにはUltra Tierとして使用します。</block>
+  <block id="60ce6ba5fcd445684c9982883f234b8c" category="paragraph">サイズまたはクォータ別のAzure NetApp Files ボリュームのパフォーマンスについては、を参照してください <block ref="62d66f64400ed6e4ba5e012bbe140a31" category="inline-link-macro-rx"></block>。</block>
+  <block id="a01ca5d7b443422e0bc655c4d457707f" category="inline-link-macro">Microsoftからのリンク</block>
+  <block id="37028a2422f1f35ed56a07f1003896d1" category="admonition">Azure NetApp Files ボリュームは、Azureポータルを使用してプライベートクラウドに接続できます。これを実行します <block ref="c627cf01abf17d7b29d4322a9f16e21d" category="inline-link-macro-rx"></block> Azureポータルを使用してAzure NetApp Files データストアをマウントする詳しい手順については、を参照してください。</block>
+  <block id="7dfe1e95238cceec93165ab8ff605d28" category="paragraph">これを参照してください <block ref="06f6144b70bdd3c5a376672271533656" category="inline-link-macro-rx"></block> サイジングの演習で使用できる詳細なパフォーマンスベンチマークについては、を参照してください。</block>
+  <block id="b1404b6b3614fe54358fb1bdb8bd294a" category="list-text">容量とパフォーマンスを最適化するには、PremiumまたはStandard階層をデータストアボリュームに使用します。パフォーマンスが必要な場合は、Ultra Tierを使用できます。</block>
+  <block id="1048ee221e43763386324d16721681fc" category="list-text">ゲストのマウント要件を満たすには、PremiumまたはUltraティアを使用し、ゲストVMのファイル共有要件にはStandardまたはPremium階層のボリュームを使用します。</block>
+  <block id="e421004f0e3e2303f272ef4b0fa6c089" category="list-text">「標準」のネットワーク機能を使用するAzure NetApp Files ボリュームでは、ExpressRouteファストパスがサポートされます。この機能を有効にすると、FastPathはネットワークトラフィックを直接Azure NetApp Files ボリュームに送信し、ゲートウェイをバイパスして、より高い帯域幅と低レイテンシを実現します。</block>
+  <block id="80a4a92a47a4b87bb9d0fcf9ded1dda8" category="list-text">VAAIが有効になっていません。</block>
+  <block id="94e2529c9624e06356bacdc7dc76dab9" category="admonition">ANFデータストアの使用については、地域の追加情報 ネットアップアーキテクトまたはMicrosoft解決策 アーキテクトにお問い合わせください。</block>
+  <block id="a8a748d1990bd3dbc648c22396cec9c4" category="admonition">AWS上のVMware Cloudでは、複数AZおよび単一AZ環境のFSX for ONTAP をサポートします。</block>
 </blocks>
