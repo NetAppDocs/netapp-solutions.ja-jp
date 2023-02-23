@@ -2336,7 +2336,6 @@
   <block id="408649df4ac74ae19e47eef7d060c5cb" category="cell">解決策の自動化</block>
   <block id="cf04feec36847ba9c9671b28661cd1fc" category="sidebar">ネットアップソリューションのドキュメント</block>
   <block id="6174d88cc7c0409df3e035a5c9d089cb" category="sidebar">変更ログ</block>
-  <block id="91770f038cd944a1d3b9b347edeb2b10" category="sidebar">新機能</block>
   <block id="17c3771ed0b6c1ae15740eff715e9922" category="sidebar">ビデオとデモ</block>
   <block id="d6b9ea32b921a9f56de32062ba4b94f3" category="sidebar">ブログ</block>
   <block id="0333ddced253ee1c6929eda5612dea92" category="sidebar">自動化をリクエスト</block>
@@ -16853,4 +16852,104 @@
   <block id="80a4a92a47a4b87bb9d0fcf9ded1dda8" category="list-text">VAAIが有効になっていません。</block>
   <block id="94e2529c9624e06356bacdc7dc76dab9" category="admonition">ANFデータストアの使用については、地域の追加情報 ネットアップアーキテクトまたはMicrosoft解決策 アーキテクトにお問い合わせください。</block>
   <block id="a8a748d1990bd3dbc648c22396cec9c4" category="admonition">AWS上のVMware Cloudでは、複数AZおよび単一AZ環境のFSX for ONTAP をサポートします。</block>
+  <block id="c3b1da56e0792b4ce28bc91a4bf79841" category="inline-link-macro">VMware HCXを使用したNetApp Cloud Volume Service NFSデータストアへのワークロードの移行</block>
+  <block id="c2dd2858771476e1bd26526be2c1f5ad" category="list-text"><block ref="c2dd2858771476e1bd26526be2c1f5ad" category="inline-link-macro-rx"></block></block>
+  <block id="7ca47d49ee6c57c993203315ea11c82b" category="doc">VMware HCX-Quickstartガイドを使用して、Google Cloud VMware Engine上のNetApp Cloud Volume Serviceデータストアにワークロードを移行します</block>
+  <block id="925d41ba352b91ef0de674e109988a23" category="section-title">概要：VMware HCX、NetApp Cloud Volume Serviceデータストア、Google Cloud VMware Engine（GCVE）を使用した仮想マシンの移行</block>
+  <block id="ecca6d9dd6ca6c76191faa472f8c6df9" category="paragraph">Google Cloud VMware EngineおよびCloud Volume Serviceデータストアの最も一般的なユースケースの1つは、VMwareワークロードの移行です。VMware HCXは推奨されるオプションであり、オンプレミスの仮想マシン（VM）とそのデータをCloud Volume Service NFSデータストアに移動するためのさまざまな移行メカニズムを提供します。</block>
+  <block id="d5230db8260d991194ad332af34aa9de" category="paragraph">VMware HCXは、主に移行プラットフォームであり、クラウド間でのアプリケーションの移行、ワークロードの再バランシング、ビジネス継続性の簡素化を目的として設計されています。Google Cloud VMware Engine Private Cloudの一部として提供されており、ワークロードを移行し、ディザスタリカバリ（DR）処理に使用するためのさまざまな方法を提供します。</block>
+  <block id="cac5c7468f43bdedfbaa5b47e384516c" category="paragraph">このドキュメントでは、Cloud Volume Serviceデータストアのプロビジョニングの手順ごとのガイダンスを示し、その後、さまざまなVM移行メカニズムを有効にするためのInterconnect、Network Extension、WAN最適化など、オンプレミスおよびGoogle Cloud VMware Engine側のすべての主要コンポーネントを含むVMware HCXのダウンロード、導入、設定を行います。</block>
+  <block id="256044a3a14b99a48569af0ee614f2c4" category="admonition">VMware HCXはVMレベルで移行されるため、どのデータストアタイプでも動作します。このドキュメントは、対費用効果の高いVMwareクラウド導入のためにGoogle Cloud VMware Engineを使用したCloud Volume Serviceの導入を計画している既存のネットアップのお客様およびネットアップ以外のお客様を対象としています。</block>
+  <block id="b0568534d9aa25692e3a5fe6337361bc" category="paragraph">次のリストは、オンプレミスのHCX ConnectorからGoogle Cloud VMware Engine側のHCX Cloud ManagerにVMをペアリングして移行するために必要な手順の概要を示しています。</block>
+  <block id="08ac9dd8c46a01de111ff552302c4b8b" category="list-text">Google VMware Engineポータルを使用してHCXを準備します。</block>
+  <block id="c51c3de337c64144b065b508d7092f70" category="list-text">オンプレミスのVMware HCXコネクタをGoogle Cloud VMware Engine HCX Cloud Managerとペアリングします。</block>
+  <block id="b8da85496a56d9f8f2c4db60c06b6c4a" category="paragraph">作業を開始する前に、次の前提条件が満たされていることを確認してください。詳細については、を参照してください<block ref="d195855fe41d7993983c9e07318b9bad" category="inline-link-rx"></block>。接続などの前提条件が整ったら、Google Cloud VMware EngineポータルからHCXライセンスキーをダウンロードします。OVAインストーラをダウンロードしたら、次の手順に従ってインストールプロセスを実行します。</block>
+  <block id="e2f64bf47a1540374c40a3ede73573e5" category="admonition">HCx advancedはデフォルトオプションであり、VMware HCX Enterprise Editionはサポートチケットを通じても利用でき、追加料金なしでサポートされます。を参照してください<block ref="d860d3a39c377ffee7e9262276d5a062" category="inline-link-rx"></block></block>
+  <block id="8cea371309574d6004c96292961aae25" category="inline-link">Googleリンク</block>
+  <block id="2fe1711b46889920c53ebb512b61bc78" category="list-text">既存のGoogle Cloud VMware Engine Software-Defined Data Center（SDDC）を使用するか、このツールを使用してプライベートクラウドを作成します<block ref="e829d3b8e1188066e830ce55cc4a4e51" category="inline-link-rx"></block> またはこれ<block ref="a00f1cbf0fed787208cc1bff752e650f" category="inline-link-rx"></block>。</block>
+  <block id="792178f6051d02890db289c3d249504a" category="inline-link">Cloud VPN接続またはCloud Interconnect接続をセットアップします</block>
+  <block id="136020259e42699a5f3259ade2d1a34f" category="list-text">オンプレミスのVMware vSphere対応データセンターからVMと関連データを移行するには、データセンターからSDDC環境へのネットワーク接続が必要です。ワークロードを移行する前に、<block ref="bef4838acfa84f7c195dab1fed38f189" category="inline-link-rx"></block> オンプレミス環境とそれぞれのプライベートクラウドの間。</block>
+  <block id="b62ace404956042129e3b88bdf88cc9d" category="list-text">オンプレミスのVMware vCenter Server環境からGoogle Cloud VMware Engineプライベートクラウドへのネットワークパスで、vMotionを使用したVMの移行がサポートされている必要があります。</block>
+  <block id="20ced0e16abf47f28e1313f368ad6f6f" category="list-text">必要なを確認します<block ref="75de7fce953864ac8abf1081d395e485" category="inline-link-rx"></block> オンプレミスのvCenter ServerとSDDC vCenter間のvMotionトラフィックに許可されます。</block>
+  <block id="2991589cdf3c2d6d60db9953585e1b04" category="list-text">Cloud Volume Service NFSボリュームは、Google Cloud VMware Engineでデータストアとしてマウントする必要があります。詳細な手順を実行します<block ref="5c088b3a89e196aaeb81f75ec6428544" category="inline-link-rx"></block> をクリックして、Cloud Volume ServiceデータストアをGoogle Cloud VMware Engineホストに接続します。</block>
+  <block id="4d74daf8e004df493e26c50161d35bd9" category="paragraph">テスト目的で、この検証に使用したオンプレミスのラボ環境は、Cloud VPNを介して接続されています。これにより、オンプレミスからGoogle Cloud VPCへの接続が可能になります。</block>
+  <block id="44197d2707e0d62a7cdddb22b96b5d73" category="paragraph"><block ref="44197d2707e0d62a7cdddb22b96b5d73" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="bdd8ea25a7e8ed9b55cbe0a3d16b342d" category="paragraph">HCXの詳細な図については、を参照してください<block ref="7d6a057cc94389224fa6745cc76b1870" category="inline-link-rx"></block></block>
+  <block id="cd7d4a329d381d6c2399222be4a728d6" category="example-title">ステップ1：Google VMware Engine Portalを使用してHCXを準備する</block>
+  <block id="5435b8e0738b76228bad99efecb45790" category="paragraph">VMware Engineでプライベートクラウドをプロビジョニングすると、HCx Cloud Managerコンポーネントが自動的にインストールされます。サイトペアリングを準備するには、次の手順を実行します。</block>
+  <block id="f6f646bebf3c14227b9b610041749d2b" category="list-text">Google VMware Engine Portalにログインし、HCX Cloud Managerにサインインします。</block>
+  <block id="f3c4e020173d4055af3d73eabb546a5f" category="inline-image-macro">GCVEリソースのリンクを使用したHCxコンソールアクセス</block>
+  <block id="d481d49ad5e07c065daa1b652e1e93f6" category="inline-image-macro">FQDNリンクを使用したHCxコンソールアクセス</block>
+  <block id="1509189c3a021030c9c75afd5e0ee142" category="paragraph">HCXバージョンのリンクをクリックすると'HCXコンソールにログインできます<block ref="e0eabfd77e9b6a166bd62bce317f2ca6" category="inline-image-macro-rx" type="image"></block>または、vSphere Management NetworkタブのHCX FQDNをクリックします。<block ref="1bc7b537d1e927f2f5e06674a9fb9636" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="72580ca988ce9234d221d19195a8ced9" category="list-text">HCX Cloud Managerで、[*Administration]&gt;[System Updates*（システムアップデート*）]の順に選択します。</block>
+  <block id="4477d36b1c0d580b9493616b9a3cdc6a" category="inline-image-macro">ダウンロードリンクをリクエストします</block>
+  <block id="e3428ddcd1ea8611a819b5a63134abdd" category="list-text">[*ダウンロードリンクのリクエスト*]をクリックして、OVAファイルをダウンロードします。<block ref="b27b0af334d354a85d901dbf7f557880" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="7b2574bff5f52ebae3e52462b6f64628" category="list-text">HCX Cloud ManagerをHCX Cloud Manager UIから入手可能な最新バージョンに更新します。</block>
+  <block id="71c11944a5e7c7a2e01d85bf931a4e0c" category="paragraph">Google Cloud VMware EngineのHCX Managerにオンプレミスコネクタを接続するには、オンプレミス環境で適切なファイアウォールポートが開いていることを確認します。</block>
+  <block id="cded3ab78e1131b2cb252673847fc8cd" category="list-text">前の手順で説明したように、Google Cloud VMware Engine上のHCXコンソールからOVAをダウンロードしてもらいます。</block>
+  <block id="80177ed47e2799b2f8133ec987c4f413" category="paragraph"><block ref="80177ed47e2799b2f8133ec987c4f413" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="2f35d393de16f7f328d28c3c3f9a36fd" category="paragraph">手順については、を参照してください<block ref="6281ad4977a05e5987f07e864fefe4fe" category="inline-link-rx"></block>。</block>
+  <block id="3981acf431a0cb2b387f1fc62e246114" category="paragraph">VMware HCX Connector OVAをオンプレミスに導入してアプライアンスを起動したら、次の手順を実行してHCX Connectorをアクティブにします。Google Cloud VMware Engineポータルからライセンスキーを生成し、VMware HCX Managerでアクティブ化します。</block>
+  <block id="842413b7e215b2d5b82a5bb3dd7a07cd" category="inline-image-macro">HCXライセンスをダウンロードします</block>
+  <block id="61b61b56e3a9ddaa25f900492dbfaafc" category="list-text">VMware Engineポータルで、Resources（リソース）をクリックし、プライベートクラウドを選択して、* HCX Manager Cloud Version（HCXマネージャクラウドバージョン）の下にあるdownload（ダウンロード）アイコンをクリックします。*<block ref="be9330ae20074d9fd27022c3077c5923" category="inline-image-macro-rx" type="image"></block>ダウンロードしたファイルを開き、ライセンスキー文字列をコピーします。</block>
+  <block id="8680173d99521ba5a429ed524d3615e3" category="admonition">OVAの導入時に定義したhcxmanagerIPとパスワードを使用します。</block>
+  <block id="35c93ae128c86187e819ac86d8df4979" category="list-text">Configure SSO/PSC *で、Platform Services Controller（PSC）のFQDNまたはIPアドレスを入力し、* Continue *をクリックします。</block>
+  <block id="6098ad379dba0c94396b9b690b83b1b0" category="admonition">Embedded PSCの場合、VMware vCenter ServerのFQDNまたはIPアドレスを入力します。</block>
+  <block id="09bf9812f77e2e14861b7f3360ca026c" category="paragraph"><block ref="09bf9812f77e2e14861b7f3360ca026c" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="b23a293b550e17ca6e836b05c01b4a76" category="example-title">手順4：オンプレミスのVMware HCX ConnectorとGoogle Cloud VMware Engine HCX Cloud Managerをペアリングします</block>
+  <block id="47234b871b1edd33168f7394e72a5b4d" category="paragraph">オンプレミスのvCenterにHCX Connectorを導入して設定したら、このペアリングを追加してCloud Managerへの接続を確立します。サイトペアリングを設定するには、次の手順を実行します。</block>
+  <block id="594e3fbccf355af479f921ff2a455e68" category="list-text">オンプレミスのvCenter環境とGoogle Cloud VMware Engine SDDCの間にサイトペアを作成するには、オンプレミスのvCenter Serverにログインし、新しいHCX vSphere Web Clientプラグインにアクセスします。</block>
+  <block id="bf29c65588093243bdcd92d7e57d228c" category="paragraph"><block ref="bf29c65588093243bdcd92d7e57d228c" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="1b3c5cdedf84c785d5ee65ca00324e36" category="admonition">プライベートクラウドにアクセスするためのCloud-Owner-Role権限を持つユーザのために、Google Cloud VMware Engine HCX Cloud ManagerのURLまたはIPアドレスとクレデンシャルを入力します。</block>
+  <block id="6b5c33ae4600df59658bcd86a24ca532" category="inline-image-macro">CloudOwnerロールのURLまたはIPアドレスとクレデンシャルのスクリーンショット。</block>
+  <block id="b7b6a499bbb533c0e3da098fa71d75c8" category="paragraph"><block ref="b7b6a499bbb533c0e3da098fa71d75c8" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="a3874f23d22312a1be0f07b98dda866c" category="paragraph"><block ref="a3874f23d22312a1be0f07b98dda866c" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="593c226b2f1fa412557c01630aaaafa0" category="paragraph"><block ref="593c226b2f1fa412557c01630aaaafa0" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="575a0d0e1243eeff47338ea176157139" category="inline-image-macro">ネットワークプロファイルのスクリーンショット。</block>
+  <block id="47a6f72e73b15b7be0f3c4cf577c9229" category="paragraph"><block ref="47a6f72e73b15b7be0f3c4cf577c9229" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="179a1380fec15d2ca58ae44d36bc70ea" category="list-text">[Interconnect（相互接続）]オプションの[* Service Mesh*（サービスメッシュ*）]タブを選択してサービスメッシュを作成し、オンプレミスサイトとGCVE SDDCサイトを選択します。</block>
+  <block id="4200f06936ac63230a0663a772209a07" category="paragraph"><block ref="4200f06936ac63230a0663a772209a07" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="347a982d83a0b2cce2d1ec814a70ae8f" category="inline-image-macro">vSphere Client InterconnectページのHCXアプライアンスのスクリーンショット</block>
+  <block id="26c83c715efad97126cacdaebf25d274" category="paragraph"><block ref="26c83c715efad97126cacdaebf25d274" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="070b97376b0c0aea0c9cb598600c4662" category="paragraph">さまざまなVMware HCX移行テクノロジを使用して、オンプレミスとGCVEのSDDC間でワークロードを双方向に移行できます。VMは、HCXバルク移行、HCX vMotion、HCXコールド移行、HCX Replication Assisted vMotion（HCX Enterprise Editionで利用可能）、HCX OS Assisted Migration（HCX Enterprise Editionで利用可能）などの複数の移行テクノロジーを使用して、VMware HCXでアクティブ化されたエンティティとの間で移動できます。</block>
+  <block id="a50268e48a4ee751d804978922edf189" category="paragraph">さまざまなHCX移行メカニズムの詳細については、を参照してください<block ref="78adb493f3638835899da003743379e3" category="inline-link-rx"></block>。</block>
+  <block id="de5218d95fb66ad99c822109709a45af" category="paragraph">* HCX vMotion *</block>
+  <block id="803853313afe589d091d3f55583d78c2" category="paragraph">このセクションでは、HCX vMotionメカニズムについて説明します。この移行テクノロジは、VMware vMotionプロトコルを使用してVMをGCVEに移行します。vMotion移行オプションは、一度に1つのVMのVM状態を移行するために使用します。このマイグレーション方式では、サービスは中断されません。</block>
+  <block id="6b253c8fd6849183f558040da38608cb" category="paragraph"><block ref="6b253c8fd6849183f558040da38608cb" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="844c529dbe1866abc23447f68eb60ba6" category="list-text">仮想マシンの移行ウィザードで、リモートサイト接続（ターゲットGCVE）を選択します。</block>
+  <block id="4e862b96a802868c38004aa7c404252b" category="paragraph"><block ref="4e862b96a802868c38004aa7c404252b" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="d2a3abee640eaa37034e3ce3f7b7075e" category="list-text">必須フィールド（クラスタ、ストレージ、デスティネーションネットワーク）を更新し、検証をクリックします。</block>
+  <block id="dbccaf1da09c1555918b6548737f4c62" category="paragraph"><block ref="dbccaf1da09c1555918b6548737f4c62" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="6a88d0b48c0e4e339e4f73353d906d12" category="admonition">vMotionによる転送では、VMのアクティブメモリ、実行状態、IPアドレス、およびMACアドレスがキャプチャされます。HCX vMotionの要件と制限の詳細については、を参照してください<block ref="23e132bfd0fa1c0804ce8b87a8fad5cd" category="inline-link-rx"></block>。</block>
+  <block id="9292100550c5fda83387e2e78b8a2a2a" category="paragraph"><block ref="9292100550c5fda83387e2e78b8a2a2a" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="38f70a328b4ae90f9650bc4c029b6a3f" category="admonition">ターゲットのCVS NFSデータストアには、移行を処理するための十分なスペースが必要です。</block>
+  <block id="2de1e2776c8a8d3b752e50dc8c6550df" category="paragraph">すべてのクラウドまたはハイブリッドクラウドをターゲットとしている場合でも、オンプレミスのあらゆるタイプ/ベンダーストレージに存在するデータを対象としている場合でも、Cloud Volume ServiceとHCXは、アプリケーションワークロードを展開および移行する優れたオプションを提供し、データ要件をアプリケーションレイヤにシームレスにすることでTCOを削減します。どのようなユースケースでも、クラウドのメリット、一貫したインフラ、オンプレミスと複数のクラウドにわたる運用、ワークロードの双方向の移動、エンタープライズクラスの容量とパフォーマンスを迅速に実現するには、Google Cloud VMware EngineとCloud Volume Serviceを選択してください。VMware vSphere Replication、VMware vMotion、Network File Copy（NFC；ネットワークファイルコピー）を使用してストレージの接続やVMの移行を行う場合と同じ手順を実行します。</block>
+  <block id="6bb8d723218f4efa76cd05165c603ac6" category="list-text">Google Cloud VMware Engine SDDCでクラウドボリュームサービスをデータストアとして使用できるようになりました。</block>
+  <block id="06b37831abeee3229c61a3285dc4100c" category="list-text">オンプレミスのデータストアからCloud Volume Serviceデータストアへのデータの移行は簡単です。</block>
+  <block id="dcb763cc64570798740f3e41b84fff0e" category="list-text">移行アクティビティ中の容量とパフォーマンスの要件に合わせて、Cloud Volume Serviceデータストアの拡張と縮小を簡単に行うことができます。</block>
+  <block id="267029140dfbe181dd69e7d084de9b69" category="section-title">参考として、GoogleとVMwareのビデオをご用意しています</block>
+  <block id="e35dee203b7c81af1f3954054112ba15" category="example-title">Googleから</block>
+  <block id="50144090c2258cae139ecf6022e7367b" category="inline-link-macro">GCVEを使用してHCXコネクタを展開します</block>
+  <block id="b7b1de0b057bbef976725c6fff3da9b9" category="list-text"><block ref="b7b1de0b057bbef976725c6fff3da9b9" category="inline-link-macro-rx"></block></block>
+  <block id="328f11633999c58a7b282b8632e2797d" category="inline-link-macro">GCVEを使用してHCX ServiceMeshを設定します</block>
+  <block id="79cb5f4e657f45df30765c695fd1925a" category="list-text"><block ref="79cb5f4e657f45df30765c695fd1925a" category="inline-link-macro-rx"></block></block>
+  <block id="7a749829f023d0ee25c026f4f6bbba9a" category="inline-link-macro">HCXを使用するVMをGCVEに移行します</block>
+  <block id="a53a9cd13cd53b632a558fc3657092ab" category="list-text"><block ref="a53a9cd13cd53b632a558fc3657092ab" category="inline-link-macro-rx"></block></block>
+  <block id="252de7413389db6514f76f43d66fd8e3" category="example-title">VMwareを使用</block>
+  <block id="13e623e9a14240dd859556650e9b531a" category="inline-link-macro">GCVEのHCxコネクタ配置</block>
+  <block id="d323fc5e6199a5240de090ee56887d79" category="list-text"><block ref="d323fc5e6199a5240de090ee56887d79" category="inline-link-macro-rx"></block></block>
+  <block id="691fd2fc5f5666a82025c09044b4227e" category="inline-link-macro">GCVEのHCx ServiceMesh設定</block>
+  <block id="1d057bc0c304f69e3c2b912a056d3823" category="list-text"><block ref="1d057bc0c304f69e3c2b912a056d3823" category="inline-link-macro-rx"></block></block>
+  <block id="f27a9b33e86b3a166fd93f5581d2fd88" category="inline-link-macro">HCxワークロードのGCVEへの移行</block>
+  <block id="4ac5ecc506f53d87d5405d25cca52053" category="list-text"><block ref="4ac5ecc506f53d87d5405d25cca52053" category="inline-link-macro-rx"></block></block>
+  <block id="b5375bdf07e11b544fe361d241528cd4" category="list-text">Google Cloud VMware Engineのドキュメント</block>
+  <block id="cc7538adb5f65b8e12ceeea77a9fe2b4" category="inline-link"><block ref="cc7538adb5f65b8e12ceeea77a9fe2b4" category="inline-link-rx"></block></block>
+  <block id="c403f0f0cd3710f7ff6a40c31193feef" category="paragraph"><block ref="c403f0f0cd3710f7ff6a40c31193feef" category="inline-link-rx"></block></block>
+  <block id="19e28367f565bf74c0b929f09ffdeb90" category="list-text">Cloud Volume Serviceのドキュメント</block>
+  <block id="87a450a8cc5c8bc3aa98266544b13aeb" category="inline-link"><block ref="87a450a8cc5c8bc3aa98266544b13aeb" category="inline-link-rx"></block></block>
+  <block id="bc99ee2635f4933c3a1ae1a2d397722f" category="paragraph"><block ref="bc99ee2635f4933c3a1ae1a2d397722f" category="inline-link-rx"></block></block>
+  <block id="92cbc7969081067fa7972b77f8b4c803" category="inline-link"><block ref="92cbc7969081067fa7972b77f8b4c803" category="inline-link-rx"></block></block>
+  <block id="dccf3c5043aaab19b4c6eed2cd51be7e" category="paragraph"><block ref="dccf3c5043aaab19b4c6eed2cd51be7e" category="inline-link-rx"></block></block>
+  <block id="16844b6a71b4ccf3790079518b5286c4" category="sidebar">VMware HCXを使用して、NetApp Cloud Volume Service NFSデータストアにワークロードを移行します</block>
+  <block id="204c2f72244c7b6bb96fa507fcbfdde0" category="sidebar">VMware HCXを使用して、Cloud Volume Service NFSデータストアにワークロードを移行します</block>
 </blocks>
