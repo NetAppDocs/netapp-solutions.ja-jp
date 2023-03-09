@@ -19,7 +19,7 @@ summary: ネットアップは、Anthosなどのコンテナベース環境に�
 
 Google Cloudは、Anthos Readyストレージパートナープログラムを通じて、パートナー様のストレージ統合とAnthosの新しいリリースの統合に関する最新検証を定期的にリクエストしています。現在検証済みのストレージソリューション、CSIドライバ、使用可能な機能、サポートされているAnthosのバージョンのリストが見つかります https://cloud.google.com/anthos/docs/resources/partner-storage["こちらをご覧ください"^]。
 
-ネットアップは、ネットアップのAstra Trident CSI準拠ストレージオーケストレーションツール、およびONTAP とElementストレージシステムとAnthosのバージョンの検証を求める要望を、四半期ごとに定期的に満たしています。
+ネットアップは、Astra Trident CSIに準拠したストレージオーケストレーションツールとONTAP ストレージシステムをAnthosのバージョンで検証するよう求められ、四半期ごとに定期的にコンプライアンスを維持しています。
 
 次の表に、ネットアップおよびネットアップパートナーのエンジニアが、Anthos Readyストレージパートナープログラムの一環としてNetApp Astra CSIドライバおよび機能セットの検証にテストしたAnthosのバージョンを示します。
 
@@ -29,19 +29,31 @@ Google Cloudは、Anthos Readyストレージパートナープログラムを�
 | 展開タイプ | バージョン | ストレージシステム | Astra Tridentバージョン | プロトコル | の機能 
 
 
-| VMware | 1.11 | ONTAP | 22.04 | NAS | マルチライター、ボリューム拡張、スナップショット 
+| VMware | 1.14 | ONTAP 9.12.1 | 23.01. | NAS | マルチライター、ボリューム拡張、スナップショット、PVCDataSource 
 
 
-| VMware | 1.11 | ONTAP | 22.04 | SAN | Raw Block、Volume Expansion、Snapshot 
+| VMware | 1.14 | ONTAP 9.12.1 | 23.01. | SAN | rawブロック、ボリューム拡張、スナップショット、PVCDataSource 
 
 
-| VMware | 1.11 | 要素（ Element ） | 22.04 | SAN | Raw Block、Volume Expansion、Snapshot 
+| VMware | 1.13 | ONTAP 9.12.1 | 22.10 | NAS | マルチライター、ボリューム拡張、スナップショット、PVCDataSource 
 
 
-| ベアメタル | 1.10 | ONTAP | 22.01 | NAS | マルチライター、ボリューム拡張、スナップショット 
+| VMware | 1.13 | ONTAP 9.12.1 | 22.10 | SAN | rawブロック、ボリューム拡張、スナップショット、PVCDataSource 
 
 
-| ベアメタル | 1.10 | ONTAP | 22.01 | SAN | Raw Block、Volume Expansion、Snapshot 
+| VMware | 1.11 | ONTAP 9.9.1 | 22.04 | NAS | マルチライター、ボリューム拡張、スナップショット 
+
+
+| VMware | 1.11 | ONTAP 9.9.1 | 22.04 | SAN | Raw Block、Volume Expansion、Snapshot 
+
+
+| VMware | 1.11 | Element 12.3 | 22.04 | SAN | Raw Block、Volume Expansion、Snapshot 
+
+
+| ベアメタル | 1.10 | ONTAP 9.8 | 22.01 | NAS | マルチライター、ボリューム拡張、スナップショット 
+
+
+| ベアメタル | 1.10 | ONTAP 9.8 | 22.01 | SAN | Raw Block、Volume Expansion、Snapshot 
 |===
 
 

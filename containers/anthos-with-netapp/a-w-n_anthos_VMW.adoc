@@ -19,7 +19,7 @@ VMware環境にAnthosクラスタを導入するには、次のコンポーネ�
 
 次の図は、VMware環境のAnthos-clusters-onの概要 を示しています。
 
-image:a-w-n_anthos_vm_architecture.png["エラー：グラフィックイメージがありません"]
+image:a-w-n_anthos_controlplanev2_vm_architecture.png["エラー：グラフィックイメージがありません"]
 
 
 
@@ -59,19 +59,6 @@ VMware vSphere には次の機能があります。
 
 Google Cloudは、Anthos Readyプラットフォームパートナープログラムを通じて、新しいリリースのAnthosを使用したパートナーサーバプラットフォームの更新検証を定期的に要求しています。現在検証済みのサーバプラットフォームとサポートされているAnthosのバージョンの一覧が表示されます https://cloud.google.com/anthos/docs/resources/partner-platforms["こちらをご覧ください"^]。
 
-次の表は、VMware環境でのAnthosクラスタの検証で、ネットアップとネットアップパートナーのエンジニアによってテストされたサーバプラットフォームを示しています。これには、などのソリューションが含まれます https://www.netapp.com/data-storage/flexpod/documentation/["NetApp FlexPod の略"^] Cisco UCSサーバおよびを使用する場合 https://docs.netapp.com/us-en/hci/["NetApp HCI"^] ハイブリッドクラウドインフラプラットフォーム：
-
-|===
-
-
-| 製造元 | メーカー | モデル 
-
-
-| シスコ | UCS | B200 M5 
-
-
-| ネットアップ | できません | C410 
-|===
 
 
 === オペレーティングシステム
@@ -81,13 +68,12 @@ VMware上のAnthosクラスタは、お客様が選択したvSphere 6とvSphere 
 次の表に、ネットアップとパートナーが解決策 の検証に使用したvSphereのバージョンを示します。
 
 |===
+
+
 | オペレーティングシステム | リリース。 | Anthosのバージョン 
 
 
-| VMware vSphere の場合 | 6.7U3 | 1.11 
-
-
-| VMware vSphere の場合 | 7.0U3 | 1.11 
+| VMware vSphere の場合 | 7.0U3 | 1.14 
 |===
 
 
@@ -98,16 +84,16 @@ VMware上のAnthosクラスタは、お客様が選択したvSphere 6とvSphere 
 次の表に、これらの追加インフラコンポーネントに関する情報を示します。
 
 |===
-| 製造元 | Hardware Nameの略 | モデル 
+| 製造元 | ハードウェアコンポーネント 
 
 
-| Mellanoxのサイト | SN | 2010年 
+| Mellanoxのサイト | スイッチ（データネットワーク） 
 
 
-| ネットアップ | AFF | A250 
+| シスコ | スイッチ（管理ネットワーク） 
 
 
-| ネットアップ | できません | S410 
+| ネットアップ | AFF ストレージシステム 
 |===
 
 
@@ -116,26 +102,19 @@ VMware上のAnthosクラスタは、お客様が選択したvSphere 6とvSphere 
 次の表に、検証環境で導入されたソフトウェアバージョンの一覧を示します。
 
 |===
+
+
 | 製造元 | Software Name（ソフトウェア名） | バージョン 
 
 
-| シスコ | UCS | 4.1（3e） 
+| ネットアップ | ONTAP | 9.12.1: 
 
 
-| ネットアップ | 要素（ Element ） | 12. 
-
-
-| ネットアップ | できません | 1.8 
-
-
-| ネットアップ | ONTAP | 9.9.1 
-
-
-| ネットアップ | Astra Trident | 22.04 
+| ネットアップ | Astra Trident | 23.01. 
 |===
-Anthos Readyプラットフォームの検証では、以下の図に基づいてラボ環境が構築されました。このテストでは、導入した複数のユーザクラスタと、複数のネットアップストレージシステムおよびストレージバックエンドをテストできました。
+ネットアップが実施したAnthos Readyプラットフォームの検証では、次の図に基づいてラボ環境を構築し、さまざまなNetApp ONTAP ストレージバックエンドを使用して複数のシナリオをテストできました。
 
-image:a-w-n_anthos_vmware_validation.png["エラー：グラフィックイメージがありません"]
+image:a-w-n_Anthos-1.14-vsphere7_validation.png["エラー：グラフィックイメージがありません"]
 
 
 

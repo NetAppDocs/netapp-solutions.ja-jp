@@ -13,7 +13,7 @@ summary: このリファレンスガイドで解決策 は、ネットアップ�
 :imagesdir: ./../../media/
 
 
-ネットアップ、Alan Cowles氏とNikhil Kulkarni氏
+ネットアップBanu SundharとSuresh Thoppay
 
 このリファレンスガイドで解決策 は、ネットアップとエンジニアリングパートナーの協力のもと、Anthosを複数のデータセンター環境に導入する際の検証について説明します。また、ネットアップストレージシステムとのストレージ統合の詳細についても、Astra Tridentストレージオーケストレーションツールを使用して永続的ストレージを管理する方法を紹介しています。最後に、解決策 検証と実際のユースケースをいくつか確認して文書化します。
 
@@ -57,13 +57,13 @@ NetApp解決策 を搭載したAnthosは、以下の主要コンポーネント�
 
 オンプレミスのAnthosは、VMware vSphereハイパーバイザーや、選択したベアメタルインフラに導入可能な、完全にサポートされているエンタープライズ向けKubernetesプラットフォームです。
 
-Anthos の詳細については、 Anthos の Web サイトを参照してください https://https://cloud.google.com/anthos/["こちらをご覧ください"^]。
+Anthos の詳細については、 Anthos の Web サイトを参照してください https://cloud.google.com/anthos["こちらをご覧ください"^]。
 
 
 
 === ネットアップストレージシステム
 
-ネットアップには、エンタープライズデータセンターやハイブリッドクラウド環境に最適なストレージシステムが複数あります。ネットアップのポートフォリオには、コンテナ化されたアプリケーションに永続的ストレージを提供できる NetApp ONTAP 、 NetApp Element 、および NetApp E シリーズストレージシステムが含まれています。
+ネットアップには、エンタープライズデータセンターやハイブリッドクラウド環境に最適なストレージシステムが複数あります。ネットアップのポートフォリオには、NetApp ONTAP ストレージシステム用のNetApp ONTAP 、Cloud Volumes ONTAP 、Cloud Volumes Service 、Azure NetApp Files 、FSxNが含まれており、いずれもコンテナ化されたアプリケーション用の永続的ストレージを提供できます。
 
 詳細については、ネットアップの Web サイトをご覧ください https://www.netapp.com["こちらをご覧ください"]。
 
@@ -85,27 +85,6 @@ Astra Tridentは、オープンソースで、Anthosを含むコンテナやKube
 
 == 検証済みリリースの現在のサポートマトリックスです
 
-|===
+を参照してください https://cloud.google.com/anthos/docs/resources/partner-storage#netapp["こちらをご覧ください"] を参照してください。
 
-
-| テクノロジ | 目的 | ソフトウェアのバージョン 
-
-
-| NetApp ONTAP | ストレージ | 9.8 、 9.9.1 
-
-
-| NetApp Element | ストレージ | 12.3 
-
-
-| ネットアップアストラト Trident | ストレージオーケストレーション | 22.04.0 
-
-
-| VMware上のAnthosクラスタ | コンテナオーケストレーション | 1.11 
-
-
-| ベアメタルの Anthos | コンテナオーケストレーション | 1.10 
-
-
-| VMware vSphere の場合 | データセンターの仮想化 | 6.7U3、7.0U3 
-|===
 link:a-w-n_overview_anthos.html["次の例は、Anthosの概要です。"]
