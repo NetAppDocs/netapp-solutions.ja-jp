@@ -1,0 +1,193 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-nfs-performance-overview-and-validation-with-aff-on-premises.html 
+keywords: storage configuration, client tuning, kafka broker tuning, workload ganerator, steady state, performance, extreme performance 
+summary: オンプレミスでは、NetApp AFF A900ストレージコントローラとONTAP 9.12.1RC1を使用して、Kafkaクラスタのパフォーマンスと拡張性を検証しました。ONTAP およびAFF では、以前の階層型ストレージのベストプラクティスと同じテストベッドを使用しました。 
+---
+= オンプレミスのAFF A900によるパフォーマンスの概要と検証
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:kafka-nfs-performance-overview-and-validation-in-aws.html["以前：AWSでのパフォーマンスの概要と検証"]
+
+[role="lead"]
+オンプレミスでは、NetApp AFF A900ストレージコントローラとONTAP 9.12.1RC1を使用して、Kafkaクラスタのパフォーマンスと拡張性を検証しました。ONTAP およびAFF では、以前の階層型ストレージのベストプラクティスと同じテストベッドを使用しました。
+
+AFF A900の評価にはConfluent Kafka 6.2.0を使用しました。このクラスタには、8つのブローカーノードと3つのzookeeperノードがあります。パフォーマンステストでは、5つのOMBワーカーノードを使用しました。
+
+image:kafka-nfs-image32.png["エラー：グラフィックイメージがありません"]
+
+
+
+== ストレージ構成
+
+ネットアップのFlexGroupインスタンスを使用してログディレクトリに単一のネームスペースを提供し、リカバリと設定を簡易化しました。NFSv4.1とpNFSを使用して、ログセグメントデータへの直接アクセスを提供しました。
+
+
+
+== クライアントの調整
+
+各クライアントは、次のコマンドを使用してFlexGroup インスタンスをマウントしました。
+
+....
+mount -t nfs -o vers=4.1,nconnect=16 172.30.0.121:/kafka_vol01 /data/kafka_vol01
+....
+さらに、を増やしました `max_session_slots`` デフォルトから変更します `64` 終了： `180`。これは、ONTAP のデフォルトのセッションスロット制限と一致します。
+
+
+
+== Kafkaブローカーチューニング
+
+テスト対象のシステムのスループットを最大化するために、特定のキースレッドプールのデフォルトパラメータを大幅に増やしました。ほとんどの構成では、Kafkaのベストプラクティスに準拠することを推奨します。この調整は、ストレージに対する未処理のI/Oの同時処理率を最大化するために使用されました。これらのパラメータは、ブローカーのコンピューティングリソースとストレージ属性に合わせて調整できます。
+
+....
+num.io.threads=96
+num.network.threads=96
+background.threads=20
+num.replica.alter.log.dirs.threads=40
+num.replica.fetchers=20
+queued.max.requests=2000
+....
+
+
+== ワークロードジェネレータのテスト方法
+
+スループットドライバとトピック構成には、クラウドテストと同じOMB構成を使用しました。
+
+. AFF クラスタでAnsibleを使用してFlexGroup インスタンスをプロビジョニングしました。
++
+....
+---
+- name: Set up kafka broker processes
+  hosts: localhost
+  vars:
+    ntap_hostname: ‘hostname’
+    ntap_username: 'user'
+    ntap_password: 'password'
+    size: 10
+    size_unit: tb
+    vserver: vs1
+    state: present
+    https: true
+    export_policy: default
+    volumes:
+      - name: kafka_fg_vol01
+        aggr: ["aggr1_a", "aggr2_a", “aggr1_b”, “aggr2_b”]
+        path: /kafka_fg_vol01
+  tasks:
+    - name: Edit volumes
+      netapp.ontap.na_ontap_volume:
+        state: "{{ state }}"
+        name: "{{ item.name }}"
+        aggr_list: "{{ item.aggr }}"
+        aggr_list_multiplier: 8
+        size: "{{ size }}"
+        size_unit: "{{ size_unit }}"
+        vserver: "{{ vserver }}"
+        snapshot_policy: none
+        export_policy: default
+        junction_path: "{{ item.path }}"
+        qos_policy_group: none
+        wait_for_completion: True
+        hostname: "{{ ntap_hostname }}"
+        username: "{{ ntap_username }}"
+        password: "{{ ntap_password }}"
+        https: "{{ https }}"
+        validate_certs: false
+      connection: local
+      with_items: "{{ volumes }}"
+....
+. ONTAP SVMでpNFSが有効になりました。
++
+....
+vserver modify -vserver vs1 -v4.1-pnfs enabled -tcp-max-xfer-size 262144
+....
+. Cloud Volumes ONTAP と同じワークロード構成でを使用してスループットドライバでワークロードがトリガーされました。「」を参照してください<<安定した状態でのパフォーマンス>>」を参照してください。このワークロードではレプリケーションファクタ3を使用しました。つまり、NFSでログセグメントのコピーが3つ保持されていました。
++
+....
+sudo bin/benchmark --drivers driver-kafka/kafka-throughput.yaml workloads/1-topic-100-partitions-1kb.yaml
+....
+. 最後に、バックログを使用して測定を完了し、消費者が最新のメッセージに追いつく能力を測定しました。OMBは、測定の開始時にコンシューマを一時停止することでバックログを作成します。これにより、バックログの作成（生産者のみのトラフィック）、バックログの排出（消費者がトピックで見逃したイベントに追いつくための消費者の多いフェーズ）、および定常状態の3つの異なるフェーズが生成されます。「」を参照してください<<Extreme performance,ストレージの制限を確認する>>」を参照してください。
+
+
+
+
+=== 安定した状態でのパフォーマンス
+
+AFF A900は、OpenMessagingベンチマークを使用して評価し、AWSのCloud Volumes ONTAP とAWSのDASと同様の比較を行いました。すべてのパフォーマンス値は、プロデューサーレベルとコンシューマレベルでのKafkaクラスタのスループットを表します。
+
+Confluent KafkaとAFF A900を使用した定常状態のパフォーマンスは、生産者と消費者の両方で平均3.4GBps以上のスループットを達成しました。これは、Kafkaクラスタ全体で340万件を超えるメッセージです。BrokerTopicMetricsの持続スループット（バイト/秒）を視覚化することで、AFF A900がサポートする優れた安定状態のパフォーマンスとトラフィックを確認できます。
+
+image:kafka-nfs-image33.png["このグラフは、ブローカーのネットワークスループットを示します。"]
+
+これは、トピックごとに配信されるメッセージのビューとよく一致しています。次のグラフは、トピックごとの内訳を示しています。テストした構成では、4つのトピックにわたってトピックごとに約9万件のメッセージが表示されました。
+
+image:kafka-nfs-image34.png["このグラフは、ブローカーのネットワークスループットを示します。"]
+
+
+
+== 卓越したパフォーマンスを発揮し、ストレージの限界を探る
+
+AFF では、バックログ機能を使用してOMBでテストしました。バックログ機能は、Kafkaクラスタでイベントのバックログが作成されている間、コンシューマサブスクリプションを一時停止します。このフェーズでは、プロデューサトラフィックのみが発生し、ログにコミットされたイベントが生成されます。これは、バッチ処理またはオフライン分析ワークフローを最も厳密にエミュレートします。これらのワークフローでは、コンシューマーサブスクリプションが開始され、ブローカーキャッシュからすでに削除されている履歴データを読み取る必要があります。
+
+この構成で利用者のスループットに関するストレージの制限を把握するために、Producer-Onlyフェーズを測定して、A900がどの程度の書き込みトラフィックを吸収できるかを調べました。次のセクションを参照してください<<サイジングガイダンス>>」を参照してください。
+
+この測定のプロデューサーのみの部分では、ピークスループットが高く、A900のパフォーマンスの限界を押し上げていることがわかりました（他のブローカーリソースがプロデューサーおよびコンシューマートラフィックに対応していない場合）。
+
+image:kafka-nfs-image35.png["エラー：グラフィックイメージがありません"]
+
+
+NOTE: この測定では、メッセージあたりのオーバーヘッドを制限し、NFSマウントポイントに対するストレージスループットを最大化するために、メッセージサイズを16kに増やしました。
+
+....
+messageSize: 16384
+consumerBacklogSizeGB: 4096
+....
+Confluent Kafkaクラスターは、生産者のピークスループット4.03GBpsを達成しました。
+
+....
+18:12:23.833 [main] INFO WorkloadGenerator - Pub rate 257759.2 msg/s / 4027.5 MB/s | Pub err     0.0 err/s …
+....
+OMBによるイベントバックログの入力が完了すると、コンシューマトラフィックが再開されました。バックログドレーンを使用した測定では、すべてのトピックで消費者のピークスループットが20Gbpsを超えることが確認されました。OMBログデータを格納するNFSボリュームの合計スループットは約30Gbpsに達しました。
+
+
+
+== サイジングガイダンス
+
+Amazon Web Servicesは、を提供します https://aws.amazon.com/blogs/big-data/best-practices-for-right-sizing-your-apache-kafka-clusters-to-optimize-performance-and-cost/["サイジングガイド"^] Kafkaクラスタのサイジングと拡張に使用できます。
+
+このサイジングは、Kafkaクラスタのストレージスループット要件を決定するのに便利な計算式を提供します。
+
+tclusterのクラスタ内で生成される集約スループット（レプリケーション係数r）の場合、ブローカーストレージが受け取るスループットは次のとおりです。
+
+....
+t[storage] = t[cluster]/#brokers + t[cluster]/#brokers * (r-1)
+          = t[cluster]/#brokers * r
+....
+これはさらに単純化することができます。
+
+....
+max(t[cluster]) <= max(t[storage]) * #brokers/r
+....
+この式を使用すると、Kafkaホットティアのニーズに適したONTAP プラットフォームを選択できます。
+
+次の表に、A900の予測される生産者スループットと、さまざまなレプリケーション要因を示します。
+
+|===
+| レプリケーションファクタ | 生産者スループット（GPPS） 
+
+
+| 3（実測値） | 3.4. 
+
+
+| 2. | 5.1 
+
+
+| 1. | 10.2 
+|===
+link:kafka-nfs-conclusion.html["次は終わりです"]

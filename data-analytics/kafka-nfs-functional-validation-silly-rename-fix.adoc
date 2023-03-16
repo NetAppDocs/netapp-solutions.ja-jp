@@ -1,0 +1,138 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-nfs-functional-validation-silly-rename-fix.html 
+keywords: validation setup, architecture flow, testing methodology 
+summary: 機能検証の結果、ストレージ用にNFSv3マウントを使用したKafkaクラスタではパーティションの再配置などのKafka処理を実行できませんが、修正後にNFSv4にマウントされた別のクラスタでは、システムを停止することなく同じ処理を実行できることがわかりました。 
+---
+= 機能検証- silly rename fix
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:kafka-nfs-netapp-solution-for-silly-rename-issue-in-nfs-to-kafka-workload.html["以前：NetApp解決策 for sillyは、NFS内の問題 をKafkaワークロードに名前変更しました。"]
+
+[role="lead"]
+機能検証の結果、ストレージ用にNFSv3マウントを使用したKafkaクラスタではパーティションの再配置などのKafka処理を実行できませんが、修正後にNFSv4にマウントされた別のクラスタでは、システムを停止することなく同じ処理を実行できることがわかりました。
+
+
+
+== 検証のセットアップ
+
+セットアップはAWSで実行されます。次の表に、この検証で使用したプラットフォームコンポーネントと環境構成を示します。
+
+|===
+| プラットフォームコンポーネント | 環境の構成 
+
+
+| Confluent Platformバージョン7.2.1  a| 
+* 3 x動物飼育係–T3.xlarge
+* ブローカーサーバ×4–r3.xlarge
+* Grafana–T3.xlarge×1
+* 1 xコントロールセンター–T3.xlarge
+* 3 xプロデューサー/コンシューマー
+
+
+
+
+| すべてのノード上のオペレーティングシステム | RHEL8.7以降 
+
+
+| NetApp Cloud Volumes ONTAP インスタンス | シングルノードインスタンス–M5.2xLarge 
+|===
+次の図は、この解決策 のアーキテクチャ構成を示しています。
+
+image:kafka-nfs-image1.png["この図は、Producer Swarm、Kafkaクラスタ、CVOインスタンスを持つ3つのプライベートサブネットを含むVPCを含むAWSトポロジを示しています。"]
+
+
+
+== アーキテクチャの流れ
+
+* *コンピューティング。* 4ノードのKafkaクラスタを使用し、3ノードのZookeeperアンサンブルを専用サーバ上で実行しました。
+* *監視。* Prometheus-Grafanaの組み合わせには2つのノードを使用しました。
+* *ワークロード。*ワークロードの生成には、このKafkaクラスタとの間でやり取り可能な3ノードクラスタを使用しました。
+* *ストレージ。*シングルノードのNetApp Cloud Volumes ONTAP インスタンスを使用し、2つの500GB gp2 AWS-EBSボリュームをインスタンスに接続しました。これらのボリュームは、LIFを介して単一のNFSv4.1ボリュームとしてKafkaクラスタに公開されました。
+
+
+Kafkaのデフォルトプロパティは、すべてのサーバーに対して選択されています。動物園の群れについても同じことが行われました。
+
+
+
+== テストの方法論
+
+. 似たような2つのKafkaクラスタが作成されましたが、次の違いがあります。
++
+** *クラスタ1。*本番環境対応のONTAP バージョン9.12.1を実行しているバックエンドNFS v4.1サーバは、NetApp CVOインスタンスによってホストされていました。ブローカーにRHEL 8.7 / RHEL 9.1をインストールしました。
+** *クラスタ2。*バックエンドNFSサーバは、手動で作成した汎用Linux NFSv3サーバです。
+
+
+. 両方のKafkaクラスタでデモトピックを作成しました。
++
+クラスタ1：
+
++
+image:kafka-nfs-image2.png["このスクリーンショットは、クラスタ1で作成されたデモトピックを示しています。"]
+
++
+クラスタ2：
+
++
+image:kafka-nfs-image3.png["このスクリーンショットは、クラスタ2で作成されたデモトピックを示しています。"]
+
+. 両方のクラスタについて、新しく作成されたこれらのトピックにデータがロードされました。これには、デフォルトのKafkaパッケージに含まれているproducer-perf-testツールキットを使用しました。
++
+....
+./kafka-producer-perf-test.sh --topic __a_demo_topic --throughput -1 --num-records 3000000 --record-size 1024 --producer-props acks=all bootstrap.servers=172.30.0.160:9092,172.30.0.172:9092,172.30.0.188:9092,172.30.0.123:9092
+....
+. telnetを使用して、各クラスタのbroker-1の健全性チェックを実行しました。
++
+** Telnet `172.30.0.160 9092`
+** Telnet `172.30.0.198 9092`
++
+次のスクリーンショットには、両方のクラスタのブローカーの健全性チェックが成功したことが示されています。
+
++
+image:kafka-nfs-image4.png["このスクリーンショットは、両方のブローカーの健全性チェックが成功した場合の読み取り値を示しています。"]
+
+
+
+. NFSv3ストレージボリュームを使用するKafkaクラスタがクラッシュする障害状態をトリガーするために、両方のクラスタでパーティションの再割り当てプロセスを開始しました。パーティションの再割り当てはを使用して実行されました `kafka-reassign-partitions.sh`。詳細なプロセスは次のとおりです。
++
+.. Kafkaクラスタでトピックのパーティションを再割り当てするために、提案された再割り当て構成JSONを生成しました（これは両方のクラスタで実行しました）。
++
+....
+kafka-reassign-partitions --bootstrap-server=172.30.0.160:9092,172.30.0.172:9092,172.30.0.188:9092,172.30.0.123:9092 --broker-list "1,2,3,4" --topics-to-move-json-file /tmp/topics.json --generate
+....
+.. 生成された再割り当てJSONがに保存されました `/tmp/reassignment- file.json`。
+.. 実際のパーティション再割り当てプロセスは、次のコマンドによって開始されました。
++
+....
+kafka-reassign-partitions --bootstrap-server=172.30.0.198:9092,172.30.0.163:9092,172.30.0.221:9092,172.30.0.204:9092 --reassignment-json-file /tmp/reassignment-file.json –execute
+....
+
+
+. 再割り当てが完了してから数分後、ブローカーで別の健全性チェックを実行したところ、NFSv3ストレージボリュームを使用するクラスタで誤った名前の問題 が発生してクラッシュしたことがわかりました。一方、クラスタ1では、NetApp ONTAP NFSv4.1ストレージボリュームを使用しています。この問題は修正され、システムが停止することなく継続的に処理
++
+image:kafka-nfs-image5.png["このスクリーンショットは、クラッシュしたブローカーからの出力を示しています。"]
+
++
+** cluster1-Broker-1がアクティブです。
+** cluster2-broker-1は停止しています。
+
+
+. Kafkaログディレクトリを確認したところ、修正済みのNetApp ONTAP NFSv4.1ストレージボリュームを使用しているクラスタ1ではパーティションがクリーンに割り当てられているのに対し、汎用のNFSv3ストレージを使用しているクラスタ2では異常な名前変更の問題が原因でクラッシュが発生したことがわかりました。次の図は、クラスタ2のパーティションのリバランシングを示しています。これにより、NFSv3ストレージで問題 名が誤って変更されました。
++
+image:kafka-nfs-image6.png["このスクリーンショットは、クラスタ2がクラッシュした場合のログ出力を示しています。"]
+
++
+次の図は、NetApp NFSv4.1ストレージを使用したクラスタ1のパーティションのクリーンなリバランシングを示しています。
+
++
+image:kafka-nfs-image7.png["このスクリーンショットは、クラスタ1に対してパーティションのクリーン割り当てが成功した場合のログ出力を示しています"]
+
+
+
+link:kafka-nfs-why-netapp-nfs-for-kafka-workloads.html["次の記事：KafkaワークロードにネットアップのNFSを使用する理由"]

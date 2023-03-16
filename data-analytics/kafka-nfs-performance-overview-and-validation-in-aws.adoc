@@ -1,0 +1,373 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-nfs-performance-overview-and-validation-in-aws.html 
+keywords: AWS cloud, ha pair, high availability, openmessage benchmarking, architectural setup 
+summary: ストレージレイヤをNetApp NFS上にマウントしたKafkaクラスタは、AWSクラウドでのパフォーマンスについてベンチマークテストを実施しました。ベンチマークの例については、次のセクションで説明します。 
+---
+= AWSでのパフォーマンスの概要と検証
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:kafka-nfs-why-netapp-nfs-for-kafka-workloads.html["以前：KafkaワークロードにネットアップのNFSを使用する理由。"]
+
+[role="lead"]
+ストレージレイヤをNetApp NFS上にマウントしたKafkaクラスタは、AWSクラウドでのパフォーマンスについてベンチマークテストを実施しました。ベンチマークの例については、次のセクションで説明します。
+
+
+
+== AWSクラウドのKafkaとNetApp Cloud Volumes ONTAP （ハイアベイラビリティペアとシングルノード）
+
+NetApp Cloud Volumes ONTAP （HAペア）を使用したKafkaクラスタは、AWSクラウドでのパフォーマンスについてベンチマークを実施しました。このベンチマークについては、以降のセクションで説明します。
+
+
+
+=== アーキテクチャのセットアップ
+
+次の表に、NASを使用するKafkaクラスタの環境構成を示します。
+
+|===
+| プラットフォームコンポーネント | 環境の構成 
+
+
+| Kafka 3.2.3.  a| 
+* 3 x動物飼育係–T2.small
+* ブローカーサーバ×3–i3en.2xlarge
+* Grafana–c5n.2xlarge×1
+* 4 x producer/consumer -- c5n.2xlarge *
+
+
+
+
+| すべてのノード上のオペレーティングシステム | RHEL8.6 
+
+
+| NetApp Cloud Volumes ONTAP インスタンス | HAペアインスタンス–m5dn.12xLarge x 2ノードシングルノードインスタンス- m5dn.12xLarge x 1ノード 
+|===
+
+
+=== ネットアップクラスタボリュームのONTAP セットアップ
+
+. Cloud Volumes ONTAP HAペアについては、各ストレージコントローラの各アグリゲートに3つのボリュームを含む2つのアグリゲートを作成しました。単一のCloud Volumes ONTAP ノードの場合は、アグリゲートに6つのボリュームを作成します。
++
+image:kafka-nfs-image25.png["この図は、aggr3とaggr22のプロパティを示しています。"]
+
++
+image:kafka-nfs-image26.png["この図は、aggr2のプロパティを示しています。"]
+
+. ネットワークパフォーマンスを高めるために、HAペアとシングルノードの両方で高速ネットワークを有効にしました。
++
+image:kafka-nfs-image27.png["この図は、高速ネットワークを有効にする方法を示しています。"]
+
+. ONTAP NVRAMのIOPSが多いことに気付いたので、Cloud Volumes ONTAP ルートボリュームのIOPSを2350に変更しました。Cloud Volumes ONTAP のルートボリュームディスクのサイズは47GBでした。次のONTAP コマンドはHAペア用で、同じ手順をシングルノードにも適用します。
++
+....
+statistics start -object vnvram -instance vnvram -counter backing_store_iops -sample-id sample_555
+kafka_nfs_cvo_ha1::*> statistics show -sample-id sample_555
+Object: vnvram
+Instance: vnvram
+Start-time: 1/18/2023 18:03:11
+End-time: 1/18/2023 18:03:13
+Elapsed-time: 2s
+Scope: kafka_nfs_cvo_ha1-01
+    Counter                                                     Value
+    -------------------------------- --------------------------------
+    backing_store_iops                                           1479
+Object: vnvram
+Instance: vnvram
+Start-time: 1/18/2023 18:03:11
+End-time: 1/18/2023 18:03:13
+Elapsed-time: 2s
+Scope: kafka_nfs_cvo_ha1-02
+    Counter                                                     Value
+    -------------------------------- --------------------------------
+    backing_store_iops                                           1210
+2 entries were displayed.
+kafka_nfs_cvo_ha1::*>
+....
++
+image:kafka-nfs-image28.png["このイメージは、ボリュームプロパティを変更する方法を示しています。"]
+
+
+
+次の図は、NASベースのKafkaクラスタのアーキテクチャを示しています。
+
+* *コンピューティング。* 3ノードのKafkaクラスタを使用し、3ノードのZookeeperアンサンブルを専用サーバ上で実行しました。各ブローカーには、専用のLIFを介してCloud Volumes ONTAP インスタンス上の単一のボリュームへのNFSマウントポイントが2つあります。
+* *監視。* Prometheus-Grafanaの組み合わせには2つのノードを使用しました。ワークロードの生成には、独立した3ノードクラスタを使用し、このKafkaクラスタを生成して使用しました。
+* *ストレージ。* HAペアCloud Volumes ONTAP インスタンスを使用し、インスタンスに6TB gp3 AWS-EBSボリュームを1つマウントしました。その後、ボリュームはNFSマウントを使用してKafkaブローカーにエクスポートされました。
+
+
+image:kafka-nfs-image29.png["この図は、NASベースのKafkaクラスタのアーキテクチャを示しています。"]
+
+
+
+=== OpenMessageベンチマーク設定
+
+. NFSのパフォーマンスを向上させるには、NFSサーバとNFSクライアントの間のネットワーク接続を増やす必要があります。この接続は、nconnectを使用して作成できます。次のコマンドを実行して、nconnectオプションを使用して、ブローカーノードにNFSボリュームをマウントします。
++
+....
+[root@ip-172-30-0-121 ~]# cat /etc/fstab
+UUID=eaa1f38e-de0f-4ed5-a5b5-2fa9db43bb38/xfsdefaults00
+/dev/nvme1n1 /mnt/data-1 xfs defaults,noatime,nodiscard 0 0
+/dev/nvme2n1 /mnt/data-2 xfs defaults,noatime,nodiscard 0 0
+172.30.0.233:/kafka_aggr3_vol1 /kafka_aggr3_vol1 nfs defaults,nconnect=16 0 0
+172.30.0.233:/kafka_aggr3_vol2 /kafka_aggr3_vol2 nfs defaults,nconnect=16 0 0
+172.30.0.233:/kafka_aggr3_vol3 /kafka_aggr3_vol3 nfs defaults,nconnect=16 0 0
+172.30.0.242:/kafka_aggr22_vol1 /kafka_aggr22_vol1 nfs defaults,nconnect=16 0 0
+172.30.0.242:/kafka_aggr22_vol2 /kafka_aggr22_vol2 nfs defaults,nconnect=16 0 0
+172.30.0.242:/kafka_aggr22_vol3 /kafka_aggr22_vol3 nfs defaults,nconnect=16 0 0
+[root@ip-172-30-0-121 ~]# mount -a
+[root@ip-172-30-0-121 ~]# df -h
+Filesystem                       Size  Used Avail Use% Mounted on
+devtmpfs                          31G     0   31G   0% /dev
+tmpfs                             31G  249M   31G   1% /run
+tmpfs                             31G     0   31G   0% /sys/fs/cgroup
+/dev/nvme0n1p2                    10G  2.8G  7.2G  28% /
+/dev/nvme1n1                     2.3T  248G  2.1T  11% /mnt/data-1
+/dev/nvme2n1                     2.3T  245G  2.1T  11% /mnt/data-2
+172.30.0.233:/kafka_aggr3_vol1   1.0T   12G 1013G   2% /kafka_aggr3_vol1
+172.30.0.233:/kafka_aggr3_vol2   1.0T  5.5G 1019G   1% /kafka_aggr3_vol2
+172.30.0.233:/kafka_aggr3_vol3   1.0T  8.9G 1016G   1% /kafka_aggr3_vol3
+172.30.0.242:/kafka_aggr22_vol1  1.0T  7.3G 1017G   1% /kafka_aggr22_vol1
+172.30.0.242:/kafka_aggr22_vol2  1.0T  6.9G 1018G   1% /kafka_aggr22_vol2
+172.30.0.242:/kafka_aggr22_vol3  1.0T  5.9G 1019G   1% /kafka_aggr22_vol3
+tmpfs                            6.2G     0  6.2G   0% /run/user/1000
+[root@ip-172-30-0-121 ~]#
+....
+. Cloud Volumes ONTAP でネットワーク接続を確認します。次のONTAP コマンドは、単一のCloud Volumes ONTAP ノードから使用します。同じ手順をCloud Volumes ONTAP HAペアにも適用できます。
++
+....
+Last login time: 1/20/2023 00:16:29
+kafka_nfs_cvo_sn::> network connections active show -service nfs* -fields remote-host
+node                cid        vserver              remote-host
+------------------- ---------- -------------------- ------------
+kafka_nfs_cvo_sn-01 2315762628 svm_kafka_nfs_cvo_sn 172.30.0.121
+kafka_nfs_cvo_sn-01 2315762629 svm_kafka_nfs_cvo_sn 172.30.0.121
+kafka_nfs_cvo_sn-01 2315762630 svm_kafka_nfs_cvo_sn 172.30.0.121
+kafka_nfs_cvo_sn-01 2315762631 svm_kafka_nfs_cvo_sn 172.30.0.121
+kafka_nfs_cvo_sn-01 2315762632 svm_kafka_nfs_cvo_sn 172.30.0.121
+kafka_nfs_cvo_sn-01 2315762633 svm_kafka_nfs_cvo_sn 172.30.0.121
+kafka_nfs_cvo_sn-01 2315762634 svm_kafka_nfs_cvo_sn 172.30.0.121
+kafka_nfs_cvo_sn-01 2315762635 svm_kafka_nfs_cvo_sn 172.30.0.121
+kafka_nfs_cvo_sn-01 2315762636 svm_kafka_nfs_cvo_sn 172.30.0.121
+kafka_nfs_cvo_sn-01 2315762637 svm_kafka_nfs_cvo_sn 172.30.0.121
+kafka_nfs_cvo_sn-01 2315762639 svm_kafka_nfs_cvo_sn 172.30.0.72
+kafka_nfs_cvo_sn-01 2315762640 svm_kafka_nfs_cvo_sn 172.30.0.72
+kafka_nfs_cvo_sn-01 2315762641 svm_kafka_nfs_cvo_sn 172.30.0.72
+kafka_nfs_cvo_sn-01 2315762642 svm_kafka_nfs_cvo_sn 172.30.0.72
+kafka_nfs_cvo_sn-01 2315762643 svm_kafka_nfs_cvo_sn 172.30.0.72
+kafka_nfs_cvo_sn-01 2315762644 svm_kafka_nfs_cvo_sn 172.30.0.72
+kafka_nfs_cvo_sn-01 2315762645 svm_kafka_nfs_cvo_sn 172.30.0.72
+kafka_nfs_cvo_sn-01 2315762646 svm_kafka_nfs_cvo_sn 172.30.0.72
+kafka_nfs_cvo_sn-01 2315762647 svm_kafka_nfs_cvo_sn 172.30.0.72
+kafka_nfs_cvo_sn-01 2315762648 svm_kafka_nfs_cvo_sn 172.30.0.72
+kafka_nfs_cvo_sn-01 2315762649 svm_kafka_nfs_cvo_sn 172.30.0.121
+kafka_nfs_cvo_sn-01 2315762650 svm_kafka_nfs_cvo_sn 172.30.0.121
+kafka_nfs_cvo_sn-01 2315762651 svm_kafka_nfs_cvo_sn 172.30.0.121
+kafka_nfs_cvo_sn-01 2315762652 svm_kafka_nfs_cvo_sn 172.30.0.121
+kafka_nfs_cvo_sn-01 2315762653 svm_kafka_nfs_cvo_sn 172.30.0.121
+kafka_nfs_cvo_sn-01 2315762656 svm_kafka_nfs_cvo_sn 172.30.0.223
+kafka_nfs_cvo_sn-01 2315762657 svm_kafka_nfs_cvo_sn 172.30.0.223
+kafka_nfs_cvo_sn-01 2315762658 svm_kafka_nfs_cvo_sn 172.30.0.223
+kafka_nfs_cvo_sn-01 2315762659 svm_kafka_nfs_cvo_sn 172.30.0.223
+kafka_nfs_cvo_sn-01 2315762660 svm_kafka_nfs_cvo_sn 172.30.0.223
+kafka_nfs_cvo_sn-01 2315762661 svm_kafka_nfs_cvo_sn 172.30.0.223
+kafka_nfs_cvo_sn-01 2315762662 svm_kafka_nfs_cvo_sn 172.30.0.223
+kafka_nfs_cvo_sn-01 2315762663 svm_kafka_nfs_cvo_sn 172.30.0.223
+kafka_nfs_cvo_sn-01 2315762664 svm_kafka_nfs_cvo_sn 172.30.0.223
+kafka_nfs_cvo_sn-01 2315762665 svm_kafka_nfs_cvo_sn 172.30.0.223
+kafka_nfs_cvo_sn-01 2315762666 svm_kafka_nfs_cvo_sn 172.30.0.223
+kafka_nfs_cvo_sn-01 2315762667 svm_kafka_nfs_cvo_sn 172.30.0.72
+kafka_nfs_cvo_sn-01 2315762668 svm_kafka_nfs_cvo_sn 172.30.0.72
+kafka_nfs_cvo_sn-01 2315762669 svm_kafka_nfs_cvo_sn 172.30.0.72
+kafka_nfs_cvo_sn-01 2315762670 svm_kafka_nfs_cvo_sn 172.30.0.72
+kafka_nfs_cvo_sn-01 2315762671 svm_kafka_nfs_cvo_sn 172.30.0.72
+kafka_nfs_cvo_sn-01 2315762672 svm_kafka_nfs_cvo_sn 172.30.0.72
+kafka_nfs_cvo_sn-01 2315762673 svm_kafka_nfs_cvo_sn 172.30.0.223
+kafka_nfs_cvo_sn-01 2315762674 svm_kafka_nfs_cvo_sn 172.30.0.223
+kafka_nfs_cvo_sn-01 2315762676 svm_kafka_nfs_cvo_sn 172.30.0.121
+kafka_nfs_cvo_sn-01 2315762677 svm_kafka_nfs_cvo_sn 172.30.0.223
+kafka_nfs_cvo_sn-01 2315762678 svm_kafka_nfs_cvo_sn 172.30.0.223
+kafka_nfs_cvo_sn-01 2315762679 svm_kafka_nfs_cvo_sn 172.30.0.223
+48 entries were displayed.
+ 
+kafka_nfs_cvo_sn::>
+....
+. 以下のKafkaを使用します `server.properties` Cloud Volumes ONTAP HAペアのすべてのKafkaブローカー。 `log.dirs` プロパティはブローカーごとに異なり、残りのプロパティはブローカーに共通です。broker1の場合は `log.dirs` 値は次のとおりです。
++
+....
+[root@ip-172-30-0-121 ~]# cat /opt/kafka/config/server.properties
+broker.id=0
+advertised.listeners=PLAINTEXT://172.30.0.121:9092
+#log.dirs=/mnt/data-1/d1,/mnt/data-1/d2,/mnt/data-1/d3,/mnt/data-2/d1,/mnt/data-2/d2,/mnt/data-2/d3
+log.dirs=/kafka_aggr3_vol1/broker1,/kafka_aggr3_vol2/broker1,/kafka_aggr3_vol3/broker1,/kafka_aggr22_vol1/broker1,/kafka_aggr22_vol2/broker1,/kafka_aggr22_vol3/broker1
+zookeeper.connect=172.30.0.12:2181,172.30.0.30:2181,172.30.0.178:2181
+num.network.threads=64
+num.io.threads=64
+socket.send.buffer.bytes=102400
+socket.receive.buffer.bytes=102400
+socket.request.max.bytes=104857600
+num.partitions=1
+num.recovery.threads.per.data.dir=1
+offsets.topic.replication.factor=1
+transaction.state.log.replication.factor=1
+transaction.state.log.min.isr=1
+replica.fetch.max.bytes=524288000
+background.threads=20
+num.replica.alter.log.dirs.threads=40
+num.replica.fetchers=20
+[root@ip-172-30-0-121 ~]#
+....
++
+** 仲介業者2の場合は、 `log.dirs` プロパティ値は次のとおりです。
++
+....
+log.dirs=/kafka_aggr3_vol1/broker2,/kafka_aggr3_vol2/broker2,/kafka_aggr3_vol3/broker2,/kafka_aggr22_vol1/broker2,/kafka_aggr22_vol2/broker2,/kafka_aggr22_vol3/broker2
+....
+** 仲介業者3の場合は、 `log.dirs` プロパティ値は次のとおりです。
++
+....
+log.dirs=/kafka_aggr3_vol1/broker3,/kafka_aggr3_vol2/broker3,/kafka_aggr3_vol3/broker3,/kafka_aggr22_vol1/broker3,/kafka_aggr22_vol2/broker3,/kafka_aggr22_vol3/broker3
+....
+
+
+. 単一のCloud Volumes ONTAP ノードの場合は、Kafka `servers.properties` は、を除き、Cloud Volumes ONTAP HAペアと同じです `log.dirs` プロパティ。
++
+** broker1の場合は `log.dirs` 値は次のとおりです。
++
+....
+log.dirs=/kafka_aggr2_vol1/broker1,/kafka_aggr2_vol2/broker1,/kafka_aggr2_vol3/broker1,/kafka_aggr2_vol4/broker1,/kafka_aggr2_vol5/broker1,/kafka_aggr2_vol6/broker1
+....
+** 仲介業者2の場合は、 `log.dirs` 値は次のとおりです。
++
+....
+log.dirs=/kafka_aggr2_vol1/broker2,/kafka_aggr2_vol2/broker2,/kafka_aggr2_vol3/broker2,/kafka_aggr2_vol4/broker2,/kafka_aggr2_vol5/broker2,/kafka_aggr2_vol6/broker2
+....
+** 仲介業者3の場合は、 `log.dirs` プロパティ値は次のとおりです。
++
+....
+log.dirs=/kafka_aggr2_vol1/broker3,/kafka_aggr2_vol2/broker3,/kafka_aggr2_vol3/broker3,/kafka_aggr2_vol4/broker3,/kafka_aggr2_vol5/broker3,/kafka_aggr2_vol6/broker3
+....
+
+
+. OMB内のワークロードには、次のプロパティが設定されます。 `(/opt/benchmark/workloads/1-topic-100-partitions-1kb.yaml)`。
++
+....
+topics: 4
+partitionsPerTopic: 100
+messageSize: 32768
+useRandomizedPayloads: true
+randomBytesRatio: 0.5
+randomizedPayloadPoolSize: 100
+subscriptionsPerTopic: 1
+consumerPerSubscription: 80
+producersPerTopic: 40
+producerRate: 1000000
+consumerBacklogSizeGB: 0
+testDurationMinutes: 5
+....
++
+。 `messageSize` はユースケースごとに異なる場合があります。パフォーマンステストでは、3Kを使用しました。
+
++
+OMBのSyncまたはThroughputという2つのドライバを使用して、Kafkaクラスタでワークロードを生成しました。
+
++
+** 同期ドライバのプロパティに使用されるYAMLファイルは次のとおりです `(/opt/benchmark/driver- kafka/kafka-sync.yaml)`：
++
+....
+name: Kafka
+driverClass: io.openmessaging.benchmark.driver.kafka.KafkaBenchmarkDriver
+# Kafka client-specific configuration
+replicationFactor: 3
+topicConfig: |
+  min.insync.replicas=2
+  flush.messages=1
+  flush.ms=0
+commonConfig: |
+  bootstrap.servers=172.30.0.121:9092,172.30.0.72:9092,172.30.0.223:9092
+producerConfig: |
+  acks=all
+  linger.ms=1
+  batch.size=1048576
+consumerConfig: |
+  auto.offset.reset=earliest
+  enable.auto.commit=false
+  max.partition.fetch.bytes=10485760
+....
+** スループットドライバのプロパティに使用されるYAMLファイルは次のとおりです `(/opt/benchmark/driver- kafka/kafka-throughput.yaml)`：
++
+....
+name: Kafka
+driverClass: io.openmessaging.benchmark.driver.kafka.KafkaBenchmarkDriver
+# Kafka client-specific configuration
+replicationFactor: 3
+topicConfig: |
+  min.insync.replicas=2
+commonConfig: |
+  bootstrap.servers=172.30.0.121:9092,172.30.0.72:9092,172.30.0.223:9092
+  default.api.timeout.ms=1200000
+  request.timeout.ms=1200000
+producerConfig: |
+  acks=all
+  linger.ms=1
+  batch.size=1048576
+consumerConfig: |
+  auto.offset.reset=earliest
+  enable.auto.commit=false
+  max.partition.fetch.bytes=10485760
+....
+
+
+
+
+
+
+== テストの方法論
+
+. Kafkaクラスタは、前述の仕様に従ってTerraformとAnsibleを使用してプロビジョニングされました。Terraformを使用して、Kafkaクラスタ用のAWSインスタンスを使用してインフラを構築し、Ansibleを使用してKafkaクラスタを構築します。
+. 上記のワークロード構成とSyncドライバでOMBワークロードがトリガーされました。
++
+....
+Sudo bin/benchmark –drivers driver-kafka/kafka- sync.yaml workloads/1-topic-100-partitions-1kb.yaml
+....
+. 同じワークロード構成でスループットドライバを使用して別のワークロードがトリガーされました。
++
+....
+sudo bin/benchmark –drivers driver-kafka/kafka-throughput.yaml workloads/1-topic-100-partitions-1kb.yaml
+....
+
+
+
+
+== 観察
+
+NFSで実行されるKafkaインスタンスのパフォーマンスをベンチマークするために、2種類のドライバを使用してワークロードを生成しました。ドライバの違いは、log flushプロパティです。
+
+Cloud Volumes ONTAP HAペアの場合：
+
+* Syncドライバによって一貫して生成される合計スループット：最大1236 Mbps
+* スループットドライバに対して生成された合計スループット：ピーク時最大1412 Mbps
+
+
+単一のCloud Volumes ONTAP ノードの場合：
+
+* Syncドライバで一貫して生成される合計スループット：約1962MBps
+* スループットドライバによって生成される合計スループット：最大1660MBps
+
+
+Syncドライバはログが即座にディスクにフラッシュされるときに一貫したスループットを生成できますが、Throughputドライバはログがディスクに一括コミットされるときにスループットのバーストを生成します。
+
+これらのスループット値は、指定されたAWS構成に対して生成されます。より高いパフォーマンス要件に対応するには、インスタンスタイプをスケールアップしてさらに調整し、スループットを向上させることができます。総スループットまたは総レートは、生産者と消費者の両方のレートの組み合わせです。
+
+image:kafka-nfs-image30.png["ここでは、4つの異なるグラフを示します。CVO-HAペアスループットドライバCVO-HAペアSyncドライバ：CVO -シングルノードスループットドライバ。CVO -シングルノードSyncドライバ。"]
+
+スループットまたは同期ドライバのベンチマークを実行するときは、必ずストレージスループットを確認してください。
+
+image:kafka-nfs-image31.png["このグラフには、レイテンシ、IOPS、およびスループットのパフォーマンスが表示されます。"]
+
+link:kafka-nfs-performance-overview-and-validation-with-aff-on-premises.html["次の記事：オンプレミスのAFF でのパフォーマンスの概要と検証"]
