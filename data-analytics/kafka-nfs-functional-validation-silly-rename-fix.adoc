@@ -63,6 +63,12 @@ Kafkaのデフォルトプロパティは、すべてのサーバーに対して
 
 == テストの方法論
 
+. 更新 `-is-preserve-unlink-enabled true` 次のようにKafkaボリュームに追加します。
++
+....
+aws-shantanclastrecall-aws::*> volume create -vserver kafka_svm -volume kafka_fg_vol01 -aggregate kafka_aggr -size 3500GB -state online -policy kafka_policy -security-style unix -unix-permissions 0777 -junction-path /kafka_fg_vol01 -type RW -is-preserve-unlink-enabled true
+[Job 32] Job succeeded: Successful
+....
 . 似たような2つのKafkaクラスタが作成されましたが、次の違いがあります。
 +
 ** *クラスタ1。*本番環境対応のONTAP バージョン9.12.1を実行しているバックエンドNFS v4.1サーバは、NetApp CVOインスタンスによってホストされていました。ブローカーにRHEL 8.7 / RHEL 9.1をインストールしました。
