@@ -1,0 +1,236 @@
+---
+sidebar: sidebar 
+permalink: automation/fsxn_monitoring_resizing_automation.html 
+keywords: AWS, FSX, FSxN, automation, FSxN monitoring, FSxN automation, FSxN resizing, FSx for NetApp ONTAP monitoring, FSx for ONTAP monitoring 
+summary: このページでは、AWS FSxNの監視としきい値に基づく自動サイズ変更について説明します。 
+---
+= AWS Lambda関数を使用したFSx for ONTAP の監視と自動サイズ変更
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+著者: Dhruv Tyagi, Niyaz Mohamed
+
+
+
+== 概要：AWS Lambda機能を使用したFSx for ONTAP の監視と自動サイズ変更
+
+FSx for ONTAP は、AWSで利用できるファーストパーティのエンタープライズクラスのクラウドストレージサービスです。広く普及しているNetApp ONTAP ファイルシステムを基盤に、信頼性、拡張性、ハイパフォーマンス、機能豊富なファイルストレージを提供します。
+
+FSx for ONTAP は、シームレスな導入と管理のエクスペリエンスを提供します。ストレージの専門知識は必要ありません。監視を簡易化するために、AWS lamdba機能（しきい値に基づいて総ストレージ容量、ボリュームサイズ、またはLUNサイズのサイズを自動化する機能）を使用できます。このドキュメントでは、FSx for ONTAP を定期的に監視し、ユーザ指定のしきい値を超えたときに通知とサイズ変更を行い、サイズ変更処理を管理者に通知する自動セットアップを作成するためのステップバイステップガイドを提供します。
+
+.の機能
+[%collapsible]
+====
+解決策 には次の機能があります。
+
+* 監視機能：
++
+** FSx for ONTAP の全体的なストレージ容量の使用状況
+** 各ボリュームの使用量（シンプロビジョニング/シックプロビジョニング）
+** 各LUNの使用量（シンプロビジョニング/シックプロビジョニング）
+
+
+* ユーザ定義のしきい値を超えた場合に、上記のいずれかのサイズを変更できます
+* 使用状況の警告やサイズ変更の通知をEメールで受信するアラートメカニズム
+* ユーザ定義のしきい値よりも古いSnapshotを削除できます
+* 関連付けられているFlexCloneボリュームとSnapshotのリストを取得する機能
+* 定期的にチェックを実行する機能
+
+
+====
+.前提条件
+[%collapsible]
+====
+作業を開始する前に、次の前提条件を満たしていることを確認してください。
+
+* FSx for ONTAP が導入されました
+* NATゲートウェイが接続されたプライベートサブネットは、インターネット接続のlambda関数によって必要とされます
+* プライベートサブネットもFSx for ONTAP に接続されている必要があります
+* FSx for ONTAP には「fsxadmin」パスワードが設定されています
+
+
+====
+.アーキテクチャの概要
+[%collapsible]
+====
+* AWS Lambda関数は、ストレージ容量、ボリューム、LUNのサイズを取得および更新するために、FSx for ONTAP へのAPI呼び出しを行います。
+* セキュリティレイヤを追加するために、「fsxadmin」パスワードがAWS SSMパラメータストアにセキュアな文字列として保存されます。
+* AWS SES（Simple Email Service）は、サイズ変更イベントが発生したときにエンドユーザに通知するために使用します。
+
+
+image:fsxn-monitoring-resizing-architecture.png["この図は、この解決策 で使用されているアーキテクチャの概要を示しています。"]
+
+====
+
+
+== 解決策 の導入
+
+一連の手順に従って、この解決策 の導入を完了します。
+
+.ステップ1: GitHubリポジトリのクローンを作成します
+[%collapsible]
+====
+ローカルシステム上のGitHubリポジトリのクローンを作成します。
+
+[listing]
+----
+git clone https://github.com/NetApp-Automation/fsxn-monitoring-auto-resizing.git
+----
+====
+.手順2：fsxadminパスワードのSSMパラメータを作成します
+[%collapsible]
+====
+[AWS Console]>*[Parameter Store]*に移動し、*[Create Parameter]*をクリックします。
+
+[listing]
+----
+Name: <Any name/path for storing fsxadmin password>
+Tier: Standard
+Type: SecureString
+KMS key source: My current account
+  KMS Key ID: <Use the default one selected>
+Value: <Enter the password for "fsxadmin" user configured on FSx for ONTAP>
+----
+[パラメーターを作成（Create Parameter）]*をクリックする。
+
+image:fsxn-monitoring-resizing-ssm-parameter.png["この図は、AWSコンソールのSSMパラメータ作成ウィンドウを示しています。"]
+
+====
+.ステップ3:電子メールサービスをセットアップします
+[%collapsible]
+====
+[AWS Console]>*[Simple Email Service（SES）]*に移動し、*[Create Identity]*をクリックします。
+
+[listing]
+----
+Identity type: Email address
+Email address: <Enter an email address to be used for sending resizing notifications>
+----
+[Create identity]*をクリックします
+
+image:fsxn-monitoring-resizing-ses.png["この図は、AWSコンソールのSES ID作成ウィンドウを示しています。"]
+
+====
+.ステップ4: AWS Lambda関数を作成してセットアップします
+[%collapsible]
+====
+. [AWS Console]>*[AWS Lambda]*に移動し、FSx for ONTAP と同じリージョンの*[Create Function]*をクリックします
+. デフォルトの*Author from scratch*を使用して、次のフィールドを更新します。
++
+[listing]
+----
+Function name: <Any name of your choice>
+Runtime: Python 3.9
+Architecture: x86_64
+Permissions: Select "Create a new role with basic Lambda permissions"
+Advanced Settings:
+  Enable VPC: Checked
+    VPC: <Choose either the same VPC as FSx for ONTAP or a VPC that can access both FSx for ONTAP and the internet via a private subnet>
+    Subnets: <Choose 2 private subnets which have NAT gateway attached pointing to public subnets with internet gateway and subnets that have internet access>
+    Security Group: <Choose a Security Group>
+----
++
+[機能の作成]*をクリックします。
+
++
+image:fsxn-monitoring-resizing-lambda-creation-1.png["この画像は、AWSコンソールのLambda作成ウィンドウを示しています。"]
+
++
+image:fsxn-monitoring-resizing-lambda-creation-2.png["この画像は、AWSコンソールのLambda作成ウィンドウを示しています。"]
+
+. 新しく作成したLambda関数の* Layers *セクションまでスクロールし、* Add a layer *をクリックします。
++
+image:fsxn-monitoring-resizing-add-layer-button.png["この画像は、AWS Lambda機能コンソールのレイヤー追加ボタンを示しています。"]
+
+. [レイヤーソース]*の下にある*[新しいレイヤーを作成する]*をクリックします
+. 2つのレイヤー（リクエスト用に1つ、Paramiko用に1つ）を作成し、* Requests.zip *ファイルと* Paramiko.zip *ファイルをアップロードします。互換性のあるランタイムとして* Python 3.9 *を選択し、* Create *をクリックします。
++
+image:fsxn-monitoring-resizing-create-layer-paramiko.png["この画像は、AWSコンソールの[Create New Layer]ウィンドウを示しています。"]
+
+. AWS Lambda * Add Layer *>* Custom Layers *に戻り、paramikoとrequestsレイヤーを次 々 に追加します。
++
+image:fsxn-monitoring-resizing-add-layer-window.png["この画像は、AWS Lambda関数コンソールのレイヤーの追加ウィンドウを示しています。"]
+
++
+image:fsxn-monitoring-resizing-layers-added.png["この画像は、AWS Lambda関数コンソールに追加されたレイヤーを示しています。"]
+
+. Lambda関数の* Configuration *タブに移動し、* General Configuration *の* Edit *をクリックします。[タイムアウト]を[* 5分]に変更し、[保存]をクリックします。
+. Lambda関数の* Permissions *タブに移動し、割り当てられたロールをクリックします。ロールの権限タブで、*権限の追加*>*インラインポリシーの作成*をクリックします。
++
+.. JSONタブをクリックし、GitHubリポジトリからpolicy.jsonファイルの内容を貼り付けます。
+.. $｛aws：：AccountId｝はすべて自分のアカウントIDに置き換えて、*[Review Policy]*をクリックしてください
+.. ポリシーの名前を指定し、*[ポリシーの作成]*をクリックします
+
+
+. AWS Lambda Function Code Sourceセクションの* fsxn_monitoring_resizing_lambda.py *の内容をgitリポジトリから* lambda_function.py *にコピーします。
+. lambda_function.pyと同じレベルに新しいファイルを作成し、*vars.py*という名前を付けて、vars.pyの内容をgitリポジトリからlambda関数vars.pyファイルにコピーします。vars.pyの変数値を更新します。以下の変数定義を参照し、* Deploy *をクリックします。
++
+|===
+
+
+| * 名前 * | * タイプ * | * 概要 * 
+
+
+| * fsxMgmtIp * | 文字列 | （必須）AWSのFSx for ONTAP コンソールから「管理エンドポイント- IPアドレス」を入力します。 
+
+
+| * fsxId * | 文字列 | （必須）AWSのFSx for ONTAP コンソールから「ファイルシステムID」を入力します。 
+
+
+| *ユーザー名* | 文字列 | （必須）AWSのFSx for ONTAP コンソールからFSx for ONTAP の「ONTAP administrator username」を入力します。 
+
+
+| * resize_threshold * | 整数 | （必須）しきい値のパーセンテージを0～100の範囲で入力します。このしきい値は、ストレージ容量、ボリューム、LUNの使用率を測定するために使用され、使用率がこのしきい値を超えるとサイズ変更アクティビティが発生します。 
+
+
+| * sender_email * | 文字列 | （必須）SESに登録されている電子メールIDを入力します。このIDは、監視とサイズ変更に関する通知アラートを送信するためにlambda関数で使用されます。 
+
+
+| * recipient_email * | 文字列 | （必須）アラート通知を受信するEメールIDを入力します。 
+
+
+| * FSX_PASSWORD_SSM_PARAMETER * | 文字列 | （必須）「fsxadmin」パスワードの保存にAWS Parameter Storeで使用するパス名を入力します。 
+
+
+| * WARN_NOTIFICATION * | ブール値 | （必須）この変数をTrueに設定すると、ストレージ容量/ボリューム/ LUNの使用率が75%を超え、しきい値を下回ったときに通知が送信されます。 
+
+
+| * enable_snapshot_deletion * | ブール値 | （必須）「snapshot_age_threshold_in_days」で指定した値よりも古いSnapshotに対してボリュームレベルのSnapshotの削除を有効にするには、この変数をTrueに設定します。 
+
+
+| * snapshot_age_threshold_in_days * | 整数 | （必須）ボリュームレベルのSnapshotを保持する日数を入力します。指定した値よりも古いSnapshotコピーは削除され、同じSnapshotコピーがEメールで通知されます。 
+|===
++
+image:fsxn-monitoring-resizing-lambda-code.png["この画像は、AWS Lambda関数コンソールのラムダコードを示しています。"]
+
+. [Test]*をクリックし、空のテストイベントを作成してテストを実行し、スクリプトが正しく実行されているかどうかを確認します。
+. テストに成功したら、* Configuration *>* Triggers *>* Add Trigger *に移動します。
++
+[listing]
+----
+Select a Source: EventBridge
+Rule: Create a new rule
+Rule name: <Enter any name>
+Rule type: Schedule expression
+Schedule expression: <Use "rate(1 day)" if you want the function to run daily or add your own cron expression>
+----
++
+[Add]をクリックします。
+
++
+image:fsxn-monitoring-resizing-eventbridge.png["この画像は、AWS Lambda関数コンソールのイベントブリッジ作成ウィンドウを示しています。"]
+
+
+
+====
+
+
+== まとめ
+
+提供された解決策 を使用すると、FSx for ONTAP ストレージを定期的に監視し、ユーザ指定のしきい値に基づいて容量を変更し、アラートメカニズムを提供する監視解決策 を簡単に設定できます。これにより、FSx for ONTAP を使用して監視するプロセスがシームレスになり、管理者はビジネスクリティカルな作業に集中できるようになり、必要に応じてストレージが自動的に拡張されます。
