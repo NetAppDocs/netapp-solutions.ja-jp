@@ -34,36 +34,13 @@ subscription-manager repos --enable rhel-7-server-ansible-2.9-rpms
 ----
 
 
-. .sh ファイルを作成します
+. 以下の内容をターミナルに貼り付けます
 +
 [source, cli]
 ----
-vi setup.sh
-----
-. 以下の内容をファイルに貼り付けます
-+
-[source, cli]
-----
-#!/bin/bash
-echo "Installing Python ------>"
-sudo yum -y install python3 >/dev/null
-echo "Installing Python Pip ------>"
-sudo yum -y install python3-pip >/dev/null
-echo "Installing Ansible ------>"
-python3 -W ignore -m pip --disable-pip-version-check install ansible >/dev/null
-echo "Installing git ------>"
-sudo yum -y install git >/dev/null
-----
-. ファイルを実行可能にします
-+
-[source, cli]
-----
-chmod +x setup.sh
-----
-. スクリプトの実行（ルートとして）
-+
-[source, cli]
-----
-./setup.sh
+sudo yum -y install python3 >> install.log
+sudo yum -y install python3-pip >> install.log
+python3 -W ignore -m pip --disable-pip-version-check install ansible >> install.log
+sudo yum -y install git >> install.log
 ----
 
