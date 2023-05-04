@@ -15,6 +15,7 @@ summary: Cloud Volumes Service を使用すると、SMBユーザとUNIXユーザ
 
 link:ncvs-gc-dual-protocol-multiprotocol.html["以前のバージョン：デュアルプロトコル/マルチプロトコル"]
 
+[role="lead"]
 Cloud Volumes Service を使用すると、SMBユーザとUNIXユーザのIDを管理するために、Cloud Volumes Service インスタンスを外部のActive Directoryサーバに接続できます。Cloud Volumes Service でSMBを使用するには、Active Directory接続を作成する必要があります。
 
 この構成には、セキュリティについて考慮する必要があるいくつかのオプションがあります。外部Active Directoryサーバは、オンプレミスインスタンスでもクラウドネイティブでもかまいません。オンプレミスのActive Directoryサーバを使用している場合は、ドメインを外部ネットワーク（DMZや外部IPアドレスなど）に公開しないでください。代わりに、を使用して、セキュアなプライベートトンネルまたはVPN、一方向フォレストトラスト、またはオンプレミスネットワークへの専用ネットワーク接続を使用します https://cloud.google.com/vpc/docs/private-google-access["プライベート Google アクセス"^]。詳細については、Google Cloudのドキュメントを参照してください https://cloud.google.com/managed-microsoft-ad/docs/best-practices["Google CloudでActive Directoryを使用する際のベストプラクティス"^]。

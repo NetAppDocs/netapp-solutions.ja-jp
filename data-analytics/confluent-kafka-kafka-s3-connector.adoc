@@ -15,6 +15,7 @@ summary: このセットアップでは、 Kafka s3 sink Connector を使用し�
 
 link:confluent-kafka-performance-tests-with-scalability.html["Previous ：拡張性を備えたパフォーマンステスト。"]
 
+[role="lead"]
 Amazon S3 Sink Connector は、 Apache Kafka のトピックから Avro 、 JSON 、またはバイト形式の S3 オブジェクトにデータをエクスポートします。Amazon S3 シンクコネクタは、 Kafka から定期的にデータをポーリングし、 S3 にアップロードします。ユーザは、各 Kafka パーティションのデータをチャンクに分割するために使用します。データのチャンクはそれぞれ S3 オブジェクトとして表されます。キー名は、トピック、 Kafka パーティション、およびこのデータチャンクの開始オフセットをエンコードします。
 
 このセットアップでは、 Kafka s3 sink Connector を使用して、 Kafka のオブジェクトストレージのトピックの読み取りと書き込みを直接実行する方法を紹介します。このテストでは、スタンドアロンの流暢なクラスタを使用しましたが、このセットアップは分散クラスタに適用できます。
