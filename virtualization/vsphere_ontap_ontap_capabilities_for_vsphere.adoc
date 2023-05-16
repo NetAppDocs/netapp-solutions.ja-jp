@@ -33,7 +33,7 @@ ONTAP の基本機能の詳細は、以下のとおりです。
 * * QoS により、個々の LUN 、ボリューム、またはファイルのパフォーマンスを管理できます。この機能を使用すると、不明な VM や Bully VM を制限したり、重要な VM に十分なパフォーマンスリソースを確保したりできます。
 * * NetApp Volume EncryptionとNetApp Aggregate Encryption *。ネットアップの暗号化オプションは、ソフトウェアベースの簡単な暗号化機能で保存データを保護します。
 * * FabricPool 。 * この機能は、コールドデータをブロックレベルで自動的に別のオブジェクトストアに階層化し、高価なフラッシュストレージを解放します。
-* * RESTとAnsible *を使用します https://devnet.netapp.com/restapi["ONTAP REST API"^] ストレージとデータの管理を自動化するには、を参照してください https://netapp.io/configuration-management-and-automation/["Ansible モジュール"^] ONTAP システムの構成管理に使用します。
+* * RESTとAnsible *を使用します https://["ONTAP REST API"^] ストレージとデータの管理を自動化するには、を参照してください https://["Ansible モジュール"^] ONTAP システムの構成管理に使用します。
 
 
 一部のONTAP 機能は、vSphereのワークロードには適していません。たとえば、ONTAP 9.8より前のFlexGroup テクノロジでは完全なクローニングはサポートされておらず、vSphereではテストされていません（vSphereでの使用に関する最新情報については、「FlexGroup 」の項を参照してください）。FlexCache テクノロジは、読み取り主体のワークロード向けに設計されたものであるため、vSphereにも最適ではありません。キャッシュが元のボリュームから切断されていると、両方の側で NFS データストアエラーが発生する場合があります。

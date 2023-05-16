@@ -32,7 +32,7 @@ NetApp Snapshot はトレーニングコードに統合されており、あら�
 
 == AK のセットアップとインストール
 
-AKS クラスタのセットアップとインストールは、に進みます https://docs.microsoft.com/azure/aks/kubernetes-walkthrough-portal["AKS クラスタを作成します"^]。次に、次の一連の手順を実行します。
+AKS クラスタのセットアップとインストールは、に進みます https://["AKS クラスタを作成します"^]。次に、次の一連の手順を実行します。
 
 . ノードのタイプ（システム（ CPU ）ノードまたはワーカー（ GPU ）ノードのいずれであるか）を選択するときは、次のいずれかを選択します。
 +
@@ -47,8 +47,8 @@ NOTE: 導入には 5 ～ 10 分かかります。
 
 
 
-. 導入が完了したら、 Connect to Cluster （クラスタへの接続）をクリックします。新しく作成した AKS クラスタに接続するには、ローカル環境（ラップトップ / PC ）から Kubernetes コマンドラインツールをインストールします。にアクセスします https://kubernetes.io/docs/tasks/tools/install-kubectl/["ツールをインストールします"^] OS に応じてインストールします。
-. https://docs.microsoft.com/cli/azure/install-azure-cli["ローカル環境に Azure CLI をインストールします"^]。
+. 導入が完了したら、 Connect to Cluster （クラスタへの接続）をクリックします。新しく作成した AKS クラスタに接続するには、ローカル環境（ラップトップ / PC ）から Kubernetes コマンドラインツールをインストールします。にアクセスします https://["ツールをインストールします"^] OS に応じてインストールします。
+. https://["ローカル環境に Azure CLI をインストールします"^]。
 . 端末から AKS クラスタにアクセスするには、まず「 AZ login 」と入力し、クレデンシャルを入力します。
 . 次の 2 つのコマンドを実行します。
 +
@@ -103,13 +103,13 @@ Azure NetApp Files ボリュームはアプリケーションクラスタに割�
 
 == Azure NetApp Files セットアップ
 
-Azure NetApp Files のセットアップを完了するには、まず、の説明に従って を設定する必要があります https://docs.microsoft.com/azure/azure-netapp-files/azure-netapp-files-quickstart-set-up-account-create-volumes["クイックスタート： Azure NetApp Files をセットアップし、 NFS ボリュームを作成します"^]。
+Azure NetApp Files のセットアップを完了するには、まず、の説明に従って を設定する必要があります https://["クイックスタート： Azure NetApp Files をセットアップし、 NFS ボリュームを作成します"^]。
 
 ただし、 Trident からボリュームを作成するため、 Azure NetApp Files 用の NFS ボリュームを作成する手順は省略できます。続行する前に、次のものがあることを確認してください。
 
-. https://docs.microsoft.com/azure/azure-netapp-files/azure-netapp-files-register["Azure NetApp Files とネットアップのリソースプロバイダに登録（ Azure Cloud Shell を使用）"^]。
-. https://docs.microsoft.com/azure/azure-netapp-files/azure-netapp-files-create-netapp-account["Azure NetApp Files でアカウントを作成"^]。
-. https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-set-up-capacity-pool["容量プールをセットアップする"^] （必要に応じて、 4TiB Standard または Premium 以上）。
+. https://["Azure NetApp Files とネットアップのリソースプロバイダに登録（ Azure Cloud Shell を使用）"^]。
+. https://["Azure NetApp Files でアカウントを作成"^]。
+. https://["容量プールをセットアップする"^] （必要に応じて、 4TiB Standard または Premium 以上）。
 
 
 
@@ -141,7 +141,7 @@ NOTE: デフォルトでは、アスタリスク以外のすべてのセクシ�
 . [Add] または [OK] をクリックして、仮想ネットワークにピアリングを追加します。
 
 
-詳細については、を参照してください https://docs.microsoft.com/azure/virtual-network/tutorial-connect-virtual-networks-portal["仮想ネットワークピアリングを作成、変更、削除します"^]。
+詳細については、を参照してください https://["仮想ネットワークピアリングを作成、変更、削除します"^]。
 
 
 
@@ -157,7 +157,7 @@ NetApp Trident では、トレーニングデータセットとトレーニン�
 
 Trident ソフトウェアをインストールするには、次の手順を実行します。
 
-. https://helm.sh/docs/intro/install/["最初に Helm をインストールします"^]。
+. https://["最初に Helm をインストールします"^]。
 . Trident 21.01.1 インストーラをダウンロードして展開します。
 +
 ....
@@ -207,7 +207,7 @@ Azure NetApp Files バックエンドとストレージクラスをセットア�
 ....
 cd ~
 ....
-. をクローニングします https://github.com/dedmari/lane-detection-SCNN-horovod.git["プロジェクトリポジトリ"^] lane -detection -SCNN-horovod`
+. をクローニングします https://["プロジェクトリポジトリ"^] lane -detection -SCNN-horovod`
 . 'trident-config' ディレクトリに移動します
 +
 ....
@@ -321,7 +321,7 @@ kubectl create -f https://raw.githubusercontent.com/kubernetes-csi/external-snap
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/release-3.0/deploy/kubernetes/snapshot-controller/rbac-snapshot-controller.yaml
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/release-3.0/deploy/kubernetes/snapshot-controller/setup-snapshot-controller.yaml
 ....
-. ボリュームスナップショットを作成する前に 'K8s'volumesnapshotclass' を設定します https://netapp-trident.readthedocs.io/en/stable-v20.01/kubernetes/concepts/objects.html["ボリューム Snapshot クラス"^] セットアップが完了している必要があります。Azure NetApp Files のボリューム Snapshot クラスを作成し、ネットアップの Snapshot テクノロジを使用して ML のバージョン管理を実現します。volumesnapshotclass NetApp-csi-snapclass' を作成し ' 次のようにデフォルトの ` volumesnapshotclass 」に設定します
+. ボリュームスナップショットを作成する前に 'K8s'volumesnapshotclass' を設定します https://["ボリューム Snapshot クラス"^] セットアップが完了している必要があります。Azure NetApp Files のボリューム Snapshot クラスを作成し、ネットアップの Snapshot テクノロジを使用して ML のバージョン管理を実現します。volumesnapshotclass NetApp-csi-snapclass' を作成し ' 次のようにデフォルトの ` volumesnapshotclass 」に設定します
 +
 ....
 kubectl create -f netapp-volume-snapshot-class.yaml
@@ -351,12 +351,12 @@ image:runai-ld_image10.png["エラー：グラフィックイメージがあり�
 
 Run ： AI をインストールするには、次の手順を実行します。
 
-. https://docs.run.ai/Administrator/Cluster-Setup/cluster-install/["Run ： AI クラスタを AKS にインストールします"^]。
+. https://["Run ： AI クラスタを AKS にインストールします"^]。
 . app.runai.ai にアクセスし、 [ 新しいプロジェクトの作成 ] をクリックして、レーン検出という名前を付けます。'runai' で始まる名前空間を Kubernetes クラスタに作成し ' そのあとにプロジェクト名を付けますこの場合、作成される名前空間は runai-lane detection になります。
 +
 image:runai-ld_image11.png["エラー：グラフィックイメージがありません"]
 
-. https://docs.run.ai/Administrator/Cluster-Setup/cluster-install/["インストール実行： AI CLI"^]。
+. https://["インストール実行： AI CLI"^]。
 . ターミナルで、次のコマンドを使用して、 LANE 検出をデフォルトの実行として AI プロジェクトに設定します。
 +
 ....
@@ -740,7 +740,7 @@ image:runai-ld_image38.png["エラー：グラフィックイメージがあり�
 
 == Azure NetApp Files サービスレベル
 
-既存のボリュームのサービスレベルを変更するには、を使用する別の容量プールにボリュームを移動します https://docs.microsoft.com/azure/azure-netapp-files/azure-netapp-files-service-levels["サービスレベル"^] 必要なのはボリュームです。ボリュームの既存のサービスレベル変更では、データを移行する必要はありません。また、ボリュームへのアクセスにも影響しません。
+既存のボリュームのサービスレベルを変更するには、を使用する別の容量プールにボリュームを移動します https://["サービスレベル"^] 必要なのはボリュームです。ボリュームの既存のサービスレベル変更では、データを移行する必要はありません。また、ボリュームへのアクセスにも影響しません。
 
 
 
@@ -762,9 +762,9 @@ image:runai-ld_image40.png["エラー：グラフィックイメージがあり�
 
 === サービスレベルの変更を自動化
 
-動的サービスレベルの変更は現在、パブリックプレビューで有効になっていますが、デフォルトでは有効になっていません。Azure サブスクリプションでこの機能を有効にするには、次の手順を実行します file:///C:\Users\crich\Downloads\•%09https:\docs.microsoft.com\azure\azure-netapp-files\dynamic-change-volume-service-level["ボリュームのサービスレベルを動的に変更する"^]」
+動的サービスレベルの変更は現在、パブリックプレビューで有効になっていますが、デフォルトでは有効になっていません。Azure サブスクリプションでこの機能を有効にするには、次の手順を実行します file://["ボリュームのサービスレベルを動的に変更する"^]」
 
-* Azure では、 CLI コマンドでも次のコマンドを使用できます。Azure NetApp Files のプール・サイズの変更の詳細については、を参照してください https://docs.microsoft.com/cli/azure/netappfiles/volume?view=azure-cli-latest-az_netappfiles_volume_pool_change["AZ netappfiles ボリューム： Azure NetApp Files （ ANF ）ボリュームリソースの管理"^]。
+* Azure では、 CLI コマンドでも次のコマンドを使用できます。Azure NetApp Files のプール・サイズの変更の詳細については、を参照してください https://["AZ netappfiles ボリューム： Azure NetApp Files （ ANF ）ボリュームリソースの管理"^]。
 +
 ....
 az netappfiles volume pool-change -g mygroup
@@ -773,7 +773,7 @@ az netappfiles volume pool-change -g mygroup
 --name myvolname
 --new-pool-resource-id mynewresourceid
 ....
-* ここに示す 'set-aznetappfilesvolumepool' コマンドレットを使用すると、 Azure NetApp Files ボリュームのプールを変更できます。ボリュームプールのサイズ変更の詳細については、を参照してください https://docs.microsoft.com/powershell/module/az.netappfiles/set-aznetappfilesvolumepool?view=azps-5.8.0["Azure NetApp Files ボリュームのプールを変更します"^]。
+* ここに示す 'set-aznetappfilesvolumepool' コマンドレットを使用すると、 Azure NetApp Files ボリュームのプールを変更できます。ボリュームプールのサイズ変更の詳細については、を参照してください https://["Azure NetApp Files ボリュームのプールを変更します"^]。
 +
 ....
 Set-AzNetAppFilesVolumePool

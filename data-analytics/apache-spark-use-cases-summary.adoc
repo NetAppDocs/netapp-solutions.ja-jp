@@ -27,7 +27,7 @@ Apache Sparkはストリーミングデータを処理できます。ストリ�
 * *複雑なセッション分析。* Sparkストリーミングは、Webサイトやアプリケーションにログインした後で、ユーザーのアクティビティなどのイベントを収集し、それらをグループ化して分析します。たとえば、Netflixでは、この機能を使用してリアルタイムの動画推奨を提供しています。
 
 
-より多くのストリーミングデータ構成、ConFluent Kafkaの検証、およびパフォーマンステストについては、を参照してください https://docs.netapp.com/us-en/netapp-solutions/data-analytics/confluent-kafka-introduction.html["TR-4912 ：『 Best Practices guidelines for ConFluent Kafka Tiered Storage with NetApp 』"^]。
+より多くのストリーミングデータ構成、ConFluent Kafkaの検証、およびパフォーマンステストについては、を参照してください https://["TR-4912 ：『 Best Practices guidelines for ConFluent Kafka Tiered Storage with NetApp 』"^]。
 
 
 
@@ -65,12 +65,12 @@ Apache Sparkは、SQL、R、Pythonを含むSpark以外の開発言語でサン�
 
 == 自然言語処理
 
-会話型AIは、自然言語処理（NLP）によって実現され、コンピュータが人間と通信するのを支援するAIのブランチです。NLPは、スマートアシスタントやチャットボット、Google検索、予測テキストなど、業界のあらゆる業種や多くのユースケースで広く使用されています。に従って https://www.forbes.com/sites/forbestechcouncil/2021/05/07/nice-chatbot-ing-with-you/?sh=7011eff571f4["Gartner社"^] 予測：2022年までに、人の70%が日常的に会話型AIプラットフォームとやり取りしています。人間と機械の間で質の高い会話を行うには、応答が迅速かつインテリジェントで、自然な音声である必要があります。
+会話型AIは、自然言語処理（NLP）によって実現され、コンピュータが人間と通信するのを支援するAIのブランチです。NLPは、スマートアシスタントやチャットボット、Google検索、予測テキストなど、業界のあらゆる業種や多くのユースケースで広く使用されています。に従って https://["Gartner社"^] 予測：2022年までに、人の70%が日常的に会話型AIプラットフォームとやり取りしています。人間と機械の間で質の高い会話を行うには、応答が迅速かつインテリジェントで、自然な音声である必要があります。
 
 お客様は、NLPモデルとAutomatic Speech Recognition（ASR）モデルを処理してトレーニングするために大量のデータを必要としています。また、エッジ、コア、クラウドにわたってデータを移動する必要もあり、推論を数ミリ秒で実行して人間との自然な通信を確立する機能も必要です。NetApp AIとApache Sparkは、コンピューティング、ストレージ、データ処理、モデルトレーニング、微調整、 そして展開。
 
 感情分析とは、NLP内で、肯定的、否定的、または中立的な感情がテキストから抽出される研究領域のことです。感情分析には、サポートセンターの従業員のパフォーマンスを発信者との会話から適切な自動チャットボット応答まで、さまざまなユースケースがあります。また、四半期ごとの収益呼において、企業の代表者と対象者の間のやり取りに基づいて会社の株価を予測するためにも使用されています。さらに、感情分析を使用して、ブランドが提供する製品、サービス、サポートに関するお客様の見解を判断できます。
 
-使用しました https://www.johnsnowlabs.com/spark-nlp/["SparkのNLPです"^] ライブラリ元 https://www.johnsnowlabs.com/["ジョンスノーラボ"^] を含むTransformers（BERT）モデルから事前にトレーニングされたパイプラインと双方向エンコーダリプレゼンテーションをロードするため https://nlp.johnsnowlabs.com/2021/11/11/classifierdl_bertwiki_finance_sentiment_pipeline_en.html["財務ニュースのセンチメント"^] および https://nlp.johnsnowlabs.com/2021/11/03/bert_sequence_classifier_finbert_en.html["FinBert"^]トークン化、Named Entity Recognition、モデルトレーニング、フィッティング、センチメント分析を大規模に実施しています。Spark NLPは、BERT、Albert、Electra、XLNet、DistilBERTなどの最先端のトランスを提供する唯一のオープンソースNLPライブラリです。 Roberta、DeberTa、XLM-Roberta、Longform, Elmo ユニバーサルセンテンスエンコーダー、Google T5、MarianMT、およびGPT2。このライブラリはPythonとRだけでなく、Apache Sparkをネイティブに拡張することで、JVMエコシステム（Java、Scala、Kotlin）でも大規模に動作します。
+使用しました https://["SparkのNLPです"^] ライブラリ元 https://["ジョンスノーラボ"^] を含むTransformers（BERT）モデルから事前にトレーニングされたパイプラインと双方向エンコーダリプレゼンテーションをロードするため https://["財務ニュースのセンチメント"^] および https://["FinBert"^]トークン化、Named Entity Recognition、モデルトレーニング、フィッティング、センチメント分析を大規模に実施しています。Spark NLPは、BERT、Albert、Electra、XLNet、DistilBERTなどの最先端のトランスを提供する唯一のオープンソースNLPライブラリです。 Roberta、DeberTa、XLM-Roberta、Longform, Elmo ユニバーサルセンテンスエンコーダー、Google T5、MarianMT、およびGPT2。このライブラリはPythonとRだけでなく、Apache Sparkをネイティブに拡張することで、JVMエコシステム（Java、Scala、Kotlin）でも大規模に動作します。
 
 link:apache-spark-major-ai,-ml,-and-dl-use-cases-and-architectures.html["次のステップ：主要なAI、ML、DLのユースケースとアーキテクチャ"]

@@ -26,12 +26,12 @@ link:ai-protopia-test-configuration.html["前の手順：設定をテストし�
 
 * Kubectl（既存のKubernetesクラスタへのアクセスを設定）
 +
-** インストールと設定の手順については、を参照してください https://kubernetes.io/docs/tasks/tools/["こちらをご覧ください"^]。
+** インストールと設定の手順については、を参照してください https://["こちらをご覧ください"^]。
 
 
 * Kubernetes向けNetApp DataOpsツールキット
 +
-** インストール手順が記載されています https://github.com/NetApp/netapp-dataops-toolkit/tree/main/netapp_dataops_k8s["こちらをご覧ください"^]。
+** インストール手順が記載されています https://["こちらをご覧ください"^]。
 
 
 
@@ -125,7 +125,7 @@ Volume successfully created and bound to PersistentVolumeClaim (PVC) 'inference-
 ....
 . 新しい永続ボリュームに、推論を実行するデータを入力します。
 +
-PVCにデータをロードする方法はいくつかあります。データがNetApp StorageGRID やAmazon S3などのS3互換オブジェクトストレージプラットフォームに現在格納されている場合は、を使用できます https://github.com/NetApp/netapp-dataops-toolkit/blob/main/netapp_dataops_k8s/docs/data_movement.md["NetApp DataOpsツールキットS3 Data Moverの機能"^]。また、JupyterLabワークスペースを作成し、JupyterLab Webインターフェイスを使用してファイルをアップロードする方法も簡単です。手順3～5を参照してください<<シナリオ1–JupyterLabにおけるオンデマンド推論>>」
+PVCにデータをロードする方法はいくつかあります。データがNetApp StorageGRID やAmazon S3などのS3互換オブジェクトストレージプラットフォームに現在格納されている場合は、を使用できます https://["NetApp DataOpsツールキットS3 Data Moverの機能"^]。また、JupyterLabワークスペースを作成し、JupyterLab Webインターフェイスを使用してファイルをアップロードする方法も簡単です。手順3～5を参照してください<<シナリオ1–JupyterLabにおけるオンデマンド推論>>」
 
 . バッチ推論タスク用のKubernetesジョブを作成します。次の例は、イメージ検出のユースケースに対するバッチ推論ジョブを示しています。このジョブは、一連のイメージ内の各イメージに対して推論を実行し、stdoutに推論の精度の指標を書き込みます。
 +
@@ -271,7 +271,7 @@ Creating PersistentVolumeClaim (PVC) 'triton-model-repo' in namespace 'inference
 PersistentVolumeClaim (PVC) 'triton-model-repo' created. Waiting for Kubernetes to bind volume to PVC.
 Volume successfully created and bound to PersistentVolumeClaim (PVC) 'triton-model-repo' in namespace 'inference'.
 ....
-. の新しい永続ボリュームにモデルを保存します https://github.com/triton-inference-server/server/blob/main/docs/model_repository.md["の形式で入力し"^] これはNVIDIA Triton Inference Serverによって認識されます。
+. の新しい永続ボリュームにモデルを保存します https://["の形式で入力し"^] これはNVIDIA Triton Inference Serverによって認識されます。
 +
 PVCにデータをロードする方法はいくつかあります。簡単な方法としては、「」の手順3～5で説明しているように、JupyterLabワークスペースを作成し、JupyterLab Webインターフェイスを使用してファイルをアップロードする方法があります<<シナリオ1–JupyterLabにおけるオンデマンド推論>>。」
 

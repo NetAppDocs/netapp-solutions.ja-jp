@@ -9,7 +9,7 @@
 .GCPにNetApp CVO（シングルノードインスタンス）を導入するためのTerraform構成ファイル
 このセクションでは、 GCP （ Google Cloud Platform ）でシングルノードの NetApp CVO （ Cloud Volumes ONTAP ）を導入 / 構成するための、さまざまな Terraform 構成ファイルについて説明します。
 
-Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
+Terraform ドキュメント : https://[]
 
 .手順
 テンプレートを実行するには、次の手順を実行します。
@@ -96,7 +96,7 @@ NetApp GCP Connector インスタンスの CVO 導入用の Terraform 変数。
 | * gCP_Connector_service_account_path * | 文字列 | （必須） GCP 認証に使用する service_account JSON ファイルのローカルパス。このサービスアカウントは、 GCP でコネクタを作成するために使用します。 
 
 
-| * gCP_Connector_account_id * | 文字列 | （オプション）コネクタを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウント ID は、 Cloud Manager のアカウントタブにあります https://cloudmanager.netapp.com[]。 
+| * gCP_Connector_account_id * | 文字列 | （オプション）コネクタを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウント ID は、 Cloud Manager のアカウントタブにあります https://[]。 
 |===
 「シングルノードインスタンス」
 
@@ -123,7 +123,7 @@ GCP 上の単一の NetApp CVO インスタンスの Terraform 変数。
 | * GCP_CVO-svm_svm_password* をクリックします | 文字列 | （必須） Cloud Volumes ONTAP の管理パスワード。 
 
 
-| * GCP_CVP_Workspace_id * | 文字列 | （オプション） Cloud Volumes ONTAP を導入する Cloud Manager ワークスペースの ID 。指定しない場合、 Cloud Manager は最初のワークスペースを使用します。ID は、の [ ワークスペース（ Workspace ） ] タブで確認できます https://cloudmanager.netapp.com[]。 
+| * GCP_CVP_Workspace_id * | 文字列 | （オプション） Cloud Volumes ONTAP を導入する Cloud Manager ワークスペースの ID 。指定しない場合、 Cloud Manager は最初のワークスペースを使用します。ID は、の [ ワークスペース（ Workspace ） ] タブで確認できます https://[]。 
 
 
 | * GCP_CVP_LICENSE_TYPE * | 文字列 | （任意）使用するライセンスのタイプ。シングルノードの場合： [ 容量 - 給与 ] 、 [ GCP - COT - EXPLORTe-paygo ] 、 [GCP - COT - standard-paygo] 、 [GCP - COT - Premium-paygo] 、 [GCP - COT - Premium-BYOL ] 、 HA の場合： [ HA キャパシティ - ペイゴー ] 、 [ GCP - HA - ベッド - 探検 - ペイゴー ] 、 [GCP - HA - ベビーベッド - スタンダード - ペイゴー ] 、 [GCP - HA - ベビーベッド - プレミアム - ペイゴー ] 、 [GCP - HA - ベビーベッド - プレミアム - BYOL ] 。デフォルトは、単一ノードの場合は「 capacity-paygo 」、 HA の場合は「 ha-capacity-paygo 」です。 
@@ -137,7 +137,7 @@ GCP 上の単一の NetApp CVO インスタンスの Terraform 変数。
 .NetApp CVO（HAペア）をGCPに導入するための構成ファイルをTerraformしています
 このセクションでは、 GCP （ Google Cloud Platform ）のハイアベイラビリティペアで NetApp CVO （ Cloud Volumes ONTAP ）を導入 / 構成するための、さまざまな Terraform 構成ファイルについて説明します。
 
-Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
+Terraform ドキュメント : https://[]
 
 .手順
 テンプレートを実行するには、次の手順を実行します。
@@ -224,7 +224,7 @@ NetApp GCP Connector インスタンスの CVO 導入用の Terraform 変数。
 | * gCP_Connector_service_account_path * | 文字列 | （必須） GCP 認証に使用する service_account JSON ファイルのローカルパス。このサービスアカウントは、 GCP でコネクタを作成するために使用します。 
 
 
-| * gCP_Connector_account_id * | 文字列 | （オプション）コネクタを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウント ID は、 Cloud Manager のアカウントタブにあります https://cloudmanager.netapp.com[]。 
+| * gCP_Connector_account_id * | 文字列 | （オプション）コネクタを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウント ID は、 Cloud Manager のアカウントタブにあります https://[]。 
 |===
 HA ペア
 
@@ -293,7 +293,7 @@ GCP の HA ペアの NetApp CVO インスタンスの Terraform 変数。
 | * GCP_CVO-svm_svm_password* をクリックします | 文字列 | （必須） Cloud Volumes ONTAP の管理パスワード。 
 
 
-| * GCP_CVP_Workspace_id * | 文字列 | （オプション） Cloud Volumes ONTAP を導入する Cloud Manager ワークスペースの ID 。指定しない場合、 Cloud Manager は最初のワークスペースを使用します。ID は、の [ ワークスペース（ Workspace ） ] タブで確認できます https://cloudmanager.netapp.com[]。 
+| * GCP_CVP_Workspace_id * | 文字列 | （オプション） Cloud Volumes ONTAP を導入する Cloud Manager ワークスペースの ID 。指定しない場合、 Cloud Manager は最初のワークスペースを使用します。ID は、の [ ワークスペース（ Workspace ） ] タブで確認できます https://[]。 
 
 
 | * GCP_CVP_LICENSE_TYPE * | 文字列 | （任意）使用するライセンスのタイプ。シングルノードの場合： [ 容量 - 給与 ] 、 [ GCP - COT - EXPLORTe-paygo ] 、 [GCP - COT - standard-paygo] 、 [GCP - COT - Premium-paygo] 、 [GCP - COT - Premium-BYOL ] 、 HA の場合： [ HA キャパシティ - ペイゴー ] 、 [ GCP - HA - ベッド - 探検 - ペイゴー ] 、 [GCP - HA - ベビーベッド - スタンダード - ペイゴー ] 、 [GCP - HA - ベビーベッド - プレミアム - ペイゴー ] 、 [GCP - HA - ベビーベッド - プレミアム - BYOL ] 。デフォルトは、単一ノードの場合は「 capacity-paygo 」、 HA の場合は「 ha-capacity-paygo 」です。 
@@ -313,7 +313,7 @@ GCP の HA ペアの NetApp CVO インスタンスの Terraform 変数。
 .GCPにNetApp CVSボリュームを導入するためのTerraform構成ファイル
 このセクションでは、 GCP （ Google Cloud Platform ）で NetApp CVS （ Cloud Volume サービス）ボリュームを導入 / 設定するためのさまざまな Terraform 設定ファイルについて説明します。
 
-Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-gcp/latest/docs[]
+Terraform ドキュメント : https://[]
 
 .手順
 テンプレートを実行するには、次の手順を実行します。

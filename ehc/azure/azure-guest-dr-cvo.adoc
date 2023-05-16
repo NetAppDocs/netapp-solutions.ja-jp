@@ -71,7 +71,7 @@ NOTE: オンプレミスのデータセンターをAzureに接続する方法は
 .AzureでCVOを構成し、ボリュームをCVOにレプリケート
 [%collapsible]
 ====
-まず、AzureでCloud Volumes ONTAP を設定します (https://docs.netapp.com/us-en/netapp-solutions/ehc/azure/azure-guest.html["リンク"^]）をクリックし、必要なボリュームを、必要な頻度とSnapshotの保持を使用してCloud Volumes ONTAP にレプリケートします。
+まず、AzureでCloud Volumes ONTAP を設定します (https://["リンク"^]）をクリックし、必要なボリュームを、必要な頻度とSnapshotの保持を使用してCloud Volumes ONTAP にレプリケートします。
 
 image:dr-cvo-avs-image2.png["エラー：グラフィックイメージがありません"]
 
@@ -85,7 +85,7 @@ AVSクラスタを導入するかどうかは、主にRPOとRTOの要件に基�
 
 最も一般的な導入オプションは、SDDCを常時稼働のパイロットライトモードで実行することです。このオプションを使用すると、常に使用可能なホストを3台分のスペースに縮小できます。また、シミュレーションアクティビティとコンプライアンスチェックのベースラインを実行できるため、本番サイトとDRサイト間の運用のずれを回避できるため、リカバリ処理の時間を短縮できます。パイロットライトクラスタは、実際のDRイベントを処理する必要がある場合に、必要なレベルまで迅速に拡張できます。
 
-AVS SDDCを設定するには（オンデマンドモードまたはパイロットライトモード）、を参照してください https://docs.netapp.com/us-en/netapp-solutions/ehc/azure/azure-setup.html["Azure に仮想化環境を導入して設定"^]。事前に、接続の確立後、AVSホストに常駐するゲストVMがCloud Volumes ONTAP からデータを消費できることを確認してください。
+AVS SDDCを設定するには（オンデマンドモードまたはパイロットライトモード）、を参照してください https://["Azure に仮想化環境を導入して設定"^]。事前に、接続の確立後、AVSホストに常駐するゲストVMがCloud Volumes ONTAP からデータを消費できることを確認してください。
 
 Cloud Volumes ONTAP とAVSを適切に設定したら、VAIOメカニズムを使用し、Cloud Volumes ONTAP へのアプリケーションボリュームのコピーにSnapMirrorを利用することにより、オンプレミスワークロードからAVSへのリカバリ（アプリケーションVMDKとゲストストレージを搭載したVM）を自動化するようにJetstreamを設定します。
 

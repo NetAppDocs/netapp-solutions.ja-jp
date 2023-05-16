@@ -79,7 +79,7 @@ EシリーズとStorageGRID の検証には、Hadoopレプリケーションフ�
 
 == 財務心理分析
 
-公開しました https://docs.netapp.com/us-en/netapp-solutions/ai/ai-sent-support-center-analytics.html["TR-4910 ：『 NetApp AI と顧客コミュニケーションを組み合わせた感情分析』"^]を使用して、エンドツーエンドの会話型AIパイプラインを構築しました https://github.com/NetApp/netapp-dataops-toolkit["NetApp DataOps ツールキット"^]、AFF ストレージ、NVIDIA DGXシステムパイプラインは、DataOpsツールキットを活用して、バッチオーディオ信号処理、Automatic Speech Recognition（ASR）、転送学習、感情分析を実行します。 https://developer.nvidia.com/riva["NVIDIA Riva SDKを参照してください"^]および https://developer.nvidia.com/tao["Taoフレームワーク"^]。金融サービス業界へのセンチメント分析のユースケースの拡大、SparkNLPワークフローの構築、特定事業体の認識など、さまざまなNLPタスクに対する3つのBERTモデルのロード、NASDAQ Top 10 Companiesの四半期収益コールに関するセンテンスレベルのセンチメントの取得。
+公開しました https://["TR-4910 ：『 NetApp AI と顧客コミュニケーションを組み合わせた感情分析』"^]を使用して、エンドツーエンドの会話型AIパイプラインを構築しました https://["NetApp DataOps ツールキット"^]、AFF ストレージ、NVIDIA DGXシステムパイプラインは、DataOpsツールキットを活用して、バッチオーディオ信号処理、Automatic Speech Recognition（ASR）、転送学習、感情分析を実行します。 https://["NVIDIA Riva SDKを参照してください"^]および https://["Taoフレームワーク"^]。金融サービス業界へのセンチメント分析のユースケースの拡大、SparkNLPワークフローの構築、特定事業体の認識など、さまざまなNLPタスクに対する3つのBERTモデルのロード、NASDAQ Top 10 Companiesの四半期収益コールに関するセンテンスレベルのセンチメントの取得。
 
 次のスクリプト「センチメント_アナリシス_スパーク」。PY’はFinBERTモデルを使用してHDFS内のトランスクリプトを処理し、次の表に示すようにポジティブでニュートラルでネガティブな感情カウントを生成します。
 
@@ -242,7 +242,7 @@ image:apache-spark-image12.png["Horovod Sparkのワークフローランタイ�
 
 クリック率を最大化するように設計されたレコメンダシステムでは、低い順に数学的に計算される可能性のある、ユーザーの行動の背後にある高度な機能の相互作用を学習する必要があります。低次と高次の両方の機能の相互作用は、どちらか一方をバイアスすることなく、ディープラーニングモデルにとっても同様に重要です。新しいニューラルネットワークアーキテクチャでの機能学習に向けて、界面活性化機械ベースのニューラルネットワークであるDeep Factorization Machine（DeepFM）は、界面活性化装置を組み合わせた推奨製品です。
 
-従来の三角分解機械は、機能間の潜伏ベクトルの内側としてのペアワイズ機能の相互作用をモデル化しますが、理論的には高次情報をキャプチャすることができます。実際には、機械学習の実践では、一般的に、計算と保管の複雑さが高いため、二次フィーチャーの相互作用しか使用しませGoogleなどのディープニューラルネットワークのバリエーション https://arxiv.org/abs/1606.07792["ワイド・モデルとディープ・モデル"^] 一方、リニアワイドモデルとディープモデルを組み合わせて、ハイブリッドネットワーク構造で高度な機能の相互作用を学習します。
+従来の三角分解機械は、機能間の潜伏ベクトルの内側としてのペアワイズ機能の相互作用をモデル化しますが、理論的には高次情報をキャプチャすることができます。実際には、機械学習の実践では、一般的に、計算と保管の複雑さが高いため、二次フィーチャーの相互作用しか使用しませGoogleなどのディープニューラルネットワークのバリエーション https://["ワイド・モデルとディープ・モデル"^] 一方、リニアワイドモデルとディープモデルを組み合わせて、ハイブリッドネットワーク構造で高度な機能の相互作用を学習します。
 
 このワイド・ディープ・モデルには2つの入力があります。1つは基本的なワイド・モデル用で、もう1つはディープのためです。後者の部分では、エキスパートフィーチャー・エンジニアリングが必要です。このため、この手法は他のドメインには一般的にできません。ワイド・ディープ・モデルとは異なり、DeepFMはフィーチャー・エンジニアリングなしでRAW機能を使用して効率的にトレーニングできます。ワイド・パートとディープ・パートは同じ入力と埋め込みベクトルを共有するためです。
 
@@ -269,7 +269,7 @@ image:apache-spark-image12.png["Horovod Sparkのワークフローランタイ�
     .config("spark.driver.maxResultSize", "50gb") \
     .getOrCreate()
 ....
-上記のSparkSession.Builder'構成でも有効になっています https://arrow.apache.org/["Apache Arrowの"^]は、SparkのDataFrameを「df.toPandas ()」メソッドを使用してPandas DataFrameに変換します。
+上記のSparkSession.Builder'構成でも有効になっています https://["Apache Arrowの"^]は、SparkのDataFrameを「df.toPandas ()」メソッドを使用してPandas DataFrameに変換します。
 
 ....
 22/06/17 15:56:21 INFO scheduler.DAGScheduler: Job 2 finished: toPandas at /sparkusecase/DeepCTR/examples/run_classification_criteo_spark.py:96, took 627.126487 s
@@ -287,7 +287,7 @@ Testing dataset size =  9168124
 2022-06-18 07:19:20.101478: I tensorflow/core/platform/cpu_feature_guard.cc:151] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
 To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
 ....
-ソースからTensorFlowを構築する場合は、を使用することを推奨します https://bazel.build/["バザー"^]。今回の環境では、シェルプロンプトで以下のコマンドを実行して、「リタイア」、「リタイヤ」、「バザール」をインストールしました。
+ソースからTensorFlowを構築する場合は、を使用することを推奨します https://["バザー"^]。今回の環境では、シェルプロンプトで以下のコマンドを実行して、「リタイア」、「リタイヤ」、「バザール」をインストールしました。
 
 ....
 yum install dnf
@@ -305,9 +305,9 @@ yum update
 scl enable devtoolset-11 bash
 . /opt/rh/devtoolset-11/enable
 ....
-最後の2つのコマンドは'devtoolsets-11'を有効にしますこれには'/opt/r/devtoolset11-root//usr/bin/gcc`(GCC 11.2.1)が使用されますまた'gitのバージョンが1.8.3よりも大きいことを確認してください(RHEL 7.9に付属しています)これを参照してください https://travis.media/how-to-upgrade-git-on-rhel7-and-centos7/["記事"^] 「git」を2.24.1に更新します。
+最後の2つのコマンドは'devtoolsets-11'を有効にしますこれには'/opt/r/devtoolset11-root//usr/bin/gcc`(GCC 11.2.1)が使用されますまた'gitのバージョンが1.8.3よりも大きいことを確認してください(RHEL 7.9に付属しています)これを参照してください https://["記事"^] 「git」を2.24.1に更新します。
 
-最新のTensorFlowマスターリポジトリもすでにクローニング済みであるとします。次に'workspace'ファイルを使用して'workspace'ディレクトリを作成し'AVX、AVX2、FMAを使用してソースからTensorFlowを構築しますconfigureファイルを実行し、正しいPythonバイナリの場所を指定します。 https://developer.nvidia.com/cuda-toolkit["CUDA （ CUDA"^] はGPUを使用していないため、テストでは無効になっています。設定に応じて'`. bazelrc'ファイルが生成されますさらに、ファイルを編集し、HDFSのサポートを有効にするために「build--define=no_hdfs_support=false」を設定しました。セクションの「. bazelrc」を参照してください link:apache-spark-python-scripts-for-each-major-use-case.html["「主なユースケースごとにPythonスクリプトを用意しています。」"] 設定とフラグの完全なリストについては、を参照してください。
+最新のTensorFlowマスターリポジトリもすでにクローニング済みであるとします。次に'workspace'ファイルを使用して'workspace'ディレクトリを作成し'AVX、AVX2、FMAを使用してソースからTensorFlowを構築しますconfigureファイルを実行し、正しいPythonバイナリの場所を指定します。 https://["CUDA （ CUDA"^] はGPUを使用していないため、テストでは無効になっています。設定に応じて'`. bazelrc'ファイルが生成されますさらに、ファイルを編集し、HDFSのサポートを有効にするために「build--define=no_hdfs_support=false」を設定しました。セクションの「. bazelrc」を参照してください link:apache-spark-python-scripts-for-each-major-use-case.html["「主なユースケースごとにPythonスクリプトを用意しています。」"] 設定とフラグの完全なリストについては、を参照してください。
 
 ....
 ./configure

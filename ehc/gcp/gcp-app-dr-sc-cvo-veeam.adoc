@@ -72,11 +72,11 @@ NOTE: オンプレミスのデータセンターをGoogle Cloudに接続する�
 .Google CloudでCVOを構成し、ボリュームをCVOにレプリケート
 [%collapsible]
 ====
-最初の手順は、Google CloudでCloud Volumes ONTAP を設定することです (https://docs.netapp.com/us-en/netapp-solutions/ehc/gcp/gcp-guest.html["CVOを確認して"^]）をクリックし、必要なボリュームを、必要な頻度とSnapshotの保持を使用してCloud Volumes ONTAP にレプリケートします。
+最初の手順は、Google CloudでCloud Volumes ONTAP を設定することです (https://["CVOを確認して"^]）をクリックし、必要なボリュームを、必要な頻度とSnapshotの保持を使用してCloud Volumes ONTAP にレプリケートします。
 
 image:dr-cvo-gcve-image2.png["エラー：グラフィックイメージがありません"]
 
-SnapCenter の設定およびデータのレプリケートの手順の例については、を参照してください https://docs.netapp.com/us-en/netapp-solutions/ehc/aws/aws-guest-dr-config-snapmirror.html["SnapCenter を使用してレプリケーションを設定する"]
+SnapCenter を設定してデータを複製する手順の例については、を参照してください https://["SnapCenter を使用してレプリケーションを設定する"]
 
 video::dr-cvo-gcve-video2.mp4[Review of SQL VM protection with SnapCenter]
 ====
@@ -87,7 +87,7 @@ SDDCを導入する際に考慮すべき2つの重要な要素は、GCVE解決�
 
 Cloud Volumes ONTAP は任意のVPCに導入でき、GCVEはそのVPCへのプライベート接続でiSCSI LUNに接続する必要があります。
 
-GCVE SDDCを設定するには、を参照してください https://docs.netapp.com/us-en/netapp-solutions/ehc/gcp/gcp-setup.html["Google Cloud Platform （ GCP ）への仮想化環境の導入と構成"^]。前提条件として、接続が確立された後で、GCVEホストに存在するゲストVMがCloud Volumes ONTAP からデータを使用できることを確認します。
+GCVE SDDCを設定するには、を参照してください https://["Google Cloud Platform （ GCP ）への仮想化環境の導入と構成"^]。前提条件として、接続が確立された後で、GCVEホストに存在するゲストVMがCloud Volumes ONTAP からデータを使用できることを確認します。
 
 Cloud Volumes ONTAP とGCVEを適切に設定したら、Veeamのレプリケーション機能を使用して、Cloud Volumes ONTAP へのアプリケーションボリュームコピーにSnapMirrorを利用することで、オンプレミスのワークロードのGCVE（アプリケーションVMDKおよびゲストストレージを搭載したVM）へのリカバリを自動化するようにVeeamを設定します。
 
@@ -95,13 +95,13 @@ Cloud Volumes ONTAP とGCVEを適切に設定したら、Veeamのレプリケー
 .Veeamコンポーネントをインストールします
 [%collapsible]
 ====
-導入シナリオに基づいて、Veeamバックアップサーバ、バックアップリポジトリ、およびバックアッププロキシを導入する必要があります。このユースケースでは、Veeam用のオブジェクトストアとスケールアウトリポジトリも必要ありません。https://helpcenter.veeam.com/docs/backup/qsg_vsphere/deployment_scenarios.html["インストール手順 については、Veeamの製品ドキュメントを参照してください"]
+導入シナリオに基づいて、Veeamバックアップサーバ、バックアップリポジトリ、およびバックアッププロキシを導入する必要があります。このユースケースでは、Veeam用のオブジェクトストアとスケールアウトリポジトリも必要ありません。https://["インストール手順 については、Veeamの製品ドキュメントを参照してください"]
 
 ====
 .VMレプリケーションをVeeamとセットアップする
 [%collapsible]
 ====
-オンプレミスのvCenterとGCVEのvCenterをVeeamに登録する必要があります。 https://helpcenter.veeam.com/docs/backup/qsg_vsphere/replication_job.html["vSphere VMレプリケーションジョブをセットアップします"] ウィザードの[ゲスト処理]ステップで、[アプリケーション対応のバックアップとリカバリにSnapCenter を使用するので、アプリケーション処理を無効にする]を選択します。
+オンプレミスのvCenterとGCVEのvCenterをVeeamに登録する必要があります。 https://["vSphere VMレプリケーションジョブをセットアップします"] ウィザードの[ゲスト処理]ステップで、[アプリケーション対応のバックアップとリカバリにSnapCenter を使用するので、アプリケーション処理を無効にする]を選択します。
 
 video::dr-cvo-gcve-video1.mp4[Veeam Replication Job of SQL VM]
 ====

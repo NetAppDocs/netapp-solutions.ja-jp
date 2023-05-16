@@ -16,7 +16,7 @@ summary:
 [role="lead"]
 VMware Cloudの準備が完了してAWS VPCに接続したら、接続元のVPCまたは既存のデフォルトVPCではなく、新しく指定したVPCにAmazon FSX for NetApp ONTAP を導入する必要があります。
 
-まず、SDDCが配置されている同じリージョンとアベイラビリティゾーンにVPCを追加で導入し、そのVPCにAmazon FSX for NetApp ONTAP を導入します。 https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-6B20CA3B-ABCD-4939-9176-BCEA44473C2B.html["VMware Cloud内のSDDCグループの構成"^] コンソールを使用すると、FSX for ONTAP を導入する、新しく指定したVPCに接続するために必要なネットワーク設定オプションを使用できます。
+まず、SDDCが配置されている同じリージョンとアベイラビリティゾーンにVPCを追加で導入し、そのVPCにAmazon FSX for NetApp ONTAP を導入します。 https://["VMware Cloud内のSDDCグループの構成"^] コンソールを使用すると、FSX for ONTAP を導入する、新しく指定したVPCに接続するために必要なネットワーク設定オプションを使用できます。
 
 
 NOTE: FSX for ONTAP は、AWS SDDC上のVMwareクラウドと同じ可用性ゾーンに導入します。
@@ -145,7 +145,7 @@ NOTE: 容量とパフォーマンスの要件に従って、これまでの手�
 
 
 
-Amazon FSX for ONTAP のパフォーマンスについては、を参照してください https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/performance.html["Amazon FSX for NetApp ONTAP のパフォーマンス"^]。
+Amazon FSX for ONTAP のパフォーマンスについては、を参照してください https://["Amazon FSX for NetApp ONTAP のパフォーマンス"^]。
 
 ====
 .手順2：SDDCグループを作成します
@@ -170,7 +170,7 @@ image:fsx-nfs-image13.png["エラー：グラフィックイメージがあり�
 .手順3：VMware Transit Connectを設定します
 [%collapsible]
 ====
-. 新しく作成した代表VPCをSDDCグループに接続します。[* External VPC *（外部VPC *）]タブを選択し、に従います https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-A3D03968-350E-4A34-A53E-C0097F5F26A9.html["グループに外部VPCを接続する手順"^]。このプロセスは、完了までに10～15分かかる場合があります。
+. 新しく作成した代表VPCをSDDCグループに接続します。[* External VPC *（外部VPC *）]タブを選択し、に従います https://["グループに外部VPCを接続する手順"^]。このプロセスは、完了までに10～15分かかる場合があります。
 +
 image:fsx-nfs-image14.png["エラー：グラフィックイメージがありません"]
 

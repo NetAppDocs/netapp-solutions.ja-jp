@@ -242,10 +242,7 @@ echo "export PATH=\$PATH:\$ORACLE_HOME/bin" >> /home/azacsnap/.bash_profile
 [source, cli]
 ----
 sudo su - azacsnap
-----
-+
-[source, cli]
-----
+
 mkstore -wrl $TNS_ADMIN/.oracle_wallet/ -create
 ----
 . Oracle Walletに接続文字列クレデンシャルを追加します。次のコマンド例では、AZACSNAPはAzAcSnapで使用されるConnectString、azacsnapはOracleデータベースユーザー、AzPasswd1はOracleユーザーのデータベースパスワードです。ウォレットパスワードの入力を求められます。
@@ -279,20 +276,24 @@ WALLET_LOCATION=(
 sqlplus /@AZACSNAP as SYSBACKUP
 ----
 +
-コマンド[azacsnap@aco-ora01~]$sqlplus /@AZACSNAPからの想定される出力はSYSBACKUPです
+想定されるコマンドの出力は次のとおりです。
 
 +
-SQL*Plus:リリース19.0.0.0.0 -木曜日の9月8日18:02:07 2022バージョン19.8.0.0.0
+[source, cli]
+----
+[azacsnap@acao-ora01 ~]$ sqlplus /@AZACSNAP as SYSBACKUP
 
-+
-Copyright （ c ） 1982 、 2019 、 OracleAll rights reserved.
+SQL*Plus: Release 19.0.0.0.0 - Production on Thu Sep 8 18:02:07 2022
+Version 19.8.0.0.0
 
-+
-接続先： Oracle Database 19C Enterprise Edition Release 19.0.0.0.0 - Production Version 19.8.0.0.0
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
 
-+
+Connected to:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.8.0.0.0
+
 SQL>
-
+----
 
 
 
@@ -323,8 +324,21 @@ az ad sp create-for-rbac --name "AzAcSnap" --role Contributor --scopes /subscrip
 想定される出力：
 
 +
-｛"ClientID"："00aa000a-aaa-0000-00aa000aa000aaaa0a "、"clientSecret"："00aa000a-aaaa-0000-00a0-00aa000aa000aa""、"SubscriptionID"："00aa000a-aaa-0000-00aa000a0-00aa000aaa000aaa000aaa0aaa0aaa0aaaa00aaa0aaa0aaa0aaa0a00a00aaa0aaaaaaa00aaaaa00a00aaaaaaaaa0a00a00aaaaaa0aaa0aaaa "https://login.microsoftonline.com"[],"resourceManagerEndpointUrl": "https://management.azure.com/"[]、"activeDirectoryGraphResourceId"： "https://graph.windows.net/"[],"sqlManagementEndpointUrl"： "https://management.core.windows.net:8443/"[]、「galleryEndpointUrl」： "https://gallery.azure.com/"[]、"managementEndpointUrl"： "https://management.core.windows.net/"[]｝
-
+[listing]
+----
+{
+  "clientId": "00aa000a-aaaa-0000-00a0-00aa000aaa0a",
+  "clientSecret": "00aa000a-aaaa-0000-00a0-00aa000aaa0a",
+  "subscriptionId": "00aa000a-aaaa-0000-00a0-00aa000aaa0a",
+  "tenantId": "00aa000a-aaaa-0000-00a0-00aa000aaa0a",
+  "activeDirectoryEndpointUrl": "https://login.microsoftonline.com",
+  "resourceManagerEndpointUrl": "https://management.azure.com/",
+  "activeDirectoryGraphResourceId": "https://graph.windows.net/",
+  "sqlManagementEndpointUrl": "https://management.core.windows.net:8443/",
+  "galleryEndpointUrl": "https://gallery.azure.com/",
+  "managementEndpointUrl": "https://management.core.windows.net/"
+}
+----
 . 出力コンテンツをというファイルにカットアンドペーストします `oracle.json` Linuxユーザazacsnapのユーザbinディレクトリに格納され、適切なシステム権限でファイルを保護します。
 
 
@@ -359,26 +373,45 @@ azacsnap -c configure –-configuration new
 Oracleボリュームが3つある場合の想定出力は次のとおりです。
 
 +
-[azacsnap@aco-ora01 bin]$azacsnap-c configure --configuration new config file（コメントの追加を終了する空白のエントリ）configファイルにコメントを追加します（コメントの追加を終了する空白のエントリ）：追加するデータベースタイプ、'hana'、'oracle'、'、'exit（Oracleデータベースの場合）を入力します
+[listing]
+----
+[azacsnap@acao-ora01 bin]$ azacsnap -c configure --configuration new
+Building new config file
+Add comment to config file (blank entry to exit adding comments): Oracle snapshot bkup
+Add comment to config file (blank entry to exit adding comments):
+Enter the database type to add, 'hana', 'oracle', or 'exit' (for no database): oracle
 
-+
-=== Oracleデータベースの詳細を追加=== OracleデータベースSID（CDB1など）:ORATSTデータベースサーバーのアドレス（ホスト名またはIPアドレス）:172.30.137.142 Oracle接続文字列（例：//@ACAZSNAP）:@AZACSNAP
+=== Add Oracle Database details ===
+Oracle Database SID (e.g. CDB1): ORATST
+Database Server's Address (hostname or IP address): 172.30.137.142
+Oracle connect string (e.g. /@AZACSNAP): /@AZACSNAP
 
-+
-=== Azure NetApp Files ストレージの詳細===データベースにAzure NetApp Files を使用していますか? （y/n）[n]: y --データボリュームは'スナップショットの前にアプリケーションが整合性の取れた状態になります--データベース構成のデータボリュームセクションにAzure NetApp Files リソースを追加しますか? （y/n）[n]：y Full Azure NetApp Files ストレージボリュームのリソースID（/Subscriptions /.../resourceGroups/.../providers / Microsoft.NetApp/netAppAccounts/.../capacityPools/Premium/volumes/...):/Subscriptions / 0efa2dfb-917c-4497 -b3f4eadb8111 /resourceGroups/ANFAVSRG/providers / Microsoft.NetApp/netAppAccounts/ANFAVSAcct/capacityPools/CapPool/volumes/acao-ora01-u01サービスプリンシパル認証ファイル名やAzure認証ファイル名など） https://...):[] oracle.jsonデータベース構成のデータボリュームセクションにAzure NetApp Files リソースを追加するか（y/n）[n]：y Full Azure NetApp Files ストレージボリュームのリソースID（/Subscriptions /.../resourceGroups/.../providers / Microsoft.NetApp/netAppAccounts/.../capacityPools/Premium/volumes/...):/Subscriptions / 0efa2dfb-917c-4497 -b3f4eadb8111 /resourceGroups/ANFAVSRG/providers / Microsoft.NetApp/netAppAccounts/ANFAVSAcct/capacityPools/CapPool/volumes/acao-ora01-u02サービスプリンシパル認証ファイル名やAzure認証ファイル名など） https://...):[] oracle.jsonデータベース構成のデータボリュームセクションにAzure NetApp Files リソースを追加するか（y/n）[n]：n --他のボリュームはスナップショットのためのアプリケーションを準備せずにすぐにスナップショットになります--データベース構成の他のボリュームセクションにAzure NetApp Files リソースを追加しますか? （y/n）[n]：y Full Azure NetApp Files ストレージボリュームのリソースID（/Subscriptions /.../resourceGroups/.../providers / Microsoft.NetApp/netAppAccounts/.../capacityPools/Premium/volumes/...):/Subscriptions / 0efa2dfb-917c-4497 -b3f4eadb8111 /resourceGroups/ANFAVSRG/providers / Microsoft.NetApp/netAppAccounts/ANFAVSAcct/capacityPools/CapPool/volumes/acao-ora01-u03サービスプリンシパル認証ファイル名やAzure認証ファイル名など） https://...):[] oracle.jsonデータベース構成の他のボリュームセクションにAzure NetApp Files リソースを追加するか（y/n）[n]：n
+=== Azure NetApp Files Storage details ===
+Are you using Azure NetApp Files for the database? (y/n) [n]: y
+--- DATA Volumes have the Application put into a consistent state before they are snapshot ---
+Add Azure NetApp Files resource to DATA Volume section of Database configuration? (y/n) [n]: y
+Full Azure NetApp Files Storage Volume Resource ID (e.g. /subscriptions/.../resourceGroups/.../providers/Microsoft.NetApp/netAppAccounts/.../capacityPools/Premium/volumes/...): /subscriptions/0efa2dfb-917c-4497-b56a-b3f4eadb8111/resourceGroups/ANFAVSRG/providers/Microsoft.NetApp/netAppAccounts/ANFAVSAcct/capacityPools/CapPool/volumes/acao-ora01-u01
+Service Principal Authentication filename or Azure Key Vault Resource ID (e.g. auth-file.json or https://...): oracle.json
+Add Azure NetApp Files resource to DATA Volume section of Database configuration? (y/n) [n]: y
+Full Azure NetApp Files Storage Volume Resource ID (e.g. /subscriptions/.../resourceGroups/.../providers/Microsoft.NetApp/netAppAccounts/.../capacityPools/Premium/volumes/...): /subscriptions/0efa2dfb-917c-4497-b56a-b3f4eadb8111/resourceGroups/ANFAVSRG/providers/Microsoft.NetApp/netAppAccounts/ANFAVSAcct/capacityPools/CapPool/volumes/acao-ora01-u02
+Service Principal Authentication filename or Azure Key Vault Resource ID (e.g. auth-file.json or https://...): oracle.json
+Add Azure NetApp Files resource to DATA Volume section of Database configuration? (y/n) [n]: n
+--- OTHER Volumes are snapshot immediately without preparing any application for snapshot ---
+Add Azure NetApp Files resource to OTHER Volume section of Database configuration? (y/n) [n]: y
+Full Azure NetApp Files Storage Volume Resource ID (e.g. /subscriptions/.../resourceGroups/.../providers/Microsoft.NetApp/netAppAccounts/.../capacityPools/Premium/volumes/...): /subscriptions/0efa2dfb-917c-4497-b56a-b3f4eadb8111/resourceGroups/ANFAVSRG/providers/Microsoft.NetApp/netAppAccounts/ANFAVSAcct/capacityPools/CapPool/volumes/acao-ora01-u03
+Service Principal Authentication filename or Azure Key Vault Resource ID (e.g. auth-file.json or https://...): oracle.json
+Add Azure NetApp Files resource to OTHER Volume section of Database configuration? (y/n) [n]: n
 
-+
-=== Azure Managed Diskの詳細===データベースにAzure Managed Disksを使用していますか？（y/n）[n]：n
+=== Azure Managed Disk details ===
+Are you using Azure Managed Disks for the database? (y/n) [n]: n
 
-+
-=== Azure大規模インスタンス（ベアメタル）ストレージの詳細===データベースにAzure大規模インスタンス（ベアメタル）を使用していますか？（y/n）[n]：n
+=== Azure Large Instance (Bare Metal) Storage details ===
+Are you using Azure Large Instance (Bare Metal) for the database? (y/n) [n]: n
 
-+
-追加するデータベースタイプ、「HANA」、「Oracle」、または「exit」（データベースなし）を入力します。exit
+Enter the database type to add, 'hana', 'oracle', or 'exit' (for no database): exit
 
-+
-設定の編集が完了し、「azacsnap.json」に出力を書き込んでいます。
-
+Editing configuration complete, writing output to 'azacsnap.json'.
+----
 . azacsnap Linuxユーザとして、Oracleバックアップに対してazacsnap testコマンドを実行します。
 +
 [source, cli]
@@ -390,8 +423,15 @@ azacsnap -c test --test oracle --configfile azacsnap.json
 想定される出力：
 
 +
-[azacsnap@aco-ora01 bin]$azacsnap-c test --test oracle --configfile azacsnap.json begin：「oracle」BEGIN：Test process started for 'Oracle' BEGIN：Oracle DB test passed：Successful connectivity to Oracle DB version 1908000000 end：Test process complete for 'Oracle'[azacsnap@aco-ora01]
-
+[listing]
+----
+[azacsnap@acao-ora01 bin]$ azacsnap -c test --test oracle --configfile azacsnap.json
+BEGIN : Test process started for 'oracle'
+BEGIN : Oracle DB tests
+PASSED: Successful connectivity to Oracle DB version 1908000000
+END   : Test process complete for 'oracle'
+[azacsnap@acao-ora01 bin]$
+----
 . 最初のSnapshotバックアップを実行します。
 +
 [source, cli]

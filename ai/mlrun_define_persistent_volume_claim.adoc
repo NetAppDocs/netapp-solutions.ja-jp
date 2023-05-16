@@ -39,11 +39,11 @@ Kubectl -n default-tenant apply -f <your yaml file>
 
 == NetApp ボリュームを Jupyter Notebook に接続します
 
-Iguazio は、データサイエンティストが AI / ML アプリケーションの開発と導入のための完全なエンドツーエンドスタックを提供するための、複数のマネージドサービスを提供します。これらのコンポーネントの詳細については、を参照してください https://www.iguazio.com/docs/intro/latest-release/ecosystem/app-services/["Iguazio アプリケーションサービスおよびツールの概要"^]。
+Iguazio は、データサイエンティストが AI / ML アプリケーションの開発と導入のための完全なエンドツーエンドスタックを提供するための、複数のマネージドサービスを提供します。これらのコンポーネントの詳細については、を参照してください https://["Iguazio アプリケーションサービスおよびツールの概要"^]。
 
 マネージドサービスの 1 つに Jupyter Notebook があります。開発者はそれぞれ、開発に必要なリソースを備えたノートブックコンテナを独自に導入します。NetApp Cloud Volume へのアクセスを許可するには、コンテナにボリュームを割り当て、リソースの割り当て、ユーザの実行、および永続ボリュームに関する環境変数の設定を次の図に示します。
 
-オンプレミス構成の場合は、を参照してください https://www.netapp.com/us/media/tr-4798.pdf["TR-4798"^] Trident のセットアップでは、データの Snapshot コピーの作成やバージョン管理のためのモデルなど、 NetApp ONTAP のデータ管理機能を有効にできます。Trident バックエンド構成ファイルに次の行を追加すると、 Snapshot ディレクトリが表示されます。
+オンプレミス構成の場合は、を参照してください https://["TR-4798"^] Trident のセットアップでは、データの Snapshot コピーの作成やバージョン管理のためのモデルなど、 NetApp ONTAP のデータ管理機能を有効にできます。Trident バックエンド構成ファイルに次の行を追加すると、 Snapshot ディレクトリが表示されます。
 
 ....
 {
@@ -53,7 +53,7 @@ Iguazio は、データサイエンティストが AI / ML アプリケーショ
     }
 }
 ....
-Trident バックエンド構成ファイルを JSON 形式で作成し、次のコマンドを実行する必要があります https://netapp-trident.readthedocs.io/en/stable-v18.07/kubernetes/operations/tasks/backends.html["Trident コマンド"^] 参照するには：
+Trident バックエンド構成ファイルを JSON 形式で作成し、次のコマンドを実行する必要があります https://["Trident コマンド"^] 参照するには：
 
 ....
 tridentctl create backend -f <backend-file>
