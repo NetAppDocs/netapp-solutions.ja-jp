@@ -24,9 +24,9 @@ summary: NetApp ONTAP を使用した Red Hat OpenShift Virtualization
 * tridentctl および OC ツールがインストールされている管理ワークステーション $PATH に追加されました
 
 
-OpenShift Virtualization は、 OpenShift クラスタにインストールされたオペレータによって管理されるため、メモリ、 CPU 、およびストレージに追加のオーバーヘッドが発生します。このオーバーヘッドは、クラスタのハードウェア要件を計画する際に考慮する必要があります。のドキュメントを参照してください https://["こちらをご覧ください"] 詳細：
+OpenShift Virtualization は、 OpenShift クラスタにインストールされたオペレータによって管理されるため、メモリ、 CPU 、およびストレージに追加のオーバーヘッドが発生します。このオーバーヘッドは、クラスタのハードウェア要件を計画する際に考慮する必要があります。のドキュメントを参照してください https://docs.openshift.com/container-platform/4.7/virt/install/preparing-cluster-for-virt.html#virt-cluster-resource-requirements_preparing-cluster-for-virt["こちらをご覧ください"] 詳細：
 
-ノード配置ルールを設定して、 OpenShift Virtualization オペレータ、コントローラ、 VM をホストする OpenShift クラスタノードのサブセットを指定することもできます。OpenShift Virtualization のノード配置ルールを設定するには、のドキュメントに従ってください https://["こちらをご覧ください"]。
+ノード配置ルールを設定して、 OpenShift Virtualization オペレータ、コントローラ、 VM をホストする OpenShift クラスタノードのサブセットを指定することもできます。OpenShift Virtualization のノード配置ルールを設定するには、のドキュメントに従ってください https://docs.openshift.com/container-platform/4.7/virt/install/virt-specifying-nodes-for-virtualization-components.html["こちらをご覧ください"]。
 
 OpenShift Virtualization を基盤とするストレージについては、特定の Trident バックエンドからストレージを要求する専用のストレージクラスを用意し、そのストレージクラスを専用の SVM でバックアップすることを推奨します。これにより、 OpenShift クラスタ上で VM ベースのワークロードに提供されるデータに関して、レベルのマルチテナンシーが維持されます。
 

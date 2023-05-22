@@ -22,7 +22,7 @@ summary: このページでは、 Kubernetes クラスタに NetApp Trident を�
 
 このセクションで説明する導入の演習を行う前に、次の作業をすでに実行していることを前提としています。
 
-. Kubernetes クラスタはすでに稼働しており、 Trident でサポートされるバージョンの Kubernetes を実行している。サポートされているバージョンの一覧については、を参照してください https://["Trident のドキュメント"^]。
+. Kubernetes クラスタはすでに稼働しており、 Trident でサポートされるバージョンの Kubernetes を実行している。サポートされているバージョンの一覧については、を参照してください https://docs.netapp.com/us-en/trident/["Trident のドキュメント"^]。
 . すでに稼働しているネットアップストレージアプライアンス、ソフトウェア定義インスタンス、クラウドストレージサービスで、 Trident でサポートされているものを使用している。
 
 
@@ -34,8 +34,8 @@ Kubernetes クラスタに NetApp Trident をインストールして設定す�
 
 . Trident は、次のいずれかの方法で導入できます。
 +
-** NVIDIA DeepOps を使用して Kubernetes クラスタを導入した場合は、 NVIDIA DeepOps を使用して Kubernetes クラスタに Trident を導入することもできます。Trident で DeepOps を導入する方法については、を参照してください https://["Trident の導入手順"] NVIDIA DeepOps GitHub サイトで入手できます。
-** NVIDIA DeepOps を使用して Kubernetes クラスタを導入していない場合や Trident を手動で導入する場合は、次の手順で Trident を導入できます https://["導入手順"^] Trident のドキュメントの設定方法の詳細については、Tridentバックエンドと少なくとも1つのKubernetes StorageClassを作成してください https://["バックエンド"^] および https://["ストレージクラス"^] ネットアップドキュメントのリンクされたサブセクションを参照してください。
+** NVIDIA DeepOps を使用して Kubernetes クラスタを導入した場合は、 NVIDIA DeepOps を使用して Kubernetes クラスタに Trident を導入することもできます。Trident で DeepOps を導入する方法については、を参照してください https://github.com/NVIDIA/deepops/tree/master/docs/k8s-cluster#netapp-trident["Trident の導入手順"] NVIDIA DeepOps GitHub サイトで入手できます。
+** NVIDIA DeepOps を使用して Kubernetes クラスタを導入していない場合や Trident を手動で導入する場合は、次の手順で Trident を導入できます https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["導入手順"^] Trident のドキュメントの設定方法の詳細については、Tridentバックエンドと少なくとも1つのKubernetes StorageClassを作成してください https://docs.netapp.com/us-en/trident/trident-use/backends.html["バックエンド"^] および https://docs.netapp.com/us-en/trident/trident-use/manage-stor-class.html["ストレージクラス"^] ネットアップドキュメントのリンクされたサブセクションを参照してください。
 +
 
 NOTE: 解決策 AI ポッドにネットアップ AI コントロールプレーン ONTAP を導入する場合は、を参照してください link:aicp_example_trident_backends_for_ontap_ai_deployments.html["ONTAP AI 導入向け Trident バックエンドの例"] さまざまな Trident バックエンドの例を紹介します とを作成します link:aicp_example_kubernetes_storageclasses_for_ontap_ai_deployments.html["ONTAP AI 導入向けの Kubernetes StorageClasses の例"] を参照してください。

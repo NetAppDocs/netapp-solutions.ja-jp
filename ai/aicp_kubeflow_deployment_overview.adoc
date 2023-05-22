@@ -22,7 +22,7 @@ summary: このページでは、 Kubernetes クラスタに Kubeflow を導入�
 
 このセクションで説明する導入の演習を行う前に、次の作業をすでに実行していることを前提としています。
 
-. Kubernetes クラスタはすでに稼働しており、 Kubeflow でサポートされるバージョンの Kubernetes を実行しているとします。サポートされているバージョンの一覧については、を参照してください https://["Kubeflow の公式ドキュメント"^]。
+. Kubernetes クラスタはすでに稼働しており、 Kubeflow でサポートされるバージョンの Kubernetes を実行しているとします。サポートされているバージョンの一覧については、を参照してください https://www.kubeflow.org/docs/started/getting-started/["Kubeflow の公式ドキュメント"^]。
 . 内に NetApp Trident のインストールと設定が完了している必要があります Kubernetes クラスタ（を参照） link:aicp_netapp_trident_deployment_and_configuration_overview.html["Trident の導入と設定"]。
 
 
@@ -61,9 +61,9 @@ ontap-ai-flexvols-retain (default)   csi.trident.netapp.io   54s
 NVIDIA DeepOps が提供する Kubeflow 導入ツールを使用することを推奨します。DeepOps 導入ツールを使用して Kubernetes クラスタに Kubeflow を導入するには、導入ジャンプホストから次のタスクを実行します。
 
 
-NOTE: または、を使用して手動で Kubeflow を導入することもできます https://["インストール手順"^] Kubeflow の公式ドキュメントにあります
+NOTE: または、を使用して手動で Kubeflow を導入することもできます https://www.kubeflow.org/docs/started/getting-started/["インストール手順"^] Kubeflow の公式ドキュメントにあります
 
-. クラスタに Kubeflow を導入するには、に従ってください https://["Kubeflow の導入手順"^] NVIDIA DeepOps GitHub サイトで入手できます。
+. クラスタに Kubeflow を導入するには、に従ってください https://github.com/NVIDIA/deepops/blob/master/docs/k8s-cluster/kubeflow.md["Kubeflow の導入手順"^] NVIDIA DeepOps GitHub サイトで入手できます。
 . Kubeflow Dashboard URL をメモしてください。 DeepOps Kubeflow 導入ツールによって出力されます。
 +
 ....
@@ -231,7 +231,7 @@ mysql-pv-claim   Bound    pvc-b2429afd-d028-11e9-9b9d-00505681a82d   20Gi       
 ....
 . Web ブラウザで、手順 2 でメモした URL に移動して Kubeflow 中央ダッシュボードにアクセスします。
 +
-デフォルトのユーザ名は「 admin@kubeflow.org 」で、デフォルトのパスワードは「 12341234 」です。追加ユーザを作成するには、の手順に従います https://["Kubeflow の公式ドキュメント"^]。
+デフォルトのユーザ名は「 admin@kubeflow.org 」で、デフォルトのパスワードは「 12341234 」です。追加ユーザを作成するには、の手順に従います https://www.kubeflow.org/docs/components/multi-tenancy/["Kubeflow の公式ドキュメント"^]。
 
 
 

@@ -30,11 +30,11 @@ image:azure-dro-image1.png["エラー：グラフィックイメージがあり�
 
 === 前提条件と一般的な推奨事項
 
-* レプリケーションピアリングを作成して、リージョン間レプリケーションが有効になっていることを確認します。を参照してください https://["Azure NetApp Files のボリュームレプリケーションを作成します"^]。
+* レプリケーションピアリングを作成して、リージョン間レプリケーションが有効になっていることを確認します。を参照してください https://learn.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-create-peering["Azure NetApp Files のボリュームレプリケーションを作成します"^]。
 * ソースとターゲットのAzure VMware解決策 プライベートクラウド間でExpressRouteグローバルリーチを設定する必要があります。
 * リソースにアクセスできるサービスプリンシパルが必要です。
 * サポートされるトポロジは、プライマリAVSサイトからセカンダリAVSサイトです。
-* を設定します https://["レプリケーション"^] ビジネスニーズとデータ変更率に基づいて、ボリュームごとに適切なスケジュールを設定します。
+* を設定します https://learn.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-introduction["レプリケーション"^] ビジネスニーズとデータ変更率に基づいて、ボリュームごとに適切なスケジュールを設定します。
 
 
 
@@ -48,9 +48,9 @@ NOTE: カスケードトポロジ、ファンイントポロジ、ファンア�
 
 === Azure VMware解決策 を導入します
 
-。 https://["Azure VMware 解決策の略"^] （AVS）は、Microsoft Azureパブリッククラウド内で完全に機能するVMware SDDCを提供するハイブリッドクラウドサービスです。AVSはMicrosoftが完全に管理およびサポートするファーストパーティの解決策 で、Azureインフラストラクチャを使用するVMwareにより検証されています。そのため、お客様は、コンピューティングの仮想化にVMware ESXi、ハイパーコンバージドストレージにvSAN、ネットワークとセキュリティにNSXを利用できます。また、Microsoft Azureのグローバルなプレゼンス、クラスをリードするデータセンター施設、Azureネイティブのサービスとソリューションで構成される豊富なエコシステムへの近接性を活用できます。Azure VMware解決策 SDDCとAzure NetApp Files を組み合わせることで、ネットワークレイテンシを最小限に抑えながら最高のパフォーマンスを実現できます。
+。 https://learn.microsoft.com/en-us/azure/azure-vmware/introduction["Azure VMware 解決策の略"^] （AVS）は、Microsoft Azureパブリッククラウド内で完全に機能するVMware SDDCを提供するハイブリッドクラウドサービスです。AVSはMicrosoftが完全に管理およびサポートするファーストパーティの解決策 で、Azureインフラストラクチャを使用するVMwareにより検証されています。そのため、お客様は、コンピューティングの仮想化にVMware ESXi、ハイパーコンバージドストレージにvSAN、ネットワークとセキュリティにNSXを利用できます。また、Microsoft Azureのグローバルなプレゼンス、クラスをリードするデータセンター施設、Azureネイティブのサービスとソリューションで構成される豊富なエコシステムへの近接性を活用できます。Azure VMware解決策 SDDCとAzure NetApp Files を組み合わせることで、ネットワークレイテンシを最小限に抑えながら最高のパフォーマンスを実現できます。
 
-AzureでAVSプライベートクラウドを構成するには、以下の手順に従います https://["リンク"^] を参照してください https://["リンク"^] （Microsoftのマニュアル）。最小限の構成でセットアップされたパイロットライト環境は、DR目的で使用できます。このセットアップには、重要なアプリケーションをサポートするためのコアコンポーネントのみが含まれており、フェイルオーバーが発生した場合に、より多くのホストをスケールアウトして生成し、負荷の大部分を処理することができます。
+AzureでAVSプライベートクラウドを構成するには、以下の手順に従います https://docs.netapp.com/us-en/netapp-solutions/ehc/azure/azure-setup.html["リンク"^] を参照してください https://learn.microsoft.com/en-us/azure/azure-vmware/deploy-azure-vmware-solution?tabs=azure-portal["リンク"^] （Microsoftのマニュアル）。最小限の構成でセットアップされたパイロットライト環境は、DR目的で使用できます。このセットアップには、重要なアプリケーションをサポートするためのコアコンポーネントのみが含まれており、フェイルオーバーが発生した場合に、より多くのホストをスケールアウトして生成し、負荷の大部分を処理することができます。
 
 
 NOTE: 初期リリースでは、DROは既存のAVS SDDCクラスタをサポートしています。オンデマンドのSDDC作成は、今後のリリースで提供される予定です。
@@ -59,7 +59,7 @@ NOTE: 初期リリースでは、DROは既存のAVS SDDCクラスタをサポー
 
 === Azure NetApp Files をプロビジョニングして設定
 
-https://["Azure NetApp Files の特長"^] エンタープライズクラスのハイパフォーマンスな従量課金制ファイルストレージサービスです。以下の手順に従ってください https://["リンク"^] AVSプライベートクラウド環境を最適化するために、Azure NetApp Files をNFSデータストアとしてプロビジョニングおよび設定します。
+https://learn.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-introduction["Azure NetApp Files の特長"^] エンタープライズクラスのハイパフォーマンスな従量課金制ファイルストレージサービスです。以下の手順に従ってください https://learn.microsoft.com/en-us/azure/azure-vmware/attach-azure-netapp-files-to-azure-vmware-solution-hosts?tabs=azure-portal["リンク"^] AVSプライベートクラウド環境を最適化するために、Azure NetApp Files をNFSデータストアとしてプロビジョニングおよび設定します。
 
 
 
@@ -69,7 +69,7 @@ https://["Azure NetApp Files の特長"^] エンタープライズクラスの�
 
 image:azure-dro-image2.png["エラー：グラフィックイメージがありません"]
 
-以下の手順に従ってください https://["リンク"^] レプリケーションピアリングを作成してリージョン間レプリケーションを設定するには、次の手順を実行します。デスティネーションの容量プールのサービスレベルは、ソースの容量プールのサービスレベルと同じにすることができます。ただし、このユースケースでは、標準のサービスレベルを選択してから選択できます https://["サービスレベルを変更する"^] 実際に災害が発生した場合やDRシミュレーションが発生した場合。
+以下の手順に従ってください https://learn.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-create-peering["リンク"^] レプリケーションピアリングを作成してリージョン間レプリケーションを設定するには、次の手順を実行します。デスティネーションの容量プールのサービスレベルは、ソースの容量プールのサービスレベルと同じにすることができます。ただし、このユースケースでは、標準のサービスレベルを選択してから選択できます https://learn.microsoft.com/en-us/azure/azure-netapp-files/dynamic-change-volume-service-level["サービスレベルを変更する"^] 実際に災害が発生した場合やDRシミュレーションが発生した場合。
 
 
 NOTE: リージョン間レプリケーション関係は前提条件であり、事前に作成しておく必要があります。
@@ -183,7 +183,7 @@ NOTE: このドキュメントでは、デモ用にソースサイトを追加�
 
 . vCenterの詳細を更新します。これを行うには、プライマリAVS SDDCのドロップダウンからクレデンシャル、Azureリージョン、およびリソースグループを選択します。
 . DROには、リージョン内で使用可能なすべてのSDDCが一覧表示されます。ドロップダウンから、指定したプライベートクラウドのURLを選択します。
-. を入力します `cloudadmin@vsphere.local` ユーザクレデンシャル。これにはAzure Portalからアクセスできます。ここに記載されている手順に従ってください https://["リンク"^]。完了したら、*[続行]*をクリックします。
+. を入力します `cloudadmin@vsphere.local` ユーザクレデンシャル。これにはAzure Portalからアクセスできます。ここに記載されている手順に従ってください https://learn.microsoft.com/en-us/azure/azure-vmware/tutorial-access-private-cloud["リンク"^]。完了したら、*[続行]*をクリックします。
 +
 image:azure-dro-image6.png["エラー：グラフィックイメージがありません"]
 
@@ -328,22 +328,22 @@ Azure NetApp Files とAzure VMwareディザスタリカバリ解決策 には、
 
 * Azure NetApp Files のボリュームレプリケーションを作成します
 +
-https://["https://learn.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-create-peering"^]
+https://learn.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-create-peering["https://learn.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-create-peering"^]
 
 * Azure NetApp Files のリージョン間レプリケーション
 +
-https://["https://learn.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-introduction#service-level-objectives"^]
+https://learn.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-introduction%23service-level-objectives["https://learn.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-introduction#service-level-objectives"^]
 
-* https://["Azure VMware 解決策の略"^]
+* https://learn.microsoft.com/en-us/azure/azure-vmware/introduction["Azure VMware 解決策の略"^]
 +
-https://["https://learn.microsoft.com/en-us/azure/azure-vmware/introduction"^]
+https://learn.microsoft.com/en-us/azure/azure-vmware/introduction["https://learn.microsoft.com/en-us/azure/azure-vmware/introduction"^]
 
 * Azure に仮想化環境を導入して設定
 +
-https://["https://docs.netapp.com/us-en/netapp-solutions/ehc/azure/azure-setup.html"^]
+https://docs.netapp.com/us-en/netapp-solutions/ehc/azure/azure-setup.html["https://docs.netapp.com/us-en/netapp-solutions/ehc/azure/azure-setup.html"^]
 
 * Azure VMware解決策 を導入して設定
 +
-https://["https://learn.microsoft.com/en-us/azure/azure-vmware/deploy-azure-vmware-solution?tabs=azure-portal"^]
+https://learn.microsoft.com/en-us/azure/azure-vmware/deploy-azure-vmware-solution?tabs=azure-portal["https://learn.microsoft.com/en-us/azure/azure-vmware/deploy-azure-vmware-solution?tabs=azure-portal"^]
 
 

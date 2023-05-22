@@ -55,14 +55,14 @@ $ runai logs hyper1
 ....
 この例では、現在のトレーニングエポック、 ETA 、損失関数値、精度、および各ステップの経過時間を含む、実行中の DL セッションのログを確認する必要があります。
 
-クラスタのステータスは、 Run ： AI UI で確認できます から https://["https://app.run.ai/"^]。[ ダッシュボード ]>[ 概要 ] で、 GPU 利用率を監視できます。
+クラスタのステータスは、 Run ： AI UI で確認できます から https://app.run.ai/["https://app.run.ai/"^]。[ ダッシュボード ]>[ 概要 ] で、 GPU 利用率を監視できます。
 
 このワークロードを停止するには、次のコマンドを実行します。
 
 ....
 $ runai delte hyper1
 ....
-このコマンドを実行すると、トレーニングワークロードが停止します。このアクションを確認するには 'runai list' をもう一度実行します詳細については、を参照してください https://["無人トレーニングワークロードの開始"^]。
+このコマンドを実行すると、トレーニングワークロードが停止します。このアクションを確認するには 'runai list' をもう一度実行します詳細については、を参照してください https://docs.run.ai/Researcher/Walkthroughs/Walkthrough-Launch-Unattended-Training-Workloads-/["無人トレーニングワークロードの開始"^]。
 
 
 
@@ -92,15 +92,15 @@ $ runai bash build1
 ....
 これにより、コンピュータにシェルが直接挿入されます。データサイエンティストは、コンテナ内でモデルを開発または微調整できます。
 
-クラスタのステータスは、 Run ： AI UI で確認できます から https://["https://app.run.ai"^]。詳細については、を参照してください https://["対話型ビルドワークロードの開始と使用"^]。
+クラスタのステータスは、 Run ： AI UI で確認できます から https://app.run.ai["https://app.run.ai"^]。詳細については、を参照してください https://docs.run.ai/Researcher/Walkthroughs/Walkthrough-Start-and-Use-Interactive-Build-Workloads-/["対話型ビルドワークロードの開始と使用"^]。
 
 
 
 == ポートが接続された対話型のワークロード
 
-Run ： AI CLI でコンテナを開始する際に、対話型ビルドワークロードを拡張することで、コンテナユーザに内部ポートを公開できます。これは、クラウド環境、 Jupyter Notebook の操作、その他のマイクロサービスへの接続に役立ちます。 https://["入力"^] Kubernetes クラスタの外部から Kubernetes サービスへのアクセスを許可します。アクセスを設定するには、どのインバウンド接続がどのサービスに到達するかを定義する一連のルールを作成します。
+Run ： AI CLI でコンテナを開始する際に、対話型ビルドワークロードを拡張することで、コンテナユーザに内部ポートを公開できます。これは、クラウド環境、 Jupyter Notebook の操作、その他のマイクロサービスへの接続に役立ちます。 https://kubernetes.io/docs/concepts/services-networking/ingress/["入力"^] Kubernetes クラスタの外部から Kubernetes サービスへのアクセスを許可します。アクセスを設定するには、どのインバウンド接続がどのサービスに到達するかを定義する一連のルールを作成します。
 
-クラスタ内のサービスへの外部アクセスを適切に管理するには、クラスタ管理者がインストールすることを推奨します https://["入力"^] ロードバランサを設定します。
+クラスタ内のサービスへの外部アクセスを適切に管理するには、クラスタ管理者がインストールすることを推奨します https://kubernetes.io/docs/concepts/services-networking/ingress/["入力"^] ロードバランサを設定します。
 
 入力をサービスタイプとして使用するには、次のコマンドを実行して、ワークロード送信時にメソッドタイプとポートを設定します。
 
@@ -109,8 +109,8 @@ $ runai submit test-ingress -i jupyter/base-notebook -g 1 \
   --interactive --service-type=ingress --port 8888 \
   --args="--NotebookApp.base_url=test-ingress" --command=start-notebook.sh
 ....
-コンテナが正常に起動したら、「 runai list 」を実行して、 Jupyter Notebook にアクセスする「サービス URL (S) 」を確認します。URL は、入力エンドポイント、ジョブ名、およびポートで構成されます。たとえば、を参照してください https://[]。
+コンテナが正常に起動したら、「 runai list 」を実行して、 Jupyter Notebook にアクセスする「サービス URL (S) 」を確認します。URL は、入力エンドポイント、ジョブ名、およびポートで構成されます。たとえば、を参照してください https://10.255.174.13/test-ingress-8888[]。
 
-詳細については、を参照してください https://["ポートが接続されている対話型のビルドワークロードを起動する"^]。
+詳細については、を参照してください https://docs.run.ai/Researcher/Walkthroughs/Walkthrough-Launch-an-Interactive-Build-Workload-with-Connected-Ports/["ポートが接続されている対話型のビルドワークロードを起動する"^]。
 
 link:osrunai_achieving_high_cluster_utilization.html["次は、高いクラスタ利用率を達成することです"]

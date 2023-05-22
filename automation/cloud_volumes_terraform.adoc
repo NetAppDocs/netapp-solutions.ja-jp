@@ -14,7 +14,7 @@ summary: このページでは、テラフォームを使用してネットア�
 
 
 [role="lead"]
-この解決策 では、 Terraform モジュールを使用して、 AWS （ CVO シングルノード、 CVO HA 、 FSX ONTAP ）および Azure （ CVO シングルノード、 CVO HA 、 ANF ）への Cloud Volume の自動導入を文書化しています。コードは、から入手できます https://[]
+この解決策 では、 Terraform モジュールを使用して、 AWS （ CVO シングルノード、 CVO HA 、 FSX ONTAP ）および Azure （ CVO シングルノード、 CVO HA 、 ANF ）への Cloud Volume の自動導入を文書化しています。コードは、から入手できます https://github.com/NetApp-Automation/na_cloud_volumes_automation[]
 
 
 
@@ -67,7 +67,7 @@ terraform {
 .NetApp CVO（シングルノードインスタンス）をAWSに導入するための構成ファイルがTerraformにあります
 このセクションでは、 AWS （ Amazon Web Services ）上でシングルノードの NetApp CVO （ Cloud Volumes ONTAP ）を導入 / 構成するための、さまざまな Terraform 構成ファイルを提供しています。
 
-Terraform ドキュメント : https://[]
+Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
 
 .手順
 テンプレートを実行するには、次の手順を実行します。
@@ -172,7 +172,7 @@ CVO 導入用の NetApp AWS Connector インスタンスの Terraform 変数。
 | * AWS_Connector_iAM_instance_profile_name * | 文字列 | （必須）コネクタのインスタンスプロファイルの名前。 
 
 
-| * AWS_Connector_account_id * | 文字列 | （オプション）コネクタを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウント ID は、 Cloud Manager のアカウントタブにあります https://[]。 
+| * AWS_Connector_account_id * | 文字列 | （オプション）コネクタを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウント ID は、 Cloud Manager のアカウントタブにあります https://cloudmanager.netapp.com[]。 
 
 
 | * AWS_connector_public_ip_bool * | ブール値 | （任意）インスタンスにパブリック IP アドレスを関連付けるかどうかを指定します。指定しない場合は、サブネットの設定に基づいて関連付けが行われます。 
@@ -210,7 +210,7 @@ CVO 導入用の NetApp AWS Connector インスタンスの Terraform 変数。
 .NetApp CVO（HAペア）をAWSに導入するための構成ファイルがTerraformにあります
 このセクションでは、 AWS （ Amazon Web Services ）のハイアベイラビリティペアに NetApp CVO （ Cloud Volumes ONTAP ）を導入 / 構成するための、さまざまな Terraform 構成ファイルを提供しています。
 
-Terraform ドキュメント : https://[]
+Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
 
 .手順
 テンプレートを実行するには、次の手順を実行します。
@@ -315,7 +315,7 @@ CVO 導入用の NetApp AWS Connector インスタンスの Terraform 変数。
 | * AWS_Connector_iAM_instance_profile_name * | 文字列 | （必須）コネクタのインスタンスプロファイルの名前。 
 
 
-| * AWS_Connector_account_id * | 文字列 | （オプション）コネクタを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウント ID は、 Cloud Manager のアカウントタブにあります https://[]。 
+| * AWS_Connector_account_id * | 文字列 | （オプション）コネクタを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウント ID は、 Cloud Manager のアカウントタブにあります https://cloudmanager.netapp.com[]。 
 
 
 | * AWS_connector_public_ip_bool * | ブール値 | （任意）インスタンスにパブリック IP アドレスを関連付けるかどうかを指定します。指定しない場合は、サブネットの設定に基づいて関連付けが行われます。 
@@ -380,7 +380,7 @@ HA ペアの NetApp CVO インスタンスの変数はテラフォームされ�
 .NetApp ONTAP FSXをAWSに導入するためのTerraform構成ファイル
 このセクションには、 AWS （ Amazon Web Services ）上で NetApp ONTAP FSX を導入 / 設定するための、さまざまな Terraform 構成ファイルが含まれています。
 
-Terraform ドキュメント : https://[]
+Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
 
 .手順
 テンプレートを実行するには、次の手順を実行します。
@@ -485,7 +485,7 @@ NetApp AWS Connector インスタンスの Terraform 変数。
 | * AWS_Connector_iAM_instance_profile_name * | 文字列 | （必須）コネクタのインスタンスプロファイルの名前。 
 
 
-| * AWS_Connector_account_id * | 文字列 | （オプション）コネクタを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウント ID は、 Cloud Manager のアカウントタブにあります https://[]。 
+| * AWS_Connector_account_id * | 文字列 | （オプション）コネクタを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウント ID は、 Cloud Manager のアカウントタブにあります https://cloudmanager.netapp.com[]。 
 
 
 | * AWS_connector_public_ip_bool * | ブール値 | （任意）インスタンスにパブリック IP アドレスを関連付けるかどうかを指定します。指定しない場合は、サブネットの設定に基づいて関連付けが行われます。 
@@ -512,7 +512,7 @@ NetApp ONTAP FSX インスタンスの Terraform 変数。
 | * fsx_secondary_subnet_id * | 文字列 | （必須）作業環境を作成するセカンダリサブネット ID 。 
 
 
-| * fsx_account_id * | 文字列 | （必須） FSX インスタンスを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウント ID は、 Cloud Manager のアカウントタブにあります https://[]。 
+| * fsx_account_id * | 文字列 | （必須） FSX インスタンスを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウント ID は、 Cloud Manager のアカウントタブにあります https://cloudmanager.netapp.com[]。 
 
 
 | * FSX_workspace_id * | 文字列 | （必須）作業環境の Cloud Manager ワークスペースの ID 。 
@@ -545,7 +545,7 @@ NetApp ONTAP FSX インスタンスの Terraform 変数。
 .AzureにANFボリュームを導入するための環境設定ファイルを用意しています
 このセクションでは、 Azure に ANF （ Azure NetApp Files ）ボリュームを導入 / 設定するためのさまざまな Terraform 設定ファイルを示します。
 
-Terraform ドキュメント : https://[]
+Terraform ドキュメント : https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs[]
 
 .手順
 テンプレートを実行するには、次の手順を実行します。
@@ -663,7 +663,7 @@ NOTE: 既存の VNet およびサブネットを使用して ANF ボリューム
 .Azure上にデータ保護機能を備えたANFボリュームを導入するための構成ファイルを用意しています
 このセクションでは、 Azure でデータ保護を使用して ANF （ Azure NetApp Files ）ボリュームを導入 / 設定するためのさまざまな Terraform 設定ファイルについて説明します。
 
-Terraform ドキュメント : https://[]
+Terraform ドキュメント : https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs[]
 
 .手順
 テンプレートを実行するには、次の手順を実行します。
@@ -817,7 +817,7 @@ NOTE: 既存の VNet およびサブネットを使用して ANF ボリューム
 .Azure上にデュアルプロトコルを使用してANFボリュームを導入するための構成ファイルが用意されています
 このセクションでは、 Azure でデュアルプロトコルを有効にした ANF （ Azure NetApp Files ）ボリュームを導入 / 設定するためのさまざまな Terraform 設定ファイルについて説明します。
 
-Terraform ドキュメント : https://[]
+Terraform ドキュメント : https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs[]
 
 .手順
 テンプレートを実行するには、次の手順を実行します。
@@ -947,7 +947,7 @@ NOTE: 既存の VNet およびサブネットを使用して ANF ボリューム
 .Azure上のSnapshotからANFボリュームを導入するための構成ファイルをテラフォームしてください
 このセクションでは、 Azure 上の Snapshot から ANF （ Azure NetApp Files ）ボリュームを導入 / 設定するためのさまざまな Terraform 設定ファイルを示します。
 
-Terraform ドキュメント : https://[]
+Terraform ドキュメント : https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs[]
 
 .手順
 テンプレートを実行するには、次の手順を実行します。
@@ -1066,7 +1066,7 @@ Snapshot を使用する単一の ANF ボリューム用の変数を Terraform �
 .AzureにシングルノードのCVOを導入するための構成ファイルがTerraformに用意されています
 このセクションでは、 Azure 上にシングルノード CVO （ Cloud Volumes ONTAP ）を導入 / 構成するための各種 Terraform 構成ファイルを紹介します。
 
-Terraform ドキュメント : https://[]
+Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
 
 .手順
 テンプレートを実行するには、次の手順を実行します。
@@ -1163,7 +1163,7 @@ Terraform ドキュメント : https://[]
 | * AZ_Connector_associate_public_IP_address * | 文字列 | （必須）仮想マシンにパブリック IP アドレスを関連付けるかどうかを指定します。 
 
 
-| * AZ_Connector_account_id * | 文字列 | （必須）コネクタを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウント ID は、 Cloud Manager のアカウントタブにあります https://[]。 
+| * AZ_Connector_account_id * | 文字列 | （必須）コネクタを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウント ID は、 Cloud Manager のアカウントタブにあります https://cloudmanager.netapp.com[]。 
 
 
 | * AZ_Connector_admin_password * | 文字列 | （必須）コネクタのパスワード。 
@@ -1196,7 +1196,7 @@ Terraform ドキュメント : https://[]
 | * AZ_CVO-svm_svm_svm_name * をクリックします | 文字列 | （必須） Cloud Volumes ONTAP の管理パスワード。 
 
 
-| * AZ_CVO-workspace_id * | 文字列 | （必須） Cloud Volumes ONTAP を導入する Cloud Manager ワークスペースの ID 。指定しない場合、 Cloud Manager は最初のワークスペースを使用します。ID は、の [ ワークスペース（ Workspace ） ] タブで確認できます https://[]。 
+| * AZ_CVO-workspace_id * | 文字列 | （必須） Cloud Volumes ONTAP を導入する Cloud Manager ワークスペースの ID 。指定しない場合、 Cloud Manager は最初のワークスペースを使用します。ID は、の [ ワークスペース（ Workspace ） ] タブで確認できます https://cloudmanager.netapp.com[]。 
 
 
 | * AZ_CVF_capacity _tier * | 文字列 | （必須）最初のデータ・アグリゲートのデータ階層化を有効にするかどうかを指定します（ [`lob`,'none`] ）デフォルトは「 BLOB 」です。 
@@ -1231,7 +1231,7 @@ Terraform ドキュメント : https://[]
 .AzureにCVO HAを導入するための構成ファイルがTerraformに用意されています
 このセクションでは、 Azure 上で CVO （ Cloud Volumes ONTAP ） HA （ハイアベイラビリティ）を導入 / 構成するためのさまざまな Terraform 構成ファイルを取り上げます。
 
-Terraform ドキュメント : https://[]
+Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
 
 .手順
 テンプレートを実行するには、次の手順を実行します。
@@ -1328,7 +1328,7 @@ HA ペアの Cloud Volumes ONTAP （ CVO ）の変数は Terraform です。
 | * AZ_Connector_associate_public_IP_address * | 文字列 | （必須）仮想マシンにパブリック IP アドレスを関連付けるかどうかを指定します。 
 
 
-| * AZ_Connector_account_id * | 文字列 | （必須）コネクタを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウント ID は、 Cloud Manager のアカウントタブにあります https://[]。 
+| * AZ_Connector_account_id * | 文字列 | （必須）コネクタを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウント ID は、 Cloud Manager のアカウントタブにあります https://cloudmanager.netapp.com[]。 
 
 
 | * AZ_Connector_admin_password * | 文字列 | （必須）コネクタのパスワード。 
@@ -1361,7 +1361,7 @@ HA ペアの Cloud Volumes ONTAP （ CVO ）の変数は Terraform です。
 | * AZ_CVO-svm_svm_svm_name * をクリックします | 文字列 | （必須） Cloud Volumes ONTAP の管理パスワード。 
 
 
-| * AZ_CVO-workspace_id * | 文字列 | （必須） Cloud Volumes ONTAP を導入する Cloud Manager ワークスペースの ID 。指定しない場合、 Cloud Manager は最初のワークスペースを使用します。ID は、の [ ワークスペース（ Workspace ） ] タブで確認できます https://[]。 
+| * AZ_CVO-workspace_id * | 文字列 | （必須） Cloud Volumes ONTAP を導入する Cloud Manager ワークスペースの ID 。指定しない場合、 Cloud Manager は最初のワークスペースを使用します。ID は、の [ ワークスペース（ Workspace ） ] タブで確認できます https://cloudmanager.netapp.com[]。 
 
 
 | * AZ_CVF_capacity _tier * | 文字列 | （必須）最初のデータ・アグリゲートのデータ階層化を有効にするかどうかを指定します（ [`lob`,'none`] ）デフォルトは「 BLOB 」です。 
@@ -1403,7 +1403,7 @@ HA ペアの Cloud Volumes ONTAP （ CVO ）の変数は Terraform です。
 .GCPにNetApp CVO（シングルノードインスタンス）を導入するためのTerraform構成ファイル
 このセクションでは、 GCP （ Google Cloud Platform ）でシングルノードの NetApp CVO （ Cloud Volumes ONTAP ）を導入 / 構成するための、さまざまな Terraform 構成ファイルについて説明します。
 
-Terraform ドキュメント : https://[]
+Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
 
 .手順
 テンプレートを実行するには、次の手順を実行します。
@@ -1490,7 +1490,7 @@ NetApp GCP Connector インスタンスの CVO 導入用の Terraform 変数。
 | * gCP_Connector_service_account_path * | 文字列 | （必須） GCP 認証に使用する service_account JSON ファイルのローカルパス。このサービスアカウントは、 GCP でコネクタを作成するために使用します。 
 
 
-| * gCP_Connector_account_id * | 文字列 | （オプション）コネクタを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウント ID は、 Cloud Manager のアカウントタブにあります https://[]。 
+| * gCP_Connector_account_id * | 文字列 | （オプション）コネクタを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウント ID は、 Cloud Manager のアカウントタブにあります https://cloudmanager.netapp.com[]。 
 |===
 「シングルノードインスタンス」
 
@@ -1517,7 +1517,7 @@ GCP 上の単一の NetApp CVO インスタンスの Terraform 変数。
 | * GCP_CVO-svm_svm_password* をクリックします | 文字列 | （必須） Cloud Volumes ONTAP の管理パスワード。 
 
 
-| * GCP_CVP_Workspace_id * | 文字列 | （オプション） Cloud Volumes ONTAP を導入する Cloud Manager ワークスペースの ID 。指定しない場合、 Cloud Manager は最初のワークスペースを使用します。ID は、の [ ワークスペース（ Workspace ） ] タブで確認できます https://[]。 
+| * GCP_CVP_Workspace_id * | 文字列 | （オプション） Cloud Volumes ONTAP を導入する Cloud Manager ワークスペースの ID 。指定しない場合、 Cloud Manager は最初のワークスペースを使用します。ID は、の [ ワークスペース（ Workspace ） ] タブで確認できます https://cloudmanager.netapp.com[]。 
 
 
 | * GCP_CVP_LICENSE_TYPE * | 文字列 | （任意）使用するライセンスのタイプ。シングルノードの場合： [ 容量 - 給与 ] 、 [ GCP - COT - EXPLORTe-paygo ] 、 [GCP - COT - standard-paygo] 、 [GCP - COT - Premium-paygo] 、 [GCP - COT - Premium-BYOL ] 、 HA の場合： [ HA キャパシティ - ペイゴー ] 、 [ GCP - HA - ベッド - 探検 - ペイゴー ] 、 [GCP - HA - ベビーベッド - スタンダード - ペイゴー ] 、 [GCP - HA - ベビーベッド - プレミアム - ペイゴー ] 、 [GCP - HA - ベビーベッド - プレミアム - BYOL ] 。デフォルトは、単一ノードの場合は「 capacity-paygo 」、 HA の場合は「 ha-capacity-paygo 」です。 
@@ -1531,7 +1531,7 @@ GCP 上の単一の NetApp CVO インスタンスの Terraform 変数。
 .NetApp CVO（HAペア）をGCPに導入するための構成ファイルをTerraformしています
 このセクションでは、 GCP （ Google Cloud Platform ）のハイアベイラビリティペアで NetApp CVO （ Cloud Volumes ONTAP ）を導入 / 構成するための、さまざまな Terraform 構成ファイルについて説明します。
 
-Terraform ドキュメント : https://[]
+Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
 
 .手順
 テンプレートを実行するには、次の手順を実行します。
@@ -1618,7 +1618,7 @@ NetApp GCP Connector インスタンスの CVO 導入用の Terraform 変数。
 | * gCP_Connector_service_account_path * | 文字列 | （必須） GCP 認証に使用する service_account JSON ファイルのローカルパス。このサービスアカウントは、 GCP でコネクタを作成するために使用します。 
 
 
-| * gCP_Connector_account_id * | 文字列 | （オプション）コネクタを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウント ID は、 Cloud Manager のアカウントタブにあります https://[]。 
+| * gCP_Connector_account_id * | 文字列 | （オプション）コネクタを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウント ID は、 Cloud Manager のアカウントタブにあります https://cloudmanager.netapp.com[]。 
 |===
 HA ペア
 
@@ -1687,7 +1687,7 @@ GCP の HA ペアの NetApp CVO インスタンスの Terraform 変数。
 | * GCP_CVO-svm_svm_password* をクリックします | 文字列 | （必須） Cloud Volumes ONTAP の管理パスワード。 
 
 
-| * GCP_CVP_Workspace_id * | 文字列 | （オプション） Cloud Volumes ONTAP を導入する Cloud Manager ワークスペースの ID 。指定しない場合、 Cloud Manager は最初のワークスペースを使用します。ID は、の [ ワークスペース（ Workspace ） ] タブで確認できます https://[]。 
+| * GCP_CVP_Workspace_id * | 文字列 | （オプション） Cloud Volumes ONTAP を導入する Cloud Manager ワークスペースの ID 。指定しない場合、 Cloud Manager は最初のワークスペースを使用します。ID は、の [ ワークスペース（ Workspace ） ] タブで確認できます https://cloudmanager.netapp.com[]。 
 
 
 | * GCP_CVP_LICENSE_TYPE * | 文字列 | （任意）使用するライセンスのタイプ。シングルノードの場合： [ 容量 - 給与 ] 、 [ GCP - COT - EXPLORTe-paygo ] 、 [GCP - COT - standard-paygo] 、 [GCP - COT - Premium-paygo] 、 [GCP - COT - Premium-BYOL ] 、 HA の場合： [ HA キャパシティ - ペイゴー ] 、 [ GCP - HA - ベッド - 探検 - ペイゴー ] 、 [GCP - HA - ベビーベッド - スタンダード - ペイゴー ] 、 [GCP - HA - ベビーベッド - プレミアム - ペイゴー ] 、 [GCP - HA - ベビーベッド - プレミアム - BYOL ] 。デフォルトは、単一ノードの場合は「 capacity-paygo 」、 HA の場合は「 ha-capacity-paygo 」です。 
@@ -1707,7 +1707,7 @@ GCP の HA ペアの NetApp CVO インスタンスの Terraform 変数。
 .GCPにNetApp CVSボリュームを導入するためのTerraform構成ファイル
 このセクションでは、 GCP （ Google Cloud Platform ）で NetApp CVS （ Cloud Volume サービス）ボリュームを導入 / 設定するためのさまざまな Terraform 設定ファイルについて説明します。
 
-Terraform ドキュメント : https://[]
+Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-gcp/latest/docs[]
 
 .手順
 テンプレートを実行するには、次の手順を実行します。

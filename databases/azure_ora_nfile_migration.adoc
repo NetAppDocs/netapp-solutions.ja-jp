@@ -87,21 +87,9 @@ NOTE: ホストに十分なスペースがない場合は、を実行します `
 [source, cli]
 ----
 sqlplus / as sysdba;
-----
-+
-[source, cli]
-----
-alter session set container=ncdb;
-----
-+
-[source, cli]
-----
+alter session set container=ncdb
 alter pluggable database open upgrade;
 exit;
-----
-+
-[source, cli]
-----
 dbupgrade -c ncdb -l /home/oracle
 ----
 +
@@ -112,16 +100,8 @@ dbupgrade -c ncdb -l /home/oracle
 [source, cli]
 ----
 alter pluggable database ncdb open;
-----
-+
-[source, cli]
-----
 alter session set container=ncdb;
 select message from pdb_plug_in_violations where type like '%ERR%' and status <> 'RESOLVED';
-----
-+
-[source, cli]
-----
 $ORACLE_HOME/perl/bin/perl $ORACLE_HOME/rdbms/admin/catcon.pl -n 1 -c 'ncdb' -e -b utlrp -d $ORACLE_HOME/rdbms/admin utlrp.sql
 ----
 . 実行 `noncdb_to_pdb.sql` データディクショナリを更新します。
@@ -129,10 +109,6 @@ $ORACLE_HOME/perl/bin/perl $ORACLE_HOME/rdbms/admin/catcon.pl -n 1 -c 'ncdb' -e 
 [source, cli]
 ----
 sqlplus / as sysdba
-----
-+
-[source, cli]
-----
 alter session set container=ncdb;
 @$ORACLE_HOME/rdbms/admin/noncdb_to_pdb.sql;
 ----
@@ -179,10 +155,11 @@ NOTE: adminユーザは、sudo権限があるオンプレミスのOracleサー�
 ----
 ansible-playbook -i hosts ora_pdb_relocate.yml -u azureuser --private-key db1.pem -t ora_pdb_relo_primary
 ----
-
-
++
 
 NOTE: Ansibleコントローラは、オンプレミスとAzureクラウドのどちらにも配置できます。コントローラは、オンプレミスのOracleサーバホストおよびAzure Oracle VMホストに接続する必要があります。オンプレミスのOracleサーバホストとAzure Oracle VMホストの間で、Oracleデータベースポート（1521など）が開いている。
+
+
 
 
 

@@ -78,8 +78,8 @@ NOTE: 21 のデータベースをリストアするには、約 9 時間かか�
 オンプレミスの SQL Server から Azure NetApp Files にデータを移動するためのその他の移行オプションには、次のものがあります。
 
 * データファイルとログファイルを切り離し、 Azure Blob Storage にコピーして、 URL からマウントされた ANF ファイル共有を使用して Azure VM 内の SQL Server に接続します。
-* 常時稼働の可用性グループをオンプレミスに導入する場合は、を使用します https://["Azure レプリカの追加ウィザード"^] をクリックして Azure でレプリカを作成し、フェイルオーバーを実行します。
-* SQL Server を使用します https://["トランザクションレプリケーション"^] Azure SQL Server インスタンスをサブスクライバとして設定するには、レプリケーションを無効にして、ユーザに Azure データベースインスタンスをポイントさせます。
+* 常時稼働の可用性グループをオンプレミスに導入する場合は、を使用します https://docs.microsoft.com/en-us/previous-versions/azure/virtual-machines/windows/sqlclassic/virtual-machines-windows-classic-sql-onprem-availability["Azure レプリカの追加ウィザード"^] をクリックして Azure でレプリカを作成し、フェイルオーバーを実行します。
+* SQL Server を使用します https://docs.microsoft.com/en-us/sql/relational-databases/replication/transactional/transactional-replication["トランザクションレプリケーション"^] Azure SQL Server インスタンスをサブスクライバとして設定するには、レプリケーションを無効にして、ユーザに Azure データベースインスタンスをポイントさせます。
 * Windows インポート / エクスポートサービスを使用して、ハードドライブを出荷します。
 
 
@@ -89,7 +89,7 @@ NOTE: 21 のデータベースをリストアするには、約 9 時間かか�
 
 バックアップとリカバリは、 SQL Server 環境にとって重要な要素です。AOAG などの高可用性ソリューションと組み合わせて、さまざまなデータ障害および損失シナリオから迅速にリカバリするための適切な安全ネットを用意する必要があります。CommVault などのサードパーティ製バックアップツールでは、 SQL Server データベースの休止ツール、 Azure バックアップ（ストリーミング）、またはアプリケーションと整合性のあるデータベースバックアップを実行できます。
 
-Azure NetApp Files の Snapshot テクノロジを使用すると、パフォーマンスやネットワーク利用率に影響を与えることなく、ユーザデータベースのポイントインタイム（ PiT ）コピーを簡単に作成できます。また、このテクノロジを使用すると、新しいボリュームに Snapshot コピーをリストアしたり、ボリュームの状態を、ボリュームリバート機能を使用して Snapshot コピーが作成された時点の状態にすばやくリバートしたりできます。Azure NetApp Files スナップショットプロセスは非常に高速で効率的で、 Azure バックアップのストリーミングバックアップとは異なり、毎日のバックアップを複数作成できます。1 日に複数の Snapshot コピーを作成できるため、 RPO と RTO が大幅に短縮されます。Snapshot コピーの作成前にデータに損傷がなく、ディスクに適切にフラッシュされるようにアプリケーションの整合性を追加するには、 SQL Server データベースの休止ツールを使用します (https://["SCSQLAPI ツール"^]; このリンクにアクセスするには、 NetApp SSO ログインクレデンシャルが必要です）。このツールは PowerShell から実行できます。 PowerShell では、 SQL Server データベースを休止し、アプリケーションと整合性のあるバックアップ用ストレージ Snapshot コピーを作成できます。
+Azure NetApp Files の Snapshot テクノロジを使用すると、パフォーマンスやネットワーク利用率に影響を与えることなく、ユーザデータベースのポイントインタイム（ PiT ）コピーを簡単に作成できます。また、このテクノロジを使用すると、新しいボリュームに Snapshot コピーをリストアしたり、ボリュームの状態を、ボリュームリバート機能を使用して Snapshot コピーが作成された時点の状態にすばやくリバートしたりできます。Azure NetApp Files スナップショットプロセスは非常に高速で効率的で、 Azure バックアップのストリーミングバックアップとは異なり、毎日のバックアップを複数作成できます。1 日に複数の Snapshot コピーを作成できるため、 RPO と RTO が大幅に短縮されます。Snapshot コピーの作成前にデータに損傷がなく、ディスクに適切にフラッシュされるようにアプリケーションの整合性を追加するには、 SQL Server データベースの休止ツールを使用します (https://mysupport.netapp.com/site/tools/tool-eula/scsqlapi["SCSQLAPI ツール"^]; このリンクにアクセスするには、 NetApp SSO ログインクレデンシャルが必要です）。このツールは PowerShell から実行できます。 PowerShell では、 SQL Server データベースを休止し、アプリケーションと整合性のあるバックアップ用ストレージ Snapshot コピーを作成できます。
 
 * 注： *
 
@@ -98,7 +98,7 @@ Azure NetApp Files の Snapshot テクノロジを使用すると、パフォー
 * 各データベースのファイルを別々の Azure NetApp Files ボリュームに配置して、それらのファイルを分離します。
 
 
-SCSQL API には大きな制限があるため、 https://["Azure バックアップ"^] SLA 要件を満たすためにデータ保護に使用されていた。Azure Virtual Machine と Azure NetApp Files で実行される SQL Server のストリームベースのバックアップを提供します。Azure Backup では、 15 分の RPO を実現し、ログバックアップと PIT リカバリを最大 1 秒まで頻繁に実行できます。
+SCSQL API には大きな制限があるため、 https://docs.microsoft.com/en-us/azure/backup/backup-azure-sql-database["Azure バックアップ"^] SLA 要件を満たすためにデータ保護に使用されていた。Azure Virtual Machine と Azure NetApp Files で実行される SQL Server のストリームベースのバックアップを提供します。Azure Backup では、 15 分の RPO を実現し、ログバックアップと PIT リカバリを最大 1 秒まで頻繁に実行できます。
 
 
 
@@ -144,7 +144,7 @@ Azure NetApp Files を使用すると、アプリケーション開発サイク�
 
 === 長期的な Snapshot コピーのアーカイブ
 
-多くの組織では、 Snapshot データをデータベースファイルから長期的に保持することが必須のコンプライアンス要件として求められています。このプロセスはこの HLD では使用されませんが、を使用した単純なバッチスクリプトを使用すると簡単に実行できます https://["AzCopy"^] をクリックして Azure BLOB コンテナに Snapshot ディレクトリをコピーします。スケジュールされたタスクを使用して、特定のスケジュールに基づいてバッチスクリプトを実行できます。このプロセスは簡単で、次の手順で構成されます。
+多くの組織では、 Snapshot データをデータベースファイルから長期的に保持することが必須のコンプライアンス要件として求められています。このプロセスはこの HLD では使用されませんが、を使用した単純なバッチスクリプトを使用すると簡単に実行できます https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10["AzCopy"^] をクリックして Azure BLOB コンテナに Snapshot ディレクトリをコピーします。スケジュールされたタスクを使用して、特定のスケジュールに基づいてバッチスクリプトを実行できます。このプロセスは簡単で、次の手順で構成されます。
 
 . AzCopy V10 実行ファイルをダウンロードします。これは 'exe` ファイルであるため ' インストールするものはありません
 . コンテナレベルで適切な権限を持つ SAS トークンを使用して 'AzCopy を承認します
@@ -154,7 +154,7 @@ Azure NetApp Files を使用すると、アプリケーション開発サイク�
 * 注： *
 
 * バッチファイルでは、 SAS トークンに表示される % 文字をエスケープする必要があります。そのためには、 SAS トークン文字列で既存の % 文字の横に % 文字を追加します。
-* 。 https://["セキュアな転送が必要です"^] ストレージアカウントの設定によって、ストレージアカウントへの接続が Transport Layer Security （ TLS ）で保護されるかどうかが決まります。この設定はデフォルトで有効になっています。次のバッチスクリプト例は、 Snapshot コピーディレクトリから指定された BLOB コンテナにデータを再帰的にコピーします。
+* 。 https://docs.microsoft.com/en-us/azure/storage/common/storage-require-secure-transfer["セキュアな転送が必要です"^] ストレージアカウントの設定によって、ストレージアカウントへの接続が Transport Layer Security （ TLS ）で保護されるかどうかが決まります。この設定はデフォルトで有効になっています。次のバッチスクリプト例は、 Snapshot コピーディレクトリから指定された BLOB コンテナにデータを再帰的にコピーします。
 
 
 ....

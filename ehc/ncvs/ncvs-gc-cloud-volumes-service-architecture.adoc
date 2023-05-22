@@ -14,9 +14,9 @@ summary: Cloud Volumes Service は、CloudSQL、Google Cloud VMware Engine（GCV
 
 
 [role="lead"]
-CloudSQL、Google Cloud VMware Engine（GCVE）、ファイルストアなど、他のGoogle Cloudネイティブサービスと同様の方法で、Cloud Volumes Service はを使用します https://["Google PSA"^] サービスを提供します。PSAでは、サービスは、を使用するサービスプロデューサプロジェクト内に構築されます https://["vPCネットワークピアリング"^] サービスコンシューマに接続するには、次の手順に従います。サービスプロデューサーはネットアップが提供して運用します。サービスコンシューマは、Cloud Volumes Service ファイル共有にアクセスするクライアントをホストする、お客様のプロジェクトのVPCです。
+CloudSQL、Google Cloud VMware Engine（GCVE）、ファイルストアなど、他のGoogle Cloudネイティブサービスと同様の方法で、Cloud Volumes Service はを使用します https://cloud.google.com/vpc/docs/private-services-access?hl=en_US["Google PSA"^] サービスを提供します。PSAでは、サービスは、を使用するサービスプロデューサプロジェクト内に構築されます https://cloud.google.com/vpc/docs/vpc-peering?hl=en_US["vPCネットワークピアリング"^] サービスコンシューマに接続するには、次の手順に従います。サービスプロデューサーはネットアップが提供して運用します。サービスコンシューマは、Cloud Volumes Service ファイル共有にアクセスするクライアントをホストする、お客様のプロジェクトのVPCです。
 
-から参照される次の図 https://["アーキテクチャセクション"^] Cloud Volumes Service のドキュメントの概要をに示します。
+から参照される次の図 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/architecture?hl=en_US["アーキテクチャセクション"^] Cloud Volumes Service のドキュメントの概要をに示します。
 
 image:ncvs-gc-image1.png["エラー：グラフィックイメージがありません"]
 
@@ -46,7 +46,7 @@ Cloud Volumes Service は、顧客プロジェクトごとに最大5つのVPCに
 
 vPCサービスコントロールは、インターネットに接続され、世界中でアクセス可能なGoogleクラウド サービス の周辺にアクセス制御境界を確立します。これらのサービスは、ユーザIDを使用してアクセス制御を提供しますが、どのネットワークロケーション要求の送信元を制限することはできません。vPCサービスコントロールは、定義されたネットワークへのアクセスを制限する機能を導入することで、このギャップを解消します。
 
-Cloud Volumes Service データプレーンは外部インターネットには接続されず、明確に定義されたネットワーク境界（境界）を持つプライベートVPCに接続されます。ネットワーク内では、各ボリュームはプロトコル固有のアクセス制御を使用します。外部ネットワーク接続は、Google Cloudプロジェクト管理者によって明示的に作成されます。ただし、コントロールプレーンはデータプレーンと同じ保護機能を提供しません。また、有効なクレデンシャル（）を持つ任意の場所から誰でもアクセスできます https://["JWTトークン"^]）。
+Cloud Volumes Service データプレーンは外部インターネットには接続されず、明確に定義されたネットワーク境界（境界）を持つプライベートVPCに接続されます。ネットワーク内では、各ボリュームはプロトコル固有のアクセス制御を使用します。外部ネットワーク接続は、Google Cloudプロジェクト管理者によって明示的に作成されます。ただし、コントロールプレーンはデータプレーンと同じ保護機能を提供しません。また、有効なクレデンシャル（）を持つ任意の場所から誰でもアクセスできます https://datatracker.ietf.org/doc/html/rfc7519["JWTトークン"^]）。
 
 つまり、Cloud Volumes Service データプレーンは、VPCサービスコントロールをサポートする必要なく、ネットワークアクセス制御機能を提供します。VPCサービスコントロールは明示的に使用しません。
 
@@ -73,7 +73,7 @@ image:ncvs-gc-image4.png["エラー：グラフィックイメージがありま
 
 === VMネットワークインターフェイス
 
-攻撃者のトリックの1つとして、のVMに新しいNIC（ネットワークインターフェイスカード）を追加する方法があります https://["プロミスキャスモードです"^] （ポートミラーリング）を使用するか、既存のNICでプロミスキャスモードを有効にして、すべてのトラフィックをスニファします。Google Cloudで新しいNICを追加するには、VMを完全にシャットダウンする必要があります。これによりアラートが生成されるため、攻撃者はこのことに気づかれません。
+攻撃者のトリックの1つとして、のVMに新しいNIC（ネットワークインターフェイスカード）を追加する方法があります https://en.wikipedia.org/wiki/Promiscuous_mode["プロミスキャスモードです"^] （ポートミラーリング）を使用するか、既存のNICでプロミスキャスモードを有効にして、すべてのトラフィックをスニファします。Google Cloudで新しいNICを追加するには、VMを完全にシャットダウンする必要があります。これによりアラートが生成されるため、攻撃者はこのことに気づかれません。
 
 また、NICをプロミスキャスモードに設定することはできず、Google Cloudでアラートをトリガーします。
 

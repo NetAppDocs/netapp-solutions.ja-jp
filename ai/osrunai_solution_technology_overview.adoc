@@ -22,7 +22,7 @@ image:osrunai_image2.png["エラー：グラフィックイメージがありま
 
 == この解決策で使用されているハードウェア
 
-この解決策は、 ONTAP AI リファレンスアーキテクチャ DGX 1 ノードと AFF A800 ストレージシステム 1 台を使用して検証されました。を参照してください https://["NVA-1121."^] を参照してください。
+この解決策は、 ONTAP AI リファレンスアーキテクチャ DGX 1 ノードと AFF A800 ストレージシステム 1 台を使用して検証されました。を参照してください https://www.netapp.com/us/media/nva-1121-design.pdf["NVA-1121."^] を参照してください。
 
 次の表に、テストで解決策を実装するために必要なハードウェアコンポーネントを示します。
 
@@ -42,7 +42,7 @@ image:osrunai_image2.png["エラー：グラフィックイメージがありま
 
 == ソフトウェア要件
 
-この解決策は、 Run ： AI オペレータがインストールされた基本的な Kubernetes 環境で検証されました。Kubernetes はを使用して導入されました https://["NVIDIA DeepOps のことです"^] 導入エンジン：本番環境に必要なすべてのコンポーネントを導入します。DeepOps は自動的に導入されます https://["NetApp Trident"^] Kubernetes 環境との永続的なストレージ統合のために、デフォルトのストレージクラスが作成されました。これにより、コンテナは AFF A800 ストレージシステムのストレージを活用できます。Trident と ONTAP AI の Kubernetes の詳細については、を参照してください https://["TR-4798"^]。
+この解決策は、 Run ： AI オペレータがインストールされた基本的な Kubernetes 環境で検証されました。Kubernetes はを使用して導入されました https://github.com/NVIDIA/deepops["NVIDIA DeepOps のことです"^] 導入エンジン：本番環境に必要なすべてのコンポーネントを導入します。DeepOps は自動的に導入されます https://netapp.io/persistent-storage-provisioner-for-kubernetes/["NetApp Trident"^] Kubernetes 環境との永続的なストレージ統合のために、デフォルトのストレージクラスが作成されました。これにより、コンテナは AFF A800 ストレージシステムのストレージを活用できます。Trident と ONTAP AI の Kubernetes の詳細については、を参照してください https://www.netapp.com/us/media/tr-4798.pdf["TR-4798"^]。
 
 次の表に、テストで解決策を実装するために必要なソフトウェアコンポーネントを示します。
 
@@ -73,6 +73,6 @@ image:osrunai_image2.png["エラー：グラフィックイメージがありま
 
 | Docker コンテナプラットフォーム | 18.06.1-CE [e68fc7a] 
 |===
-実行に必要なその他のソフトウェア要件： AI は、から入手できます https://["AI GPU クラスタの前提条件を実行します"^]。
+実行に必要なその他のソフトウェア要件： AI は、から入手できます https://docs.run.ai/Administrator/Cluster-Setup/Run-AI-GPU-Cluster-Prerequisites/["AI GPU クラスタの前提条件を実行します"^]。
 
 link:osrunai_optimal_cluster_and_gpu_utilization_with_run_ai_overview.html["次のステップ： AI を実行することでクラスタと GPU の利用率を最適化"]

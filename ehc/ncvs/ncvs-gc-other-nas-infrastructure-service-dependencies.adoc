@@ -59,7 +59,7 @@ NFS Kerberosマシンアカウントの場合、パスワードのリセット�
 
 == LDAPおよびKerberosで使用するネットワークポート
 
-LDAPおよびKerberosを使用する場合は、これらのサービスで使用されているネットワークポートを確認する必要があります。Cloud Volumes Service で使用されているすべてのポートの一覧については、を参照してください https://["セキュリティに関する考慮事項についてのCloud Volumes Service のドキュメント"^]。
+LDAPおよびKerberosを使用する場合は、これらのサービスで使用されているネットワークポートを確認する必要があります。Cloud Volumes Service で使用されているすべてのポートの一覧については、を参照してください https://cloud.google.com/architecture/partners/netapp-cloud-volumes/security-considerations?hl=en_US["セキュリティに関する考慮事項についてのCloud Volumes Service のドキュメント"^]。
 
 
 
@@ -67,9 +67,9 @@ LDAPおよびKerberosを使用する場合は、これらのサービスで使�
 
 Cloud Volumes Service はLDAPクライアントとして機能し、UNIX IDのユーザおよびグループ検索に標準のLDAP検索クエリを使用します。Cloud Volumes Service が提供する標準のデフォルトユーザ以外のユーザとグループを使用する場合は、LDAPが必要です。また、ユーザプリンシパル（user1@domain.comなど）でNFS Kerberosを使用する場合も、LDAPが必要です。現在、Microsoft Active Directoryを使用するLDAPのみがサポートされています。
 
-Active DirectoryをUNIX LDAPサーバとして使用するには、UNIX IDに使用するユーザおよびグループに、必要なUNIX属性を設定する必要があります。Cloud Volumes Service では、に基づいて属性を照会するデフォルトのLDAPスキーマテンプレートが使用されます https://["RFC-2307 -bis"^]。このため、次の表に、ユーザとグループにデータを入力するために最低限必要なActive Directory属性と、それぞれの属性がどのような目的で使用されているかを示します。
+Active DirectoryをUNIX LDAPサーバとして使用するには、UNIX IDに使用するユーザおよびグループに、必要なUNIX属性を設定する必要があります。Cloud Volumes Service では、に基づいて属性を照会するデフォルトのLDAPスキーマテンプレートが使用されます https://tools.ietf.org/id/draft-howard-rfc2307bis-01.txt["RFC-2307 -bis"^]。このため、次の表に、ユーザとグループにデータを入力するために最低限必要なActive Directory属性と、それぞれの属性がどのような目的で使用されているかを示します。
 
-Active DirectoryでのLDAP属性の設定の詳細については、を参照してください https://["デュアルプロトコルアクセスの管理"^]
+Active DirectoryでのLDAP属性の設定の詳細については、を参照してください https://cloud.google.com/architecture/partners/netapp-cloud-volumes/managing-dual-protocol-access["デュアルプロトコルアクセスの管理"^]
 
 |===
 | 属性 | 機能 
@@ -305,7 +305,7 @@ TEXT
 
 === LDAPチャネルバインド
 
-Windows Active Directoryドメインコントローラの脆弱性により、 https://["マイクロソフトセキュリティアドバイザリADV190023"^] DCによるLDAPバインドの許可方法を変更します。
+Windows Active Directoryドメインコントローラの脆弱性により、 https://msrc.microsoft.com/update-guide/vulnerability/ADV190023["マイクロソフトセキュリティアドバイザリADV190023"^] DCによるLDAPバインドの許可方法を変更します。
 
 Cloud Volumes Service による影響は、どのLDAPクライアントでも同じです。Cloud Volumes Service では現在、チャネルバインドはサポートされていません。Cloud Volumes Service はネゴシエーションを通じてデフォルトでLDAP署名をサポートしているため、LDAPチャネルバインドを問題 にすることはできません。チャネルバインドが有効な状態でLDAPにバインドする問題がある場合は、「ADV190023」の修正手順に従って、Cloud Volumes Service からのLDAPバインドを成功させるようにしてください。
 
@@ -313,13 +313,13 @@ Cloud Volumes Service による影響は、どのLDAPクライアントでも同
 
 == DNS
 
-Active DirectoryとKerberosはどちらも、ホスト名からIP / IPを経由したホスト名解決で、DNSに依存します。DNSでは、ポート53を開く必要があります。Cloud Volumes Service では、DNSレコードに変更を加えたり、現在のところの使用をサポートしていません https://["動的DNS"^] ネットワークインターフェイス。
+Active DirectoryとKerberosはどちらも、ホスト名からIP / IPを経由したホスト名解決で、DNSに依存します。DNSでは、ポート53を開く必要があります。Cloud Volumes Service では、DNSレコードに変更を加えたり、現在のところの使用をサポートしていません https://support.google.com/domains/answer/6147083?hl=en["動的DNS"^] ネットワークインターフェイス。
 
-Active Directory DNSを設定して、DNSレコードを更新できるサーバを制限できます。詳細については、を参照してください https://["Windows DNSを保護"^]。
+Active Directory DNSを設定して、DNSレコードを更新できるサーバを制限できます。詳細については、を参照してください https://docs.microsoft.com/en-us/learn/modules/secure-windows-server-domain-name-system/["Windows DNSを保護"^]。
 
 Googleプロジェクト内のリソースは、既定ではGoogle Cloud DNSを使用しますが、Active Directory DNSには接続されていません。クラウドDNSを使用するクライアントは、Cloud Volumes Service から返されたUNCパスを解決できません。Active Directoryドメインに参加しているWindowsクライアントは、Active Directory DNSを使用するように設定され、このようなUNCパスを解決できます。
 
-クライアントをActive Directoryに参加させるには、Active Directory DNSを使用するようにそのDNS設定を構成する必要があります。必要に応じて、Active Directory DNSに要求を転送するようにCloud DNSを設定することができます。を参照してください https://["クライアントでSMB NetBIOS名を解決できないのはなぜですか？"^]を参照してください。
+クライアントをActive Directoryに参加させるには、Active Directory DNSを使用するようにそのDNS設定を構成する必要があります。必要に応じて、Active Directory DNSに要求を転送するようにCloud DNSを設定することができます。を参照してください https://cloud.google.com/architecture/partners/netapp-cloud-volumes/faqs-netapp["クライアントでSMB NetBIOS名を解決できないのはなぜですか？"^]を参照してください。
 
 
 NOTE: Cloud Volumes Service は現在DNSSECをサポートしておらず、DNSクエリはプレーンテキストで実行されます。

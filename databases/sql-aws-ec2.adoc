@@ -22,7 +22,7 @@ summary:
 
 オンプレミスのストレージシステムとクラウドストレージサービスの機能の違いによって、アプリケーションをオンプレミスからクラウドに移行したいと考えている企業は少なくありません。このギャップが解消されたことで、Microsoft SQL Serverなどのエンタープライズアプリケーションの移行で問題が生じていました。特に、堅牢なスナップショット、Storage Efficiency機能、高可用性、信頼性、一貫性のあるパフォーマンスなどのエンタープライズアプリケーションを実行するために必要なサービスが不足しているため、設計のトレードオフやアプリケーションの移行が必要になりました。FSX for NetApp ONTAP を使用することで、顧客は妥協する必要がなくなります。NetApp ONTAP のFSXは、AWSが販売、サポート、課金、フルマネージドのネイティブ（ファーストパーティ）AWSサービスです。NetApp ONTAP の機能を活用して、エンタープライズクラスのストレージとデータ管理機能を提供します。ネットアップは、AWSで30年にわたってマネージドサービスとしてオンプレミスで提供してきたのと同じ機能を提供します。
 
-EC2インスタンス上のSQL Serverを使用すると、データベース管理者は、自身のデータベース環境と基盤となるオペレーティングシステムにアクセスしてカスタマイズできます。EC2インスタンス上のSQL Serverをと組み合わせて使用する必要があります https://["AWS FSX ONTAP の略"^] データベースファイルを格納するために、ブロックレベルのレプリケーションを使用して、高パフォーマンス、データ管理、およびシンプルで簡単な移行パスを実現できます。そのため、AWS VPC上で複雑なデータベースを簡単に移行して、クリック回数を減らすことができ、スキーマの変換も不要です。
+EC2インスタンス上のSQL Serverを使用すると、データベース管理者は、自身のデータベース環境と基盤となるオペレーティングシステムにアクセスしてカスタマイズできます。EC2インスタンス上のSQL Serverをと組み合わせて使用する必要があります https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html["AWS FSX ONTAP の略"^] データベースファイルを格納するために、ブロックレベルのレプリケーションを使用して、高パフォーマンス、データ管理、およびシンプルで簡単な移行パスを実現できます。そのため、AWS VPC上で複雑なデータベースを簡単に移行して、クリック回数を減らすことができ、スキーマの変換も不要です。
 
 
 
@@ -104,7 +104,7 @@ FSX ONTAP では、ストレージの調達が最も簡単な作業であり、�
 |===
 この構成では、ボリュームの合計サイズは、ファイルシステムで実際に使用可能なストレージよりも大きくなる可能性があります。LUNまたはSnapshotコピーがボリューム内の使用可能なスペースよりも多くのスペースを必要とする場合、ボリュームは、包含ファイルシステムからより多くのスペースを取得して自動的に拡張します。自動拡張では、FSX ONTAP によって、ボリュームのサイズが事前に決めた最大サイズまで自動的に拡張されます。ボリュームの自動拡張をサポートするには、使用可能なスペースを包含ファイルシステムに確保する必要があります。そのため、自動拡張を有効にした状態でファイルシステムの空きスペースを監視し、必要に応じてファイルシステムを更新してください。
 
-これに加えて、を設定します https://["space-allocのようになります"^] ボリュームのスペースが不足し、ボリューム内のLUNが書き込みを受け付けられなくなったときにFSX ONTAP がEC2ホストに通知するように、LUNのオプションを有効にします。また、このオプションを指定すると、EC2ホスト上のSQL Serverでデータが削除された場合に、ONTAP のFSXでスペースが自動的に再利用されます。space-allocationオプションは、デフォルトでdisabledに設定されています。
+これに加えて、を設定します https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Software/ONTAP_OS/What_does_the_LUN_option_space_alloc_do%3F["space-allocのようになります"^] ボリュームのスペースが不足し、ボリューム内のLUNが書き込みを受け付けられなくなったときにFSX ONTAP がEC2ホストに通知するように、LUNのオプションを有効にします。また、このオプションを指定すると、EC2ホスト上のSQL Serverでデータが削除された場合に、ONTAP のFSXでスペースが自動的に再利用されます。space-allocationオプションは、デフォルトでdisabledに設定されています。
 
 
 NOTE: ギャランティがnoneのボリュームにスペースリザーブLUNを作成する場合の動作は、スペースリザーブなしのLUNと同じです。ギャランティがnoneのボリュームは、ボリューム自体、書き込み時に初めてスペースが割り当てられるため、LUNに割り当てられるスペースはありません。
@@ -143,7 +143,7 @@ SnapCenter でSQL Serverの処理を実行するには、まずSQL Server用の�
 ====
 SQL Server用のボリュームとLUNを作成するには、次の手順を実行します。
 
-. でAmazon FSXコンソールを開きます https://[]
+. でAmazon FSXコンソールを開きます https://console.aws.amazon.com/fsx/[]
 . CreationメソッドのStandard Createオプションを使用して、NetApp ONTAP ファイルシステムのAmazon FSXを作成します。これにより、FSxadminとvsadminの資格情報を定義できます。
 +
 image:sql-awsec2-image1.png["エラー：グラフィックイメージがありません"]
@@ -156,7 +156,7 @@ image:sql-awsec2-image2.png["エラー：グラフィックイメージがあり
 +
 image:sql-awsec2-image3.png["エラー：グラフィックイメージがありません"]
 
-. に示す手順に従ってボリュームを作成します https://["NetApp ONTAP のFSX上にボリュームを作成する"^]。
+. に示す手順に従ってボリュームを作成します https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-volumes.html["NetApp ONTAP のFSX上にボリュームを作成する"^]。
 +
 |===
 
@@ -212,7 +212,7 @@ lun create -path /vol/vol_awssqlprod01_data/lun_awssqlprod01_data -size 700GB -o
 +
 image:sql-awsec2-image5.png["エラー：グラフィックイメージがありません"]
 
-. OSのパーティショニングスキームを使用してI/Oアライメントを実行するには、推奨されるLUNタイプとしてwindows_2008を使用してください。を参照してください https://["こちらをご覧ください"^] 追加情報 の場合。
+. OSのパーティショニングスキームを使用してI/Oアライメントを実行するには、推奨されるLUNタイプとしてwindows_2008を使用してください。を参照してください https://docs.netapp.com/us-en/ontap/san-admin/io-misalignments-properly-aligned-luns-concept.html["こちらをご覧ください"^] 追加情報 の場合。
 . 次のSSHコマンドを使用して、作成したLUNにigroupをマッピングします。
 +
 ....
@@ -345,9 +345,9 @@ NetApp SnapCenter は、ティア1エンタープライズアプリケーショ�
 
 
 |===
-詳細については、「スペースとサイジングの要件」を参照してください 
+詳細については、「スペースとサイジングの要件」を参照してください (https://docs.netapp.com/us-en/snapcenter/install/reference_space_and_sizing_requirements.html)[]
 
-バージョンの互換性については、を参照してください https://["NetApp Interoperability Matrix Tool で確認できます"^]。
+バージョンの互換性については、を参照してください https://mysupport.netapp.com/matrix/["NetApp Interoperability Matrix Tool で確認できます"^]。
 
 ====
 .データベースストレージレイアウト
@@ -386,7 +386,7 @@ NOTE: 新しいデータベースを作成するときは、データとログ�
 .SnapCenter のインストールとセットアップ
 [%collapsible]
 ====
-に従ってください https://["SnapCenter サーバをインストールします"^] および https://["SnapCenter Plug-in for Microsoft SQL Serverをインストールしています"^] SnapCenter をインストールしてセットアップするには、次の手順
+に従ってください https://docs.netapp.com/us-en/snapcenter/install/task_install_the_snapcenter_server_using_the_install_wizard.html["SnapCenter サーバをインストールします"^] および https://docs.netapp.com/us-en/snapcenter/protect-scsql/task_add_hosts_and_install_snapcenter_plug_ins_package_for_windows.html["SnapCenter Plug-in for Microsoft SQL Serverをインストールしています"^] SnapCenter をインストールしてセットアップするには、次の手順
 
 SnapCenter をインストールしたら、次の手順を実行してセットアップします。
 
@@ -590,10 +590,10 @@ video::SQLonFSxN.mp4[width=400]
 ====
 AWSコンソールのクラウド形成テンプレートでは、次の.yamlファイルを使用できます。
 
-* https://["https://github.com/NetApp-Automation/fsxn-iscsisetup-cft"^]
+* https://github.com/NetApp-Automation/fsxn-iscsisetup-cft["https://github.com/NetApp-Automation/fsxn-iscsisetup-cft"^]
 
 
-PowerShellを使用してiSCSI LUNの作成やNetApp SnapCenter のインストールを自動化するには、からリポジトリをクローニングします https://["このGitHubリンク"^]。
+PowerShellを使用してiSCSI LUNの作成やNetApp SnapCenter のインストールを自動化するには、からリポジトリをクローニングします https://github.com/NetApp-Automation/fsxn-iscsisetup-ps["このGitHubリンク"^]。
 
 ====
 .付録B：ボリュームおよびLUNをプロビジョニングするためのPowerShellスクリプト
@@ -719,30 +719,30 @@ Remove-Item -Path $MyInvocation.MyCommand.Source
 
 * NetApp ONTAP 対応の Amazon FSX
 +
-https://["https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html"^]
+https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html["https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html"^]
 
 * FSX for NetApp ONTAP をご利用ください
 +
-https://["https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/getting-started.html"^]
+https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/getting-started.html["https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/getting-started.html"^]
 
 * SnapCenter インターフェイスの概要
 +
-https://["https://www.youtube.com/watch?v=lVEBF4kV6Ag&t=0s"^]
+https://www.youtube.com/watch?v=lVEBF4kV6Ag&t=0s["https://www.youtube.com/watch?v=lVEBF4kV6Ag&t=0s"^]
 
 * SnapCenter ナビゲーションペインのオプションを確認します
 +
-https://["https://www.youtube.com/watch?v=_lDKt-koySQ"^]
+https://www.youtube.com/watch?v=_lDKt-koySQ["https://www.youtube.com/watch?v=_lDKt-koySQ"^]
 
 * SnapCenter 4.0 for SQL Serverプラグインをセットアップします
 +
-https://["https://www.youtube.com/watch?v=MopbUFSdHKE"^]
+https://www.youtube.com/watch?v=MopbUFSdHKE["https://www.youtube.com/watch?v=MopbUFSdHKE"^]
 
 * SnapCenter とSQL Serverプラグインを使用したデータベースのバックアップおよびリストア方法
 +
-https://["https://www.youtube.com/watch?v=K343qPD5_Ys"^]
+https://www.youtube.com/watch?v=K343qPD5_Ys["https://www.youtube.com/watch?v=K343qPD5_Ys"^]
 
 * SnapCenter とSQL Serverプラグインを使用してデータベースをクローニングする方法
 +
-https://["https://www.youtube.com/watch?v=ogEc4DkGv1E"^]
+https://www.youtube.com/watch?v=ogEc4DkGv1E["https://www.youtube.com/watch?v=ogEc4DkGv1E"^]
 
 

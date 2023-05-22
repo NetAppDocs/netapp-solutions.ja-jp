@@ -16,13 +16,13 @@ summary: Cloud Volumes Service では、適切なアクセス権限を維持し�
 link:ncvs-gc-smb.html["Previous：SMB。"]
 
 [role="lead"]
-Cloud Volumes Service では、適切なアクセス権限を維持しながら、SMBクライアントとNFSクライアントの両方で同じデータセットを共有できます (https://["デュアルプロトコル"^]）。これを行うには、プロトコル間でIDマッピングを調整し、中央のバックエンドLDAPサーバを使用してUNIX IDをCloud Volumes Service に提供します。Windows Active Directoryを使用すると、WindowsとUNIXの両方のユーザに使いやすさを提供できます。
+Cloud Volumes Service では、適切なアクセス権限を維持しながら、SMBクライアントとNFSクライアントの両方で同じデータセットを共有できます (https://cloud.google.com/architecture/partners/netapp-cloud-volumes/managing-dual-protocol-access["デュアルプロトコル"^]）。これを行うには、プロトコル間でIDマッピングを調整し、中央のバックエンドLDAPサーバを使用してUNIX IDをCloud Volumes Service に提供します。Windows Active Directoryを使用すると、WindowsとUNIXの両方のユーザに使いやすさを提供できます。
 
 
 
 == Access Control の略
 
-* *共有アクセス制御。* NAS共有にアクセスできるクライアントまたはユーザーおよびグループを決定します。NFSの場合は、エクスポートへのクライアントアクセスを制御するエクスポートポリシーとルールがあります。NFSエクスポートはCloud Volumes Service インスタンスから管理されます。SMBは、CIFS / SMB共有と共有ACLを利用して、ユーザレベルおよびグループレベルでより細かく制御します。を使用して設定できるのは、SMBクライアントからのみ共有レベルのACLです https://["MMC /コンピュータの管理"^] Cloud Volumes Service インスタンスに対する管理者権限を持つアカウントを使用する場合（を参照） link:ncvs-gc-smb.html#accounts-with-local/builtin-administrator/backup-rights["“ローカル/ BUILTIN管理者/バックアップ権限を持つアカウント”"]）。
+* *共有アクセス制御。* NAS共有にアクセスできるクライアントまたはユーザーおよびグループを決定します。NFSの場合は、エクスポートへのクライアントアクセスを制御するエクスポートポリシーとルールがあります。NFSエクスポートはCloud Volumes Service インスタンスから管理されます。SMBは、CIFS / SMB共有と共有ACLを利用して、ユーザレベルおよびグループレベルでより細かく制御します。を使用して設定できるのは、SMBクライアントからのみ共有レベルのACLです https://library.netapp.com/ecmdocs/ECMP1401220/html/GUID-C1772CDF-8AEE-422B-AB87-CFCB7E50FF94.html["MMC /コンピュータの管理"^] Cloud Volumes Service インスタンスに対する管理者権限を持つアカウントを使用する場合（を参照） link:ncvs-gc-smb.html#accounts-with-local/builtin-administrator/backup-rights["“ローカル/ BUILTIN管理者/バックアップ権限を持つアカウント”"]）。
 * *ファイルアクセス制御。*ファイルまたはフォルダレベルで権限を制御し、常にNASクライアントから管理します。NFSクライアントは、従来のモードビット（rwx）またはNFSv4 ACLを使用できます。SMBクライアントはNTFS権限を利用します。
 
 
@@ -38,7 +38,7 @@ NFSとSMBの両方にデータを提供するボリュームのアクセス制�
 
 また、「joe」という名前のUNIXユーザがWindows権限を持つCloud Volumes Service ボリュームへのアクセスを試みる場合、そのUNIXユーザは有効なWindowsユーザにマッピングできる必要があります。そうしないと、ボリュームへのアクセスが拒否されます。
 
-現時点では、LDAPを使用した外部UNIX IDの管理でサポートされているのはActive Directoryのみです。このサービスへのアクセスの設定の詳細については、を参照してください https://["AD接続の作成"^]。
+現時点では、LDAPを使用した外部UNIX IDの管理でサポートされているのはActive Directoryのみです。このサービスへのアクセスの設定の詳細については、を参照してください https://cloud.google.com/architecture/partners/netapp-cloud-volumes/creating-smb-volumes["AD接続の作成"^]。
 
 
 

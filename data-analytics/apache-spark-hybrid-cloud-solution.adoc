@@ -34,8 +34,8 @@ image:apache-spark-image14.png["クラウドサービスパートナーの解決
 
 ネットアップのデータ保護機能とマルチクラウド接続解決策 は、複数のハイパースケーラにわたるクラウド分析アプリケーションの課題を解決します。上の図に示すように、センサーからのデータはストリーミングされ、 Kafka を介して AWS Spark クラスタに取り込まれます。データは NPS 内の NFS 共有に格納されます。 NPS は、 Equinix データセンター内のクラウドプロバイダの外部にあります。
 
-NetApp NPSは、それぞれDirect Connect接続とExpress Route接続を通じてAmazon AWSとMicrosoft Azureに接続されているため、インプレース分析モジュールを利用して、AmazonとAWS両方の分析クラスタからデータにアクセスできます。そのため、オンプレミスストレージとNPSストレージの両方でONTAP ソフトウェアが実行され、 https://["SnapMirror"^] NPSデータをオンプレミスクラスタにミラーリングし、オンプレミスと複数のクラウドにわたってハイブリッドクラウド分析を実現できます。
+NetApp NPSは、それぞれDirect Connect接続とExpress Route接続を通じてAmazon AWSとMicrosoft Azureに接続されているため、インプレース分析モジュールを利用して、AmazonとAWS両方の分析クラスタからデータにアクセスできます。そのため、オンプレミスストレージとNPSストレージの両方でONTAP ソフトウェアが実行され、 https://docs.netapp.com/us-en/ontap/data-protection/snapmirror-replication-concept.html["SnapMirror"^] NPSデータをオンプレミスクラスタにミラーリングし、オンプレミスと複数のクラウドにわたってハイブリッドクラウド分析を実現できます。
 
-パフォーマンスを最大限に高めるために、通常は複数のネットワークインターフェイスと直接接続またはエクスプレスルートを使用してクラウドインスタンスからデータにアクセスすることを推奨します。ネットアップには、ほかにも、などのData Moverソリューションがあります https://["XCP"^] および https://["Cloud Sync"^] お客様がアプリケーション対応でセキュア、コスト効率に優れたハイブリッドクラウドSparkクラスタを構築できるよう支援します。
+パフォーマンスを最大限に高めるために、通常は複数のネットワークインターフェイスと直接接続またはエクスプレスルートを使用してクラウドインスタンスからデータにアクセスすることを推奨します。ネットアップには、ほかにも、などのData Moverソリューションがあります https://mysupport.netapp.com/documentation/docweb/index.html?productID=63942&language=en-US["XCP"^] および https://cloud.netapp.com/cloud-sync-service["Cloud Sync"^] お客様がアプリケーション対応でセキュア、コスト効率に優れたハイブリッドクラウドSparkクラスタを構築できるよう支援します。
 
 link:apache-spark-python-scripts-for-each-major-use-case.html["次の例：主なユースケースごとにPythonスクリプトを使用します。"]

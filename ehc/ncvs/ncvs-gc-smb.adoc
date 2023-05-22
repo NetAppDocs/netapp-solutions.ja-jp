@@ -16,7 +16,7 @@ summary: SMBは、Microsoftが開発したネットワークファイル共有�
 link:ncvs-gc-nfs.html["前のバージョン：NFS。"]
 
 [role="lead"]
-https://["SMB"^] は、Microsoftが開発したネットワークファイル共有プロトコルです。ユーザ/グループの認証、権限、ロック、およびファイル共有を、イーサネットネットワークを介して複数のSMBクライアントに一元的に提供します。ファイルとフォルダは共有を通じてクライアントに提供されます。共有は、さまざまな共有プロパティを設定したり、共有レベルの権限を通じてアクセスを制御したりすることができます。SMBは、Windows、Apple、Linuxクライアントなど、このプロトコルをサポートする任意のクライアントに提供できます。
+https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/hh831795(v=ws.11)["SMB"^] は、Microsoftが開発したネットワークファイル共有プロトコルです。ユーザ/グループの認証、権限、ロック、およびファイル共有を、イーサネットネットワークを介して複数のSMBクライアントに一元的に提供します。ファイルとフォルダは共有を通じてクライアントに提供されます。共有は、さまざまな共有プロパティを設定したり、共有レベルの権限を通じてアクセスを制御したりすることができます。SMBは、Windows、Apple、Linuxクライアントなど、このプロトコルをサポートする任意のクライアントに提供できます。
 
 Cloud Volumes Service では、SMB 2.1および3.xバージョンのプロトコルがサポートされます。
 
@@ -97,7 +97,7 @@ image:ncvs-gc-image9.png["エラー：グラフィックイメージがありま
 
 === SMB認証ダイアレクト
 
-Cloud Volumes Service では、次の機能がサポートされ https://["方言"^] SMB認証の場合：
+Cloud Volumes Service では、次の機能がサポートされ https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-smb2/8df1a501-ce4e-4287-8848-5f1d4733e280["方言"^] SMB認証の場合：
 
 * LM
 * NTLM
@@ -109,7 +109,7 @@ SMB共有アクセスのKerberos認証は、使用できる最も安全な認証
 
 Cloud Volumes Service では、LMおよびNTLM認証の下位互換性もサポートされています。Kerberosの設定が正しくない場合（SMBエイリアスの作成時など）、共有アクセスはより脆弱な認証方法（NTLMv2など）にフォールバックされます。これらのメカニズムは安全性が低いため、一部のActive Directory環境では無効になっています。より脆弱な認証方法が無効になっていて、Kerberosが適切に設定されていない場合、フォールバックする有効な認証方法がないため、共有アクセスは失敗します。
 
-Active Directoryでサポートされている認証レベルの設定/表示については、を参照してください https://["ネットワークセキュリティ：LAN Manager認証レベル"^]。
+Active Directoryでサポートされている認証レベルの設定/表示については、を参照してください https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/network-security-lan-manager-authentication-level["ネットワークセキュリティ：LAN Manager認証レベル"^]。
 
 
 
@@ -160,7 +160,7 @@ image:ncvs-gc-image11.png["エラー：グラフィックイメージがあり�
 * 個々のユーザではなくグループを使用してアクセス制御を行うと、管理が容易になり、グループ管理を通じてユーザの削除や追加を迅速に行うことができます。
 * 共有権限のACEに対する制限が厳しくなく、一般的な共有アクセスを許可し、ファイル権限を持つユーザとグループにロックダウンされて、より詳細なアクセス制御が可能になります。
 * 明示的なDENY ACLは、ALLOW ACLより優先されるため、一般的に使用しないでください。ファイルシステムへのアクセスを迅速に制限する必要があるユーザまたはグループに対する明示的なDENY ACLの使用を制限してください。
-* に注意を払ってください https://["ACLの継承"^] 権限を変更する際の設定。ファイル数の多いディレクトリまたはボリュームの最上位で継承フラグを設定すると、そのディレクトリまたはボリュームの下の各ファイルに継承された権限が追加されます。 これにより、各ファイルの調整時に意図しないアクセス/拒否や権限の大幅な変更など、不要な動作が発生する可能性があります。
+* に注意を払ってください https://www.varonis.com/blog/permission-propagation/["ACLの継承"^] 権限を変更する際の設定。ファイル数の多いディレクトリまたはボリュームの最上位で継承フラグを設定すると、そのディレクトリまたはボリュームの下の各ファイルに継承された権限が追加されます。 これにより、各ファイルの調整時に意図しないアクセス/拒否や権限の大幅な変更など、不要な動作が発生する可能性があります。
 
 
 
@@ -180,17 +180,17 @@ image:ncvs-gc-image12.png["エラー：グラフィックイメージがあり�
 
 * * SMB暗号化を有効にします（CVS -パフォーマンスとCVS - SWの両方で利用可能）。* SMB暗号化は、SMB共有ではデフォルトで無効になっています（オフ）。このチェックボックスをオンにすると、SMB暗号化が有効になります。つまり、SMBクライアントとサーバ間のトラフィックが、ネゴシエートされたサポート対象の最大暗号化レベルで転送中に暗号化されます。Cloud Volumes Service は、SMBで最大AES-256暗号化をサポートしています。SMB暗号化を有効にした場合、SMBクライアントが気づくことがあるパフォーマンス低下はありません。約10~20%の範囲になります。ネットアップでは、パフォーマンスへの影響が許容されるかどうかをテストで確認することを強く推奨してい
 * * SMB共有を非表示にします（CVS -パフォーマンスとCVS - SWの両方に利用できます）。*このオプションを設定すると、SMB共有パスが通常の閲覧から見えなくなります。つまり、共有パスがわからないクライアントは、デフォルトのUNCパス（例：\\cvs-smb）にアクセスすると共有を参照できません。このチェックボックスをオンにすると、SMB共有パスを明示的に知っているクライアント、またはグループポリシーオブジェクトによって定義された共有パスを持つクライアントだけが、このパスにアクセスできます（難読化によるセキュリティ）。
-* *アクセスベースの列挙（ABE）を有効にします（CVS - SWのみ）。* SMB共有を非表示にするのと似ています。ただし、共有やファイルは、オブジェクトへのアクセス権限がないユーザまたはグループに対してのみ表示されます。たとえば、Windowsユーザ「joe」に許可されているアクセス許可で少なくとも読み取りアクセスが許可されていない場合、Windowsユーザ「joe」はSMB共有またはファイルをまったく表示できません。このオプションはデフォルトでは無効になっており、チェックボックスを選択することで有効にできます。ABEの詳細については、ネットアップの技術情報アーティクルを参照してください https://["アクセスベースの列挙（ABE）の仕組み"^]
-* *継続的可用性（CA）共有のサポートを有効にします（CVS -パフォーマンスのみ）。* https://["継続的可用性を備えたSMB共有"^] Cloud Volumes Service バックエンドシステム内のノード間でロック状態をレプリケートすることで、フェイルオーバーイベント中のアプリケーションの停止を最小限に抑えることができます。これはセキュリティ機能ではありませんが、全体的な耐障害性は向上します。現在、この機能では、SQL ServerとFSLogixアプリケーションのみがサポートされています。
+* *アクセスベースの列挙（ABE）を有効にします（CVS - SWのみ）。* SMB共有を非表示にするのと似ています。ただし、共有やファイルは、オブジェクトへのアクセス権限がないユーザまたはグループに対してのみ表示されます。たとえば、Windowsユーザ「joe」に許可されているアクセス許可で少なくとも読み取りアクセスが許可されていない場合、Windowsユーザ「joe」はSMB共有またはファイルをまったく表示できません。このオプションはデフォルトでは無効になっており、チェックボックスを選択することで有効にできます。ABEの詳細については、ネットアップの技術情報アーティクルを参照してください https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Software/ONTAP_OS/How_does_Access_Based_Enumeration_(ABE)_work["アクセスベースの列挙（ABE）の仕組み"^]
+* *継続的可用性（CA）共有のサポートを有効にします（CVS -パフォーマンスのみ）。* https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Software/ONTAP_OS/What_are_SMB_Continuously_Available_(CA)_Shares["継続的可用性を備えたSMB共有"^] Cloud Volumes Service バックエンドシステム内のノード間でロック状態をレプリケートすることで、フェイルオーバーイベント中のアプリケーションの停止を最小限に抑えることができます。これはセキュリティ機能ではありませんが、全体的な耐障害性は向上します。現在、この機能では、SQL ServerとFSLogixアプリケーションのみがサポートされています。
 
 
 
 
 == デフォルトの非表示共有
 
-Cloud Volumes Service でSMBサーバを作成すると、その場所に配置されます https://["非表示の管理共有"^] データボリュームのSMB共有に加えて作成される（$命名規則を使用）。これには、C$（名前空間アクセス）とIPC$（Microsoft管理コンソール（MMC）へのアクセスに使用されるリモート手順 呼び出し（RPC）などのプログラム間の通信用の名前付きパイプの共有）が含まれます。
+Cloud Volumes Service でSMBサーバを作成すると、その場所に配置されます https://library.netapp.com/ecmdocs/ECMP1366834/html/GUID-5B56B12D-219C-4E23-B3F8-1CB1C4F619CE.html["非表示の管理共有"^] データボリュームのSMB共有に加えて作成される（$命名規則を使用）。これには、C$（名前空間アクセス）とIPC$（Microsoft管理コンソール（MMC）へのアクセスに使用されるリモート手順 呼び出し（RPC）などのプログラム間の通信用の名前付きパイプの共有）が含まれます。
 
-IPC$共有には共有ACLは含まれておらず、変更することはできません。これはRPC呼び出しおよびにのみ使用されます https://["Windowsは、これらの共有への匿名アクセスをデフォルトで禁止します"^]。
+IPC$共有には共有ACLは含まれておらず、変更することはできません。これはRPC呼び出しおよびにのみ使用されます https://docs.microsoft.com/en-us/troubleshoot/windows-server/networking/inter-process-communication-share-null-session["Windowsは、これらの共有への匿名アクセスをデフォルトで禁止します"^]。
 
 C$共有ではデフォルトでBUILTIN\Administratorsアクセスが許可されますが、Cloud Volumes Service 自動化によって共有ACLが削除され、C$共有へのアクセスによってCloud Volumes Service ファイルシステム内のマウントされたすべてのボリュームが可視化されるため、すべてのユーザにアクセスすることはできません。その結果'\\server\C$'への移動は失敗します
 
@@ -200,9 +200,9 @@ C$共有ではデフォルトでBUILTIN\Administratorsアクセスが許可さ�
 
 Cloud Volumes Service SMBサーバは、選択したドメインユーザおよびグループにアクセス権を適用するローカルグループ（BUILTIN\Administratorsなど）があることに、通常のWindows SMBサーバと同様の機能を維持します。
 
-バックアップユーザに追加するユーザを指定すると、そのActive Directory接続を使用するCloud Volumes Service インスタンスのBUILTIN\Backup Operatorsグループにユーザが追加され、が取得されます https://["SeBackupPrivilegeおよびSeRestorePrivilege"^]。
+バックアップユーザに追加するユーザを指定すると、そのActive Directory接続を使用するCloud Volumes Service インスタンスのBUILTIN\Backup Operatorsグループにユーザが追加され、が取得されます https://docs.microsoft.com/en-us/windows-hardware/drivers/ifs/privileges["SeBackupPrivilegeおよびSeRestorePrivilege"^]。
 
-Security Privilegeユーザにユーザを追加すると、そのユーザにはSeSecurityPrivilegeが付与されます。これは、などの一部のアプリケーションユースケースで役立ちます https://["SMB共有上のSQL Server"^]。
+Security Privilegeユーザにユーザを追加すると、そのユーザにはSeSecurityPrivilegeが付与されます。これは、などの一部のアプリケーションユースケースで役立ちます https://docs.netapp.com/us-en/ontap/smb-hyper-v-sql/add-sesecurityprivilege-user-account-task.html["SMB共有上のSQL Server"^]。
 
 image:ncvs-gc-image13.png["エラー：グラフィックイメージがありません"]
 

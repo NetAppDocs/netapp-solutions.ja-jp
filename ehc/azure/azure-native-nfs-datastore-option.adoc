@@ -18,7 +18,7 @@ NFSデータストアのサポートは、オンプレミス環境のESXiバー�
 
 vSphere on NFSは、高いパフォーマンスと安定性を提供するため、オンプレミスの仮想化環境に広く採用されているオプションです。オンプレミスのデータセンターに大量のネットワーク接続型ストレージ（NAS）がある場合は、Azure NetApp Fileデータストアを使用してAzureにAzure VMware解決策 SDDCを導入することで、容量とパフォーマンスの課題を克服することを検討してください。
 
-Azure NetApp Files は、業界をリードする高可用性NetApp ONTAP データ管理ソフトウェアを基盤としています。Microsoft Azureサービスは、基本、メインストリーム、および専門の3つのカテゴリに分類されます。Azure NetApp Files は特殊なカテゴリに分類され、多くの地域にすでに導入されているハードウェアによってサポートされています。Azure NetApp Files には高可用性（HA）機能が組み込まれており、ほとんどのシステム停止からデータを保護し、業界をリードするのSLAを提供します https://["99.99%"^] アップタイム：
+Azure NetApp Files は、業界をリードする高可用性NetApp ONTAP データ管理ソフトウェアを基盤としています。Microsoft Azureサービスは、基本、メインストリーム、および専門の3つのカテゴリに分類されます。Azure NetApp Files は特殊なカテゴリに分類され、多くの地域にすでに導入されているハードウェアによってサポートされています。Azure NetApp Files には高可用性（HA）機能が組み込まれており、ほとんどのシステム停止からデータを保護し、業界をリードするのSLAを提供します https://azure.microsoft.com/support/legal/sla/netapp/v1_1/["99.99%"^] アップタイム：
 
 Azure NetApp Files データストア機能を導入する前に、パフォーマンスやストレージを大量に消費するワークロードをホストする計画のお客様がスケールアウト処理を行うためには、コンピューティングとストレージの両方を拡張する必要がありました。
 
@@ -148,12 +148,12 @@ az extension add --name vmware
 .Azure NetApp Files ボリュームを作成してマウント
 [%collapsible]
 ====
-. Azureポータルにログインして、Azure NetApp Files にアクセスします。Azure NetApp Files サービスへのアクセスを確認し'AZ provider register `--namespace Microsoft.NetApp–wait`コマンドを使用してAzure NetApp Files リソースプロバイダを登録します登録が完了したら、ネットアップアカウントを作成します。これを参照してください https://["リンク"^] を参照してください。
+. Azureポータルにログインして、Azure NetApp Files にアクセスします。Azure NetApp Files サービスへのアクセスを確認し'AZ provider register `--namespace Microsoft.NetApp–wait`コマンドを使用してAzure NetApp Files リソースプロバイダを登録します登録が完了したら、ネットアップアカウントを作成します。これを参照してください https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-create-netapp-account["リンク"^] を参照してください。
 
 
 image:vmware-dr-image2.png["エラー：グラフィックイメージがありません"]
 
-. ネットアップアカウントを作成したら、必要なサービスレベルとサイズの容量プールをセットアップします。詳細については、こちらを参照してください https://["リンク"^]。
+. ネットアップアカウントを作成したら、必要なサービスレベルとサイズの容量プールをセットアップします。詳細については、こちらを参照してください https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-set-up-capacity-pool["リンク"^]。
 
 
 image:vmware-dr-image3.png["エラー：グラフィックイメージがありません"]
@@ -168,7 +168,7 @@ image:vmware-dr-image3.png["エラー：グラフィックイメージがあり�
 
 
 |===
-. Azure NetApp Files の委任されたサブネットを設定し、ボリュームを作成する際にこのサブネットを指定します。委任されたサブネットを作成する詳細な手順については、を参照してください https://["リンク"^]。
+. Azure NetApp Files の委任されたサブネットを設定し、ボリュームを作成する際にこのサブネットを指定します。委任されたサブネットを作成する詳細な手順については、を参照してください https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-delegate-subnet["リンク"^]。
 . 容量プールブレード下のボリュームブレードを使用して、データストア用のNFSボリュームを追加します。
 
 
@@ -228,7 +228,7 @@ Azure NetApp Files は、 Standard （テラバイトあたり 16mbps ）、 Pre
 
 image:vmware-dr-image6.png["エラー：グラフィックイメージがありません"]
 
-詳細については、を参照してください https://["Azure NetApp Files のサービスレベル"^]。
+詳細については、を参照してください https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-service-levels["Azure NetApp Files のサービスレベル"^]。
 
 これを参照してください link:https://learn.microsoft.com/en-us/azure/azure-netapp-files/performance-benchmarks-azure-vmware-solution["Microsoftからのリンク"] サイジングの演習で使用できる詳細なパフォーマンスベンチマークについては、を参照してください。
 

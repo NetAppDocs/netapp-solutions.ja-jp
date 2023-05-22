@@ -1,0 +1,80 @@
+---
+sidebar: sidebar 
+permalink: rhhc/rhhc-solutions.html 
+keywords: NetApp Solutions, hybrid cloud, container workloads, containers, Red Hat OpenShift, RedHat OpenShift, VMware, ROSA, ACC, Astra Control Center, Advanced Cluster Management, ACM, Hub Cluster 
+summary:  
+---
+= Red Hat OpenShift Containerワークロード向けのネットアップハイブリッドマルチクラウドのサポート対象ソリューション
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+解決策 は、OpenShiftコンテナプラットフォーム（OCP）、OpenShift Advanced Cluster Manager（ACM）、NetApp ONTAP 、NetApp BlueXP、NetApp Astra Control Center（ACC）を使用した移行と一元的なデータ保護のテストと検証を行います。
+
+この解決策 では、次のシナリオがネットアップによってテストおよび検証されます。解決策 は、次の特性に基づいて複数のシナリオに分けられます。
+
+* オンプレミス
+* クラウド
++
+** 自己管理型OpenShiftクラスタと自己管理型ネットアップストレージ
+** プロバイダが管理するOpenShiftクラスタとプロバイダが管理するネットアップストレージ
+
+
+
+
+**今後、追加のソリューションとユースケースを構築していきます。**
+
+
+
+== シナリオ1：ACCを使用したオンプレミス環境内でのデータ保護と移行
+
+**オンプレミス：自己管理型OpenShiftクラスタと自己管理型ネットアップストレージ**
+
+* ACCを使用して、データ保護のためにSnapshotコピー、バックアップ、リストアを作成します。
+* ACCを使用して、コンテナアプリケーションのSnapMirrorレプリケーションを実行します。
+
+
+
+
+=== シナリオ 1
+
+image:rhhc-on-premises.png[""]
+
+
+
+== シナリオ2：ACCを使用したオンプレミス環境からAWS環境へのデータ保護と移行
+
+**オンプレミス：自己管理型OpenShiftクラスタと自己管理型ストレージ** AWSクラウド：自己管理型OpenShiftクラスタと自己管理型ストレージ**
+
+* ACCを使用して、データ保護のためのバックアップとリストアを実行します。
+* ACCを使用して、コンテナアプリケーションのSnapMirrorレプリケーションを実行します。
+
+
+
+
+=== シナリオ 2
+
+image:rhhc-self-managed-aws.png[""]
+
+
+
+== シナリオ3：オンプレミス環境からAWS環境へのデータ保護と移行：
+
+**オンプレミス：自己管理型OpenShiftクラスタと自己管理型ストレージ** AWSクラウド：プロバイダ管理型OpenShiftクラスタ（ROSA）とプロバイダ管理型ストレージ（FSxN）**
+
+* BlueXPを使用して永続ボリュームのレプリケーション（FSxN）を実行
+* OpenShift GitOpsを使用して、アプリケーションメタデータを再作成します。
+
+
+
+
+=== シナリオ3
+
+image:rhhc-rosa-with-fsxn.png[""]
+
+MetroCluster 構成でONTAP を使用する場合の考慮事項については、を参照してください link:https://docs.netapp.com/us-en/ontap-metrocluster/install-stretch/concept_considerations_when_using_ontap_in_a_mcc_configuration.html["こちらをご覧ください"]。
