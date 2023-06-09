@@ -1,0 +1,77 @@
+---
+sidebar: sidebar 
+permalink: ehc/gcp/gcp-ncvs-datastore.html 
+keywords: gcp, gcve, cvs, nfs, supplemental, datastore, vcenter, vmware 
+summary: お客様は、NetApp Cloud Volume ServiceでNFSの補完的データストアを使用して、Google Cloud VMware Engineのストレージ容量を拡張できます。 
+---
+= Google Cloud VMware Engine NetApp Cloud Volume Serviceを使用したNFSデータストアの補完
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+
+
+== 概要
+
+執筆者：ネットアップSuresh Thoppay
+
+Google Cloud VMware Engine（GCVE）環境で追加のストレージ容量が必要な場合は、NetApp Cloud Volume Serviceを使用して補完的なNFSデータストアとしてマウントできます。
+NetAppクラウドボリュームサービスにデータを格納することで、リージョン間でレプリケートして災害からデータを保護できます。
+
+image:gcp_ncvs_ds01.png["GCVE上のNetAppクラウドボリュームサービスNFSデータストア"]
+
+
+
+== NetApp CVSからGCVEにNFSデータストアをマウントする導入手順
+
+.CVS-Performanceボリュームをプロビジョニングします
+[%collapsible]
+====
+NetAppクラウドボリュームサービスボリュームは、からプロビジョニングできます
+link:https://cloud.google.com/architecture/partners/netapp-cloud-volumes/workflow["Google Cloud Consoleを使用"]
+link:https://docs.netapp.com/us-en/cloud-manager-cloud-volumes-service-gcp/task-create-volumes.html["NetApp BlueXPポータルまたはAPIを使用"]
+
+====
+.そのCVSボリュームを削除不可としてマークします
+[%collapsible]
+====
+VMの実行中に誤ってボリュームが削除されないように、下のスクリーンショットに示すように、ボリュームが削除不可とマークされていることを確認してください。
+image:gcp_ncvs_ds02.png["NetApp CVS削除不可のオプション"]
+詳細については、を参照してください link:https://cloud.google.com/architecture/partners/netapp-cloud-volumes/creating-nfs-volumes#creating_an_nfs_volume["NFSボリュームを作成しています"] ドキュメント
+
+====
+.NetApp CVSテナントVPC用のGCVE上のプライベート接続が存在することを確認します。
+[%collapsible]
+====
+NFSデータストアをマウントするには、GCVEとNetApp CVSプロジェクトの間にプライベート接続が確立されている必要があります。
+詳細については、を参照してください link:https://cloud.google.com/vmware-engine/docs/networking/howto-setup-private-service-access["プライベートサービスアクセスのセットアップ方法"]
+
+====
+.NFSデータストアをマウント
+[%collapsible]
+====
+GCVEにNFSデータストアをマウントする方法については、を参照してください link:https://cloud.google.com/vmware-engine/docs/vmware-ecosystem/howto-cloud-volumes-service-datastores["NetApp CVSを使用してNFSデータストアを作成する方法"]
+
+
+NOTE: vSphereホストはGoogleで管理されるため、NFS vSphere API for Array Integration（VAAI）vSphere Installation Bundle（VIB）をインストールすることはできません。
+仮想ボリューム（VVol）のサポートが必要な場合は、ぜひお知らせください。
+ジャンボフレームを使用する場合は、を参照してください link:https://cloud.google.com/vpc/docs/mtu["GCPでサポートされる最大MTUサイズ"]
+
+====
+
+
+== NetAppクラウドボリュームサービスによるコスト削減
+
+NetAppクラウドボリュームサービスでGCVEへのストレージ需要を削減できる可能性の詳細については、を参照してください link:https://bluexp.netapp.com/gcve-cvs/roi["NetApp ROI計算ツール"]
+
+
+
+== 参照リンク
+
+* link:https://cloud.google.com/blog/products/compute/how-to-use-netapp-cvs-as-datastores-with-vmware-engine["Googleブログ- Google Cloud VMware EngineのデータストアとしてNetApp CVSを使用する方法"]
+* link:https://www.netapp.com/blog/cloud-volumes-service-google-cloud-vmware-engine/["NetAppブログ-ストレージを大量に消費するアプリケーションをGoogle Cloudに移行するためのより良い方法"]
+

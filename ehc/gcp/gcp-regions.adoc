@@ -14,8 +14,12 @@ summary:
 
 
 [role="lead"]
-GCP/GCVE上でNFSデータストアを追加できるかどうかは、Googleによって定義されています。まず、特定の地域でGCVEとCVSの両方が利用可能かどうかを確認する必要があります。次に、そのリージョンでCVS補助NFSデータストアがサポートされているかどうかを確認する必要があります。
+NetApp Cloud Volume Serviceでは、GCVE用の補完的NFSデータストアがサポートされます。
 
-* GCVEとCVSの可用性を確認します link:["こちらをご覧ください"]。
-* CVS補助NFSデータストアの可用性を確認する link:["こちらをご覧ください"]。
 
+NOTE: GCVE NFSデータストアに使用できるのはCVS-Performanceボリュームのみです。
+使用可能な場所については、を参照してください link:https://bluexp.netapp.com/cloud-volumes-global-regions#cvsGc["グローバルリージョンマップ"]
+
+Google Cloud VMware Engineは次の場所で利用できます image:gcve_regions_Mar2023.png[""]
+レイテンシを最小限に抑えるには、ボリュームをマウントするNetApp CVSボリュームとGCVEを同じアベイラビリティゾーンに配置する必要があります。
+GoogleおよびNetApp 解決策 アーキテクトと連携して、可用性とTCOを最適化します。
