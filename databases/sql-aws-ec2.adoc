@@ -72,7 +72,10 @@ Amazon FSX for NetApp ONTAP とEC2インスタンス上のSQL Serverを組み合
 ====
 FSX ONTAP では、ストレージの調達が最も簡単な作業であり、ファイルシステムを更新することで実行できます。このシンプルなプロセスにより、必要に応じてコストとパフォーマンスを動的に最適化し、SQLワークロードのバランスを取ることができます。また、シンプロビジョニングも有効になります。FSX ONTAP シンプロビジョニングは、ファイルシステムでプロビジョニングされているものよりも、SQL Serverを実行しているEC2インスタンスに、より多くの論理ストレージを提供するように設計されています。スペースを事前に割り当てるのではなく、データの書き込み時にストレージスペースが動的に各ボリュームまたはLUNに割り当てられます。ほとんどの構成では、ボリュームまたはLUN内のデータが削除される（Snapshotコピーに保持されていない）と、空きスペースも解放されます。次の表に、ストレージを動的に割り当てるための設定を示します。
 
+[cols="40%, 60%"]
 |===
+
+
 | 設定 | 設定 
 
 
@@ -304,6 +307,7 @@ NetApp SnapCenter は、ティア1エンタープライズアプリケーショ�
 ====
 次の表に、Microsoft Windows ServerにSnapCenter Serverとプラグインをインストールするための最小要件を示します。
 
+[cols="50%, 50%"]
 |===
 | コンポーネント | 要件 
 
@@ -345,7 +349,8 @@ NetApp SnapCenter は、ティア1エンタープライズアプリケーショ�
 
 
 |===
-詳細については、を参照してください link:https://docs.netapp.com/us-en/snapcenter/install/reference_space_and_sizing_requirements.html["スペースとサイジングの要件"]。
+詳細については、を参照してください。 link:https://docs.netapp.com/us-en/snapcenter/install/reference_space_and_sizing_requirements.html["スペースとサイジングの要件"]。
+詳細については、を参照してください。 link:https://docs.netapp.com/us-en/snapcenter/install/reference_space_and_sizing_requirements.html["スペースとサイジングの要件"]。
 
 バージョンの互換性については、を参照してください https://mysupport.netapp.com/matrix/["NetApp Interoperability Matrix Tool で確認できます"^]。
 
@@ -434,6 +439,8 @@ image:sql-awsec2-image18.png["エラー：グラフィックイメージがあ�
 データベースとログファイルをFSX ONTAP LUNに配置したら、SnapCenter を使用してデータベースをバックアップできます。フルバックアップを作成するには、次のプロセスを使用します。
 
 |===
+
+
 | ベストプラクティス 
 
 
@@ -467,6 +474,8 @@ image:sql-awsec2-image23.png["エラー：グラフィックイメージがあ�
 
 
 |===
+
+
 | ベストプラクティス 
 
 
@@ -515,6 +524,8 @@ SnapCenter では、リソースグループ内のインスタンスまたはイ
 ネットアップでは、フルバックアップに加えて、重要なデータベースに対してトランザクションログバックアップを設定することを推奨しています。データベースプロパティが完全復旧モデルに設定されていることを確認します。
 
 |===
+
+
 | ベストプラクティス 
 
 
@@ -580,7 +591,7 @@ image:sql-awsec2-image27.png["エラー：グラフィックイメージがあ�
 ====
 このプロセスの詳細については、次のビデオをご覧ください。
 
-
+video::27f28284-433d-4273-8748-b01200fb3cd7[panopto,width=360]
 
 
 == 付録
