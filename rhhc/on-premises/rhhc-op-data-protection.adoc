@@ -1,0 +1,110 @@
+---
+sidebar: sidebar 
+permalink: rhhc/on-premises/rhhc-op-data-protection.html 
+keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP 
+summary:  
+---
+= Astraを使用したデータ保護
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+[role="lead"]
+このページには、Astra Control Center（ACC）を使用してVMware vSphereで実行されるRed Hat OpenShift Containerベースのアプリケーションのデータ保護オプションが表示されます。
+
+ユーザがRed Hat OpenShiftを使用してアプリケーションを最新化する過程で、偶発的な削除やその他の人的エラーからユーザを保護するためのデータ保護戦略を策定する必要があります。多くの場合、データを管理から保護するために、規制やコンプライアンスの目的で保護戦略が必要になります。
+
+データ保護の要件は、ポイントインタイムコピーへのリバートから別の障害ドメインへの自動フェイルオーバーまで、人手を介さずにさまざまです。多くのお客様がONTAP をKubernetesアプリケーションに最適なストレージプラットフォームとして選択しています。その理由は、マルチテナンシー、マルチプロトコル、ハイパフォーマンスと容量のサービス、マルチサイト環境のレプリケーションとキャッシュ、セキュリティと柔軟性などの豊富な機能があるからです。
+
+ONTAP のデータ保護は、アドホックまたはポリシー制御の-**スナップショット***-**バックアップおよびリストア**を使用して実現できます
+
+Snapshotコピーとバックアップのどちらも、次のタイプのデータを保護します。-**アプリケーションの状態を表すアプリケーションメタデータ**-**アプリケーションに関連付けられた永続的データボリューム**-**アプリケーションに属するリソースアーティファクト**
+
+
+
+== ACCを使用したスナップショット
+
+SnapshotとACCを使用して、データのポイントインタイムコピーをキャプチャできます。保護ポリシーでは、保持するSnapshotコピーの数を定義します。最小スケジュールオプションは毎時です。オンデマンドで手動のSnapshotコピーをいつでも、スケジュールされたSnapshotコピーよりも短い間隔で作成できます。Snapshotコピーは、アプリケーションと同じプロビジョニングされたボリュームに格納されます。
+
+
+
+=== ACCでスナップショットを設定しています
+
+image::rhhc-onprem-dp-snap.png[Astra Control Centerの[Snapshot]ビュー]
+
+
+
+== ACCを使用したバックアップと復元
+
+バックアップはSnapshotに基づいています。ACCはCSIを使用してSnapshotコピーを作成し、ポイントインタイムSnapshotコピーを使用してバックアップを実行できます。バックアップは外部のオブジェクトストア（別の場所にあるONTAP S3を含むs3互換）に格納されます。スケジュールされたバックアップの保護ポリシーと保持するバックアップバージョンの数を設定できます。最小RPOは1時間です。
+
+
+
+=== ACCを使用したバックアップからのアプリケーションのリストア
+
+ACCは、バックアップが格納されているS3バケットからアプリケーションをリストアします。
+
+image:rhhc-onprem-dp-br.png["Astra Control Centerのリストアオプション"]
+
+
+
+== アプリケーション固有の実行フック
+
+さらに、実行フックは、管理対象アプリのデータ保護操作と組み合わせて実行するように構成することができます。ストレージアレイレベルのデータ保護機能を使用できますが、バックアップとリストアでアプリケーションとの整合性を確保するために追加の手順が必要になることがよくあります。アプリケーション固有の追加手順は次のとおりです。- Snapshotコピーの作成前または作成後。-バックアップの作成前または作成後。- Snapshotコピーまたはバックアップからリストアしたあと。
+
+Astra Controlでは、実行フックと呼ばれるカスタムスクリプトとしてコード化されたアプリケーション固有の手順を実行できます。
+
+https://github.com/NetApp/Verda["NetApp Verda GitHubプロジェクト"] 一般的なクラウドネイティブアプリケーションの実行フックを提供し、アプリケーションを簡単に保護し、堅牢で、オーケストレーションを容易にします。リポジトリにないアプリケーションに十分な情報がある場合は、そのプロジェクトに貢献してください。
+
+
+
+== redisアプリケーションのpre-Snapshot用のサンプル実行フック。
+
+image::rhhc-onprem-dp-br-hook.png[Astra Control Centerの実行フック]
+
+
+
+== ACCを使用したレプリケーション
+
+リージョンを保護する場合や、RPOとRTOの低い解決策 を実現する場合は、別のサイト（できれば別のリージョン）で実行されている別のKubernetesインスタンスにアプリケーションをレプリケートできます。ACCは、最短5分でRPOを実現するONTAP 非同期SnapMirrorを利用します。レプリケーションはONTAP にレプリケートすることで実行され、フェイルオーバーによってデスティネーションクラスタにKubernetesリソースが作成されます。
+
+
+NOTE: レプリケーションは、バックアップがS3に保存され、S3からリストアが実行されるバックアップとリストアとは異なります。2種類のデータ保護の違いの詳細については、https://docs.netapp.com/us-en/astra-control-center/concepts/data-protection.html#replication-to-a-remote-cluster[here]を参照してください。
+
+を参照してください link:https://docs.netapp.com/us-en/astra-control-center/use/replicate_snapmirror.html["こちらをご覧ください"] SnapMirrorのセットアップ手順を参照してください。
+
+
+
+=== ACCを使用したSnapMirror
+
+image::rhhc-onprem-dp-rep.png[Astra Control Centerのレプリケーション]
+
+
+NOTE: SANエコノミーおよびNASエコノミーのストレージドライバは、レプリケーション機能をサポートしていません。を参照してください link:https://docs.netapp.com/us-en/astra-control-center/get-started/requirements.html#astra-trident-requirements["こちらをご覧ください"] を参照してください。
+
+
+
+=== デモビデオ：
+
+link:https://www.netapp.tv/details/29504?mcid=35609780286441704190790628065560989458["Astra Control Centerを使用したディザスタリカバリのデモビデオ"]
+
+
+
+== MetroCluster によるビジネス継続性
+
+ONTAP 用のハードウェアプラットフォームのほとんどは、デバイス障害から保護するための高可用性機能を備えており、ダイヤスターリカバリを実行する必要はありません。しかし、火災やその他の災害からデータを保護し、RPOゼロとRTOを低く抑えてビジネスを継続するためには、多くの場合MetroCluster 解決策 が使用されます。
+
+現在ONTAP システムをお持ちのお客様は、ゾーンレベルのディザスタリカバリを実現するために、距離の制限内にサポート対象のONTAP システムを追加することで、MetroCluster に拡張できます。CSI（コンテナストレージインターフェイス）であるAstra Tridentは、MetroCluster 構成のほか、Cloud Volumes ONTAP 、Azure NetApp Files 、AWS FSx for NetApp ONTAP などの他のオプションを含むNetApp ONTAP をサポートしています Astra Tridentには、ONTAP 向けに5つのストレージドライバオプションが用意されていますが、いずれもMetroCluster 構成でサポートされています。を参照してください link:https://docs.netapp.com/us-en/trident/trident-concepts/ontap-drivers.html["こちらをご覧ください"] Astra TridentでサポートされるONTAP ストレージドライバの詳細については、を参照してください。
+
+MetroCluster 解決策 には、両方のフォールトドメインから同じネットワークアドレスにアクセスするためのレイヤ2ネットワーク拡張または機能が必要です。MetroCluster を設定すると、MetroCluster SVM内のすべてのボリュームが保護され、SyncMirror （RPOゼロ）のメリットが得られるため、解決策 はアプリケーション所有者に対して透過的に実行されます。
+
+image:rhhc-onprem-dp-bc.png["Business Continuity解決策 with MetroCluster の略"]
+
+
+TIP: Tridentバックエンド構成（TBC）の場合は、MetroCluster 構成を使用する際にデータLIFとSVMを指定しないでください。管理LIF用のSVM管理IPを指定し、vsadminロールのクレデンシャルを使用してください。
+
+Astra Control Centerのデータ保護機能の詳細を確認できます link:https://docs.netapp.com/us-en/astra-control-center/concepts/data-protection.html["こちらをご覧ください"]
