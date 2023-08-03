@@ -104,50 +104,20 @@ SnapCenter Plug-in for VMware vSphere REST API については、を参照して
 
 SnapCenter 環境を最大限に活用するには、次のベストプラクティスを参考にしてください。
 
-|===
-
-
- a| 
-* SCVはvCenter Server RBACとONTAP RBACの両方をサポートしており、プラグインの登録時に自動的に作成される事前定義されたvCenterロールが用意されています。サポートされるRBACのタイプの詳細については、こちらを参照してください https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_types_of_rbac_for_snapcenter_users.html["こちらをご覧ください。"]
+. SCVはvCenter Server RBACとONTAP RBACの両方をサポートしており、プラグインの登録時に自動的に作成される事前定義されたvCenterロールが用意されています。サポートされるRBACのタイプの詳細については、こちらを参照してください https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_types_of_rbac_for_snapcenter_users.html["こちらをご覧ください。"]
 +
 ** vCenter UIを使用して、説明されている事前定義されたロールを使用して最小権限のアカウントアクセスを割り当てます https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_predefined_roles_packaged_with_snapcenter.html["こちらをご覧ください"]。
 ** SnapCenter サーバでSCVを使用する場合は、_SnapCenterADMIN_ROLEを割り当てる必要があります。
 ** ONTAP RBACは、SCVで使用するストレージシステムを追加および管理するために使用するユーザアカウントを指します。ONTAP RBACは、VVOLベースのバックアップには適用されません。ONTAP RBACとSCVの詳細については、こちらをご覧ください https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_ontap_rbac_features_in_snapcenter.html["こちらをご覧ください"]。
 
 
+. SnapMirrorを使用してバックアップデータセットを別のシステムにレプリケートし、ソースボリュームの完全なレプリカを作成します。前述したように、ソースボリュームのSnapshotの保持設定に関係なく、バックアップデータの長期保持にmirror-vaultポリシーを使用することもできます。どちらのメカニズムもVVOLでサポートされています。
+. SCVではVVOL機能にONTAP Tools for VMware vSphereを使用する必要があるため、特定のバージョンの互換性については、必ずNetApp Interoperability Matrix Tool（IMT ）を参照してください
+. VMware SRMでvVolレプリケーションを使用する場合は、ポリシーのRPOとバックアップスケジュールに注意してください
+. 組織で定義された目標復旧時点（RPO）を満たす保持設定を使用してバックアップポリシーを設計
+. バックアップの実行時にステータスが通知されるようにリソースグループに通知を設定します（下記の図10を参照）。
 
 
-
-
- a| 
-* SnapMirrorを使用してバックアップデータセットを別のシステムにレプリケートし、ソースボリュームの完全なレプリカを作成します。前述したように、ソースボリュームのSnapshotの保持設定に関係なく、バックアップデータの長期保持にmirror-vaultポリシーを使用することもできます。どちらのメカニズムもVVOLでサポートされています。
-
-
-
-
- a| 
-* SCVではVVOL機能にONTAP Tools for VMware vSphereを使用する必要があるため、特定のバージョンの互換性については、必ずNetApp Interoperability Matrix Tool（IMT ）を参照してください
-
-
-
-
- a| 
-* VMware SRMでvVolレプリケーションを使用する場合は、ポリシーのRPOとバックアップスケジュールに注意してください
-
-
-
-
- a| 
-* 組織で定義された目標復旧時点（RPO）を満たす保持設定を使用してバックアップポリシーを設計
-
-
-
-
- a| 
-* バックアップの実行時にステータスが通知されるようにリソースグループに通知を設定します（下記の図10を参照）。
-
-
-|===
 
 
 === リソースグループの通知オプション
