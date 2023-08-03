@@ -111,8 +111,10 @@ image::aws_postgres_fsx_ec2_architecture.PNG[この図は、オンプレミス�
 
 . 自動化ツールキットreadme.mdの手順を確認します link:https://github.com/NetApp-Automation/na_postgresql_aws_deploy_hadr["na_postgresql_AWS_DEプロイ_hadr"]。
 . 次のビデオを見ていきましょう。
-+
-video::e479b91f-eacd-46bf-bfa1-b01200f0015a[panopto,width=360]
+
+
+.PostgreSQLの自動導入と保護
+video::e479b91f-eacd-46bf-bfa1-b01200f0015a[panopto]
 . 必要なパラメータファイルを設定します (`hosts`、 `host_vars/host_name.yml`、 `fsx_vars.yml`）を使用して、関連セクションのテンプレートにユーザー固有のパラメータを入力します。次に、コピーボタンを使用してAnsibleコントローラホストにファイルをコピーします。
 
 
@@ -128,18 +130,19 @@ video::e479b91f-eacd-46bf-bfa1-b01200f0015a[panopto,width=360]
 . AnsibleコントローラをホストするCentOS Linux VMを構築します。Ansibleコントローラは、オンプレミスとAWSクラウドのどちらにも配置できます。オンプレミスにある場合は、VPC、EC2 Linuxインスタンス、およびFSXストレージクラスタへのSSH接続が必要です。
 . のセクション「RHEL / CentOSへのCLI導入に使用するAnsible Control Nodeのセットアップ」の説明に従って、リソースからAnsibleコントローラをセットアップします link:https://docs.netapp.com/us-en/netapp-solutions/automation/getting-started.html["NetApp解決策 自動化の導入"]。
 . パブリックのNetApp GitHubサイトから、自動化ツールキットのコピーをクローニングします。
-+
+
+
 [source, cli]
 ----
 git clone https://github.com/NetApp-Automation/na_postgresql_aws_deploy_hadr.git
 ----
 . ツールキットのルートディレクトリで、必要なプレイブックを実行して、Ansibleコントローラに必要なコレクションとライブラリをインストールします。
-+
+
+
 [source, cli]
 ----
 ansible-playbook -i hosts requirements.yml
 ----
-+
 [source, cli]
 ----
 ansible-galaxy collection install -r collections/requirements.yml --force --force-with-deps
@@ -176,16 +179,113 @@ psql_01s ansible_ssh_private_key_file=psql_01s.pem
 
 === host_varsフォルダでhost_name.ymlファイルを設定します
 
-お使いのシステムに対応するパラメータを青い下線付きフィールドに入力し、エントリをコピーしてに貼り付けます `host_name.yml` Ansibleコントローラ内のファイル `host_vars` フォルダ。
+[source, shell]
+----
+# Add your AWS EC2 instance IP address for the respective PostgreSQL server host
+ansible_host: "10.61.180.15"
 
+# "{{groups.postgresql[0]}}" represents first PostgreSQL DB server as defined in PostgreSQL hosts group [postgresql]. For concurrent multiple PostgreSQL DB servers deployment, [0] will be incremented for each additional DB server. For example,  "{{groups.posgresql[1]}}" represents DB server 2, "{{groups.posgresql[2]}}" represents DB server 3 ... As a good practice and the default, two volumes are allocated to a PostgreSQL DB server with corresponding /pgdata, /pglogs mount points, which store PostgreSQL data, and PostgreSQL log files respectively. The number and naming of DB volumes allocated to a DB server must match with what is defined in global fsx_vars.yml file by src_db_vols, src_archivelog_vols parameters, which dictates how many volumes are to be created for each DB server. aggr_name is aggr1 by default. Do not change. lif address is the NFS IP address for the SVM where PostgreSQL server is expected to mount its database volumes. Primary site servers from primary SVM and standby servers from standby SVM.
+host_datastores_nfs:
+  - {vol_name: "{{groups.postgresql[0]}}_pgdata", aggr_name: "aggr1", lif: "172.21.94.200", size: "100"}
+  - {vol_name: "{{groups.postgresql[0]}}_pglogs", aggr_name: "aggr1", lif: "172.21.94.200", size: "100"}
 
+# Add swap space to EC2 instance, that is equal to size of RAM up to 16G max. Determine the number of blocks by dividing swap size in MB by 128.
+swap_blocks: "128"
+
+# Postgresql user configurable parameters
+psql_port: "5432"
+buffer_cache: "8192MB"
+archive_mode: "on"
+max_wal_size: "5GB"
+client_address: "172.30.15.0/24"
+----
 
 
 === グローバルFSX_vars.ymlファイルをvarsフォルダに設定します
 
-システムに対応するパラメータを青い下線付きフィールドに入力し、エントリをコピーしてに貼り付けます `fsx_vars.yml` Ansibleコントローラホストにあるファイル。
+[source, shell]
+----
+########################################################################
+######  PostgreSQL HADR global user configuration variables       ######
+######  Consolidate all variables from FSx, Linux, and postgresql ######
+########################################################################
 
+###########################################
+### Ontap env specific config variables ###
+###########################################
 
+####################################################################################################
+# Variables for SnapMirror Peering
+####################################################################################################
+
+#Passphrase for cluster peering authentication
+passphrase: "xxxxxxx"
+
+#Please enter destination or standby FSx cluster name
+dst_cluster_name: "FsxId0cf8e0bccb14805e8"
+
+#Please enter destination or standby FSx cluster management IP
+dst_cluster_ip: "172.30.15.90"
+
+#Please enter destination or standby FSx cluster inter-cluster IP
+dst_inter_ip: "172.30.15.13"
+
+#Please enter destination or standby SVM name to create mirror relationship
+dst_vserver: "dr"
+
+#Please enter destination or standby SVM management IP
+dst_vserver_mgmt_lif: "172.30.15.88"
+
+#Please enter destination or standby SVM NFS lif
+dst_nfs_lif: "172.30.15.88"
+
+#Please enter source or primary FSx cluster name
+src_cluster_name: "FsxId0cf8e0bccb14805e8"
+
+#Please enter source or primary FSx cluster management IP
+src_cluster_ip: "172.30.15.20"
+
+#Please enter source or primary FSx cluster inter-cluster IP
+src_inter_ip: "172.30.15.5"
+
+#Please enter source or primary SVM name to create mirror relationship
+src_vserver: "prod"
+
+#Please enter source or primary SVM management IP
+src_vserver_mgmt_lif: "172.30.15.115"
+
+#####################################################################################################
+# Variable for PostgreSQL Volumes, lif - source or primary FSx NFS lif address
+#####################################################################################################
+
+src_db_vols:
+  - {vol_name: "{{groups.postgresql[0]}}_pgdata", aggr_name: "aggr1", lif: "172.21.94.200", size: "100"}
+
+src_archivelog_vols:
+  - {vol_name: "{{groups.postgresql[0]}}_pglogs", aggr_name: "aggr1", lif: "172.21.94.200", size: "100"}
+
+#Names of the Nodes in the ONTAP Cluster
+nfs_export_policy: "default"
+
+#####################################################################################################
+### Linux env specific config variables ###
+#####################################################################################################
+
+#NFS Mount points for PostgreSQL DB volumes
+mount_points:
+  - "/pgdata"
+  - "/pglogs"
+
+#RedHat subscription username and password
+redhat_sub_username: "xxxxx"
+redhat_sub_password: "xxxxx"
+
+####################################################
+### DB env specific install and config variables ###
+####################################################
+#The latest version of PostgreSQL RPM is pulled/installed and config file is deployed from a preconfigured template
+#Recovery type and point: default as all logs and promote and leave all PITR parameters blank
+----
 
 
 === PostgreSQLの導入とHA/DRのセットアップ
@@ -225,13 +325,12 @@ ansible-playbook -i hosts postgresql_hadr_setup.yml -u ec2-user -e @vars/fsx_var
 psql_01ps ansible_ssh_private_key_file=psql_01ps.pem
 #psql_01ss ansible_ssh_private_key_file=psql_01ss.pem
 ----
-+
+
+
 [source, cli]
 ----
 ansible-playbook -i hosts postgresql_standby_setup.yml -u ec2-user --private-key psql_01ps.pem -e @vars/fsx_vars.yml
 ----
-
-
 
 
 === PostgreSQLデータベーススナップショットのバックアップとスタンバイサイトへのレプリケーション
@@ -275,15 +374,16 @@ ansible-playbook -i hosts postgresql_standby_resync.yml -u ec2-user --private-ke
 このドキュメントに記載されている情報の詳細については、以下のドキュメントや Web サイトを参照してください。
 
 * NetApp ONTAP 対応の Amazon FSX
-+
+
+
 link:https://aws.amazon.com/fsx/netapp-ontap/["https://aws.amazon.com/fsx/netapp-ontap/"^]
 
 * Amazon EC2
-+
+
+
 link:https://aws.amazon.com/pm/ec2/?trk=36c6da98-7b20-48fa-8225-4784bced9843&sc_channel=ps&s_kwcid=AL!4422!3!467723097970!e!!g!!aws%20ec2&ef_id=Cj0KCQiA54KfBhCKARIsAJzSrdqwQrghn6I71jiWzSeaT9Uh1-vY-VfhJixF-xnv5rWwn2S7RqZOTQ0aAh7eEALw_wcB:G:s&s_kwcid=AL!4422!3!467723097970!e!!g!!aws%20ec2["https://aws.amazon.com/pm/ec2/?trk=36c6da98-7b20-48fa-8225-4784bced9843&sc_channel=ps&s_kwcid=AL!4422!3!467723097970!e!!g!!aws%20ec2&ef_id=Cj0KCQiA54KfBhCKARIsAJzSrdqwQrghn6I71jiWzSeaT9Uh1-vY-VfhJixF-xnv5rWwn2S7RqZOTQ0aAh7eEALw_wcB:G:s&s_kwcid=AL!4422!3!467723097970!e!!g!!aws%20ec2"^]
 
 * NetApp 解決策の自動化
-+
+
+
 link:https://docs.netapp.com/us-en/netapp-solutions/automation/automation_introduction.html["https://docs.netapp.com/us-en/netapp-solutions/automation/automation_introduction.html"^]
-
-
