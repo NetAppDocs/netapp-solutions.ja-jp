@@ -1,0 +1,438 @@
+---
+sidebar: sidebar 
+permalink: databases/snapctr_svcs_ora_azure.html 
+keywords: Oracle, Database, SnapCenter, SnapShot, FlexClone, BlueXP, Database Backup, Database Restore, Database Clone 
+summary: 解決策 には、BlueXPコンソールを使用したNetApp SnapCenter SaaSによるOracleデータベースのバックアップ、リストア、クローニングの概要と詳細が記載されています。 
+---
+= TR-4977：『Oracle Database backup、restore and clone with SnapCenter Services - Azure』
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+ネットアップ、Niyaz Mohamed、Allen Cao氏
+
+
+
+== 目的
+
+SnapCenter サービスは、従来のSnapCenter データベース管理UIツールのSaaSバージョンで、NetApp BlueXPクラウド管理コンソールから利用できます。これは、Azure NetApp Filesで実行されるOracleやHANAなどのデータベース向けのNetAppクラウドバックアップ、データ保護サービスに不可欠な要素です。このSaaSベースのサービスは、一般にWindowsドメイン環境で動作するWindowsサーバを必要とする従来のSnapCenter スタンドアロンサーバの導入を簡素化します。
+
+このドキュメントでは、Azure NetApp FilesボリュームとAzureコンピューティングインスタンスに導入されているOracleデータベースをバックアップ、リストア、クローニングするようにSnapCenterサービスをセットアップする方法を説明します。WebベースのBlueXPユーザインターフェイスを使用して、Azure NetApp Filesに導入されたOracleデータベースのデータ保護を簡単にセットアップできます。
+
+この解決策 は、次のユースケースに対応します。
+
+* Azure NetApp Files VMとAzure VMでホストされるOracleデータベースのSnapshotを使用したデータベースバックアップ
+* 障害発生時のOracleデータベースリカバリ
+* 開発、テスト環境、その他のユースケース向けのプライマリデータベースの高速クローニング
+
+
+
+
+== 対象者
+
+この解決策 の対象読者は次のとおりです。
+
+* Azure NetApp Filesストレージで実行されているOracleデータベースを管理するデータベース管理者
+* AzureでのOracleデータベースのバックアップ、リストア、クローニングのテストに関心のある解決策アーキテクト
+* Azure NetApp Filesストレージをサポートおよび管理するストレージ管理者
+* Azure NetApp FilesストレージとAzure VMに導入されるアプリケーションを所有するアプリケーション所有者
+
+
+
+
+== 解決策 のテストおよび検証環境
+
+この解決策のテストと検証は、最終的な導入環境とは異なる可能性があるラボ環境で実行しました。詳細については、を参照してください <<Key Factors for Deployment Consideration>>。
+
+
+
+=== アーキテクチャ
+
+image::snapctr_svcs_azure_architect.png[この画像は、BlueXPコンソール内のCloud Backup for Applicationの詳細な画像を提供します。これには、Cloud Backupが管理するUI、コネクタ、リソースが含まれます。]
+
+この画像は、BlueXPコンソール内のCloud Backup for Applicationの詳細な画像を示しています。UI、コネクタ、管理するリソースも含まれます。
+
+
+
+=== ハードウェアおよびソフトウェアコンポーネント
+
+|===
+
+
+3+| * ハードウェア * 
+
+
+| Azure NetApp Filesストレージ | Premiumサービスレベル | 自動QoSタイプ、テストでは4TBのストレージ容量 
+
+
+| コンピューティング用Azureインスタンス | 標準B4ミリ秒（vCPU×4、メモリ：16GiB） | 2つのインスタンスを導入（1つはプライマリDBサーバ、もう1つはクローンDBサーバ） 
+
+
+3+| *ソフトウェア* 
+
+
+| Red Hat Linux | Red Hat Enterprise Linux 8.7（LVM）- x64 Gen2 | テスト用にRedHatサブスクリプションを導入 
+
+
+| Oracle データベース | バージョン19.18 | RUパッチp34765931_190000_Linux-x86-64.zipを適用しました 
+
+
+| Oracle OPatchの略 | バージョン12.2.0.1.36 | 最新のパッチp6880880_190000_Linux-x86-64.zip 
+
+
+| SnapCenter サービス | バージョンv2.5.0-2822 | エージェントバージョンv2.5.0-2822 
+|===
+
+
+=== 導入にあたって考慮すべき主な要因
+
+* *コネクタは、データベースおよびAzure NetApp Filesと同じ仮想ネットワーク/サブネットに導入します。*可能な場合は、同じAzure仮想ネットワークおよびリソースグループに導入する必要があります。これにより、Azure NetApp FilesストレージおよびAzureコンピューティングインスタンスへの接続が可能になります。
+* * AzureポータルでSnapCenter Connector用に作成されたAzureユーザアカウントまたはActive Directoryサービスの原則。* BlueXP Connectorを導入するには、仮想マシンやその他のコンピューティングリソースの作成と構成、ネットワークの構成、Azureサブスクリプションへのアクセスに特定の権限が必要です。また、コネクタが動作するためのロールと権限を後で作成するための権限も必要です。Azureで権限を持つカスタムロールを作成し、ユーザーアカウントまたはサービス原則に割り当てます。詳細については、次のリンクを参照してください。link:https://docs.netapp.com/us-en/bluexp-setup-admin/task-set-up-permissions-azure.html#set-up-permissions-to-create-the-connector-from-bluexp["Azure権限を設定する"^]。
+* * Azureリソースグループで作成されたsshキーペア。* sshキーペアは、コネクタホストにログインするためのAzure VMユーザに割り当てられ、プラグインをデプロイして実行するためのデータベースVMホストにも割り当てられます。BlueXPコンソールUIでは、sshキーを使用してSnapCenterサービスプラグインをデータベースホストに導入し、プラグインのワンステップインストールとアプリケーションホストデータベースの検出を行います。
+* * BlueXPコンソールの設定にクレデンシャルが追加されました。* Azure NetApp FilesストレージをBlueXP作業環境に追加するには、BlueXPコンソールからAzure NetApp Filesにアクセスするための権限を付与するクレデンシャルをBlueXPコンソールの設定で設定する必要があります。
+* * Azure VMデータベースインスタンスホストにjava-11-openjdkがインストールされています。* SnapCenterサービスのインストールには、Javaバージョン11が必要です。プラグインを導入する前に、アプリケーションホストにインストールする必要があります。
+
+
+
+
+== 解決策 の導入
+
+クラウドネイティブアプリケーションデータの保護に役立つ、より広範な範囲を含む広範なネットアップドキュメントが用意されています。このドキュメントの目的は、Azure NetApp FilesストレージとAzureコンピューティングインスタンスに導入されたOracleデータベースを保護するための、BlueXPコンソールを使用したSnapCenterサービスの導入手順を段階的に説明することです。
+
+開始するには、次の手順を実行します。
+
+* 一般的な手順をお読みください link:https://docs.netapp.com/us-en/cloud-manager-backup-restore/concept-protect-cloud-app-data-to-cloud.html#architecture["クラウドネイティブアプリケーションのデータを保護"^] およびOracleとAzure NetApp Filesに関連するセクションを参照してください。
+* 次のビデオウォークスルーを見る
++
+
+
+
+
+
+=== SnapCenter サービス導入の前提条件
+
+[%collapsible]
+====
+導入には、次の前提条件が必要です。
+
+. Oracleデータベースが完全に導入されて実行されているAzure VMインスタンス上のプライマリOracleデータベースサーバ。
+. Azureに導入されるAzure NetApp Filesストレージサービスの容量プール。「ハードウェアコンポーネント」セクションに記載されているデータベースストレージのニーズを満たす容量を備えています。
+. Azure VMインスタンス上のセカンダリデータベースサーバ。開発/テストワークロード、または本番環境のOracleデータベースの完全なデータセットが必要なあらゆるユースケースをサポートする目的で、代替ホストへのOracleデータベースのクローニングをテストするために使用できます。
+. Azure NetApp FilesおよびAzureコンピューティングインスタンスに追加情報for Oracleデータベースを導入する場合は、を参照してください。 link:azure_ora_nfile_usercase.html["Azure NetApp Files へのOracleデータベースの導入と保護"^]。
+
+
+====
+
+
+=== BlueXPへのオンボーディング
+
+[%collapsible]
+====
+. リンクを使用してください link:https://console.bluexp.netapp.com/["NetApp BlueXP"] をクリックして、BlueXPコンソールにアクセスしてください。
+. AzureユーザーアカウントまたはActive Directoryサービスの原則を作成し、Azure Connector展開用のAzureポータルで役割を持つ権限を付与します。
+. Azureリソースを管理するようにBlueXPをセットアップするには、BlueXPクレデンシャルを追加します。BlueXPでは、サービスプリンシパルアプリケーション（クライアントシークレット）のクライアントシークレットであるAzure Active Directory（アプリケーションクライアントID）での認証に使用できるActive Directoryサービスプリンシパルの詳細を記載します。 および組織のActive Directory ID（テナントID）。
+. また、コネクタのプロビジョニングやデータベースプラグインのインストールに備えて、Azure Virtual Network、リソースグループ、セキュリティグループ、VMアクセス用のSSHキーなども必要です。
+
+
+====
+
+
+=== SnapCenter サービス用コネクタを導入します
+
+[%collapsible]
+====
+. BlueXPコンソールにログインします。
++
+image:snapctr_svcs_connector_02-canvas.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. [Connector]*ドロップダウン矢印および*[Add Connector]*をクリックして、コネクタプロビジョニングワークフローを開始します。
++
+image:snapctr_svcs_connector_03-addc.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. クラウドプロバイダ（この場合は* Microsoft Azure *）を選択します。
++
+image:snapctr_svcs_connector_04-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. Azureアカウントですでに設定されている場合は、* Permission *、* Authentication *、* Networking *の各手順をスキップしてください。設定されていない場合は、先に進む前に設定する必要があります。ここから、前のセクションで参照したAzureポリシーの権限を取得することもできます。<<BlueXPへのオンボーディング>>. 」
++
+image:snapctr_svcs_connector_05-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. [Skip to Deployment]*をクリックして、コネクタ*仮想マシン認証*を設定します。コネクタOS認証の準備として、BlueXPへのオンボーディング時にAzureリソースグループで作成したSSHキーペアを追加します。
++
+image:snapctr_svcs_connector_06-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. コネクタインスタンスの名前を指定し、*[作成]*を選択し、*[詳細]*の[デフォルト]*[ロール名]*を受け入れ、Azureアカウントのサブスクリプションを選択します。
++
+image:snapctr_svcs_connector_07-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. 適切な* VNet *、* Subnet *を使用してネットワークを構成し、* Public IP *を無効にします。ただし、Azure環境でコネクタがインターネットにアクセスできることを確認してください。
++
+image:snapctr_svcs_connector_08-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. HTTP、HTTPS、およびSSHアクセスを許可するコネクタの*セキュリティグループ*を設定します。
++
+image:snapctr_svcs_connector_09-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. 概要ページを確認し、*追加*をクリックしてコネクターの作成を開始します。通常、導入が完了するまでに約10分かかります。完了すると、コネクタインスタンスVMがAzureポータルに表示されます。
++
+image:snapctr_svcs_connector_10-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. コネクターが展開されると、新しく作成されたコネクターが*コネクター*ドロップダウンの下に表示されます。
++
+image:snapctr_svcs_connector_11-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+
+
+====
+
+
+=== BlueXPでAzureリソースへのアクセスにクレデンシャルを定義
+
+[%collapsible]
+====
+. BlueXPコンソールの右上にある設定アイコンをクリックして*[アカウントのクレデンシャル]*ページを開き、*[クレデンシャルの追加]*をクリックしてクレデンシャルの設定ワークフローを開始します。
++
+image:snapctr_svcs_credential_01-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. クレデンシャルの場所として「* Microsoft Azure-BlueXP *」を選択してください。
++
+image:snapctr_svcs_credential_02-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. 以前のBlueXPのオンボーディングプロセスで収集した、適切な* Client Secret *、* Client ID *、* Tenant ID *を使用してAzureクレデンシャルを定義します。
++
+image:snapctr_svcs_credential_03-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. 確認して*[追加]*をクリックします。
+image:snapctr_svcs_credential_04-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+. また、* Marketplace Subscription *をクレデンシャルに関連付ける必要がある場合もあります。
+image:snapctr_svcs_credential_05-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+
+====
+
+
+=== SnapCenter サービスのセットアップ
+
+[%collapsible]
+====
+Azureクレデンシャルを設定すると、次の手順でSnapCenterサービスをセットアップできるようになります。
+
+. Canvasページに戻り、* My Working Environment *で*[Add Working Environment]*をクリックして、Azureに導入されているAzure NetApp Filesを検出します。
++
+image:snapctr_svcs_connector_11-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. 場所として* Microsoft Azure *を選択し、* Discover *をクリックします。
++
+image:snapctr_svcs_setup_02-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. [Working Environment]*に名前を付け、前のセクションで作成した*[Credential Name]*を選択して*[Continue]*をクリックします。
++
+image:snapctr_svcs_setup_03-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. BlueXPコンソールが* My Working Environments *に戻り、Azureから検出されたAzure NetApp Filesが* Canvas *に表示されるようになりました。
++
+image:snapctr_svcs_setup_04-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. Azure NetApp Files *アイコンをクリックし、* Enter Working Environment *をクリックして、Azure NetApp Filesストレージに導入されているOracleデータベースボリュームを表示します。
++
+image:snapctr_svcs_setup_05-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. コンソールの左側のサイドバーで、保護アイコンの上にマウスを置き、*[保護]*>*[アプリケーション]*をクリックして、[アプリケーション]の起動ページを開きます。[*アプリケーションの検出*]をクリックします。
++
+image:snapctr_svcs_setup_09-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. アプリケーションのソースタイプとして* Cloud Native *を選択します。
++
+image:snapctr_svcs_setup_10-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. アプリケーションタイプとして* Oracle *を選択し、* Next *をクリックしてホストの詳細ページを開きます。
++
+image:snapctr_svcs_setup_13-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. [Using SSH]*を選択し、* IPアドレス*、*コネクタ*、Azure VM管理*ユーザ名*（azureuserなど）など、Oracle Azure VM VMの詳細を指定します。[Add SSH Private Key]*をクリックして、Oracle Azure VMの導入に使用したSSHキーペアを貼り付けます。また、フィンガープリントを確認するように求められます。
++
+image:snapctr_svcs_setup_15-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image:snapctr_svcs_setup_16-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. 次の*[構成]*ページに進み、Oracle Azure VMでのsudoerアクセスをセットアップします。
++
+image:snapctr_svcs_setup_17-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. 確認し、*[アプリケーションの検出]*をクリックして、Oracle Azure VMにプラグインをインストールし、VM上のOracleデータベースをワンステップで検出します。
++
+image:snapctr_svcs_setup_18-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. Azure VMで検出されたOracleデータベースが* Applications *に追加され、* Applications *ページに環境内のホストとOracleデータベースの数が表示されます。データベース* Protection Status *は、最初は* Unprotected *と表示されます。
++
+image:snapctr_svcs_setup_19-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+
+
+これで、Oracle向けSnapCenter サービスの初期セットアップは完了です。このドキュメントの次の3つのセクションでは、Oracleデータベースのバックアップ、リストア、クローニングの処理について説明します。
+
+====
+
+
+=== Oracleデータベースのバックアップ
+
+[%collapsible]
+====
+. Azure VM上のテスト用Oracleデータベースは、3つのボリュームで構成され、合計ストレージは約1.6TiBです。このサイズのデータベースについて、スナップショットによるバックアップ、リストア、およびクローンを実行するタイミングについて説明します。
+
+
+....
+[oracle@acao-ora01 ~]$ df -h
+Filesystem                 Size  Used Avail Use% Mounted on
+devtmpfs                   7.9G     0  7.9G   0% /dev
+tmpfs                      7.9G     0  7.9G   0% /dev/shm
+tmpfs                      7.9G   17M  7.9G   1% /run
+tmpfs                      7.9G     0  7.9G   0% /sys/fs/cgroup
+/dev/mapper/rootvg-rootlv   40G   23G   15G  62% /
+/dev/mapper/rootvg-usrlv   9.8G  1.6G  7.7G  18% /usr
+/dev/sda2                  496M  115M  381M  24% /boot
+/dev/mapper/rootvg-varlv   7.9G  787M  6.7G  11% /var
+/dev/mapper/rootvg-homelv  976M  323M  586M  36% /home
+/dev/mapper/rootvg-optlv   2.0G  9.6M  1.8G   1% /opt
+/dev/mapper/rootvg-tmplv   2.0G   22M  1.8G   2% /tmp
+/dev/sda1                  500M  6.8M  493M   2% /boot/efi
+172.30.136.68:/ora01-u01   100G   23G   78G  23% /u01
+172.30.136.68:/ora01-u03   500G  117G  384G  24% /u03
+172.30.136.68:/ora01-u02  1000G  804G  197G  81% /u02
+tmpfs                      1.6G     0  1.6G   0% /run/user/1000
+[oracle@acao-ora01 ~]$
+....
+. データベースを保護するには、データベース*[保護ステータス]*の横にある3つの点をクリックし、*[ポリシーの割り当て]*をクリックして、Oracleデータベースに適用可能なデフォルトのプリロード済みまたはユーザ定義のデータベース保護ポリシーを表示します。[設定]*-*[ポリシー]*では、バックアップ頻度とバックアップデータ保持期間をカスタマイズして独自のポリシーを作成できます。
++
+image:snapctr_svcs_bkup_01-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. ポリシーの設定に問題がなければ、選択したポリシーを*割り当て*してデータベースを保護できます。
++
+image:snapctr_svcs_bkup_02-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. ポリシーが適用されると、データベースの保護ステータスが* Protected *に変わり、緑のチェックマークが表示されます。BlueXPは、定義されたスケジュールに従ってSnapshotバックアップを実行します。また、以下に示すように、3つのドットで構成されるドロップダウン・メニューから*オンデマンド・バックアップ*を利用できます。
++
+image:snapctr_svcs_bkup_03-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. [ジョブ監視]*タブでは、バックアップジョブの詳細を確認できます。テスト結果から、Oracleデータベースを約1.6TiBバックアップするのに約4分かかることがわかりました。
++
+image:snapctr_svcs_bkup_04-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. 3つのドットで構成されるドロップダウンメニュー*[詳細を表示]*では、Snapshotバックアップから作成されたバックアップセットを表示できます。
++
+image:snapctr_svcs_bkup_05-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. データベースバックアップの詳細には、*[バックアップ名]*、*[バックアップタイプ]*、* SCN *、* RMANカタログ*、*[バックアップ時間]*があります。バックアップセットには、データボリュームとログボリュームのアプリケーションと整合性のあるSnapshotがそれぞれ含まれます。ログボリュームのSnapshotは、データベースデータボリュームのSnapshotの直後に作成されます。バックアップ・リストで特定のバックアップを検索する場合は、フィルタを適用できます。
++
+image:snapctr_svcs_bkup_06-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+
+
+====
+
+
+=== Oracleデータベースのリストアとリカバリ
+
+[%collapsible]
+====
+. データベースをリストアする場合は、*[アプリケーション]*でリストアする特定のデータベースの3点のドロップダウンメニューをクリックし、*[リストア]*をクリックしてデータベースのリストアとリカバリのワークフローを開始します。
++
+image:snapctr_svcs_restore_01-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. タイムスタンプによる*リストアポイント*を選択します。リスト内の各タイム・スタンプは、使用可能なデータベース・バックアップ・セットを表します。
++
+image:snapctr_svcs_restore_02-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. Oracleデータベースのインプレースリストアおよびリカバリを行う場合は、*リストア先*を*元の場所*に選択します。
++
+image:snapctr_svcs_restore_03-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. リストア範囲*および*リカバリ範囲*を定義します。All Logs（すべてのログ）とは、現在のログを含む最新のフルリカバリを意味します。
++
+image:snapctr_svcs_restore_04-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. および* Restore *を確認して、データベースのリストアとリカバリを開始します。
++
+image:snapctr_svcs_restore_05-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. [Job Monitoring]*タブでは、データベース全体のリストアとリカバリを最新の状態にするのに2分かかったことがわかりました。
++
+image:snapctr_svcs_restore_06-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+
+
+
+====
+
+
+=== Oracleデータベースのクローン
+
+[%collapsible]
+====
+データベースのクローニング手順はリストアに似ていますが、同じOracleソフトウェアスタックがプリインストールされて設定されている別のAzure VMを使用します。
+
+
+NOTE: Azure NetAppファイルストレージに、クローニングするプライマリデータベースと同じサイズのクローンデータベース用の十分な容量があることを確認してください。代替Azure VMが*[アプリケーション]*に追加されました。
+
+. クローニングするデータベースの3点のドロップダウンメニューを*[アプリケーション]*でクリックし、*[リストア]*をクリックしてクローニングのワークフローを開始します。
++
+image:snapctr_svcs_restore_01-azure.png["エラー：グラフィックイメージがありません"]
+
+. [Restore Point]*を選択し、*[Restore to alternate location]*を確認します。
++
+image:snapctr_svcs_clone_01-azure.png["エラー：グラフィックイメージがありません"]
+
+. 次の*[構成]*ページで、代替Azure VMで構成されている代替*ホスト*、新しいデータベース* SID *、および* Oracle Home *を設定します。
++
+image:snapctr_svcs_clone_02-azure.png["エラー：グラフィックイメージがありません"]
+
+. [Review]*[General]*ページには、クローニングされたデータベースの詳細（SID、代替ホスト、データファイルの場所、リカバリ範囲など）が表示されます。
++
+image:snapctr_svcs_clone_03-azure.png["エラー：グラフィックイメージがありません"]
+
+. [Review * Database parameters *]ページに、クローンデータベース設定の詳細と一部のデータベースパラメータ設定が表示されます。
++
+image:snapctr_svcs_clone_04-azure.png["エラー：グラフィックイメージがありません"]
+
+. [Job Monitoring]タブでクローニングジョブのステータスを監視します。1.6TiBのOracleデータベースのクローニングに8分かかったことがわかりました。
++
+image:snapctr_svcs_clone_05-azure.png["エラー：グラフィックイメージがありません"]
+
+. クローンデータベースがBlueXPにすぐに登録されたことを示すBlueXP *の[アプリケーション]*ページでクローンデータベースを検証します。
++
+image:snapctr_svcs_clone_06-azure.png["エラー：グラフィックイメージがありません"]
+
+. クローニングされたデータベースが想定どおりに実行されていることを示すOracle Azure VMで、クローニングされたデータベースを検証します。
++
+image:snapctr_svcs_clone_07-azure.png["エラー：グラフィックイメージがありません"]
+
+
+
+これで、SnapCenterサービスを使用したNetApp BlueXPコンソールを使用したAzureでのOracleデータベースのバックアップ、リストア、クローニングのデモは完了です。
+
+====
+
+
+== 追加情報
+
+このドキュメントに記載されている情報の詳細については、以下のドキュメントや Web サイトを参照してください。
+
+* BlueXPのセットアップと管理
++
+link:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.htmll["https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html"^]
+
+* Cloud Backup のドキュメント
++
+link:https://docs.netapp.com/us-en/cloud-manager-backup-restore/index.html["https://docs.netapp.com/us-en/cloud-manager-backup-restore/index.html"^]
+
+* Azure NetApp Files の特長
++
+link:https://azure.microsoft.com/en-us/products/netapp["https://azure.microsoft.com/en-us/products/netapp"^]
+
+* Azureで開始する
++
+link:https://azure.microsoft.com/en-us/get-started/["https://azure.microsoft.com/en-us/get-started/"^]
+
+

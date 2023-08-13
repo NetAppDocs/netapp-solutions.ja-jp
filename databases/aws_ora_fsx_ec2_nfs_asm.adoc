@@ -58,20 +58,21 @@ image::aws_ora_fsx_ec2_nfs_asm_architecture.png[このイメージは、iSCSIと
 
 === ハードウェアおよびソフトウェアコンポーネント
 
+* ハードウェア *
+
 [cols="33%, 33%, 33%"]
 |===
-
-
-3+| * ハードウェア * 
 
 
 | FSX ONTAP ストレージ | AWSで提供されている最新バージョン | 同じVPCとアベイラビリティゾーンに1つのFSx HAクラスタを配置します 
 
 
 | コンピューティングのEC2インスタンス | t2.xlarge / 4vCPU / 16G | 2つのEC2 T2 xlarge EC2インスタンス（1つはプライマリDBサーバ、もう1つはクローンDBサーバ） 
+|===
+*ソフトウェア*
 
-
-3+| *ソフトウェア* 
+[cols="33%, 33%, 33%"]
+|===
 
 
 | Red Hat Linux | RHEL-8.6.0_HVM-20220503-x86_64-2- Hourly2-gp2の場合 | テスト用にRedHatサブスクリプションを導入 
@@ -898,7 +899,7 @@ This completes Oracle 19c version 19.18 Restart deployment on an Amazon FSx for 
 
 == SnapCenter サービスを使用したOracleデータベースのバックアップ、リストア、クローニング
 
-を参照してください link:snapctr_svcs_ora.html["Oracle向けのSnapCenter サービス"^] NetApp BlueXPコンソールを使用したOracleデータベースのバックアップ、リストア、クローニングの詳細については、を参照してください。
+現時点では、NFSおよびASMストレージオプションを使用するOracleデータベースは、従来のSnapCenter Server UIツールでのみサポートされています。を参照してください。 link:hybrid_dbops_snapcenter_usecases.html["SnapCenter を使用したハイブリッドクラウドデータベースソリューション"^] NetApp SnapCenter UIツールを使用したOracleデータベースのバックアップ、リストア、およびクローニングの詳細については、を参照してください。
 
 
 

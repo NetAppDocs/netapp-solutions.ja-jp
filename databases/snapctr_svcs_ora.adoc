@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: databases/snapctr_svcs_ora.html 
 keywords: Oracle, Database, SnapCenter, SnapShot, FlexClone, BlueXP, Database Backup, Database Restore, Database Clone 
-summary: 解決策 には、BlueXPコンソールを使用したNetApp SnapCenter SaaSによるOracleデータベースのバックアップ、リストア、クローニングの概要と詳細が記載されています。 
+summary: 解決策には、AzureクラウドでBlueXPコンソールを使用したNetApp SnapCenter SaaSによるOracleデータベースのバックアップ、リストア、クローニングの概要と詳細が記載されています。 
 ---
-= TR-4964：『Oracle Database backup、restore and clone with SnapCenter Services』
+= TR-4964：『Oracle Database backup、restore and clone with SnapCenter Services - AWS』
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -13,6 +13,7 @@ summary: 解決策 には、BlueXPコンソールを使用したNetApp SnapCente
 :imagesdir: ./../media/
 
 
+[role="lead"]
 ネットアップ、Niyaz Mohamed、Allen Cao氏
 
 
@@ -60,19 +61,21 @@ image::snapctr_svcs_architecture.png[この画像は、BlueXPコンソール内�
 
 === ハードウェアおよびソフトウェアコンポーネント
 
+* ハードウェア *
+
 [cols="33%, 33%, 33%"]
 |===
 
 
-| 3^ | * ハードウェア * | FSX ONTAP ストレージ 
+| FSX ONTAP ストレージ | AWSで提供されている最新バージョン | 同じVPCとアベイラビリティゾーンに1つのFSx HAクラスタを配置します 
 
 
-| AWSで提供されている最新バージョン | 同じVPCとアベイラビリティゾーンに1つのFSx HAクラスタを配置します | コンピューティングのEC2インスタンス 
+| コンピューティングのEC2インスタンス | t2.xlarge / 4vCPU / 16G | 2つのEC2 T2 xlarge EC2インスタンス（1つはプライマリDBサーバ、もう1つはクローンDBサーバ） 
+|===
+*ソフトウェア*
 
-
-| t2.xlarge / 4vCPU / 16G | 2つのEC2 T2 xlarge EC2インスタンス（1つはプライマリDBサーバ、もう1つはクローンDBサーバ）
-
-3^ | *ソフトウェア* 
+[cols="33%, 33%, 33%"]
+|===
 
 
 | Red Hat Linux | RHEL-8.6.0_HVM-20220503-x86_64-2- Hourly2-gp2の場合 | テスト用にRedHatサブスクリプションを導入 
@@ -94,10 +97,10 @@ image::snapctr_svcs_architecture.png[この画像は、BlueXPコンソール内�
 === 導入にあたって考慮すべき主な要因
 
 * *コネクタは、データベースとFSxと同じVPCに導入します。*可能な場合は、同じAWS VPCに導入する必要があります。これにより、FSxストレージとEC2コンピューティングインスタンスへの接続が可能になります。
-* * SnapCenter Connector用に作成されたAWS IAMポリシー。* JSON形式のポリシーは、詳細なSnapCenter サービスドキュメントに記載されています。BlueXPコンソールを使用してコネクタの導入を開始すると、前提条件を設定するように求められます。このポリシーは、コネクタを所有するAWSユーザアカウントに割り当てる必要があります。
-* * AWSアカウントアクセスキーとAWSアカウントで作成されたSSHキーペア。* SSHキーペアは、コネクタホストにログインし、EC2 DBサーバホストにデータベースプラグインを導入するためにEC2ユーザに割り当てられます。アクセスキーは、必要なコネクタをプロビジョニングする権限を付与します。
-* * BlueXPコンソール設定にクレデンシャルが追加されました。* Amazon FSx for ONTAP をBlueXP作業環境に追加するには、BlueXPコンソールからAmazon FSx for ONTAP にアクセスする権限を付与するクレデンシャルがBlueXPコンソール設定で設定されます。
-* * SnapCenter プラグインがEC2データベースインスタンスホストに導入されます。* SnapCenter サービスは、EC2データベースインスタンスホストでSnapCenter プラグインによって実行されるAPI呼び出しを行います。サービスをセットアップする前に導入する必要があります。
+* * SnapCenter Connector用に作成されたAWS IAMポリシー。* JSON形式のポリシーは、詳細なSnapCenter サービスドキュメントに記載されています。BlueXPコンソールを使用してコネクタの導入を起動すると、前提条件と必要な権限の詳細をJSON形式で設定するように求められます。このポリシーは、コネクタを所有するAWSユーザアカウントに割り当てる必要があります。
+* * AWSアカウントアクセスキーとAWSアカウントで作成されたSSHキーペア。* SSHキーペアは、コネクタホストにログインし、EC2 DBサーバホストにデータベースプラグインを導入するためにEC2ユーザに割り当てられます。アクセスキーは、上記のIAMポリシーを使用して必要なコネクタをプロビジョニングする権限を付与します。
+* * BlueXPコンソール設定にクレデンシャルが追加されました。* Amazon FSx for ONTAPをBlueXP作業環境に追加するには、BlueXPコンソール設定でAmazon FSx for ONTAPにアクセスするためのBlueXP権限を付与するクレデンシャルが設定されます。
+* *EC2データベースインスタンスホストにjava-11-openjdkがインストールされています。* SnapCenterサービスのインストールにはJavaバージョン11が必要です。プラグインを導入する前に、アプリケーションホストにインストールする必要があります。
 
 
 
@@ -123,9 +126,9 @@ video::4b0fd212-7641-46b8-9e55-b01200f9383a[panopto]
 導入には、次の前提条件が必要です。
 
 . Oracleデータベースが完全に導入され、実行されているEC2インスタンス上のプライマリOracleデータベースサーバ。
-. AWSに導入されたAmazon FSx for ONTAP クラスタで、上記のデータベースをホストしています。
-. EC2インスタンス上のオプションのデータベースサーバ。開発/テストワークロード、または本番環境のOracleデータベースの完全なデータセットが必要なあらゆるユースケースをサポートする目的で、Oracleデータベースの代替ホストへのクローニングをテストするために使用できます。
-. Amazon FSx for ONTAP およびEC2コンピューティングインスタンスにOracleデータベースを導入する場合、上記の前提条件を満たすために支援が必要な場合は、を参照してください link:aws_ora_fsx_ec2_iscsi_asm.html["iSCSI / ASMを使用したAWS FSX/EC2でのOracleデータベースの導入と保護"^]。
+. AWSに導入されたAmazon FSx for ONTAPクラスタで、上記のデータベースボリュームをホストしています。
+. EC2インスタンス上のオプションのデータベースサーバ。開発/テストワークロード、または本番環境のOracleデータベースの完全なデータセットを必要とするあらゆるユースケースをサポートする目的で、代替ホストへのOracleデータベースのクローニングをテストするために使用できます。
+. Amazon FSx for ONTAP およびEC2コンピューティングインスタンスにOracleデータベースを導入する場合、上記の前提条件を満たすために支援が必要な場合は、を参照してください link:aws_ora_fsx_ec2_iscsi_asm.html["iSCSI / ASMを使用したAWS FSX/EC2でのOracleデータベースの導入と保護"^] またはホワイトペーパー link:aws_ora_fsx_ec2_deploy_intro.html["Oracle Database Deployment on EC2 and FSx Best Practicesを参照してください"^]
 
 
 ====
@@ -136,14 +139,14 @@ video::4b0fd212-7641-46b8-9e55-b01200f9383a[panopto]
 [%collapsible]
 ====
 . リンクを使用してください link:https://console.bluexp.netapp.com/["NetApp BlueXP"] をクリックして、BlueXPコンソールにアクセスしてください。
-. Amazon FSx for ONTAP などのAWSクラウドリソースを管理するためにBlueXPをセットアップするには、AWSアカウントがすでにセットアップされている必要があります。その後、AWSアカウントにログインして、コネクタの導入に使用するAWSアカウントにSnapCenter サービスアクセスを許可するIAMポリシーを作成できます。
-
-
+. AWSアカウントにログインして適切な権限を持つIAMポリシーを作成し、BlueXP Connectorの導入に使用するAWSアカウントにポリシーを割り当てます。
++
 image:snapctr_svcs_connector_01-policy.png["GUIでのこの手順を示すスクリーンショット。"]
 
-ポリシーには、コネクタプロビジョニングの起動時に使用可能なJSON文字列を設定する必要があります。コネクタの導入に使用されるAWSアカウントにIAMポリシーが作成され、付与されたことを通知するメッセージが表示されます。
++
+ポリシーは、NetAppのドキュメントに記載されているJSON文字列で設定する必要があります。JSON文字列は、コネクタのプロビジョニングが起動され、前提条件の権限の割り当てを求めるプロンプトが表示されたときにページから取得することもできます。
 
-. また、AWS VPC、AWSアカウントのキーとシークレット、EC2アクセス用のSSHキー、セキュリティグループなどをコネクタのプロビジョニングに備えておく必要があります。
+. また、AWS VPC、サブネット、セキュリティグループ、AWSユーザアカウントのアクセスキーとシークレット、EC2ユーザのSSHキーなどをコネクタのプロビジョニングに備えておく必要があります。
 
 
 ====
@@ -154,8 +157,7 @@ image:snapctr_svcs_connector_01-policy.png["GUIでのこの手順を示すスク
 [%collapsible]
 ====
 . BlueXPコンソールにログインします。共有アカウントの場合は、*[アカウント]*>*[アカウントの管理]*>*[ワークスペース]*をクリックして新しいワークスペースを追加し、個 々 のワークスペースを作成することをお勧めします。
-
-
++
 image:snapctr_svcs_connector_02-wspace.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . [コネクタの追加]*をクリックして、コネクタプロビジョニングワークフローを開始します。
@@ -173,9 +175,8 @@ image:snapctr_svcs_connector_04-aws.png["GUIでのこの手順を示すスクリ
 
 image:snapctr_svcs_connector_05-remind.png["GUIでのこの手順を示すスクリーンショット。"]
 
-. AWSアカウントの認証アクセスキーとシークレットキーを入力します。
-
-
+. [Access Key]*と[Secret Key]*を使用してAWSアカウント認証を入力します。
++
 image:snapctr_svcs_connector_06-auth.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . コネクタインスタンスに名前を付け、* Details *で* Create Role *を選択します。
@@ -183,14 +184,12 @@ image:snapctr_svcs_connector_06-auth.png["GUIでのこの手順を示すスク�
 
 image:snapctr_svcs_connector_07-details.png["GUIでのこの手順を示すスクリーンショット。"]
 
-. EC2アクセス用の適切なVPC、サブネット、およびSSHキーペアを使用してネットワークを設定します。
-
-
+. コネクタアクセス用の適切な* VPC *、*サブネット*、およびSSH *キーペア*を使用してネットワークを設定します。
++
 image:snapctr_svcs_connector_08-network.png["GUIでのこの手順を示すスクリーンショット。"]
 
-. コネクタのセキュリティグループを設定します。
-
-
+. コネクタの*セキュリティグループ*を設定します。
++
 image:snapctr_svcs_connector_09-security.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . 概要ページを確認し、*追加*をクリックしてコネクターの作成を開始します。通常、導入が完了するまでに約10分かかります。完了すると、コネクタインスタンスがAWS EC2ダッシュボードに表示されます。
@@ -198,7 +197,43 @@ image:snapctr_svcs_connector_09-security.png["GUIでのこの手順を示すス�
 
 image:snapctr_svcs_connector_10-review.png["GUIでのこの手順を示すスクリーンショット。"]
 
-. コネクタを導入したら、次の手順に従って、SSHキーを使用してコネクタEC2ホストにec2-userとしてログインし、SnapCenter プラグインをインストールします。 link:https://docs.netapp.com/us-en/cloud-manager-backup-restore/task-add-host-discover-oracle-databases.html#deploy-the-plug-in-using-script-and-add-host-from-ui-using-manual-option["スクリプトを使用してプラグインを導入し、手動オプションを使用してUIからホストを追加します"^]。
+====
+
+
+=== BlueXP for AWSリソースアクセスでクレデンシャルを定義
+
+[%collapsible]
+====
+. まず、AWS EC2コンソールから* Identity and Access Management（IAM）*メニュー* Roles *、* Create role *でロールを作成し、ロール作成ワークフローを開始します。
++
+image:snapctr_svcs_credential_01-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. [Select trusted entity]*ページで、*[AWS account]*、*[Another AWS account]*を選択し、BlueXPアカウントIDを貼り付けます。このIDはBlueXPコンソールから取得できます。
++
+image:snapctr_svcs_credential_02-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. FSxで権限ポリシーをフィルタリングし、*権限ポリシー*をロールに追加します。
++
+image:snapctr_svcs_credential_03-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. [ロールの詳細]ページで、ロールに名前を付けて概要を追加し、*[ロールの作成]*をクリックします。
++
+image:snapctr_svcs_credential_04-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. BlueXPコンソールに戻り、コンソールの右上にある[設定]アイコンをクリックして*[アカウントのクレデンシャル]*ページを開き、*[クレデンシャルの追加]*をクリックしてクレデンシャルの設定ワークフローを開始します。
++
+image:snapctr_svcs_credential_05-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. クレデンシャルの場所として「* Amazon Web Services - BlueXP *」を選択します。
++
+image:snapctr_svcs_credential_06-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. 適切な* Role ARN *を使用してAWSクレデンシャルを定義します。これは、上記の手順1で作成したAWS IAMロールから取得できます。BlueXP *アカウントID *。手順1でAWS IAMロールを作成するために使用します。
++
+image:snapctr_svcs_credential_07-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. 確認して*[追加]*をクリックします。
+image:snapctr_svcs_credential_08-aws.png["GUIでのこの手順を示すスクリーンショット。"]
 
 
 ====
@@ -208,7 +243,7 @@ image:snapctr_svcs_connector_10-review.png["GUIでのこの手順を示すスク
 
 [%collapsible]
 ====
-コネクタを導入すると、次の手順 を使用してSnapCenter サービスをセットアップできるようになります。
+コネクタを導入してクレデンシャルを追加すると、次の手順でSnapCenterサービスをセットアップできるようになります。
 
 . [My Working Environment]*から*[Add Working Environment]*をクリックして、AWSに導入されているFSxを検出します。
 
@@ -225,9 +260,8 @@ image:snapctr_svcs_setup_02.png["GUIでのこの手順を示すスクリーン�
 
 image:snapctr_svcs_setup_03.png["GUIでのこの手順を示すスクリーンショット。"]
 
-. FSx for ONTAP の管理に必要な権限をBlueXPに付与するクレデンシャルを選択します。クレデンシャルを追加していない場合は、BlueXPコンソールの右上にある*[設定]*メニューから追加できます。
-
-
+. 前のセクションで作成した*[クレデンシャル名]*を選択して、FSx for ONTAPの管理に必要な権限をBlueXPに付与します。クレデンシャルを追加していない場合は、BlueXPコンソールの右上にある*[設定]*メニューから追加できます。
++
 image:snapctr_svcs_setup_04.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . Amazon FSx for ONTAP が導入されているAWSリージョンを選択し、OracleデータベースをホストしているFSxクラスタを選択して、[追加]をクリックします。
@@ -265,15 +299,23 @@ image:snapctr_svcs_setup_10.png["GUIでのこの手順を示すスクリーン�
 
 image:snapctr_svcs_setup_13.png["GUIでのこの手順を示すスクリーンショット。"]
 
-. Oracle EC2インスタンスホストの詳細を指定してホストを追加してください。チェックボックスをオンにして、コネクタのプロビジョニング後にプラグインを導入するため、ホストにPlug-in for Oracleがインストールされていることを確認します。
+. AWS EC2 Oracleアプリケーションホストの詳細を入力します。プラグインのインストールとデータベース検出をワンステップで実行するには、*[Host Installation Type]*として[Using SSH]*を選択します。次に、*[Add SSH Private Key]*をクリックします。
++
+image:snapctr_svcs_setup_14.png["GUIでのこの手順を示すスクリーンショット。"]
 
+. データベースEC2ホストのEC2ユーザSSHキーを貼り付け、*[検証]*をクリックして続行します。
++
+image:snapctr_svcs_setup_14-1.png["GUIでのこの手順を示すスクリーンショット。"]
 
-image:snapctr_svcs_setup_16.png["GUIでのこの手順を示すスクリーンショット。"]
+. 続行するには*指紋の検証*を求めるプロンプトが表示されます。
++
+image:snapctr_svcs_setup_14-2.png["GUIでのこの手順を示すスクリーンショット。"]
 
-. Oracle EC2ホストを検出して* Applications *に追加すると、ホスト上のデータベースも検出されてページに表示されます。データベース* Protection Status *が* Unprotected *と表示されます。
-
-
+. [次へ]*をクリックしてOracleデータベースプラグインをインストールし、EC2ホスト上のOracleデータベースを検出します。検出されたデータベースは*アプリケーション*に追加されます。最初に検出されたデータベース* Protection Status *には* Unprotected *と表示されます。
++
 image:snapctr_svcs_setup_17.png["GUIでのこの手順を示すスクリーンショット。"]
+
+
 
 これで、Oracle向けSnapCenter サービスの初期セットアップは完了です。このドキュメントの次の3つのセクションでは、Oracleデータベースのバックアップ、リストア、クローニングの処理について説明します。
 
