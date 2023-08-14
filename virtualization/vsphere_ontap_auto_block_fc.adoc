@@ -5,7 +5,21 @@ keywords: vSphere, datastore, VMFS, FC, ONTAP tools, zone, WWPN
 summary: このページでは、 VMware vSphere 環境に NetApp ONTAP ストレージ FC VMFS データストアを導入する手順を説明します。 
 ---
 = vSphere VMFS データストア - Fibre Channel ストレージバックエンドに ONTAP を使用
+:hardbreaks:
 :allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+:scriptsdir: ./../scripts/
+:author: Suresh Thoppay, TME - Hybrid Cloud Solutions
+:ontap_version: ONTAP 9.8 or later
+:vsphere_version: vSphere 7.0 or later
+:firstname: Suresh
+:authorinitials: STT
+:middlename: Thoppay,
+:lastname: TME - Hybrid Cloud Solutions
+:authors: Suresh Thoppay, TME - Hybrid Cloud Solutions
 
 
 
@@ -21,14 +35,14 @@ summary: このページでは、 VMware vSphere 環境に NetApp ONTAP スト�
 == 必要なもの
 
 * vSphere 環境およびを管理するために必要な基本的なスキル ONTAP
-* ｛ ONTAP_version ｝ を実行している ONTAP ストレージシステム（ FAS/AFF/CVO/ONTAP Select / ASA ）
+* ONTAP 9.8以降を実行するONTAPストレージシステム（FAS / AFF / CVO / ONTAP Select / ASA）
 * ONTAP クレデンシャル（ SVM 名、ユーザ ID 、パスワード）
 * ホスト、ターゲット、 SVM 、および LUN の情報の ONTAP WWPN
 * link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-429C4DDD-5EC0-4DBD-8EA8-76082AB7ADEC.html++["入力した FC 構成ワークシート"]
 * vCenter Server クレデンシャル
 * vSphere ホスト情報
 +
-** ｛ vsphere_version ｝
+** vSphere 7.0以降
 
 
 * ファブリックスイッチ

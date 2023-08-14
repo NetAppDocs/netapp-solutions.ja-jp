@@ -20,7 +20,7 @@ OSP は、コンピューティング、ストレージ、ネットワークリ�
 
 OpenStack プロジェクトは、短期間で開発されたコミュニティプロジェクトで、 6 カ月ごとに更新リリースを提供します。最初の Red Hat OpenStack Platform は、すべてのアップストリームリリースに加えて新しいリリースを公開することで、このリリースサイクルのペースを維持していました。また、 3 回目のリリースごとに長期的なサポートを提供します。最近、 OpenStack Train をベースとした OSP リリース 16.0 ではリリース番号に対応しないことが選択されましたが、新しい機能はサブリリースにバックポートされています。最新のリリースは Red Hat OpenStack Platform 16.1 です。これには、アップストリームの Usuri および Victoria リリースからバックポートされた高度な機能が含まれています。
 
-OSP の詳細については、を参照してください https://www.redhat.com/en/technologies/linux-platforms/openstack-platform["Red Hat OpenStack Platform の Web サイト"^]。
+OSP の詳細については、を参照してください link:https://www.redhat.com/en/technologies/linux-platforms/openstack-platform["Red Hat OpenStack Platform の Web サイト"^]。
 
 
 
@@ -30,9 +30,8 @@ OpenStack Platform サービスはコンテナとして導入されます。コ�
 
 image:redhat_openshift_image34.png["エラー：グラフィックイメージがありません"]
 
+[cols="15%, 15%, 70%"]
 |===
-
-
 | サービス | プロジェクト名 | 説明 
 
 
@@ -76,6 +75,7 @@ Red Hat OpenStack Director では、皮肉なベアメタルプロビジョニ�
 
 ネットアップとともに Red Hat OpenShift を実装することで、仮想ローカルエリアネットワーク（ VLAN ）を使用してネットワークトラフィックを論理的に分離するように設計されています。この構成は、お客様のニーズに合わせて拡張することも、特定のネットワークサービスをさらに分離することもできます。次の表に、ネットアップで解決策を検証する際に解決策を実装するために必要な VLAN を示します。
 
+[cols="15%, 70%, 15%"]
 |===
 | VLAN | 目的 | VLAN ID 
 
@@ -144,7 +144,7 @@ Red Hat OpenShift 原因では最初に 3 つのマスターノードを導入�
 
 NOTE: OSP サーバグループには、特定のハードアフィニティや非アフィニティの制限があります。ノードを共有するために十分なリソースが別々のノードに導入できない場合や、リソースが不足している場合は、 VM をブートできません。
 
-アフィニティグループを設定するには、を参照してください https://access.redhat.com/solutions/1977943["OpenStack インスタンス用にアフィニティおよび非アフィニティを設定するにはどうすればよいですか？"^]。
+アフィニティグループを設定するには、を参照してください link:https://access.redhat.com/solutions/1977943["OpenStack インスタンス用にアフィニティおよび非アフィニティを設定するにはどうすればよいですか？"^]。
 
 
 
@@ -152,6 +152,6 @@ NOTE: OSP サーバグループには、特定のハードアフィニティや�
 
 IPI を使用すると、このドキュメントで前述した対話型ウィザードを使用して、 OpenShift クラスタを簡単に導入できます。ただし、クラスタ導入の一環として、一部のデフォルト値の変更が必要になる場合があります。
 
-このような場合は、クラスタをすぐに導入せずにウィザードを実行してタスクを実行できます。代わりに、あとでクラスタを導入できる構成ファイルを作成します。これは、 IPI のデフォルト値を変更する必要がある場合や、マルチテナンシーなどの他の用途のために環境内に同一のクラスタを複数導入する必要がある場合に非常に便利です。OpenShift 用にカスタマイズされたインストール構成の作成の詳細については、を参照してください https://docs.openshift.com/container-platform/4.7/installing/installing_openstack/installing-openstack-installer-custom.html["Red Hat OpenShift カスタマイズを使用した OpenStack へのクラスタのインストール"^]。
+このような場合は、クラスタをすぐに導入せずにウィザードを実行してタスクを実行できます。代わりに、あとでクラスタを導入できる構成ファイルを作成します。これは、 IPI のデフォルト値を変更する必要がある場合や、マルチテナンシーなどの他の用途のために環境内に同一のクラスタを複数導入する必要がある場合に非常に便利です。OpenShift 用にカスタマイズされたインストール構成の作成の詳細については、を参照してください link:https://docs.openshift.com/container-platform/4.7/installing/installing_openstack/installing-openstack-installer-custom.html["Red Hat OpenShift カスタマイズを使用した OpenStack へのクラスタのインストール"^]。
 
 link:rh-os-n_overview_netapp.html["次：ネットアップストレージの概要"]

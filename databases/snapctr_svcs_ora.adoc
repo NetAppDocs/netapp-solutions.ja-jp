@@ -234,6 +234,38 @@ image:snapctr_svcs_credential_07-aws.png["GUIでのこの手順を示すスク�
 
 . 確認して*[追加]*をクリックします。
 image:snapctr_svcs_credential_08-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+. まず、AWS EC2コンソールから* Identity and Access Management（IAM）*メニュー* Roles *、* Create role *でロールを作成し、ロール作成ワークフローを開始します。
++
+image:snapctr_svcs_credential_01-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. [Select trusted entity]*ページで、*[AWS account]*、*[Another AWS account]*を選択し、BlueXPアカウントIDを貼り付けます。このIDはBlueXPコンソールから取得できます。
++
+image:snapctr_svcs_credential_02-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. FSxで権限ポリシーをフィルタリングし、*権限ポリシー*をロールに追加します。
++
+image:snapctr_svcs_credential_03-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. [ロールの詳細]ページで、ロールに名前を付けて概要を追加し、*[ロールの作成]*をクリックします。
++
+image:snapctr_svcs_credential_04-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. BlueXPコンソールに戻り、コンソールの右上にある[設定]アイコンをクリックして*[アカウントのクレデンシャル]*ページを開き、*[クレデンシャルの追加]*をクリックしてクレデンシャルの設定ワークフローを開始します。
++
+image:snapctr_svcs_credential_05-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. クレデンシャルの場所として「* Amazon Web Services - BlueXP *」を選択します。
++
+image:snapctr_svcs_credential_06-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. 適切な* Role ARN *を使用してAWSクレデンシャルを定義します。これは、上記の手順1で作成したAWS IAMロールから取得できます。BlueXP *アカウントID *。手順1でAWS IAMロールを作成するために使用します。
++
+image:snapctr_svcs_credential_07-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. 確認して*[追加]*をクリックします。
++
+image:snapctr_svcs_credential_08-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+
 
 
 ====

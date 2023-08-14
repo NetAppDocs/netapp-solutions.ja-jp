@@ -1,95 +1,94 @@
-= Oracle のインストールを検証します
+= サポートが必要な場所
 :allow-uri-read: 
 
 
-
-
-=== Oracle のインストールを検証します
-
 . OracleユーザとしてOracleサーバにログインし、次のコマンドを実行します。
-
-
++
 [source, cli]
 ----
 ps -ef | grep ora
 ----
++
 
 NOTE: インストールが正常に完了した場合は、 Oracle プロセスが一覧表示されます Oracle DB のサポートを開始しました
 
 . データベースにログインして、次のコマンドセットを使用して作成されたDB設定およびPDBを確認します。
-
-
++
 [source, cli]
 ----
-sqlplus / as sysdba
-----
-[oracle @localhost ~] $sqlplus / AS sysdba
+[oracle@localhost ~]$ sqlplus / as sysdba
 
-SQL * Plus ：リリース 19.0.0.0.0 - 木曜日 5 月 6 日 12 ： 52 ： 51 2021 バージョン 19.8.0.0.0 の製造
+SQL*Plus: Release 19.0.0.0.0 - Production on Thu May 6 12:52:51 2021
+Version 19.8.0.0.0
 
-Copyright （ c ） 1982 、 2019 、 OracleAll rights reserved.
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
 
-接続先： Oracle Database 19C Enterprise Edition Release 19.0.0.0.0 - Production Version 19.8.0.0.0
+Connected to:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.8.0.0.0
 
 SQL>
 
-[source, cli]
-----
-select name, log_mode from v$database;
-----
-SQL> 名前の選択、 log_mode は V$ データベースから、名前 log_mode は ---- - - - - - - - - - - CDB2 ARCHIVELOG
+SQL> select name, log_mode from v$database;
+NAME      LOG_MODE
+--------- ------------
+CDB2      ARCHIVELOG
 
-[source, cli]
-----
-show pdbs;
-----
-SQL> PDB を表示
+SQL> show pdbs
 
-....
     CON_ID CON_NAME                       OPEN MODE  RESTRICTED
 ---------- ------------------------------ ---------- ----------
          2 PDB$SEED                       READ ONLY  NO
          3 CDB2_PDB1                      READ WRITE NO
          4 CDB2_PDB2                      READ WRITE NO
          5 CDB2_PDB3                      READ WRITE NO
-....
-[source, cli]
-----
+
 col svrname form a30
 col dirname form a30
 select svrname, dirname, nfsversion from v$dnfs_servers;
-----
-SQL> col svrname フォーム A30 SQL> col dirname フォーム A30 SQL> select svrname 、 dirname 、 nfsversion from v$dnfs_servers ；
 
-SVRNAME NFSVERVERSION-------------------------------- -------------- - - - - - - - - - - - - - 172.21.126.200/rhelora03_u02 NFSv4 3.0 172.21.126.200/rhelora03_u03 NFSv4 3.0 172.21.126.200/rhelora03_u01 NFSv3.0 を NFSv4 3.00 に戻します
+SQL> col svrname form a30
+SQL> col dirname form a30
+SQL> select svrname, dirname, nfsversion from v$dnfs_servers;
 
-[listing]
+SVRNAME                        DIRNAME                        NFSVERSION
+------------------------------ ------------------------------ ----------------
+172.21.126.200                 /rhelora03_u02                 NFSv3.0
+172.21.126.200                 /rhelora03_u03                 NFSv3.0
+172.21.126.200                 /rhelora03_u01                 NFSv3.0
 ----
-This confirms that dNFS is working properly.
-----
++
+これにより、dNFSが正常に動作していることが確認されます。
+
 . 次のコマンドを使用して'リスナー経由でデータベースに接続し'Oracleリスナーの構成を確認します適切なリスナーポートとデータベースサービス名に変更します。
-
-
++
 [source, cli]
 ----
-sqlplus system@//localhost:1523/cdb2_pdb1.cie.netapp.com
+[oracle@localhost ~]$ sqlplus system@//localhost:1523/cdb2_pdb1.cie.netapp.com
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Thu May 6 13:19:57 2021
+Version 19.8.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+Enter password:
+Last Successful login time: Wed May 05 2021 17:11:11 -04:00
+
+Connected to:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.8.0.0.0
+
+SQL> show user
+USER is "SYSTEM"
+SQL> show con_name
+CON_NAME
+CDB2_PDB1
 ----
-[oracle @ localhost ~] $sqlplus システム @ // localhost ： 1523 / cdb2_pdb1.cie.netapp.com
++
+これにより、Oracleリスナーが正常に動作していることが確認されます。
 
-SQL * Plus ：リリース 19.0.0.0.0 - 木曜日 5 月 6 日 13 ： 19 ： 57 2021 バージョン 19.8.0.0.0 の製造
 
-Copyright （ c ） 1982 、 2019 、 OracleAll rights reserved.
 
-パスワード「 Last Successful login time ： Wed May 05 2021 17 ： 11 ： 11-04 ： 00 」を入力します
-
-接続先： Oracle Database 19C Enterprise Edition Release 19.0.0.0.0 - Production Version 19.8.0.0.0
-
-SQL> show user user is "system" SQL> show con_name CON_name CDB2_PDB1
-
-[listing]
-----
-This confirms that Oracle listener is working properly.
-----
 
 
 === サポートが必要な場所

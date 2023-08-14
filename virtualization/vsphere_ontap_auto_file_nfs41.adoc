@@ -5,7 +5,22 @@ keywords: vSphere, datastore, nfs, ONTAP tools, vlan, network interface, service
 summary: このページでは、 NetApp ONTAP NFS バージョン 4 のデータストアを VMware vSphere 環境に導入する手順を説明します。 
 ---
 = vSphere NFS データストア - ONTAP バージョン 4.1
+:hardbreaks:
 :allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+:scriptsdir: ./../scripts/
+:author: Suresh Thoppay, TME - Hybrid Cloud Solutions
+:ontap_version: ONTAP 9.8 or later
+:vsphere_version: vSphere 7.0 or later
+:includesdir: ./../
+:firstname: Suresh
+:authorinitials: STT
+:middlename: Thoppay,
+:lastname: TME - Hybrid Cloud Solutions
+:authors: Suresh Thoppay, TME - Hybrid Cloud Solutions
 
 
 
@@ -21,12 +36,12 @@ summary: このページでは、 NetApp ONTAP NFS バージョン 4 のデー�
 == 必要なもの
 
 * vSphere 環境およびを管理するために必要な基本的なスキル ONTAP
-* ONTAP ストレージシステム（ FAS / AFF / CVO / ONTAP Select / クラウドボリュームサービス / Azure ネットアップファイル） ｛ ONTAP_version ｝ を実行しています
+* ONTAP 9.8以降を実行するONTAPストレージシステム（FAS / AFF / CVO / ONTAP Select / Cloud Volume Service / Azure NetApp Files）
 * ONTAP クレデンシャル（ SVM 名、ユーザ ID 、パスワード）
 * NFS の ONTAP ネットワークポート、 SVM 、および LUN の情報
 * link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-nfs-vaai/GUID-BBD301EF-496A-4974-B205-5F878E44BF59.html++["完了した NFS 設定ワークシート"]
 * vCenter Server クレデンシャル
-* vSphere ホスト情報 ｛ vsphere_version ｝
+* vSphereホスト情報vSphere 7.0以降
 * NFS VMkernel アダプタの IP 情報
 * ネットワークスイッチ
 +

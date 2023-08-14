@@ -211,10 +211,8 @@ FSx-Dest::> snapmirror create -source-path OnPremSourceSVM:OnPremSourceVol -dest
 ====
 SnapMirror関係を初期化このプロセスにより、ソースボリュームから生成された新しいSnapshotが開始され、デスティネーションボリュームにコピーされます。
 
-ボリュームを作成するには、FSX ONTAP で次のコマンドを実行します。
-
 ....
-FSx-Dest::> volume create -vserver DestSVM -volume DestVolName -aggregate DestAggrName -size VolSize -type DP
+FSx-Dest::> snapmirror initialize -destination-path DestSVM:DestVol
 ....
 ====
 

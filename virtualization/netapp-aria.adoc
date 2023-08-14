@@ -1,0 +1,51 @@
+---
+sidebar: sidebar 
+permalink: virtualization/netapp-aria.html 
+keywords: netapp, vmware, aria, getting, started 
+summary:  
+---
+= NetAppおよびVMware ARIA
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+VMware ARIAは、アプリケーション、インフラストラクチャ、およびプラットフォームサービスの一貫した導入と運用を可能にする一連の製品で構成される、インテリジェントなマルチクラウド管理解決策です。
+
+VMware ARIAを使用すると、管理者は、単一のプラットフォームと共通のデータモデルを使用して、プライベートクラウド、ハイブリッドクラウド、複数のクラウドにわたって環境を制御できます。VMware ARIA Automationを使用すると、プロビジョニング中に自動化を実行できるだけでなく、仮想マシンアプリケーションまたはKubernetesベースのアプリケーションのライフサイクル全体を管理できます。
+
+image:netapp-aria-image01.png["NetApp ONTAPとのVMware ARIA統合オプション"]
+
+VMware ARIAは、RESTful API、Python、PowerShell、Node.js、Ansible、 パペット、シェフ、塩、テラフォームなど vSphereデータストアのプロビジョニングワークフローでは、実行するタスクの数が減るため、ONTAPツールのRESTful APIの使用を検討してください。
+
+ONTAP、ONTAP Tools、SnapCenter Plug-in for VMware vSphere、Astra Controlなど、ネットアップのほとんどの製品は、Swagger UIを使用して探索できるRESTful APIを提供しています。
+Swagger UIを使用するには、次のURLを参照してください。
+link:https://docs.netapp.com/us-en/ontap-automation/reference/api_reference.html#access-the-ontap-api-documentation-page["ONTAP - ++https://<management ip>/docs/api/++"]
+link:https://docs.netapp.com/us-en/active-iq-unified-manager/api-automation/concept_api_url_and_categories.html#accessing-the-online-api-documentation-page["Active IQ Unified Manager - ++https://<management ip>/docs/api/++"]
+ONTAP Tools - ONTAP Tools vCenter Plug-inの[Overview]ページにある[resources]セクションのリンクをクリックします。バージョン9.12では、++ https://<ONTAP Tools IP>:8143/api/rest/swagger-ui.html++の形式になっています。
+link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_access_rest_apis_using_the_swagger_api_web_page.html["SnapCenter Plug-in for VMware vSphere - ++https://<SCV_IP>:8144/api/swagger-ui/index.html++"]
+Astra Control -ユーザアイコンをクリックして[API documentation]のリンクをクリックし、[API Access]をクリックします。形式は++ https://<Astra Control IP>/OpenAPI/<accountID>/++です。
+
+ここでは、VMware ARIAとの統合に使用できるその他のリソースを紹介します。
+link:https://github.com/NetApp-Automation/ONTAP_Tools_Datastore_Management["ONTAPツールAPIを使用してvSphereデータストアを管理するサンプルのAnsible Playbook"]
+link:https://galaxy.ansible.com/netapp["Ansible向けNetAppモジュール"]
+link:https://pypi.org/project/netapp-ontap/["ONTAP Pythonクライアントライブラリ"]
+link:https://www.powershellgallery.com/packages/NetApp.ONTAP["ONTAP向けPowerShellツールキット"]
+link:https://services.cloud.netapp.com/developer-hub["BlueXP APIのドキュメント"]
+link:https://github.com/NetApp/netapp-astra-toolkits["Astra Control Python SDK"]
+link:https://github.com/NetApp/terraform-provider-netapp-cloudmanager["BlueXP向けTerraformプロバイダ"]
+link:https://github.com/NetApp/Verda["Astra Controlを使用してアプリケーションと整合性のあるデータ保護を実行するスクリプト"]
+link:https://github.com/NetApp/netapp-dataops-toolkit["DataOpsツールキット"]
+link:https://github.com/NetApp-Automation/DRO-AWS["ディザスタリカバリオーケストレーションツール- AWS"]
+link:https://github.com/NetApp-Automation/DRO-Azure["ディザスタリカバリオーケストレーションツール- Azure"]
+link:https://github.com/NetApp-Automation/SnapCenter-Plug-in-for-VMware-vSphere["Ansibleを使用したSnapCenter Plug-in for VMware vSphereの導入"]
+
+VMware ARIAは、インフラストラクチャのリアルタイムの可視性を提供することで、管理者が運用関連のタスクを支援します。VMware ARIA Management Pack for NetApp FAS/AFFは、VMware ARIA Operations向けの組み込みアダプタです。この統合により、インフラに関する分析と最新情報が提供されるため、問題が発生したときや発生する可能性がある時間を短縮して特定することができます。
+
+* link:https://www.vmware.com/products/aria.html["VMware ARIA製品ページ"]
+* link:https://docs.vmware.com/en/VMware-Aria-Operations-for-Integrations/4.2/Management-Pack-for-NetApp-FAS-AFF/GUID-9B9C2353-3975-403A-8803-EBF6CDB62D2C.html["NetApp FAS / AFF向けVMware ARIA運用管理パック"]
+
