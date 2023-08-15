@@ -52,27 +52,29 @@ SnapCenter サービスは、従来のSnapCenter データベース管理UIツ�
 
 === アーキテクチャ
 
-image::snapctr_svcs_azure_architect.png[この画像は、BlueXPコンソール内のCloud Backup for Applicationの詳細な画像を提供します。これには、Cloud Backupが管理するUI、コネクタ、リソースが含まれます。]
+image::snapctr_svcs_azure_architect.png[この画像は、管理するUI、コネクタ、リソースなど、BlueXPコンソール内のアプリケーションのBlueXPバックアップとリカバリの詳細を示しています。]
 
-この画像は、BlueXPコンソール内のCloud Backup for Applicationの詳細な画像を示しています。UI、コネクタ、管理するリソースも含まれます。
+この画像は、UI、コネクタ、管理するリソースなど、BlueXPコンソール内のアプリケーションのBlueXPのバックアップとリカバリの詳細を示しています。
 
 
 
 === ハードウェアおよびソフトウェアコンポーネント
 
+* ハードウェア *
+
+[cols="30%, 30%, 40%"]
 |===
-
-
-3+| * ハードウェア * 
 
 
 | Azure NetApp Filesストレージ | Premiumサービスレベル | 自動QoSタイプ、テストでは4TBのストレージ容量 
 
 
 | コンピューティング用Azureインスタンス | 標準B4ミリ秒（vCPU×4、メモリ：16GiB） | 2つのインスタンスを導入（1つはプライマリDBサーバ、もう1つはクローンDBサーバ） 
+|===
+*ソフトウェア*
 
-
-3+| *ソフトウェア* 
+[cols="30%, 30%, 40%"]
+|===
 
 
 | Red Hat Linux | Red Hat Enterprise Linux 8.7（LVM）- x64 Gen2 | テスト用にRedHatサブスクリプションを導入 
@@ -108,7 +110,8 @@ image::snapctr_svcs_azure_architect.png[この画像は、BlueXPコンソール�
 * 一般的な手順をお読みください link:https://docs.netapp.com/us-en/cloud-manager-backup-restore/concept-protect-cloud-app-data-to-cloud.html#architecture["クラウドネイティブアプリケーションのデータを保護"^] およびOracleとAzure NetApp Filesに関連するセクションを参照してください。
 * 次のビデオウォークスルーを見る
 +
-
+.OracleとANFの導入ビデオ
+video::48adf2d8-3f5e-4ab3-b25c-b04a014635ac[panopto]
 
 
 
@@ -423,7 +426,7 @@ image:snapctr_svcs_clone_07-azure.png["エラー：グラフィックイメー�
 +
 link:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.htmll["https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html"^]
 
-* Cloud Backup のドキュメント
+* BlueXPのバックアップとリカバリに関するドキュメント
 +
 link:https://docs.netapp.com/us-en/cloud-manager-backup-restore/index.html["https://docs.netapp.com/us-en/cloud-manager-backup-restore/index.html"^]
 

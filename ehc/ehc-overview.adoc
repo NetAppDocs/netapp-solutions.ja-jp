@@ -109,7 +109,7 @@ NOTE: 本ドキュメントの作成時点で使用可能な唯一のオプシ�
 === 覚えておいてください
 
 * ハイブリッドストレージモデルでは、ホスト自体にも近接しているため、特定のレイテンシ要件に対処するために、 VSAN データストアにティア 1 または高優先度のワークロードを配置します。トランザクションのレイテンシが許容されるワークロード VM には、ゲスト内メカニズムを使用します。
-* NetApp SnapMirror ® テクノロジを使用して、オンプレミスの ONTAP システムから Cloud Volumes ONTAP または Amazon FSX for NetApp ONTAP にワークロードデータをレプリケートすることで、ブロックレベルのメカニズムによって移行を簡易化できます。これは、 Azure NetApp Files および Cloud Volume サービスには適用されません。Azure NetApp Files または Cloud Volume サービスにデータを移行するには、使用するファイルプロトコルに応じて、 NetApp XCP 、 Cloud Sync 、 rysnc 、 robocopy を使用してください。
+* NetApp SnapMirror ® テクノロジを使用して、オンプレミスの ONTAP システムから Cloud Volumes ONTAP または Amazon FSX for NetApp ONTAP にワークロードデータをレプリケートすることで、ブロックレベルのメカニズムによって移行を簡易化できます。これは、 Azure NetApp Files および Cloud Volume サービスには適用されません。Azure NetApp FilesまたはCloud Volumes Servicesへのデータ移行には、使用するファイルプロトコルに応じて、NetApp XCP、BlueXPのコピーと同期、rysnc、またはRobocopyを使用します。
 * テストでは、該当する SDDC からストレージにアクセスする際のレイテンシが 2 ～ 4 ミリ秒増加しました。ストレージをマッピングする際には、このレイテンシをアプリケーション要件に考慮してください。
 * テストフェイルオーバーおよび実際のフェイルオーバー時にゲスト接続ストレージをマウントする場合は、 iSCSI イニシエータが再設定されていること、 SMB 共有の DNS が更新されていること、および NFS マウントポイントが fstab で更新されていることを確認してください。
 * ゲスト内の Microsoft Multipath I/O （ MPIO ；マルチパス I/O ）、ファイアウォール、ディスクタイムアウトのレジストリ設定が VM 内で適切に設定されていることを確認します。

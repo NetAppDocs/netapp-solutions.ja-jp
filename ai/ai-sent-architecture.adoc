@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: ai/ai-sent-architecture.html 
-keywords: technology, architectural diagram, hardware requirements, NVIDIA RIVA, NVIDIA TAO Toolkit, Flash storage system, Cloud Sync 
+keywords: technology, architectural diagram, hardware requirements, NVIDIA RIVA, NVIDIA TAO Toolkit, Flash storage system, BlueXP Copy and Sync 
 summary: このサポートセンターの解決策のアーキテクチャは、 NVIDIA が構築したツールと NetApp DataOps ツールキットを中心にしています。NVIDIA のツールを使用すると、構築済みのモデルとパイプラインを使用して、ハイパフォーマンスな AI ソリューションを迅速に導入できます。NetApp DataOps ツールキットにより、さまざまなデータ管理タスクが簡易化され、開発期間が短縮されます。 
 ---
 = アーキテクチャ
@@ -30,7 +30,7 @@ NetApp DataOps ツールキットは Python ライブラリで、開発者、デ
 
 == アーキテクチャ図
 
-次の図は、解決策のアーキテクチャを示しています。環境には、クラウド、コア、エッジの 3 つのカテゴリがあります。各カテゴリは地理的に分散させることができます。たとえば、クラウドにはバケット内の音声ファイルを含むオブジェクトストアがあり、コアには高速ネットワークまたは NetApp Cloud Sync 経由でリンクされたデータセンターが含まれる場合があります。エッジノードは、ヒューマンエージェントの日常的な作業プラットフォームを表しています。このプラットフォームでは、対話型ダッシュボードツールとマイクを使用して感情を視覚化したり、顧客との会話から音声データを収集したりできます。
+次の図は、解決策のアーキテクチャを示しています。環境には、クラウド、コア、エッジの 3 つのカテゴリがあります。各カテゴリは地理的に分散させることができます。たとえば、クラウドにはさまざまなリージョンのバケットにオーディオファイルが格納されたオブジェクトストアが含まれていますが、コアには高速ネットワークやNetApp BlueXPのコピーと同期でリンクされたデータセンターが含まれている場合があります。エッジノードは、ヒューマンエージェントの日常的な作業プラットフォームを表しています。このプラットフォームでは、対話型ダッシュボードツールとマイクを使用して感情を視覚化したり、顧客との会話から音声データを収集したりできます。
 
 GPU によって高速化されたデータセンターでは、 NVIDIA を使用できます https://docs.nvidia.com/deeplearning/riva/user-guide/docs/index.html["リバ"^] 会話型 AI アプリケーションを構築するためのフレームワーク。それには、があります https://developer.nvidia.com/tao["Tao ツールキット"^] Transfer L ラーニング技術を使用して、モデルのフィニッチニングと再トレーニングを接続します。これらのコンピューティングアプリケーションとワークフローは、を基盤としています https://github.com/NetApp/netapp-dataops-toolkit["NetApp DataOps ツールキット"^]ONTAP が提供する最高のデータ管理機能を実現します。このツールキットを使用すると、企業のデータチームは、スナップショットやクローンを使用して、構造化データと非構造化データでモデルのプロトタイプを迅速に作成できるため、トレーサビリティ、バージョン管理、 A/B テストを実現し、セキュリティ、ガバナンス、 コンプライアンスを実現できます。を参照してください link:ai-sent-design-considerations.html#storage-design["ストレージ設計"] 詳細：
 
@@ -107,9 +107,9 @@ image:ai-sent-image4.png["エラー：グラフィックイメージがありま
 
 
 
-==== NetApp Cloud Sync の略
+==== NetApp BlueXPのコピーと同期
 
-https://docs.netapp.com/us-en/occm/concept_cloud_sync.html["Cloud Sync"^] は、高速でセキュアなデータ同期を実現するネットアップのサービスです。オンプレミスの NFS または SMB ファイル共有間で、次のいずれかのターゲットにファイルを転送できます。
+https://docs.netapp.com/us-en/occm/concept_cloud_sync.html["BlueXPのコピーと同期"^] は、高速でセキュアなデータ同期を実現するネットアップのサービスです。オンプレミスの NFS または SMB ファイル共有間で、次のいずれかのターゲットにファイルを転送できます。
 
 * NetApp StorageGRID
 * NetApp ONTAP S3
@@ -122,7 +122,7 @@ https://docs.netapp.com/us-en/occm/concept_cloud_sync.html["Cloud Sync"^] は、
 * IBM クラウドオブジェクトストレージ
 
 
-Cloud Sync は、必要な場所に迅速かつ安全にファイルを移動します。転送されたデータは、ソースとターゲットの両方で完全に使用できます。Cloud Sync は、事前定義されたスケジュールに基づいてデータを継続的に同期し、差分のみを移動するため、データレプリケーションにかかる時間とコストを最小限に抑えることができます。Cloud Sync は、セットアップや使用が簡単なソフトウェアサービス（ SaaS ）ツールです。Cloud Sync によって実行されるデータ転送は、データブローカーによって実行されます。Cloud Sync データブローカーは、 AWS 、 Azure 、 Google Cloud Platform 、オンプレミスに導入できます。
+BlueXPのCopy and Syncは、必要な場所に迅速かつ安全にファイルを移動します。転送されたデータは、ソースとターゲットの両方で完全に使用できます。BlueXPのCopy and Syncは、事前定義されたスケジュールに基づいてデータを継続的に同期し、差分のみを移動するため、データレプリケーションにかかる時間とコストを最小限に抑えることができます。BlueXPのCopy and Syncは、セットアップと使用が簡単なソフトウェアサービス（SaaS）ツールです。BlueXPのCopyとSyncによってトリガーされるデータ転送は、データブローカーによって実行されます。BlueXPのCopy and Syncデータブローカーは、AWS、Azure、Google Cloud Platform、オンプレミスに導入できます。
 
 
 
