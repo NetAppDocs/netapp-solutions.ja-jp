@@ -13,9 +13,6 @@ summary: このページでは、AWS FSxNの監視としきい値に基づく自
 :imagesdir: ./../media/
 
 
-[role="lead"]
-著者: Dhruv Tyagi, Niyaz Mohamed
-
 
 
 == 概要：AWS Lambda機能を使用したFSx for ONTAP の監視と自動サイズ変更
@@ -43,6 +40,7 @@ FSx for ONTAP は、シームレスな導入と管理のエクスペリエンス
 * 定期的にチェックを監視する機能
 * インターネットアクセスの有無にかかわらず、解決策 を使用できます
 * 手動またはAWS CloudFormationテンプレートを使用してデプロイする機能
+* 1つのVPCで複数のFSx for ONTAPファイルシステムを監視する機能
 
 
 ====
@@ -77,6 +75,9 @@ image:fsxn-monitoring-resizing-architecture.png["この図は、この解決策 
 
 === 導入の自動化
 
+
+NOTE: 単一のFSx for ONTAPファイルシステムに対応
+
 [%collapsible]
 ====
 一連の手順に従って、この解決策 の自動導入を完了します。
@@ -95,7 +96,7 @@ git clone https://github.com/NetApp-Automation/fsxn-monitoring-auto-resizing.git
 [%collapsible]
 =====
 . [AWS Console]>* S3 *に移動し、*[Create bucket]*をクリックします。デフォルトの設定でバケットを作成します。
-. バケット内で、* Upload *>* Add files *をクリックし、システム上のクローニングされたGitHubリポジトリから* Paramiko.zip *と* Requests.zip *を選択します。
+. バケット内で、* Upload *>* Add files *をクリックし、システム上のクローンされたGitHubリポジトリから* Utilities.zip *を選択します。
 +
 image:fsxn-monitoring-resizing-s3-upload-zip-files.png["この図は、S3ウィンドウにzipファイルがアップロードされている状態を示しています"]
 
@@ -169,6 +170,9 @@ image:fsxn-monitoring-resizing-email-2.png["この画像は、通知が利用可
 
 === 手動での導入
 
+
+NOTE: 1つのVPCで複数のFSx for ONTAPファイルシステムを監視できます。
+
 [%collapsible]
 ====
 一連の手順に従って、この解決策 の手動導入を完了します。
@@ -211,6 +215,7 @@ KMS key source: My current account
 Value: <Enter the password for "fsxadmin" user configured on FSx for ONTAP>
 ----
 [パラメーターを作成（Create Parameter）]*をクリックする。
+監視するすべてのFSx for ONTAPファイルシステムについて、上記の手順を繰り返します。
 
 image:fsxn-monitoring-resizing-ssm-parameter.png["この図は、AWSコンソールのSSMパラメータ作成ウィンドウを示しています。"]
 
@@ -297,11 +302,11 @@ image:fsxn-monitoring-resizing-lambda-creation-2.png["この画像は、AWSコ�
 image:fsxn-monitoring-resizing-add-layer-button.png["この画像は、AWS Lambda機能コンソールのレイヤー追加ボタンを示しています。"]
 
 . [レイヤーソース]*の下にある*[新しいレイヤーを作成する]*をクリックします
-. 2つのレイヤー（リクエスト用に1つ、Paramiko用に1つ）を作成し、* Requests.zip *ファイルと* Paramiko.zip *ファイルをアップロードします。互換性のあるランタイムとして* Python 3.9 *を選択し、* Create *をクリックします。
+. レイヤーを作成し、* Utilities.zip *ファイルをアップロードします。互換性のあるランタイムとして* Python 3.9 *を選択し、* Create *をクリックします。
 +
 image:fsxn-monitoring-resizing-create-layer-paramiko.png["この画像は、AWSコンソールの[Create New Layer]ウィンドウを示しています。"]
 
-. AWS Lambda * Add Layer *>* Custom Layers *に戻り、paramikoとrequestsレイヤーを次 々 に追加します。
+. AWS Lambda * Add Layer *>* Custom Layers *に戻り、ユーティリティレイヤーを追加します。
 +
 image:fsxn-monitoring-resizing-add-layer-window.png["この画像は、AWS Lambda関数コンソールのレイヤーの追加ウィンドウを示しています。"]
 
@@ -325,6 +330,10 @@ image:fsxn-monitoring-resizing-layers-added.png["この画像は、AWS Lambda関
 | * 名前 * | * タイプ * | * 概要 * 
 
 
+| * fsxList* | リスト | （必須）監視するすべてのFSx for ONTAPファイルシステムのリスト。
+監視および自動サイズ変更の対象として、すべてのファイルシステムをリストに含めます。 
+
+
 | * fsxMgmtIp * | 文字列 | （必須）AWSのFSx for ONTAP コンソールから「管理エンドポイント- IPアドレス」を入力します。 
 
 
@@ -335,12 +344,6 @@ image:fsxn-monitoring-resizing-layers-added.png["この画像は、AWS Lambda関
 
 
 | * resize_threshold * | 整数 | （必須）しきい値のパーセンテージを0～100の範囲で入力します。このしきい値は、ストレージ容量、ボリューム、LUNの使用率を測定するために使用され、使用率がこのしきい値を超えるとサイズ変更アクティビティが発生します。 
-
-
-| * sender_email * | 文字列 | （必須）SESに登録されている電子メールIDを入力します。このIDは、監視とサイズ変更に関する通知アラートを送信するためにlambda関数で使用されます。 
-
-
-| * recipient_email * | 文字列 | （必須）アラート通知を受信するEメールIDを入力します。 
 
 
 | * FSX_PASSWORD_SSM_PARAMETER * | 文字列 | （必須）「fsxadmin」パスワードの保存にAWS Parameter Storeで使用するパス名を入力します。 
@@ -365,6 +368,12 @@ image:fsxn-monitoring-resizing-layers-added.png["この画像は、AWS Lambda関
 
 
 | * SMTP_PASSWORD_SSM_PARAMETER * | 文字列 | （オプション）「internet_access」変数がFalseに設定されている場合は、SMTPパスワードの保存にAWS Parameter Storeで使用するパス名を入力します。 
+
+
+| * sender_email * | 文字列 | （必須）SESに登録されている電子メールIDを入力します。このIDは、監視とサイズ変更に関する通知アラートを送信するためにlambda関数で使用されます。 
+
+
+| * recipient_email * | 文字列 | （必須）アラート通知を受信するEメールIDを入力します。 
 |===
 +
 image:fsxn-monitoring-resizing-lambda-code.png["この画像は、AWS Lambda関数コンソールのラムダコードを示しています。"]
