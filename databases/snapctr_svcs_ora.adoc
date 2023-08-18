@@ -235,38 +235,6 @@ image:snapctr_svcs_credential_07-aws.png["GUIでのこの手順を示すスク�
 
 . 確認して*[追加]*をクリックします。
 image:snapctr_svcs_credential_08-aws.png["GUIでのこの手順を示すスクリーンショット。"]
-. まず、AWS EC2コンソールから* Identity and Access Management（IAM）*メニュー* Roles *、* Create role *でロールを作成し、ロール作成ワークフローを開始します。
-+
-image:snapctr_svcs_credential_01-aws.png["GUIでのこの手順を示すスクリーンショット。"]
-
-. [Select trusted entity]*ページで、*[AWS account]*、*[Another AWS account]*を選択し、BlueXPアカウントIDを貼り付けます。このIDはBlueXPコンソールから取得できます。
-+
-image:snapctr_svcs_credential_02-aws.png["GUIでのこの手順を示すスクリーンショット。"]
-
-. FSxで権限ポリシーをフィルタリングし、*権限ポリシー*をロールに追加します。
-+
-image:snapctr_svcs_credential_03-aws.png["GUIでのこの手順を示すスクリーンショット。"]
-
-. [ロールの詳細]ページで、ロールに名前を付けて概要を追加し、*[ロールの作成]*をクリックします。
-+
-image:snapctr_svcs_credential_04-aws.png["GUIでのこの手順を示すスクリーンショット。"]
-
-. BlueXPコンソールに戻り、コンソールの右上にある[設定]アイコンをクリックして*[アカウントのクレデンシャル]*ページを開き、*[クレデンシャルの追加]*をクリックしてクレデンシャルの設定ワークフローを開始します。
-+
-image:snapctr_svcs_credential_05-aws.png["GUIでのこの手順を示すスクリーンショット。"]
-
-. クレデンシャルの場所として「* Amazon Web Services - BlueXP *」を選択します。
-+
-image:snapctr_svcs_credential_06-aws.png["GUIでのこの手順を示すスクリーンショット。"]
-
-. 適切な* Role ARN *を使用してAWSクレデンシャルを定義します。これは、上記の手順1で作成したAWS IAMロールから取得できます。BlueXP *アカウントID *。手順1でAWS IAMロールを作成するために使用します。
-+
-image:snapctr_svcs_credential_07-aws.png["GUIでのこの手順を示すスクリーンショット。"]
-
-. 確認して*[追加]*をクリックします。
-+
-image:snapctr_svcs_credential_08-aws.png["GUIでのこの手順を示すスクリーンショット。"]
-
 
 
 ====
@@ -279,18 +247,15 @@ image:snapctr_svcs_credential_08-aws.png["GUIでのこの手順を示すスク�
 コネクタを導入してクレデンシャルを追加すると、次の手順でSnapCenterサービスをセットアップできるようになります。
 
 . [My Working Environment]*から*[Add Working Environment]*をクリックして、AWSに導入されているFSxを検出します。
-
-
++
 image:snapctr_svcs_setup_01.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . 場所として* Amazon Web Services *を選択します。
-
-
++
 image:snapctr_svcs_setup_02.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . [Amazon FSx for ONTAP *]の横にある*[Discover existing]*をクリックします。
-
-
++
 image:snapctr_svcs_setup_03.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . 前のセクションで作成した*[クレデンシャル名]*を選択して、FSx for ONTAPの管理に必要な権限をBlueXPに付与します。クレデンシャルを追加していない場合は、BlueXPコンソールの右上にある*[設定]*メニューから追加できます。
@@ -298,38 +263,31 @@ image:snapctr_svcs_setup_03.png["GUIでのこの手順を示すスクリーン�
 image:snapctr_svcs_setup_04.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . Amazon FSx for ONTAP が導入されているAWSリージョンを選択し、OracleデータベースをホストしているFSxクラスタを選択して、[追加]をクリックします。
-
-
++
 image:snapctr_svcs_setup_05.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . 検出されたAmazon FSx for ONTAP インスタンスが作業環境に表示されるようになりました。
-
-
++
 image:snapctr_svcs_setup_06.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . fsxadminアカウントのクレデンシャルを使用してFSxクラスタにログインできます。
-
-
++
 image:snapctr_svcs_setup_07.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . Amazon FSx for ONTAP にログインしたら、データベースストレージの情報（データベースボリュームなど）を確認します。
-
-
++
 image:snapctr_svcs_setup_08.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . コンソールの左側のサイドバーで、保護アイコンの上にマウスを置き、*[保護]*>*[アプリケーション]*をクリックして、[アプリケーション]の起動ページを開きます。[*アプリケーションの検出*]をクリックします。
-
-
++
 image:snapctr_svcs_setup_09.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . アプリケーションのソースタイプとして* Cloud Native *を選択します。
-
-
++
 image:snapctr_svcs_setup_10.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . アプリケーションタイプとして* Oracle *を選択します。
-
-
++
 image:snapctr_svcs_setup_13.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . AWS EC2 Oracleアプリケーションホストの詳細を入力します。プラグインのインストールとデータベース検出をワンステップで実行するには、*[Host Installation Type]*として[Using SSH]*を選択します。次に、*[Add SSH Private Key]*をクリックします。
@@ -360,39 +318,33 @@ image:snapctr_svcs_setup_17.png["GUIでのこの手順を示すスクリーン�
 [%collapsible]
 ====
 . データベース*[保護ステータス]*の横にある3つの点をクリックし、*[ポリシー]*をクリックして、プリロードされたデフォルトのデータベース保護ポリシーを表示します。このポリシーは、Oracleデータベースの保護に適用できます。
-
-
++
 image:snapctr_svcs_bkup_01.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . また、カスタマイズしたバックアップ頻度とバックアップデータ保持期間を使用して独自のポリシーを作成することもできます。
-
-
+ [+]
 image:snapctr_svcs_bkup_02.png["GUIでのこの手順を示すスクリーンショット。"]
-
 . ポリシーの設定に問題がなければ、データベースを保護するために任意のポリシーを割り当てることができます。
-
-
++
 image:snapctr_svcs_bkup_03.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . データベースに割り当てるポリシーを選択します。
-
-
++
 image:snapctr_svcs_bkup_04.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . ポリシーが適用されると、データベースの保護ステータスが* Protected *に変わり、緑のチェックマークが表示されます。
-
-
++
 image:snapctr_svcs_bkup_05.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . データベースバックアップは、事前に定義されたスケジュールで実行されます。次に示すように、1回限りのオンデマンドバックアップを実行することもできます。
-
-
++
 image:snapctr_svcs_bkup_06.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . データベースバックアップの詳細を表示するには、メニューリストの*[詳細を表示]*をクリックします。これには、バックアップ名、バックアップタイプ、SCN、およびバックアップ日付が含まれます。バックアップセットには、データボリュームとログボリュームの両方のSnapshotが含まれます。ログボリュームのSnapshotは、データベースボリュームのSnapshotの直後に作成されます。長いリストで特定のバックアップを探している場合は、フィルタを適用できます。
-
-
++
 image:snapctr_svcs_bkup_07.png["GUIでのこの手順を示すスクリーンショット。"]
+
+
 
 ====
 
@@ -402,26 +354,25 @@ image:snapctr_svcs_bkup_07.png["GUIでのこの手順を示すスクリーンシ
 [%collapsible]
 ====
 . データベースをリストアする場合は、SCNまたはバックアップ時間で適切なバックアップを選択します。データベースデータバックアップの3つの点をクリックし、*[リストア]*をクリックしてデータベースのリストアとリカバリを開始します。
-
-
++
 image:snapctr_svcs_restore_01.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . リストア設定を選択します。バックアップ後に物理データベース構造に何も変更がないことが確実な場合（データファイルやディスクグループの追加など）、* Force in place restore *オプションを使用できます。これは一般的に高速です。それ以外の場合は、このボックスをオンにしないでください。
-
-
++
 image:snapctr_svcs_restore_02.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . データベースのリストアとリカバリを確認して開始します。
-
-
++
 image:snapctr_svcs_restore_03.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . [ジョブ監視]*タブでは、リストアジョブのステータスと実行中の詳細を確認できます。
-
-
++
 image:snapctr_svcs_restore_05.png["GUIでのこの手順を示すスクリーンショット。"]
 
++
 image:snapctr_svcs_restore_04.png["GUIでのこの手順を示すスクリーンショット。"]
+
+
 
 ====
 
@@ -433,36 +384,33 @@ image:snapctr_svcs_restore_04.png["GUIでのこの手順を示すスクリーン
 データベースをクローニングするには、同じデータベースバックアップの詳細ページからクローニングワークフローを起動します。
 
 . 適切なデータベースバックアップコピーを選択し、3つの点をクリックしてメニューを表示し、*[クローン]*オプションを選択します。
-
-
++
 image:snapctr_svcs_clone_02.png["エラー：グラフィックイメージがありません"]
 
 . クローンデータベースのパラメータを変更する必要がない場合は、* Basic *オプションを選択します。
-
-
++
 image:snapctr_svcs_clone_03.png["エラー：グラフィックイメージがありません"]
 
 . または、* Specification file *を選択します。これにより、現在のinitファイルをダウンロードして変更を加え、ジョブにアップロードするオプションが表示されます。
-
-
++
 image:snapctr_svcs_clone_03_1.png["エラー：グラフィックイメージがありません"]
 
 . ジョブを確認して起動します。
-
-
++
 image:snapctr_svcs_clone_04.png["エラー：グラフィックイメージがありません"]
 
 . [ジョブ監視]タブでクローニングジョブのステータスを監視します。
-
-
++
 image:snapctr_svcs_clone_07-status.png["エラー：グラフィックイメージがありません"]
 
 . EC2インスタンスホストでクローンデータベースを検証します。
-
-
++
 image:snapctr_svcs_clone_08-crs.png["エラー：グラフィックイメージがありません"]
 
++
 image:snapctr_svcs_clone_08-db.png["エラー：グラフィックイメージがありません"]
+
+
 
 ====
 

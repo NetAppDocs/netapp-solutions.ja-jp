@@ -1,0 +1,237 @@
+---
+sidebar: sidebar 
+permalink: ehc/azure/veeam-anf-dr-to-avs.html 
+keywords: disaster recovery, avs, azure vmware solution, anf, azure netapp files, disaster recovery, dr, veeam, replication 
+summary:  
+---
+= Veeam ReplicationとAzure NetApp Filesデータストアを使用したAzure VMware解決策へのディザスタリカバリ
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../../media/
+
+
+[role="lead"]
+作成者：Niyaz Mohamed - NetAppソリューションエンジニアリング
+
+
+
+== 概要
+
+Azure NetApp Files（ANF）データストアは、コンピューティングからストレージを切り離し、あらゆる組織がワークロードをクラウドに移行するために必要な柔軟性を実現します。お客様は、コンピューティングリソースとは別に拡張できる、柔軟性に優れたハイパフォーマンスなストレージインフラを利用できます。Azure NetApp Filesデータストアのは、オンプレミスのVMware環境のディザスタリカバリサイトとしてAzure VMware解決策（AVS）とともに導入を簡易化、最適化します。
+
+Azure NetApp Files（ANF）ボリュームベースのNFSデータストアを使用すると、VMレプリケーション機能を提供する検証済みのサードパーティ製解決策を使用して、オンプレミスからデータをレプリケートできます。Azure NetApp Filesデータストアを追加することで、ストレージに対応する膨大な量のESXiホストでAzure VMware解決策SDDCを構築するよりも、コストを最適化できます。このアプローチは「パイロットライトクラスタ」と呼ばれます。パイロットライトクラスタは、Azure NetApp Filesデータストアの容量に加えて、最小限のAVSホスト構成（AVSノード×3）です。
+
+その目的は、フェイルオーバーを処理するためのすべてのコアコンポーネントを備えた低コストのインフラストラクチャを維持することです。パイロットライトクラスタは、フェイルオーバーが発生した場合に、スケールアウトしてより多くのAVSホストをプロビジョニングできます。また、フェールオーバーが完了し、通常の動作が復元されると、パイロットライトクラスタは低コストの動作モードにスケールダウンできます。
+
+
+
+== 本書の目的
+
+この記事では、Azure NetApp FilesデータストアとVeeam Backup and Replicationを使用して、Veeam VMレプリケーションソフトウェア機能を使用してオンプレミスのVMware VMから（AVS）へのディザスタリカバリを設定する方法について説明します。
+
+Veeam Backup & Replicationは、仮想環境向けのバックアップおよびレプリケーションアプリケーションです。仮想マシンがレプリケートされると、Veeam Backup & ReplicationがAVS上からレプリケートされます。ソフトウェアは、ターゲットAVS SDDCクラスタに、ネイティブのVMware vSphere形式でVMの正確なコピーを作成します。  Veeam Backup & Replicationは、コピーと元のVMの同期を維持します。DRサイトにはVMのコピーがすぐにマウントされているため、レプリケーションによって最適なRecovery Time Objective（RTO；目標復旧時間）が実現します。
+
+このレプリケーションメカニズムにより、災害発生時にAVS SDDCでワークロードを迅速に開始できます。Veeam Backup & Replicationソフトウェアは、WAN経由のレプリケーションや低速接続のトラフィック転送も最適化します。また、重複データブロック、ゼロデータブロック、スワップファイル、「除外VMゲストOSファイル」も除外されます。ソフトウェアはレプリカトラフィックも圧縮します。レプリケーションジョブがネットワーク帯域幅全体を消費しないようにするには、WANアクセラレータとネットワークスロットリングルールを使用します。
+
+Veeam Backup & Replicationのレプリケーションプロセスはジョブベースです。つまり、レプリケーションはレプリケーションジョブを設定して実行されます。災害が発生した場合は、レプリカコピーにフェイルオーバーすることで、フェイルオーバーをトリガーしてVMをリカバリできます。フェイルオーバーが実行されると、レプリケートされたVMが元のVMの役割を引き継ぎます。フェイルオーバーは'レプリカの最新の状態'または既知の任意のリストア・ポイントに対して実行できますこれにより、必要に応じてランサムウェアからのリカバリや個別のテストが可能Veeam Backup & Replicationには、さまざまなディザスタリカバリシナリオに対応するためのオプションが複数用意されています。
+
+image:dr-veeam-anf-image1.png[""]
+
+
+
+== 解決策 の導入
+
+
+
+=== 手順の概要
+
+. Veeam Backup & Replicationソフトウェアは、適切なネットワーク接続を備えたオンプレミス環境で実行されます。
+. link:https://learn.microsoft.com/en-us/azure/azure-vmware/deploy-azure-vmware-solution?tabs=azure-portal["Azure VMware解決策（AVS）の導入"] プライベートクラウドと link:https://learn.microsoft.com/en-us/azure/azure-vmware/attach-azure-netapp-files-to-azure-vmware-solution-hosts?tabs=azure-portal["Azure NetApp Filesデータストアの接続"] Azure VMware解決策ホストに接続します。
++
+最小限の構成でセットアップされたパイロットライト環境は、DR目的で使用できます。インシデントが発生した場合、VMはこのクラスタにフェイルオーバーし、ノードを追加できます）。
+
+. Veeam Backup and Replicationを使用してVMレプリカを作成するためのレプリケーションジョブを設定します。
+. フェイルオーバープランを作成し、フェイルオーバーを実行
+. 災害が完了し、プライマリサイトが稼働したら、本番環境のVMにスイッチバックします。
+
+
+
+
+=== AVSおよびANFデータストアへのVeeam VMレプリケーションの前提条件
+
+. Veeam Backup & ReplicationバックアップVMがソースとターゲットのAVS SDDCクラスタに接続されていることを確認します。
+. バックアップサーバは、短縮名を解決し、ソースvCenterとターゲットvCenterに接続できる必要があります。
+. ターゲットのAzure NetApp Filesデータストアに、レプリケートされたVMのVMDKを格納できるだけの十分な空きスペースが必要です。
+
+
+追加情報については、「考慮事項と制限事項」を参照してください。 link:https://helpcenter.veeam.com/docs/backup/vsphere/replica_limitations.html?ver=120["こちらをご覧ください"]。
+
+
+
+=== 展開の詳細
+
+.ステップ1：VMのレプリケート
+[%collapsible]
+====
+Veeam Backup & ReplicationはVMware vSphereスナップショット機能を活用します。レプリケーション時に、Veeam Backup & ReplicationはVMware vSphereにVMスナップショットの作成を要求します。VMスナップショットは、仮想ディスク、システムの状態、設定、メタデータを含むVMのポイントインタイムコピーです。Veeam Backup & Replicationでは、Snapshotをレプリケーションのデータソースとして使用します。
+
+VMをレプリケートするには、次の手順を実行します。
+
+. Veeam Backup & Replicationコンソールを開きます。
+. をクリックします。ジョブノードを右クリックし、[Replication Job]>[Virtual machine]を選択します。
+. ジョブ名を指定し、適切な詳細制御チェックボックスを選択します。次へをクリックします。
++
+** オンプレミスとAzure間の接続で帯域幅が制限されている場合は、[Replica seeding]チェックボックスをオンにします。
+* Azure VMware解決策SDDCのセグメントがオンプレミスサイトネットワークのセグメントと一致しない場合は、[ネットワークの再マッピング(AVS SDDCサイトと異なるネットワークの場合)]チェックボックスをオンにします。
+** オンプレミスの本番サイトのIPアドレス指定方式がターゲットAVSサイトのIPアドレス指定方式と異なる場合は、Replica Re-IP（異なるIPアドレス指定方式を使用するDRサイトの場合）チェックボックスを選択します。
++
+image:dr-veeam-anf-image2.png[""]
+
+
+
+. [Virtual * Machines]手順で、Azure VMware解決策SDDCに接続されたAzure NetApp FilesデータストアにレプリケートするVMを選択します。仮想マシンをVSANに配置して、使用可能なVSANデータストアの容量をいっぱいにすることができます。パイロットライトクラスタでは、3ノードクラスタの使用可能容量が制限されます。残りのデータはAzure NetApp Filesデータストアに簡単に配置してVMをリカバリしたり、CPU /メモリの要件に合わせてクラスタを拡張したりできます。[追加]*をクリックし、*[オブジェクトの追加]*ウィンドウで必要なVMまたはVMコンテナを選択して*[追加]*をクリックします。「 * 次へ * 」をクリックします。
++
+image:dr-veeam-anf-image3.png[""]
+
+. その後、デスティネーションをAzure VMware解決策SDDCクラスター/ホストとして選択し、VMレプリカ用の適切なリソースプール、VMフォルダ、FSx for ONTAPデータストアを選択します。次に、 [ * 次へ * ] をクリックします。
++
+image:dr-veeam-anf-image4.png[""]
+
+. 次の手順では、必要に応じてソースとデスティネーションの仮想ネットワーク間のマッピングを作成します。
++
+image:dr-veeam-anf-image5.png[""]
+
+. [ジョブ設定]ステップで、VMレプリカのメタデータや保持ポリシーなどを格納するバックアップリポジトリを指定します。
+. Data Transfer（データ転送）ステップで* Source（ソース）*および* Target（ターゲット）*プロキシサーバーを更新し、* Automatic（自動）*選択（デフォルト）のままにして* Direct *オプションを選択したままにして* Next（次へ）*をクリックします。
+. [Guest Processing]ステップで、必要に応じて[Enable application-aware processing]オプションを選択します。「 * 次へ * 」をクリックします。
++
+image:dr-veeam-anf-image6.png[""]
+
+. レプリケーションジョブを定期的に実行するレプリケーションスケジュールを選択します。
++
+image:dr-veeam-anf-image7.png[""]
+
+. ウィザードの* Summary *ステップで、レプリケーションジョブの詳細を確認します。ウィザードを終了した直後にジョブを開始するには、*[完了]をクリックしたときにジョブを実行する*チェックボックスをオンにします。オンにしない場合は、チェックボックスをオフのままにします。次に、*[完了]*をクリックしてウィザードを閉じます。
++
+image:dr-veeam-anf-image8.png[""]
+
+
+
+レプリケーションジョブが開始されると、指定されたサフィックスのVMがデスティネーションAVS SDDCクラスタ/ホストに取り込まれます。
+
+image:dr-veeam-anf-image9.png[""]
+
+追加情報によるVeeamレプリケーションについては、 link:https://helpcenter.veeam.com/docs/backup/vsphere/replication_process.html?ver=120["レプリケーションの仕組み"]
+
+====
+.手順2：フェイルオーバープランを作成する
+[%collapsible]
+====
+最初のレプリケーションまたはシードが完了したら、フェイルオーバープランを作成します。フェイルオーバープランは、依存するVMのフェイルオーバーを1つずつ、またはグループとして自動的に実行するのに役立ちます。フェイルオーバープランは、ブート遅延を含むVMの処理順序の青写真です。フェイルオーバープランは、重要な依存VMがすでに実行されていることを確認するのにも役立ちます。
+
+プランを作成するには、*レプリカ*という新しいサブセクションに移動し、*フェイルオーバープラン*を選択します。適切なVMを選択します。Veeam Backup & Replicationは、この時点に最も近いリストアポイントを検索し、それらを使用してVMレプリカを開始します。
+
+
+NOTE: フェイルオーバープランを追加できるのは、初期レプリケーションが完了し、VMレプリカがReady状態になってからです。
+
+
+NOTE: フェイルオーバープランの実行時に同時に起動できるVMの最大数は10です。
+
+
+NOTE: フェイルオーバープロセス中は、ソースVMの電源はオフになりません。
+
+フェイルオーバープラン*を作成するには、次の手順を実行します。
+
+. をクリックします。レプリカノードを右クリックし、[Failover Plans]>[Failover Plan]>[VMware vSphere]を選択します。
++
+image:dr-veeam-anf-image10.png[""]
+
+. 次に、計画の名前と概要を入力します。必要に応じて、フェイルオーバー前およびフェイルオーバー後のスクリプトを追加できます。たとえば、スクリプトを実行して、レプリケートされたVMを起動する前にVMをシャットダウンします。
++
+image:dr-veeam-anf-image11.png[""]
+
+. VMを計画に追加し、VMのブート順序とブート遅延を変更して、アプリケーションの依存関係を満たすようにします。
++
+image:dr-veeam-anf-image12.png[""]
+
+
+
+レプリケーションジョブを作成するための追加情報については、を参照してください。 link:https://helpcenter.veeam.com/docs/backup/vsphere/replica_job.html?ver=120["レプリケーションジョブの作成"]。
+
+====
+.手順3：フェイルオーバープランを実行する
+[%collapsible]
+====
+フェイルオーバー時には、本番サイトのソースVMがディザスタリカバリサイトのレプリカにスイッチオーバーされます。フェイルオーバープロセスの一環として、Veeam Backup & ReplicationはVMレプリカを必要なリストアポイントにリストアし、すべてのI/OアクティビティをソースVMからそのレプリカに移動します。レプリカは、災害発生時だけでなく、DRドリルのシミュレーションにも使用できます。フェイルオーバーのシミュレーション中は、ソースVMは引き続き実行されます。必要なテストがすべて完了したら、フェイルオーバーを元に戻して通常の運用に戻すことができます。
+
+
+NOTE: フェイルオーバー中のIP競合を回避するために、ネットワークセグメンテーションが設定されていることを確認します。
+
+フェイルオーバープランを開始するには、* Failover Plans *タブをクリックし、フェイルオーバープランを右クリックします。[**Start]を選択します。これにより、VMレプリカの最新のリストアポイントを使用してフェイルオーバーが実行されます。VMレプリカの特定のリストアポイントにフェイルオーバーするには、* Start to *を選択します。
+
+image:dr-veeam-anf-image13.png[""]
+
+image:dr-veeam-anf-image14.png[""]
+
+VMレプリカの状態がReadyからFailoverに変わり、デスティネーションAzure VMware解決策（AVS）SDDCクラスタ/ホストでVMが起動します。
+
+image:dr-veeam-anf-image15.png[""]
+
+フェイルオーバーが完了すると、VMのステータスが「Failover」に変わります。
+
+image:dr-veeam-anf-image16.png[""]
+
+
+NOTE: Veeam Backup & Replicationは、レプリカがReady状態に戻るまで、ソースVMのすべてのレプリケーションアクティビティを停止します。
+
+フェイルオーバープランの詳細については、を参照してください。 link:https://helpcenter.veeam.com/docs/backup/vsphere/failover_plan.html?ver=120["フェイルオーバープラン"]。
+
+====
+.手順4：本番サイトへのフェイルバック
+[%collapsible]
+====
+フェイルオーバープランの実行中は中間ステップとみなされ、要件に基づいて確定する必要があります。オプションには次のものがあります。
+
+* *本番環境へのフェイルバック*：元のVMに切り替えて、VMレプリカの実行中に発生したすべての変更を元のVMに転送します。
+
+
+
+NOTE: フェイルバックを実行すると、変更は転送されますが、パブリッシュされません。[Commit failback]*（元のVMが期待どおりに動作することが確認されたら）または[Undo failback]を選択して、元のVMが期待どおりに動作していない場合はVMレプリカに戻ります。
+
+* *フェイルオーバーを元に戻す*-元のVMに切り替えて、VMレプリカの実行中に行った変更をすべて破棄します。
+* *永続的フェイルオーバー*-元のVMからVMレプリカに永続的に切り替え、このレプリカを元のVMとして使用します。
+
+
+このデモでは、本番環境へのフェイルバックを選択しました。ウィザードの[Destination]ステップで[Failback to the original VM]が選択され、[Power on VM after restoring]チェックボックスが有効になっている。
+
+image:dr-veeam-anf-image17.png[""]
+
+image:dr-veeam-anf-image18.png[""]
+
+image:dr-veeam-anf-image19.png[""]
+
+image:dr-veeam-anf-image20.png[""]
+
+フェイルバックコミットは、フェイルバック操作を完了する方法の1つです。フェイルバックがコミットされると、フェイルバックされたVM（本番VM）に送信された変更が想定どおりに機能していることが確認されます。コミット処理が完了すると、Veeam Backup & Replicationは本番用VMのレプリケーションアクティビティを再開します。
+
+フェイルバックプロセスの詳細については、次のVeeamのドキュメントを参照してください： link:https://helpcenter.veeam.com/docs/backup/vsphere/failover_failback.html?ver=120["レプリケーションのフェイルオーバーとフェイルバック"]。
+
+image:dr-veeam-anf-image21.png[""]
+
+本番環境へのフェイルバックが成功すると、VMはすべて元の本番サイトにリストアされます。
+
+image:dr-veeam-anf-image22.png[""]
+
+====
+
+
+== まとめ
+
+Azure NetApp Filesデータストア機能を使用すると、Veeamまたは検証済みのサードパーティ製ツールを使用して、VMレプリカに対応するためだけに大規模なクラスタをセットアップするのではなく、パイロットライトクラスタを活用して低コストのDR解決策を提供できます。これにより、カスタマイズされたディザスタリカバリ計画を効率的に処理し、社内の既存のバックアップ製品をDR用に再利用できるようになり、オンプレミスのDRデータセンターを終了してクラウドベースのディザスタリカバリを実現できます。災害の場合はボタンをクリックしてフェイルオーバーしたり、災害が発生した場合は自動的にフェイルオーバーすることができます。
+
+このプロセスの詳細については、詳細なウォークスルービデオをご覧ください。
+
+video::2855e0d5-97e7-430f-944a-b061015e9278[panopto,width=Video walkthrough of the solution]
