@@ -162,18 +162,15 @@ image:snapctr_svcs_connector_01-policy.png["GUIでのこの手順を示すスク
 image:snapctr_svcs_connector_02-wspace.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . [コネクタの追加]*をクリックして、コネクタプロビジョニングワークフローを開始します。
-
-
++
 image:snapctr_svcs_connector_03-add.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . クラウドプロバイダを選択します（この場合は* Amazon Web Services *）。
-
-
++
 image:snapctr_svcs_connector_04-aws.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . AWSアカウントですでに設定されている場合は、* Permission *、* Authentication *、* Networking *の各手順はスキップしてください。設定されていない場合は、先に進む前に設定する必要があります。ここから、前のセクションで参照しているAWSポリシーの権限を取得することもできます。<<BlueXPへのオンボーディング>>. 」
-
-
++
 image:snapctr_svcs_connector_05-remind.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . [Access Key]*と[Secret Key]*を使用してAWSアカウント認証を入力します。
@@ -181,8 +178,7 @@ image:snapctr_svcs_connector_05-remind.png["GUIでのこの手順を示すスク
 image:snapctr_svcs_connector_06-auth.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . コネクタインスタンスに名前を付け、* Details *で* Create Role *を選択します。
-
-
++
 image:snapctr_svcs_connector_07-details.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . コネクタアクセス用の適切な* VPC *、*サブネット*、およびSSH *キーペア*を使用してネットワークを設定します。
@@ -194,9 +190,10 @@ image:snapctr_svcs_connector_08-network.png["GUIでのこの手順を示すス�
 image:snapctr_svcs_connector_09-security.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . 概要ページを確認し、*追加*をクリックしてコネクターの作成を開始します。通常、導入が完了するまでに約10分かかります。完了すると、コネクタインスタンスがAWS EC2ダッシュボードに表示されます。
-
-
++
 image:snapctr_svcs_connector_10-review.png["GUIでのこの手順を示すスクリーンショット。"]
+
+
 
 ====
 
@@ -318,7 +315,8 @@ image:snapctr_svcs_setup_17.png["GUIでのこの手順を示すスクリーン�
 [%collapsible]
 ====
 . データベース*[保護ステータス]*の横にある3つの点をクリックし、*[ポリシー]*をクリックして、プリロードされたデフォルトのデータベース保護ポリシーを表示します。このポリシーは、Oracleデータベースの保護に適用できます。
-+
+
+
 image:snapctr_svcs_bkup_01.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . また、カスタマイズしたバックアップ頻度とバックアップデータ保持期間を使用して独自のポリシーを作成することもできます。
@@ -406,9 +404,6 @@ image:snapctr_svcs_clone_07-status.png["エラー：グラフィックイメー�
 . EC2インスタンスホストでクローンデータベースを検証します。
 +
 image:snapctr_svcs_clone_08-crs.png["エラー：グラフィックイメージがありません"]
-
-+
-image:snapctr_svcs_clone_08-db.png["エラー：グラフィックイメージがありません"]
 
 
 
