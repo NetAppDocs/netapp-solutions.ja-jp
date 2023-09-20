@@ -129,7 +129,6 @@ video::4b0fd212-7641-46b8-9e55-b01200f9383a[panopto]
 . AWSに導入されたAmazon FSx for ONTAPクラスタで、上記のデータベースボリュームをホストしています。
 . EC2インスタンス上のオプションのデータベースサーバ。開発/テストワークロード、または本番環境のOracleデータベースの完全なデータセットを必要とするあらゆるユースケースをサポートする目的で、代替ホストへのOracleデータベースのクローニングをテストするために使用できます。
 . Amazon FSx for ONTAP およびEC2コンピューティングインスタンスにOracleデータベースを導入する場合、上記の前提条件を満たすために支援が必要な場合は、を参照してください link:aws_ora_fsx_ec2_iscsi_asm.html["iSCSI / ASMを使用したAWS FSX/EC2でのOracleデータベースの導入と保護"^] またはホワイトペーパー link:aws_ora_fsx_ec2_deploy_intro.html["Oracle Database Deployment on EC2 and FSx Best Practicesを参照してください"^]
-. Amazon FSx for ONTAP およびEC2コンピューティングインスタンスにOracleデータベースを導入する場合、上記の前提条件を満たすために支援が必要な場合は、を参照してください link:aws_ora_fsx_ec2_iscsi_asm.html["iSCSI / ASMを使用したAWS FSX/EC2でのOracleデータベースの導入と保護"^] またはホワイトペーパー link:aws_ora_fsx_ec2_deploy_intro.html["Oracle Database Deployment on EC2 and FSx Best Practicesを参照してください"^]
 
 
 ====
@@ -197,6 +196,45 @@ image:snapctr_svcs_connector_09-security.png["GUIでのこの手順を示すス�
 
 
 image:snapctr_svcs_connector_10-review.png["GUIでのこの手順を示すスクリーンショット。"]
+
+====
+
+
+=== BlueXP for AWSリソースアクセスでクレデンシャルを定義
+
+[%collapsible]
+====
+. まず、AWS EC2コンソールから* Identity and Access Management（IAM）*メニュー* Roles *、* Create role *でロールを作成し、ロール作成ワークフローを開始します。
++
+image:snapctr_svcs_credential_01-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. [Select trusted entity]*ページで、*[AWS account]*、*[Another AWS account]*を選択し、BlueXPアカウントIDを貼り付けます。このIDはBlueXPコンソールから取得できます。
++
+image:snapctr_svcs_credential_02-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. FSxで権限ポリシーをフィルタリングし、*権限ポリシー*をロールに追加します。
++
+image:snapctr_svcs_credential_03-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. [ロールの詳細]ページで、ロールに名前を付けて概要を追加し、*[ロールの作成]*をクリックします。
++
+image:snapctr_svcs_credential_04-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. BlueXPコンソールに戻り、コンソールの右上にある[設定]アイコンをクリックして*[アカウントのクレデンシャル]*ページを開き、*[クレデンシャルの追加]*をクリックしてクレデンシャルの設定ワークフローを開始します。
++
+image:snapctr_svcs_credential_05-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. クレデンシャルの場所として「* Amazon Web Services - BlueXP *」を選択します。
++
+image:snapctr_svcs_credential_06-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. 適切な* Role ARN *を使用してAWSクレデンシャルを定義します。これは、上記の手順1で作成したAWS IAMロールから取得できます。BlueXP *アカウントID *。手順1でAWS IAMロールを作成するために使用します。
++
+image:snapctr_svcs_credential_07-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+
+. 確認して*[追加]*をクリックします。
+image:snapctr_svcs_credential_08-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+
 
 ====
 
@@ -333,8 +371,10 @@ image:snapctr_svcs_setup_17.png["GUIでのこの手順を示すスクリーン�
 image:snapctr_svcs_bkup_01.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . また、カスタマイズしたバックアップ頻度とバックアップデータ保持期間を使用して独自のポリシーを作成することもできます。
- [+]
+
+
 image:snapctr_svcs_bkup_02.png["GUIでのこの手順を示すスクリーンショット。"]
+
 . ポリシーの設定に問題がなければ、データベースを保護するために任意のポリシーを割り当てることができます。
 
 
@@ -427,6 +467,8 @@ image:snapctr_svcs_clone_07-status.png["エラー：グラフィックイメー�
 
 
 image:snapctr_svcs_clone_08-crs.png["エラー：グラフィックイメージがありません"]
+
+image:snapctr_svcs_clone_08-db.png["エラー：グラフィックイメージがありません"]
 
 ====
 
