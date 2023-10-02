@@ -1,0 +1,247 @@
+---
+sidebar: sidebar 
+permalink: databases/automation_fsx_ec2_provision.html 
+keywords: AWS, FSx ONTAP, EC2 
+summary: 解決策は、FSx ONTAPクラスタとEC2コンピューティングインスタンスをプロビジョニングするためのTerraformベースの自動化ツールキットを提供 
+---
+= AWS FSx ONTAPクラスタとEC2インスタンスのプロビジョニング
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+NetAppソリューションエンジニアリングチーム
+
+
+
+== 目的
+
+このツールキットを使用すると、AWS FSx ONTAPストレージクラスタとEC2コンピューティングインスタンスのプロビジョニングタスクを自動化できます。EC2コンピューティングインスタンスは、あとからデータベースの導入に使用できます。
+
+この解決策 は、次のユースケースに対応します。
+
+* 事前定義されたVPCサブネット内のAWSクラウドでEC2コンピューティングインスタンスをプロビジョニングし、EC2インスタンスアクセス用のSSHキーをEC2-userとして設定します。
+* 必要なアベイラビリティゾーンにAWS FSx ONTAPストレージクラスタをプロビジョニングし、ストレージSVMを設定し、クラスタ管理ユーザfsxadminパスワードを設定します。
+
+
+
+
+== 対象者
+
+この解決策 は、次のユーザーを対象としています。
+
+* AWS EC2環境でデータベースを管理するDBA。
+* AWS EC2エコシステムへのデータベース導入に関心のあるデータベース解決策アーキテクト。
+* データベースをサポートするAWS FSx ONTAPストレージを管理するストレージ管理者。
+* AWS EC2エコシステムでデータベースを立ち上げたいと考えているアプリケーション所有者。
+
+
+
+
+== 使用許諾
+
+このGitHubリポジトリのコンテンツにアクセス、ダウンロード、インストール、または使用することにより、 link:https://github.com/NetApp/na_ora_hadr_failover_resync/blob/master/LICENSE.TXT["ライセンスファイル"^]。
+
+
+NOTE: このGitHubリポジトリ内のコンテンツとの派生物の作成および/または共有には、一定の制限があります。コンテンツを使用する前に、必ずライセンスの条件をお読みください。すべての条件に同意しない場合は、このリポジトリ内のコンテンツにアクセス、ダウンロード、または使用しないでください。
+
+
+
+== 解決策 の導入
+
+
+
+=== 導入の前提条件
+
+[%collapsible]
+====
+導入には、次の前提条件が必要です。
+
+....
+An Organization and AWS account has been setup in AWS public cloud
+  An user to run the deployment has been created
+  IAM roles has been configured
+  IAM roles granted to user to permit provisioning the resources
+....
+....
+VPC and security configuration
+  A VPC has been created to host the resources to be provisioned
+  A security group has been configured for the VPC
+  A ssh key pair has been created for EC2 instance access
+....
+....
+Network configuration
+  Subnets has been created for VPC with network segments assigned
+  Route tables and network ACL configured
+  NAT gateways or internet gateways configured for internet access
+....
+====
+
+
+=== ツールキットをダウンロード
+
+[%collapsible]
+====
+[source, cli]
+----
+git clone https://github.com/NetApp/na_aws_fsx_ec2_deploy.git
+----
+====
+
+
+=== 接続と認証
+
+[%collapsible]
+====
+このツールキットはAWSクラウドシェルから実行されることになっています。AWSクラウドシェルは、AWSリソースの安全な管理、探索、操作を容易にするブラウザベースのシェルです。CloudShellは、コンソールのクレデンシャルで事前に認証されます。一般的な開発ツールと運用ツールが事前にインストールされているため、ローカルでのインストールや設定は必要ありません。
+
+====
+
+
+=== Terraformプロバイダの.tfファイルとmain.tfファイルの構成
+
+[%collapsible]
+====
+provider.tfは、TerraformがAPI呼び出しを介してリソースをプロビジョニングするプロバイダを定義します。main.tfは、プロビジョニングされるリソースのリソースと属性を定義します。以下に詳細を示します。
+
+....
+provider.tf:
+  terraform {
+    required_providers {
+      aws = {
+        source  = "hashicorp/aws"
+        version = "~> 4.54.0"
+      }
+    }
+  }
+....
+....
+main.tf:
+  resource "aws_instance" "ora_01" {
+    ami                           = var.ami
+    instance_type                 = var.instance_type
+    subnet_id                     = var.subnet_id
+    key_name                      = var.ssh_key_name
+    root_block_device {
+      volume_type                 = "gp3"
+      volume_size                 = var.root_volume_size
+    }
+    tags = {
+      Name                        = var.ec2_tag
+    }
+  }
+  ....
+....
+====
+
+
+=== Terraform変数.tfおよびterraform.tfvarsの設定
+
+[%collapsible]
+====
+variables.tfは、main.tfで使用する変数を宣言します。terraform.tfvarsには、変数の実際の値が含まれています。次に例を示します。
+
+....
+variables.tf:
+  ### EC2 instance variables ###
+....
+....
+variable "ami" {
+  type        = string
+  description = "EC2 AMI image to be deployed"
+}
+....
+....
+variable "instance_type" {
+  type        = string
+  description = "EC2 instance type"
+}
+....
+....
+....
+terraform.tfvars:
+  # EC2 instance variables
+....
+....
+ami                     = "ami-06640050dc3f556bb" //RedHat 8.6  AMI
+instance_type           = "t2.micro"
+ec2_tag                 = "ora_01"
+subnet_id               = "subnet-04f5fe7073ff514fb"
+ssh_key_name            = "sufi_new"
+root_volume_size        = 30
+....
+....
+====
+
+
+=== ステップバイステップのプロシージャ-順番に実行
+
+[%collapsible]
+====
+. AWSクラウドシェルにTerraformをインストールする。
++
+[source, cli]
+----
+git clone https://github.com/tfutils/tfenv.git ~/.tfenv
+----
++
+[source, cli]
+----
+mkdir ~/bin
+----
++
+[source, cli]
+----
+ln -s ~/.tfenv/bin/* ~/bin/
+----
++
+[source, cli]
+----
+tfenv install
+----
++
+[source, cli]
+----
+tfenv use 1.3.9
+----
+. NetApp GitHubパブリックサイトからツールキットをダウンロード
++
+[source, cli]
+----
+git clone https://github.com/NetApp-Automation/na_aws_fsx_ec2_deploy.git
+----
+. initを実行してterraformを初期化する
++
+[source, cli]
+----
+terraform init
+----
+. 実行計画の出力
++
+[source, cli]
+----
+terraform plan -out=main.plan
+----
+. 実行計画の適用
++
+[source, cli]
+----
+terraform apply "main.plan"
+----
+. 完了したらdestroyを実行してリソースを削除します
++
+[source, cli]
+----
+terraform destroy
+----
+
+
+====
+
+
+== 追加情報の参照先
+
+NetApp 解決策 自動化の詳細については、次のWebサイトを参照してください。 link:https://docs.netapp.com/us-en/netapp-solutions/automation/automation_introduction.html["NetApp 解決策の自動化"^]

@@ -1,0 +1,175 @@
+---
+sidebar: sidebar 
+permalink: databases/automation_ora_migration.html 
+keywords: Oracle, AWS, FSx ONTAP, Database Migration, Oracle 19c, 
+summary: 解決策には、可用性を最大限に高める方法でPDBの再配置を使用してOracleデータベースを移行するためのAnsibleベースの自動化ツールキットが用意されています。移行は、オンプレミスとクラウドをソースまたはターゲットとして任意に組み合わせて実行できます。 
+---
+= Oracleの自動移行
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+NetAppソリューションエンジニアリングチーム
+
+
+
+== 目的
+
+FSx ONTAPストレージとEC2コンピューティングインスタンスをターゲットインフラとして使用し、オンプレミスからAWSクラウドへのOracleデータベースの移行を自動化するツールキットです。CDB / PDBモデルでは、お客様がオンプレミスのOracleデータベースをすでに導入していることを前提としています。このツールキットを使用すると、最大可用性オプションを指定してOracle PDB再配置手順を使用して、Oracleホスト上のコンテナデータベースから名前付きPDBを再配置できます。つまり、オンプレミスのストレージアレイ上のソースPDBは、サービスの中断を最小限に抑えて新しいコンテナデータベースに再配置されます。Oracle再配置手順は'データベースがオンラインのときにOracleデータ・ファイルを移動しますその後、すべてのデータファイルがAWSクラウドに移行されたときに、スイッチオーバー時にオンプレミスから再配置されたデータベースサービスにユーザセッションを再ルーティングします。下線のテクノロジは、実証済みのOracle PDBホットクローン手法です。
+
+この解決策 は、次のユースケースに対応します。
+
+* 移行ユーザを作成し、必要な権限をオンプレミスのソースDBサーバに付与
+* オンプレミスのCDBからクラウド内のターゲットCDBにPDBを再配置し、切り替えまでソースPDBをオンラインにします。
+
+
+
+
+== 対象者
+
+この解決策 は、次のユーザーを対象としています。
+
+* オンプレミスからAWSクラウドにOracleデータベースを移行するDBA。
+* オンプレミスからAWSクラウドへのOracleデータベースの移行に関心があるデータベース解決策アーキテクト。
+* OracleデータベースをサポートするAWS FSx ONTAPストレージを管理するストレージ管理者。
+* オンプレミスからAWSクラウドにOracleデータベースを移行したいと考えているアプリケーション所有者。
+
+
+
+
+== 使用許諾
+
+このGitHubリポジトリのコンテンツにアクセス、ダウンロード、インストール、または使用することにより、 link:https://github.com/NetApp/na_ora_hadr_failover_resync/blob/master/LICENSE.TXT["ライセンスファイル"^]。
+
+
+NOTE: このGitHubリポジトリ内のコンテンツとの派生物の作成および/または共有には、一定の制限があります。コンテンツを使用する前に、必ずライセンスの条件をお読みください。すべての条件に同意しない場合は、このリポジトリ内のコンテンツにアクセス、ダウンロード、または使用しないでください。
+
+
+
+== 解決策 の導入
+
+
+
+=== 導入の前提条件
+
+[%collapsible]
+====
+導入には、次の前提条件が必要です。
+
+....
+Ansible v.2.10 and higher
+ONTAP collection 21.19.1
+Python 3
+Python libraries:
+  netapp-lib
+  xmltodict
+  jmespath
+....
+....
+Source Oracle CDB with PDBs on-premises
+Target Oracle CDB in AWS hosted on FSx and EC2 instance
+Source and target CDB on same version and with same options installed
+....
+....
+Network connectivity
+  Ansible controller to source CDB
+  Ansible controller to target CDB
+  Source CDB to target CDB on Oracle listener port (typical 1521)
+....
+====
+
+
+=== ツールキットをダウンロード
+
+[%collapsible]
+====
+[source, cli]
+----
+git clone https://github.com/NetApp/na_ora_aws_migration.git
+----
+====
+
+
+=== ホスト変数の設定
+
+[%collapsible]
+====
+ホスト変数は、｛｛host_name｝｝.ymlという名前のhost_varsディレクトリに定義されています。一般的な設定を示すために、ホスト変数ファイルhost_name.ymlの例が含まれています。主な考慮事項は次のとおりです。
+
+....
+Source Oracle CDB - define host specific variables for the on-prem CDB
+  ansible_host: IP address of source database server host
+  source_oracle_sid: source Oracle CDB instance ID
+  source_pdb_name: source PDB name to migrate to cloud
+  source_file_directory: file directory of source PDB data files
+  target_file_directory: file directory of migrated PDB data files
+....
+....
+Target Oracle CDB - define host specific variables for the target CDB including some variables for on-prem CDB
+  ansible_host: IP address of target database server host
+  target_oracle_sid: target Oracle CDB instance ID
+  target_pdb_name: target PDB name to be migrated to cloud (for max availability option, the source and target PDB name must be the same)
+  source_oracle_sid: source Oracle CDB instance ID
+  source_pdb_name: source PDB name to be migrated to cloud
+  source_port: source Oracle CDB listener port
+  source_oracle_domain: source Oracle database domain name
+  source_file_directory: file directory of source PDB data files
+  target_file_directory: file directory of migrated PDB data files
+....
+====
+
+
+=== DBサーバのホストファイル構成
+
+[%collapsible]
+====
+AWS EC2インスタンスは、デフォルトでホスト名にIPアドレスを使用します。Ansibleのhostsファイルに異なる名前を使用する場合は、ソースサーバとターゲットサーバの両方について、/etc/hostsファイルにホストの名前解決を設定します。次に例を示します。
+
+....
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+172.30.15.96 source_db_server
+172.30.15.107 target_db_server
+....
+====
+
+
+=== Playbookの実行-順番に実行
+
+[%collapsible]
+====
+. Ansibleコントローラの前提条件をインストールする。
++
+[source, cli]
+----
+ansible-playbook -i hosts requirements.yml
+----
++
+[source, cli]
+----
+ansible-galaxy collection install -r collections/requirements.yml --force
+----
+. オンプレミスサーバに対して移行前のタスクを実行（adminがsshユーザで、sudo権限でオンプレミスのOracleホストに接続する場合）
++
+[source, cli]
+----
+ansible-playbook -i hosts ora_pdb_relocate.yml -u admin -k -K -t ora_pdb_relo_onprem
+----
+. オンプレミスCDBからAWS EC2インスタンスのターゲットCDBへのOracle PDB再配置を実行します（EC2 DBインスタンス接続にはEC2-USER、EC2-USER sshキーペアを使用するdb1.pemを想定）。
++
+[source, cli]
+----
+ansible-playbook -i hosts ora_pdb_relocate.yml -u ec2-user --private-key db1.pem -t ora_pdb_relo_primary
+----
+
+
+====
+
+
+== 追加情報の参照先
+
+NetApp 解決策 自動化の詳細については、次のWebサイトを参照してください。 link:https://docs.netapp.com/us-en/netapp-solutions/automation/automation_introduction.html["NetApp 解決策の自動化"^]
