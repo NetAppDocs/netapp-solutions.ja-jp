@@ -1,0 +1,138 @@
+---
+sidebar: sidebar 
+permalink: ai/ddlnexus_access_data_hybrid.html 
+keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, Hybrid, Hybrid Cloud, Hybrid Multicloud, Cloud, AWS, Amazon, Amazon Web Services, FSx for NetApp ONTAP, FSx, NetApp ONTAP, FlexCache, SnapMirror, BlueXP 
+summary: Domino Data LabとNetAppによるハイブリッドマルチクラウドMLOps -異なる環境間で同じデータにアクセス 
+---
+= 異なる環境間で同じデータにアクセス
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:ddlnexus_expose_netapp_vols.html["Previous：既存のNetApp VolumeをDominoに公開します。"]
+
+[role="lead"]
+このセクションでは、異なるコンピューティング環境間で同じデータにアクセスするために実行する必要があるタスクについて説明します。Domino MLOpsプラットフォームでは、コンピューティング環境を「データプレーン」と呼びます。 データがあるデータプレーンのNetAppボリュームに格納されていて、別のデータプレーンでアクセスする必要がある場合は、このセクションで説明するタスクを実行します。このタイプのシナリオは、「バースト」またはデスティネーション環境がクラウドの場合は「クラウドバースト」と呼ばれます。 この機能は、限られたコンピューティングリソースやオーバーサブスクライブされたコンピューティングリソースを扱うときに必要になることがよくあります。たとえば、オンプレミスのコンピューティングクラスタがオーバーサブスクライブされている場合、ワークロードをすぐに開始できるクラウドにスケジュールすることができます。
+
+別のデータプレーンにあるNetAppボリュームにアクセスする場合に推奨される方法は2つあります。これらのオプションについては、次のサブセクションで説明します。特定の要件に応じて、これらのオプションのいずれかを選択します。次の表に、2つのオプションの利点と欠点を示します。
+
+|===
+| オプション | 利点 | 欠点 
+
+
+| オプション1 -キャッシュ | -シンプルなワークフロー
+-ニーズに基づいてデータのサブセットをキャッシュする機能
+-ソースにデータを書き戻す機能
+-管理するリモートコピーがない | -キャッシュがハイドレーションされると、初期データアクセスのレイテンシが増加します。 
+
+
+| オプション2 -ミラーリング | -ソースボリュームのフルコピー
+-キャッシュハイドレーションによるレイテンシ増加なし（ミラー処理完了後） | -データにアクセスする前にミラー処理が完了するまで待つ必要がある
+-リモートコピーの管理が必要
+-ソースに書き戻す機能がない 
+|===
+
+
+== オプション1 -別のデータプレーンに存在するボリュームのキャッシュを作成する
+
+を使用 link:https://docs.netapp.com/us-en/ontap/flexcache/accelerate-data-access-concept.html["NetApp FlexCache テクノロジ"]では、別のデータプレーンにあるNetAppボリュームのキャッシュを作成できます。たとえば、オンプレミスのデータプレーンにNetAppボリュームがあり、そのボリュームにAWSデータプレーンでアクセスする必要がある場合は、AWSにボリュームのキャッシュを作成できます。このセクションでは、別のデータプレーンにあるNetAppボリュームのキャッシュを作成するために実行する必要があるタスクの概要を説明します。
+
+
+
+=== デスティネーション環境でのFlexCacheボリュームの作成
+
+
+NOTE: デスティネーション環境がオンプレミスのデータセンターの場合は、オンプレミスのONTAPシステムにFlexCacheボリュームを作成します。デスティネーション環境がAWSの場合は、Amazon FSx for NetApp ONTAPインスタンスにFlexCacheボリュームを作成します。
+
+最初に、デスティネーション環境にFlexCacheボリュームを作成する必要があります。
+
+FlexCacheボリュームの作成にはBlueXPを使用することを推奨します。BlueXPでFlexCacheボリュームを作成するには、 link:https://docs.netapp.com/us-en/bluexp-volume-caching/["BlueXPのボリュームキャッシュに関するドキュメント"]。
+
+BlueXPを使用しない場合は、ONTAPシステムマネージャまたはONTAP CLIを使用してFlexCacheボリュームを作成できます。System ManagerでFlexCacheボリュームを作成する手順については、 link:https://docs.netapp.com/us-en/ontap/task_nas_flexcache.html["ONTAP のドキュメント"]。ONTAP CLIを使用してFlexCacheボリュームを作成するには、 link:https://docs.netapp.com/us-en/ontap/flexcache/index.html["ONTAP のドキュメント"]。
+
+このプロセスを自動化するには、 link:https://docs.netapp.com/us-en/bluexp-automation/["BlueXP API"]、 link:https://devnet.netapp.com/restapi.php["ONTAP REST API"]または link:https://docs.ansible.com/ansible/latest/collections/netapp/ontap/index.html["ONTAP Ansibleコレクション"]。
+
+
+NOTE: System ManagerはAmazon FSx for NetApp ONTAPでは使用できません。
+
+
+
+=== FlexCacheボリュームをDominoに公開
+
+次に、FlexCacheボリュームをDomino MLOpsプラットフォームに公開する必要があります。FlexCacheボリュームをDominoに公開するには、次のセクションの「Astra Tridentでプロビジョニングされていない既存のNFSボリュームを公開する」に記載されている手順に従ってください。 link:ddlnexus_expose_netapp_vols.html["[既存のNetAppボリュームをDominoに公開する]セクション"] （この解決策の）。
+
+これで、次のスクリーンショットに示すように、デスティネーションデータプレーンでジョブやワークスペースを起動するときにFlexCacheボリュームをマウントできるようになります。
+
+
+
+==== FlexCacheボリュームを作成する前に
+
+image:ddlnexus_image4.png["エラー：グラフィックイメージがありません"]
+
+
+
+==== FlexCacheボリュームをDominoに公開した後
+
+image:ddlnexus_image5.png["エラー：グラフィックイメージがありません"]
+
+
+
+== オプション2 -別のデータプレーンに存在するボリュームをレプリケートする
+
+を使用 link:https://www.netapp.com/cyber-resilience/data-protection/data-backup-recovery/snapmirror-data-replication/["NetApp SnapMirrorデータレプリケーションテクノロジ"]では、別のデータプレーンにあるNetAppボリュームのコピーを作成できます。たとえば、オンプレミスのデータプレーンにNetAppボリュームがあり、AWSデータプレーンでそのボリュームにアクセスする必要がある場合は、AWSでボリュームのコピーを作成できます。このセクションでは、別のデータプレーンにあるNetAppボリュームのコピーを作成するために実行する必要があるタスクの概要を説明します。
+
+
+
+=== SnapMirror 関係を作成
+
+まず、ソースボリュームとデスティネーション環境の新しいデスティネーションボリュームの間にSnapMirror関係を作成する必要があります。デスティネーションボリュームは、SnapMirror関係の作成プロセスの一環として作成されます。
+
+SnapMirror関係の作成にはBlueXPを使用することを推奨します。BlueXPを使用してSnapMirror関係を作成するには、 link:https://docs.netapp.com/us-en/bluexp-replication/["BlueXPのレプリケーションに関するドキュメント"]。
+
+BlueXPを使用しない場合は、ONTAPシステムマネージャまたはONTAP CLIを使用してSnapMirror関係を作成できます。System ManagerとのSnapMirror関係を作成するには、 link:https://docs.netapp.com/us-en/ontap/task_dp_configure_mirror.html["ONTAP のドキュメント"]。ONTAP CLIを使用してSnapMirror関係を作成するには、 link:https://docs.netapp.com/us-en/ontap/data-protection/snapmirror-replication-workflow-concept.html["ONTAP のドキュメント"]。
+
+このプロセスを自動化するには、 link:https://docs.netapp.com/us-en/bluexp-automation/["BlueXP API"]、 link:https://devnet.netapp.com/restapi.php["ONTAP REST API"]または link:https://docs.ansible.com/ansible/latest/collections/netapp/ontap/index.html["ONTAP Ansibleコレクション"]。
+
+
+NOTE: System ManagerはAmazon FSx for NetApp ONTAPでは使用できません。
+
+
+
+=== SnapMirror 関係を解除します
+
+次に、データアクセス用にデスティネーションボリュームをアクティブ化するために、SnapMirror関係を解除する必要があります。最初のレプリケーションが完了するまで待ってから、この手順を実行します。
+
+
+NOTE: レプリケーションが完了したかどうかは、BlueXP、ONTAPシステムマネージャ、またはONTAP CLIでミラー状態を確認することで確認できます。レプリケーションが完了すると、ミラー状態は「snapmirrored」になります。
+
+SnapMirror関係の解除にはBlueXPを使用することを推奨します。BlueXPとのSnapMirror関係を解除するには、 link:https://docs.netapp.com/us-en/bluexp-replication/task-managing-replication.html["BlueXPのレプリケーションに関するドキュメント"]。
+
+BlueXPを使用しない場合は、ONTAP System ManagerまたはONTAP CLIを使用してSnapMirror関係を解除できます。System ManagerとのSnapMirror関係を解除するには、 link:https://docs.netapp.com/us-en/ontap/task_dp_serve_data_from_destination.html["ONTAP のドキュメント"]。ONTAP CLIとのSnapMirror関係を解除するには、 link:https://docs.netapp.com/us-en/ontap/data-protection/make-destination-volume-writeable-task.html["ONTAP のドキュメント"]。
+
+このプロセスを自動化するには、 link:https://docs.netapp.com/us-en/bluexp-automation/["BlueXP API"]、 link:https://devnet.netapp.com/restapi.php["ONTAP REST API"]または link:https://docs.ansible.com/ansible/latest/collections/netapp/ontap/index.html["ONTAP Ansibleコレクション"]。
+
+
+
+=== 宛先ボリュームをDominoに公開
+
+次に、デスティネーションボリュームをDomino MLOpsプラットフォームに公開する必要があります。デスティネーションボリュームをDominoに公開するには、次のセクションの「Astra Tridentでプロビジョニングされていない既存のNFSボリュームを公開する」の手順に従います。 link:ddlnexus_expose_netapp_vols.html["[既存のNetAppボリュームをDominoに公開する]セクション"] （この解決策の）。
+
+これで、次のスクリーンショットに示すように、デスティネーションデータプレーンでジョブやワークスペースを起動するときに、デスティネーションボリュームをマウントできるようになります。
+
+
+
+==== SnapMirror関係を作成する前に
+
+image:ddlnexus_image4.png["エラー：グラフィックイメージがありません"]
+
+
+
+==== 宛先ボリュームをDominoに公開した後
+
+image:ddlnexus_image5.png["エラー：グラフィックイメージがありません"]
+
+link:ddlnexus_additional_information.html["次へ：追加情報"]
