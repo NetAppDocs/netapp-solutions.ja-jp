@@ -1,6 +1,6 @@
 ---
 sidebar: sidebar 
-permalink: data-analytics/hdcs-sh-use-case-1--backing-up-hadoop-data.html 
+permalink: data-analytics/hdcs-sh-use-case-1-backing-up-hadoop-data.html 
 keywords: use case 2, Hadoop repository, dr, disaster recovery 
 summary: このシナリオでは、大規模なオンプレミスの Hadoop リポジトリがあり、ディザスタリカバリのためにバックアップを作成したいと考えています。しかし、お客様の現在のバックアップ解決策はコストが高く、 24 時間以上のバックアップウィンドウに悩まされています。 
 ---
@@ -40,7 +40,7 @@ link:hdcs-sh-overview-of-hadoop-data-protection-use-cases.html["以前： Hadoop
 
 
 
-== お客様の既存のバックアップ解決策
+== お客様の既存のバックアップソリューションx
 
 次の図は、元の Hadoop ネイティブのバックアップ解決策を示しています。
 
@@ -76,7 +76,7 @@ image:hdcs-sh-image5.png["エラー：グラフィックイメージがありま
 
 === 解決策 A の略
 
-解決策 A は、バックアップ Hadoop クラスタにインプレース分析モジュールを追加し、次の図に示すように、ネットアップ NFS ストレージシステムへのセカンダリバックアップを可能にします。これにより、テープの要件がなくなります。
+解決策Aでは、次の図に示すように、バックアップHadoopクラスタからNetApp NFSストレージシステムにセカンダリバックアップが送信されるため、テープは必要ありません。
 
 image:hdcs-sh-image6.png["エラー：グラフィックイメージがありません"]
 
@@ -91,7 +91,7 @@ image:hdcs-sh-image6.png["エラー：グラフィックイメージがありま
 NOTE: Hadoop スナップショットは、本番環境からバックアップ Hadoop クラスタへデータを保護するために使用されます。
 
 * NetApp ONTAP ストレージコントローラは、バックアップ Hadoop クラスタにプロビジョニングされる NFS エクスポートボリュームを提供します。
-* MapReduce と複数のマッパを利用して「 hadoop distcp 」コマンドを実行することで、分析データはインプレース分析モジュールを使用してバックアップ Hadoop クラスタから NFS に保護されます。
+* を実行します `Hadoop distcp` コマンドMapReduceと複数のマッパーを活用して、分析データをバックアップHadoopクラスタからNFSに保護します。
 +
 ネットアップストレージシステム上の NFS にデータを格納したあと、必要に応じて、ネットアップの Snapshot 、 SnapRestore 、および FlexClone テクノロジを使用して Hadoop データをバックアップ、リストア、および複製します。
 
@@ -121,7 +121,7 @@ NOTE: Hadoop データは、 SnapMirror テクノロジを使用してクラウ�
 
 === 解決策 B
 
-解決策 B は本番用 Hadoop クラスタにインプレース分析モジュールを追加するため、次の図に示すように、バックアップ Hadoop クラスタは不要です。
+解決策BはNFSボリュームを本番用Hadoopクラスタに追加するため、次の図に示すように、バックアップHadoopクラスタは必要ありません。
 
 image:hdcs-sh-image7.png["エラー：グラフィックイメージがありません"]
 
@@ -129,7 +129,7 @@ image:hdcs-sh-image7.png["エラー：グラフィックイメージがありま
 
 * NetApp ONTAP ストレージコントローラは、本番用 Hadoop クラスタに対して NFS エクスポートをプロビジョニングします。
 +
-hadoop native 「 hadoop distcp 」コマンドは、実稼働クラスタ HDFS からインプレース分析モジュールを介して NFS へ Hadoop データを保護します。
+Hadoopネイティブ `hadoop distcp` コマンドは、Hadoopデータを本番用クラスタのHDFSからNFSに保護します。
 
 * ネットアップストレージシステム上の NFS にデータを格納したあと、 Snapshot 、 SnapRestore 、および FlexClone テクノロジを使用して、必要に応じて Hadoop データをバックアップ、リストア、および複製します。
 
@@ -168,4 +168,4 @@ NOTE: Snapshot テクノロジを使用すると、データのサイズに関�
 * ネットアップのツールを使用してエンタープライズ管理機能を利用できます。
 
 
-link:hdcs-sh-use-case-2--backup-and-disaster-recovery-from-the-cloud-to-on-premises.html["次のユースケース 2 ：クラウドからオンプレミスへのバックアップとディザスタリカバリ"]
+link:hdcs-sh-use-case-2-backup-and-disaster-recovery-from-the-cloud-to-on-premises.html["次のユースケース 2 ：クラウドからオンプレミスへのバックアップとディザスタリカバリ"]

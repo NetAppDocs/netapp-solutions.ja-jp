@@ -1,6 +1,6 @@
 ---
 sidebar: sidebar 
-permalink: data-analytics/hdcs-sh-use-case-2--backup-and-disaster-recovery-from-the-cloud-to-on-premises.html 
+permalink: data-analytics/hdcs-sh-use-case-2-backup-and-disaster-recovery-from-the-cloud-to-on-premises.html 
 keywords: cloud-based analytics, apache spark, hadoop, ebs, hdfs 
 summary: このユースケースは、クラウドベースの分析データをオンプレミスのデータセンターにバックアップする必要がある放送局の顧客に基づいています。 
 ---
@@ -13,7 +13,7 @@ summary: このユースケースは、クラウドベースの分析データ�
 :imagesdir: ./../media/
 
 
-link:hdcs-sh-use-case-1--backing-up-hadoop-data.html["前：ユースケース 1 - Hadoop データのバックアップ"]
+link:hdcs-sh-use-case-1-backing-up-hadoop-data.html["前：ユースケース 1 - Hadoop データのバックアップ"]
 
 [role="lead"]
 このユースケースは、放送局のお客様がクラウドベースの分析データをオンプレミスのデータセンターにバックアップする必要がある場合を基準にしています。以下の図を参照してください。
@@ -45,10 +45,10 @@ image:hdcs-sh-image9.png["エラー：グラフィックイメージがありま
 
 これらの要件を満たすために、 NetApp ONTAP Cloud が AWS に導入され、 Spark / Hadoop クラスタのバックアップターゲットとして機能する NFS 共有が作成されます。
 
-NFS 共有が作成されると、インプレース分析モジュールを使用して、 HDFS EBS ストレージから ONTAP NFS 共有にデータがコピーされます。データが ONTAP クラウド上の NFS に配置されると、 SnapMirror テクノロジを使用して、必要に応じてクラウドからオンプレミスのストレージにデータを安全かつ効率的にミラーリングできます。
+NFS共有が作成されたら、HDFS EBSストレージのデータをONTAP NFS共有にコピーします。データが ONTAP クラウド上の NFS に配置されると、 SnapMirror テクノロジを使用して、必要に応じてクラウドからオンプレミスのストレージにデータを安全かつ効率的にミラーリングできます。
 
 この図は、クラウドからオンプレミスの解決策へのバックアップとディザスタリカバリを示しています。
 
 image:hdcs-sh-image10.png["エラー：グラフィックイメージがありません"]
 
-link:hdcs-sh-use-case-3--enabling-devtest-on-existing-hadoop-data.html["次：ユースケース 3 - 既存の Hadoop データに対して DevTest を有効化"]
+link:hdcs-sh-use-case-3-enabling-devtest-on-existing-hadoop-data.html["次：ユースケース 3 - 既存の Hadoop データに対して DevTest を有効化"]

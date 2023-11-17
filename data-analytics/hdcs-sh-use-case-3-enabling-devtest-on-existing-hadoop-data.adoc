@@ -1,6 +1,6 @@
 ---
 sidebar: sidebar 
-permalink: data-analytics/hdcs-sh-use-case-3--enabling-devtest-on-existing-hadoop-data.html 
+permalink: data-analytics/hdcs-sh-use-case-3-enabling-devtest-on-existing-hadoop-data.html 
 keywords: devtest, hadoop, spark, analytics data, reporting 
 summary: このユースケースでは、 DevTest と Reporting の目的で同じデータセンターとリモートサイトに大量の分析データを格納した既存の Hadoop クラスタをベースに、新しい Hadoop / Spark クラスタを迅速かつ効率的に構築することがお客様の要件となります。 
 ---
@@ -13,7 +13,7 @@ summary: このユースケースでは、 DevTest と Reporting の目的で同
 :imagesdir: ./../media/
 
 
-link:hdcs-sh-use-case-2--backup-and-disaster-recovery-from-the-cloud-to-on-premises.html["従来のユースケース 2 - クラウドからオンプレミスへのバックアップとディザスタリカバリ"]
+link:hdcs-sh-use-case-2-backup-and-disaster-recovery-from-the-cloud-to-on-premises.html["従来のユースケース 2 - クラウドからオンプレミスへのバックアップとディザスタリカバリ"]
 
 [role="lead"]
 このユースケースでは、 DevTest と Reporting の目的で同じデータセンターとリモートサイトに大量の分析データを格納した既存の Hadoop クラスタをベースに、新しい Hadoop / Spark クラスタを迅速かつ効率的に構築することがお客様の要件となります。
@@ -44,12 +44,10 @@ FlexClone テクノロジは、直前に説明した要件を回答に適用す�
 
 まず、ネットアップの整合グループを使用して既存のクラスタの Snapshot コピーを作成し、
 
-NetApp System Manager またはストレージ管理プロンプト内の Snapshot コピー。整合グループ Snapshot コピーはアプリケーションと整合性のあるグループ Snapshot コピーであり、整合グループ Snapshot コピーに基づいて FlexClone ボリュームが作成されます。FlexClone ボリュームは親ボリュームの NFS エクスポートポリシーを継承することに留意する必要があります。Snapshot コピーの作成後、次の図に示すように、 DevTest および Reporting 用に新しい Hadoop クラスタをインストールする必要があります。インプレース分析モジュールは、 NFS データのインプレース分析モジュールユーザーおよびグループ許可を介して、新しい Hadoop クラスタからクローン NFS ボリュームにアクセスします。
-
-適切なアクセス権を持つには、インプレース分析モジュールのユーザーとグループ構成で設定されたユーザーに対して、新しいクラスタに同じ UID と GUID が設定されている必要があります。
+NetApp System Manager またはストレージ管理プロンプト内の Snapshot コピー。整合グループ Snapshot コピーはアプリケーションと整合性のあるグループ Snapshot コピーであり、整合グループ Snapshot コピーに基づいて FlexClone ボリュームが作成されます。FlexClone ボリュームは親ボリュームの NFS エクスポートポリシーを継承することに留意する必要があります。Snapshot コピーの作成後、次の図に示すように、 DevTest および Reporting 用に新しい Hadoop クラスタをインストールする必要があります。新しいHadoopクラスタのクローンNFSボリュームがNFSデータにアクセスします。
 
 この図は、 DevTest 用の Hadoop クラスタを示しています。
 
 image:hdcs-sh-image11.png["エラー：グラフィックイメージがありません"]
 
-link:hdcs-sh-use-case-4--data-protection-and-multicloud-connectivity.html["次のユースケース 4 - データ保護とマルチクラウド接続"]
+link:hdcs-sh-use-case-4-data-protection-and-multicloud-connectivity.html["次のユースケース 4 - データ保護とマルチクラウド接続"]
