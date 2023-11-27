@@ -4,7 +4,7 @@ permalink: databases/aws_ora_fsx_ec2_data_guard.html
 keywords: Oracle, AWS, FSx ONTAP, FSx, Database, Oracle 19c, Data Guard 
 summary: 解決策では、AWS FSx ONTAPをスタンバイサイトのOracleデータベースストレージとして使用してOracle Data Guardを構成し、AWSでのOracle Data Guard HA / DR解決策のライセンスコストと運用コストを削減するための概要と詳細を説明しています。 
 ---
-= TR-4981：『Active Data Guard Cost Reduction with AWS FSx ONTAP』
+= TR-4981：『Oracle Active Data Guard Cost Reduction with Amazon FSx ONTAP』
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -21,11 +21,11 @@ summary: 解決策では、AWS FSx ONTAPをスタンバイサイトのOracleデ�
 
 Oracle Data Guardは、プライマリデータベースとスタンバイデータベースのレプリケーション構成内のエンタープライズデータの高可用性、データ保護、ディザスタリカバリを実現します。Oracle Active Data Guardを使用すると、プライマリデータベースからスタンバイデータベースへのデータレプリケーションをアクティブにしながら、ユーザはスタンバイデータベースにアクセスできます。Data GuardはOracle Database Enterprise Editionの機能です。個別のライセンスは必要ありません。一方、Active Data GuardはOracle Database Enterprise Editionオプションであるため、別途ライセンスが必要です。Active Data Guard環境のプライマリデータベースから、複数のスタンバイデータベースからデータレプリケーションを受信できます。ただし、スタンバイデータベースを追加するたびに、Active Data Guardライセンスが必要になり、プライマリデータベースのサイズとしてストレージを追加する必要があります。運用コストはあっという間に増大します。
 
-Oracleデータベースの運用コストを削減したいと考えていて、AWSにActive Data Guardをセットアップする予定がある場合は、別の方法を検討する必要があります。Active Data Guardの代わりにData Guardを使用して、プライマリデータベースからAWS FSx ONTAPストレージ上の単一の物理スタンバイデータベースにレプリケートします。その後、このスタンバイデータベースの複数のコピーをクローニングして読み取り/書き込みアクセス用にオープンし、レポート作成、開発、テストなど、他の多くのユースケースに対応できます。 その結果、Active Data Guardの機能を効果的に提供する一方で、Active Data Guardのライセンスが不要になり、スタンバイデータベースを追加するたびに追加のストレージコストが発生することがなくなります。このドキュメントでは、AWSの既存のプライマリデータベースでOracle Data Guardをセットアップし、物理スタンバイデータベースをAWS FSx ONTAPストレージに配置する方法を説明します。スタンバイデータベースはSnapshotを使用してバックアップされ、必要に応じて読み取り/書き込みアクセス用にクローニングされます。
+Oracleデータベースの運用コストを削減したいと考えていて、AWSにActive Data Guardをセットアップする予定がある場合は、別の方法を検討する必要があります。Active Data Guardの代わりに、Data Guardを使用して、プライマリデータベースからAmazon FSx ONTAPストレージ上の単一の物理スタンバイデータベースにレプリケートします。その後、このスタンバイデータベースの複数のコピーをクローニングして読み取り/書き込みアクセス用にオープンし、レポート作成、開発、テストなど、他の多くのユースケースに対応できます。 その結果、Active Data Guardの機能を効果的に提供する一方で、Active Data Guardのライセンスが不要になり、スタンバイデータベースを追加するたびに追加のストレージコストが発生することがなくなります。このドキュメントでは、AWSの既存のプライマリデータベースでOracle Data Guardをセットアップし、物理スタンバイデータベースをAmazon FSx ONTAPストレージに配置する方法を説明します。スタンバイデータベースはSnapshotを使用してバックアップされ、必要に応じて読み取り/書き込みアクセス用にクローニングされます。
 
 この解決策 は、次のユースケースに対応します。
 
-* AWS内の任意のストレージ上のプライマリデータベースからAWS FSx ONTAPストレージ上のスタンバイデータベースまでの間のOracle Data Guard。
+* AWSの任意のストレージ上のプライマリデータベースからAmazon FSx ONTAPストレージ上のスタンバイデータベースまでの間のOracle Data Guard。
 * データレプリケーション用に閉じた状態でスタンバイデータベースをクローニングし、レポート作成、開発、テストなどのユースケースに対応
 
 

@@ -19,7 +19,7 @@ summary: 「解決策 」では、AWS FSx ONTAP ストレージおよびEC2コ�
 
 == 目的
 
-ASM（Automatic Storage Management）は、多くのOracle環境で採用されている、一般的なOracleストレージボリュームマネージャです。また、Oracleが推奨するストレージ管理解決策 でもあります。これは'従来のボリューム・マネージャやファイル・システムに代わるものですOracleバージョン11g以降、ASMはデータベースではなくグリッドインフラストラクチャにパッケージ化されています。そのため、RACを使用しないストレージ管理にOracle ASMを使用するには、Oracleグリッドインフラをスタンドアロンサーバにインストールする必要があります（Oracle Restartとも呼ばれます）。そうすることで、Oracleデータベースの導入がさらに簡単になり、さらに複雑になります。ただし、その名前が示すように、Oracleが再起動モードで展開されている場合、障害が発生したOracleサービスは、ホストのリブート後にユーザの介入なしで再開されます。これにより、ある程度の高可用性またはHA機能が提供されます。
+ASM（Automatic Storage Management）は、多くのOracle環境で採用されている一般的なOracleストレージボリュームマネージャです。また、Oracleが推奨するストレージ管理解決策 でもあります。これは'従来のボリューム・マネージャやファイル・システムに代わるものですOracleバージョン11g以降、ASMはデータベースではなくグリッドインフラにパッケージ化されました。そのため、RACを使用しないストレージ管理にOracle ASMを使用するには、Oracleグリッドインフラをスタンドアロンサーバにインストールする必要があります（Oracle Restartとも呼ばれます）。これにより、Oracleデータベースの導入がさらに複雑になります。ただし、名前が示すように、Oracleが再起動モードで導入されている場合、障害が発生したOracleサービスは、グリッドインフラによって、またはホストのリブート後にユーザの介入なしで自動的に再開されます。これにより、ある程度の高可用性またはHA機能が提供されます。
 
 このドキュメントでは、EC2コンピューティングインスタンスを使用するAmazon FSx for ONTAP ストレージ環境にiSCSIプロトコルとOracle ASMを使用してOracleデータベースを導入する方法を説明します。また、NetApp BlueXPコンソールを通じてNetApp SnapCenter サービスを使用してOracleデータベースをバックアップ、リストア、クローニングし、開発とテストに使用する方法や、AWSパブリッククラウドでストレージ効率に優れたデータベース運用を実現するその他のユースケースについて説明します。
 
@@ -96,7 +96,7 @@ image::aws_ora_fsx_ec2_iscsi_asm_architecture.png[このイメージは、iSCSI�
 * * FSXストレージHAクラスタのシングルゾーンまたはマルチゾーン展開。*このテストと検証では、FSX HAクラスタを単一のAWSアベイラビリティゾーンに導入しました。本番環境では、FSX HAペアを2つの異なるアベイラビリティゾーンに導入することを推奨します。FSX HAクラスタは、アクティブ/パッシブファイルシステムのペアで同期ミラーされるHAペアで、ストレージレベルの冗長性を提供するために割り当てられます。マルチゾーン導入により、単一のAWSゾーンで障害が発生した場合の高可用性がさらに向上します。
 * * FSxストレージクラスタのサイジング。* Amazon FSx for ONTAP ストレージファイルシステムは、SSDの最大16万IOPS、最大4GBpsのスループット、最大192TiBの容量を提供します。ただし、プロビジョニングされたIOPS、スループット、およびストレージ制限（最小1、024GiB）については、導入時の実際の要件に基づいてクラスタのサイジングを行うことができます。アプリケーションの可用性に影響を与えることなく、容量をオンザフライで動的に調整できます。
 * * Oracleデータとログのレイアウト。*テストと検証では、データ用とログ用にそれぞれ2つのASMディスクグループを導入しました。+DATA ASMディスクグループ内で、データボリュームに4つのLUNをプロビジョニングしました。+logs ASMディスクグループ内で、logsボリュームに2つのLUNをプロビジョニングしました。一般に、Amazon FSx for ONTAP ボリューム内に複数のLUNをレイアウトすると、パフォーマンスが向上します。
-* * iSCSI構成。* EC2インスタンスデータベースサーバは、iSCSIプロトコルを使用してFSxストレージに接続します。EC2インスタンスは通常、単一のネットワークインターフェイスまたはENIを使用して導入されます。単一のNICインターフェイスがiSCSIトラフィックとアプリケーショントラフィックの両方を伝送します。アプリケーションとiSCSIの両方のトラフィックスループット要件を満たす適切なEC2コンピューティングインスタンスを選択するには、Oracle AWRレポートを慎重に分析して、OracleデータベースのピークI/Oスループット要件を測定することが重要です。また、マルチパスが適切に設定されている両方のFSx iSCSIエンドポイントに4つのiSCSI接続を割り当てることを推奨します。
+* * iSCSI構成。* EC2インスタンスデータベースサーバは、iSCSIプロトコルを使用してFSxストレージに接続します。EC2インスタンスは通常、単一のネットワークインターフェイスまたはENIを使用して導入されます。単一のNICインターフェイスがiSCSIトラフィックとアプリケーショントラフィックの両方を伝送します。アプリケーションとiSCSIの両方のトラフィックスループット要件を満たす適切なEC2コンピューティングインスタンスを選択するには、Oracle AWRレポートを慎重に分析して、OracleデータベースのI/Oピークスループット要件を測定することが重要です。また、マルチパスが適切に設定されている両方のFSx iSCSIエンドポイントに4つのiSCSI接続を割り当てることを推奨します。
 * *作成するOracle ASMディスクグループごとに使用するOracle ASM冗長性レベル。* FSxはすでにFSxクラスタレベルでストレージをミラーリングしているため、External Redundancy（外部冗長性）を使用する必要があります。つまり、このオプションでは、Oracle ASMがディスクグループの内容をミラーリングすることはできません。
 * *データベースのバックアップ。*ネットアップでは、NetApp BlueXPコンソールのUIから利用できる、クラウドでのデータベースのバックアップ、リストア、クローニングを行うためのSnapCenter ソフトウェアサービスのSaaSバージョンを提供しています。このようなサービスを実装して、高速（1分未満）のスナップショットバックアップ、高速（数分）のデータベースリストア、データベースクローニングを実現することを推奨します。
 
@@ -250,7 +250,7 @@ systemctl start iscsid
 ....
 cat /etc/iscsi/initiatorname.iscsi
 ....
-. ASM SYSASMグループに使用するASMグループを追加します
+. ASM SYSASMグループに使用するASMグループを追加します。
 +
 ....
 groupadd asm
@@ -259,6 +259,12 @@ groupadd asm
 +
 ....
 usermod -a -G asm oracle
+....
+. Linuxファイアウォールがアクティブな場合は、停止して無効にします。
++
+....
+systemctl stop firewalld
+systemctl disable firewalld
 ....
 . EC2インスタンスをリブートします。
 
@@ -738,7 +744,7 @@ unset ORACLE_BASE
 . EC2インスタンスにOracleユーザとしてログインし、でパッチを展開します `/tmp/archive` フォルダ。
 +
 ....
-unzip p34762026_190000_Linux-x86-64.zip
+unzip /tmp/archive/p34762026_190000_Linux-x86-64.zip -d /tmp/archive
 ....
 . grid home/u01/app/oracle/product/19.0.0/gridからOracleユーザーとしてを起動します `gridSetup.sh` グリッドインフラのインストールに使用します。
 +
@@ -889,6 +895,8 @@ templateName=General_Purpose.dbc
 sysPassword="yourPWD"
 systemPassword="yourPWD"
 dbsnmpPassword="yourPWD"
+datafileDestination=+DATA
+recoveryAreaDestination=+LOGS
 storageType=ASM
 diskGroupName=DATA
 characterSet=AL32UTF8
@@ -1022,12 +1030,12 @@ SQL> show pdbs
          5 DB1_PDB3                       READ WRITE NO
 SQL>
 ....
-. DBリカバリの場所を+LOGSディスクグループに設定します。
+. DBリカバリ先のサイズを、+LOGSディスクグループのサイズに設定します。
 +
 ....
+
 alter system set db_recovery_file_dest_size = 80G scope=both;
 
-alter system set db_recovery_file_dest = '+LOGS' scope=both;
 ....
 . sqlplusを使用してデータベースにログインし、アーカイブログモードを有効にします。
 +
