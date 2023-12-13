@@ -13,13 +13,11 @@ summary: このページでは、この解決策 のパフォーマンスを向�
 :imagesdir: ./../media/
 
 
-link:kafka-sc-performance-tests-with-produce-consume-workload-generator.html["前のテスト：ワークロードジェネレータを使用したパフォーマンステスト。"]
-
 [role="lead"]
+このページでは、この解決策 のパフォーマンスを向上させるためのベストプラクティスについて説明します。
+
 * ONTAP の場合は、可能なかぎりGETサイズ>= 1MBを使用します。
 * ブローカ・ノードでserver.properties`にあるnum.network.threads`と'num.io.threadsを増やすと'階層化アクティビティの増加をS3階層にプッシュできますこれらの結果は'num.network.threads`と'num.io.threads'32に設定されています
 * S3バケットは、メンバーアグリゲートごとに8つのコンスティチュエントをターゲットとする
 * S3トラフィックを伝送するイーサネットリンクでは、ストレージとクライアントの両方で可能な場合、MTU 9、000を使用する必要があります。
 
-
-link:kafka-sc-conclusion.html["次は終わりです"]

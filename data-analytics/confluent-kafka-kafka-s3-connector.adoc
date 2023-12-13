@@ -13,8 +13,6 @@ summary: このセットアップでは、 Kafka s3 sink Connector を使用し�
 :imagesdir: ./../media/
 
 
-link:confluent-kafka-performance-tests-with-scalability.html["Previous ：拡張性を備えたパフォーマンステスト。"]
-
 [role="lead"]
 Amazon S3 Sink Connector は、 Apache Kafka のトピックから Avro 、 JSON 、またはバイト形式の S3 オブジェクトにデータをエクスポートします。Amazon S3 シンクコネクタは、 Kafka から定期的にデータをポーリングし、 S3 にアップロードします。ユーザは、各 Kafka パーティションのデータをチャンクに分割するために使用します。データのチャンクはそれぞれ S3 オブジェクトとして表されます。キー名は、トピック、 Kafka パーティション、およびこのデータチャンクの開始オフセットをエンコードします。
 
@@ -307,5 +305,3 @@ root@stlrx2540m1-108:~# java -jar /usr/src/avro-tools-1.11.0.1.jar tojson tes.av
 root@stlrx2540m1-108:~#
 ....
 
-
-link:confluent-kafka-confluent-kafka-rebalance.html["次は、流暢な自己リバランシングクラスタです。"]

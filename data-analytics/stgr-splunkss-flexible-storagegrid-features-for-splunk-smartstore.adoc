@@ -13,8 +13,6 @@ summary: StorageGRID には、変化し続ける環境に合わせて、ユー�
 :imagesdir: ./../media/
 
 
-link:stgr-splunkss-solution-overview.html["Previous ：解決策の概要を示します。"]
-
 [role="lead"]
 StorageGRID には、変化し続ける環境に合わせて、ユーザが利用し、カスタマイズできるさまざまな機能があります。Splunk SmartStoreの導入から拡張に至るまで、環境には変更を迅速に採用することが求められ、Splunkを無停止で使用する必要があります。StorageGRID の柔軟なデータ管理ポリシー（ILM）とトラフィック分類子（QoS）を使用すると、環境を計画して適合させることができます。
 
@@ -63,5 +61,3 @@ StorageGRID は SG5712 、 SG5760 、 SG6060 、 SGF6024 などのベアメタ�
 StorageGRID の管理ノードは、 StorageGRID システムを表示、設定、管理するための Grid Manager UI （ユーザインターフェイス）エンドポイントと REST API エンドポイント、およびシステムアクティビティを追跡するための監査ログを提供します。Splunk SmartStoreリモートストレージに可用性の高いS3エンドポイントを提供するために、管理ノードとゲートウェイノードでサービスとして実行されるStorageGRID ロードバランサを実装しました。また、ロードバランサはローカルトラフィックを管理し、ディザスタリカバリに役立つ GSLB （グローバルサーバロードバランシング）と通信します。
 
 エンドポイントの設定をさらに強化するために、管理ノードに組み込まれたトラフィック分類ポリシーをStorageGRID で使用して、ワークロードトラフィックを監視し、さまざまなQuality of Service（QoS；サービス品質）制限をワークロードに適用できます。トラフィック分類ポリシーは、ゲートウェイノードおよび管理ノードの StorageGRID ロードバランササービス上のエンドポイントに適用されます。これらのポリシーは、トラフィックの制限と監視に役立ちます。
-
-link:stgr-splunkss-splunk-architecture.html["次はSplunkのアーキテクチャです。"]

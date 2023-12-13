@@ -13,8 +13,6 @@ summary: 既存のボリュームのサービスレベルを変更するには�
 :imagesdir: ./../media/
 
 
-link:aks-anf_set_up_dask_with_rapids_deployment_on_aks_using_helm.html["前の手順： Helm を使用して AKS に Rapids デプロイメントで Dask をセットアップしました。"]
-
 [role="lead"]
 既存のボリュームのサービスレベルを変更するには、そのボリュームに必要なサービスレベルを使用する別の容量プールにボリュームを移動します。この解決策を使用することで、お客様は、まず小規模なデータセットと少数の GPU を標準階層に配置し、データ量と GPU の増加に合わせてスケールアウトまたは Premium Tier へのスケールアップを行うことができます。Premium Tier は、 Standard 階層のテラバイトあたりスループットの 4 倍を提供し、ボリュームのサービスレベルを変更するためにデータを移動することなくスケールアップを実行できます。
 
@@ -58,5 +56,3 @@ Set-AzNetAppFilesVolumePool
 -NewPoolResourceId 7d6e4069-6c78-6c61-7bf6-c60968e45fbf
 ....
 
-
-link:aks-anf_libraries_for_data_processing_and_model_training.html["次の例：データ処理とモデルトレーニング用のライブラリ。"]

@@ -13,8 +13,6 @@ summary: 転送中のデータはNASプロトコルレイヤで暗号化でき�
 :imagesdir: ./../../media/
 
 
-link:ncvs-gc-data-plane-architecture.html["前の例：データプレーンアーキテクチャ。"]
-
 [role="lead"]
 転送中のデータはNASプロトコルレイヤで暗号化でき、Google Cloudネットワーク自体は暗号化されます。これについては、次の項で説明します。
 
@@ -128,5 +126,3 @@ sec=krb5p uses Kerberos V5 for user authentication, integrity checking, and encr
 
 |===
 Cloud Volumes Service では、設定されたActive DirectoryサーバがKerberosサーバおよびLDAPサーバとして使用されます（RFC2307互換スキーマからユーザIDを検索する場合）。それ以外のKerberosサーバまたはLDAPサーバはサポートされません。Cloud Volumes Service では、アイデンティティ管理にLDAPを使用することを強く推奨します。NFS Kerberosがパケットキャプチャにどのように表示されるかについては、を参照してください link:ncvs-gc-cloud-volumes-service-architecture.html#packet-sniffing/trace-considerations["「パケットのスニッフィング/トレースに関する考慮事項」"]
-
-link:ncvs-gc-data-encryption-at-rest.html["次の例：保存データの暗号化"]

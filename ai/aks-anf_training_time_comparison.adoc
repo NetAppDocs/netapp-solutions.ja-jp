@@ -13,8 +13,6 @@ summary: このページでは、従来の Pandas を使用したモデルのト
 :imagesdir: ./../media/
 
 
-link:aks-anf_monitor_dask_using_native_task_streams_dashboard.html["前の手順：ネイティブタスクストリームダッシュボードを使用して Dask を監視します。"]
-
 [role="lead"]
 このセクションでは、従来の Pandas を使用したモデルのトレーニング時間を Dask と比較します。Pandas では、メモリオーバーフローを回避するために、処理時間が遅くなるため、より少量のデータをロードしました。そのため、結果を補間して公平な比較を行いました。
 
@@ -41,5 +39,3 @@ link:aks-anf_monitor_dask_using_native_task_streams_dashboard.html["前の手順
 | Rapids-DASK ：トレーニングデータとして、 Day15 のすべての 20B 行を使用します | 1 時間 12 分 11 秒 
 |===
 前の表では、 Dask と Rapids を使用してデータ処理とモデルトレーニングを複数の GPU インスタンスに分散することで、従来の Pandas DataFrame 処理と比較して、 scikit 学習モデルトレーニングでの実行時間が大幅に短縮されたことを確認できます。このフレームワークを使用すると、マルチノードのマルチ GPU クラスタ内だけでなく、クラウド内でもオンプレミスでのスケールアップとスケールアウトが可能です。
-
-link:aks-anf_monitor_dask_and_rapids_with_prometheus_and_grafana.html["次の例： Prometheus と Grafana で Dask と Rapids を監視します。"]

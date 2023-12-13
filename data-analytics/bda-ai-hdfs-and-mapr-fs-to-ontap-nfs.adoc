@@ -13,10 +13,10 @@ summary: この解決策では、ネットアップがデータレイク（ HDFS
 :imagesdir: ./../media/
 
 
-link:bda-ai-gpfs-to-netapp-ontap-nfs.html["旧称： NetApp ONTAP NFS への GPFS 。"]
-
 [role="lead"]
-この解決策では、ネットアップがデータレイク（ HDFS ）と MapR クラスタデータから ONTAP NFS へのデータ移行を検証しました。データは MapR - FS と HDFS に存在します。NetApp XCP は、 HDFS や MapR FS などの分散ファイルシステムから ONTAP NFS にデータを直接移行する新しい機能を導入しました。XCP は、非同期スレッドと HDFS C API 呼び出しを使用して、 MapR FS と HDFS の間でデータを通信および転送します。次の図は、データレイク（ HDFS ）と MapR FS から ONTAP NFS へのデータ移行を示しています。この新機能により、ソースを NFS 共有としてエクスポートする必要がなくなります。
+この解決策では、ネットアップがデータレイク（ HDFS ）と MapR クラスタデータから ONTAP NFS へのデータ移行を検証しました。データは MapR - FS と HDFS に存在します。NetApp XCP は、 HDFS や MapR FS などの分散ファイルシステムから ONTAP NFS にデータを直接移行する新しい機能を導入しました。XCP は、非同期スレッドと HDFS C API 呼び出しを使用して、 MapR FS と HDFS の間でデータを通信および転送します。
+
+次の図は、データレイク（ HDFS ）と MapR FS から ONTAP NFS へのデータ移行を示しています。この新機能により、ソースを NFS 共有としてエクスポートする必要がなくなります。
 
 image:bda-ai-image6.png["エラー：グラフィックイメージがありません"]
 
@@ -40,5 +40,3 @@ Cloudera や Hortonworks などの Hadoop ディストリビューションの�
 初期テストでは 20Gbps のスループットを達成し、 2PB のデータを 1 日あたり転送可能でした。
 
 HDFS を NFS にエクスポートせずに HDFS データを移行する方法の詳細については、の「 Deployment Steps - NAS 」を参照してください https://docs.netapp.com/us-en/netapp-solutions/xcp/xcp-bp-deployment-steps.html["TR-4863 ：『 Best Practice Guidelines for NetApp XCP - Data Mover 、 File Migration 、 and Analytics 』"^]。
-
-link:bda-ai-business-benefits.html["次は、ビジネス上のメリットです。"]

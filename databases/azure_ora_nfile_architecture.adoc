@@ -14,8 +14,6 @@ keywords: architecture, database, Oracle, Azure, Azure NetApp Files
 :imagesdir: ./../media/
 
 
-link:azure_ora_nfile_usecase.html["前へ：はじめに。"]
-
 [role="lead"]
 次のアーキテクチャ図は、Azure VMインスタンスとAzure NetApp Files ストレージへの可用性の高いOracleデータベースの導入を示しています。
 
@@ -32,5 +30,3 @@ image:db_ora_azure_anf_architecture.PNG["この図は、プライマリサイト
 image:db_ora_azure_anf_architecture2.PNG["この図は、VNetピアリングを備えた単一のAzure VMを構成し、2つの独立した仮想ネットワークを構成したものです。"]
 
 Azure Oracle環境は、ネットアップが提供するツールキットを使用して、Ansibleコントローラノードで管理して、データベースの導入、バックアップ、リカバリ、データベースの移行を実行できます。Oracle Azure VMインスタンスのオペレーティングシステムカーネルやOracleパッチの適用を更新するたびに、プライマリとスタンバイの同期を維持するために、更新を並行して実行することができます。実際、初期ツールキットを簡単に拡張して、必要に応じて日 々 のOracleタスクを実行できます。CLIのAnsibleコントローラのセットアップに関するヘルプが必要な場合は、を参照してください link:https://docs.netapp.com/us-en/netapp-solutions/automation/automation_introduction.html["NetApp 解決策の自動化"^] をダウンロードしてご確認ください。
-
-link:azure_ora_nfile_factors.html["次のステップ：考慮すべき要因"]

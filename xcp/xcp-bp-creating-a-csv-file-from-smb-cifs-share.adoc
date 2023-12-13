@@ -13,8 +13,6 @@ summary: このセクションのコマンドでは、 CSV 形式でデータが
 :imagesdir: ./../media/
 
 
-link:xcp-bp-specific-date-based-scan-and-copy-of-data.html["Previous ：日付ベースの特定のスキャンとデータのコピー。"]
-
 [role="lead"]
 次に、 CSV 形式でデータをダンプするコマンドを示します。サイズ列を合計してデータの合計サイズを確認できます。
 
@@ -38,5 +36,3 @@ erase\report_av_fp_cdot_crosstab.csvreport_av_fp_cdot_crosstab.csv20-01-29-10:26
 xcp scan -match “type == d” -depth 3 -fmt "'{}, {}, {}, {}'.format(name, relpath, size)" NFS_Server_IP:/share > directory_report.csv
 ....
 これは '-fmt' コマンドを使用するカスタム・レポートですすべてのディレクトリがスキャンされ、ディレクトリの名前、パス、およびサイズが CSV ファイルにダンプされます。サイズ列は、スプレッドシートアプリケーションでソートできます。
-
-link:xcp-bp-data-migration-from-7-mode-to-ontap.html["次のステップ： 7-Mode から ONTAP へのデータ移行"]

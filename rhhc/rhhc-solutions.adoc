@@ -63,7 +63,7 @@ image:rhhc-self-managed-aws.png[""]
 
 
 
-== シナリオ3：オンプレミス環境からAWS環境へのデータ保護と移行：
+== シナリオ3：オンプレミス環境からAWS環境へのデータ保護と移行
 
 **オンプレミス：自己管理型OpenShiftクラスタと自己管理型ストレージ** AWSクラウド：プロバイダ管理型OpenShiftクラスタ（ROSA）とプロバイダ管理型ストレージ（FSxN）**
 
@@ -79,7 +79,7 @@ image:rhhc-rosa-with-fsxn.png[""]
 
 
 
-=== シナリオ4：ACCを使用したオンプレミス環境からGCP環境へのデータ保護と移行：
+=== シナリオ4：ACCを使用したオンプレミス環境からGCP環境へのデータ保護と移行
 
 **オンプレミス：自己管理型OpenShiftクラスタと自己管理型ストレージ**
 ** Google Cloud：自己管理型OpenShiftクラスタと自己管理型ストレージ**
@@ -89,5 +89,20 @@ image:rhhc-rosa-with-fsxn.png[""]
 
 
 image:rhhc-self-managed-gcp.png[""]
+
+MetroCluster 構成でONTAP を使用する場合の考慮事項については、を参照してください link:https://docs.netapp.com/us-en/ontap-metrocluster/install-stretch/concept_considerations_when_using_ontap_in_a_mcc_configuration.html["こちらをご覧ください"]。
+
+
+
+=== シナリオ5：ACCを使用したオンプレミス環境からAzure環境へのデータ保護と移行
+
+**オンプレミス：自己管理型OpenShiftクラスタと自己管理型ストレージ**
+** Azureクラウド：自己管理型OpenShiftクラスタと自己管理型ストレージ**
+
+* ACCを使用して、データ保護のためのバックアップとリストアを実行します。
+* ACCを使用して、コンテナアプリケーションのSnapMirrorレプリケーションを実行します。
+
+
+image:rhhc-self-managed-azure.png[""]
 
 MetroCluster 構成でONTAP を使用する場合の考慮事項については、を参照してください link:https://docs.netapp.com/us-en/ontap-metrocluster/install-stretch/concept_considerations_when_using_ontap_in_a_mcc_configuration.html["こちらをご覧ください"]。

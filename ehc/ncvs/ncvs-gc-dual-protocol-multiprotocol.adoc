@@ -13,8 +13,6 @@ summary: Cloud Volumes Service では、適切なアクセス権限を維持し�
 :imagesdir: ./../../media/
 
 
-link:ncvs-gc-smb.html["Previous：SMB。"]
-
 [role="lead"]
 Cloud Volumes Service では、適切なアクセス権限を維持しながら、SMBクライアントとNFSクライアントの両方で同じデータセットを共有できます (https://cloud.google.com/architecture/partners/netapp-cloud-volumes/managing-dual-protocol-access["デュアルプロトコル"^]）。これを行うには、プロトコル間でIDマッピングを調整し、中央のバックエンドLDAPサーバを使用してUNIX IDをCloud Volumes Service に提供します。Windows Active Directoryを使用すると、WindowsとUNIXの両方のユーザに使いやすさを提供できます。
 
@@ -51,5 +49,3 @@ NFSとSMBの両方にデータを提供するボリュームのアクセス制�
 
 
 デュアルプロトコルボリュームを作成する場合は、ボリュームの作成時にACL形式を選択できます。この決定は、必要な権限管理に基づいて行う必要があります。ユーザがWindows / SMBクライアントから権限を管理している場合は、NTFSを選択します。ユーザがNFSクライアントおよびchmod / chownを使用することを希望する場合は、UNIXセキュリティ形式を使用します。
-
-link:ncvs-gc-considerations-creating-active-directory-connections.html["次の手順：Active Directory接続を作成する際の考慮事項"]

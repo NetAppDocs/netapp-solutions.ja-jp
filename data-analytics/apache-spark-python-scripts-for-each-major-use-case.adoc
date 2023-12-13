@@ -13,8 +13,6 @@ summary:
 :imagesdir: ./,,/media/
 
 
-link:apache-spark-hybrid-cloud-solution.html["従来のソリューション：ハイブリッドクラウド解決策"]
-
 [role="lead"]
 以下の3つのPythonスクリプトは、テストした3つの主なユースケースに対応しています。1つ目は'ecimation_analysis _sparknlp.pyです
 
@@ -728,4 +726,3 @@ if __name__ == "__main__":
     print("test LogLoss", round(log_loss(pd.to_numeric(test.select(target).toPandas()).values, pred_ans), 4))
     print("test AUC", round(roc_auc_score(pd.to_numeric(test.select(target).toPandas()).values, pred_ans), 4))
 ....
-link:apache-spark-conclusion.html["次は終わりです"]

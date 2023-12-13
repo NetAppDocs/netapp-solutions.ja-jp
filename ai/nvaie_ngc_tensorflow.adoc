@@ -13,8 +13,6 @@ summary: NVIDIA AI Enterpriseとネットアップ、VMwareを利用- NVIDIA NGC
 :imagesdir: ./../media/
 
 
-link:nvaie_ngc_setup.html["前へ：セットアップ。"]
-
 [role="lead"]
 このセクションでは、NVIDIA AI Enterprise環境内でTensorFlowトレーニングジョブを実行するために実行する必要があるタスクについて説明します。
 
@@ -74,5 +72,3 @@ $ sudo docker run --gpus all -v ~/imagenet:/imagenet -it --rm nvcr.io/nvaie/tens
 $ python ./nvidia-examples/cnn/resnet.py --layers 50 -b 64 -i 200 -u batch --precision fp16 --data_dir /imagenet/data
 ....
 
-
-link:nvaie_additional_information.html["次へ：追加情報 の検索場所。"]
