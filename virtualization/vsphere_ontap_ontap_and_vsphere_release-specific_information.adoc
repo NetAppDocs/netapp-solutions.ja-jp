@@ -1,57 +1,9 @@
 ---
 sidebar: sidebar 
 permalink: virtualization/vsphere_ontap_ontap_and_vsphere_release-specific_information.html 
-keywords: vSphere, release, ESXi, Cisco UCS, NFS Plug In for VMware VAAI, VASA Provider 
-summary: ここでは、 ONTAP および vSphere の特定のリリースでサポートされる機能について説明します。リリースの特定の組み合わせについては、 NetApp Interoperability Matrix で確認することを推奨します。 
+redirect: ontap-apps-dbs/vmware/vmware-vsphere-overview.html 
 ---
-= ONTAP および vSphere のリリース固有の情報
-:hardbreaks:
+= 
 :allow-uri-read: 
-:nofooter: 
-:icons: font
-:linkattrs: 
-:imagesdir: ./../media/
 
 
-[role="lead"]
-ここでは、 ONTAP および vSphere の特定のリリースでサポートされる機能について説明します。ネットアップでは、リリースの特定の組み合わせをで確認することを推奨します http://mysupport.netapp.com/matrix/["NetApp Interoperability Matrix を参照してください"^]。
-
-
-
-== ONTAP リリース
-
-本ドキュメントの発行時点で、ネットアップは、以下のリリースファミリーを完全にサポートしています。
-
-* ONTAP 9.5
-* ONTAP 9.6
-* ONTAP 9.7
-* ONTAP 9.8
-
-
-
-
-== vSphere および ESXi のサポート
-
-NetApp ONTAP は、 vSphere ESXi ホストを幅広くサポートしています。上記の 4 つのメジャーリリースファミリー（ 9.5 、 9.6 、 9.7 、および 9.8 ）は、 6.0 、 6.5 、 7.0 （これらのリリースの更新を含む）を含む最近の vSphere リリースのデータストレージプラットフォームとして完全にサポートされています。NFS v3 の相互運用性は幅広く、ネットアップではハイパーバイザーを含むすべてのクライアントをサポートしていますが、これらのクライアントには NFS v3 標準に準拠しています。NFSv4.1 のサポートは vSphere 6.0 から 7.0 までに制限されています。
-
-SAN 環境については、ネットアップでは SAN コンポーネントの広範なテストを実施しています。一般に、ネットアップは標準の x86-64 ラックサーバと Cisco UCS サーバを、 iSCSI 接続用の標準イーサネットアダプタと組み合わせてサポートしています。FC 環境、 FCoE 環境、 NVMe / FC 環境では、 HBA ファームウェアやドライバの必要性が原因で、より具体的にサポートが定義されています。
-
-必ずをチェックしてください http://mysupport.netapp.com/matrix/["NetApp Interoperability Matrix を参照してください"^] 特定のハードウェアとソフトウェアの設定のサポートを確認するため。
-
-
-
-== NFS Plug-in for VMware VAAI のこと
-
-ESXi ホスト向けのこのプラグインは、 VAAI を使用して ONTAP に処理をオフロードします。最新リリースの 1.1.2 では、 Kerberos （ krb5 と krb5i ）のサポートなど、 NFSv4.1 データストアがサポートされます。ESXi 6.0 、 6.5 、および 7.0 と ONTAP 9.5-9.8 を併用できます。
-
-
-
-== VASA Provider
-
-NetApp VASA プロバイダは VVol のプロビジョニングと管理をサポートします（セクション 3.7 を参照）。最近の VASA Provider リリースでは、 ESXi 6.0 、 6.5 、 7.0 と ONTAP 9.5-9.8 がサポートされています。
-
-
-
-== VMware vSphere 用の ONTAP ツール
-
-VMware vSphere 用の ONTAP ツールは、 ONTAP ストレージと vSphere を一緒に管理するための鍵です（これを使用することがベストプラクティスです）。最新リリース 9.8 は、 vSphere 6.5 および 7.0 と ONTAP 9.5-9.8 でサポートされています。

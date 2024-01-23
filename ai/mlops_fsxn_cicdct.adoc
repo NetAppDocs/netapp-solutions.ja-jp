@@ -1,0 +1,179 @@
+---
+sidebar: sidebar 
+permalink: ai/mlops_fsxn_cictcd.html 
+keywords: FSxN, AWS S3, SageMaker, MLOps, NetApp ONTAP 
+summary: この記事では、自動モデル再トレーニング、導入、コスト最適化に焦点を当てて、AWSサービスを使用してMLOpsパイプラインを構築するためのガイドを提供します。 
+---
+= パート3 -簡易化されたMLOpsパイプラインの構築（CI/CT/CD）
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:highlighter: rouge
+:imagesdir: ./../media/
+
+
+[role="lead"]
+*作成者：*
+NetAppシニアデータ&アプリケーションサイエンティストKen Jian氏
+
+
+
+== はじめに
+
+このチュートリアルでは、さまざまなAWSサービスを活用して、継続的統合（CI）、継続的トレーニング（CT）、継続的導入（CD）を含むシンプルなMLOpsパイプラインを構築する方法を学習します。従来のDevOpsパイプラインとは異なり、MLOpsでは運用サイクルを完了するために追加の考慮事項が必要です。このチュートリアルに従うことで、CTをMLOpsループに組み込む方法についての洞察を得ることができ、モデルの継続的なトレーニングと推論のためのシームレスな導入が可能になります。このチュートリアルでは、AWSサービスを利用してこのエンドツーエンドのMLOpsパイプラインを確立するプロセスをガイドします。
+
+
+
+== マニフェスト
+
+|===
+| 機能性 | 名前 | コメント（ Comment ） 
+
+
+| データストレージ | AWS FSxN | を参照してください link:https://docs.netapp.com/us-en/netapp-solutions/ai/mlops_fsxn_s3_integration.html["パート1 - AWS FSx for NetApp ONTAP（FSxN）をプライベートS3バケットとしてAWS SageMakerに統合する"]。 
+
+
+| データサイエンスIDE | AWS SageMaker | このチュートリアルは、で紹介されているJupyterノートブックをベースにしています。 link:https://docs.netapp.com/us-en/netapp-solutions/ai/mlops_fsxn_sagemaker_integration_training.html["パート2 - SageMakerのモデルトレーニングのデータソースとしてAWS FSx for NetApp ONTAP（FSxN）を活用"]。 
+
+
+| MLOpsパイプラインをトリガーする機能 | AWS Lambda関数 | - 
+
+
+| cronジョブトリガー | AWSイベントブリッジ | - 
+
+
+| ディープラーニングフレームワーク | PyTorch | - 
+
+
+| AWS Python SDK | ボット3 | - 
+
+
+| プログラミング言語 | Python | v3.10 
+|===
+
+
+== 前提条件
+
+* 事前設定されたFSxNファイルシステム。このチュートリアルでは、FSxNに保存されているデータをトレーニングプロセスに利用します。
+* 前述のFSxNファイルシステムと同じVPCを共有するように構成された* SageMaker Notebookインスタンス*。
+* * AWS Lambda関数*をトリガーする前に、* SageMaker Notebookインスタンス*が*停止*ステータスになっていることを確認してください。
+* ディープニューラルネットワークの計算に必要なGPUアクセラレーションを利用するには、* ml.g4dn.xlarge *インスタンスタイプが必要です。
+
+
+
+
+== アーキテクチャ
+
+image:mlops_fsxn_cictcd_0.png["エラー：アーキテクチャ"]
+
+このMLOpsパイプラインは、cronジョブを利用してサーバレス関数をトリガーし、ライフサイクルコールバック関数に登録されたAWSサービスを実行する実用的な実装です。AWS EventBridge *はcronジョブとして機能します。モデルの再トレーニングと再デプロイを担当する* AWS Lambda関数*を定期的に呼び出します。このプロセスでは、* AWS SageMaker Notebook *インスタンスをスピンアップして必要なタスクを実行します。
+
+
+
+== ステップバイステップ構成
+
+
+
+=== ライフサイクル設定
+
+AWS SageMaker Notebookインスタンスのライフサイクルコールバック関数を設定するには、*ライフサイクル設定*を使用します。このサービスでは、ノートブックインスタンスをスピンアップするときに実行する必要のあるアクションを定義できます。具体的には、* Lifecycle configurations *内にシェルスクリプトを実装して、トレーニングおよび展開プロセスが完了するとノートブックインスタンスを自動的にシャットダウンすることができます。MLOpsではコストが重要な考慮事項の1つであるため、これは必須の設定です。
+
+重要なのは、*ライフサイクル構成*の構成は事前に設定する必要があることです。したがって、他のMLOpsパイプラインのセットアップに進む前に、この側面の設定を優先することをお勧めします。
+
+. ライフサイクル構成を設定するには、* Sagemaker *パネルを開き、* Admin configurations *セクションの* Lifecycle configurations *に移動します。
++
+image:mlops_fsxn_cictcd_1.png["エラー: SageMakerパネル"]
+
+. [Notebook Instance]タブを選択し、[Create configuration]ボタンをクリックします。
++
+image:mlops_fsxn_cictcd_2.png["エラー：Lifecycle configuration welcomeページ"]
+
+. 次のコードを入力領域に貼り付けます。
++
+[source, bash]
+----
+#!/bin/bash
+
+set -e
+sudo -u ec2-user -i <<'EOF'
+# 1. Retraining and redeploying the model
+NOTEBOOK_FILE=/home/ec2-user/SageMaker/tyre_quality_classification_local_training.ipynb
+echo "Activating conda env"
+source /home/ec2-user/anaconda3/bin/activate pytorch_p310
+nohup jupyter nbconvert "$NOTEBOOK_FILE" --ExecutePreprocessor.kernel_name=python --execute --to notebook &
+nbconvert_pid=$!
+conda deactivate
+
+# 2. Scheduling a job to shutdown the notebook to save the cost
+PYTHON_DIR='/home/ec2-user/anaconda3/envs/JupyterSystemEnv/bin/python3.10'
+echo "Starting the autostop script in cron"
+(crontab -l 2>/dev/null; echo "*/5 * * * * bash -c 'if ps -p $nbconvert_pid > /dev/null; then echo \"Notebook is still running.\" >> /var/log/jupyter.log; else echo \"Notebook execution completed.\" >> /var/log/jupyter.log; $PYTHON_DIR -c \"import boto3;boto3.client(\'sagemaker\').stop_notebook_instance(NotebookInstanceName=get_notebook_name())\" >> /var/log/jupyter.log; fi'") | crontab -
+EOF
+----
+. このスクリプトは、推論のためのモデルの再トレーニングと再配置を処理するJupyter Notebookを実行します。実行が完了すると、ノートブックは5分以内に自動的にシャットダウンされます。問題点とコード実装の詳細については、を参照してください。 link:https://docs.netapp.com/us-en/netapp-solutions/ai/mlops_fsxn_sagemaker_integration_training.html["パート2 - SageMakerのモデルトレーニングのデータソースとしてAWS FSx for NetApp ONTAP（FSxN）を活用"]。
++
+image:mlops_fsxn_cictcd_3.png["エラー：ライフサイクル設定の作成"]
+
+. 作成後、Notebook Instances（ノートブックインスタンス）に移動してターゲットインスタンスを選択し、Actions（アクション）ドロップダウンの* Update settings（設定の更新）*をクリックします。
++
+image:mlops_fsxn_cictcd_4.png["エラー：[設定の更新]ドロップダウン"]
+
+. 作成した* Lifecycle configuration *を選択し、* Update notebook instance *をクリックします。
++
+image:mlops_fsxn_cictcd_5.png["エラー:ノートブックのライフサイクル構成を更新する"]
+
+
+
+
+
+=== AWS Lambdaサーバレス関数
+
+前述したように、* AWS Lambda関数*は* AWS SageMaker Notebookインスタンス*のスピンアップを担当します。
+
+. AWS Lambda Function *を作成するには、該当するパネルに移動し、* Functions *タブに切り替えて* Create Function *をクリックします。
++
+image:mlops_fsxn_cictcd_6.png["エラー：AWS Lambda関数のようこそページ"]
+
+. ページに必要なすべてのエントリをファイルし、ランタイムを*Python 3.10*に切り替えることを忘れないでください。
++
+image:mlops_fsxn_cictcd_7.png["エラー：AWSラムダ関数を作成する"]
+
+. 指定されたロールに必要な権限* AmazonSageMakerFullAccess*があることを確認し、* Create Function *ボタンをクリックしてください。
++
+image:mlops_fsxn_cictcd_8.png["エラー：実行ロールを選択してください"]
+
+. 作成したLambda関数を選択します。[コード]タブで、次のコードをコピーしてテキスト領域に貼り付けます。このコードは、* fsxn-ontap *という名前のノートブックインスタンスを起動します。
++
+[source, python]
+----
+import boto3
+import logging
+
+def lambda_handler(event, context):
+    client = boto3.client('sagemaker')
+    logging.info('Invoking SageMaker')
+    client.start_notebook_instance(NotebookInstanceName='fsxn-ontap')
+    return {
+        'statusCode': 200,
+        'body': f'Starting notebook instance: {notebook_instance_name}'
+    }
+----
+. このコード変更を適用するには、*配布*ボタンをクリックします。
++
+image:mlops_fsxn_cictcd_9.png["エラー：導入"]
+
+. このAWS Lambda関数をトリガーする方法を指定するには、Add Triggerボタンをクリックします。
++
+image:mlops_fsxn_cictcd_10.png["エラー：[Add AWS Function Trigger]"]
+
+. ドロップダウンメニューから[EventBridge]を選択し、[Create a new rule]というラベルの付いたラジオボタンをクリックします。[スケジュール式]フィールドに、次のように入力します。 `rate(1 day)`をクリックし、[追加]ボタンをクリックして、この新しいcronジョブルールを作成し、AWS Lambda関数に適用します。
++
+image:mlops_fsxn_cictcd_11.png["エラー：Finalize trigger"]
+
+
+
+2段階の設定が完了すると、* AWS Lambda関数*が毎日* SageMaker Notebook *を開始し、* FSxN *リポジトリのデータを使用してモデルの再トレーニングを実行し、更新されたモデルを本番環境に再導入し、* SageMaker Notebook *インスタンスを自動的にシャットダウンしてコストを最適化します。これにより、モデルが常に最新の状態に保たれます。
+
+これで、MLOpsパイプラインを開発するためのチュートリアルは終了です。
