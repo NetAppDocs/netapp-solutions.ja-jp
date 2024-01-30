@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: ai/mlops_fsxn_sagemaker_integration_training.html 
-keywords: FSxN, AWS S3, SageMaker, MLOps, NetApp ONTAP 
+keywords: FSxN, MLOps, NetApp ONTAP, SageMaker, AWS S3, Computer Vision, PyTorch 
 summary: 'この記事は、SageMakerでPyTorchモデルをトレーニングするためにAWS FSX for NetApp ONTAP (FSxN)を使用するチュートリアルです。特にタイヤ品質分類プロジェクトのために。' 
 ---
 = パート2 - SageMakerのモデルトレーニングのデータソースとしてAWS FSx for NetApp ONTAP（FSxN）を活用
@@ -16,7 +16,7 @@ summary: 'この記事は、SageMakerでPyTorchモデルをトレーニングす
 
 [role="lead"]
 *作成者：*
-NetAppシニアデータ&アプリケーションサイエンティストKen Jian氏
+NetAppシニアデータ&アプリケーションサイエンティスト、Jian Jian（Ken）
 
 
 
@@ -48,7 +48,7 @@ FSxN（Amazon FSx for NetApp ONTAP）は、AWSのストレージサービスで�
 
 実際のシナリオでは、データサイエンティストは通常、FSxNに保存されている既存のデータを利用して機械学習モデルを構築します。ただし、デモ目的では、FSxNファイルシステムは作成後に最初は空であるため、トレーニングデータを手動でアップロードする必要があります。これは、FSxNをボリュームとしてSageMakerにマウントすることで実現できます。ファイルシステムが正常にマウントされたら、データセットをマウントされた場所にアップロードして、SageMaker環境内でモデルをトレーニングするためにアクセスできるようにすることができます。このアプローチでは、SageMakerと連携してモデルの開発とトレーニングを行いながら、FSxNのストレージ容量と機能を活用できます。
 
-データ読み取りプロセスでは、FSxNをプライベートS3バケットとして設定します。詳細な設定手順については、を参照してください。 link:https://docs.netapp.com/us-en/netapp-solutions/ai/mlops_fsxn_s3_integration.html["パート1 - AWS FSx for NetApp ONTAP（FSxN）をプライベートS3バケットとしてAWS SageMakerに統合する"]
+データ読み取りプロセスでは、FSxNをプライベートS3バケットとして設定します。詳細な設定手順については、を参照してください。 link:./mlops_fsxn_s3_integration.html["パート1 - AWS FSx for NetApp ONTAP（FSxN）をプライベートS3バケットとしてAWS SageMakerに統合する"]
 
 
 

@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: ai/mlops_fsxn_cictcd.html 
-keywords: FSxN, AWS S3, SageMaker, MLOps, NetApp ONTAP 
+keywords: FSxN, MLOps, NetApp ONTAP, AWS Lambda Functions, SageMaker, AWS S3 
 summary: この記事では、自動モデル再トレーニング、導入、コスト最適化に焦点を当てて、AWSサービスを使用してMLOpsパイプラインを構築するためのガイドを提供します。 
 ---
 = パート3 -簡易化されたMLOpsパイプラインの構築（CI/CT/CD）
@@ -16,7 +16,7 @@ summary: この記事では、自動モデル再トレーニング、導入、�
 
 [role="lead"]
 *作成者：*
-NetAppシニアデータ&アプリケーションサイエンティストKen Jian氏
+NetAppシニアデータ&アプリケーションサイエンティスト、Jian Jian（Ken）
 
 
 
@@ -32,10 +32,10 @@ NetAppシニアデータ&アプリケーションサイエンティストKen Jia
 | 機能性 | 名前 | コメント（ Comment ） 
 
 
-| データストレージ | AWS FSxN | を参照してください link:https://docs.netapp.com/us-en/netapp-solutions/ai/mlops_fsxn_s3_integration.html["パート1 - AWS FSx for NetApp ONTAP（FSxN）をプライベートS3バケットとしてAWS SageMakerに統合する"]。 
+| データストレージ | AWS FSxN | を参照してください link:./mlops_fsxn_s3_integration.html["パート1 - AWS FSx for NetApp ONTAP（FSxN）をプライベートS3バケットとしてAWS SageMakerに統合する"]。 
 
 
-| データサイエンスIDE | AWS SageMaker | このチュートリアルは、で紹介されているJupyterノートブックをベースにしています。 link:https://docs.netapp.com/us-en/netapp-solutions/ai/mlops_fsxn_sagemaker_integration_training.html["パート2 - SageMakerのモデルトレーニングのデータソースとしてAWS FSx for NetApp ONTAP（FSxN）を活用"]。 
+| データサイエンスIDE | AWS SageMaker | このチュートリアルは、で紹介されているJupyterノートブックをベースにしています。 link:./mlops_fsxn_sagemaker_integration_training.html["パート2 - SageMakerのモデルトレーニングのデータソースとしてAWS FSx for NetApp ONTAP（FSxN）を活用"]。 
 
 
 | MLOpsパイプラインをトリガーする機能 | AWS Lambda関数 | - 
@@ -112,7 +112,7 @@ echo "Starting the autostop script in cron"
 (crontab -l 2>/dev/null; echo "*/5 * * * * bash -c 'if ps -p $nbconvert_pid > /dev/null; then echo \"Notebook is still running.\" >> /var/log/jupyter.log; else echo \"Notebook execution completed.\" >> /var/log/jupyter.log; $PYTHON_DIR -c \"import boto3;boto3.client(\'sagemaker\').stop_notebook_instance(NotebookInstanceName=get_notebook_name())\" >> /var/log/jupyter.log; fi'") | crontab -
 EOF
 ----
-. このスクリプトは、推論のためのモデルの再トレーニングと再配置を処理するJupyter Notebookを実行します。実行が完了すると、ノートブックは5分以内に自動的にシャットダウンされます。問題点とコード実装の詳細については、を参照してください。 link:https://docs.netapp.com/us-en/netapp-solutions/ai/mlops_fsxn_sagemaker_integration_training.html["パート2 - SageMakerのモデルトレーニングのデータソースとしてAWS FSx for NetApp ONTAP（FSxN）を活用"]。
+. このスクリプトは、推論のためのモデルの再トレーニングと再配置を処理するJupyter Notebookを実行します。実行が完了すると、ノートブックは5分以内に自動的にシャットダウンされます。問題点とコード実装の詳細については、を参照してください。 link:./mlops_fsxn_sagemaker_integration_training.html["パート2 - SageMakerのモデルトレーニングのデータソースとしてAWS FSx for NetApp ONTAP（FSxN）を活用"]。
 +
 image:mlops_fsxn_cictcd_3.png["エラー：ライフサイクル設定の作成"]
 
