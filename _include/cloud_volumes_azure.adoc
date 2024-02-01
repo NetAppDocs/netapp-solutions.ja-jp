@@ -120,6 +120,9 @@ NOTE: 既存の VNet およびサブネットを使用して ANF ボリューム
 
 | * AZ_NetApp_vol_storage_quota * | 文字列 | （必須）ファイルシステムに許可される最大ストレージクォータ（ギガバイト単位）。 
 |===
+
+NOTE: このスクリプトでは、推奨事項に従って、 `prevent_destroy` 構成ファイル内の偶発的なデータ損失の可能性を軽減するためのLifecycle引数。詳細については、を参照してください `prevent_destroy` lifecycle引数はterraformのドキュメントを参照してください。 https://developer.hashicorp.com/terraform/tutorials/state/resource-lifecycle#prevent-resource-deletion[]。
+
 --
 .ANF データ保護
 --
@@ -273,6 +276,9 @@ NOTE: 既存の VNet およびサブネットを使用して ANF ボリューム
 
 | * AZ_DP_replication_frequency * | 文字列 | （必須）レプリケーション頻度。サポートされる値は「 10 分」、「時間単位」、「日単位」です。値は大文字と小文字が区別されます。 
 |===
+
+NOTE: このスクリプトでは、推奨事項に従って、 `prevent_destroy` 構成ファイル内の偶発的なデータ損失の可能性を軽減するためのLifecycle引数。詳細については、を参照してください `prevent_destroy` lifecycle引数はterraformのドキュメントを参照してください。 https://developer.hashicorp.com/terraform/tutorials/state/resource-lifecycle#prevent-resource-deletion[]。
+
 --
 .ANF デュアルプロトコル
 --
@@ -402,6 +408,9 @@ NOTE: 既存の VNet およびサブネットを使用して ANF ボリューム
 
 | * AZ_SMB_DNS_servers * | 文字列 | （必須） ActiveDirectory オブジェクトを作成するための DNS サーバ IP 。 
 |===
+
+NOTE: このスクリプトでは、推奨事項に従って、 `prevent_destroy` 構成ファイル内の偶発的なデータ損失の可能性を軽減するためのLifecycle引数。詳細については、を参照してください `prevent_destroy` lifecycle引数はterraformのドキュメントを参照してください。 https://developer.hashicorp.com/terraform/tutorials/state/resource-lifecycle#prevent-resource-deletion[]。
+
 --
 .Snapshot からの ANF ボリューム
 --
@@ -520,6 +529,9 @@ Snapshot を使用する単一の ANF ボリューム用の変数を Terraform �
 
 | * AZ_SNAPSHOT_ID * | 文字列 | （必須）新しい ANF ボリュームを作成する際に使用する Snapshot ID 。 
 |===
+
+NOTE: このスクリプトでは、推奨事項に従って、 `prevent_destroy` 構成ファイル内の偶発的なデータ損失の可能性を軽減するためのLifecycle引数。詳細については、を参照してください `prevent_destroy` lifecycle引数はterraformのドキュメントを参照してください。 https://developer.hashicorp.com/terraform/tutorials/state/resource-lifecycle#prevent-resource-deletion[]。
+
 --
 .CVO シングルノードの導入
 --
