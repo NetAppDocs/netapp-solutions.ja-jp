@@ -4,7 +4,7 @@ permalink: databases/automation_ora_aws-fsx_iscsi.html
 keywords: Database, Oracle, AWS, FSx, ONTAP, Automation 
 summary: 解決策では、プライマリデータベースストレージとしてAmazon FSx ONTAPにOracleの導入と保護を自動化するための概要と詳細を説明します。プライマリデータベースストレージはiSCSIプロトコルで、Oracle ASMをボリュームマネージャとして使用し、スタンドアロンで再起動するように設定されています。 
 ---
-= Amazon FSx ONTAP with iSCSIへのOracle導入の簡易化と自動化
+= TR-4986：『Simplified、Automated Oracle Deployment on Amazon FSx ONTAP with iSCSI』
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -276,7 +276,7 @@ memory_limit: 8192
 
 [%collapsible]
 ====
-自動化ツールキットには、合計5つのプレイブックが用意されています。それぞれが異なるタスクブロックを実行し、さまざまな目的に対応します。
+自動化ツールキットには、合計6つのプレイブックが用意されています。それぞれが異なるタスクブロックを実行し、さまざまな目的に対応します。
 
 ....
 0-all_playbook.yml - execute playbooks from 1-4 in one playbook run.
@@ -288,7 +288,7 @@ memory_limit: 8192
 ....
 次のコマンドを使用してプレイブックを実行する方法は3つあります。
 
-. すべてのプレイブックを1回の組み合わせで実行します。
+. すべての導入プレイブックを1回の組み合わせで実行します。
 +
 [source, cli]
 ----

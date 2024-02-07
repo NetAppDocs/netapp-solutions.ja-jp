@@ -21,7 +21,7 @@ summary: 『解決策』では、プライマリデータベースストレー�
 
 NetApp ASAシステムは、SANインフラに最新のソリューションを提供します。大規模環境を簡易化し、データベースなどのビジネスクリティカルなアプリケーションを高速化し、データの可用性を常に維持（99.9999%のアップタイム）し、TCOと二酸化炭素排出量を削減できます。NetApp ASAシステムには、パフォーマンス要件がきわめて高いアプリケーション向けに設計されたAシリーズモデルと、対費用効果の高い大容量環境向けに最適化されたCシリーズモデルがあります。ASA AシリーズとCシリーズのシステムを組み合わせることで、卓越したパフォーマンスが実現し、カスタマーエクスペリエンスの向上と成果達成までの時間の短縮、ビジネスクリティカルなデータの可用性、保護、セキュリティの維持、あらゆるワークロードの実効容量の増加を実現できます。これには、業界で最も効果的な保証が付随しています。
 
-このドキュメントでは、ASAシステムで構築されたSAN環境に、Ansibleによる自動化を使用してOracleデータベースを簡単に導入する方法について説明します。Oracleデータベースは、スタンドアロンの再起動構成で導入され、データアクセス用にiSCSIプロトコル、ASAストレージアレイ上のストレージ管理用にOracle ASMを使用します。また、開発とテストや、NetApp ASAシステムでのストレージ効率に優れたデータベース運用のために、NetApp SnapCenter UIツールを使用してOracleデータベースをバックアップ、リストア、クローニングする方法についても説明します。
+このドキュメントでは、ASAシステムで構築されたSAN環境に、Ansibleによる自動化を使用してOracleデータベースを簡単に導入する方法について説明します。Oracleデータベースは、データアクセス用にiSCSIプロトコルを使用し、ASAストレージアレイでのデータベースディスク管理用にOracle ASMを使用して、スタンドアロンの再起動構成で導入されます。また、NetApp SnapCenter UIツールを使用したOracleデータベースのバックアップ、リストア、およびクローニングに関する情報も提供し、NetApp ASAシステムでのストレージ効率に優れたデータベース処理を実現します。
 
 この解決策 は、次のユースケースに対応します。
 
@@ -52,7 +52,7 @@ NetApp ASAシステムは、SANインフラに最新のソリューションを�
 
 === アーキテクチャ
 
-image::automation_ora_asa_iscsi_archit.png[このイメージは、iSCSIとASMを使用したAWSパブリッククラウドでのOracle導入構成の詳細な図を示しています。]
+image::automation_ora_asa_iscsi_archit.png[このイメージは、iSCSIおよびASMを使用したNetApp ASAシステムでのOracle導入構成の詳細を示しています。]
 
 
 
@@ -142,7 +142,7 @@ image::automation_ora_asa_iscsi_archit.png[このイメージは、iSCSIとASM�
 導入には、次の前提条件が必要です。
 
 . ここでは、NetApp ASAストレージアレイが設置および設定されていることを前提としています。これには、iSCSIブロードキャストドメイン、両方のコントローラノード上のLACPインターフェイスグループa0a、両方のコントローラノード上のiSCSI VLANポート（a0a-<iscsi-a-vlan-id>、a0a-<iscsi-b-vlan-id>）が含まれます。ヘルプが必要な場合の詳細な手順については、次のリンクを参照してください。 link:https://docs.netapp.com/us-en/ontap-systems/asa400/install-detailed-guide.html["詳細ガイド- ASA A400"^]
-. 最新バージョンのAnsibleとGitがインストールされたAnsibleコントローラノードとしてLinux VMをプロビジョニングします。詳細については、次のリンクを参照してください。 link:https://review.docs.netapp.com/us-en/netapp-solutions_acao_ora_vmc/automation/getting-started.html["NetApp解決策 自動化の導入"^] セクション- `Setup the Ansible Control Node for CLI deployments on RHEL / CentOS` または `Setup the Ansible Control Node for CLI deployments on Ubuntu / Debian`。
+. 最新バージョンのAnsibleとGitがインストールされたAnsibleコントローラノードとしてLinux VMをプロビジョニングします。詳細については、次のリンクを参照してください。 link:https://docs.netapp.com/us-en/netapp-solutions/automation/getting-started.html["NetApp解決策 自動化の導入"^] セクション- `Setup the Ansible Control Node for CLI deployments on RHEL / CentOS` または `Setup the Ansible Control Node for CLI deployments on Ubuntu / Debian`。
 . iSCSI用のNetApp Oracle Deployment Automation Toolkitのコピーをクローニングします。
 +
 [source, cli]
@@ -220,7 +220,7 @@ ora_02 ansible_host=10.61.180.23 ansible_ssh_private_key_file=ora_02.pem
 ######                 ONTAP env specific config variables                                             ######
 #############################################################################################################
 
-# Enter the ONTAP platform: on-prem, aws_fsx, aws_cvo, etc.
+# Enter the supported ONTAP platform: on-prem, aws-fsx.
 ontap_platform: on-prem
 
 # Enter ONTAP cluster management user credentials
@@ -284,19 +284,19 @@ memory_limit: 8192
 
 [%collapsible]
 ====
-自動化ツールキットには、合計5つのプレイブックが用意されています。それぞれが異なるタスクブロックを実行し、さまざまな目的に対応します。
+自動化ツールキットには、合計6つのプレイブックが用意されています。それぞれが異なるタスクブロックを実行し、さまざまな目的に対応します。
 
 ....
 0-all_playbook.yml - execute playbooks from 1-4 in one playbook run.
 1-ansible_requirements.yml - set up Ansible controller with required libs and collections.
 2-linux_config.yml - execute Linux kernel configuration on Oracle DB servers.
-3-ontap_config.yml - configure ONTAP for Oracle database including the creation of SVM, data volumes/luns provision, host igroup setup, etc.
+3-ontap_config.yml - configure ONTAP svm/volumes/luns for Oracle database and grant DB server access to luns.
 4-oracle_config.yml - install and configure Oracle on DB servers for grid infrastructure and create a container database.
 5-destroy.yml - optional to undo the environment to dismantle all.
 ....
 次のコマンドを使用してプレイブックを実行する方法は3つあります。
 
-. すべてのプレイブックを1回の組み合わせで実行します。
+. すべての導入プレイブックを1回の組み合わせで実行します。
 +
 [source, cli]
 ----
@@ -496,7 +496,7 @@ image::automation_ora_asa_em_03.png[この画像は、Oracle Enterprise Manager 
 
 [%collapsible]
 ====
-TR-4979を参照 link:https://docs.netapp.com/us-en/netapp-solutions/databases/aws_ora_fsx_vmc_guestmount.html#oracle-backup-restore-and-clone-with-snapcenter["ゲストマウント型FSx ONTAPにより、VMware Cloud on AWS上のシンプルで自己管理型のOracleを実現"^] セクション。 `Oracle backup, restore, and clone with SnapCenter` SnapCenterをセットアップし、データベースのバックアップ、リストア、クローニングのワークフローを実行する方法の詳細については、を参照してください。
+TR-4979を参照 link:https://docs.netapp.com/us-en/netapp-solutions/databases/aws_ora_fsx_vmc_guestmount.html#oracle-backup-restore-and-clone-with-snapcenter["ゲストマウント型FSx ONTAPにより、VMware Cloud on AWS上のシンプルで自己管理型のOracleを実現"^] セクション。 `Oracle backup, restore, and clone with SnapCenter` SnapCenterのセットアップと、データベースのバックアップ、リストア、クローニングのワークフローの実行の詳細については、を参照してください。
 
 ====
 
