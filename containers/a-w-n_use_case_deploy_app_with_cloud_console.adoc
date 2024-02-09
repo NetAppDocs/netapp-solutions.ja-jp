@@ -1,0 +1,139 @@
+---
+sidebar: sidebar 
+permalink: containers/a-w-n_use_case_deploy_app_with_cloud_console.html 
+keywords: Anthos, Astra Trident, NetApp ONTAP, ONTAP, Trident 
+summary: Google Cloud Consoleを使用して、オンプレミスのAnthos GKEクラスタにアプリケーションを導入する方法 
+---
+= Google Cloud Console Marketplaceからアプリケーションを導入する
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== 前提条件
+
+* オンプレミスに導入され、Google Cloud Consoleに登録されたAnthosクラスタ
+* Anthosクラスタに設定されているMetalLBロードバランサ
+* アプリケーションをクラスタに導入する権限を持つアカウント
+* コストが関連するアプリケーションを選択した場合のGoogle Cloudの請求アカウント（オプション）
+
+
+
+
+== アプリケーションのデプロイ
+
+このユースケースでは、Google Cloud Consoleを使用して、シンプルなWordPressアプリケーションをAnthosクラスタの1つに導入します。導入環境では、事前定義されたストレージクラスでNetApp ONTAP が提供する永続的ストレージを使用します。次に、MetalLBロードバランサがIPアドレスを提供して世界に公開するように、アプリケーションのデフォルトサービスを変更する2つの方法を示します。
+
+この方法でアプリケーションを展開するには、次の手順を実行します。
+
+. 導入先のクラスタにGoogle Cloud Consoleでアクセスできることを確認します。
++
+image:a-w-n_use_case_deploy_app-10.png["登録済みクラスタ"]
+
+. 左側のメニューから「アプリケーション」を選択し、上部にある3ドットのオプションメニューを選択して、「Marketplaceから展開」を選択します。これにより、Google Cloud Marketplaceからアプリケーションを選択できる新しいウィンドウが表示されます。
++
+image:a-w-n_use_case_deploy_app-09.png["アプリケーションマーケットプレイス"]
+
+. インストールするアプリケーションを検索します。この場合は、WordPressです。
++
+image:a-w-n_use_case_deploy_app-08.png["WordPressを検索します"]
+
+. WordPressアプリケーションを選択すると、概要画面が表示されます。[設定]ボタンをクリックします。
++
+image:a-w-n_use_case_deploy_app-07.png["WordPressの概要画面"]
+
+. 次のページで、導入先のクラスタを選択する必要があります。このケースではDemo -Cluster新しいネームスペースとアプリケーションインスタンス名を選択または作成し、WordPressアプリケーションとその元のMariaDBデータベースの両方に必要なストレージクラスと永続的ボリュームサイズを選択します。どちらの場合も、ONTAP NASとCSIのストレージクラスを選択します。
++
+image:a-w-n_use_case_deploy_app-06.png["WordPressの構成"]
+
++
+
+NOTE: [パブリックIPアクセスを有効にする]は選択しないでください。オンプレミスのAnthos環境からアクセスできないタイプのNodePortのサービスが作成されます。
+
+. Deployボタンをクリックすると、アプリケーションの詳細を示すページが表示されます。このページを更新するか、CLIを使用してクラスタにログインし、導入のステータスを確認できます。
++
+image:a-w-n_use_case_deploy_app-05.png["アプリケーションの詳細"]
+
+. CLIを使用すると、アプリケーションが展開されているときの状態を確認できます。このコマンドを実行すると、アプリケーションの名前空間にあるポッド情報を取得できます。「kubectl get pos-n Anthos-wp」
++
+image:a-w-n_use_case_deploy_app-04.png["Kubectlポッドを購入する"]
+
++
+
+NOTE: このスクリーンショットでは、エラー状態のDeployerポッドがあることに注意してください。これは正常な状態です。このポッドは、他のポッドが初期化プロセスを開始した後に自動的に終了するアプリケーションを展開するためにGoogle Cloud Consoleによって使用されるヘルパーポッドです。
+
+. しばらくしてから、アプリケーションが実行されていることを確認します。
++
+image:a-w-n_use_case_deploy_app-03.png["アプリケーションが実行中です"]
+
+
+
+
+
+== アプリケーションを公開しています
+
+アプリケーションを展開した後、そのアプリケーションに世界に到達可能なIPを割り当てるには、2つの方法があります。
+
+
+
+=== Google Cloud Consoleを使用します
+
+Google Cloud Consoleを使用してアプリケーションを公開し、ブラウザでサービスのYAML出力を編集して、一般に到達可能なIPを設定できます。そのためには、次の手順を実行します。
+
+. Google Cloud Consoleの左側のメニューで、[サービスと入力]をクリックします。
++
+image:a-w-n_use_case_deploy_app-11.png["サービスおよび入力"]
+
+. [wordpress -wordpress -svc]サービスをクリックします[Service Details]画面が開きます。上部の[編集]ボタンをクリックします。
++
+image:a-w-n_use_case_deploy_app-12.png["サービスの詳細を編集します"]
+
+. サービスのYAML情報を含む[サービスの詳細の編集]ページが開きます。「spec:」セクションと「type:」値が表示されるまで下にスクロールします。「clusterIP」に設定されています。この値を「LoadBalancer」に変更し、「Save」ボタンをクリックします。
++
+image:a-w-n_use_case_deploy_app-13.png["ClusterIP値と入力します"]
+
++
+image:a-w-n_use_case_deploy_app-14.png["LoadBalancer valueと入力します"]
+
+. [サービスの詳細]ページに戻ると、[種類:]には「ロードバランサ」が、[外部エンドポイント:]フィールドには、MetalLBプールから割り当てられたIPアドレス、およびアプリケーションがアクセス可能なポートが一覧表示されます。
++
+image:a-w-n_use_case_deploy_app-15.png["サービスの詳細は最後です"]
+
+
+
+
+
+=== Kubectlを使ってサービスにパッチを適用する
+
+アプリケーションを公開するには、CLIおよび「kubectl patch」コマンドを使用して展開を変更し、公開到達可能なIPを設定します。これには、次の手順を実行します。
+
+. 名前空間内のポッドに関連付けられているサービスを'kubectl get services -n Anthos-wp'コマンドで一覧表示します
++
+image:a-w-n_use_case_deploy_app-02.png["サービスを表示します"]
+
+. 次のコマンドを使用して、サービスタイプを「ClusterIP」から「Loadbalancer」タイプに変更します。
++
+[listing]
+----
+kubectl patch svc wordpress-wordpress-svc -p '{"spec": {"type": "LoadBalancer"}}' -n anthos-wp'.
+----
++
+この新しいサービスタイプには、MetalLBプールから使用可能なIPアドレスが自動的に割り当てられます。
+
++
+image:a-w-n_use_case_deploy_app-01.png["サービスをロードバランサタイプにパッチします"]
+
+
+
+
+
+== 公開されている外部IPでアプリケーションにアクセスします
+
+公開されたアプリケーションに公開されたIPアドレスが公開されたので、ブラウザを使用してWordPressインスタンスにアクセスできます。
+
+image:a-w-n_use_case_deploy_app-00.png["WordPressがブラウザにあります"]

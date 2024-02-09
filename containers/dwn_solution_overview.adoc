@@ -1,0 +1,89 @@
+---
+sidebar: sidebar 
+permalink: containers/dwn_solution_overview.html 
+keywords: DevOps, Netapp, Astra Trident, Astra Control, Astra 
+summary: このテクニカルレポートでは、コンテナ化されたアプリケーションを使用する場合に、ネットアップがDevOpsのユースケースを複数の面で簡単かつ効率的に作成する方法を説明します。まずは、ネットアップのストレージシステムの詳細と、ネットアップのKubernetesプラットフォームとの統合を紹介するAstraポートフォリオを活用します。最後に、解決策検証と実際の使用事例をいくつか確認して文書化します。 
+---
+= TR-4919：『DevOps with NetApp Astra』
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+:k8s_distribution_name: Red Hat OpenShift, VMware Tanzu, Anthos by Google Cloud etc.
+
+
+[role="lead"]
+ネットアップ、 Alan Cowles 氏と Nikhil M Kulkarni 氏
+
+
+
+== ユースケース
+
+ネットアップのAstra解決策 を使用したDevOpsは、次のユースケースにおいて、卓越した価値をお客様に提供するように設計されています。
+
+* サポートされているKubernetesディストリビューションに導入されたアプリケーションや開発環境の導入と管理が容易です。
+* DevOpsワークフローの実際のユースケースと、ネットアップが提供するツールやメソッドの例について説明し、これらの手法の採用や利用を簡易化する方法を紹介します。
+* アプリケーションと整合性のあるSnapshot、バックアップ、クローンを使用してDevOpsエクスペリエンスを向上する方法をご紹介します。
+
+
+
+
+== ビジネスバリュー
+
+企業は、新しい製品の作成、リリースサイクルの短縮、新機能の迅速な追加を目的として、 DevOps の手法を採用する傾向に迫られています。即応性に優れた本来の性質から、コンテナやマイクロサービスは、 DevOps の実践を支援するうえで重要な役割を果たします。しかし、エンタープライズ環境で本番環境規模で DevOps を実践する場合、独自の課題が生じ、基盤となるインフラに次のような一定の要件が課せられます。
+
+* ワークフローが中断されないように、スタック内のすべてのレイヤで高可用性を実現します。
+* エンドユーザ向けの導入と管理の手順が簡単です。
+* APIベースのプログラム可能なインフラで、マイクロサービスや開発者の即応性に対応します。
+* ワークロードのニーズに基づいて、インフラを個別に、自動化された方法で拡張できます。
+* DevOpsワークフロー向けの永続的データセットと並行してアプリケーションを保護することで、再導入や手動によるデータコピーに頼ることなく、製品化サイクルを短縮できます。
+
+
+このテクニカルレポートでは、これらの機能と課題を認識し、さまざまなネットアップ製品ポートフォリオを使用してコンテナ化されたアプリケーションのDevOpsユースケースを改善、簡易化するプロセスについて説明します。
+
+
+
+== テクノロジの概要
+
+NetApp解決策 を使用したDevOpsには、次の主要コンポーネントが含まれています。
+
+
+
+=== DevOpsの手法
+
+DevOpsの手法は、自動化され、反復可能で容易に管理できる運用に重点が置かれます。この運用では、開発ワークフローが強化され、エンドユーザがコードを開発する環境を制御できるようになります。この解決策 には、ネットアップテクノロジがこのような運用の最大のメリットになる例とユースケースがいくつかあります。
+
+
+
+=== コンテナオーケストレーション
+
+現在、多数のコンテナオーケストレーションプラットフォームが使用されています。これらのプラットフォームのほとんどはKubernetesをベースにしていますが、それぞれに長所と短所があります。そのため、DevOpsワークフロー用のコンテナオーケストレーションプラットフォームを選択する際には、機能セットと統合について理解することが重要です。ネットアップは、NetApp Astra製品スイートを通じて、本格的なDevOpsユースケース向けに次のプラットフォームをサポートしています。
+
+* https://www.redhat.com/en/technologies/cloud-computing/openshift["Red Hat OpenShift のサービスです"] 4.6.8以降
+* https://rancher.com/["ランチマー"] 2.5以上
+* https://kubernetes.io/["Kubernetes"] 1.20以降
+* https://docs.vmware.com/en/VMware-Tanzu-Kubernetes-Grid/index.html["VMware Tanzu Kubernetesグリッド"] 1.4以降
+* https://docs.vmware.com/en/VMware-Tanzu-Kubernetes-Grid-Integrated-Edition/index.html["VMware Tanzu Kubernetes Grid統合エディション"] 1.12.2+
+
+
+
+
+=== ネットアップストレージシステム
+
+ネットアップには、エンタープライズデータセンターやハイブリッドクラウド環境に最適なストレージシステムが複数あります。ネットアップのポートフォリオには、コンテナ化されたアプリケーションに永続的ストレージを提供できる NetApp ONTAP 、 NetApp Element 、および NetApp E シリーズストレージシステムが含まれています。
+
+詳細については、ネットアップのWebサイトを参照してください https://www.netapp.com["こちらをご覧ください"]。
+
+
+
+=== ネットアップとストレージの統合
+
+NetApp Astra Control Centerは、オンプレミス環境に導入され、信頼性の高いネットアップのデータ保護テクノロジを基盤とするステートフルKubernetesワークロード向けに、豊富なストレージサービスとアプリケーション対応データ管理サービスを提供します。
+
+詳細については、 NetApp Astra の Web サイトをご覧ください https://cloud.netapp.com/astra["こちらをご覧ください"]。
+
+Astra Tridentは、コンテナやKubernetesディストリビューション向けの、完全にサポートされているオープンソースのストレージオーケストレーションツールです。｛k8s_distribution_name｝などが挙げられます。
+
+詳細については、 Astra Trident の Web サイトをご覧ください https://docs.netapp.com/us-en/trident/index.html["こちらをご覧ください"]。

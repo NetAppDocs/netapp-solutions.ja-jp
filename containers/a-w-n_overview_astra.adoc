@@ -1,0 +1,452 @@
+---
+sidebar: sidebar 
+permalink: containers/a-w-n_overview_astra.html 
+keywords: NetApp Astra Control, Astra Control Center, Application, Trident, Astra Trident, Helm, Operator, ONTAP, OpenShift, Kubernetes, Red Hat OpenShift 
+summary: NetApp Astra Control Center は、 NetApp の信頼できるデータ保護テクノロジを基盤とするオンプレミス環境に導入された、ステートフル Kubernetes ワークロード向けの豊富なストレージおよびアプリケーション対応データ管理サービスを提供します。 
+---
+= NetApp Astra Control Center の概要
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+NetApp Astra Control Center は、オンプレミス環境に導入され、ネットアップのデータ保護テクノロジを基盤とするステートフル Kubernetes ワークロード向けの充実したストレージサービスとアプリケーション対応データ管理サービスを提供します。
+
+image:redhat_openshift_image44.png["エラー：グラフィックイメージがありません"]
+
+NetApp Astra Control Center は、 Astra Trident ストレージオーケストレーションツールを導入し、 NetApp ONTAP ストレージシステムにストレージクラスとストレージバックエンドを使用して構成した Red Hat OpenShift クラスタにインストールできます。
+
+Astra Trident のインストールと設定を行い、 Astra Control Center をサポートするには、を参照してください link:rh-os-n_overview_trident.html["本ドキュメント"^]。
+
+クラウド接続環境では、 Cloud Insights を使用して高度なモニタリングとテレメトリを提供します。Cloud Insights 接続がない場合は、限定的な監視と計測（7日間の指標）を使用でき、オープン指標エンドポイントを介してKubernetesの標準の監視ツール（PrometheusとGrafana）にエクスポートされます。
+
+Astra Control Center は、ネットアップの AutoSupport と Active IQ のエコシステムに完全に統合されており、ユーザをサポートし、トラブルシューティングを支援し、使用状況の統計を表示します。
+
+Astra Control Center の有料版に加え、 90 日間の評価ライセンスも提供されています。評価版は、EメールとSlackコミュニティチャネルを通じてサポートされます。お客様は、これらのリソース、その他のナレッジベース記事、および製品サポートダッシュボードから入手できるドキュメントにアクセスできます。
+
+ネットアップアストラコントロールセンターの利用を開始するには、にアクセスしてください link:https://cloud.netapp.com/astra["Astra の Web サイト"^]。
+
+
+
+== Astra Control Center のインストールの前提条件
+
+. 1 つ以上の Red Hat OpenShift クラスタ。バージョン 4.6 EUS および 4.7 が現在サポートされています。
+. 各 Red Hat OpenShift クラスタに Astra Trident をインストールして設定しておく必要があります。
+. ONTAP 9.5 以降を実行している NetApp ONTAP ストレージシステムが 1 つ以上必要です。
++
+
+NOTE: サイトに各OpenShiftをインストールし、永続的ストレージ専用のSVMを用意することがベストプラクティスです。マルチサイト環境では、追加のストレージシステムが必要です。
+
+. Trident ストレージバックエンドは、 ONTAP クラスタがサポートする SVM を含む各 OpenShift クラスタで設定する必要があります。
+. ストレージプロビジョニングツールとして Astra Trident を使用し、各 OpenShift クラスタに設定されたデフォルトのストレージクラス。
+. ロードバランシングや OpenShift Services の公開のために、各 OpenShift クラスタにロードバランサをインストールして構成する必要があります。
++
+
+NOTE: リンクを参照してください link:rh-os-n_load_balancers.html["こちらをご覧ください"] この目的で検証済みのロードバランサに関する情報。
+
+. NetApp アストラ Control Center イメージをホストするには、プライベートイメージのレジストリを設定する必要があります。
++
+
+NOTE: リンクを参照してください link:rh-os-n_private_registry.html["こちらをご覧ください"] この目的のために OpenShift プライベートレジストリをインストールして構成します。
+
+. Red Hat OpenShift クラスタにクラスタ管理者アクセス権限が必要です。
+. NetApp ONTAP クラスタへの管理者アクセスが必要です。
+. Docker または podman 、 tridentctl 、 OC または kubectl ツールがインストールされ、 $path に追加された管理ワークステーション。
++
+
+NOTE: Dockerをインストールする場合は、20.10よりも前のバージョンのDockerが必要です。また、Podmanをインストールする環境には、バージョン3.0よりも前のpodmanが必要です。
+
+
+
+
+
+== Astra Control Center をインストールします
+
+[role="tabbed-block"]
+====
+.OperatorHub を使用する
+--
+. ネットアップサポートサイトにログインし、最新バージョンの NetApp Astra Control Center をダウンロードします。そのためには、ネットアップアカウントにライセンスを関連付ける必要があります。tarball をダウンロードしたら、 admin ワークステーションに転送します。
++
+
+NOTE: Astra Control の試用版ライセンスの使用を開始するには、にアクセスしてください https://cloud.netapp.com/astra-register["Astra 登録サイト"^]。
+
+. tar ボールを開梱し、作業ディレクトリを作成されたフォルダに変更します。
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ tar -vxzf astra-control-center-21.12.60.tar.gz
+[netapp-user@rhel7 ~]$ cd astra-control-center-21.12.60
+----
+. インストールを開始する前に、 Astra Control Center イメージをイメージレジストリにプッシュします。この手順では、 Docker または Podman のいずれかを使用して実行します。両方の手順については、この手順で説明します。
++
+[]
+=====
+.ポドマン
+.. レジストリ FQDN を、組織 / 名前空間 / プロジェクト名とともに環境変数「管理」としてエクスポートします。
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ export REGISTRY=astra-registry.apps.ocp-vmw.cie.netapp.com/netapp-astra
+----
+.. レジストリにログインします。
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ podman login -u ocp-user -p password --tls-verify=false astra-registry.apps.ocp-vmw.cie.netapp.com
+----
++
+
+NOTE: 「 kubeadmin 」ユーザを使用してプライベートレジストリにログインしている場合は、「 podman login -u OCP -user -p token --tls-verify=false astra-registry.apps.ocp-vmw.cie.netapp.com` 」の代わりにトークンを使用します。
+
++
+
+NOTE: または、サービスアカウントのトークンを使用して、サービスアカウントを作成し、（プッシュアクセスまたはプルアクセスが必要かどうかに応じて）レジストリエディタまたはレジストリビューアロールを割り当て、レジストリにログインすることもできます。
+
+.. シェルスクリプトファイルを作成し、次の内容を貼り付けます。
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ vi push-images-to-registry.sh
+
+for astraImageFile in $(ls images/*.tar) ; do
+  # Load to local cache. And store the name of the loaded image trimming the 'Loaded images: '
+  astraImage=$(podman load --input ${astraImageFile} | sed 's/Loaded image(s): //')
+  astraImage=$(echo ${astraImage} | sed 's!localhost/!!')
+  # Tag with local image repo.
+  podman tag ${astraImage} ${REGISTRY}/${astraImage}
+  # Push to the local repo.
+  podman push ${REGISTRY}/${astraImage}
+done
+----
++
+
+NOTE: レジストリに信頼されていない証明書を使用している場合は、シェルスクリプトを編集し、 podman push コマンドに「 --tls-verify=false 」を使用します。「 podman push $registry/ $ 」（ echo $astraalImage | sed's /^[^\\/]\\/'/')--tls-verify=false 」）。
+
+.. ファイルを実行可能にします
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ chmod +x push-images-to-registry.sh
+----
+.. シェルスクリプトを実行します。
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ ./push-images-to-registry.sh
+----
+
+
+=====
++
+[]
+=====
+.Docker です
+.. レジストリ FQDN を、組織 / 名前空間 / プロジェクト名とともに環境変数「管理」としてエクスポートします。
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ export REGISTRY=astra-registry.apps.ocp-vmw.cie.netapp.com/netapp-astra
+----
+.. レジストリにログインします。
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ docker login -u ocp-user -p password astra-registry.apps.ocp-vmw.cie.netapp.com
+----
++
+
+NOTE: 「 kubeadmin 」ユーザを使用してプライベートレジストリにログインする場合は、「 password - `d Occker login -u OCP-user-p token astra-registry.apps.ocp-vmw.cie.netapp.com` 」の代わりにトークンを使用します。
+
++
+
+NOTE: または、サービスアカウントのトークンを使用して、サービスアカウントを作成し、（プッシュアクセスまたはプルアクセスが必要かどうかに応じて）レジストリエディタまたはレジストリビューアロールを割り当て、レジストリにログインすることもできます。
+
+.. シェルスクリプトファイルを作成し、次の内容を貼り付けます。
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ vi push-images-to-registry.sh
+
+for astraImageFile in $(ls images/*.tar) ; do
+  # Load to local cache. And store the name of the loaded image trimming the 'Loaded images: '
+  astraImage=$(docker load --input ${astraImageFile} | sed 's/Loaded image: //')
+  astraImage=$(echo ${astraImage} | sed 's!localhost/!!')
+  # Tag with local image repo.
+  docker tag ${astraImage} ${REGISTRY}/${astraImage}
+  # Push to the local repo.
+  docker push ${REGISTRY}/${astraImage}
+done
+----
+.. ファイルを実行可能にします
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ chmod +x push-images-to-registry.sh
+----
+.. シェルスクリプトを実行します。
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ ./push-images-to-registry.sh
+----
+
+
+=====
+
+
+. 公開されていないプライベートイメージレジストリを使用する場合は、イメージレジストリ TLS 証明書を OpenShift ノードにアップロードします。そのためには、 TLS 証明書を使用して OpenShift -config ネームスペースに ConfigMap を作成し、クラスタイメージ構成にパッチを適用して証明書を信頼できるようにします。
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ oc create configmap default-ingress-ca -n openshift-config --from-file=astra-registry.apps.ocp-vmw.cie.netapp.com=tls.crt
+
+[netapp-user@rhel7 ~]$ oc patch image.config.openshift.io/cluster --patch '{"spec":{"additionalTrustedCA":{"name":"default-ingress-ca"}}}' --type=merge
+----
++
+
+NOTE: ルートとともに入力オペレータからのデフォルト TLS 証明書を含む OpenShift 内部レジストリを使用している場合は、前の手順に従って、ルートホスト名に証明書をパッチする必要があります。入力オペレータから証明書を抽出するには、コマンド「 oc extract secret/router-ca --keys=tls.crt-n OpenShift ingress-operator 」を使用します。
+
+. Astra Control Center 用の名前空間 NetApp-acc-operator' を作成します
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ oc create ns netapp-acc-operator
+
+namespace/netapp-acc-operator created
+----
+. NetApp-acc-operator ネームスペースのイメージレジストリにログインするためのクレデンシャルを含むシークレットを作成します。
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ oc create secret docker-registry astra-registry-cred --docker-server=astra-registry.apps.ocp-vmw.cie.netapp.com --docker-username=ocp-user --docker-password=password -n netapp-acc-operator
+
+secret/astra-registry-cred created
+----
+. クラスタ管理者アクセスで Red Hat OpenShift GUI コンソールにログインします。
+. Perspective ドロップダウンから Administrator を選択します。
+. [ 演算子 ]>[ 演算子ハブ ] の順に移動し、 Astra を検索します。
++
+image::redhat_openshift_image45.JPG[OpenShift Operator Hub]
+
+. NetApp-acc-operator' タイルを選択し、 [ インストール ] をクリックします。
++
+image::redhat_openshift_image123.jpg[ACC オペレータタイル]
+
+. インストールオペレータ画面で、デフォルトのパラメータをすべて受け入れて、「インストール」をクリックします。
++
+image::redhat_openshift_image124.jpg[ACC オペレータの詳細]
+
+. オペレータによるインストールが完了するまで待ちます。
++
+image::redhat_openshift_image125.jpg[ACC オペレーターがインストールを待機します]
+
+. オペレータのインストールが完了したら、 [View Operator] をクリックします。
++
+image::redhat_openshift_image126.jpg[ACC オペレータによるインストールが完了しました]
+
+. 次に、オペレーターの Astra Control Center タイルで [Create Instance] をクリックします。
++
+image::redhat_openshift_image127.jpg[ACC インスタンスを作成します]
+
+. [Create AstraeControl] フォームフィールドに入力し '[Create] をクリックします
++
+.. 必要に応じて、 Astra Control Center インスタンス名を編集します。
+.. 必要に応じて、 AutoSupport を有効または無効にします。Auto Support 機能の保持を推奨します。
+.. Astra Control Center の FQDN を入力します。
+.. Astra Control Center のバージョンを入力します。デフォルトで最新のバージョンが表示されます。
+.. Astra Control Center のアカウント名を入力し、管理者の詳細（名、姓、メールアドレスなど）を入力します。
+.. ボリューム再利用ポリシーを入力します。デフォルトは Retain です。
+.. Image Registry に、レジストリの FQDN と、イメージをレジストリにプッシュする際に指定した組織名を入力します（この例では「 astra-registry.apps.ocp-vmw.cie.netapp.com/netapp-astra` 」）。
+.. 認証が必要なレジストリを使用する場合は、 [ イメージレジストリ ] セクションにシークレット名を入力します。
+.. Astra Control Center のリソース制限のスケーリングオプションを設定します。
+.. デフォルト以外のストレージクラスに PVC を配置する場合は、ストレージクラス名を入力します。
+.. CRD 処理の環境設定を定義します。
++
+image::redhat_openshift_image128.jpg[ACC インスタンスを作成します]
+
++
+image::redhat_openshift_image129.jpg[ACC インスタンスを作成します]
+
+
+
+
+
+--
+.自動化された [Ansible ]
+--
+. Ansibleプレイブックを使用してAstra Control Centerを導入するには、AnsibleがインストールされたUbuntu / RHELマシンが必要です。手順に従います https://docs.netapp.com/us-en/netapp-solutions/automation/getting-started.html["こちらをご覧ください"] UbuntuおよびRHELの場合。
+. Ansible コンテンツをホストする GitHub リポジトリをクローニングします。
++
+[source, cli]
+----
+git clone https://github.com/NetApp-Automation/na_astra_control_suite.git
+----
+. ネットアップサポートサイトにログインし、最新バージョンのNetApp Astra Control Centerをダウンロードします。そのためには、ネットアップアカウントにライセンスを関連付ける必要があります。tar ファイルをダウンロードしたら、ワークステーションに転送します。
++
+
+NOTE: Astra Control の試用版ライセンスの使用を開始するには、にアクセスしてください https://cloud.netapp.com/astra-register["Astra 登録サイト"^]。
+
+. Astra Control Centerをインストールする｛k8s_usercluster_name｝クラスタへの管理者アクセスがあるkubeconfigファイルを作成または取得します。
+. ディレクトリを na_Astra_control_site に変更します。
++
+[source, cli]
+----
+cd na_astra_control_suite
+----
+. 「vars/vars.yml」ファイルを編集し、必要な情報を変数に入力します。
++
+[source, cli]
+----
+#Define whether or not to push the Astra Control Center images to your private registry [Allowed values: yes, no]
+push_images: yes
+
+#The directory hosting the Astra Control Center installer
+installer_directory: /home/admin/
+
+#Specify the ingress type. Allowed values - "AccTraefik" or "Generic"
+#"AccTraefik" if you want the installer to create a LoadBalancer type service to access ACC, requires MetalLB or similar.
+#"Generic" if you want to create or configure ingress controller yourself, installer just creates a ClusterIP service for traefik.
+ingress_type: "AccTraefik"
+
+#Name of the Astra Control Center installer (Do not include the extension, just the name)
+astra_tar_ball_name: astra-control-center-22.04.0
+
+#The complete path to the kubeconfig file of the kubernetes/openshift cluster Astra Control Center needs to be installed to.
+hosting_k8s_cluster_kubeconfig_path: /home/admin/cluster-kubeconfig.yml
+
+#Namespace in which Astra Control Center is to be installed
+astra_namespace: netapp-astra-cc
+
+#Astra Control Center Resources Scaler. Leave it blank if you want to accept the Default setting.
+astra_resources_scaler: Default
+
+#Storageclass to be used for Astra Control Center PVCs, it must be created before running the playbook [Leave it blank if you want the PVCs to use default storageclass]
+astra_trident_storageclass: basic
+
+#Reclaim Policy for Astra Control Center Persistent Volumes [Allowed values: Retain, Delete]
+storageclass_reclaim_policy: Retain
+
+#Private Registry Details
+astra_registry_name: "docker.io"
+
+#Whether the private registry requires credentials [Allowed values: yes, no]
+require_reg_creds: yes
+
+#If require_reg_creds is yes, then define the container image registry credentials
+#Usually, the registry namespace and usernames are same for individual users
+astra_registry_namespace: "registry-user"
+astra_registry_username: "registry-user"
+astra_registry_password: "password"
+
+#Kuberenets/OpenShift secret name for Astra Control Center
+#This name will be assigned to the K8s secret created by the playbook
+astra_registry_secret_name: "astra-registry-credentials"
+
+#Astra Control Center FQDN
+acc_fqdn_address: astra-control-center.cie.netapp.com
+
+#Name of the Astra Control Center instance
+acc_account_name: ACC Account Name
+
+#Administrator details for Astra Control Center
+admin_email_address: admin@example.com
+admin_first_name: Admin
+admin_last_name: Admin
+----
+. プレイブックを実行して Astra Control Center を導入します。Playbookには、特定の構成用のroot権限が必要です。
++
+このプレイブックを実行しているユーザがrootである場合、またはパスワードを使用しないsudoが設定されている場合は、次のコマンドを実行してプレイブックを実行します。
+
++
+[source, cli]
+----
+ansible-playbook install_acc_playbook.yml
+----
++
+ユーザにパスワードベースのsudoアクセスが設定されている場合は、次のコマンドを実行してこのPlaybookを実行し、sudoパスワードを入力します。
+
++
+[source, cli]
+----
+ansible-playbook install_acc_playbook.yml -K
+----
+
+
+--
+====
+
+
+=== インストール後の手順
+
+. インストールが完了するまでに数分かかることがあります。NetApp-AstrA-cc' ネームスペース内のすべてのポッドとサービスが稼働していることを確認します
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ oc get all -n netapp-astra-cc
+----
+. 「acc-operator-controller-manager」ログをチェックし、インストールが完了したことを確認します。
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ oc logs deploy/acc-operator-controller-manager -n netapp-acc-operator -c manager -f
+----
++
+
+NOTE: 次のメッセージは、 Astra Control Center のインストールが正常に完了したことを示します。
+
++
+[listing]
+----
+{"level":"info","ts":1624054318.029971,"logger":"controllers.AstraControlCenter","msg":"Successfully Reconciled AstraControlCenter in [seconds]s","AstraControlCenter":"netapp-astra-cc/astra","ae.Version":"[21.12.60]"}
+----
+. Astra Control Center にログインするためのユーザ名は、 CRD ファイルに提供された管理者の電子メールアドレスで、パスワードは Astra Control Center UUID に付加された文字列「 ACC-` 」です。次のコマンドを実行します。
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ oc get astracontrolcenters -n netapp-astra-cc
+NAME    UUID
+astra   345c55a5-bf2e-21f0-84b8-b6f2bce5e95f
+----
++
+
+NOTE: この例では、パスワードは「 ACC-345c55a5 -bf2e-21f0 -84b8 -b6f2bce5e95f 」です。
+
+. traefik サービスのロードバランサ IP を取得します。
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ oc get svc -n netapp-astra-cc | egrep 'EXTERNAL|traefik'
+
+NAME                                       TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                                                   AGE
+traefik                                    LoadBalancer   172.30.99.142    10.61.186.181   80:30343/TCP,443:30060/TCP                                                16m
+----
+. Astra Control Center CRD ファイルに指定された FQDN を指す DNS サーバーのエントリを、 traefik サービスの「 external-IP 」に追加します。
++
+image:redhat_openshift_image122.jpg["ACC GUI の DNS エントリを追加します"]
+
+. Astra Control Center GUI に、 FQDN を参照してログインします。
++
+image:redhat_openshift_image87.jpg["Astra Control Center ログイン"]
+
+. CRDで提供された管理者メールアドレスを使用してAstra Control Center GUIに初めてログインする場合は、パスワードを変更する必要があります。
++
+image:redhat_openshift_image88.jpg["Astra Control Center の必須パスワード変更"]
+
+. ユーザーを Astra Control Center に追加する場合は、 [ アカウント ]>[ ユーザー ] の順に選択し、 [ 追加 ] をクリックしてユーザーの詳細を入力し、 [ 追加 ] をクリックします。
++
+image:redhat_openshift_image89.jpg["Astra Control Center でユーザを作成"]
+
+. Astra Control Center では、すべての機能が動作するためにライセンスが必要です。ライセンスを追加するには、 ［ アカウント ］ > ［ ライセンス ］ の順に選択し、 ［ ライセンスの追加 ］ をクリックして、ライセンスファイルをアップロードします。
++
+image:redhat_openshift_image90.jpg["Astra Control Center 追加ライセンス"]
+
++
+
+NOTE: NetApp Astra Control Center のインストールまたは設定で問題が発生した場合は、既知の問題のナレッジベースを利用できます https://kb.netapp.com/Advice_and_Troubleshooting/Cloud_Services/Astra["こちらをご覧ください"]。
+
+

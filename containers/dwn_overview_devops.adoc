@@ -1,0 +1,52 @@
+---
+sidebar: sidebar 
+permalink: containers/dwn_overview_devops.html 
+keywords: DevOps, Netapp, Astra Trident, Astra Control, Astra 
+summary: DevOpsの概要と、このテクニカルレポートの潜在的なユースケースを紹介します。 
+---
+= DevOpsの概要
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+:k8s_distribution_name: Red Hat OpenShift, VMware Tanzu, Anthos by Google Cloud etc.
+
+
+[role="lead"]
+ここ数年、ソフトウェアを開発している組織がDevOpsの概念をすでに採用しています。DevOpsの手法は組織の壁を取り払い、開発チームと運用チームをより緊密に連携させます。DevOpsの手法は、サービス提供の高速化、可用性の向上、サービスとアプリケーションの安定化を可能にし、チームの生産性を向上させます。また、自動化フレームワークの採用は、大規模なアプリケーションの構築、テスト、運用、完全に自動化されたインフラプラットフォームやスタックの管理など、成功の鍵となる要素でもあります。以下に、DevOpsの一般的なユースケースをいくつか紹介します。DevOpsの実践で実践している実践的な経験を強化するために、ネットアップのソリューションを導入することができます。
+
+
+
+== DevOpsのユースケース
+
+DevOpsには一般に認められた単一の定義はありませんが、DevOps組織向けのソリューションには、一般に、大規模な実装、繰り返し、管理を容易にする同様の構成や理念が含まれています。以降のセクションでは、ネットアップのソリューションで実現するDevOpsワークフローのユースケースについて説明します。
+
+
+
+=== 継続的統合、継続的導入、継続的導入（CI / CD）
+
+継続的統合、継続的導入、継続的導入（CI / CD）は、コードの更新、テスト、導入を一貫して自動化する方法を確立することで、コーディング手法の実装と変革を開発者に奨励するコーディング哲学です。ほとんどのDevOpsワークフローでCI / CDを実装する最も一般的な方法は、CI / CDパイプラインを使用する方法であり、この方法を実現するために役立つサードパーティ製のソフトウェアアプリケーションがいくつかあります。
+
+image::dwn_image_16.png[CI / CDイメージ]
+
+CI / CDタイプのワークフローに役立つ一般的なアプリケーションの例を次に示します。
+
+https://argoproj.github.io/cd/["アルゴCD"]
+https://jenkins.io["Jenkins"]
+https://tekton.dev["テクトン"]
+
+このテクニカルレポートの後半で紹介するユースケースの中には、Jenkinsで紹介したものもありますが、CI / CDの主な原理は、組織が独自の方法で実装したどのツールにも適用できます。
+
+
+
+=== コードとしてのインフラ
+
+Infrastructure as codeは、自動化されたコマンド、API、およびソフトウェア開発キット（SDK）を通じてITリソースのプロビジョニングと管理を支援します。この概念は、開発者が目標を達成できなくなる可能性のある物理データセンターやリソースの制限を取り除くことで、DevOpsエクスペリエンスを大幅に向上させます。
+
+image::dwn_image_17.png[コードとしてのインフラの画像]
+
+エンドユーザーは、などのプログラミング言語を頻繁に使用します https://www.python.org/["Python"] などの自動化ツールを使用できます https://www.ansible.com/["Ansible"] または https://puppet.com/["パペット"] 必要に応じて開発者が呼び出すことができる、自動化された反復可能なインフラ拡張アクションを作成するため。
+
+NetApp ONTAP とAstra Controlには、パブリック向けのAPIとAnsibleモジュールまたはソフトウェア開発ツールキットが含まれているため、運用を自動化しやすく、DevOpsプロセスへの統合が容易です。

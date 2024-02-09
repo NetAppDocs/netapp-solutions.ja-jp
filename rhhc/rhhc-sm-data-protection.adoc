@@ -1,0 +1,81 @@
+---
+sidebar: sidebar 
+permalink: rhhc/rhhc-sm-data-protection.html 
+keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP 
+summary:  
+---
+= Astra Control Centerを使用したデータ保護
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+このページには、VMware vSphereまたはAstra Control Center（ACC）を使用してクラウドで実行されるRed Hat OpenShift Containerベースのアプリケーションのデータ保護オプションが表示されます。
+
+ユーザがRed Hat OpenShiftを使用してアプリケーションを最新化する過程で、偶発的な削除やその他の人的エラーからユーザを保護するためのデータ保護戦略を策定する必要があります。多くの場合、データを管理から保護するために、規制やコンプライアンスの目的で保護戦略が必要になります。
+
+データ保護の要件は、ポイントインタイムコピーへのリバートから別の障害ドメインへの自動フェイルオーバーまで、人手を介さずにさまざまです。多くのお客様がONTAP をKubernetesアプリケーションに最適なストレージプラットフォームとして選択しています。その理由は、マルチテナンシー、マルチプロトコル、ハイパフォーマンスと容量のサービス、マルチサイト環境のレプリケーションとキャッシュ、セキュリティと柔軟性などの豊富な機能があるからです。
+
+お客様は、データセンターの拡張機能としてクラウド環境を設定している場合があります。これにより、クラウドのメリットを活用できるだけでなく、将来的にワークロードを移行するための適切な位置付けを得ることができます。このようなお客様にとって、OpenShiftアプリケーションとデータをクラウド環境にバックアップすることは避けられません。その後、アプリケーションと関連データをクラウドまたはデータセンターのOpenShiftクラスタにリストアできます。
+
+
+
+== ACCを使用したバックアップと復元
+
+アプリケーション所有者は、ACCによって検出されたアプリケーションを確認および更新できます。ACCはCSIを使用してSnapshotコピーを作成し、ポイントインタイムSnapshotコピーを使用してバックアップを実行できます。バックアップ先は、クラウド環境内のオブジェクトストアにすることができます。スケジュールされたバックアップの保護ポリシーと保持するバックアップバージョンの数を設定できます。最小RPOは1時間です。
+
+
+
+=== ACCを使用したバックアップからのアプリケーションのリストア
+
+image:rhhc-onprem-dp-br.png["Astra Control Centerのリストアオプション"]
+
+
+
+== アプリケーション固有の実行フック
+
+ストレージアレイレベルのデータ保護機能を使用できますが、アプリケーションのバックアップとリストアの整合性を確保するために追加の手順が必要になることがよくあります。アプリケーション固有の追加手順は次のとおりです。- Snapshotコピーの作成前または作成後。-バックアップの作成前または作成後。- Snapshotコピーまたはバックアップからリストアしたあと。Astra Controlでは、実行フックと呼ばれるカスタムスクリプトとしてコード化されたアプリケーション固有の手順を実行できます。
+
+ネットアップの link:https://github.com/NetApp/Verda["オープンソースプロジェクトVerda"] 一般的なクラウドネイティブアプリケーションの実行フックを提供し、アプリケーションを簡単に保護し、堅牢で、オーケストレーションを容易にします。リポジトリにないアプリケーションに十分な情報がある場合は、そのプロジェクトに貢献してください。
+
+
+
+== redisアプリケーションのpre-Snapshot用のサンプル実行フック。
+
+image::rhhc-onprem-dp-br-hook.png[Astra Control Centerの実行フック]
+
+
+
+== ACCを使用したレプリケーション
+
+リージョンを保護する場合や、RPOとRTOの低い解決策 を実現する場合は、別のサイト（できれば別のリージョン）で実行されている別のKubernetesインスタンスにアプリケーションをレプリケートできます。ACCは、最短5分でRPOを実現するONTAP 非同期SnapMirrorを利用します。を参照してください link:https://docs.netapp.com/us-en/astra-control-center/use/replicate_snapmirror.html["こちらをご覧ください"] SnapMirrorのセットアップ手順を参照してください。
+
+
+
+=== ACCを使用したSnapMirror
+
+image::rhhc-onprem-dp-rep.png[Astra Control Centerのレプリケーション]
+
+
+NOTE: SANエコノミーおよびNASエコノミーのストレージドライバは、レプリケーション機能をサポートしていません。を参照してください link:https://docs.netapp.com/us-en/astra-control-center/get-started/requirements.html#astra-trident-requirements["こちらをご覧ください"] を参照してください。
+
+
+
+=== デモビデオ：
+
+link:https://www.netapp.tv/details/29504?mcid=35609780286441704190790628065560989458["Astra Control Centerを使用したディザスタリカバリのデモビデオ"]
+
+.Astra Control Centerによるデータ保護
+video::0cec0c90-4c6f-4018-9e4f-b09700eefb3a[panopto,width=360]
+Astra Control Centerのデータ保護機能の詳細を確認できます link:https://docs.netapp.com/us-en/astra-control-center/concepts/data-protection.html["こちらをご覧ください"]
+
+
+
+== ACCを使用したディザスタリカバリ（レプリケーションを使用したフェイルオーバーとフェイルバック）
+
+.Astra Controlを使用したアプリケーションのフェイルオーバーとフェイルバック
+video::1546191b-bc46-42eb-ac34-b0d60142c58d[panopto,width=360]

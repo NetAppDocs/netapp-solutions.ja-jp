@@ -1,0 +1,84 @@
+---
+sidebar: sidebar 
+permalink: containers/a-w-n_LB_MetalLB.html 
+summary: このページでは、 MetalLB ロードバランサのインストールおよび設定手順について説明します。 
+keywords: Anthos, Kubernetes, MetalLB, LoadBalancer, Astra, Astra Control Center 
+---
+= MetalLBロードバランサをインストールしています
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+このページでは、MetalLB管理対象ロードバランサのインストールおよび設定手順を示します。
+
+
+
+== MetalLB ロードバランサをインストールします
+
+MetalLBロードバランサは、VMware上のAnthosクラスタと完全に統合されており、1.11リリース以降のAdminおよびUserクラスタセットアップの一部として自動展開を実行しています。ロード・バランサ情報を提供するために変更する必要がある'対応する'cluster.yamlの構成ファイル内にテキストのブロックがありますサポートされている他のロードバランサソリューションのような外部リソースの導入を必要とするのではなく、Anthosクラスタで自己ホストされます。また、IPプールを作成し、クラウドプロバイダで実行されていないクラスタでロードバランサタイプのKubernetesサービスの作成時にアドレスを自動的に割り当てることもできます。
+
+
+
+== Anthosとの統合
+
+Anthos管理用のMetalLBロードバランサをイネーブルにする場合、「admin-cluster .yaml」ファイルにある「Loadbalancer:」セクションの一部の行を変更する必要があります。変更する必要がある値は、「controlPlaneVip:」アドレスを設定し、「kind：」をMetalLBとして設定することだけです。例については、次のコードスニペットを参照してください。
+
+[listing]
+----
+# (Required) Load balancer configuration
+loadBalancer:
+  # (Required) The VIPs to use for load balancing
+  vips:
+    # Used to connect to the Kubernetes API
+    controlPlaneVIP: "10.61.181.230"
+    # # (Optional) Used for admin cluster addons (needed for multi cluster features). Must
+    # # be the same across clusters
+    # addonsVIP: ""
+  # (Required) Which load balancer to use "F5BigIP" "Seesaw" "ManualLB" or "MetalLB".
+  # Uncomment the corresponding field below to provide the detailed spec
+  kind: MetalLB
+----
+AnthosユーザクラスタでMetalLBロードバランサをイネーブルにする場合、更新が必要な「user-cluster.yaml」ファイルごとに2つの領域があります。まず'admin-cluster.yaml'ファイルと同様に'controlPlaneVip:`'ingressVip:`'と'kind :'の値をLoadbalancerの:`セクションで変更する必要があります例については、次のコードスニペットを参照してください。
+
+[listing]
+----
+loadBalancer:
+  # (Required) The VIPs to use for load balancing
+  vips:
+    # Used to connect to the Kubernetes API
+    controlPlaneVIP: "10.61.181.240"
+    # Shared by all services for ingress traffic
+    ingressVIP: "10.61.181.244"
+  # (Required) Which load balancer to use "F5BigIP" "Seesaw" "ManualLB" or "MetalLB".
+  # Uncomment the corresponding field below to provide the detailed spec
+  kind: MetalLB
+----
+
+NOTE: 設定の後半で、MetalLBロードバランサに割り当てられたIPアドレスのプール内に、ingressVIP IPアドレスが存在している必要があります。
+
+次に'metalLB:'サブセクションに移動し'addressPools:'セクションを修正して'-name:'変数にプールの名前を付けますまた、MetalLBが「address:」変数に範囲を提供することで、LoadBalancer型のサービスに割り当てることができるIPアドレスのプールを作成する必要があります。
+
+[listing]
+----
+# # (Required when using "MetalLB" kind in user clusters) Specify the MetalLB config
+ metalLB:
+ #   # (Required) A list of non-overlapping IP pools used by load balancer typed services.
+ #   # Must include ingressVIP of the cluster.
+    addressPools:
+ #   # (Required) Name of the address pool
+    - name: "default"
+ #     # (Required) The addresses that are part of this pool. Each address must be either
+ #     # in the CIDR form (1.2.3.0/24) or range form (1.2.3.1-1.2.3.5).
+      addresses:
+      - "10.61.181.244-10.61.181.249"
+----
+
+NOTE: この例のような範囲を指定すると、特定のサブネット内のアドレス数に制限することも、サブネット全体が使用可能になった場合にCIDR表記として指定することもできます。
+
+. LoadBalancerタイプのKubernetesサービスが作成されると、MetalLBは自動的にそのサービスに外部IPを割り当て、ARP要求に応答してIPアドレスをアドバタイズします。
+

@@ -1,0 +1,463 @@
+---
+sidebar: sidebar 
+permalink: ehc/aws-vmc-veeam-fsx-solution.html 
+keywords: disaster recovery, vmc, vmware cloud, aws, amazon web services, nfs datastore, fsxn, fsx for ontap, fsx for netapp ontap, backup, restore, sql server, oracle 
+summary:  
+---
+= Veeam Backup & Restore in VMware Cloud with Amazon FSx for ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+作成者：Josh Powell -ネットアップソリューションエンジニアリングチーム
+
+
+
+== 概要
+
+Veeam Backup & Replicationは、VMware Cloud内のデータを保護するための効果的で信頼性の高い解決策 です。この解決策 では、Veeam Backup and Replicationを使用して、FSx for ONTAP NFSデータストアにあるアプリケーションVMをVMware Cloudでバックアップおよびリストアするための適切なセットアップと構成について説明します。
+
+VMware Cloud（AWS）は、補完的ストレージとしてNFSデータストアの使用をサポートしています。FSx for NetApp ONTAP は、SDDCクラスタ内のESXiホストの数に関係なく拡張できる、クラウドアプリケーション用の大量のデータを保存する必要があるお客様向けのセキュアな解決策 です。このAWS統合ストレージサービスは、従来のNetApp ONTAP の機能をすべて備えた、効率性に優れたストレージを提供します。
+
+
+
+=== ユースケース
+
+この解決策 は、次のユースケースに対応します。
+
+* バックアップリポジトリとしてFSx for NetApp ONTAP を使用して、VMCでホストされているWindowsおよびLinux仮想マシンのバックアップとリストアを実行できます。
+* FSx for NetApp ONTAP をバックアップリポジトリとして使用して、Microsoft SQL Serverアプリケーションデータをバックアップおよびリストアします。
+* バックアップリポジトリとしてFSx for NetApp ONTAP を使用した、Oracleアプリケーションデータのバックアップとリストア
+
+
+
+
+=== Amazon FSx for ONTAP を使用したNFSデータストア
+
+この解決策 内のすべての仮想マシンは、FSx for ONTAP の補完的NFSデータストア上に配置されます。FSx for ONTAP を補完的NFSデータストアとして使用することには、いくつかのメリットがあります。たとえば、次のことが可能です。
+
+* 複雑なセットアップと管理を必要とせずに、拡張性と可用性に優れたクラウドファイルシステムを構築できます。
+* 既存のVMware環境との統合により、使い慣れたツールやプロセスを使用してクラウドリソースを管理できます。
+* Snapshotやレプリケーションなど、ONTAP が提供する高度なデータ管理機能を活用して、データを保護し、データの可用性を確保できます。
+
+
+.解決策 の導入の概要
+[%collapsible]
+====
+以下のリストには、Veeam Backup & Replicationの設定、バックアップリポジトリとしてFSx for ONTAP を使用したバックアップジョブとリストアジョブの実行、SQL ServerとOracleのVMとデータベースのリストアに必要な手順の概要が記載されています。
+
+. Veeam Backup & ReplicationのiSCSIバックアップリポジトリとして使用するFSx for ONTAP ファイルシステムを作成します。
+. Veeamプロキシを導入して、バックアップワークロードを分散し、FSx for ONTAP でホストされたiSCSIバックアップリポジトリをマウントします。
+. SQL Server、Oracle、Linux、Windowsの仮想マシンをバックアップするようにVeeam Backup Jobsを設定します。
+. SQL Server仮想マシンおよび個 々 のデータベースをリストアします。
+. Oracle仮想マシンおよび個 々 のデータベースをリストアします。
+
+
+====
+.前提条件
+[%collapsible]
+====
+この解決策 の目的は、VMware Cloudで実行され、FSx for NetApp ONTAP でホストされるNFSデータストア上に配置された仮想マシンのデータ保護について説明することです。この解決策 は、次のコンポーネントが構成され、使用可能な状態にあることを前提としています。
+
+. FSx for ONTAP ファイルシステムで、VMware Cloudに接続された1つ以上のNFSデータストアを使用します。
+. Veeam Backup & ReplicationソフトウェアがインストールされたMicrosoft Windows Server VM。
++
+** vCenter Serverが、IPアドレスまたは完全修飾ドメイン名を使用してVeeam Backup & Replicationサーバによって検出されている。
+
+
+. 解決策 の導入時にVeeamバックアッププロキシコンポーネントとともにインストールするMicrosoft Windows Server VM。
+. Microsoft SQL Server VMとVMDKおよびアプリケーションデータがFSx for ONTAP NFSデータストアに格納されている。この解決策 では、2つのSQLデータベースを2つの独立したVMDKに格納しました。
++
+** 注：ベストプラクティスとして、データベースとトランザクションログファイルは別 々 のドライブに配置します。これにより、パフォーマンスと信頼性が向上します。これは、トランザクションログがシーケンシャルに書き込まれるのに対し、データベースファイルはランダムに書き込まれるためです。
+
+
+. OracleデータベースVMとVMDKおよびアプリケーションデータがFSx for ONTAP NFSデータストアに格納されている。
+. FSx for ONTAP NFSデータストア上に配置されたVMDKを使用したLinuxおよびWindowsのファイルサーバVM。
+. Veeamには、バックアップ環境のサーバとコンポーネント間の通信に特定のTCPポートが必要です。Veeamバックアップインフラコンポーネントでは、必要なファイアウォールルールが自動的に作成されます。ネットワークポート要件の詳細なリストについては、の「ポート」のセクションを参照してください https://helpcenter.veeam.com/docs/backup/vsphere/used_ports.html?zoom_highlight=network+ports&ver=120["Veeam Backup and Replication User Guide for VMware vSphereを参照してください"]。
+
+
+====
+
+
+== アーキテクチャの概要
+
+この解決策 のテストと検証は、最終的な導入環境と異なる場合があるラボで実施しました。詳細については、次のセクションを参照してください。
+
+image::aws-vmc-veeam-00.png[解決策 アーキテクチャ図]
+
+.ハードウェア/ソフトウェアコンポーネント
+[%collapsible]
+====
+この解決策 の目的は、VMware Cloudで実行され、FSx for NetApp ONTAP でホストされるNFSデータストア上に配置された仮想マシンのデータ保護について説明することです。この解決策 では、次のコンポーネントが設定済みで、使用可能な状態であることを前提としています。
+
+* Microsoft Windows VMはFSx for ONTAP NFSデータストアに配置されます
+* FSx for ONTAP NFSデータストアにあるLinux（CentOS）VM
+* FSx for ONTAP NFSデータストアに配置されたMicrosoft SQL Server VM
++
+** 2つのデータベースが別 々 のVMDKにホストされている
+
+
+* Oracle VMはFSx for ONTAP NFSデータストアに配置されます
+
+
+====
+
+
+== 解決策 の導入
+
+この解決策 では、Veeam Backup & Replicationソフトウェアを使用して、AWS上のVMwareクラウドSDDC内のSQL Server、Oracle、WindowsおよびLinuxファイルサーバ仮想マシンのバックアップとリカバリを実行する解決策 の導入と検証の詳細な手順を説明します。この解決策 の仮想マシンは、FSx for ONTAP でホストされる補完的なNFSデータストアに配置されます。また、Veeamバックアップリポジトリに使用するiSCSIボリュームのホストには、独立したFSx for ONTAP ファイルシステムが使用されます。
+
+FSx for ONTAP ファイルシステムの作成、バックアップリポジトリとして使用するiSCSIボリュームのマウント、バックアップジョブの作成と実行、VMとデータベースのリストアについて説明します。
+
+FSx for NetApp ONTAP の詳細については、を参照してください https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html["FSx for ONTAP ユーザガイド"^]。
+
+Veeam Backup and Replicationの詳細については、を参照してください https://www.veeam.com/documentation-guides-datasheets.html?productId=8&version=product%3A8%2F221["Veeam Help Centerテクニカルドキュメント"^] サイト
+
+Veeam Backup and ReplicationをVMware Cloud on AWSで使用する場合の考慮事項と制限事項については、を参照してください https://www.veeam.com/kb2414["VMware Cloud on AWSおよびVMware Cloud on Dell EMCサポート考慮事項および制限事項"]。
+
+
+
+=== Veeam Proxyサーバを導入します
+
+VeeamプロキシサーバはVeeam Backup & Replicationソフトウェアのコンポーネントで、ソースとバックアップまたはレプリケーションのターゲットを仲介します。プロキシサーバは、データをローカルで処理することで、バックアップジョブ中のデータ転送の最適化と高速化に役立ちます。また、さまざまな転送モードを使用して、VMware vStorage APIs for Data Protectionまたはダイレクトストレージアクセスを使用してデータにアクセスできます。
+
+Veeamプロキシサーバの設計を選択する際には、同時に実行するタスクの数、転送モード、または必要なストレージアクセスの種類を考慮することが重要です。
+
+プロキシサーバの数およびシステム要件については、を参照してください https://bp.veeam.com/vbr/2_Design_Structures/D_Veeam_Components/D_backup_proxies/vmware_proxies.html["Veeam VMware vSphere Best Practice Guideを参照してください"]。
+
+Veeam Data MoverはVeeam Proxy Serverのコンポーネントであり、ソースからVMデータを取得してターゲットに転送する方法としてトランスポートモードを使用します。転送モードは、バックアップジョブの設定時に指定します。ストレージへの直接アクセスを使用することで、NFSデータストアからのバックアップ効率を高めることができます。
+
+トランスポートモードの詳細については、を参照してください https://helpcenter.veeam.com/docs/backup/vsphere/transport_modes.html?ver=120["Veeam Backup and Replication User Guide for VMware vSphereを参照してください"]。
+
+次の手順では、VMware Cloud SDDC内のWindows VMにVeeam Proxy Serverを導入します。
+
+.Veeam Proxyを導入してバックアップワークロードを分散
+[%collapsible]
+====
+この手順では、Veeamプロキシを既存のWindows VMに導入します。これにより、プライマリVeeam Backup ServerとVeeam Proxyの間でバックアップジョブを分散させることができます。
+
+. Veeam Backup and Replicationサーバで、管理コンソールを開き、左下のメニューから*[バックアップインフラストラクチャ]*を選択します。
+. [バックアッププロキシ]*を右クリックし、*[VMwareバックアッププロキシの追加...]*をクリックしてウィザードを開きます。
++
+image::aws-vmc-veeam-04.png[[Add Veeam backup proxy]ウィザードを開きます]
+
+. VMware Proxyの追加*ウィザードで*新規追加...*ボタンをクリックして、新しいプロキシサーバーを追加します。
++
+image::aws-vmc-veeam-05.png[新しいサーバを追加する場合に選択します]
+
+. Microsoft Windowsを追加する場合に選択し、プロンプトに従ってサーバを追加します。
++
+** DNS名またはIPアドレスを入力します
+** 新しいシステムのクレデンシャルに使用するアカウントを選択するか、新しいクレデンシャルを追加します
+** インストールするコンポーネントを確認し、*適用*をクリックして導入を開始します
++
+image::aws-vmc-veeam-06.png[新しいサーバを追加するためのプロンプトを表示します]
+
+
+
+. [New VMware Proxy]ウィザードに戻り、[Transport Mode]を選択します。ここでは、*自動選択*を選択しました。
++
+image::aws-vmc-veeam-07.png[トランスポートモードを選択します]
+
+. VMware Proxyから直接アクセスできるようにする、接続されているデータストアを選択します。
++
+image::aws-vmc-veeam-08.png[VMware Proxyのサーバを選択します]
+
++
+image::aws-vmc-veeam-09.png[アクセスするデータストアを選択します]
+
+. 暗号化やスロットリングなど、必要な特定のネットワークトラフィックルールを設定して適用します。完了したら、*[適用]*ボタンをクリックして導入を完了します。
++
+image::aws-vmc-veeam-10.png[ネットワークトラフィックルールを設定します]
+
+
+
+====
+
+
+=== ストレージとバックアップリポジトリを設定します
+
+プライマリVeeam BackupサーバとVeeam Proxyサーバは、直接接続されたストレージ形式のバックアップリポジトリにアクセスできます。このセクションでは、FSx for ONTAP ファイルシステムの作成、VeeamサーバへのiSCSI LUNのマウント、バックアップリポジトリの作成について説明します。
+
+.FSx for ONTAP ファイルシステムを作成
+[%collapsible]
+====
+Veeamバックアップリポジトリ用のiSCSIボリュームのホストに使用するFSx for ONTAP ファイルシステムを作成します。
+
+. AWSコンソールで、FSxに移動し、*ファイルシステムの作成*をクリックします
++
+image::aws-vmc-veeam-01.png[FSx for ONTAP ファイルシステムを作成します]
+
+. Amazon FSx for NetApp ONTAP *を選択し、* Next *を選択して続行します。
++
+image::aws-vmc-veeam-02.png[[Amazon FSx for NetApp ONTAP ]を選択します]
+
+. ファイルシステム名、導入タイプ、SSDストレージ容量、FSx for ONTAP クラスタを配置するVPCを入力します。これは、VMware Cloud内の仮想マシンネットワークと通信するように設定されたVPCである必要があります。[次へ]*をクリックします。
++
+image::aws-vmc-veeam-03.png[ファイルシステム情報を入力します]
+
+. 導入手順を確認し、* Create File System *をクリックしてファイルシステムの作成プロセスを開始します。
+
+
+====
+.iSCSI LUNを設定してマウントします
+[%collapsible]
+====
+FSx for ONTAP でiSCSI LUNを作成して設定し、Veeamバックアップサーバとプロキシサーバにマウントします。これらのLUNは、あとでVeeamバックアップリポジトリの作成に使用されます。
+
+
+NOTE: FSx for ONTAP でiSCSI LUNを作成するプロセスは複数の手順で構成されます。ボリューム作成の最初のステップは、Amazon FSxコンソールまたはNetApp ONTAP CLIで実行できます。
+
+
+NOTE: FSx for ONTAP の使用方法の詳細については、を参照してください https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html["FSx for ONTAP ユーザガイド"^]。
+
+. NetApp ONTAP CLIから次のコマンドを使用して初期ボリュームを作成します。
++
+....
+FSx-Backup::> volume create -vserver svm_name -volume vol_name -aggregate aggregate_name -size vol_size -type RW
+....
+. 前の手順で作成したボリュームを使用してLUNを作成します。
++
+....
+FSx-Backup::> lun create -vserver svm_name -path /vol/vol_name/lun_name -size size -ostype windows -space-allocation enabled
+....
+. VeeamバックアップサーバとプロキシサーバのiSCSI IQNを含むイニシエータグループを作成して、LUNへのアクセスを許可します。
++
+....
+FSx-Backup::> igroup create -vserver svm_name -igroup igroup_name -protocol iSCSI -ostype windows -initiator IQN
+....
++
+
+NOTE: 前の手順を完了するには、まずWindowsサーバのiSCSIイニシエータプロパティからIQNを取得する必要があります。
+
+. 最後に、作成したigroupにLUNをマッピングします。
++
+....
+FSx-Backup::> lun mapping create -vserver svm_name -path /vol/vol_name/lun_name igroup igroup_name
+....
+. iSCSI LUNをマウントするには、Veeam Backup & Replication Serverにログインし、[iSCSI Initiator Properties]を開きます。[検出]タブに移動し、iSCSIターゲットのIPアドレスを入力します。
++
+image::aws-vmc-veeam-11.png[iSCSIイニシエータ検出]
+
+. [ターゲット]タブで、非アクティブなLUNをハイライト表示し、*[接続]*をクリックします。[Enable multi-path]*ボックスをオンにし、*[OK]*をクリックしてLUNに接続します。
++
+image::aws-vmc-veeam-12.png[iSCSIイニシエータをLUNに接続します]
+
+. ディスクの管理ユーティリティで、新しいLUNを初期化し、必要な名前とドライブレターでボリュームを作成します。[Enable multi-path]*ボックスをオンにし、*[OK]*をクリックしてLUNに接続します。
++
+image::aws-vmc-veeam-13.png[Windowsディスクの管理]
+
+. 同じ手順を繰り返して、iSCSIボリュームをVeeam Proxyサーバにマウントします。
+
+
+====
+.Veeamバックアップリポジトリを作成します
+[%collapsible]
+====
+Veeam Backup and Replicationコンソールで、Veeam BackupサーバとVeeam Proxyサーバのバックアップリポジトリを作成します。これらのリポジトリは、仮想マシンのバックアップのバックアップターゲットとして使用されます。
+
+. Veeam Backup and Replicationコンソールで、左下の*[バックアップインフラ]*をクリックし、*[リポジトリの追加]*を選択します
++
+image::aws-vmc-veeam-14.png[新しいバックアップリポジトリを作成します]
+
+. [New Backup Repository]ウィザードで、リポジトリの名前を入力し、ドロップダウンリストからサーバを選択して*[Populate]*ボタンをクリックし、使用するNTFSボリュームを選択します。
++
+image::aws-vmc-veeam-15.png[[バックアップリポジトリサーバ]を選択します]
+
+. 次のページで'高度なリストアを実行するときにバックアップのマウント先となるマウント・サーバを選択しますデフォルトでは、リポジトリストレージが接続されているサーバと同じです。
+. 選択内容を確認し、*[適用]*をクリックしてバックアップリポジトリの作成を開始します。
++
+image::aws-vmc-veeam-16.png[[Mount server]を選択します]
+
+. 追加のプロキシサーバについて、上記の手順を繰り返します。
+
+
+====
+
+
+=== Veeamバックアップジョブを設定します
+
+バックアップジョブは、前のセクションのバックアップリポジトリを使用して作成します。バックアップジョブの作成は、ストレージ管理者の業務の通常の一部であり、ここで紹介するすべての手順を網羅しているわけではありません。Veeamでのバックアップジョブの作成の詳細については、を参照してください https://www.veeam.com/documentation-guides-datasheets.html?productId=8&version=product%3A8%2F221["Veeam Help Centerテクニカルドキュメント"^]。
+
+この解決策 では、次の項目に対して個別のバックアップジョブが作成されました。
+
+* Microsoft Windows SQL Serverの略
+* Oracleデータベースサーバ
+* Windowsファイルサーバ
+* Linuxファイルサーバ
+
+
+.Veeamバックアップジョブを設定する際の一般的な考慮事項
+[%collapsible]
+====
+. アプリケーション対応の処理で整合性のあるバックアップを作成し、トランザクションログ処理を実行できます。
+. アプリケーション対応の処理を有効にした後、ゲストOSのクレデンシャルとは異なる可能性があるため、管理者権限を持つ正しいクレデンシャルをアプリケーションに追加します。
++
+image::aws-vmc-veeam-17.png[アプリケーション処理設定]
+
+. バックアップの保持ポリシーを管理するには、*[アーカイブ用に特定のフルバックアップを長く保持する]*をオンにし、*[設定...]*ボタンをクリックしてポリシーを設定します。
++
+image::aws-vmc-veeam-18.png[長期保持ポリシー]
+
+
+
+====
+
+
+=== VeeamのフルリストアによるアプリケーションVMのリストア
+
+アプリケーションのリストアを実行する最初のステップは、Veeamを使用したフルリストアの実行です。VMのフルリストアの電源がオンになっており、すべてのサービスが正常に実行されていることを確認しました。
+
+サーバのリストアは、ストレージ管理者の業務の通常の一部であり、ここで説明するすべての手順を説明するわけではありません。Veeamでのフルリストアの実行の詳細については、を参照してください https://www.veeam.com/documentation-guides-datasheets.html?productId=8&version=product%3A8%2F221["Veeam Help Centerテクニカルドキュメント"^]。
+
+
+
+=== SQL Serverデータベースをリストアします
+
+Veeam Backup & Replicationには、SQL Serverデータベースをリストアするためのオプションがいくつか用意されています。この検証では、Veeam Explorer for SQL ServerとInstant Recoveryを使用して、SQL Serverデータベースのリストアを実行しました。SQL Server Instant Recoveryは、データベースのフルリストアを待たずに、SQL Serverデータベースを迅速にリストアできる機能です。この迅速なリカバリプロセスにより、ダウンタイムが最小限に抑えられ、ビジネス継続性が確保されます。仕組みは次のとおりです。
+
+* Veeam Explorer *で、リストア対象のSQL Serverデータベースを含むバックアップ*をマウントします。
+* ソフトウェア*は、マウントされたファイルからデータベース*を直接パブリッシュし、ターゲットSQL Serverインスタンス上の一時データベースとしてアクセスできるようにします。
+* 一時データベースの使用中、Veeam Explorer *はユーザークエリ*をこのデータベースにリダイレクトし、ユーザーが引き続きデータにアクセスして作業できるようにします。
+* Veeam *はバックグラウンドでフルデータベースリストア*を実行し、一時データベースから元のデータベースの場所にデータを転送します。
+* フルデータベースのリストアが完了すると、Veeam Explorer *はユーザークエリを元の*データベースに戻し、一時データベースを削除します。
+
+
+.Veeam Explorer Instant Recoveryを使用してSQL Serverデータベースをリストアします
+[%collapsible]
+====
+. Veeam Backup & Replicationコンソールで、SQL Serverバックアップのリストに移動し、サーバを右クリックして*[アプリケーション項目のリストア]*を選択し、*[Microsoft SQL Serverデータベース...]*を選択します。
++
+image::aws-vmc-veeam-19.png[SQL Serverデータベースをリストアします]
+
+. Microsoft SQL Serverデータベースのリストアウィザードで、リストからリストアポイントを選択し、*[次へ]*をクリックします。
++
+image::aws-vmc-veeam-20.png[リストから復元ポイントを選択します]
+
+. 必要に応じて*[リストアの理由]*を入力し、[概要]ページで*[参照]*ボタンをクリックしてVeeam Explorer for Microsoft SQL Serverを起動します。
++
+image::aws-vmc-veeam-21.png[[Browse]をクリックしてVeeam Explorerを起動します]
+
+. Veeam Explorerでデータベースインスタンスのリストを展開し、右クリックして*[Instant recovery]*を選択し、リカバリ先のリストアポイントを指定します。
++
+image::aws-vmc-veeam-22.png[インスタントリカバリのリストアポイントを選択します]
+
+. Instant Recovery Wizardで、スイッチオーバータイプを指定します。これは、最小限のダウンタイムで自動的に行うことも、手動で行うことも、指定した時間に行うこともできます。次に、*回復*ボタンをクリックして、復元プロセスを開始します。
++
+image::aws-vmc-veeam-23.png[スイッチオーバータイプを選択します]
+
+. リカバリプロセスはVeeam Explorerから監視できます。
++
+image::aws-vmc-veeam-24.png[SQL Serverのリカバリプロセスを監視します]
+
+
+
+====
+Veeam Explorerを使用してSQL Serverのリストア処理を実行する方法の詳細については、のMicrosoft SQL Serverの項を参照してください https://helpcenter.veeam.com/docs/backup/explorers/vesql_user_guide.html?ver=120["Veeam Explorers User Guideを参照してください"]。
+
+
+
+=== Veeam Explorerを使用してOracleデータベースをリストアします
+
+Veeam Explorer for Oracle databaseでは、Instant Recoveryを使用して、Oracleデータベースの標準リストアまたは中断のないリストアを実行できます。また、データベースのパブリッシュをサポートしているため、高速アクセス、Data Guardデータベースのリカバリ、RMANバックアップからのリストアが可能です。
+
+Veeam Explorerを使用してOracleデータベースのリストア処理を実行する方法の詳細については、のOracleのセクションを参照してください https://helpcenter.veeam.com/docs/backup/explorers/veor_user_guide.html?ver=120["Veeam Explorers User Guideを参照してください"]。
+
+.Veeam Explorerを使用してOracleデータベースをリストアします
+[%collapsible]
+====
+このセクションでは、Veeam Explorerを使用して、別のサーバへのOracleデータベースのリストアについて説明します。
+
+. Veeam Backup & Replicationコンソールで、Oracleバックアップのリストに移動し、サーバを右クリックして*[アプリケーション項目のリストア]*を選択し、*[Oracleデータベース...]*を選択します。
++
+image::aws-vmc-veeam-25.png[Oracleデータベースをリストアします]
+
+. Oracle Databaseリストア・ウィザードで、リストからリストア・ポイントを選択し、*[Next]*をクリックします。
++
+image::aws-vmc-veeam-26.png[リストから復元ポイントを選択します]
+
+. 必要に応じて*[リストア理由]*を入力し、[概要]ページで*[参照]*ボタンをクリックしてVeeam Explorer for Oracleを起動します。
++
+image::aws-vmc-veeam-27.png[[Browse]をクリックしてVeeam Explorerを起動します]
+
+. Veeam Explorerでデータベースインスタンスのリストを展開表示し、リストアするデータベースをクリックしてから、上部の*[データベースのリストア]*ドロップダウンメニューから*[別のサーバにリストア...]*を選択します。
++
+image::aws-vmc-veeam-28.png[[別のサーバにリストアする]を選択します]
+
+. リストアウィザードで、リストア元のリストアポイントを指定し、*[次へ]*をクリックします。
++
+image::aws-vmc-veeam-29.png[復元ポイントを選択します]
+
+. データベースのリストア先となるターゲットサーバとアカウントのクレデンシャルを指定し、*[次へ]*をクリックします。
++
+image::aws-vmc-veeam-30.png[ターゲットサーバクレデンシャルを指定します]
+
+. 最後に、データベースファイルのターゲットの場所を指定し、*[リストア]*ボタンをクリックしてリストアプロセスを開始します。
++
+image::aws-vmc-veeam-31.png[ターゲットの場所を指定します]
+
+. データベースのリカバリが完了したら、サーバ上でOracleデータベースが正常に起動していることを確認します。
+
+
+====
+.Oracleデータベースを代替サーバにパブリッシュします
+[%collapsible]
+====
+このセクションでは、フルリストアを起動せずに高速アクセスできるように、データベースを代替サーバにパブリッシュします。
+
+. Veeam Backup & Replicationコンソールで、Oracleバックアップのリストに移動し、サーバを右クリックして*[アプリケーション項目のリストア]*を選択し、*[Oracleデータベース...]*を選択します。
++
+image::aws-vmc-veeam-32.png[Oracleデータベースをリストアします]
+
+. Oracle Databaseリストア・ウィザードで、リストからリストア・ポイントを選択し、*[Next]*をクリックします。
++
+image::aws-vmc-veeam-33.png[リストから復元ポイントを選択します]
+
+. 必要に応じて*[リストア理由]*を入力し、[概要]ページで*[参照]*ボタンをクリックしてVeeam Explorer for Oracleを起動します。
+. Veeam Explorerでデータベースインスタンスのリストを展開し、リストアするデータベースをクリックしてから、上部の*[Publish Database]*ドロップダウン・メニューから*[Publish to another server...]*を選択します。
++
+image::aws-vmc-veeam-34.png[リストから復元ポイントを選択します]
+
+. パブリッシュウィザードで、データベースのパブリッシュ元の復元ポイントを指定し、*次へ*をクリックします。
+. 最後に、ターゲットLinuxファイルシステムの場所を指定し、* Publish *をクリックしてリストアプロセスを開始します。
++
+image::aws-vmc-veeam-35.png[リストから復元ポイントを選択します]
+
+. パブリッシュが完了したら、ターゲットサーバーにログインし、次のコマンドを実行してデータベースが実行されていることを確認します。
++
+....
+oracle@ora_srv_01> sqlplus / as sysdba
+....
++
+....
+SQL> select name, open_mode from v$database;
+....
++
+image::aws-vmc-veeam-36.png[リストから復元ポイントを選択します]
+
+
+
+====
+
+
+== まとめ
+
+VMware Cloudは、ビジネスクリティカルなアプリケーションを実行し、機密データを保存するための強力なプラットフォームです。セキュアなデータ保護解決策 は、ビジネス継続性を確保し、サイバー脅威やデータ損失から保護するためにVMware Cloudを利用する企業にとって不可欠です。信頼性と堅牢性に優れたデータ保護解決策 を選択することで、企業は、重要なデータが何であっても安全であることを確信できます。
+
+本ドキュメントで紹介するユースケースは、ネットアップ、VMware、Veeamの統合に焦点を当てた実績のあるデータ保護テクノロジに焦点を当てています。FSx for ONTAP は、AWSのVMware Cloud向けの補完的NFSデータストアとしてサポートされており、すべての仮想マシンとアプリケーションデータに使用されます。Veeam Backup & Replicationは、バックアップ/リカバリプロセスの改善、自動化、合理化を支援するために設計された包括的なデータ保護解決策 です。VeeamをiSCSIバックアップターゲットボリューム（FSx for ONTAP でホスト）と組み合わせて使用すると、VMware Cloudに存在するアプリケーションデータに対して、安全で管理しやすいデータ保護解決策 を提供できます。
+
+
+
+== 追加情報
+
+この解決策 に記載されているテクノロジの詳細については、次の追加情報 を参照してください。
+
+* https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html["FSx for ONTAP ユーザガイド"^]
+* https://www.veeam.com/documentation-guides-datasheets.html?productId=8&version=product%3A8%2F221["Veeam Help Centerテクニカルドキュメント"^]
+* https://www.veeam.com/kb2414["VMware Cloud on AWSのサポート：考慮事項および制限事項"]
+

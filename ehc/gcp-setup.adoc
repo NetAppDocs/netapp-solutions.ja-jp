@@ -1,0 +1,69 @@
+---
+sidebar: sidebar 
+permalink: ehc/gcp-setup.html 
+keywords: NetApp Solutions, google cloud, gcp, gcve, vmware managed cloud, enterprise, hybrid, cloud, config, configuration, 
+summary:  
+---
+= Google Cloud Platform （ GCP ）への仮想化環境の導入と構成
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+オンプレミスと同様に、 VM と移行を作成する本番環境に成功するには、 Google Cloud VMware Engine （ GCVE ）の計画が不可欠です。
+
+このセクションでは、 GCVE のセットアップと管理方法、およびネットアップストレージの接続に使用できるオプションとの組み合わせについて説明します。
+
+セットアッププロセスは、次の手順に分けることができます。
+
+.GCVE を導入して設定します
+[%collapsible]
+====
+GCP で GCVE 環境を設定するには、 GCP コンソールにログインし、 VMware Engine ポータルにアクセスします。
+
+[New Private Cloud] ボタンをクリックして、 GCVE プライベートクラウドに必要な設定を入力します。「場所」で、 CV/CVO を導入するリージョン / ゾーンにプライベートクラウドを導入して、最高のパフォーマンスと最小のレイテンシを確保してください。
+
+前提条件
+
+* VMware Engine Service Admin IAM ロールを設定します
+* link:https://cloud.google.com/vmware-engine/docs/quickstart-prerequisites["VMware Engine API アクセスおよびノードクォータを有効にします"]
+* CIDR 範囲がオンプレミスサブネットやクラウドサブネットと重複しないようにしてください。CIDR 範囲は /27 以上である必要があります。
+
+
+image:gcve-deploy-1.png[""]
+
+注：プライベートクラウドの作成には、 30 分から 2 時間かかります。
+
+====
+.GCVE へのプライベートアクセスを有効にします
+[%collapsible]
+====
+プライベートクラウドのプロビジョニングが完了したら、プライベートクラウドへのプライベートアクセスを設定して、高スループットで低レイテンシのデータパス接続を実現します。
+
+これにより、 Cloud Volumes ONTAP インスタンスが実行されている VPC ネットワークが、 GCVE プライベートクラウドと通信できるようになります。これを行うには、に従ってください link:https://cloud.google.com/architecture/partners/netapp-cloud-volumes/quickstart["GCP ドキュメント"]。クラウドボリュームサービスの場合は、テナントホストプロジェクト間で 1 回限りのピアリングを実行して、 VMware エンジンと Cloud Volumes Service 間の接続を確立します。詳細な手順については、次の手順を実行してください link:https://cloud.google.com/vmware-engine/docs/vmware-ecosystem/howto-cloud-volumes-service["リンク"]。
+
+image:gcve-access-1.png[""]
+
+CloudOwner@gve.loca ユーザを使用して vCenter にサインインします。クレデンシャルにアクセスするには、 VMware Engine ポータルにアクセスし、 Resources にアクセスして、適切なプライベートクラウドを選択します。[Basic info] セクションで、 vCenter ログイン情報（ vCenter Server 、 HCX Manager ）または NSX ログイン情報（ NSX Manager ）の [View] リンクをクリックします。
+
+image:gcve-access-2.png[""]
+
+Windows 仮想マシンでブラウザを開き、 vCenter Web Client の URL にアクセスします  admin ユーザのユーザ名として CloudOwner@gve.loca を使用し、コピーしたパスワードを貼り付けます。同様に、 Web クライアントの URL を使用して NSX Manager にアクセスすることもできます  admin ユーザ名を使用し、コピーしたパスワードを貼り付けて新しいセグメントを作成したり、既存の階層ゲートウェイを変更したりできます。
+
+オンプレミスネットワークから VMware Engine プライベートクラウドに接続する場合は、クラウド VPN または Cloud Interconnect を利用して適切な接続を行い、必要なポートが開いていることを確認します。詳細な手順については、次の手順を実行してください link:https://ubuntu.com/server/docs/service-iscsi["リンク"]。
+
+image:gcve-access-3.png[""]
+
+image:gcve-access-4.png[""]
+
+====
+.NetApp Cloud Volume Serviceの補完的データストアをGCVEに導入
+[%collapsible]
+====
+を参照してください link:gcp-ncvs-datastore.html["手順を使用して、NetApp CVSを使用した補完的NFSデータストアをGCVEに導入します"]
+
+====

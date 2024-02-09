@@ -1,0 +1,409 @@
+---
+sidebar: sidebar 
+permalink: ehc/gcp-guest.html 
+keywords: NetApp Solutions, google cloud, gcp, gcve, enterprise, hybrid, cloud, cloud volumes ontap, cvo 
+summary:  
+---
+= GCP のネットアップストレージオプション
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+GCPは、Cloud Volumes ONTAP （CVO）またはCloud Volumes Service （CVS）でゲスト接続のネットアップストレージをサポートします。
+
+
+
+== Cloud Volumes ONTAP （CVO）
+
+Cloud Volumes ONTAP （CVO）は、ネットアップのONTAP ストレージソフトウェアを基盤に構築された、業界をリードするクラウドデータ管理解決策 です。Amazon Web Services（AWS）、Microsoft Azure、Google Cloud Platform（GCP）でネイティブに利用できます。
+
+ソフトウェアで定義されるONTAP バージョンで、クラウドネイティブなストレージを消費し、クラウドとオンプレミスで同じストレージソフトウェアを使用できるため、まったく新しい方法でIT担当者のデータ管理を再トレーニングする必要がありません。
+
+CVOを使用すれば、エッジ、データセンター、クラウド間でシームレスにデータを移動し、ハイブリッドクラウドを統合できます。すべてを1画面の管理コンソールであるNetApp Cloud Managerで管理できます。
+
+設計上、CVOは卓越したパフォーマンスと高度なデータ管理機能を備えており、クラウドで最も要件の厳しいアプリケーションにも対応できます
+
+
+
+=== Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用
+
+.Cloud Volumes ONTAP を Google Cloud に導入（自分で導入）
+[%collapsible]
+====
+Cloud Volumes ONTAP 共有と LUN は、 GCVE プライベートクラウド環境で作成された VM からマウントできます。Cloud Volumes ONTAP は iSCSI 、 SMB 、 NFS の各プロトコルをサポートしているため、 iSCSI 経由でマウントしたボリュームを Linux クライアントや Windows クライアントにマウントし、 LUN に Linux クライアントや Windows クライアントからブロックデバイスとしてアクセスすることもできます。Cloud Volumes ONTAP ボリュームは、いくつかの簡単な手順で設定できます。
+
+ディザスタリカバリや移行の目的でオンプレミス環境からクラウドにボリュームをレプリケートするには、サイト間 VPN または Cloud Interconnect を使用して Google Cloud へのネットワーク接続を確立します。オンプレミスから Cloud Volumes ONTAP へのデータのレプリケートについては、本ドキュメントでは扱いません。オンプレミスシステムと Cloud Volumes ONTAP システム間でデータをレプリケートする方法については、を参照してください link:mailto:CloudOwner@gve.local#setting-up-data-replication-between-systems["システム間のデータレプリケーションの設定"]。
+
+
+NOTE: 使用 link:https://cloud.netapp.com/cvo-sizer["Cloud Volumes ONTAP サイジングツール"] Cloud Volumes ONTAP インスタンスのサイズを正確に設定します。また、オンプレミスのパフォーマンスを監視し、 Cloud Volumes ONTAP のサイジングツールの情報として使用できます。
+
+. NetApp Cloud Central にログイン— Fabric View （ファブリックビュー）画面が表示されます。Cloud Volumes ONTAP タブを探し、 Go to Cloud Manager を選択します。ログインすると、キャンバス画面が表示されます。
++
+image:gcve-cvo-guest-1.png[""]
+
+. Cloud Manager Canvas タブで、 Add a Working Environment をクリックし、クラウドとして Google Cloud Platform を選択し、システム構成のタイプを選択します。次に、 [ 次へ ] をクリックします。
++
+image:gcve-cvo-guest-2.png[""]
+
+. 環境名と admin クレデンシャルなど、作成する環境の詳細を指定します。完了したら、 [ 続行 ] をクリックします。
++
+image:gcve-cvo-guest-3.png[""]
+
+. データセンスとコンプライアンス、クラウドへのバックアップなど、 Cloud Volumes ONTAP 導入用のアドオンサービスを選択または選択解除します。次に、 [ 続行 ] をクリックします。
++
+ヒント：アドオンサービスを無効にすると、確認のポップアップメッセージが表示されます。CVO の導入後にアドオンサービスを追加 / 削除できます。コストを回避するために、不要なサービスは最初から選択解除することを検討してください。
+
++
+image:gcve-cvo-guest-4.png[""]
+
+. 場所を選択し、ファイアウォールポリシーを選択し、チェックボックスを選択して Google Cloud ストレージへのネットワーク接続を確認します。
++
+image:gcve-cvo-guest-5.png[""]
+
+. ライセンスオプションとして、「従量課金制」または「 BYOL for using existing license 」を選択します。この例では、 Freemium オプションが使用されています。次に、 [ 続行 ] をクリックします。
++
+image:gcve-cvo-guest-6.png[""]
+
+. AWS SDDC 上の VMware クラウドで実行されている VM に導入されるワークロードのタイプに基づいて、複数の事前設定パッケージから選択できます。
++
+ヒント：タイルの上にマウスを移動して詳細を表示したり、 [ 構成の変更 ] をクリックして CVO コンポーネントと ONTAP バージョンをカスタマイズしたりできます。
+
++
+image:gcve-cvo-guest-7.png[""]
+
+. [ 確認と承認 ] ページで、選択内容を確認して確定します。 Cloud Volumes ONTAP インスタンスを作成するには、 [ 移動 ] をクリックします。
++
+image:gcve-cvo-guest-8.png[""]
+
+. Cloud Volumes ONTAP のプロビジョニングが完了すると、 [Canvas] ページの作業環境に表示されます。
++
+image:gcve-cvo-guest-9.png[""]
+
+
+
+====
+.SMB ボリューム用の追加の設定
+[%collapsible]
+====
+. 作業環境の準備ができたら、 CIFS サーバに適切な DNS および Active Directory 設定パラメータが設定されていることを確認します。この手順は、 SMB ボリュームを作成する前に実行する必要があります。
++
+ヒント：メニューアイコン（ º ）をクリックし、詳細設定を選択してオプションを表示し、 CIFS のセットアップを選択します。
+
++
+image:gcve-cvo-guest-10.png[""]
+
+. SMB ボリュームの作成は簡単なプロセスです。キャンバスで、 Cloud Volumes ONTAP 作業環境をダブルクリックしてボリュームを作成および管理し、ボリュームの作成オプションをクリックします。適切なサイズを選択し、包含アグリゲートを選択するか、高度な割り当てメカニズムを使用して特定のアグリゲートに配置します。このデモでは、プロトコルとして CIFS/SMB が選択されます。
++
+image:gcve-cvo-guest-11.png[""]
+
+. ボリュームのプロビジョニングが完了すると、 Volumes （ボリューム）ペインにボリュームが表示されます。CIFS 共有はプロビジョニングされるため、ユーザまたはグループにファイルとフォルダに対する権限を付与し、ユーザが共有にアクセスしてファイルを作成できることを確認してください。ファイル権限とフォルダ権限はすべて SnapMirror レプリケーションの一部として保持されるため、オンプレミス環境からボリュームをレプリケートする場合はこの手順は必要ありません。
++
+ヒント：ボリュームメニュー（ º ）をクリックすると、そのオプションが表示されます。
+
++
+image:gcve-cvo-guest-12.png[""]
+
+. ボリュームが作成されたら、 mount コマンドを使用してボリュームの接続手順を表示し、 Google Cloud VMware Engine 上の VM から共有に接続します。
++
+image:gcve-cvo-guest-13.png[""]
+
+. 次のパスをコピーし、 Map Network Drive オプションを使用して、 Google Cloud VMware Engine で実行されている VM にボリュームをマウントします。
++
+image:gcve-cvo-guest-14.png[""]
+
++
+マッピングが完了すると、このマッピングに簡単にアクセスでき、 NTFS アクセス権を適切に設定できます。
+
++
+image:gcve-cvo-guest-15.png[""]
+
+
+
+====
+.Cloud Volumes ONTAP 上の LUN をホストに接続します
+[%collapsible]
+====
+Cloud Volumes ONTAP LUN をホストに接続するには、次の手順を実行します。
+
+. キャンバスページで、 Cloud Volumes ONTAP 作業環境をダブルクリックしてボリュームを作成および管理します。
+. Add Volume （ボリュームの追加） > New Volume （新しいボリューム）をクリックし、 iSCSI を選択して Create Initiator Group （イニシエータContinue をクリックします。 .
++
+image:gcve-cvo-guest-16.png[""]
+image:gcve-cvo-guest-17.png[""]
+
+. ボリュームのプロビジョニングが完了したら、ボリュームメニュー（ º ）を選択し、ターゲット IQN をクリックします。iSCSI Qualified Name （ IQN ）をコピーするには、 Copy （コピー）をクリックします。ホストから LUN への iSCSI 接続をセットアップします。
+
+
+Google Cloud VMware Engine 上のホストで同じ処理を実行するには、次の手順を実行します。
+
+. Google Cloud VMware Engine でホストされている VM への RDP
+. ［ iSCSI イニシエータのプロパティ ］ ダイアログ・ボックスを開きます ［ サーバーマネージャ ］ ＞ ［ ダッシュボード ］ ＞ ［ ツール ］ ＞ ［ iSCSI イニシエータ ］
+. Discovery （検出）タブで、 Discover Portal （ポータルの検出）または Add Portal （ポータルの追加）をクリックし、 iSCSI ターゲットポートの IP アドレスを入力します。
+. ターゲットタブで検出されたターゲットを選択し、ログオンまたは接続をクリックします。
+. [ マルチパスを有効にする ] を選択し、コンピュータの起動時に [ この接続を自動的に復元する ] または [ この接続をお気に入りターゲットのリストに追加する ] を選択します。Advanced （詳細設定）をクリック
++
+
+NOTE: Windows ホストには、クラスタ内の各ノードへの iSCSI 接続が必要です。ネイティブ DSM では、使用する最適なパスが選択されます。
+
++
+image:gcve-cvo-guest-18.png[""]
+
++
+Storage Virtual Machine （ SVM ）の LUN は、 Windows ホストではディスクとして表示されます。追加した新しいディスクは、ホストでは自動的に検出されません。手動の再スキャンをトリガーしてディスクを検出するには、次の手順を実行します。
+
++
+.. Windows コンピュータの管理ユーティリティを開きます。 [ スタート ]>[ 管理ツール ]>[ コンピュータの管理 ] を選択します。
+.. ナビゲーションツリーでストレージノードを展開します。
+.. [ ディスクの管理 ] をクリックします
+.. ［ アクション ］ > ［ ディスクの再スキャン ］ の順にクリック
++
+image:gcve-cvo-guest-19.png[""]
+
++
+Windows ホストから初めてアクセスした時点では、新しい LUN にはパーティションやファイルシステムは設定されていません。LUN を初期化します。必要に応じて、次の手順を実行してファイルシステムで LUN をフォーマットします。
+
+.. Windows ディスク管理を開始します。
+.. LUN を右クリックし、必要なディスクまたはパーティションのタイプを選択します。
+.. ウィザードの指示に従います。この例では、ドライブ F ：がマウントされています。
+
+
+
+
+image:gcve-cvo-guest-20.png[""]
+
+Linux クライアントで、 iSCSI デーモンが実行されていることを確認します。LUN のプロビジョニングが完了したら、以下の例として Ubuntu を使用した iSCSI 構成に関する詳細なガイダンスを参照してください。これを確認するには、シェルから lsblk cmd を実行します。
+
+image:gcve-cvo-guest-21.png[""]
+image:gcve-cvo-guest-22.png[""]
+
+====
+.Cloud Volumes ONTAP NFS ボリュームを Linux クライアントにマウント
+[%collapsible]
+====
+Cloud Volumes ONTAP (DIY) ファイルシステムを Google Cloud VMware Engine 内の VM からマウントするには、次の手順に従います。
+
+以下の手順に従ってボリュームをプロビジョニングします
+
+. Volumes （ボリューム）タブで、 Create New Volume （新規ボリュームの作成）をクリックします。
+. [Create New Volume] ページで、ボリュームタイプを選択します。
++
+image:gcve-cvo-guest-23.png[""]
+
+. ボリュームタブで、ボリューム上にマウスカーソルを置き、メニューアイコン（ º ）を選択してから、マウントコマンドをクリックします。
++
+image:gcve-cvo-guest-24.png[""]
+
+. [ コピー ] をクリックします .
+. 指定された Linux インスタンスに接続します。
+. Secure Shell （ SSH ）を使用してインスタンスの端末を開き、適切なクレデンシャルでログインします。
+. 次のコマンドを使用して、ボリュームのマウントポイント用のディレクトリを作成します。
++
+ $ sudo mkdir /cvogcvetst
++
+image:gcve-cvo-guest-25.png[""]
+
+. 前の手順で作成したディレクトリに Cloud Volumes ONTAP NFS ボリュームをマウントします。
++
+ sudo mount 10.0.6.251:/cvogcvenfsvol01 /cvogcvetst
++
+image:gcve-cvo-guest-26.png[""]
+image:gcve-cvo-guest-27.png[""]
+
+
+
+====
+
+
+== Cloud Volumes Service （CVS）
+
+Cloud Volume サービス（CVS）は、高度なクラウドソリューションを提供するための包括的なデータサービスポートフォリオです。Cloud Volume サービスは、主要なクラウドプロバイダ向けに複数のファイルアクセスプロトコルをサポートしています（NFSとSMBのサポート）。
+
+その他のメリットと機能としては、Snapshotによるデータ保護とリストア、オンプレミスとクラウドの間でデータをレプリケート、同期、移行するための特別な機能、専用フラッシュストレージシステムのレベルで一貫した高パフォーマンスが挙げられます。
+
+
+
+=== Cloud Volumes Service （ CVS ）をゲスト接続ストレージとして使用できるようになりました
+
+.VMware Engine を使用して Cloud Volumes Service を設定します
+[%collapsible]
+====
+Cloud Volumes Service 共有は、 VMware エンジン環境で作成された VM からマウントできます。Cloud Volumes Service では SMB プロトコルと NFS プロトコルがサポートされているため、ボリュームを Linux クライアントにマウントして Windows クライアントにマッピングすることもできます。Cloud Volumes Service ボリュームは簡単な手順で設定できます。
+
+Cloud Volume Service と Google Cloud VMware Engine のプライベートクラウドは同じリージョンに配置する必要があります。
+
+Google Cloud Marketplace で NetApp Cloud Volumes Service for Google Cloud を購入、有効化、設定するには、次の手順を実行します link:https://cloud.google.com/vmware-engine/docs/quickstart-prerequisites["ガイド"]。
+
+====
+.CVS NFS ボリュームを GCVE プライベートクラウドに作成する
+[%collapsible]
+====
+NFS ボリュームを作成してマウントするには、次の手順を実行します。
+
+. Google クラウドコンソール内のパートナーソリューションから Cloud Volume にアクセスします。
++
+image:gcve-cvs-guest-1.png[""]
+
+. Cloud Volume コンソールで、 Volumes （ボリューム）ページに移動し、 Create （作成）をクリックします。
++
+image:gcve-cvs-guest-2.png[""]
+
+. [Create File System] ページで、チャージバックメカニズムに必要なボリューム名と課金ラベルを指定します。
++
+image:gcve-cvs-guest-3.png[""]
+
+. 適切なサービスを選択します。GCVE は、 CVS パフォーマンスと希望するサービスレベルを選択して、アプリケーションワークロードの要件に基づいてレイテンシの向上とパフォーマンスの向上を実現します。
++
+image:gcve-cvs-guest-4.png[""]
+
+. ボリュームおよびボリュームパスに Google Cloud のリージョンを指定（プロジェクト内のすべての Cloud Volume でボリュームパスが一意である必要があります）
++
+image:gcve-cvs-guest-5.png[""]
+
+. ボリュームのパフォーマンスレベルを選択します。
++
+image:gcve-cvs-guest-6.png[""]
+
+. ボリュームのサイズとプロトコルのタイプを指定します。このテストでは、 NFSv3 が使用されています。
++
+image:gcve-cvs-guest-7.png[""]
+
+. この手順では、ボリュームにアクセスできる VPC ネットワークを選択します。VPC ピアリングが実行されていることを確認します。
++
+ヒント： VPC ピアリングが行われていない場合は、ピアリングコマンドの説明を示すポップアップボタンが表示されます。Cloud Shell セッションを開き、適切なコマンドを実行して、 Cloud Volumes Service プロデューサーと VPC をピアリングします。事前に VPC ピアリングを準備する場合は、以下の手順を参照してください。
+
++
+image:gcve-cvs-guest-8.png[""]
+
+. 適切なルールを追加してエクスポートポリシールールを管理し、対応する NFS バージョンのチェックボックスを選択します。
++
+注：エクスポートポリシーを追加しないと、 NFS ボリュームへのアクセスは許可されません。
+
++
+image:gcve-cvs-guest-9.png[""]
+
+. [ 保存 ] をクリックしてボリュームを作成します。
++
+image:gcve-cvs-guest-10.png[""]
+
+
+
+====
+.VMware Engine で実行されている VM に NFS エクスポートをマウントする
+[%collapsible]
+====
+NFS ボリュームのマウントを準備する前に、プライベート接続のピアステータスが Active と表示されていることを確認してください。ステータスが Active になったら、 mount コマンドを使用します。
+
+NFS ボリュームをマウントするには、次の手順を実行します。
+
+. クラウドコンソールで、 Cloud Volume > Volumes に移動します。
+. Volumes （ボリューム）ページに移動します
+. NFS エクスポートをマウントする NFS ボリュームをクリックします。
+. 右にスクロールし、 [ 詳細を表示 ] の下にある [ 指示のマウント ] をクリックします。
+
+
+VMware VM のゲスト OS 内からマウントプロセスを実行するには、次の手順を実行します。
+
+. SSH クライアントと SSH を使用して仮想マシンに接続します。
+. インスタンスに NFS クライアントをインストールします。
++
+.. Red Hat Enterprise Linux または SUSE Linux インスタンスの場合：
++
+ sudo yum install -y nfs-utils
+.. Ubuntu または Debian のインスタンスで次の手順を実行します。
++
+ sudo apt-get install nfs-common
+
+
+. 「 /nimCVSNFSol01 」などの新しいディレクトリをインスタンスに作成します。
++
+ sudo mkdir /nimCVSNFSol01
++
+image:gcve-cvs-guest-20.png[""]
+
+. 適切なコマンドを使用してボリュームをマウントします。ラボで使用するコマンドの例を次に示します。
++
+ sudo mount -t nfs -o rw,hard,rsize=65536,wsize=65536,vers=3,tcp 10.53.0.4:/nimCVSNFSol01 /nimCVSNFSol01
++
+image:gcve-cvs-guest-21.png[""]
+image:gcve-cvs-guest-22.png[""]
+
+
+
+====
+.VMware Engine で実行されている VM に SMB 共有を作成してマウントします
+[%collapsible]
+====
+SMB ボリュームの場合は、 SMB ボリュームを作成する前に、 Active Directory 接続が設定されていることを確認してください。
+
+image:gcve-cvs-guest-30.png[""]
+
+AD 接続が確立されたら、必要なサービスレベルを指定してボリュームを作成します。適切なプロトコルを選択する以外に、 NFS ボリュームを作成する手順は同じです。
+
+. Cloud Volume コンソールで、 Volumes （ボリューム）ページに移動し、 Create （作成）をクリックします。
+. [Create File System] ページで、チャージバックメカニズムに必要なボリューム名と課金ラベルを指定します。
++
+image:gcve-cvs-guest-31.png[""]
+
+. 適切なサービスを選択します。GCVE として、 CVS パフォーマンスと希望するサービスレベルを選択し、ワークロード要件に基づいてレイテンシの向上とパフォーマンスの向上を実現します。
++
+image:gcve-cvs-guest-32.png[""]
+
+. ボリュームおよびボリュームパスに Google Cloud のリージョンを指定（プロジェクト内のすべての Cloud Volume でボリュームパスが一意である必要があります）
++
+image:gcve-cvs-guest-33.png[""]
+
+. ボリュームのパフォーマンスレベルを選択します。
++
+image:gcve-cvs-guest-34.png[""]
+
+. ボリュームのサイズとプロトコルのタイプを指定します。このテストでは、 SMB を使用します。
++
+image:gcve-cvs-guest-35.png[""]
+
+. この手順では、ボリュームにアクセスできる VPC ネットワークを選択します。VPC ピアリングが実行されていることを確認します。
++
+ヒント： VPC ピアリングが行われていない場合は、ピアリングコマンドの説明を示すポップアップボタンが表示されます。Cloud Shell セッションを開き、適切なコマンドを実行して、 Cloud Volumes Service プロデューサーと VPC をピアリングします。事前に VPC ピアリングを準備する場合は、こちらを参照してください link:https://cloud.google.com/architecture/partners/netapp-cloud-volumes/setting-up-private-services-access?hl=en["手順"]。
+
++
+image:gcve-cvs-guest-36.png[""]
+
+. [ 保存 ] をクリックしてボリュームを作成します。
++
+image:gcve-cvs-guest-37.png[""]
+
+
+
+SMB ボリュームをマウントするには、次の手順を実行します。
+
+. クラウドコンソールで、 Cloud Volume > Volumes に移動します。
+. Volumes （ボリューム）ページに移動します
+. SMB 共有をマッピングする SMB ボリュームをクリックします。
+. 右にスクロールし、 [ 詳細を表示 ] の下にある [ 指示のマウント ] をクリックします。
+
+
+VMware VM の Windows ゲスト OS からマウントプロセスを実行するには、次の手順を実行します。
+
+. [ スタート ] ボタンをクリックし、 [ コンピュータ ] をクリックします。
+. [ ネットワークドライブの割り当て ] をクリックします。
+. [ ドライブ ] リストで、使用可能な任意のドライブ文字をクリックします。
+. フォルダボックスに、次のように入力します。
++
+ \\nimsmb-3830.nimgcveval.com\nimCVSMBvol01
++
+image:gcve-cvs-guest-38.png[""]
+
++
+コンピュータにログオンするたびに接続するには、 [ サインイン時に再接続 ] チェックボックスをオンにします。
+
+. 完了をクリックします。
++
+image:gcve-cvs-guest-39.png[""]
+
+
+
+====

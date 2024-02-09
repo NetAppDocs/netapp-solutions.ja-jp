@@ -1,0 +1,156 @@
+---
+sidebar: sidebar 
+permalink: containers/dwn_use_case_integrated_data_protection.html 
+keywords: NetApp Astra Control, Astra Control Center, Application, Trident, Astra Trident, Helm, Operator, ONTAP, OpenShift, Kubernetes, Red Hat OpenShift, DevOps, Data Protection, Continuous Data Protection, Induce Data Protection into CI/CD, CI, CD, CI/CD 
+summary: NetApp Astra Control Center は、 NetApp の信頼できるデータ保護テクノロジを基盤とするオンプレミス環境に導入された、ステートフル Kubernetes ワークロード向けの豊富なストレージおよびアプリケーション対応データ管理サービスを提供します。 
+---
+= NetApp Astra Controlにより、CI / CDパイプラインへの保護を統合
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== 概要
+
+DevOpsワークフローの最も一般的な用途の1つは、継続的統合と継続的導入（CI / CD）パイプラインです。開発者が新しいコードをコミットする際に、アプリケーションでテストスイートの自動構築、統合、実行を行うことができます。通常、DevOpsエンジニアやサイト信頼性エンジニア（SRE）は、新機能の開発、回帰テスト、バグ修正、品質エンジニアリングなど、開発プロセスのさまざまな機能に特化したパイプラインを備えています。
+
+チームの自動化レベルが上がると、本番環境のアプリケーションの変化のペースが圧倒的に高まります。そのため、一部のチームは、本番環境のアプリケーションやサービスの保護を希望しています。コードおよびコンテナイメージを保護するだけでなく、アプリケーションの状態、構成データ（アプリケーションに関連付けられたKubernetesオブジェクトやリソースなど）、およびアプリケーションの永続データも保護したいと考えています。
+
+このユースケースでは、まず新しいバージョンのアプリケーションをステージング環境に導入してから本番環境に導入する、本番への昇格パイプラインについて詳しく見ていきます。この例は、主要なパブリッククラウドとオンプレミス環境に同様に当てはまります。アプリケーションの1つのバージョンの展開を示していますが、パイプラインは、青/緑、カナリアデプロイメントなどの他の戦略でも使用できます。CI/CDパイプラインの一部として、アプリケーションの完全なバックアップを作成してアプリケーションを保護します。本番環境のアプリケーションと、そのデータ、状態、設定をアプリケーションに対応したバックアップでバックアップすると、多数のDevOpsワークフローに役立ちます。
+
+image::dwn_image1.jpg[ネットアップAstraを使用したDevOpsのユースケース1アーキテクチャ]
+
+このユースケースの検証に使用したアプリケーションはです https://magento.com/["Magento"^]は、Webベースのフロントエンドを備えたEコマース解決策 、検索および分析機能用のElasticsearchインスタンス、ショッピングインベントリとトランザクションの詳細をすべて追跡するMariaDBデータベースです。このコンテナ化されたアプリケーションは、Red Hat OpenShiftクラスタにインストールされました。アプリケーション内のすべてのポッドで、永続ボリュームを使用してデータを格納しました。永続ボリュームは、コンテナストレージインターフェイスに準拠したKubernetes向けストレージオーケストレーションツールであるNetApp Astra Tridentによって自動的に作成され、ネットアップストレージシステムでストレージをプロビジョニングできるようになりました。さらに、Astra Control Centerのアプリケーション保護機能を利用するために、問題のアプリケーションはAstra Controlによって管理されました。Astra Controlは、永続的ボリュームに保存されたデータとともに、アプリケーションの状態を保存したアプリケーションのバックアップをトリガするために使用されました。使用しました https://github.com/NetApp/netapp-astra-toolkits["NetApp Astra Control Python SDK"^] アプリケーションのバックアップを開始するプロセスを自動化するために、CI / CDパイプラインに導入されました。このパイプラインは、という一般的なCI / CDツールを使用して作成、実行されました [https://www.jenkins.io/["Jenkins"^]]を選択すると、アプリケーションの構築、保護、導入のためのフローが自動化されます。
+
+CI/CDパイプラインに保護機能を導入するための前提条件と手順 について説明します。
+
+
+
+== ユースケースの検証の前提条件
+
+前提条件として、次のツールまたはプラットフォームを導入および設定しました。
+
+. Red Hat OpenShift Container Platform
+. ネットアップのOpenShiftにTridentをインストールし、バックエンドからNetApp ONTAP システムを構成
+. NetApp ONTAP バックエンドをポイントするデフォルトのストレージクラスが設定されている
+. OpenShiftクラスタにNetApp Astraコントロールセンターをインストール
+. OpenShiftクラスタをAstra Control Centerにマネージドクラスタとして追加
+. JenkinsをOpenShiftクラスタにインストールし、Dockerエンジンがインストールされたエージェントノードで構成します
+
+
+
+
+== アプリケーションをインストールしています
+
+まず、ステージング環境と本番環境にアプリケーションを最初にインストールします。このユースケースでは、この手順が前提条件となるため、手動で実行します。CI / CDパイプラインは、アプリケーションの新しいバージョンリリースの結果として、以降のビルドおよび導入ワークフローに使用されます。
+
+この使用事例の本番環境は「Magent-prod」という名前のネームスペースであり、対応するステージング環境はRed Hat OpenShiftクラスタ上で構成される「Magent-staging」という名前のネームスペースです。アプリケーションをインポートするには、次の手順を実行します。
+
+. bitnami helmチャートを使用して、生産環境にMagentoアプリケーションをインストールします。ジェントポッドとMariaDBポッドにRWX PVSを使用します。
++
+[listing]
+----
+[netapp-user@rhel7 na_astra_control_suite]$ helm install --version 14 magento bitnami/magento -n magento-prod --create-namespace --set image.tag=2.4.1-debian-10-r11,magentoHost=10.63.172.243,persistence.magento.accessMode=ReadWriteMany,persistence.apache.accessMode=ReadWriteMany,mariadb.master.persistence.accessModes[0]=ReadWriteMany
+----
++
+
+NOTE: Magento bitnami Helmチャートには、Magento GUIサービスを公開するためのロードバランササービスが必要です。使用しました link:https://metallb.universe.tf/["MetalLB"^] この例では、オンプレミスのロードバランササービスを提供します。
+
+. 数分後に、すべてのポッドとサービスが実行されていることを確認します。
++
+[listing]
+----
+[netapp-user@rhel7 na_astra_control_suite]$ oc get pods -n magento-prod
+NAME                                                     READY   STATUS    RESTARTS   AGE
+magento-9d658fd96-qrxmt                                  1/1     Running   0          49m
+magento-elasticsearch-coordinating-only-69869cc5-768rm   1/1     Running   0          49m
+magento-elasticsearch-data-0                             1/1     Running   0          49m
+magento-elasticsearch-master-0                           1/1     Running   0          49m
+magento-mariadb-0                                        1/1     Running   0          49m
+----
+. ステージング環境についても同じ手順 を繰り返します。
+
+
+
+
+== Astra Control CenterでMagentoアプリケーションを管理します
+
+. [アプリケーション]に移動し、[検出されたアプリケーション]タブを選択します。
+. 本番環境でMagentoアプリケーション(「Magent-prod`」)の省略記号をクリックし、「管理」をクリックします。
+. Magentoアプリケーションは、Astra Control Centerによって管理されるようになりました。Astra Controlでサポートされているすべての操作をアプリケーションで実行できます。アプリケーションのバージョンも記録します。
++
+image::dwn_image2.jpg[アップグレード前のMagentoバージョンチェック]
+
+. ステージング環境でMagentoアプリケーションを管理するための手順を繰り返します(「Magent-staging」)。
+
+
+
+
+== 保護機能を統合したCI / CDパイプライン
+
+新しいバージョンのアプリケーションを使用する場合は、CI / CDパイプラインを使用してコンテナイメージを作成し、ステージング環境と本番環境の両方のバックアップを作成し、新しいバージョンのアプリケーションをステージング環境に導入し、本番環境への昇格の承認を待ちます。 その後、新しいバージョンのアプリケーションを本番環境に導入します。CI / CDパイプラインを使用するには、次の手順を実行します。
+
+. Jenkinsにログインし、必要なクレデンシャルを作成します。Magento作成する場合は1つ、MariaDB管理作成する場合は1つ、MariaDBルート作成する場合は3つ目です。
+. Manage Jenkins > Manage Credentialsと進み、適切なドメインをクリックします。
+. [資格情報の追加]をクリックし、[種類]を[パスワードと有効範囲を使用するユーザー名]に設定して[グローバル]に設定します。ユーザー名、パスワード、および資格情報のIDを入力し、[OK]をクリックします。
++
+image::dwn_image8.jpg[クレデンシャルの作成]
+
+. 他の2つのクレデンシャルについても同じ手順 を繰り返します。
+. ダッシュボードに戻り、[新しいアイテム]をクリックしてパイプラインを作成し、[パイプライン]をクリックします。
+. Jenkinsfileからパイプラインをコピーします https://github.com/NetApp/netapp-astra-toolkits/blob/main/ci_cd_examples/jenkins_pipelines/protecting_apps_in_ci_cd_pipelines/Jenkinsfile["こちらをご覧ください"^]。
+. パイプラインをJenkinsパイプラインセクションに貼り付け、保存をクリックします。
+. Helmチャートバージョン、アップグレード先のMagentoアプリケーションバージョン、Astraツールキットバージョン、Astra Control Center FQDN、APIトークン、インスタンスIDなど、Jenkinsパイプラインのパラメータをそれぞれの詳細に入力します。本番環境とステージング環境の両方でDockerレジストリ、ネームスペース、MagentoのIPを指定し、作成したクレデンシャルのクレデンシャルIDも指定します。
++
+[listing]
+----
+MAGENTO_VERSION = '2.4.1-debian-10-r14'
+CHART_VERSION = '14'
+RELEASE_TYPE = 'MINOR'
+ASTRA_TOOLKIT_VERSION = '2.0.2'
+ASTRA_API_TOKEN = 'xxxxxxxx'
+ASTRA_INSTANCE_ID = 'xxx-xxx-xxx-xxx-xxx'
+ASTRA_FQDN = 'netapp-astra-control-center.org.example.com'
+DOCKER_REGISTRY = 'docker.io/netapp-solutions-cicd'
+PROD_NAMESPACE = 'magento-prod'
+PROD_MAGENTO_IP = 'x.x.x.x'
+STAGING_NAMESPACE = 'magento-staging'
+STAGING_MAGENTO_IP = 'x.x.x.x'
+MAGENTO_CREDS = credentials('magento-cred')
+MAGENTO_MARIADB_CREDS = credentials('magento-mariadb-cred')
+MAGENTO_MARIADB_ROOT_CREDS = credentials('magento-mariadb-root-cred')
+----
+. [今すぐ構築]をクリックしますパイプラインが実行を開始し'ステップを進めますアプリケーションイメージは最初にビルドされ、コンテナレジストリにアップロードされます。
++
+image::dwn_image3.jpg[パイプラインの進捗状況]
+
+. アプリケーションのバックアップは、Astra Controlを使用して開始します。
++
+image::dwn_image4.jpg[バックアップを開始しました]
+
+. バックアップステージが正常に完了したら、Astra Control Centerからのバックアップを確認します。
++
+image::dwn_image5.jpg[バックアップが完了しました]
+
+. 新しいバージョンのアプリケーションがステージング環境に展開されます。
++
+image::dwn_image6.jpg[ステージングによる導入が開始されました]
+
+. この手順が完了すると、ユーザが本番環境への導入を承認するまで待機します。この段階では、QAチームがいくつかの手動テストを実行し、本番環境を承認すると仮定します。次に、[承認]をクリックして、新しいバージョンのアプリケーションを本番環境に展開できます。
++
+image::dwn_image7.jpg[プロモーションを待っています]
+
+. 本番アプリケーションが目的のバージョンにアップグレードされていることも確認します。
++
+image::dwn_image11.jpg[本番アプリケーションがアップグレードされました]
+
+
+
+CI / CDパイプラインの一環として、アプリケーションに対応した完全なバックアップを作成してアプリケーションを保護できることを実証しました。アプリケーション全体が本番への昇格パイプラインの一部としてバックアップされているため、高度に自動化されたアプリケーションの導入について、自信を持って実行できます。アプリケーションのデータ、状態、設定を含むこのアプリケーション対応バックアップは、多数のDevOpsワークフローに役立ちます。予期しない問題が発生した場合は、アプリケーションの前のバージョンにロールバックすることが重要なワークフローとなります。
+
+Jenkinsツールを使用してCI / CDワークフローをデモしましたが、コンセプトはさまざまなツールや戦略に簡単かつ効率的に外挿できます。このユースケースの実際の動作を確認するには、ビデオをご覧ください link:dwn_videos_data_protection_in_ci_cd_pipeline.html["こちらをご覧ください"^]。

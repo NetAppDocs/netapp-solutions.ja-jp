@@ -1,0 +1,73 @@
+---
+sidebar: sidebar 
+permalink: ehc/aws-vmc.html 
+keywords: NetApp Solutions, hyperscalers, amazon, vmc, vmware managed cloud, enterprise, hybrid, cloud, migrate, migration, disaster recovery, dr 
+summary:  
+---
+= ネットアップの AWS VMC 向け機能
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+ネットアップがAWS VMware Cloud（VMC）にもたらす機能の詳細をご確認ください。ネットアップのゲスト接続ストレージデバイスやNFSデータストアを追加で提供し、ワークフローの移行、クラウドへの拡張/バースト対応、バックアップ/リストア、ディザスタリカバリを実現します。
+
+次のオプションから選択して、目的のコンテンツのセクションに移動します。
+
+* link:#config["AWS で VMC を設定しています"]
+* link:#datastore["VMC のネットアップストレージオプション"]
+* link:#solutions["ネットアップとVMwareのクラウドソリューション"]
+
+
+
+
+== AWS で VMC を設定しています
+
+オンプレミスと同様に、 VM と移行を作成する本番環境に適したクラウドベースの仮想化環境を計画することが重要です。
+
+このセクションでは、 AWS SDDC で VMware Cloud をセットアップおよび管理する方法と、ネットアップストレージの接続に使用できるオプションについて説明します。
+
+
+NOTE: Cloud Volumes ONTAP をAWS VMCに接続する方法としてサポートされているのは、ゲスト内ストレージだけです。
+
+セットアッププロセスは、次の手順に分けることができます。
+
+* VMware Cloud for AWSを導入して設定
+* VMware Cloud を FSX ONTAP に接続します
+
+
+詳細を表示します link:aws-setup.html["VMCの設定手順"]。
+
+
+
+== VMC のネットアップストレージオプション
+
+ネットアップストレージは、AWS VMC内で、接続されている推測データストアまたはNFSデータストア補助的なデータストアとして、いくつかの方法で利用できます。
+
+にアクセスしてください link:../ehc-support-configs.html["サポートされているネットアップストレージオプション"] を参照してください。
+
+AWS は、次の構成でネットアップストレージをサポートします。
+
+* ゲスト接続ストレージとしての FSX ONTAP
+* Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用
+* 補足的なNFSデータストアとしてのFSX ONTAP
+
+
+詳細を表示します link:aws-guest.html["VMCのゲスト接続ストレージオプション"]。詳細を表示します link:aws-native-nfs-datastore-option.html["VMCの追加のNFSデータストアオプション"]。
+
+
+
+== 解決策のユースケース
+
+ネットアップと VMware のクラウドソリューションを使用すれば、多くのユースケースを AWS VMC に簡単に導入できます。ユースケースは、VMwareが定義したクラウド領域ごとに定義されます。
+
+* 保護（ディザスタリカバリとバックアップ/リストアの両方を含む）
+* 拡張
+* 移動
+
+
+link:aws-solutions.html["ネットアップの AWS VMC 向けソリューションをご覧ください"]

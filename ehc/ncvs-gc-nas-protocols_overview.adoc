@@ -1,0 +1,20 @@
+---
+sidebar: sidebar 
+permalink: ehc/ncvs-gc-nas-protocols_overview.html 
+keywords: nas, nfs, smb, cifs 
+summary: NASプロトコルには、NFS（v3およびv4.1）とSMB / CIFS（2.xおよび3.x）があります。CVSでは、これらのプロトコルを使用して、複数のNASクライアント間でデータへの共有アクセスが許可されます。また、Cloud Volumes Service は、NAS共有内のファイルやフォルダのIDおよび権限の設定をすべて満たしながら、NFSクライアントとSMB / CIFSクライアントへのアクセスを同時に提供（デュアルプロトコル）できます。 
+---
+= NASプロトコルの概要
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+NASプロトコルには、NFS（v3およびv4.1）とSMB / CIFS（2.xおよび3.x）があります。CVSでは、これらのプロトコルを使用して、複数のNASクライアント間でデータへの共有アクセスが許可されます。また、Cloud Volumes Service は、NAS共有内のファイルやフォルダのIDおよび権限の設定をすべて満たしながら、NFSクライアントとSMB / CIFSクライアントへのアクセスを同時に提供（デュアルプロトコル）できます。最高レベルのデータ転送セキュリティを維持するため、Cloud Volumes Service は、SMB暗号化とNFS Kerberos 5pを使用して転送中のプロトコル暗号化をサポートしています。
+
+
+NOTE: デュアルプロトコルはCVSパフォーマンスでのみ使用できます。

@@ -1,0 +1,127 @@
+---
+sidebar: sidebar 
+permalink: containers/vtwn_trident_ontap_nfs.html 
+keywords: Trident, Astra Trident, ONTAP, AFF, FAS, NFS, VMware Tanzu 
+summary: Trident を NetApp ONTAP ストレージシステムと統合するには、ストレージシステムとの通信を可能にするバックエンドを作成する必要があります。 
+---
+= NetApp ONTAP の NFS 構成
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+TridentをNFS経由でNetApp ONTAP ストレージシステムと統合するには、ストレージシステムとの通信を可能にするバックエンドを作成する必要があります。この解決策 では基本的なバックエンドを設定しますが、よりカスタマイズされたオプションを探している場合は、のマニュアルを参照してください link:https://docs.netapp.com/us-en/trident/trident-use/ontap-nas.html["こちらをご覧ください"^]。
+
+
+
+== ONTAP でSVMを作成します
+
+. ONTAP System Managerにログインし、Storage > Storage VMの順に選択し、Addをクリックします。
+. SVMの名前を入力し、NFSプロトコルを有効にし、NFSクライアントアクセスを許可チェックボックスをオンにして、ワークロードクラスタ内でボリュームをPVSとしてマウントできるように、ワーカーノードがオンになっているサブネットをエクスポートポリシールールに追加します。
++
+image::vtwn_image06.jpg[SVM - NFSを使用して作成]
+
++
+
+NOTE: NSX -Tを使用したユーザクラスタまたはワークロードクラスタのNAT配置を使用する場合は、出力サブネット（TKGS0の場合はフローティングIPサブネット（TKGIの場合））をエクスポートポリシールールに追加する必要があります。
+
+. データLIFの詳細とSVM管理アカウントの詳細を指定し、保存をクリックします。
++
+image::vtwn_image07.jpg[SVMのデータLIFとSVMの管理]
+
+. アグリゲートをSVMに割り当てます。Storage > Storage VMsと進み、新しく作成したSVMの横にある省略記号をクリックして、Editをクリックします。ボリュームの作成を優先ローカル階層に制限するチェックボックスをオンにして、必要なアグリゲートを関連付けます。
++
+image::vtwn_image08.jpg[SVMアグリゲートの割り当て]
+
+. Tridentをインストールするユーザまたはワークロードクラスタに対してNATを使用して配置した場合、ストレージマウント要求はSNATのために非標準ポートから到達する可能性があります。デフォルトでは、ONTAP は、ルートポートから作成されたボリュームマウント要求のみを許可します。したがって、ONTAP CLIにログインし、非標準ポートからのマウント要求を許可する設定を変更してください。
++
+[listing]
+----
+ontap-01> vserver nfs modify -vserver tanzu_svm -mount-rootonly disabled
+----
+
+
+
+
+== バックエンドとStorageClassesを作成します
+
+. NFSを提供しているNetApp ONTAP システムの場合は、backendName、managementLIF、dataLIF、SVM、ユーザ名を指定してjumphostでバックエンド構成ファイルを作成します。 パスワードなどの詳細情報。
++
+[listing]
+----
+{
+    "version": 1,
+    "storageDriverName": "ontap-nas",
+    "backendName": "ontap-nas+10.61.181.221",
+    "managementLIF": "172.21.224.201",
+    "dataLIF": "10.61.181.221",
+    "svm": "trident_svm",
+    "username": "admin",
+    "password": "password"
+}
+----
++
+
+NOTE: カスタムの backendName 値は、簡単に識別できるように NFS を提供するストレージ DriverName とデータ LIF を組み合わせて定義することを推奨します。
+
+. 次のコマンドを実行してTridentバックエンドを作成します。
++
+[listing]
+----
+[netapp-user@rhel7]$ ./tridentctl -n trident create backend -f backend-ontap-nas.json
++-------------------------+----------------+--------------------------------------+--------+---------+
+|          NAME           | STORAGE DRIVER |                 UUID                 | STATE  | VOLUMES |
++-------------------------+----------------+--------------------------------------+--------+---------+
+| ontap-nas+10.61.181.221 | ontap-nas      | be7a619d-c81d-445c-b80c-5c87a73c5b1e | online |       0 |
++-------------------------+----------------+--------------------------------------+--------+---------+
+----
+. バックエンドを作成したら、次にストレージクラスを作成する必要があります。次のストレージクラス定義の例では、必須フィールドと基本フィールドが強調表示されています。パラメータbackendTypeは'新しく作成されたTridentバックエンドのストレージ・ドライバを反映する必要があります
++
+[listing]
+----
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: ontap-nfs
+provisioner: csi.trident.netapp.io
+parameters:
+  backendType: "ontap-nas"
+----
+. kubectlコマンドを実行して、ストレージクラスを作成します。
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ kubectl create -f storage-class-nfs.yaml
+storageclass.storage.k8s.io/ontap-nfs created
+----
+. ストレージクラスを作成したら、最初の永続的ボリューム要求（ PVC ）を作成する必要があります。PVC定義の例を次に示します。[storageClassName](ストレージクラス名)フィールドが'作成したストレージクラスの名前と一致していることを確認しますプロビジョニングするワークロードに応じて、PVC定義を必要に応じてさらにカスタマイズできます。
++
+[listing]
+----
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: basic
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: ontap-nfs
+----
+. kubectlコマンドを発行して、PVCを作成します。作成中の元のボリュームのサイズによっては作成にしばらく時間がかかることがあるため、作成が完了した時点でこのプロセスを監視できます。
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ kubectl create -f pvc-basic.yaml
+persistentvolumeclaim/basic created
+
+[netapp-user@rhel7 trident-installer]$ kubectl get pvc
+NAME    STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+basic   Bound    pvc-b4370d37-0fa4-4c17-bd86-94f96c94b42d   1Gi        RWO            ontap-nfs      7s
+----
+

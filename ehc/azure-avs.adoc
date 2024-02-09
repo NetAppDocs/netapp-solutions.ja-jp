@@ -1,0 +1,74 @@
+---
+sidebar: sidebar 
+permalink: ehc/azure-avs.html 
+keywords: NetApp Solutions, hyperscalers, azure, avs, enterprise, hybrid, cloud, migrate, migration, disaster recovery, dr 
+summary:  
+---
+= Azure AVS 向けのネットアップの機能
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+ネットアップがAzure VMware解決策 （AVS）に提供する機能の詳細をご確認ください。ゲスト接続ストレージデバイスとしてネットアップが提供する機能と、NFSデータストアの追加機能を利用して、ワークフローを移行し、クラウドへの拡張/バースト対応、バックアップ/リストア、ディザスタリカバリを実施できます。
+
+次のオプションから選択して、目的のコンテンツのセクションに移動します。
+
+* link:#config["Azure で AVS を設定する"]
+* link:#datastore["AVS 向けのネットアップストレージオプション"]
+* link:#solutions["ネットアップとVMwareのクラウドソリューション"]
+
+
+
+
+== Azure で AVS を設定する
+
+オンプレミスと同様に、 VM と移行を作成する本番環境に適したクラウドベースの仮想化環境を計画することが重要です。
+
+このセクションでは、 Azure VMware 解決策をセットアップおよび管理する方法と、ネットアップストレージの接続に使用できるオプションについて説明します。
+
+
+NOTE: Cloud Volumes ONTAP をAzure VMware解決策 に接続する方法としてサポートされているのは、ゲスト内ストレージだけです。
+
+セットアッププロセスは、次の手順に分けることができます。
+
+* リソースプロバイダを登録し、プライベートクラウドを作成
+* 新しい ExpressRoute 仮想ネットワークゲートウェイまたは既存の ExpressRoute 仮想ネットワークゲートウェイに接続します
+* ネットワーク接続を検証し、プライベートクラウドにアクセス
+
+
+詳細を表示します link:azure-setup.html["AVSの設定手順"]。
+
+
+
+== AVS 向けのネットアップストレージオプション
+
+ネットアップのストレージは、Azure AVS内で接続されたか、NFSデータストアとして追加で利用するかのいずれかの方法で利用できます。
+
+にアクセスしてください link:../ehc-support-configs.html["サポートされているネットアップストレージオプション"] を参照してください。
+
+Azure は、以下の構成でネットアップストレージをサポートします。
+
+* ゲスト接続ストレージとしての Azure NetApp Files （ ANF
+* Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用
+* Azure NetApp Files （ANF）を追加のNFSデータストアとして使用できます
+
+
+詳細を表示します link:azure-guest.html["AVSのゲスト接続ストレージオプション"]。詳細を表示します link:azure-native-nfs-datastore-option.html["AVSの補足的なNFSデータストアオプション"]。
+
+
+
+== 解決策のユースケース
+
+ネットアップと VMware のクラウドソリューションを使用すれば、多くのユースケースを Azure AVS で簡単に導入できます。SEケースは、VMwareが定義したクラウド領域ごとに定義されます。
+
+* 保護（ディザスタリカバリとバックアップ/リストアの両方を含む）
+* 拡張
+* 移動
+
+
+link:azure-solutions.html["Azure AVS 向けネットアップソリューションをご覧ください"]

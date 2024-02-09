@@ -1,0 +1,46 @@
+---
+sidebar: sidebar 
+permalink: containers/vtwn_overview_tkgs.html 
+keywords: VMware Tanzu, Tanzu, Tanzu Kubernetes Grid Service, vSphere with Tanzu, DevOps, Netapp, Astra Trident, Astra Control, Astra 
+summary: VMware Tanzu Kubernetes Grid Service（別名「Tanzu」）を使用すると、Tanzu KubernetesクラスタをvSphereでネイティブに作成および運用できます。また、一部の小規模なワークロードをESXiホストで直接実行することもできます。 
+---
+= VMware Tanzu Kubernetes Grid Service（TKGS）の概要
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+VMware Tanzu Kubernetes Grid Service（別名「Tanzu」）を使用すると、Tanzu KubernetesクラスタをvSphereでネイティブに作成および運用できます。また、一部の小規模なワークロードをESXiホストで直接実行することもできます。vSphereをプラットフォームに変換して、コンテナ化されたワークロードをハイパーバイザーレイヤでネイティブに実行できます。Tanzu Kubernetes Grid Serviceは、ワークロードに必要なクラスタを導入および運用することを有効にすると、vSphereにスーパーバイザクラスタを導入します。vSphere 7とネイティブに統合されており、vCenter SSO、コンテンツライブラリ、vSphereネットワーク、vSphereストレージ、vSphere HAおよびDRS、vSphereセキュリティなど、信頼性の高いvSphereの機能を活用して、Kubernetesのシームレスなエクスペリエンスを実現します。
+
+Tanzuを搭載したvSphereは、ハイブリッドアプリケーション環境向けの単一プラットフォームを提供します。このプラットフォームでは、コンテナ内またはVM内でアプリケーションコンポーネントを実行できるため、開発者、DevOpsエンジニア、およびvSphere管理者はより可視性が高く、運用が容易になります。VMware TKGSはvSphere 7環境でのみサポートされており、Tanzu Kubernetes運用ポートフォリオの中で、ESXiホストでポッドを直接実行できる唯一の製品です。
+
+image::vtwn_image03.png[VMware Tanzu Kubernetes Serviceの略]
+
+Tanzu Kubernetes Grid Serviceの詳細については、のドキュメントを参照してください link:https://docs.vmware.com/en/VMware-vSphere/7.0/vmware-vsphere-with-tanzu/GUID-152BE7D2-E227-4DAA-B527-557B564D9718.html["こちらをご覧ください"^]。
+
+機能セットやネットワークなどに関するアーキテクチャ上の考慮事項は多数あります。選択したアーキテクチャによっては、Tanzu Kubernetes Grid Serviceの前提条件と導入プロセスが異なります。このガイドに従って、環境にTanzu Kubernetes Grid Serviceを導入および設定してください link:https://docs.vmware.com/en/VMware-vSphere/7.0/vmware-vsphere-with-tanzu/GUID-74EC2571-4352-4E15-838E-5F56C8C68D15.html["こちらをご覧ください"^]。さらに、TKGS経由で導入されたTanzu Kubernetesクラスタノードにログインするには、このに記載されている手順 に従ってください https://docs.vmware.com/en/VMware-vSphere/7.0/vmware-vsphere-with-tanzu/GUID-37DC1DF2-119B-4E9E-8CA6-C194F39DDEDA.html["リンク"^]。
+
+必要なワークロードの要件を満たすためには、ワーカーノードの構成を選択して、複数のマスター環境にすべての本番環境を導入してフォールトトレランスを実現することを推奨します。したがって、負荷の高いワークロードに推奨されるVMクラスには、少なくとも4つのvCPUと12GBのRAMがあります。
+
+Tanzu Kubernetesクラスタがネームスペース内に作成されると、「owner」または「edit」権限を持つユーザは、ユーザアカウントを使用してポッドを任意のネームスペース内に直接作成できます。これは'所有者または編集権限を持つユーザーには'クラスタ管理者の役割が割り当てられているためですただし、展開、デーモンセット、ステートフルセット、またはその他の名前空間を作成する場合は、対応するサービスアカウントに必要な権限を持つロールを割り当てる必要があります。これは、展開またはデーモンセットがサービスアカウントを使用してポッドを展開するために必要です。
+
+ClusterRoleBindingの次の例を参照して、クラスタ内のすべてのサービスアカウントにクラスタ管理者ロールを割り当てます。
+
+[listing]
+----
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: all_sa_ca
+subjects:
+- kind: Group
+  name: system:serviceaccounts
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: psp:vmware-system-privileged
+  apiGroup: rbac.authorization.k8s.io
+----

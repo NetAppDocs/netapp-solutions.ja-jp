@@ -1,0 +1,56 @@
+---
+sidebar: sidebar 
+permalink: containers/a-w-n_overview_anthos.html 
+keywords: Anthos, deploy, baremetal, virtual 
+summary: Anthosは、開発とITの運用を単一プラットフォーム上に統合することで、オンプレミスとハイブリッドクラウドのインフラにわたってアプリケーションを一貫した方法で構築、導入、管理します。Anthosは、GKE Kubernetesクラスタを仮想またはベアメタルフォーマットでデータセンター環境に直接導入します。 
+---
+= Anthosの概要
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+ネットアップのAnthosは、信頼性に優れた信頼性の高い方法でオンプレミスのGoogle Kubernetes Engine（GKE）環境を導入するための、検証済みのベストプラクティスに基づくハイブリッドクラウドアーキテクチャです。このNetApp Verified Architectureリファレンスドキュメントは、NetApp解決策 をベアメタル環境と仮想環境に導入した場合のAnthosの設計ガイドと導入検証の両方を対象としています。本ドキュメントで説明しているアーキテクチャは、ネットアップとGoogle Cloudのエキスパートによる検証を受けたもので、エンタープライズデータセンター環境でAnthosを実行するメリットを提供します。
+
+
+
+== Anthos の場合
+
+Anthosは、Kubernetesを使用したハイブリッドクラウド対応データセンター解決策 です。最新のハイブリッドクラウドインフラを構築、管理しつつ、アプリケーション開発に重点を置いた即応性に優れたワークフローを採用できます。オープンソーステクノロジを基盤とした解決策を基盤とする Anthos は、 VMware vSphere ベースのインフラにオンプレミスで稼働し、 Google Cloud の Anthos GKE との接続と相互運用が可能です。コンテナ、サービスメッシュ、その他の変革テクノロジを採用することで、ローカルおよびクラウドベースの環境で一貫したアプリケーション開発サイクルと本番環境対応のワークロードを体験できるようになります。次の図は、 Anthos 解決策と、オンプレミスのデータセンターに導入し、クラウドのインフラと相互接続する方法を示しています。
+
+Anthos の詳細については、 Anthos の Web サイトを参照してください https://cloud.google.com/anthos["こちらをご覧ください"^]。
+
+Anthos には次のような機能があります。
+
+* * Anthos の構成管理。 * ハイブリッド Kubernetes 環境のポリシーとセキュリティを自動化します。
+* * Anthos サービスメッシュ * は、 Istio 電源のサービスメッシュにより、アプリケーションのオブザーバビリティ、セキュリティ、および制御を強化します。
+* * Google Cloud Marketplace for Kubernetes Applications 。 * キュレーションされたコンテナアプリケーションのカタログを利用して、簡単に導入できます。
+* * Anthos * に移行。オンプレミスからクラウドへの物理サービスと VM の自動移行を実現します。
+* *Stackdriver. * クラウド・インスタンスのロギングと監視のために Google が提供する管理サービス。
+
+
+image:a-w-n_anthos_architecture.png["エラー：グラフィックイメージがありません"]
+
+
+
+== Anthosの導入方法
+
+
+
+=== VMware上のAnthosクラスタ
+
+VMware vSphere環境に導入されるAnthosクラスタは、ほとんどのエンドユーザ向けKubernetesワークロードの導入、保守、拡張が容易です。
+
+ネットアップとともに導入されるVMware上のAnthosクラスタの詳細については、このページを参照してください link:a-w-n_anthos_VMW.html["こちらをご覧ください"^]。
+
+
+
+=== ベアメタルの Anthos
+
+ベアメタルサーバに導入されたAnthosクラスタはハードウェアに依存しないため、お客様に合わせて最適化されたコンピューティングプラットフォームを選択できます。
+
+ネットアップとともに導入されたベアメタルクラスタ上のAnthosの詳細については、を参照してください link:a-w-n_anthos_BM.html["こちらをご覧ください"^]。

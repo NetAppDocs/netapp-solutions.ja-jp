@@ -1,0 +1,335 @@
+---
+sidebar: sidebar 
+permalink: ehc/ncvs-gc-other-nas-infrastructure-service-dependencies.html 
+keywords: kerberos keytab rotation, ldap, network ports, bind, asymmetric name mapping, antivirus 
+summary: NAS共有にCloud Volumes Service を使用する場合は、正常に機能するために外部との依存関係が必要になることがあります。これらの依存関係は、特定の状況下で有効になっています。 
+---
+= その他のNASインフラストラクチャサービスの依存関係（KDC、LDAP、およびDNS）
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+NAS共有にCloud Volumes Service を使用する場合は、正常に機能するために外部との依存関係が必要になることがあります。これらの依存関係は、特定の状況下で有効になっています。次の表に、さまざまな設定オプションと、必要な依存関係を示します。
+
+|===
+| 設定 | 必須の依存関係です 
+
+
+| NFSv3のみ | なし 
+
+
+| NFSv3 Kerberosのみ | Windows Active Directory：* KDC * DNS * LDAP 
+
+
+| NFSv4.1のみ | クライアントIDマッピング設定（/etc/idmap.conf） 
+
+
+| NFSv4.1 Kerberosのみ  a| 
+* クライアントIDマッピング設定（/etc/idmap.conf）
+* Windows Active Directory：KDC DNS LDAP
+
+
+
+
+| SMBのみ | Active Directory：* KDC * DNS 
+
+
+| マルチプロトコルのNAS（NFSおよびSMB）  a| 
+* クライアントIDマッピングの設定（NFSv4.1のみ、/etc/idmap.conf）
+* Windows Active Directory：KDC DNS LDAP
+
+
+|===
+
+
+== マシンアカウントオブジェクトのKerberos keytabのローテーション/パスワードがリセットされます
+
+SMBマシンアカウントの場合、Cloud Volumes Service はSMBマシンアカウントのパスワードリセットを定期的にスケジュールします。これらのパスワードはKerberos暗号化を使用してリセットされ、毎週日曜日の午後11時から午前1時までのランダムな時刻にスケジュールされます。これらのパスワードは、Kerberosキーのバージョンをリセットし、Cloud Volumes Service システムに格納されているキータブをローテーションし、Cloud Volumes Service で実行されるSMBサーバのセキュリティを強化するのに役立ちます。マシンアカウントのパスワードはランダム化され、管理者には知られていません。
+
+NFS Kerberosマシンアカウントの場合、パスワードのリセットは、新しいkeytabが作成され、KDCと交換されたときにのみ行われます。現在、Cloud Volumes Service では実行できません。
+
+
+
+== LDAPおよびKerberosで使用するネットワークポート
+
+LDAPおよびKerberosを使用する場合は、これらのサービスで使用されているネットワークポートを確認する必要があります。Cloud Volumes Service で使用されているすべてのポートの一覧については、を参照してください https://cloud.google.com/architecture/partners/netapp-cloud-volumes/security-considerations?hl=en_US["セキュリティに関する考慮事項についてのCloud Volumes Service のドキュメント"^]。
+
+
+
+== LDAP
+
+Cloud Volumes Service はLDAPクライアントとして機能し、UNIX IDのユーザおよびグループ検索に標準のLDAP検索クエリを使用します。Cloud Volumes Service が提供する標準のデフォルトユーザ以外のユーザとグループを使用する場合は、LDAPが必要です。また、ユーザプリンシパル（user1@domain.comなど）でNFS Kerberosを使用する場合も、LDAPが必要です。現在、Microsoft Active Directoryを使用するLDAPのみがサポートされています。
+
+Active DirectoryをUNIX LDAPサーバとして使用するには、UNIX IDに使用するユーザおよびグループに、必要なUNIX属性を設定する必要があります。Cloud Volumes Service では、に基づいて属性を照会するデフォルトのLDAPスキーマテンプレートが使用されます https://tools.ietf.org/id/draft-howard-rfc2307bis-01.txt["RFC-2307 -bis"^]。このため、次の表に、ユーザとグループにデータを入力するために最低限必要なActive Directory属性と、それぞれの属性がどのような目的で使用されているかを示します。
+
+Active DirectoryでのLDAP属性の設定の詳細については、を参照してください https://cloud.google.com/architecture/partners/netapp-cloud-volumes/managing-dual-protocol-access["デュアルプロトコルアクセスの管理"^]
+
+|===
+| 属性 | 機能 
+
+
+| UID * | UNIXユーザ名を指定します 
+
+
+| uidNumber * | UNIXユーザの数値IDを指定します 
+
+
+| gidNumber * | UNIXユーザのプライマリグループの数値IDを指定します 
+
+
+| objectclass * | 使用するオブジェクトのタイプを指定します。Cloud Volumes Service では、オブジェクトクラスのリストに「user」を含める必要があります（デフォルトではほとんどのActive Directory展開に含まれています）。 
+
+
+| 名前 | アカウントに関する一般的な情報（実際の名前、電話番号など、「gecos」とも呼ばれる） 
+
+
+| unixUserPassword | これを設定する必要はありません。NAS認証のUNIX ID検索では使用されません。設定すると、設定されたunixUserPasswordの値がプレーンテキストになります。 
+
+
+| unixHomeDirectory | ユーザがLinuxクライアントからLDAPに照らして認証する場合のUNIXホームディレクトリへのパスを定義します。UNIXホームディレクトリの機能にLDAPを使用する場合は、このオプションを設定します。 
+
+
+| loginShellの略 | ユーザがLDAPに対して認証を行うときに、Linuxクライアントのbash/profileシェルへのパスを定義します。 
+|===
+*は、Cloud Volumes Service で適切に機能するために属性が必要であることを示します。残りの属性はクライアント側でのみ使用します。
+
+|===
+| 属性 | 機能 
+
+
+| CN * | UNIXグループ名を指定します。LDAPでActive Directoryを使用する場合は、オブジェクトの作成時に設定されますが、あとで変更することもできます。この名前を他のオブジェクトと同じにすることはできません。たとえば、user1という名前のUNIXユーザがLinuxクライアント上のuser1という名前のグループに属している場合、Windowsでは、同じcn属性を持つ2つのオブジェクトは許可されません。これを回避するには、Windowsユーザの名前を一意の名前（user1やunixなど）に変更します。Cloud Volumes Service のLDAPでは、UNIXユーザ名にuid属性を使用します。 
+
+
+| gidNumber * | UNIXグループの数値IDを指定します。 
+
+
+| objectclass * | 使用するオブジェクトのタイプを指定します。Cloud Volumes Service では、オブジェクトクラスのリストにグループを含める必要があります（この属性はデフォルトでほとんどのActive Directory展開に含まれています）。 
+
+
+| memberUid | UNIXグループのメンバーであるUNIXユーザを指定します。Cloud Volumes Service のActive Directory LDAPでは、このフィールドは必要ありません。Cloud Volumes Service LDAPスキーマでは、グループメンバーシップにMemberフィールドを使用します。 
+
+
+| メンバー* | グループメンバーシップ/セカンダリUNIXグループに必要です。このフィールドには、WindowsユーザをWindowsグループに追加します。ただし、WindowsグループにUNIX属性が入力されていない場合、UNIXユーザのグループメンバーシップリストには含まれません。NFSで使用できる必要があるグループは、次の表に示す必要なUNIXグループ属性を設定する必要があります。 
+|===
+*は、Cloud Volumes Service で適切に機能するために属性が必要であることを示します。残りの属性はクライアント側でのみ使用します。
+
+
+
+=== LDAPバインド情報
+
+LDAPでユーザを照会するには、Cloud Volumes Service がLDAPサービスにバインド（ログイン）する必要があります。このログインには読み取り専用権限があり、LDAP UNIX属性を照会してディレクトリを検索するために使用されます。現在のところ、LDAPバインドはSMBマシンアカウントを使用した場合にのみ可能です。
+
+LDAPを有効にできるのは「CVS -パフォーマンス」インスタンスのみで、NFSv3、NFSv4.1、またはデュアルプロトコルボリュームでのみです。LDAP対応ボリュームを導入するには、Cloud Volumes Service ボリュームと同じリージョンにActive Directory接続を確立する必要があります。
+
+LDAPを有効にすると、特定の状況で次のような状況が発生します。
+
+* Cloud Volumes Service プロジェクトにNFSv3またはNFSv4.1のみを使用する場合は、Active Directoryドメインコントローラに新しいマシンアカウントが作成され、Cloud Volumes Service 内のLDAPクライアントはマシンアカウントのクレデンシャルを使用してActive Directoryにバインドします。NFSボリュームおよびデフォルトの非表示の管理共有用にSMB共有は作成されません（を参照） link:ncvs-gc-smb.html#default-hidden-shares["「デフォルトの非表示共有」"]）共有ACLを削除しておきます。
+* Cloud Volumes Service プロジェクトにデュアルプロトコルボリュームを使用する場合は、SMBアクセス用に作成された1つのマシンアカウントのみを使用して、Cloud Volumes Service のLDAPクライアントがActive Directoryにバインドされます。追加のマシンアカウントは作成されません。
+* 専用のSMBボリュームを個別に作成する場合（LDAPを使用するNFSボリュームの有効化前と無効化後）、LDAPバインド用マシンアカウントはSMBマシンアカウントと共有されます。
+* NFS Kerberosも有効になっている場合は、2つのマシンアカウントが作成されます。1つはSMB共有またはLDAPバインド用、もう1つはNFS Kerberos認証用です。
+
+
+
+
+=== LDAPクエリ
+
+LDAPバインドは暗号化されますが、LDAPクエリは共通のLDAPポート389を使用してプレーンテキストでワイヤ経由で渡されます。この既知のポートは、現在Cloud Volumes Service では変更できません。その結果、ネットワーク内のパケットスニファにアクセスできるユーザは、ユーザ名、グループ名、数値ID、およびグループメンバーシップを確認できます。
+
+ただし、Google Cloud VMは他のVMのユニキャストトラフィックをスニファできません。LDAPトラフィックにアクティブに参加している（バインド可能な）VMのみが、LDAPサーバからのトラフィックを表示できます。Cloud Volumes Service でのパケットスニファの詳細については、を参照してください link:ncvs-gc-cloud-volumes-service-architecture.html#packet-sniffing/trace-considerations["「パケットのスニッフィング/トレースに関する考慮事項」"]
+
+
+
+=== LDAPクライアント設定のデフォルト
+
+Cloud Volumes Service インスタンスでLDAPを有効にすると、デフォルトで特定の設定の詳細を使用してLDAPクライアント設定が作成されます。場合によっては、オプションがCloud Volumes Service に適用されない（サポートされない）か、設定できないことがあります。
+
+|===
+| LDAPクライアントオプション | 機能 | デフォルト値 | 変更は可能ですか？ 
+
+
+| LDAPサーバリスト | クエリに使用するLDAPサーバ名またはIPアドレスを設定します。これはCloud Volumes Service では使用されません。代わりに、Active Directoryドメインを使用してLDAPサーバを定義します。 | 未設定 | いいえ 
+
+
+| Active Directoryドメイン | LDAPクエリに使用するActive Directoryドメインを設定します。Cloud Volumes Service は、DNSのLDAPのSRVレコードを利用して、ドメイン内のLDAPサーバを検索します。 | Active Directory接続で指定されているActive Directoryドメインに設定します。 | いいえ 
+
+
+| 優先されるActive Directoryサーバ | LDAPで使用する優先Active Directoryサーバを設定します。Cloud Volumes Service ではサポートされていません。代わりに、Active Directoryサイトを使用してLDAPサーバの選択を制御します。 | 未設定。 | いいえ 
+
+
+| SMBサーバクレデンシャルを使用してバインド | SMBマシンアカウントを使用してLDAPにバインドします。現在、Cloud Volumes Service でサポートされているLDAPバインド方式はのみです。 | 正しいです | いいえ 
+
+
+| スキーマテンプレート | LDAPクエリに使用するスキーマテンプレート。 | MS-AD-BIS を参照してください | いいえ 
+
+
+| LDAPサーバポート | LDAPクエリに使用するポート番号。Cloud Volumes Service では現在、標準のLDAPポート389のみが使用されています。LDAPS /ポート636は、現在サポートされていません。 | 389 | いいえ 
+
+
+| LDAPSが有効になっています | LDAP over Secure Sockets Layer（SSL）をクエリおよびバインドに使用するかどうかを制御します。現在、Cloud Volumes Service ではサポートされていません。 | いいえ | いいえ 
+
+
+| クエリタイムアウト（秒） | クエリがタイムアウトしました。クエリに指定した値よりも長い時間がかかると、クエリが失敗します。 | 3. | いいえ 
+
+
+| 最小バインド認証レベル | サポートされる最小バインドレベルを指定します。Cloud Volumes Service はLDAPバインドにマシンアカウントを使用し、デフォルトではActive Directoryは匿名バインドをサポートしないため、このオプションはセキュリティ上の理由から有効になりません。 | 匿名 | いいえ 
+
+
+| バインド DN | シンプルバインドが使用されている場合にバインドに使用されるユーザ/識別名（DN）。Cloud Volumes Service は、LDAPバインドにマシンアカウントを使用しますが、現在のところ単純なバインド認証はサポートしていません。 | 未設定 | いいえ 
+
+
+| ベースDN | LDAP検索に使用するベースDN。 | Active Directory接続に使用するWindowsドメイン（DN形式）（DC=domain、DC=local） | いいえ 
+
+
+| ベースの検索範囲 | ベースDN検索の検索範囲。値には、base、onelevel、subtreeのいずれかを指定できます。Cloud Volumes Service ではサブツリー検索のみがサポートされます。 | サブツリー | いいえ 
+
+
+| ユーザDN | ユーザがLDAPクエリの検索を開始するDNを定義します。現在Cloud Volumes Service ではサポートされていないため、すべてのユーザ検索はベースDNから開始されます。 | 未設定 | いいえ 
+
+
+| ユーザの検索範囲 | ユーザDN検索の検索範囲。値には、base、onelevel、subtreeのいずれかを指定できます。Cloud Volumes Service では、ユーザ検索範囲の設定はサポートされていません。 | サブツリー | いいえ 
+
+
+| グループDN | グループ検索でLDAPクエリが開始されるDNを定義します。現在Cloud Volumes Service ではサポートされていないため、すべてのグループ検索はベースDNから開始されます。 | 未設定 | いいえ 
+
+
+| グループの検索範囲 | グループDN検索の検索範囲。値には、base、onelevel、subtreeのいずれかを指定できます。Cloud Volumes Service では、グループ検索範囲の設定はサポートされていません。 | サブツリー | いいえ 
+
+
+| ネットグループDN | ネットグループ検索でLDAPクエリの開始に使用するDNを定義します。現在Cloud Volumes Service ではサポートされていないため、ネットグループ検索はすべてベースDNから開始されます。 | 未設定 | いいえ 
+
+
+| ネットグループ検索範囲 | ネットグループDN検索の検索範囲。値には、base、onelevel、subtreeのいずれかを指定できます。Cloud Volumes Service では、ネットグループ検索範囲の設定はサポートされていません。 | サブツリー | いいえ 
+
+
+| LDAPでstart_tlsを使用します | Start TLSを使用して、証明書ベースのLDAP接続をポート389経由で行います。現在、Cloud Volumes Service ではサポートされていません。 | いいえ | いいえ 
+
+
+| ホスト単位のネットグループ検索を有効にします | ネットグループをすべてのメンバーの一覧に展開するのではなく、ホスト名によるネットグループ検索を有効にします。現在、Cloud Volumes Service ではサポートされていません。 | いいえ | いいえ 
+
+
+| ホスト単位のネットグループDN | ホスト単位のネットグループ検索がLDAPクエリを開始するDNを定義します。ホスト単位のネットグループは、現在Cloud Volumes Service ではサポートされていません。 | 未設定 | いいえ 
+
+
+| ホスト単位のネットグループ検索範囲 | ホスト単位のネットグループDN検索の検索範囲。値には、base、onelevel、subtreeのいずれかを指定できます。ホスト単位のネットグループは、現在Cloud Volumes Service ではサポートされていません。 | サブツリー | いいえ 
+
+
+| クライアントセッションのセキュリティ | LDAPで使用されるセッションセキュリティのレベルを定義します（sign、seal、none）。LDAP署名は、Active Directoryから要求された場合にCVSパフォーマンスでサポートされます。CVS-SWではLDAP署名はサポートされません。どちらのタイプのサービスでも、現時点ではシーリングはサポートされていません。 | なし | いいえ 
+
+
+| LDAPリファーラルキャッシュ | 複数のLDAPサーバを使用している場合、リファーラル追跡を使用すると、クライアントが最初のサーバでエントリが見つからなかったときに、リスト内の他のLDAPサーバを参照することができます。これは現在、Cloud Volumes Service ではサポートされていません。 | いいえ | いいえ 
+
+
+| グループメンバーシップフィルタ | LDAPサーバからグループメンバーシップを検索するときに使用するカスタムのLDAP検索フィルタを提供します。Cloud Volumes Service では現在サポートされていません。 | 未設定 | いいえ 
+|===
+
+
+=== LDAPを使用した非対称ネームマッピング
+
+デフォルトでは、Cloud Volumes Service は、WindowsユーザとUNIXユーザを、特別な設定なしで双方向に同一のユーザ名でマッピングします。有効なUNIXユーザ（LDAPを使用）がCloud Volumes Service で検出されると、1：1のネームマッピングが発生します。たとえば、Windowsユーザjohnsmithが使用されている場合、Cloud Volumes Service がLDAPで「johnsmith」という名前のUNIXユーザを検索できた場合、そのユーザのネームマッピングは成功し、「johnsmith」によって作成されたすべてのファイルおよびフォルダに正しいユーザ所有権が表示されます。 また'johnsmithに影響を与えるすべてのACLは'NASプロトコルの使用に関係なく使用されますこれは対称ネームマッピングと呼ばれます。
+
+非対称ネームマッピングは、WindowsのユーザIDとUNIXのユーザIDが一致しない場合に使用します。たとえば'WindowsユーザjohnsmithがUNIX IDがjsmithの場合'UNIXのバリエーションをCloud Volumes Service に通知する必要がありますCloud Volumes Service は現在、静的なネームマッピングルールの作成をサポートしていないため、ファイルとフォルダの適切な所有権と予期される権限を確保するために、LDAPを使用してWindows IDとUNIX IDの両方のユーザのIDを検索する必要があります。
+
+デフォルトでは、Cloud Volumes Service のネームマップデータベースのインスタンスのns-switchに「ldap」が含まれているため、非対称名にLDAPを使用してネームマッピング機能を提供するために必要なのは、Cloud Volumes Service の検索内容を反映するためにユーザ/グループの属性の一部のみです。
+
+次の表に、非対称ネームマッピング機能のためにLDAPに入力する必要がある属性を示します。ほとんどの場合、Active Directoryはすでに設定されています。
+
+|===
+| Cloud Volumes Service 属性 | 機能 | Cloud Volumes Service がネームマッピングに使用する値 
+
+
+| WindowsからUNIX objectClass | 使用するオブジェクトのタイプを指定します。（ユーザ、グループ、posixAccountなど） | userを含める必要があります（必要に応じて、他の値を複数含めることもできます）。 
+
+
+| WindowsからUNIXへの属性 | 作成時にWindowsユーザ名を定義します。Cloud Volumes Service では、これをWindowsからUNIXへのルックアップに使用します。 | ここでは変更は必要ありません。sAMAccountNameはWindowsログイン名と同じです。 
+
+
+| UID | UNIXユーザ名を定義します。 | 必要なUNIXユーザ名。 
+|===
+Cloud Volumes Service では現在、LDAP検索でドメインプレフィックスが使用されないため、LDAPネームマップ検索で複数のドメインLDAP環境が正常に機能しません。
+
+次の例は、Windows名が「asymmetric」で、UNIX名が「unix-user」で、SMBとNFSの両方からファイルを書き込む際の動作を示しています。
+
+次の図に、LDAP属性がWindowsサーバからどのように見えているかを示します。
+
+image:ncvs-gc-image20.png["エラー：グラフィックイメージがありません"]
+
+NFSクライアントからは、UNIX名を照会できますが、Windows名は照会できません。
+
+....
+# id unix-user
+uid=1207(unix-user) gid=1220(sharedgroup) groups=1220(sharedgroup)
+# id asymmetric
+id: asymmetric: no such user
+....
+ファイルがNFSから「unix-user」として書き込まれると、NFSクライアントから次のような結果になります。
+
+....
+sh-4.2$ pwd
+/mnt/home/ntfssh-4.2$ touch unix-user-file
+sh-4.2$ ls -la | grep unix-user
+-rwx------  1 unix-user sharedgroup     0 Feb 28 12:37 unix-user-nfs
+sh-4.2$ id
+uid=1207(unix-user) gid=1220(sharedgroup) groups=1220(sharedgroup)
+....
+Windowsクライアントでは、ファイルの所有者が適切なWindowsユーザに設定されていることを確認できます。
+
+....
+PS C:\ > Get-Acl \\demo\home\ntfs\unix-user-nfs | select Owner
+Owner
+-----
+NTAP\asymmetric
+....
+逆に、WindowsユーザがSMBクライアントから「asymmetric」で作成したファイルの場合、次のテキストに示すように、適切なUNIX所有者が表示されます。
+
+SMB：
+
+....
+PS Z:\ntfs> echo TEXT > asymmetric-user-smb.txt
+....
+NFS ：
+
+....
+sh-4.2$ ls -la | grep asymmetric-user-smb.txt
+-rwx------  1 unix-user         sharedgroup   14 Feb 28 12:43 asymmetric-user-smb.txt
+sh-4.2$ cat asymmetric-user-smb.txt
+TEXT
+....
+
+
+=== LDAPチャネルバインド
+
+Windows Active Directoryドメインコントローラの脆弱性により、 https://msrc.microsoft.com/update-guide/vulnerability/ADV190023["マイクロソフトセキュリティアドバイザリADV190023"^] DCによるLDAPバインドの許可方法を変更します。
+
+Cloud Volumes Service による影響は、どのLDAPクライアントでも同じです。Cloud Volumes Service では現在、チャネルバインドはサポートされていません。Cloud Volumes Service はネゴシエーションを通じてデフォルトでLDAP署名をサポートしているため、LDAPチャネルバインドを問題 にすることはできません。チャネルバインドが有効な状態でLDAPにバインドする問題がある場合は、「ADV190023」の修正手順に従って、Cloud Volumes Service からのLDAPバインドを成功させるようにしてください。
+
+
+
+== DNS
+
+Active DirectoryとKerberosはどちらも、ホスト名からIP / IPを経由したホスト名解決で、DNSに依存します。DNSでは、ポート53を開く必要があります。Cloud Volumes Service では、DNSレコードに変更を加えたり、現在のところの使用をサポートしていません https://support.google.com/domains/answer/6147083?hl=en["動的DNS"^] ネットワークインターフェイス。
+
+Active Directory DNSを設定して、DNSレコードを更新できるサーバを制限できます。詳細については、を参照してください https://docs.microsoft.com/en-us/learn/modules/secure-windows-server-domain-name-system/["Windows DNSを保護"^]。
+
+Googleプロジェクト内のリソースは、既定ではGoogle Cloud DNSを使用しますが、Active Directory DNSには接続されていません。クラウドDNSを使用するクライアントは、Cloud Volumes Service から返されたUNCパスを解決できません。Active Directoryドメインに参加しているWindowsクライアントは、Active Directory DNSを使用するように設定され、このようなUNCパスを解決できます。
+
+クライアントをActive Directoryに参加させるには、Active Directory DNSを使用するようにそのDNS設定を構成する必要があります。必要に応じて、Active Directory DNSに要求を転送するようにCloud DNSを設定することができます。を参照してください https://cloud.google.com/architecture/partners/netapp-cloud-volumes/faqs-netapp["クライアントでSMB NetBIOS名を解決できないのはなぜですか？"^]を参照してください。
+
+
+NOTE: Cloud Volumes Service は現在DNSSECをサポートしておらず、DNSクエリはプレーンテキストで実行されます。
+
+
+
+== ファイルアクセスの監査
+
+現在、Cloud Volumes Service ではサポートされていません。
+
+
+
+== アンチウイルスによる保護
+
+Cloud Volumes Service で、クライアントからNAS共有へのウィルススキャンを実行する必要があります。現在のところ、Cloud Volumes Service とウィルス対策はネイティブで統合されていません。
