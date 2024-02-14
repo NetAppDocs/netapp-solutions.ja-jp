@@ -1,0 +1,110 @@
+---
+sidebar: sidebar 
+permalink: rhhc/on-premises/setup.html 
+keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP 
+summary:  
+---
+= VMwareにRed Hat OpenShift Containerプラットフォームを導入して設定します
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+[role="lead"]
+このセクションでは、OpenShiftクラスタをセットアップおよび管理し、クラスタ上でステートフルアプリケーションを管理する方法の大まかなワークフローについて説明します。このスライドでは、NetApp ONTAP ストレージアレイとAstra Tridentを使用して永続ボリュームを提供する方法を示しています。ステートフルアプリケーションに対してデータ保護と移行のアクティビティを実行するためのAstra Control Centerの使用方法について詳しく説明します。
+
+
+NOTE: Red Hat OpenShift Containerプラットフォームクラスタは、いくつかの方法で導入できます。このセットアップの概要概要 には、使用した具体的な方法のドキュメントへのリンクが記載されています。その他の方法については、に記載されている関連リンクを参照してください link:../rhhc-resources.html["リソースセクション"]。
+
+次の図は、データセンターのVMwareに導入されたクラスタを示しています。
+
+image:rhhc-on-premises.png[""]
+
+セットアッププロセスは、次の手順に分けることができます。
+
+.CentOS VMを導入、設定
+[%collapsible]
+====
+* VMware vSphere環境に導入されます。
+* このVMは、NetApp Astra TridentやNetApp Astra Control Center for the解決策 など、一部のコンポーネントの導入に使用されます。
+* このVMにはインストール時にrootユーザが設定されます。
+
+
+====
+.VMware vSphere（ハブクラスタ）にOpenShift Container Platformクラスタを導入して設定
+[%collapsible]
+====
+の手順を参照してください link:https://access.redhat.com/documentation/en-us/assisted_installer_for_openshift_container_platform/2022/html/assisted_installer_for_openshift_container_platform/installing-on-vsphere#doc-wrapper/["支援された展開"] OCPクラスタを導入する方法。
+
+
+TIP: 次の点に注意してください。-インストーラに提供するsshの公開鍵と秘密鍵を作成します。これらのキーは、必要に応じてマスターノードとワーカーノードにログインするために使用されます。-アシスタントインストーラからインストーラプログラムをダウンロードします。このプログラムを使用して、VMware vSphere環境でマスターノードとワーカーノード用に作成したVMをブートします。- VMには、CPU、メモリ、およびハードディスクの最小要件が必要です。（のvm createコマンドを参照してください link:https://access.redhat.com/documentation/en-us/assisted_installer_for_openshift_container_platform/2022/html/assisted_installer_for_openshift_container_platform/installing-on-vsphere#doc-wrapper/["これ"] この情報を提供するマスターノードとワーカーノードのページ）-すべてのVMでdiskUUIDを有効にする必要があります。-マスター用に最低3ノード、ワーカー用に3ノードを作成します。-インストーラによって検出されたら、VMware vSphere統合トグルボタンをオンにします。
+
+====
+.ハブクラスタにAdvanced Cluster Managementをインストールします
+[%collapsible]
+====
+これは、ハブクラスタのAdvanced Cluster Management Operatorを使用してインストールします。手順を参照してください link:https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.7/html/install/installing#doc-wrapper["こちらをご覧ください"]。
+
+====
+.ハブクラスタに内部Red Hat Quayレジストリをインストールします。
+[%collapsible]
+====
+* Astraイメージをプッシュするには内部レジストリが必要です。Quay内部レジストリは、HubクラスタのOperatorを使用してインストールされます。
+* 手順を参照してください link:https://access.redhat.com/documentation/en-us/red_hat_quay/2.9/html-single/deploy_red_hat_quay_on_openshift/index#installing_red_hat_quay_on_openshift["こちらをご覧ください"]
+
+
+====
+.2つのOCPクラスタ（ソースとデスティネーション）を追加でインストール
+[%collapsible]
+====
+* 追加のクラスタは、ハブクラスタのACMを使用して展開できます。
+* 手順を参照してください link:https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.7/html/clusters/cluster_mce_overview#vsphere_prerequisites["こちらをご覧ください"]。
+
+
+====
+.NetApp ONTAP ストレージの設定
+[%collapsible]
+====
+* VMware環境のOCP VMに接続されたONTAP クラスタをインストールします。
+* SVMを作成
+* SVMのストレージにアクセスするようにNASデータLIFを設定します。
+
+
+====
+.OCPクラスタにNetApp Tridentをインストール
+[%collapsible]
+====
+* ハブ、ソース、デスティネーションの3つのクラスタすべてにNetApp Tridentをインストール
+* 手順を参照してください link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy-operator.html["こちらをご覧ください"]。
+* ONTAP-NAS用のストレージバックエンドを作成
+* ONTAP-NAS用のストレージクラスを作成
+* 手順を参照してください link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-postdeployment.html["こちらをご覧ください"]。
+
+
+====
+.NetApp Astra Control Centerをインストール
+[%collapsible]
+====
+* NetApp Astra Control Centerは、ハブクラスタでAstra Operatorを使用してインストールします。
+* 手順を参照してください link:https://docs.netapp.com/us-en/astra-control-center/get-started/acc_operatorhub_install.html["こちらをご覧ください"]。
+
+
+覚えておくべきポイント：*サポートサイトからNetApp Astra Control Centerのイメージをダウンロード*イメージを内部レジストリにプッシュします。*こちらの手順を参照してください。
+
+====
+.ソースクラスタにアプリケーションを導入します
+[%collapsible]
+====
+OpenShift GitOpsを使用してアプリケーションを導入します。（例：Postgres、Ghost）
+
+====
+.ソースクラスタとデスティネーションクラスタをAstra Control Centerに追加
+[%collapsible]
+====
+Astra Controlの管理にクラスタを追加したら、（Astra Control以外の）クラスタにアプリケーションをインストールし、Astra Controlの[Applications]ページに移動してアプリケーションとそのリソースを定義できます。を参照してください link:https://docs.netapp.com/us-en/astra-control-center/use/manage-apps.html["Astra Control Centerのアプリケーションの管理セクションを開始します"]。
+
+====
+次の手順では、Astra Control Centerを使用して、ソースクラスタからデスティネーションクラスタへのデータ保護とデータ移行を行います。
