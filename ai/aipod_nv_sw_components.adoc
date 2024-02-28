@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: ai/aipod_nv_sw_components.html 
 keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, NVIDIA AI Enterprise, NVIDIA BasePOD, NVIDIA DGX 
-summary: NVIDIA DGXシステムを搭載したNetApp AIポッド-ソフトウェアコンポーネント 
+summary: NVIDIA DGXシステムを搭載したNetApp AIPod -ソフトウェアコンポーネント 
 ---
-= NVIDIA DGXシステムを搭載したNetApp AIポッド-ソフトウェアコンポーネント
+= NVIDIA DGXシステムを搭載したNetApp AIPod -ソフトウェアコンポーネント
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -13,7 +13,7 @@ summary: NVIDIA DGXシステムを搭載したNetApp AIポッド-ソフトウェ
 :imagesdir: ./../media/
 
 
-link:aipod_nv_hw_components.html["以前：ONTAP AI -ハードウェアコンポーネント"]
+link:aipod_nv_hw_components.html["以前：NVIDIA DGXシステムを搭載したNetApp AIPod -ハードウェアコンポーネント"]
 
 
 
@@ -25,7 +25,7 @@ link:aipod_nv_hw_components.html["以前：ONTAP AI -ハードウェアコンポ
 
 NVIDIA Base Command &#8482;（図2）はすべてのDGX BasePODを強力にサポートし、NVIDIAソフトウェアイノベーションのメリットを最大限に活用できるようにします。エンタープライズクラスのオーケストレーションとクラスタ管理、コンピューティング、ストレージ、ネットワークのインフラを高速化するライブラリ、AIワークロード向けに最適化されたオペレーティングシステム（OS）など、実績のあるプラットフォームにより、投資のポテンシャルを最大限に引き出すことができます。
 
-image:oai_BaseCommand.png["エラー：グラフィックイメージがありません"]
+image:aipod_nv_BaseCommand.png["エラー：グラフィックイメージがありません"]
 
 
 
@@ -33,7 +33,7 @@ image:oai_BaseCommand.png["エラー：グラフィックイメージがあり�
 
 NVIDIA NGC™(図3)は、AIに関するさまざまな専門知識を持つデータサイエンティスト、開発者、研究者のニーズを満たすソフトウェアを提供します。NGCでホストされるソフトウェアは、一般的な脆弱性とエクスポージャー（CVE）、暗号鍵、秘密鍵の集合をスキャンします。複数のGPU、多くの場合はマルチノードに拡張できるようにテストおよび設計されているため、DGXシステムへの投資を最大限に活用できます。
 
-image:oai_ngc.png["エラー：グラフィックイメージがありません"]
+image:aipod_nv_ngc.png["エラー：グラフィックイメージがありません"]
 
 
 
@@ -53,28 +53,30 @@ NVIDIA AI Enterpriseは、AIの開発と導入向けに最適化されたAIと�
 
 
 
+==== データの高速化と保護
+
+ONTAP は、卓越したパフォーマンスとデータ保護を実現し、以下の方法でこれらの機能を拡張します。
+
+* パフォーマンスとレイテンシの低下：ONTAPは、NFS over RDMA、Parallel NFS（pNFS）、NFSセッショントランキングを使用するNVIDIA GPUDirect Storage（GDS）のサポートなど、可能な限り低いレイテンシで最高のスループットを提供します。
+* データ保護ONTAPは、組み込みのデータ保護機能と、すべてのプラットフォームを共通で管理できる業界最高レベルのランサムウェア対策保証を提供します。
+* NetApp Volume Encryption（NVE）：ONTAP は、オンボードと外部キー管理の両方をサポートし、ボリュームレベルでのネイティブな暗号化を実現します。
+* マルチテナンシーおよび多要素認証ONTAP を使用すると、最高レベルのセキュリティでインフラリソースを共有できます。
+
+
+
+
 ==== データ管理を簡易化
 
 データ管理は、AIアプリケーションの運用やAI / MLデータセットのトレーニングに適切なリソースを使用できるように、エンタープライズIT運用とデータサイエンティストにとって非常に重要です。以下に記載するネットアップテクノロジに関する追加情報 は、この検証の対象外ですが、導入環境によっては関連性がある場合もあります。
 
 ONTAP データ管理ソフトウェアには、運用を合理化および簡易化し、総運用コストを削減するための次の機能が含まれています。
 
+* スナップショットとクローンは、ML / DLワークフローのコラボレーション、並行した実験、強化されたデータガバナンスを可能にします。
+* SnapMirrorは、ハイブリッドクラウド環境やマルチサイト環境でのシームレスなデータ移動を可能にし、必要なときに必要な場所でデータを提供します。
 * インラインデータコンパクション、強化された重複排除：データコンパクションはストレージブロック内の無駄なスペースを削減し、重複排除は実効容量を大幅に増やします。この環境データはローカルに格納され、データはクラウドに階層化されます。
 * 最小、最大、アダプティブのQuality of Service（AQoS）。きめ細かいサービス品質（QoS）管理機能により、高度に共有された環境で重要なアプリケーションのパフォーマンスレベルを維持できます。
 * NetApp FabricPool の略。Amazon Web Services（AWS）、Azure、NetApp StorageGRID ストレージ解決策 など、パブリッククラウドとプライベートクラウドのストレージオプションへコールドデータを自動的に階層化します。FabricPool の詳細については、を参照してください https://www.netapp.com/pdf.html?item=/media/17239-tr4598pdf.pdf["TR-4598：『FabricPool best bests』"^]。
 * NetApp FlexCacheの略。ファイル配信を簡易化し、WANのレイテンシを低減し、WAN帯域幅のコストを削減するリモートボリュームキャッシュ機能を提供します。FlexCacheを使用すると、複数のサイトに分散した製品開発が可能になるだけでなく、リモートサイトから企業のデータセットにすばやくアクセスできるようになります。
-
-
-
-
-==== データの高速化と保護
-
-ONTAP は、卓越したパフォーマンスとデータ保護を実現し、以下の方法でこれらの機能を拡張します。
-
-* パフォーマンスとレイテンシの低下：ONTAPは、NFS over RDMAを使用したNVIDIA GPUDirect Storage（GDS）のサポートなど、可能な限り低いレイテンシで最高のスループットを提供します。
-* データ保護ONTAP には、組み込みのデータ保護機能が用意されており、すべてのプラットフォームを共通の管理機能で管理できます。
-* NetApp Volume Encryption（NVE）：ONTAP は、オンボードと外部キー管理の両方をサポートし、ボリュームレベルでのネイティブな暗号化を実現します。
-* マルチテナンシーおよび多要素認証ONTAP を使用すると、最高レベルのセキュリティでインフラリソースを共有できます。
 
 
 
@@ -107,4 +109,4 @@ NetApp DataOpsツールキットは、高性能なスケールアウトネット
 
 Astra Tridentは、Anthosを含むコンテナとKubernetesディストリビューション向けの、完全サポートされたオープンソースストレージオーケストレーションツールです。Tridentは、NetApp ONTAP を含むネットアップのストレージポートフォリオ全体と連携し、NFS接続とiSCSI接続もサポートします。Trident を使用すると、ストレージ管理者の手を煩わせることなく、エンドユーザがネットアップストレージシステムからストレージをプロビジョニングして管理できるため、 DevOps ワークフローが高速化されます。
 
-link:aipod_nv_architecture.html["次の記事：NVIDIA DGXシステムを搭載したNetApp AIポッド-アーキテクチャ"]
+link:aipod_nv_architecture.html["次の記事：NVIDIA DGXシステムを使用したNetApp AIPod -解決策アーキテクチャ"]
