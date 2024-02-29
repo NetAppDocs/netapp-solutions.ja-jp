@@ -173,7 +173,7 @@ image:sql-awsec2-image3.png["エラー：グラフィックイメージがあり
 
 
 ....
-Vol create -vserver svm001 -volume vol_awssqlprod01_data -aggregate aggr1 -size 800GB -state online -tiering-policy snapshot-only -percent-snapshot-space 0 -autosize-mode grow -snapshot-policy none -security-style ntfs -aggregate aggr1
+vol create -vserver svm001 -volume vol_awssqlprod01_data -aggregate aggr1 -size 800GB -state online -tiering-policy snapshot-only -percent-snapshot-space 0 -autosize-mode grow -snapshot-policy none -security-style ntfs
 volume modify -vserver svm001 -volume vol_awssqlprod01_data -fractional-reserve 0
 volume modify -vserver svm001 -volume vol_awssqlprod01_data -space-mgmt-try-first vol_grow
 volume snapshot autodelete modify -vserver svm001 -volume vol_awssqlprod01_data -delete-order oldest_first
@@ -209,7 +209,7 @@ igroup create -igroup igrp_ws2019sql1 -protocol iscsi -ostype windows -initiator
 
 
 ....
-lun create -path /vol/vol_awssqlprod01_data/lun_awssqlprod01_data -size 700GB -ostype windows_2008 -space-reserve enabled -space-allocation enabled lun create -path /vol/vol_awssqlprod01_log/lun_awssqlprod01_log -size 100GB -ostype windows_2008 -space-reserve enabled -space-allocation enabled
+lun create -path /vol/vol_awssqlprod01_data/lun_awssqlprod01_data -size 700GB -ostype windows_2008 -space-allocation enabled lun create -path /vol/vol_awssqlprod01_log/lun_awssqlprod01_log -size 100GB -ostype windows_2008 -space-allocation enabled
 ....
 image:sql-awsec2-image5.png["エラー：グラフィックイメージがありません"]
 
@@ -249,15 +249,15 @@ foreach ($TargetPortal in $TargetPortals) {New-IscsiTargetPortal -TargetPortalAd
 ....
 image:sql-awsec2-image10.png["エラー：グラフィックイメージがありません"]
 
-[+]
 *ベストプラクティス*
 
-[+]
-*最適なパフォーマンスを得るために、ターゲット・インターフェイスごとに5つのiSCSIセッションを構成します。
-*全体的なiSCSIパフォーマンスを最適化するためにラウンドロビンポリシーを設定します。
-* LUNをフォーマットするときは、パーティションの割り当て単位サイズが64Kに設定されていることを確認してください。
+* パフォーマンスを最適化するために、ターゲットインターフェイスごとに5つのiSCSIセッションを設定します。
+* 全体的なiSCSIパフォーマンスが最大になるようにラウンドロビンポリシーを設定します。
+* LUNをフォーマットするときは、パーティションの割り当て単位のサイズが64Kに設定されていることを確認します
++
+.. 次のPowerShellコマンドを実行して、iSCSIセッションが保持されていることを確認します。
 
-. 次のPowerShellコマンドを実行して、iSCSIセッションが保持されていることを確認します。
+
 
 
 ....
@@ -414,13 +414,16 @@ NOTE: SnapCenter は、ホストログディレクトリを使用してトラン
 
 * tempdbデータベースを含まないシステムデータベースバックアップ
 * 10%のLUNオーバーヘッド・スペースホスト・ログ・ディレクトリを専用のボリュームまたはLUNに配置しますホストログディレクトリのデータ量は、バックアップのサイズとバックアップを保持する日数によって異なります。
-
-
++
 image:sql-awsec2-image17.png["エラー：グラフィックイメージがありません"]
 
++
 LUNがすでにプロビジョニングされている場合は、ホストログディレクトリを表すマウントポイントを選択できます。
 
++
 image:sql-awsec2-image18.png["エラー：グラフィックイメージがありません"]
+
+
 
 ====
 これで、SQL Serverのバックアップ、リストア、クローニングの処理を実行する準備ができました。
@@ -437,31 +440,28 @@ image:sql-awsec2-image18.png["エラー：グラフィックイメージがあ�
 * Snapshotを最適化するためのバックアップ設定および管理するジョブの数には、リソースグループを使用します。
 +
 .. [*リソース]を選択し、左上のドロップダウン・メニューから[Microsoft SQL Server]を選択します。[*リソースを更新*]を選択します。
-
-
-
-
++
 image:sql-awsec2-image19.png["エラー：グラフィックイメージがありません"]
 
-. バックアップするデータベースを選択し、* Next *および（**）を選択してポリシーを追加します（作成していない場合）。新しいポリシーを作成するには、「*新しいSQL Serverバックアップポリシー」に従います。
-
-
+.. バックアップするデータベースを選択し、* Next *および（**）を選択してポリシーを追加します（作成していない場合）。新しいポリシーを作成するには、「*新しいSQL Serverバックアップポリシー」に従います。
++
 image:sql-awsec2-image20.png["エラー：グラフィックイメージがありません"]
 
-. 必要に応じて、検証サーバを選択します。このサーバは、フルバックアップの作成後にSnapCenter でDBCC CHECKDBを実行するサーバです。[次へ*]をクリックして通知を確認し、[*概要*]を選択します。確認したら、[完了]をクリックします。
-
-
+.. 必要に応じて、検証サーバを選択します。このサーバは、フルバックアップの作成後にSnapCenter でDBCC CHECKDBを実行するサーバです。[次へ*]をクリックして通知を確認し、[*概要*]を選択します。確認したら、[完了]をクリックします。
++
 image:sql-awsec2-image21.png["エラー：グラフィックイメージがありません"]
 
-. [今すぐバックアップする]をクリックして、バックアップをテストします。ポップアップ・ウィンドウで、*バックアップ*を選択します。
-
-
+.. [今すぐバックアップする]をクリックして、バックアップをテストします。ポップアップ・ウィンドウで、*バックアップ*を選択します。
++
 image:sql-awsec2-image22.png["エラー：グラフィックイメージがありません"]
 
-. バックアップが完了したことを確認するには、* Monitor *を選択します。
-
-
+.. バックアップが完了したことを確認するには、* Monitor *を選択します。
++
 image:sql-awsec2-image23.png["エラー：グラフィックイメージがありません"]
+
+
+
+
 
 *ベストプラクティス*
 
