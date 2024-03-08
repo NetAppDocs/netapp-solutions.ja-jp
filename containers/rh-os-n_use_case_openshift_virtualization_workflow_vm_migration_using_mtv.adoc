@@ -1,0 +1,232 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_migration_using_mtv.html 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+summary: NetApp ONTAP を使用した Red Hat OpenShift Virtualization 
+---
+= ワークフロー： NetApp ONTAP を使用した Red Hat OpenShift Virtualization
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== 仮想化向け移行ツールキットを使用したVMwareからOpenShiftによる仮想化へのVMの移行
+
+このセクションでは、仮想化向け移行ツールキット（MTV）を使用して、VMwareからOpenShift Containerプラットフォームで実行されるOpenShift仮想化に仮想マシンを移行し、Astra Tridentを使用してNetApp ONTAPストレージと統合する方法を説明します。
+
+次のビデオでは、永続的ストレージ用にONTAP-SANを使用して、VMwareからOpenShiftによる仮想化にRHEL VMを移行するデモを示します。
+
+.Red Hat MTVを使用したNetApp ONTAPストレージによるOpenShift仮想化へのVMの移行
+video::bac58645-dd75-4e92-b5fe-b12b015dc199[panopto,width=360]
+次の図は、VMwareからRed Hat OpenShift VirtualizationへのVMの移行の概要を示しています。
+
+image:rh-os-n_use_case_vm_migration_using_mtv.png[""]
+
+
+
+=== サンプル移行の前提条件
+
+
+
+=== ** VMware環境**
+
+* 次の構成のRHEL 9.3を使用するRHEL 9 VMをインストールしました。
++
+** CPU：2、メモリ：20 GB、ハードディスク：20 GB
+** ユーザクレデンシャル：rootユーザとadminユーザのクレデンシャル
+
+
+* VMの準備が完了したら、PostgreSQLサーバがインストールされました。
++
+** PostgreSQLサーバが起動され、起動時に起動できるようになりました
++
+[source, console]
+----
+systemctl start postgresql.service`
+systemctl enable postgresql.service
+The above command ensures that the server can start in the VM in OpenShift Virtualization after migration
+----
+** 2つのデータベース、1つのテーブル、および1つの行が追加されました。を参照してください link:https://access.redhat.com/documentation/fr-fr/red_hat_enterprise_linux/9/html/configuring_and_using_database_servers/installing-postgresql_using-postgresql["こちらをご覧ください"] RHELにPostgreSQLサーバをインストールし、データベースエントリとテーブルエントリを作成する手順については、を参照してください。
+
+
+
+
+
+NOTE: PostgreSQLサーバを起動し、起動時にサービスを開始できるようにしてください。
+
+
+
+=== ** OpenShiftクラスタ上**
+
+MTVをインストールする前に、次のインストールが完了しました。
+
+* OpenShiftクラスタ4.13.34
+* link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["Astra Trident 23.10"]
+* クラスタノードのマルチパスがiSCSIに対して有効になっている（ONTAP-SANストレージクラス用）。クラスタ内の各ノードでiSCSIを有効にするデーモンセットを作成するには、提供されているYAMLを参照してください。
+* iSCSIを使用するONTAP SAN向けのTridentバックエンドおよびストレージクラス。Tridentバックエンドとストレージクラス用に提供されているYAMLファイルを参照してください。
+* link:https://docs.openshift.com/container-platform/4.13/virt/install/installing-virt-web.html["OpenShift 仮想化"]
+
+
+OpenShiftクラスタノードにiSCSIとマルチパスをインストールするには、以下のYAMLファイルを使用します。
+**クラスタノードをiSCSI用に準備しています**
+
+[source, yaml]
+----
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  namespace: trident
+  name: trident-iscsi-init
+  labels:
+    name: trident-iscsi-init
+spec:
+  selector:
+    matchLabels:
+      name: trident-iscsi-init
+  template:
+    metadata:
+      labels:
+        name: trident-iscsi-init
+    spec:
+      hostNetwork: true
+      serviceAccount: trident-node-linux
+      initContainers:
+      - name: init-node
+        command:
+          - nsenter
+          - --mount=/proc/1/ns/mnt
+          - --
+          - sh
+          - -c
+        args: ["$(STARTUP_SCRIPT)"]
+        image: alpine:3.7
+        env:
+        - name: STARTUP_SCRIPT
+          value: |
+            #! /bin/bash
+            sudo yum install -y lsscsi iscsi-initiator-utils sg3_utils device-mapper-multipath
+            rpm -q iscsi-initiator-utils
+            sudo sed -i 's/^\(node.session.scan\).*/\1 = manual/' /etc/iscsi/iscsid.conf
+            cat /etc/iscsi/initiatorname.iscsi
+            sudo mpathconf --enable --with_multipathd y --find_multipaths n
+            sudo systemctl enable --now iscsid multipathd
+            sudo systemctl enable --now iscsi
+        securityContext:
+          privileged: true
+      hostPID: true
+      containers:
+      - name: wait
+        image: k8s.gcr.io/pause:3.1
+      hostPID: true
+      hostNetwork: true
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/master
+  updateStrategy:
+    type: RollingUpdate
+----
+次のYAMLファイルを使用して、ONTAP SANストレージを使用するためのTridentバックエンド構成を作成
+** iSCSI向けTridentバックエンド**
+
+[source, yaml]
+----
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backend-tbc-ontap-san-secret
+type: Opaque
+stringData:
+  username: <username>
+  password: <password>
+---
+apiVersion: trident.netapp.io/v1
+kind: TridentBackendConfig
+metadata:
+  name: ontap-san
+spec:
+  version: 1
+  storageDriverName: ontap-san
+  managementLIF: <management LIF>
+  backendName: ontap-san
+  svm: <SVM name>
+  credentials:
+    name: backend-tbc-ontap-san-secret
+----
+次のYAMLファイルを使用して、ONTAP SANストレージを使用するためのTridentストレージクラス構成を作成
+** iSCSI用のTridentストレージクラス**
+
+[source, yaml]
+----
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: ontap-san
+provisioner: csi.trident.netapp.io
+parameters:
+  backendType: "ontap-san"
+  media: "ssd"
+  provisioningType: "thin"
+  snapshots: "true"
+allowVolumeExpansion: true
+----
+
+
+=== * MTVのインストール*
+
+これで、Migration Toolkit for Virtualization（MTV）をインストールできます。付属の説明書を参照してください。 link:https://access.redhat.com/documentation/en-us/migration_toolkit_for_virtualization/2.5/html/installing_and_using_the_migration_toolkit_for_virtualization/installing-the-operator["こちらをご覧ください"] を参照してください。
+
+Migration Toolkit for Virtualization（MTV）ユーザーインターフェイスは、OpenShift Webコンソールに統合されています。
+次を参照できます。 link:https://access.redhat.com/documentation/en-us/migration_toolkit_for_virtualization/2.5/html/installing_and_using_the_migration_toolkit_for_virtualization/migrating-vms-web-console#mtv-ui_mtv["こちらをご覧ください"] さまざまなタスクのユーザーインターフェイスの使用を開始します。
+
+**ソースプロバイダの作成**
+
+RHEL VMをVMwareからOpenShift Virtualizationに移行するには、まずVMwareのソースプロバイダを作成する必要があります。手順を参照してください link:https://access.redhat.com/documentation/en-us/migration_toolkit_for_virtualization/2.5/html/installing_and_using_the_migration_toolkit_for_virtualization/migrating-vms-web-console#adding-providers["こちらをご覧ください"] ソースプロバイダを作成します。
+
+VMwareソースプロバイダを作成するには、次のものが必要です。
+
+* vCenter URL
+* vCenterクレデンシャル
+* vCenter Serverサムプリント
+* リポジトリ内のVDDKイメージ
+
+
+ソースプロバイダの作成例：
+
+image:rh-os-n_use_case_vm_migration_source_provider.png[""]
+
+
+NOTE: Migration Toolkit for Virtualization（MTV）では、VMware Virtual Disk Development Kit（VDDK）SDKを使用して、VMware vSphereからの仮想ディスクの転送を高速化します。そのため、VDDKイメージはオプションですが作成することを強くお勧めします。
+この機能を使用するには、VMware Virtual Disk Development Kit（VDDK）をダウンロードし、VDDKイメージをビルドして、VDDKイメージをイメージレジストリにプッシュします。
+
+表示される指示に従います。 link:https://access.redhat.com/documentation/en-us/migration_toolkit_for_virtualization/2.5/html/installing_and_using_the_migration_toolkit_for_virtualization/prerequisites#creating-vddk-image_mtv["こちらをご覧ください"] VDDKイメージを作成して、OpenShiftクラスタからアクセス可能なレジストリにプッシュします。
+
+**送信先プロバイダの作成**
+
+OpenShift仮想化プロバイダがソースプロバイダであるため、ホストクラスタが自動的に追加されます。
+
+**移行計画の作成**
+
+表示される指示に従います。 link:https://access.redhat.com/documentation/en-us/migration_toolkit_for_virtualization/2.5/html/installing_and_using_the_migration_toolkit_for_virtualization/migrating-vms-web-console#creating-migration-plan_mtv["こちらをご覧ください"] をクリックして移行計画を作成します。
+
+まだ計画を作成していない場合は、計画の作成時に次のものを作成する必要があります。
+
+* ソースネットワークをターゲットネットワークにマッピングするネットワークマッピング。
+* ソースデータストアをターゲットストレージクラスにマッピングするストレージマッピング。このためには、ONTAP-SANストレージクラスを選択できます。
+移行計画が作成されると、計画のステータスが*準備完了*と表示され、計画を*開始*できるようになります。
+
+
+image:rh-os-n_use_case_vm_migration_using_mtv_plan_ready.png[""]
+
+[Start]*をクリックすると、VMの移行が完了するまでの一連の手順が実行されます。
+
+image:rh-os-n_use_case_vm_migration_using_mtv_plan_complete.png[""]
+
+すべての手順が完了したら、左側のナビゲーションメニューの*[仮想化]*の*[仮想マシン]*をクリックすると、移行されたVMが表示されます。
+仮想マシンへのアクセス手順が記載されています。 link:https://docs.openshift.com/container-platform/4.13/virt/virtual_machines/virt-accessing-vm-consoles.html["こちらをご覧ください"]。
+
+仮想マシンにログインして、posgresqlデータベースの内容を検証できます。データベース、テーブル、およびテーブル内のエントリは、ソースVMで作成されたものと同じである必要があります。
