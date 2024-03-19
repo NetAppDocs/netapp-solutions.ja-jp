@@ -24,13 +24,13 @@ summary:
 
 === はじめに
 
-約20年にわたり、NetApp ONTAPソフトウェアはVMware vSphere環境向けの優れたストレージ解決策としての地位を確立し、管理を簡易化してコストを削減する革新的な機能を継続的に導入してきました。NetAppは、幅広いプロトコルと接続のサポートを提供するNASおよびユニファイドストレージプラットフォームの開発において、定評のあるリーダーです。この市場セグメントに加えて、ブロックベースのSANストレージプラットフォームがもたらす簡易性とコスト面のメリットを、1つの業務で十分に活用できることを望んでいるお客様も多数いらっしゃいます。ネットアップのオールフラッシュSANアレイ（AFF ASA）は、あらゆるアプリケーションとクラウドプロバイダに対応した、大規模な簡易性、一貫した管理機能と自動化機能を提供します。
+約20年にわたり、NetApp ONTAPソフトウェアはVMware vSphere環境向けの優れたストレージ解決策としての地位を確立し、管理を簡易化してコストを削減する革新的な機能を継続的に導入してきました。NetAppは、幅広いプロトコルと接続のサポートを提供するNASおよびユニファイドストレージプラットフォームの開発において、定評のあるリーダーです。この市場セグメントに加えて、ブロックベースのSANストレージプラットフォームがもたらす簡易性とコスト面のメリットを、1つの業務で十分に活用できることを望んでいるお客様も多数いらっしゃいます。ネットアップのオールフラッシュSANアレイ（ASA）は、あらゆるアプリケーションとクラウドプロバイダに対応した、大規模な簡易性、一貫した管理機能と自動化機能を提供します。
 
 
 
 === 本書の目的
 
-このドキュメントでは、NetApp AFF ASAストレージシステムをVMware vSphereで使用する独自の価値と、NetAppオールフラッシュSANアレイのテクノロジの概要について説明します。さらに、VMwareとONTAPのデータセンターのストレージプロビジョニング、データ保護、監視を簡易化するための追加ツールについても説明します。
+このドキュメントでは、NetApp ASAストレージシステムをVMware vSphereで使用する独自の価値と、NetAppオールフラッシュSANアレイのテクノロジの概要について説明します。さらに、VMwareとONTAPのデータセンターのストレージプロビジョニング、データ保護、監視を簡易化するための追加ツールについても説明します。
 
 本ドキュメントの導入に関するセクションでは、ONTAP Tools for VMware vSphereを使用したVVOLデータストアの作成、およびNetApp Cloud Insightsを使用した最新データセンターのオブザーバビリティについて説明します。
 
@@ -68,13 +68,13 @@ vSphere 8.0では、次のような新しい機能強化が導入されていま
 
 *統合されたKubernetes Runtime *- vSphere 8.0にはTanzuが含まれているため、コンテナオーケストレーションが簡素化されます。
 
-詳細については、ブログを参照してください。 https://core.vmware.com/resource/whats-new-vsphere-8/["vSphere 8の新機能"]
+詳細については、ブログを参照してください。 https://core.vmware.com/resource/whats-new-vsphere-8/["vSphere 8の新機能"]。
 
 
 
 ===== VMware仮想ボリューム（VVol）
 
-VVOLは、vSphereクラスタのストレージ管理に対する革新的な新しいアプローチです。管理の簡易化と、ストレージリソースのきめ細かな制御を実現します。VVOLデータストアでは、各仮想ディスクがVVOLになり、ストレージシステムのネイティブLUNオブジェクトになります。ストレージシステムとvSphereの統合は、VMware APIのfor Storage Awareness（VASA）プロバイダを通じて行われ、ストレージシステムはVMデータを認識して適切に管理できます。vCenter Clientで定義されたストレージポリシーは、ストレージリソースの割り当てと管理に使用されます。
+VVOLは、vSphereクラスタのストレージ管理に対する革新的な新しいアプローチです。管理の簡易化と、ストレージリソースのきめ細かな制御を実現します。VVOLデータストアでは、各仮想ディスクがVVOLになり、ストレージシステムのネイティブLUNオブジェクトになります。ストレージシステムとvSphereの統合は、* VMware APIのfor Storage Awareness（VASA）*プロバイダを通じて行われ、ストレージシステムはVMデータを認識して適切に管理できます。vCenter Clientで定義されたストレージポリシーは、ストレージリソースの割り当てと管理に使用されます。
 
 VVOLは、ストレージ管理を簡易化したアプローチであり、ユースケースによっては推奨されます。
 
@@ -88,6 +88,7 @@ vSphere 8.0リリースでは、NVMe-TCPおよびNVMe-FCでVVOLが完全にサ�
 
 vSphereでのNVMeの使用の詳細については、を参照してください。 https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-storage/GUID-2A80F528-5B7D-4BE9-8EF6-52E2301DC423.html["VMware NVMe Storageについて"] を参照してください。
 
+'''
 
 
 === NetApp ONTAP
@@ -170,6 +171,7 @@ ONTAP Oneライセンスには、次の機能がすべて含まれています�
 
 * S3 SnapMirror *–ONTAP S3オブジェクトをS3互換の別のターゲットにレプリケートできます。
 
+'''
 
 
 === NetAppオールフラッシュSANアレイ
@@ -250,6 +252,7 @@ NetAppでは、NetAppオールフラッシュSANアレイ独自のストレー�
 
 を参照してください https://www.netapp.com/data-storage/all-flash-san-storage-array/["NetApp ASA製品ポータル"] を参照してください。
 
+'''
 
 
 === VMware vSphere向けNetAppプラグイン
@@ -271,7 +274,7 @@ ONTAPツールには、次のコンポーネントが含まれています。
 
 * Storage Replication Adapter（SRA）：* VMware Site Recovery Manager（SRM）で有効にして使用すると、障害発生時にvCenter Serverのデータストアと仮想マシンを簡単にリカバリできるため、ディザスタリカバリ用に保護対象サイトとリカバリサイトを設定できます。
 
-NetApp ONTAP Tools for VMwareの詳細については、以下を参照してください。 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html[]。
+NetApp ONTAP Tools for VMwareの詳細については、を参照してください。 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["VMware vSphere ドキュメント用の ONTAP ツール"]。
 
 
 
@@ -297,6 +300,7 @@ BlueXPとの統合により、データのコピーをクラウド上のオブ�
 
 BlueXPを使用した3-2-1バックアップ戦略の詳細については、 https://community.netapp.com/t5/Tech-ONTAP-Blogs/3-2-1-Data-Protection-for-VMware-with-SnapCenter-Plug-in-and-BlueXP-backup-and/ba-p/446180["3-2-1 SnapCenterプラグインとBlueXPによるVMのバックアップとリカバリによるVMwareのデータ保護"]。
 
+'''
 
 
 === NetApp Cloud Insights の略
