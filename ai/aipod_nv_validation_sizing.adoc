@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: ai/aipod_nv_validation_sizing.html 
 keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, NVIDIA AI Enterprise, NVIDIA BasePOD, NVIDIA DGX 
-summary: NVIDIA DGXシステムを搭載したNetApp AIPod -終わりに 
+summary: NetApp AIPodとNVIDIA DGXシステム-解決策の検証とサイジングに関するガイダンス 
 ---
 = NetApp AIPodとNVIDIA DGXシステム-解決策の検証とサイジングに関するガイダンス
 :hardbreaks:
@@ -41,8 +41,9 @@ link:aipod_nv_architecture.html["以前：NVIDIA DGXシステムを使用したN
 
 == ストレージシステムのサイジングに関するガイダンス
 
-上記のテストに基づき、NVDIIAは、テスト済みのストレージ構成で8台のDGX H100システムのクラスタを容易にサポートできることを認定しました。ストレージパフォーマンス要件の高い大規模な環境では、AFFシステムをNetApp ONTAPクラスタに追加し、1つのクラスタに最大12のHAペア（24ノード）を追加できます。この解決策で説明するFlexGroupテクノロジを使用すると、24ノードクラスタで40PBを超える容量と最大300Gbpsのスループットを単一のネームスペースで実現できます。AFF A400、A250、C800などの他のNetAppストレージシステムは、低パフォーマンスまたは大容量のオプションを提供し、小規模な導入に低コストで対応します。ONTAP 9は混在モデルのクラスタをサポートしているため、最初は小規模な設置面積から始めて、容量やパフォーマンスの要件が増大したときに、クラスタにストレージシステムを追加したり、大容量のストレージシステムを追加したりすることができます。次の表に、各AFFモデルでサポートされるA100およびH100 GPUの概算数を示します。
+NetAppはDGX BasePOD認定を取得しており、テスト済みの2つのA900 HAペアは、8台のDGX H100システムのクラスタを簡単にサポートできます。ストレージパフォーマンス要件の高い大規模な環境では、AFFシステムをNetApp ONTAPクラスタに追加し、1つのクラスタに最大12のHAペア（24ノード）を追加できます。この解決策で説明するFlexGroupテクノロジを使用すると、24ノードクラスタで40PBを超える容量と最大300Gbpsのスループットを単一のネームスペースで実現できます。AFF A400、A250、C800などの他のNetAppストレージシステムは、低パフォーマンスまたは大容量のオプションを提供し、小規模な導入に低コストで対応します。ONTAP 9は混在モデルのクラスタをサポートしているため、最初は小規模な設置面積から始めて、容量やパフォーマンスの要件が増大したときに、クラスタにストレージシステムを追加したり、大容量のストレージシステムを追加したりすることができます。次の表に、各AFFモデルでサポートされるA100およびH100 GPUの概算数を示します。
 
-image:aipod_nv_sizing.png["エラー：グラフィックイメージがありません"]
+_ NetAppストレージシステムのサイジングガイダンス_
+image:aipod_nv_sizing_new.png["エラー：グラフィックイメージがありません"]
 
 link:aipod_nv_conclusion_add_info.html["次の記事：NVIDIA DGXシステムを使用したNetApp AIPod -まとめと追加情報"]
