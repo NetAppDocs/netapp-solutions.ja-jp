@@ -1,0 +1,44 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_openshift_virtualization_dataprotection_restore.html 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization, OADP operator, Openshift Data Protection Application operator, velero 
+summary: NetApp ONTAP を使用した Red Hat OpenShift Virtualization 
+---
+= バックアップからのVMのリストア
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== 前提条件
+
+バックアップからリストアする場合は、仮想マシンが存在していたネームスペースが誤って削除されたと仮定します。
+
+
+
+== リストアの実行手順
+
+作成したバックアップからリストアするには、Restore Custom Resource（CR）を作成する必要があります。名前とリストア元のバックアップの名前を指定し、restorePVをtrueに設定する必要があります。
+追加のパラメータは、 link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/restoring-applications.html["ドキュメント"]。[作成]ボタンをクリックします。
+
+image::redhat_openshift_OADP_restore_image1.jpg[リストアCRの作成]
+
+....
+apiVersion: velero.io/v1
+kind: Restore
+metadata:
+  name: restore1
+  namespace: openshift-adp
+spec:
+  backupName: backup1
+  restorePVs: true
+....
+フェーズが完了と表示されると、仮想マシンがリストアされたことがわかります。
+をスナップショットが作成されたときの状態に変更します。（VMの実行中にバックアップが作成された場合、バックアップからVMをリストアすると、リストアされたVMが起動して実行状態になります）。
+
+image::redhat_openshift_OADP_restore_image2.jpg[リストアCRが作成されました]

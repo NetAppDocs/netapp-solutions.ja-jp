@@ -1,0 +1,77 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_openshift_virtualization_dataprotection_backup.html 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization, OADP operator, Openshift Data Protection Application operator, velero 
+summary: NetApp ONTAP を使用した Red Hat OpenShift Virtualization 
+---
+= OpenShift仮想化でのVMのオンデマンドバックアップの作成
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== VMのバックアップの作成手順
+
+VM全体（VMメタデータとVMディスク）のオンデマンドバックアップを作成するには、[** Backup*]タブをクリックします。これにより、バックアップカスタムリソース（CR）が作成されます。バックアップCRを作成するためのサンプルYAMLが用意されています。このYAMLを使用すると、指定したネームスペース内のVMとそのディスクがバックアップされます。追加のパラメータは、 link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/oadp-creating-backup-cr.html["ドキュメント"]。
+
+ディスクをバックアップする永続ボリュームのスナップショットがCSIによって作成され、YAMLで提供されるオブジェクトストレージの場所に移動されます。バックアップは、ttlで指定された30日間システムに残ります。
+
+....
+apiVersion: velero.io/v1
+kind: Backup
+metadata:
+  name: backup1
+  namespace: openshift-adp
+spec:
+  includedNamespaces:
+  - virtual-machines-demo
+  snapshotVolumes: true
+  storageLocation: velero-demo-1
+  ttl: 720h0m0s
+....
+バックアップが完了すると、[Phase]に[Completed]と表示されます。
+
+image::redhat_openshift_OADP_backup_image1.jpg[バックアップの完了]
+
+S3ブラウザアプリケーションを使用して、オブジェクトストレージ内のバックアップを確認できます。バックアップのパスは、設定されたバケット内でプレフィックス名（velero/demobackup）で表示されます。バックアップの内容（ボリュームSnapshot、ログ、仮想マシンのその他のメタデータなど）を確認できます。
+
+image::redhat_openshift_OADP_backup_image2.jpg[S3のバックアップオブジェクト]
+
+
+
+== OpenShift仮想化でのVMのスケジュールバックアップの作成
+
+スケジュールに基づいてバックアップを作成するには、スケジュールカスタムリソースを作成する必要があります。
+スケジュールは、単にバックアップを作成する時刻を指定できるcron式です。スケジュールCRを作成するためのサンプルYAML。
+
+....
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: <schedule>
+  namespace: openshift-adp
+spec:
+  schedule: 0 7 * * *
+  template:
+    hooks: {}
+    includedNamespaces:
+    - <namespace>
+    storageLocation: velero-demo-1
+    defaultVolumesToFsBackup: true
+    ttl: 720h0m0s
+....
+cron式0 7 ***は、バックアップが毎日7時に作成されることを意味します。
+バックアップに含めるネームスペースとバックアップの格納場所も指定されます。そのため、バックアップCRの代わりに、スケジュールCRを使用して、指定した時間と頻度でバックアップARを作成します。
+
+作成したスケジュールは有効になります。
+
+image::redhat_openshift_OADP_backup_image3.jpg[スケジュールの作成]
+
+バックアップはこのスケジュールに従って作成され、[Backup]タブで確認できます。
+
+image::redhat_openshift_OADP_backup_image4.jpg[スケジュールの作成]
