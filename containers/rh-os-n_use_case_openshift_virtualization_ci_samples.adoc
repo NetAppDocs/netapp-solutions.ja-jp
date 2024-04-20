@@ -1,0 +1,61 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_openshift_virtualization_ci_samples.html 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization, cloud Insights 
+summary: Red Hat OpenShift仮想化でのVMに対するCloud Insightsを使用した監視 
+---
+= Red Hat OpenShift仮想化でのVMの監視機能の例
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== **イベントに基づく監視とアラートの作成**
+
+ここでは、OpenShift VirtualizationでVMを含むネームスペースがイベントに基づいて監視される例を示します。この例では、クラスタ内の指定されたネームスペースの** logs.kubernetes**.eventに基づいてモニタが作成されます。
+
+image::redhat_openshift_ci_samples_image1.jpg[Cloud Insightsサンプル]
+
+このクエリは、ネームスペース内の仮想マシンのすべてのイベントを提供します。（ネームスペースに仮想マシンが1つしかありません）。高度なクエリを作成して、理由が「failed」または「FailedMount」のイベントに基づいてフィルタリングすることもできます。これらのイベントは通常、PVの作成時またはポッドへのPVのマウント時に問題が存在し、永続的プロビジョニングツールを作成するための動的プロビジョニングツールで問題を示す場合に作成されます。 VMのボリューム。
+上記のようにアラートモニタを作成するときに、受信者への通知を設定することもできます。エラーの解決に役立つ対処方法や追加情報を指定することもできます。上記の例では、追加情報がTridentバックエンド構成とストレージクラスの定義を調べて問題を解決できます。
+
+
+
+== **分析の変更**
+
+Change Analyticsを使用すると、クラスタの状態で何が変更されたかを確認できます。これには、変更を行ったユーザーも含まれます。これは、問題のトラブルシューティングに役立ちます。
+
+image::redhat_openshift_ci_samples_image2.jpg[Cloud Insightsサンプル]
+
+上記の例では、OpenShift仮想化VMを含むネームスペースのOpenShiftクラスタで変更分析が構成されています。ダッシュボードには、タイムラインに対する変更が表示されます。変更内容をドリルダウンして確認し、[すべての変更の相違]をクリックしてマニフェストの相違を確認できます。マニフェストから、永続ディスクの新しいバックアップが作成されたことを確認できます。
+
+image::redhat_openshift_ci_samples_image3.jpg[Cloud Insightsサンプル]
+
+image::redhat_openshift_ci_samples_image4.jpg[Cloud Insightsサンプル]
+
+
+
+== **バックエンドストレージマッピング**
+
+Cloud Insightsを使用すると、VMディスクのバックエンドストレージとPVCに関するいくつかの統計を簡単に確認できます。
+
+image::redhat_openshift_ci_samples_image5.jpg[Cloud Insightsサンプル]
+
+[Backend]列の下のリンクをクリックすると、バックエンドONTAPストレージからデータが直接取得されます。
+
+image::redhat_openshift_ci_samples_image6.jpg[Cloud Insightsサンプル]
+
+すべてのポッドとストレージのマッピングを確認するもう1つの方法は、[Explore]の[Observability]メニューで[All Metrics]クエリを作成することです。
+
+image::redhat_openshift_ci_samples_image7.jpg[Cloud Insightsサンプル]
+
+いずれかのリンクをクリックすると、ONTAPストレージに対応する詳細情報が表示されます。たとえば、storageVirtualMachine列でSVM名をクリックすると、SVMに関する詳細がONTAPから取得されます。内部ボリューム名をクリックすると、そのボリュームに関する詳細がONTAPに表示されます。
+
+image::redhat_openshift_ci_samples_image8.jpg[Cloud Insightsサンプル]
+
+image::redhat_openshift_ci_samples_image9.jpg[Cloud Insightsサンプル]

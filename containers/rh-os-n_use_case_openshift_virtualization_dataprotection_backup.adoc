@@ -36,8 +36,7 @@ spec:
   ttl: 720h0m0s
 ....
 バックアップが完了すると、[Phase]に[Completed]と表示されます。
-
-image::redhat_openshift_OADP_backup_image1.jpg[バックアップの完了]
+画像:: redhat_openshift_OADP_backup_image1.jpg[Backup完了]
 
 S3ブラウザアプリケーションを使用して、オブジェクトストレージ内のバックアップを確認できます。バックアップのパスは、設定されたバケット内でプレフィックス名（velero/demobackup）で表示されます。バックアップの内容（ボリュームSnapshot、ログ、仮想マシンのその他のメタデータなど）を確認できます。
 
@@ -51,7 +50,6 @@ image::redhat_openshift_OADP_backup_image2.jpg[S3のバックアップオブジ�
 == OpenShift VirtualizationでのVMのスケジュールバックアップの作成
 
 スケジュールに従ってバックアップを作成するには、スケジュールCRを作成する必要があります。
-
 スケジュールは、単にバックアップを作成する時刻を指定できるcron式です。スケジュールCRを作成するためのサンプルYAML。
 
 ....
