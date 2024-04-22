@@ -36,7 +36,8 @@ spec:
   ttl: 720h0m0s
 ....
 バックアップが完了すると、[Phase]に[Completed]と表示されます。
-画像:: redhat_openshift_OADP_backup_image1.jpg[Backup完了]
+
+image::redhat_openshift_OADP_backup_image1.jpg[バックアップの完了]
 
 S3ブラウザアプリケーションを使用して、オブジェクトストレージ内のバックアップを確認できます。バックアップのパスは、設定されたバケット内でプレフィックス名（velero/demobackup）で表示されます。バックアップの内容（ボリュームSnapshot、ログ、仮想マシンのその他のメタデータなど）を確認できます。
 
@@ -72,7 +73,9 @@ cron式0 7 ***は、バックアップが毎日7時に作成されることを�
 バックアップに含めるネームスペースとバックアップの格納場所も指定されます。そのため、バックアップCRではなく、スケジュールCRを使用して、指定した時刻と頻度でバックアップを作成します。
 
 作成したスケジュールは有効になります。
-画像:: redhat_openshift_OADP_backup_image3.jpg[Schedule作成済み]
+
+image::redhat_openshift_OADP_backup_image3.jpg[スケジュールの作成]
 
 バックアップはこのスケジュールに従って作成され、[Backup]タブで確認できます。
-画像:: redhat_openshift_OADP_backup_image4.jpg[Schedule作成済み]
+
+image::redhat_openshift_OADP_backup_image4.jpg[スケジュールの作成]
