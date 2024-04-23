@@ -13,8 +13,6 @@ summary: NVIDIA DGXシステムを搭載したNetApp AIポッド-アーキテク
 :imagesdir: ./../media/
 
 
-link:aipod_nv_sw_components.html["以前：ONTAP AI -ソフトウェアコンポーネント"]
-
 
 
 == DGX H100システムを搭載したNetApp AIポッド
@@ -62,5 +60,3 @@ image:aipod_nv_A900logical.png["エラー：グラフィックイメージがあ
 このリファレンスアーキテクチャには、管理プレーン用に5台のCPUベースのサーバも含まれています。このうちの2つのシステムは、クラスタの導入と管理のためのNVIDIA Base Command Managerのヘッドノードとして使用されます。他の3つのシステムは、ジョブのスケジューリングにSlurmを利用する導入環境向けに、Kubernetesマスターノードやログインノードなどの追加のクラスタサービスを提供するために使用されます。Kubernetesを活用した導入では、NetApp Astra Trident CSIドライバを活用して、AFF A900ストレージシステム上の管理ワークロードとAIワークロードの両方に永続的ストレージを使用した自動プロビジョニングとデータサービスを提供できます。
 
 各サーバは、クラスタの導入と管理を可能にするためにIBスイッチとイーサネットスイッチの両方に物理的に接続されます。また、前述したクラスタ管理アーティファクトの保存用に、管理SVMを介したストレージシステムへのNFSマウントが設定されます。
-
-link:aipod_nv_validation_sizing.html["次の記事：NVIDIA DGXシステムを使用したNetApp AIPod -解決策の検証とサイジングに関するガイダンス"]
