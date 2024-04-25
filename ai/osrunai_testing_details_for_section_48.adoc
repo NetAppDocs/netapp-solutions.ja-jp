@@ -1,0 +1,104 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_testing_details_for_section_48.html 
+keywords:  
+summary:  
+---
+= セクション 4.8 のテストの詳細
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+ここでは、のテストの詳細について説明します link:osrunai_achieving_high_cluster_utilization_with_over-uota_gpu_allocation.html["オーバークォータの GPU 割り当てによる高いクラスタ利用率の達成"]。
+
+次の順序でジョブを送信します。
+
+|===
+| プロジェクト | イメージ（ Image ） | GPU の数 | 合計 | コメント（ Comment ） 
+
+
+| チーム A | Jupyter | 1. | 1/4 | – 
+
+
+| チーム A | ネットアップ | 1. | 2/4 | – 
+
+
+| チーム A | 実行： AI | 2. | 4 月 4 日 | すべてのクォータを使用しています 
+
+
+| チーム - b | 実行： AI | 0.6 | 0.6/2 | フラクショナル GPU 
+
+
+| チーム - b | 実行： AI | 0.4 | 1/2 | フラクショナル GPU 
+
+
+| チーム - b | ネットアップ | 1. | 2/2. | – 
+
+
+| チーム - b | ネットアップ | 2. | 4 月 2 日 | クォータに 2 つ 
+
+
+| チーム -c | 実行： AI | 0.5 | 0.5/2 | フラクショナル GPU 
+
+
+| チーム -c | 実行： AI | 0.3 | 0.8/2. | フラクショナル GPU 
+
+
+| チーム -c | 実行： AI | 0.2 | 1/2 | フラクショナル GPU 
+
+
+| チーム -c | ネットアップ | 2. | 3/2 | クォータに 1 つ 
+
+
+| チーム -c | ネットアップ | 1. | 4 月 2 日 | クォータに 2 つ 
+
+
+| チーム -d | ネットアップ | 4. | 4/8 | クォータの半分を使用します 
+|===
+コマンドの構造：
+
+....
+$ runai submit <job-name> -p <project-name> -g <#GPUs> -i <image-name>
+....
+テストで使用する実際のコマンドシーケンス：
+
+....
+$ runai submit a-1-1-jupyter -i jupyter/base-notebook -g 1 \
+  --interactive --service-type=ingress --port 8888 \
+  --args="--NotebookApp.base_url=team-a-test-ingress" --command=start-notebook.sh -p team-a
+$ runai submit a-1-g -i gcr.io/run-ai-demo/quickstart -g 1 -p team-a
+$ runai submit a-2-gg -i gcr.io/run-ai-demo/quickstart -g 2 -p team-a
+$ runai submit b-1-g06 -i gcr.io/run-ai-demo/quickstart -g 0.6 --interactive -p team-b
+$ runai submit b-2-g04 -i gcr.io/run-ai-demo/quickstart -g 0.4 --interactive -p team-b
+$ runai submit b-3-g -i gcr.io/run-ai-demo/quickstart -g 1 -p team-b
+$ runai submit b-4-gg -i gcr.io/run-ai-demo/quickstart -g 2 -p team-b
+$ runai submit c-1-g05 -i gcr.io/run-ai-demo/quickstart -g 0.5 --interactive -p team-c
+$ runai submit c-2-g03 -i gcr.io/run-ai-demo/quickstart -g 0.3 --interactive -p team-c
+$ runai submit c-3-g02 -i gcr.io/run-ai-demo/quickstart -g 0.2 --interactive -p team-c
+$ runai submit c-4-gg -i gcr.io/run-ai-demo/quickstart -g 2 -p team-c
+$ runai submit c-5-g -i gcr.io/run-ai-demo/quickstart -g 1 -p team-c
+$ runai submit d-1-gggg -i gcr.io/run-ai-demo/quickstart -g 4 -p team-d
+....
+この時点で、次の状態になります。
+
+|===
+| プロジェクト | GPU が割り当てられました | ワークロードキュー 
+
+
+| チーム A | 4/4 （ソフトクォータ / 実際の割り当て） | なし 
+
+
+| チーム - b | 4 月 2 日 | なし 
+
+
+| チーム -c | 4 月 2 日 | なし 
+
+
+| チーム -d | 4/8 | なし 
+|===
+を参照してください link:osrunai_achieving_high_cluster_utilization_with_over-uota_gpu_allocation.html["「 Achieving High Cluster Utilization With over-uota 」 GPU 割り当て"] 進行中のテストシナリオについてのディスカッションにご参加ください。
