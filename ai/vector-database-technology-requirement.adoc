@@ -1,0 +1,69 @@
+---
+sidebar: sidebar 
+permalink: ai/vector-database-technology-requirement.html 
+keywords: vector database 
+summary: 技術要件ベクトルデータベース解決策for NetApp 
+---
+= 技術要件
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== 技術要件
+
+以下に示すハードウェアとソフトウェアの構成は、パフォーマンスを除き、本ドキュメントで実行した検証の大部分に使用されています。これらの構成は、環境のセットアップに役立つガイドラインです。ただし、個 々 のお客様の要件によって特定のコンポーネントが異なる場合があることに注意してください。
+
+
+
+== ハードウェア要件
+
+|===
+| ハードウェア | 詳細 
+
+
+| NetApp AFFストレージアレイHAペア | * A800
+* ONTAP 9.14.1
+* 3.49TB SSD-NVM×48
+* 2つのフレキシブルグループボリューム：メタデータとデータ。
+*メタデータNFSボリュームには、250GBの永続ボリュームが12個あります。
+*データはONTAP NAS S3ボリューム 
+
+
+| Fujitsu PRIMERGY RX2540 M4×6 | * 64 CPU
+* Intel（R）Xeon（R）Gold 6142 CPU（2.60GHz）
+*256 GM物理メモリ
+* 1 x 100GbEネットワークポート 
+
+
+| ネットワーキング | 100GbE 
+
+
+| StorageGRID | * SG100×1、SGF6024×3
+* 3 x 24 x 7.68TB 
+|===
+
+
+== ソフトウェア要件
+
+|===
+| ソフトウェア | 詳細 
+
+
+| ミルバスクラスタ | *chart-milvus-4.1.11.
+*アプリのバージョン–2.3.4
+* bookkeeper、zookeeper、pulsar、etcd、proxyなどの依存バンドル querynode、worker 
+
+
+| Kubernetes | * 5ノードのKubernetesクラスタ
+* 1マスターノードと4ワーカーノード
+*バージョン–1.7.2 
+
+
+| Python | *3.10.12. 
+|===

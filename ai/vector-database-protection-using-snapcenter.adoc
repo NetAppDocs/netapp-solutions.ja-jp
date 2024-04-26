@@ -1,0 +1,245 @@
+---
+sidebar: sidebar 
+permalink: ai/vector-database-protection-using-snapcenter.html 
+keywords: vector database 
+summary: SnapCenterを使用したベクターデータベース保護- VECTOR DATABASE解決策for NetApp 
+---
+= SnapCenterを使用したベクターデータベース保護
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== NetApp SnapCenterを使用したベクターデータベース保護。
+
+たとえば、映画制作業界では、顧客はビデオファイルやオーディオファイルなどの重要な埋め込みデータを所有していることがよくあります。ハードドライブの故障などの問題が原因でこのデータが失われると、業務に大きな影響を与え、数百万ドル規模のベンチャーが危険にさらされる可能性があります。ネットアップでは、貴重なコンテンツが失われ、多大な混乱と財務上の損失を引き起こしている事例が発生しています。したがって、この業界では、この重要なデータのセキュリティと整合性を確保することが最も重要です。
+このセクションでは、SnapCenterがONTAPに存在するベクターデータベースデータとMilvusデータをどのように保護するかについて詳しく説明します。この例では、顧客データ用にNFS ONTAPボリューム（vol1）から派生したNASバケット（milvusdbvol1）を使用し、Milvusクラスタ構成データ用に別のNFSボリューム（vectordbpv）を使用しました。次を確認してください： link:https://docs.netapp.com/us-en/snapcenter-47/protect-sco/backup-workflow.html["こちらをご覧ください"] SnapCenterバックアップワークフロー
+
+. SnapCenterコマンドの実行に使用するホストを設定します。
++
+image:sc_host_setup.png["エラー：グラフィックイメージがありません"]
+
+. ストレージプラグインをインストールして設定します。追加したホストから、[その他のオプション]を選択します。ダウンロードしたストレージプラグインに移動してから選択します。 link:https://automationstore.netapp.com/snap-detail.shtml?packUuid=Storage&packVersion=1.0["NetApp Automation Store の略"]。プラグインをインストールし、設定を保存します。
++
+image:sc_storage_plugin.png["エラー：グラフィックイメージがありません"]
+
+. ストレージシステムとボリュームをセットアップします。[ストレージシステム]にストレージシステムを追加し、SVM（Storage Virtual Machine）を選択します。この例では、「vs_nvidia」を選択しています。
++
+image:sc_storage_system.png["エラー：グラフィックイメージがありません"]
+
+. バックアップポリシーとカスタムスナップショット名を組み込んで、ベクターデータベースのリソースを確立します。
++
+** 整合グループバックアップをデフォルト値で有効にし、ファイルシステムの整合性を伴わないSnapCenterを有効にします。
+** [Storage Footprint]セクションで、ベクターデータベースの顧客データとMilvusクラスタデータに関連付けられているボリュームを選択します。この例では、「vol1」と「vectordbpv」です。
+** ベクターデータベース保護のポリシーを作成し、ポリシーを使用してベクターデータベースリソースを保護します。
++
+image:sc_resource_vectordatabase.png["エラー：グラフィックイメージがありません"]
+
+
+
+. Pythonスクリプトを使用してS3 NASバケットにデータを挿入します。今回のケースでは、Milvusが提供するバックアップスクリプト「prepare_data_netapp.py」を変更し、「sync」コマンドを実行して、オペレーティングシステムからデータをフラッシュしました。
++
+[source, python]
+----
+root@node2:~# python3 prepare_data_netapp.py
+
+=== start connecting to Milvus     ===
+
+
+=== Milvus host: localhost         ===
+
+Does collection hello_milvus_netapp_sc_test exist in Milvus: False
+
+=== Create collection `hello_milvus_netapp_sc_test` ===
+
+
+=== Start inserting entities       ===
+
+Number of entities in hello_milvus_netapp_sc_test: 3000
+
+=== Create collection `hello_milvus_netapp_sc_test2` ===
+
+Number of entities in hello_milvus_netapp_sc_test2: 6000
+root@node2:~# for i in 2 3 4 5 6   ; do ssh node$i "hostname; sync; echo 'sync executed';" ; done
+node2
+sync executed
+node3
+sync executed
+node4
+sync executed
+node5
+sync executed
+node6
+sync executed
+root@node2:~#
+----
+. S3 NASバケット内のデータを確認します。この例では、タイムスタンプ「2024-04-08 21：22」のファイルが「prepare_data_netapp.py」スクリプトによって作成されています。
++
+[source, bash]
+----
+root@node2:~# aws s3 ls --profile ontaps3  s3://milvusdbvol1/ --recursive | grep '2024-04-08'
+
+<output content removed to save page space>
+2024-04-08 21:18:14       5656 stats_log/448950615991000809/448950615991000810/448950615991001854/100/1
+2024-04-08 21:18:12       5654 stats_log/448950615991000809/448950615991000810/448950615991001854/100/448950615990800869
+2024-04-08 21:18:17       5656 stats_log/448950615991000809/448950615991000810/448950615991001872/100/1
+2024-04-08 21:18:15       5654 stats_log/448950615991000809/448950615991000810/448950615991001872/100/448950615990800876
+2024-04-08 21:22:46       5625 stats_log/448950615991003377/448950615991003378/448950615991003385/100/1
+2024-04-08 21:22:45       5623 stats_log/448950615991003377/448950615991003378/448950615991003385/100/448950615990800899
+2024-04-08 21:22:49       5656 stats_log/448950615991003408/448950615991003409/448950615991003416/100/1
+2024-04-08 21:22:47       5654 stats_log/448950615991003408/448950615991003409/448950615991003416/100/448950615990800906
+2024-04-08 21:22:52       5656 stats_log/448950615991003408/448950615991003409/448950615991003434/100/1
+2024-04-08 21:22:50       5654 stats_log/448950615991003408/448950615991003409/448950615991003434/100/448950615990800913
+root@node2:~#
+----
+. 「milvusdb」リソースの整合グループ（CG）Snapshotを使用してバックアップを開始する
++
+image:sc_backup_vector_database.png["エラー：グラフィックイメージがありません"]
+
+. バックアップ機能をテストするために、バックアッププロセス後に新しいテーブルを追加するか、NFS（S3 NASバケット）から一部のデータを削除しました。
++
+このテストでは、バックアップ後に誰かが新しいコレクション、不要なコレクション、または不適切なコレクションを作成したシナリオを想像してください。このような場合は、新しいコレクションが追加される前に、ベクターデータベースをその状態に戻す必要があります。たとえば、「hello_milvus_netapp_sc_testnew」や「hello_milvus_netapp_sc_testnew2」などの新しいコレクションが挿入されています。
+
++
+[source, python]
+----
+root@node2:~# python3 prepare_data_netapp.py
+
+=== start connecting to Milvus     ===
+
+
+=== Milvus host: localhost         ===
+
+Does collection hello_milvus_netapp_sc_testnew exist in Milvus: False
+
+=== Create collection `hello_milvus_netapp_sc_testnew` ===
+
+
+=== Start inserting entities       ===
+
+Number of entities in hello_milvus_netapp_sc_testnew: 3000
+
+=== Create collection `hello_milvus_netapp_sc_testnew2` ===
+
+Number of entities in hello_milvus_netapp_sc_testnew2: 6000
+root@node2:~#
+----
+. 前のSnapshotからS3 NASバケットのフルリストアを実行します。
++
+image:sc_restore_vector_database.png["エラー：グラフィックイメージがありません"]
+
+. Pythonスクリプトを使用して、「hello_milvus_netapp_sc_test」コレクションと「hello_milvus_netapp_sc_test2」コレクションのデータを検証します。
++
+[source, python]
+----
+root@node2:~# python3 verify_data_netapp.py
+
+=== start connecting to Milvus     ===
+
+
+=== Milvus host: localhost         ===
+
+Does collection hello_milvus_netapp_sc_test exist in Milvus: True
+{'auto_id': False, 'description': 'hello_milvus_netapp_sc_test', 'fields': [{'name': 'pk', 'description': '', 'type': <DataType.INT64: 5>, 'is_primary': True, 'auto_id': False}, {'name': 'random', 'description': '', 'type': <DataType.DOUBLE: 11>}, {'name': 'var', 'description': '', 'type': <DataType.VARCHAR: 21>, 'params': {'max_length': 65535}}, {'name': 'embeddings', 'description': '', 'type': <DataType.FLOAT_VECTOR: 101>, 'params': {'dim': 8}}]}
+Number of entities in Milvus: hello_milvus_netapp_sc_test : 3000
+
+=== Start Creating index IVF_FLAT  ===
+
+
+=== Start loading                  ===
+
+
+=== Start searching based on vector similarity ===
+
+hit: id: 2998, distance: 0.0, entity: {'random': 0.9728033590489911}, random field: 0.9728033590489911
+hit: id: 1262, distance: 0.08883658051490784, entity: {'random': 0.2978858685751561}, random field: 0.2978858685751561
+hit: id: 1265, distance: 0.09590047597885132, entity: {'random': 0.3042039939240304}, random field: 0.3042039939240304
+hit: id: 2999, distance: 0.0, entity: {'random': 0.02316334456872482}, random field: 0.02316334456872482
+hit: id: 1580, distance: 0.05628091096878052, entity: {'random': 0.3855988746044062}, random field: 0.3855988746044062
+hit: id: 2377, distance: 0.08096685260534286, entity: {'random': 0.8745922204004368}, random field: 0.8745922204004368
+search latency = 0.2832s
+
+=== Start querying with `random > 0.5` ===
+
+query result:
+-{'random': 0.6378742006852851, 'embeddings': [0.20963514, 0.39746657, 0.12019053, 0.6947492, 0.9535575, 0.5454552, 0.82360446, 0.21096309], 'pk': 0}
+search latency = 0.2257s
+
+=== Start hybrid searching with `random > 0.5` ===
+
+hit: id: 2998, distance: 0.0, entity: {'random': 0.9728033590489911}, random field: 0.9728033590489911
+hit: id: 747, distance: 0.14606499671936035, entity: {'random': 0.5648774800635661}, random field: 0.5648774800635661
+hit: id: 2527, distance: 0.1530652642250061, entity: {'random': 0.8928974315571507}, random field: 0.8928974315571507
+hit: id: 2377, distance: 0.08096685260534286, entity: {'random': 0.8745922204004368}, random field: 0.8745922204004368
+hit: id: 2034, distance: 0.20354536175727844, entity: {'random': 0.5526117606328499}, random field: 0.5526117606328499
+hit: id: 958, distance: 0.21908017992973328, entity: {'random': 0.6647383716417955}, random field: 0.6647383716417955
+search latency = 0.5480s
+Does collection hello_milvus_netapp_sc_test2 exist in Milvus: True
+{'auto_id': True, 'description': 'hello_milvus_netapp_sc_test2', 'fields': [{'name': 'pk', 'description': '', 'type': <DataType.INT64: 5>, 'is_primary': True, 'auto_id': True}, {'name': 'random', 'description': '', 'type': <DataType.DOUBLE: 11>}, {'name': 'var', 'description': '', 'type': <DataType.VARCHAR: 21>, 'params': {'max_length': 65535}}, {'name': 'embeddings', 'description': '', 'type': <DataType.FLOAT_VECTOR: 101>, 'params': {'dim': 8}}]}
+Number of entities in Milvus: hello_milvus_netapp_sc_test2 : 6000
+
+=== Start Creating index IVF_FLAT  ===
+
+
+=== Start loading                  ===
+
+
+=== Start searching based on vector similarity ===
+
+hit: id: 448950615990642008, distance: 0.07805602252483368, entity: {'random': 0.5326684390871348}, random field: 0.5326684390871348
+hit: id: 448950615990645009, distance: 0.07805602252483368, entity: {'random': 0.5326684390871348}, random field: 0.5326684390871348
+hit: id: 448950615990640618, distance: 0.13562293350696564, entity: {'random': 0.7864676926688837}, random field: 0.7864676926688837
+hit: id: 448950615990642314, distance: 0.10414951294660568, entity: {'random': 0.2209597460821181}, random field: 0.2209597460821181
+hit: id: 448950615990645315, distance: 0.10414951294660568, entity: {'random': 0.2209597460821181}, random field: 0.2209597460821181
+hit: id: 448950615990640004, distance: 0.11571306735277176, entity: {'random': 0.7765521996186631}, random field: 0.7765521996186631
+search latency = 0.2381s
+
+=== Start querying with `random > 0.5` ===
+
+query result:
+-{'embeddings': [0.15983285, 0.72214717, 0.7414838, 0.44471496, 0.50356466, 0.8750043, 0.316556, 0.7871702], 'pk': 448950615990639798, 'random': 0.7820620141382767}
+search latency = 0.3106s
+
+=== Start hybrid searching with `random > 0.5` ===
+
+hit: id: 448950615990642008, distance: 0.07805602252483368, entity: {'random': 0.5326684390871348}, random field: 0.5326684390871348
+hit: id: 448950615990645009, distance: 0.07805602252483368, entity: {'random': 0.5326684390871348}, random field: 0.5326684390871348
+hit: id: 448950615990640618, distance: 0.13562293350696564, entity: {'random': 0.7864676926688837}, random field: 0.7864676926688837
+hit: id: 448950615990640004, distance: 0.11571306735277176, entity: {'random': 0.7765521996186631}, random field: 0.7765521996186631
+hit: id: 448950615990643005, distance: 0.11571306735277176, entity: {'random': 0.7765521996186631}, random field: 0.7765521996186631
+hit: id: 448950615990640402, distance: 0.13665105402469635, entity: {'random': 0.9742541034109935}, random field: 0.9742541034109935
+search latency = 0.4906s
+root@node2:~#
+----
+. 不要または不適切な収集がデータベースに存在しないことを確認します。
++
+[source, python]
+----
+root@node2:~# python3 verify_data_netapp.py
+
+=== start connecting to Milvus     ===
+
+
+=== Milvus host: localhost         ===
+
+Does collection hello_milvus_netapp_sc_testnew exist in Milvus: False
+Traceback (most recent call last):
+  File "/root/verify_data_netapp.py", line 37, in <module>
+    recover_collection = Collection(recover_collection_name)
+  File "/usr/local/lib/python3.10/dist-packages/pymilvus/orm/collection.py", line 137, in __init__
+    raise SchemaNotReadyException(
+pymilvus.exceptions.SchemaNotReadyException: <SchemaNotReadyException: (code=1, message=Collection 'hello_milvus_netapp_sc_testnew' not exist, or you can pass in schema to create one.)>
+root@node2:~#
+----
+
+
+結論として、ネットアップのSnapCenterを使用してベクターデータベースのデータとONTAPにあるMilvusのデータを保護することは、特にデータの整合性が最も重視される業界（映画制作など）で、お客様に大きなメリットをもたらします。SnapCenterでは、整合性のあるバックアップを作成し、完全なデータリストアを実行できるため、組み込みのビデオファイルやオーディオファイルなどの重要なデータを、ハードドライブの障害やその他の問題による損失から確実に保護できます。これにより、業務の中断が防止されるだけでなく、多額の財務上の損失からも保護されます。
+
+このセクションでは、ホストのセットアップ、ストレージプラグインのインストールと構成、カスタムスナップショット名を持つベクターデータベースのリソースの作成など、ONTAPに存在するデータを保護するためにSnapCenterを構成する方法を説明しました。また、整合グループのSnapshotを使用してバックアップを実行し、S3 NASバケット内のデータを検証する方法についても紹介しました。
+
+さらに、バックアップ後に不要または不適切な収集が作成されるシナリオをシミュレートしました。このような場合、SnapCenterで以前のSnapshotからフルリストアを実行すると、新しいコレクションが追加される前の状態にベクターデータベースを戻すことができるため、データベースの整合性が維持されます。特定の時点にデータをリストアするこの機能は、お客様にとって非常に貴重なものであり、データのセキュリティだけでなく、適切に保持されていることを保証します。このように、ネットアップのSnapCenter製品は、データの保護と管理のための堅牢で信頼性の高い解決策をお客様に提供します。

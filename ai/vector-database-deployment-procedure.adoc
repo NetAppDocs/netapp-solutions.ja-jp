@@ -1,0 +1,61 @@
+---
+sidebar: sidebar 
+permalink: ai/vector-database-deployment-procedure.html 
+keywords: vector database, vector-database-deployment-procedure 
+summary: vector-database-deployment-procedure-vector database解決策for NetApp 
+---
+= Deployment手順
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== Deployment手順
+
+この導入セクションでは、以下のラボセットアップにmilvusベクターデータベースとKubernetesを使用しました。
+
+image:Deployment_architecture.png["エラー：グラフィックイメージがありません"]
+
+NetAppストレージは、顧客データとmilvusクラスタデータを保持するためのストレージをクラスタに提供します。
+
+
+
+=== NetAppストレージのセットアップ–ONTAP
+
+* ストレージシステムの初期化
+* Storage Virtual Machine（SVM）の作成
+* 論理ネットワークインターフェイスの割り当て
+* NFS、S3の構成とライセンス
+
+
+NFS（ネットワークファイルシステム）については、次の手順を実行してください。
+
+. NFSv4用のFlexGroupボリュームを作成します。この検証用のセットアップでは、48本のSSDを使用しました。1本はコントローラのルートボリューム専用のSSD、47本はNFSv4用に分散しています]]。FlexGroupボリュームのNFSエクスポートポリシーに、Kubernetes（Kubernetes）ノードネットワークに対する読み取り/書き込み権限が設定されていることを確認します。これらの権限が設定されていない場合は、Kubernetesノードネットワークに対して読み取り/書き込み（rw）権限を付与してください。
+. すべてのKubernetesノードで、フォルダを作成し、各Kubernetesノードの論理インターフェイス（LIF）を使用してこのフォルダにFlexGroupボリュームをマウントします。
+
+
+NAS S3（Network Attached Storage Simple Storage Service）については、次の手順を実行してください。
+
+. NFS用のFlexGroupボリュームを作成します。
+. vserver object-store-server createコマンドを使用して、HTTPを有効にし、管理ステータスを「up」に設定します。HTTPSを有効にし、カスタムリスナーポートを設定することもできます。
+. 「vserver object-store-server user create -user <username>」コマンドを使用して、object-store-serverユーザを作成します。
+. アクセスキーとシークレットキーを取得するには、次のコマンドを実行します。"set diag；vserver object-store-server user show -user <username>"。ただし、今後は、これらのキーはユーザ作成プロセス中に提供されるか、REST API呼び出しを使用して取得できます。
+. 手順2で作成したユーザを使用してオブジェクトストアサーバグループを作成し、アクセスを許可します。この例では、「FullAccess」を提供しています。
+. タイプを「nas」に設定し、NFSv3ボリュームへのパスを指定して、NASバケットを作成します。この目的のためにS3バケットを利用することもできます。
+
+
+
+
+=== NetAppストレージのセットアップ–StorageGRID
+
+. StorageGRIDソフトウェアをインストールします。
+. テナントとバケットを作成
+. 必要な権限を持つユーザを作成します。
+
+
+詳細については、 https://docs.netapp.com/us-en/storagegrid-116/primer/index.html[]
