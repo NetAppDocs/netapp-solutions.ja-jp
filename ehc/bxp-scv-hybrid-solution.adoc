@@ -265,7 +265,7 @@ ONTAP-Dest::> cluster peer show
 ====
 次の手順では、SnapMirror関係にあるボリュームを含むデスティネーションとソースのStorage Virtual Machineの間にSVM関係をセットアップします。
 
-. ソースFSXクラスタから、CLIから次のコマンドを使用して、SVMピア関係を作成します。
+. デスティネーションONTAPクラスタから、CLIから次のコマンドを使用して、SVMピア関係を作成します。
 +
 ....
 ONTAP-Dest::> vserver peer create -vserver DestSVM -peer-vserver Backup -peer-cluster OnPremSourceSVM -applications snapmirror

@@ -1,0 +1,177 @@
+---
+sidebar: sidebar 
+permalink: databases/db_sizing_ora_anf.html 
+keywords: ONTAP, Azure, ANF, Sizing 
+summary: 解決策は、AzureクラウドのANFにOracleを導入する際のコンピューティングとストレージのサイジングに便利なツールキットです。 
+---
+= Azure NetApp Files向けOracleサイジングガイダンス
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+ネットアップ、Niyaz Mohamed、Allen Cao氏
+
+
+
+== 目的
+
+オンプレミスからパブリッククラウドなど、プラットフォーム間で既存のOracleワークロードを移動するには、パフォーマンスとサービスレベルの要件を満たすために、ターゲットプラットフォームのコンピューティングとストレージをサイジングする必要があります。このドキュメントでは、その目的を達成するためのシンプルなツールキットについて説明します。
+
+時間の経過とともに拡張する可能性がある新しいデータベースアプリケーションとは異なり、既存のOracleワークロードでは、コンピューティングとストレージの要件にワークロードパターンが設定され、Oracle Workload RepositoryまたはAWRに記録されます。このツールキットは、HTMLパーサーを使用してOracle AWRから関連情報を取得します。この結果には、SQLスクリプトを使用してデータベースに対して取得した追加のサイジング情報が補足され、Oracleデータベースを再配置する際のコンピューティングとストレージに関する有益なガイダンスが提供されます。
+
+この解決策 は、次のユースケースに対応します。
+
+* オンプレミスからMicrosoft Azureクラウドにデータベースを再配置する際に、Oracleデータベースサーバコンピューティングのサイジングに関するガイダンスを提供
+* オンプレミスからMicrosoft Azure NetApp Filesにデータベースを再配置する際に、Oracleデータベースサーバストレージのサイジングに関するガイダンスを提供します。
+
+
+
+
+== 対象者
+
+この解決策 は、次のユーザーを対象としています。
+
+* オンプレミスのプライベートデータセンターやMicrosoft Azureクラウド環境でOracleデータベースを管理するDBAです。
+* OracleデータベースをサポートするオンプレミスストレージまたはMicrosoft Azure NetApp Filesストレージを管理するストレージ管理者。
+* オンプレミスからMicrosoft AzureクラウドにOracleデータベースを移行したいと考えているアプリケーション所有者。
+
+
+
+
+== 使用許諾
+
+このツールキットリポジトリのコンテンツにアクセス、ダウンロード、インストール、または使用することにより、 link:https://netapp.sharepoint.com/sites/CIEBuilt-OnsTeam-DatabasesandApps/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FCIEBuilt%2DOnsTeam%2DDatabasesandApps%2FShared%20Documents%2FDatabases%20and%20Apps%2FDatabase%20Solutions%2FDB%20Sizing%20Toolkits%2FOracle%20Sizing%20Guidance%20for%20ANF%2FLICENSE%2ETXT&parent=%2Fsites%2FCIEBuilt%2DOnsTeam%2DDatabasesandApps%2FShared%20Documents%2FDatabases%20and%20Apps%2FDatabase%20Solutions%2FDB%20Sizing%20Toolkits%2FOracle%20Sizing%20Guidance%20for%20ANF["ライセンスファイル"^]。
+
+
+NOTE: このツールキットリポジトリのコンテンツとの派生物の生成および/または共有には、一定の制限があります。コンテンツを使用する前に、必ずライセンスの条件をお読みください。すべての条件に同意しない場合は、このリポジトリ内のコンテンツにアクセス、ダウンロード、または使用しないでください。
+
+
+
+== 解決策 の導入
+
+
+
+=== 導入の前提条件
+
+[%collapsible]
+====
+導入には、次の前提条件が必要です。
+
+* ピーク時のアプリケーションワークロード中にデータベースアクティビティのスナップショットをキャプチャするOracle AWRレポート。
+* DBA権限でSQLスクリプトを実行するためのOracleデータベースへのアクセス。
+
+
+====
+
+
+=== ツールキットをダウンロード
+
+[%collapsible]
+====
+リポジトリからツールキットを取得する link:https://netapp.sharepoint.com/sites/CIEBuilt-OnsTeam-DatabasesandApps/Shared%20Documents/Forms/AllItems.aspx?csf=1&web=1&e=uJYdVB&CID=bec786b6%2Dccaa%2D42e3%2Db47d%2Ddf0dcb0ce0ef&RootFolder=%2Fsites%2FCIEBuilt%2DOnsTeam%2DDatabasesandApps%2FShared%20Documents%2FDatabases%20and%20Apps%2FDatabase%20Solutions%2FDB%20Sizing%20Toolkits%2FOracle%20Sizing%20Guidance%20for%20ANF&FolderCTID=0x01200006E27E44A468B3479EA2D52BCD950351["ANF向けOracleサイジングガイダンス"^]
+
+====
+
+
+=== ツールキットの使用方法
+
+[%collapsible]
+====
+このツールキットは、WebベースのHTMLパーサーと、Oracleデータベース情報を収集する2つのSQLスクリプトで構成されています。出力はExcelテンプレートに入力され、Oracleデータベースサーバのコンピューティングとストレージのサイジングガイダンスが生成されます。
+
+* を使用します。 link:https://app.atroposs.com/#/awr-module["HTMLパーサー"^] AWRレポートから現在のOracleデータベースのサイジング情報を取得するAWRモジュール。
+* ora_db_data_szie.sqlをDBAとして実行し'データベースから物理的なOracleデータファイル・サイズを取得します
+* ora_db_logs_size.sqlをDBAとして実行して、Oracleアーカイブ・ログ・サイズを取得し、必要なアーカイブ・ログの保持期間（日数）を設定します。
+* 上記で取得したサイジング情報をExcelテンプレートファイルoracle_db_sizing_template_anf.xlsxに入力し、Oracle DBサーバのコンピューティングとストレージに関するサイジングガイダンスを作成します。
+
+
+====
+
+
+=== ツールキットの使用デモ
+
+[%collapsible]
+====
+. HTMLパーサーAWRモジュールを開きます。
++
+image::db_sizing_ora_parser_01.png[このイメージは、Oracleサイジング用のHTMLパーサー画面を示しています。]
+
+. 出力形式が.csvであることを確認し、 `Upload files` AWRレポートをアップロードします。パーサーは、テーブルの概要とoutput.csvファイルを含むHTMLページに結果を返します。 `Download` フォルダ。
++
+image::db_sizing_ora_parser_02.png[このイメージは、Oracleサイジング用のHTMLパーサー画面を示しています。]
+
+. Excelテンプレートファイルを開き、CSVコンテンツをコピーして列Aとセル1に貼り付け、DBサーバのサイジング情報を生成します。
++
+image::db_sizing_ora_parser_03_anf.png[この画像は、Oracleサイジング用のExcelテンプレートのスクリーンショットです。]
+
+. 列Aとフィールド1と2を強調表示し、 `Data`をクリックします `Text to Columns` をクリックして、テキストウィザードを開きます。を選択します `Delimited`をクリックします `Next` 次の画面に移動します。
++
+image::db_sizing_ora_parser_04_anf.png[この画像は、Oracleサイジング用のExcelテンプレートのスクリーンショットです。]
+
+. チェックしてください `Other`を入力し、「=」と入力します。 `Delimiters`。をクリックします `Next` 次の画面に移動します。
++
+image::db_sizing_ora_parser_05_anf.png[この画像は、Oracleサイジング用のExcelテンプレートのスクリーンショットです。]
+
+. をクリックします `Finish` をクリックして、読み取り可能な列形式への文字列変換を完了します。メモVMとANFのサイジングのフィールドに、Oracle AWRレポートから取得したデータが入力されています。
++
+image::db_sizing_ora_parser_06_anf.png[この画像は、Oracleサイジング用のExcelテンプレートのスクリーンショットです。]
+
++
+image::db_sizing_ora_parser_07_anf.png[この画像は、Oracleサイジング用のExcelテンプレートのスクリーンショットです。]
+
+. スクリプトora_db_data_size.sql、ora_db_logs_size.sqlをsqlplusのDBAとして実行し、既存のOracleデータベースのデータサイズとアーカイブログサイズを保持期間の日数で取得します。
++
+....
+
+[oracle@ora_01 ~]$ sqlplus / as sysdba
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Tue Mar 5 15:25:27 2024
+Version 19.18.0.0.0
+
+Copyright (c) 1982, 2022, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.18.0.0.0
+
+
+SQL> @/home/oracle/ora_db_data_size.sql;
+
+Aggregate DB File Size, GiB Aggregate DB File RW, GiB Aggregate DB File RO, GiB
+--------------------------- ------------------------- -------------------------
+                     159.05                    159.05                         0
+
+SQL> @/home/oracle/ora_db_logs_size.sql;
+Enter value for archivelog_retention_days: 14
+old   6:       where first_time >= sysdate - &archivelog_retention_days
+new   6:       where first_time >= sysdate - 14
+
+Log Size, GiB
+-------------
+        93.83
+
+SQL>
+
+....
++
+
+NOTE: 上記のスクリプトを使用して取得したデータベースのサイジング情報は、すべての物理データベースデータファイルまたはログファイルの実際のサイズの合計です。各データファイル内で使用可能な空きスペースは考慮されません。
+
+. 結果をExcelファイルに入力してサイジングガイダンスの出力を完了します。
++
+image::db_sizing_ora_parser_08_anf.png[この画像は、Oracleサイジング用のExcelテンプレートのスクリーンショットです。]
+
+. ANFでは、3層のサービスレベル（Standard、Premium、Ultra）を使用してデータベースボリュームのスループット制限を管理します。を参照してください link:https://learn.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-service-levels["Azure NetApp Files のサービスレベル"^] を参照してください。サイジングガイダンスの出力に基づいて、データベースに必要なスループットを提供するANFサービスレベルを選択します。
+
+
+====
+
+
+== 追加情報の参照先
+
+NetAppデータベースソリューションの詳細については、次のWebサイトを参照してください。 link:index.html["ネットアップのエンタープライズデータベースソリューション"^]

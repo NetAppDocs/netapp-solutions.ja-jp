@@ -1,0 +1,133 @@
+---
+sidebar: sidebar 
+permalink: virtualization/vmware_vcf_aff_overview.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc 
+summary:  
+---
+= VMware Cloud FoundationとNetApp AFFアレイ
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+作成者：Josh Powell
+
+
+
+== VMware Cloud FoundationとNetApp AFFアレイ
+
+VMware Cloud Foundation（VCF）は、ハイブリッドクラウド環境でエンタープライズアプリケーションを実行するためのソフトウェア定義型インフラの包括的なスタックを提供する、統合されたSoftware-Defined Data Center（SDDC）プラットフォームです。コンピューティング、ストレージ、ネットワーク、管理の各機能を統合プラットフォームに統合し、プライベートクラウドとパブリッククラウドにわたって一貫した運用エクスペリエンスを提供します。
+
+このドキュメントでは、NetAppオールフラッシュAFFストレージシステムを使用してVMware Cloud Foundationで使用できるストレージオプションについて説明します。サポートされるストレージオプションについては、NFSデータストアとVVolデータストアをプリンシパルストレージとして使用するワークロードドメインを作成するための具体的な手順と、さまざまな追加のストレージオプションについて説明します。
+
+
+
+=== ユースケース
+
+このドキュメントに記載されているユースケース：
+
+* プライベートクラウドとパブリッククラウドの両方で統一された環境を求めているお客様向けのストレージオプションです。
+* ワークロードドメイン用の仮想インフラストラクチャを導入するための自動化された解決策。
+* コンピューティングリソースの要件に直接対応していない場合でも、変化するニーズに対応できるようにカスタマイズされた、拡張性に優れたストレージ解決策
+* ONTAPをプリンシパルストレージ（NFS、VVOL）として使用して、VCF VIワークロードドメインを導入します。
+* ONTAP Tools for VMware vSphereを使用して、補助ストレージをVIワークロードドメインに導入します。
+
+
+
+
+=== 対象者
+
+この解決策 は、次のユーザーを対象としています。
+
+* 解決策アーキテクトは、TCOを最大化するように設計された、VMware環境向けのより柔軟なストレージオプションを求めています。
+* 解決策アーキテクトは、主要なクラウドプロバイダでデータ保護とディザスタリカバリのオプションを提供するVCFストレージオプションを探しています。
+* ストレージ管理者は、プリンシパルストレージと補助ストレージを使用したVCFの設定方法を理解したいと考えています。
+
+
+
+
+== テクノロジの概要
+
+NetApp AFF 解決策 を備えたVCFは、次の主要コンポーネントで構成されています。
+
+
+
+=== VMware Cloud Foundationの場合
+
+VMware Cloud Foundationは、SDDC Manager、vSphere、vSAN、NSX、VMware ARIA Suiteなどの主要コンポーネントを組み合わせて仮想化されたデータセンターを作成することにより、VMwareのvSphereハイパーバイザ製品を拡張します。
+
+VCF解決策は、ネイティブのKubernetesワークロードと仮想マシンベースのワークロードの両方をサポートします。VMware vSphere、VMware vSAN、VMware NSX-Tデータセンター、VMware vRealize Cloud Managementなどの主要サービスは、VCFパッケージに不可欠なコンポーネントです。これらのサービスを組み合わせることで、コンピューティング、ストレージ、ネットワーク、セキュリティ、クラウド管理を効率的に管理できるソフトウェア定義型インフラストラクチャが確立されます。
+
+VCFは、単一の管理ドメインと最大24個のVIワークロードドメインで構成され、それぞれがアプリケーション対応インフラストラクチャの単位となります。ワークロードドメインは、単一のvCenterインスタンスで管理される1つ以上のvSphereクラスタで構成されます。
+
+image:vmware-vcf-aff-image02.png["VCFアーキテクチャ"]
+
+VCFのアーキテクチャと計画の詳細については、を参照してください。 link:https://docs.vmware.com/en/VMware-Cloud-Foundation/5.1/vcf-design/GUID-A550B597-463F-403F-BE9A-BFF3BECB9523.html["VMware Cloud Foundationのアーキテクチャモデルとワークロードドメインタイプ"]。
+
+｛nbsp｝
+
+
+
+==== VCFストレージオプション
+
+VMwareは、VCFのストレージオプションを* principal *ストレージと* supplemental *ストレージに分割しています。VCF管理ドメインでは、vSANをプリンシパルストレージとして使用する必要があります。ただし、管理ドメインには多くの追加ストレージオプションがあり、VIワークロードドメインではプリンシパルと追加ストレージの両方のオプションを使用できます。
+
+image:vmware-vcf-aff-image01.png["VCFストレージオプション"]
+
+*ワークロードドメイン向けのプリンシパルストレージ*
+プリンシパルストレージとは、SDDC Managerのセットアッププロセス中にVI Workload Domainに直接接続できるあらゆるタイプのストレージを指します。プリンシパルストレージは、ワークロードドメイン用に最初に構成されたデータストアであり、VSAN、VVOL（VMFS）、NFS、およびファイバチャネル上のVMFSを含みます。
+
+*管理ドメインとワークロードドメイン用の補助ストレージ*
+補助ストレージは、クラスタの作成後にいつでも管理ドメインまたはワークロードドメインに追加できるストレージタイプです。補助ストレージは、サポートされるストレージオプションの範囲が最も広く、すべてNetApp AFFアレイでサポートされます。
+
+VMware Cloud Foundationに関するその他のドキュメントリソース：
+* link:https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["VMware Cloud Foundationのドキュメント"]
+* link:https://docs.vmware.com/en/VMware-Cloud-Foundation/5.1/vcf-design/GUID-2156EC66-BBBB-4197-91AD-660315385D2E.html["VMware Cloud Foundationでサポートされるストレージタイプ"]
+* link:https://docs.vmware.com/en/VMware-Cloud-Foundation/5.1/vcf-admin/GUID-2C4653EB-5654-45CB-B072-2C2E29CB6C89.html["VMware Cloud Foundationでのストレージの管理"]
+
+｛nbsp｝
+
+
+
+=== NetAppオールフラッシュストレージアレイ
+
+NetApp AFF（All Flash FAS）アレイは、フラッシュテクノロジのスピードと効率性を活用するように設計された、ハイパフォーマンスなストレージソリューションです。AFFアレイには、Snapshotベースのバックアップ、レプリケーション、シンプロビジョニング、データ保護機能などの統合データ管理機能が組み込まれています。
+
+NetApp AFFアレイは、ONTAPストレージオペレーティングシステムを利用して、VCFと互換性のあるすべてのストレージオプションに対して、ユニファイドアーキテクチャ内で包括的なストレージプロトコルサポートを提供します。
+
+NetApp AFFストレージアレイには、最もパフォーマンスの高いAシリーズとQLCフラッシュベースのCシリーズがあります。どちらのシリーズもNVMeフラッシュドライブを使用します。
+
+NetApp AFF Aシリーズストレージアレイの詳細については、 link:https://www.netapp.com/data-storage/aff-a-series/["NetApp AFF A シリーズ"] ランディングページ：
+
+NetApp Cシリーズストレージアレイの詳細については、 link:https://www.netapp.com/data-storage/aff-c-series/["NetApp AFF Cシリーズ"] ランディングページ：
+
+｛nbsp｝
+
+
+
+=== NetApp ONTAP Tools for VMware vSphere の略
+
+ONTAP Tools for VMware vSphere（OTV）を使用すると、管理者はvSphere Clientから直接NetAppストレージを管理できます。ONTAPツールを使用すると、データストアの導入と管理、およびVVOLデータストアのプロビジョニングを行うことができます。
+
+ONTAPツールを使用すると、ストレージシステムの一連の属性を決定するストレージ機能プロファイルにデータストアをマッピングできます。これにより、ストレージのパフォーマンスやQoSなどの特定の属性を持つデータストアを作成できます。
+
+ONTAPツールには、ONTAPストレージシステム用の* VMware vSphere APIs for Storage Awareness（VASA）Provider *も含まれています。これにより、VMware Virtual Volume（VVOL）データストアのプロビジョニング、ストレージ機能プロファイルの作成と使用、コンプライアンスの検証、パフォーマンスの監視が可能になります。
+
+NetApp ONTAPツールの詳細については、 link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["VMware vSphere ドキュメント用の ONTAP ツール"] ページ
+
+
+
+== 解決策の概要
+
+このドキュメントで説明するシナリオでは、ONTAPストレージシステムをVCF VIワークロードドメイン環境のプリンシパルストレージとして使用する方法を説明します。また、ONTAP Tools for VMware vSphereをインストールして使用し、VIワークロードドメイン用の補助データストアを構成します。
+
+このドキュメントで説明するシナリオは次のとおりです。
+
+* * VI Workload Domainの導入時に、NFSデータストアをプリンシパルストレージとして構成して使用します。* link:https://review.docs.netapp.com/us-en/netapp-solutions_vcf_asa_aff/virtualization/vsphere_ontap_auto_block_fc.html["*ここ*"] を参照してください。をクリックします link:https://review.docs.netapp.com/us-en/netapp-solutions_vcf_asa_aff/virtualization/vsphere_ontap_auto_block_fc.html["*ここ*"]
+* * VI Workload Domainの導入時に、VVOLデータストアをプリンシパルストレージとして設定して使用します。*リンクをクリック：
+* * ONTAPツールを使用して、VIワークロードドメインの補助ストレージとしてNFSデータストアを構成およびマウントする方法をインストールして実証します。* link:link:https://review.docs.netapp.com/us-en/netapp-solutions_vcf_asa_aff/virtualization/vsphere_ontap_auto_block_fc.html["*ここ*"]
+

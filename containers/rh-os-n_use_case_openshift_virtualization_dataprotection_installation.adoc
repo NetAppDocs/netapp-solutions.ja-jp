@@ -169,7 +169,6 @@ ONTAP S3またはStorageGRID S3（クレデンシャルおよびYAMLに表示さ
 Container Storage Interface（CSI）スナップショットを使用する場合は、CSIドライバを登録するためにVolumeSnapshotClass CRを作成するため、スナップショットの場所を指定する必要はありません。この例では、Astra Trident CSIを使用し、Trident CSIドライバを使用してVolumeSnapShotClass CRを作成しています。
 
 ** CSIプラグインを有効にする**
-
 CSIスナップショットを使用して永続ボリュームをバックアップするには、VeleroのdefaultPluginsにCSIを追加します。
 Velero CSIプラグインは、CSIベースのPVCをバックアップするために、** velero.io/CSI-volumesnapshot-class**ラベルが設定されているクラスタ内のVolumeSnapshotClassを選択します。このために
 
