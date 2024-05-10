@@ -1,0 +1,260 @@
+---
+sidebar: sidebar 
+permalink: vmware/vsphere_ontap_asa_insights.html 
+keywords: vsphere, ontap, cloud insights, asa, all-flash san array, 
+summary:  
+---
+= NetAppオールフラッシュSANアレイとVMware vSphere 8
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+作成者：Josh Powell -ネットアップソリューションエンジニアリングチーム
+
+
+
+== NetApp Cloud Insightsによるオンプレミスストレージの監視
+
+NetApp Cloud Insightsは、オンプレミスとクラウドの両方でITインフラのパフォーマンス、健全性、コストを包括的に可視化して分析できるように設計された、クラウドベースのインフラ監視および分析プラットフォームです。NetApp Cloud Insightsの主な機能には、リアルタイム監視、カスタマイズ可能なダッシュボード、予測分析、コスト最適化ツールなどがあり、オンプレミス環境とクラウド環境を効果的に管理、最適化できます。
+
+NetApp Cloud InsightsはAcquisition Unitソフトウェアを通じて動作します。Acquisition Unitソフトウェアは、VMware vSphereやNetApp ONTAPストレージシステムなどの資産用のデータコレクタを使用してセットアップされます。これらのコレクタは、データを収集してCloud Insightsに送信します。このプラットフォームでは、さまざまなダッシュボード、ウィジェット、指標クエリを使用して、データを洞察に満ちた分析に整理し、ユーザが解釈できるようにします。
+
+Cloud Insightsのアーキテクチャ図：
+
+image::vmware-asa-image29.png[Cloud Insights の機能です]
+
+
+
+=== 解決策 の導入の概要
+
+この解決策では、NetApp Cloud Insightsを使用したオンプレミスのVMware vSphereおよびONTAPストレージシステムの監視について説明します。
+
+このリストには、この解決策で説明する手順の概要が記載されています。
+
+. vSphereクラスタ用にData Collectorを設定します。
+. ONTAPストレージシステム用にData Collectorを設定します。
+. アノテーションルールを使用してアセットにタグを付けます。
+. 資産を調査して相互に関連付ける。
+. [Top VM Latency]ダッシュボードを使用してノイジーネイバーを分離します。
+. VMのサイズを適正化する機会を特定する。
+. クエリを使用してメトリクスを分離およびソートします。
+
+
+
+
+=== 前提条件
+
+この解決策では、次のコンポーネントを使用します。
+
+. ONTAP 9.13を搭載したNetAppオールフラッシュSANアレイA400
+. VMware vSphere 8.0クラスタ
+. NetApp Cloud Insightsアカウント。
+. データ収集用のアセットへのネットワーク接続を備えたローカルVMにNetApp Cloud Insights Acquusition Unitソフトウェアをインストールします。
+
+
+
+
+=== 解決策 の導入
+
+
+
+==== データコレクタを設定する
+
+VMware vSphereおよびONTAPストレージシステム用のデータコレクタを設定するには、次の手順を実行します。
+
+.ONTAPストレージシステムのData Collectorの追加
+[%collapsible]
+====
+. Cloud Insightsにログインしたら、* Observability > Collectors > Data Collectors *に移動し、ボタンを押して新しいData Collectorをインストールします。
++
+image::vmware-asa-image31.png[新しい Data Collector]
+
+. ここから* ONTAP *を検索し、* ONTAPデータ管理ソフトウェア*をクリックします。
++
+image::vmware-asa-image30.png[Data Collectorの検索]
+
+. [Configure Collector]*ページで、コレクタの名前を入力し、正しい* Acquisition Unit*を指定し、ONTAPストレージシステムのクレデンシャルを入力します。ページ下部の*[保存して続行]*をクリックし、*[セットアップの完了]*をクリックして設定を完了します。
++
+image::vmware-asa-image32.png[Collectorの設定]
+
+
+
+====
+.VMware vSphereクラスタ用のData Collectorの追加
+[%collapsible]
+====
+. もう一度、* Observability > Collectors > Data Collectors *に移動し、ボタンを押して新しいData Collectorをインストールします。
++
+image::vmware-asa-image31.png[新しい Data Collector]
+
+. ここで* vsphere *を検索し、* VMware vsphere *をクリックします。
++
+image::vmware-asa-image33.png[Data Collectorの検索]
+
+. [Configure Collector]*ページで、コレクタの名前を入力し、正しい* Acquisition Unit *を指定し、vCenter Serverのクレデンシャルを入力します。ページ下部の*[保存して続行]*をクリックし、*[セットアップの完了]*をクリックして設定を完了します。
++
+image::vmware-asa-image34.png[Collectorの設定]
+
+
+
+====
+
+
+==== アセットへのアノテーションの追加
+
+アノテーションは、Cloud Insightsのさまざまなビューや指標クエリでフィルタリングして識別できるように、アセットにタグを付ける便利な方法です。
+
+このセクションでは、* Data Center *でフィルタリングするために、仮想マシンのアセットにアノテーションを追加します。
+
+.アノテーションルールを使用してアセットにタグを付ける
+[%collapsible]
+====
+. 左側のメニューで、*オブザーバビリティ>エンリッチ>アノテーションルール*に移動し、右上の*+ルール*ボタンをクリックして新しいルールを追加します。
++
+image::vmware-asa-image35.png[アノテーションルールへのアクセス]
+
+. [ルールの追加]*ダイアログボックスで、ルールの名前を入力し、ルールを適用するクエリ、影響を受けるアノテーションフィールド、および値を指定します。
++
+image::vmware-asa-image36.png[ルールの追加]
+
+. 最後に、[アノテーションルール]*ページの右上にある*[すべてのルールを実行]*をクリックしてルールを実行し、アセットにアノテーションを適用します。
++
+image::vmware-asa-image37.png[すべてのルールを実行]
+
+
+
+====
+
+
+==== アセットの調査と関連付け
+
+Cloud Insightsは、ストレージシステムとvSphereクラスタで一緒に実行されているアセットについて論理的な結論を導き出します。
+
+このセクションでは、ダッシュボードを使用してアセットを関連付ける方法を説明します。
+
+.ストレージパフォーマンスダッシュボードからのアセットの関連付け
+[%collapsible]
+====
+. 左側のメニューで、*オブザーバビリティ>探索>すべてのダッシュボード*に移動します。
++
+image::vmware-asa-image38.png[すべてのダッシュボードにアクセス]
+
+. [*+ from Gallery*]ボタンをクリックすると、インポート可能な既製のダッシュボードのリストが表示されます。
++
+image::vmware-asa-image39.png[ギャラリーダッシュボード]
+
+. リストからFlexVolパフォーマンスのダッシュボードを選択し、ページ下部の*[ダッシュボードの追加]*ボタンをクリックします。
++
+image::vmware-asa-image40.png[FlexVolパフォーマンスダッシュボード]
+
+. インポートしたら、ダッシュボードを開きます。ここから、詳細なパフォーマンスデータを含むさまざまなウィジェットを確認できます。単一のストレージシステムを表示するフィルタを追加し、ストレージボリュームを選択して詳細を表示します。
++
+image::vmware-asa-image41.png[ストレージボリュームの詳細を表示]
+
+. このビューから、このストレージボリューム、およびボリュームで実行されている利用率の高い仮想マシンと関連性の高い仮想マシンに関連するさまざまな指標を確認できます。
++
+image::vmware-asa-image42.png[関連性の高いVM]
+
+. 使用率が最も高いVMをクリックすると、そのVMの指標にドリルダウンして潜在的な問題を確認できます。
++
+image::vmware-asa-image43.png[VMのパフォーマンス指標]
+
+
+
+====
+
+
+==== Cloud Insightsを使用してノイジーネイバーを特定する
+
+Cloud Insightsのダッシュボードでは、同じストレージボリューム上で実行されている他のVMに悪影響を及ぼしているピアVMを簡単に分離できます。
+
+.[Top VM Latency]ダッシュボードを使用してノイジーネイバーを分離
+[%collapsible]
+====
+. この例では、* Gallery *の「VMware Admin - Where do I have VM Latency？」というダッシュボードにアクセスします。*
++
+image::vmware-asa-image44.png[VMレイテンシダッシュボード]
+
+. 次に、前の手順で作成した* Data Center *アノテーションでフィルタして、アセットのサブセットを表示します。
++
+image::vmware-asa-image45.png[データセンターのアノテーション]
+
+. このダッシュボードは、平均レイテンシの上位10個のVMを表示します。ここで、関心のあるVMをクリックして詳細を確認します。
++
+image::vmware-asa-image46.png[上位10個のVM]
+
+. ワークロードの競合を引き起こしている可能性があるVMが一覧表示され、使用可能になります。これらのVMのパフォーマンス指標にドリルダウンして、潜在的な問題を調査します。
++
+image::vmware-asa-image47.png[ワークロードノキヨウコウ]
+
+
+
+====
+
+
+==== Cloud Insightsで利用率の低いリソースとリソースを表示
+
+VMのリソースを実際のワークロード要件に合わせることで、リソース利用率を最適化し、インフラとクラウドサービスのコストを削減できます。Cloud Insightsのデータはカスタマイズして、利用率の高いVMや利用率の低いVMを簡単に表示できます。
+
+.VMのサイズを適正化する機会を特定
+[%collapsible]
+====
+. この例では、* Gallery *にある* VMware Adminという名前のダッシュボードにアクセスします。適切なサイズにする機会はどこにありますか？*
++
+image::vmware-asa-image48.png[適切なサイズのダッシュボード]
+
+. 最初に、クラスタ内のすべてのESXiホストでフィルタリングします。VMの上位と下位をメモリおよびCPU利用率別に表示します。
++
+image::vmware-asa-image49.png[適切なサイズのダッシュボード]
+
+. テーブルを使用するとソートが可能になり、選択したデータの列に基づいて詳細が表示されます。
++
+image::vmware-asa-image50.png[メトリックテーブル]
+
+. 「VMware Admin - Where can I potentially reclaim waste？*」という別のダッシュボードには、電源がオフになっているVMが容量使用量でソートされて表示されます。
++
+image::vmware-asa-image51.png[電源オフのVM]
+
+
+
+====
+
+
+==== クエリを使用してメトリクスを分離およびソートする
+
+Cloud Insightsでキャプチャされるデータの量は非常に包括的です。メトリクスクエリは、大量のデータを便利な方法でソートおよび整理するための強力な方法を提供します。
+
+.ONTAP Essentialsで詳細なVMwareクエリを表示する
+[%collapsible]
+====
+. ONTAP Essentials > VMware *に移動して、包括的なVMwareメトリッククエリにアクセスします。
++
+image::vmware-asa-image52.png[ONTAP Essential - VMware]
+
+. このビューでは、上部にデータをフィルタリングおよびグループ化するための複数のオプションが表示されます。データのすべての列はカスタマイズ可能で、追加の列を簡単に追加できます。
++
+image::vmware-asa-image53.png[ONTAP Essential - VMware]
+
+
+
+====
+
+
+=== まとめ
+
+この解決策は、NetApp Cloud Insightsの使用を開始する方法と、このオブザーバビリティ解決策が提供する強力な機能を紹介するための入門書として設計されています。製品には何百ものダッシュボードと指標クエリが組み込まれているため、すぐに使用できます。Cloud Insightsのフルバージョンは30日間の試用版として利用でき、基本バージョンはNetAppのお客様は無料で利用できます。
+
+
+
+=== 追加情報
+
+この解決策 に記載されているテクノロジの詳細については、次の追加情報 を参照してください。
+
+* https://bluexp.netapp.com/cloud-insights["NetApp BlueXPとCloud Insightsのランディングページ"]
+* https://docs.netapp.com/us-en/cloudinsights/["NetApp Cloud Insightsのドキュメント"]
+

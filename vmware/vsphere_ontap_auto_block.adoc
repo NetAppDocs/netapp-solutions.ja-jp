@@ -1,0 +1,57 @@
+---
+sidebar: sidebar 
+permalink: vmware/vsphere_ontap_auto_block.html 
+keywords: vSphere, datastore, VMFS, FC, NVMe/FC, iSER, iSCSI, FCoE,SAN, ONTAP tools 
+summary: このページでは、 VMware vSphere 環境に NetApp ONTAP ストレージ iSCSI VMFS データストアを導入する手順を説明します。 
+---
+= ONTAP を使用した vSphere 従来のブロックストレージプロビジョニング
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+:scriptsdir: ./../scripts/
+:author: Suresh Thoppay, TME - Hybrid Cloud Solutions
+:firstname: Suresh
+:authorinitials: STT
+:middlename: Thoppay,
+:lastname: TME - Hybrid Cloud Solutions
+:authors: Suresh Thoppay, TME - Hybrid Cloud Solutions
+
+
+[role="lead"]
+VMware vSphere では、 ONTAP SAN プロトコルをサポートする次の VMFS データストアオプションがサポートされています。
+
+[cols="70%, 30%"]
+|===
+| VMFS データストアのオプション | ONTAP SAN プロトコルのサポート 
+
+
+ a| 
+link:vsphere_ontap_auto_block_fc.html["Fibre Channel （ FC ；ファイバチャネル）"]
+| はい。 
+
+
+ a| 
+link:vsphere_ontap_auto_block_fcoe.html["Fibre Channel over Ethernet （ FCoE ）"]
+| はい。 
+
+
+ a| 
+link:vsphere_ontap_auto_block_iscsi.html["iSCSI"]
+| はい。 
+
+
+| iSCSI Extensions for RDMA （ iSER ） | いいえ 
+
+
+ a| 
+link:vsphere_ontap_auto_block_nvmeof.html["FC を使用した NVMe over Fabric （ NVMe/FC ）"]
+| はい。 
+
+
+| RDMA over Converged Ethernet （ NVMe/RoCE ）を使用した NVMe over Fabric | いいえ 
+|===
+
+NOTE: iSER または NVMe/RoCE VMFS が必要な場合は、 SANtricity ベースのストレージシステムをチェックしてください。

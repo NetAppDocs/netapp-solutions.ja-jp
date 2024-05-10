@@ -107,9 +107,9 @@ image::aws_ora_fsx_ec2_vldb_architecture.png[この画像は、FSxNを使用し�
 
 ここでは、VPC内のAWS EC2環境にOracle VLDBが導入済みであることを前提としています。AWSへのOracleの導入についてサポートが必要な場合は、次のテクニカルレポートを参照してください。
 
-* link:https://docs.netapp.com/us-en/netapp-solutions/databases/aws_ora_fsx_ec2_deploy_intro.html["Oracle Database Deployment on EC2 and FSx Best Practicesを参照してください"^]
-* link:https://docs.netapp.com/us-en/netapp-solutions/databases/aws_ora_fsx_ec2_iscsi_asm.html["iSCSI / ASMを使用したAWS FSX/EC2でのOracleデータベースの導入と保護"^]
-* link:https://docs.netapp.com/us-en/netapp-solutions/databases/aws_ora_fsx_ec2_nfs_asm.html["スタンドアロンでのOracle 19C NFS / ASMを使用したAWS FSX/EC2でのOracle 19Cの再起動"^]
+* link:aws_ora_fsx_ec2_deploy_intro.html["Oracle Database Deployment on EC2 and FSx Best Practicesを参照してください"^]
+* link:aws_ora_fsx_ec2_iscsi_asm.html["iSCSI / ASMを使用したAWS FSX/EC2でのOracleデータベースの導入と保護"^]
+* link:aws_ora_fsx_ec2_nfs_asm.html["スタンドアロンでのOracle 19C NFS / ASMを使用したAWS FSX/EC2でのOracle 19Cの再起動"^]
 
 
 Oracle VLDBは、FSx ONTAPまたはAWS EC2エコシステム内の任意のストレージで実行できます。次のセクションでは、AWS FSx ONTAPストレージのNFSマウントにステージングされているOracle VLDBのイメージコピーへのRMANインクリメンタルマージを設定するための、ステップバイステップの導入手順を示します。
@@ -999,7 +999,7 @@ RMAN> @rman_bkup_merge.cmd
 . Privison AWS EC2コンソールを介して、OSとバージョンが同じ新しいEC2 DBインスタンスホストora_02。プライマリEC2 DBサーバホストと同じパッチを使用してOSカーネルを構成し、OracleプレインストールRPMを使用してホストにスワップスペースを追加します。ソフトウェアのみのオプションを使用して、プライマリEC2 DBサーバホストと同じバージョンおよびパッチをOracleにインストールします。これらのタスクは、以下のリンクから入手できるNetApp自動化ツールキットを使用して自動化できます。
 +
 ツールキット： link:https://github.com/NetApp-Automation/na_oracle19c_deploy["na_oracle19c_deploy"^]
-ドキュメント： link:https://docs.netapp.com/us-en/netapp-solutions/databases/marketing_overview.html#awxtower-deployments["Oracle19c for ONTAP の NFS への自動導入"^]
+ドキュメント： link:marketing_overview.html#awxtower-deployments["Oracle19c for ONTAP の NFS への自動導入"^]
 
 . Oracle環境は、oratab、oraInst.loc、oracle user.bash_profileなど、プライマリEC2 DBインスタンスホストora_01と同様に構成します。これらのファイルはFSxN NFSマウントポイントにバックアップすることを推奨します。
 . FSxN NFSマウント上のOracleデータベースバックアップイメージコピーは、冗長性、可用性、パフォーマンスを確保するために、AWSのアベイラビリティゾーンにまたがるFSxクラスタに格納されます。NFSファイルシステムは、ネットワークが到達可能なかぎり、新しいサーバに簡単にマウントできます。次の手順では、リカバリのために、Oracle VLDBバックアップのイメージコピーを新しくプロビジョニングしたEC2 DBインスタンスホストにマウントします。

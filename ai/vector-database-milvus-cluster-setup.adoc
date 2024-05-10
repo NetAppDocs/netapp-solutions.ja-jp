@@ -24,7 +24,7 @@ Kubernetesデータベースとベクトルデータベースは、大規模な�
 . Milvusクラスタをインストールするには、さまざまなMilvusクラスタコンポーネントからのデータを格納するためにPersistent Volumes（PVS）が必要です。これらのコンポーネントには、etcd（3つのインスタンス）、pulsar-bookie-journal（3つのインスタンス）、pulsar-bookie-ledgers（3つのインスタンス）、pulsar-zookeeper-data（3つのインスタンス）があります。
 +
 
-NOTE: milvusクラスターでは、Milvusクラスターの信頼性の高いストレージとメッセージストリームのパブリッシュ/サブスクリプションをサポートする基盤となるエンジンにパルサーまたはKafkaのいずれかを使用できます。NFSを使用するKafkaについては、ONTAP 9.12.1以降で改善が行われています。これらの機能強化と、RHEL 8.7または9.1以降でのNFSv4.1およびLinuxの変更に加えて、NFSでKafkaを実行するときに発生する「silly rename」問題を解決してください。NetApp NFS解決策でKafkaを実行する方法の詳細については、 https://docs.netapp.com/us-en/netapp-solutions/data-analytics/kafka-nfs-introduction.html[]。
+NOTE: milvusクラスターでは、Milvusクラスターの信頼性の高いストレージとメッセージストリームのパブリッシュ/サブスクリプションをサポートする基盤となるエンジンにパルサーまたはKafkaのいずれかを使用できます。NFSを使用するKafkaについては、ONTAP 9.12.1以降で改善が行われています。これらの機能強化と、RHEL 8.7または9.1以降でのNFSv4.1およびLinuxの変更に加えて、NFSでKafkaを実行するときに発生する「silly rename」問題を解決してください。NetApp NFS解決策でKafkaを実行する方法の詳細については、 link:../data-analytics/kafka-nfs-introduction.html["リンクをクリックしてください"]。
 
 . NetApp ONTAPからNFSボリュームを1つ作成し、250GBのストレージを含む12個の永続ボリュームを構築しました。ストレージサイズはクラスタサイズによって異なります。たとえば、各PVが50GBの別のクラスタがあります。詳細については、以下のいずれかのPV YAMLファイルを参照してください。このようなファイルは合計12個ありました。各ファイルでは、storageClassNameが「default」に設定され、ストレージとパスはPVごとに一意です。
 +

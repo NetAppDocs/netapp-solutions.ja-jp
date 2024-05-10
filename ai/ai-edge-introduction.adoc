@@ -93,7 +93,7 @@ image:ai-edge-image3.png["エラー：グラフィックイメージがありま
 
 本ドキュメントでは、提案アーキテクチャの設計とパフォーマンスを検証します。ただし、ネットアップでは、コンテナ、ワークロード、モデル管理、クラウドやデータセンターとのデータ同期など、特定のソフトウェアレベルの要素は導入シナリオに固有のものであるため、テストは実施していません。ここには複数の選択肢があります。
 
-コンテナ管理レベルでは、 Kubernetes コンテナ管理が最適な選択肢であり、エンタープライズ環境に適した完全アップストリームバージョン（ Canonical ）または変更バージョン（ Red Hat ）のどちらでも十分にサポートされています。。 link:https://docs.netapp.com/us-en/netapp-solutions/ai/aicp_introduction.html["NetApp AI コントロールプレーン"^] NetApp Trident と新たに追加された Trident を使用しています https://github.com/NetApp/netapp-dataops-toolkit/releases/tag/v2.0.0["NetApp DataOps ツールキット"^] トレーサビリティ、データ管理機能、インターフェイス、ツールが組み込まれており、データサイエンティストやデータエンジニアはネットアップストレージと統合できます。Kubernetes 向け ML ツールキットである Kubeflow は、 TensorFlow サービスや NVIDIA Triton Inference Server などの複数のプラットフォームで、モデルのバージョン管理と KFServing をサポートするほか、 AI 機能も追加します。もう 1 つの選択肢は NVIDIA EGX プラットフォームです。このプラットフォームは、 GPU 対応 AI 推論コンテナのカタログにアクセスしながら、ワークロード管理を提供します。ただし、これらのオプションを使用するには、本番環境に移行するための多大な労力と専門知識が必要になる場合があります。また、サードパーティの独立系ソフトウェアベンダー（ ISV ）やコンサルタントの支援が必要になる場合もあります。
+コンテナ管理レベルでは、 Kubernetes コンテナ管理が最適な選択肢であり、エンタープライズ環境に適した完全アップストリームバージョン（ Canonical ）または変更バージョン（ Red Hat ）のどちらでも十分にサポートされています。。 link:aicp_introduction.html["NetApp AI コントロールプレーン"^] NetApp Trident と新たに追加された Trident を使用しています https://github.com/NetApp/netapp-dataops-toolkit/releases/tag/v2.0.0["NetApp DataOps ツールキット"^] トレーサビリティ、データ管理機能、インターフェイス、ツールが組み込まれており、データサイエンティストやデータエンジニアはネットアップストレージと統合できます。Kubernetes 向け ML ツールキットである Kubeflow は、 TensorFlow サービスや NVIDIA Triton Inference Server などの複数のプラットフォームで、モデルのバージョン管理と KFServing をサポートするほか、 AI 機能も追加します。もう 1 つの選択肢は NVIDIA EGX プラットフォームです。このプラットフォームは、 GPU 対応 AI 推論コンテナのカタログにアクセスしながら、ワークロード管理を提供します。ただし、これらのオプションを使用するには、本番環境に移行するための多大な労力と専門知識が必要になる場合があります。また、サードパーティの独立系ソフトウェアベンダー（ ISV ）やコンサルタントの支援が必要になる場合もあります。
 
 
 

@@ -1,0 +1,231 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware_vcf_aff_principal_vvols.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc 
+summary:  
+---
+= VIワークロードドメインのプリンシパルストレージとしてのVVOLデータストア
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+作成者：Josh Powell、Ravi BCB
+
+
+
+== VIワークロードドメインのプリンシパルストレージとしてのVVOLデータストア
+
+
+
+=== シナリオの概要
+
+このシナリオでは、VCFにVIワークロードドメインを導入するためのプリンシパルストレージとしてVVOLデータストアを構成する方法を説明します。ワークロードドメインを導入する前に、VVOLコンテナを準備しておく必要があります。そのためには、ONTAP Tools for VMware vSphereをVCF管理ドメインにインストールし、Swagger APIツールを使用してVVOLコンテナを作成します。
+
+必要に応じて、VCFのSDDC Managerで実行する必要がある手順について外部ドキュメントを参照し、ストレージ構成の部分に固有の手順のみを説明します。
+
+VCFでVVOLストレージを使用する方法の詳細については、を参照してください。 link:https://docs.vmware.com/en/VMware-Cloud-Foundation/5.1/vcf-admin/GUID-28A95C3D-1344-4579-A562-BEE5D07AAD2F.html["VMware Cloud Foundationを使用したVVOLストレージ"]。
+
+VCFモードでのONTAPツールの使用については、を参照してください。 link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/deploy/vmware_cloud_foundation_mode_deployment.html["ONTAP ツールの VMware Cloud Foundation 配置モード"]。
+
+このシナリオでは、次の手順の概要を説明します。
+
+* ONTAP Storage Virtual Machine（SVM）のネットワークと、NFSトラフィックを伝送するための論理インターフェイス（LIF）が存在することを確認します。
+* ESXiホストからNFSボリュームへのアクセスを許可するエクスポートポリシーを作成します。
+* ONTAP Tools for VMware vSphere（VCFモード）をVCF管理ドメインに導入します。
+* ONTAP toolsのswagger APIを使用して、ONTAPストレージシステムを追加します。
+* SDDC ManagerでNFSトラフィックとvMotionトラフィック用のネットワークプールを作成します。
+* VIワークロードドメインの導入構成時に、NFSボリュームに接続するための情報を指定します。
+* ストレージの検証とワークロードドメインの導入を監視
+* NFSデータストアが作成されたことを確認します。
+
+
+
+
+=== 前提条件
+
+このシナリオでは、次のコンポーネントと構成が必要です。
+
+* NFSトラフィックを許可するようにStorage Virtual Machine（SVM）が設定されたNetApp AFFストレージシステム。
+* NFSトラフィックを伝送するIPネットワークに論理インターフェイス（LIF）が作成されており、SVMに関連付けられています。
+* VCF管理ドメインの展開が完了し、SDDCマネージャインターフェイスにアクセスできます。
+* 4台のESXiホストがSDDC Managerインベントリに送信されます。
+* この目的のために確立されたVLANまたはネットワークセグメント上でNFSストレージトラフィック用に予約されているIPアドレス。
+* ONTAP Tools for VMware vSphere v9.13はからダウンロードします。 link:https://mysupport.netapp.com/site/["ネットアップサポート"] サイト
+* vVolコンテナを格納できるだけの十分な容量を持つONTAPストレージシステムに作成されたNFSボリューム。
+
+
+
+NOTE: VIワークロードドメインを導入する場合、VCFはNFSサーバへの接続を検証します。これは、NFS IPアドレスを使用してvmkernelアダプタを追加する前に、ESXiホスト上の管理アダプタを使用して行います。そのため、検証を続行するためには、1）管理ネットワークがNFSサーバにルーティング可能であること、または2）NFSデータストアボリュームをホストするSVMに管理ネットワーク用のLIFが追加されていることを確認する必要があります。
+
+ONTAPストレージシステムの構成については、 link:https://docs.netapp.com/us-en/ontap["ONTAP 9ドキュメント"] 中央（Center）：
+
+VCFの設定については、を参照してください。 link:https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["VMware Cloud Foundationのドキュメント"]。
+
+
+
+=== 導入手順
+
+VVOLデータストアをプリンシパルストレージとして使用するVIワークロードドメインを導入する手順は、2つのグループに分けることができます。ONTAP Tools for VMware vSphereを使用してVVOLコンテナを作成する手順、およびVCF SDDC Managerで実行する手順。
+
+
+
+==== ONTAPツールを使用したvVolコンテナの作成
+
+ONTAPストレージシステムにvVolコンテナを作成するには、次の手順を実行します。
+
+.ONTAP Tools for VMware vSphereの導入
+[%collapsible]
+====
+ONTAP Tools for VMware vSphere（OTV）はVMアプライアンスとして導入され、ONTAPストレージを管理するための統合vCenter UIを提供します。この解決策では、OTVはVCFモードで導入されます。このモードではプラグインがvCenterに自動的に登録されず、VVOLコンテナを作成するためのSwagger APIインターフェイスが提供されます。
+
+ONTAP Tools for VMware vSphereを導入するには、次の手順を実行します。
+
+. ONTAP toolsのOVAイメージをから取得します。 link:https://mysupport.netapp.com/site/products/all/details/otv/downloads-tab["NetApp Support Site"] ローカルフォルダにダウンロードします。
+. VCF管理ドメインのvCenterアプライアンスにログインします。
+. vCenterアプライアンスのインターフェイスで管理クラスタを右クリックし、* Deploy OVF Template…*を選択します。
++
+image:vmware-vcf-aff-image21.png["OVFテンプレートの導入..."]
+
++
+｛nbsp｝
+
+. [Deploy OVF Template]ウィザードで、*[Local file]*ラジオボタンをクリックし、前の手順でダウンロードしたONTAP tools OVAファイルを選択します。
++
+image:vmware-vcf-aff-image22.png["OVAファイルを選択"]
+
++
+｛nbsp｝
+
+. ウィザードの手順2~5では、VMの名前とフォルダを選択し、コンピューティングリソースを選択して詳細を確認し、ライセンス契約に同意します。
+. 構成ファイルとディスクファイルの格納場所として、VCF管理ドメインクラスタのVSANデータストアを選択します。
++
+image:vmware-vcf-aff-image23.png["OVAファイルを選択"]
+
++
+｛nbsp｝
+
+. [Select network]ページで、管理トラフィックに使用するネットワークを選択します。
++
+image:vmware-vcf-aff-image24.png["ネットワークの選択"]
+
++
+｛nbsp｝
+
+. [Customize template]ページで、必要な情報をすべて入力します。
++
+** OTVへの管理アクセスに使用するパスワード。
+** NTPサーバのIPアドレス。
+** OTVメンテナンスアカウントのパスワード。
+** OTV Derby DBパスワード。
+** [Enable VMware Cloud Foundation（VCF）]*チェックボックスをオンにします。
+** vCenterアプライアンスのFQDNまたはIPアドレスと、vCenterのクレデンシャルを入力します。
+** 必要なネットワークプロパティのフィールドを指定します。
++
+完了したら、*[次へ]*をクリックして続行します。
+
++
+image:vmware-vcf-aff-image25.png["OTVテンプレートのカスタマイズ1"]
+
++
+image:vmware-vcf-aff-image26.png["OTVテンプレートのカスタマイズ2"]
+
++
+｛nbsp｝
+
+
+
+. [Ready to Complete]ページのすべての情報を確認し、[Finish]をクリックしてOTVアプライアンスの導入を開始します。
+
+
+====
+.Swagger UIからVCFアプライアンスAPIトークンを取得します。
+[%collapsible]
+====
+Swagger-UIを使用して実行する必要がある手順は複数あります。1つ目は、VCF appliance-api-tokenを取得する方法です。
+
+. Swaggerユーザインターフェイスにアクセスするには、 https://otv_ip:8143/api/rest/swagger-ui.html[] Webブラウザで。
+. [User Authentication：APIs for user authentication]*まで下にスクロールし、*[Post/2.0/vcf/user/login]*を選択します。
++
+image:vmware-vcf-aff-image27.png["/2.0/VCF/ユーザ/ログイン後"]
+
+. パラメーターコンテンツタイプ*で、コンテンツタイプを* application/json*に切り替えます。
+. [vcfLoginRequest]*で、OTVアプライアンスのユーザ名とパスワードを入力します。
++
+image:vmware-vcf-aff-image28.png["OTVのユーザ名とパスワードを入力してください"]
+
+. * Try it out！*ボタンをクリックし、* Response Header *で*"authorization"：*テキスト文字列をコピーします。
++
+image:vmware-vcf-aff-image29.png["コピー許可応答ヘッダー"]
+
+
+
+====
+.ONTAPストレージシステムのパブリックSSL証明書の取得
+[%collapsible]
+====
+次に、Swagger UIを使用してONTAPストレージシステムのパブリックSSL証明書を取得します。
+
+. Swagger UIで、* Security：APIs related to certificates *を探し、* GET /3.0/security/certificates/｛host｝/server-certificate *を選択します。
++
+image:vmware-vcf-aff-image30.png["/3.0/security/certificates/｛host｝/server-certificateを取得します。"]
+
+. [* appliance-api-token*]フィールドで、前の手順で取得したテキスト文字列を貼り付けます。
+. host *フィールドに、パブリックSSL証明書の取得元となるONTAPストレージシステムのIPアドレスを入力します。
++
+image:vmware-vcf-aff-image31.png["パブリックSSL証明書をコピー"]
+
+
+
+====
+.Swagger UIからONTAPツールへのストレージの追加
+[%collapsible]
+====
+VCF appliance-api-tokenおよびONTAPパブリックSSL証明書を使用して、ONTAPストレージシステムをOTVに追加します。
+
+. Swagger UIで、[Storage Systems：APIs related to storage systems]までスクロールし、[Post /3.0/storage/clusters]を選択します。
+. [appliance-api-token]フィールドに、前の手順で取得したVCFトークンを入力します。トークンは最終的に期限切れになるため、新しいトークンを定期的に取得する必要がある場合があります。
+. controllerRequest *テキストボックスに、前の手順で取得したONTAPストレージシステムのIPアドレス、ユーザ名、パスワード、およびパブリックSSL証明書を入力します。
++
+image:vmware-vcf-aff-image32.png["ストレージシステムを追加するための情報を入力してください"]
+
+. [Try it out！]ボタンをクリックして、ストレージシステムをOTVに追加します。
+
+
+====
+.ONTAPストレージにvVolコンテナを作成する
+[%collapsible]
+====
+次の手順では、ONTAPストレージシステムにVVolコンテナを作成します。この手順を実行するには、ONTAPストレージシステムにNFSボリュームがすでに作成されている必要があります。必ず、アクセスするESXiホストからNFSボリュームへのアクセスを許可するエクスポートポリシーを使用してください。前の手順の参照先
+
+. Swagger UIで、[Container：APIs related to containers]までスクロールし、[Post /2.0/admin/containers]を選択します。
++
+image:vmware-vcf-aff-image33.png["/2.0/admin/containersを参照してください"]
+
+. [* appliance-api-token*]フィールドに、前の手順で取得したVCFトークンを入力します。トークンは最終的に期限切れになるため、新しいトークンを定期的に取得する必要がある場合があります。
+. [containerRequest]ボックスで、次の必須フィールドに入力します。
++
+** controllerIp：< ONTAP管理IPアドレス>
+** defaultScp：< vVolコンテナに関連付けるストレージ機能プロファイル>
+** FlexVol -「aggregateName」：<NFSボリュームが配置されているONTAPアグリゲート>
+** FlexVol -「name」：< NFS FlexVolの名前>
+** 「name」< VVOLコンテナの名前>
+** vserverName：<NFSをホストするONTAPストレージFlexVol >
+
+
+
+
+image:vmware-vcf-aff-image34.png["[vVol containerRequest]フォーム"]
+
+4 [Try it out！]*をクリックして手順を実行し、VVOLコンテナを作成します。
+
+====
+
+
+==== VVolを原則ストレージとして使用したVI Workload Domainの導入
+
+SDDC Managerで次の手順を実行して、VVOLを基本ストレージとして使用するVIワークロードドメインを導入します。

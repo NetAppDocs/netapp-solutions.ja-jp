@@ -142,7 +142,7 @@ image::automation_ora_asa_iscsi_archit.png[このイメージは、iSCSIおよ�
 導入には、次の前提条件が必要です。
 
 . ここでは、NetApp ASAストレージアレイが設置および設定されていることを前提としています。これには、iSCSIブロードキャストドメイン、両方のコントローラノード上のLACPインターフェイスグループa0a、両方のコントローラノード上のiSCSI VLANポート（a0a-<iscsi-a-vlan-id>、a0a-<iscsi-b-vlan-id>）が含まれます。ヘルプが必要な場合の詳細な手順については、次のリンクを参照してください。 link:https://docs.netapp.com/us-en/ontap-systems/asa400/install-detailed-guide.html["詳細ガイド- ASA A400"^]
-. 最新バージョンのAnsibleとGitがインストールされたAnsibleコントローラノードとしてLinux VMをプロビジョニングします。詳細については、次のリンクを参照してください。 link:https://docs.netapp.com/us-en/netapp-solutions/automation/getting-started.html["NetApp解決策 自動化の導入"^] セクション- `Setup the Ansible Control Node for CLI deployments on RHEL / CentOS` または `Setup the Ansible Control Node for CLI deployments on Ubuntu / Debian`。
+. 最新バージョンのAnsibleとGitがインストールされたAnsibleコントローラノードとしてLinux VMをプロビジョニングします。詳細については、次のリンクを参照してください。 link:../automation/getting-started.html["NetApp解決策 自動化の導入"^] セクション- `Setup the Ansible Control Node for CLI deployments on RHEL / CentOS` または `Setup the Ansible Control Node for CLI deployments on Ubuntu / Debian`。
 . iSCSI用のNetApp Oracle Deployment Automation Toolkitのコピーをクローニングします。
 +
 [source, cli]
@@ -496,7 +496,7 @@ image::automation_ora_asa_em_03.png[この画像は、Oracle Enterprise Manager 
 
 [%collapsible]
 ====
-TR-4979を参照 link:https://docs.netapp.com/us-en/netapp-solutions/databases/aws_ora_fsx_vmc_guestmount.html#oracle-backup-restore-and-clone-with-snapcenter["ゲストマウント型FSx ONTAPにより、VMware Cloud on AWS上のシンプルで自己管理型のOracleを実現"^] セクション。 `Oracle backup, restore, and clone with SnapCenter` SnapCenterのセットアップと、データベースのバックアップ、リストア、クローニングのワークフローの実行の詳細については、を参照してください。
+TR-4979を参照 link:aws_ora_fsx_vmc_guestmount.html#oracle-backup-restore-and-clone-with-snapcenter["ゲストマウント型FSx ONTAPにより、VMware Cloud on AWS上のシンプルで自己管理型のOracleを実現"^] セクション。 `Oracle backup, restore, and clone with SnapCenter` SnapCenterのセットアップと、データベースのバックアップ、リストア、クローニングのワークフローの実行の詳細については、を参照してください。
 
 ====
 

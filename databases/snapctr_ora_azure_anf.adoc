@@ -21,7 +21,7 @@ summary: 解決策では、NFSプロトコルを使用したプライマリデ�
 
 NetApp SnapCenter ソフトウェアは、使いやすいエンタープライズプラットフォームで、アプリケーション、データベース、ファイルシステム全体でデータ保護をセキュアに調整、管理できます。ストレージシステムでのアクティビティの監視と規制の機能を犠牲にすることなく、これらのタスクをアプリケーション所有者にオフロードすることで、バックアップ、リストア、クローンのライフサイクル管理を簡易化します。ストレージベースのデータ管理を活用することで、パフォーマンスと可用性が向上し、テストと開発の時間が短縮されます。
 
-TR-4987では、 link:https://docs.netapp.com/us-en/netapp-solutions/databases/automation_ora_anf_nfs.html["NFSを使用したAzure NetApp FilesへのOracleの導入を簡易化、自動化"^]AzureクラウドのAzure NetApp Files（ANF）へのOracleの自動導入のデモを行います。このドキュメントでは、非常に使いやすいSnapCenter UIツールを使用して、AzureクラウドのANFでOracleデータベースの保護と管理を行う方法を紹介します。
+TR-4987では、 link:automation_ora_anf_nfs.html["NFSを使用したAzure NetApp FilesへのOracleの導入を簡易化、自動化"^]AzureクラウドのAzure NetApp Files（ANF）へのOracleの自動導入のデモを行います。このドキュメントでは、非常に使いやすいSnapCenter UIツールを使用して、AzureクラウドのANFでOracleデータベースの保護と管理を行う方法を紹介します。
 
 この解決策 は、次のユースケースに対応します。
 
@@ -141,10 +141,10 @@ image::automation_ora_anf_nfs_archit.png[このイメージは、iSCSIとASMを�
 
 [%collapsible]
 ====
-導入には、AzureのANFで既存のOracleデータベースを実行する必要があります。そうでない場合は、次の手順に従って、解決策検証用に2つのOracleデータベースを作成します。AzureクラウドでのANFへのOracleデータベースの導入と自動化の詳細については、『TR-4987： link:https://docs.netapp.com/us-en/netapp-solutions/databases/automation_ora_anf_nfs.html["NFSを使用したAzure NetApp FilesへのOracleの導入を簡易化、自動化"^]
+導入には、AzureのANFで既存のOracleデータベースを実行する必要があります。そうでない場合は、次の手順に従って、解決策検証用に2つのOracleデータベースを作成します。AzureクラウドでのANFへのOracleデータベースの導入と自動化の詳細については、『TR-4987： link:automation_ora_anf_nfs.html["NFSを使用したAzure NetApp FilesへのOracleの導入を簡易化、自動化"^]
 
 . Azureアカウントがセットアップされ、必要なVNetセグメントとネットワークセグメントがAzureアカウント内に作成されている。
-. Azureクラウドポータルから、Azure Linux VMをOracle DBサーバとして導入します。Oracleデータベース用のAzure NetApp Files容量プールとデータベースボリュームを作成します。azureuserからDBサーバへのVM SSH秘密鍵/公開鍵認証を有効にします。環境のセットアップの詳細については、前のセクションのアーキテクチャ図を参照してください。参照先 link:https://docs.netapp.com/us-en/netapp-solutions/databases/azure_ora_nfile_procedures.html["Azure VMおよびAzure NetApp Files へのOracleの導入手順を順を追って説明します"^] を参照してください。
+. Azureクラウドポータルから、Azure Linux VMをOracle DBサーバとして導入します。Oracleデータベース用のAzure NetApp Files容量プールとデータベースボリュームを作成します。azureuserからDBサーバへのVM SSH秘密鍵/公開鍵認証を有効にします。環境のセットアップの詳細については、前のセクションのアーキテクチャ図を参照してください。参照先 link:azure_ora_nfile_procedures.html["Azure VMおよびAzure NetApp Files へのOracleの導入手順を順を追って説明します"^] を参照してください。
 +
 
 NOTE: ローカルディスクの冗長性を使用して導入されたAzure VMの場合は、VMのルートディスクに少なくとも128Gが割り当てられ、OracleインストールファイルをステージングしてOSスワップファイルを追加するための十分なスペースが確保されていることを確認してください。必要に応じて、/tmplvおよび/rootlv OSパーティションを展開します。データベースボリュームの命名規則がVMname-u01、VMname-u02、およびVMname-u03に準拠していることを確認します。
@@ -160,14 +160,14 @@ sudo lvresize -r -L +20G /dev/mapper/rootvg-rootlv
 sudo lvresize -r -L +10G /dev/mapper/rootvg-tmplv
 ----
 . Azureクラウドポータルで、NetApp SnapCenter UIツールを最新バージョンで実行するためのWindowsサーバをプロビジョニングします。詳細については、次のリンクを参照してください。 link:https://docs.netapp.com/us-en/snapcenter/install/task_install_the_snapcenter_server_using_the_install_wizard.html["SnapCenter サーバをインストールします"^]。
-. 最新バージョンのAnsibleとGitがインストールされたAnsibleコントローラノードとしてLinux VMをプロビジョニングします。詳細については、次のリンクを参照してください。 link:https://docs.netapp.com/us-en/netapp-solutions/automation/getting-started.html["NetApp解決策 自動化の導入"^] セクション-
+. 最新バージョンのAnsibleとGitがインストールされたAnsibleコントローラノードとしてLinux VMをプロビジョニングします。詳細については、次のリンクを参照してください。 link:../automation/getting-started.html["NetApp解決策 自動化の導入"^] セクション-
 `Setup the Ansible Control Node for CLI deployments on RHEL / CentOS` または
 `Setup the Ansible Control Node for CLI deployments on Ubuntu / Debian`。
 +
 
 NOTE: Ansibleコントローラノードは、SSHポートを介してAzure DB VMにアクセスできるかぎり、オンプレミスまたはAzureクラウドに配置できます。
 
-. NetApp向けOracle Deployment Automation Toolkitのコピーのクローンを作成します。の手順に従います。 link:https://docs.netapp.com/us-en/netapp-solutions/databases/automation_ora_anf_nfs.html["TR-4887"^] をクリックしてプレイブックを実行します。
+. NetApp向けOracle Deployment Automation Toolkitのコピーのクローンを作成します。の手順に従います。 link:automation_ora_anf_nfs.html["TR-4887"^] をクリックしてプレイブックを実行します。
 +
 [source, cli]
 ----
@@ -548,6 +548,6 @@ link:https://docs.netapp.com/us-en/snapcenter/index.html["https://docs.netapp.co
 
 * TR-4987：『Simplified、Automated Oracle Deployment on Azure NetApp Files with NFS』
 +
-link:https://docs.netapp.com/us-en/netapp-solutions/databases/automation_ora_anf_nfs.html["https://docs.netapp.com/us-en/netapp-solutions/databases/automation_ora_anf_nfs.html"^]
+link:automation_ora_anf_nfs.html["Deployment手順"]
 
 

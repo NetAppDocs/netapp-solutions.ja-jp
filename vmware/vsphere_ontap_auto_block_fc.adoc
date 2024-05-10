@@ -1,0 +1,106 @@
+---
+sidebar: sidebar 
+permalink: vmware/vsphere_ontap_auto_block_fc.html 
+keywords: vSphere, datastore, VMFS, FC, ONTAP tools, zone, WWPN 
+summary: このページでは、 VMware vSphere 環境に NetApp ONTAP ストレージ FC VMFS データストアを導入する手順を説明します。 
+---
+= vSphere VMFS データストア - Fibre Channel ストレージバックエンドに ONTAP を使用
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+:scriptsdir: ./../scripts/
+:author: Suresh Thoppay, TME - Hybrid Cloud Solutions
+:ontap_version: ONTAP 9.8 or later
+:vsphere_version: vSphere 7.0 or later
+:firstname: Suresh
+:authorinitials: STT
+:middlename: Thoppay,
+:lastname: TME - Hybrid Cloud Solutions
+:authors: Suresh Thoppay, TME - Hybrid Cloud Solutions
+
+
+
+
+== このタスクについて
+
+このセクションでは、 ONTAP Fibre Channel （ FC ；ファイバチャネル）ストレージを使用した VMFS データストアの作成について説明します。
+
+自動プロビジョニングの場合は、次のいずれかのスクリプトを使用します。 <<PowerShell>>、 <<Ansible>>または <<テラフォーム>>。
+
+
+
+== 必要なもの
+
+* vSphere 環境およびを管理するために必要な基本的なスキル ONTAP
+* ONTAP 9.8以降を実行するONTAPストレージシステム（FAS / AFF / CVO / ONTAP Select / ASA）
+* ONTAP クレデンシャル（ SVM 名、ユーザ ID 、パスワード）
+* ホスト、ターゲット、 SVM 、および LUN の情報の ONTAP WWPN
+* link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-429C4DDD-5EC0-4DBD-8EA8-76082AB7ADEC.html++["入力した FC 構成ワークシート"]
+* vCenter Server クレデンシャル
+* vSphere ホスト情報
++
+** vSphere 7.0以降
+
+
+* ファブリックスイッチ
++
+** 接続された ONTAP FC データポートと vSphere ホスト
+** N_Port ID Virtualization （ NPIV ）機能が有効になっている場合
+** 単一のイニシエータの単一ターゲットゾーンを作成します。
++
+*** イニシエータごとにゾーンを 1 つ作成します（単一のイニシエータゾーン）。
+*** 各ゾーンに、 SVM の ONTAP FC 論理インターフェイス（ WWPN ）であるターゲットを含めます。SVM ごとに、ノードごとに少なくとも 2 つの論理インターフェイスが必要です。物理ポートの WWPN は使用しないでください。
+
+
+
+
+* VMware vSphere 向け ONTAP ツールの導入、設定、利用可能な状態
+
+
+
+
+== VMFS データストアのプロビジョニング
+
+VMFS データストアをプロビジョニングするには、次の手順を実行します。
+
+. との互換性を確認します https://mysupport.netapp.com/matrix["Interoperability Matrix Tool （ IMT ）"]
+. を確認します link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-7D444A0D-02CE-4A21-8017-CB1DC99EFD9A.html++["FCP 構成がサポートされています"]。
+
+
+
+
+=== ONTAP タスク
+
+. link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.dot-cm-cmpr-980/system__license__show.html++["FCP の ONTAP ライセンスがあることを確認します。"]
++
+.. 「 system license show 」コマンドを使用して、 FCP が一覧表示されていることを確認します。
+.. ライセンスを追加するには 'license add-license-code <license code> を使用します
+
+
+. SVM で FCP プロトコルが有効になっていることを確認します。
++
+.. link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-1C31DF2B-8453-4ED0-952A-DF68C3D8B76F.html++["既存の SVM の FCP を確認します。"]
+.. link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-D322649F-0334-4AD7-9700-2A4494544CB9.html++["既存の SVM で FCP を設定"]
+.. link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-0FCB46AA-DA18-417B-A9EF-B6A665DB77FC.html++["FCP で新しい SVM を作成します。"]
+
+
+. FCP 論理インターフェイスが SVM で使用可能であることを確認します。
++
+.. 「 Network Interface show 」を使用して、 FCP アダプタを確認します。
+.. GUI を使用して SVM を作成する場合、論理インターフェイスはそのプロセスの一部です。
+.. ネットワーク・インターフェイスの名前を変更するには ' Network Interface modify を使用します
+
+
+. link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.dot-cm-sanag/GUID-D4DAC7DB-A6B0-4696-B972-7327EE99FD72.html++["LUN を作成してマッピングします。"] VMware vSphere 用の ONTAP ツールを使用する場合は、この手順を省略してください。
+
+
+
+
+=== VMware vSphere タスク
+
+. HBA ドライバがインストールされていることを確認します。VMware がサポートする HBA には、すぐに使用できるドライバが導入されています に表示されます link:++https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-ED20B7BE-0D1C-4BF7-85C9-631D45D96FEC.html++["ストレージアダプタ情報"]。
+. link:++https://docs.netapp.com/vapp-98/topic/com.netapp.doc.vsc-iag/GUID-D7CAD8AF-E722-40C2-A4CB-5B4089A14B00.html++["ONTAP ツールを使用して VMFS データストアをプロビジョニングする"]。
+

@@ -63,7 +63,7 @@ SparkでHorovodを実行するためのAPIには、高レベルのエスティ�
 
 == CTR予測にKerasを使用したマルチワーカーディープラーニング
 
-ML プラットフォームとアプリケーションの最近の進歩により、現在は大規模な学習が注目されています。クリックスルー率（ CTR ）は、オンライン広告インプレッション数 100 件あたりの平均クリックスルー数（パーセンテージ）と定義されています。デジタルマーケティング、小売、 E コマース、サービスプロバイダなど、さまざまな業界やユースケースで重要な指標として広く採用されています。を参照してください https://docs.netapp.com/us-en/netapp-solutions/ai/aks-anf_introduction.html["TR-4904 ：『 Distributed Training in Azure - Click Through Rate Prediction 』"^] Kubernetes、分散データETL、DaskおよびCUDA MLを使用したモデルトレーニングなど、CTRのアプリケーションとエンドツーエンドのクラウドAIワークフロー実装の詳細を確認できます。
+ML プラットフォームとアプリケーションの最近の進歩により、現在は大規模な学習が注目されています。クリックスルー率（ CTR ）は、オンライン広告インプレッション数 100 件あたりの平均クリックスルー数（パーセンテージ）と定義されています。デジタルマーケティング、小売、 E コマース、サービスプロバイダなど、さまざまな業界やユースケースで重要な指標として広く採用されています。を参照してください link:../ai/aks-anf_introduction.html["TR-4904 ：『 Distributed Training in Azure - Click Through Rate Prediction 』"^] Kubernetes、分散データETL、DaskおよびCUDA MLを使用したモデルトレーニングなど、CTRのアプリケーションとエンドツーエンドのクラウドAIワークフロー実装の詳細を確認できます。
 
 このテクニカルレポートでは、別のを使用しました https://labs.criteo.com/2013/12/download-terabyte-click-logs-2/["Criteo Terabyteのログデータセットをクリックします"^] （TR-4904を参照）。Kerasを使用した複数のワーカーによる分散型ディープラーニングで、Deep NetworkモデルとCross Network（DCN）モデルを使用したSparkワークフローを構築し、ログ損失エラー機能のパフォーマンスをベースラインSparkのSpark ML Logistic Regression(ログ記録的回帰)モデルと比較します。DCNは、制限された角度の効率的な機能の相互作用を効率的にキャプチャし、高度な非線形相互作用を学習し、手動によるフィーチャーエンジニアリングや完全な検索を必要とせず、計算コストも低くなります。
 

@@ -1,0 +1,342 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware_vcf_asa_supp_wkld_nvme.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc, iscsi 
+summary:  
+---
+= VCFワークロードドメイン用のNVMe/TCP補助ストレージの設定
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+作成者：Josh Powell
+
+
+
+== VCFワークロードドメイン用のNVMe/TCP補助ストレージの設定
+
+
+
+=== シナリオの概要
+
+このシナリオでは、VCFワークロードドメイン用にNVMe/TCPの補助ストレージを設定する方法を説明します。
+
+このシナリオでは、次の手順の概要を説明します。
+
+* NVMe/TCPトラフィック用の論理インターフェイス（LIF）を備えたStorage Virtual Machine（SVM）を作成します。
+* VIワークロードドメインにiSCSIネットワーク用の分散ポートグループを作成します。
+* VIワークロードドメインのESXiホストにiSCSI用のvmkernelアダプタを作成します。
+* ESXiホストにNVMe/TCPアダプタを追加します。
+* NVMe/TCPデータストアを導入
+
+
+
+
+=== 前提条件
+
+このシナリオでは、次のコンポーネントと構成が必要です。
+
+* イーサネットスイッチ上にストレージトラフィック専用の物理データポートを備えたONTAP ASAストレージシステム。
+* VCF管理ドメインの導入が完了し、vSphereクライアントにアクセスできるようになります。
+* VIワークロードドメインは以前に導入されています。
+
+
+NetAppでは、NVMe/TCPに完全に冗長なネットワーク設計を推奨しています。次の図は、ストレージシステム、スイッチ、ネットワークアダプタ、およびホストシステムにフォールトトレランスを提供する冗長構成の例を示しています。『NetApp』を参照してください。 link:https://docs.netapp.com/us-en/ontap/san-config/index.html["SAN 構成リファレンス"] 追加情報 の場合。
+
+image:vmware-vcf-asa-image74.png["NVMe-TCPネットワーク設計"]
+
+複数のパスをまたいだマルチパスとフェイルオーバーを実現するために、NetAppでは、NVMe/TCP構成のすべてのSVMについて、ストレージノードごとに少なくとも2つのLIFを別 々 のイーサネットネットワークに配置することを推奨しています。
+
+このドキュメントでは、新しいSVMを作成し、IPアドレス情報を指定してNVMe / TCPトラフィック用に複数のLIFを作成するプロセスについて説明します。既存のSVMに新しいLIFを追加する方法については、を参照してください。 link:https://docs.netapp.com/us-en/ontap/networking/create_a_lif.htm["LIFを作成する（ネットワークインターフェイス）"]。
+
+ONTAPストレージシステムのNVMeでの追加情報の設計に関する考慮事項については、を参照してください。 link:https://docs.netapp.com/us-en/ontap/nvme/support-limitations.html["NVMeの構成、サポート、制限事項"]。
+
+
+
+=== 導入手順
+
+NVMe/TCPを使用してVCFワークロードドメインにVMFSデータストアを作成するには、次の手順を実行します。
+
+
+
+==== ONTAPストレージシステムにSVM、LIF、NVMeネームスペースを作成する
+
+ONTAPシステムマネージャで次の手順を実行します。
+
+.Storage VMとLIFを作成
+[%collapsible]
+====
+NVMe/TCPトラフィック用のLIFを複数持つSVMを作成するには、次の手順を実行します。
+
+. ONTAPシステムマネージャで、左側のメニュー*[Storage VMs]*に移動し、*+[追加]*をクリックして開始します。
++
+image:vmware-vcf-asa-image01.png["[+ Add]をクリックしてSVMの作成を開始"]
+
++
+｛nbsp｝
+
+. Storage VMの追加*ウィザードで、SVMの*名前*を指定して*[IP Space]*を選択し、*[アクセスプロトコル]*で*[NVMe]*タブをクリックし、*[NVMe/TCPを有効にする]*チェックボックスをオンにします。
++
+image:vmware-vcf-asa-image75.png["Storage VM追加ウィザード- NVMe/TCPの有効化"]
+
++
+｛nbsp｝
+
+. [ネットワークインターフェイス]セクションで、最初のLIFの*[IPアドレス]*、*[サブネットマスク]*、および*[ブロードキャストドメインとポート]*を入力します。それ以降のLIFの場合は、チェックボックスを有効にして残りのすべてのLIFで共通の設定を使用するか、別 々 の設定を使用できます。
++
+
+NOTE: 複数のパスをまたいだマルチパスとフェイルオーバーを実現するために、NetAppでは、NVMe/TCP構成のすべてのSVMについて、ストレージノードごとに少なくとも2つのLIFを別 々 のイーサネットネットワークに配置することを推奨しています。
+
++
+image:vmware-vcf-asa-image76.png["LIFのネットワーク情報を入力"]
+
++
+｛nbsp｝
+
+. （マルチテナンシー環境の場合）Storage VM管理アカウントを有効にするかどうかを選択し、*[保存]*をクリックしてSVMを作成します。
++
+image:vmware-vcf-asa-image04.png["SVMアカウントを有効にして終了"]
+
+
+
+====
+.NVMeネームスペースの作成
+[%collapsible]
+====
+NVMeネームスペースは、iSCSIまたはFCのLUNに相当します。vSphere ClientからVMFSデータストアを導入する前に、NVMeネームスペースを作成しておく必要があります。NVMeネームスペースを作成するには、まずクラスタ内の各ESXiホストからNVMe Qualified Name（NQN）を取得する必要があります。NQNは、ネームスペースのアクセス制御を提供するためにONTAPで使用されます。
+
+NVMeネームスペースを作成するには、次の手順を実行します。
+
+. クラスタ内のESXiホストとのSSHセッションを開き、NQNを取得します。CLIから次のコマンドを使用します。
++
+[source, cli]
+----
+esxcli nvme info get
+----
++
+次のような出力が表示されます。
+
++
+[source, cli]
+----
+Host NQN: nqn.2014-08.com.netapp.sddc:nvme:vcf-wkld-esx01
+----
+. クラスタ内の各ESXiホストのNQNを記録する
+. ONTAPシステムマネージャで、左側のメニューの*[NVMeネームスペース]*に移動し、*+追加*をクリックして開始します。
++
+image:vmware-vcf-asa-image93.png["[+ Add]をクリックしてNVMeネームスペースを作成します"]
+
++
+｛nbsp｝
+
+. [NVMeネームスペースの追加]*ページで、名前プレフィックス、作成するネームスペースの数、ネームスペースのサイズ、ネームスペースにアクセスするホストオペレーティングシステムを入力します。[Host NQN]セクションで、ネームスペースにアクセスするESXiホストから収集したNQNをカンマで区切って作成します。
+
+
+[その他のオプション]*をクリックして、Snapshot保護ポリシーなどの追加項目を設定します。最後に、*[保存]*をクリックしてNVMeネームスペースを作成します。
+
+[+]
+image:vmware-vcf-asa-image93.png["[+ Add]をクリックしてNVMeネームスペースを作成します"]
+
+====
+
+
+==== ESXiホストでのネットワークとNVMeソフトウェアアダプタのセットアップ
+
+次の手順は、vSphere Clientを使用してVIワークロードドメインクラスタで実行します。この例では、vCenter Single Sign-Onを使用しているため、vSphere Clientは管理ドメインとワークロードドメインの両方で共通です。
+
+.NVMe/TCPトラフィック用の分散ポートグループの作成
+[%collapsible]
+====
+NVMe/TCPネットワークごとに新しい分散ポートグループを作成するには、次の手順を実行します。
+
+. vSphere Clientで、ワークロードドメインの*[Inventory]>[Networking]*に移動します。既存のDistributed Switchに移動し、* New Distributed Port Group...*を作成するアクションを選択します。
++
+image:vmware-vcf-asa-image22.png["新しいポートグループの作成を選択"]
+
++
+｛nbsp｝
+
+. [New Distributed Port Group]*ウィザードで、新しいポートグループの名前を入力し、*[Next]*をクリックして続行します。
+. [設定の構成]ページで、すべての設定を入力します。VLANを使用している場合は、正しいVLAN IDを指定してください。[次へ]*をクリックして続行します。
++
+image:vmware-vcf-asa-image23.png["VLAN IDを入力"]
+
++
+｛nbsp｝
+
+. [選択内容の確認]ページで、変更内容を確認し、*[終了]*をクリックして新しい分散ポートグループを作成します。
+. 同じ手順を繰り返して、使用する2つ目のNVMe/TCPネットワーク用の分散ポートグループを作成し、* VLAN ID *が正しいことを確認します。
+. 両方のポートグループが作成されたら、最初のポートグループに移動し、*[設定の編集...]*の操作を選択します。
++
+image:vmware-vcf-asa-image77.png["DPG -設定の編集"]
+
++
+｛nbsp｝
+
+. [Distributed Port Group]-[Edit Settings]*ページで、左側のメニューの*[Teaming and failover]*に移動し、* uplink2 *をクリックして*[Unused Uplinks]*に移動します。
++
+image:vmware-vcf-asa-image78.png["アップリンク2を未使用に移動"]
+
+. 2つ目のNVMe/TCPポートグループに対してこの手順を繰り返します。ただし、今回は* uplink1*を* unused uplinks *に移動します。
++
+image:vmware-vcf-asa-image79.png["アップリンク1を未使用に移動"]
+
+
+
+====
+.各ESXiホストにVMkernelアダプタを作成する
+[%collapsible]
+====
+ワークロードドメイン内の各ESXiホストでこのプロセスを繰り返します。
+
+. vSphere Clientで、ワークロードドメインインベントリ内のいずれかのESXiホストに移動します。[設定]タブで*[VMkernel adapters]*を選択し、*[ネットワークの追加...]*をクリックして開始します。
++
+image:vmware-vcf-asa-image30.png["ネットワーク追加ウィザードの開始"]
+
++
+｛nbsp｝
+
+. [接続タイプの選択]ウィンドウで*[VMkernel Network Adapter]*を選択し、*[次へ]*をクリックして続行します。
++
+image:vmware-vcf-asa-image08.png["VMkernelネットワークアダプタを選択"]
+
++
+｛nbsp｝
+
+. [ターゲットデバイスの選択]ページで、以前に作成したiSCSI用の分散ポートグループの1つを選択します。
++
+image:vmware-vcf-asa-image95.png["ターゲットポートグループを選択"]
+
++
+｛nbsp｝
+
+. [ポートのプロパティ]ページで、*[NVMe over TCP]*のボックスをクリックし、*[次へ]*をクリックして続行します。
++
+image:vmware-vcf-asa-image96.png["VMkernelポートプロパティ"]
+
++
+｛nbsp｝
+
+. [IPv4 settings]*ページで、*[IP address]*、*[Subnet mask]*を入力し、新しいゲートウェイIPアドレスを指定します（必要な場合のみ）。[次へ]*をクリックして続行します。
++
+image:vmware-vcf-asa-image97.png["VMkernel IPv4設定"]
+
++
+｛nbsp｝
+
+. [選択内容の確認]ページで選択内容を確認し、*[終了]*をクリックしてVMkernelアダプタを作成します。
++
+image:vmware-vcf-asa-image98.png["VMkernelの選択内容の確認"]
+
++
+｛nbsp｝
+
+. このプロセスを繰り返して、2つ目のiSCSIネットワーク用のVMkernelアダプタを作成します。
+
+
+====
+.NVMe over TCPアダプタの追加
+[%collapsible]
+====
+ワークロードドメインクラスタ内の各ESXiホストに、確立されたストレージトラフィック専用のNVMe/TCPネットワークごとに、NVMe over TCPソフトウェアアダプタをインストールする必要があります。
+
+NVMe over TCPアダプタを取り付けてNVMeコントローラを検出するには、次の手順を実行します。
+
+. vSphere Clientで、ワークロードドメインクラスタ内のいずれかのESXiホストに移動します。[設定]タブで、メニューの*[ストレージアダプタ]*をクリックし、*[ソフトウェアアダプタの追加]*ドロップダウンメニューから*[NVMe over TCPアダプタの追加]*を選択します。
++
+image:vmware-vcf-asa-image99.png["NVMe over TCPアダプタの追加"]
+
++
+｛nbsp｝
+
+. [ソフトウェアの追加]*[NVMe over TCPアダプタ]*ウィンドウで、*[物理ネットワークアダプタ]*ドロップダウンメニューにアクセスし、NVMeアダプタを有効にする正しい物理ネットワークアダプタを選択します。
++
+image:vmware-vcf-asa-image100.png["物理アダプタの選択"]
+
++
+｛nbsp｝
+
+. NVMe over TCPトラフィックに割り当てられた2つ目のネットワークに対して同じ手順を繰り返し、正しい物理アダプタを割り当てます。
+. 新しくインストールしたNVMe over TCPアダプタの1つを選択し、*[コントローラ]*タブで*[コントローラの追加]*を選択します。
++
+image:vmware-vcf-asa-image101.png["コントローラの追加"]
+
++
+｛nbsp｝
+
+. [コントローラの追加]*ウィンドウで*[自動]*タブを選択し、次の手順を実行します。
++
+** このNVMe over TCPアダプタに割り当てられている物理アダプタと同じネットワークにあるいずれかのSVM論理インターフェイスのIPアドレスを入力します。
+** [コントローラの検出]*ボタンをクリックします。
+** 検出されたコントローラのリストで、このNVMe over TCPアダプタとネットワークアドレスが一致している2台のコントローラのチェックボックスをクリックします。
+** [OK]*ボタンをクリックして、選択したコントローラを追加します。
++
+image:vmware-vcf-asa-image102.png["コントローラの検出と追加"]
+
++
+｛nbsp｝
+
+
+
+. 数秒後、[Devices]タブにNVMeネームスペースが表示されます。
++
+image:vmware-vcf-asa-image103.png["デバイスの下にNVMeネームスペースが表示される"]
+
++
+｛nbsp｝
+
+. この手順を繰り返して、NVMe/TCPトラフィック用に確立された2つ目のネットワークに対してNVMe over TCPアダプタを作成します。
+
+
+====
+.NVMe over TCPデータストアの導入
+[%collapsible]
+====
+NVMeネームスペースにVMFSデータストアを作成するには、次の手順を実行します。
+
+. vSphere Clientで、ワークロードドメインクラスタ内のいずれかのESXiホストに移動します。[操作]メニューで*[ストレージ]>[新しいデータストア...]*を選択します。
++
+image:vmware-vcf-asa-image104.png["NVMe over TCPアダプタの追加"]
+
++
+｛nbsp｝
+
+. [新しいデータストア]ウィザードで、タイプとして* VMFS *を選択します。[次へ]*をクリックして続行します。
+. [名前とデバイスの選択]*ページで、データストアの名前を指定し、使用可能なデバイスのリストからNVMeネームスペースを選択します。
++
+image:vmware-vcf-asa-image105.png["名前とデバイスの選択"]
+
++
+｛nbsp｝
+
+. [VMFS version]*ページで、データストアのVMFSのバージョンを選択します。
+. [パーティションの設定]ページで、必要に応じてデフォルトのパーティションスキームを変更します。[次へ]*をクリックして続行します。
++
+image:vmware-vcf-asa-image106.png["NVMeパーティションの設定"]
+
++
+｛nbsp｝
+
+. [選択内容の確認]ページで概要を確認し、*[終了]*をクリックしてデータストアを作成します。
+. インベントリ内の新しいデータストアに移動し、*[ホスト]*タブをクリックします。正しく設定されていれば、クラスタ内のすべてのESXiホストが表示され、新しいデータストアにアクセスできるようになります。
++
+image:vmware-vcf-asa-image107.png["データストアに接続されているホスト"]
+
++
+｛nbsp｝
+
+
+
+====
+
+
+=== 追加情報
+
+ONTAPストレージシステムの構成については、 link:https://docs.netapp.com/us-en/ontap["ONTAP 9ドキュメント"] 中央（Center）：
+
+VCFの設定については、を参照してください。 link:https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["VMware Cloud Foundationのドキュメント"]。

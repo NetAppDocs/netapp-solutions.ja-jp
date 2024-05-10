@@ -123,9 +123,9 @@ image::aws_ora_fsx_data_guard_architecture.png[このイメージは、FSxNを�
 
 ここでは、Data Guardをセットアップするための出発点として、すでにプライマリOracleデータベースがVPC内のAWS EC2環境に導入されていることを前提としています。プライマリデータベースは、ストレージ管理にOracle ASMを使用して導入されます。  Oracleデータファイル、ログファイル、制御ファイルなど用に、2つのASMディスクグループ（+ dataおよび+ logs）が作成されます。 ASMを使用したAWSへのOracleの導入の詳細については、次のテクニカルレポートを参照してください。
 
-* link:https://docs.netapp.com/us-en/netapp-solutions/databases/aws_ora_fsx_ec2_deploy_intro.html["Oracle Database Deployment on EC2 and FSx Best Practicesを参照してください"^]
-* link:https://docs.netapp.com/us-en/netapp-solutions/databases/aws_ora_fsx_ec2_iscsi_asm.html["iSCSI / ASMを使用したAWS FSX/EC2でのOracleデータベースの導入と保護"^]
-* link:https://docs.netapp.com/us-en/netapp-solutions/databases/aws_ora_fsx_ec2_nfs_asm.html["スタンドアロンでのOracle 19C NFS / ASMを使用したAWS FSX/EC2でのOracle 19Cの再起動"^]
+* link:aws_ora_fsx_ec2_deploy_intro.html["Oracle Database Deployment on EC2 and FSx Best Practicesを参照してください"^]
+* link:aws_ora_fsx_ec2_iscsi_asm.html["iSCSI / ASMを使用したAWS FSX/EC2でのOracleデータベースの導入と保護"^]
+* link:aws_ora_fsx_ec2_nfs_asm.html["スタンドアロンでのOracle 19C NFS / ASMを使用したAWS FSX/EC2でのOracle 19Cの再起動"^]
 
 
 プライマリOracleデータベースは、FSx ONTAPまたはAWS EC2エコシステム内の任意のストレージで実行できます。次のセクションでは、ASMストレージを使用するプライマリEC2 DBインスタンスと、ASMストレージを使用するスタンバイEC2 DBインスタンスの間にOracle Data Guardをセットアップする手順を詳しく説明します。
@@ -406,7 +406,7 @@ srvctl start database -d db1
 Oracle Data Guardを使用するには、OSカーネル構成とOracleソフトウェアスタック（スタンバイEC2 DBインスタンスにパッチセットを含む）がプライマリEC2 DBインスタンスと一致する必要があります。管理と簡易性を容易にするために、スタンバイEC2 DBインスタンスデータベースのストレージ構成は、ASMディスクグループの名前、数、サイズなど、プライマリEC2 DBインスタンスと同じにすることが理想的です。以下は、Data GuardのスタンバイEC2 DBインスタンスを設定するための詳細な手順です。すべてのコマンドは、Oracleの所有者ユーザIDとして実行する必要があります。
 
 . まず、プライマリEC2インスタンスのプライマリデータベースの設定を確認します。このデモでは、プライマリEC2 DBインスタンスにdb1という名前のプライマリOracleデータベースをセットアップし、2つのASMディスクグループ+ dataおよび+ logsをスタンドアロンの再起動構成で使用します。プライマリASMディスクグループは、EC2エコシステム内のあらゆるタイプのストレージに配置できます。
-. ドキュメントの手順に従う link:https://docs.netapp.com/us-en/netapp-solutions/databases/aws_ora_fsx_ec2_iscsi_asm.html["TR-4965：『Oracle Database Deployment and Protection in AWS FSX/EC2 with iSCSI/ASM』"^] プライマリデータベースと一致するように、スタンバイEC2 DBインスタンスにグリッドとOracleをインストールして設定します。データベースストレージは、プライマリEC2 DBインスタンスと同じストレージ容量で、FSx ONTAPからスタンバイEC2 DBインスタンスにプロビジョニングして割り当てる必要があります。
+. ドキュメントの手順に従う link:aws_ora_fsx_ec2_iscsi_asm.html["TR-4965：『Oracle Database Deployment and Protection in AWS FSX/EC2 with iSCSI/ASM』"^] プライマリデータベースと一致するように、スタンバイEC2 DBインスタンスにグリッドとOracleをインストールして設定します。データベースストレージは、プライマリEC2 DBインスタンスと同じストレージ容量で、FSx ONTAPからスタンバイEC2 DBインスタンスにプロビジョニングして割り当てる必要があります。
 +
 
 NOTE: の手順10で停止します。 `Oracle database installation` セクション。スタンバイデータベースは、dbcaデータベース複製機能を使用してプライマリデータベースからインスタンス化されます。
@@ -800,7 +800,7 @@ DGMGRL>
 ====
 Data GuardのAWS FSx ONTAPでスタンバイデータベースをステージングする主なメリットは、最小限の追加ストレージ投資で他の多くのユースケースに対応できることです。次のセクションでは、FSx ONTAPで、マウントされたスタンバイデータベースボリュームとリカバリ対象スタンバイデータベースボリュームを、開発、テスト、レポートなどの他の目的のためにスナップショット作成およびクローニングする方法を説明します。 NetApp SnapCenterツールを使用する。
 
-次に、SnapCenterを使用してData Guardの管理対象物理スタンバイデータベースから読み取り/書き込みデータベースをクローニングする手順の概要を示します。SnapCenterのセットアップおよび設定方法の詳細については、を参照してください。 link:https://docs.netapp.com/us-en/netapp-solutions/databases/hybrid_dbops_snapcenter_usecases.html["SnapCenter を使用したハイブリッドクラウドデータベースソリューション"^] 関連Oracleセクション。
+次に、SnapCenterを使用してData Guardの管理対象物理スタンバイデータベースから読み取り/書き込みデータベースをクローニングする手順の概要を示します。SnapCenterのセットアップおよび設定方法の詳細については、を参照してください。 link:hybrid_dbops_snapcenter_usecases.html["SnapCenter を使用したハイブリッドクラウドデータベースソリューション"^] 関連Oracleセクション。
 
 . まず、テストテーブルを作成し、プライマリデータベースのテストテーブルに行を挿入します。次に、トランザクションがスタンバイにトラバースするかどうかを検証し、最後にクローンを検証します。
 +
@@ -993,7 +993,7 @@ link:https://docs.oracle.com/en/database/oracle/oracle-database/19/sbydb/index.h
 
 * WP-7357：『Oracle Database Deployment on EC2 and FSx Best Practices』
 +
-link:https://docs.netapp.com/us-en/netapp-solutions/databases/aws_ora_fsx_ec2_deploy_intro.html["https://docs.netapp.com/us-en/netapp-solutions/databases/aws_ora_fsx_ec2_deploy_intro.html"^]
+link:aws_ora_fsx_ec2_deploy_intro.html["はじめに"]
 
 * NetApp ONTAP 対応の Amazon FSX
 +
