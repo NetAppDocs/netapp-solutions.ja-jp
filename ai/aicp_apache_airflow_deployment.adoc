@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: ai/aicp_apache_airflow_deployment.html 
 keywords: AI, control plane, apache, airflow 
-summary: このセクションでは、 Kubernetes クラスタ内に通気を導入するために完了しておく必要のあるタスクについて説明します。 
+summary: NetAppによるオープンソースMLOps - Apache Airflowの導入 
 ---
 = Apache Airflow の導入
 :hardbreaks:
@@ -14,7 +14,7 @@ summary: このセクションでは、 Kubernetes クラスタ内に通気を�
 
 
 [role="lead"]
-Kubernetes の上で Apache の通気を確保することを推奨します。このセクションでは、 Kubernetes クラスタ内に通気を導入するために完了しておく必要のあるタスクについて説明します。
+このセクションでは、 Kubernetes クラスタ内に通気を導入するために完了しておく必要のあるタスクについて説明します。
 
 
 NOTE: Kubernetes 以外のプラットフォームに通気を導入することも可能です。Kubernetes 以外のプラットフォームに通気を導入することは、この解決策の範囲外です。
@@ -26,7 +26,7 @@ NOTE: Kubernetes 以外のプラットフォームに通気を導入すること
 このセクションで説明する導入の演習を行う前に、次の作業をすでに実行していることを前提としています。
 
 . Kubernetes クラスタをすでに使用している。
-. 「 NetApp Trident の導入と構成」のセクションに記載されているように、 Kubernetes クラスタに NetApp Trident をインストールし、設定しておきます。
+. KubernetesクラスタにNetApp Astra Tridentをインストールして設定しておきます。Astra Tridentの詳細については、 link:https://docs.netapp.com/us-en/trident/index.html["Astra Trident のドキュメント"]。
 
 
 
@@ -39,7 +39,7 @@ NOTE: Kubernetes 以外のプラットフォームに通気を導入すること
 
 == デフォルトの Kubernetes StorageClass を設定します
 
-通気を導入する前に、 Kubernetes クラスタ内にデフォルトのストレージクラスを指定する必要があります。エアフロー導入プロセスでは、デフォルトのストレージクラスを使用して新しい永続ボリュームのプロビジョニングが試行されます。StorageClass がデフォルトの StorageClass として指定されていない場合、導入は失敗します。クラスタ内でデフォルトの StorageClass を指定するには、の手順に従ってください link:aicp_kubeflow_deployment_overview.html["Kubeflow の導入"]。クラスタ内ですでにデフォルトの StorageClass を指定している場合は、この手順を省略できます。
+通気を導入する前に、 Kubernetes クラスタ内にデフォルトのストレージクラスを指定する必要があります。エアフロー導入プロセスでは、デフォルトのストレージクラスを使用して新しい永続ボリュームのプロビジョニングが試行されます。StorageClass がデフォルトの StorageClass として指定されていない場合、導入は失敗します。クラスタ内でデフォルトのストレージクラスを指定するには、 link:aicp_kubeflow_deployment_overview.html["Kubeflow の導入"] セクション。クラスタ内ですでにデフォルトの StorageClass を指定している場合は、この手順を省略できます。
 
 
 

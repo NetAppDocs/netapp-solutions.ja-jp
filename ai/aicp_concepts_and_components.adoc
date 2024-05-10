@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: ai/aicp_concepts_and_components.html 
 keywords: Trident, DeepOps, ONTAP, FlexClone, containers, AI, Kubernetes, Kubeflow, Jupyter, Airflow 
-summary: このページには、コンテナ、 Kubernetes 、 NetApp Trident などの情報を含め、ネットアップが AI プロジェクトをどのように進められるかを理解するための背景情報が含まれています。 
+summary: NetAppを使用したオープンソースMLOps -テクノロジの概要 
 ---
-= コンセプトとコンポーネント
+= テクノロジの概要
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -40,39 +40,49 @@ image:aicp_image2.png["エラー：グラフィックイメージがありませ
 
 == Kubernetes
 
-Kubernetes は、 Google が当初設計した、オープンソースの分散型コンテナオーケストレーションプラットフォームであり、 Cloud Native Computing Foundation （ CNCF ）によって管理されています。Kubernetes を使用すると、コンテナ化されたアプリケーションの導入、管理、拡張の機能を自動化できます。近年、 Kubernetes は主要なコンテナオーケストレーションプラットフォームとして登場しています。他のコンテナパッケージ化形式や実行時間もサポートされていますが、 Kubernetes は Docker コンテナ用のオーケストレーションシステムとして最もよく使用されます。詳細については、を参照してください https://kubernetes.io["Kubernetes Web サイト"^]。
+Kubernetes は、 Google が当初設計した、オープンソースの分散型コンテナオーケストレーションプラットフォームであり、 Cloud Native Computing Foundation （ CNCF ）によって管理されています。Kubernetes を使用すると、コンテナ化されたアプリケーションの導入、管理、拡張の機能を自動化できます。近年、 Kubernetes は主要なコンテナオーケストレーションプラットフォームとして登場しています。詳細については、を参照してください https://kubernetes.io["Kubernetes Web サイト"^]。
 
 
 
-== NetApp Trident
+== ネットアップアストラト Trident
 
-Trident は、ネットアップが開発および管理しているオープンソースのストレージオーケストレーションツールで、 Kubernetes ワークロード向けの永続的ストレージの作成、管理、使用を大幅に簡易化します。Trident は Kubernetes ネイティブのアプリケーションであり、 Kubernetes クラスタ内で直接実行されます。Trident を使用すると、 Kubernetes のユーザ（開発者、データサイエンティスト、 Kubernetes 管理者など）は、使い慣れた標準的な Kubernetes 形式で永続ストレージボリュームを作成、管理、操作できます。同時に、ネットアップの高度なデータ管理機能と、ネットアップテクノロジを基盤とするデータファブリックを活用できます。Trident は、複雑な永続的ストレージを抽象化して、消費を簡易化します。詳細については、を参照してください https://netapp.io/persistent-storage-provisioner-for-kubernetes/["Trident の Web サイト"^]。
+Astra Tridentでは、パブリッククラウドやオンプレミスにあるONTAP（AFF、NetApp FAS、Select、Cloud、 Amazon FSx for NetApp ONTAP）、Elementソフトウェア（NetApp HCI、SolidFire）、Azure NetApp Filesサービス、Cloud Volumes Service on Google CloudAstra Tridentは、Kubernetesとネイティブに統合される、コンテナストレージインターフェイス（CSI）に準拠した動的ストレージオーケストレーションツールです。
 
 
 
-== NVIDIA DeepOps のことです
+== NetApp DataOps ツールキット
 
-DeepOps は NVIDIA が開発したオープンソースプロジェクトです。 Ansible を使用することで、ベストプラクティスに従って GPU サーバクラスタの導入を自動化できます。DeepOps はモジュール方式であり、さまざまな導入タスクに使用できます。このドキュメントとこの検証の演習では、 DeepOps を使用して、 GPU サーバワーカーノードで構成される Kubernetes クラスタを導入します。詳細については、を参照してください https://github.com/NVIDIA/deepops["DeepOps の Web サイト"^]。
+。 link:https://github.com/NetApp/netapp-dataops-toolkit["NetApp DataOps ツールキット"] は、ハイパフォーマンスなスケールアウトNetAppストレージを基盤とする開発/トレーニングワークスペースと推論サーバの管理を簡易化する、Pythonベースのツールです。主な機能は次のとおりです。
+
+* ハイパフォーマンスなスケールアウトNetAppストレージを基盤とする新しい大容量ワークスペースを迅速にプロビジョニング
+* 大容量ワークスペースのクローンをほぼ瞬時に作成し、実験や迅速な反復を可能にします。
+* 大容量ワークスペースのスナップショットをほぼ瞬時に保存し、バックアップやトレーサビリティ/ベースライン化を実現します。
+* ほぼインスタンス化することなく、大容量でハイパフォーマンスなデータボリュームをプロビジョニング、クローニング、およびSnapshot作成する。
+
 
 
 
 == クビフロー
 
-Kubeflow は Kubernetes 向けのオープンソースの AI / ML ツールキットで、 Google が開発したものです。Kubeflow プロジェクトでは、 Kubernetes での AI ワークフローと ML ワークフローの導入を、シンプル、ポータブル、拡張性に優れた方法で実施します。Kubeflow は Kubernetes の複雑さを抽象化し、データサイエンティストがデータサイエンスのベストプラクティスに集中できるようにします。表示については、次の図を参照してください。Kubernetes で企業の IT 部門の標準化が進むにつれて、 Kubeflow は大きな牽引力を発揮してきました。詳細については、を参照してください http://www.kubeflow.org/["Kubeflow の Web サイト"^]。
-
-image:aicp_image3.png["エラー：グラフィックイメージがありません"]
+Kubeflow は Kubernetes 向けのオープンソースの AI / ML ツールキットで、 Google が開発したものです。Kubeflow プロジェクトでは、 Kubernetes での AI ワークフローと ML ワークフローの導入を、シンプル、ポータブル、拡張性に優れた方法で実施します。KubeflowはKubernetesの複雑さを抽象化することで、データサイエンティストがデータサイエンスという自社が最もよく知っていることに集中できるようにします。表示については、次の図を参照してください。Kubeflowは、オールインワンMLOpsプラットフォームを希望する組織に適したオープンソースオプションです。詳細については、を参照してください http://www.kubeflow.org/["Kubeflow の Web サイト"^]。
 
 
 
 === Kubeflow パイプライン
 
-Kubeflow Pipelines は Kubeflow の主要コンポーネントです。Kubeflow Pipelines は、移植性と拡張性に優れた AI および ML ワークフローを定義、導入するためのプラットフォームと標準です。詳細については、を参照してください https://www.kubeflow.org/docs/components/pipelines/pipelines/["Kubeflow の公式ドキュメント"^]。
+Kubeflow Pipelines は Kubeflow の主要コンポーネントです。Kubeflow Pipelines は、移植性と拡張性に優れた AI および ML ワークフローを定義、導入するためのプラットフォームと標準です。詳細については、を参照してください https://www.kubeflow.org/docs/components/pipelines/["Kubeflow の公式ドキュメント"^]。
 
 
 
 === Jupyter Notebook Server の 2 つのツールを使用
 
 Jupyter Notebook Server はオープンソースの Web アプリケーションで、データサイエンティストは Jupyter Notebook と呼ばれる Wiki 形式のドキュメントを作成できます。このドキュメントには、ライブコードと説明的なテストが含まれています。Jupyter Notebook は、 AI プロジェクトと ML プロジェクトを文書化、保存、共有する手段として、 AI と ML のコミュニティで広く使用されています。Kubeflow を使用すると、 Kubernetes での Jupyter Notebook Server のプロビジョニングと導入が簡単になります。Jupyter Notebook の詳細については、を参照してください http://www.jupyter.org/["Jupyter のウェブサイト"^]。Kubeflow のコンテキスト内の Jupyter Notebook の詳細については、を参照してください https://www.kubeflow.org/docs/components/notebooks/overview/["Kubeflow の公式ドキュメント"^]。
+
+
+
+=== カティブ
+
+Katibは、自動機械学習（AutoML）向けのKubernetesネイティブプロジェクトです。Katibはハイパーパラメータチューニング、早期停止、ニューラルアーキテクチャ検索（NAS）をサポートしている。Katibは、機械学習（ML）フレームワークに依存しないプロジェクトです。ユーザが選択した任意の言語で記述されたアプリケーションのハイパーパラメータを調整でき、TensorFlow、MXNet、PyTorch、XGBoostなどの多くのMLフレームワークをネイティブでサポートします。 その他。Katibは、Bayesian最適化、Tree of Parzen Estimators、Random Search、Covariance Matrix Adaptation Evolution Strategy、Hyperband、Efficient Neural Architecture Search、Differentiable Architecture Searchなど、さまざまなAutoMLアルゴリズムをサポートしています。Kubeflow のコンテキスト内の Jupyter Notebook の詳細については、を参照してください https://www.kubeflow.org/docs/components/katib/overview/["Kubeflow の公式ドキュメント"^]。
 
 
 
@@ -88,42 +98,44 @@ Apache Airflow は、複雑なエンタープライズワークフローのプ�
 
 
 
-== NetApp ONTAP 9.
+== NetApp ONTAP
 
-NetApp ONTAP 9 はネットアップが提供する最新世代のストレージ管理ソフトウェアです。お客様のような企業がインフラを刷新し、クラウド対応のデータセンターに移行できるようにします。業界をリードするデータ管理機能を備えた ONTAP では、データの格納場所に関係なく、単一のツールセットでデータの管理と保護を行うことができます。エッジ、コア、クラウドなど、必要な場所に自由にデータを移動することもできます。ONTAP 9 には、データ管理を簡易化し、重要なデータを高速化、保護し、ハイブリッドクラウドアーキテクチャ全体で将来のニーズに対応できるインフラを実現する、多数の機能が搭載されています。
+ネットアップが提供する最新世代のストレージ管理ソフトウェアONTAP 9を使用すれば、インフラを最新化し、クラウド対応のデータセンターに移行できます。ONTAP は、業界をリードするデータ管理機能を活用して、データの格納場所に関係なく、単一のツールセットでデータの管理と保護を実現します。エッジ、コア、クラウドなど、必要な場所に自由にデータを移動することもできます。ONTAP 9には、データ管理の簡易化、重要なデータの高速化と保護、ハイブリッドクラウドアーキテクチャ全体で次世代インフラ機能を実現する多数の機能が搭載されています。
 
 
 
 === データ管理を簡易化
 
-データ管理は、アプリケーションやデータセットに適切なリソースを使用できるようにするために、企業の IT 運用にとって非常に重要です。ONTAP には、運用を合理化および簡易化し、総運用コストを削減するための次の機能が含まれています。
+データ管理は、AIアプリケーションの運用やAI / MLデータセットのトレーニングに適切なリソースを使用できるように、エンタープライズIT運用とデータサイエンティストにとって非常に重要です。以下に記載するネットアップテクノロジに関する追加情報 は、この検証の対象外ですが、導入環境によっては関連性がある場合もあります。
 
-* * インラインデータコンパクションと重複排除の強化。 * データコンパクションはストレージブロック内の無駄なスペースを削減し、重複排除は実効容量を大幅に増やします。
-* * 最小、最大、アダプティブの Quality of Service （ QoS ；サービス品質）。 * きめ細かい QoS 管理機能により、高度に共有された環境で重要なアプリケーションのパフォーマンスレベルを維持できます。
-* * StorageGRID 。 * この機能は、 Amazon Web Services （ AWS ）、 Azure 、 NetApp ONTAP FabricPool オブジェクトベースストレージなどのパブリックおよびプライベートクラウドストレージオプションへのコールドデータの自動階層化を提供します。
+ONTAP データ管理ソフトウェアには、運用を合理化および簡易化し、総運用コストを削減するための次の機能が含まれています。
+
+* インラインデータコンパクション、強化された重複排除：データコンパクションはストレージブロック内の無駄なスペースを削減し、重複排除は実効容量を大幅に増やします。この環境データはローカルに格納され、データはクラウドに階層化されます。
+* 最小、最大、アダプティブのQuality of Service（AQoS）。きめ細かいサービス品質（QoS）管理機能により、高度に共有された環境で重要なアプリケーションのパフォーマンスレベルを維持できます。
+* NetApp FabricPool の略。Amazon Web Services（AWS）、Azure、NetApp StorageGRID ストレージ解決策 など、パブリッククラウドとプライベートクラウドのストレージオプションへコールドデータを自動的に階層化します。FabricPool の詳細については、を参照してください https://www.netapp.com/pdf.html?item=/media/17239-tr4598pdf.pdf["TR-4598：『FabricPool best bests』"^]。
 
 
 
 
 === データの高速化と保護
 
-ONTAP は、卓越したパフォーマンスとデータ保護を実現し、以下の機能を通じてこれらの機能を拡張します。
+ONTAP は、卓越したパフォーマンスとデータ保護を実現し、以下の方法でこれらの機能を拡張します。
 
-* * ハイパフォーマンスと低レイテンシ。 * ONTAP は、可能な限り低いレイテンシで最高のスループットを提供します。
-* * NetApp ONTAP FlexGroup テクノロジ。 * FlexGroup ボリュームは、最大 20PB と 4 、 000 億ファイルまでリニアに拡張可能な高性能データコンテナで、データ管理を簡易化する単一のネームスペースを提供します。
-* * データ保護。 * ONTAP は、組み込みのデータ保護機能を提供し、すべてのプラットフォームで共通の管理を実現します。
-* * NetApp Volume Encryption* ONTAP は、オンボードと外部の両方のキー管理をサポートし、ボリュームレベルのネイティブ暗号化を実現します。
+* パフォーマンスとレイテンシの低下：ONTAP は、可能なかぎり最小のレイテンシで最高のスループットを提供します。
+* データ保護ONTAP には、組み込みのデータ保護機能が用意されており、すべてのプラットフォームを共通の管理機能で管理できます。
+* NetApp Volume Encryption（NVE）：ONTAP は、オンボードと外部キー管理の両方をサポートし、ボリュームレベルでのネイティブな暗号化を実現します。
+* マルチテナンシーおよび多要素認証ONTAP を使用すると、最高レベルのセキュリティでインフラリソースを共有できます。
 
 
 
 
 === 将来のニーズにも対応できるインフラ
 
-ONTAP 9 は、要件が厳しく、絶えず変化するビジネスニーズに対応します。
+ONTAP は、次の機能を備えており、要件が厳しく、絶えず変化するビジネスニーズに対応できます。
 
-* * シームレスな拡張とノンストップオペレーション。 * ONTAP は、既存のコントローラとスケールアウトクラスタに無停止で容量を追加できます。NVMe や 32Gb FC などの最新テクノロジへのアップグレードも、コストのかかるデータ移行やシステム停止を行わずに実行できます。
-* * クラウドへの接続。 * ONTAP は、すべてのパブリッククラウドで Software-Defined Storage （ ONTAP Select ）とクラウドネイティブインスタンス（ NetApp Cloud Volumes Service ）を選択できる、最もクラウドに接続されたストレージ管理ソフトウェアの 1 つです。
-* * 新しいアプリケーションとの統合。 * 既存のエンタープライズアプリケーションをサポートする同じインフラを使用して、 ONTAP は、 OpenStack 、 Hadoop 、 MongoDB などの次世代プラットフォームやアプリケーションにエンタープライズクラスのデータサービスを提供します。
+* シームレスな拡張とノンストップオペレーションONTAP を使用すると、既存のコントローラとスケールアウトクラスタに無停止で容量を追加できます。NVMe や 32Gb FC などの最新テクノロジへのアップグレードも、コストのかかるデータ移行やシステム停止を行わずに実行できます。
+* クラウドへの接続：ONTAPは、ほとんどのクラウドに対応したストレージ管理ソフトウェアで、すべてのパブリッククラウドでSoftware-Defined Storageとクラウドネイティブインスタンスを選択できます。
+* 新しいアプリケーションとの統合：ONTAP は、既存のエンタープライズアプリケーションをサポートするインフラを使用して、自律走行車、スマートシティ、インダストリー4.0などの次世代プラットフォームやアプリケーション向けにエンタープライズクラスのデータサービスを提供します。
 
 
 
@@ -153,8 +165,6 @@ image:aicp_image5.png["エラー：グラフィックイメージがありませ
 NetApp SnapMirror ソフトウェアは、データファブリック全体にわたる、コスト効率に優れた使いやすいユニファイドレプリケーション解決策です。LAN または WAN 経由でデータを高速で複製します。仮想環境と従来の環境の両方でビジネスクリティカルなアプリケーションを含む、あらゆるタイプのアプリケーションに対し、高いデータ可用性と高速なデータレプリケーションを提供します。1 つ以上のネットアップストレージシステムにデータをレプリケートし、セカンダリデータを継続的に更新すると、データが最新の状態に保たれ、必要なときにいつでも使用できます。外部レプリケーションサーバは必要ありません。SnapMirror テクノロジを利用したアーキテクチャの例については、次の図を参照してください。
 
 SnapMirror ソフトウェアは、変更されたブロックのみをネットワーク経由で送信することで、 NetApp ONTAP の Storage Efficiency 機能を活用します。SnapMirror ソフトウェアには、組み込みのネットワーク圧縮機能も使用して、データ転送を高速化し、ネットワーク帯域幅の使用量を最大 70% 削減します。SnapMirror テクノロジを使用すると、 1 つのシンレプリケーションデータストリームを利用して単一のリポジトリを作成し、アクティブなミラーと以前のポイントインタイムコピーの両方を保持できるため、ネットワークトラフィックを最大 50% 削減できます。
-
-image:aicp_image6.png["エラー：グラフィックイメージがありません"]
 
 
 

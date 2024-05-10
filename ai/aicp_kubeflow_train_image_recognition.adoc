@@ -1,0 +1,71 @@
+---
+sidebar: sidebar 
+permalink: ai/aicp_kubeflow_train_image_recognition.html 
+keywords: Jupyter Notebook, Kubeflow Pipeline, NetApp DataOps Toolkit, MNIST, Image Recognition 
+summary: NetAppを使用したオープンソースMLOps -ワークフロー例- KubeflowとNetApp DataOpsツールキットを使用した画像認識モデルのトレーニング 
+---
+= ワークフロー例- KubeflowとNetApp DataOpsツールキットを使用した画像認識モデルのトレーニング
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+このセクションでは、KubeflowとNetApp DataOps Toolkitを使用した画像認識のためのニューラルネットワークのトレーニングと導入に関連する手順について説明します。これは、NetAppストレージを組み込んだトレーニングジョブの例を示すことを目的としています。
+
+
+
+== 前提条件
+
+Kubeflowパイプライン内のトレーニングおよびテストステップに使用するために必要な構成を含むDockerfileを作成します。
+Dockerfileの例を次に示します。
+
+[source]
+----
+FROM pytorch/pytorch:latest
+RUN pip install torchvision numpy scikit-learn matplotlib tensorboard
+WORKDIR /app
+COPY . /app
+COPY train_mnist.py /app/train_mnist.py
+CMD ["python", "train_mnist.py"]
+----
+必要に応じて、プログラムの実行に必要なすべてのライブラリとパッケージをインストールします。機械学習モデルをトレーニングする前に、すでに稼働しているKubeflowデプロイメントがあることを前提としています。
+
+
+
+== PyTorchとKubeflowパイプラインを使用して、小規模NNをMNISTデータでトレーニング
+
+ここでは、MNISTデータでトレーニングされた小さなニューラルネットワークの例を使用します。MNISTデータセットは、0から9までの数字の手書き画像で構成されています。画像のサイズは28x28ピクセルです。データセットは、60,000枚の列車画像と10,000枚の検証画像に分割されています。この実験で使用されたニューラルネットワークは、2層のフィードフォワードネットワークです。トレーニングはKubeflow Pipelinesを使用して実行されます。のドキュメントを参照してください https://www.kubeflow.org/docs/components/pipelines/v1/introduction/["こちらをご覧ください"^] を参照してください。Kubeflowパイプラインには、PrerequisitesセクションのDockerイメージが組み込まれています。
+
+image:kubeflow_pipeline.png["Kubeflowパイプラインランの視覚化"]
+
+
+
+== Tensorboardを使用した結果の表示
+
+モデルのトレーニングが完了すると、Tensorboardを使用して結果を視覚化できます。 https://www.tensorflow.org/tensorboard["Tensorboard"^] は、Kubeflowダッシュボードの機能として使用できます。ジョブ用のカスタムテンソルボードを作成できます。以下の例は、トレーニングの精度とエポック数、トレーニング損失とエポックの数。
+
+image:tensorboard_graph.png["トレーニング損失と精度のためのTensorboardグラフ"]
+
+
+
+== Katibを使用したハイパーパラメータの実験
+
+https://www.kubeflow.org/docs/components/katib/hyperparameter/["カティブ"^] は、Kubeflow内のツールで、モデルのハイパーパラメータを試すために使用できます。実験を作成するには、まず目的のメトリック/ゴールを定義します。これは通常、テストの精度です。メトリックが定義されたら、再生するハイパーパラメータを選択します（optimizer/learning_rate/number of layers）。Katibは、ユーザー定義の値を使用してハイパーパラメータスイープを実行し、目的のメトリックを満たす最適なパラメータの組み合わせを見つけます。これらのパラメータは、UIの各セクションで定義できます。または、必要な仕様で*YAML*ファイルを定義することもできます。以下はKatib実験の図です。
+
+image:katib_experiment_1.png["Katib Experiment Dashboardとハイパーパラメータ"]
+
+image:katib_experiment_2.png["トライアルチェックに成功しました"]
+
+
+
+== NetAppスナップショットを使用してデータを保存し、トレーサビリティを確保
+
+モデルのトレーニング中に、トレーサビリティのためにトレーニングデータセットのスナップショットを保存したい場合があります。これを行うには、以下のようにパイプラインにスナップショットステップを追加します。スナップショットを作成するには、 https://github.com/NetApp/netapp-dataops-toolkit/tree/main/netapp_dataops_k8s["Kubernetes向けNetApp DataOpsツールキット"^]。
+
+image:kubeflow_snapshot.png["KubeflowでSnapshotパイプラインを構築するためのコード"]
+
+を参照してください https://github.com/NetApp/netapp-dataops-toolkit/tree/main/netapp_dataops_k8s/Examples/Kubeflow["KubeflowのNetApp DataOpsツールキットの例"^] を参照してください。

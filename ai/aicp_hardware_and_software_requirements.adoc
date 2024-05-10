@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: ai/aicp_hardware_and_software_requirements.html 
 keywords: Hardware, Software, Requirements, Trident, DeepOps, ONTAP, Ubuntu 
-summary: NetApp AI コントロールプレーン解決策は、このような特定のハードウェアには依存しません。 
+summary: NetAppによるオープンソースMLOps -アーキテクチャ 
 ---
-= ハードウェアとソフトウェアの要件
+= アーキテクチャ
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,26 +14,8 @@ summary: NetApp AI コントロールプレーン解決策は、このような�
 
 
 [role="lead"]
-NetApp AI コントロールプレーン解決策は、このような特定のハードウェアには依存しません。解決策は、 Trident でサポートされている、任意のネットアップ物理ストレージアプライアンス、ソフトウェア定義インスタンス、クラウドサービスと互換性があります。例としては、ネットアップ AFF ストレージシステム、 Azure NetApp Files 、ネットアップ Cloud Volumes Service 、ネットアップ ONTAP Select ソフトウェアで定義されるストレージインスタンス、ネットアップ Cloud Volumes ONTAP インスタンスなどがあります。また、使用する Kubernetes のバージョンが Kubeflow および NetApp Trident でサポートされていれば、どの Kubernetes クラスタにも解決策を実装できます。Kubeflow でサポートされる Kubernetes バージョンの一覧については、を参照してください https://www.kubeflow.org/docs/started/getting-started/["Kubeflow の公式ドキュメント"^]。Trident でサポートされている Kubernetes のバージョンのリストについては、を参照してください https://netapp-trident.readthedocs.io/["Trident のドキュメント"^]。解決策の検証に使用した環境の詳細については、次の表を参照してください。
+この解決策は特定のハードウェアに依存しません。解決策は、 Trident でサポートされている、任意のネットアップ物理ストレージアプライアンス、ソフトウェア定義インスタンス、クラウドサービスと互換性があります。たとえば、NetApp AFFストレージシステム、Amazon FSx for NetApp ONTAP、Azure NetApp Files、NetApp Cloud Volumes ONTAPインスタンスなどです。さらに、使用しているKubernetesバージョンがKubeflowとNetApp Astra Tridentでサポートされていれば、解決策を任意のKubernetesクラスタに実装できます。Kubeflow でサポートされる Kubernetes バージョンの一覧については、を参照してください https://www.kubeflow.org/docs/started/getting-started/["Kubeflow の公式ドキュメント"^]。Trident でサポートされている Kubernetes のバージョンのリストについては、を参照してください https://docs.netapp.com/us-en/trident/index.html["Trident のドキュメント"^]。解決策の検証に使用した環境の詳細については、次の表を参照してください。
 
-|===
-| インフラストラクチャコンポーネント | 数量 | 詳細 | オペレーティングシステム 
-
-
-| 展開ジャンプホスト | 1. | VM | Ubuntu 20.04.2 LTS の場合は 
-
-
-| Kubernetes マスターノード | 1. | VM | Ubuntu 20.04.2 LTS の場合は 
-
-
-| Kubernetes ワーカーノード | 2. | VM | Ubuntu 20.04.2 LTS の場合は 
-
-
-| Kubernetes GPU ワーカーノード | 2. | NVIDIA DGX-1 （ベアメタル） | NVIDIA DGX OS 4.0.5 （ Ubuntu 18.04.2 LTS に基づく） 
-
-
-| ストレージ | 1 つの HA ペア | NetApp AFF A220 | NetApp ONTAP 9.7 P6 
-|===
 |===
 | ソフトウェアコンポーネント | バージョン 
 
@@ -44,22 +26,16 @@ NetApp AI コントロールプレーン解決策は、このような特定の�
 | Apache Airflow Helm チャート | 8.0.8 
 
 
-| Docker です | 19.03.12 
+| クビフロー | 1.7、次の方法で導入 link:https://www.deploykf.org["deployKF"] 0.1.1 
 
 
-| クビフロー | 1/2 
+| Kubernetes | 1.26 
 
 
-| Kubernetes | 1.18.9 
-
-
-| NetApp Trident | 21.01.2. 
-
-
-| NVIDIA DeepOps のことです | コミット時点でマスターブランチから Trident 導入機能を利用できるようになりました link:https://github.com/NVIDIA/deepops/tree/61898cdfdaa0c59c07e9fabf3022945a905b148e/docs/k8s-cluster["61898cdfda"]; バージョン 21.03 の他のすべての機能 
+| ネットアップアストラト Trident | 23.07 
 |===
 
 
 == サポート
 
-ネットアップは、 Apache Airflow 、 Docker 、 Kubeflow 、 Kubernetes 、 NVIDIA DeepOps のエンタープライズサポートを提供していません。ネットアップの AI コントロールプレーン解決策と同様の機能を備えた、完全にサポートされている解決策に関心がある場合： link:https://www.netapp.com/us/contact-us/index.aspx?for_cr=us["ネットアップにお問い合わせください"] ネットアップがパートナー様と共同で提供する、完全にサポートされている AI / ML ソリューションについて説明します。
+NetAppは、Apache Airflow、Kubeflow、Kubernetesのエンタープライズサポートを提供していません。完全にサポートされているMLOpsプラットフォームに関心がある場合は、 link:https://www.netapp.com/us/contact-us/index.aspx?for_cr=us["ネットアップにお問い合わせください"] NetAppがパートナーと共同で提供する、完全にサポートされたMLOpsソリューションについて説明します。
