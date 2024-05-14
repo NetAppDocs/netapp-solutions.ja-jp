@@ -1,0 +1,167 @@
+---
+sidebar: sidebar 
+permalink: hyperv/hyperv-deploy-data-protection.html 
+keywords: hyperv, hyper-v, deploy, netapp, virtualization, data, protection 
+summary: 解決策には、Hyper-VをNetAppストレージに導入するために必要な手順が記載されている 
+---
+= 『Deploying Microsoft Hyper-V on NetApp Storage』：「Data Protection」
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+データ保護は、あらゆる本番ワークロードの主要なテナントです。  このセクションでは、Hyper-V仮想マシンをバックアップおよびリストアする方法について説明します。
+
+
+
+== NetAppストレージスナップショットを使用したリストア
+
+VMのバックアップと迅速なリカバリやクローニングは、ONTAPボリュームの大きな強みです。Snapshotコピーを使用すると、パフォーマンスに影響を与えることなく、VMやCSVボリューム全体のFlexCloneコピーを迅速に作成できます。これにより、本番データボリュームのクローンを作成し、QA環境、ステージング環境、および開発環境にマウントする際に、データ破損のリスクを伴わずに本番データを扱うことができます。FlexCloneボリュームは、データのコピーに必要なスペースを2倍にすることなく、本番環境のデータのテストコピーを作成する場合に便利です。
+
+Hyper-Vノードは各ディスクに一意のIDを割り当て、それぞれのパーティション（MBRまたはGPT）を持つボリュームのSnapshotを作成すると、同じ一意のIDが使用されることに注意してください。MBRはディスクシグネチャを使用し、GPTはGUID（Global Unique Identifier）を使用します。スタンドアロンのHyper-Vホストの場合、FlexCloneボリュームは競合することなく簡単にマウントできます。これは、スタンドアロンのHyper-Vサーバでは、重複するディスクIDを自動的に検出し、ユーザの介入なしに動的に変更できるためです。このアプローチでは、シナリオに応じてVHDをコピーすることでVMをリカバリできます。
+
+スタンドアロンのHyper-Vホストの場合は簡単ですが、Hyper-Vクラスタの場合は手順が異なります。リカバリプロセスでは、FlexCloneボリュームをスタンドアロンのHyper-Vホストにマッピングするか、diskpartを使用して、FlexCloneボリュームをスタンドアロンのHyper-Vホストにマッピングして署名を手動で変更します（ディスクIDの競合によりディスクをオンラインにできなくなるため、この処理は重要です）。 FlexCloneボリュームをクラスタにマッピング
+
+
+
+== サードパーティの解決策を使用したバックアップとリストア
+
+*注*：このセクションではCommVaultを使用していますが、これは他のサードパーティソリューションにも適用されます。
+
+Commvault IntelliSnap®は、ONTAPスナップショットを活用してハードウェアベースのスナップショットを作成
+構成を変更します。バックアップは、Hyper-VハイパーバイザーまたはVMグループの設定に基づいて自動化することも、VMグループまたは特定のVMに対して手動で自動化することもできます。IntelliSnapを使用すると、Hyper-V環境を迅速に保護し、本番仮想化ファームへの負荷を最小限に抑えることができます。IntelliSnapテクノロジと仮想サーバエージェント（VSA）の統合により、NetApp ONTAPアレイは、多数の仮想マシンとデータストアを使用してわずか数分でバックアップを完了できます。きめ細かなアクセスにより、フルゲスト.vhdファイルとともに、セカンダリストレージ階層から個 々 のファイルやフォルダをリカバリできます。
+
+仮想化環境を構成する前に'スナップショットとアレイの統合を必要とする適切なエージェントを導入しますMicrosoft Hyper-V仮想化環境では、次のエージェントが必要です。
+
+* MediaAgent
+* 仮想サーバエージェント（VSA）
+* VSSハードウェアプロバイダ（Windows Server 2012以降のオペレーティングシステム）
+
+
+*アレイ管理を使用したNetAppアレイの構成*
+
+次の手順では、ONTAPアレイとHyper-Vを使用する環境でIntelliSnap仮想マシンのバックアップを設定する方法を示します。
+
+. CommCell Consoleのリボンで、[Storage]タブをクリックし、[Array Management]をクリックします。
+. [Array Management]ダイアログボックスが表示されます。
+. 追加をクリックします。
++
+[Array Properties]ダイアログボックスが表示されます。
+
++
+image:hyperv-deploy-image09.png["Array Properties（アレイのプロパティ）ダイアログの画像"]
+
+. [全般]タブで、次の情報を指定します。
+. [Snap Vendor]リストから、NetAppを選択します。
+. [名前]ボックスに、プライマリファイルサーバのホスト名、完全修飾ドメイン名（FQDN）、またはTCP/IPアドレスを入力します。
+. [Array Access Nodes]タブで、[Available media agents]を選択します。
+. [スナップ構成（Snap Configuration）]タブで、必要に応じて[スナップショット構成プロパティ（Snapshot Configuration Properties）]を構成します。
+. [OK] をクリックします。
+. <Mandatory step>完了したら、[検出]オプションを使用してNetAppストレージアレイでSVMを設定してStorage Virtual Machine（SVM）を自動的に検出し、SVMを選択します。追加オプションを使用して、そのSVMをCommServeデータベースにアレイ管理エントリとして追加します。
++
+image:hyperv-deploy-image10.png["アレイ管理エントリとしてSVMを設定するイメージ"]
+
+. [Advanced]（詳細設定）をクリックし（下図を参照）、[Enable IntelliSnap（IntelliSnapを有効にする）]チェックボックスを選択します。
++
+image:hyperv-deploy-image11.png["[IntelliSnapを有効にする]オプションを表示している画像"]
+
+
+
+アレイの設定手順の詳細については、を参照してください。 link:https://documentation.commvault.com/11.20/configuring_netapp_array_using_array_management.html["NetAppアレイの設定"] および link:https://cvdocssaproduction.blob.core.windows.net/cvdocsproduction/2023e/expert/configuring_storage_virtual_machines_on_netapp_arrays.html["NetAppアレイでのStorage Virtual Machineの設定"]
+
+*ハイパーバイザーとしてHyper-Vを追加*
+
+次の手順では、Hyper-Vハイパーバイザーを追加し、VMグループを追加します。
+
+*前提条件*
+
+* ハイパーバイザーには、Hyper-Vクラスタ、クラスタ内のHyper-Vサーバ、またはスタンドアロンのHyper-Vサーバを使用できます。
+* ユーザは、Hyper-V Server 2012以降のHyper-V管理者グループに属している必要があります。Hyper-Vクラスタの場合、ユーザアカウントには完全なクラスタ権限（読み取りとフルコントロール）が必要です。
+* バックアップおよびリストア処理用のアクセスノード（VSAプロキシ）を作成するためにVirtual Server Agent（VSA）をインストールするノードを1つ以上指定します。Hyper-Vサーバを検出するには、CommServeシステムにVSAがインストールされている必要があります。
+* Hyper-V 2012 R2でChanged Block Trackingを使用するには、Hyper-Vクラスタ内のすべてのノードを選択します。
+
+
+次の手順では、Hyper-Vをハイパーバイザーとして追加する方法を示します。
+
+. コアのセットアップが完了したら、[保護]タブで[仮想化]タイルをクリックします。
+. [Create server backup plan]ページで、プランの名前を入力し、ストレージ、保持、およびバックアップスケジュールに関する情報を入力します。
+. [Add hypervisor（ハイパーバイザーの追加）]ページが表示されたら、[Select vendor：Select Hyper-V（IPアドレスまたはFQDNとユーザクレデンシャルを入力）]を選択します。
+. Hyper-Vサーバの場合は、[ノードの検出]をクリックします。[Nodes]フィールドに値が入力されたら、Virtual Server Agentをインストールするノードを1つ以上選択します。
++
+image:hyperv-deploy-image12.png["Hyper-Vノードの検出を示す画像"]
+
+. [Next]をクリックし、[Save]をクリックします。
++
+image:hyperv-deploy-image13.png["前の手順の結果を示す図"]
+
+. [Add VM group]ページで、保護する仮想マシンを選択し（この例ではDemogrpを作成します）、次に示すようにIntelliSnapオプションを有効にします。
++
+image:hyperv-deploy-image14.png["保護するVMの選択を示す画像"]
+
++
+*注*：VMグループでIntelliSnapが有効になっている場合、CommVaultはプライマリ（スナップ）コピーとバックアップコピーのスケジュールポリシーを自動的に作成します。
+
+. [ 保存 ] をクリックします .
+
+
+アレイの設定手順の詳細については、を参照してください。 link:https://documentation.commvault.com/2023e/essential/guided_setup_for_hyper_v.html["ハイパーバイザーの追加"]。
+
+*バックアップの実行：*
+
+. ナビゲーションペインで、[Protect]>[Virtualization]の順に選択します。[Virtual Machines]ページが表示されます。
+. VMまたはVMグループをバックアップします。このデモでは、VMグループが選択されています。VMグループの行で、アクションボタンaction_buttonをクリックし、[Back up]を選択します。この場合、nimplanはDemogrpとDemogrp01に関連する計画です。
++
+image:hyperv-deploy-image15.png["バックアップするVMを選択するダイアログを示す図"]
+
+. バックアップが正常に完了すると、スクリーンショットに示されているように復元ポイントが使用可能になります。スナップコピーから、VM全体のリストアとゲストファイルとフォルダのリストアを実行できます。
++
+image:hyperv-deploy-image16.png["バックアップの復元ポイントを示す画像"]
+
++
+*注*：重要で使用率の高い仮想マシンについては、CSVあたりの仮想マシン数を少なくしてください。
+
+
+
+*リストア処理の実行：*
+
+リストアポイントを使用して、完全なVM、ゲストファイルおよびフォルダ、または仮想ディスクファイルをリストアします。
+
+. ナビゲーションペインで[Protect]>[Virtualization]に移動すると、[Virtual Machines]ページが表示されます。
+. [VM groups]タブをクリックします。
+. [VM group]ページが表示されます。
+. [VM groups]領域で、仮想マシンを含むVMグループの[Restore]をクリックします。
+. [Select restore type]ページが表示されます。
++
+image:hyperv-deploy-image17.png["バックアップのリストアタイプを示す図"]
+
+. 選択内容に応じて[Guest files]または[Full virtual machine]を選択し、リストアを実行します。
++
+image:hyperv-deploy-image18.png["リストアのオプションを示す画像"]
+
+
+
+サポートされるすべてのリストアオプションの詳細な手順については、を参照してください。 link:https://documentation.commvault.com/2023e/essential/restores_for_hyper_v.html["Hyper-Vヨウノリストア"]。
+
+
+
+== NetApp ONTAPの詳細オプション
+
+NetApp SnapMirrorを使用すると、サイト間のストレージレプリケーションが効率的になり、災害が発生する
+今日のグローバル企業に適した、迅速で信頼性と管理性に優れたリカバリを実現します。LANおよびWAN経由でデータを高速でレプリケートするSnapMirrorは、ミッションクリティカルなアプリケーションの高可用性と高速リカバリを実現するとともに、優れたストレージ重複排除機能とネットワーク圧縮機能を提供します。NetApp SnapMirrorテクノロジを使用すると、ディザスタリカバリによってデータセンター全体を保護できます。ボリュームはオフサイトの場所に段階的にバックアップできます。SnapMirrorは、必要なRPO（目標復旧時点）に応じて、ブロックベースの差分レプリケーションを実行します。ブロックレベルの更新により、必要な帯域幅と時間が削減され、DRサイトでデータの整合性が維持されます。
+
+重要な手順は、データセット全体の1回限りのベースライン転送を作成することです。これは、差分更新を実行する前に必要です。この処理には、ソースでSnapshotコピーを作成し、コピーによって参照されるすべてのデータブロックをデスティネーションファイルシステムに転送する処理が含まれます。初期化が完了したら、スケジュールされた更新または手動でトリガーされた更新を実行できます。各更新では、新しいブロックと変更されたブロックだけがソースファイルシステムからデスティネーションファイルシステムに転送されます。この処理では、ソースボリュームにSnapshotコピーを作成し、ベースラインコピーと比較し、変更されたブロックのみをデスティネーションボリュームに転送します。新しいコピーが次回の更新のベースラインコピーになります。レプリケーションは定期的に行われるため、SnapMirrorは変更されたブロックを統合してネットワーク帯域幅を節約できます。書き込みスループットと書き込みレイテンシへの影響は最小限です。
+
+リカバリは、次の手順を実行して実行します。
+
+. セカンダリサイトのストレージシステムに接続します。
+. SnapMirror関係を解除
+. SnapMirrorボリューム内のLUNを、セカンダリサイトのHyper-Vサーバのイニシエータグループ（igroup）にマッピングします。
+. LUNをHyper-Vクラスタにマッピングしたら、これらのディスクをオンラインにします。
+. フェイルオーバークラスタのPowerShellコマンドレットを使用して、使用可能なストレージにディスクを追加し、CSVに変換します。
+. CSV内の仮想マシンをHyper-Vマネージャにインポートし、高可用性を確保してから、クラスタに追加します。
+. VMの電源をオンにします。
+

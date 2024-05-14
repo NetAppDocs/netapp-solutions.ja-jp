@@ -1,0 +1,64 @@
+---
+sidebar: sidebar 
+permalink: vmware/migrate-vms-to-ec2-fsxn-arch.html 
+keywords: netapp, vmware, amazon, ec2, fsxn, migration, iscsi, 
+summary: このテクニカルレポートでは、Cirrus Migrate Cloud（CMC）のMigrateOps「data-mobility-as-code」機能を使用して、データディスクがFSx for ONTAP iSCSI LUNに配置されたオンプレミスのVMware vSphere VMをAmazon EC2インスタンスに移行する方法について説明します。 
+---
+= FSxNを使用したAmazon EC2へのVMの移行：アーキテクチャと前提条件
+:allow-uri-read: 
+
+
+
+
+== FSxNを使用したAmazon EC2へのVMの移行：アーキテクチャと前提条件
+
+[role="lead"]
+この記事では、移行を完了するためのアーキテクチャと導入の前提条件の概要を示します。
+
+
+
+== アーキテクチャの概要
+
+次の図は、CMC MigrateOpsを使用してVMware上の仮想マシンディスク（VMDK）データをAWSに移行するアーキテクチャの概要を示しています。
+
+image:migrate-ec2-fsxn-image01.png["FSxNを使用したAmazon EC2へのVMの移行のアーキテクチャ図"]
+
+
+
+== Amazon EC2とFSx for ONTAP iSCSIを使用してVMware VMをAWSに移行する方法
+
+
+
+=== 前提条件
+
+チュートリアル手順を開始する前に、次の前提条件を満たしていることを確認してください。
+
+* AWS上*
+
+* AWSアカウント。これには、サブネット、VPCセットアップ、ルーティングテーブル、セキュリティルールの移行、セキュリティグループの権限が含まれます。 ネットワークに関するその他の要件（ロードバランシングなど）他の移行と同様に、最も労力と考慮事項をネットワークに投入する必要があります。
+* FSx for ONTAPとAmazon EC2の両方のインスタンスをプロビジョニングできる適切なIAMロール。
+* ルートテーブルとセキュリティグループは、FSx for ONTAPとの通信を許可されます。
+* 適切なセキュリティグループにインバウンドルールを追加して（詳細については以下を参照）、オンプレミスのデータセンターからAWSへのセキュアなデータ転送を可能にします。
+* パブリックインターネットドメイン名を解決できる有効なDNS。
+* DNSによる解決が機能しており、ホスト名を解決できることを確認します。
+* 最適なパフォーマンスとサイズ適正化を実現するには、ソース環境のパフォーマンスデータを使用してFSx for ONTAPストレージのサイズを適正化します。
+* 各MigrateOpsセッションは1つのEIPを使用するため、並列処理を増やすにはEIPのクォータを増やす必要があります。デフォルトのEIPクォータは5です。
+* （Active Directoryベースのワークロードを移行する場合）Amazon EC2上のWindows Active Directoryドメイン。
+
+
+* Cirrus Migrate Cloudの場合*
+
+* Cirrus Data Cloudアカウント link:http://cloud.cirrusdata.com/["cloud.cirrusdata.com"] CMCを使用する前に作成する必要があります。HTTPSを介したCDN、Cirrus Dataエンドポイント、およびソフトウェアリポジトリとのアウトバウンド通信が許可されている必要があります。
+* HTTPSプロトコル（ポート443）を介したCirrus Data Cloudサービスとの通信（アウトバウンド）を許可します。
+* CMCプロジェクトでホストを管理するには、展開されたCMCソフトウェアがCirrus Data Cloudへの一方向の発信TCP接続を開始する必要があります。
+* TCPプロトコル、ポート443によるportal-gateway.cloud.cirrusdata.comへのアクセスを許可します。現在は208.67.222.222です。
+* バイナリデータペイロード（application/octet-stream）を使用したHTTP POST要求（HTTPS接続経由）を許可します。これはファイルのアップロードに似ています。
+* portal-gateway.cloud.cirrusdata.comがDNS（またはOSホストファイル）によって解決可能であることを確認します。
+* 製品インスタンスがアウトバウンド接続を行うことを禁止する厳格なルールがある場合、CMCの「管理リレー」機能は、アウトバウンド443接続が単一のセキュアな非本番ホストからの接続である場合に使用できます。
+
+
+*注*：Cirrus Data Cloudエンドポイントにストレージデータが送信されることはありません。管理メタデータのみが送信されます。このメタデータをマスクして、実際のホスト名、ボリューム名、ネットワークIPが含まれないようにすることもできます。
+
+オンプレミスのストレージリポジトリからAWSにデータを移行する場合、MigrateOpsはホスト間（H2H）接続の管理を自動化します。これらは、CMCがリモート移行を容易にするために使用する、最適化された一方向のTCPベースのネットワーク接続です。このプロセスは、データの性質に応じて、トラフィック量を最大8分の1に削減できる、常時稼働の圧縮と暗号化機能を備えています。
+
+*注*：CMCは、移行フェーズ全体で実稼働データ/I/Oが実稼働ネットワークから出ないように設計されています。そのため、ソースホストとデスティネーションホストを直接接続する必要があります。

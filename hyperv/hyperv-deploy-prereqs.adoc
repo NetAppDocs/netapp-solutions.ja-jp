@@ -1,0 +1,230 @@
+---
+sidebar: sidebar 
+permalink: hyperv/hyperv-deploy-prereqs.html 
+keywords: hyperv, hyper-v, deploy, netapp, virtualization, prereqs, pre-requisites 
+summary: 解決策には、Hyper-VをNetAppストレージに導入するために必要な手順が記載されている 
+---
+= 『Deploying Microsoft Hyper-V on NetApp Storage』：「Pre-Requisities」
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+このトピックでは、ONTAPストレージシステムを活用して、2ノードのフェイルオーバークラスタとクラスタ化されたHyper-V仮想マシンを設定および導入する手順について説明します。
+
+
+
+== 手順導入の前提条件
+
+* すべてのハードウェアは、実行しているWindows Serverのバージョンに対して認定されている必要があります。また、完全なフェイルオーバークラスタ解決策は、構成の検証ウィザードのすべてのテストに合格する必要があります。
+* ドメインコントローラに追加されたHyper-Vノード（推奨）と、相互に適切に接続されている。
+* すべてのHyper-Vノードを同一の構成にする必要があります。
+* 管理、iSCSI、SMB、ライブ移行用に分離されたトラフィック用に各Hyper-Vサーバに設定されたネットワークアダプタと専用仮想スイッチ。
+* フェイルオーバークラスタ機能は、各Hyper-Vサーバで有効になっています。
+* SMB共有（CSV）は、Hyper-VクラスタリングのためにVMとそのディスクを格納する共有ストレージとして使用されます。
+* 異なるクラスタ間でストレージを共有しないでください。クラスタごとに1つまたは複数のCSV / CIFS共有を計画します。
+* SMB共有を共有ストレージとして使用する場合は、SMB共有に対する権限を設定して、クラスタ内のすべてのHyper-Vノードのコンピュータアカウントにアクセスを許可する必要があります。
+
+
+詳細については、を参照してください
+
+* link:https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/system-requirements-for-hyper-v-on-windows#how-to-check-for-hyper-v-requirements["Windows Server上のHyper-Vのシステム要件"]
+* link:https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/jj134244(v=ws.11)#step-1-prepare-to-validate-hardware-for-a-failover-cluster["フェールオーバークラスタのハードウェアの検証"]
+* link:https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/jj863389(v=ws.11)["Hyper-Vクラスタの導入"]
+
+
+
+
+=== Windows機能のインストール
+
+次の手順では、必要なWindows Server 2022機能をインストールする方法について説明します。
+
+*すべてのホスト*
+
+. 指定されたすべてのノードで、必要な更新とデバイスドライバを使用してWindows OS 2022を準備します。
+. インストール時に入力した管理者パスワードを使用して、各Hyper-Vノードにログインします。
+. タスクバーのPowerShellアイコンを右クリックし、 `Run as Administrator`。
+. Hyper-V、MPIO、およびクラスタリング機能を追加します。
++
+[source, cli]
+----
+Add-WindowsFeature Hyper-V, Failover-Clustering, Multipath-IO `-IncludeManagementTools –Restart
+----
+
+
+
+
+=== ネットワークの設定
+
+フォールトトレラント展開を実現するには、適切なネットワーク計画が重要です。フェイルオーバークラスタの標準的な推奨事項は、トラフィックのタイプごとに個別の物理ネットワークアダプタを設定することでした。仮想ネットワークアダプタを追加したり、組み込みのチーミング（セット）を切り替えたり、Hyper-V QoSなどの機能を導入したりすることで、ネットワークトラフィックをより少ない物理アダプタで処理できるようになりました。QoS、冗長性、およびトラフィック分離を念頭に置いて、ネットワーク構成を設計します。VLANなどのネットワーク分離技術をトラフィック分離技術と組み合わせて設定すると、トラフィックの冗長性とサービス品質が確保され、ストレージトラフィックのパフォーマンスが向上し、一貫性が向上します。
+
+複数の論理ネットワークや物理ネットワークを使用して、特定のワークロードを分離して分離することを推奨します。一般的にセグメントに分割される一般的なネットワークトラフィックの例を次に示します。
+
+* iSCSIストレージネットワーク：
+* CSV（クラスタ共有ボリューム）またはハートビートネットワーク。
+* ライブマイグレーション
+* VM ネットワーク
+* 管理ネットワーク
+
+
+*注*：iSCSIを専用NICで使用する場合、チーミング解決策の使用は推奨されず、MPIO/DSMを使用する必要があります。
+
+*注*：Hyper-Vネットワークのベストプラクティスでも、Hyper-V環境でSMB 3.0ストレージネットワークにNICチーミングを使用することは推奨されません。
+
+追加情報については、を参照してください。 link:https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/plan/plan-hyper-v-networking-in-windows-server["Windows ServerでのHyper-Vネットワークの計画"]
+
+
+
+=== Hyper-Vのストレージ設計の決定
+
+Hyper-Vは、仮想マシンのバッキングストレージとしてNAS（SMB3.0）とブロックストレージ（iSCSI / FC）をサポートしています。NetAppはSMB3.0、iSCSI、およびFCプロトコルをサポートしており、iSCSI / FCおよびSMB3を使用してVM - Cluster Shared Volume（CSV；クラスタ共有ボリューム）のネイティブストレージとして使用できます。また、SMB3とiSCSIを、ストレージへの直接アクセスが必要なワークロード向けのゲスト接続ストレージオプションとして使用することもできます。ONTAPでは、SAN専用構成向けにプロトコルアクセスとSAN向けに最適化されたストレージ（オールSANアレイ）を混在させる必要があるワークロード向けに、ユニファイドストレージ（オールフラッシュアレイ）の柔軟なオプションを提供します。
+
+iSCSI / FCではなくSMB3を使用するかどうかは、現在導入されている既存のインフラストラクチャによって決定されます。SMB3 / iSCSIを使用すると、お客様は既存のネットワークインフラストラクチャを使用できます。既存のFCインフラをお持ちのお客様は、そのインフラを活用して、FCベースのクラスタ共有ボリュームとしてストレージを提供できます。
+
+*注：* ONTAPソフトウェアを実行するNetAppストレージコントローラは、Hyper-V環境で次のワークロードをサポートできます。
+
+* 継続的可用性を備えたSMB 3.0共有でホストされるVM
+* iSCSIまたはFCで実行されているCluster Shared Volume（CSV；クラスタ共有ボリューム）LUNでホストされているVM
+* ゲスト内ストレージとゲスト仮想マシンへのディスクのパススルー
+
+
+*注*：ONTAPシンプロビジョニング、重複排除、圧縮、データコンパクション、フレックスクローン、 スナップショットとレプリケーションは、プラットフォームやオペレーティングシステムに関係なく、バックグラウンドでシームレスに機能し、Hyper-Vワークロードに大きな価値をもたらします。これらの機能のデフォルト設定は、Windows ServerおよびHyper-Vに最適です。
+
+*注*：MPIOは、VMへの複数のパスが使用可能で、マルチパスI/O機能がインストールおよび設定されている場合、ゲスト内イニシエータを使用してゲストVMでサポートされます。
+
+*注*：ONTAPは、業界標準の主要なクライアントプロトコル（NFS、SMB、FC、FCoE、iSCSI、 NVMe / FC、S3をサポートします。ただし、MicrosoftではNVMe/FCとNVMe/TCPはサポートされていません。
+
+
+
+=== NetApp Windows iSCSI Host Utilitiesのインストール
+
+次のセクションでは、NetApp Windows iSCSI Host Utilitiesの無人インストール方法について説明します。インストールの詳細については、を参照してください。 link:https://docs.netapp.com/us-en/ontap-sanhost/hu_wuhu_72.html["Windows Unified Host Utilities 7.2（またはサポート対象の最新バージョン）をインストールする"]
+
+*すべてのホスト*
+
+. ダウンロード link:https://mysupport.netapp.com/site/products/all/details/hostutilities/downloads-tab/download/61343/7.2["Windows iSCSI Host Utilities"]
+. ダウンロードしたファイルのブロックを解除します。
++
+[source, cli]
+----
+Unblock-file ~\Downloads\netapp_windows_host_utilities_7.2_x64.msi
+----
+. Host Utilitiesをインストールします。
++
+[source, cli]
+----
+~\Downloads\netapp_windows_host_utilities_7.2_x64.msi /qn "MULTIPATHING=1"
+----
+
+
+*注*：このプロセス中にシステムが再起動します。
+
+
+
+=== WindowsホストのiSCSIイニシエータの設定
+
+次の手順では、組み込みのMicrosoft iSCSIイニシエータを設定する方法について説明します。
+
+*すべてのホスト*
+
+. タスクバーのPowerShellアイコンを右クリックして[Run as Administrator]を選択し、PowerShellプロンプトを起動します。
+. iSCSIサービスが自動的に開始されるように設定します。
++
+[source, cli]
+----
+Set-Service -Name MSiSCSI -StartupType Automatic
+----
+. iSCSIサービスを開始します。
++
+[source, cli]
+----
+Start-Service -Name MSiSCSI
+----
+. すべてのiSCSIデバイスを要求するようにMPIOを設定します。
++
+[source, cli]
+----
+Enable-MSDSMAutomaticClaim -BusType iSCSI
+----
+. 新しく要求されたすべてのデバイスのデフォルトのロードバランシングポリシーをラウンドロビンに設定します。
++
+[source, cli]
+----
+Set-MSDSMGlobalDefaultLoadBalancePolicy -Policy RR 
+----
+. コントローラごとにiSCSIターゲットを設定します。
++
+[source, cli]
+----
+New-IscsiTargetPortal -TargetPortalAddress <<iscsia_lif01_ip>> -InitiatorPortalAddress <iscsia_ipaddress>
+
+New-IscsiTargetPortal -TargetPortalAddress <<iscsib_lif01_ip>> -InitiatorPortalAddress <iscsib_ipaddress
+
+New-IscsiTargetPortal -TargetPortalAddress <<iscsia_lif02_ip>> -InitiatorPortalAddress <iscsia_ipaddress>
+
+New-IscsiTargetPortal -TargetPortalAddress <<iscsib_lif02_ip>> -InitiatorPortalAddress <iscsib_ipaddress>
+----
+. 各iSCSIネットワークのセッションを各ターゲットに接続します。
++
+[source, cli]
+----
+Get-IscsiTarget | Connect-IscsiTarget -IsPersistent $true -IsMultipathEnabled $true -InitiatorPo rtalAddress <iscsia_ipaddress>
+
+Get-IscsiTarget | Connect-IscsiTarget -IsPersistent $true -IsMultipathEnabled $true -InitiatorPo rtalAddress <iscsib_ipaddress>
+----
+
+
+*注*：パフォーマンスを向上させ、帯域幅を利用するために、複数のセッション（最小5～8）を追加します。
+
+
+
+=== クラスタの作成
+
+*サーバ1台のみ*
+
+. PowerShellアイコンを右クリックし、 `Run as Administrator``。
+. 新しいクラスタを作成します。
++
+[source, cli]
+----
+New-Cluster -Name <cluster_name> -Node <hostnames> -NoStorage -StaticAddress <cluster_ip_address>
+----
++
+image:hyperv-deploy-image01.png["クラスタ管理インターフェイスを示す画像"]
+
+. ライブマイグレーションに適したクラスタネットワークを選択します。
+. CSVネットワークを指定します。
++
+[source, cli]
+----
+(Get-ClusterNetwork -Name Cluster).Metric = 900
+----
+. クォーラムディスクを使用するようにクラスタを変更します。
++
+.. PowerShellアイコンを右クリックし、[Run as Administrator]を選択して、管理者権限でPowerShellプロンプトを起動します。
++
+[source, cli]
+----
+start-ClusterGroup "Available Storage"| Move-ClusterGroup -Node $env:COMPUTERNAME
+----
+.. フェイルオーバークラスタマネージャで、 `Configure Cluster Quorum Settings`。
++
+image:hyperv-deploy-image02.png["クラスタクォーラム設定の構成の画像"]
+
+.. [Welcome]ページで[Next]をクリックします。
+.. クォーラム監視を選択し、[Next]をクリックします。
+.. [Configure a disk witness]を選択し、[Next]をクリックします。
+.. 使用可能なストレージから[Disk W:]を選択し、[Next]をクリックします。
+.. 確認ページで[Next]をクリックし、概要ページで[Finish]をクリックします。
++
+クォーラムと監視の詳細については、を参照してください。 link:https://learn.microsoft.com/en-us/windows-server/failover-clustering/manage-cluster-quorum#general-recommendations-for-quorum-configuration["クォーラムの設定と管理"]
+
+
+
+. フェイルオーバークラスタマネージャからクラスタ検証ウィザードを実行して、導入を検証します。
+. フェイルオーバークラスタマネージャ内のロールを使用して、仮想マシンデータを格納するCSV LUNを作成し、可用性の高い仮想マシンを作成します。
+
