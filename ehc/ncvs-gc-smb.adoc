@@ -24,7 +24,7 @@ Cloud Volumes Service では、SMB 2.1および3.xバージョンのプロトコ
 
 * Windowsユーザ名がCloud Volumes Service ボリュームへのアクセスを要求すると、Cloud Volumes Service はCloud Volumes Service 管理者が設定した方法を使用してUNIXユーザ名を検索します。
 * 外部UNIXアイデンティティ・プロバイダ（LDAP）が設定されていて、Windows/UNIXユーザ名が同一の場合、Windowsユーザ名は、追加の設定を必要とせずに1:1でUNIXユーザ名にマッピングされます。LDAPを有効にすると、Active Directoryを使用してユーザオブジェクトとグループオブジェクトのUNIX属性がホストされます。
-* Windows名とUNIX名が同じ設定にならない場合は、Cloud Volumes Service がLDAPネームマッピングの設定を使用できるようにLDAPを設定する必要があります（を参照） link:ncvs-gc-other-nas-infrastructure-service-dependencies.html#ldap#using-ldap-for-asymmetric-name-mapping["「LDAPを使用した非対称ネームマッピング」"]）。
+* Windows名とUNIX名が同じ設定にならない場合は、Cloud Volumes Service がLDAPネームマッピングの設定を使用できるようにLDAPを設定する必要があります（を参照） link:ncvs-gc-other-nas-infrastructure-service-dependencies.html#using-ldap-for-asymmetric-name-mapping["「LDAPを使用した非対称ネームマッピング」"]）。
 * LDAPが使用されていない場合、Windows SMBユーザは、Cloud Volumes Service で「pcuser」という名前のデフォルトのローカルUNIXユーザにマッピングされます。つまり'マルチプロトコルのNAS環境では'pcuserにマップされているユーザーによってWindowsに書き込まれたファイルは'UNIXの所有権をpcuserとして表示しますここでは'pcuserがLinux環境では'nobodyユーザー（UID 65534）となっています
 
 
@@ -322,7 +322,7 @@ Cloud Volumes Service のSMBサーバでは、Kerberosのクロックスキュ�
 | 受信CIFSトラフィックにSMB暗号化を要求します | すべての共有でSMB暗号化が必要です。これはCloud Volumes Service では使用されません。代わりに、ボリューム単位で暗号化を設定します（「」を参照）<<SMB共有のセキュリティ機能>>」）をクリックします。 | いいえ | いいえ 
 
 
-| クライアントセッションセキュリティ | LDAP通信の署名と封印を設定します。この機能は現在Cloud Volumes Service には設定されていませんが、今後のリリースでサポートする必要が生じる可能性があります。WindowsパッチによるLDAP認証の問題に対する修正については、セクションで説明しています link:ncvs-gc-other-nas-infrastructure-service-dependencies.html#ldap#ldap-channel-binding["「LDAPチャネルバインディング」"]。 | なし | いいえ 
+| クライアントセッションセキュリティ | LDAP通信の署名と封印を設定します。この機能は現在Cloud Volumes Service には設定されていませんが、今後のリリースでサポートする必要が生じる可能性があります。WindowsパッチによるLDAP認証の問題に対する修正については、セクションで説明しています link:ncvs-gc-other-nas-infrastructure-service-dependencies.html#ldap-channel-binding["「LDAPチャネルバインディング」"]。 | なし | いいえ 
 
 
 | DC接続のSMB2有効化 | DC接続にSMB2を使用します。デフォルトは有効です。 | システム-デフォルト | いいえ 

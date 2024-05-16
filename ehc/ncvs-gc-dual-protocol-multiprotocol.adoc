@@ -20,7 +20,7 @@ Cloud Volumes Service では、適切なアクセス権限を維持しながら�
 
 == Access Control の略
 
-* *共有アクセス制御。* NAS共有にアクセスできるクライアントまたはユーザーおよびグループを決定します。NFSの場合は、エクスポートへのクライアントアクセスを制御するエクスポートポリシーとルールがあります。NFSエクスポートはCloud Volumes Service インスタンスから管理されます。SMBは、CIFS / SMB共有と共有ACLを利用して、ユーザレベルおよびグループレベルでより細かく制御します。を使用して設定できるのは、SMBクライアントからのみ共有レベルのACLです https://library.netapp.com/ecmdocs/ECMP1401220/html/GUID-C1772CDF-8AEE-422B-AB87-CFCB7E50FF94.html["MMC /コンピュータの管理"^] Cloud Volumes Service インスタンスに対する管理者権限を持つアカウントを使用する場合（を参照） link:ncvs-gc-smb.html#accounts-with-local/builtin-administrator/backup-rights["“ローカル/ BUILTIN管理者/バックアップ権限を持つアカウント”"]）。
+* *共有アクセス制御。* NAS共有にアクセスできるクライアントまたはユーザーおよびグループを決定します。NFSの場合は、エクスポートへのクライアントアクセスを制御するエクスポートポリシーとルールがあります。NFSエクスポートはCloud Volumes Service インスタンスから管理されます。SMBは、CIFS / SMB共有と共有ACLを利用して、ユーザレベルおよびグループレベルでより細かく制御します。SMBクライアントから共有レベルのACLを設定するには、https://library.netapp.com/ecmdocs/ECMP1401220/html/GUID-C1772CDF-8AEE-422B-AB87-CFCB7E50FF94.html[MMC/Computer Cloud Volumes Serviceインスタンスに対する管理者権限があるアカウントを使用する必要があります（「link：ncvs-gc-smb.html#ローカル/BUILTIN管理者/バックアップ権限があるアカウント[ローカル/BUILTIN管理者/バックアップ権限があるアカウント]」を参照）。
 * *ファイルアクセス制御。*ファイルまたはフォルダレベルで権限を制御し、常にNASクライアントから管理します。NFSクライアントは、従来のモードビット（rwx）またはNFSv4 ACLを使用できます。SMBクライアントはNTFS権限を利用します。
 
 
