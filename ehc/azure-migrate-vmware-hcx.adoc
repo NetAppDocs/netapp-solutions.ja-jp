@@ -83,20 +83,22 @@ image:anfd-hcx-image1.png["この図は、この解決策 で使用されてい�
 . Azureポータルにログインし、Azure VMware解決策 プライベートクラウドにアクセスします。
 . 適切なプライベートクラウドを選択し、アドオンにアクセスします。これを行うには、* Manage > Add-ons *に移動します。
 . [HCX Workload Mobility]セクションで、[* Get Started*]をクリックします。
-
-
++
 image:anfd-hcx-image2.png["[HCX Workload Mobility]セクションのスクリーンショット。"]
 
 . [*契約条件に同意します*]オプションを選択し、[*有効化して展開*]をクリックします。
-
-
++
 
 NOTE: デフォルトの展開はHCX Advancedです。エンタープライズエディションを有効にするには、サポートリクエストを開きます。
 
++
 
 NOTE: 導入には約25～30分かかります。
 
++
 image:anfd-hcx-image3.png["[HCX Workload Mobility]セクションの完了のスクリーンショット。"]
+
+
 
 ====
 .手順2：オンプレミスのvCenter ServerにインストーラOVAを導入する
@@ -107,31 +109,31 @@ image:anfd-hcx-image3.png["[HCX Workload Mobility]セクションの完了のス
 HCX ConnectorをオンプレミスのvCenter Serverにダウンロードしてインストールするには、次の手順を実行します。
 
 . AzureポータルからAzure VMware解決策 にアクセスし、プライベートクラウドを選択して、* Manage > Add-ons > Migration * using HCXを選択し、HCX Cloud ManagerポータルをコピーしてOVAファイルをダウンロードします。
-
-
++
 
 NOTE: HCXポータルにアクセスするには、デフォルトのCloudAdminユーザー資格情報を使用します。
 
++
 image:anfd-hcx-image4.png["HCX OVAファイルをダウンロードするAzureポータルのスクリーンショット。"]
 
 . jumphostを使用してmailto：cloudadmin@vsphere.loca l [cloudadmin@vsphere.loca l^]でHCXポータルにアクセスしたら、* Administration > System Updates *に移動し、* Request Download Link *をクリックします。
-
-
++
 
 NOTE: OVAをダウンロードするか、OVAにコピーしてブラウザに貼り付け、オンプレミスのvCenter Serverに導入するVMware HCX Connector OVAファイルのダウンロードプロセスを開始します。
 
++
 image:anfd-hcx-image5.png["エラー：OVAダウンロードリンクのスクリーンショット。"]
 
 . OVAをダウンロードしたら、* Deploy OVF Template *オプションを使用して、OVAをオンプレミスのVMware vSphere環境に導入します。
-
-
++
 image:anfd-hcx-image6.png["エラー：正しいOVAテンプレートを選択するためのスクリーンショット。"]
 
 . OVA導入に必要なすべての情報を入力し、「*次へ*」をクリックしてから、「*完了」をクリックしてVMware HCX Connector OVAを導入します。
-
-
++
 
 NOTE: 仮想アプライアンスの電源を手動でオンにします。
+
+
 
 手順については、を参照してください https://docs.vmware.com/en/VMware-HCX/services/user-guide/GUID-BFD7E194-CFE5-4259-B74B-991B26A51758.html["VMware HCXユーザーガイド"^]。
 
@@ -143,22 +145,20 @@ VMware HCX Connector OVAをオンプレミスに導入してアプライアン�
 
 . AzureポータルからAzure VMware解決策 にアクセスし、プライベートクラウドを選択して、* Manage > Add-ons > Migration Using HCX*を選択します。
 . [* HCXキーを使用してオンプレミスと接続する*]で、[*追加]をクリックしてアクティベーションキーをコピーします。
-
-
++
 image:anfd-hcx-image7.png["HCXキーを追加するためのスクリーンショット。"]
 
++
 
 NOTE: 導入されているオンプレミスのHCXコネクタごとに別々のキーが必要です。
 
-. オンプレミスのVMware HCX Managerにログインします https://hcxmanagerIP:9443["https://hcxmanagerIP:9443"^] 管理者のクレデンシャルを使用
-
-
+. オンプレミスのVMware HCX Managerにログインします `"https://hcxmanagerIP:9443"` 管理者のクレデンシャルを使用
++
 
 NOTE: OVAの導入時に定義されたパスワードを使用します。
 
 . ライセンスで、手順3からコピーしたキーを入力し、[* Activate*（有効化*）]をクリックします。
-
-
++
 
 NOTE: オンプレミスのHCXコネクタにはインターネットアクセスが必要です。
 
@@ -166,25 +166,25 @@ NOTE: オンプレミスのHCXコネクタにはインターネットアクセ�
 . システム名*で名前を更新し、*続行*をクリックします。
 . [はい、続行]をクリックします。
 . [* vCenterの接続*]で、vCenter Serverの完全修飾ドメイン名（FQDN）またはIPアドレスと適切なクレデンシャルを入力し、[*続行]をクリックします。
-
-
++
 
 NOTE: あとで接続の問題が発生しないようにFQDNを使用してください。
 
 . Configure SSO/PSC *で、プラットフォームサービスコントローラのFQDNまたはIPアドレスを入力し、* Continue *をクリックします。
-
-
++
 
 NOTE: VMware vCenter ServerのFQDNまたはIPアドレスを入力します。
 
 . 入力された情報が正しいことを確認し、[* Restart]をクリックします。
 . サービスが再起動すると、表示されるページに緑で表示されます。vCenter ServerとSSOの両方に適切な設定パラメータが必要です。これは前のページと同じである必要があります。
-
-
++
 
 NOTE: この処理には10~20分かかります。また、プラグインをvCenter Serverに追加する必要があります。
 
++
 image:anfd-hcx-image8.png["完了したプロセスを示すスクリーンショット"]
+
+
 
 ====
 .手順4：オンプレミスのVMware HCXコネクタをAzure VMware解決策 HCX Cloud Managerとペアリングします

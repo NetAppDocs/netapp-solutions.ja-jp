@@ -109,6 +109,6 @@ $ runai submit test-ingress -i jupyter/base-notebook -g 1 \
   --interactive --service-type=ingress --port 8888 \
   --args="--NotebookApp.base_url=test-ingress" --command=start-notebook.sh
 ....
-コンテナが正常に起動したら、「 runai list 」を実行して、 Jupyter Notebook にアクセスする「サービス URL (S) 」を確認します。URL は、入力エンドポイント、ジョブ名、およびポートで構成されます。たとえば、を参照してください https://10.255.174.13/test-ingress-8888[]。
+コンテナが正常に起動したら、を実行します。 `runai list` を参照してください。 `SERVICE URL(S)` Jupyter Notebookへのアクセスに使用します。URL は、入力エンドポイント、ジョブ名、およびポートで構成されます。
 
 詳細については、を参照してください https://docs.run.ai/Researcher/Walkthroughs/Walkthrough-Launch-an-Interactive-Build-Workload-with-Connected-Ports/["ポートが接続されている対話型のビルドワークロードを起動する"^]。
