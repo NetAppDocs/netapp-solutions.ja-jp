@@ -14,35 +14,31 @@ summary: NetApp ONTAP を使用した Red Hat OpenShift Virtualization
 
 
 [role="lead"]
-このセクションでは、Red Hat OpenShift Virtualizationを使用してクラスタ間で仮想マシンを移行する方法について説明します。
+このセクションでは、クラスタ内のノード間でOpenShift Virtualizationで仮想マシンを移行する方法を説明します。
 
 
 
 == VM ライブマイグレーション
 
-ライブマイグレーションは、 OpenShift クラスタ内の 1 つのノードから別のノードに VM インスタンスをダウンタイムなしで移行するプロセスです。OpenShift クラスタでライブマイグレーションを実行するには、 VM を共有 ReadWriteAny アクセスモードの PVC にバインドする必要があります。NFS プロトコルが有効になっている NetApp ONTAP クラスタで SVM を使用して設定された Astra Trident バックエンドは、 PVC に対する共有 ReadWriteAny アクセスをサポートします。そのため、 NFS 対応の SVM から Trident によってプロビジョニングされた StorageClasses から要求された PVC を持つ VM をダウンタイムなしで移行できます。
+ライブマイグレーションは、 OpenShift クラスタ内の 1 つのノードから別のノードに VM インスタンスをダウンタイムなしで移行するプロセスです。OpenShift クラスタでライブマイグレーションを実行するには、 VM を共有 ReadWriteAny アクセスモードの PVC にバインドする必要があります。ONTAPを使用して構成されたAstra Tridentバックエンド- NASドライバは、ファイルシステムプロトコルNFSとSMBのRWXアクセスモードをサポートします。のドキュメントを参照してください link:https://docs.netapp.com/us-en/trident/trident-use/ontap-nas.html["こちらをご覧ください"]。ONTAP SANドライバを使用して構成されたAstra Tridentバックエンドは、iSCSIプロトコルとNVMe/TCPプロトコルでブロックボリュームモードのRWXアクセスモードをサポートします。のドキュメントを参照してください link:https://docs.netapp.com/us-en/trident/trident-use/ontap-san.html["こちらをご覧ください"]。
 
-image::redhat_openshift_image55.jpg[VM ライブマイグレーションのアーキテクチャ]
+そのため、ライブマイグレーションを成功させるには、ONTAP-NASまたはONTAP-SAN（volumeMode：Block）ストレージクラスを使用して、PVCを含むVMをディスク（ブートディスクと追加のホットプラグディスク）でプロビジョニングする必要があります。PVCが作成されると、TridentはNFS対応またはiSCSI対応のSVMにONTAPボリュームを作成します。
 
-共有 ReadWriteAny アクセス権を持つ PVC にバインドされた VM を作成するには、次の手順を実行します。
+image::redhat_openshift_image55.png[VM ライブマイグレーションのアーキテクチャ]
 
-. ワークロード > 仮想化 > 仮想マシンと進み、作成 > ウィザードを使用してをクリックします。
-. 目的の OS を選択し、 Next （次へ）をクリックします。選択した OS には、すでに起動ソースが設定されているとしましょう。
-. [Review and Create] ペインで、 VM を作成して VM の詳細を提供するプロジェクトを選択します。ブートソースがクローンとして選択されていることを確認し、選択した OS に適切な PVC が割り当てられた CD-ROM から起動します。
-. [ 仮想マシンのカスタマイズ ] をクリックし、 [ ストレージ ] をクリックします。
-. rootdisk の横にある省略記号をクリックし、 Trident を使用してプロビジョニングされたストレージクラスが選択されていることを確認します。[ 詳細設定 ] を展開し、 [ アクセスモード ] で [ 共有アクセス (RWX) ] を選択します。[ 保存 ] をクリックします。
-+
-image::redhat_openshift_image56.JPG[ディスク RWX にアクセスできるようにします]
+以前に作成され、実行中の状態にあるVMのライブマイグレーションを実行するには、次の手順を実行します。
 
-. [ 確認 ] をクリックして確定し、 [ 仮想マシンの作成 ] をクリックします。
-
-
-OpenShift クラスタ内の別のノードに VM を手動で移行するには、次の手順を実行します。
-
-. ワークロード > 仮想化 > 仮想マシンと進みます。
-. 移行する VM の場合は、省略記号をクリックし、 Migrate the Virtual Machine （仮想マシンの移行）をクリックします。
-. メッセージが表示されたら、 [ 移行 ] をクリックして確認します。
+. ライブマイグレーションするVMを選択します。
+. [Configuration]*タブをクリックします。
+. RWXアクセスモードをサポートできるストレージクラスを使用して、VMのすべてのディスクが作成されていることを確認します。
+. 右隅の*[Actions]*をクリックし、*[Migrate]*を選択します。
+. 移行の進行状況を確認するには、左側のメニューで[Virtualization]>[Overview]に移動し、*[Migrations]タブをクリックします。
+VMの移行は、*保留中*から*スケジュール設定*に*成功*に移行します。
 
 
 
 NOTE: OpenShift クラスタ内の VM インスタンスは、 evictionStrategy が LiveMigrate に設定されている場合、元のノードがメンテナンスモードになると、自動的に別のノードに移行します。
+
+image::rh-os-n_use_case_vm_live_migrate_1[VM Live Migrateの開始]
+
+image::rh-os-n_use_case_vm_live_migrate_2[VMライブマイグレーション成功]

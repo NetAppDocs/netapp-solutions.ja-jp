@@ -22,23 +22,44 @@ summary: NetApp ONTAP を使用した Red Hat OpenShift Virtualization
 
 VM は、オペレーティングシステムとデータをホストするボリュームを必要とするステートフルな導入です。CNV では、 VM がポッドとして実行されるため、 VM は Trident 経由で NetApp ONTAP にホストされた PVS によってバックアップされます。これらのボリュームはディスクとして接続され、 VM のブートソースを含むファイルシステム全体が格納されます。
 
-image::redhat_openshift_image52.jpg[VM アーキテクチャを作成する]
+image::redhat_openshift_image52.png[VM アーキテクチャを作成する]
 
-OpenShift クラスタ上に仮想マシンを作成するには、次の手順を実行します。
+OpenShiftクラスタに仮想マシンを簡単に作成するには、次の手順を実行します。
 
-. ワークロード > 仮想化 > 仮想マシンと進み、作成 > ウィザードを使用してをクリックします。
-. 目的の OS を選択し、 Next （次へ）をクリックします。
-. 選択したオペレーティングシステムにブートソースが設定されていない場合は、設定する必要があります。Boot Source （起動ソース）で、 URL またはレジストリから OS イメージをインポートするかどうかを選択し、対応する詳細を指定します。Advanced を展開し、 Trident から作成されたストレージクラスを選択します。[ 次へ ] をクリックします。
-+
-image::redhat_openshift_image53.JPG[VM のブートソースを作成します]
+. [仮想化]>[仮想マシン]に移動し、[作成]をクリックします。
+. テンプレートから選択します。
+. 起動ソースが使用可能なオペレーティングシステムを選択します。
+. [Start the VirtualMachine after creation]チェックボックスをオンにします。
+. [Quick create VirtualMachine]をクリックします。
 
-. 選択したオペレーティングシステムにすでにブートソースが設定されている場合は、前の手順を省略できます。
-. [Review and Create] ペインで、 VM を作成して VM の詳細を提供するプロジェクトを選択します。ブートソースがクローンとして選択されていることを確認し、選択した OS に適切な PVC が割り当てられた CD-ROM から起動します。
-+
-image::redhat_openshift_image54.JPG[VM を作成します]
 
-. 仮想マシンをカスタマイズする場合は、 [ 仮想マシンのカスタマイズ ] をクリックし、必要なパラメータを変更します。
+仮想マシンが作成されて起動し、* running *状態になります。デフォルトのストレージクラスを使用して、ブートディスク用にPVCと対応するPVが自動的に作成されます。将来VMをライブマイグレーションできるようにするには、ディスクに使用するストレージクラスがRWXボリュームをサポートできることを確認する必要があります。これはライブマイグレーションの要件です。ONTAP-NASとONTAP-SAN（iSCSIプロトコルとNVMe/TCPプロトコルのvolumeModeブロック）では、それぞれのストレージクラスを使用して作成されたボリュームのRWXアクセスモードがサポートされます。
+
+クラスタでONTAP-SANストレージクラスを設定するには、を参照してください。 link:https://docs.netapp.com/us-en/netapp-solutions/containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_migration_using_mtv.html["VMwareからOpenShiftによる仮想化へのVMの移行に関するセクション"]。
+
+
+NOTE: ONTAP NASまたはiSCSIをクラスタのデフォルトのストレージクラスとしてセットアップできます。[Quick create VirtualMachine]をクリックすると、デフォルトのストレージクラスを使用して、VMのブート可能なルートディスク用のPVCとPVが作成されます。デフォルトのストレージクラスがONTAP-NASまたはONTAP-SANでない場合は、[Customize VirtualMachine]>[Customize VirtualMachine parameters]>[Disks]を選択し、必要なストレージクラスを使用するようにディスクを編集して、ディスクのストレージクラスを選択できます。
+
+通常、VMディスクのプロビジョニング時には、ファイルシステムよりもブロックアクセスモードが推奨されます。
+
+OSテンプレートを選択した後で仮想マシンの作成をカスタマイズするには、[クイック作成]ではなく[仮想マシンのカスタマイズ]をクリックします。
+
+. 選択したオペレーティングシステムにブートソースが設定されている場合は、*[仮想マシンパラメータのカスタマイズ]*をクリックします。
+. 選択したオペレーティングシステムにブートソースが設定されていない場合は、設定する必要があります。手順の詳細については、 link:https://docs.openshift.com/container-platform/4.14/virt/virtual_machines/creating_vms_custom/virt-creating-vms-from-custom-images-overview.html["ドキュメント"]。
+. 起動ディスクを設定したら、*[仮想マシンパラメータのカスタマイズ]*をクリックします。
+. このページのタブからVMをカスタマイズできます。例：[ディスク]*タブをクリックし、*[ディスクの追加]*をクリックしてVMに別のディスクを追加します。
 . [ 仮想マシンの作成 ] をクリックして仮想マシンを作成します。これにより、対応するポッドがバックグラウンドでスピンアップされます。
 
 
-ブート・ソースが URL またはレジストリからテンプレートまたはオペレーティング・システム用に構成されている場合 'OpenShift Virtualization-os-images' プロジェクトに PVC を作成し 'KVM ゲスト・イメージを PVC にダウンロードしますテンプレート PVC に、対応する OS の KVM ゲストイメージを格納できるだけの十分なプロビジョニングスペースがあることを確認する必要があります。これらの PVC は、任意のプロジェクトでそれぞれのテンプレートを使用して作成されると、クローン作成され、ルートディスクとして仮想マシンに接続されます。
+
+NOTE: ブートソースがURLまたはレジストリからテンプレートまたはオペレーティングシステム用に設定されている場合、 `openshift-virtualization-os-images` KVMゲストイメージをPVCに投影してダウンロードします。テンプレート PVC に、対応する OS の KVM ゲストイメージを格納できるだけの十分なプロビジョニングスペースがあることを確認する必要があります。これらのPVCは、任意のプロジェクトでそれぞれのテンプレートを使用して作成されると、クローニングされて仮想マシンにルートディスクとして接続されます。
+
+image:rh-os-n_use_case_vm_create_1.png[""]
+
+image:rh-os-n_use_case_vm_create_2.png[""]
+
+image:rh-os-n_use_case_vm_create_3.png[""]
+
+image:rh-os-n_use_case_vm_create_4.png[""]
+
+image:rh-os-n_use_case_vm_create_5.png[""]

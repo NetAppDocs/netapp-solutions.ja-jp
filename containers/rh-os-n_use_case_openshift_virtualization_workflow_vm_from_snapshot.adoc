@@ -14,7 +14,7 @@ summary: NetApp ONTAP を使用した Red Hat OpenShift Virtualization
 
 
 [role="lead"]
-このセクションでは、Red Hat OpenShift Virtualizationを使用してSnapshotから仮想マシンを作成する方法について説明します。
+このセクションでは、Red Hat OpenShift Virtualizationを使用してSnapshotから仮想マシンを作成する方法を説明します。
 
 
 
@@ -29,7 +29,7 @@ OpenShift で Snapshot 処理を実行するには、リソース VolumeSnapshot
 * VolumeSnapshotClass を使用すると、管理者はボリューム Snapshot のさまざまな属性を指定できます。これにより、同じボリュームから作成された異なる Snapshot に対して異なる属性を設定できます。
 
 
-image::redhat_openshift_image60.jpg[Snapshot アーキテクチャの VM]
+image::redhat_openshift_image60.png[Snapshot アーキテクチャの VM]
 
 VM の Snapshot を作成するには、次の手順を実行します。
 
@@ -55,7 +55,7 @@ image::redhat_openshift_image62.JPG[Snapshot を作成します]
 +
 image::redhat_openshift_image63.JPG[Snapshot を新しい PVC にリストアします]
 
-. 次に、この PVC から新しい VM を作成します。[Workloads （ワークロード） ] > [Virtualization （仮想化） ] > [Virtual Machines （仮想マシン） ] に移動し、 [Create （作成）
+. 次に、この PVC から新しい VM を作成します。[Virtualization]>[Virtual Machines]に移動し、[Create]>[With YAML]をクリックします。
 . spec>template>spec>volumes セクションで、コンテナディスクからではなく、スナップショットから作成された新しい PVC を指定します。新しい VM について、要件に応じてその他の詳細をすべて指定します。
 +
 [source, cli]
