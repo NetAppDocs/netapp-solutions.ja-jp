@@ -23,18 +23,18 @@ keywords: 'netapp, solutions, database, SnapCenter, DR, "business continuity", "
 
 . クローンリカバリが最後に使用可能なログで実行されるかどうかを検証するために、小さなテストテーブルを作成して行を挿入しました。テストデータは、使用可能な最後のログへの完全リカバリ後にリカバリされます。
 +
-image:snapctr_ora_dr_01.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_dr_01.PNG[""]
 
 . Oracle のデータベース管理ユーザ ID として SnapCenter にログインします。リソースタブに移動します。このタブには、 SnapCenter で保護されている Oracle データベースが表示されます。
 +
-image:snapctr_ora_dr_02.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_dr_02.PNG[""]
 
 . Oracle ログリソースグループを選択し、 Backup Now （今すぐバックアップ）をクリックして Oracle ログバックアップを手動で実行し、最新のトランザクションをクラウド内のデスティネーションにフラッシュします。実際の DR シナリオでは、最後にリカバリ可能なトランザクションはデータベースログボリュームからクラウドへのレプリケーション頻度によって異なり、クラウドへのレプリケーションは企業の RTO ポリシーまたは RPO ポリシーによって異なります。
 +
-image:snapctr_ora_dr_03.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_dr_03.PNG[""]
 
 +
-image:snapctr_ora_dr_04.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_dr_04.PNG[""]
 
 +
 
@@ -42,25 +42,25 @@ NOTE: 非同期 SnapMirror では、ディザスタリカバリシナリオで�
 
 . セカンダリ・ミラー・バックアップで最後のログ・バックアップを選択し、ログ・バックアップをマウントします。
 +
-image:snapctr_ora_dr_05.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_dr_05.PNG[""]
 
 +
-image:snapctr_ora_dr_06.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_dr_06.PNG[""]
 
 . 最後のフルデータベースバックアップを選択し、 Clone をクリックしてクローンワークフローを開始します。
 +
-image:snapctr_ora_dr_07.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_dr_07.PNG[""]
 
 . ホスト上で一意のクローン DB ID を選択します。
 +
-image:snapctr_ora_dr_08.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_dr_08.PNG[""]
 
 . ログボリュームをプロビジョニングし、 Oracle フラッシュリカバリ領域とオンラインログのターゲット DR サーバにマウントします。
 +
-image:snapctr_ora_dr_09.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_dr_09.PNG[""]
 
 +
-image:snapctr_ora_dr_10.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_dr_10.PNG[""]
 
 +
 
@@ -68,31 +68,31 @@ NOTE: Oracle クローン手順はログボリュームを作成しないため�
 
 . ターゲットのクローンホストと、データファイル、制御ファイル、および REDO ログを配置する場所を選択します。
 +
-image:snapctr_ora_dr_11.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_dr_11.PNG[""]
 
 . クローンのクレデンシャルを選択します。ターゲット・サーバの Oracle ホーム構成の詳細を入力します
 +
-image:snapctr_ora_dr_12.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_dr_12.PNG[""]
 
 . クローニングの前に実行するスクリプトを指定します。データベースパラメータは必要に応じて調整できます。
 +
-image:snapctr_ora_dr_13.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_dr_13.PNG[""]
 
 . リカバリオプションとして Until Cancel を選択して、使用可能なすべてのアーカイブログをリカバリで実行し、セカンダリクラウドの場所に最後にレプリケートされたトランザクションをリカバリします。
 +
-image:snapctr_ora_dr_14.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_dr_14.PNG[""]
 
 . 必要に応じて、 SMTP サーバで E メール通知を設定します。
 +
-image:snapctr_ora_dr_15.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_dr_15.PNG[""]
 
 . DR クローンの概要：
 +
-image:snapctr_ora_dr_16.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_dr_16.PNG[""]
 
 . クローニングされた DB は、クローンの完了直後に SnapCenter に登録され、バックアップ保護に使用できます。
 +
-image:snapctr_ora_dr_16_1.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_dr_16_1.PNG[""]
 
 
 
@@ -102,11 +102,11 @@ image:snapctr_ora_dr_16_1.PNG["エラー：グラフィックイメージがあ�
 
 . クラウドの DR サイトでフラッシュ、レプリケート、リカバリされた最後のテストトランザクションを検証します。
 +
-image:snapctr_ora_dr_17.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_dr_17.PNG[""]
 
 . フラッシュリカバリ領域を設定します。
 +
-image:snapctr_ora_dr_18.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_dr_18.PNG[""]
 
 . ユーザアクセス用に Oracle リスナーを設定します。
 . レプリケートされたソースボリュームからクローンボリュームをスプリットします。
@@ -122,42 +122,42 @@ NOTE: クローンスプリットでは、一時的にストレージスペー�
 
 . 同様に、 SQL クローンリカバリが前回使用可能なログを通過したかどうかを検証するために、小さなテストテーブルを作成して行を挿入しました。テストデータは、使用可能な最後のログへのフルリカバリ後にリカバリされます。
 +
-image:snapctr_sql_dr_01.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_dr_01.PNG[""]
 
 . SQL Server 用のデータベース管理ユーザ ID で SnapCenter にログインします。[ リソース ] タブに移動します。このタブには、 SQL Server 保護リソースグループが表示されます。
 +
-image:snapctr_sql_dr_02.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_dr_02.PNG[""]
 
 . パブリッククラウドのセカンダリストレージにレプリケートする最後のトランザクションをフラッシュするには、ログバックアップを手動で実行します。
 +
-image:snapctr_sql_dr_03.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_dr_03.PNG[""]
 
 . クローンに対して最後に実行した SQL Server のフルバックアップを選択します。
 +
-image:snapctr_sql_dr_04.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_dr_04.PNG[""]
 
 . クローンサーバ、クローンインスタンス、クローン名、マウントオプションなどのクローン設定を行います。クローニングが実行されるセカンダリストレージの場所が自動的に入力されます。
 +
-image:snapctr_sql_dr_05.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_dr_05.PNG[""]
 
 . 適用するすべてのログバックアップを選択します。
 +
-image:snapctr_sql_dr_06.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_dr_06.PNG[""]
 
 . クローニングの前後に実行するオプションのスクリプトを指定します。
 +
-image:snapctr_sql_dr_07.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_dr_07.PNG[""]
 
 . E メール通知が必要な場合は、 SMTP サーバを指定します。
 +
-image:snapctr_sql_dr_08.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_dr_08.PNG[""]
 
 . DR クローンの概要：クローニングされたデータベースはただちに SnapCenter に登録され、バックアップ保護に使用できます。
 +
-image:snapctr_sql_dr_09.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_dr_09.PNG[""]
 
 +
-image:snapctr_sql_dr_10.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_dr_10.PNG[""]
 
 
 
@@ -167,11 +167,11 @@ image:snapctr_sql_dr_10.PNG["エラー：グラフィックイメージがあり
 
 . クローニングジョブのステータスを監視する。
 +
-image:snapctr_sql_dr_11.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_dr_11.PNG[""]
 
 . すべてのログファイルクローンとリカバリで、最後のトランザクションがレプリケートされてリカバリされたことを確認します。
 +
-image:snapctr_sql_dr_12.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_dr_12.PNG[""]
 
 . DR サーバで、 SQL Server ログバックアップ用の新しい SnapCenter ログディレクトリを設定します。
 . レプリケートされたソースボリュームからクローンボリュームをスプリットします。

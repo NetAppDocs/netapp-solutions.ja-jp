@@ -45,7 +45,7 @@ NOTE: PTRエントリを作成するには、Cloud Volumes Service インスタ�
 
 Active Directoryでは、次のエントリがCloud Volume サービスによって生成されたSPNエントリです。
 
-image:ncvs-gc-image6.png["エラー：グラフィックイメージがありません"]
+image:ncvs-gc-image6.png[""]
 
 DNS前方/後方参照の結果は次のとおりです。
 
@@ -71,7 +71,7 @@ Address:  10. xxx.0. x
 
 SMB共有パスのエイリアスを作成する場合は、DNSでCNAMEレコードと呼ばれるものを利用できます。たとえば'\\cvs-east-433d.cvsdemo.local'ではなく'`\\CIFS'という名前を使用して共有にアクセスするが'Kerberos認証を使用する場合は'A/AAAAレコードを指すDNSのCNAMEと'既存のマシンアカウントに追加されたSPNがKerberosアクセスを提供します
 
-image:ncvs-gc-image7.png["エラー：グラフィックイメージがありません"]
+image:ncvs-gc-image7.png[""]
 
 CNAMEを追加したあとのDNS前方参照の結果を次に示します。
 
@@ -85,11 +85,11 @@ Aliases:  cifs.cvsdemo.local
 ....
 新しいSPNを追加したあとのSPNクエリの結果を次に示します。
 
-image:ncvs-gc-image8.png["エラー：グラフィックイメージがありません"]
+image:ncvs-gc-image8.png[""]
 
 パケットキャプチャでは、CNAMEに関連付けられたSPNを使用してセッション設定要求を確認できます。
 
-image:ncvs-gc-image9.png["エラー：グラフィックイメージがありません"]
+image:ncvs-gc-image9.png[""]
 
 
 
@@ -148,9 +148,9 @@ NFSエクスポートポリシールールは、IPアドレスやホスト名な
 
 たとえば、ユーザにCloud Volumes Service ボリュームファイルACLへの読み取りアクセスのみが許可されている場合、次の図に示すように、共有ACLがフルコントロールを使用するEveryoneに設定されていても、ファイルおよびフォルダの作成アクセスは拒否されます。
 
-image:ncvs-gc-image10.png["エラー：グラフィックイメージがありません"]
+image:ncvs-gc-image10.png[""]
 
-image:ncvs-gc-image11.png["エラー：グラフィックイメージがありません"]
+image:ncvs-gc-image11.png[""]
 
 セキュリティ上の最善の結果を得るには、次の手順を実行します。
 
@@ -172,7 +172,7 @@ Cloud Volumes Service レベル（パフォーマンスまたはソフトウェ�
 * *スナップショット・ディレクトリを表示する（CVS -パフォーマンスとCVS - SWの両方で利用可能）*このオプションはSMBクライアントがSMB共有内のスナップショット・ディレクトリにアクセスできるかどうかを制御します（\\server\share\~snapshotタブまたはPrevious Versionsタブ）。デフォルトの設定はチェックされませんボリュームのデフォルトは'~snapshot'ディレクトリへのアクセスを非表示にして拒否し'ボリュームの[以前のバージョン]タブにスナップショット・コピーは表示されません
 
 
-image:ncvs-gc-image12.png["エラー：グラフィックイメージがありません"]
+image:ncvs-gc-image12.png[""]
 
 セキュリティ上の理由、パフォーマンス上の理由（これらのフォルダをAVスキャンから非表示にする）、または設定上の理由から、エンドユーザに対してSnapshotコピーを非表示にすることが望ましい場合があります。Cloud Volumes Service スナップショットは読み取り専用であるため、これらのスナップショットが表示されていても、エンドユーザーはスナップショットディレクトリ内のファイルを削除または変更することはできません。Snapshotコピーが作成された時点のファイルまたはフォルダのファイル権限Snapshotコピー間でファイルまたはフォルダの権限が変更された場合、変更内容はSnapshotディレクトリ内のファイルまたはフォルダにも適用されます。ユーザとグループは、権限に基づいてこれらのファイルやフォルダにアクセスできます。Snapshotディレクトリ内のファイルの削除または変更はできませんが、ファイルまたはフォルダをSnapshotディレクトリからコピーすることは可能です。
 
@@ -202,11 +202,11 @@ Cloud Volumes Service SMBサーバは、選択したドメインユーザおよ�
 
 Security Privilegeユーザにユーザを追加すると、そのユーザにはSeSecurityPrivilegeが付与されます。これは、などの一部のアプリケーションユースケースで役立ちます https://docs.netapp.com/us-en/ontap/smb-hyper-v-sql/add-sesecurityprivilege-user-account-task.html["SMB共有上のSQL Server"^]。
 
-image:ncvs-gc-image13.png["エラー：グラフィックイメージがありません"]
+image:ncvs-gc-image13.png[""]
 
 Cloud Volumes Service ローカルグループメンバーシップは、適切な権限を持つMMCを使用して表示できます。次の図に、Cloud Volumes Service コンソールを使用して追加されたユーザを示します。
 
-image:ncvs-gc-image14.png["エラー：グラフィックイメージがありません"]
+image:ncvs-gc-image14.png[""]
 
 次の表に、デフォルトのBUILTINグループのリストと、デフォルトで追加されるユーザ/グループを示します。
 
@@ -232,9 +232,9 @@ image:ncvs-gc-image14.png["エラー：グラフィックイメージがあり�
 
 MMCウィンドウにはローカルユーザとローカルグループ（およびグループメンバー）を表示できますが、このコンソールからオブジェクトの追加や削除、グループメンバーシップの変更はできません。デフォルトでは、Cloud Volumes Service のBUILTIN\AdministratorsグループとAdministratorのみが追加されます。現時点では、これを変更することはできません。
 
-image:ncvs-gc-image15.png["エラー：グラフィックイメージがありません"]
+image:ncvs-gc-image15.png[""]
 
-image:ncvs-gc-image16.png["エラー：グラフィックイメージがありません"]
+image:ncvs-gc-image16.png[""]
 
 
 
@@ -250,9 +250,9 @@ SMBサーバーに接続するには、[コンピューターの管理]を開き
 
 リージョンごとに許可されるActive Directory接続は1つだけです。
 
-image:ncvs-gc-image17.png["エラー：グラフィックイメージがありません"]
+image:ncvs-gc-image17.png[""]
 
-image:ncvs-gc-image18.png["エラー：グラフィックイメージがありません"]
+image:ncvs-gc-image18.png[""]
 
 次の表に、MMCでサポートされる機能とサポートされない機能を示します。
 

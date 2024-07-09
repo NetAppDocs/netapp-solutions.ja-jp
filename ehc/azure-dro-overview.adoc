@@ -26,7 +26,7 @@ Azure NetApp Files （ANF）のリージョン間ボリュームレプリケー�
 
 ディザスタリカバリオーケストレーションツール（DRO）（UI付きのスクリプト化された解決策 ）を使用すると、AVS SDDC間でレプリケートされたワークロードをシームレスにリカバリできます。DROは、レプリケーションピアリングを解除してから、AVSへのVM登録を通じて、NSX-T（すべてのAVSプライベートクラウドに含まれる）上のネットワークマッピングに、デスティネーションボリュームをデータストアとしてマウントすることで、リカバリを自動化します。
 
-image:azure-dro-image1.png["エラー：グラフィックイメージがありません"]
+image:azure-dro-image1.png[""]
 
 
 
@@ -69,7 +69,7 @@ https://learn.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-in
 
 最初の手順では、AVSプライマリサイトからAVSセカンダリサイトへ、適切な頻度と保持期間を使用して、目的のデータストアボリュームのリージョン間レプリケーションを設定します。
 
-image:azure-dro-image2.png["エラー：グラフィックイメージがありません"]
+image:azure-dro-image2.png[""]
 
 以下の手順に従ってください https://learn.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-create-peering["リンク"^] レプリケーションピアリングを作成してリージョン間レプリケーションを設定するには、次の手順を実行します。デスティネーションの容量プールのサービスレベルは、ソースの容量プールのサービスレベルと同じにすることができます。ただし、このユースケースでは、標準のサービスレベルを選択してから選択できます https://learn.microsoft.com/en-us/azure/azure-netapp-files/dynamic-change-volume-service-level["サービスレベルを変更する"^] 実際に災害が発生した場合やDRシミュレーションが発生した場合。
 
@@ -123,7 +123,7 @@ sudo sh deploy.sh
 ** ユーザ名： `admin`
 ** パスワード： `admin`
 +
-image:azure-dro-image3.png["エラー：グラフィックイメージがありません"]
+image:azure-dro-image3.png[""]
 
 
 
@@ -156,7 +156,7 @@ Azure NetApp Files とAVSが正しく設定されたら、プライマリAVSサ�
 
 . 新しいクレデンシャルの詳細を確認し、[Add Credential]をクリックします。
 +
-image:azure-dro-image4.png["エラー：グラフィックイメージがありません"]
+image:azure-dro-image4.png[""]
 
 +
 クレデンシャルを追加したら、プライマリとセカンダリのAVSサイト（vCenterとAzure NetApp Files ストレージアカウントの両方）を検出してDROに追加します。ソースサイトとデスティネーションサイトを追加するには、次の手順を実行します。
@@ -174,7 +174,7 @@ image:azure-dro-image4.png["エラー：グラフィックイメージがあり�
 ** SDDC vCenter
 ** Azure NetApp Files ストレージアカウント
 +
-image:azure-dro-image5.png["エラー：グラフィックイメージがありません"]
+image:azure-dro-image5.png[""]
 
 
 
@@ -187,18 +187,18 @@ NOTE: このドキュメントでは、デモ用にソースサイトを追加�
 . DROには、リージョン内で使用可能なすべてのSDDCが一覧表示されます。ドロップダウンから、指定したプライベートクラウドのURLを選択します。
 . を入力します `cloudadmin@vsphere.local` ユーザクレデンシャル。これにはAzure Portalからアクセスできます。ここに記載されている手順に従ってください https://learn.microsoft.com/en-us/azure/azure-vmware/tutorial-access-private-cloud["リンク"^]。完了したら、*[続行]*をクリックします。
 +
-image:azure-dro-image6.png["エラー：グラフィックイメージがありません"]
+image:azure-dro-image6.png[""]
 
 . Azureリソースグループとネットアップアカウントを選択して、ソースストレージの詳細（ANF）を選択します。
 . [サイトの作成]*をクリックします。
 +
-image:azure-dro-image7.png["エラー：グラフィックイメージがありません"]
+image:azure-dro-image7.png[""]
 
 
 
 追加されると、DROは自動検出を実行し、ソースサイトからデスティネーションサイトへの対応するリージョン間レプリカを持つVMを表示します。DROは、VMで使用されているネットワークとセグメントを自動的に検出して入力します。
 
-image:azure-dro-image8.png["エラー：グラフィックイメージがありません"]
+image:azure-dro-image8.png[""]
 
 次の手順では、必要なVMをリソースグループとして機能グループにグループ化します。
 
@@ -212,7 +212,7 @@ image:azure-dro-image8.png["エラー：グラフィックイメージがあり�
 
 . [Resource Grou]*[PS]にアクセスし、*[Create New Resource Group]*をクリックします。
 +
-image:azure-dro-image9.png["エラー：グラフィックイメージがありません"]
+image:azure-dro-image9.png[""]
 
 . [New Resource Group]で、ドロップダウンからソースサイトを選択し、*[Create]*をクリックします。
 . リソースグループの詳細を指定し、*[続行]*をクリックします。
@@ -223,13 +223,13 @@ image:azure-dro-image9.png["エラー：グラフィックイメージがあり�
 ** デフォルト
 ** 最後にパワーオンした仮想マシン
 +
-image:azure-dro-image10.png["エラー：グラフィックイメージがありません"]
+image:azure-dro-image10.png[""]
 
 
 
 . [リソースグループの作成]をクリックします。
 +
-image:azure-dro-image11.png["エラー：グラフィックイメージがありません"]
+image:azure-dro-image11.png[""]
 
 
 
@@ -243,15 +243,15 @@ image:azure-dro-image11.png["エラー：グラフィックイメージがあり
 
 . [Replication Plans]*に移動し、*[Create New Replication Plan]*をクリックします。
 +
-image:azure-dro-image12.png["エラー：グラフィックイメージがありません"]
+image:azure-dro-image12.png[""]
 
 . [New Replication Plan]*で、プランの名前を指定し、ソースサイト、関連付けられているvCenter、デスティネーションサイト、および関連付けられているvCenterを選択してリカバリマッピングを追加します。
 +
-image:azure-dro-image13.png["エラー：グラフィックイメージがありません"]
+image:azure-dro-image13.png[""]
 
 . リカバリマッピングが完了したら、*[クラスタマッピング]*を選択します。
 +
-image:azure-dro-image14.png["エラー：グラフィックイメージがありません"]
+image:azure-dro-image14.png[""]
 
 . [*リソースグループの詳細*]を選択し、[*続行]をクリックします。
 . リソースグループの実行順序を設定します。このオプションを使用すると、複数のリソースグループが存在する場合の処理の順序を選択できます。
@@ -262,39 +262,39 @@ image:azure-dro-image14.png["エラー：グラフィックイメージがあり
 NOTE: リージョン間レプリケーション（CRR）はボリュームレベルで実行されます。そのため、該当するボリューム上のすべてのVMがCRRデスティネーションにレプリケートされます。レプリケーションプランに含まれる仮想マシンのみが処理されるため、データストアに含まれるすべてのVMを選択してください。
 
 +
-image:azure-dro-image15.png["エラー：グラフィックイメージがありません"]
+image:azure-dro-image15.png[""]
 
 . [VM details]で、必要に応じてVMのCPUパラメータとRAMパラメータのサイズを変更できます。これは、大規模な環境を小規模なターゲットクラスタにリカバリする場合や、1対1の物理VMwareインフラストラクチャをプロビジョニングせずにDRテストを実行する場合に非常に役立ちます。また、リソースグループ全体で選択したすべてのVMのブート順序とブート遅延（秒）を変更します。リソースグループのブート順序の選択時に選択したものから変更が必要な場合は'ブート順序を変更する追加オプションがありますデフォルトでは、リソースグループの選択時に選択された起動順序が使用されますが、この段階で変更を実行できます。
 +
-image:azure-dro-image16.png["エラー：グラフィックイメージがありません"]
+image:azure-dro-image16.png[""]
 
 . レプリケーションプランの作成*をクリックします。レプリケーションプランの作成後、要件に応じてフェイルオーバー、テストフェイルオーバー、移行オプションを実行できます。
 +
-image:azure-dro-image17.png["エラー：グラフィックイメージがありません"]
+image:azure-dro-image17.png[""]
 
 
 
 フェイルオーバーオプションとテストフェイルオーバーオプションでは、最新のSnapshotが使用されるか、ポイントインタイムSnapshotから特定のSnapshotを選択できます。ポイントインタイムオプションは、最新のレプリカがすでに侵害または暗号化されているランサムウェアなどの破損イベントに直面している場合に非常に役立ちます。DROには使用可能なすべてのタイムポイントが表示されます。
 
-image:azure-dro-image18.png["エラー：グラフィックイメージがありません"]
+image:azure-dro-image18.png[""]
 
 レプリケーションプランで指定した構成でフェイルオーバーまたはテストフェイルオーバーをトリガーするには、* Failover *または* Test Failover *をクリックします。タスクメニューでレプリケーション計画を監視できます。
 
-image:azure-dro-image19.png["エラー：グラフィックイメージがありません"]
+image:azure-dro-image19.png[""]
 
 フェイルオーバーがトリガーされると、リカバリされた項目がセカンダリサイトのAVS SDDC vCenter（VM、ネットワーク、およびデータストア）に表示されます。デフォルトでは、VMはWorkloadフォルダにリカバリされます。
 
-image:azure-dro-image20.png["エラー：グラフィックイメージがありません"]
+image:azure-dro-image20.png[""]
 
 フェイルバックは、レプリケーションプランレベルでトリガーできます。テストフェイルオーバーの場合は、ティアダウンオプションを使用して変更をロールバックし、新しく作成したボリュームを削除できます。フェイルオーバーに関連するフェイルバックは、2つの手順で構成されます。レプリケーション計画を選択し、*[Reverse Data sync]*を選択します。
 
-image:azure-dro-image21.png["エラー：グラフィックイメージがありません"]
+image:azure-dro-image21.png[""]
 
 この手順が完了したら、フェイルバックをトリガーしてプライマリAVSサイトに戻ります。
 
-image:azure-dro-image22.png["エラー：グラフィックイメージがありません"]
+image:azure-dro-image22.png[""]
 
-image:azure-dro-image23.png["エラー：グラフィックイメージがありません"]
+image:azure-dro-image23.png[""]
 
 Azureポータルから、セカンダリサイトのAVS SDDCに読み取り/書き込みボリュームとしてマッピングされた適切なボリュームについて、レプリケーションの健常性が切断されていることを確認できます。テストフェイルオーバー中、DROはデスティネーションボリュームまたはレプリカボリュームをマッピングしません。代わりに、必要なクロスリージョンレプリケーションSnapshotの新しいボリュームを作成し、そのボリュームをデータストアとして公開します。データストアは容量プールから追加の物理容量を消費し、ソースボリュームが変更されないようにします。特に、DRテスト中やトリアージワークフロー中もレプリケーションジョブを継続できます。さらに、このプロセスにより、エラーが発生した場合や破損したデータがリカバリされた場合にレプリカが破棄されるリスクなしに、リカバリをクリーンアップできます。
 

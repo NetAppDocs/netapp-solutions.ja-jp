@@ -60,12 +60,12 @@ ML パイプラインの構築に必要なものはすべて、 Iguazio プラ�
 * 「 iguazio/NetApp. 」を参照してください ML タスクの処理に使用されます。
 
 
-image:mlrun_image13.png["エラー：グラフィックイメージがありません"]
+image:mlrun_image13.png[""]
 
 * 「 NetApp/pipeline. 」。NetApp Snapshot コピーを処理するユーティリティが含まれています。
 
 
-image:mlrun_image14.png["エラー：グラフィックイメージがありません"]
+image:mlrun_image14.png[""]
 
 
 
@@ -98,7 +98,7 @@ image:mlrun_image14.png["エラー：グラフィックイメージがありま�
 
 望ましい結果は、データの Snapshot コピーに基づいてモデルをトレーニングし、推論のためにモデルを導入するパイプラインです。完成した MLRun パイプラインのブロック図を次の図に示します。
 
-image:mlrun_image15.png["エラー：グラフィックイメージがありません"]
+image:mlrun_image15.png[""]
 
 
 
@@ -331,26 +331,26 @@ prep = data_prep.as_step(name='data-prep', handler='handler',params=params,
 |===
 上から下に 'pipeline.ipynb' を実行できます次に、 Iguazio ダッシュボードの Pipelines タブに移動して、 Iguazio ダッシュボードの Pipelines タブに示すように、進捗状況を監視できます。
 
-image:mlrun_image16.png["エラー：グラフィックイメージがありません"]
+image:mlrun_image16.png[""]
 
 トレーニングステップの精度はすべての実行で記録されているため、トレーニングの正確性の記録に示されているように、各テストの精度の記録があります。
 
-image:mlrun_image17.png["エラー：グラフィックイメージがありません"]
+image:mlrun_image17.png[""]
 
 Snapshot ステップを選択すると、この実験を実行するために使用された Snapshot コピーの名前が表示されます。
 
-image:mlrun_image18.png["エラー：グラフィックイメージがありません"]
+image:mlrun_image18.png[""]
 
 ここで説明する手順には、使用した指標を確認するための視覚的なアーティファクトがあります。を展開すると、次の図のように全プロットを表示できます。
 
-image:mlrun_image19.png["エラー：グラフィックイメージがありません"]
+image:mlrun_image19.png[""]
 
 MLRun API データベースは、プロジェクトごとに編成された各ランの入力、出力、およびアーティファクトも追跡します。各ランの入力、出力、およびアーティファクトの例を次の図に示します。
 
-image:mlrun_image20.png["エラー：グラフィックイメージがありません"]
+image:mlrun_image20.png[""]
 
 各ジョブについて、追加の詳細情報が保存されます。
 
-image:mlrun_image21.png["エラー：グラフィックイメージがありません"]
+image:mlrun_image21.png[""]
 
 MLRun の詳細については、このドキュメントで説明している内容を参照してください。ステップと関数の定義を含むアルアーティファクトは、 API データベースに保存したり、バージョン管理したり、個別に呼び出すことも、完全なプロジェクトとして呼び出すこともできます。プロジェクトを保存して Git にプッシュし、後で使用することもできます。詳細については、を参照してください https://github.com/mlrun/mlrun["MLRun GitHub サイト"^]。

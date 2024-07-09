@@ -36,7 +36,7 @@ NetApp SnapCenter ツールでは、ロールベースアクセス制御（ RBAC
 . [ 設定とユーザー ] の下の [ アクセス ] タブに移動し、 [ 追加 ] をクリックして新しいユーザーを追加します。新しいユーザ ID は、手順 1 で Windows Active Directory に作成した管理者ユーザにリンクされます。。必要に応じて、適切なロールをユーザに割り当てます。必要に応じて、管理者ユーザにリソースを割り当てます。
 
 
-image:snapctr_admin_users.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_admin_users.PNG[""]
 
 
 
@@ -84,7 +84,7 @@ NOTE: SnapCenter プラグインをクラウド DB サーバーインスタン�
 
 [ 設定 ] > [ グローバル設定 ] に移動します。ハイパーバイザー設定で、「 VM に iSCSI 直接接続ディスクまたはすべてのホスト用の NFS がある」を選択し、更新をクリックします。
 
-image:snapctr_vmware_global.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_vmware_global.PNG[""]
 
 
 
@@ -94,23 +94,23 @@ image:snapctr_vmware_global.PNG["エラー：グラフィックイメージが�
 . 左側のメニューから [Hosts] タブをクリックし、 [Add] をクリックして [Add Host] ワークフローを開きます。
 . ホストタイプとして Windows を選択しますホスト名には ' ホスト名または IP アドレスを指定できますホスト名を SnapCenter ホストから正しいホスト IP アドレスに解決する必要があります。手順 2 で作成したホストクレデンシャルを選択します。インストールするプラグインパッケージとして Microsoft Windows と Microsoft SQL Server を選択します。
 +
-image:snapctr_add_windows_host_01.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_add_windows_host_01.PNG[""]
 
 . プラグインが Windows ホストにインストールされると、その全体的なステータスは「 Configure log directory 」と表示されます。
 +
-image:snapctr_add_windows_host_02.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_add_windows_host_02.PNG[""]
 
 . ホスト名をクリックして、 SQL Server ログディレクトリの設定を開きます。
 +
-image:snapctr_add_windows_host_03.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_add_windows_host_03.PNG[""]
 
 . [ ログディレクトリの設定 ] をクリックして、 [ Plug-in for SQL Server の設定 ] を開きます。
 +
-image:snapctr_add_windows_host_04.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_add_windows_host_04.PNG[""]
 
 . [ 参照 ] をクリックしてネットアップストレージを検出し、ログディレクトリを設定できるようにします。 SnapCenter はこのログディレクトリを使用して、 SQL Server トランザクションログファイルをロールアップします。[ 保存 ] をクリックします。
 +
-image:snapctr_add_windows_host_05.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_add_windows_host_05.PNG[""]
 
 +
 
@@ -118,14 +118,14 @@ NOTE: DB ホストにプロビジョニングされたネットアップスト�
 
 . ログディレクトリを構成すると、 Windows ホストプラグインの [ 全般的なステータス ] が [ 実行中 ] に変更されます。
 +
-image:snapctr_add_windows_host_06.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_add_windows_host_06.PNG[""]
 
 . ホストをデータベース管理ユーザー ID に割り当てるには、 [ 設定とユーザー ] の [ アクセス ] タブに移動し、データベース管理ユーザー ID ( この場合はホストを割り当てる必要がある sqldba ) をクリックして、 [ 保存 ] をクリックしてホストリソースの割り当てを完了します。
 +
-image:snapctr_add_windows_host_07.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_add_windows_host_07.PNG[""]
 
 +
-image:snapctr_add_windows_host_08.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_add_windows_host_08.PNG[""]
 
 
 
@@ -137,26 +137,26 @@ image:snapctr_add_windows_host_08.PNG["エラー：グラフィックイメー�
 . 左側のメニューから [Hosts] タブをクリックし、 [Add] をクリックして [Add Host] ワークフローを開きます。
 . ホストタイプとして Linux を選択します。ホスト名には、ホスト名または IP アドレスを使用できます。ただし、ホスト名を解決して、 SnapCenter ホストから正しいホスト IP アドレスを取得する必要があります。手順 2 で作成したホストクレデンシャルを選択します。ホストのクレデンシャルには sudo 権限が必要です。Oracle Database をインストールするプラグインとしてチェックし、 Oracle と Linux の両方のホストプラグインをインストールします。
 +
-image:snapctr_add_linux_host_01.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_add_linux_host_01.PNG[""]
 
 . [ その他のオプション ] をクリックし、 [ インストール前のチェックをスキップ ] を選択します。 インストール前のチェックを省略するかどうかを確認するプロンプトが表示されます。[ はい ] をクリックし、 [ 保存 ] をクリック
 +
-image:snapctr_add_linux_host_02.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_add_linux_host_02.PNG[""]
 
 . Submit をクリックして、プラグインのインストールを開始します。次のように指紋の確認を求められます。
 +
-image:snapctr_add_linux_host_03.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_add_linux_host_03.PNG[""]
 
 . SnapCenter はホストの検証と登録を実行し、プラグインを Linux ホストにインストールします。ステータスは、プラグインのインストールから実行に変わります。
 +
-image:snapctr_add_linux_host_04.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_add_linux_host_04.PNG[""]
 
 . 新しく追加したホストに、適切なデータベース管理ユーザ ID （この場合は oradba ）を割り当てます。
 +
-image:snapctr_add_linux_host_05.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_add_linux_host_05.PNG[""]
 
 +
-image:snapctr_add_linux_host_06.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_add_linux_host_06.PNG[""]
 
 
 
@@ -166,23 +166,23 @@ image:snapctr_add_linux_host_06.PNG["エラー：グラフィックイメージ�
 
 プラグインのインストールが正常に完了すると、ホスト上のデータベースリソースがすぐに検出されます。左側のメニューの [ リソース ] タブをクリックします。データベースプラットフォームのタイプに応じて、データベース、リソースグループなどのさまざまなビューを使用できます。ホスト上のリソースが検出されて表示されない場合は、 Refresh Resources タブをクリックする必要があります。
 
-image:snapctr_resources_ora.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_resources_ora.PNG[""]
 
 データベースが最初に検出されると、全体的なステータスは「 Not protected 」と表示されます。 前のスクリーンショットは、バックアップポリシーでまだ保護されていない Oracle データベースを示しています。
 
 バックアップの設定またはポリシーが設定されていて、バックアップが実行された場合、データベースの全体的なステータスには、バックアップのステータスが「 Backup succeeded 」と表示され、最後のバックアップのタイムスタンプが表示されます。次のスクリーンショットは、 SQL Server ユーザデータベースのバックアップステータスを示しています。
 
-image:snapctr_resources_sql.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_resources_sql.PNG[""]
 
 データベースアクセスクレデンシャルが適切に設定されていない場合は、赤いロックボタンが表示され、データベースにアクセスできないことが示されます。たとえば、 Windows クレデンシャルにデータベースインスタンスへの sysadmin アクセスがない場合、赤いロックを解除するためにデータベースクレデンシャルを再設定する必要があります。
 
-image:snapctr_add_windows_host_09.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_add_windows_host_09.PNG[""]
 
-image:snapctr_add_windows_host_10.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_add_windows_host_10.PNG[""]
 
 Windows レベルまたはデータベースレベルのいずれかで適切なクレデンシャルを設定すると、赤いロックは消え、 SQL Server Type の情報が収集および確認されます。
 
-image:snapctr_add_windows_host_11.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_add_windows_host_11.PNG[""]
 
 
 
@@ -195,13 +195,13 @@ image:snapctr_add_windows_host_11.PNG["エラー：グラフィックイメー�
 オンプレミスクラスタ：
 
 +
-image:snapctr_cluster_replication_01.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_cluster_replication_01.PNG[""]
 
 +
 ターゲットの CVO クラスタ：
 
 +
-image:snapctr_cluster_replication_02.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_cluster_replication_02.PNG[""]
 
 . クラスタ間 LIF を設定した場合、 NetApp Cloud Manager でドラッグアンドドロップを使用してクラスタピアリングとボリュームレプリケーションを設定できます。を参照してください link:hybrid_dbops_snapcenter_getting_started_aws.html#aws-public-cloud["はじめに - AWS パブリッククラウド"] を参照してください。
 +
@@ -209,19 +209,19 @@ image:snapctr_cluster_replication_02.PNG["エラー：グラフィックイメ�
 
 . ONTAP システムマネージャにログインします。クラスタ > 設定に移動し、ピアクラスタをクリックして、クラウド内の CVO インスタンスとのクラスタピアリングをセットアップします。
 +
-image:snapctr_vol_snapmirror_00.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_vol_snapmirror_00.PNG[""]
 
 . Volumes （ボリューム）タブに移動します。レプリケートするデータベースボリュームを選択し、 Protect （保護）をクリックします。
 +
-image:snapctr_vol_snapmirror_01.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_vol_snapmirror_01.PNG[""]
 
 . 保護ポリシーを非同期に設定します。デスティネーションクラスタと Storage SVM を選択してください。
 +
-image:snapctr_vol_snapmirror_02.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_vol_snapmirror_02.PNG[""]
 
 . ソースとターゲットの間でボリュームが同期されていること、およびレプリケーション関係が正常な状態であることを確認します。
 +
-image:snapctr_vol_snapmirror_03.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_vol_snapmirror_03.PNG[""]
 
 
 
@@ -232,15 +232,15 @@ image:snapctr_vol_snapmirror_03.PNG["エラー：グラフィックイメージ�
 . SnapCenterAdmin 権限でユーザ ID を使用して SnapCenter にログインします。
 . メニューからストレージシステムタブをクリックし、新規をクリックして、レプリケートされたターゲットデータベースボリュームをホストする CVO ストレージ SVM を SnapCenter に追加します。Storage System フィールドにクラスタ管理 IP を入力し、適切なユーザ名とパスワードを入力します。
 +
-image:snapctr_add_cvo_svm_01.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_add_cvo_svm_01.PNG[""]
 
 . [ その他のオプション ] をクリックして、追加のストレージ構成オプションを開きます。[ プラットフォーム Cloud Volumes ONTAP ] フィールドで、 [ 保存 ] をクリックし、 [ セカンダリ ] をオンにします。
 +
-image:snapctr_add_cvo_svm_02.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_add_cvo_svm_02.PNG[""]
 
 . に示すように、ストレージシステムを SnapCenter データベース管理ユーザ ID に割り当てます <<3. SnapCenter ホストプラグインのインストール>>。
 +
-image:snapctr_add_cvo_svm_03.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_add_cvo_svm_03.PNG[""]
 
 
 
@@ -256,35 +256,35 @@ image:snapctr_add_cvo_svm_03.PNG["エラー：グラフィックイメージが�
 
 . データベース管理ユーザ ID として SnapCenter にログインし、 [ 設定 ] をクリックして、 [ ポリシー ] をクリックします。
 +
-image:snapctr_ora_policy_data_01.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_policy_data_01.PNG[""]
 
 . 新規をクリックして新しいバックアップポリシー作成ワークフローを開始するか、変更する既存のポリシーを選択します。
 +
-image:snapctr_ora_policy_data_02.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_policy_data_02.PNG[""]
 
 . バックアップタイプとスケジュール頻度を選択します。
 +
-image:snapctr_ora_policy_data_03.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_policy_data_03.PNG[""]
 
 . バックアップ保持を設定します。これにより、保持するフルデータベースバックアップコピーの数が定義されます。
 +
-image:snapctr_ora_policy_data_04.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_policy_data_04.PNG[""]
 
 . セカンダリレプリケーションのオプションを選択して、クラウドのセカンダリサイトにレプリケートするローカルプライマリ Snapshot バックアップをプッシュします。
 +
-image:snapctr_ora_policy_data_05.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_policy_data_05.PNG[""]
 
 . バックアップの実行前と実行後に実行するオプションのスクリプトを指定します。
 +
-image:snapctr_ora_policy_data_06.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_policy_data_06.PNG[""]
 
 . 必要に応じてバックアップ検証を実行
 +
-image:snapctr_ora_policy_data_07.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_policy_data_07.PNG[""]
 
 . まとめ
 +
-image:snapctr_ora_policy_data_08.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_policy_data_08.PNG[""]
 
 
 
@@ -295,31 +295,31 @@ image:snapctr_ora_policy_data_08.PNG["エラー：グラフィックイメージ
 . データベース管理ユーザ ID で SnapCenter にログインし、 [ 設定 ] をクリックして、 [ ポリシー ] をクリックします。
 . 新規をクリックして新しいバックアップポリシー作成ワークフローを開始するか、既存のポリシーを選択して変更します。
 +
-image:snapctr_ora_policy_log_01.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_policy_log_01.PNG[""]
 
 . バックアップタイプとスケジュール頻度を選択します。
 +
-image:snapctr_ora_policy_log_02.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_policy_log_02.PNG[""]
 
 . ログの保持期間を設定します。
 +
-image:snapctr_ora_policy_log_03.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_policy_log_03.PNG[""]
 
 . パブリッククラウド内のセカンダリサイトへのレプリケーションを有効にします。
 +
-image:snapctr_ora_policy_log_04.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_policy_log_04.PNG[""]
 
 . ログバックアップの前後に実行するオプションのスクリプトを指定します。
 +
-image:snapctr_ora_policy_log_05.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_policy_log_05.PNG[""]
 
 . バックアップ検証スクリプトを指定します。
 +
-image:snapctr_ora_policy_log_06.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_policy_log_06.PNG[""]
 
 . まとめ
 +
-image:snapctr_ora_policy_log_07.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_policy_log_07.PNG[""]
 
 
 
@@ -329,35 +329,35 @@ image:snapctr_ora_policy_log_07.PNG["エラー：グラフィックイメージ�
 
 . データベース管理ユーザ ID で SnapCenter にログインし、 [ 設定 ] をクリックして、 [ ポリシー ] をクリックします。
 +
-image:snapctr_sql_policy_data_01.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_policy_data_01.PNG[""]
 
 . 新規をクリックして新しいバックアップポリシー作成ワークフローを開始するか、既存のポリシーを選択して変更します。
 +
-image:snapctr_sql_policy_data_02.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_policy_data_02.PNG[""]
 
 . バックアップオプションとスケジュール頻度を定義します。可用性グループが設定された SQL Server の場合は、優先バックアップレプリカを設定できます。
 +
-image:snapctr_sql_policy_data_03.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_policy_data_03.PNG[""]
 
 . バックアップの保持期間を設定します。
 +
-image:snapctr_sql_policy_data_04.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_policy_data_04.PNG[""]
 
 . クラウドのセカンダリサイトへのバックアップコピーレプリケーションを有効にする。
 +
-image:snapctr_sql_policy_data_05.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_policy_data_05.PNG[""]
 
 . バックアップジョブの前後に実行するオプションのスクリプトを指定します。
 +
-image:snapctr_sql_policy_data_06.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_policy_data_06.PNG[""]
 
 . バックアップ検証を実行するオプションを指定します。
 +
-image:snapctr_sql_policy_data_07.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_policy_data_07.PNG[""]
 
 . まとめ
 +
-image:snapctr_sql_policy_data_08.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_policy_data_08.PNG[""]
 
 
 
@@ -367,27 +367,27 @@ image:snapctr_sql_policy_data_08.PNG["エラー：グラフィックイメージ
 
 . データベース管理ユーザ ID で SnapCenter にログインし、 [ 設定 ] 、 [ ポリシー ] 、 [ 新規 ] の順にクリックして、新しいポリシー作成ワークフローを開始します。
 +
-image:snapctr_sql_policy_log_01.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_policy_log_01.PNG[""]
 
 . ログバックアップオプションとスケジュール頻度を定義します。可用性グループが設定された SQL Server の場合は、優先バックアップレプリカを設定できます。
 +
-image:snapctr_sql_policy_log_02.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_policy_log_02.PNG[""]
 
 . SQL Server データバックアップポリシーでログバックアップの保持を定義します。デフォルトをここで受け入れます。
 +
-image:snapctr_sql_policy_log_03.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_policy_log_03.PNG[""]
 
 . クラウドのセカンダリへのログバックアップのレプリケーションを有効にします。
 +
-image:snapctr_sql_policy_log_04.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_policy_log_04.PNG[""]
 
 . バックアップジョブの前後に実行するオプションのスクリプトを指定します。
 +
-image:snapctr_sql_policy_log_05.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_policy_log_05.PNG[""]
 
 . まとめ
 +
-image:snapctr_sql_policy_log_06.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_policy_log_06.PNG[""]
 
 
 
@@ -403,35 +403,35 @@ SnapCenter では、リソースグループを使用して、サーバでホス
 
 . データベース管理ユーザ ID で SnapCenter にログインし、 Resources タブに移動します。[ 表示 ] ドロップダウンリストで、 [ データベース ] または [ リソースグループ ] を選択して、リソースグループ作成ワークフローを起動します。
 +
-image:snapctr_ora_rgroup_full_01.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_rgroup_full_01.PNG[""]
 
 . リソースグループの名前とタグを指定します。Snapshot コピーの命名形式を定義し、冗長なアーカイブログデスティネーションが設定されている場合は省略できます。
 +
-image:snapctr_ora_rgroup_full_02.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_rgroup_full_02.PNG[""]
 
 . リソースグループにデータベースリソースを追加する。
 +
-image:snapctr_ora_rgroup_full_03.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_rgroup_full_03.PNG[""]
 
 . ドロップダウンリストから、セクション 7 で作成したフルバックアップポリシーを選択します。
 +
-image:snapctr_ora_rgroup_full_04.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_rgroup_full_04.PNG[""]
 
 . （ + ）記号をクリックして、目的のバックアップスケジュールを設定します。
 +
-image:snapctr_ora_rgroup_full_05.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_rgroup_full_05.PNG[""]
 
 . Load Locators （ロケータのロード）をクリックして、ソースボリュームとデスティネーションボリュームをロードします。
 +
-image:snapctr_ora_rgroup_full_06.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_rgroup_full_06.PNG[""]
 
 . 必要に応じて、 SMTP サーバに E メール通知を設定します。
 +
-image:snapctr_ora_rgroup_full_07.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_rgroup_full_07.PNG[""]
 
 . まとめ
 +
-image:snapctr_ora_rgroup_full_08.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_rgroup_full_08.PNG[""]
 
 
 
@@ -441,35 +441,35 @@ image:snapctr_ora_rgroup_full_08.PNG["エラー：グラフィックイメージ
 
 . データベース管理ユーザ ID で SnapCenter にログインし、 Resources タブに移動します。[ 表示 ] ドロップダウンリストで、 [ データベース ] または [ リソースグループ ] を選択して、リソースグループ作成ワークフローを起動します。
 +
-image:snapctr_ora_rgroup_log_01.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_rgroup_log_01.PNG[""]
 
 . リソースグループの名前とタグを指定します。Snapshot コピーの命名形式を定義し、冗長なアーカイブログデスティネーションが設定されている場合は省略できます。
 +
-image:snapctr_ora_rgroup_log_02.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_rgroup_log_02.PNG[""]
 
 . リソースグループにデータベースリソースを追加する。
 +
-image:snapctr_ora_rgroup_log_03.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_rgroup_log_03.PNG[""]
 
 . ドロップダウンリストから、セクション 7 で作成したログバックアップポリシーを選択します。
 +
-image:snapctr_ora_rgroup_log_04.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_rgroup_log_04.PNG[""]
 
 . （ + ）記号をクリックして、目的のバックアップスケジュールを設定します。
 +
-image:snapctr_ora_rgroup_log_05.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_rgroup_log_05.PNG[""]
 
 . バックアップ検証が設定されている場合は、ここに表示されます。
 +
-image:snapctr_ora_rgroup_log_06.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_rgroup_log_06.PNG[""]
 
 . 必要に応じて、 E メール通知用の SMTP サーバを設定します。
 +
-image:snapctr_ora_rgroup_log_07.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_rgroup_log_07.PNG[""]
 
 . まとめ
 +
-image:snapctr_ora_rgroup_log_08.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_ora_rgroup_log_08.PNG[""]
 
 
 
@@ -479,31 +479,31 @@ image:snapctr_ora_rgroup_log_08.PNG["エラー：グラフィックイメージ�
 
 . データベース管理ユーザ ID で SnapCenter にログインし、 Resources タブに移動します。[ 表示 ] ドロップダウンリストで、 [ データベース ] または [ リソースグループ ] を選択して、リソースグループ作成ワークフローを起動します。リソースグループの名前とタグを指定します。Snapshot コピーの命名形式を定義できます。
 +
-image:snapctr_sql_rgroup_full_01.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_rgroup_full_01.PNG[""]
 
 . バックアップするデータベースリソースを選択します。
 +
-image:snapctr_sql_rgroup_full_02.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_rgroup_full_02.PNG[""]
 
 . セクション 7 で作成したフル SQL バックアップポリシーを選択します。
 +
-image:snapctr_sql_rgroup_full_03.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_rgroup_full_03.PNG[""]
 
 . バックアップの正確なタイミングおよび頻度を追加します。
 +
-image:snapctr_sql_rgroup_full_04.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_rgroup_full_04.PNG[""]
 
 . バックアップ検証を実行する場合は、セカンダリ上のバックアップ用の検証サーバを選択します。Load Locator （ロケータのロード）をクリックしてセカンダリストレージの場所を入力します。
 +
-image:snapctr_sql_rgroup_full_05.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_rgroup_full_05.PNG[""]
 
 . 必要に応じて、 SMTP サーバに E メール通知を設定します。
 +
-image:snapctr_sql_rgroup_full_06.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_rgroup_full_06.PNG[""]
 
 . まとめ
 +
-image:snapctr_sql_rgroup_full_07.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_rgroup_full_07.PNG[""]
 
 
 
@@ -513,31 +513,31 @@ image:snapctr_sql_rgroup_full_07.PNG["エラー：グラフィックイメージ
 
 . データベース管理ユーザ ID で SnapCenter にログインし、 Resources タブに移動します。[ 表示 ] ドロップダウンリストで、 [ データベース ] または [ リソースグループ ] を選択して、リソースグループ作成ワークフローを起動します。リソースグループの名前とタグを指定します。Snapshot コピーの命名形式を定義できます。
 +
-image:snapctr_sql_rgroup_log_01.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_rgroup_log_01.PNG[""]
 
 . バックアップするデータベースリソースを選択します。
 +
-image:snapctr_sql_rgroup_log_02.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_rgroup_log_02.PNG[""]
 
 . セクション 7 で作成した SQL ログバックアップポリシーを選択します。
 +
-image:snapctr_sql_rgroup_log_03.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_rgroup_log_03.PNG[""]
 
 . バックアップの正確なタイミングと頻度を追加します。
 +
-image:snapctr_sql_rgroup_log_04.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_rgroup_log_04.PNG[""]
 
 . バックアップ検証を実行する場合は、セカンダリ上のバックアップ用の検証サーバを選択します。Load Locator をクリックしてセカンダリストレージの場所を入力します。
 +
-image:snapctr_sql_rgroup_log_05.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_rgroup_log_05.PNG[""]
 
 . 必要に応じて、 SMTP サーバに E メール通知を設定します。
 +
-image:snapctr_sql_rgroup_log_06.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_rgroup_log_06.PNG[""]
 
 . まとめ
 +
-image:snapctr_sql_rgroup_log_07.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_sql_rgroup_log_07.PNG[""]
 
 
 
@@ -547,10 +547,10 @@ image:snapctr_sql_rgroup_log_07.PNG["エラー：グラフィックイメージ�
 
 データベースリソースを保護するためにデータベースバックアップリソースグループを作成すると、定義済みのスケジュールに従ってバックアップジョブが実行されます。[ モニタ ] タブでジョブの実行ステータスを確認します。
 
-image:snapctr_job_status_sql.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_job_status_sql.PNG[""]
 
 リソースタブでデータベース名をクリックしてデータベースバックアップの詳細を表示し、ローカルコピーとミラーコピーを切り替えて、 Snapshot バックアップがパブリッククラウドのセカンダリサイトにレプリケートされていることを確認します。
 
-image:snapctr_job_status_ora.PNG["エラー：グラフィックイメージがありません"]
+image:snapctr_job_status_ora.PNG[""]
 
 この時点で、クラウド内のデータベースバックアップコピーをクローニングして、開発 / テストプロセスを実行したり、プライマリに障害が発生した場合にディザスタリカバリを実行したりできます。

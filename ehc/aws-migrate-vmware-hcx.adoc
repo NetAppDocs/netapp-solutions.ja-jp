@@ -65,7 +65,7 @@ HCXのアクティベーションと展開を行う前に、次のインスト�
 
 次の図は、アーキテクチャの概要を示しています。
 
-image:fsx-hcx-image1.png["エラー：グラフィックイメージがありません"]
+image:fsx-hcx-image1.png[""]
 
 ====
 
@@ -87,7 +87,7 @@ image:fsx-hcx-image1.png["エラー：グラフィックイメージがありま
 NOTE: この手順の完了には最大25分かかります。
 
 +
-image:fsx-hcx-image2.png["エラー：グラフィックイメージがありません"]
+image:fsx-hcx-image2.png[""]
 
 . 導入が完了したら、HCX Managerとそれに関連するプラグインがvCenterコンソールで使用可能であることを確認して、導入を検証します。
 . 適切な管理ゲートウェイファイアウォールを作成して、HCX Cloud Managerへのアクセスに必要なポートを開きます。HCX Cloud ManagerはHCX操作に対応しています。
@@ -102,7 +102,7 @@ image:fsx-hcx-image2.png["エラー：グラフィックイメージがありま
 . VMCコンソールからHCXダッシュボードに移動し、管理に移動して、システム更新タブを選択します。HCX Connector OVAイメージのRequest a Download Linkをクリックします。
 . HCXコネクタをダウンロードした状態で、OVAをオンプレミスのvCenter Serverに導入します。vSphere Clusterを右クリックし、Deploy OVF Templateオプションを選択します。
 +
-image:fsx-hcx-image5.png["エラー：グラフィックイメージがありません"]
+image:fsx-hcx-image5.png[""]
 
 . Deploy OVF Templateウィザードで必要な情報を入力し、NextをクリックしてからFinishをクリックして、VMware HCX Connector OVAを導入します。
 . 仮想アプライアンスの電源を手動でオンにします。詳しい手順については、を参照してください https://docs.vmware.com/en/VMware-HCX/services/user-guide/GUID-BFD7E194-CFE5-4259-B74B-991B26A51758.html["VMware HCXユーザーガイド"^]。
@@ -117,7 +117,7 @@ VMware HCX Connector OVAをオンプレミスに導入してアプライアン�
 . VMware Cloud Consoleで、Inventory（インベントリ）に移動し、SDDCを選択してView Details（詳細の表示）をクリックします。アドオンタブのVMware HCXタイルで、HCXを開くをクリックします。
 . Activation Keysタブで、Create Activation Keyをクリックします。システムタイプをHCXコネクタとして選択し、確認をクリックしてキーを生成します。アクティベーションキーをコピーします。
 +
-image:fsx-hcx-image7.png["エラー：グラフィックイメージがありません"]
+image:fsx-hcx-image7.png[""]
 
 +
 
@@ -154,7 +154,7 @@ NOTE: この処理には10~20分かかります。また、プラグインをvCe
 
 
 
-image:fsx-hcx-image8.png["エラー：グラフィックイメージがありません"]
+image:fsx-hcx-image8.png[""]
 
 ====
 .手順4：オンプレミスのVMware HCXコネクタをVMC HCX Cloud Managerとペアリングします
@@ -162,21 +162,21 @@ image:fsx-hcx-image8.png["エラー：グラフィックイメージがありま
 ====
 . オンプレミスのvCenter ServerとVMC SDDCの間にサイトペアを作成するには、オンプレミスのvCenter Serverにログインして、HCX vSphere Web Clientプラグインにアクセスします。
 +
-image:fsx-hcx-image9.png["エラー：グラフィックイメージがありません"]
+image:fsx-hcx-image9.png[""]
 
 . [インフラストラクチャ]で、[サイトペアリングの追加]をクリックします。リモートサイトを認証するには、VMC HCX Cloud ManagerのURLまたはIPアドレス、およびCloudAdminロールのクレデンシャルを入力します。
 +
-image:fsx-hcx-image10.png["エラー：グラフィックイメージがありません"]
+image:fsx-hcx-image10.png[""]
 
 +
 
 NOTE: HCx情報は、SDDC Settingsページから取得できます。
 
 +
-image:fsx-hcx-image11.png["エラー：グラフィックイメージがありません"]
+image:fsx-hcx-image11.png[""]
 
 +
-image:fsx-hcx-image12.png["エラー：グラフィックイメージがありません"]
+image:fsx-hcx-image12.png[""]
 
 . サイトのペアリングを開始するには、[接続]をクリックします。
 +
@@ -201,7 +201,7 @@ NOTE: コンピューティングプロファイルには、インターコネ�
 手順の詳細については、を参照してください https://docs.vmware.com/en/VMware-HCX/4.4/hcx-user-guide/GUID-BBAC979E-8899-45AD-9E01-98A132CE146E.html["計算プロファイルの作成"^]。
 
 +
-image:fsx-hcx-image13.png["エラー：グラフィックイメージがありません"]
+image:fsx-hcx-image13.png[""]
 
 . コンピューティングプロファイルを作成したら、Multi-Site Service Mesh > Network Profiles > Create Network Profileを選択して、ネットワークプロファイルを作成します。
 . ネットワークプロファイルは、HCXが仮想アプライアンスに使用するIPアドレスとネットワークの範囲を定義します。
@@ -210,7 +210,7 @@ image:fsx-hcx-image13.png["エラー：グラフィックイメージがあり�
 NOTE: これには2つ以上のIPアドレスが必要です。これらのIPアドレスは、管理ネットワークから仮想アプライアンスに割り当てられます。
 
 +
-image:fsx-hcx-image14.png["エラー：グラフィックイメージがありません"]
+image:fsx-hcx-image14.png[""]
 
 +
 手順の詳細については、を参照してください https://docs.vmware.com/en/VMware-HCX/4.4/hcx-user-guide/GUID-184FCA54-D0CB-4931-B0E8-A81CD6120C52.html["ネットワークプロファイルの作成"^]。
@@ -224,7 +224,7 @@ NOTE: インターネット経由でSD-WANに接続する場合は、[ネット�
 サービスメッシュによって、ローカルとリモートのコンピューティングプロファイルとネットワークプロファイルのペアが確立されます。
 
 +
-image:fsx-hcx-image15.png["エラー：グラフィックイメージがありません"]
+image:fsx-hcx-image15.png[""]
 
 +
 
@@ -232,11 +232,11 @@ NOTE: このプロセスの一部では、ソースサイトとターゲット�
 
 . ソースとリモートのコンピューティングプロファイルを選択し、Continue（続行）をクリックします。
 +
-image:fsx-hcx-image16.png["エラー：グラフィックイメージがありません"]
+image:fsx-hcx-image16.png[""]
 
 . アクティブにするサービスを選択し、[続行]をクリックします。
 +
-image:fsx-hcx-image17.png["エラー：グラフィックイメージがありません"]
+image:fsx-hcx-image17.png[""]
 
 +
 
@@ -244,7 +244,7 @@ NOTE: Replication Assisted vMotion Migration、SRM Integration、およびOS Ass
 
 . サービスメッシュの名前を作成し、完了をクリックして作成プロセスを開始します。導入が完了するまでに約30分かかります。サービスメッシュを設定したら、ワークロードVMの移行に必要な仮想インフラとネットワークを作成します。
 +
-image:fsx-hcx-image18.png["エラー：グラフィックイメージがありません"]
+image:fsx-hcx-image18.png[""]
 
 
 
@@ -261,7 +261,7 @@ HCX-IXアプライアンスは、Mobility Agentサービスを使用して、vMo
 
 NOTE: HCX-IXアプライアンスは、Mobility AgentサービスをvCenter Serverのホストオブジェクトとして追加します。このオブジェクトに表示されるプロセッサ、メモリ、ストレージ、およびネットワークのリソースは、IXアプライアンスをホストする物理ハイパーバイザーでの実際の消費量を表していません。
 
-image:fsx-hcx-image19.png["エラー：グラフィックイメージがありません"]
+image:fsx-hcx-image19.png[""]
 
 .VMware HCX vMotion
 [%collapsible]
@@ -273,15 +273,15 @@ NOTE: IPアドレスを変更せずにVMを移行するには、ネットワー�
 
 . オンプレミスのvSphereクライアントから、Inventoryに移動し、移行するVMを右クリックして、HCX Actions > Migrate to HCX Target Siteを選択します。
 +
-image:fsx-hcx-image20.png["エラー：グラフィックイメージがありません"]
+image:fsx-hcx-image20.png[""]
 
 . 仮想マシンの移行ウィザードで、リモートサイト接続（ターゲットVMC SDDC）を選択します。
 +
-image:fsx-hcx-image21.png["エラー：グラフィックイメージがありません"]
+image:fsx-hcx-image21.png[""]
 
 . グループ名を追加し、[転送と配置]の下で必須フィールド(クラスタ、ストレージ、および宛先ネットワーク)を更新し、[検証]をクリックします。
 +
-image:fsx-hcx-image22.png["エラー：グラフィックイメージがありません"]
+image:fsx-hcx-image22.png[""]
 
 . 検証チェックが完了したら、Goをクリックして移行を開始します。
 +
@@ -290,7 +290,7 @@ NOTE: vMotionによる転送では、VMのアクティブメモリ、実行状�
 
 . VMotionの進捗状況と完了は'HCX＞Migrationダッシュボードから監視できます
 +
-image:fsx-hcx-image23.png["エラー：グラフィックイメージがありません"]
+image:fsx-hcx-image23.png[""]
 
 
 
@@ -302,11 +302,11 @@ VMwareのドキュメントに気づいたように、VMware HCX Replication Ass
 
 次のスクリーンショットは、マイグレーションプロファイルをReplication Assisted vMotionとして示しています。
 
-image:fsx-hcx-image24.png["エラー：グラフィックイメージがありません"]
+image:fsx-hcx-image24.png[""]
 
 レプリケーションの所要時間は、少数のVMのvMotionよりも長くなる可能性があります。RAVでは、差分のみを同期し、メモリの内容を含めます。以下はマイグレーションステータスのスクリーンショットです。マイグレーションの開始時刻がVMごとに異なり、終了時刻も表示されます。
 
-image:fsx-hcx-image25.png["エラー：グラフィックイメージがありません"]
+image:fsx-hcx-image25.png[""]
 
 =====
 HCXマイグレーションオプションと、HCXを使用してオンプレミスからAWS上のVMware Cloudにワークロードを移行する方法については、を参照してください追加情報 https://docs.vmware.com/en/VMware-HCX/4.4/hcx-user-guide/GUID-14D48C15-3D75-485B-850F-C5FCB96B5637.html["VMware HCXユーザーガイド"^]。

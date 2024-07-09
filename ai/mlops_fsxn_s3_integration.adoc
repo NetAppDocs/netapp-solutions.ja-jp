@@ -42,11 +42,11 @@ FSxNの詳細については、このプレゼンテーション（link:http://y
 
 . AWSコンソールを開きます。検索パネルで、SageMakerを検索し、サービス* Amazon SageMaker *をクリックします。
 +
-image:mlops_fsxn_s3_integration_0.png["エラー：AWSコンソールを開く"]
+image:mlops_fsxn_s3_integration_0.png["AWSコンソールを開く"]
 
 . Notebookタブの* Notebook Instances *を開き、オレンジ色の* Create notebook instance *ボタンをクリックします。
 +
-image:mlops_fsxn_s3_integration_1.png["エラー：AWS SageMaker Notebookインスタンスコンソール"]
+image:mlops_fsxn_s3_integration_1.png["AWS SageMaker Notebookインスタンスコンソール"]
 
 . 作成ページで、
 ノートブックインスタンス名*を入力します。
@@ -54,7 +54,7 @@ image:mlops_fsxn_s3_integration_1.png["エラー：AWS SageMaker Notebookイン�
 [その他のエントリ]はデフォルトのままにして、*[VPC]*、*[サブネット]*、および*[セキュリティグループ]*を選択します。（この* VPC *と* Subnet *は、あとでFSxNファイルシステムを作成するために使用されます）
 右下にあるオレンジ色のボタン*ノートブックインスタンスの作成*をクリックします。
 +
-image:mlops_fsxn_s3_integration_2.png["エラー:ノートブックインスタンスの作成"]
+image:mlops_fsxn_s3_integration_2.png["ノートブックインスタンスの作成"]
 
 
 
@@ -64,47 +64,47 @@ image:mlops_fsxn_s3_integration_2.png["エラー:ノートブックインスタ�
 
 . AWSコンソールを開きます。検索パネルでFSxを検索し、サービス* FSX *をクリックします。
 +
-image:mlops_fsxn_s3_integration_3.png["エラー：FSxパネル"]
+image:mlops_fsxn_s3_integration_3.png["FSxパネル"]
 
 . [ファイルシステムの作成]*をクリックします。
 +
-image:mlops_fsxn_s3_integration_4.png["エラー：ファイルシステムの作成"]
+image:mlops_fsxn_s3_integration_4.png["ファイルシステムを作成します"]
 
 . 最初のカード* FSx for NetApp ONTAP *を選択し、* Next *をクリックします。
 +
-image:mlops_fsxn_s3_integration_5.png["エラー：ファイルシステムタイプを選択してください"]
+image:mlops_fsxn_s3_integration_5.png["ファイルシステムタイプの選択"]
 
 . をクリックします。
 +
 .. [標準作成（Standard create）]*オプションを選択します。
 +
-image:mlops_fsxn_s3_integration_6.png["エラー:ファイルシステムの作成パネル"]
+image:mlops_fsxn_s3_integration_6.png["[ファイルシステムの作成]パネル"]
 
 .. [File system name]*と[SSD storage capacity]*を入力します。
 +
-image:mlops_fsxn_s3_integration_7.png["エラー：ファイルシステムの詳細を指定してください"]
+image:mlops_fsxn_s3_integration_7.png["ファイルシステムの詳細を指定"]
 
 .. 必ず* VPC *と*サブネット*を* SageMaker Notebook *インスタンスと同じにしてください。
 +
-image:mlops_fsxn_s3_integration_8.png["エラー:ネットワークとセキュリティの設定"]
+image:mlops_fsxn_s3_integration_8.png["ネットワークとセキュリティの設定"]
 
 .. Storage Virtual Machine *の名前を入力し、SVM（Storage Virtual Machine）の*パスワードを*指定してください。
 +
-image:mlops_fsxn_s3_integration_9.png["エラー：デフォルトのStorage Virtual Machine設定"]
+image:mlops_fsxn_s3_integration_9.png["Storage Virtual Machineのデフォルト設定"]
 
 .. [その他のエントリ]はデフォルトのままにして、右下のオレンジ色のボタン*[次へ]*をクリックします。
 +
-image:mlops_fsxn_s3_integration_10.png["エラー：設定を確認してください"]
+image:mlops_fsxn_s3_integration_10.png["設定の確認"]
 
 .. レビューページの右下にあるオレンジ色の*ファイルシステムの作成*ボタンをクリックします。
 +
-image:mlops_fsxn_s3_integration_11.png["エラー：設定を確認して作成を確認してください"]
+image:mlops_fsxn_s3_integration_11.png["構成を確認して作成を確認"]
 
 
 
 . FSxファイルシステムのスピンアップには約* 20~40分*かかる場合があります。
 +
-image:mlops_fsxn_s3_integration_12.png["エラー：FSxコンソールを確認してください"]
+image:mlops_fsxn_s3_integration_12.png["FSxコンソールの点検"]
 
 
 
@@ -118,24 +118,24 @@ image:mlops_fsxn_s3_integration_12.png["エラー：FSxコンソールを確認�
 
 . 作成したFSxファイルシステムを開きます。ステータスが*利用可能*であることを確認してください。
 +
-image:mlops_fsxn_s3_integration_13.png["エラー：バックエンドの作成を待機しています"]
+image:mlops_fsxn_s3_integration_13.png["バックエンドの作成を待機する"]
 
 . [管理]タブを選択し、*[管理エンドポイント- IPアドレス]*と*[ ONTAP管理者のユーザー名]*のままにします。
 +
-image:mlops_fsxn_s3_integration_14.png["エラー：ファイルシステム詳細コンソール"]
+image:mlops_fsxn_s3_integration_14.png["ファイルシステム詳細コンソール"]
 
 . 作成した* SageMaker Notebookインスタンス*を開き、*[JupyterLab]*をクリックします。
 +
-image:mlops_fsxn_s3_integration_15.png["エラー：AWS SageMaker Notebookインスタンスコンソール"]
+image:mlops_fsxn_s3_integration_15.png["AWS SageMaker Notebookインスタンスコンソール"]
 
 . Jupyter Labページで、新しい*ターミナル*を開きます。
 +
-image:mlops_fsxn_s3_integration_16.png["エラー：Jupyter Labのようこそページ"]
+image:mlops_fsxn_s3_integration_16.png["Jupyter Labのようこそページ"]
 
 . sshコマンドssh < admin user name >@< ONTAP server IP >を入力して、FSxN ONTAPファイルシステムにログインします。（ユーザ名とIPアドレスは手順2で取得されます）。
 Storage Virtual Machine *の作成時に使用したパスワードを使用してください。
 +
-image:mlops_fsxn_s3_integration_17.png["エラー: Jupyter Lab端末"]
+image:mlops_fsxn_s3_integration_17.png["Jupyter Lab端末"]
 
 . 次の順序でコマンドを実行します。
 FSxNプライベートS3バケット名*の名前には* fsxn-ontap *を使用します。
@@ -152,7 +152,7 @@ vserver object-store-server group create -name s3group -users s3user -policies F
 vserver object-store-server bucket create fsxn-ontap -vserver fsxn-svm-demo -type nas -nas-path /vol1
 ----
 +
-image:mlops_fsxn_s3_integration_18.png["エラー: Jupyter Lab端末出力"]
+image:mlops_fsxn_s3_integration_18.png["Jupyter Lab端末出力"]
 
 . 次のコマンドを実行して、FSxNプライベートS3のエンドポイントIPとクレデンシャルを取得します。
 +
@@ -166,7 +166,7 @@ vserver object-store-server user show
 ----
 . あとで使用できるように、エンドポイントのIPとクレデンシャルを保持します。
 +
-image:mlops_fsxn_s3_integration_19.png["エラー: Jupyter Lab端末"]
+image:mlops_fsxn_s3_integration_19.png["Jupyter Lab端末"]
 
 
 
@@ -176,7 +176,7 @@ image:mlops_fsxn_s3_integration_19.png["エラー: Jupyter Lab端末"]
 
 . SageMaker Notebookインスタンスで、新しいJupyterノートブックを作成します。
 +
-image:mlops_fsxn_s3_integration_20.png["エラー:新しいJupyterノートブックを開く"]
+image:mlops_fsxn_s3_integration_20.png["新しいJupyterノートブックを開く"]
 
 . 解決策を回避してFSxNプライベートS3バケットにファイルをアップロードするには、次のコードを使用します。
 包括的なコード例については、このノートブックを参照してください。
