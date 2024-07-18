@@ -1,0 +1,130 @@
+---
+sidebar: sidebar 
+permalink: rhhc/rhhc-dp-velero-restore.html 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, OADP operator, Openshift Data Protection Application operator, Velero 
+summary: NetApp ONTAPを使用したRed Hat OpenShiftコンテナアプリケーションのデータ保護 
+---
+= バックアップからアプリを復元する
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+このセクションでは、バックアップからアプリを復元する方法について説明します。
+
+
+
+== 前提条件
+
+バックアップから復元するには、アプリが存在していたネームスペースが誤って削除されたと仮定します。
+
+image::redhat_openshift_OADP_app_deleted_image1.png[アプリの削除]
+
+.同じネームスペースにリストア
+[%collapsible]
+====
+作成したバックアップからリストアするには、Restore Custom Resource（CR）を作成する必要があります。名前とリストア元のバックアップの名前を指定し、restorePVをtrueに設定する必要があります。追加のパラメータは、 link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/restoring-applications.html["ドキュメント"]。[作成]ボタンをクリックします。
+
+image::redhat_openshift_OADP_restore_image1.jpg[リストアCRの作成]
+
+....
+apiVersion: velero.io/v1
+kind: Restore
+apiVersion: velero.io/v1
+metadata:
+  name: restore
+  namespace: openshift-adp
+spec:
+  backupName: backup-postgresql-ontaps3
+  restorePVs: true
+....
+フェーズが完了と表示されると、アプリケーションがスナップショットが取得されたときの状態に復元されたことがわかります。アプリが同じ名前空間に復元されます。
+
+image::redhat_openshift_OADP_restore_image2.jpg[リストア完了]
+
+image::redhat_openshift_OADP_restore_image2a.png[同じネームスペースにリストア]
+
+====
+.別のネームスペースへのリストア
+[%collapsible]
+====
+アプリを別の名前空間に復元するには、Restore CRのYAML定義でnamespaceMappingを指定します。
+
+次のYAMLファイルの例では、RestoreCRを作成して、PostgreSQL名前空間からPostgreSQLで復元された新しい名前空間にアプリとその永続的ストレージを復元します。
+
+....
+apiVersion: velero.io/v1
+kind: Restore
+metadata:
+  name: restore-to-different-ns
+  namespace: openshift-adp
+spec:
+  backupName: backup-postgresql-ontaps3
+  restorePVs: true
+  includedNamespaces:
+  - postgresql
+  namespaceMapping:
+    postgresql: postgresql-restored
+....
+フェーズが完了と表示されると、アプリケーションがスナップショットが取得されたときの状態に復元されたことがわかります。アプリケーションは、YAMLで指定された別の名前空間に復元されます。
+
+image::redhat_openshift_OADP_restore_image3.png[新しいネームスペースへのリストアが完了しました]
+
+====
+.別のストレージクラスへのリストア
+[%collapsible]
+====
+Veleroには、JSONパッチを指定してリストア時にリソースを変更する一般的な機能が用意されています。JSONのパッチは、リストア前にリソースに適用されます。JSONパッチはConfigMapで指定され、ConfigMapはrestoreコマンドで参照されます。この機能を使用すると、別のストレージクラスを使用してリストアを実行できます。
+
+次の例では、アプリケーションの導入時に永続ボリュームのストレージクラスとしてONTAP-NASを使用しています。backup-postgresql-ontaps3というアプリケーションのバックアップが作成されます。
+
+image::redhat_openshift_OADP_restore_image4.png[ONTAP-NASを使用するVM]
+
+image::redhat_openshift_OADP_restore_image5.png[VMバックアップONTAP-NAS]
+
+アプリケーションをアンインストールして、アプリケーションの損失をシミュレートします。
+
+別のストレージクラス（ontap-nas-ecoストレージクラスなど）を使用してVMをリストアするには、次の2つの手順を実行する必要があります。
+
+**ステップ1 **
+
+OpenShift-ADPネームスペースに次のように構成マップ（コンソール）を作成します。スクリーンショットに示すように詳細を入力します。Select namespace：OpenShift-ADP Name：change-ontap-sc（任意の名前を指定できます）Key：change-ontap-sc-config.yaml：value：
+
+....
+version: v1
+resourceModifierRules:
+- conditions:
+     groupResource: persistentvolumeclaims
+     resourceNameRegex: "data-postgresql*"
+     namespaces:
+     - postgresql
+  patches:
+  - operation: replace
+    path: "/spec/storageClassName"
+    value: "ontap-nas-eco"
+....
+image::redhat_openshift_OADP_restore_image6.png[構成マップUI]
+
+設定マップオブジェクトは次のようになります（CLI）。
+
+image::redhat_openshift_OADP_restore_image7.png[設定マップCLIセッテイマップCLI]
+
+この設定マップは、リストアの作成時にリソース修飾子ルールを適用します。RHELで始まるすべての永続ボリューム要求に対して、ストレージクラス名をontap-nas-ecoに置き換えるパッチを適用します。
+
+**ステップ2 **
+
+VMをリストアするには、Velero CLIから次のコマンドを使用します。
+
+....
+
+#velero restore create restore1 --from-backup backup1 --resource-modifier-configmap change-storage-class-config -n openshift-adp
+....
+アプリケーションは、ストレージクラスontap-nas-ecoを使用して作成された永続ボリューム要求を使用して、同じネームスペースにリストアされます。
+
+image::redhat_openshift_OADP_restore_image8.png[VMリストアontap-nas-eco]
+
+====

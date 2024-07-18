@@ -1,0 +1,77 @@
+---
+sidebar: sidebar 
+permalink: rhhc/rhhc-dp-velero-backup.html 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, OADP operator, Openshift Data Protection Application operator, Velero 
+summary: NetApp ONTAPを使用したRed Hat OpenShiftコンテナアプリケーションのデータ保護 
+---
+= OpenShift Container Platformでアプリケーションのオンデマンドバックアップを作成
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+このセクションでは、OpenShift VirtualizationでVMのオンデマンドバックアップを作成する方法について説明します。
+
+
+
+== アプリケーションのバックアップを作成する手順
+
+アプリケーション（アプリケーションメタデータとアプリケーションの永続ボリューム）のオンデマンドバックアップを作成するには、[** Backup*]タブをクリックしてバックアップカスタムリソース（CR）を作成します。バックアップCRを作成するためのサンプルYAMLが用意されています。このYAMLを使用すると、指定されたネームスペース内のアプリとその永続的ストレージがバックアップされます。に示すように、追加のパラメータを設定できます link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/oadp-creating-backup-cr.html["ドキュメント"]。
+
+CSIによって、永続ボリュームと指定されたネームスペース内のアプリケーションリソースのスナップショットが作成されます。このSnapshotは、YAMLで指定されたバックアップの場所に格納されます。バックアップは、ttlで指定された30日間システムに残ります。
+
+....
+spec:
+  csiSnapshotTimeout: 10m0s
+  defaultVolumesToFsBackup: false
+  includedNamespaces:
+    - postgresql ->namespace of the app
+  itemOperationTimeout: 4h0m0s
+  snapshotMoveData: false
+  storageLocation: velero-container-backup-ontap-1 -->this is the backupStorageLocation previously created when Velero is configured.
+  ttl: 720h0m0s
+....
+バックアップが完了すると、[Phase]に[Completed]と表示されます。
+
+image::redhat_openshift_OADP_backup_image1.png[バックアップの完了]
+
+S3ブラウザアプリケーションを使用して、オブジェクトストレージ内のバックアップを確認できます。バックアップのパスは、設定されたバケットにプレフィックス名（velero/container-demo-backup）で表示されます。ボリュームSnapshot、ログ、およびアプリケーションのその他のメタデータなど、バックアップの内容を確認できます。
+
+
+NOTE: StorageGRIDでは、Tenant ManagerのS3コンソールを使用してバックアップオブジェクトを表示することもできます。
+
+image::redhat_openshift_OADP_backup_image2.png[S3のバックアップオブジェクト]
+
+
+
+== アプリケーションのスケジュールバックアップの作成
+
+スケジュールに従ってバックアップを作成するには、スケジュールCRを作成する必要があります。スケジュールは、単にバックアップを作成する時刻を指定できるcron式です。スケジュールCRを作成するためのYAMLの例を次に示します。
+
+....
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: schedule1
+  namespace: openshift-adp
+spec:
+  schedule: 0 7 * * *
+  template:
+    includedNamespaces:
+      - postgresql
+    storageLocation: velero-container-backup-ontap-1
+....
+cron式0 7 ***は、バックアップが毎日7時に作成されることを意味します。
+バックアップに含めるネームスペースとバックアップの格納場所も指定されます。そのため、バックアップCRではなく、スケジュールCRを使用して、指定した時刻と頻度でバックアップを作成します。
+
+作成したスケジュールは有効になります。
+
+image::redhat_openshift_OADP_backup_image3.png[スケジュールの作成]
+
+バックアップはこのスケジュールに従って作成され、[Backup]タブで確認できます。
+
+image::redhat_openshift_OADP_backup_image4.png[スケジュールバックアップが完了しました]

@@ -81,13 +81,13 @@ VeleroはS3互換オブジェクトストレージを使用するように設定
 Webコンソールからシークレットを作成するには、[Secrets]を選択し、[Key/Value Secret]をクリックします。次の図に示すように、クレデンシャル名、キー、および値を指定します。必ずS3ユーザのアクセスキーIDとシークレットアクセスキーを使用してください。秘密に適切な名前を付けます。次の例では、ontap-s3-credentialsという名前のONTAP S3ユーザクレデンシャルを含むシークレットが作成されています。
 
 
-image::redhat_openshift_OADP_install_image4.jpg[S3ユーザクレデンシャルのシークレット]
+image::redhat_openshift_OADP_install_image4.png[S3ユーザクレデンシャルのシークレット]
 
-image::redhat_openshift_OADP_install_image5.jpg[S3ユーザクレデンシャルのシークレットの作成]
+image::redhat_openshift_OADP_install_image5.png[S3ユーザクレデンシャルのシークレットの作成]
 
 CLIからsg-s3-credentialsという名前のシークレットを作成するには、次のコマンドを使用します。
 
-image::redhat_openshift_OADP_install_image6.jpg[CLIを使用したS3ユーザクレデンシャルのシークレットの作成]
+image::redhat_openshift_OADP_install_image6.png[CLIを使用したS3ユーザクレデンシャルのシークレットの作成]
 
 * 次に、Veleroを設定するには、[Operators]の下のメニュー項目から[Installed Operators]を選択し、[OADP Operator]をクリックして、[DataProtectionApplication]タブを選択します。
 
@@ -107,11 +107,11 @@ spec:
   backupLocations:
     - velero:
         config:
-          insecureSkipTLSVerify: 'true' ->use this for https communication with ONTAP S3
+          insecureSkipTLSVerify: 'false' ->use this for https communication with ONTAP S3
           profile: default
-          region: us-east
+          region: us-east-1
           s3ForcePathStyle: 'True' ->This allows use of IP in s3URL
-          s3Url: 'https://10.xx.xx.xx' ->Ensure TLS certificate for S3 is configured
+          s3Url: 'https://10.xx.xx.xx' ->LIF to access S3. Ensure TLS certificate for S3 is configured
         credential:
           key: cloud
           name: ontap-s3-credentials ->previously created secret

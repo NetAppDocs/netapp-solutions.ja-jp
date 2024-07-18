@@ -1,0 +1,51 @@
+---
+sidebar: sidebar 
+permalink: rhhc/rhhc-dp-velero-solution.html 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, OADP operator, Openshift Data Protection Application operator, Velero, app data protection, Containers 
+summary: NetApp ONTAPを使用したRed Hat OpenShiftコンテナアプリケーションのデータ保護 
+---
+= OpenShift API for Data Protection（OADP）を使用したOpenShift Container Platformでのコンテナアプリケーションのデータ保護
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+作成者：Banu Sundhar、NetApp
+
+[role="lead"]
+このセクションでは、NetApp ONTAP S3またはNetApp StorageGRID S3上のVeleroでOpenShift API for Data Protection (OADP)を使用してコンテナアプリのバックアップを作成する方法について詳しく説明します。アプリケーションの永続的ボリューム（PV）を含むネームスペースを対象としたリソースのバックアップは、CSIのAstra Trident Snapshotを使用して作成されます。
+
+コンテナアプリケーション用の永続的ストレージは、を使用してOpenShiftクラスタに統合されたONTAPストレージによってバックアップできます link:https://docs.netapp.com/us-en/trident/["Astra Trident CSI"]。このセクションでは、を使用して link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/installing/installing-oadp-ocs.html["OpenShift API for Data Protection（OADP）"] 、データボリュームを含むアプリケーションのバックアップを
+
+* ONTAPオブジェクトストレージ
+* StorageGRID
+
+
+その後、必要に応じてバックアップからリストアします。アプリは、バックアップが作成されたクラスタにのみ復元できます。
+
+OADPを使用すると、OpenShiftクラスタ上のアプリケーションのバックアップ、リストア、ディザスタリカバリを実行できます。OADPで保護できるデータには、Kubernetesリソースオブジェクト、永続ボリューム、内部イメージなどがあります。
+
+image::redhat_openshift_OADP_image1.jpg[データ保護のためのOpenShift API]
+
+Red Hat OpenShiftは、OpenSourceコミュニティが開発したソリューションをデータ保護に活用しています。 link:https://velero.io/["ベレロカプセル"] は、安全なバックアップとリストア、ディザスタリカバリの実行、Kubernetesクラスタリソースと永続ボリュームの移行を行うためのオープンソースツールです。Veleroを簡単に使用するために、OpenShiftはCSIストレージドライバーと統合するためのOADPオペレーターとVeleroプラグインを開発しました。公開されるOADP APIのコアは、Velero APIに基づいています。OADPオペレータをインストールして設定すると、Velero APIで公開されている操作に基づいて実行できるバックアップ/リストア操作が実行されます。
+
+image::redhat_openshift_OADP_image2.jpg[データ保護のためのOpenShift API]
+
+OADP 1.3は、OpenShiftクラスタ4.12以降のOperator Hubから利用できます。CSIボリュームのスナップショットをリモートオブジェクトストアに移動できるData Moverが組み込まれています。これにより、バックアップ時にSnapshotをオブジェクトストレージの場所に移動することで、データのモビリティと保持性が向上します。作成したSnapshotは、災害後のリストアに使用できます。
+
+**このセクションの例で使用されている各種コンポーネントのバージョンは次のとおりです**
+
+* OpenShiftクラスタ4.14
+* Red Hatが提供するOADP Operator 1.13
+* Linux版Velero CLI 1.13
+* Astra Trident 24.02
+* ONTAP 9.12
+* Helmを使用してPostgreSQLをインストールします。
+
+
+link:https://docs.netapp.com/us-en/trident/["Astra Trident CSI"]
+link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/installing/installing-oadp-ocs.html["OpenShift API for Data Protection（OADP）"]
+link:https://velero.io/["ベレロカプセル"]

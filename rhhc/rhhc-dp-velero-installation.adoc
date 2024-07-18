@@ -1,0 +1,200 @@
+---
+sidebar: sidebar 
+permalink: rhhc/rhhc-dp-velero-installation.html 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, OADP operator, Openshift Data Protection Application operator, Velero 
+summary: NetApp ONTAPを使用したRed Hat OpenShiftコンテナアプリケーションのデータ保護 
+---
+= OpenShift API for Data Protection（OADP）Operatorのインストール
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+このセクションでは、OpenShift API for Data Protection（OADP）Operatorのインストールについて説明します。
+
+
+
+== 前提条件
+
+* RHCOSワーカーノードを含むベアメタルインフラにインストールされたRed Hat OpenShiftクラスタ（バージョン4.12以降）
+* Astra Tridentを使用してクラスタと統合されるNetApp ONTAPクラスタ
+* ONTAP クラスタの SVM で設定された Trident バックエンド
+* OpenShift クラスタ上でストレージクラスを構成し、 Astra Trident をプロビジョニングツールとして提供
+* クラスタに作成されたTrident Snapshotクラス
+* Red Hat OpenShift クラスタへのクラスタ管理者アクセス
+* NetApp ONTAP クラスタへの管理者アクセス
+* クラスタに配置されたPostgreSQLなどのアプリケーション
+* tridentctl および OC ツールがインストールされている管理ワークステーション $PATH に追加されました
+
+
+
+
+== OADP Operatorのインストール手順
+
+. クラスタのOperator Hubに移動し、Red Hat OADP operatorを選択します。[Install]ページで、デフォルトの設定をすべて使用し、[install]をクリックします。次のページで、すべてのデフォルト値を使用して[インストール]をクリックします。OADP演算子は、ネームスペースOpenShift-ADPにインストールされます。
+
+
+image::redhat_openshift_OADP_install_image1.jpg[Operator Hubのデータ保護用OpenShift API]
+
+image::redhat_openshift_OADP_install_image2.jpg[OpenShift API for Data Protection Operatorのインストール]
+
+image::redhat_openshift_OADP_install_image3.jpg[OpenShift API for Data Protection Operatorをインストール済み]
+
+
+
+=== ONTAP S3を使用したVelero構成の前提条件
+
+オペレータのインストールが成功したら、Veleroのインスタンスを設定します。
+VeleroはS3互換オブジェクトストレージを使用するように設定できます。に示す手順に従って、ONTAP S3を設定します。 link:https://docs.netapp.com/us-en/ontap/object-storage-management/index.html["ONTAPドキュメントのオブジェクトストレージの管理に関するセクション"]。Veleroと統合するには、ONTAP S3構成から次の情報が必要です。
+
+* S3へのアクセスに使用できる論理インターフェイス（LIF）
+* アクセスキーとシークレットアクセスキーを含むS3にアクセスするためのユーザクレデンシャル
+* ユーザのアクセス権限があるバックアップ用のS3のバケット名
+* オブジェクトストレージへのセキュアなアクセスを実現するには、TLS証明書をオブジェクトストレージサーバにインストールする必要があります。
+
+
+
+
+=== StorageGRID S3を使用したVelero構成の前提条件
+
+VeleroはS3互換オブジェクトストレージを使用するように設定できます。StorageGRID S3は、の手順に従って設定できます。 link:https://docs.netapp.com/us-en/storagegrid-116/s3/configuring-tenant-accounts-and-connections.html["StorageGRIDのドキュメント"]。Veleroと統合するには、StorageGRID S3構成から次の情報が必要です。
+
+* S3へのアクセスに使用できるエンドポイント
+* アクセスキーとシークレットアクセスキーを含むS3にアクセスするためのユーザクレデンシャル
+* ユーザのアクセス権限があるバックアップ用のS3のバケット名
+* オブジェクトストレージへのセキュアなアクセスを実現するには、TLS証明書をオブジェクトストレージサーバにインストールする必要があります。
+
+
+
+
+=== Veleroの設定手順
+
+* 最初に、ONTAP S3ユーザクレデンシャルまたはStorageGRIDテナントユーザクレデンシャルのシークレットを作成します。これは、後でVeleroを設定するために使用します。シークレットは、CLIまたはWebコンソールから作成できます。
+Webコンソールからシークレットを作成するには、[Secrets]を選択し、[Key/Value Secret]をクリックします。次の図に示すように、クレデンシャル名、キー、および値を指定します。必ずS3ユーザのアクセスキーIDとシークレットアクセスキーを使用してください。秘密に適切な名前を付けます。次の例では、ontap-s3-credentialsという名前のONTAP S3ユーザクレデンシャルを含むシークレットが作成されています。
+
+
+image::redhat_openshift_OADP_install_image4.png[S3ユーザクレデンシャルのシークレット]
+
+image::redhat_openshift_OADP_install_image5.png[S3ユーザクレデンシャルのシークレットの作成]
+
+CLIからsg-s3-credentialsという名前のシークレットを作成するには、次のコマンドを使用します。
+
+image::redhat_openshift_OADP_install_image6.png[CLIを使用したストレージグリッドS3のユーザクレデンシャルの作成]
+
+* 次に、Veleroを設定するには、[Operators]の下のメニュー項目から[Installed Operators]を選択し、[OADP Operator]をクリックして、[** DataProtectionApplication*]タブを選択します。
+
+
+image::redhat_openshift_OADP_install_image7.jpg[DataProtectionApplication]
+
+[Create DataProtectionApplication]をクリックします。フォームビューで、DataProtectionアプリケーションの名前を指定するか、デフォルトの名前を使用します。
+
+image::redhat_openshift_OADP_install_image8.jpg[DataProtectionApplicationの作成]
+
+次に、YAMLビューに移動し、以下のYAMLファイルの例に示すように仕様情報を置き換えます。
+
+**バックアップの場所としてONTAP S3を使用してVeleroを構成するためのサンプルYAMLファイル**
+
+....
+spec:
+  backupLocations:
+    - velero:
+        config:
+          insecureSkipTLSVerify: 'false' ->use this for https communication with ONTAP S3
+          profile: default
+          region: us-east-1
+          s3ForcePathStyle: 'true'  ->This allows use of IP in s3URL
+          s3Url: 'https://10.61.181.161' ->Ensure TLS certificate for S3 is configured
+        credential:
+          key: cloud
+          name: ontap-s3-credentials -> previously created secret
+        default: true
+        objectStorage:
+          bucket: velero -> Your bucket name previously created in S3 for backups
+          prefix: container-demo-backup ->The folder that will be created in the bucket
+          caCert: <base64 encoded CA Certificate installed on ONTAP Cluster with the SVM Scope where the bucker exists>
+        provider: aws
+  configuration:
+    nodeAgent:
+      enable: true
+      uploaderType: kopia
+      #default Data Mover uses Kopia to move snapshots to Object Storage
+    velero:
+      defaultPlugins:
+        - csi ->This plugin to use CSI snapshots
+        - openshift
+        - aws
+        - kubevirt -> This plugin to use Velero with OIpenShift Virtualization
+....
+**バックアップの場所としてStorageGRID S3を使用してVeleroを構成するためのサンプルYAMLファイル**
+
+....
+spec:
+  backupLocations:
+    - velero:
+        config:
+          insecureSkipTLSVerify: 'true'
+          profile: default
+          region: us-east-1 ->region of your StorageGrid system
+          s3ForcePathStyle: 'True'
+          s3Url: 'https://172.21.254.25:10443' ->the IP used to access S3
+        credential:
+          key: cloud
+          name: sg-s3-credentials ->secret created earlier
+        default: true
+        objectStorage:
+          bucket: velero
+          prefix: demobackup
+        provider: aws
+  configuration:
+    nodeAgent:
+      enable: true
+      uploaderType: kopia
+    velero:
+      defaultPlugins:
+        - csi
+        - openshift
+        - aws
+        - kubevirt
+....
+YAMLファイルのspecセクションは、上記の例のように、次のパラメータに対して適切に設定する必要があります。
+
+**バックアップの場所**
+ONTAP S3またはStorageGRID S3（クレデンシャルおよびYAMLに表示されるその他の情報）は、veleroのデフォルトのBackupLocationとして設定されます。
+
+**スナップショットの場所**
+Container Storage Interface（CSI）スナップショットを使用する場合は、CSIドライバを登録するためにVolumeSnapshotClass CRを作成するため、スナップショットの場所を指定する必要はありません。この例では、Astra Trident CSIを使用し、Trident CSIドライバを使用してVolumeSnapShotClass CRを作成しています。
+
+** CSIプラグインを有効にする**
+CSIスナップショットを使用して永続ボリュームをバックアップするには、VeleroのdefaultPluginsにCSIを追加します。
+Velero CSIプラグインは、CSIベースのPVCをバックアップするために、** velero.io/CSI-volumesnapshot-class**ラベルが設定されているクラスタ内のVolumeSnapshotClassを選択します。このために
+
+* Trident VolumeSnapshotClassを作成しておく必要があります。
+* trident-snapshotclassのラベルを編集し、
+** velero.io/csi-volumesnapshot-class=true **を参照してください。
+
+
+image::redhat_openshift_OADP_install_image9.jpg[Trident Snapshotクラスのラベル]
+
+VolumeSnapshotオブジェクトが削除された場合でも、Snapshotが保持されることを確認します。これを行うには、* deletionPolicy *をRetainに設定します。そうでない場合、ネームスペースを削除すると、そのネームスペースにバックアップされたすべてのPVCが完全に失われます。
+
+....
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: trident-snapshotclass
+driver: csi.trident.netapp.io
+deletionPolicy: Retain
+....
+image::redhat_openshift_OADP_install_image10.jpg[VolumeSnapshotClass削除ポリシーをRetainに設定する必要があります]
+
+DataProtectionApplicationが作成され、Conciled状態になっていることを確認します。
+
+image::redhat_openshift_OADP_install_image11.png[DataProtectionApplicationオブジェクトが作成されました]
+
+OADPオペレータが対応するBackupStorageLocationを作成します。これはバックアップの作成時に使用されます。
+
+image::redhat_openshift_OADP_install_image12.png[BackupStorageLocationが作成されました]
