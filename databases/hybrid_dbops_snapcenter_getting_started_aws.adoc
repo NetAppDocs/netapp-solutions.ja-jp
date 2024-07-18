@@ -50,31 +50,31 @@ NOTE: Cloud Manager と Cloud Volumes ONTAP を導入する方法は多数あり
 
 . に移動します https://cloud.netapp.com/cloud-manager["NetApp Cloud Central"^] ログインまたはサインアップします。
 +
-image:cloud_central_login_page.PNG[""]
+image::cloud_central_login_page.PNG[Cloud Centralのログインページ]
 
 . ログイン後、キャンバスに移動します。
 +
-image:cloud_central_canvas_page.PNG[""]
+image::cloud_central_canvas_page.PNG[Cloud Centralキャンバスページ]
 
 . 「 Add Working Environment 」をクリックし、「 Cloud Volumes ONTAP in AWS 」を選択します。ここでは、シングルノードシステムとハイアベイラビリティペアのどちらを導入するかを選択することもできます。ハイアベイラビリティペアを導入することを選択しました。
 +
-image:cloud_central_add_we.PNG[""]
+image::cloud_central_add_we.PNG[Cloud Centralの追加機能]
 
 . コネクタが作成されていない場合は、コネクタの作成を求めるポップアップが表示されます。
 +
-image:cloud_central_add_conn_1.PNG[""]
+image::cloud_central_add_conn_1.PNG[Cloud Centralアド接続1]
 
 . [ 開始 ] をクリックし、 [AWS] を選択します。
 +
-image:cloud_central_add_conn_3.PNG[""]
+image::cloud_central_add_conn_3.PNG[Cloud Centralアド接続3]
 
 . シークレットキーとアクセスキーを入力します。ユーザに、で概説されている正しい権限があることを確認します https://mysupport.netapp.com/site/info/cloud-manager-policies["ネットアップのポリシーのページ"^]。
 +
-image:cloud_central_add_conn_4.PNG[""]
+image::cloud_central_add_conn_4.PNG[Cloud Centralアド接続4]
 
 . コネクタに名前を付け、の説明に従って事前定義されたロールを使用する https://mysupport.netapp.com/site/info/cloud-manager-policies["ネットアップのポリシーのページ"^] または、 Cloud Manager にロールの作成を依頼してください。
 +
-image:cloud_central_add_conn_5.PNG[""]
+image::cloud_central_add_conn_5.PNG[Cloud Centralアド接続5]
 
 . コネクタの導入に必要なネットワーク情報を入力します。アウトバウンドインターネットアクセスが有効になっていることを確認します。
 +
@@ -82,25 +82,25 @@ image:cloud_central_add_conn_5.PNG[""]
 .. コネクタにプロキシを与える
 .. インターネットゲートウェイを経由してインターネットに接続するためのルートをコネクタに与える
 +
-image:cloud_central_add_conn_6.PNG[""]
+image::cloud_central_add_conn_6.PNG[Cloud Centralアド接続6]
 
 
 
 . セキュリティグループを提供するか、新しいセキュリティグループを作成して、 SSH 、 HTTP 、および HTTPS 経由でコネクタと通信する。IP アドレスからのみコネクタへのアクセスを有効にしました。
 +
-image:cloud_central_add_conn_7.PNG[""]
+image::cloud_central_add_conn_7.PNG[Cloud Centralアド接続7]
 
 . 概要ページの情報を確認し、追加をクリックしてコネクタを配置します。
 +
-image:cloud_central_add_conn_8.PNG[""]
+image::cloud_central_add_conn_8.PNG[Cloud Central追加接続8]
 
 . コネクタがクラウド形成スタックを使用して導入されるようになりました。進捗状況は Cloud Manager または AWS から監視できます。
 +
-image:cloud_central_add_conn_9.PNG[""]
+image::cloud_central_add_conn_9.PNG[Cloud Centralアド接続9]
 
 . 導入が完了すると、成功ページが表示されます。
 +
-image:cloud_central_add_conn_10.PNG[""]
+image::cloud_central_add_conn_10.PNG[Cloud Centralアド接続10]
 
 
 
@@ -110,39 +110,39 @@ image:cloud_central_add_conn_10.PNG[""]
 
 . AWS と、それぞれの要件に応じた導入タイプを選択します。
 +
-image:cloud_central_add_we_1.PNG[""]
+image::cloud_central_add_we_1.PNG[Cloud Centralの追加機能1]
 
 . サブスクリプションが割り当てられておらず、 PAYGO で購入する場合は、資格情報の編集を選択します。
 +
-image:cloud_central_add_we_2.PNG[""]
+image::cloud_central_add_we_2.PNG[Cloud Centralの追加機能2]
 
 . [Add Subscription] を選択します。
 +
-image:cloud_central_add_we_3.PNG[""]
+image::cloud_central_add_we_3.PNG[Cloud Centralの追加サービス3]
 
 . 購読する契約のタイプを選択します。従量課金制を選択しました。
 +
-image:cloud_central_add_we_4.PNG[""]
+image::cloud_central_add_we_4.PNG[Cloud Centralの追加サービス4]
 
 . AWS にリダイレクトされます。 Continue to Subscribe を選択します。
 +
-image:cloud_central_add_we_5.PNG[""]
+image::cloud_central_add_we_5.PNG[Cloud Centralの追加サービス5]
 
 . 登録すると、 NetApp Cloud Central にリダイレクトされます。すでに購読していてリダイレクトされていない場合は、「ここをクリック」リンクを選択します。
 +
-image:cloud_central_add_we_6.PNG[""]
+image::cloud_central_add_we_6.PNG[Cloud Centralの追加機能6]
 
 . Cloud Central にリダイレクトされます。ここで、サブスクリプションの名前を指定して、 Cloud Central アカウントに割り当てる必要があります。
 +
-image:cloud_central_add_we_7.PNG[""]
+image::cloud_central_add_we_7.PNG[Cloud Centralの追加機能7]
 
 . 成功すると、チェックマークページが表示されます。Cloud Manager のタブに戻ります。
 +
-image:cloud_central_add_we_8.PNG[""]
+image::cloud_central_add_we_8.PNG[Cloud Centralの追加機能8]
 
 . サブスクリプションが Cloud Central に表示されます。[ 適用 ] をクリックして続行します。
 +
-image:cloud_central_add_we_9.PNG[""]
+image::cloud_central_add_we_9.PNG[Cloud Centralの追加機能9]
 
 . 次のような作業環境の詳細を入力します。
 +
@@ -150,25 +150,25 @@ image:cloud_central_add_we_9.PNG[""]
 .. クラスタのパスワード
 .. AWS のタグ（オプション）
 +
-image:cloud_central_add_we_10.PNG[""]
+image::cloud_central_add_we_10.PNG[Cloud Centralの追加機能10]
 
 
 
 . 導入する追加サービスを選択します。これらのサービスの詳細については、を参照してください https://cloud.netapp.com["ネットアップクラウドのホームページ"^]。
 +
-image:cloud_central_add_we_11.PNG[""]
+image::cloud_central_add_we_11.PNG[Cloud Centralの追加機能11]
 
 . 複数のアベイラビリティゾーンに導入する（ 3 つのサブネットをそれぞれ異なる AZ に配置する）か、単一のアベイラビリティゾーンに導入するかを選択します。複数の AZ を選択しました。
 +
-image:cloud_central_add_we_12.PNG[""]
+image::cloud_central_add_we_12.PNG[Cloud Centralの追加機能12]
 
 . 導入先のクラスタのリージョン、 VPC 、およびセキュリティグループを選択します。このセクションでは、ノード（およびメディエーター）ごとのアベイラビリティゾーンと、ゾーンが占有しているサブネットも割り当てます。
 +
-image:cloud_central_add_we_13.PNG[""]
+image::cloud_central_add_we_13.PNG[Cloud Centralの追加機能13]
 
 . メディエーターとともにノードの接続方法を選択します。
 +
-image:cloud_central_add_we_14.PNG[""]
+image::cloud_central_add_we_14.PNG[Cloud Centralの追加機能14]
 
 
 
@@ -177,47 +177,47 @@ TIP: メディエーターは AWS API との通信を必要とします。メデ
 
 . フローティング IP アドレスは、クラスタ管理 IP やデータサービス IP など、 Cloud Volumes ONTAP で使用されるさまざまな IP アドレスへのアクセスを許可するために使用されます。これらのアドレスは、ネットワーク内でルーティングされていないアドレスである必要があり、 AWS 環境のルーティングテーブルに追加されます。これらのアドレスは、フェイルオーバー時に HA ペアの一貫した IP アドレスを有効にするために必要です。フローティング IP アドレスの詳細については、を参照してください https://docs.netapp.com/us-en/occm/reference_networking_aws.html#requirements-for-ha-pairs-in-multiple-azs["ネットアップのクラウドに関するドキュメント"^]。
 +
-image:cloud_central_add_we_15.PNG[""]
+image::cloud_central_add_we_15.PNG[Cloud Centralの追加機能15]
 
 . フローティング IP アドレスが追加されるルーティングテーブルを選択します。これらのルーティングテーブルは、クライアントが Cloud Volumes ONTAP と通信するために使用します。
 +
-image:cloud_central_add_we_16.PNG[""]
+image::cloud_central_add_we_16.PNG[Cloud Centralの追加サービス16]
 
 . AWS で管理する暗号化を有効にするか、 AWS KMS を有効にして ONTAP ルートディスク、ブートディスク、データディスクを暗号化するかを選択します。
 +
-image:cloud_central_add_we_17.PNG[""]
+image::cloud_central_add_we_17.PNG[Cloud Centralの追加サービス17]
 
 . ライセンスモデルを選択します。選択する項目がわからない場合は、ネットアップの担当者にお問い合わせください。
 +
-image:cloud_central_add_we_18.PNG[""]
+image::cloud_central_add_we_18.PNG[Cloud Centralの追加機能18]
 
 . ユースケースに最も適した構成を選択してください。これは、前提条件のページに記載されているサイジングに関する考慮事項に関連したものです。
 +
-image:cloud_central_add_we_19.PNG[""]
+image::cloud_central_add_we_19.PNG[Cloud Centralの追加機能19]
 
 . 必要に応じて、ボリュームを作成します。次の手順では SnapMirror を使用してボリュームを作成するため、この作業は必要ありません。
 +
-image:cloud_central_add_we_20.PNG[""]
+image::cloud_central_add_we_20.PNG[Cloud Centralの追加機能20]
 
 . 選択内容を確認し、チェックボックスをオンにして、 Cloud Manager によって AWS 環境にリソースが導入されることを確認します。準備ができたら、 [ 移動 ] をクリックします。
 +
-image:cloud_central_add_we_21.PNG[""]
+image::cloud_central_add_we_21.PNG[Cloud Centralの追加機能21]
 
 . Cloud Volumes ONTAP による導入プロセスが開始されます。Cloud Manager は、 AWS API とクラウド形成スタックを使用して Cloud Volumes ONTAP を導入します。次に、お客様の仕様に合わせてシステムを構成し、すぐに利用できるすぐに使えるシステムを提供します。このプロセスのタイミングは、選択内容によって異なります。
 +
-image:cloud_central_add_we_22.PNG[""]
+image::cloud_central_add_we_22.PNG[Cloud Centralの追加機能22]
 
 . タイムラインに移動することで進行状況を監視できます。
 +
-image:cloud_central_add_we_23.PNG[""]
+image::cloud_central_add_we_23.PNG[Cloud Centralの追加機能23]
 
 . タイムラインは、 Cloud Manager で実行されるすべてのアクションの監査として機能します。Cloud Manager のセットアップ時に AWS と ONTAP クラスタの両方に対して行われたすべての API 呼び出しを表示できます。これは、直面している問題のトラブルシューティングにも効果的に使用できます。
 +
-image:cloud_central_add_we_24.PNG[""]
+image::cloud_central_add_we_24.PNG[Cloud Centralの追加機能24]
 
 . 導入が完了すると、現在の容量である Canvas に CVO クラスタが表示されます。現在の状態の ONTAP クラスタは、設定なしで真のエクスペリエンスを提供できるように完全に設定されています。
 +
-image:cloud_central_add_we_25.PNG[""]
+image::cloud_central_add_we_25.PNG[Cloud Centralの追加機能25]
 
 
 
@@ -231,62 +231,62 @@ image:cloud_central_add_we_25.PNG[""]
 
 . ソース ONTAP システム（オンプレミス）をクリックし、宛先にドラッグアンドドロップするか、 Replication （レプリケーション） > Enable （有効）を選択するか、 Replication （レプリケーション） > Menu （メニュー） > Replicate （複製）を選択します。
 +
-image:cloud_central_replication_1.png[""]
+image::cloud_central_replication_1.png[クラウドセントラルレプリケーション1]
 
 +
 Enable を選択します。
 
 +
-image:cloud_central_replication_2.png[""]
+image::cloud_central_replication_2.png[クラウドセントラルレプリケーション2]
 
 +
 または [ オプション ] を選択し
 
 +
-image:cloud_central_replication_3.png[""]
+image::cloud_central_replication_3.png[クラウドセントラルレプリケーション3]
 
 +
 レプリケート：
 
 +
-image:cloud_central_replication_4.png[""]
+image::cloud_central_replication_4.png[クラウドセントラルレプリケーション4]
 
 . ドラッグアンドドロップしなかった場合は、レプリケート先のクラスタを選択します。
 +
-image:cloud_central_replication_5.png[""]
+image::cloud_central_replication_5.png[クラウドセントラルレプリケーション5]
 
 . レプリケートするボリュームを選択します。データとすべてのログボリュームをレプリケートしました。
 +
-image:cloud_central_replication_6.png[""]
+image::cloud_central_replication_6.png[クラウドセントラルレプリケーション6]
 
 . デスティネーションのディスクタイプと階層化ポリシーを選択します。ディザスタリカバリには、ディスクタイプとして SSD を使用し、データの階層化を維持することを推奨します。データを階層化することで、ミラーリングされたデータを低コストのオブジェクトストレージに階層化し、ローカルディスクにコストを削減できます。関係を解除するかボリュームのクローンを作成すると、高速なローカルストレージがデータに使用されます。
 +
-image:cloud_central_replication_7.png[""]
+image::cloud_central_replication_7.png[クラウドセントラルレプリケーション7]
 
 . デスティネーション・ボリューム名を選択します [source_volume_name] _dr] を選択します
 +
-image:cloud_central_replication_8.png[""]
+image::cloud_central_replication_8.png[クラウドセントラルレプリケーション8]
 
 . レプリケーションの最大転送速度を選択します。これにより、 VPN などのクラウドへの低帯域幅接続がある場合に帯域幅を節約できます。
 +
-image:cloud_central_replication_9.png[""]
+image::cloud_central_replication_9.png[クラウドセントラルレプリケーション9]
 
 . レプリケーションポリシーを定義ミラーを選択したところ、最新のデータセットがデスティネーションボリュームにレプリケートされます。また、要件に応じて別のポリシーを選択することもできます。
 +
-image:cloud_central_replication_10.png[""]
+image::cloud_central_replication_10.png[クラウドセントラルレプリケーション10]
 
 . レプリケーションを開始するスケジュールを選択します。要件に応じて変更することもできますが、ネットアップでは、データボリュームの「毎日」のスケジュールとログボリュームの「時間単位」のスケジュールを設定することを推奨します。
 +
-image:cloud_central_replication_11.png[""]
+image::cloud_central_replication_11.png[クラウドセントラルレプリケーション11]
 
 . 入力した情報を確認し、 Go をクリックしてクラスタピアと SVM ピアをトリガーし（ 2 つのクラスタ間のレプリケーションを初めて行う場合）、 SnapMirror 関係を実装して初期化します。
 +
-image:cloud_central_replication_12.png[""]
+image::cloud_central_replication_12.png[クラウドセントラルレプリケーション12]
 
 . データボリュームとログボリュームについては、このプロセスを続行してください。
 . すべての関係を確認するには、 Cloud Manager の Replication （レプリケーション）タブに移動します。ここでは、関係を管理し、その状態を確認できます。
 +
-image:cloud_central_replication_13.png[""]
+image::cloud_central_replication_13.png[Cloud Centralレプリケーション13]
 
 . すべてのボリュームがレプリケートされたあと、安定した状態になり、ディザスタリカバリと開発 / テストのワークフローに進むことができます。
 

@@ -67,7 +67,7 @@ FSx for ONTAP は、シームレスな導入と管理のエクスペリエンス
 * インターネットアクセスのないVPCに解決策を導入する場合は、AWS SSM、FSx、SESのVPCエンドポイントが設定され、LambdaがAWS内部ネットワーク経由でこれらのサービスにアクセスできるようになります。
 
 
-image:fsxn-monitoring-resizing-architecture.png["この図は、この解決策 で使用されているアーキテクチャの概要を示しています。"]
+image::fsxn-monitoring-resizing-architecture.png[この図は、この解決策 で使用されているアーキテクチャの概要を示しています。]
 
 ====
 
@@ -99,7 +99,7 @@ git clone https://github.com/NetApp/fsxn-monitoring-auto-resizing.git
 . [AWS Console]>* S3 *に移動し、*[Create bucket]*をクリックします。デフォルトの設定でバケットを作成します。
 . バケット内で、* Upload *>* Add files *をクリックし、システム上のクローンされたGitHubリポジトリから* Utilities.zip *を選択します。
 +
-image:fsxn-monitoring-resizing-s3-upload-zip-files.png["この図は、S3ウィンドウにzipファイルがアップロードされている状態を示しています"]
+image::fsxn-monitoring-resizing-s3-upload-zip-files.png[この図は、S3ウィンドウにzipファイルがアップロードされている状態を示しています]
 
 
 
@@ -116,7 +116,7 @@ image:fsxn-monitoring-resizing-s3-upload-zip-files.png["この図は、S3ウィ�
 NOTE: SES SMTPのセットアップがすでに設定されている場合は、この手順をスキップします。
 
 +
-image:fsxn-monitoring-resizing-ses-smtp-creds-addition.png["この図は、AWS SESの[Create SMTP Credentials]ウィンドウを示しています"]
+image::fsxn-monitoring-resizing-ses-smtp-creds-addition.png[この図は、AWS SESの[Create SMTP Credentials]ウィンドウを示しています]
 
 
 
@@ -133,7 +133,7 @@ Specify template: Upload a template file
 Choose file: Browse to the cloned GitHub repo and select fsxn-monitoring-solution.yaml
 ----
 +
-image:fsxn-monitoring-resizing-create-cft-1.png["この画像は、AWS CloudFormationの[Create Stack]ウィンドウを示しています"]
+image::fsxn-monitoring-resizing-create-cft-1.png[この画像は、AWS CloudFormationの[Create Stack]ウィンドウを示しています]
 
 +
 [次へ]をクリックします
@@ -144,24 +144,24 @@ image:fsxn-monitoring-resizing-create-cft-1.png["この画像は、AWS CloudForm
 NOTE: 「VPCにインターネットアクセスがありますか？」の場合 はFalseに設定されています。「AWS SESのSMTPユーザ名」と「AWS SESのSMTPパスワード」は必須です。それ以外の場合は、空のままにすることができます。
 
 +
-image:fsxn-monitoring-resizing-cft-stack-details-1.png["この画像は、AWS CloudFormation Stack Detailsウィンドウを示しています"]
+image::fsxn-monitoring-resizing-cft-stack-details-1.png[この画像は、AWS CloudFormation Stack Detailsウィンドウを示しています]
 
 +
-image:fsxn-monitoring-resizing-cft-stack-details-2.png["この画像は、AWS CloudFormation Stack Detailsウィンドウを示しています"]
+image::fsxn-monitoring-resizing-cft-stack-details-2.png[この画像は、AWS CloudFormation Stack Detailsウィンドウを示しています]
 
 +
-image:fsxn-monitoring-resizing-cft-stack-details-3.png["この画像は、AWS CloudFormation Stack Detailsウィンドウを示しています"]
+image::fsxn-monitoring-resizing-cft-stack-details-3.png[この画像は、AWS CloudFormation Stack Detailsウィンドウを示しています]
 
 +
-image:fsxn-monitoring-resizing-cft-stack-details-4.png["この画像は、AWS CloudFormation Stack Detailsウィンドウを示しています"]
+image::fsxn-monitoring-resizing-cft-stack-details-4.png[この画像は、AWS CloudFormation Stack Detailsウィンドウを示しています]
 
 . CloudFormationデプロイメントが開始されると、「送信者メールID」に記載されているメールIDに、AWS SESでのメールアドレスの使用を承認するように求めるメールが送信されます。リンクをクリックしてメールアドレスを確認します。
 . CloudFormationスタックのデプロイが完了すると、警告/通知がある場合は、通知の詳細が記載された電子メールが受信者の電子メールIDに送信されます。
 +
-image:fsxn-monitoring-resizing-email-1.png["この画像は、通知が利用可能になったときに受信される電子メール通知を示しています"]
+image::fsxn-monitoring-resizing-email-1.png[この画像は、通知が利用可能になったときに受信される電子メール通知を示しています]
 
 +
-image:fsxn-monitoring-resizing-email-2.png["この画像は、通知が利用可能になったときに受信される電子メール通知を示しています"]
+image::fsxn-monitoring-resizing-email-2.png[この画像は、通知が利用可能になったときに受信される電子メール通知を示しています]
 
 
 
@@ -193,7 +193,7 @@ git clone https://github.com/NetApp/fsxn-monitoring-auto-resizing.git
 . AWSコンソール>* AWS Simple Email Service（SES）*> SMTP Settingsに移動し、* Create SMTP credentials *をクリックします
 . IAMユーザ名を入力するか、デフォルト値のままにして、[Create]をクリックします。あとで使用するために、ユーザ名とパスワードを保存しておきます。
 +
-image:fsxn-monitoring-resizing-ses-smtp-creds-addition.png["この図は、AWS SESの[Create SMTP Credentials]ウィンドウを示しています"]
+image::fsxn-monitoring-resizing-ses-smtp-creds-addition.png[この図は、AWS SESの[Create SMTP Credentials]ウィンドウを示しています]
 
 
 
@@ -215,7 +215,7 @@ Value: <Enter the password for "fsxadmin" user configured on FSx for ONTAP>
 [パラメーターを作成（Create Parameter）]*をクリックする。
 監視するすべてのFSx for ONTAPファイルシステムについて、上記の手順を繰り返します。
 
-image:fsxn-monitoring-resizing-ssm-parameter.png["この図は、AWSコンソールのSSMパラメータ作成ウィンドウを示しています。"]
+image::fsxn-monitoring-resizing-ssm-parameter.png[この図は、AWSコンソールのSSMパラメータ作成ウィンドウを示しています。]
 
 インターネットにアクセスせずに解決策 を展開する場合は、SMTPユーザ名とSMTPパスワードを保存する手順と同じ手順を実行します。それ以外の場合は、これら2つのパラメータの追加をスキップします
 
@@ -234,7 +234,7 @@ Email address: <Enter an email address to be used for sending resizing notificat
 
 「送信者EメールID」に記載されているEメールIDには、AWS SESでのEメールアドレスの使用許可を所有者に求めるEメールが送信されます。リンクをクリックしてメールアドレスを確認します。
 
-image:fsxn-monitoring-resizing-ses.png["この図は、AWSコンソールのSES ID作成ウィンドウを示しています。"]
+image::fsxn-monitoring-resizing-ses.png[この図は、AWSコンソールのSES ID作成ウィンドウを示しています。]
 
 ====
 .手順5：VPCエンドポイントをセットアップする（インターネットアクセスを使用できない場合は必須）
@@ -259,10 +259,10 @@ Policy: <Either choose Full access or set your own custom policy>
 [Create endpoint]をクリックします。
 
 +
-image:fsxn-monitoring-resizing-vpc-endpoint-create-1.png["この図は、VPCエンドポイントの作成ウィンドウを示しています"]
+image::fsxn-monitoring-resizing-vpc-endpoint-create-1.png[この図は、VPCエンドポイントの作成ウィンドウを示しています]
 
 +
-image:fsxn-monitoring-resizing-vpc-endpoint-create-2.png["この図は、VPCエンドポイントの作成ウィンドウを示しています"]
+image::fsxn-monitoring-resizing-vpc-endpoint-create-2.png[この図は、VPCエンドポイントの作成ウィンドウを示しています]
 
 . SESおよびSSM VPCエンドポイントの作成についても、同じ手順を実行します。すべてのパラメータは上記と同じですが、サービスは<region>それぞれ* com.amazonaws.smtp *および* com.amazonaws.smtp *に対応します<region>。
 
@@ -290,26 +290,26 @@ Advanced Settings:
 [機能の作成]*をクリックします。
 
 +
-image:fsxn-monitoring-resizing-lambda-creation-1.png["この画像は、AWSコンソールのLambda作成ウィンドウを示しています。"]
+image::fsxn-monitoring-resizing-lambda-creation-1.png[この画像は、AWSコンソールのLambda作成ウィンドウを示しています。]
 
 +
-image:fsxn-monitoring-resizing-lambda-creation-2.png["この画像は、AWSコンソールのLambda作成ウィンドウを示しています。"]
+image::fsxn-monitoring-resizing-lambda-creation-2.png[この画像は、AWSコンソールのLambda作成ウィンドウを示しています。]
 
 . 新しく作成したLambda関数に移動し、* Layers *セクションまでスクロールして* Add a layer *をクリックします。
 +
-image:fsxn-monitoring-resizing-add-layer-button.png["この画像は、AWS Lambda機能コンソールのレイヤー追加ボタンを示しています。"]
+image::fsxn-monitoring-resizing-add-layer-button.png[この画像は、AWS Lambda機能コンソールのレイヤー追加ボタンを示しています。]
 
 . [レイヤーソース]*の下にある*[新しいレイヤーを作成する]*をクリックします
 . レイヤーを作成し、* Utilities.zip *ファイルをアップロードします。互換性のあるランタイムとして* Python 3.9 *を選択し、* Create *をクリックします。
 +
-image:fsxn-monitoring-resizing-create-layer-paramiko.png["この画像は、AWSコンソールの[Create New Layer]ウィンドウを示しています。"]
+image::fsxn-monitoring-resizing-create-layer-paramiko.png[この画像は、AWSコンソールの[Create New Layer]ウィンドウを示しています。]
 
 . AWS Lambda Function >* Add Layer *>* Custom Layers *に戻り、ユーティリティレイヤーを追加します。
 +
-image:fsxn-monitoring-resizing-add-layer-window.png["この画像は、AWS Lambda関数コンソールのレイヤーの追加ウィンドウを示しています。"]
+image::fsxn-monitoring-resizing-add-layer-window.png[この画像は、AWS Lambda関数コンソールのレイヤーの追加ウィンドウを示しています。]
 
 +
-image:fsxn-monitoring-resizing-layers-added.png["この画像は、AWS Lambda関数コンソールに追加されたレイヤーを示しています。"]
+image::fsxn-monitoring-resizing-layers-added.png[この画像は、AWS Lambda関数コンソールに追加されたレイヤーを示しています。]
 
 . Lambda関数の* Configuration *タブに移動し、* General Configuration *の* Edit *をクリックします。[タイムアウト]を* 5分*に変更し、*[保存]*をクリックします。
 . Lambda関数の* Permissions *タブに移動し、割り当てられたロールをクリックします。ロールの権限タブで、*権限の追加*>*インラインポリシーの作成*をクリックします。
@@ -374,7 +374,7 @@ image:fsxn-monitoring-resizing-layers-added.png["この画像は、AWS Lambda関
 | * recipient_email * | 文字列 | （必須）アラート通知を受信するEメールIDを入力します。 
 |===
 +
-image:fsxn-monitoring-resizing-lambda-code.png["この画像は、AWS Lambda関数コンソールのラムダコードを示しています。"]
+image::fsxn-monitoring-resizing-lambda-code.png[この画像は、AWS Lambda関数コンソールのラムダコードを示しています。]
 
 . [テスト]*をクリックし、空のJSONオブジェクトでテストイベントを作成し、*[呼び出し]*をクリックしてテストを実行し、スクリプトが正しく実行されているかどうかを確認します。
 . テストに成功したら、* Configuration *>* Triggers *>* Add Trigger *に移動します。
@@ -391,7 +391,7 @@ Schedule expression: <Use "rate(1 day)" if you want the function to run daily or
 [Add]をクリックします。
 
 +
-image:fsxn-monitoring-resizing-eventbridge.png["この画像は、AWS Lambda関数コンソールのイベントブリッジ作成ウィンドウを示しています。"]
+image::fsxn-monitoring-resizing-eventbridge.png[この画像は、AWS Lambda関数コンソールのイベントブリッジ作成ウィンドウを示しています。]
 
 
 

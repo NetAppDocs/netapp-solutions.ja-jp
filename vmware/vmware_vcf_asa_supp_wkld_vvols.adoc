@@ -50,7 +50,7 @@ summary:
 
 NetAppでは、iSCSIに対して完全に冗長なネットワーク設計を推奨しています。次の図は、ストレージシステム、スイッチ、ネットワークアダプタ、およびホストシステムにフォールトトレランスを提供する冗長構成の例を示しています。『NetApp』を参照してください。 link:https://docs.netapp.com/us-en/ontap/san-config/index.html["SAN 構成リファレンス"] 追加情報 の場合。
 
-image:vmware-vcf-asa-image74.png["NVMe-TCPネットワーク設計"]
+image::vmware-vcf-asa-image74.png[NVMe-TCPネットワーク設計]
 
 ｛nbsp｝
 
@@ -82,14 +82,14 @@ iSCSIトラフィック用の複数のLIFを含むSVMを作成するには、次
 
 . ONTAPシステムマネージャで、左側のメニュー*[Storage VMs]*に移動し、*+[追加]*をクリックして開始します。
 +
-image:vmware-vcf-asa-image01.png["[+ Add]をクリックしてSVMの作成を開始"]
+image::vmware-vcf-asa-image01.png[[+ Add]をクリックしてSVMの作成を開始]
 
 +
 ｛nbsp｝
 
 . Storage VMの追加*ウィザードで、SVMの*名前*を指定して*[IPスペース]*を選択し、*[アクセスプロトコル]*で*[iSCSI]*タブをクリックし、*[iSCSIを有効にする]*チェックボックスをオンにします。
 +
-image:vmware-vcf-asa-image02.png["[Add Storage VM]ウィザード- iSCSIの有効化"]
+image::vmware-vcf-asa-image02.png[[Add Storage VM]ウィザード- iSCSIの有効化]
 
 +
 ｛nbsp｝
@@ -100,14 +100,14 @@ image:vmware-vcf-asa-image02.png["[Add Storage VM]ウィザード- iSCSIの有�
 NOTE: 複数のパスをまたいだマルチパスとフェイルオーバーを実現するために、NetAppでは、iSCSI構成のすべてのSVMについて、ストレージノードごとに少なくとも2つのLIFを別 々 のイーサネットネットワークに配置することを推奨しています。
 
 +
-image:vmware-vcf-asa-image03.png["LIFのネットワーク情報を入力"]
+image::vmware-vcf-asa-image03.png[LIFのネットワーク情報を入力]
 
 +
 ｛nbsp｝
 
 . （マルチテナンシー環境の場合）Storage VM管理アカウントを有効にするかどうかを選択し、*[保存]*をクリックしてSVMを作成します。
 +
-image:vmware-vcf-asa-image04.png["SVMアカウントを有効にして終了"]
+image::vmware-vcf-asa-image04.png[SVMアカウントを有効にして終了]
 
 
 
@@ -125,7 +125,7 @@ iSCSIネットワークごとに新しい分散ポートグループを作成す
 
 . vSphere Clientで、ワークロードドメインの*[Inventory]>[Networking]*に移動します。既存のDistributed Switchに移動し、* New Distributed Port Group...*を作成するアクションを選択します。
 +
-image:vmware-vcf-asa-image22.png["新しいポートグループの作成を選択"]
+image::vmware-vcf-asa-image22.png[新しいポートグループの作成を選択]
 
 +
 ｛nbsp｝
@@ -133,7 +133,7 @@ image:vmware-vcf-asa-image22.png["新しいポートグループの作成を選�
 . [New Distributed Port Group]*ウィザードで、新しいポートグループの名前を入力し、*[Next]*をクリックして続行します。
 . [設定の構成]ページで、すべての設定を入力します。VLANを使用している場合は、正しいVLAN IDを指定してください。[次へ]*をクリックして続行します。
 +
-image:vmware-vcf-asa-image23.png["VLAN IDを入力"]
+image::vmware-vcf-asa-image23.png[VLAN IDを入力]
 
 +
 ｛nbsp｝
@@ -142,18 +142,18 @@ image:vmware-vcf-asa-image23.png["VLAN IDを入力"]
 . 同じ手順を繰り返して、使用する2つ目のiSCSIネットワーク用の分散ポートグループを作成し、正しい* VLAN ID *を入力していることを確認します。
 . 両方のポートグループが作成されたら、最初のポートグループに移動し、*[設定の編集...]*の操作を選択します。
 +
-image:vmware-vcf-asa-image24.png["DPG -設定の編集"]
+image::vmware-vcf-asa-image24.png[DPG -設定の編集]
 
 +
 ｛nbsp｝
 
 . [Distributed Port Group]-[Edit Settings]*ページで、左側のメニューの*[Teaming and failover]*に移動し、* uplink2 *をクリックして*[Unused Uplinks]*に移動します。
 +
-image:vmware-vcf-asa-image25.png["アップリンク2を未使用に移動"]
+image::vmware-vcf-asa-image25.png[アップリンク2を未使用に移動]
 
 . 2つ目のiSCSIポートグループに対してこの手順を繰り返します。ただし、今回は* uplink1*を* unused uplinks *に移動します。
 +
-image:vmware-vcf-asa-image26.png["uplink1を未使用に移動"]
+image::vmware-vcf-asa-image26.png[uplink1を未使用に移動]
 
 
 
@@ -165,42 +165,42 @@ image:vmware-vcf-asa-image26.png["uplink1を未使用に移動"]
 
 . vSphere Clientで、ワークロードドメインインベントリ内のいずれかのESXiホストに移動します。[設定]タブで*[VMkernel adapters]*を選択し、*[ネットワークの追加...]*をクリックして開始します。
 +
-image:vmware-vcf-asa-image30.png["ネットワーク追加ウィザードの開始"]
+image::vmware-vcf-asa-image30.png[ネットワーク追加ウィザードの開始]
 
 +
 ｛nbsp｝
 
 . [接続タイプの選択]ウィンドウで*[VMkernel Network Adapter]*を選択し、*[次へ]*をクリックして続行します。
 +
-image:vmware-vcf-asa-image08.png["VMkernelネットワークアダプタを選択"]
+image::vmware-vcf-asa-image08.png[VMkernelネットワークアダプタを選択]
 
 +
 ｛nbsp｝
 
 . [ターゲットデバイスの選択]ページで、以前に作成したiSCSI用の分散ポートグループの1つを選択します。
 +
-image:vmware-vcf-asa-image31.png["ターゲットポートグループを選択"]
+image::vmware-vcf-asa-image31.png[ターゲットポートグループを選択]
 
 +
 ｛nbsp｝
 
 . [ポートのプロパティ]ページで、デフォルトのままにして*[次へ]*をクリックして続行します。
 +
-image:vmware-vcf-asa-image32.png["VMkernelポートプロパティ"]
+image::vmware-vcf-asa-image32.png[VMkernelポートプロパティ]
 
 +
 ｛nbsp｝
 
 . [IPv4 settings]*ページで、*[IP address]*、*[Subnet mask]*を入力し、新しいゲートウェイIPアドレスを指定します（必要な場合のみ）。[次へ]*をクリックして続行します。
 +
-image:vmware-vcf-asa-image33.png["VMkernel IPv4設定"]
+image::vmware-vcf-asa-image33.png[VMkernel IPv4設定]
 
 +
 ｛nbsp｝
 
 . [選択内容の確認]ページで選択内容を確認し、*[終了]*をクリックしてVMkernelアダプタを作成します。
 +
-image:vmware-vcf-asa-image34.png["VMkernelの選択内容の確認"]
+image::vmware-vcf-asa-image34.png[VMkernelの選択内容の確認]
 
 +
 ｛nbsp｝
@@ -230,14 +230,14 @@ ONTAP Tools for VMware vSphere（OTV）はVMアプライアンスとして導入
 . VCF管理ドメインのvCenterアプライアンスにログインします。
 . vCenterアプライアンスのインターフェイスで管理クラスタを右クリックし、* Deploy OVF Template…*を選択します。
 +
-image:vmware-vcf-aff-image21.png["OVFテンプレートの導入..."]
+image::vmware-vcf-aff-image21.png[OVFテンプレートの導入...]
 
 +
 ｛nbsp｝
 
 . [Deploy OVF Template]ウィザードで、*[Local file]*ラジオボタンをクリックし、前の手順でダウンロードしたONTAP tools OVAファイルを選択します。
 +
-image:vmware-vcf-aff-image22.png["OVAファイルを選択"]
+image::vmware-vcf-aff-image22.png[OVAファイルを選択]
 
 +
 ｛nbsp｝
@@ -245,14 +245,14 @@ image:vmware-vcf-aff-image22.png["OVAファイルを選択"]
 . ウィザードの手順2~5では、VMの名前とフォルダを選択し、コンピューティングリソースを選択して詳細を確認し、ライセンス契約に同意します。
 . 構成ファイルとディスクファイルの格納場所として、VCF管理ドメインクラスタのVSANデータストアを選択します。
 +
-image:vmware-vcf-aff-image23.png["OVAファイルを選択"]
+image::vmware-vcf-aff-image23.png[OVAファイルを選択]
 
 +
 ｛nbsp｝
 
 . [Select network]ページで、管理トラフィックに使用するネットワークを選択します。
 +
-image:vmware-vcf-aff-image24.png["ネットワークの選択"]
+image::vmware-vcf-aff-image24.png[ネットワークの選択]
 
 +
 ｛nbsp｝
@@ -271,10 +271,10 @@ image:vmware-vcf-aff-image24.png["ネットワークの選択"]
 [次へ]*をクリックして続行します。
 
 +
-image:vmware-vcf-aff-image25.png["OTVテンプレートのカスタマイズ1"]
+image::vmware-vcf-aff-image25.png[OTVテンプレートのカスタマイズ1]
 
 +
-image:vmware-vcf-asa-image35.png["OTVテンプレートのカスタマイズ2"]
+image::vmware-vcf-asa-image35.png[OTVテンプレートのカスタマイズ2]
 
 +
 ｛nbsp｝
@@ -297,7 +297,7 @@ image::vmware-asa-image6.png[NetApp ONTAPツール]
 
 . ONTAPツールインターフェイスの* instance *ドロップダウンメニューから、管理対象のワークロードドメインに関連付けられているOTVインスタンスを選択します。
 +
-image:vmware-vcf-asa-image36.png["OTVインスタンスを選択"]
+image::vmware-vcf-asa-image36.png[OTVインスタンスを選択]
 
 +
 ｛nbsp｝

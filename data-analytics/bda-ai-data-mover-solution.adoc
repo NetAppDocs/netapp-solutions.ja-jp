@@ -18,7 +18,7 @@ summary: ビッグデータクラスタでは、 MapR -FS 、 Windows Azure Stor
 
 次の図は、 HDFS ストレージで稼働している Spark クラスタから、 NVIDIA が AI 処理を行えるようにするための NetApp ONTAP NFS ボリュームへの、一般的なデータ移動を示しています。
 
-image:bda-ai-image3.png[""]
+image::bda-ai-image3.png[BDA AIイメージ3]
 
 「 hadoop distcp 」コマンドは、 MapReduce プログラムを使用してデータをコピーします。NIPAM は MapReduce と連携して、データをコピーする際の Hadoop クラスタのドライバとして機能します。NIPAM では、 1 つのエクスポートのために複数のネットワークインターフェイスに負荷を分散できます。このプロセスにより、 HDFS または HCFS から NFS にデータをコピーするときに、複数のネットワークインターフェイスにデータを分散させることにより、ネットワークスループットが最大になります。
 

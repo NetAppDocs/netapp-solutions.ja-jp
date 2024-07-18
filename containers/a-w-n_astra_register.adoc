@@ -22,7 +22,7 @@ Astra Control Center でワークロードを管理できるようにするに�
 
 . 最初のステップでは、 OpenShift クラスタを Astra Control Center に追加して管理します。[クラスタ]に移動し、[クラスタの追加]をクリックして、OpenShiftクラスタの「kubeconfig」ファイルをアップロードし、[ストレージの選択]をクリックします。
 +
-image:redhat_openshift_image91.jpg["Astra Control Center でクラスタを作成"]
+image::redhat_openshift_image91.jpg[Astra Control Center でクラスタを作成]
 
 +
 
@@ -30,11 +30,11 @@ NOTE: ユーザ名とパスワードまたはトークンを使用して認証�
 
 . Astra Control Center で、対象となるストレージクラスが検出される。次に、ストレージクラスが NetApp ONTAP 上の SVM がサポートする Trident を使用してボリュームをプロビジョニングする方法を選択し、 Review （確認）をクリックします。次のペインで詳細を確認し、 Add Cluster をクリックします。
 +
-image:redhat_openshift_image92.jpg["Astra Control Center でクラスタ選択ストレージを作成"]
+image::redhat_openshift_image92.jpg[Astra Control Center でクラスタ選択ストレージを作成]
 
 . 手順 1 の説明に従って、両方の OpenShift クラスタを登録します。追加すると、 Astra Control Center がクラスタを検査して必要なエージェントをインストールしながら、クラスタは Discovering ステータスに移行します。クラスタが登録されると、クラスタのステータスが「 Running 」に変わります。
 +
-image:redhat_openshift_image93.jpg["Astra Control Center クラスタを使用可能"]
+image::redhat_openshift_image93.jpg[Astra Control Center クラスタを使用可能]
 
 +
 
@@ -42,18 +42,18 @@ NOTE: Astra Control Center で管理するすべての Red Hat OpenShift クラ�
 
 . ONTAP クラスタをストレージリソースとして Astra Control Center でバックエンドとして管理するようにインポートします。ストレージクラスが設定されている Astra に OpenShift クラスタが追加されると、ストレージクラスをサポートする ONTAP クラスタが自動的に検出されて検査されますが、 Astra コントロールセンターにインポートされて管理されません。
 +
-image:redhat_openshift_image94.jpg["Astra Control Center バックエンド検出"]
+image::redhat_openshift_image94.jpg[Astra Control Center バックエンド検出]
 
 . ONTAP クラスタをインポートするには、バックエンドに移動し、ドロップダウンをクリックして、管理対象の ONTAP クラスタの横にある Manage を選択します。ONTAP クラスタの資格情報を入力し、 [ 情報の確認 ] をクリックして、 [ ストレージバックエンドのインポート ] をクリックします。
 +
-image:redhat_openshift_image95.jpg["Astra Control Center でバックエンドを作成"]
+image::redhat_openshift_image95.jpg[Astra Control Center でバックエンドを作成]
 
 . バックエンドを追加すると、ステータスが Available に変わります。このバックエンドには、 OpenShift クラスタ内の永続ボリュームと ONTAP システム上の対応するボリュームに関する情報が含まれます。
 +
-image:redhat_openshift_image96.jpg["Astra Control Center バックエンドも利用可能"]
+image::redhat_openshift_image96.jpg[Astra Control Center バックエンドも利用可能]
 
 . Astra Control Center を使用して OpenShift クラスタ間でバックアップとリストアを行うには、 S3 プロトコルをサポートするオブジェクトストレージバケットをプロビジョニングする必要があります。現在サポートされているオプションは、 ONTAP S3 、 StorageGRID 、および AWS S3 です。このインストールのために、 AWS S3 バケットを設定します。バケットに移動し、バケットの追加をクリックして、汎用 S3 を選択します。S3バケットの詳細とアクセスするためのクレデンシャルを入力し、Make this Bucket the Default Bucket for the Cloud（このバケットをクラウドのデフォルトバケットにする）チェックボックスをクリックして、Add（追加）をクリックします。
 +
-image:redhat_openshift_image97.jpg["Astra Control Center バケットの作成"]
+image::redhat_openshift_image97.jpg[Astra Control Center バケットの作成]
 
 

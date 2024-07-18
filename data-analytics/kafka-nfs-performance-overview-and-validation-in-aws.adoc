@@ -52,14 +52,14 @@ NetApp Cloud Volumes ONTAP （HAペア）を使用したKafkaクラスタは、A
 
 . Cloud Volumes ONTAP HAペアについては、各ストレージコントローラの各アグリゲートに3つのボリュームを含む2つのアグリゲートを作成しました。単一のCloud Volumes ONTAP ノードの場合は、アグリゲートに6つのボリュームを作成します。
 +
-image:kafka-nfs-image25.png["この図は、aggr3とaggr22のプロパティを示しています。"]
+image::kafka-nfs-image25.png[この図は、aggr3とaggr22のプロパティを示しています。]
 
 +
-image:kafka-nfs-image26.png["この図は、aggr2のプロパティを示しています。"]
+image::kafka-nfs-image26.png[この図は、aggr2のプロパティを示しています。]
 
 . ネットワークパフォーマンスを高めるために、HAペアとシングルノードの両方で高速ネットワークを有効にしました。
 +
-image:kafka-nfs-image27.png["この図は、高速ネットワークを有効にする方法を示しています。"]
+image::kafka-nfs-image27.png[この図は、高速ネットワークを有効にする方法を示しています。]
 
 . ONTAP NVRAMのIOPSが多いことに気付いたので、Cloud Volumes ONTAP ルートボリュームのIOPSを2350に変更しました。Cloud Volumes ONTAP のルートボリュームディスクのサイズは47GBでした。次のONTAP コマンドはHAペア用で、同じ手順をシングルノードにも適用します。
 +
@@ -88,7 +88,7 @@ Scope: kafka_nfs_cvo_ha1-02
 kafka_nfs_cvo_ha1::*>
 ....
 +
-image:kafka-nfs-image28.png["このイメージは、ボリュームプロパティを変更する方法を示しています。"]
+image::kafka-nfs-image28.png[このイメージは、ボリュームプロパティを変更する方法を示しています。]
 
 
 
@@ -99,7 +99,7 @@ image:kafka-nfs-image28.png["このイメージは、ボリュームプロパテ
 * *ストレージ。* HAペアCloud Volumes ONTAP インスタンスを使用し、インスタンスに6TB gp3 AWS-EBSボリュームを1つマウントしました。その後、ボリュームはNFSマウントを使用してKafkaブローカーにエクスポートされました。
 
 
-image:kafka-nfs-image29.png["この図は、NASベースのKafkaクラスタのアーキテクチャを示しています。"]
+image::kafka-nfs-image29.png[この図は、NASベースのKafkaクラスタのアーキテクチャを示しています。]
 
 
 
@@ -362,8 +362,8 @@ Syncドライバはログが即座にディスクにフラッシュされると�
 
 これらのスループット値は、指定されたAWS構成に対して生成されます。より高いパフォーマンス要件に対応するには、インスタンスタイプをスケールアップしてさらに調整し、スループットを向上させることができます。総スループットまたは総レートは、生産者と消費者の両方のレートの組み合わせです。
 
-image:kafka-nfs-image30.png["ここでは、4つの異なるグラフを示します。CVO-HAペアスループットドライバCVO-HAペアSyncドライバ：CVO -シングルノードスループットドライバ。CVO -シングルノードSyncドライバ。"]
+image::kafka-nfs-image30.png[ここでは、4つの異なるグラフを示します。CVO-HAペアスループットドライバCVO-HAペアSyncドライバ：CVO -シングルノードスループットドライバ。CVO -シングルノードSyncドライバ。]
 
 スループットまたは同期ドライバのベンチマークを実行するときは、必ずストレージスループットを確認してください。
 
-image:kafka-nfs-image31.png["このグラフには、レイテンシ、IOPS、およびスループットのパフォーマンスが表示されます。"]
+image::kafka-nfs-image31.png[このグラフには、レイテンシ、IOPS、およびスループットのパフォーマンスが表示されます。]

@@ -25,15 +25,15 @@ summary: SnapCenterを使用したベクターデータベース保護- VECTOR D
 
 . SnapCenterコマンドの実行に使用するホストを設定します。
 +
-image:sc_host_setup.png[""]
+image::sc_host_setup.png[SCホストのセットアップ]
 
 . ストレージプラグインをインストールして設定します。追加したホストから、[その他のオプション]を選択します。ダウンロードしたストレージプラグインに移動してから選択します。 link:https://automationstore.netapp.com/snap-detail.shtml?packUuid=Storage&packVersion=1.0["NetApp Automation Store の略"]。プラグインをインストールし、設定を保存します。
 +
-image:sc_storage_plugin.png[""]
+image::sc_storage_plugin.png[SCストレージプラグイン]
 
 . ストレージシステムとボリュームをセットアップします。[ストレージシステム]にストレージシステムを追加し、SVM（Storage Virtual Machine）を選択します。この例では、「vs_nvidia」を選択しています。
 +
-image:sc_storage_system.png[""]
+image::sc_storage_system.png[SCストレージシステム]
 
 . バックアップポリシーとカスタムスナップショット名を組み込んで、ベクターデータベースのリソースを確立します。
 +
@@ -41,7 +41,7 @@ image:sc_storage_system.png[""]
 ** [Storage Footprint]セクションで、ベクターデータベースの顧客データとMilvusクラスタデータに関連付けられているボリュームを選択します。この例では、「vol1」と「vectordbpv」です。
 ** ベクターデータベース保護のポリシーを作成し、ポリシーを使用してベクターデータベースリソースを保護します。
 +
-image:sc_resource_vectordatabase.png[""]
+image::sc_resource_vectordatabase.png[SCリソースベクトルデータベース]
 
 
 
@@ -102,7 +102,7 @@ root@node2:~#
 ----
 . 「milvusdb」リソースの整合グループ（CG）Snapshotを使用してバックアップを開始する
 +
-image:sc_backup_vector_database.png[""]
+image::sc_backup_vector_database.png[SCバックアップベクターデータベース]
 
 . バックアップ機能をテストするために、バックアッププロセス後に新しいテーブルを追加するか、NFS（S3 NASバケット）から一部のデータを削除しました。
 +
@@ -134,7 +134,7 @@ root@node2:~#
 ----
 . 前のSnapshotからS3 NASバケットのフルリストアを実行します。
 +
-image:sc_restore_vector_database.png[""]
+image::sc_restore_vector_database.png[SCリストアベクターデータベース]
 
 . Pythonスクリプトを使用して、「hello_milvus_netapp_sc_test」コレクションと「hello_milvus_netapp_sc_test2」コレクションのデータを検証します。
 +

@@ -37,11 +37,11 @@ keywords: HA, DR, database, Oracle, RDS, AWS, SnapCenter
 
 * NFSストレージの場合、推奨されるボリュームレイアウトは3つのボリュームです。1つはOracleバイナリ用、1つはOracleデータ用、もう1つは重複する制御ファイル用、もう1つはOracleアクティブログ、アーカイブログ、および制御ファイル用です。
 +
-image:aws_ora_fsx_ec2_stor_12.PNG[""]
+image::aws_ora_fsx_ec2_stor_12.PNG[AWS ora FSx EC2 stor 12]
 
 * iSCSIストレージの場合、推奨されるボリュームレイアウトは、Oracleバイナリ用のボリューム、Oracleデータ用のボリューム、重複する制御ファイル用のボリューム、Oracleアクティブログ、アーカイブログ、および制御ファイル用のボリュームの3つです。ただし、データボリュームとログボリュームにはそれぞれ4つのLUNを含めるのが理想的です。LUNの負荷はHAクラスタノード上に分散して配置するのが理想的です。
 +
-image:aws_ora_fsx_ec2_stor_13.PNG[""]
+image::aws_ora_fsx_ec2_stor_13.PNG[AWS ora FSx EC2 stor 13]
 
 * ストレージIOPSとスループットについては、FSXストレージクラスタのプロビジョニングされたIOPSとスループットのしきい値を選択できます。これらのパラメータは、ワークロードが変更されるたびにオンザフライで調整できます。
 +
@@ -74,7 +74,7 @@ sysctl -a | grep tcp.*.slot_table
 ----
 * 次の表に、Linux NFSv3 -シングルインスタンスに対する推奨されるNFSマウントオプションを示します。
 +
-image:aws_ora_fsx_ec2_nfs_01.PNG[""]
+image::aws_ora_fsx_ec2_nfs_01.PNG[AWS ora FSx EC2 NFS 01]
 
 
 

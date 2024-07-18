@@ -32,10 +32,10 @@ Azure VMware 解決策を使用するには、まず、特定されたサブス�
 . [ リソースプロバイダ ] を選択し、検索結果に「 Microsoft.AVS 」と入力します。
 . リソースプロバイダが登録されていない場合は、 [ 登録 ] を選択します。
 +
-image:avs-register-create-pc-1.png[""]
+image::avs-register-create-pc-1.png[AVSレジスタの作成PC 1]
 
 +
-image:avs-register-create-pc-2.png[""]
+image::avs-register-create-pc-2.png[AVS REGISTER CREATE PC 2]
 
 . リソースプロバイダの登録が完了したら、 Azure ポータルを使用して Azure VMware 解決策プライベートクラウドを作成します。
 . Azure ポータルにサインインします。
@@ -52,13 +52,13 @@ image:avs-register-create-pc-2.png[""]
 * CIDR アドレスが一意で、他の Azure Virtual Network やオンプレミスネットワークと重複しないことを確認してください。CIDR はプライベートクラウド管理ネットワークであり、 vCenter Server や NSX Manager などのクラスタ管理サービスに使用されます。ネットアップでは、 /22 アドレススペースを使用することを推奨します。この例では、 10.21.0.0/22 が使用されています。
 
 
-image:avs-register-create-pc-3.png[""]
+image::avs-register-create-pc-3.png[AVS REGISTER CREATE PC 3]
 
 プロビジョニングプロセスには約 4~5 時間かかります。プロセスが完了したら、 Azure ポータルからプライベートクラウドにアクセスして、導入が成功したことを確認します。導入が完了すると、「成功しました」のステータスが表示されます。
 
 Azure VMware 解決策プライベートクラウドには Azure Virtual Network が必要です。Azure VMware 解決策はオンプレミスの vCenter をサポートしていないため、既存のオンプレミス環境と統合するには追加の手順が必要です。ExpressRoute 回線および仮想ネットワークゲートウェイのセットアップも行う必要があります。クラスタのプロビジョニングが完了するのを待っている間に、新しい仮想ネットワークを作成するか、既存の仮想ネットワークを使用して Azure VMware 解決策に接続します。
 
-image:avs-register-create-pc-4.png[""]
+image::avs-register-create-pc-4.png[AVSレジスタの作成PC 4]
 
 ====
 .新しい ExpressRoute 仮想ネットワークゲートウェイまたは既存の ExpressRoute 仮想ネットワークゲートウェイに接続します
@@ -76,12 +76,12 @@ image:avs-register-create-pc-4.png[""]
 * 注： * VNet アドレス空間はプライベートクラウド CIDR と重複しないようにしてください。
 
 +
-image:azure-connect-gateway-1.png[""]
+image::azure-connect-gateway-1.png[Azure Connectゲートウェイ1]
 
 . 新しい VNet の情報を入力または更新し、 OK を選択します。
 
 
-image:azure-connect-gateway-2.png[""]
+image::azure-connect-gateway-2.png[Azure Connectゲートウェイ2]
 
 指定したアドレス範囲とゲートウェイサブネットを使用した VNet は、指定したサブスクリプションとリソースグループに作成されます。
 
@@ -94,24 +94,24 @@ NOTE: VNet を手動で作成する場合は、適切な SKU と ExpressRoute �
 ====
 Azure VMware 解決策では、オンプレミスの VMware vCenter でプライベートクラウドを管理することはできません。代わりに、ジャンプホストが Azure VMware 解決策 vCenter インスタンスに接続する必要があります。指定したリソースグループにジャンプホストを作成し、 Azure VMware 解決策 vCenter にサインインします。このジャンプホストは、接続用に作成された同じ仮想ネットワーク上の Windows VM であり、 vCenter と NSX Manager の両方にアクセスできる必要があります。
 
-image:azure-validate-network-1.png[""]
+image::azure-validate-network-1.png[Azure Validateネットワーク1]
 
 仮想マシンをプロビジョニングしたら、 Connect オプションを使用して RDP にアクセスします。
 
-image:azure-validate-network-2.png[""]
+image::azure-validate-network-2.png[Azure Validateネットワーク2]
 
 新しく作成したジャンプホスト仮想マシンから、クラウド管理者ユーザを使用して vCenter にサインインします。クレデンシャルにアクセスするには、 Azure ポータルにアクセスし、（プライベートクラウド内の管理オプションで） Identity に移動します。プライベートクラウド vCenter と NSX Manager の URL とユーザー資格情報は、ここからコピーできます。
 
-image:azure-validate-network-3.png[""]
+image::azure-validate-network-3.png[Azure Validateネットワーク3]
 
 Windows 仮想マシンでブラウザを開き、 vCenter Web Client の URL にアクセスします (`"https://10.21.0.2/"`）にアクセスし、adminユーザ名に「* cloudadmin@vsphere.loca l *」と入力して、コピーしたパスワードを貼り付けます。同様に、 Web クライアントの URL を使用して NSX Manager にアクセスすることもできます (`"https://10.21.0.3/"`）をクリックし、adminユーザ名を使用してコピーしたパスワードを貼り付け、新しいセグメントを作成するか、既存の階層ゲートウェイを変更します。
 
 
 NOTE: Web クライアントの URL は、プロビジョニングされる SDDC ごとに異なります。
 
-image:azure-validate-network-4.png[""]
+image::azure-validate-network-4.png[Azure Validateネットワーク4]
 
-image:azure-validate-network-5.png[""]
+image::azure-validate-network-5.png[Azureでネットワークを検証5]
 
 これで、 Azure VMware 解決策 SDDC の導入と設定が完了しました。ExpressRoute グローバルリーチを活用して、オンプレミス環境を Azure VMware 解決策プライベートクラウドに接続します。詳細については、を参照してください link:https://docs.microsoft.com/en-us/azure/azure-vmware/tutorial-expressroute-global-reach-private-cloud["オンプレミス環境から Azure VMware 解決策へのピアリング"]。
 

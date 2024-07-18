@@ -22,7 +22,7 @@ summary: 導入の一環として、ユーザプロファイル、共有デー�
 
 グローバルネームスペース内の複数のサイトにユーザが分散している場合、グローバルファイルキャッシュを使用すると、頻繁にアクセスされるデータのレイテンシを低減できます。グローバルファイルキャッシュの導入は、プロビジョニングコレクションとスクリプト化されたイベントを使用して自動化できます。グローバルファイルキャッシュは、読み取りキャッシュと書き込みキャッシュをローカルで処理し、場所を問わずファイルのロックを維持します。グローバルファイルキャッシュは、 Azure NetApp Files を含む任意の SMB ファイルサーバと連携できます。
 
-image:hcvdivds_image13.png[""]
+image::hcvdivds_image13.png[hcvdivdsイメージ13]
 
 グローバルファイルキャッシュには次のものが必要です。
 
@@ -37,47 +37,47 @@ image:hcvdivds_image13.png[""]
 
 . [ ライセンスの設定 ] セクションで、 [ ここをクリックしてライセンスの有効化を完了します ] リンクを使用します。次に、コアを登録します。
 +
-image:hcvdivds_image27.png[""]
+image::hcvdivds_image27.png[hcvdivdsイメージ27]
 
 . グローバルファイルキャッシュに使用するサービスアカウントを指定します。このアカウントに必要な権限については、を参照してください https://docs.netapp.com/us-en/occm/download_gfc_resources.html#download-required-resources["GFC のドキュメント"^]。
 +
-image:hcvdivds_image28.png[""]
+image::hcvdivds_image28.png[hcvdivdsイメージ28]
 
 . 新しいバックエンドファイルサーバを追加し、ファイルサーバ名または IP を指定します。
 +
-image:hcvdivds_image29.png[""]
+image::hcvdivds_image29.png[hcvdivdsイメージ29]
 
 . エッジでは、キャッシュドライブのドライブ文字は D にする必要があります表示されない場合は、 diskpart.exe を使用してボリュームを選択し、ドライブレターを変更します。エッジとしてライセンスサーバーに登録します。
 +
-image:hcvdivds_image30.png[""]
+image::hcvdivds_image30.png[hcvdivdsイメージ30]
 
 
 
 コアの自動構成が有効になっている場合は、コア情報がライセンス管理サーバから自動的に取得されます。
 
-image:hcvdivds_image31.png[""]
+image::hcvdivds_image31.png[hcvdivdsイメージ31]
 
 任意のクライアントマシンから、ファイルサーバ上の共有にアクセスするために使用した管理者は、 UNC パス \\<edge サーバ名 >\FASTDATA\<core サーバ名 >\< バックエンドファイルサーバ名 >\< 共有名 >` を使用して GFC エッジからアクセスできます。管理者は、このパスをエッジロケーションのユーザードライブマッピング用のユーザーログオンスクリプトまたは GPO に含めることができます。
 
 管理者は、世界中のユーザーに透過的なアクセスを提供するために、ファイルサーバーの共有とエッジの場所を指すリンクを使用して、 Microsoft Distributed Filesystem (DFS) を設定できます。
 
-image:hcvdivds_image32.png[""]
+image::hcvdivds_image32.png[hcvdivdsイメージ32]
 
 ユーザがサイトに関連付けられたサブネットに基づいて Active Directory クレデンシャルでログインすると、 DFS クライアントがデータにアクセスするために適切なリンクが使用されます。
 
-image:hcvdivds_image33.png[""]
+image::hcvdivds_image33.png[hcvdivdsイメージ33]
 
 ファイルアイコンは、ファイルがキャッシュされているかどうかに応じて変化します。キャッシュされていないファイルの場合は、アイコンの左下隅にグレーの X が表示されます。エッジの場所にいるユーザーがファイルにアクセスすると、そのファイルがキャッシュされ、アイコンが変化します。
 
-image:hcvdivds_image34.png[""]
+image::hcvdivds_image34.png[hcvdivdsイメージ34]
 
 ファイルが開いているときに、別のユーザーがエッジの場所から同じファイルを開こうとすると、次の選択を求めるプロンプトが表示されます。
 
-image:hcvdivds_image35.png[""]
+image::hcvdivds_image35.png[hcvdivdsイメージ35]
 
 ユーザが元のコピーが使用可能になったときに通知を受け取るオプションを選択した場合、ユーザには次のように通知されます。
 
-image:hcvdivds_image36.png[""]
+image::hcvdivds_image36.png[hcvdivdsイメージ36]
 
 詳細については、を参照してください https://www.youtube.com/watch?v=91LKb1qsLIM["Talon と Azure NetApp Files の導入に関するビデオ"^]。
 
@@ -87,7 +87,7 @@ image:hcvdivds_image36.png[""]
 
 NetApp VDS は、 Exchange 、 SharePoint 、 Microsoft OneDrive など、 Salesforce と Microsoft Office 365 のデータ保護を提供します。次の図は、これらのデータサービス用に NetApp VDS で SaaS Backup を提供する方法を示しています。
 
-image:hcvdivds_image14.png[""]
+image::hcvdivds_image14.png[hcvdivdsイメージ14]
 
 Microsoft Office 365 のデータ保護のデモについては、を参照してください https://www.youtube.com/watch?v=MRPBSu8RaC0&ab_channel=NetApp["このビデオでは"^]。
 

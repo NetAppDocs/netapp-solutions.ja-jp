@@ -199,7 +199,7 @@ VMwareとONTAP を使用してオンプレミスでDR解決策 を構築し、AW
 ====
 VMware仮想環境には、次の図に示すように、ESXiホスト、VMware vCenter Server、NSXネットワーク、およびその他のコンポーネントのライセンスが含まれます。いずれのライセンス方法も異なるため、基盤となるコンポーネントが使用可能なライセンス容量をどのように消費するかを理解しておくことが重要です。
 
-image:dr-vmc-aws-image2.png[""]
+image::dr-vmc-aws-image2.png[DR VMC AWSイメージ2]
 
 .ESXiホスト
 [%collapsible]
@@ -493,7 +493,7 @@ NOTE: IPSec VPNトンネルがデフォルトゲートウェイ上に作成さ�
 
 次の図に、一般的なVPN接続オプションを示します。
 
-image:dr-vmc-aws-image3.png[""]
+image::dr-vmc-aws-image3.png[DR VMC AWSイメージ3]
 
 =====
 .Direct Connect（直接接続）
@@ -505,7 +505,7 @@ Direct ConnectはAWSネットワークへの専用リンクを提供します。
 
 次の図は、Direct Connectインターフェイスオプションを示しています。
 
-image:dr-vmc-aws-image4.png[""]
+image::dr-vmc-aws-image4.png[DR VMC AWSイメージ4]
 
 =====
 .トランジットゲートウェイ
@@ -529,7 +529,7 @@ VMware Cloud SDDCは、単一のアベイラビリティゾーンに導入でき
 
 データ転送コストを最小限に抑えるには、VMware Cloud SDDCとAWSのインスタンスまたはサービスを同じアベイラビリティゾーンに配置します。AWSでは、アカウントに固有のAZオーダーリストを用意して複数のアベイラビリティゾーンに負荷を分散するため、名前ではなくアベイラビリティゾーンIDと照合することを推奨します。たとえば、あるアカウント（US-East-1a）がAZ ID 1を指しているのに対し、別のアカウント（US-East-1c）がAZ ID 1を指している場合があります。アベイラビリティゾーンIDはいくつかの方法で取得できます。次の例は、VPCサブネットからAZ IDを取得します。
 
-image:dr-vmc-aws-image5.png[""]
+image::dr-vmc-aws-image5.png[DR VMC AWSイメージ5]
 
 VMware Cloud SDDCでは、ネットワークはNSXで管理され、南北トラフィックのアップリンクポートを処理するエッジゲートウェイ（Tier-0ルータ）はAWS VPCに接続されます。コンピュートゲートウェイと管理ゲートウェイ（ティア1ルータ）は、イーストウェストトラフィックを処理します。エッジのアップリンクポートが頻繁に使用されるようになった場合は、トラフィックグループを作成して特定のホストIPまたはサブネットに関連付けることができます。トラフィックグループを作成すると、トラフィックを分離するためのエッジノードが追加で作成されます。を確認します https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-networking-security/GUID-306D3EDC-F94E-4216-B306-413905A4A784.html["VMware のドキュメント"^] マルチエッジセットアップを使用するために必要なvSphereホストの最小数。
 
@@ -540,7 +540,7 @@ VMware Cloud SDDCをプロビジョニングすると、VMkernelポートが設�
 
 次の図は、ホストVMkernel情報の例を示しています。
 
-image:dr-vmc-aws-image6.png[""]
+image::dr-vmc-aws-image6.png[DR VMC AWSイメージ6]
 
 =====
 .ストレージネットワークのプロビジョニング（iSCSI、NFS）
@@ -573,7 +573,7 @@ NetApp AFF Aシリーズシステムは、柔軟なデータ管理オプショ�
 
 次の図は、VMwareストレージオプションを示しています。
 
-image:dr-vmc-aws-image7.png[""]
+image::dr-vmc-aws-image7.png[DR VMC AWSイメージ7]
 
 アプリケーションVM用に、iSCSIゲスト接続ストレージとNFSゲスト接続ストレージの両方にONTAP ボリュームを使用しました。アプリケーションデータには次のストレージプロトコルを使用しました。
 
@@ -622,7 +622,7 @@ FSX ONTAP を導入したら、オンプレミスのONTAP インスタンスをF
 
 次の図は、FSX ONTAP 環境を示しています。
 
-image:dr-vmc-aws-image8.png[""]
+image::dr-vmc-aws-image8.png[DR VMC AWSイメージ8]
 
 =====
 .ネットワークインタフェースが作成されました
@@ -657,7 +657,7 @@ VMware vSphereは、データセンターと主要なすべてのクラウドプ
 ====
 当社では、プライマリサイトからリストアされた仮想マシンを実行するための十分なリソースを提供するために、2台のホストを持つVMware Cloud on AWSにSDDCを導入しました。
 
-image:dr-vmc-aws-image9.png[""]
+image::dr-vmc-aws-image9.png[DR VMCのAWSイメージ9]
 
 ====
 

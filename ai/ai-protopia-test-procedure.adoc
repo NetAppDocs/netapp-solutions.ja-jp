@@ -77,29 +77,29 @@ To access workspace, navigate to http://192.168.0.152:32721
 ....
 . 「create jupyterlab」コマンドの出力で指定したURLを使用して、JupyterLabワークスペースにアクセスします。データディレクトリは、ワークスペースにマウントされた永続ボリュームを表します。
 +
-image:ai-protopia-image3.png[""]
+image::ai-protopia-image3.png[AIプロトピア画像3]
 
 . 「data」ディレクトリを開き、推論を実行するファイルをアップロードします。ファイルがデータディレクトリにアップロードされると、ワークスペースにマウントされた永続ボリュームに自動的に保存されます。ファイルをアップロードするには、次の図に示すように、[ファイルのアップロード]アイコンをクリックします。
 +
-image:ai-protopia-image4.png[""]
+image::ai-protopia-image4.png[AIプロトピア画像4]
 
 . トップレベルのディレクトリに戻り、新しいノートブックを作成します。
 +
-image:ai-protopia-image5.png[""]
+image::ai-protopia-image5.png[AIプロトピア画像5]
 
 . ノートブックに推論コードを追加します。次の例は、イメージ検出のユースケースの推論コードを示しています。
 +
-image:ai-protopia-image6.png[""]
+image::ai-protopia-image6.png[AIプロトピアの画像6]
 
 +
-image:ai-protopia-image7.png[""]
+image::ai-protopia-image7.png[AIプロトピアの画像7]
 
 . 推測コードにProtopia難読化を追加します。Protopiaは、お客様と直接協力してユースケースに固有のドキュメントを提供しますが、本書では取り上げません。次の例は、Protopia難読化を追加した場合のイメージ検出の推論コードを示しています。
 +
-image:ai-protopia-image8.png[""]
+image::ai-protopia-image8.png[AIプロトピアの画像8]
 
 +
-image:ai-protopia-image9.png[""]
+image::ai-protopia-image9.png[AIプロトピアの画像9]
 
 
 
@@ -147,7 +147,7 @@ spec:
           medium: Memory
       containers:
       - name: inference
-        image: netapp-protopia-inference:latest
+        image:: netapp-protopia-inference:latest
         imagePullPolicy: IfNotPresent
         command: ["python3", "run-accuracy-measurement.py", "--dataset", "/data/netapp-face-detection/FDDB"]
         resources:
@@ -209,7 +209,7 @@ spec:
           medium: Memory
       containers:
       - name: inference
-        image: netapp-protopia-inference:latest
+        image:: netapp-protopia-inference:latest
         imagePullPolicy: IfNotPresent
         env:
         - name: ALPHA

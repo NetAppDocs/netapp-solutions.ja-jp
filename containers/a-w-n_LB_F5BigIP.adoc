@@ -58,29 +58,29 @@ NOTE: アプライアンスをダウンロードするには、 F5 に登録す�
 
 . インフラストラクチャリソースプールを右クリックし、[Deploy OVF Template]を選択します。手順 1 でダウンロードした OVA ファイルを選択するためのウィザードが起動します。次へをクリックします。
 +
-image:deploy-big_ip_1.PNG["Big IP Appliance を導入します"]
+image::deploy-big_ip_1.PNG[Big IP Appliance を導入します]
 
 . [ 次へ ] をクリックして各手順を続行し、ストレージ選択画面に達するまで表示される各画面のデフォルト値を受け入れます。仮想マシンを導入するVM_Datastoreを選択し、Nextをクリックします。
 . ウィザードの次の画面では、環境で使用する仮想ネットワークをカスタマイズできます。[External] フィールドに VM_Network を選択し、 [Management] フィールドに [Management_Network] を選択します。内部および HA は、 F5 BIG-IP アプライアンスの高度な設定に使用され、設定されていません。これらのパラメータは単独で使用することも、インフラストラクチャ以外の分散ポートグループに接続するように設定することもできます。次へをクリックします。
 +
-image:deploy-big_ip_2.PNG["Big _IP Appliance 、パート 2 を展開します"]
+image::deploy-big_ip_2.PNG[Big _IP Applianceを導入します]
 
 . アプライアンスの概要画面を確認し、すべての情報が正しい場合は、 Finish をクリックして展開を開始します。
 . 仮想アプライアンスを導入したら、右クリックして電源をオンにします。管理ネットワークで DHCP アドレスが割り当てられている必要があります。アプライアンスはLinuxベースで、VMware Toolsが導入されているため、vSphereクライアントで受信したDHCPアドレスを表示できます。
 +
-image:deploy-big_ip_3.PNG["ビッグ IP アプライアンスの導入（第 3 部"]
+image::deploy-big_ip_3.PNG[Big IP Appliance を導入します]
 
 . Web ブラウザを開き、前の手順で確認した IP アドレスでアプライアンスに接続します。デフォルトのログインは admin/admin で、初回ログイン後はすぐに admin パスワードを変更するように要求されます。新しいクレデンシャルでログインする必要がある画面に戻ります。
 +
-image:big-IP_config_1.PNG["BIG-IP 設定"]
+image::big-IP_config_1.PNG[BIG-IP 設定]
 
 . 最初の画面で、セットアップユーティリティを完了するように指示されます。[ 次へ ] をクリックして ' ユーティリティを開始します
 +
-image:big-IP_config_2.PNG["BIG-IP Configuration 、パート 2"]
+image::big-IP_config_2.PNG[BIG-IP 設定]
 
 . 次の画面では、アプライアンスのライセンスを有効にするよう求められます。Activate をクリックして開始します。次のページでメッセージが表示されたら、ダウンロード用に登録したときに受け取った 30 日間の評価ライセンスキーか、アプライアンスの購入時に取得した永久ライセンスのいずれかを貼り付けます。次へをクリックします。
 +
-image:big-IP_config_3.PNG["BIG-IP Configuration 、パート 3"]
+image::big-IP_config_3.PNG[BIG-IP 設定]
 
 +
 
@@ -89,7 +89,7 @@ NOTE: デバイスがアクティベーションを実行するには、管理�
 . 次の画面では、エンドユーザライセンス契約（ EULA ）が表示されます。ライセンスの条件に同意する場合は、 [ 同意する ] をクリックします。
 . 次の画面では、これまでに行われた設定変更を確認するまでの経過時間がカウントされます。Continue （続行）をクリックして、初期設定を再開します。
 +
-image:big-IP_config_4.PNG["BIG-IP Configuration 、パート 4"]
+image::big-IP_config_4.PNG[BIG-IP 設定]
 
 . 設定変更ウィンドウが閉じ、セットアップユーティリティにリソースプロビジョニングメニューが表示されます。このウィンドウには、現在ライセンスされている機能、および仮想アプライアンスと各実行サービスの現在のリソース割り当てが表示されます。
 +
@@ -97,15 +97,15 @@ image::big-IP_config_5.png[BIG-IP 設定]
 
 . 左側の [ プラットフォーム（ Platform ） ] メニューオプションをクリックすると、プラットフォームをさらに変更できます。変更内容には、 DHCP を使用して設定された管理 IP アドレスの設定、アプライアンスをインストールするホスト名とタイムゾーンの設定、 SSH からのアクセスの保護などがあります。
 +
-image:big-IP_config_6.PNG["BIG-IP Configuration 、パート 6"]
+image::big-IP_config_6.PNG[BIG-IP 設定]
 
 . 次に、標準ネットワーク機能を設定できる [ ネットワーク ] メニューをクリックします。[ 次へ ] をクリックして、標準ネットワーク構成ウィザードを開始します。
 +
-image:big-IP_config_7.PNG["BIG-IP Configuration 、パート 7"]
+image::big-IP_config_7.PNG[BIG-IP 設定]
 
 . ウィザードの最初のページでは冗長性が設定されます。デフォルトのままで Next （次へ）をクリックします。次のページでは、ロードバランサに内部インターフェイスを設定できます。インターフェイス1.1は、OVF DeploymentウィザードでInternalというラベルの付いたVMNICにマッピングされます。
 +
-image:big-IP_config_8.PNG["BIG-IP Configuration 、パート 8"]
+image::big-IP_config_8.PNG[BIG-IP 設定]
 
 +
 
@@ -113,21 +113,21 @@ NOTE: このページの「自己IPアドレス」、「ネットマスク」、
 
 . 次のページでは、 Kubernetes で導入されたポッドにサービスをマッピングするために使用する外部ネットワークを設定できます。VM_Network の範囲内の静的 IP 、適切なサブネットマスク、および同じ範囲のフローティング IP を選択します。インターフェイス1.2は、OVF導入ウィザードでExternalというラベルのVMNICにマッピングされます。
 +
-image:big-IP_config_9.PNG["BIG-IP Configuration 、パート 9"]
+image::big-IP_config_9.PNG[BIG-IP 設定]
 
 . 環境に複数の仮想アプライアンスを導入する場合は、次のページで内部 HA ネットワークを設定できます。続行するには、 Self-IP Address フィールドと Netmask フィールドに値を入力し、 VLAN インターフェイスとしてインターフェイス 1.3 を選択し、 OVF テンプレートウィザードで定義された HA ネットワークにマッピングする必要があります。
 +
-image:big-IP_config_10.png["BIG-IP Configuration 、パート 10"]
+image::big-IP_config_10.png[BIG-IP 設定]
 
 . 次のページでは、 NTP サーバを設定できます。次へをクリックして、 DNS セットアップに進みます。DNS サーバとドメインの検索リストは、 DHCP サーバによってすでに入力されている必要があります。[ 次へ ] をクリックしてデフォルトを受け入れ、続行します。
 . ウィザードの残りの部分については、 [Next] をクリックして、詳細なピアリング設定を行います。この設定は、このマニュアルでは説明していません。完了をクリックしてウィザードを終了します。
 . Anthos 管理クラスタと環境内に導入されているユーザクラスタごとに、個別のパーティションを作成します。左側のメニューで [ システム ] をクリックし、 [ ユーザー ] に移動して、 [ パーティションリスト ] をクリックします。
 +
-image:big-IP_config_11.PNG["BIG-IP Configuration 、パート 11"]
+image::big-IP_config_11.PNG[BIG-IP 設定]
 
 . 表示される画面には、現在の共通パーティションのみが表示されます。右側の[作成]をクリックして最初の追加パーティションを作成し、「GKE-ADMIN」という名前を付けます。[繰り返し]をクリックし'パーティションにUser-Cluster-1という名前を付けます[繰り返し]ボタンをもう一度クリックして'次のパーティションにUser-Cluster-2'という名前を付けます最後に、 [ 終了 ] をクリックしてウィザードを完了します。パーティションリスト画面が表示され、すべてのパーティションが表示されます。
 +
-image:big-IP_config_12.PNG["BIG-IP Configuration 、パート 12"]
+image::big-IP_config_12.PNG[BIG-IP 設定]
 
 
 

@@ -143,7 +143,7 @@ video::4b0fd212-7641-46b8-9e55-b01200f9383a[panopto]
 . リンクを使用してください link:https://console.bluexp.netapp.com/["NetApp BlueXP"] をクリックして、BlueXPコンソールにアクセスしてください。
 . AWSアカウントにログインして適切な権限を持つIAMポリシーを作成し、BlueXP Connectorの導入に使用するAWSアカウントにポリシーを割り当てます。
 +
-image:snapctr_svcs_connector_01-policy.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_connector_01-policy.png[GUIでのこの手順を示すスクリーンショット。]
 
 +
 ポリシーは、NetAppのドキュメントに記載されているJSON文字列で設定する必要があります。JSON文字列は、コネクタのプロビジョニングが起動され、前提条件の権限の割り当てを求めるプロンプトが表示されたときにページから取得することもできます。
@@ -160,44 +160,44 @@ image:snapctr_svcs_connector_01-policy.png["GUIでのこの手順を示すスク
 ====
 . BlueXPコンソールにログインします。共有アカウントの場合は、*[アカウント]*>*[アカウントの管理]*>*[ワークスペース]*をクリックして新しいワークスペースを追加し、個 々 のワークスペースを作成することをお勧めします。
 +
-image:snapctr_svcs_connector_02-wspace.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_connector_02-wspace.png[GUIでのこの手順を示すスクリーンショット。]
 
 . [コネクタの追加]*をクリックして、コネクタプロビジョニングワークフローを開始します。
 
 
-image:snapctr_svcs_connector_03-add.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_connector_03-add.png[GUIでのこの手順を示すスクリーンショット。]
 
 . クラウドプロバイダを選択します（この場合は* Amazon Web Services *）。
 
 
-image:snapctr_svcs_connector_04-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_connector_04-aws.png[GUIでのこの手順を示すスクリーンショット。]
 
 . AWSアカウントですでに設定されている場合は、* Permission *、* Authentication *、* Networking *の各手順はスキップしてください。設定されていない場合は、先に進む前に設定する必要があります。ここから、前のセクションで参照しているAWSポリシーの権限を取得することもできます。<<BlueXPへのオンボーディング>>. 」
 
 
-image:snapctr_svcs_connector_05-remind.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_connector_05-remind.png[GUIでのこの手順を示すスクリーンショット。]
 
 . [Access Key]*と[Secret Key]*を使用してAWSアカウント認証を入力します。
 +
-image:snapctr_svcs_connector_06-auth.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_connector_06-auth.png[GUIでのこの手順を示すスクリーンショット。]
 
 . コネクタインスタンスに名前を付け、* Details *で* Create Role *を選択します。
 
 
-image:snapctr_svcs_connector_07-details.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_connector_07-details.png[GUIでのこの手順を示すスクリーンショット。]
 
 . コネクタアクセス用の適切な* VPC *、*サブネット*、およびSSH *キーペア*を使用してネットワークを設定します。
 +
-image:snapctr_svcs_connector_08-network.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_connector_08-network.png[GUIでのこの手順を示すスクリーンショット。]
 
 . コネクタの*セキュリティグループ*を設定します。
 +
-image:snapctr_svcs_connector_09-security.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_connector_09-security.png[GUIでのこの手順を示すスクリーンショット。]
 
 . 概要ページを確認し、*追加*をクリックしてコネクターの作成を開始します。通常、導入が完了するまでに約10分かかります。完了すると、コネクタインスタンスがAWS EC2ダッシュボードに表示されます。
 
 
-image:snapctr_svcs_connector_10-review.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_connector_10-review.png[GUIでのこの手順を示すスクリーンショット。]
 
 ====
 
@@ -208,34 +208,33 @@ image:snapctr_svcs_connector_10-review.png["GUIでのこの手順を示すスク
 ====
 . まず、AWS EC2コンソールから* Identity and Access Management（IAM）*メニュー* Roles *、* Create role *でロールを作成し、ロール作成ワークフローを開始します。
 +
-image:snapctr_svcs_credential_01-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_credential_01-aws.png[GUIでのこの手順を示すスクリーンショット。]
 
 . [Select trusted entity]*ページで、*[AWS account]*、*[Another AWS account]*を選択し、BlueXPアカウントIDを貼り付けます。このIDはBlueXPコンソールから取得できます。
 +
-image:snapctr_svcs_credential_02-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_credential_02-aws.png[GUIでのこの手順を示すスクリーンショット。]
 
 . FSxで権限ポリシーをフィルタリングし、*権限ポリシー*をロールに追加します。
 +
-image:snapctr_svcs_credential_03-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_credential_03-aws.png[GUIでのこの手順を示すスクリーンショット。]
 
 . [ロールの詳細]ページで、ロールに名前を付けて概要を追加し、*[ロールの作成]*をクリックします。
 +
-image:snapctr_svcs_credential_04-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_credential_04-aws.png[GUIでのこの手順を示すスクリーンショット。]
 
 . BlueXPコンソールに戻り、コンソールの右上にある[設定]アイコンをクリックして*[アカウントのクレデンシャル]*ページを開き、*[クレデンシャルの追加]*をクリックしてクレデンシャルの設定ワークフローを開始します。
 +
-image:snapctr_svcs_credential_05-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_credential_05-aws.png[GUIでのこの手順を示すスクリーンショット。]
 
 . クレデンシャルの場所として「* Amazon Web Services - BlueXP *」を選択します。
 +
-image:snapctr_svcs_credential_06-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_credential_06-aws.png[GUIでのこの手順を示すスクリーンショット。]
 
 . 適切な* Role ARN *を使用してAWSクレデンシャルを定義します。これは、上記の手順1で作成したAWS IAMロールから取得できます。BlueXP *アカウントID *。手順1でAWS IAMロールを作成するために使用します。
 +
-image:snapctr_svcs_credential_07-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_credential_07-aws.png[GUIでのこの手順を示すスクリーンショット。]
 
-. 確認して*[追加]*をクリックします。
-image:snapctr_svcs_credential_08-aws.png["GUIでのこの手順を示すスクリーンショット。"]
+. 確認して*[追加]*をクリックします。 image：：snapctr_svcs_credential_08-aws.png ["GUIでこの手順を示すスクリーンショット"]
 
 
 ====
@@ -250,72 +249,72 @@ image:snapctr_svcs_credential_08-aws.png["GUIでのこの手順を示すスク�
 . [My Working Environment]*から*[Add Working Environment]*をクリックして、AWSに導入されているFSxを検出します。
 
 
-image:snapctr_svcs_setup_01.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_setup_01.png[GUIでのこの手順を示すスクリーンショット。]
 
 . 場所として* Amazon Web Services *を選択します。
 
 
-image:snapctr_svcs_setup_02.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_setup_02.png[GUIでのこの手順を示すスクリーンショット。]
 
 . [Amazon FSx for ONTAP *]の横にある*[Discover existing]*をクリックします。
 
 
-image:snapctr_svcs_setup_03.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_setup_03.png[GUIでのこの手順を示すスクリーンショット。]
 
 . 前のセクションで作成した*[クレデンシャル名]*を選択して、FSx for ONTAPの管理に必要な権限をBlueXPに付与します。クレデンシャルを追加していない場合は、BlueXPコンソールの右上にある*[設定]*メニューから追加できます。
 +
-image:snapctr_svcs_setup_04.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_setup_04.png[GUIでのこの手順を示すスクリーンショット。]
 
 . Amazon FSx for ONTAP が導入されているAWSリージョンを選択し、OracleデータベースをホストしているFSxクラスタを選択して、[追加]をクリックします。
 
 
-image:snapctr_svcs_setup_05.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_setup_05.png[GUIでのこの手順を示すスクリーンショット。]
 
 . 検出されたAmazon FSx for ONTAP インスタンスが作業環境に表示されるようになりました。
 
 
-image:snapctr_svcs_setup_06.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_setup_06.png[GUIでのこの手順を示すスクリーンショット。]
 
 . fsxadminアカウントのクレデンシャルを使用してFSxクラスタにログインできます。
 
 
-image:snapctr_svcs_setup_07.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_setup_07.png[GUIでのこの手順を示すスクリーンショット。]
 
 . Amazon FSx for ONTAP にログインしたら、データベースストレージの情報（データベースボリュームなど）を確認します。
 
 
-image:snapctr_svcs_setup_08.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_setup_08.png[GUIでのこの手順を示すスクリーンショット。]
 
 . コンソールの左側のサイドバーで、保護アイコンの上にマウスを置き、*[保護]*>*[アプリケーション]*をクリックして、[アプリケーション]の起動ページを開きます。[*アプリケーションの検出*]をクリックします。
 
 
-image:snapctr_svcs_setup_09.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_setup_09.png[GUIでのこの手順を示すスクリーンショット。]
 
 . アプリケーションのソースタイプとして* Cloud Native *を選択します。
 
 
-image:snapctr_svcs_setup_10.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_setup_10.png[GUIでのこの手順を示すスクリーンショット。]
 
 . アプリケーションタイプとして* Oracle *を選択します。
 
 
-image:snapctr_svcs_setup_13.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_setup_13.png[GUIでのこの手順を示すスクリーンショット。]
 
 . AWS EC2 Oracleアプリケーションホストの詳細を入力します。プラグインのインストールとデータベース検出をワンステップで実行するには、*[Host Installation Type]*として[Using SSH]*を選択します。次に、*[Add SSH Private Key]*をクリックします。
 +
-image:snapctr_svcs_setup_14.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_setup_14.png[GUIでのこの手順を示すスクリーンショット。]
 
 . データベースEC2ホストのEC2ユーザSSHキーを貼り付け、*[検証]*をクリックして続行します。
 +
-image:snapctr_svcs_setup_14-1.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_setup_14-1.png[GUIでのこの手順を示すスクリーンショット。]
 
 . 続行するには*指紋の検証*を求めるプロンプトが表示されます。
 +
-image:snapctr_svcs_setup_14-2.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_setup_14-2.png[GUIでのこの手順を示すスクリーンショット。]
 
 . [次へ]*をクリックしてOracleデータベースプラグインをインストールし、EC2ホスト上のOracleデータベースを検出します。検出されたデータベースは*アプリケーション*に追加されます。最初に検出されたデータベース* Protection Status *には* Unprotected *と表示されます。
 +
-image:snapctr_svcs_setup_17.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_setup_17.png[GUIでのこの手順を示すスクリーンショット。]
 
 
 
@@ -331,37 +330,37 @@ image:snapctr_svcs_setup_17.png["GUIでのこの手順を示すスクリーン�
 . データベース*[保護ステータス]*の横にある3つの点をクリックし、*[ポリシー]*をクリックして、プリロードされたデフォルトのデータベース保護ポリシーを表示します。このポリシーは、Oracleデータベースの保護に適用できます。
 
 
-image:snapctr_svcs_bkup_01.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_bkup_01.png[GUIでのこの手順を示すスクリーンショット。]
 
 . また、カスタマイズしたバックアップ頻度とバックアップデータ保持期間を使用して独自のポリシーを作成することもできます。
 
 
-image:snapctr_svcs_bkup_02.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_bkup_02.png[GUIでのこの手順を示すスクリーンショット。]
 
 . ポリシーの設定に問題がなければ、データベースを保護するために任意のポリシーを割り当てることができます。
 
 
-image:snapctr_svcs_bkup_03.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_bkup_03.png[GUIでのこの手順を示すスクリーンショット。]
 
 . データベースに割り当てるポリシーを選択します。
 
 
-image:snapctr_svcs_bkup_04.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_bkup_04.png[GUIでのこの手順を示すスクリーンショット。]
 
 . ポリシーが適用されると、データベースの保護ステータスが* Protected *に変わり、緑のチェックマークが表示されます。
 
 
-image:snapctr_svcs_bkup_05.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_bkup_05.png[GUIでのこの手順を示すスクリーンショット。]
 
 . データベースバックアップは、事前に定義されたスケジュールで実行されます。次に示すように、1回限りのオンデマンドバックアップを実行することもできます。
 
 
-image:snapctr_svcs_bkup_06.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_bkup_06.png[GUIでのこの手順を示すスクリーンショット。]
 
 . データベースバックアップの詳細を表示するには、メニューリストの*[詳細を表示]*をクリックします。これには、バックアップ名、バックアップタイプ、SCN、およびバックアップ日付が含まれます。バックアップセットには、データボリュームとログボリュームの両方のSnapshotが含まれます。ログボリュームのSnapshotは、データベースボリュームのSnapshotの直後に作成されます。長いリストで特定のバックアップを探している場合は、フィルタを適用できます。
 
 
-image:snapctr_svcs_bkup_07.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_bkup_07.png[GUIでのこの手順を示すスクリーンショット。]
 
 ====
 
@@ -373,24 +372,24 @@ image:snapctr_svcs_bkup_07.png["GUIでのこの手順を示すスクリーンシ
 . データベースをリストアする場合は、SCNまたはバックアップ時間で適切なバックアップを選択します。データベースデータバックアップの3つの点をクリックし、*[リストア]*をクリックしてデータベースのリストアとリカバリを開始します。
 
 
-image:snapctr_svcs_restore_01.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_restore_01.png[GUIでのこの手順を示すスクリーンショット。]
 
 . リストア設定を選択します。バックアップ後に物理データベース構造に何も変更がないことが確実な場合（データファイルやディスクグループの追加など）、* Force in place restore *オプションを使用できます。これは一般的に高速です。それ以外の場合は、このボックスをオンにしないでください。
 
 
-image:snapctr_svcs_restore_02.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_restore_02.png[GUIでのこの手順を示すスクリーンショット。]
 
 . データベースのリストアとリカバリを確認して開始します。
 
 
-image:snapctr_svcs_restore_03.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_restore_03.png[GUIでのこの手順を示すスクリーンショット。]
 
 . [ジョブ監視]*タブでは、リストアジョブのステータスと実行中の詳細を確認できます。
 
 
-image:snapctr_svcs_restore_05.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_restore_05.png[GUIでのこの手順を示すスクリーンショット。]
 
-image:snapctr_svcs_restore_04.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_restore_04.png[GUIでのこの手順を示すスクリーンショット。]
 
 ====
 
@@ -404,34 +403,34 @@ image:snapctr_svcs_restore_04.png["GUIでのこの手順を示すスクリーン
 . 適切なデータベースバックアップコピーを選択し、3つの点をクリックしてメニューを表示し、*[クローン]*オプションを選択します。
 
 
-image:snapctr_svcs_clone_02.png[""]
+image::snapctr_svcs_clone_02.png[snapctr svcsクローン02]
 
 . クローンデータベースのパラメータを変更する必要がない場合は、* Basic *オプションを選択します。
 
 
-image:snapctr_svcs_clone_03.png[""]
+image::snapctr_svcs_clone_03.png[snapctr svcsクローン03]
 
 . または、* Specification file *を選択します。これにより、現在のinitファイルをダウンロードして変更を加え、ジョブにアップロードするオプションが表示されます。
 
 
-image:snapctr_svcs_clone_03_1.png[""]
+image::snapctr_svcs_clone_03_1.png[snapctr svcsクローン03 1]
 
 . ジョブを確認して起動します。
 
 
-image:snapctr_svcs_clone_04.png[""]
+image::snapctr_svcs_clone_04.png[snapctr svcsクローン04]
 
 . [ジョブ監視]タブでクローニングジョブのステータスを監視します。
 
 
-image:snapctr_svcs_clone_07-status.png[""]
+image::snapctr_svcs_clone_07-status.png[snapctr svcs clone 07 status]
 
 . EC2インスタンスホストでクローンデータベースを検証します。
 
 
-image:snapctr_svcs_clone_08-crs.png[""]
+image::snapctr_svcs_clone_08-crs.png[snapctr svcs clone 08 crs]
 
-image:snapctr_svcs_clone_08-db.png[""]
+image::snapctr_svcs_clone_08-db.png[snapctr svcsクローン08 db]
 
 ====
 

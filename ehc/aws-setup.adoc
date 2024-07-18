@@ -58,18 +58,24 @@ VMware アカウントを設定して適切なサイジングを実行したら�
 
 . 既存または新規に作成した VMware クレデンシャルを使用して、 VMware Cloud Console にログインします。
 +
-image:aws-config-1.png[""]
+image::aws-config-1.png[AWS構成1]
 
 . AWS のリージョン、導入環境、およびホストタイプと SDDC 名を設定します。
 +
-image:aws-config-2.png[""]
+image::aws-config-2.png[AWS構成2]
 
 . 目的の AWS アカウントに接続し、 AWS クラウド形成スタックを実行します。
 +
-image:aws-config-3.png[""]
-image:aws-config-4.png[""]
-image:aws-config-5.png[""]
-image:aws-config-6.png[""]
+image::aws-config-3.png[AWS構成3]
+
++
+image::aws-config-4.png[AWS構成4]
+
++
+image::aws-config-5.png[AWS構成5]
+
++
+image::aws-config-6.png[AWS構成6]
 
 +
 
@@ -77,25 +83,25 @@ NOTE: この検証ではシングルホスト構成を使用します。
 
 . VMC 環境を接続する AWS VPC を選択します。
 +
-image:aws-config-7.png[""]
+image::aws-config-7.png[AWS構成7]
 
 . VMC 管理サブネットを構成します。このサブネットには、 vCenter や NSX などの VMC 管理サービスが含まれます。SDDC 環境への接続が必要な他のネットワークと重複するアドレス空間を選択しないでください。最後に、以下に示す CIDR サイズの推奨事項に従います。
 +
-image:aws-config-8.png[""]
+image::aws-config-8.png[AWS構成8]
 
 . SDDC 構成を確認して承認し、 [Deploy the SDDC] をクリックします。
 +
-image:aws-config-9.png[""]
+image::aws-config-9.png[AWS構成9]
 
 +
 導入プロセスの完了には、通常約 2 時間かかります。
 
 +
-image:aws-config-10.png[""]
+image::aws-config-10.png[AWS構成10]
 
 . 完了すると、 SDDC を使用できるようになります。
 +
-image:aws-config-11.png[""]
+image::aws-config-11.png[AWS構成11]
 
 
 
@@ -110,34 +116,42 @@ VMware Cloud を FSX ONTAP に接続するには、次の手順を実行しま�
 
 . VMware Cloud の導入が完了して AWS VPC に接続されているため、 Amazon FSX for NetApp ONTAP を、元の接続済み VPC ではなく新しい VPC に導入する必要があります（以下のスクリーンショットを参照）。接続された VPC に FSX （ NFS および SMB のフローティング IP ）が導入されている場合、これらの IP にはアクセスできません。Cloud Volumes ONTAP のような iSCSI エンドポイントは、接続された VPC からは正常に機能します。
 +
-image:aws-connect-fsx-1.png[""]
+image::aws-connect-fsx-1.png[AWSコネクトFSx 1]
 
 . 同じリージョンに別の VPC を導入し、その新しい VPC に Amazon FSX for NetApp ONTAP を導入します。
 +
 VMware Cloud コンソールで SDDC グループを構成すると、 FSX が導入された新しい VPC に接続するために必要なネットワーク設定オプションが有効になります。手順 3 で、「グループ用の VMware トランジット接続の構成に添付ファイルおよびデータ転送ごとの料金が発生する」がチェックされていることを確認し、「グループの作成」を選択します。このプロセスが完了するまでに数分かかることがあります。
 
 +
-image:aws-connect-fsx-2.png[""]
-image:aws-connect-fsx-3.png[""]
-image:aws-connect-fsx-4.png[""]
+image::aws-connect-fsx-2.png[AWSコネクトFSx 2]
+
++
+image::aws-connect-fsx-3.png[AWSコネクトFSx 3]
+
++
+image::aws-connect-fsx-4.png[AWSコネクトFSx 4]
 
 . 新しく作成した VPC を作成した SDDC グループに接続します。[External VPC （外部 VPC ） ] タブを選択し、に従います link:https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-A3D03968-350E-4A34-A53E-C0097F5F26A9.html["外部 VPC を接続する手順"] をグループに追加します。このプロセスが完了するまでに 10~15 分かかることがあります。
 +
-image:aws-connect-fsx-5.png[""]
-image:aws-connect-fsx-6.png[""]
+image::aws-connect-fsx-5.png[AWSコネクトFSx 5]
+
++
+image::aws-connect-fsx-6.png[AWSコネクトFSx 6]
 
 . 外部 VPC プロセスの一環として、 AWS コンソールから Resource Access Manager を使用して新しい共有リソースにアクセスするように求められます。共有リソースはです link:https://aws.amazon.com/transit-gateway["AWS 転送ゲートウェイ"] VMware Transit Connect によって管理されます。
 +
-image:aws-connect-fsx-7.png[""]
-image:aws-connect-fsx-8.png[""]
+image::aws-connect-fsx-7.png[AWSコネクトFSx 7]
+
++
+image::aws-connect-fsx-8.png[AWSコネクトFSx 8]
 
 . トランジットゲートウェイ添付ファイルを作成します。
 +
-image:aws-connect-fsx-9.png[""]
+image::aws-connect-fsx-9.png[AWSコネクトFSx 9]
 
 . VMC コンソールに戻り、 VPC 接続を受け入れます。この処理が完了するまでに約 10 分かかることがあります。
 +
-image:aws-connect-fsx-10.png[""]
+image::aws-connect-fsx-10.png[AWSコネクトFSx 10]
 
 . [External VPC （外部 VPC ） ] タブで、 [Routes] 列の編集アイコンをクリックし、次の必要なルートを追加します。
 +
@@ -145,17 +159,17 @@ image:aws-connect-fsx-10.png[""]
 ** Cloud Volumes ONTAP のフローティング IP 範囲のルート（該当する場合）。
 ** 新しく作成される外部 VPC アドレススペースのルート。
 +
-image:aws-connect-fsx-11.png[""]
+image::aws-connect-fsx-11.png[AWSコネクトFSx 11]
 
 
 
 . 最後に、双方向トラフィックを許可します link:https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-DE330202-D63D-408A-AECF-7CDC6ADF7EAC.html["ファイアウォールルール"] FSX/CVO へのアクセスに必要です。以下の手順に従ってください link:https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-DE330202-D63D-408A-AECF-7CDC6ADF7EAC.html["詳細な手順"] SDDC ワークロード接続用のコンピューティングゲートウェイファイアウォールルール用。
 +
-image:aws-connect-fsx-12.png[""]
+image::aws-connect-fsx-12.png[AWSコネクトFSx 12]
 
 . 管理ゲートウェイとコンピューティングゲートウェイの両方にファイアウォールグループを設定したら、次の手順で vCenter にアクセスできます。
 +
-image:aws-connect-fsx-13.png[""]
+image::aws-connect-fsx-13.png[AWSコネクトFSx 13]
 
 
 

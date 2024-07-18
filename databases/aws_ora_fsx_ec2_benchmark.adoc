@@ -33,7 +33,7 @@ Swingbench Sales Order Entry（SOE）モジュールを使用してOLTPタイプ
 
 vCPU×8、32G RAM、ネットワーク帯域幅×10GのEC2 M5インスタンスを導入し、
 
-image:aws_ora_fsx_ec2_inst_10.PNG[""]
+image::aws_ora_fsx_ec2_inst_10.PNG[AWS ora FSx EC2インストール10]
 
 
 
@@ -48,7 +48,7 @@ image:aws_ora_fsx_ec2_inst_10.PNG[""]
 
 冗長性を確保するために、重要な制御ファイルのコピーを2つ保持しました。
 
-image:aws_ora_fsx_ec2_stor_15.PNG[""]
+image::aws_ora_fsx_ec2_stor_15.PNG[AWS ora FSx EC2 stor 15]
 
 FSXファイルシステムは、80、000 IOPS容量と2GiBpsのI/Oスループットで構成されています。
 
@@ -60,7 +60,7 @@ Oracleバージョン19CとRUパッチ19.8をインストールしました。DN
 
 データベースは、3つのPDBを含むコンテナ化されたデータベースとして導入されました。パフォーマンステストには1つのPDBインスタンスを使用し、次の図に、NFSマウントポイントにおけるOracleストレージのサイジングを示します。
 
-image:aws_ora_fsx_ec2_inst_11.PNG[""]
+image::aws_ora_fsx_ec2_inst_11.PNG[AWS ora FSx EC2インストール11]
 
 
 
@@ -72,7 +72,7 @@ vCPU 8基、RAM 32GのWindowsホストにSwingbench 2.6（最新バージョン�
 
 次のスクリーンショットは、Swingbench Windows UIでのワークロードのプロファイルと一般的なトランザクション実行に関する指標を示しています。
 
-image:aws_ora_fsx_ec2_swin_01.PNG[""]
+image::aws_ora_fsx_ec2_swin_01.PNG[AWS ora FSx EC2 Swin 01]
 
 このグラフが示すように、トランザクションレベルは、テスト実行中も同じレベルに維持されました。
 
@@ -88,16 +88,18 @@ Oracleサーバの側から、Oracle AWRレポートを解析して、ユーザ�
 
 トランザクションの実行中は、ユーザのトランザクションボリューム、ユーザの応答時間、Oracleの上位の待機状態のイベントを同時ユーザの数でグラフ化しました。結果は次のとおりです。
 
-image:aws_ora_fsx_ec2_swin_02.PNG[""]
+image::aws_ora_fsx_ec2_swin_02.PNG[AWS ora FSx EC2 Swin 02]
 
 この結果から、同時ユーザ数を増加させてユーザトランザクションボリュームを安定的に拡張する一方で、I/Oレイテンシとユーザ応答時間は一定して低く抑えることができ、これはOracleアプリケーションのパフォーマンスとして適切です。
 
 同時ユーザ数が128に達した時点で、I/Oレイテンシとユーザ応答時間は幾分増加し始めました。次の図に示すように、EC2インスタンスがサーバの最大容量に近づいているため、この状況が想定されます。
 
-image:aws_ora_fsx_ec2_swin_03.PNG[""]
+image::aws_ora_fsx_ec2_swin_03.PNG[AWS ora FSx EC2 Swin 03]
 
 同様に、次の図は、この時点でユーザトランザクションボリュームを処理している場合の、対応するFSXのIOPSとスループットを示しています。
 
-image:aws_ora_fsx_ec2_swin_04.PNG[""] image:aws_ora_fsx_ec2_swin_05.PNG[""]
+image::aws_ora_fsx_ec2_swin_04.PNG[AWS ora FSx EC2 Swin 04]
+
+image::aws_ora_fsx_ec2_swin_05.PNG[AWS ora FSx EC2 Swin 05]
 
 OracleサーバEC2インスタンスが制限要因となった場合、プロビジョニングされたFSXストレージ容量にIOPSまたはスループットが到達しませんでした。したがって、で説明するように、ユーザアプリケーションレベルのトランザクションボリュームに基づいて、コンピューティングとストレージのサイズを適切に設定する必要があります link:aws_ora_fsx_ec2_factors.html["Oracleデータベースの導入で考慮すべき要素。"]

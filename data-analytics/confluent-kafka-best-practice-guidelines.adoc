@@ -24,7 +24,7 @@ summary: このセクションでは、この認定資格から得られた教�
 
 次の図に、「 length.key.value 」に基づいた S3 オブジェクトの取り込みと読み出しを示します。
 
-image:confluent-kafka-image11.png[""]
+image::confluent-kafka-image11.png[Confluent Kafkaイメージ11]
 
 * * Kafka のチューニング。 * 階層型ストレージのパフォーマンスを向上させるには、 TierFetcherNumThreads と TierArchiverNumThreads を増やします。一般的なガイドラインとして、 TierFetcherNumThreads を増やして物理 CPU コア数に合わせ、 TierArchiverNumThreads を CPU コア数の半分に増やします。たとえば、サーバープロパティで、 8 つの物理コアを持つマシンがある場合、 conflicent.tier.fetcher.threads=8 と、 conflicent.tier.Archiver .num.threads=4 を設定します。
 * * トピックが削除されるまでの時間です。 * トピックが削除されると、オブジェクトストレージ内のログセグメントファイルの削除はすぐには開始されません。デフォルト値の 3 時間を指定した時間間隔が設定されているため、この時間が経過するとファイルが削除されます。この間隔の値を変更するには、設定 confluent.tier.topic.delete.check.interval.ms を変更します。トピックまたはクラスタを削除する場合は、それぞれのバケット内のオブジェクトを手動で削除することもできます。

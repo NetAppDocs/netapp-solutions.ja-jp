@@ -38,7 +38,7 @@ Veeam Backup & Replicationは、仮想環境向けのバックアップおよび
 
 Veeam Backup & Replicationのレプリケーションプロセスはジョブベースです。つまり、レプリケーションはレプリケーションジョブを設定して実行されます。災害が発生した場合は、レプリカコピーにフェイルオーバーすることで、フェイルオーバーをトリガーしてVMをリカバリできます。フェイルオーバーが実行されると、レプリケートされたVMが元のVMの役割を引き継ぎます。フェイルオーバーは'レプリカの最新の状態'または既知の任意のリストア・ポイントに対して実行できますこれにより、必要に応じてランサムウェアからのリカバリや個別のテストが可能Veeam Backup & Replicationには、さまざまなディザスタリカバリシナリオに対応するためのオプションが複数用意されています。
 
-image:dr-veeam-anf-image1.png[""]
+image::dr-veeam-anf-image1.png[DR Veeam Anfイメージ1]
 
 
 
@@ -88,41 +88,41 @@ VMをレプリケートするには、次の手順を実行します。
 * Azure VMware解決策SDDCのセグメントがオンプレミスサイトネットワークのセグメントと一致しない場合は、[ネットワークの再マッピング(AVS SDDCサイトと異なるネットワークの場合)]チェックボックスをオンにします。
 ** オンプレミスの本番サイトのIPアドレス指定方式がターゲットAVSサイトのIPアドレス指定方式と異なる場合は、Replica Re-IP（異なるIPアドレス指定方式を使用するDRサイトの場合）チェックボックスを選択します。
 +
-image:dr-veeam-anf-image2.png[""]
+image::dr-veeam-anf-image2.png[DR Veeam Anfイメージ2]
 
 
 
 . [Virtual * Machines]手順で、Azure VMware解決策SDDCに接続されたAzure NetApp FilesデータストアにレプリケートするVMを選択します。仮想マシンをVSANに配置して、使用可能なVSANデータストアの容量をいっぱいにすることができます。パイロットライトクラスタでは、3ノードクラスタの使用可能容量が制限されます。残りのデータはAzure NetApp Filesデータストアに簡単に配置してVMをリカバリしたり、CPU /メモリの要件に合わせてクラスタを拡張したりできます。[追加]*をクリックし、*[オブジェクトの追加]*ウィンドウで必要なVMまたはVMコンテナを選択して*[追加]*をクリックします。「 * 次へ * 」をクリックします。
 +
-image:dr-veeam-anf-image3.png[""]
+image::dr-veeam-anf-image3.png[DR Veeam Anfイメージ3]
 
 . その後、デスティネーションをAzure VMware解決策SDDCクラスター/ホストとして選択し、VMレプリカ用の適切なリソースプール、VMフォルダ、FSx for ONTAPデータストアを選択します。次に、 [ * 次へ * ] をクリックします。
 +
-image:dr-veeam-anf-image4.png[""]
+image::dr-veeam-anf-image4.png[DR Veeam Anfイメージ4]
 
 . 次の手順では、必要に応じてソースとデスティネーションの仮想ネットワーク間のマッピングを作成します。
 +
-image:dr-veeam-anf-image5.png[""]
+image::dr-veeam-anf-image5.png[DR Veeam Anfイメージ5]
 
 . [ジョブ設定]ステップで、VMレプリカのメタデータや保持ポリシーなどを格納するバックアップリポジトリを指定します。
 . Data Transfer（データ転送）ステップで* Source（ソース）*および* Target（ターゲット）*プロキシサーバーを更新し、* Automatic（自動）*選択（デフォルト）のままにして* Direct *オプションを選択したままにして* Next（次へ）*をクリックします。
 . [Guest Processing]ステップで、必要に応じて[Enable application-aware processing]オプションを選択します。「 * 次へ * 」をクリックします。
 +
-image:dr-veeam-anf-image6.png[""]
+image::dr-veeam-anf-image6.png[DR Veeam Anfイメージ6]
 
 . レプリケーションジョブを定期的に実行するレプリケーションスケジュールを選択します。
 +
-image:dr-veeam-anf-image7.png[""]
+image::dr-veeam-anf-image7.png[DR Veeam Anfイメージ7]
 
 . ウィザードの* Summary *ステップで、レプリケーションジョブの詳細を確認します。ウィザードを終了した直後にジョブを開始するには、*[完了]をクリックしたときにジョブを実行する*チェックボックスをオンにします。オンにしない場合は、チェックボックスをオフのままにします。次に、*[完了]*をクリックしてウィザードを閉じます。
 +
-image:dr-veeam-anf-image8.png[""]
+image::dr-veeam-anf-image8.png[DR Veeam Anfイメージ8]
 
 
 
 レプリケーションジョブが開始されると、指定されたサフィックスのVMがデスティネーションAVS SDDCクラスタ/ホストに取り込まれます。
 
-image:dr-veeam-anf-image9.png[""]
+image::dr-veeam-anf-image9.png[DR Veeam Anfイメージ9]
 
 追加情報によるVeeamレプリケーションについては、 link:https://helpcenter.veeam.com/docs/backup/vsphere/replication_process.html?ver=120["レプリケーションの仕組み"]
 
@@ -147,15 +147,15 @@ NOTE: フェイルオーバープロセス中は、ソースVMの電源はオフ
 
 . をクリックします。レプリカノードを右クリックし、[Failover Plans]>[Failover Plan]>[VMware vSphere]を選択します。
 +
-image:dr-veeam-anf-image10.png[""]
+image::dr-veeam-anf-image10.png[DR Veeam Anfイメージ10]
 
 . 次に、計画の名前と概要を入力します。必要に応じて、フェイルオーバー前およびフェイルオーバー後のスクリプトを追加できます。たとえば、スクリプトを実行して、レプリケートされたVMを起動する前にVMをシャットダウンします。
 +
-image:dr-veeam-anf-image11.png[""]
+image::dr-veeam-anf-image11.png[Veeam先生の画像11]
 
 . VMを計画に追加し、VMのブート順序とブート遅延を変更して、アプリケーションの依存関係を満たすようにします。
 +
-image:dr-veeam-anf-image12.png[""]
+image::dr-veeam-anf-image12.png[Dr Veeam Anfイメージ12]
 
 
 
@@ -172,17 +172,17 @@ NOTE: フェイルオーバー中のIP競合を回避するために、ネット
 
 フェイルオーバープランを開始するには、* Failover Plans *タブをクリックし、フェイルオーバープランを右クリックします。[**Start]を選択します。これにより、VMレプリカの最新のリストアポイントを使用してフェイルオーバーが実行されます。VMレプリカの特定のリストアポイントにフェイルオーバーするには、* Start to *を選択します。
 
-image:dr-veeam-anf-image13.png[""]
+image::dr-veeam-anf-image13.png[Veeam先生の画像13]
 
-image:dr-veeam-anf-image14.png[""]
+image::dr-veeam-anf-image14.png[Veeam先生の画像14]
 
 VMレプリカの状態がReadyからFailoverに変わり、デスティネーションAzure VMware解決策（AVS）SDDCクラスタ/ホストでVMが起動します。
 
-image:dr-veeam-anf-image15.png[""]
+image::dr-veeam-anf-image15.png[Veeam先生の画像15]
 
 フェイルオーバーが完了すると、VMのステータスが「Failover」に変わります。
 
-image:dr-veeam-anf-image16.png[""]
+image::dr-veeam-anf-image16.png[Veeam先生の画像16]
 
 
 NOTE: Veeam Backup & Replicationは、レプリカがReady状態に戻るまで、ソースVMのすべてのレプリケーションアクティビティを停止します。
@@ -207,23 +207,23 @@ NOTE: フェイルバックを実行すると、変更は転送されますが�
 
 このデモでは、本番環境へのフェイルバックを選択しました。ウィザードの[Destination]ステップで[Failback to the original VM]が選択され、[Power on VM after restoring]チェックボックスが有効になっている。
 
-image:dr-veeam-anf-image17.png[""]
+image::dr-veeam-anf-image17.png[Veeam先生の画像17]
 
-image:dr-veeam-anf-image18.png[""]
+image::dr-veeam-anf-image18.png[Veeam先生の画像18]
 
-image:dr-veeam-anf-image19.png[""]
+image::dr-veeam-anf-image19.png[Veeam先生の画像19]
 
-image:dr-veeam-anf-image20.png[""]
+image::dr-veeam-anf-image20.png[Dr Veeam Anfイメージ20]
 
 フェイルバックコミットは、フェイルバック操作を完了する方法の1つです。フェイルバックがコミットされると、フェイルバックされたVM（本番VM）に送信された変更が想定どおりに機能していることが確認されます。コミット処理が完了すると、Veeam Backup & Replicationは本番用VMのレプリケーションアクティビティを再開します。
 
 フェイルバックプロセスの詳細については、次のVeeamのドキュメントを参照してください： link:https://helpcenter.veeam.com/docs/backup/vsphere/failover_failback.html?ver=120["レプリケーションのフェイルオーバーとフェイルバック"]。
 
-image:dr-veeam-anf-image21.png[""]
+image::dr-veeam-anf-image21.png[Veeam先生の画像21]
 
 本番環境へのフェイルバックが成功すると、VMはすべて元の本番サイトにリストアされます。
 
-image:dr-veeam-anf-image22.png[""]
+image::dr-veeam-anf-image22.png[Veeam先生の画像22]
 
 ====
 

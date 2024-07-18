@@ -39,7 +39,7 @@ AKS クラスタのセットアップとインストールは、に進みます 
 .. 「 agentpool 」という名前のプライマリ・システム・ノードを 'Standard _ DS2_v2' サイズに追加しますデフォルトの 3 つのノードを使用します。
 .. 'Standard_NC6s_v3' プール・サイズを使用して 'Worker ノード gpupool' を追加しますGPU ノードには最小 3 ノードを使用します。
 +
-image:runai-ld_image3.png[""]
+image::runai-ld_image3.png[runai ldイメージ3]
 
 +
 
@@ -66,7 +66,7 @@ kubectl get nodes
 NOTE: ここで示したように 6 つのノードがすべて稼働していれば、 AKS クラスタをローカル環境に接続することができます。
 
 +
-image:runai-ld_image4.png[""]
+image::runai-ld_image4.png[runai ldイメージ4]
 
 
 
@@ -78,15 +78,15 @@ Azure NetApp Files の委任されたサブネットを作成するには、次�
 
 . Azure ポータル内の仮想ネットワークに移動します。新しく作成した仮想ネットワークを検索します。この例では、 AKs-vnet などのプレフィックスが必要です。仮想ネットワークの名前をクリックします。
 +
-image:runai-ld_image5.png[""]
+image::runai-ld_image5.png[runai ldイメージ5]
 
 . [ サブネット ] をクリックし、上部のツールバーから [ サブネット + ] を選択します。
 +
-image:runai-ld_image6.png[""]
+image::runai-ld_image6.png[runai ldイメージ6]
 
 . サブネットに「 ANF 」などの名前を付け、サブネットの委任の見出しの下で、 Microsoft.NetApp/volumes を選択します。他のものは変更しないでください。[OK] をクリックします。
 +
-image:runai-ld_image7.png[""]
+image::runai-ld_image7.png[runai ldイメージ7]
 
 
 
@@ -295,7 +295,7 @@ kubectl get sc azurenetappfiles
 出力は次の例のようになります。
 
 +
-image:runai-ld_image8.png[""]
+image::runai-ld_image8.png[runai ldイメージ8]
 
 
 
@@ -332,7 +332,7 @@ kubectl create -f netapp-volume-snapshot-class.yaml
 出力は次の例のようになります。
 
 +
-image:runai-ld_image9.png[""]
+image::runai-ld_image9.png[runai ldイメージ9]
 
 . 次のコマンドを使用して、ボリュームの Snapshot コピークラスが作成されたことを確認します。
 +
@@ -343,7 +343,7 @@ kubectl get volumesnapshotclass
 出力は次の例のようになります。
 
 +
-image:runai-ld_image10.png[""]
+image::runai-ld_image10.png[runai ldイメージ10]
 
 
 
@@ -356,7 +356,7 @@ Run ： AI をインストールするには、次の手順を実行します。
 . https://docs.run.ai/Administrator/Cluster-Setup/cluster-install/["Run ： AI クラスタを AKS にインストールします"^]。
 . app.runai.ai にアクセスし、 [ 新しいプロジェクトの作成 ] をクリックして、レーン検出という名前を付けます。'runai' で始まる名前空間を Kubernetes クラスタに作成し ' そのあとにプロジェクト名を付けますこの場合、作成される名前空間は runai-lane detection になります。
 +
-image:runai-ld_image11.png[""]
+image::runai-ld_image11.png[runai ldイメージ11]
 
 . https://docs.run.ai/Administrator/Cluster-Setup/cluster-install/["インストール実行： AI CLI"^]。
 . ターミナルで、次のコマンドを使用して、 LANE 検出をデフォルトの実行として AI プロジェクトに設定します。
@@ -368,7 +368,7 @@ image:runai-ld_image11.png[""]
 出力は次の例のようになります。
 
 +
-image:runai-ld_image12.png[""]
+image::runai-ld_image12.png[runai ldイメージ12]
 
 . Create ClusterRole and ClusterRoleBinding for the project namespace (`lane detection など ) 」という名前空間に属するデフォルトのサービスアカウントには ' ジョブの実行中に "volumeSnapshot" 操作を実行する権限があります
 +
@@ -381,7 +381,7 @@ kubectl get namespaces
 次のような出力が表示されます。
 
 +
-image:runai-ld_image13.png[""]
+image::runai-ld_image13.png[runai ldイメージ13]
 
 
 
@@ -413,7 +413,7 @@ cd ./lane-detection-SCNN-horovod/data
 ....
 .. 「 build_image.sh 」シェル・スクリプトを変更し、 Docker リポジトリを自分のものに変更します。たとえば、「 `m uneer7589` 」を Docker リポジトリ名に置き換えます。Docker イメージ名とタグ（「 ownload -tusimple 」や「 1.0 」など）を変更することもできます。
 +
-image:runai-ld_image14.png[""]
+image::runai-ld_image14.png[runai ldイメージ14]
 
 .. スクリプトを実行して Docker イメージを構築し、次のコマンドを使用して Docker リポジトリにプッシュします。
 +
@@ -451,7 +451,7 @@ runai submit
 出力は次の例のようになります。
 
 +
-image:runai-ld_image15.png[""]
+image::runai-ld_image15.png[runai ldイメージ15]
 
 .. 送信された RUN ： AI ジョブのリストを表示します。
 +
@@ -459,7 +459,7 @@ image:runai-ld_image15.png[""]
 runai list jobs
 ....
 +
-image:runai-ld_image16.png[""]
+image::runai-ld_image16.png[runai ldイメージ16]
 
 .. 送信されたジョブログを確認してください。
 +
@@ -467,7 +467,7 @@ image:runai-ld_image16.png[""]
 runai logs download-tusimple-data -t 10
 ....
 +
-image:runai-ld_image17.png[""]
+image::runai-ld_image17.png[runai ldイメージ17]
 
 .. 作成された「 pvc 」をリストします。次のステップでトレーニングを行うには ' この pvc コマンドを使用します
 +
@@ -478,11 +478,11 @@ kubectl get pvc | grep download-tusimple-data
 出力は次の例のようになります。
 
 +
-image:runai-ld_image18.png[""]
+image::runai-ld_image18.png[runai ldイメージ18]
 
 .. 実行中のジョブを確認します： AI UI （または app.run.ai` ）。
 +
-image:runai-ld_image19.png[""]
+image::runai-ld_image19.png[runai ldイメージ19]
 
 
 
@@ -508,7 +508,7 @@ cd ./lane-detection-SCNN-horovod
 ....
 .. 「 build_image.sh 」シェルスクリプトを変更し、 Docker リポジトリを自分のものに変更します（たとえば、「 m uneer7589 」を Docker リポジトリ名に置き換えます）。Docker イメージ名とタグも変更できます（「 dist-dlane detection 」や「 3.1 」など）。
 +
-image:runai-ld_image20.png[""]
+image::runai-ld_image20.png[runai ldイメージ20]
 
 .. スクリプトを実行して Docker イメージを構築し、 Docker リポジトリにプッシュします。
 +
@@ -527,7 +527,7 @@ chmod +x build_image.sh
 kubectl get pvc | grep download-tusimple-data
 ....
 +
-image:runai-ld_image21.png[""]
+image::runai-ld_image21.png[runai ldイメージ21]
 
 .. ボリュームにパッチを適用し、アクセスモードを ReadWriteMany に更新します（次のコマンドでは、ボリューム名を各自のに置き換えてください）。
 +
@@ -602,7 +602,7 @@ runai submit-mpi
 出力は次の例のようになります。
 
 +
-image:runai-ld_image22.png[""]
+image::runai-ld_image22.png[runai ldイメージ22]
 
 .. 送信されたジョブを一覧表示します。
 +
@@ -610,7 +610,7 @@ image:runai-ld_image22.png[""]
 runai list jobs
 ....
 +
-image:runai-ld_image23.png[""]
+image::runai-ld_image23.png[runai ldイメージ23]
 
 .. 送信されたジョブログ：
 +
@@ -618,14 +618,14 @@ image:runai-ld_image23.png[""]
 runai logs dist-lane-detection-training
 ....
 +
-image:runai-ld_image24.png[""]
+image::runai-ld_image24.png[runai ldイメージ24]
 
 .. 実行中のトレーニングジョブを確認します。次の図に示すように、 AI GUI （または app.runai.ai): run ： AI Dashboard ）。最初の図は、分散トレーニングジョブ用に割り当てられた 3 つの GPU を AKS の 3 つのノードに分散し、 2 番目の実行である AI ジョブの詳細を示しています。
 +
-image:runai-ld_image25.png[""]
+image::runai-ld_image25.png[runai ldイメージ25]
 
 +
-image:runai-ld_image26.png[""]
+image::runai-ld_image26.png[runai ldイメージ26]
 
 .. トレーニングが完了したら、作成され、実行済みの NetApp Snapshot コピーである AI ジョブを確認します。
 +
@@ -633,7 +633,7 @@ image:runai-ld_image26.png[""]
 runai logs dist-lane-detection-training --tail 1
 ....
 +
-image:runai-ld_image27.png[""]
+image::runai-ld_image27.png[runai ldイメージ27]
 
 +
 ....
@@ -661,7 +661,7 @@ cd ./lane-detection-SCNN-horovod
 ....
 . 「 restore-snaphot-pvc.yaml 」を変更し、「 ataSource `name」 フィールドをデータのリストア元の Snapshot コピーに更新します。また、データを復元する PVC 名を変更することもできます。この例では、「 restored-tusimple」 です。
 +
-image:runai-ld_image29.png[""]
+image::runai-ld_image29.png[runai ldイメージ29]
 
 . 「 restore -snapshot-pvc.yaml 」を使用して新しい PVC を作成します。
 +
@@ -672,7 +672,7 @@ kubectl create -f restore-snapshot-pvc.yaml
 出力は次の例のようになります。
 
 +
-image:runai-ld_image30.png[""]
+image::runai-ld_image30.png[runai ldイメージ30]
 
 . 復元されたばかりのデータをトレーニングに使用する場合、ジョブ送信は以前と同じです。次のコマンドに示すように、トレーニングジョブの送信時に「 pvc_name 」を復元された「 pvc_name 」に置き換えるだけです。
 +
@@ -708,35 +708,35 @@ runai submit-mpi
 
 次の図は、 1 つの GPU 割り当てとメモリ使用率を示しています。
 
-image:runai-ld_image31.png[""]
+image::runai-ld_image31.png[runai ldイメージ31]
 
 次の図は、シングルノードの GPU 利用率を示しています。
 
-image:runai-ld_image32.png[""]
+image::runai-ld_image32.png[runai ldイメージ32]
 
 次の図は、シングルノードのメモリサイズ（ 16GB ）を示しています。
 
-image:runai-ld_image33.png[""]
+image::runai-ld_image33.png[runai ldイメージ33]
 
 次の図は、シングルノードの GPU 数（ 1 ）を示しています。
 
-image:runai-ld_image34.png[""]
+image::runai-ld_image34.png[runai ldイメージ34]
 
 次の図は、シングルノードの GPU 割り当て（ % ）を示しています。
 
-image:runai-ld_image35.png[""]
+image::runai-ld_image35.png[runai ldイメージ35]
 
 次の図は、 GPU の割り当てとメモリという 3 つのノードにまたがる 3 つの GPU を示しています。
 
-image:runai-ld_image36.png[""]
+image::runai-ld_image36.png[runai ldイメージ36]
 
 次の図は、 3 つのノードの使用率（ % ）にまたがる 3 つの GPU を示しています。
 
-image:runai-ld_image37.png[""]
+image::runai-ld_image37.png[runai ldイメージ37]
 
 次の図は、 3 つのノードにまたがる 3 つの GPU のメモリ利用率（ % ）を示しています。
 
-image:runai-ld_image38.png[""]
+image::runai-ld_image38.png[runai ldイメージ38]
 
 
 
@@ -752,11 +752,11 @@ image:runai-ld_image38.png[""]
 
 . Volumes （ボリューム）ページで、サービスレベルを変更するボリュームを右クリックします。［ プールの変更 ］ を選択します
 +
-image:runai-ld_image39.png[""]
+image::runai-ld_image39.png[runai ldイメージ39]
 
 . プールの変更ウィンドウで、ボリュームの移動先とする容量プールを選択します。[OK] をクリックします。
 +
-image:runai-ld_image40.png[""]
+image::runai-ld_image40.png[runai ldイメージ40]
 
 
 

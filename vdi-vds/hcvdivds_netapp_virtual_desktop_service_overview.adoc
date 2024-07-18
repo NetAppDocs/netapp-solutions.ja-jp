@@ -28,7 +28,7 @@ Microsoft では、 Windows 10 のマルチセッションを、 Azure 上の Wi
 
 次の図に、導入トポロジの例を示します。
 
-image:hcvdivds_image1.png[""]
+image::hcvdivds_image1.png[hcvdivdsイメージ1]
 
 各展開は、 Active Directory ドメインに関連付けられ、ワークスペースおよびアプリケーションのアクセスエントリポイントをクライアントに提供します。複数の Active Directory ドメインを持つサービスプロバイダまたは企業は、通常、より多くの導入環境を持っています。複数のリージョンにまたがる単一の Active Directory ドメインには、通常、複数のサイトを含む単一の導入環境があります。
 
@@ -36,19 +36,19 @@ Azure の WVD の場合、 Microsoft は NetApp VDS で消費されるプラッ�
 
 各導入環境には独自のプラットフォームサービスがあり、 Cloud Workspace Manager （ REST API エンドポイント）、 HTML 5 ゲートウェイ（ VDS 管理ポータルから VM に接続）、 RDS ゲートウェイ（クライアントのアクセスポイント）、およびドメインコントローラで構成されます。次の図は、 RDS 実装用の VDS コントロールプレーンアーキテクチャを示しています。
 
-image:hcvdivds_image2.png[""]
+image::hcvdivds_image2.png[hcvdivdsイメージ2]
 
 RDS 環境では、 Windows とブラウザから NetApp VDS にクライアントソフトウェアを使用して簡単にアクセスできます。クライアントソフトウェアを使用して、顧客のロゴとイメージを含めるようにカスタマイズできます。ユーザーの資格情報に基づいて、承認されたワークスペースとアプリケーションへのユーザーアクセスを提供します。ゲートウェイの詳細を設定する必要はありません。
 
 次の図は、 NetApp VDS クライアントを示しています。
 
-image:hcvdivds_image3.png[""]
+image::hcvdivds_image3.png[hcvdivdsイメージ3]
 
 Azure WVD の実装では、 Microsoft がクライアントのアクセスエントリポイントを処理し、さまざまな OS でネイティブに使用できる Microsoft WVD クライアントによって使用できます。Web ベースのポータルからもアクセスできます。クライアントソフトウェアの構成は、グループポリシーオブジェクト (GPO) または顧客が優先するその他の方法で処理する必要があります。
 
 次の図は、 Azure WVD 実装用の VDS コントロールプレーンアーキテクチャを示しています。
 
-image:hcvdivds_image4.png[""]
+image::hcvdivds_image4.png[hcvdivdsイメージ4]
 
 必要なコンポーネントの導入と構成に加えて、ネットアップ VDS はユーザ管理、アプリケーション管理、リソースの拡張、最適化も行います。
 

@@ -84,7 +84,7 @@ Azure ポータルまたは Azure CLI を使用して、継続的可用性を備
 * 既存の SMB ボリュームでは継続的可用性プロパティを有効にできません。既存のボリュームを変換して継続的な可用性が確保された共有を使用するには、 NetApp Snapshot テクノロジを使用します。詳細については、を参照してください https://docs.microsoft.com/en-us/azure/azure-netapp-files/convert-smb-continuous-availability["既存の SMB ボリュームを継続的可用性を使用するように変換します"^]。
 
 
-image:sql-srv-anf_image1.png[""]
+image::sql-srv-anf_image1.png[SQL srv anf image1]
 
 
 
@@ -99,7 +99,7 @@ Azure NetApp Files は、 Standard （テラバイトあたり 16mbps ）、 Pre
 
 詳細については、を参照してください https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-service-levels["Azure NetApp Files のサービスレベル"^]。
 
-image:sql-srv-anf_image2.png[""]
+image::sql-srv-anf_image2.png[SQL srv anf image2]
 
 
 
@@ -109,7 +109,7 @@ image:sql-srv-anf_image2.png[""]
 
 パフォーマンスを確認するために、 Premium サービスレベルを使用してボリュームに対してクイックテストを実行しました。このテストでは、ボリュームサイズを 100GB から 2TB にオンザフライで拡張しました。アプリケーションへのアクセスを中断することなく、データの移行もゼロでした。
 
-image:sql-srv-anf_image3.png[""]
+image::sql-srv-anf_image3.png[SQL srv anf image3]
 
 ここでは、 HammerDB を使用して導入した、リアルタイムのパフォーマンステストの別の例を示します。このテストでは、 vCPU 8 個、 500GB Premium SSD 、 500GB SMB Azure NetApp Files ボリュームを含む小規模インスタンスを使用しました。HammerDB は、 80 のウェアハウスと 8 人のユーザで構成されています。
 
@@ -117,7 +117,7 @@ image:sql-srv-anf_image3.png[""]
 
 さらに、 vCPU が 32 個、 Azure NetApp Files が 16TB の大容量インスタンスへのサイズ変更によって、テストを実施しました。1 分あたりのトランザクション数は大幅に増加し、レイテンシは常に 1 ミリ秒に抑えられました。HammerDB は、このテストで 80 個のウェアハウスと 64 人のユーザで構成されました。
 
-image:sql-srv-anf_image4.png[""]
+image::sql-srv-anf_image4.png[SQL srv anf image4]
 
 
 

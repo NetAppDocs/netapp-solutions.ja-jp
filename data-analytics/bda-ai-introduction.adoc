@@ -46,7 +46,7 @@ NetApp In-Place Analytics Module （ NIPAM ）は、 NFS データにアクセ�
 
 Hadoop Distributed Copy （ DistCp ）は、クラスタ間およびクラスタ内の大規模なコピー作業に使用される分散コピーツールです。このツールは、データの配信、エラー処理、およびレポートに MapReduce を使用します。ファイルとディレクトリのリストが展開され、タスクをマッピングしてソースリストからデータをコピーするように入力されます。次の図は、 HDFS と HDFS 以外の間の DistCp 処理を示しています。
 
-image:bda-ai-image1.png[""]
+image::bda-ai-image1.png[BDA AIイメージ1]
 
 Hadoop DistCp は、追加のドライバを使用せずに 2 つの HDFS システム間でデータを移動します。ネットアップは HDFS 以外のシステム向けのドライバを提供しています。NFS デスティネーションの場合、 NIPAM は、データのコピー時に Hadoop DistCp が NFS デスティネーションとの通信に使用するデータをコピーするためのドライバを提供します。
 
@@ -62,7 +62,7 @@ NetApp Cloud Volumes Service は、卓越したパフォーマンスを発揮す
 
 NetApp XCP は、高速で信頼性の高いネットアップおよびネットアップからネットアップへのデータ移行を可能にするクライアントソフトウェアです。このツールは、あらゆる NAS システムからネットアップストレージコントローラに大量の非構造化 NAS データをコピーするために設計されています。XCP Migration Tool では、マルチコアのマルチチャネル I/O ストリーミングエンジンが使用されており、データの移行、ファイルやディレクトリの一覧表示、スペースレポートなど、多数の要求を並行して処理できます。これは、デフォルトのネットアップデータ移行ツールです。XCP を使用して、 Hadoop クラスタと HPC から NetApp NFS ストレージにデータをコピーできます。次の図は、 Hadoop クラスタと HPC クラスタから XCP を使用した NetApp NFS ボリュームへのデータ転送を示しています。
 
-image:bda-ai-image2.png[""]
+image::bda-ai-image2.png[BDA AIイメージ2]
 
 
 

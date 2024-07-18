@@ -21,19 +21,19 @@ GPU は通常、反復演算を実行することでグラフィック表示（�
 
 NOTE: NVIDIA ライセンスは NV シリーズに含まれています。
 
-image:hcvdivds_image37.png[""]
+image::hcvdivds_image37.png[hcvdivdsイメージ37]
 
 NetApp HCI を使用した H615C GPU には、 NVIDIA Tesla T4 カードが 3 枚搭載されています。各 NVIDIA Tesla T4 カードには、 16GB の GDDR6 メモリを搭載した Touring ベースの GPU が搭載されています。VMware vSphere 環境で使用する場合、仮想マシンは GPU を共有でき、各 VM は専用のフレームバッファメモリを使用します。NetApp HCI H615C 上の GPU では、光線トレースを含めたリアルな画像を作成するために、レイトレーシングを使用できます。GPU 機能のライセンスがある NVIDIA ライセンスサーバが必要です。
 
-image:hcvdivds_image38.png[""]
+image::hcvdivds_image38.png[hcvdivdsイメージ38]
 
 GPU を使用するには、適切なドライバをインストールする必要があります。ドライバは NVIDIA ライセンスポータルからダウンロードできます。Azure 環境では、 NVIDIA ドライバを GPU ドライバ拡張機能として使用できます。次に、次のスクリーンショットに示すグループポリシーを更新して、リモートデスクトップサービスセッションに GPU ハードウェアを使用する必要があります。H.264 グラフィックスモードの優先順位を設定し、エンコーダ機能を有効にする必要があります。
 
-image:hcvdivds_image39.png[""]
+image::hcvdivds_image39.png[hcvdivdsイメージ39]
 
 タスクマネージャを使用するか、 WebGL サンプルを実行する際に NVidia - SMI CLI を使用して、 GPU のパフォーマンス監視を検証します。GPU 、メモリ、エンコーダのリソースが消費されていることを確認します。
 
-image:hcvdivds_image40.png[""]
+image::hcvdivds_image40.png[hcvdivdsイメージ40]
 
 仮想デスクトップサービスを搭載した NetApp HCI H615C に仮想マシンが導入されていることを確認するために、 H615C ホストを含む vCenter クラスタリソースを含むサイトを定義します。VM テンプレートには必要な vGPU プロファイルが接続されている必要があります。
 

@@ -48,32 +48,32 @@ Azure NetApp Files ボリュームを作成してマウントするには、次�
 詳細な手順については、を参照してください link:https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-create-netapp-account["Azure NetApp Files 共有"]。このページでは、ステップバイステップのプロセスについて説明します。
 
 +
-image:azure-anf-guest-1.png[""]
+image::azure-anf-guest-1.png[Azure ANFゲスト1]
 
 . ネットアップアカウントが作成されたら、必要なサービスレベルとサイズの容量プールを設定します。
 +
 詳細については、を参照してください link:https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-set-up-capacity-pool["容量プールをセットアップする"]。
 
 +
-image:azure-anf-guest-2.png[""]
+image::azure-anf-guest-2.png[Azure ANFゲスト2]
 
 . Azure NetApp Files の委任されたサブネットを設定し、ボリュームを作成する際にこのサブネットを指定します。委任されたサブネットを作成する詳細な手順については、を参照してください link:https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-delegate-subnet["サブネットを Azure NetApp Files に委譲します"]。
 +
-image:azure-anf-guest-3.png[""]
+image::azure-anf-guest-3.png[Azure ANFゲスト3]
 
 . 容量プールブレードの下のボリュームブレードを使用して、 SMB ボリュームを追加します。SMB ボリュームを作成する前に、 Active Directory Connector が設定されていることを確認してください。
 +
-image:azure-anf-guest-4.png[""]
+image::azure-anf-guest-4.png[Azure ANFゲスト4]
 
 . [Review + Create] をクリックして、 SMB ボリュームを作成します。
 +
 アプリケーションが SQL Server の場合は、 SMB 継続的可用性を有効にします。
 
 +
-image:azure-anf-guest-5.png[""]
+image::azure-anf-guest-5.png[Azure ANFゲスト5]
 
 +
-image:azure-anf-guest-6.png[""]
+image::azure-anf-guest-6.png[Azure ANFゲスト6]
 
 +
 サイズまたはクォータ別の Azure NetApp Files ボリュームのパフォーマンスの詳細については、を参照してください link:https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-performance-considerations["Azure NetApp Files のパフォーマンスに関する考慮事項"]。
@@ -83,14 +83,14 @@ image:azure-anf-guest-6.png[""]
 これを行うには、 Azure ポータルで Volumes ブレードをクリックし、マウントするボリュームを選択して、マウント手順にアクセスします。パスをコピーし、ネットワークドライブのマッピングオプションを使用して、 Azure VMware 解決策 SDDC で実行されている VM にボリュームをマウントします。
 
 +
-image:azure-anf-guest-7.png[""]
+image::azure-anf-guest-7.png[Azure ANFゲスト7]
 
 +
-image:azure-anf-guest-8.png[""]
+image::azure-anf-guest-8.png[Azure ANFゲスト8]
 
 . Azure VMware 解決策 SDDC で実行されている Linux VM に NFS ボリュームをマウントする場合も、同じ手順を使用します。ボリュームの形状変更機能または動的なサービスレベル機能を使用して、ワークロードの要件を満たします。
 +
-image:azure-anf-guest-9.png[""]
+image::azure-anf-guest-9.png[Azure ANFゲスト9]
 
 +
 詳細については、を参照してください link:https://docs.microsoft.com/en-us/azure/azure-netapp-files/dynamic-change-volume-service-level["ボリュームのサービスレベルを動的に変更する"]。
@@ -126,47 +126,47 @@ NOTE: 使用 link:https://cloud.netapp.com/cvo-sizer["Cloud Volumes ONTAP サイ
 
 . NetApp Cloud Central にログイン— Fabric View （ファブリックビュー）画面が表示されます。Cloud Volumes ONTAP タブを探し、 Go to Cloud Manager を選択します。ログインすると、キャンバス画面が表示されます。
 +
-image:azure-cvo-guest-1.png[""]
+image::azure-cvo-guest-1.png[Azure CVOゲスト1]
 
 . Cloud Manager のホームページで、 Add a Working Environment をクリックし、クラウドとして Microsoft Azure を選択し、システム構成のタイプを選択します。
 +
-image:azure-cvo-guest-2.png[""]
+image::azure-cvo-guest-2.png[Azure CVOゲスト2]
 
 . Cloud Volumes ONTAP の最初の作業環境を作成する際、 Cloud Manager はコネクタの導入を求めます。
 +
-image:azure-cvo-guest-3.png[""]
+image::azure-cvo-guest-3.png[Azure CVOゲスト3]
 
 . コネクタが作成されたら、 [ 詳細（ Details ） ] および [ 資格情報（ Credentials ） ] フィールドを更新します。
 +
-image:azure-cvo-guest-4.png[""]
+image::azure-cvo-guest-4.png[Azure CVOゲスト4]
 
 . 環境名と admin クレデンシャルなど、作成する環境の詳細を指定します。オプションのパラメータとして、 Azure 環境のリソースグループタグを追加します。完了したら、 [ 続行 ] をクリックします。
 +
-image:azure-cvo-guest-5.png[""]
+image::azure-cvo-guest-5.png[Azure CVOゲスト5]
 
 . Cloud Volumes ONTAPの導入に使用するアドオンサービス（BlueXPの分類、BlueXPのバックアップとリカバリ、Cloud Insightsなど）を選択します。サービスを選択し、 Continue （続行）をクリックします。
 +
-image:azure-cvo-guest-6.png[""]
+image::azure-cvo-guest-6.png[Azure CVOゲスト6]
 
 . Azure の場所と接続を設定します。使用する Azure のリージョン、リソースグループ、 VNet 、およびサブネットを選択します。
 +
-image:azure-cvo-guest-7.png[""]
+image::azure-cvo-guest-7.png[Azure CVOゲスト7]
 
 . ライセンスオプションとして、「従量課金制」または「 BYOL for using existing license 」を選択します。この例では、 ［ 従量課金制 ］ オプションを使用します。
 +
-image:azure-cvo-guest-8.png[""]
+image::azure-cvo-guest-8.png[Azure CVOゲスト8]
 
 . さまざまなタイプのワークロードに使用できる事前設定されたパッケージをいくつか選択できます。
 +
-image:azure-cvo-guest-9.png[""]
+image::azure-cvo-guest-9.png[Azure CVOゲスト9]
 
 . サポートのアクティブ化と Azure リソースの割り当てに関する 2 つの契約に同意します。 Cloud Volumes ONTAP インスタンスを作成するには、 Go をクリックします。
 +
-image:azure-cvo-guest-10.png[""]
+image::azure-cvo-guest-10.png[Azure CVOゲスト10]
 
 . Cloud Volumes ONTAP のプロビジョニングが完了すると、 [Canvas] ページの作業環境に表示されます。
 +
-image:azure-cvo-guest-11.png[""]
+image::azure-cvo-guest-11.png[Azure CVOゲスト11]
 
 
 
@@ -176,23 +176,23 @@ image:azure-cvo-guest-11.png[""]
 ====
 . 作業環境の準備ができたら、 CIFS サーバに適切な DNS および Active Directory 設定パラメータが設定されていることを確認します。この手順は、 SMB ボリュームを作成する前に実行する必要があります。
 +
-image:azure-cvo-guest-20.png[""]
+image::azure-cvo-guest-20.png[Azure CVOゲスト20]
 
 . SMB ボリュームの作成は簡単なプロセスです。CVO インスタンスを選択してボリュームを作成し、 Create Volume （ボリュームの作成）オプションをクリックします。適切なサイズを選択し、包含アグリゲートを選択するか、高度な割り当てメカニズムを使用して特定のアグリゲートに配置します。このデモでは、 SMB がプロトコルとして選択されます。
 +
-image:azure-cvo-guest-21.png[""]
+image::azure-cvo-guest-21.png[Azure CVOゲスト21]
 
 . ボリュームのプロビジョニングが完了すると、 Volumes （ボリューム）ペインにボリュームが表示されます。CIFS 共有はプロビジョニングされるため、ユーザまたはグループにファイルとフォルダに対する権限を付与し、ユーザが共有にアクセスしてファイルを作成できることを確認してください。ファイル権限とフォルダ権限はすべて SnapMirror レプリケーションの一部として保持されるため、オンプレミス環境からボリュームをレプリケートする場合はこの手順は必要ありません。
 +
-image:azure-cvo-guest-22.png[""]
+image::azure-cvo-guest-22.png[Azure CVOゲスト22]
 
 . ボリュームが作成されたら、 mount コマンドを使用して、 Azure VMware 解決策 SDDC ホストで実行されている VM から共有に接続します。
 . 次のパスをコピーし、ネットワークドライブのマッピングオプションを使用して、 Azure VMware 解決策 SDDC で実行されている VM にボリュームをマウントします。
 +
-image:azure-cvo-guest-23.png[""]
+image::azure-cvo-guest-23.png[Azure CVOゲスト23]
 
 +
-image:azure-cvo-guest-24.png[""]
+image::azure-cvo-guest-24.png[Azure CVOゲスト24]
 
 
 
@@ -205,7 +205,7 @@ LUN をホストに接続するには、次の手順を実行します。
 . キャンバスページで、 Cloud Volumes ONTAP 作業環境をダブルクリックしてボリュームを作成および管理します。
 . Add Volume （ボリュームの追加） > New Volume （新しいボリューム）をクリックし、 iSCSI を選択して Create Initiator Group （イニシエータContinue をクリックします。 .
 +
-image:azure-cvo-guest-30.png[""]
+image::azure-cvo-guest-30.png[Azure CVOゲスト30]
 
 . ボリュームのプロビジョニングが完了したら、ボリュームを選択し、ターゲット IQN をクリックします。iSCSI Qualified Name （ IQN ）をコピーするには、 Copy （コピー）をクリックします。ホストから LUN への iSCSI 接続をセットアップします。
 +
@@ -221,7 +221,7 @@ Azure VMware 解決策 SDDC にあるホストでも同じ処理を実行する�
 * 注： * Windows ホストからクラスタ内の各ノードへの iSCSI 接続が確立されている必要があります。ネイティブ DSM では、使用する最適なパスが選択されます。
 
 +
-image:azure-cvo-guest-31.png[""]
+image::azure-cvo-guest-31.png[Azure CVOゲスト31]
 
 
 
@@ -235,7 +235,7 @@ Storage Virtual Machine （ SVM ）の LUN は、 Windows ホストではディ�
 . ［ アクション ］ > ［ ディスクの再スキャン ］ の順にクリック
 
 
-image:azure-cvo-guest-32.png[""]
+image::azure-cvo-guest-32.png[Azure CVOゲスト32]
 
 Windows ホストから初めてアクセスした時点では、新しい LUN にはパーティションやファイルシステムは設定されていません。LUN を初期化します。必要に応じて、次の手順を実行してファイルシステムで LUN をフォーマットします。
 
@@ -244,8 +244,8 @@ Windows ホストから初めてアクセスした時点では、新しい LUN �
 . ウィザードの指示に従います。この例では、ドライブ E ：がマウントされています
 
 
-image:azure-cvo-guest-33.png[""]
+image::azure-cvo-guest-33.png[Azure CVOゲスト33]
 
-image:azure-cvo-guest-34.png[""]
+image::azure-cvo-guest-34.png[Azure CVOゲスト34]
 
 ====

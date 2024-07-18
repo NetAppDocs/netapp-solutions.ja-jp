@@ -53,36 +53,38 @@ Azure Virtual Network（VNet；Azure仮想ネットワーク）は、Azureのプ
 
 . Azure VMのページで、* Create *をクリックし、* Azure Virtual Machine *を選択します。
 +
-image:db_ora_azure_anf_vm_01.PNG["このスクリーンショットは、使用可能なAzure VMのリストを示しています。"]
+image::db_ora_azure_anf_vm_01.PNG[このスクリーンショットは、使用可能なAzure VMのリストを示しています。]
 
 . 導入のサブスクリプションIDを選択し、リソースグループ、リージョン、ホスト名、VMイメージ、サイズ、および認証方式を指定します。ディスクページに移動します。
 +
-image:db_ora_azure_anf_vm_02-1.PNG["このスクリーンショットは、Create a Virtual Machine（仮想マシンの作成）ページの入力を示しています。"]
-image:db_ora_azure_anf_vm_02-2.PNG["このスクリーンショットは、Create a Virtual Machine（仮想マシンの作成）ページの追加の入力を示しています。"]
+image::db_ora_azure_anf_vm_02-1.PNG[このスクリーンショットは、Create a Virtual Machine（仮想マシンの作成）ページの入力を示しています。]
+
++
+image::db_ora_azure_anf_vm_02-2.PNG[このスクリーンショットは、Create a Virtual Machine（仮想マシンの作成）ページの追加の入力を示しています。]
 
 . OSローカルの冗長性には* Premium SSD *を選択し、ANFストレージからデータディスクがマウントされているため、データディスクは空白のままにしておきます。[ネットワーク]ページに移動します。
 +
-image:db_ora_azure_anf_vm_03.PNG["このスクリーンショットは、Create a Virtual Machine Disks（仮想マシンディスクの作成）ページの入力を示しています。"]
+image::db_ora_azure_anf_vm_03.PNG[このスクリーンショットは、Create a Virtual Machine Disks（仮想マシンディスクの作成）ページの入力を示しています。]
 
 . VNetとサブネットを選択します。外部VMアクセス用にパブリックIPを割り当てます。次に、管理ページに移動します。
 +
-image:db_ora_azure_anf_vm_04.PNG["このスクリーンショットは、Create a Virtual Machine（仮想マシンの作成）ページの詳細な入力を示しています。"]
+image::db_ora_azure_anf_vm_04.PNG[このスクリーンショットは、Create a Virtual Machine（仮想マシンの作成）ページの詳細な入力を示しています。]
 
 . Managementのデフォルトをすべて保持し、Advancedページに移動します。
 +
-image:db_ora_azure_anf_vm_05.PNG["このスクリーンショットは、Create a Virtual Machine Management（仮想マシンの作成）ページの入力を示しています。"]
+image::db_ora_azure_anf_vm_05.PNG[このスクリーンショットは、Create a Virtual Machine Management（仮想マシンの作成）ページの入力を示しています。]
 
 . カスタムスクリプトを使用して導入後にVMをカスタマイズする必要がない場合は、Advancedページのデフォルトの設定をすべて使用します。次に、[タグ]ページに移動します。
 +
-image:db_ora_azure_anf_vm_06.PNG["このスクリーンショットは、仮想マシンの作成の詳細ページの入力を示しています。"]
+image::db_ora_azure_anf_vm_06.PNG[このスクリーンショットは、仮想マシンの作成の詳細ページの入力を示しています。]
 
 . 必要に応じてVMのタグを追加します。次に、[レビュー+作成]ページに移動します。
 +
-image:db_ora_azure_anf_vm_07.PNG["このスクリーンショットは、[Create a Virtual Machine Tags]ページの入力を示しています。"]
+image::db_ora_azure_anf_vm_07.PNG[このスクリーンショットは、[Create a Virtual Machine Tags]ページの入力を示しています。]
 
 . 導入ワークフローでは構成の検証が実行され、検証にパスした場合は、* Create *をクリックしてVMを作成します。
 +
-image:db_ora_azure_anf_vm_08.PNG["「このスクリーンショットは、「仮想マシンの作成」の確認と作成のページの入力を示しています。"]
+image::db_ora_azure_anf_vm_08.PNG[このスクリーンショットは、[Create a Virtual Machine review and create]ページの入力を示しています。]
 
 
 
@@ -94,28 +96,30 @@ Oracleバイナリボリューム、データボリューム、ログボリュ�
 
 . AzureコンソールのAzureサービスのリストで、Azure NetApp Files をクリックしてボリューム作成ワークフローを開きます。複数のANFストレージアカウントがある場合は、ボリュームのプロビジョニング元となるアカウントをクリックします。
 +
-image:db_ora_azure_anf_vols_00.PNG["このスクリーンショットはAzure Servicesのページを示しており、ANFは強調表示されています。"]
+image::db_ora_azure_anf_vols_00.PNG[このスクリーンショットはAzure Servicesのページを示しており、ANFは強調表示されています。]
 
 . ネットアップストレージアカウントで、「* Volumes *」をクリックし、「* Add volume *」をクリックして新しいOracleボリュームを作成します。
 +
-image:db_ora_azure_anf_vols_01_1.PNG["このスクリーンショットは、ネットアップストレージアカウントのランディング画面を示しています。"]
-image:db_ora_azure_anf_vols_01.PNG["このスクリーンショットは、ネットアップストレージアカウントで使用可能なボリュームを示しています。"]
+image::db_ora_azure_anf_vols_01_1.PNG[このスクリーンショットは、ネットアップストレージアカウントのランディング画面を示しています。]
+
++
+image::db_ora_azure_anf_vols_01.PNG[このスクリーンショットは、ネットアップストレージアカウントで使用可能なボリュームを示しています。]
 
 . ベストプラクティスとして、VMのホスト名をプレフィックスとして持つOracleボリュームを特定し、そのあとにOracleバイナリの場合はu01、Oracleデータの場合はu02、Oracleログの場合はu03などのホスト上のマウントポイントを指定することを推奨します。ボリュームにはVMと同じVNetを選択します。[次へ：プロトコル>*]をクリックします。
 +
-image:db_ora_azure_anf_vols_02.PNG["ボリューム作成画面。"]
+image::db_ora_azure_anf_vols_02.PNG[ボリューム作成画面。]
 
 . NFSプロトコルを選択し、許可されたクライアントにOracleホストのIPアドレスを追加して、すべてのIPアドレスを許可するデフォルトポリシー0.0.0.0/0を削除します。[次へ：タグ>*]をクリックします。
 +
-image:db_ora_azure_anf_vols_03.PNG["ボリューム作成画面でプロトコルが入力されました。"]
+image::db_ora_azure_anf_vols_03.PNG[ボリューム作成画面でプロトコルが入力されました。]
 
 . 必要に応じてボリュームタグを追加次に、[* Review + Create]>[*]をクリックします。
 +
-image:db_ora_azure_anf_vols_04.PNG["ボリューム作成画面で入力するタグを指定します。"]
+image::db_ora_azure_anf_vols_04.PNG[ボリューム作成画面で入力するタグを指定します。]
 
 . 検証に合格したら、* Create *をクリックしてボリュームを作成します。
 +
-image:db_ora_azure_anf_vols_05.PNG["ボリューム作成画面のステージを確認して作成します。"]
+image::db_ora_azure_anf_vols_05.PNG[ボリューム作成画面のステージを確認して作成します。]
 
 
 

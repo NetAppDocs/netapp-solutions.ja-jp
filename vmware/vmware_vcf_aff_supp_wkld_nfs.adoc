@@ -76,14 +76,14 @@ NFSトラフィック用の複数のLIFを含むSVMを作成するには、次�
 
 . ONTAPシステムマネージャで、左側のメニュー*[Storage VMs]*に移動し、*+[追加]*をクリックして開始します。
 +
-image:vmware-vcf-asa-image01.png["[+ Add]をクリックしてSVMの作成を開始"]
+image::vmware-vcf-asa-image01.png[[+ Add]をクリックしてSVMの作成を開始]
 
 +
 ｛nbsp｝
 
 . Storage VMの追加*ウィザードで、SVMの*名前*を指定し、* IPスペース*を選択して*[アクセスプロトコル]*で*[SMB/CIFS、NFS、S3 *]タブをクリックし、*[NFSを有効にする]*チェックボックスをオンにします。
 +
-image:vmware-vcf-aff-image35.png["Storage VM追加ウィザード- NFSの有効化"]
+image::vmware-vcf-aff-image35.png[Storage VM追加ウィザード- NFSの有効化]
 
 +
 
@@ -92,14 +92,14 @@ TIP: ONTAP Tools for VMware vSphereを使用してデータストアの導入プ
 
 . [ネットワークインターフェイス]セクションで、最初のLIFの*[IPアドレス]*、*[サブネットマスク]*、および*[ブロードキャストドメインとポート]*を入力します。それ以降のLIFの場合は、チェックボックスをオンにすると、残りのすべてのLIFで共通の設定を使用するか、別 々 の設定を使用できます。
 +
-image:vmware-vcf-aff-image36.png["LIFのネットワーク情報を入力"]
+image::vmware-vcf-aff-image36.png[LIFのネットワーク情報を入力]
 
 +
 ｛nbsp｝
 
 . （マルチテナンシー環境の場合）Storage VM管理アカウントを有効にするかどうかを選択し、*[保存]*をクリックしてSVMを作成します。
 +
-image:vmware-vcf-asa-image04.png["SVMアカウントを有効にして終了"]
+image::vmware-vcf-asa-image04.png[SVMアカウントを有効にして終了]
 
 
 
@@ -117,7 +117,7 @@ image:vmware-vcf-asa-image04.png["SVMアカウントを有効にして終了"]
 
 . vSphere Clientで、ワークロードドメインの*[Inventory]>[Networking]*に移動します。既存のDistributed Switchに移動し、* New Distributed Port Group...*を作成するアクションを選択します。
 +
-image:vmware-vcf-asa-image22.png["新しいポートグループの作成を選択"]
+image::vmware-vcf-asa-image22.png[新しいポートグループの作成を選択]
 
 +
 ｛nbsp｝
@@ -125,7 +125,7 @@ image:vmware-vcf-asa-image22.png["新しいポートグループの作成を選�
 . [New Distributed Port Group]*ウィザードで、新しいポートグループの名前を入力し、*[Next]*をクリックして続行します。
 . [設定の構成]ページで、すべての設定を入力します。VLANを使用している場合は、正しいVLAN IDを指定してください。[次へ]*をクリックして続行します。
 +
-image:vmware-vcf-asa-image23.png["VLAN IDを入力"]
+image::vmware-vcf-asa-image23.png[VLAN IDを入力]
 
 +
 ｛nbsp｝
@@ -133,14 +133,14 @@ image:vmware-vcf-asa-image23.png["VLAN IDを入力"]
 . [選択内容の確認]ページで、変更内容を確認し、*[終了]*をクリックして新しい分散ポートグループを作成します。
 . ポートグループが作成されたら、ポートグループに移動して*[設定の編集...]*の操作を選択します。
 +
-image:vmware-vcf-aff-image37.png["DPG -設定の編集"]
+image::vmware-vcf-aff-image37.png[DPG -設定の編集]
 
 +
 ｛nbsp｝
 
 . [分散ポートグループ-設定の編集]*ページで、左側のメニューの*[チーム化とフェイルオーバー]*に移動します。NFSトラフィックに使用するアップリンクのチーミングを有効にするには、それらのアップリンクが[アクティブなアップリンク]領域にまとめられていることを確認します。未使用のアップリンクを*未使用のアップリンク*に移動します。
 +
-image:vmware-vcf-aff-image38.png["DPGチームアップリンク"]
+image::vmware-vcf-aff-image38.png[DPGチームアップリンク]
 
 +
 ｛nbsp｝
@@ -156,21 +156,21 @@ image:vmware-vcf-aff-image38.png["DPGチームアップリンク"]
 
 . vSphere Clientで、ワークロードドメインインベントリ内のいずれかのESXiホストに移動します。[設定]タブで*[VMkernel adapters]*を選択し、*[ネットワークの追加...]*をクリックして開始します。
 +
-image:vmware-vcf-asa-image30.png["ネットワーク追加ウィザードの開始"]
+image::vmware-vcf-asa-image30.png[ネットワーク追加ウィザードの開始]
 
 +
 ｛nbsp｝
 
 . [接続タイプの選択]ウィンドウで*[VMkernel Network Adapter]*を選択し、*[次へ]*をクリックして続行します。
 +
-image:vmware-vcf-asa-image08.png["VMkernelネットワークアダプタを選択"]
+image::vmware-vcf-asa-image08.png[VMkernelネットワークアダプタを選択]
 
 +
 ｛nbsp｝
 
 . [ターゲットデバイスの選択]ページで、以前に作成したNFS用の分散ポートグループのいずれかを選択します。
 +
-image:vmware-vcf-aff-image39.png["ターゲットポートグループを選択"]
+image::vmware-vcf-aff-image39.png[ターゲットポートグループを選択]
 
 +
 ｛nbsp｝
@@ -178,14 +178,14 @@ image:vmware-vcf-aff-image39.png["ターゲットポートグループを選択"
 . [ポートのプロパティ]ページで、デフォルト（有効なサービスなし）のままにし、*[次へ]*をクリックして続行します。
 . [IPv4 settings]*ページで、*[IP address]*、*[Subnet mask]*を入力し、新しいゲートウェイIPアドレスを指定します（必要な場合のみ）。[次へ]*をクリックして続行します。
 +
-image:vmware-vcf-aff-image40.png["VMkernel IPv4設定"]
+image::vmware-vcf-aff-image40.png[VMkernel IPv4設定]
 
 +
 ｛nbsp｝
 
 . [選択内容の確認]ページで選択内容を確認し、*[終了]*をクリックしてVMkernelアダプタを作成します。
 +
-image:vmware-vcf-aff-image41.png["VMkernelの選択内容の確認"]
+image::vmware-vcf-aff-image41.png[VMkernelの選択内容の確認]
 
 
 
@@ -211,14 +211,14 @@ ONTAP Tools for VMware vSphere（OTV）はVMアプライアンスとして導入
 . VCF管理ドメインのvCenterアプライアンスにログインします。
 . vCenterアプライアンスのインターフェイスで管理クラスタを右クリックし、* Deploy OVF Template…*を選択します。
 +
-image:vmware-vcf-aff-image21.png["OVFテンプレートの導入..."]
+image::vmware-vcf-aff-image21.png[OVFテンプレートの導入...]
 
 +
 ｛nbsp｝
 
 . [Deploy OVF Template]ウィザードで、*[Local file]*ラジオボタンをクリックし、前の手順でダウンロードしたONTAP tools OVAファイルを選択します。
 +
-image:vmware-vcf-aff-image22.png["OVAファイルを選択"]
+image::vmware-vcf-aff-image22.png[OVAファイルを選択]
 
 +
 ｛nbsp｝
@@ -226,14 +226,14 @@ image:vmware-vcf-aff-image22.png["OVAファイルを選択"]
 . ウィザードの手順2~5では、VMの名前とフォルダを選択し、コンピューティングリソースを選択して詳細を確認し、ライセンス契約に同意します。
 . 構成ファイルとディスクファイルの格納場所として、VCF管理ドメインクラスタのVSANデータストアを選択します。
 +
-image:vmware-vcf-aff-image23.png["OVAファイルを選択"]
+image::vmware-vcf-aff-image23.png[OVAファイルを選択]
 
 +
 ｛nbsp｝
 
 . [Select network]ページで、管理トラフィックに使用するネットワークを選択します。
 +
-image:vmware-vcf-aff-image24.png["ネットワークの選択"]
+image::vmware-vcf-aff-image24.png[ネットワークの選択]
 
 +
 ｛nbsp｝
@@ -252,10 +252,10 @@ image:vmware-vcf-aff-image24.png["ネットワークの選択"]
 [次へ]*をクリックして続行します。
 
 +
-image:vmware-vcf-aff-image25.png["OTVテンプレートのカスタマイズ1"]
+image::vmware-vcf-aff-image25.png[OTVテンプレートのカスタマイズ1]
 
 +
-image:vmware-vcf-asa-image35.png["OTVテンプレートのカスタマイズ2"]
+image::vmware-vcf-asa-image35.png[OTVテンプレートのカスタマイズ2]
 
 +
 ｛nbsp｝
@@ -278,7 +278,7 @@ image::vmware-asa-image6.png[NetApp ONTAPツール]
 
 . ONTAPツールインターフェイスの* instance *ドロップダウンメニューから、管理対象のワークロードドメインに関連付けられているOTVインスタンスを選択します。
 +
-image:vmware-vcf-asa-image36.png["OTVインスタンスを選択"]
+image::vmware-vcf-asa-image36.png[OTVインスタンスを選択]
 
 +
 ｛nbsp｝

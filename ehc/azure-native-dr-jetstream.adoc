@@ -78,15 +78,15 @@ Jetstream DRソフトウェアは、JetStream DR Management Server Virtual Appli
 . vCenterサーバをMSAに登録します。インストールを実行するには、次の手順を実行します。
 . JetStream DR MSAが導入され、vCenter Serverが登録されたら、vSphere Web Clientを使用してJetStream DRプラグインにアクセスします。これを行うには、[データセンター]>[設定]>[JetStream DR]に移動します。
 +
-image:vmware-dr-image8.png[""]
+image::vmware-dr-image8.png[VMware DRイメージ8]
 
 . JetStream DRインタフェースから、適切なクラスタを選択します。
 +
-image:vmware-dr-image9.png[""]
+image::vmware-dr-image9.png[VMware DRイメージ9]
 
 . I/Oフィルタパッケージを使用してクラスタを設定します。
 +
-image:vmware-dr-image10.png[""]
+image::vmware-dr-image10.png[VMware DRイメージ10]
 
 . リカバリサイトにAzure Blob Storageを追加します。
 . アプライアンスタブからDR仮想アプライアンス（DRVA）を導入します。
@@ -97,14 +97,14 @@ NOTE: DRFAはCPTによって自動的に作成できますが、POCトライア�
 
 JetStream DRVAは、データ複製プロセスの主要な機能を容易にする仮想アプライアンスです。保護されたクラスタには少なくとも1つのDRVAが含まれている必要があります。通常は、ホストごとに1つのDRVAが構成されます。各DRVAは、複数の保護ドメインを管理できます。
 
-image:vmware-dr-image11.png[""]
+image::vmware-dr-image11.png[VMware DRイメージ11]
 
 この例では、4台のDRVAが80台の仮想マシン用に作成されています。
 
 . 使用可能なデータストアまたは独立した共有iSCSIストレージプールからVMDKを使用して、各DRVAのレプリケーションログボリュームを作成します。
 . Protected Domainsタブで、Azure Blob Storageサイト、DRVAインスタンス、およびレプリケーションログに関する情報を使用して、必要な数の保護ドメインを作成します。保護ドメインは、クラスタ内の特定のVMまたはVMのセットを定義します。これらのVMは一緒に保護され、フェイルオーバー/フェイルバック処理の優先順位が割り当てられます。
 +
-image:vmware-dr-image12.png[""]
+image::vmware-dr-image12.png[VMware DRイメージ12]
 
 . 保護するVMを選択し、保護ドメインのVM保護を開始します。これにより、指定したBlob Storeへのデータレプリケーションが開始されます。
 
@@ -115,7 +115,7 @@ NOTE: 保護ドメイン内のすべてのVMに同じ保護モードが使用さ
 
 NOTE: ライトバック（VMDK）モードを使用すると、パフォーマンスが向上します。
 
-image:vmware-dr-image13.png[""]
+image::vmware-dr-image13.png[VMware DRイメージ13]
 
 レプリケーションログボリュームがハイパフォーマンスストレージに配置されていることを確認します。
 
@@ -153,15 +153,15 @@ NOTE: Azure VMware解決策 のデフォルトCloudAdminユーザには、AVS対
 次のスクリーンショットは、DHCPベースのIPアドレスを使用したインストール方法を示しています。
 
 +
-image:vmware-dr-image14.png[""]
+image::vmware-dr-image14.png[VMware DRイメージ14]
 
 . JetStream DR for AVSのインストールが完了したら、ブラウザをリフレッシュします。JetStream DR UIにアクセスするには、SDDC Datacenter > Configure > JetStream DRに移動します。
 +
-image:vmware-dr-image15.png[""]
+image::vmware-dr-image15.png[VMware DRイメージ15]
 
 . JetStream DRインターフェイスから、オンプレミスクラスタをストレージサイトとして保護するために使用したAzure Blob Storageアカウントを追加し、Scan Domainsオプションを実行します。
 +
-image:vmware-dr-image16.png[""]
+image::vmware-dr-image16.png[VMware DRイメージ16]
 
 . 保護ドメインをインポートしたら、DRVAアプライアンスを展開します。この例では、JetStream DR UIを使用して、リカバリサイトから継続的なリハイドレートを手動で開始します。
 +
@@ -171,7 +171,7 @@ NOTE: これらの手順は、CPT作成計画を使用して自動化するこ�
 . 使用可能なvSANまたはANFデータストアを使用してレプリケーションログボリュームを作成します。
 . 保護ドメインをインポートし、VMの配置にANFデータストアを使用するようにリカバリVAを設定します。
 +
-image:vmware-dr-image17.png[""]
+image::vmware-dr-image17.png[VMware DRイメージ17]
 
 +
 
@@ -179,7 +179,7 @@ NOTE: 選択したセグメントでDHCPが有効になっていて、十分なI
 
 . 適切なフェイルオーバーオプション（継続的フェイルオーバーまたはフェイルオーバー）を選択します。この例では、連続リハイドレート（連続フェールオーバー）が選択されています。
 +
-image:vmware-dr-image18.png[""]
+image::vmware-dr-image18.png[VMware DRイメージ18]
 
 
 
@@ -201,17 +201,17 @@ NOTE: CPTを使用すると、フェイルオーバープランを実行して�
 NOTE: 保護対象のVMがAVSで起動されると、フェイルオーバー後（継続的または標準的なリハイドレート）、保護は自動的に再開され、JetStream DRは、Azure Blob Storage内の適切なコンテナまたは元のコンテナにデータをレプリケートし続けます。
 
 +
-image:vmware-dr-image19.png[""]
+image::vmware-dr-image19.png[VMware DRイメージ19]
 
 +
-image:vmware-dr-image20.png[""]
+image::vmware-dr-image20.png[VMware DRイメージ20]
 
 +
 タスクバーにフェイルオーバーアクティビティの進行状況が表示されます。
 
 . タスクが完了すると、リカバリされたVMとビジネスに通常どおりアクセスできます。
 +
-image:vmware-dr-image21.png[""]
+image::vmware-dr-image21.png[VMware DRイメージ21]
 
 +
 プライマリサイトが起動して再び実行されるようになったら、フェイルバックを実行できます。VM保護が再開され、データの整合性を確認する必要があります。
@@ -223,7 +223,7 @@ NOTE: 注：Automation Toolkitで提供されている「recovery_utility_prepar
 
 . リストアされたオンプレミス環境にアクセスし、Jetstream DR UIに移動して、適切な保護ドメインを選択します。保護サイトがフェイルバックできる状態になったら、UIで[Failback]オプションを選択します。
 +
-image:vmware-dr-image22.png[""]
+image::vmware-dr-image22.png[VMware DRイメージ22]
 
 
 
@@ -244,4 +244,4 @@ NOTE: リカバリサイトのVMを一時停止して保護対象サイトで再
 
 Jetstream DR for AVSとAzure NetApp Files データストアを併用すると、組織が使用可能なポイントインタイムからリカバリできるため、ワークロードが機能的な分離されたネットワークに必要に応じてリカバリされるため、これらの問題に対処できます。リカバリを使用すると、アプリケーションが相互に機能して通信できるようになり、南北のトラフィックにさらされることがなくなります。その結果、セキュリティチームはフォレンジックなどの必要な修復を安全に実行できます。
 
-image:vmware-dr-image23.png[""]
+image::vmware-dr-image23.png[VMware DRイメージ23]

@@ -89,14 +89,14 @@ ONTAP Tools for VMware vSphereを導入するには、次の手順を実行し�
 . VCF管理ドメインのvCenterアプライアンスにログインします。
 . vCenterアプライアンスのインターフェイスで管理クラスタを右クリックし、* Deploy OVF Template…*を選択します。
 +
-image:vmware-vcf-aff-image21.png["OVFテンプレートの導入..."]
+image::vmware-vcf-aff-image21.png[OVFテンプレートの導入...]
 
 +
 ｛nbsp｝
 
 . [Deploy OVF Template]ウィザードで、*[Local file]*ラジオボタンをクリックし、前の手順でダウンロードしたONTAP tools OVAファイルを選択します。
 +
-image:vmware-vcf-aff-image22.png["OVAファイルを選択"]
+image::vmware-vcf-aff-image22.png[OVAファイルを選択]
 
 +
 ｛nbsp｝
@@ -104,14 +104,14 @@ image:vmware-vcf-aff-image22.png["OVAファイルを選択"]
 . ウィザードの手順2~5では、VMの名前とフォルダを選択し、コンピューティングリソースを選択して詳細を確認し、ライセンス契約に同意します。
 . 構成ファイルとディスクファイルの格納場所として、VCF管理ドメインクラスタのVSANデータストアを選択します。
 +
-image:vmware-vcf-aff-image23.png["OVAファイルを選択"]
+image::vmware-vcf-aff-image23.png[OVAファイルを選択]
 
 +
 ｛nbsp｝
 
 . [Select network]ページで、管理トラフィックに使用するネットワークを選択します。
 +
-image:vmware-vcf-aff-image24.png["ネットワークの選択"]
+image::vmware-vcf-aff-image24.png[ネットワークの選択]
 
 +
 ｛nbsp｝
@@ -129,10 +129,10 @@ image:vmware-vcf-aff-image24.png["ネットワークの選択"]
 完了したら、*[次へ]*をクリックして続行します。
 
 +
-image:vmware-vcf-aff-image25.png["OTVテンプレートのカスタマイズ1"]
+image::vmware-vcf-aff-image25.png[OTVテンプレートのカスタマイズ1]
 
 +
-image:vmware-vcf-aff-image26.png["OTVテンプレートのカスタマイズ2"]
+image::vmware-vcf-aff-image26.png[OTVテンプレートのカスタマイズ2]
 
 +
 ｛nbsp｝
@@ -151,16 +151,16 @@ Swagger-UIを使用して実行する必要がある手順は複数あります�
 . Swaggerユーザインターフェイスにアクセスするには、 https://otv_ip:8143/api/rest/swagger-ui.html[] Webブラウザで。
 . [User Authentication：APIs for user authentication]*まで下にスクロールし、*[Post/2.0/vcf/user/login]*を選択します。
 +
-image:vmware-vcf-aff-image27.png["/2.0/VCF/ユーザ/ログイン後"]
+image::vmware-vcf-aff-image27.png[/2.0/VCF/ユーザ/ログイン後]
 
 . パラメーターコンテンツタイプ*で、コンテンツタイプを* application/json*に切り替えます。
 . [vcfLoginRequest]*で、OTVアプライアンスのユーザ名とパスワードを入力します。
 +
-image:vmware-vcf-aff-image28.png["OTVのユーザ名とパスワードを入力してください"]
+image::vmware-vcf-aff-image28.png[OTVのユーザ名とパスワードを入力してください]
 
 . * Try it out！*ボタンをクリックし、* Response Header *で*"authorization"：*テキスト文字列をコピーします。
 +
-image:vmware-vcf-aff-image29.png["コピー許可応答ヘッダー"]
+image::vmware-vcf-aff-image29.png[コピー許可応答ヘッダー]
 
 
 
@@ -172,12 +172,12 @@ image:vmware-vcf-aff-image29.png["コピー許可応答ヘッダー"]
 
 . Swagger UIで、* Security：APIs related to certificates *を探し、* GET /3.0/security/certificates/｛host｝/server-certificate *を選択します。
 +
-image:vmware-vcf-aff-image30.png["/3.0/security/certificates/｛host｝/server-certificateを取得します。"]
+image::vmware-vcf-aff-image30.png[/3.0/security/certificates/｛host｝/server-certificateを取得します。]
 
 . [* appliance-api-token*]フィールドで、前の手順で取得したテキスト文字列を貼り付けます。
 . host *フィールドに、パブリックSSL証明書の取得元となるONTAPストレージシステムのIPアドレスを入力します。
 +
-image:vmware-vcf-aff-image31.png["パブリックSSL証明書をコピー"]
+image::vmware-vcf-aff-image31.png[パブリックSSL証明書をコピー]
 
 
 
@@ -191,7 +191,7 @@ VCF appliance-api-tokenおよびONTAPパブリックSSL証明書を使用して�
 . [appliance-api-token]フィールドに、前の手順で取得したVCFトークンを入力します。トークンは最終的に期限切れになるため、新しいトークンを定期的に取得する必要がある場合があります。
 . controllerRequest *テキストボックスに、前の手順で取得したONTAPストレージシステムのIPアドレス、ユーザ名、パスワード、およびパブリックSSL証明書を入力します。
 +
-image:vmware-vcf-aff-image32.png["ストレージシステムを追加するための情報を入力してください"]
+image::vmware-vcf-aff-image32.png[ストレージシステムを追加するための情報を入力してください]
 
 . [Try it out！]ボタンをクリックして、ストレージシステムをOTVに追加します。
 
@@ -204,7 +204,7 @@ image:vmware-vcf-aff-image32.png["ストレージシステムを追加するた�
 
 . Swagger UIで、[Container：APIs related to containers]までスクロールし、[Post /2.0/admin/containers]を選択します。
 +
-image:vmware-vcf-aff-image33.png["/2.0/admin/containersを参照してください"]
+image::vmware-vcf-aff-image33.png[/2.0/admin/containersを参照してください]
 
 . [* appliance-api-token*]フィールドに、前の手順で取得したVCFトークンを入力します。トークンは最終的に期限切れになるため、新しいトークンを定期的に取得する必要がある場合があります。
 . [containerRequest]ボックスで、次の必須フィールドに入力します。
@@ -219,7 +219,7 @@ image:vmware-vcf-aff-image33.png["/2.0/admin/containersを参照してくださ�
 
 
 
-image:vmware-vcf-aff-image34.png["[vVol containerRequest]フォーム"]
+image::vmware-vcf-aff-image34.png[[vVol containerRequest]フォーム]
 
 4 [Try it out！]*をクリックして手順を実行し、VVOLコンテナを作成します。
 

@@ -116,7 +116,7 @@ $az ad sp create-for-rbac --name ""
 $tridentctl create backend -f anf-backend.json -n trident
 ....
 +
-image:aks-anf_image8.png[""]
+image::aks-anf_image8.png[AKS anf image8]
 
 . ストレージクラスを作成する。Kubernetes ユーザは、名前でストレージクラスを指定する PVC を使用してボリュームをプロビジョニングします。前の手順で作成した Trident バックエンドを参照するストレージクラス「 azurenetappfiles 」を作成するよう、 Kubernetes に指示します。
 . ストレージクラスおよびコピー用の YAML （ 'anf-storage-class.yaml ）ファイルを作成します。
@@ -138,4 +138,4 @@ kubectl get sc azurenetappfiles
 ....
 
 
-image:aks-anf_image9.png[""]
+image::aks-anf_image9.png[AKS anf image9]

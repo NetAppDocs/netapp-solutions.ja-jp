@@ -153,43 +153,43 @@ video::48adf2d8-3f5e-4ab3-b25c-b04a014635ac[panopto]
 ====
 . BlueXPコンソールにログインします。
 +
-image:snapctr_svcs_connector_02-canvas.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_connector_02-canvas.png[GUIでのこの手順を示すスクリーンショット。]
 
 . [Connector]*ドロップダウン矢印および*[Add Connector]*をクリックして、コネクタプロビジョニングワークフローを開始します。
 +
-image:snapctr_svcs_connector_03-addc.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_connector_03-addc.png[GUIでのこの手順を示すスクリーンショット。]
 
 . クラウドプロバイダ（この場合は* Microsoft Azure *）を選択します。
 +
-image:snapctr_svcs_connector_04-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_connector_04-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 . Azureアカウントですでに設定されている場合は、* Permission *、* Authentication *、* Networking *の各手順をスキップしてください。設定されていない場合は、先に進む前に設定する必要があります。ここから、前のセクションで参照したAzureポリシーの権限を取得することもできます。<<BlueXPへのオンボーディング>>. 」
 +
-image:snapctr_svcs_connector_05-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_connector_05-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 . [Skip to Deployment]*をクリックして、コネクタ*仮想マシン認証*を設定します。コネクタOS認証の準備として、BlueXPへのオンボーディング時にAzureリソースグループで作成したSSHキーペアを追加します。
 +
-image:snapctr_svcs_connector_06-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_connector_06-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 . コネクタインスタンスの名前を指定し、*[作成]*を選択し、*[詳細]*の[デフォルト]*[ロール名]*を受け入れ、Azureアカウントのサブスクリプションを選択します。
 +
-image:snapctr_svcs_connector_07-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_connector_07-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 . 適切な* VNet *、* Subnet *を使用してネットワークを構成し、* Public IP *を無効にします。ただし、Azure環境でコネクタがインターネットにアクセスできることを確認してください。
 +
-image:snapctr_svcs_connector_08-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_connector_08-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 . HTTP、HTTPS、およびSSHアクセスを許可するコネクタの*セキュリティグループ*を設定します。
 +
-image:snapctr_svcs_connector_09-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_connector_09-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 . 概要ページを確認し、*追加*をクリックしてコネクターの作成を開始します。通常、導入が完了するまでに約10分かかります。完了すると、コネクタインスタンスVMがAzureポータルに表示されます。
 +
-image:snapctr_svcs_connector_10-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_connector_10-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 . コネクターが展開されると、新しく作成されたコネクターが*コネクター*ドロップダウンの下に表示されます。
 +
-image:snapctr_svcs_connector_11-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_connector_11-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 
 
@@ -202,20 +202,18 @@ image:snapctr_svcs_connector_11-azure.png["GUIでのこの手順を示すスク�
 ====
 . BlueXPコンソールの右上にある設定アイコンをクリックして*[アカウントのクレデンシャル]*ページを開き、*[クレデンシャルの追加]*をクリックしてクレデンシャルの設定ワークフローを開始します。
 +
-image:snapctr_svcs_credential_01-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_credential_01-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 . クレデンシャルの場所として「* Microsoft Azure-BlueXP *」を選択してください。
 +
-image:snapctr_svcs_credential_02-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_credential_02-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 . 以前のBlueXPのオンボーディングプロセスで収集した、適切な* Client Secret *、* Client ID *、* Tenant ID *を使用してAzureクレデンシャルを定義します。
 +
-image:snapctr_svcs_credential_03-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_credential_03-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
-. 確認して*[追加]*をクリックします。
-image:snapctr_svcs_credential_04-azure.png["GUIでのこの手順を示すスクリーンショット。"]
-. また、* Marketplace Subscription *をクレデンシャルに関連付ける必要がある場合もあります。
-image:snapctr_svcs_credential_05-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+. 確認して*[追加]*をクリックします。 image：：snapctr_svcs_credential_04-azure.png ["GUIでこの手順を示すスクリーンショット"]
+. また、* Marketplace Subscription *をクレデンシャルに関連付ける必要がある場合もあります。 image：：snapctr_svcs_credential_05-azure.png ["GUIでこの手順を示すスクリーンショット"]
 
 
 ====
@@ -229,52 +227,54 @@ Azureクレデンシャルを設定すると、次の手順でSnapCenterサー�
 
 . Canvasページに戻り、* My Working Environment *で*[Add Working Environment]*をクリックして、Azureに導入されているAzure NetApp Filesを検出します。
 +
-image:snapctr_svcs_connector_11-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_connector_11-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 . 場所として* Microsoft Azure *を選択し、* Discover *をクリックします。
 +
-image:snapctr_svcs_setup_02-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_setup_02-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 . [Working Environment]*に名前を付け、前のセクションで作成した*[Credential Name]*を選択して*[Continue]*をクリックします。
 +
-image:snapctr_svcs_setup_03-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_setup_03-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 . BlueXPコンソールが* My Working Environments *に戻り、Azureから検出されたAzure NetApp Filesが* Canvas *に表示されるようになりました。
 +
-image:snapctr_svcs_setup_04-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_setup_04-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 . Azure NetApp Files *アイコンをクリックし、* Enter Working Environment *をクリックして、Azure NetApp Filesストレージに導入されているOracleデータベースボリュームを表示します。
 +
-image:snapctr_svcs_setup_05-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_setup_05-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 . コンソールの左側のサイドバーで、保護アイコンの上にマウスを置き、*[保護]*>*[アプリケーション]*をクリックして、[アプリケーション]の起動ページを開きます。[*アプリケーションの検出*]をクリックします。
 +
-image:snapctr_svcs_setup_09-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_setup_09-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 . アプリケーションのソースタイプとして* Cloud Native *を選択します。
 +
-image:snapctr_svcs_setup_10-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_setup_10-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 . アプリケーションタイプとして* Oracle *を選択し、* Next *をクリックしてホストの詳細ページを開きます。
 +
-image:snapctr_svcs_setup_13-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_setup_13-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 . [Using SSH]*を選択し、* IPアドレス*、*コネクタ*、Azure VM管理*ユーザ名*（azureuserなど）など、Oracle Azure VM VMの詳細を指定します。[Add SSH Private Key]*をクリックして、Oracle Azure VMの導入に使用したSSHキーペアを貼り付けます。また、フィンガープリントを確認するように求められます。
 +
-image:snapctr_svcs_setup_15-azure.png["GUIでのこの手順を示すスクリーンショット。"]
-image:snapctr_svcs_setup_16-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_setup_15-azure.png[GUIでのこの手順を示すスクリーンショット。]
+
++
+image::snapctr_svcs_setup_16-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 . 次の*[構成]*ページに進み、Oracle Azure VMでのsudoerアクセスをセットアップします。
 +
-image:snapctr_svcs_setup_17-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_setup_17-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 . 確認し、*[アプリケーションの検出]*をクリックして、Oracle Azure VMにプラグインをインストールし、VM上のOracleデータベースをワンステップで検出します。
 +
-image:snapctr_svcs_setup_18-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_setup_18-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 . Azure VMで検出されたOracleデータベースが* Applications *に追加され、* Applications *ページに環境内のホストとOracleデータベースの数が表示されます。データベース* Protection Status *は、最初は* Unprotected *と表示されます。
 +
-image:snapctr_svcs_setup_19-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_setup_19-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 
 
@@ -313,27 +313,27 @@ tmpfs                      1.6G     0  1.6G   0% /run/user/1000
 ....
 . データベースを保護するには、データベース*[保護ステータス]*の横にある3つの点をクリックし、*[ポリシーの割り当て]*をクリックして、Oracleデータベースに適用可能なデフォルトのプリロード済みまたはユーザ定義のデータベース保護ポリシーを表示します。[設定]*-*[ポリシー]*では、バックアップ頻度とバックアップデータ保持期間をカスタマイズして独自のポリシーを作成できます。
 +
-image:snapctr_svcs_bkup_01-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_bkup_01-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 . ポリシーの設定に問題がなければ、選択したポリシーを*割り当て*してデータベースを保護できます。
 +
-image:snapctr_svcs_bkup_02-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_bkup_02-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 . ポリシーが適用されると、データベースの保護ステータスが* Protected *に変わり、緑のチェックマークが表示されます。BlueXPは、定義されたスケジュールに従ってSnapshotバックアップを実行します。また、以下に示すように、3つのドットで構成されるドロップダウン・メニューから*オンデマンド・バックアップ*を利用できます。
 +
-image:snapctr_svcs_bkup_03-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_bkup_03-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 . [ジョブ監視]*タブでは、バックアップジョブの詳細を確認できます。テスト結果から、Oracleデータベースを約1.6TiBバックアップするのに約4分かかることがわかりました。
 +
-image:snapctr_svcs_bkup_04-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_bkup_04-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 . 3つのドットで構成されるドロップダウンメニュー*[詳細を表示]*では、Snapshotバックアップから作成されたバックアップセットを表示できます。
 +
-image:snapctr_svcs_bkup_05-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_bkup_05-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 . データベースバックアップの詳細には、*[バックアップ名]*、*[バックアップタイプ]*、* SCN *、* RMANカタログ*、*[バックアップ時間]*があります。バックアップセットには、データボリュームとログボリュームのアプリケーションと整合性のあるSnapshotがそれぞれ含まれます。ログボリュームのSnapshotは、データベースデータボリュームのSnapshotの直後に作成されます。バックアップ・リストで特定のバックアップを検索する場合は、フィルタを適用できます。
 +
-image:snapctr_svcs_bkup_06-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_bkup_06-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 
 
@@ -346,27 +346,27 @@ image:snapctr_svcs_bkup_06-azure.png["GUIでのこの手順を示すスクリー
 ====
 . データベースをリストアする場合は、*[アプリケーション]*でリストアする特定のデータベースの3点のドロップダウンメニューをクリックし、*[リストア]*をクリックしてデータベースのリストアとリカバリのワークフローを開始します。
 +
-image:snapctr_svcs_restore_01-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_restore_01-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 . タイムスタンプによる*リストアポイント*を選択します。リスト内の各タイム・スタンプは、使用可能なデータベース・バックアップ・セットを表します。
 +
-image:snapctr_svcs_restore_02-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_restore_02-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 . Oracleデータベースのインプレースリストアおよびリカバリを行う場合は、*リストア先*を*元の場所*に選択します。
 +
-image:snapctr_svcs_restore_03-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_restore_03-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 . リストア範囲*および*リカバリ範囲*を定義します。All Logs（すべてのログ）とは、現在のログを含む最新のフルリカバリを意味します。
 +
-image:snapctr_svcs_restore_04-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_restore_04-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 . および* Restore *を確認して、データベースのリストアとリカバリを開始します。
 +
-image:snapctr_svcs_restore_05-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_restore_05-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 . [Job Monitoring]*タブでは、データベース全体のリストアとリカバリを最新の状態にするのに2分かかったことがわかりました。
 +
-image:snapctr_svcs_restore_06-azure.png["GUIでのこの手順を示すスクリーンショット。"]
+image::snapctr_svcs_restore_06-azure.png[GUIでのこの手順を示すスクリーンショット。]
 
 
 
@@ -384,35 +384,35 @@ NOTE: Azure NetAppファイルストレージに、クローニングするプ�
 
 . クローニングするデータベースの3点のドロップダウンメニューを*[アプリケーション]*でクリックし、*[リストア]*をクリックしてクローニングのワークフローを開始します。
 +
-image:snapctr_svcs_restore_01-azure.png[""]
+image::snapctr_svcs_restore_01-azure.png[snapctr svcs restore 01 Azure]
 
 . [Restore Point]*を選択し、*[Restore to alternate location]*を確認します。
 +
-image:snapctr_svcs_clone_01-azure.png[""]
+image::snapctr_svcs_clone_01-azure.png[snapctr svcsクローン01 Azure]
 
 . 次の*[構成]*ページで、代替Azure VMで構成されている代替*ホスト*、新しいデータベース* SID *、および* Oracle Home *を設定します。
 +
-image:snapctr_svcs_clone_02-azure.png[""]
+image::snapctr_svcs_clone_02-azure.png[snapctr svcsクローン02 Azure]
 
 . [Review]*[General]*ページには、クローニングされたデータベースの詳細（SID、代替ホスト、データファイルの場所、リカバリ範囲など）が表示されます。
 +
-image:snapctr_svcs_clone_03-azure.png[""]
+image::snapctr_svcs_clone_03-azure.png[snapctr svcsクローン03 Azure]
 
 . [Review * Database parameters *]ページに、クローンデータベース設定の詳細と一部のデータベースパラメータ設定が表示されます。
 +
-image:snapctr_svcs_clone_04-azure.png[""]
+image::snapctr_svcs_clone_04-azure.png[snapctr svcsクローン04 Azure]
 
 . [Job Monitoring]タブでクローニングジョブのステータスを監視します。1.6TiBのOracleデータベースのクローニングに8分かかったことがわかりました。
 +
-image:snapctr_svcs_clone_05-azure.png[""]
+image::snapctr_svcs_clone_05-azure.png[snapctr svcsクローン05 Azure]
 
 . クローンデータベースがBlueXPにすぐに登録されたことを示すBlueXP *の[アプリケーション]*ページでクローンデータベースを検証します。
 +
-image:snapctr_svcs_clone_06-azure.png[""]
+image::snapctr_svcs_clone_06-azure.png[snapctr svcsクローン06 Azure]
 
 . クローニングされたデータベースが想定どおりに実行されていることを示すOracle Azure VMで、クローニングされたデータベースを検証します。
 +
-image:snapctr_svcs_clone_07-azure.png[""]
+image::snapctr_svcs_clone_07-azure.png[snapctr svcsクローン07 Azure]
 
 
 
