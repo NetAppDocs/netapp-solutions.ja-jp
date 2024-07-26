@@ -1,0 +1,126 @@
+---
+sidebar: sidebar 
+permalink: rhhc/rhhc-dp-velero-migrate.html 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, OADP operator, Openshift Data Protection Application operator, Velero 
+summary: NetApp ONTAPを使用したRed Hat OpenShiftコンテナアプリケーションのデータ保護 
+---
+= あるクラスタから別のクラスタへのアプリケーションの移行
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Veleroのバックアップとリストア機能は、クラスタ間でデータを移行するための貴重なツールです。このセクションでは、あるクラスタからオブジェクトストレージにアプリケーションのバックアップを作成し、同じオブジェクトストレージから別のクラスタにアプリケーションをリストアすることにより、あるクラスタから別のクラスタにアプリケーションを移行する方法について説明します。です。
+
+.最初のクラスタからのバックアップ
+[%collapsible]
+====
+**クラスタ1の前提条件**
+
+* クラスタにAstra Tridentがインストールされている必要があります。
+* Tridentバックエンドとストレージクラスを作成する必要があります。
+* OADPオペレータがクラスタにインストールされている必要があります。
+* DataProtectionApplicationを設定する必要があります。
+
+
+DataProtectionApplicationオブジェクトを構成するには、次の仕様を使用します。
+
+....
+spec:
+  backupLocations:
+    - velero:
+        config:
+          insecureSkipTLSVerify: 'false'
+          profile: default
+          region: us-east-1
+          s3ForcePathStyle: 'true'
+          s3Url: 'https://10.61.181.161'
+        credential:
+          key: cloud
+          name: ontap-s3-credentials
+        default: true
+        objectStorage:
+          bucket: velero
+          caCert: <base-64 encoded tls certificate>
+          prefix: container-backup
+        provider: aws
+  configuration:
+    nodeAgent:
+      enable: true
+      uploaderType: kopia
+    velero:
+      defaultPlugins:
+        - csi
+        - openshift
+        - aws
+        - kubevirt
+....
+* クラスタにアプリケーションを作成し、そのバックアップを作成します。例として、postgresアプリケーションをインストールします。
+
+
+image::redhat_openshift_OADP_migrate_image1.png[postgresアプリのインストール]
+
+* バックアップCRには次の仕様を使用します。
+
+
+....
+spec:
+  csiSnapshotTimeout: 10m0s
+  defaultVolumesToFsBackup: false
+  includedNamespaces:
+    - postgresql
+  itemOperationTimeout: 4h0m0s
+  snapshotMoveData: true
+  storageLocation: velero-sample-1
+  ttl: 720h0m0s
+....
+image::redhat_openshift_OADP_migrate_image2.png[postgresアプリのインストール]
+
+[**すべてのインスタンス*]タブをクリックすると、さまざまなオブジェクトが作成され、さまざまなフェーズを移動して最終的にバックアップ**完了**フェーズに進むことができます。
+
+ネームスペースPostgreSQL内のリソースのバックアップは、OADP仕様のBackupLocationで指定されたオブジェクトストレージの場所（ONTAP S3）に格納されます。
+
+====
+.2つ目のクラスタへのリストア
+[%collapsible]
+====
+**クラスタ2の前提条件**
+
+* Astra Tridentがクラスタ2にインストールされている必要があります。
+* PostgreSQLアプリがPostgreSQL名前空間にインストールされていないことを確認してください。
+* OADPオペレータはクラスタ2にインストールする必要があり、BackupStorageの場所が1つ目のクラスタのバックアップが格納されたオブジェクトストレージの場所と同じ場所を指している必要があります。
+* バックアップCRは、2番目のクラスタから認識できる必要があります。
+
+
+image::redhat_openshift_OADP_migrate_image3.png[Tridentをインストール]
+
+image::redhat_openshift_OADP_migrate_image4.png[Postgresがまだインストールされていません]
+
+image::redhat_openshift_OADP_migrate_image5.png[クラスタ2にOADPをインストール]
+
+image::redhat_openshift_OADP_migrate_image6.png[同じオブジェクトストアを参照しているバックアップストレージの場所]
+
+バックアップからこのクラスタ上のアプリを復元します。復元CRを作成するには、次のYAMLを使用します。
+
+....
+apiVersion: velero.io/v1
+kind: Restore
+apiVersion: velero.io/v1
+metadata:
+  name: restore
+  namespace: openshift-adp
+spec:
+  backupName: backup
+  restorePVs: true
+....
+復元が完了すると、PostgreSQLアプリがこのクラスタで実行されており、PVCと対応するpvに関連付けられていることがわかります。アプリの状態は、バックアップが作成されたときと同じです。
+
+image::redhat_openshift_OADP_migrate_image7.png[リストア完了]
+
+image::redhat_openshift_OADP_migrate_image7.png[Postgresが移行されました]
+
+====
