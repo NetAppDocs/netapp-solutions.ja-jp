@@ -103,10 +103,7 @@ AWX / タワー環境の場合は、 ONTAP クラスタ管理と Oracle サー�
 | NFS VLAN および ifgrp が作成されました 
 
 
-.6+| * Oracle サーバ * |  
-
-
-| RHEL 7/8 
+.5+| * Oracle サーバ * | RHEL 7/8 
 
 
 | Oracle Linux 7/8 
@@ -121,13 +118,16 @@ AWX / タワー環境の場合は、 ONTAP クラスタ管理と Oracle サー�
 | Oracle EC2 インスタンスに適切なスワップスペースを設定します。デフォルトでは、一部の EC2 インスタンスは 0 スワップで導入されます 
 
 
-.3+| * Cloud Manager / AWS * | AWS のアクセス / シークレットキー 
+.4+| * Cloud Manager / AWS * | AWS のアクセス / シークレットキー 
 
 
 | NetApp Cloud Manager アカウント 
 
 
 | NetApp Cloud Manager Refresh Token 
+
+
+| ソースクラスタ間LIFをAWSセキュリティグループに追加 
 |===
 --
 ====
@@ -137,7 +137,7 @@ AWX / タワー環境の場合は、 ONTAP クラスタ管理と Oracle サー�
 
 [role="tabbed-block"]
 ====
-.<strong class="big"> オンプレミス </strong><strong>|</strong>
+.<strong class="big"> On-Prem </strong>
 --
 この自動導入は、 3 つのロールで構成される Ansible プレイブックを使用して設計されています。ロールは ONTAP 、 Linux 、 Oracle の各構成に対応しています。次の表に、自動化されるタスクを示します。
 
