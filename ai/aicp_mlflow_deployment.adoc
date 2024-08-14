@@ -1,0 +1,102 @@
+---
+sidebar: sidebar 
+permalink: ai/aicp_mlflow_deployment.html 
+keywords: AI, control plane, MLOps, MLflow 
+summary: NetAppを使用したオープンソースMLOps - MLflowの導入 
+---
+= MLflowの展開
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+このセクションでは、KubernetesクラスタにMLflowを導入するために完了する必要があるタスクについて説明します。
+
+
+NOTE: MLflowはKubernetes以外のプラットフォームに導入することも可能です。Kubernetes以外のプラットフォームへのMLflowの導入は、このソリューションの範囲外です。
+
+
+
+== 前提条件
+
+このセクションで説明する導入の演習を行う前に、次の作業をすでに実行していることを前提としています。
+
+. Kubernetes クラスタをすでに使用している。
+. KubernetesクラスタにNetApp Astra Tridentをインストールして設定しておきます。Astra Tridentの詳細については、を参照してください link:https://docs.netapp.com/us-en/trident/index.html["Astra Trident のドキュメント"^]。
+
+
+
+
+== Helm をインストールします
+
+MLflowは、Kubernetesで人気のあるパッケージマネージャであるHelmを使用して導入されます。MLflowを導入する前に、Kubernetes制御ノードにHelmをインストールする必要があります。Helmをインストールするには、公式のHelmドキュメントのを実行し https://helm.sh/docs/intro/install/["インストール手順"^] ます。
+
+
+
+== デフォルトの Kubernetes StorageClass を設定します
+
+MLflowを導入する前に、Kubernetesクラスタ内でデフォルトのStorageClassを指定する必要があります。クラスタ内でデフォルトのストレージクラスを指定するには、の手順に従ってください link:aicp_kubeflow_deployment_overview.html["Kubeflow の導入"] 。クラスタ内ですでにデフォルトの StorageClass を指定している場合は、この手順を省略できます。
+
+
+
+== MLflowの展開
+
+前提条件が満たされたら、Helmチャートを使用してMLflowの導入を開始できます。
+
+
+
+=== MLflow Helmチャート展開を設定します。
+
+Helmチャートを使用してMLflowを導入する前に、NetApp Tridentストレージクラスを使用するように導入を構成し、* config.yaml *ファイルを使用して他のパラメータをニーズに合わせて変更できます。config.yaml*ファイルの例は、次の場所にあります。 https://github.com/bitnami/charts/blob/main/bitnami/mlflow/values.yaml[]
+
+
+NOTE: Trident storageClassは、config.yamlファイルの* global.defaultStorageClass*パラメータで設定できます（例：storageClass："ONTAP-FlexVol"）。
+
+
+
+=== Helmチャートのインストール
+
+次のコマンドを使用して、HelmチャートをMLflow用のカスタム* config.yaml *ファイルとともにインストールできます。
+
+[source, shell]
+----
+helm install oci://registry-1.docker.io/bitnamicharts/mlflow -f config.yaml --generate-name --namespace jupyterhub
+----
+
+NOTE: このコマンドは、提供されている* config.yaml *ファイルを使用して、カスタム構成内のKubernetesクラスタにMLflowをデプロイします。MLflowは指定された名前空間にデプロイされ、リリースのためにKubernetes経由でランダムなリリース名が与えられます。
+
+
+
+=== 展開を確認
+
+Helmチャートの導入が完了したら、次のコマンドを使用してサービスにアクセスできるかどうかを確認できます。
+
+[source, shell]
+----
+kubectl get service -n jupyterhub
+----
+
+NOTE: *jupyterhub*を、導入時に使用した名前空間に置き換えます。
+
+次のサービスが表示されます。
+
+[source, shell]
+----
+NAME                              TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)           AGE
+mlflow-1719843029-minio           ClusterIP   10.233.22.4     <none>        80/TCP,9001/TCP   25d
+mlflow-1719843029-postgresql      ClusterIP   10.233.5.141    <none>        5432/TCP          25d
+mlflow-1719843029-postgresql-hl   ClusterIP   None            <none>        5432/TCP          25d
+mlflow-1719843029-tracking        NodePort    10.233.2.158    <none>        30002:30002/TCP   25d
+----
+
+NOTE: config.yamlファイルを編集し、NodePortサービスを使用してポート30002のMLflowにアクセスしました。
+
+
+
+=== アクセスMLflow
+
+MLflowに関連するすべてのサービスが起動して実行されたら、指定したNodePortまたはLoadBalancer IPアドレス（例：）を使用してMLflowにアクセスできます http://10.61.181.109:30002[]。

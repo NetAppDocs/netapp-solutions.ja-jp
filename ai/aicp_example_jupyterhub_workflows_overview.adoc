@@ -1,0 +1,83 @@
+---
+sidebar: sidebar 
+permalink: ai/aicp_example_jupyterhub_workflows_overview.html 
+keywords: AI, control plane, MLOps, JupyterHub 
+summary: オープンソースのMLOpsとNetApp - NetApp DataOps ToolkitとJupyterHubの併用 
+---
+= NetApp DataOps ToolkitとJupyterHubの併用
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+は、 https://github.com/NetApp/netapp-dataops-toolkit/tree/main/netapp_dataops_k8s["Kubernetes向けNetApp DataOpsツールキット"^] JupyterHubと組み合わせて使用できます。NetApp DataOps ToolkitとJupyterHubを使用すると、エンドユーザーは、ワークスペースのバックアップやデータセット対モデルのトレーサビリティのためのボリュームスナップショットをJupyterノートブック内から直接作成できます。
+
+
+
+== 初期セットアップ
+
+DataOps ToolkitをJupyterHubで使用する前に、JupyterHubが個 々 のユーザーJupyter Notebook Serverポッドに割り当てるKubernetesサービスアカウントに適切な権限を付与する必要があります。JupyterHubは、JupyterHub Helmチャート構成ファイルの変数で指定されたサービスアカウントを使用し `singleuser.serviceAccountName` ます。
+
+
+
+=== DataOps Toolkitのクラスタロールの作成
+
+まず、ボリュームSnapshotの作成に必要なKubernetes API権限を持つ「netapp-dataops」という名前のクラスタロールを作成します。
+
+[source]
+----
+$ vi clusterrole-netapp-dataops-snapshots.yaml
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: netapp-dataops-snapshots
+rules:
+- apiGroups: [""]
+  resources: ["persistentvolumeclaims", "persistentvolumeclaims/status", "services"]
+  verbs: ["get", "list"]
+- apiGroups: ["snapshot.storage.k8s.io"]
+  resources: ["volumesnapshots", "volumesnapshots/status", "volumesnapshotcontents", "volumesnapshotcontents/status"]
+  verbs: ["get", "list", "create"]
+
+$ kubectl create -f clusterrole-netapp-dataops-snapshots.yaml
+clusterrole.rbac.authorization.k8s.io/netapp-dataops-snapshots created
+----
+
+
+=== ノートブックサーバーサービスアカウントへのクラスタロールの割り当て
+
+「netapp-dataops-snapshots」クラスタロールを適切なネームスペース内の適切なサービスアカウントに割り当てるロールバインドを作成します。たとえば、「jupyterhub」ネームスペースにJupyterHubをインストールし、変数で「default」サービスアカウントを指定した場合 `singleuser.serviceAccountName` 、次の例に示すように、「jupyterhub」ネームスペースの「default」サービスアカウントに「netapp-dataops-snapshots」クラスタロールを割り当てます。
+
+[source]
+----
+$ vi rolebinding-jupyterhub-netapp-dataops-snapshots.yaml
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: jupyterhub-netapp-dataops-snapshots
+  namespace: jupyterhub # Replace with you JupyterHub namespace
+subjects:
+- kind: ServiceAccount
+  name: default # Replace with your JupyterHub singleuser.serviceAccountName
+  namespace: jupyterhub # Replace with you JupyterHub namespace
+roleRef:
+  kind: ClusterRole
+  name: netapp-dataops-snapshots
+  apiGroup: rbac.authorization.k8s.io
+
+$ kubectl create -f ./rolebinding-jupyterhub-netapp-dataops-snapshots.yaml
+rolebinding.rbac.authorization.k8s.io/jupyterhub-netapp-dataops-snapshots created
+----
+
+
+== Jupyter Notebook内でボリュームスナップショットを作成する
+
+JupyterHubユーザーは、次の例に示すように、NetApp DataOps Toolkitを使用して、Jupyterノートブック内から直接ボリュームスナップショットを作成できるようになりました。
+
+image::aicp_jhub_dotk_nb.png[aicp jhub dotk nb]

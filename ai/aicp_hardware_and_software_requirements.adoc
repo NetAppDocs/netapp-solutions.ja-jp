@@ -14,19 +14,65 @@ summary: NetAppによるオープンソースMLOps -アーキテクチャ
 
 
 [role="lead"]
-この解決策は特定のハードウェアに依存しません。解決策は、 Trident でサポートされている、任意のネットアップ物理ストレージアプライアンス、ソフトウェア定義インスタンス、クラウドサービスと互換性があります。たとえば、NetApp AFFストレージシステム、Amazon FSx for NetApp ONTAP、Azure NetApp Files、NetApp Cloud Volumes ONTAPインスタンスなどです。さらに、使用しているKubernetesバージョンがKubeflowとNetApp Astra Tridentでサポートされていれば、解決策を任意のKubernetesクラスタに実装できます。Kubeflow でサポートされる Kubernetes バージョンの一覧については、を参照してください https://www.kubeflow.org/docs/started/getting-started/["Kubeflow の公式ドキュメント"^]。Trident でサポートされている Kubernetes のバージョンのリストについては、を参照してください https://docs.netapp.com/us-en/trident/index.html["Trident のドキュメント"^]。解決策の検証に使用した環境の詳細については、次の表を参照してください。
+この解決策は特定のハードウェアに依存しません。このソリューションは、NetApp Astra Tridentでサポートされている任意のNetApp物理ストレージアプライアンス、Software-Definedインスタンス、クラウドサービスと互換性があります。たとえば、NetApp AFFストレージシステム、Amazon FSx for NetApp ONTAP、Azure NetApp Files、Google Cloud NetApp Volume、NetApp Cloud Volumes ONTAPインスタンスなどです。さらに、使用するKubernetesのバージョンがNetApp Astra Tridentおよび実装中のその他のソリューションコンポーネントでサポートされているかぎり、このソリューションは任意のKubernetesクラスタに実装できます。TridentでサポートされるKubernetesのバージョンのリストについては、を参照してください https://docs.netapp.com/us-en/trident/index.html["Trident のドキュメント"^]。このソリューションの各種コンポーネントの検証に使用した環境の詳細については、次の表を参照してください。
+
+
+
+== Apacheエアフロー検証環境
 
 |===
 | ソフトウェアコンポーネント | バージョン 
 
 
-| Apache の通気 | 2.0.1 
+| Apache の通気 | 2.0.1、8.0.8経由で導入 link:https://artifacthub.io/packages/helm/airflow-helm/airflow["Apache Airflow Helmチャート"^] 
 
 
-| Apache Airflow Helm チャート | 8.0.8 
+| Kubernetes | 1.18 
 
 
-| クビフロー | 1.7、次の方法で導入 link:https://www.deploykf.org["deployKF"] 0.1.1 
+| ネットアップアストラト Trident | 21.01 
+|===
+
+
+== JupyterHub検証環境
+
+|===
+| ソフトウェアコンポーネント | バージョン 
+
+
+| JupyterHub | 4.1.5、3.3.7経由で導入 link:https://hub.jupyter.org/helm-chart/["JupyterHub Helmチャート"^] 
+
+
+| Kubernetes | 1.29 
+
+
+| ネットアップアストラト Trident | 24.02 
+|===
+
+
+== MLflow検証環境
+
+|===
+| ソフトウェアコンポーネント | バージョン 
+
+
+| MLflow | 2.14.1（1.4.12経由で導入） link:https://artifacthub.io/packages/helm/bitnami/mlflow["MLflow Helmチャート"^] 
+
+
+| Kubernetes | 1.29 
+
+
+| ネットアップアストラト Trident | 24.02 
+|===
+
+
+== Kubeflow検証環境
+
+|===
+| ソフトウェアコンポーネント | バージョン 
+
+
+| クビフロー | 1.7、0.1.1を使用して導入 link:https://www.deploykf.org["deployKF"^] 
 
 
 | Kubernetes | 1.26 
@@ -38,4 +84,4 @@ summary: NetAppによるオープンソースMLOps -アーキテクチャ
 
 == サポート
 
-NetAppは、Apache Airflow、Kubeflow、Kubernetesのエンタープライズサポートを提供していません。完全にサポートされているMLOpsプラットフォームに関心がある場合は、 link:https://www.netapp.com/us/contact-us/index.aspx?for_cr=us["ネットアップにお問い合わせください"] NetAppがパートナーと共同で提供する、完全にサポートされたMLOpsソリューションについて説明します。
+NetAppは、Apache Airflow、JupyterHub、MLflow、Kubeflow、Kubernetesのエンタープライズサポートを提供していません。完全にサポートされたMLOpsプラットフォームに関心がある場合は link:https://www.netapp.com/us/contact-us/index.aspx?for_cr=us["ネットアップにお問い合わせください"^] 、NetAppがパートナーと共同で提供する完全にサポートされたMLOpsソリューションについて説明します。

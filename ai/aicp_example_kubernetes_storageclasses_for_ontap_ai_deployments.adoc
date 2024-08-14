@@ -14,17 +14,17 @@ summary: NetAppを使用したオープンソースのMLOps - NetApp AIPod環境
 
 
 [role="lead"]
-Astra Tridentを使用してKubernetesクラスタ内のストレージリソースを動的にプロビジョニングするには、Kubernetes StorageClassを1つ以上作成する必要があります。次の例は、この解決策のコンポーネントをに導入する場合に作成するさまざまなタイプのStorageClassesを示しています。 link:https://docs.netapp.com/us-en/netapp-solutions/ai/aipod_nv_intro.html["NetApp AIPod"]。StorageClasses の詳細については、を参照してください link:https://docs.netapp.com/us-en/trident/index.html["Astra Trident のドキュメント"]。
+Astra Tridentを使用してKubernetesクラスタ内のストレージリソースを動的にプロビジョニングするには、Kubernetes StorageClassを1つ以上作成する必要があります。以降の例は、このソリューションのコンポーネントをに導入する場合に作成するさまざまなタイプのStorageClassesを示して link:https://docs.netapp.com/us-en/netapp-solutions/ai/aipod_nv_intro.html["NetApp AIPod"^]います。StorageClasses、および他のプラットフォーム/環境のStorageClassesなどの詳細については、を参照してください link:https://docs.netapp.com/us-en/trident/index.html["Astra Trident のドキュメント"^]。
 
 . NetAppでは、セクションで作成したFlexGroup対応のTridentバックエンド用にストレージクラスを作成することを推奨します。 link:aicp_example_trident_backends_for_ontap_ai_deployments.html["NetApp AIPod環境でのAstra Tridentバックエンドの例"]、手順 1.以降のコマンド例では、セクションで作成した2つのバックエンドの例に対応する複数のStorageClassesを作成しています。 link:aicp_example_trident_backends_for_ontap_ai_deployments.html["NetApp AIPod環境でのAstra Tridentバックエンドの例"]、ステップ1 - link:https://docs.netapp.com/us-en/ontap/nfs-rdma/["RDMA経由のNFS"] そうではありません
 +
 対応する PersistentVolumeClaim （ PVC ）が削除されたときに永続ボリュームが削除されないようにするため、次の例では「 Retain 」の「 ReclaimPolicy 」の値を使用しています。「 ReclaimPolicy 」フィールドの詳細については、公式を参照してください https://kubernetes.io/docs/concepts/storage/storage-classes/["Kubernetes のドキュメント"^]。
 
 +
-注：次の例のStorageClassesで使用される最大転送サイズは262144です。この最大転送サイズを使用するには、それに応じてONTAPシステムの最大転送サイズを設定する必要があります。を参照してください link:https://docs.netapp.com/us-en/ontap/nfs-admin/nfsv3-nfsv4-performance-tcp-transfer-size-concept.html["ONTAP のドキュメント"] を参照してください。
+注：次の例のStorageClassesで使用される最大転送サイズは262144です。この最大転送サイズを使用するには、それに応じてONTAPシステムの最大転送サイズを設定する必要があります。詳細については、を参照して link:https://docs.netapp.com/us-en/ontap/nfs-admin/nfsv3-nfsv4-performance-tcp-transfer-size-concept.html["ONTAP のドキュメント"^] ください。
 
 +
-注：RDMA経由のNFSを使用するには、ONTAPシステムでRDMA経由のNFSを設定する必要があります。詳細については、https://docs.netapp.com/us-en/ontap/nfs-rdma/[ONTAPドキュメントのリンクを参照してください。
+注：RDMA経由のNFSを使用するには、ONTAPシステムでRDMA経由のNFSを設定する必要があります。詳細については、を参照して link:https://docs.netapp.com/us-en/ontap/nfs-rdma/["ONTAP のドキュメント"^] ください。
 
 +
 注：次の例では、StorageClass定義ファイルのStoragePoolフィールドに特定のバックエンドが指定されていません。
