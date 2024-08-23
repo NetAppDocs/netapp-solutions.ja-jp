@@ -1,0 +1,448 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmfs-deployment.html 
+keywords: vmware, vmfs, deployment, 
+summary: このソリューションは、ONTAPのSANテクノロジとOFFTAPツールを使用して、現在だけでなく将来にわたってビジネスに不可欠なITサービスを提供するための最適なアプローチを示します。これらの利点は、SAN環境でVMware vSphereを実行する仮想環境で特に有益です。 
+---
+= VMFSの導入ガイド
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+NetAppのストレージソリューションとソリューションは、お客様が仮想化インフラストラクチャのメリットを最大限に活用できるよう支援します。NetAppソリューションを使用すると、包括的なデータ管理ソフトウェアを効率的に実装して、自動化、効率化、データ保護、セキュリティ機能を実現し、厳しいパフォーマンス要件を効果的に満たすことができます。ONTAPソフトウェアとVMware vSphereを組み合わせることで、ホストハードウェアとVMwareのライセンスコストを削減し、低コストでデータを確実に保護し、一貫した高パフォーマンスを実現できます。
+
+
+
+== はじめに
+
+仮想化されたワークロードはモバイルです。そのため、管理者はVMware Storage vMotionを使用して、VMware Virtual Machine File System（VMFS）、NFS、vVolの各データストア間でVMを移動します。このため、オールフラッシュシステムを使用している場合や、革新的なSANとともに最新のASAモデルを使用してコスト効率を高める場合は、さまざまなストレージアプローチを検討できます。
+
+ここで重要なメッセージは、ONTAPに移行することでカスタマーエクスペリエンスとアプリケーションパフォーマンスが向上し、FCP、iSCSI、NVMe/FC、NVMe/TCPの間でデータとアプリケーションを柔軟に移行できることです。VMware vSphereに多額の投資を行っている企業にとって、現在の市場状況を考えると、ONTAPストレージの使用は対費用効果の高いオプションであり、またとない機会となります。今日の企業は、最新のSANアプローチで簡単かつ迅速に対処できるという新たな課題に直面しています。NetAppの既存および新規のお客様がONTAPで付加価値を提供する方法をいくつかご紹介します。
+
+* コスト効率-統合されたStorage Efficiencyにより、ONTAPはストレージコストを大幅に削減できます。NetApp ASAシステムでは、パフォーマンスに影響を与えることなく、すべてのStorage Efficiency機能を本番環境で実行できます。NetAppでは、最も効果的な容量削減保証を利用して、こうした効率化のメリットを簡単に計画できます。
+* データ保護- Snapshotを使用するSnapCenterソフトウェアは、VM構成に導入されたさまざまなエンタープライズアプリケーションに対して、高度なVMレベルおよびアプリケーションレベルのデータ保護を提供します。
+* セキュリティ- Snapshotコピーを使用してマルウェアやランサムウェアから保護します。Snapshotロック機能とNetApp SnapLock®ソフトウェアを使用して、Snapshotコピーを書き換え不可にすることで、保護を強化します。
+* Cloud - ONTAPは、企業がパブリッククラウドとプライベートクラウドを組み合わせることを可能にする幅広いハイブリッドクラウドオプションを提供し、柔軟性を提供し、インフラ管理のオーバーヘッドを削減します。ONTAPサービスに基づく補完的なデータストアサポートにより、VMware Cloud on Azure、AWS、Googleを使用して、ベンダーロックインを回避しながら、導入、データ保護、ビジネス継続性のTCOを最適化できます。
+* 柔軟性- ONTAPは、今日の組織の急速に変化するニーズに対応するための十分な機能を備えています。ONTAP Oneでは、これらすべての機能が追加コストなしでONTAPシステムに標準搭載されています。
+
+
+
+
+== サイズの適正化と最適化
+
+ライセンスの変更が差し迫っているため、組織は総所有コスト（TCO）の増加の可能性に積極的に対処しています。積極的なリソース管理とサイズ適正化を通じてVMwareインフラを戦略的に最適化し、リソース使用率の向上とキャパシティプランニングの合理化を実現しています。専用のツールを効果的に使用することで、無駄なリソースを効率的に特定して再利用できるため、コア数と全体的なライセンスコストを削減できます。重要なのは、多くの組織がすでにこれらの手法をクラウドの評価に統合しており、これらのプロセスとツールがオンプレミス環境におけるコストの懸念を効果的に軽減し、代替ハイパーバイザーへの不要な移行コストを排除する方法を示していることです。
+
+
+
+=== TCO試算ツール
+
+NetAppは、この最適化プロセスを開始するための足がかりとなるシンプルなTCO試算ツールを作成しました。TCO試算ツールは、RVtoolsまたは手動入力方式を使用して、特定の導入に必要なホスト数を簡単に予測し、その削減量を計算して、NetApp ONTAPストレージシステムを使用した導入を最適化します。覚えておいてください、これは踏み台です。
+
+
+NOTE: TCO試算ツールは、NetAppの現場営業チームとパートナーのみが利用できます。NetAppアカウントチームと協力して、既存の環境を評価します。
+
+これはTCO試算ツールのスクリーンショットです。
+
+image::vmfs-deploy-image1.png[VMFS Deployイメージ1]
+
+
+
+=== Cloud Insights の機能です
+
+試算ツールに可能な削減量が示されたら（どの組織にも当てはまります）、次に、リアルタイムの指標を使用して、仮想マシン全体のワークロードIOプロファイルを詳細に分析します。このために、NetAppはCloud Insightsを提供します。Cloud Insightsは、VMの再利用に関する詳細な分析と推奨事項を提供することで、企業が十分な情報に基づいてVM環境の最適化に関する意思決定を行うのを支援します。IT部門は、本番環境への影響を最小限に抑えながら、リソースの再利用やホストの廃止が可能な場所を特定できるため、BroadcomによるVMwareの買収によってもたらされた変化を、思慮深く戦略的な方法で乗り切ることができます。言い換えれば、Cloud Insightは、企業が意思決定から感情を取り除くのに役立ちます。Cloud Insightsツールが提供する分析情報を活用して、コスト最適化と運用効率と生産性のバランスを取る合理的で戦略的な意思決定を行うことができます。
+
+以下はCloud Insightsのスクリーンショットです。
+
+image::vmfs-deploy-image2.png[VMFS Deployイメージ2]
+
+image::vmfs-deploy-image3.png[VMFS Deployイメージ3]
+
+
+NOTE: 定期的な評価を実施して、利用率の低いリソースを特定し、仮想マシンの密度を高め、VMwareクラスタ内の使用率を高めて、新しいサブスクリプションライセンスに関連するコストの上昇を抑制します。VMwareのライセンスモデルの変更に合わせて、新しいサーバを購入する場合は、CPUあたりのコア数を16に減らすことを検討してください。
+
+NetAppを使用すると、仮想環境のサイジングを最適化し、対費用効果の高いフラッシュストレージのパフォーマンスと、シンプルなデータ管理ソリューションとランサムウェアソリューションを実現できます。これにより、現在導入されているITリソースを最適化しながら、新しいサブスクリプションモデルに備えることができます。
+
+
+
+== NetApp ONTAP Tools for VMware vSphere の略
+
+VMwareとの統合をさらに強化し、簡易化するために、NetAppには、NetApp ONTAPおよびVMware vSphereで使用できるOFFTAPツールがいくつか用意されています。これらのツールを使用して、仮想化環境を効率的に管理できます。このセクションでは、VMware向けのONTAPツールについて説明します。ONTAP Tools for VMware vSphere 10は、仮想マシンのライフサイクル管理のための包括的なツールセットです。ストレージ管理の簡易化、効率化機能の強化、可用性の向上、ストレージコストと運用オーバーヘッドの削減を実現します。これらのツールはVMwareエコシステムとシームレスに統合されるため、データストアのプロビジョニングが容易になり、仮想マシンの基本的な保護が提供されます。ONTAP tools for VMware vSphereの10.xリリースは、水平方向に拡張可能なイベント駆動型マイクロサービスで構成されています。OVA（オープン仮想アプライアンス）として導入され、データストアのプロビジョニングとブロックストレージ環境とNFSストレージ環境の両方でESXiホスト設定を最適化するためのベストプラクティスに準拠しています。これらの利点を考慮して、ONTAPソフトウェアを実行するシステムで使用するベストプラクティスとしてOTVを推奨します。
+
+
+
+=== はじめに
+
+ONTAP tools for VMwareを導入して設定する前に、前提条件が満たされていることを確認してください。完了したら、シングルノード構成を導入します。
+
+
+NOTE: 導入には3つのIPアドレスが必要です。1つはロードバランサ用のIPアドレス、もう1つはKubernetesコントロールプレーン用のIPアドレス、もう1つはノード用のIPアドレスです。
+
+
+
+=== 手順
+
+. vSphereサーバにログインします。
+. OVAを導入するクラスタまたはホストに移動します。
+. 目的の場所を右クリックし、[Deploy OVF Template]を選択します。
++
+.. .ovaファイルのURLを入力するか、.ovaファイルが保存されているフォルダを参照して、[次へ]を選択します。
+
+
+. 仮想マシンの名前、フォルダ、クラスタ/ホストを選択し、[Next]を選択します。
+. [Configuration]ウィンドウで、[Easy deployment（S）]、[Easy deployment（M）]、または[Advanced deployment（S）]または[Advanced deployment（M）configuration]を選択します。
++
+
+NOTE: このチュートリアルでは、簡単な導入オプションを使用します。
+
++
+image::vmfs-deploy-image4.png[VMFS Deployイメージ4]
+
+. OVAを導入するデータストアとソースネットワークとデスティネーションネットワークを選択します。完了したら、[次へ]を選択します。
+. テンプレート>システム構成ウィンドウをカスタマイズします。
++
+image::vmfs-deploy-image5.png[VMFS Deployイメージ5]
+
++
+image::vmfs-deploy-image6.png[VMFS Deployイメージ6]
+
++
+image::vmfs-deploy-image7.png[VMFS Deployイメージ7]
+
+
+
+インストールが完了すると、WebコンソールにONTAP tools for VMware vSphereの状態が表示されます。
+
+image::vmfs-deploy-image8.png[VMFS Deployイメージ8]
+
+image::vmfs-deploy-image9.png[VMFS Deployイメージ9]
+
+
+NOTE: データストア作成ウィザードでは、VMFS、NFS、およびvVolデータストアをプロビジョニングできます。
+
+このチュートリアルでは、iSCSIベースのVMFSデータストアをプロビジョニングします。
+
+. 次のコマンドを使用してvSphere Clientにログインします。 https://vcenterip/ui[]
+. ホスト、ホストクラスタ、またはデータストアを右クリックし、NetApp ONTAP tools]>[Create Datastore]を選択します。
++
+image::vmfs-deploy-image10.png[VMFS Deployイメージ10]
+
+. [Type]ペインで、[Datastore Type]で[VMFS]を選択します。
++
+image::vmfs-deploy-image11.png[VMFS Deployイメージ11]
+
+. [Name and Protocol]ペインで、データストア名、サイズ、およびプロトコル情報を入力します。このデータストアをに追加する場合は、ペインの[アドバンストオプション]セクションで、データストアクラスタを選択します。
++
+image::vmfs-deploy-image12.png[VMFS Deployイメージ12]
+
+. [ストレージ]ペインで[プラットフォームとStorage VM]を選択します。ペインの[アドバンストオプション]セクションで、カスタムイニシエータグループ名を指定します（オプション）。データストア用に既存のigroupを選択するか、カスタム名を指定して新しいigroupを作成できます。
++
+image::vmfs-deploy-image13.png[VMFS Deployイメージ13]
+
+. ストレージ属性ペインで、ドロップダウンメニューから[Aggregate]を選択します。[Advanced options]セクションで、必要に応じて[Space Reserve]、[volume option]、および[Enable QoS]オプションを選択します。
++
+image::vmfs-deploy-image14.png[VMFS Deployイメージ14]
+
+. [Summary]ペインでデータストアの詳細を確認し、[Finish]をクリックします。VMFSデータストアが作成され、すべてのホストにマウントされます。
++
+image::vmfs-deploy-image15.png[VMFS deployイメージ15]
+
+
+
+VVOL、FC、NVMe/TCPデータストアのプロビジョニングについては、こちらのリンクを参照してください。
+
+
+
+== VAAIオフロード
+
+VAAIプリミティブは、VMの作成、クローニング、移行、起動、停止など、vSphereの日常的な処理で使用されます。これらの処理は、vSphere Clientを使用して実行することで簡単に実行できます。また、コマンドラインを使用してスクリプトを作成したり、より正確なタイミングを取得したりできます。VAAI for SANは、ESXでネイティブにサポートされています。VAAIはサポート対象のNetAppストレージシステムで常に有効になり、SANストレージで次のVAAI処理をネイティブサポートします。
+
+* コピーオフロード
+* Atomic Test & Set（ATS）ロック
+* 同じ書き込み
+* スペース不足の状態の処理
+* スペース再生
+
+
+image::vmfs-deploy-image16.png[VMFS Deployイメージ16]
+
+
+NOTE: ESXの高度な構成オプションを使用して、HardwareAcceleratedMoveが有効になっていることを確認します。
+
+
+NOTE: LUNで「space-allocation」が有効になっていることを確認します。有効になっていない場合は、オプションを有効にしてすべてのHBAを再スキャンします。
+
+image::vmfs-deploy-image17.png[VMFS Deployイメージ17]
+
+
+NOTE: これらの値は、ONTAP Tools for VMware vSphereを使用して簡単に設定できます。[Overview]ダッシュボードで、[ESXi Host compliance]カードに移動し、[Apply Recommended Settings]オプションを選択します。[Apply recommended host settings]ウィンドウでホストを選択し、[Next]をクリックしてNetAppの推奨ホスト設定を適用します。
+
+image::vmfs-deploy-image18.png[VMFS Deployイメージ18]
+
+の詳細なガイダンスを表示しますlink:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-settings.html["推奨される ESXi ホストとその他の ONTAP 設定"]。
+
+
+
+== データ保護
+
+VMFSデータストア上のVMを効率的にバックアップし、迅速にリカバリすることは、ONTAP for vSphereの主な利点の1つです。NetApp SnapCenter®ソフトウェアはvCenterと統合することで、VMの幅広いバックアップおよびリカバリ機能を提供します。VM、データストア、VMDKに対して、スペース効率に優れた、クラッシュ整合性のあるVM整合性バックアップおよびリストア処理を高速で実行できます。また、SnapCenterサーバと連携して、SnapCenterアプリケーション固有のプラグインを使用するVMware環境でのアプリケーションベースのバックアップおよびリストア処理をサポートします。Snapshotコピーを活用すると、パフォーマンスに影響を与えることなくVMまたはデータストアのコピーを迅速に作成でき、NetApp SnapMirror®またはNetApp SnapVault®テクノロジを使用してオフサイトで長期的なデータ保護を実現できます。
+
+image::vmfs-deploy-image19.png[VMFS Deployイメージ19]
+
+ワークフローはシンプルです。プライマリストレージシステムとSVM（SnapMirror / SnapVaultが必要な場合はセカンダリ）を追加します。
+
+導入と設定の手順の概要：
+
+. SnapCenter for VMwareプラグインOVAのダウンロード
+. vSphere Clientのクレデンシャルを使用してログインします。
+. [Deploy OVF Template]：VMware導入ウィザードを開始してインストールを完了します。
+. このプラグインにアクセスするにはSnapCenter、メニューから[VMware Plug-in for VMware vSphere]を選択します。
+. ストレージの追加
+. バックアップポリシーを作成する
+. リソースグループを作成する
+. バックアップリソスクルフ
+. 仮想マシン全体または特定の仮想ディスクのリストア
+
+
+
+
+== VM向けSnapCenter Plug-in for VMwareのセットアップ
+
+VMおよびVMをホストするiSCSIデータストアを保護するには、SnapCenter Plug-in for VMwareを導入する必要があります。単純なOVFインポートです。
+
+導入手順は次のとおりです。
+
+. NetAppサポートサイトからオープン仮想アプライアンス（OVA）をダウンロードします。
+. vCenterにログインします。
+. vCenterで、データセンター、フォルダ、クラスタ、ホストなどのインベントリオブジェクトを右クリックし、[Deploy OVF Template]を選択します。
+. ストレージ、ネットワークなどの適切な設定を選択し、テンプレートをカスタマイズしてvCenterとそのクレデンシャルを更新します。確認したら、[Finish]をクリックします。
+. OVFのインポートと導入のタスクが完了するまで待ちます。
+. SnapCenter Plug-in for VMwareの導入が完了すると、vCenterに登録されます。[Administration]>[Client Plugins]にアクセスして、同じことを確認できます。
++
+image::vmfs-deploy-image20.png[VMFS Deployイメージ20]
+
+. このプラグインにアクセスするには、vCenter Web Clientページの左側のサイドカーに移動し、SnapCenter Plug-in for VMwareを選択します。
++
+image::vmfs-deploy-image21.png[VMFS Deployイメージ21]
+
+
+
+
+
+== ストレージの追加、ポリシーとリソースグループの作成
+
+
+
+=== ストレージシステムノツイカ
+
+次の手順では、ストレージシステムを追加します。VMのバックアップまたはリストア用に、クラスタ管理エンドポイントまたはStorage Virtual Machine（SVM）管理エンドポイントのIPをストレージシステムとして追加する必要があります。ストレージを追加すると、SnapCenter Plug-in for VMwareがvCenterでバックアップとリストアの処理を認識して管理できるようになります。
+
+プロセスは簡単です。
+
+. 左側のナビゲーションで、SnapCenter [VMware Plug-in for VMware]を選択します。
+. [Storage Systems]を選択します。
+. [Add]を選択して、「ストレージ」の詳細を追加します。
+. 認証方法として[Credentials]を使用し、ユーザ名とパスワードを入力し、[Add]をクリックして設定を保存します。
++
+image::vmfs-deploy-image22.png[VMFS Deployイメージ22]
+
++
+image::vmfs-deploy-image23.png[VMFS Deployイメージ23]
+
+
+
+
+
+=== バックアップポリシーの作成
+
+包括的なバックアップ戦略には、バックアップのタイミング、バックアップの対象、バックアップの保持期間などの要素が含まれます。Snapshotは、1時間ごとまたは1日ごとにトリガーして、データストア全体をバックアップできます。このアプローチでは、データストアをキャプチャするだけでなく、それらのデータストア内のVMとVMDKをバックアップおよびリストアすることもできます。
+
+VMとデータストアをバックアップする前に、バックアップポリシーとリソースグループを作成する必要があります。バックアップポリシーには、スケジュールや保持ポリシーなどの設定が含まれます。バックアップポリシーを作成するには、次の手順を実行します。
+
+. SnapCenter Plug-in for VMwareの左側にあるナビゲーションペインで、[Policies]をクリックします。
+. [Policies]ページで、[Create]をクリックしてウィザードを開始します。
++
+image::vmfs-deploy-image24.png[VMFS Deployイメージ24]
+
+. [New Backup Policy]ページで、ポリシー名を入力します。
+. 保持、頻度の設定、およびレプリケーションを指定します。
++
+
+NOTE: ミラーセカンダリまたはバックアップセカンダリストレージシステムにSnapshotコピーをレプリケートするには、事前に関係を設定する必要があります。
+
++
+
+NOTE: VM整合性バックアップを有効にするには、VMwareツールをインストールして実行する必要があります。[VM consistency]チェックボックスをオンにすると、まずVMが休止され、次にVM整合性スナップショット（メモリを除く）が実行されます。次に、SnapCenter Plug-in for VMwareがバックアップ処理を実行し、VMの処理が再開されます。
+
++
+image::vmfs-deploy-image25.png[VMFS Deployイメージ25]
+
++
+ポリシーを作成したら、リソースグループを作成します。リソースグループには、バックアップする適切なiSCSIデータストアとVMが定義されます。リソースグループが作成されたら、バックアップが開始されます。
+
+
+
+
+
+=== リソースグループの作成
+
+リソースグループは、保護が必要なVMとデータストアのコンテナです。リソースは、いつでもリソースグループに追加または削除できます。
+
+リソースグループを作成するには、次の手順を実行します。
+
+. SnapCenter Plug-in for VMwareの左側にあるナビゲーションペインで、[Resource Groups]をクリックします。
+. [Resource Groups]ページで、[Create]をクリックしてウィザードを開始します。
++
+リソースグループを作成するもう1つの方法は、個 々 のVMまたはデータストアを選択し、リソースグループを作成することです。
+
++
+image::vmfs-deploy-image26.png[VMFS Deployイメージ26]
+
+. [Resources]ページで、スコープ（仮想マシンまたはデータストア）とデータセンターを選択します。
++
+image::vmfs-deploy-image27.png[VMFS Deployイメージ27]
+
+. [Spanning disks]ページで、複数のデータストアにまたがる複数のVMDKを使用する仮想マシンのオプションを選択します。
+. 次の手順では、バックアップポリシーを関連付けます。既存のポリシーを選択するか、新しいバックアップポリシーを作成します。
+. [Schedules]ページで、選択した各ポリシーのバックアップスケジュールを設定します。
++
+image::vmfs-deploy-image28.png[VMFS Deployイメージ28]
+
++
+.. 適切な選択が完了したら、[Finish]をクリックします。
++
+新しいリソースグループが作成され、リソースグループのリストに追加されます。
+
++
+image::vmfs-deploy-image29.png[VMFS Deployイメージ29]
+
+
+
+
+
+
+
+== リソースグループのバックアップ
+
+次に、バックアップを開始します。バックアップ処理は、リソースグループに定義されているすべてのリソースに対して実行されます。リソースグループにポリシーが適用され、スケジュールが設定されている場合は、スケジュールに従って自動的にバックアップが実行されます。
+
+. vCenter Web Clientページの左側のナビゲーションで、SnapCenter [VMware Plug-in for VMware]>[Resource Groups]を選択し、指定したリソースグループを選択します。[Run Now]を選択して、アドホックバックアップを開始します。
++
+image::vmfs-deploy-image30.png[VMFS Deployイメージ30]
+
+. リソースグループに複数のポリシーが設定されている場合は、[Backup Now]ダイアログボックスでバックアップ処理のポリシーを選択します。
+. [OK]を選択してバックアップを開始します。
++
+image::vmfs-deploy-image31.png[VMFS Deployイメージ31]
+
++
+ウィンドウ下部またはダッシュボードの[Job Monitor]で[Recent Tasks]を選択して、処理の進捗状況を監視します。
+
+
+
+
+
+== バックアップからのVMのリストア
+
+SnapCenter Plug-in for VMwareを使用すると、仮想マシン（VM）をvCenterにリストアできます。VMのリストア時に、元のESXiホストにマウントされている元のデータストアにリストアすると、選択したバックアップコピーで既存のコンテンツが上書きされます。または、削除または名前変更されたVMをバックアップコピーからリストアできます（この処理を実行すると、元の仮想ディスクのデータが上書きされます）。リストアを実行するには、次の手順を実行します。
+
+. VMware vSphere Web Client GUIで、ツールバーの[Menu]を選択します。[Inventory]から[Virtual Machines and Templates]を選択します。
+. 左側のナビゲーションで、[Virtual Machine]を選択し、[Configure]タブを選択し、SnapCenter Plug-in for VMware]の下にある[Backups]を選択します。VMのリストア元となるバックアップジョブをクリックします。
++
+image::vmfs-deploy-image32.png[VMFS Deployイメージ32]
+
+. バックアップからリストアするVMを選択します。
++
+image::vmfs-deploy-image33.png[VMFS Deployイメージ33]
+
+. [Select Scope]ページで、[Restore scope]フィールドで[Entire Virtual Machine]を選択し、[Restore location]を選択して、バックアップをマウントするデスティネーションESXiの情報を入力します。リストア処理後にVMの電源をオンにする必要がある場合は、[Restart VM]チェックボックスをオンにします。
++
+image::vmfs-deploy-image34.png[VMFS deployイメージ34]
+
+. [Select Location]ページで、プライマリロケーションのロケーションを選択します。
++
+image::vmfs-deploy-image35.png[VMFS Deployイメージ35]
+
+. [Summary]ページを確認し、[Finish]を選択します。
++
+image::vmfs-deploy-image36.png[VMFS Deployイメージ36]
+
++
+画面下部の[Recent Tasks]を選択して、処理の進捗状況を監視します。
+
+
+
+
+NOTE: VMはリストアされますが、以前のリソースグループに自動的に追加されるわけではありません。そのため、リストアしたVMの保護が必要な場合は、それらのVMを適切なリソースグループに手動で追加します。
+
+元のVMが削除された場合はどうなりますか。これは、SnapCenter Plug-in for VMwareを使用することで簡単に実行できます。削除されたVMのリストア処理は、データストアレベルから実行できます。それぞれの[Datastore]>[Configure]>[Backups]に移動し、削除したVMを選択して[Restore]を選択します。
+
+image::vmfs-deploy-image37.png[VMFS Deployイメージ37]
+
+まとめると、ONTAP ASAストレージを使用してVMware環境のTCOを最適化する場合は、シンプルで効率的なVMバックアップ方法としてSnapCenter Plug-in for VMwareを使用してください。スナップショットのバックアップが数秒で完了するため、VMのバックアップとリストアをシームレスかつ高速に実行できます。
+
+link:https://docs.netapp.com/us-en/netapp-solutions/ehc/bxp-scv-hybrid-solution.html#restoring-virtual-machines-in-the-case-of-data-loss["ソリューションガイド"]link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_get_started_overview.html["製品ドキュメント"]SnapCenterの設定、バックアップ、プライマリストレージシステムまたはセカンダリストレージシステムからのリストア、さらには長期保持用にオブジェクトストレージに格納されたバックアップからのリストアについても、この資料を参照してください。
+
+ストレージコストを削減するために、FabricPoolボリューム階層化を有効にして、Snapshotコピーのデータを低コストのストレージ階層に自動的に移動できます。Snapshotコピーは通常、割り当てられたストレージの10%以上を使用します。これらのポイントインタイムコピーは、データ保護とディザスタリカバリにとって重要ですが、ほとんど使用されず、ハイパフォーマンスストレージを効率的に使用することはできません。FabricPoolの「Snapshotのみ」ポリシーを使用すると、ハイパフォーマンスストレージのスペースを簡単に解放できます。このポリシーを有効にすると、ボリューム内でアクティブなファイルシステムで使用されていない非アクティブなSnapshotコピーブロックがオブジェクト階層に移動され、読み取りが完了するとSnapshotコピーがローカル階層に移動されてVMまたはデータストア全体がリカバリされます。このオブジェクト階層には、プライベートクラウド（NetApp StorageGRIDなど）またはパブリッククラウド（AWSやAzureなど）を使用できます。
+
+image::vmfs-deploy-image38.png[VMFS Deployイメージ38]
+
+の詳細なガイダンスを表示しますlink:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-overview.html["ONTAP を使用した VMware vSphere"]。
+
+
+
+== ランサムウェアからの保護
+
+ランサムウェア攻撃から保護する最も効果的な方法の1つは、多層的なセキュリティ対策を実装することです。データストア上の各仮想マシンは、標準のオペレーティングシステムをホストします。エンタープライズサーバのマルウェア対策製品スイートがインストールされ、定期的に更新されていることを確認します。これは、多層的なランサムウェア対策戦略に不可欠なコンポーネントです。これに加えて、NetAppスナップショットテクノロジを活用したデータ保護を実装し、ランサムウェア攻撃からの迅速で信頼性の高いリカバリを実現します。
+
+ランサムウェア攻撃では、ファイルの暗号化を開始する前にバックアップやスナップショットのリカバリポイントを削除しようとする攻撃が増えています。ただし、ONTAPではlink:https://docs.netapp.com/us-en/ontap/snaplock/snapshot-lock-concept.html["NetApp Snapshot™コピーロック"]、In ONTAPを使用してプライマリシステムまたはセカンダリシステムに改ざん防止スナップショットを作成することで、これを防ぐことができます。これらのSnapshotコピーは、ランサムウェア攻撃者や不正な管理者が削除したり変更したりすることはできないため、攻撃を受けたあとも使用できます。仮想マシンのデータを数秒でリカバリできるため、組織のダウンタイムを最小限に抑えることができます。さらに、組織に適したSnapshotスケジュールとロック期間を柔軟に選択できます。
+
+image::vmfs-deploy-image39.png[VMFS Deployイメージ39]
+
+複数階層型アプローチを追加する一環として、バックアップSnapshotコピーの不正削除を保護するための標準の組み込みONTAPソリューションも用意されています。これは、ONTAP 9 .11.1以降で使用可能なマルチ管理検証またはMAVと呼ばれます。理想的なアプローチは、MAV固有の操作にクエリを使用することです。
+
+MAVの詳細および保護機能の設定方法については、を参照してくださいlink:https://docs.netapp.com/us-en/ontap/multi-admin-verify/index.html#how-multi-admin-approval-works["マルチ管理者検証の概要"]。
+
+
+
+== データ移行
+
+多くのIT部門では、変革の段階でハイブリッドクラウドファーストのアプローチを採用しています。お客様は、この評価と調査に基づいて、現在のITインフラを評価し、ワークロードをクラウドに移行しようとしています。クラウドへの移行の理由はさまざまで、柔軟性とバースト、データセンターの廃止、データセンターの統合、サポート終了のシナリオ、合併、買収などの要因が含まれます。各組織の移行の理由は、それぞれのビジネス上の優先事項によって異なります。最も優先度が高いのはコストの最適化です。ハイブリッドクラウドに移行する際には、適切なクラウドストレージを選択することが重要です。クラウド導入のパワーと柔軟性を最大限に引き出すためです。
+
+各ハイパースケーラでNetAppを基盤とする1Pサービスと統合することで、シンプルな移行アプローチでvSphereベースのクラウドソリューションを実現できます。プラットフォームの再構築、IPの変更、アーキテクチャの変更は不要です。また、この最適化により、ホストの数を vSphere で必要な量以上に抑えながらストレージの設置面積を拡張できます。ただし、ストレージ階層、セキュリティ、ファイルは変更されません。
+
+* の詳細なガイダンスを表示しますlink:https://docs.netapp.com/us-en/netapp-solutions/ehc/aws-migrate-vmware-hcx.html["FSx for ONTAPデータストアへのワークロードの移行"]。
+* の詳細なガイダンスを表示しますlink:https://docs.netapp.com/us-en/netapp-solutions/ehc/azure-migrate-vmware-hcx.html["Azure NetApp Filesデータストアへのワークロードの移行"]。
+* の詳細なガイダンスを表示しますlink:https://docs.netapp.com/us-en/netapp-solutions/ehc/gcp-migrate-vmware-hcx.html["Google Cloud NetApp Volumeデータストアへのワークロードの移行"]。
+
+
+
+
+== ディザスタリカバリ
+
+
+
+=== オンプレミスサイト間のディザスタリカバリ
+
+詳細については、link:../ehc/dr-draas-vmfs.html["BlueXP  DRaaS for VMFSデータストアを使用したDR"]
+
+
+
+=== 任意のハイパースケーラのオンプレミスとVMware Cloud間のディザスタリカバリ
+
+任意のハイパースケーラでVMware Cloudをディザスタリカバリのターゲットとして使用したいお客様は、ONTAPストレージを基盤とするデータストア（Azure NetApp Files、FSx for ONTAP、Google Cloud NetAppボリューム）を使用して、VMレプリケーション機能を提供する検証済みのサードパーティソリューションを使用して、オンプレミスからデータをレプリケートできます。ONTAPストレージを基盤とするデータストアを追加することで、より少ない数のESXiホストで、デスティネーションでのディザスタリカバリのコストを最適化できます。また、オンプレミス環境のセカンダリサイトの運用を停止できるため、コストを大幅に削減できます。
+
+* の詳細なガイダンスを表示しますlink:https://docs.netapp.com/us-en/netapp-solutions/ehc/veeam-fsxn-dr-to-vmc.html["FSx for ONTAPデータストアに対するディザスタリカバリ"]。
+* の詳細なガイダンスを表示しますlink:https://docs.netapp.com/us-en/netapp-solutions/ehc/azure-native-dr-jetstream.html["Azure NetApp Filesデータストアへのディザスタリカバリ"]。
+* の詳細なガイダンスを表示しますlink:https://docs.netapp.com/us-en/netapp-solutions/ehc/gcp-app-dr-sc-cvs-veeam.html["Google Cloud NetApp Volumeデータストアに対するディザスタリカバリ"]。
+
+
+
+
+== まとめ
+
+このソリューションは、ONTAPのSANテクノロジとOFFTAPツールを使用して、現在だけでなく将来にわたってビジネスに不可欠なITサービスを提供するための最適なアプローチを示します。これらの利点は、SAN環境でVMware vSphereを実行する仮想環境で特に有益です。NetAppストレージシステムの柔軟性と拡張性により、企業はインフラを更新、調整するための基盤を確立し、長期的に変化するビジネスニーズに対応できます。このシステムにより、現在のワークロードを処理し、インフラの効率を高めることができるため、運用コストを削減し、将来のワークロードに備えることができます。
