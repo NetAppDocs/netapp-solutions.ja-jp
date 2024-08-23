@@ -1,0 +1,189 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware-vvol-overview.html 
+keywords: netapp, vmware, getting, started, vvol, ONTAP tools 
+summary:  
+---
+= ONTAPを使用したVMware仮想ボリューム
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+VMware Virtual Volumes（VVol）を使用すると、ストレージアレイが提供する豊富な機能セットを活用しながら、アプリケーション固有の要件に応じてストレージプロビジョニングの判断を下すことができます。vSphere API for Storage Awareness（VASA）を使用すると、VM管理者は、ストレージチームとやり取りすることなく、VMのプロビジョニングに必要なストレージ機能を簡単に使用できます。VASAがリリースされるまではVM管理者はVMストレージポリシーを定義できましたが、適切なデータストアを特定するためにはストレージ管理者と協力しなければなりませんでした。多くの場合、ドキュメントや命名規則を使用していました。VASAを使用すると、適切な権限を持つvCenter管理者は、vCenterユーザがVMのプロビジョニングに使用できる一連のストレージ機能を定義できます。VMストレージポリシーとデータストアストレージ機能プロファイルのマッピングにより、vCenterで互換性のあるデータストアのリストを表示して選択できるほか、ARIA（旧vRealize）AutomationやTanzu Kubernetes Gridなどの他のテクノロジを有効にして、割り当てられたポリシーからストレージを自動的に選択できます。このアプローチは、ストレージポリシーベースの管理と呼ばれます。ストレージ機能プロファイルとポリシーは従来のデータストアでも使用できますが、ここではVVOLデータストアに焦点を当てます。VASA Provider for ONTAPは、ONTAP Tools for VMware vSphereに含まれています。
+
+VASA Providerをストレージアレイから除外する利点は次のとおりです。
+
+* 1つのインスタンスで複数のストレージアレイを管理できます。
+* ストレージOSのリリースに依存する必要はありません。
+* ストレージアレイのリソースは非常に高価です。
+
+
+各VVOLデータストアは、ストレージ容量を定義するためのVASAプロバイダの論理エントリであるストレージコンテナによってバックアップされます。ONTAPツールを使用するストレージコンテナは、ONTAPボリュームで構築されます。ストレージコンテナは、同じSVM内のONTAPを追加することで拡張できます。
+
+プロトコルエンドポイント（PE）は、ほとんどがONTAPツールによって管理されます。iSCSIベースのVVOLの場合は、そのストレージコンテナまたはVVOLデータストアに属するONTAPごとに1つのPEが作成されます。iSCSI用のPEは小規模なLUN（9.xでは4MiB、10.xでは2GiB）であり、vSphereホストに提供され、マルチパスポリシーがPEに適用されます。
+
+image:vmware-vvol-overview-image01.png["iSCSI PEアーキテクチャ"]
+
+image:vmware-vvol-overview-image05.png["CLIヲシヨウシタiSCSI PEサイス"]
+
+NFSの場合は、ストレージコンテナまたはVVOLデータストアが配置されているSVM上のNFSデータLIFごとに、ルートファイルシステムのエクスポート用にPEが1つ作成されます。
+
+image:vmware-vvol-overview-image02.png["NFS PEのアーキテクチャ"]
+
+image:vmware-vvol-overview-image06.png["vSphere UIからのNFS PE"]
+
+ONTAPツールは、PEのライフサイクルを管理します。また、vSphereホストとvSphereクラスタの拡張および縮小との通信にも使用されます。ONTAP tools APIを使用して、既存の自動化ツールと統合できます。
+
+現在、ONTAP Tools for VMware vSphereには2つのリリースがあります。
+
+
+
+== ONTAP®9 ONTAPツール
+
+* VVolによるNVMe/FCのサポートが必要な場合
+* 米国連邦またはEUの規制要件
+* SnapCenter Plug-in for VMware vSphereと統合されたさまざまなユースケース
+
+
+
+
+== ONTAPツール10.x
+
+* 高可用性
+* マルチテナンシー
+* 大規模
+* VMFSデータストアに対するSnapMirrorアクティブ同期のサポート
+* SnapCenter Plug-in for VMware vSphereとの特定のユースケース向けの統合予定
+
+
+
+
+== VVOLを選ぶ理由
+
+VMware Virtual Volumes（VVOL）には次のようなメリットがあります。
+
+* プロビジョニングの簡易化（vSphereホストあたりの最大LUN数の制限や、ボリュームごとのNFSエクスポートの作成が不要）
+* iSCSI / FCパスの数が最小限に抑えられる（ブロックSCSIベースのVVOLの場合）
+* スナップショット、クローン、その他のストレージ操作は通常、ストレージアレイにオフロードされ、はるかに高速に実行されます。
+* VMのデータ移行を簡易化（同じLUN内の他のVM所有者との調整が不要）
+* QoSポリシーは、ボリュームレベルではなくVMディスクレベルで適用されます。
+* シンプルな運用（ストレージベンダーはそれぞれの機能をVASAプロバイダで提供）
+* 大規模なVMをサポート
+* vCenter間でのVVolレプリケーションの移行をサポートします。
+* ストレージ管理者は、VMディスクレベルで監視することもできます。
+
+
+
+
+== 接続オプション
+
+一般に、ストレージネットワークでは、高可用性、パフォーマンス、フォールトトレランスに対応するために、デュアルファブリック環境が推奨されます。VVOLは、iSCSI、FC、NFSv3、NVMe/FCでサポートされています。注：link:https://imt.netapp.com/matrix["Interoperability Matrix Tool （ IMT ）"]サポートされているONTAPツールのバージョンについては、
+
+接続オプションは、VMFSデータストアまたはNFSデータストアのオプションと同じです。iSCSIとNFSのvSphereネットワークの例を次に示します。image:vmware-vvol-overview-image03.png["iSCSIネットワーク"]
+
+image:vmware-vvol-overview-image04.png["NFSネットワーク"]
+
+
+
+== VMware vSphere 用の ONTAP ツールを使用したプロビジョニング
+
+VVOLデータストアは、ONTAP toolsを使用して、VMFSデータストアまたはNFSデータストアと同様にプロビジョニングできます。vSphere Client UIでONTAP toolsプラグインを使用できない場合は、以下の「はじめに」セクションを参照してください。
+
+
+
+=== ONTAP tools 9.13を使用した場合
+
+. vSphereクラスタまたはホストを右クリックし、NetApp ONTAP toolsの下にあるProvision Datastoreを選択します。
+. タイプは[VVols]のままにし、データストアの名前を入力して目的のプロトコルを選択します。image:vmware-vvol-overview-image07.png["iSCSI VVolデータストア9.13"]
++
+image:vmware-vvol-overview-image08.png["9.13のNFS VVolデータストア"]
+
+. 目的のストレージ機能プロファイルを選択し、ストレージシステムとSVMを選択します。image:vmware-vvol-overview-image09.png["9.13のストレージシステムおよびSVM"]
+. 新しいを作成するか、VVOLデータストア用に既存のONTAPを選択します。image:vmware-vvol-overview-image10.png["VVolボリューム9.13"]
++
+ONTAPボリュームは、データストアオプションを使用してあとで表示または変更できます。
+
++
+image:vmware-vvol-overview-image11.png["9.13でのVVolの拡張"]
+
+. 概要を確認し、[Finish]をクリックしてVVolデータストアを作成します。image:vmware-vvol-overview-image12.png["iSCSI VVolデータストアの概要（9.13）"]
+. 作成したVVOLデータストアは、他のデータストアと同様に使用できます。作成するVMにVMストレージポリシーに基づいてデータストアを割り当てる例を次に示します。image:vmware-vvol-overview-image13.png["VVol VMストレージポリシー"]
+. WebベースのCLIインターフェイスを使用してVVolの詳細を取得できます。ポータルのURLは、ファイル名が「version.xml」でないVASA ProviderのURLと同じです。image:vmware-vvol-overview-image14.png["9.13のVASAプロバイダ情報"]
++
+クレデンシャルは、ONTAP toolsのプロビジョニング時に使用される情報と一致する必要があります。image:vmware-vvol-overview-image15.png["VASAクライアントUI"]
+
++
+または、ONTAP toolsのメンテナンスコンソールで更新したパスワードを使用します。image:vmware-vvol-overview-image16.png["ONTAP ToolsコンソールUI"][Web based CLI interface]を選択します。image:vmware-vvol-overview-image17.png["ONTAPツールコントロールコンソール"][使用可能なコマンド]リストから目的のコマンドを入力します。VVOLの詳細と基盤となるストレージ情報を表示するには、vVol list -verbose=trueを試してくださいimage:vmware-vvol-overview-image18.png["vVol情報（9.13）"]。LUNベースの場合は、ONTAP CLIまたはSystem Managerを使用することもできます。image:vmware-vvol-overview-image19.png["ONTAP CLIでのVVOL LUN情報"]image:vmware-vvol-overview-image20.png["System ManagerでのVVOL LUN情報"] NFSベースの場合、System Managerを使用してデータストアを参照できます。image:vmware-vvol-overview-image21.png["System ManagerでのVVOLのNFS情報"]
+
+
+
+
+
+=== ONTAP tools 10.1を使用
+
+. vSphere cluster or hostを右クリックし、NetApp ONTAP toolsで[Create Datastore]（10.1）を選択します。
+. データストアタイプとして[VVols]を選択します。image:vmware-vvol-overview-image22.png["vVolデータストアの選択（10.1）"]vVolオプションを使用できない場合は、VASA Providerが登録されていることを確認してください。image:vmware-vvol-overview-image23.png["10.1へのVASAの登録"]
+. VVolデータストアの名前を指定し、転送プロトコルを選択します。image:vmware-vvol-overview-image24.png["vVolデータストア名と転送プロトコル（10.1）"]
+. プラットフォームとStorage VMを選択します。image:vmware-vvol-overview-image25.png["vVolデータストアSVMの選択（10.1）"]
+. VVOLデータストア用にONTAPを作成するか、既存のボリュームを使用します。image:vmware-vvol-overview-image26.png["vVolデータストアのボリューム選択（10.1）"]ONTAPボリュームは、あとでデータストア構成から表示または更新できます。image:vmware-vvol-overview-image27.png["vVolデータストアの10.1での拡張"]
+. プロビジョニングしたVVOLデータストアは、他のデータストアと同様に使用できます。
+. VMとデータストアのレポートはONTAPツールで提供されます。image:vmware-vvol-overview-image28.png["10.1のVMレポート"] image:vmware-vvol-overview-image29.png["10.1のデータストアレポート"]
+
+
+
+
+== VVolデータストア上のVMのデータ保護
+
+VVolデータストア上のVMのデータ保護の概要については、をlink:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vvols-protect.html["VVOLの保護"]参照してください。
+
+. VVolデータストアとレプリケーションパートナーをホストするストレージシステムを登録します。image:vmware-vvol-overview-image30.png["SCVへのストレージシステムの登録"]
+. 必須属性を持つポリシーを作成します。image:vmware-vvol-overview-image31.png["SCVを使用したポリシーの作成"]
+. リソースグループを作成してポリシー（またはポリシー）に関連付けるimage:vmware-vvol-overview-image32.png["SCVを使用したリソースグループの作成"]注：VVOLデータストアの場合は、VM、タグ、またはフォルダで保護する必要があります。VVOLデータストアをリソースグループに含めることはできません。
+. 特定のVMバックアップステータスは、[Configure]タブで確認できます。image:vmware-vvol-overview-image33.png["SCVヲシヨウシタVMノハツクアツフステエタス"]
+. VMはプライマリまたはセカンダリの場所からリストアできます。
+
+
+link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_attach_vmdks_to_a_vm.html["SnapCenterプラグインのドキュメント"]その他のユースケースについては、を参照してください。
+
+
+
+== 従来のデータストアからVVolデータストアへのVMの移行
+
+他のデータストアからVVolデータストアにVMを移行する場合は、シナリオに基づいてさまざまなオプションを使用できます。これは、単純なStorage vMotion処理から、HCXを使用した移行までさまざまです。詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/netapp-solutions/vmware/migrate-vms-to-ontap-datastore.html["ONTAPデータストアへのVMの移行"]。
+
+
+
+== VVolデータストア間でのVMの移行
+
+VVolデータストア間でVMを一括移行する場合は、を確認してくださいlink:https://docs.netapp.com/us-en/netapp-solutions/vmware/migrate-vms-to-ontap-datastore.html["ONTAPデータストアへのVMの移行"]。
+
+
+
+== リファレンスアーキテクチャの例
+
+ONTAP Tools for VMware vSphereおよびSCVは、管理対象のvCenterにインストールすることも、別のvCenterサーバにインストールすることもできます。管理しているVVOLデータストアではホストしないことを推奨します。
+
+image:vmware-vvol-overview-image34.png["ONTAP tools：vCenterごとに1つ"]
+
+多くのお客様がvCenterサーバをIT部門ではなく別のサーバにホストしているため、ONTAPツールとSCVについても同様のアプローチが推奨されます。
+
+image:vmware-vvol-overview-image35.png["管理vCenter上のONTAPツール"]
+
+ONTAP tools 10.xでは、1つのインスタンスで複数のvCenter環境を管理できます。ストレージシステムはクラスタのクレデンシャルを使用してグローバルに登録され、SVMは各テナントvCenterサーバに割り当てられます。
+
+image:vmware-vvol-overview-image36.png["ONTAP tools 10.xによる複数のvCenterのサポート"]
+
+専用モデルと共有モデルの混在もサポートされています。
+
+image:vmware-vvol-overview-image37.png["共有と専用のONTAPツールが混在"]
+
+
+
+== 開始方法
+
+ご使用の環境にONTAPツールがインストールされていない場合は、からをダウンロードしlink:https://support.netapp.com["NetAppサポートサイト"]、に記載されている手順に従ってくださいlink:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vvols-ontap.html["ONTAPでのVVOLの使用"]。
