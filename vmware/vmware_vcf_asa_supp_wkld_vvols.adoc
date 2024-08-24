@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-このシナリオでは、ONTAP Tools for VMware vSphere（OTV）を導入して使用し、VCFワークロードドメイン用に* vVolデータストア*を設定する方法を説明します。
+このシナリオでは、ONTAP Tools for VMware vSphereを導入して使用し、VCFワークロードドメイン用に* vVolデータストア*を設定する方法を説明します。
 
 * iSCSI *は、VVOLデータストアのストレージプロトコルとして使用されます。
 
@@ -213,16 +213,16 @@ image::vmware-vcf-asa-image34.png[VMkernelの選択内容の確認]
 
 ==== ONTAPツールを導入して使用し、ストレージを構成する
 
-VCF管理ドメインクラスタでvSphere Clientを使用して実行する手順を次に示します。この手順では、OTVを導入し、VVOL iSCSIデータストアを作成し、管理VMを新しいデータストアに移行します。
+VCF管理ドメインクラスタでvSphere Clientを使用して実行する手順を次に示します。この手順では、ONTAP Toolsを導入し、VVOL iSCSIデータストアを作成し、管理VMを新しいデータストアに移行します。
 
-VIワークロードドメインの場合、OTVはVCF管理クラスタにインストールされますが、VIワークロードドメインに関連付けられたvCenterに登録されます。
+VIワークロードドメインの場合、ONTAPツールはVCF管理クラスタにインストールされますが、VIワークロードドメインに関連付けられたvCenterに登録されます。
 
 複数のvCenter環境へのONTAPツールの導入と使用に関する追加情報の場合は、を参照してください。 link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/configure/concept_requirements_for_registering_vsc_in_multiple_vcenter_servers_environment.html["複数のvCenter Server環境でONTAP Toolsを登録するための要件"]。
 
 .ONTAP Tools for VMware vSphereの導入
 [%collapsible]
 ====
-ONTAP Tools for VMware vSphere（OTV）はVMアプライアンスとして導入され、ONTAPストレージを管理するための統合vCenter UIを提供します。
+ONTAP Tools for VMware vSphereはVMアプライアンスとして導入され、統合されたvCenter UIを使用してONTAPストレージを管理できます。
 
 次の手順を実行して、ONTAP Tools for VMware vSphereを導入します。
 
@@ -259,10 +259,10 @@ image::vmware-vcf-aff-image24.png[ネットワークの選択]
 
 . [Customize template]ページで、必要な情報をすべて入力します。
 +
-** OTVへの管理アクセスに使用するパスワード。
+** ONTAPツールへの管理アクセスに使用するパスワード。
 ** NTPサーバのIPアドレス。
-** OTVメンテナンスアカウントのパスワード。
-** OTV Derby DBパスワード。
+** ONTAPツールのメンテナンスアカウントのパスワード。
+** ONTAPツールDerby DBパスワード。
 ** [Enable VMware Cloud Foundation（VCF）]*チェックボックスはオンにしないでください。補助ストレージの導入にVCFモードは必要ありません。
 ** VIワークロードドメイン*用のvCenterアプライアンスのFQDNまたはIPアドレス
 ** VI Workload Domain *のvCenterアプライアンスのクレデンシャル
@@ -281,7 +281,7 @@ image::vmware-vcf-asa-image35.png[OTVテンプレートのカスタマイズ2]
 
 
 
-. [Ready to Complete]ページのすべての情報を確認し、[Finish]をクリックしてOTVアプライアンスの導入を開始します。
+. [Ready to Complete]ページのすべての情報を確認し、[Finish]をクリックしてONTAPツールアプライアンスの導入を開始します。
 
 
 ====
@@ -295,7 +295,7 @@ image::vmware-asa-image6.png[NetApp ONTAPツール]
 +
 ｛nbsp｝
 
-. ONTAPツールインターフェイスの* instance *ドロップダウンメニューから、管理対象のワークロードドメインに関連付けられているOTVインスタンスを選択します。
+. ONTAPツールインターフェイスの* instance *ドロップダウンメニューから、管理対象のワークロードドメインに関連付けられているONTAP Toolsインスタンスを選択します。
 +
 image::vmware-vcf-asa-image36.png[OTVインスタンスを選択]
 

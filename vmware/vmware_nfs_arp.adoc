@@ -1,0 +1,116 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware_nfs_arp.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, ransomeware 
+summary:  
+---
+= NFSストレージ向けの自律型ランサムウェア対策
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== NFSストレージ向けの自律型ランサムウェア対策
+
+[role="lead"]
+ランサムウェアの拡散を防ぎ、コストのかかるダウンタイムを回避するには、ランサムウェアをできるだけ早く検出することが重要です。効果的なランサムウェア検出戦略には、ESXiホストレベルとゲストVMレベルで複数の保護レイヤを組み込む必要があります。ランサムウェア攻撃に対する包括的な防御を構築するために複数のセキュリティ対策が実装されていますが、ONTAPを使用すると、防御アプローチ全体に保護レイヤを追加できます。いくつかの機能には、まずSnapshot、自律型ランサムウェア対策、改ざん防止スナップショットなどがあります。
+
+前述の機能がVMwareとどのように連携してランサムウェアからデータを保護、リカバリするかを見てみましょう。vSphere VMとゲストVMを攻撃から保護するには、エンドポイントのセグメント化、EDR/XDR/SIEMの利用、セキュリティ更新プログラムのインストール、適切なセキュリティ強化ガイドラインの遵守など、いくつかの対策を講じることが重要です。データストア上の各仮想マシンは、標準のオペレーティングシステムもホストします。エンタープライズサーバのマルウェア対策製品スイートがインストールされ、定期的に更新されていることを確認します。これは、多層的なランサムウェア対策戦略に不可欠なコンポーネントです。これに加えて、データストアに電力を供給するNFSボリュームでAutonomous Ransomware Protection（ARP）を有効にします。ARPは、ボリュームワークロードのアクティビティとデータエントロピーを監視する組み込みのオンボックスMLを活用して、ランサムウェアを自動的に検出します。ARPは、ONTAPの組み込みの管理インターフェイスまたはSystem Managerを使用して設定でき、ボリューム単位で有効になります。
+
+image::nfs-arp-image1.png[nfs arp image1]
+
+
+NOTE: 現在技術プレビュー中の新しいNetApp ARP/AIでは、学習モードは必要ありません。AIを活用したランサムウェア検出機能で、すぐにアクティブモードに切り替えることができます。
+
+
+NOTE: ONTAP Oneでは、これらの機能セットはすべて無料です。NetAppの堅牢なデータ保護、セキュリティ、ONTAPが提供するすべての機能を、ライセンスの障壁を気にすることなく利用できます。
+
+アクティブモードに入ると、ランサムウェアの可能性がある異常なボリュームアクティビティの検出が開始されます。異常なアクティビティが検出された場合は、ただちに自動Snapshotコピーが作成され、ファイルの感染にできるだけ近いリストアポイントが確保されます。ARPは、暗号化されたボリュームに新しい拡張子が追加されたとき、またはファイルの拡張子が変更されたときに、VMの外部にあるNFSボリューム上のVM固有のファイル拡張子の変更を検出できます。
+
+image::nfs-arp-image2.png[nfs arp image2]
+
+ランサムウェア攻撃が仮想マシン（VM）をターゲットにし、VMの外部に変更を加えずにVM内のファイルを変更しても、VMのデフォルトエントロピーが低い場合（.txt、.docx、.mp4ファイルなどのファイルタイプ）でも、Advanced Ransomware Protection（ARP）は脅威を検出します。このシナリオでARPは保護スナップショットを作成しますが、VMの外部にあるファイル拡張子が改ざんされていないため、脅威アラートは生成されません。このようなシナリオでは、防御の初期層が異常を識別しますが、ARPはエントロピーに基づいたスナップショットの作成に役立ちます。
+
+詳細については、の「ARPおよび仮想マシン」の項を参照してlink:https://docs.netapp.com/us-en/ontap/anti-ransomware/use-cases-restrictions-concept.html#supported-configurations["ARPの使用と考慮事項"]ください。
+
+ファイルからバックアップデータに移行するランサムウェア攻撃では、ファイルの暗号化を開始する前にバックアップやスナップショットのリカバリポイントを削除しようとする攻撃が増えています。ただし、ONTAPでは、を使用してプライマリシステムまたはセカンダリシステムに改ざん防止スナップショットを作成することで、これを防ぐことができます。link:https://docs.netapp.com/us-en/ontap/snaplock/snapshot-lock-concept.html["NetApp Snapshot™コピーロック"]
+
+image::nfs-arp-image3.png[nfs arp image3]
+
+これらのSnapshotコピーは、ランサムウェア攻撃者や不正な管理者が削除したり変更したりすることはできないため、攻撃を受けたあとも使用できます。データストアまたは特定の仮想マシンが影響を受けた場合、SnapCenterは仮想マシンのデータを数秒でリカバリできるため、組織のダウンタイムを最小限に抑えることができます。
+
+image::nfs-arp-image4.png[nfs arp image4]
+
+上記は、ONTAPストレージが既存の手法にレイヤを追加し、環境の将来的な保護を強化する方法を示しています。
+
+詳細については、のガイダンスを参照してくださいlink:https://www.netapp.com/media/7334-tr4572.pdf["ランサムウェア向けNetAppソリューション"]。
+
+これらすべてをオーケストレーションしてSIEMツールと統合する必要がある場合は、BlueXP  ランサムウェア対策などのOFFTAPサービスを使用できます。ランサムウェアからデータを保護するために設計されたサービスです。このサービスは、Oracle、MySQL、VMデータストア、オンプレミスのNFSストレージ上のファイル共有など、アプリケーションベースのワークロードを保護します。
+
+この例では、NFSデータストア「src_nfs_ds04」がBlueXP  ランサムウェア対策を使用して保護されています。
+
+image::nfs-arp-image5.png[nfs arp image5]
+
+image::nfs-arp-image6.png[nfs arp image6]
+
+BlueXP  ランサムウェア対策を設定する方法の詳細についてはlink:https://docs.netapp.com/us-en/bluexp-ransomware-protection/rp-start-setup.html["BlueXP  ランサムウェア対策のセットアップ"]、およびを参照してくださいlink:https://docs.netapp.com/us-en/bluexp-ransomware-protection/rp-use-settings.html#add-amazon-web-services-as-a-backup-destination["BlueXPのランサムウェア対策の設定"]。
+
+ここで例を挙げて説明します。このチュートリアルでは、データストア「src_nfs_ds04」が影響を受けます。
+
+image::nfs-arp-image7.png[nfs arp image7]
+
+ARPは、検出時にボリューム上のスナップショットを即座にトリガーしました。
+
+image::nfs-arp-image8.png[nfs arp image8]
+
+image::nfs-arp-image9.png[nfs arp image9]
+
+フォレンジック分析が完了したら、SnapCenterまたはBlueXP  ランサムウェア対策を使用して、迅速かつシームレスにリストアを実行できます。SnapCenterを使用して、該当する仮想マシンに移動し、リストアする適切なスナップショットを選択します。
+
+image::nfs-arp-image10.png[nfs arp image10]
+
+このセクションでは、VMファイルが暗号化されているランサムウェアインシデントからのリカバリをBlueXP  ランサムウェア対策でオーケストレーションする方法について説明します。
+
+
+NOTE: VMがSnapCenterで管理されている場合、BlueXP  ランサムウェア対策はVM整合性プロセスを使用してVMを以前の状態にリストアします。
+
+. BlueXP  ランサムウェア対策にアクセスすると、BlueXP  ランサムウェア対策ダッシュボードにアラートが表示されます。
+. アラートをクリックして、生成されたアラートについて、そのボリュームのインシデントを確認します。
++
+image::nfs-arp-image11.png[nfs arp image11]
+
+. [Mark restore needed]を選択して、ランサムウェアインシデントをリカバリ準備完了（インシデントが中立化された後）としてマークする
++
+image::nfs-arp-image12.png[nfs arp image12]
+
++
+
+NOTE: インシデントが誤検知であることが判明した場合は、アラートを解除できます。
+
+. [Recovery]タブを開き、[Recovery]ページのワークロード情報を確認して、「Restore Needed」状態のデータストアボリュームを選択し、[Restore]を選択します。
++
+image::nfs-arp-image13.png[nfs arp image13]
+
+. この場合、リストア範囲は「VMごと」です（VMのSnapCenterのリストア範囲は「VMごと」です）。
++
+image::nfs-arp-image14.png[nfs arp image14]
+
+. データの復元に使用する復元ポイントを選択し、[Destination]を選択して[Restore]をクリックします。
++
+image::nfs-arp-image15.png[nfs arp image15]
+
+. トップメニューから[Recovery]を選択して、処理のステータスが状態間を移動する[Recovery]ページでワークロードを確認します。リストアが完了すると、VMファイルが次のようにリストアされます。
++
+image::nfs-arp-image16.png[nfs arp image16]
+
+
+
+
+NOTE: リカバリは、アプリケーションに応じてSnapCenter for VMwareまたはSnapCenterプラグインから実行できます。
+
+NetAppソリューションには、可視化、検出、修復のためのさまざまな効果的なツールが用意されており、ランサムウェアの早期発見、拡散の防止、必要に応じた迅速なリカバリを支援して、コストのかかるダウンタイムを回避できます。可視化と検出のためのサードパーティやパートナーソリューションと同様に、従来の階層型防御ソリューションは依然として普及しています。効果的な修復は、あらゆる脅威への対応において依然として重要な部分を占めています。
