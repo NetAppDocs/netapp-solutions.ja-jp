@@ -22,7 +22,9 @@ summary: NetApp AIPodとNVIDIA DGXシステム-アーキテクチャ
 
 このリファレンスアーキテクチャでは、コンピューティングノード間の400GB/秒InfiniBand（IB）接続で、コンピューティングクラスタインターコネクトとストレージアクセスに別 々 のファブリックを利用します。次の図は、DGX H100システムを搭載したNetApp AIPodの全体的な解決策トポロジを示しています。
 
-_AIpod NetAppソリューションtopology_image：：aipod_nv_a900topo.png[]
+NetApp AIPOD解決策トポロジ_
+
+image::aipod_nv_a900topo.png[aipod nv a900topo]
 
 
 
@@ -52,7 +54,9 @@ _AIpod NetAppソリューションtopology_image：：aipod_nv_a900topo.png[]
 
 管理SVMに必要なLIFは1つだけです。このLIFは、各コントローラで設定された2ポートインターフェイスグループでホストされます。他のFlexGroupは、クラスタノードのイメージ、システム監視履歴データ、エンドユーザのホームディレクトリなど、クラスタ管理アーティファクトを格納するために管理SVM上にプロビジョニングされます。次の図は、ストレージシステムの論理構成を示しています。
 
-_A900 NetAppストレージクラスタの論理構成_image：：aipod_nv_A900logical.png[]
+NetApp A900ストレージクラスタの論理構成
+
+image::aipod_nv_A900logical.png[aipod nv A900論理]
 
 
 
