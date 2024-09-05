@@ -13,10 +13,6 @@ summary:
 :imagesdir: ./../media/
 
 
-
-
-== VMware Site Recovery Managerを使用したNFSデータストアのディザスタリカバリ
-
 [role="lead"]
 VMware vSphere 10およびSite Replication Adapter（SRA）向けのONTAPツールをVMware Site Recovery Manager（SRM）と連携させることで、ディザスタリカバリの取り組みに大きな価値がもたらされます。ONTAP tools 10は、iSCSI VVOLとNFS VVOLをサポートし、VASA Providerに標準搭載された高可用性や拡張性など、堅牢なストレージ機能を提供します。これにより、データの可用性が確保され、複数のVMware vCenterサーバとONTAPクラスタの管理が簡易化されます。SRAとVMware Site Recovery Managerを併用すると、仮想マシンやデータをサイト間でシームレスにレプリケーションおよびフェイルオーバーできるため、ディザスタリカバリプロセスを効率的に実行できます。ONTAPツールとSRAを組み合わせることで、重要なワークロードを保護し、ダウンタイムを最小限に抑え、予期しないイベントや災害が発生した場合にビジネス継続性を維持できます。
 
@@ -28,7 +24,7 @@ SRA は SRM と一緒に使用され、従来の VMFS データストアと NFS 
 
 
 
-=== シナリオの概要
+== シナリオの概要
 
 このシナリオでは、次の手順の概要を説明します。
 
@@ -42,7 +38,7 @@ SRA は SRM と一緒に使用され、従来の VMFS データストアと NFS 
 
 
 
-=== アーキテクチャ
+== アーキテクチャ
 
 次の図は、3ノードの高可用性構成で構成されたONTAP tools for VMware vSphere 10を使用した一般的なVMware Site Recoveryのアーキテクチャを示しています。
 
@@ -52,7 +48,7 @@ image::vmware-nfs-srm-image05.png[アプライアンスを設定する]
 
 
 
-=== 前提条件
+== 前提条件
 
 このシナリオでは、次のコンポーネントと構成が必要です。
 
@@ -76,13 +72,13 @@ VMware SRMでのONTAPストレージの使用に関するNetAppのドキュメ�
 
 
 
-=== 導入手順
+== 導入手順
 
 以降のセクションでは、ONTAPストレージシステムを使用してVMware Site Recovery Manager構成を実装およびテストするための導入手順について説明します。
 
 
 
-==== ONTAPストレージシステム間にSnapMirror関係を作成する
+=== ONTAPストレージシステム間にSnapMirror関係を作成する
 
 データストアボリュームを保護するには、ソースとデスティネーションのONTAPストレージシステム間でSnapMirror関係を確立する必要があります。
 
@@ -92,7 +88,7 @@ VMware SRMでのONTAPストレージの使用に関するNetAppのドキュメ�
 
 
 
-==== SRMアプライアンスの設定
+=== SRMアプライアンスの設定
 
 SRMアプライアンスとSRAアダプタを設定するには、次の手順を実行します。
 
@@ -101,7 +97,7 @@ SRMアプライアンスとSRAアダプタを設定するには、次の手順�
 ====
 プライマリサイトとセカンダリサイトの両方で、次の手順を実行する必要があります。
 
-. Webブラウザで、に移動して https://<SRM_appliance_IP>:5480[]ログインします。*[アプライアンスの設定]*をクリックして開始します。
+. Webブラウザで、に移動して https://<SRM_appliance_IP>:5480*[]ログインします。*[アプライアンスの設定]*をクリックして開始します。
 +
 image::vmware-nfs-srm-image01.png[アプライアンスを設定する]
 
@@ -146,7 +142,7 @@ image::vmware-nfs-srm-image04.png[新しいSRMアダプタの追加]
 ====
 
 
-==== SRM用のSite Recoveryの設定
+=== SRM用のSite Recoveryの設定
 
 サイトペアリングを設定し、保護グループを作成するには、次の手順を実行します。
 
@@ -328,7 +324,7 @@ image::vmware-nfs-srm-image26.png[テストネットワーク]
 ====
 
 
-=== SRMによるディザスタリカバリ処理
+== SRMによるディザスタリカバリ処理
 
 このセクションでは、SRMでディザスタリカバリを使用するさまざまな機能（フェイルオーバーのテスト、フェイルオーバーの実行、再保護とフェイルバックの実行など）について説明します。
 
@@ -394,7 +390,7 @@ image::vmware-nfs-srm-image32.png[Filoverが完了しました]
 
 
 
-=== 追加情報
+== 追加情報
 
 VMware SRMでのONTAPストレージの使用に関するNetAppのドキュメントについては、を参照してください。 https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-srm-overview.html#why-use-ontap-with-srm["VMware Site Recovery ManagerとONTAP"]
 

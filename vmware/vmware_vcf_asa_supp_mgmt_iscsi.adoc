@@ -20,11 +20,7 @@ summary:
 
 
 
-== ONTAPツールを使用してVCF管理ドメイン用の追加ストレージを構成する
-
-
-
-=== シナリオの概要
+== シナリオの概要
 
 このシナリオでは、次の手順の概要を説明します。
 
@@ -37,7 +33,7 @@ summary:
 
 
 
-=== 前提条件
+== 前提条件
 
 このシナリオでは、次のコンポーネントと構成が必要です。
 
@@ -62,13 +58,13 @@ TIP: 同じIPネットワーク上に複数のVMkernelアダプタが設定さ�
 
 
 
-=== 導入手順
+== 導入手順
 
 ONTAPツールを導入し、それを使用してVCF管理ドメインにVMFSデータストアを作成するには、次の手順を実行します。
 
 
 
-==== ONTAPストレージシステムにSVMとLIFを作成する
+=== ONTAPストレージシステムにSVMとLIFを作成する
 
 ONTAPシステムマネージャで次の手順を実行します。
 
@@ -105,7 +101,7 @@ image::vmware-vcf-asa-image04.png[SVMアカウントを有効にして終了]
 ====
 
 
-==== ESXiホストでのiSCSIのネットワークの設定
+=== ESXiホストでのiSCSIのネットワークの設定
 
 次の手順は、vSphere Clientを使用してVCF管理ドメインクラスタで実行します。
 
@@ -202,7 +198,7 @@ image::vmware-vcf-asa-image12.png[VMkernelの選択内容の確認]
 ====
 
 
-==== ONTAPツールを導入して使用し、ストレージを構成する
+=== ONTAPツールを導入して使用し、ストレージを構成する
 
 次の手順は、vSphere Clientを使用してVCF管理ドメインクラスタで実行します。この手順では、OTVの導入、VMFS iSCSIデータストアの作成、および管理VMの新しいデータストアへの移行を行います。
 
@@ -340,7 +336,7 @@ image::vmware-vcf-asa-image21.png[vSphere Clientの[最近のタスク]ペイン
 ====
 
 
-=== 追加情報
+== 追加情報
 
 ONTAPストレージシステムの構成については、 link:https://docs.netapp.com/us-en/ontap["ONTAP 9ドキュメント"] 中央（Center）：
 
@@ -348,7 +344,7 @@ VCFの設定については、を参照してください。 link:https://docs.v
 
 
 
-=== この解決策のビデオデモ
+== この解決策のビデオデモ
 
 .VCF管理ドメインの補助ストレージとしてのiSCSIデータストア
 video::1d0e1af1-40ae-483a-be6f-b156015507cc[panopto,width=360]

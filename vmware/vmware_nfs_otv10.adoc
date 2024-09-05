@@ -13,10 +13,6 @@ summary:
 :imagesdir: ./../media/
 
 
-
-
-== ONTAP tools 10を使用してvSphere 8用のNFSデータストアを設定する
-
 [role="lead"]
 ONTAP Tools for VMware vSphere 10は次世代アーキテクチャを特徴とし、VASA Provider（iSCSI VVOLとNFS VVOLをサポート）の高可用性と拡張性を標準で実現します。これにより、複数のVMware vCenterサーバとONTAPクラスタの管理が簡易化されます。
 
@@ -24,7 +20,7 @@ ONTAP Tools for VMware vSphere 10は次世代アーキテクチャを特徴と�
 
 
 
-=== 解決策の概要
+== 解決策の概要
 
 このシナリオでは、次の手順の概要を説明します。
 
@@ -37,7 +33,7 @@ ONTAP Tools for VMware vSphere 10は次世代アーキテクチャを特徴と�
 
 
 
-=== アーキテクチャ
+== アーキテクチャ
 
 次の図は、ONTAP tools for VMware vSphere 10の実装のアーキテクチャコンポーネントを示しています。
 
@@ -45,7 +41,7 @@ image::vmware-nfs-otv10-image29.png[otv10アーキテクチャ]
 
 
 
-=== 前提条件
+== 前提条件
 
 このソリューションには、次のコンポーネントと構成が必要です。
 
@@ -64,13 +60,13 @@ VMware vSphereでONTAPを使用する場合のネットワークガイダンス�
 
 
 
-=== 導入手順
+== 導入手順
 
 ONTAP tools 10を導入し、そのツールを使用してVCF管理ドメインにNFSデータストアを作成するには、次の手順を実行します。
 
 
 
-==== ONTAPストレージシステムにSVMとLIFを作成する
+=== ONTAPストレージシステムにSVMとLIFを作成する
 
 ONTAPシステムマネージャで次の手順を実行します。
 
@@ -110,7 +106,7 @@ image::vmware-vcf-asa-image04.png[SVMアカウントを有効にして終了]
 ====
 
 
-==== ESXiホストでのNFSのネットワークの設定
+=== ESXiホストでのNFSのネットワークの設定
 
 次の手順は、vSphere Clientを使用してVI Workload Domainクラスタで実行します。この例では、vCenter Single Sign-Onを使用しているため、vSphere Clientは管理ドメインとワークロードドメイン全体で共通です。
 
@@ -196,7 +192,7 @@ image::vmware-nfs-otv10-image06.png[VMkernelの選択内容の確認]
 ====
 
 
-==== ONTAP tools 10を導入して使用し、ストレージを構成する
+=== ONTAP tools 10を導入して使用し、ストレージを構成する
 
 次の手順は、vSphere Clientを使用してvSphere 8クラスタで実行します。この手順では、OTVを導入し、ONTAP tools Managerを設定し、VVOL NFSデータストアを作成します。
 
@@ -441,7 +437,7 @@ image::vmware-nfs-otv10-image32.png[[最近のタスク]ペイン]
 ====
 
 
-=== 追加情報
+== 追加情報
 
 ONTAP Tools for VMware vSphere 10リソースの一覧については、を参照してください https://www.netapp.com/support-and-training/documentation/ontap-tools-for-vmware-vsphere-documentation/["ONTAP Tools for VMware vSphereドキュメントリソース"]。
 
