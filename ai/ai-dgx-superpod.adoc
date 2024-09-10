@@ -34,14 +34,15 @@ NVIDIA DGX SuperPODとNVIDIA DGX H100システムおよびNVIDIA Base Commandは
 
 == 解決策の概要
 
-NVIDIA DGX SuperPODは、今日の企業が直面している最も複雑なAIワークロードをサポートするIT向けターンキー解決策として提供されるAIデータセンターインフラプラットフォームです。導入と管理を簡易化しながら、パフォーマンスと容量をほぼ無制限に拡張できます。つまり、DGX SuperPODを使用すると、インフラではなくインサイトに集中できます。
-NetApp EF600オールフラッシュアレイを基盤とするNVIDIA DGX SuperPODにより、お客様は簡単かつシームレスに拡張できる即応性に優れたAI解決策を手に入れることができます。解決策は柔軟性と拡張性に優れているため、進化するワークロードに対応して適応することができ、現在だけでなく将来のストレージ要件にも対応できる強力な基盤となります。モジュラ型のストレージビルディングブロックにより、きめ細かなアプローチで拡張し、テラバイトからペタバイトにシームレスに拡張できます。ストレージビルディングブロックの数を増やすことで、ファイルシステムのパフォーマンスと容量をスケールアップし、きわめて要件の厳しいワークロードを解決策で簡単に管理できるようになります。
+NVIDIA DGX SuperPODは、今日の企業が直面している最も複雑なAIワークロードをサポートするIT向けターンキーソリューションとして提供されるAIデータセンターインフラプラットフォームです。導入と管理を簡易化しながら、パフォーマンスと容量をほぼ無制限に拡張できます。つまり、DGX SuperPODを使用すると、インフラではなくインサイトに集中できます。
+
+NetApp EF600オールフラッシュアレイを基盤とするNVIDIA DGX SuperPODにより、お客様は簡単かつシームレスに拡張できる即応性に優れたAIソリューションを手に入れることができます。このソリューションは柔軟性と拡張性に優れているため、IT部門はワークロードの進化に対応して適応することができ、現在だけでなく将来のストレージ要件にも対応できる強力な基盤となります。モジュラ型のストレージビルディングブロックにより、きめ細かなアプローチで拡張し、テラバイトからペタバイトにシームレスに拡張できます。ストレージビルディングブロックの数を増やすことで、ファイルシステムのパフォーマンスと容量をスケールアップし、きわめて要件の厳しいワークロードを簡単に管理できるようになります。
 
 
 
 === 解決策テクノロジ
 
-* NVIDIA DGX SuperPODとNVIDIA DGX H100システムは、検証済みの外部接続共有ストレージでDGX H100システムを活用します。
+* NVIDIA DGX SuperPODとNVIDIA DGX H100システムは、検証済みの外部接続共有ストレージを使用したDGX H100システムを活用します。
 +
 ** 各DGX SuperPODスケーラブルユニット（SU）は、32台のDGX H100システムで構成され、FP8精度で640ペタフロップスのAIパフォーマンスに対応します。通常は、特定のインストールのパフォーマンスと容量の要件に応じて、NetApp BeeGFSビルディングブロックが少なくとも2つ含まれます。
 
@@ -72,8 +73,7 @@ image::EF_SuperPOD_buildingblock.png[EF SuperPODビルディングブロック]
 
 この解決策環境のユースケースは次のとおりです。
 
-* 機械学習（ML）、ディープラーニング（DL）、自然言語処理（NLP）、自然言語理解（NLU）、gなどの人工知能（AI）
-ジェネレーティブAI（GenAI）。
+* 機械学習（ML）、ディープラーニング（DL）、自然言語処理（NLP）、自然言語理解（NLU）、生成AI（生成AI）などの人工知能（AI）。
 * 中規模から大規模のAIトレーニング
 * コンピュータビジョン、音声、音声、言語モデル
 * メッセージ・パッシング・インターフェイス（MPI）やその他の分散コンピューティング手法によって高速化されたアプリケーションを含むHPC
@@ -147,13 +147,8 @@ NetAppとNVIDIAは、AIソリューションのポートフォリオを市場に
 == 追加情報の参照先
 
 このドキュメントに記載されている情報の詳細については、以下のドキュメントや Web サイトを参照してください。
-NVA-1164-DESIGN：BeeGFS on NetApp NVA Design
-https://www.netapp.com/media/71123-nva-1164-design.pdf[]
-NVA-1164-DEPLOY：BeeGFS on NetApp NVAの導入
-https://www.netapp.com/media/71124-nva-1164-deploy.pdf[]
-NVIDIA DGX SuperPODリファレンスアーキテクチャ
-https://docs.nvidia.com/dgx-superpod/reference-architecture-scalable-infrastructure-h100/latest/index.html#[]
-NVIDIA DGX SuperPODデータセンター設計リファレンスガイド
-https://docs.nvidia.com/nvidia-dgx-superpod-data-center-design-dgx-h100.pdf[]
-NVIDIA DGX SuperPOD：NetApp EF600とBeeGFS
-https://nvidiagpugenius.highspot.com/viewer/62915e2ef093f1a97b2d1fe6?iid=62913b14052a903cff46d054&source=email.62915e2ef093f1a97b2d1fe7.4[]
+
+* link:https://docs.nvidia.com/dgx-superpod/reference-architecture-scalable-infrastructure-h100/latest/index.html#["NVIDIA DGX SuperPODリファレンスアーキテクチャ"]
+* link:https://docs.nvidia.com/nvidia-dgx-superpod-data-center-design-dgx-h100.pdf["NVIDIA DGX SuperPODデータセンターデザインリファレンスガイド"]
+* link:https://nvidiagpugenius.highspot.com/viewer/62915e2ef093f1a97b2d1fe6?iid=62913b14052a903cff46d054&source=email.62915e2ef093f1a97b2d1fe7.4["NVIDIA DGX SuperPOD：NetApp EF600とBeeGFS"]
+
