@@ -43,21 +43,21 @@ EC2/FSX Oracleデータベースは、ユーザが設定した間隔で定期的
 
 . SnapCenter UIにログインし、左側のメニューでResources（リソース）をクリックします。Viewドロップダウンから、Resource Groupビューに移動します。
 +
-image::aws_rds_custom_deploy_snp_10.PNG[AWS RDSカスタムデプロイSNP 10]
+image:aws_rds_custom_deploy_snp_10.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . フル・バックアップ・リソース名をクリックし、[今すぐバックアップ]アイコンをクリックして、追加バックアップを開始します。
 +
-image::aws_rds_custom_deploy_snp_11.PNG[AWS RDSカスタムデプロイSNP 11]
+image:aws_rds_custom_deploy_snp_11.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . [バックアップ]をクリックし、バックアップを確定して、フル・データベース・バックアップを開始します。
 +
-image::aws_rds_custom_deploy_snp_12.PNG[AWS RDSカスタムデプロイSNP 12]
+image:aws_rds_custom_deploy_snp_12.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
 データベースの[リソース]ビューで、[データベース管理バックアップコピー]ページを開いて、一度限りのバックアップが正常に完了したことを確認します。フルデータベースバックアップでは、データボリューム用とログボリューム用の2つのSnapshotが作成されます。
 
 +
-image::aws_rds_custom_deploy_snp_13.PNG[AWS RDSカスタムデプロイSNP 13]
+image:aws_rds_custom_deploy_snp_13.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -69,21 +69,21 @@ image::aws_rds_custom_deploy_snp_13.PNG[AWS RDSカスタムデプロイSNP 13]
 
 . SnapCenter UIにログインし、左側のメニューバーにある[Resources]タブをクリックします。Viewドロップダウンから、Resource Groupビューに移動します。
 +
-image::aws_rds_custom_deploy_snp_10.PNG[AWS RDSカスタムデプロイSNP 10]
+image:aws_rds_custom_deploy_snp_10.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . ログバックアップリソース名をクリックし、[今すぐバックアップ]アイコンをクリックして、アーカイブログの追加バックアップを開始します。
 +
-image::aws_rds_custom_deploy_snp_14.PNG[AWS RDSカスタムデプロイSNP 14]
+image:aws_rds_custom_deploy_snp_14.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . Backupをクリックしてバックアップを確定し、アーカイブログのバックアップを開始します。
 +
-image::aws_rds_custom_deploy_snp_15.PNG[AWS RDSカスタムデプロイSNP 15]
+image:aws_rds_custom_deploy_snp_15.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
 データベースの[リソース]ビューで、[データベース管理バックアップコピー]ページを開き、1回限りのアーカイブログバックアップが正常に完了したことを確認します。アーカイブログバックアップでは、ログボリューム用のSnapshotが1つ作成されます。
 
 +
-image::aws_rds_custom_deploy_snp_16.PNG[AWS RDSカスタムデプロイSNP 16]
+image:aws_rds_custom_deploy_snp_16.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -95,26 +95,23 @@ SnapCenterベースのリストアを同じEC2インスタンスホストで実�
 
 . SnapCenter リソースタブのデータベースビューで、データベース名をクリックしてデータベースバックアップを開きます。
 +
-image::aws_rds_custom_deploy_snp_17.PNG[AWS RDSカスタムデプロイSNP 17]
+image:aws_rds_custom_deploy_snp_17.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . データベースのバックアップコピーおよびリストアするポイントインタイムを選択します。また、ポイントインタイムに対応するSCN番号もマークダウンします。ポイントインタイムリストアは、時間またはSCNを使用して実行できます。
 +
-image::aws_rds_custom_deploy_snp_18.PNG[AWS RDSカスタムデプロイSNP 18]
+image:aws_rds_custom_deploy_snp_18.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . ログボリュームのSnapshotを選択し、マウントボタンをクリックしてボリュームをマウントします。
 +
-image::aws_rds_custom_deploy_snp_19.PNG[AWS RDSカスタムデプロイSNP 19]
+image:aws_rds_custom_deploy_snp_19.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . ログボリュームをマウントするプライマリEC2インスタンスを選択します。
 +
-image::aws_rds_custom_deploy_snp_20.PNG[AWS RDSカスタムデプロイSNP 20]
+image:aws_rds_custom_deploy_snp_20.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . マウントジョブが正常に完了したことを確認します。また、EC2インスタンスホストで、そのログボリュームがマウントされていること、およびマウントポイントパスを確認します。
 +
-image::aws_rds_custom_deploy_snp_21_1.PNG[AWS RDSカスタムデプロイSNP 21 1]
-
-+
-image::aws_rds_custom_deploy_snp_21_2.PNG[AWS RDSカスタムデプロイSNP 21 2]
+image:aws_rds_custom_deploy_snp_21_1.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"] image:aws_rds_custom_deploy_snp_21_2.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . マウントされたログボリュームから現在のアーカイブログディレクトリにアーカイブログをコピーします。
 +
@@ -124,39 +121,39 @@ image::aws_rds_custom_deploy_snp_21_2.PNG[AWS RDSカスタムデプロイSNP 21 
 ----
 . SnapCenter リソースタブ>データベースバックアップページに戻り、データSnapshotコピーを強調表示し、復元ボタンをクリックしてデータベースリストアワークフローを開始します。
 +
-image::aws_rds_custom_deploy_snp_22.PNG[AWS RDSカスタムデプロイSNP 22]
+image:aws_rds_custom_deploy_snp_22.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . [すべてのデータファイル]および[リストアとリカバリに必要な場合はデータベースの状態を変更する]をオンにして、[次へ]をクリックします。
 +
-image::aws_rds_custom_deploy_snp_23.PNG[AWS RDSカスタムデプロイSNP 23]
+image:aws_rds_custom_deploy_snp_23.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . SCNまたは時刻を使用して、目的のリカバリ範囲を選択します。手順6で説明したように、マウントされたアーカイブログを現在のログディレクトリにコピーする代わりに、マウントされたアーカイブログのパスを「リカバリのための外部アーカイブログファイルの場所の指定」に記載できます。
 +
-image::aws_rds_custom_deploy_snp_24_1.PNG[AWS RDSカスタムデプロイSNP 24 1]
+image:aws_rds_custom_deploy_snp_24_1.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 必要に応じて実行するプリスクリプトをオプションで指定します。
 +
-image::aws_rds_custom_deploy_snp_25.PNG[AWS RDSカスタムデプロイSNP 25]
+image:aws_rds_custom_deploy_snp_25.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 必要に応じて、オプションのアフタースクリプトを指定して実行します。リカバリ後に開いているデータベースを確認します。
 +
-image::aws_rds_custom_deploy_snp_26.PNG[AWS RDSカスタムデプロイSNP 26]
+image:aws_rds_custom_deploy_snp_26.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . ジョブ通知が必要な場合は、SMTPサーバとEメールアドレスを指定します。
 +
-image::aws_rds_custom_deploy_snp_27.PNG[AWS RDSカスタムデプロイSNP 27]
+image:aws_rds_custom_deploy_snp_27.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . ジョブの概要をリストア[終了]をクリックして、リストア・ジョブを起動します。
 +
-image::aws_rds_custom_deploy_snp_28.PNG[AWS RDSカスタムデプロイSNP 28]
+image:aws_rds_custom_deploy_snp_28.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . SnapCenter からのリストアを検証します。
 +
-image::aws_rds_custom_deploy_snp_29_1.PNG[AWS RDSカスタムデプロイSNP 29 1]
+image:aws_rds_custom_deploy_snp_29_1.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . EC2インスタンスホストからリストアを検証します。
 +
-image::aws_rds_custom_deploy_snp_29_2.PNG[AWS RDSカスタムデプロイSNP 29 2]
+image:aws_rds_custom_deploy_snp_29_2.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . リストア・ログ・ボリュームをアンマウントするには、手順4と逆の手順を実行します。
 
@@ -169,56 +166,53 @@ image::aws_rds_custom_deploy_snp_29_2.PNG[AWS RDSカスタムデプロイSNP 29 
 
 . フルバックアップリソースグループを使用して、SnapCenter からプライマリデータベースのフルSnapshotバックアップを作成します。
 +
-image::aws_rds_custom_deploy_replica_02.PNG[AWS RDSカスタムデプロイレプリカ02]
+image:aws_rds_custom_deploy_replica_02.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . SnapCenter リソースタブのデータベースビューで、レプリカの作成元のプライマリデータベースのデータベースバックアップ管理ページを開きます。
 +
-image::aws_rds_custom_deploy_replica_04.PNG[AWS RDSカスタムデプロイレプリカ04]
+image:aws_rds_custom_deploy_replica_04.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 手順4で作成したログボリュームSnapshotを、スタンバイEC2インスタンスホストにマウントします。
 +
-image::aws_rds_custom_deploy_replica_13.PNG[AWS RDSカスタムデプロイレプリカ13]
-
-+
-image::aws_rds_custom_deploy_replica_14.PNG[AWS RDSカスタムデプロイレプリカ14]
+image:aws_rds_custom_deploy_replica_13.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"] image:aws_rds_custom_deploy_replica_14.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . レプリカ用にクローンを作成するスナップショットコピーをハイライト表示し、[クローン]ボタンをクリックしてクローン手順 を起動します。
 +
-image::aws_rds_custom_deploy_replica_05.PNG[AWS RDSカスタムデプロイレプリカ05]
+image:aws_rds_custom_deploy_replica_05.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . レプリカコピー名を変更して、プライマリデータベース名とは異なる名前にします。次へをクリックします。
 +
-image::aws_rds_custom_deploy_replica_06.PNG[AWS RDSカスタムデプロイレプリカ06]
+image:aws_rds_custom_deploy_replica_06.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . クローンホストをスタンバイEC2ホストに変更し、デフォルトの名前を受け入れて、Nextをクリックします。
 +
-image::aws_rds_custom_deploy_replica_07.PNG[AWS RDSカスタムデプロイレプリカ07]
+image:aws_rds_custom_deploy_replica_07.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . Oracleホームの設定をターゲットOracleサーバーホスト用に構成された設定に合わせて変更し、次へをクリックします。
 +
-image::aws_rds_custom_deploy_replica_08.PNG[AWS RDSカスタムデプロイレプリカ08]
+image:aws_rds_custom_deploy_replica_08.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 時刻またはSCNとマウントされたアーカイブログのパスを使用して、リカバリポイントを指定します。
 +
-image::aws_rds_custom_deploy_replica_15.PNG[AWS RDSカスタムデプロイレプリカ15]
+image:aws_rds_custom_deploy_replica_15.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 必要に応じてSMTP Eメール設定を送信します。
 +
-image::aws_rds_custom_deploy_replica_11.PNG[AWS RDSカスタムデプロイレプリカ11]
+image:aws_rds_custom_deploy_replica_11.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . ジョブの概要を複製し、[完了]をクリックしてクローンジョブを起動します。
 +
-image::aws_rds_custom_deploy_replica_12.PNG[AWS RDSカスタムデプロイレプリカ12]
+image:aws_rds_custom_deploy_replica_12.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . クローンジョブログを確認して、レプリカクローンを検証します。
 +
-image::aws_rds_custom_deploy_replica_17.PNG[AWS RDSカスタムデプロイレプリカ17]
+image:aws_rds_custom_deploy_replica_17.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
 クローニングされたデータベースは、ただちにSnapCenter に登録されます。
 
 +
-image::aws_rds_custom_deploy_replica_18.PNG[AWS RDSカスタムデプロイレプリカ18]
+image:aws_rds_custom_deploy_replica_18.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . Oracleアーカイブログモードをオフにします。OracleユーザとしてEC2インスタンスにログインし、次のコマンドを実行します。
 +

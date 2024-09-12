@@ -57,7 +57,7 @@ VLDBのSLAに関心があり、OracleデータベースをAWSなどのパブリ�
 
 === アーキテクチャ
 
-image::aws_ora_fsx_ec2_vldb_architecture.png[この画像は、FSxNを使用したAWSパブリッククラウドでのOracle VLDBインクリメンタルマージの実装の詳細を示しています。]
+image:aws_ora_fsx_ec2_vldb_architecture.png["この画像は、FSxNを使用したAWSパブリッククラウドでのOracle VLDBインクリメンタルマージの実装の詳細を示しています。"]
 
 
 
@@ -161,7 +161,7 @@ vol create -volume ora_01_copy -aggregate aggr1 -size 100G -state online -type R
 ----
 . または、AWS FSxコンソールUIからStorage Efficiencyオプションを使用してボリュームをプロビジョニングすることもできます `Enabled`、セキュリティ形式 `Unix` 、Snapshotポリシー `None`、およびストレージ階層化 `Snapshot Only` 以下に示すように。
 +
-image::aws_ora_fsx_ec2_vldb_vol.png[AWS ora FSx EC2 VLDBボリューム]
+image:aws_ora_fsx_ec2_vldb_vol.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . Oracleデータベース用にカスタマイズしたSnapshotポリシーを作成し、日次スケジュールと30日間の保持期間を設定します。Snapshotの頻度と保持期間について、特定のニーズに合わせてポリシーを調整する必要があります。
 +

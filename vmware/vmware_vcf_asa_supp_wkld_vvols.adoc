@@ -46,7 +46,7 @@ summary:
 
 NetAppでは、iSCSIに対して完全に冗長なネットワーク設計を推奨しています。次の図は、ストレージシステム、スイッチ、ネットワークアダプタ、およびホストシステムにフォールトトレランスを提供する冗長構成の例を示しています。『NetApp』を参照してください。 link:https://docs.netapp.com/us-en/ontap/san-config/index.html["SAN 構成リファレンス"] 追加情報 の場合。
 
-image::vmware-vcf-asa-image74.png[NVMe-TCPネットワーク設計]
+image:vmware-vcf-asa-image74.png["NVMe-TCPネットワーク設計"]
 
 ｛nbsp｝
 
@@ -78,14 +78,14 @@ iSCSIトラフィック用の複数のLIFを含むSVMを作成するには、次
 
 . ONTAPシステムマネージャで、左側のメニュー*[Storage VMs]*に移動し、*+[追加]*をクリックして開始します。
 +
-image::vmware-vcf-asa-image01.png[[+ Add]をクリックしてSVMの作成を開始]
+image:vmware-vcf-asa-image01.png["[+ Add]をクリックしてSVMの作成を開始"]
 
 +
 ｛nbsp｝
 
 . Storage VMの追加*ウィザードで、SVMの*名前*を指定して*[IPスペース]*を選択し、*[アクセスプロトコル]*で*[iSCSI]*タブをクリックし、*[iSCSIを有効にする]*チェックボックスをオンにします。
 +
-image::vmware-vcf-asa-image02.png[[Add Storage VM]ウィザード- iSCSIの有効化]
+image:vmware-vcf-asa-image02.png["[Add Storage VM]ウィザード- iSCSIの有効化"]
 
 +
 ｛nbsp｝
@@ -96,14 +96,14 @@ image::vmware-vcf-asa-image02.png[[Add Storage VM]ウィザード- iSCSIの有�
 NOTE: 複数のパスをまたいだマルチパスとフェイルオーバーを実現するために、NetAppでは、iSCSI構成のすべてのSVMについて、ストレージノードごとに少なくとも2つのLIFを別 々 のイーサネットネットワークに配置することを推奨しています。
 
 +
-image::vmware-vcf-asa-image03.png[LIFのネットワーク情報を入力]
+image:vmware-vcf-asa-image03.png["LIFのネットワーク情報を入力"]
 
 +
 ｛nbsp｝
 
 . （マルチテナンシー環境の場合）Storage VM管理アカウントを有効にするかどうかを選択し、*[保存]*をクリックしてSVMを作成します。
 +
-image::vmware-vcf-asa-image04.png[SVMアカウントを有効にして終了]
+image:vmware-vcf-asa-image04.png["SVMアカウントを有効にして終了"]
 
 
 
@@ -121,7 +121,7 @@ iSCSIネットワークごとに新しい分散ポートグループを作成す
 
 . vSphere Clientで、ワークロードドメインの*[Inventory]>[Networking]*に移動します。既存のDistributed Switchに移動し、* New Distributed Port Group...*を作成するアクションを選択します。
 +
-image::vmware-vcf-asa-image22.png[新しいポートグループの作成を選択]
+image:vmware-vcf-asa-image22.png["新しいポートグループの作成を選択"]
 
 +
 ｛nbsp｝
@@ -129,7 +129,7 @@ image::vmware-vcf-asa-image22.png[新しいポートグループの作成を選�
 . [New Distributed Port Group]*ウィザードで、新しいポートグループの名前を入力し、*[Next]*をクリックして続行します。
 . [設定の構成]ページで、すべての設定を入力します。VLANを使用している場合は、正しいVLAN IDを指定してください。[次へ]*をクリックして続行します。
 +
-image::vmware-vcf-asa-image23.png[VLAN IDを入力]
+image:vmware-vcf-asa-image23.png["VLAN IDを入力"]
 
 +
 ｛nbsp｝
@@ -138,18 +138,18 @@ image::vmware-vcf-asa-image23.png[VLAN IDを入力]
 . 同じ手順を繰り返して、使用する2つ目のiSCSIネットワーク用の分散ポートグループを作成し、正しい* VLAN ID *を入力していることを確認します。
 . 両方のポートグループが作成されたら、最初のポートグループに移動し、*[設定の編集...]*の操作を選択します。
 +
-image::vmware-vcf-asa-image24.png[DPG -設定の編集]
+image:vmware-vcf-asa-image24.png["DPG -設定の編集"]
 
 +
 ｛nbsp｝
 
 . [Distributed Port Group]-[Edit Settings]*ページで、左側のメニューの*[Teaming and failover]*に移動し、* uplink2 *をクリックして*[Unused Uplinks]*に移動します。
 +
-image::vmware-vcf-asa-image25.png[アップリンク2を未使用に移動]
+image:vmware-vcf-asa-image25.png["アップリンク2を未使用に移動"]
 
 . 2つ目のiSCSIポートグループに対してこの手順を繰り返します。ただし、今回は* uplink1*を* unused uplinks *に移動します。
 +
-image::vmware-vcf-asa-image26.png[uplink1を未使用に移動]
+image:vmware-vcf-asa-image26.png["uplink1を未使用に移動"]
 
 
 
@@ -161,42 +161,42 @@ image::vmware-vcf-asa-image26.png[uplink1を未使用に移動]
 
 . vSphere Clientで、ワークロードドメインインベントリ内のいずれかのESXiホストに移動します。[設定]タブで*[VMkernel adapters]*を選択し、*[ネットワークの追加...]*をクリックして開始します。
 +
-image::vmware-vcf-asa-image30.png[ネットワーク追加ウィザードの開始]
+image:vmware-vcf-asa-image30.png["ネットワーク追加ウィザードの開始"]
 
 +
 ｛nbsp｝
 
 . [接続タイプの選択]ウィンドウで*[VMkernel Network Adapter]*を選択し、*[次へ]*をクリックして続行します。
 +
-image::vmware-vcf-asa-image08.png[VMkernelネットワークアダプタを選択]
+image:vmware-vcf-asa-image08.png["VMkernelネットワークアダプタを選択"]
 
 +
 ｛nbsp｝
 
 . [ターゲットデバイスの選択]ページで、以前に作成したiSCSI用の分散ポートグループの1つを選択します。
 +
-image::vmware-vcf-asa-image31.png[ターゲットポートグループを選択]
+image:vmware-vcf-asa-image31.png["ターゲットポートグループを選択"]
 
 +
 ｛nbsp｝
 
 . [ポートのプロパティ]ページで、デフォルトのままにして*[次へ]*をクリックして続行します。
 +
-image::vmware-vcf-asa-image32.png[VMkernelポートプロパティ]
+image:vmware-vcf-asa-image32.png["VMkernelポートプロパティ"]
 
 +
 ｛nbsp｝
 
 . [IPv4 settings]*ページで、*[IP address]*、*[Subnet mask]*を入力し、新しいゲートウェイIPアドレスを指定します（必要な場合のみ）。[次へ]*をクリックして続行します。
 +
-image::vmware-vcf-asa-image33.png[VMkernel IPv4設定]
+image:vmware-vcf-asa-image33.png["VMkernel IPv4設定"]
 
 +
 ｛nbsp｝
 
 . [選択内容の確認]ページで選択内容を確認し、*[終了]*をクリックしてVMkernelアダプタを作成します。
 +
-image::vmware-vcf-asa-image34.png[VMkernelの選択内容の確認]
+image:vmware-vcf-asa-image34.png["VMkernelの選択内容の確認"]
 
 +
 ｛nbsp｝
@@ -226,14 +226,14 @@ ONTAP Tools for VMware vSphereはVMアプライアンスとして導入され、
 . VCF管理ドメインのvCenterアプライアンスにログインします。
 . vCenterアプライアンスのインターフェイスで管理クラスタを右クリックし、* Deploy OVF Template…*を選択します。
 +
-image::vmware-vcf-aff-image21.png[OVFテンプレートの導入...]
+image:vmware-vcf-aff-image21.png["OVFテンプレートの導入..."]
 
 +
 ｛nbsp｝
 
 . [Deploy OVF Template]ウィザードで、*[Local file]*ラジオボタンをクリックし、前の手順でダウンロードしたONTAP tools OVAファイルを選択します。
 +
-image::vmware-vcf-aff-image22.png[OVAファイルを選択]
+image:vmware-vcf-aff-image22.png["OVAファイルを選択"]
 
 +
 ｛nbsp｝
@@ -241,14 +241,14 @@ image::vmware-vcf-aff-image22.png[OVAファイルを選択]
 . ウィザードの手順2~5では、VMの名前とフォルダを選択し、コンピューティングリソースを選択して詳細を確認し、ライセンス契約に同意します。
 . 構成ファイルとディスクファイルの格納場所として、VCF管理ドメインクラスタのVSANデータストアを選択します。
 +
-image::vmware-vcf-aff-image23.png[OVAファイルを選択]
+image:vmware-vcf-aff-image23.png["OVAファイルを選択"]
 
 +
 ｛nbsp｝
 
 . [Select network]ページで、管理トラフィックに使用するネットワークを選択します。
 +
-image::vmware-vcf-aff-image24.png[ネットワークの選択]
+image:vmware-vcf-aff-image24.png["ネットワークの選択"]
 
 +
 ｛nbsp｝
@@ -267,10 +267,10 @@ image::vmware-vcf-aff-image24.png[ネットワークの選択]
 [次へ]*をクリックして続行します。
 
 +
-image::vmware-vcf-aff-image25.png[OTVテンプレートのカスタマイズ1]
+image:vmware-vcf-aff-image25.png["OTVテンプレートのカスタマイズ1"]
 
 +
-image::vmware-vcf-asa-image35.png[OTVテンプレートのカスタマイズ2]
+image:vmware-vcf-asa-image35.png["OTVテンプレートのカスタマイズ2"]
 
 +
 ｛nbsp｝
@@ -286,21 +286,21 @@ image::vmware-vcf-asa-image35.png[OTVテンプレートのカスタマイズ2]
 ====
 . vSphere ClientのメインメニューからNetApp ONTAPツールを選択してアクセスします。
 +
-image::vmware-asa-image6.png[NetApp ONTAPツール]
+image:vmware-asa-image6.png["NetApp ONTAPツール"]
 
 +
 ｛nbsp｝
 
 . ONTAPツールインターフェイスの* instance *ドロップダウンメニューから、管理対象のワークロードドメインに関連付けられているONTAP Toolsインスタンスを選択します。
 +
-image::vmware-vcf-asa-image36.png[OTVインスタンスを選択]
+image:vmware-vcf-asa-image36.png["OTVインスタンスを選択"]
 
 +
 ｛nbsp｝
 
 . ONTAPツールで、左側のメニューから*ストレージシステム*を選択し、*追加*を押します。
 +
-image::vmware-vcf-asa-image37.png[ストレージシステムの追加]
+image:vmware-vcf-asa-image37.png["ストレージシステムの追加"]
 
 +
 ｛nbsp｝
@@ -311,7 +311,7 @@ image::vmware-vcf-asa-image37.png[ストレージシステムの追加]
 NOTE: VVOLには、SVMのクレデンシャルではなくONTAPクラスタのクレデンシャル詳細については、を参照してください。 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/configure/task_add_storage_systems.html["ストレージシステムを追加"] ONTAPツールのマニュアルを参照してください。
 
 +
-image::vmware-vcf-asa-image38.png[ストレージシステムのクレデンシャルの入力]
+image:vmware-vcf-asa-image38.png["ストレージシステムのクレデンシャルの入力"]
 
 
 
@@ -325,31 +325,31 @@ ONTAPツールでストレージ機能プロファイルを作成するには、
 
 . ONTAPツールで、左側のメニューから*[ストレージ機能プロファイル]*を選択し、*[作成]*を押します。
 +
-image::vmware-vcf-asa-image39.png[ストレージ機能プロファイル]
+image:vmware-vcf-asa-image39.png["ストレージ機能プロファイル"]
 
 . ストレージ機能プロファイルの作成*ウィザードで、プロファイルの名前と概要を指定し、*[次へ]*をクリックします。
 +
-image::vmware-asa-image10.png[SCPの名前を追加]
+image:vmware-asa-image10.png["SCPの名前を追加"]
 
 . プラットフォームタイプを選択し、* Asymmetric *をfalseに設定するオールフラッシュSANアレイをストレージシステムとして指定します。
 +
-image::vmware-asa-image11.png[SCP用Platorm]
+image:vmware-asa-image11.png["SCP用Platorm"]
 
 . 次に、プロトコルまたは*任意*を選択して、使用可能なすべてのプロトコルを許可します。「 * 次へ * 」をクリックして続行します。
 +
-image::vmware-asa-image12.png[SCPのプロトコル]
+image:vmware-asa-image12.png["SCPのプロトコル"]
 
 . パフォーマンス*ページでは、許容される最小IOPSと最大IOPSの形式でサービス品質を設定できます。
 +
-image::vmware-asa-image13.png[SCPのQoS]
+image:vmware-asa-image13.png["SCPのQoS"]
 
 . 必要に応じて、[ストレージ属性]ページでストレージ効率、スペースリザベーション、暗号化、階層化ポリシーを選択します。
 +
-image::vmware-asa-image14.png[SCPの属性]
+image:vmware-asa-image14.png["SCPの属性"]
 
 . 最後に、概要を確認し、[完了]をクリックしてプロファイルを作成します。
 +
-image::vmware-vcf-asa-image40.png[SCPの概要]
+image:vmware-vcf-asa-image40.png["SCPの概要"]
 
 
 
@@ -361,23 +361,23 @@ ONTAPツールでVVOLデータストアを作成するには、次の手順を�
 
 . ONTAPツールで*概要*を選択し、*はじめに*タブで*プロビジョニング*をクリックしてウィザードを開始します。
 +
-image::vmware-vcf-asa-image41.png[データストアのプロビジョニング]
+image:vmware-vcf-asa-image41.png["データストアのプロビジョニング"]
 
 . [新しいデータストア]ウィザードの*[全般]*ページで、vSphereデータセンターまたはクラスタのデスティネーションを選択します。データストアのタイプとして*[VVols]*を選択し、データストアの名前を入力して、プロトコルとして*[iSCSI]*を選択します。[次へ]*をクリックして続行します。
 +
-image::vmware-vcf-asa-image42.png[[全般]ページ]
+image:vmware-vcf-asa-image42.png["[全般]ページ"]
 
 . [ストレージシステム]ページで、ストレージ機能プロファイル、ストレージシステム、SVMを選択します。[次へ]*をクリックして続行します。
 +
-image::vmware-vcf-asa-image43.png[ストレージシステム]
+image:vmware-vcf-asa-image43.png["ストレージシステム"]
 
 . [ストレージ属性]*ページでを選択してデータストア用の新しいボリュームを作成し、作成するボリュームのストレージ属性を入力します。[追加]*をクリックしてボリュームを作成し、*[次へ]*をクリックして続行します。
 +
-image::vmware-vcf-asa-image44.png[ストレージ属性]
+image:vmware-vcf-asa-image44.png["ストレージ属性"]
 
 . 最後に概要を確認し、*[終了]*をクリックしてVVOLデータストアの作成プロセスを開始します。
 +
-image::vmware-vcf-asa-image45.png[サマリページ]
+image:vmware-vcf-asa-image45.png["サマリページ"]
 
 
 

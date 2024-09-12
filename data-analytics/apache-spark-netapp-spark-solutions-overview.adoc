@@ -18,7 +18,7 @@ summary: ネットアップには、FAS / AFF、Eシリーズ、Cloud Volumes ON
 
 ネットアップのデータファブリックは、以下の図に示すように、データアクセス、制御、保護、セキュリティのためのデータ管理サービスとアプリケーション（ビルディングブロック）を統合しています。
 
-image::apache-spark-image4.png[データファブリックは、データ管理のサービスとアプリケーションを提供します。]
+image:apache-spark-image4.png["データファブリックは、データ管理のサービスとアプリケーションを提供します。"]
 
 上の図の構成要素は次のとおりです。
 
@@ -31,16 +31,16 @@ image::apache-spark-image4.png[データファブリックは、データ管理�
 
 次の図は、Sparkの解決策 とネットアップストレージを示しています。
 
-image::apache-spark-image5.png[Sparkの解決策 とネットアップストレージ]
+image:apache-spark-image5.png["Sparkの解決策 とネットアップストレージ"]
 
 ONTAP Spark解決策 は、既存の本番データへのアクセスを使用して、インプレース分析、AI、ML、DLのワークフローに、ネットアップNFSダイレクトアクセスプロトコルを使用しています。Hadoopノードで使用可能な本番データは、インプレース分析ジョブ、AIジョブ、MLジョブ、DLジョブを実行するためにエクスポートされます。データにアクセスしてHadoopノード内で処理することができ、NetApp NFSに直接アクセスするかどうかは関係ありません。Sparkでは、スタンドアロンのクラスタマネージャまたは「yarn」クラスタマネージャを使用して、「」を使用してNFSボリュームを構成できます<file:///<target_volume>`[]。3つのユースケースに異なるデータセットを使用して検証しました。これらの検証の詳細については、「テスト結果」セクションを参照してください。 （XRef）
 
 次の図は、NetApp Apache Spark / Hadoopストレージの位置付けを示しています。
 
-image::apache-spark-image7.png[NetApp Apache Spark / Hadoopストレージの位置付け。]
+image:apache-spark-image7.png["NetApp Apache Spark / Hadoopストレージの位置付け。"]
 
 また、EシリーズSparkの解決策 、AFF / FAS ONTAP Spark解決策 、StorageGRID Spark解決策 の独自の機能を特定し、詳細な検証とテストを実施しました。ネットアップでは、今回の調査結果に基づいStorageGRID て、新規導入時と拡張性に優れた新規導入時にEシリーズ解決策 を使用し、既存のNFSデータを使用したインプレース分析、AI、ML、DL、DLのワークロードにはAFF / FAS解決策 を、オブジェクトストレージが必要な場合には最新のデータ分析に使用することを推奨しています。
 
-image::apache-spark-image9.png[Sparkに対してネットアップのソリューションをお勧めしました。]
+image:apache-spark-image9.png["Sparkに対してネットアップのソリューションをお勧めしました。"]
 
 データレイクは、分析、AI、ML、DLの各ジョブに使用できる、ネイティブ形式の大規模データセット用のストレージリポジトリです。Eシリーズ、AFF / FAS、StorageGRID SG6060 Sparkソリューション用のデータレイクリポジトリを構築しました。Eシリーズシステムでは、Hadoop SparkクラスタへのHDFSアクセスが提供されますが、既存の本番環境のデータには、NFSの直接アクセスプロトコルを通じてHadoopクラスタへアクセスされます。オブジェクトストレージに配置されるデータセットに対しては、NetApp StorageGRID によってS3とS3aのセキュアなアクセスが提供されます。

@@ -28,7 +28,7 @@ Kubernetesクラスタに導入されたアプリケーションをクローニ�
 
 NetApp FlexCloneテクノロジは、NetApp FlexVol の書き込み可能なポイントインタイムSnapshotベースのコピーです。ほぼ瞬時にプロビジョニングされ、ソースボリュームのデータがすべて含まれます。新しいボリュームのデータがソースボリュームと異なる状態になるまで、追加のストレージスペースは消費されません。ステージング目的でデータの複数のコピーが有用で、ストレージシステムでボリュームのプロビジョニングに使用できるリソースが限られている場合、開発環境やテンプレートベースの環境でよく使用されます。従来のストレージシステムではデータを何度もコピーする必要があるため、ストレージスペースや時間が大幅に消費されるため、NetApp FlexCloneテクノロジを使用するとストレージに依存するタスクを高速化できます。
 
-image::Astra-DevOps-UC3-FlexClone.png[FlexCloneイメージ]
+image:Astra-DevOps-UC3-FlexClone.png["FlexCloneイメージ"]
 
 NetApp FlexCloneテクノロジの詳細については、のページを参照してください https://docs.netapp.com/us-en/ontap/concepts/flexclone-volumes-files-luns-concept.html["ネットアップのドキュメント"]。
 
@@ -49,7 +49,7 @@ NetApp FlexCloneテクノロジの詳細については、のページを参照�
 
 このユースケースでは、次のワークフローのような情報が表示されます。
 
-image::Astra-DevOps-UC3-Workflow.png[ワークフローイメージ]
+image:Astra-DevOps-UC3-Workflow.png["ワークフローイメージ"]
 
 . ユーザがAnsibleプレイブックを実行して、新しいステージング環境を作成します。
 . Ansibleは、uri -APIモジュールを使用してAstra Controlに呼び出し、クローニング処理を実行します。
@@ -70,7 +70,7 @@ NOTE: どちらのプロセスも自動化できます。
 
 ここで紹介する使用事例は、クローンを作成する特定の環境またはアプリケーション用のゴールデンテンプレートの存在によって異なります。この環境では、ワードプレス展開用に、Magento展開用に、Giteaを持つJenkins CI/CD環境用に、DevToolsというタイトルの3つのテンプレートを作成しました。
 
-image::Astra-DevOps-UC3-Templates.png[テンプレートイメージ（Templates Image）]
+image:Astra-DevOps-UC3-Templates.png["テンプレートイメージ（Templates Image）"]
 
 各環境はNetApp Astra制御によって管理され、ネットアップONTAP ストレージシステムに現在格納されている永続的ボリュームは、ネットアップAstra Tridentが提供するNFSバックエンドを使用している。
 
@@ -98,7 +98,7 @@ astra_control_api_token: "xxxxx"
 NOTE: 入力する必要があるグローバル環境値は、NetApp Astra ControlのAPIアクセスメニューにあるユーザプロファイルアイコンで確認できます。
 
 +
-image::Astra-DevOps-UC3-APIAccess.png[APIアクセスイメージ]
+image:Astra-DevOps-UC3-APIAccess.png["APIアクセスイメージ"]
 
 . グローバル変数が完成したら、複製する特定のアプリケーションの値を選択できます。DevTools環境を'Alan - DevTools'という個人環境にクローンを作成するには'次の手順を実行します
 +
@@ -127,7 +127,7 @@ NOTE: 記載されたプレイブックは、rootユーザ、またはsudoプロ
 
 . プレイブックの実行が完了すると、クローニングされたアプリケーションがAstra Control Centerコンソールに表示されます。
 +
-image::Astra-DevOps-UC3-ClonedApp.png[アプリイメージをクローニングしました]
+image:Astra-DevOps-UC3-ClonedApp.png["アプリイメージをクローニングしました"]
 
 . ユーザは、アプリケーションが導入されたKubernetes環境にログインし、アプリケーションが新しいIPアドレスで公開されていることを確認して、開発作業を開始できます。
 

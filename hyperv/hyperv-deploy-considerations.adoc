@@ -68,18 +68,18 @@ SMB 3.0ファイル共有をHyper-V用の共有ストレージとして使用で
 . Storage Virtual Machine（SVM）で必要なCIFSサーバオプションが有効になっていることを確認する
 . 次のオプションをtrueに設定する必要があります。smb2-enabled smb3-enabled copy-offload-enabled shadowcopy-enabled is-multichannel-enabled is-large-mtu-enabled
 +
-image::hyperv-deploy-image03.png[SMBカラム設定の画像]
+image:hyperv-deploy-image03.png["SMBカラム設定の画像"]
 
 . Storage Virtual Machine（SVM）にNTFSデータボリュームを作成し、Hyper-Vで使用する継続的可用性を備えた共有を設定する
 +
-image::hyperv-deploy-image04.png[NTFSデータボリューム設定のイメージ]
+image:hyperv-deploy-image04.png["NTFSデータボリューム設定のイメージ"]
 
 +
 *注*：Hyper-V over SMBのノンストップオペレーションは、この構成で使用するボリュームをNTFSセキュリティ形式のボリュームとして作成しないかぎり、正しく機能しません。
 
 . 継続的可用性を有効にし、共有のNTFS権限を設定して、Hyper-Vノードを完全に制御できるようにします。
 +
-image::hyperv-deploy-image05.png[NTFS権限設定の画像]
+image:hyperv-deploy-image05.png["NTFS権限設定の画像"]
 
 
 
@@ -127,7 +127,7 @@ iSCSIボリュームをプロビジョニングするには、次の前提条件
 . 指定したLUNを作成するSVMを参照して選択し、LUN作成ウィザードが表示されます。
 . [General Properties]ページで、Hyper-V仮想マシンの仮想ハードディスク（VHD）を含むLUNの場合は[Hyper-V]を選択します。
 +
-image::hyperv-deploy-image06.png[Hyper-V LUNを作成するための[General Properties]ページの画像]
+image:hyperv-deploy-image06.png["Hyper-V LUNを作成するための[General Properties]ページの画像"]
 
 . <[More options]をクリックします。[LUN Container]ページで、既存のFlexVolボリュームを選択します。選択しないと、新しいボリュームが作成されます。
 . <その他のオプションをクリック>[Initiators Mapping]ページで[Add Initiator Group]をクリックし、[General]タブで必要な情報を入力し、[Initiators]タブでホストのiSCSIイニシエータノード名を入力します。
@@ -146,7 +146,7 @@ LUNが作成されたら、フェイルオーバークラスタマネージャ�
 . これで、ディスクがAvailable Storageグループに割り当てられました。
 . 完了したら、[Available Storage]に割り当てたディスクを選択し、選択したディスクを右クリックして[Add to Cluster Shared Volumes]を選択します。
 +
-image::hyperv-deploy-image07.png[[Add to Cluster Shared Volumes]インターフェイスの画像]
+image:hyperv-deploy-image07.png["[Add to Cluster Shared Volumes]インターフェイスの画像"]
 
 . これで、ディスクがクラスタ内のクラスタ共有ボリュームグループに割り当てられました。ディスクは、%SystemDrive%ClusterStorageフォルダの下の番号付きボリューム（マウントポイント）として各クラスタノードに公開されます。ボリュームがCSVFSファイルシステムに表示されます。
 

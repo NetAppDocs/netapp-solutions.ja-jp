@@ -39,7 +39,7 @@ summary: このシナリオでは、大規模なオンプレミスの Hadoop リ
 
 次の図は、元の Hadoop ネイティブのバックアップ解決策を示しています。
 
-image::hdcs-sh-image5.png[hdcs shイメージ5]
+image:hdcs-sh-image5.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 本番環境のデータは、中間バックアップクラスタを通じてテープに保護されます。
 
@@ -73,7 +73,7 @@ image::hdcs-sh-image5.png[hdcs shイメージ5]
 
 解決策Aでは、次の図に示すように、バックアップHadoopクラスタからNetApp NFSストレージシステムにセカンダリバックアップが送信されるため、テープは必要ありません。
 
-image::hdcs-sh-image6.png[hdcs shイメージ6]
+image:hdcs-sh-image6.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 解決策 A の詳細なタスクは次のとおりです。
 
@@ -118,7 +118,7 @@ NOTE: Hadoop データは、 SnapMirror テクノロジを使用してクラウ�
 
 解決策BはNFSボリュームを本番用Hadoopクラスタに追加するため、次の図に示すように、バックアップHadoopクラスタは必要ありません。
 
-image::hdcs-sh-image7.png[hdcs shイメージ7]
+image:hdcs-sh-image7.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 解決策 B の詳細なタスクは次のとおりです。
 
@@ -145,7 +145,7 @@ Hadoopネイティブ `hadoop distcp` コマンドは、Hadoopデータを本番
 
 解決策 C では、次の図に示すように、 NetApp SAN ボリュームが HDFS ストレージの Hadoop 本番クラスタに直接プロビジョニングされます。
 
-image::hdcs-sh-image8.png[hdcs shイメージ8]
+image:hdcs-sh-image8.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 解決策 C の詳細な手順は次のとおりです。
 

@@ -24,7 +24,7 @@ summary: NetApp ONTAP を使用した Red Hat OpenShift Virtualization
 
 そのため、ライブマイグレーションを成功させるには、ONTAP-NASまたはONTAP-SAN（volumeMode：Block）ストレージクラスを使用して、PVCを含むVMをディスク（ブートディスクと追加のホットプラグディスク）でプロビジョニングする必要があります。PVCが作成されると、TridentはNFS対応またはiSCSI対応のSVMにONTAPボリュームを作成します。
 
-image::redhat_openshift_image55.png[VM ライブマイグレーションのアーキテクチャ]
+image:redhat_openshift_image55.png["VM ライブマイグレーションのアーキテクチャ"]
 
 以前に作成され、実行中の状態にあるVMのライブマイグレーションを実行するには、次の手順を実行します。
 
@@ -40,6 +40,6 @@ VMの移行は、*保留中*から*スケジュール設定*に*成功*に移行
 
 NOTE: OpenShift クラスタ内の VM インスタンスは、 evictionStrategy が LiveMigrate に設定されている場合、元のノードがメンテナンスモードになると、自動的に別のノードに移行します。
 
-image::rh-os-n_use_case_vm_live_migrate_1.png[VM Live Migrateの開始]
+image:rh-os-n_use_case_vm_live_migrate_1.png["VM Live Migrateの開始"]
 
-image::rh-os-n_use_case_vm_live_migrate_2.png[VMライブマイグレーション成功]
+image:rh-os-n_use_case_vm_live_migrate_2.png["VMライブマイグレーション成功"]

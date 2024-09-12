@@ -18,7 +18,7 @@ CloudSQL、Google Cloud VMware Engine（GCVE）、ファイルストアなど、
 
 から参照される次の図 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/architecture?hl=en_US["アーキテクチャセクション"^] Cloud Volumes Service のドキュメントの概要をに示します。
 
-image::ncvs-gc-image1.png[ncvs GCイメージ1]
+image:ncvs-gc-image1.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 点線の上の部分は、ボリュームのライフサイクルを制御するサービスのコントロールプレーンを示しています。点線の下の部分は、データプレーンを示しています。左側の青いボックスはユーザVPC（サービスコンシューマ）を示し、右側の青いボックスはネットアップが提供するサービスプロデューサーです。どちらもVPCピアリングを介して接続されます。
 
@@ -58,16 +58,16 @@ Cloud Volumes Service データプレーンは外部インターネットには�
 
 共有VPCを使用する場合は、NFS Kerberosまたは/またはを使用した転送中の暗号化が可能です link:ncvs-gc-data-encryption-in-transit.html#smb-encryption["SMB暗号化"] トレースから収集された情報の多くを隠すことができます。ただし、一部のトラフィックは、などのプレーンテキストで送信されます link:ncvs-gc-other-nas-infrastructure-service-dependencies.html#dns["DNS"] および link:ncvs-gc-other-nas-infrastructure-service-dependencies.html#ldap-queries["LDAPクエリ"]。次の図に、Cloud Volumes Service から発信されたプレーンテキストLDAPクエリからのパケットキャプチャと、公開されている可能性のある識別情報を示します。Cloud Volumes Service のLDAPクエリでは、現在、暗号化またはLDAP over SSLがサポートされていません。CVS - Active Directoryから要求された場合に、パフォーマンスがLDAP署名をサポートします。CVS-SWではLDAP署名はサポートされません。
 
-image::ncvs-gc-image2.png[ncvs GCイメージ2]
+image:ncvs-gc-image2.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 NOTE: unixUserPasswordはLDAPによって照会され、プレーンテキストではなくソルトハッシュで送信されます。デフォルトでは、Windows LDAPではunixUserPasswordフィールドは読み込まれません。このフィールドは、LDAPを使用してクライアントへの対話型ログインを行う必要がある場合にのみ必要になります。Cloud Volumes Service では、インスタンスへの対話型LDAPログインはサポートされていません。
 
 次の図は、AUTH_SYSでNFSをキャプチャしたあとの、NFS Kerberos通信からのパケットキャプチャを示しています。トレースで使用できる情報が2つの違いと、転送中の暗号化を有効にすることでNASトラフィックの全体的なセキュリティが向上することに注意してください。
 
-image::ncvs-gc-image3.png[ncvs GCイメージ3]
+image:ncvs-gc-image3.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-image::ncvs-gc-image4.png[ncvs GCイメージ4]
+image:ncvs-gc-image4.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 

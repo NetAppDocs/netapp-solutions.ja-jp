@@ -56,7 +56,7 @@ summary: VECTORデータベースのパフォーマンス検証- VECTOR DATABASE
 vectorDB-Benchを使用したmilvusスタンドアロンクラスタについて、次のパフォーマンス検証を行いました。
 milvusスタンドアロンクラスタのネットワーク接続とサーバ接続を以下に示します。
 
-image::perf_mivus_standalone.png[Perf mivusスタンドアロン]
+image:perf_mivus_standalone.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 このセクションでは、Milvusスタンドアロンデータベースのテスト結果を共有します。
 。	これらのテストのインデックスタイプとしてDiskANNを選択しました。
@@ -98,7 +98,7 @@ image::perf_mivus_standalone.png[Perf mivusスタンドアロン]
 |===
 vectorDB-benchの結果は以下のとおりです。
 
-image::vector_db_result_standalone.png[ベクターDB結果スタンドアロン]
+image:vector_db_result_standalone.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 スタンドアロンMilvusインスタンスのパフォーマンス検証から、次元1536の500万ベクトルのデータセットをサポートするには、現在のセットアップでは不十分であることがわかります。ストレージには十分なリソースがあり、システムのボトルネックになっていないことが確認されました。
 
@@ -110,20 +110,18 @@ image::vector_db_result_standalone.png[ベクターDB結果スタンドアロン
 
 VMware vSphere環境とKubernetes環境の詳細については、以降のセクションで説明します。
 
-image::milvus_vmware_perf.png[milvus VMwareのパフォーマンス]
-
-image::milvus_cluster_perf.png[milvusクラスタパフォーマンス]
+image:milvus_vmware_perf.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"] image:milvus_cluster_perf.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 このセクションでは、Milvusデータベースをテストした結果と観測結果を紹介します。
 *使用されたインデックスタイプはDiskANNです。
 *次の表は、次元1536で500万のベクトルを使用する場合の、スタンドアロン配置とクラスタ配置の比較を示しています。クラスタ環境では、データの取り込みと挿入後の最適化にかかる時間が短くなっていることがわかりました。クラスタ環境では、クエリの99パー センタイルレイテンシがスタンドアロンセットアップに比べて6分の1に短縮されました。
 * Queries Per Second（QPS；1秒あたりのクエリ数）の割合はクラスタ環境では高くなりましたが、望ましいレベルではありませんでした。
 
-image::milvus_standalone_cluster_perf.png[milvusスタンドアロンクラスタパフォーマンス]
+image:milvus_standalone_cluster_perf.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 次の図は、ストレージクラスタのレイテンシや合計IOPS（1秒あたりの入出力処理数）など、さまざまなストレージ指標を示しています。
 
-image::storagecluster_latency_iops_milcus.png[ストレージクラスタレイテンシIOPSマイクロカス]
+image:storagecluster_latency_iops_milcus.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 次のセクションでは、ストレージパフォーマンスの主要な指標について説明します。
 
@@ -167,7 +165,7 @@ image::storagecluster_latency_iops_milcus.png[ストレージクラスタレイ�
 VectorDB-Benchを使用して、PostgreSQL（pgvecto.rs）に対して次のアクションを実行しました。
 PostgreSQL（特にpgvecto.rs）のネットワーク接続とサーバ接続に関する詳細は次のとおりです。
 
-image::pgvecto_perf_network_connectivity.png[pgvecto perfネットワーク接続]
+image:pgvecto_perf_network_connectivity.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 このセクションでは、pgvecto.rsを使用してPostgreSQLデータベースをテストした結果と結果を共有します。
 *テストのインデックスタイプとしてHNSWを選択したのは、テスト時にpgvecto.rsでDiskANNを使用できなかったためです。
@@ -176,16 +174,16 @@ image::pgvecto_perf_network_connectivity.png[pgvecto perfネットワーク接�
 
 次の図は、ストレージクラスタの合計IOPS（1秒あたりの入出力処理数）など、さまざまなストレージ指標を示しています。
 
-image::pgvecto_storage_iops_latency.png[pgvectoストレージIOPSレイテンシ]
+image:pgvecto_storage_iops_latency.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
  The following section presents the key storage performance metrics.
-image::pgvecto_storage_perf_metrics.png[pgvectoストレージのパフォーマンス指標]
+image:pgvecto_storage_perf_metrics.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
 === VECTOR DBベンチでのmilvusとpostgresのパフォーマンス比較
 
-image::perf_comp_milvus_postgres.png[Perf comp milvus postgres]
+image:perf_comp_milvus_postgres.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 VectorDBBenchを使用したMilvusおよびPostgreSQLのパフォーマンス検証に基づいて、次のことを確認しました。
 

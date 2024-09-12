@@ -53,7 +53,7 @@ Commvault IntelliSnap®は、ONTAPスナップショットを活用してハー�
 [Array Properties]ダイアログボックスが表示されます。
 
 +
-image::hyperv-deploy-image09.png[Array Properties（アレイのプロパティ）ダイアログの画像]
+image:hyperv-deploy-image09.png["Array Properties（アレイのプロパティ）ダイアログの画像"]
 
 . [全般]タブで、次の情報を指定します。
 . [Snap Vendor]リストから、NetAppを選択します。
@@ -63,11 +63,11 @@ image::hyperv-deploy-image09.png[Array Properties（アレイのプロパティ�
 . [OK] をクリックします。
 . <Mandatory step>完了したら、[検出]オプションを使用してNetAppストレージアレイでSVMを設定してStorage Virtual Machine（SVM）を自動的に検出し、SVMを選択します。追加オプションを使用して、そのSVMをCommServeデータベースにアレイ管理エントリとして追加します。
 +
-image::hyperv-deploy-image10.png[アレイ管理エントリとしてSVMを設定するイメージ]
+image:hyperv-deploy-image10.png["アレイ管理エントリとしてSVMを設定するイメージ"]
 
 . [Advanced]（詳細設定）をクリックし（下図を参照）、[Enable IntelliSnap（IntelliSnapを有効にする）]チェックボックスを選択します。
 +
-image::hyperv-deploy-image11.png[[IntelliSnapを有効にする]オプションを表示している画像]
+image:hyperv-deploy-image11.png["[IntelliSnapを有効にする]オプションを表示している画像"]
 
 
 
@@ -92,15 +92,15 @@ image::hyperv-deploy-image11.png[[IntelliSnapを有効にする]オプション�
 . [Add hypervisor（ハイパーバイザーの追加）]ページが表示されたら、[Select vendor：Select Hyper-V（IPアドレスまたはFQDNとユーザクレデンシャルを入力）]を選択します。
 . Hyper-Vサーバの場合は、[ノードの検出]をクリックします。[Nodes]フィールドに値が入力されたら、Virtual Server Agentをインストールするノードを1つ以上選択します。
 +
-image::hyperv-deploy-image12.png[Hyper-Vノードの検出を示す画像]
+image:hyperv-deploy-image12.png["Hyper-Vノードの検出を示す画像"]
 
 . [Next]をクリックし、[Save]をクリックします。
 +
-image::hyperv-deploy-image13.png[前の手順の結果を示す図]
+image:hyperv-deploy-image13.png["前の手順の結果を示す図"]
 
 . [Add VM group]ページで、保護する仮想マシンを選択し（この例ではDemogrpを作成します）、次に示すようにIntelliSnapオプションを有効にします。
 +
-image::hyperv-deploy-image14.png[保護するVMの選択を示す画像]
+image:hyperv-deploy-image14.png["保護するVMの選択を示す画像"]
 
 +
 *注*：VMグループでIntelliSnapが有効になっている場合、CommVaultはプライマリ（スナップ）コピーとバックアップコピーのスケジュールポリシーを自動的に作成します。
@@ -115,11 +115,11 @@ image::hyperv-deploy-image14.png[保護するVMの選択を示す画像]
 . ナビゲーションペインで、[Protect]>[Virtualization]の順に選択します。[Virtual Machines]ページが表示されます。
 . VMまたはVMグループをバックアップします。このデモでは、VMグループが選択されています。VMグループの行で、アクションボタンaction_buttonをクリックし、[Back up]を選択します。この場合、nimplanはDemogrpとDemogrp01に関連する計画です。
 +
-image::hyperv-deploy-image15.png[バックアップするVMを選択するダイアログを示す図]
+image:hyperv-deploy-image15.png["バックアップするVMを選択するダイアログを示す図"]
 
 . バックアップが正常に完了すると、スクリーンショットに示されているように復元ポイントが使用可能になります。スナップコピーから、VM全体のリストアとゲストファイルとフォルダのリストアを実行できます。
 +
-image::hyperv-deploy-image16.png[バックアップの復元ポイントを示す画像]
+image:hyperv-deploy-image16.png["バックアップの復元ポイントを示す画像"]
 
 +
 *注*：重要で使用率の高い仮想マシンについては、CSVあたりの仮想マシン数を少なくしてください。
@@ -136,11 +136,11 @@ image::hyperv-deploy-image16.png[バックアップの復元ポイントを示�
 . [VM groups]領域で、仮想マシンを含むVMグループの[Restore]をクリックします。
 . [Select restore type]ページが表示されます。
 +
-image::hyperv-deploy-image17.png[バックアップのリストアタイプを示す図]
+image:hyperv-deploy-image17.png["バックアップのリストアタイプを示す図"]
 
 . 選択内容に応じて[Guest files]または[Full virtual machine]を選択し、リストアを実行します。
 +
-image::hyperv-deploy-image18.png[リストアのオプションを示す画像]
+image:hyperv-deploy-image18.png["リストアのオプションを示す画像"]
 
 
 

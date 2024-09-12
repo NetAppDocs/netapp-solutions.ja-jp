@@ -97,7 +97,7 @@ video::36ecf505-5d1d-4e99-a6f8-b11c00341793[panopto]
 
 次のような出力が表示されます。を使用してクラスタにログインします。 `oc login` コマンドは出力に表示されます。
 
-image::rhhc-rosa-cluster-admin-create.png[rhhc rosaクラスタ管理者作成]
+image:rhhc-rosa-cluster-admin-create.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 NOTE: トークンを使用してクラスタにログインすることもできます。クラスタの作成時にすでにadminユーザを作成している場合は、Red Hat OpenShift Hybrid Cloudコンソールからadminユーザのクレデンシャルを使用してクラスタにログインできます。右上隅にログインしているユーザの名前が表示されていることをクリックすると、 `oc login` コマンドラインのコマンド（トークンログイン）。
@@ -114,17 +114,15 @@ NOTE: トークンを使用してクラスタにログインすることもで�
 
 ROSAクラスタにAstra Trident（最新バージョン）をインストールこれを行うには、以下の手順のいずれかに従うことができます。 link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["こちらをご覧ください"]。クラスタのコンソールからhelmを使用してTridentをインストールするには、まずTridentというプロジェクトを作成します。
 
-image::rhhc-trident-project-create.png[RHC Tridentプロジェクトの作成]
+image:rhhc-trident-project-create.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 次に、[開発者]ビューからHelmチャートリポジトリを作成します。URLフィールドの使用 `'https://netapp.github.io/trident-helm-chart'`。次に、Tridentオペレータ用のHelmリリースを作成します。
 
-image::rhhc-helm-repo-create.png[rhhc helm repo create]
-
-image::rhhc-helm-release-create.png[rhhc helm release create]
+image:rhhc-helm-repo-create.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"] image:rhhc-helm-release-create.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 コンソールの管理者ビューに戻り、Tridentプロジェクトでポッドを選択して、すべてのTridentポッドが実行されていることを確認します。
 
-image::rhhc-trident-installed.png[Rhhc Tridentがインストールされました]
+image:rhhc-trident-installed.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -135,7 +133,7 @@ image::rhhc-trident-installed.png[Rhhc Tridentがインストールされまし�
 
 NOTE: コマンドラインを使用して、ハイブリッドクラウドコンソールからオブジェクトを作成したり、YAMLファイルを使用してオブジェクトを作成したりできます。
 
-image::rhhc-fsx-details.png[RHC FSxの詳細]
+image:rhhc-fsx-details.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 ** Tridentバックエンド構成**
 
@@ -192,13 +190,13 @@ deletionPolicy: Delete
 ----
 以下のコマンドを実行して、バックエンド、ストレージクラス、およびtrident-snapshotclassオブジェクトが作成されたことを確認します。
 
-image::rhhc-tbc-sc-verify.png[rhhc tbc sc検証]
+image:rhhc-tbc-sc-verify.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 この時点で重要な変更点は、あとで導入するPostgreSQLアプリケーションでデフォルトのストレージクラスを使用できるように、ONTAP-NASをgp3ではなくデフォルトのストレージクラスに設定することです。クラスタのOpenShiftコンソールで、[Storage]で[StorageClasses]を選択します。現在のデフォルトクラスのアノテーションをfalseに編集し、ontap-nasストレージクラスに対してstorageclass.kubernetes.io/is-default-classをtrueに設定して追加します。
 
-image::rhhc-change-default-sc.png[RHH変更デフォルトSC]
+image:rhhc-change-default-sc.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-image::rhhc-default-sc.png[RHCデフォルトSC]
+image:rhhc-default-sc.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -208,22 +206,22 @@ image::rhhc-default-sc.png[RHCデフォルトSC]
 
 `helm install postgresql bitnami/postgresql -n postgresql --create-namespace`
 
-image::rhhc-postgres-install.png[rhhc postgresのインストール]
+image:rhhc-postgres-install.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
-NOTE: アプリケーションポッドが実行されていない場合は、セキュリティコンテキストの制約が原因でエラーが発生している可能性があります。 image::rhhc-scc-error.png []以下のように、コマンドの出力にあるuidでオブジェクトのフィールドとフィールドを編集してエラーを修正します `runAsUser` `fsGroup` `statefuleset.apps/postgresql` `oc get project` 。
+NOTE: アプリケーションポッドが実行されていない場合は、セキュリティコンテキストの制約が原因でエラーが発生している可能性があります。image:rhhc-scc-error.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"] `runAsUser` `fsGroup` `statefuleset.apps/postgresql` `oc get project`次のように、コマンドの出力にあるuidを使用してオブジェクトのフィールドとフィールドを編集し、エラーを修正します。image:rhhc-scc-fix.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 PostgreSQLアプリケーションを実行し、Amazon FSx for NetApp ONTAPストレージを基盤とする永続ボリュームを使用する必要があります。
 
-image::rhhc-postgres-running.png[rhhc postgres実行中]
+image:rhhc-postgres-running.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-image::rhhc-postgres-pvc.png[rhhc postgres PVC]
+image:rhhc-postgres-pvc.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
 ==== ** 6.データベースの作成とレコードの追加**
 
-image::rhhc-postgres-db-create.png[rhhc postgres db create]
+image:rhhc-postgres-db-create.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -231,11 +229,11 @@ image::rhhc-postgres-db-create.png[rhhc postgres db create]
 
 ACSにログインします。クラスタを選択し、[Add]をクリックします。[Other]を選択し、kubeconfigファイルをアップロードまたは貼り付けます。
 
-image::rhhc-acs-add-1.png[rhhc acs add 1]
+image:rhhc-acs-add-1.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 [次へ]*をクリックし、ACSのデフォルトのストレージクラスとして[ONTAP-NAS]を選択します。[次へ]*をクリックし、詳細を確認して*[クラスタを追加]*をクリックします。
 
-image::rhhc-acs-add-2.png[rhhc acs add 2]
+image:rhhc-acs-add-2.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -243,7 +241,7 @@ image::rhhc-acs-add-2.png[rhhc acs add 2]
 
 ACSでPostgreSQLアプリケーションを定義します。ランディングページで*[アプリケーション]*、*[定義]*を選択し、適切な詳細を入力します。[次へ]*を数回クリックし、詳細を確認して*[定義]*をクリックします。アプリケーションがACSに追加されます。
 
-image::rhhc-acs-add-2.png[rhhc acs add 2]
+image:rhhc-acs-add-2.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -253,9 +251,9 @@ ACSでスナップショットを作成するには、さまざまな方法が�
 
 [Create snapshot]*をクリックして名前を指定し、詳細を確認して*[Snapshot]*をクリックするだけで、オンデマンドSnapshotを作成できます。処理が完了すると、Snapshotの状態が「Healthy」に変わります。
 
-image::rhhc-snapshot-create.png[RHCスナップショットの作成]
+image:rhhc-snapshot-create.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-image::rhhc-snapshot-on-demand.png[オンデマンドのRHCスナップショット]
+image:rhhc-snapshot-on-demand.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -263,7 +261,7 @@ image::rhhc-snapshot-on-demand.png[オンデマンドのRHCスナップショッ
 
 PostgreSQLに再度ログインし、利用可能なデータベースを一覧表示し、以前に作成したデータベースを削除して、データベースが削除されたことを確認します。
 
-image::rhhc-postgres-db-delete.png[rhhc postgres dbの削除]
+image:rhhc-postgres-db-delete.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -271,11 +269,11 @@ image::rhhc-postgres-db-delete.png[rhhc postgres dbの削除]
 
 スナップショットからアプリケーションを復元するには、ACS UIランディングページに移動し、アプリケーションを選択して[Restore]を選択します。リストア元のスナップショットまたはバックアップを選択する必要があります。（通常は、設定したポリシーに基づいて複数のが作成されます）。次の2つの画面で適切な選択を行い、*[復元]*をクリックします。スナップショットからリストアされると、アプリケーションのステータスがRestoring（復元中）からAvailable（使用可能）に変わります。
 
-image::rhhc-app-restore-1.png[RHCアプリケーションのリストア1]
+image:rhhc-app-restore-1.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-image::rhhc-app-restore-2.png[RHCアプリケーションのリストア2]
+image:rhhc-app-restore-2.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-image::rhhc-app-restore-3.png[RHCアプリケーションのリストア3]
+image:rhhc-app-restore-3.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -283,4 +281,4 @@ image::rhhc-app-restore-3.png[RHCアプリケーションのリストア3]
 
 PostgreSQLクライアントにログインすると、以前に使用していたテーブルとレコードが表示されます。  これで終わりです。ボタンをクリックするだけで、アプリケーションは以前の状態に復元されます。Astra Controlを使用することで、お客様はそれを簡単に実現できます。
 
-image::rhhc-app-restore-verify.png[RHCアプリケーションのリストアの検証]
+image:rhhc-app-restore-verify.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]

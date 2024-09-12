@@ -16,11 +16,11 @@ summary: このページでは、NetApp StorageGRID コントローラでのSplu
 [role="lead"]
 このセクションでは、NetApp StorageGRID コントローラでのSplunk SmartStoreのパフォーマンスについて説明します。Splunk SmartStoreがウォームデータをリモートストレージに移動します。この場合は、パフォーマンス検証の対象となるStorageGRID オブジェクトストレージになります。
 
-image::stgr-splunkss-image10.png[stgr splunkss image10]
+image:stgr-splunkss-image10.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 EF600はホットキャッシュストレージに使用し、StorageGRID 6060はリモートストレージに使用しました。パフォーマンス検証には次のアーキテクチャを使用しました。2つの検索ヘッドと4つの大きなフォワーダを使用してデータをインデクサに転送し、7つのSplunk Event Generator（Eventgens）を使用してリアルタイムデータを生成し、18のインデクサにデータを格納しました。
 
-image::stgr-splunkss-image11.png[stgr splunkssイメージ11]
+image:stgr-splunkss-image11.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -57,7 +57,7 @@ image::stgr-splunkss-image11.png[stgr splunkssイメージ11]
 
 この図は、1日以内に取り込まれたデータを示しています。
 
-image::stgr-splunkss-image12.png[stgr splunkssイメージ12]
+image:stgr-splunkss-image12.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 クラスタマスターから次のコマンドを実行しました（インデックス名は「eventgen-test」）。次に、SmartStore Monitoring Consoleダッシュボードを使用して、インスタンスあたりのアップロードの最大スループットと平均スループット、および展開全体のスループットをキャプチャしました。
 
@@ -140,15 +140,15 @@ rtp-cm01:~ #
 ....
 検索ヘッドで次の検索クエリを実行し、パフォーマンスマトリックスを収集しました。
 
-image::stgr-splunkss-image13.png[stgr splunkssイメージ13]
+image:stgr-splunkss-image13.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 パフォーマンス情報はクラスタマスターから収集しました。ピークパフォーマンスは61.34GBpsです。
 
-image::stgr-splunkss-image14.png[stgr splunkssイメージ14]
+image:stgr-splunkss-image14.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 平均パフォーマンスは約29GBpsです。
 
-image::stgr-splunkss-image15.png[stgr splunkssイメージ15]
+image:stgr-splunkss-image15.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -159,11 +159,11 @@ SmartStoreのパフォーマンスは、大量のデータから特定のパタ�
 
 NOTE: 緑の色はヒットデータを示し、オレンジ色はミスデータを示します。
 
-image::stgr-splunkss-image16.png[stgr splunkssイメージ16]
+image:stgr-splunkss-image16.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 StorageGRID で検索を実行するクエリを次の図に示すように、StorageGRID からのS3読み出し速度の時間が表示されます。
 
-image::stgr-splunkss-image17.png[stgr splunkssイメージ17]
+image:stgr-splunkss-image17.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -171,7 +171,7 @@ image::stgr-splunkss-image17.png[stgr splunkssイメージ17]
 
 StorageGRID インスタンスには、1つのロードバランサと3つのStorageGRID コントローラがあります。3台のコントローラすべてのCPU利用率は75%～100%です。
 
-image::stgr-splunkss-image18.png[stgr splunkssイメージ18]
+image:stgr-splunkss-image18.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 

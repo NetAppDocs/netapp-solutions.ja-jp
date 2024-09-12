@@ -196,7 +196,7 @@ https://docs.aws.amazon.com/cli/latest/reference/fsx/update-file-system.html[]
 次の図は、FSx for NetApp ONTAPベースのKafkaクラスタの最終的なアーキテクチャを示しています。
 
 +
-image::aws-fsx-kafka-arch1.png[この図は、FSxNベースのKafkaクラスタのアーキテクチャを示しています。]
+image:aws-fsx-kafka-arch1.png["この図は、FSxNベースのKafkaクラスタのアーキテクチャを示しています。"]
 
 +
 ** コンピューティング：3ノードのKafkaクラスタを使用し、専用サーバで3ノードのZookeeperアンサンブルを実行しました。各ブローカーには、FSx for NetApp ONTAPインスタンス上の6つのボリュームに対するNFSマウントポイントが6つありました。
@@ -254,12 +254,12 @@ Syncドライバはログが即座にディスクにフラッシュされると�
 
 これらのスループット値は、指定されたAWS構成に対して生成されます。より高いパフォーマンス要件に対応するには、インスタンスタイプをスケールアップしてさらに調整し、スループットを向上させることができます。総スループットまたは総レートは、生産者と消費者の両方のレートの組み合わせです。
 
-image::aws-fsxn-performance-rf-1-rf-3.png[この画像は、RF1およびRF3でのKafkaのパフォーマンスを示しています]
+image:aws-fsxn-performance-rf-1-rf-3.png["この画像は、RF1およびRF3でのKafkaのパフォーマンスを示しています"]
 
 以下の表は、Kafkaレプリケーションファクタ3で2GB/秒のFSx for NetApp ONTAPと4GB/秒のパフォーマンスを示しています。レプリケーションファクタ3は、FSx for NetApp ONTAPストレージで読み取りと書き込みの処理を3回行います。スループットドライバの合計レートは881 MB/秒で、2GB/秒のFSx for NetApp ONTAPファイルシステムではKafkaの読み取りと書き込みを行います。スループットドライバの合計レートは1328 MB/秒で、Kafkaの読み取りと書き込みを行います。Kafkaのパフォーマンスは、FSx for NetApp ONTAPのスループットに基づいてリニアで拡張性に優れています。
 
-image::aws-fsxn-2gb-4gb-scale.png[この図は、2GB/秒と4GB/秒のスケールアウトパフォーマンスを示しています。]
+image:aws-fsxn-2gb-4gb-scale.png["この図は、2GB/秒と4GB/秒のスケールアウトパフォーマンスを示しています。"]
 
 以下のグラフは、EC2インスタンスとFSx for NetApp ONTAPのパフォーマンスを示しています（Kafkaレプリケーション係数：3）。
 
-image::aws-fsxn-ec2-fsxn-comparition.png[この図は、RF3でのEC2とFSxNのパフォーマンス比較を示しています。]
+image:aws-fsxn-ec2-fsxn-comparition.png["この図は、RF3でのEC2とFSxNのパフォーマンス比較を示しています。"]

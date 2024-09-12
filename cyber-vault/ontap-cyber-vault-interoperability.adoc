@@ -1,0 +1,47 @@
+---
+sidebar: sidebar 
+keywords: Cyber vault, cybervault, cyber-vault, data protection, security, ransomware, ONTAP, hardening 
+permalink: /cyber-vault/ontap-cyber-vault-interoperability.html 
+summary: サイバーボルトの相互運用性 
+---
+= サイバーボルトの相互運用性
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+ONTAPのハードウェアとソフトウェアを使用して、サイバーボールト構成を作成できます。
+
+
+
+== ONTAPハードウェアの推奨事項
+
+すべてのONTAPユニファイド物理アレイは、サイバーヴォールトの実装に使用できます。
+
+* FASハイブリッドストレージは、最もコスト効率に優れたソリューションです。
+* AFF Cシリーズは、最も効率的な電力消費と密度を実現します。
+* AFF Aシリーズは、最高のRTO（目標復旧時間）を実現する最高のパフォーマンスを備えたプラットフォームです。最新のAFF Aシリーズの発表により、このプラットフォームはパフォーマンスを犠牲にすることなく最高のストレージ効率を実現します。
+
+
+
+
+== ONTAPソフトウェアの推奨事項
+
+14.1以降では、ONTAP 9 SnapMirror関係のSnapMirrorポリシーに特定のSnapMirrorラベルの保持期間を指定できます。これにより、ソースボリュームからデスティネーションボリュームにレプリケートされたSnapshotコピーがルールで指定された保持期間に保持されます。保持期間を指定しない場合は、デスティネーションボリュームのデフォルトの保持期間が使用されます。
+
+Snapshot.13.1以降では、ボリュームクローン作成処理の実行時に、snapshot-typeオプションを「SnapLock」に設定してONTAP 9 FlexCloneを作成し、そのSnapshotコピーを「parent-snapshot」に指定することで、SnapLockバックアップ関係のデスティネーションSnapLock SnapLockボリュームにロックされたSnapshotコピーを瞬時にリストアできます。詳細については、をご覧ください link:../../ontap/volumes/create-flexclone-task.html?q=volume+clone["SnapLock タイプのFlexCloneボリュームを作成します"^]。
+
+
+
+== MetroCluster構成
+
+MetroCluster構成の場合は、次の点に注意してください。
+
+* SnapVault関係は同期元のSVM間でのみ作成でき、同期元のSVMと同期先のSVM間では作成できません。
+* 同期元のSVMのボリュームからデータ提供用のSVMへのSnapVault関係を作成できます。
+* データ提供用のSVMから同期元のSVMのDPボリュームへのSnapVault関係を作成できます。
+

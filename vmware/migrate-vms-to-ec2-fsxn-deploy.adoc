@@ -24,11 +24,11 @@ summary: このテクニカルレポートでは、Cirrus Migrate Cloud（CMC）
 
 このデモでは、「DRaaSDemo」は作成されたファイルシステムの名前です。
 
-image::migrate-ec2-fsxn-image02.png[デモ用ファイルシステムのユーザインターフェイスの画像]
+image:migrate-ec2-fsxn-image02.png["デモ用ファイルシステムのユーザインターフェイスの画像"]
 
 AWS VPCが設定され、パフォーマンス要件に基づいてFSx for ONTAPがプロビジョニングされたら、 link:http://cloud.cirrusdata.com/["cloud.cirrusdata.com"] および link:https://customer.cirrusdata.com/cdc/kb/articles/get-started-with-cirrus-data-cloud-4eDqjIxQpg["新しいプロジェクトを作成する"] または既存のプロジェクトにアクセスします。
 
-image::migrate-ec2-fsxn-image03.png[Cirrus Dataプロジェクトのユーザーインターフェイスの画像]
+image:migrate-ec2-fsxn-image03.png["Cirrus Dataプロジェクトのユーザーインターフェイスの画像"]
 
 MigrationOpsのレシピを作成する前に、AWS Cloudを統合として追加する必要があります。CMCには、FSx for ONTAPおよびAWSとの統合機能が組み込まれています。FSx for ONTAPとの統合により、次の自動化機能が提供されます。
 
@@ -59,11 +59,11 @@ FSx for ONTAPおよびAWS向けCMC統合を設定するには、次の手順を�
 . [Integrations]->[Goodies]に移動します。
 . スクロールしてFSx for NetApp ONTAPを見つけ、[Add integration]をクリックします。
 +
-image::migrate-ec2-fsxn-image04.png[Cirrus Dataの「統合の追加」ユーザーインターフェイスの画像]
+image:migrate-ec2-fsxn-image04.png["Cirrus Dataの「統合の追加」ユーザーインターフェイスの画像"]
 
 . わかりやすい名前（表示用のみ）を指定し、適切なクレデンシャルを追加します。
 +
-image::migrate-ec2-fsxn-image05.png[Cirrus Dataの「統合の追加」ユーザーインターフェイスの画像]
+image:migrate-ec2-fsxn-image05.png["Cirrus Dataの「統合の追加」ユーザーインターフェイスの画像"]
 
 . 統合が作成されたら、新しい移行セッションの作成時に、[Auto Allocate Destination Volumes]を選択して、FSx for ONTAPに新しいボリュームを自動的に割り当てます。
 +
@@ -77,7 +77,7 @@ image::migrate-ec2-fsxn-image05.png[Cirrus Dataの「統合の追加」ユーザ
 
 . 完了したら、画面の手順に従ってAWS用の統合を追加します。
 +
-image::migrate-ec2-fsxn-image06.png[Cirrus Dataの「統合の追加」ユーザーインターフェイスの画像]
+image:migrate-ec2-fsxn-image06.png["Cirrus Dataの「統合の追加」ユーザーインターフェイスの画像"]
 
 +
 *注*：この統合は、FSx for ONTAPの統合とともに、オンプレミスストレージからAWSに仮想マシンを移行する際に使用します。
@@ -102,7 +102,7 @@ image::migrate-ec2-fsxn-image06.png[Cirrus Dataの「統合の追加」ユーザ
 
 *注*：前のセクションで設定した統合により、新しいディスクの作成、ホストエンティティとそのIQNのセットアップ、さらにはiSCSIおよびマルチパス構成用のアプリケーションVM（ホスト）の修復において、新しいデスティネーションストレージの設定が自動化されます。
 
-image::migrate-ec2-fsxn-image07.png[移行するVMware仮想マシンのイメージ]
+image:migrate-ec2-fsxn-image07.png["移行するVMware仮想マシンのイメージ"]
 
 このデモでは、各VMのアプリケーションVMDKを、FSx for ONTAPの自動プロビジョニングおよびマッピングされたiSCSIボリュームに移行します。この場合、Amazon EC2インスタンスはブートディスクとしてのみこのAmazon EBSをサポートするため、OS VMDKはAmazon EBSボリュームに移行されます。
 
@@ -122,10 +122,10 @@ image::migrate-ec2-fsxn-image07.png[移行するVMware仮想マシンのイメ�
 次に、 `iex` コマンドをホストに送信し、PowerShellを使用して実行します。エージェントの導入が正常に完了すると、そのホストがプロジェクトの[Migration hosts]に追加されます。
 
 +
-image::migrate-ec2-fsxn-image08.png[Cirrus Dataインストールインターフェイスの画像]
+image:migrate-ec2-fsxn-image08.png["Cirrus Dataインストールインターフェイスの画像"]
 
 +
-image::migrate-ec2-fsxn-image09.png[Windowsインストールの進行状況のイメージ]
+image:migrate-ec2-fsxn-image09.png["Windowsインストールの進行状況のイメージ"]
 
 . 各仮想マシンのYAMLを準備します。
 +
@@ -209,22 +209,22 @@ operations:
 . を除いて `scheduled_start_time` フィールドが設定で指定されている場合、操作はすぐに開始されます。
 . 処理が実行され、処理が続行されます。Cirrus Data Cloud UIから、進捗状況を詳細なメッセージで監視できます。これらの手順には、自動割り当ての実行や移行セッションの作成など、通常は手動で実行されるタスクが自動的に含まれます。
 +
-image::migrate-ec2-fsxn-image10.png[Cirrusデータ移行の進捗状況の画像]
+image:migrate-ec2-fsxn-image10.png["Cirrusデータ移行の進捗状況の画像"]
 
 +
 *注*：ホスト間の移行中に、受信4996ポートを許可するルールを持つ追加のセキュリティグループが作成されます。これにより、通信に必要なポートが許可され、同期が完了すると自動的に削除されます。
 
 +
-image::migrate-ec2-fsxn-image11.png[Cirrus Dataの移行に必要なインバウンドルールの画像]
+image:migrate-ec2-fsxn-image11.png["Cirrus Dataの移行に必要なインバウンドルールの画像"]
 
 . この移行セッションの同期中は、フェーズ3（カットオーバー）のあとの手順で「Approval Required」というラベルが付けられます。 MigrateOpsレシピでは、重要なタスク（移行のカットオーバーなど）を実行するにはユーザの承認が必要です。プロジェクトオペレータまたは管理者は、UIからこれらのタスクを承認できます。将来の承認ウィンドウを作成することもできます。
 +
-image::migrate-ec2-fsxn-image12.png[Cirrus Data Migrationの同期化の画像]
+image:migrate-ec2-fsxn-image12.png["Cirrus Data Migrationの同期化の画像"]
 
 . 承認されると、MigrateOps処理はカットオーバーを続行します。
 . しばらくすると、操作が完了します。
 +
-image::migrate-ec2-fsxn-image13.png[Cirrusデータ移行完了の画像]
+image:migrate-ec2-fsxn-image13.png["Cirrusデータ移行完了の画像"]
 
 +
 *注*: Cirrus Data cMotion™テクノロジにより、デスティネーションストレージは最新の変更をすべて反映して最新の状態に保たれています。そのため、承認後、この最終的なカットオーバープロセス全体が完了するまでに非常に短時間（1分未満）かかります。

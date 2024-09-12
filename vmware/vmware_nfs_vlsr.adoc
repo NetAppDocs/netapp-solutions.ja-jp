@@ -42,9 +42,7 @@ SRA は SRM と一緒に使用され、従来の VMFS データストアと NFS 
 
 次の図は、3ノードの高可用性構成で構成されたONTAP tools for VMware vSphere 10を使用した一般的なVMware Site Recoveryのアーキテクチャを示しています。
 
-image::vmware-nfs-srm-image05.png[アプライアンスを設定する]
-
-｛nbsp｝
+image:vmware-nfs-srm-image05.png["アプライアンスを設定する"] ｛nbsp｝
 
 
 
@@ -99,14 +97,14 @@ SRMアプライアンスとSRAアダプタを設定するには、次の手順�
 
 . Webブラウザで、に移動して https://<SRM_appliance_IP>:5480*[]ログインします。*[アプライアンスの設定]*をクリックして開始します。
 +
-image::vmware-nfs-srm-image01.png[アプライアンスを設定する]
+image:vmware-nfs-srm-image01.png["アプライアンスを設定する"]
 
 +
 ｛nbsp｝
 
 . Site Recovery Managerの設定ウィザードの*プラットフォームサービスコントローラ*ページで、SRMを登録するvCenterサーバのクレデンシャルを入力します。[次へ]*をクリックして続行します。
 +
-image::vmware-nfs-srm-image02.png[プラットフォームサービスコントローラ]
+image:vmware-nfs-srm-image02.png["プラットフォームサービスコントローラ"]
 
 +
 ｛nbsp｝
@@ -114,7 +112,7 @@ image::vmware-nfs-srm-image02.png[プラットフォームサービスコント�
 . [vCenter Server]ページで、接続されているSVMを表示し、*[次へ]*をクリックして続行します。
 . [名前と拡張機能]*ページで、SRMサイトの名前、管理者のEメールアドレス、およびSRMで使用するローカルホストを入力します。[次へ]*をクリックして続行します。
 +
-image::vmware-nfs-srm-image03.png[アプライアンスを設定する]
+image:vmware-nfs-srm-image03.png["アプライアンスを設定する"]
 
 +
 ｛nbsp｝
@@ -131,7 +129,7 @@ SRMアプライアンスでSRAを設定するには、次の手順を実行し�
 . にONTAP tools 10用SRAをダウンロードし https://mysupport.netapp.com/site/products/all/details/otv10/downloads-tab["NetApp Support Site"]、tar.gzファイルをローカルフォルダに保存します。
 . SRM管理アプライアンスで、左側のメニューの*[Storage Replication Adapters]*をクリックし、*[New Adapter]*をクリックします。
 +
-image::vmware-nfs-srm-image04.png[新しいSRMアダプタの追加]
+image:vmware-nfs-srm-image04.png["新しいSRMアダプタの追加"]
 
 +
 ｛nbsp｝
@@ -153,35 +151,35 @@ image::vmware-nfs-srm-image04.png[新しいSRMアダプタの追加]
 
 . vSphere Clientで、左側のメニューの*[Site Recovery]*をクリックします。新しいブラウザウィンドウが開き、プライマリサイトのSRM管理UIが表示されます。
 +
-image::vmware-nfs-srm-image06.png[サイトリカバリ]
+image:vmware-nfs-srm-image06.png["サイトリカバリ"]
 
 +
 ｛nbsp｝
 
 . [サイトリカバリ]*ページで、*[新しいサイトペア]*をクリックします。
 +
-image::vmware-nfs-srm-image07.png[サイトリカバリ]
+image:vmware-nfs-srm-image07.png["サイトリカバリ"]
 
 +
 ｛nbsp｝
 
 . [New Pair wizard]*の*[Pair type]*ページで、ローカルvCenterサーバが選択されていることを確認し、*[Pair type]*を選択します。[次へ]*をクリックして続行します。
 +
-image::vmware-nfs-srm-image08.png[ペアタイプ]
+image:vmware-nfs-srm-image08.png["ペアタイプ"]
 
 +
 ｛nbsp｝
 
 . [vCenterのピアリング]ページで、セカンダリサイトのvCenterのクレデンシャルを入力し、*[vCenterインスタンスの検索]*をクリックします。vCenterインスタンスが検出されたことを確認し、*[次へ]*をクリックして続行します。
 +
-image::vmware-nfs-srm-image09.png[vCenterのピアリング]
+image:vmware-nfs-srm-image09.png["vCenterのピアリング"]
 
 +
 ｛nbsp｝
 
 . [サービス]ページで、提案されたサイトペアリングの横にあるチェックボックスをオンにします。[次へ]*をクリックして続行します。
 +
-image::vmware-nfs-srm-image10.png[サービス]
+image:vmware-nfs-srm-image10.png["サービス"]
 
 +
 ｛nbsp｝
@@ -189,7 +187,7 @@ image::vmware-nfs-srm-image10.png[サービス]
 . [Ready to Complete]*ページで、提示された構成を確認し、[Finish]*ボタンをクリックしてサイトペアリングを作成します。
 . 新しいサイトペアとその概要は、[概要]ページで確認できます。
 +
-image::vmware-nfs-srm-image11.png[サイトペアの概要]
+image:vmware-nfs-srm-image11.png["サイトペアの概要"]
 
 
 
@@ -201,35 +199,35 @@ image::vmware-nfs-srm-image11.png[サイトペアの概要]
 
 . サイトリカバリインターフェイスで、左側のメニューの*[構成]>[アレイベースのレプリケーション]>[アレイペア]*に移動します。[追加]*をクリックして開始してください。
 +
-image::vmware-nfs-srm-image12.png[アレイペア]
+image:vmware-nfs-srm-image12.png["アレイペア"]
 
 +
 ｛nbsp｝
 
 . [アレイペアの追加]*ウィザードの*[ストレージレプリケーションアダプタ]*ページで、SRAアダプタがプライマリサイトに存在することを確認し、*[次へ]*をクリックして続行します。
 +
-image::vmware-nfs-srm-image13.png[アレイペアの追加]
+image:vmware-nfs-srm-image13.png["アレイペアの追加"]
 
 +
 ｛nbsp｝
 
 . [ローカルアレイマネージャ]*ページで、プライマリサイトのアレイの名前、ストレージシステムのFQDN、NFSを提供するSVMのIPアドレス、および必要に応じて検出する特定のボリュームの名前を入力します。[次へ]*をクリックして続行します。
 +
-image::vmware-nfs-srm-image14.png[ローカルアレイマネージャ]
+image:vmware-nfs-srm-image14.png["ローカルアレイマネージャ"]
 
 +
 ｛nbsp｝
 
 . リモートアレイマネージャ*で、セカンダリサイトのONTAPストレージシステムの最後の手順と同じ情報を入力します。
 +
-image::vmware-nfs-srm-image15.png[リモートアレイマネージャ]
+image:vmware-nfs-srm-image15.png["リモートアレイマネージャ"]
 
 +
 ｛nbsp｝
 
 . [Array Pairs]*ページで、有効にするアレイペアを選択し、*[Next]*をクリックして続行します。
 +
-image::vmware-nfs-srm-image16.png[アレイペア]
+image:vmware-nfs-srm-image16.png["アレイペア"]
 
 +
 ｛nbsp｝
@@ -245,42 +243,42 @@ image::vmware-nfs-srm-image16.png[アレイペア]
 
 . [サイトリカバリ]インターフェイスで、*[保護グループ]*タブをクリックし、*[新しい保護グループ]*をクリックして開始します。
 +
-image::vmware-nfs-srm-image17.png[サイトリカバリ]
+image:vmware-nfs-srm-image17.png["サイトリカバリ"]
 
 +
 ｛nbsp｝
 
 . [新しい保護グループ]ウィザードの[名前と方向]ページで、グループの名前を入力し、データを保護するサイトの方向を選択します。
 +
-image::vmware-nfs-srm-image18.png[名前と方向]
+image:vmware-nfs-srm-image18.png["名前と方向"]
 
 +
 ｛nbsp｝
 
 . [タイプ]*ページで、保護グループのタイプ（データストア、VM、またはVVOL）を選択し、アレイペアを選択します。[次へ]*をクリックして続行します。
 +
-image::vmware-nfs-srm-image19.png[を入力します]
+image:vmware-nfs-srm-image19.png["を入力します"]
 
 +
 ｛nbsp｝
 
 . [データストアグループ]ページで、保護グループに含めるデータストアを選択します。選択したデータストアごとに、データストアに現在格納されているVMが表示されます。[次へ]*をクリックして続行します。
 +
-image::vmware-nfs-srm-image20.png[データストアグループ]
+image:vmware-nfs-srm-image20.png["データストアグループ"]
 
 +
 ｛nbsp｝
 
 . [リカバリプラン]ページで、必要に応じて保護グループをリカバリプランに追加することを選択します。この場合、リカバリプランはまだ作成されていないため、*[リカバリプランに追加しない]*が選択されています。[次へ]*をクリックして続行します。
 +
-image::vmware-nfs-srm-image21.png[リカバリプラン]
+image:vmware-nfs-srm-image21.png["リカバリプラン"]
 
 +
 ｛nbsp｝
 
 . [完了する準備ができました]ページで、新しい保護グループのパラメータを確認し、*[完了]*をクリックしてグループを作成します。
 +
-image::vmware-nfs-srm-image22.png[リカバリプラン]
+image:vmware-nfs-srm-image22.png["リカバリプラン"]
 
 
 
@@ -292,28 +290,28 @@ image::vmware-nfs-srm-image22.png[リカバリプラン]
 
 . [サイトリカバリ]インターフェイスで、*[リカバリプラン]*タブをクリックし、*[新しいリカバリプラン]*をクリックして開始します。
 +
-image::vmware-nfs-srm-image23.png[新しいリカバリプラン]
+image:vmware-nfs-srm-image23.png["新しいリカバリプラン"]
 
 +
 ｛nbsp｝
 
 . [リカバリプランの作成]ウィザードの[名前と方向]ページで、リカバリプランの名前を入力し、ソースサイトとデスティネーションサイト間の方向を選択します。[次へ]*をクリックして続行します。
 +
-image::vmware-nfs-srm-image24.png[名前と方向]
+image:vmware-nfs-srm-image24.png["名前と方向"]
 
 +
 ｛nbsp｝
 
 . [保護グループ]ページで、以前に作成した保護グループをリカバリプランに含めるように選択します。[次へ]*をクリックして続行します。
 +
-image::vmware-nfs-srm-image25.png[保護グループ]
+image:vmware-nfs-srm-image25.png["保護グループ"]
 
 +
 ｛nbsp｝
 
 . [ネットワークのテスト]で、計画のテスト中に使用する特定のネットワークを設定します。マッピングが存在しない場合、またはネットワークが選択されていない場合は、分離されたテストネットワークが作成されます。[次へ]*をクリックして続行します。
 +
-image::vmware-nfs-srm-image26.png[テストネットワーク]
+image:vmware-nfs-srm-image26.png["テストネットワーク"]
 
 +
 ｛nbsp｝
@@ -337,28 +335,28 @@ Site Recoveryインターフェイスで次の手順を実行します。
 
 . [サイトリカバリ]インターフェイスで、*[リカバリプラン]*タブをクリックし、リカバリプランを選択します。[テスト]*ボタンをクリックして、セカンダリサイトへのフェイルオーバーのテストを開始します。
 +
-image::vmware-nfs-srm-image27.png[テストフェイルオーバー]
+image:vmware-nfs-srm-image27.png["テストフェイルオーバー"]
 
 +
 ｛nbsp｝
 
 . テストの進捗状況は、[Site Recovery]タスクペインとvCenterタスクペインで確認できます。
 +
-image::vmware-nfs-srm-image28.png[タスクペインでのフェイルオーバーのテスト]
+image:vmware-nfs-srm-image28.png["タスクペインでのフェイルオーバーのテスト"]
 
 +
 ｛nbsp｝
 
 . SRMはSRAを介してセカンダリONTAPストレージシステムにコマンドを送信します。最新のSnapshotのFlexCloneが作成され、セカンダリvSphereクラスタにマウントされます。新しくマウントされたデータストアは、ストレージインベントリで確認できます。
 +
-image::vmware-nfs-srm-image29.png[新しくマウントされたデータストア]
+image:vmware-nfs-srm-image29.png["新しくマウントされたデータストア"]
 
 +
 ｛nbsp｝
 
 . テストが完了したら、*[クリーンアップ]*をクリックしてデータストアをアンマウントし、元の環境に戻します。
 +
-image::vmware-nfs-srm-image30.png[新しくマウントされたデータストア]
+image:vmware-nfs-srm-image30.png["新しくマウントされたデータストア"]
 
 
 
@@ -370,14 +368,14 @@ image::vmware-nfs-srm-image30.png[新しくマウントされたデータスト�
 
 . [サイトリカバリ]インターフェイスで、*[リカバリプラン]*タブをクリックし、リカバリプランを選択します。[実行]*ボタンをクリックして、セカンダリサイトへのフェイルオーバーを開始します。
 +
-image::vmware-nfs-srm-image31.png[フェイルオーバーを実行]
+image:vmware-nfs-srm-image31.png["フェイルオーバーを実行"]
 
 +
 ｛nbsp｝
 
 . フェイルオーバーが完了すると、データストアがマウントされ、セカンダリサイトに登録されているVMが表示されます。
 +
-image::vmware-nfs-srm-image32.png[Filoverが完了しました]
+image:vmware-nfs-srm-image32.png["Filoverが完了しました"]
 
 
 

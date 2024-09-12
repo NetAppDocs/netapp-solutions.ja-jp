@@ -32,14 +32,14 @@ NetApp ONTAP ファイルシステム用のAmazon FSXを作成してマウント
 . Amazon FSXコンソール（https://console.aws.amazon.com/fsx/`）を開き、* Create file system *を選択して、* File System Creation *ウィザードを開始します。
 . [ファイルシステムタイプの選択]ページで、[*Amazon FSX for NetApp ONTAP *]を選択し、[次へ]をクリックします。[ファイルシステムの作成*]ページが表示されます。
 +
-image::fsx-nfs-image2.png[FSx NFSイメージ2]
+image:fsx-nfs-image2.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 作成方法には、*標準作成*を選択します。
 +
-image::fsx-nfs-image3.png[FSx NFSイメージ3]
+image:fsx-nfs-image3.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
-image::fsx-nfs-image4.png[FSx NFSイメージ4]
+image:fsx-nfs-image4.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
 
@@ -55,11 +55,11 @@ NOTE: 接続されたVPCではなく、新しい指定のVPCであることを�
 NOTE: デフォルトでは、ONTAP のFSXは、ファイルシステムのデフォルトのエンドポイントIPアドレス範囲として198.19.0.0/16を使用します。エンドポイントのIPアドレス範囲が、AWS SDDCのVMC、関連付けられたVPCサブネット、およびオンプレミスインフラと競合しないことを確認してください。よくわからない場合は、重複しない範囲を使用してください。
 
 +
-image::fsx-nfs-image5.png[FSx NFSイメージ5]
+image:fsx-nfs-image5.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 暗号化キーの「* Security & Encryption *」セクションで、ファイルシステムの保存データを保護するAWS Key Management Service（AWS KMS）暗号化キーを選択します。*File System Administrative Password*には'fsxadminユーザーの安全なパスワードを入力します
 +
-image::fsx-nfs-image6.png[FSx NFSイメージ6]
+image:fsx-nfs-image6.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 「* Default Storage Virtual Machine Configuration *」セクションで、SVMの名前を指定します。
 +
@@ -67,7 +67,7 @@ image::fsx-nfs-image6.png[FSx NFSイメージ6]
 NOTE: GAでは4つのNFSデータストアがサポートされます。
 
 +
-image::fsx-nfs-image7.png[FSx NFSイメージ7]
+image:fsx-nfs-image7.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 「*デフォルトのボリューム構成*」セクションで、データストアに必要なボリューム名とサイズを指定し、「*次へ*」をクリックします。これはNFSv3ボリュームである必要があります。Storage Efficiency *の場合、「* enabled *」を選択して、ONTAP のStorage Efficiency機能（圧縮、重複排除、コンパクション）を有効にします。作成後、シェルを使用して、*_volume modify _*を使用して次のようにボリュームパラメータを変更します。
 +
@@ -123,10 +123,10 @@ volume modify -vserver FSxONTAPDatastoreSVM -volume DemoDS002 -space-mgmt-try-fi
 volume modify -vserver FSxONTAPDatastoreSVM -volume DemoDS002 -autosize-mode grow
 ....
 +
-image::fsx-nfs-image8.png[FSx NFSイメージ8]
+image:fsx-nfs-image8.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
-image::fsx-nfs-image9.png[FSx NFSイメージ9]
+image:fsx-nfs-image9.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
 
@@ -135,10 +135,10 @@ NOTE: 初期移行シナリオでは、デフォルトのSnapshotポリシーで
 . [ファイルシステムの作成]ページに表示されているファイルシステム構成を確認します。
 . [ファイルシステムの作成*]をクリックします。
 +
-image::fsx-nfs-image10.png[FSx NFSイメージ10]
+image:fsx-nfs-image10.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
-image::fsx-nfs-image11.png[FSx NFSイメージ11]
+image:fsx-nfs-image11.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
 
@@ -159,11 +159,11 @@ Amazon FSX for ONTAP のパフォーマンスについては、を参照して�
 . [*SDDCグループ*]タブで、[*actions*]をクリックし、[*SDDCグループの作成*]を選択します。SDDCグループの名前は「FSxONTAPDatastoreGrp」です。
 . [メンバシップ]グリッドで、グループメンバとして含めるSDDCを選択します。
 +
-image::fsx-nfs-image12.png[FSx NFSイメージ12]
+image:fsx-nfs-image12.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 「Configuring VMware Transit Connect for your group will iss Charges per attachment and data transfers」（グループごとのVMwareトランジット接続の設定で添付ファイルおよびデータ転送ごとの料金が発生する）が選択されていることを確認し、「*グループの作成このプロセスが完了するまでに数分かかることがあります。
 +
-image::fsx-nfs-image13.png[FSx NFSイメージ13]
+image:fsx-nfs-image13.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -173,7 +173,7 @@ image::fsx-nfs-image13.png[FSx NFSイメージ13]
 ====
 . 新しく作成した代表VPCをSDDCグループに接続します。[* External VPC *（外部VPC *）]タブを選択し、に従います https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-A3D03968-350E-4A34-A53E-C0097F5F26A9.html["グループに外部VPCを接続する手順"^]。このプロセスは、完了までに10～15分かかる場合があります。
 +
-image::fsx-nfs-image14.png[FSx NFSイメージ14]
+image:fsx-nfs-image14.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . ［*アカウントの追加*］をクリックします。
 +
@@ -183,7 +183,7 @@ image::fsx-nfs-image14.png[FSx NFSイメージ14]
 
 . AWSコンソールに戻り、同じAWSアカウントにログインして、* Resource Access Manager *サービスページに移動します。リソース共有を承認するボタンがあります。
 +
-image::fsx-nfs-image15.png[FSx NFSイメージ15]
+image:fsx-nfs-image15.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
 
@@ -191,7 +191,7 @@ NOTE: 外部VPCプロセスの一部として、AWSコンソールからResource
 
 . [*リソース共有を許可する*]をクリックします。
 +
-image::fsx-nfs-image16.png[FSx NFSイメージ16]
+image:fsx-nfs-image16.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . VMCコンソールに戻り、外部VPCが関連付けられた状態になっています。表示されるまでに数分かかることがあります。
 
@@ -203,18 +203,18 @@ image::fsx-nfs-image16.png[FSx NFSイメージ16]
 . AWSコンソールでVPCサービスページに移動し、FSXファイルシステムのプロビジョニングに使用したVPCに移動します。ここでは、右側のナビゲーションペインで*Transit Gateway Attachment*をクリックして、トランジットゲートウェイの添付ファイルを作成します。
 . [*VPC Attachment*]で、[DNS Support]がオンになっていることを確認し、FSX for ONTAP が展開されているVPCを選択します。
 +
-image::fsx-nfs-image17.png[FSx NFSイメージ17]
+image:fsx-nfs-image17.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . [*トランジットゲートウェイの添付ファイルの作成*]をクリックします。
 +
-image::fsx-nfs-image18.png[FSx NFSイメージ18]
+image:fsx-nfs-image18.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . VMware Cloud Consoleに戻り、SDDC Group > External VPCタブに戻ります。FSXに使用するAWSアカウントIDを選択し、VPCをクリックして* Accept *をクリックします。
 +
-image::fsx-nfs-image19.png[FSx NFSイメージ19]
+image:fsx-nfs-image19.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
-image::fsx-nfs-image20.png[FSx NFSイメージ20]
+image:fsx-nfs-image20.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
 
@@ -225,10 +225,10 @@ NOTE: このオプションが表示されるまでに数分かかることが�
 ** ネットアップONTAP フローティングIPを含むAmazon FSXのフローティングIP範囲のルート。
 ** 新しく作成される外部 VPC アドレススペースのルート。
 +
-image::fsx-nfs-image21.png[FSx NFSイメージ21]
+image:fsx-nfs-image21.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
-image::fsx-nfs-image22.png[FSx NFSイメージ22]
+image:fsx-nfs-image22.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -241,16 +241,16 @@ image::fsx-nfs-image22.png[FSx NFSイメージ22]
 . AWSコンソールのVPCサービスページでVPCを検索し、VPCの* main * routeテーブルを選択して、SDDCに戻るルートを作成します。
 . 下部パネルでルートテーブルを参照し、*ルートの編集*をクリックします。
 +
-image::fsx-nfs-image23.png[FSx NFSイメージ23]
+image:fsx-nfs-image23.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . ルートの編集*パネルで、*ルートの追加*をクリックし、*トランジットゲートウェイ*と関連付けられたTGW IDを選択してSDDCインフラストラクチャのCIDRを入力します。[ 変更の保存 *] をクリックします。
 +
-image::fsx-nfs-image24.png[FSx NFSイメージ24]
+image:fsx-nfs-image24.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 次の手順では、関連付けられたVPC内のセキュリティグループが、SDDCグループCIDRに対する正しいインバウンドルールで更新されていることを確認します。
 . SDDCインフラストラクチャのCIDRブロックを使用してインバウンドルールを更新します。
 +
-image::fsx-nfs-image25.png[FSx NFSイメージ25]
+image:fsx-nfs-image25.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
 
@@ -272,7 +272,7 @@ NOTE: NFSトラフィックを受け入れるようにセキュリティグル�
 
 . VMCコンソールで、SDDCの*ストレージ*タブを開きます。
 +
-image::fsx-nfs-image27.png[FSx NFSイメージ27]
+image:fsx-nfs-image27.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . attach datastore *をクリックし、必要な値を入力します。
 +
@@ -280,15 +280,15 @@ image::fsx-nfs-image27.png[FSx NFSイメージ27]
 NOTE: NFSサーバアドレスは、NFS IPアドレスです。このアドレスは、AWSコンソールのFSX > Storage Virtual Machines（ストレージ仮想マシン）タブ> Endpoints（エンドポイント）にあります。
 
 +
-image::fsx-nfs-image28.png[FSx NFSイメージ28]
+image:fsx-nfs-image28.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . データストアの接続*をクリックして、データストアをクラスタに接続します。
 +
-image::fsx-nfs-image29.png[FSx NFSイメージ29]
+image:fsx-nfs-image29.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 次の図のようにvCenterにアクセスしてNFSデータストアを検証します。
 +
-image::fsx-nfs-image30.png[FSx NFSイメージ30]
+image:fsx-nfs-image30.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 

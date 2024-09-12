@@ -62,7 +62,7 @@ spec:
 * クラスタにアプリケーションを作成し、そのバックアップを作成します。例として、postgresアプリケーションをインストールします。
 
 
-image::redhat_openshift_OADP_migrate_image1.png[postgresアプリのインストール]
+image:redhat_openshift_OADP_migrate_image1.png["postgresアプリのインストール"]
 
 * バックアップCRには次の仕様を使用します。
 
@@ -78,7 +78,7 @@ spec:
   storageLocation: velero-sample-1
   ttl: 720h0m0s
 ....
-image::redhat_openshift_OADP_migrate_image2.png[postgresアプリのインストール]
+image:redhat_openshift_OADP_migrate_image2.png["postgresアプリのインストール"]
 
 [**すべてのインスタンス*]タブをクリックすると、さまざまなオブジェクトが作成され、さまざまなフェーズを移動して最終的にバックアップ**完了**フェーズに進むことができます。
 
@@ -96,13 +96,13 @@ image::redhat_openshift_OADP_migrate_image2.png[postgresアプリのインスト
 * バックアップCRは、2番目のクラスタから認識できる必要があります。
 
 
-image::redhat_openshift_OADP_migrate_image3.png[Tridentをインストール]
+image:redhat_openshift_OADP_migrate_image3.png["Tridentをインストール"]
 
-image::redhat_openshift_OADP_migrate_image4.png[Postgresがまだインストールされていません]
+image:redhat_openshift_OADP_migrate_image4.png["Postgresがまだインストールされていません"]
 
-image::redhat_openshift_OADP_migrate_image5.png[クラスタ2にOADPをインストール]
+image:redhat_openshift_OADP_migrate_image5.png["クラスタ2にOADPをインストール"]
 
-image::redhat_openshift_OADP_migrate_image6.png[同じオブジェクトストアを参照しているバックアップストレージの場所]
+image:redhat_openshift_OADP_migrate_image6.png["同じオブジェクトストアを参照しているバックアップストレージの場所"]
 
 バックアップからこのクラスタ上のアプリを復元します。復元CRを作成するには、次のYAMLを使用します。
 
@@ -119,8 +119,8 @@ spec:
 ....
 復元が完了すると、PostgreSQLアプリがこのクラスタで実行されており、PVCと対応するpvに関連付けられていることがわかります。アプリの状態は、バックアップが作成されたときと同じです。
 
-image::redhat_openshift_OADP_migrate_image7.png[リストア完了]
+image:redhat_openshift_OADP_migrate_image7.png["リストア完了"]
 
-image::redhat_openshift_OADP_migrate_image8.png[Postgresが移行されました]
+image:redhat_openshift_OADP_migrate_image8.png["Postgresが移行されました"]
 
 ====

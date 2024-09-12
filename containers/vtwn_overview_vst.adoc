@@ -16,17 +16,17 @@ summary:
 [role="lead"]
 VMware vSphereとvSphereポッドとも呼ばれるTanzuを使用すると、VMware vSphere環境のESXiハイパーバイザーノードをベアメタルKubernetes環境のワーカーノードとして使用できます。
 
-image::vtwn_image30.png[VMware vSphereとKubernetes]
+image:vtwn_image30.png["VMware vSphereとKubernetes"]
 
 Tanzu環境を備えたVMware vSphereは、ネイティブのTKGSクラスタと同様にWorkload Managementで有効になります。
 
 仮想化されたSupervisor Clusterは、Kubernetesの高可用性コントロールプレーンを提供するために作成され、ユーザのリソース分離を確実にするために、アプリケーションごとに個別の名前空間が作成されます。
 
-image::vtwn_image29.png[Supervisorクラスタ]
+image:vtwn_image29.png["Supervisorクラスタ"]
 
 Tanzuを含むVMware vSphereを有効にすると、球レットアプリケーションが各ESXiホストにインストールされて設定されます。これにより、各ノードがKubernetes環境でワーカーとして機能し、各ノードに導入されたポッドを管理できます。
 
-image::vtwn_image28.png[ネームスペース]
+image:vtwn_image28.png["ネームスペース"]
 
 現在、VMware vSphereでは、TanzuポッドおよびvSphereポッドを使用していますが、ローカルのvSphere CSIドライバのみをサポートしています。これは、vSphere Clientで、vSphereデータストアとして現在使用できるストレージターゲットから選択するストレージポリシーを作成するように管理者を設定することで機能します。これらのポリシーは、コンテナ化されたアプリケーション用の永続ボリュームを作成するために使用されます。
 

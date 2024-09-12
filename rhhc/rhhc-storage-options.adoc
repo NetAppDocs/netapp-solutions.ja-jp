@@ -18,17 +18,17 @@ Red Hat Open ShiftコンテナをVMwareで実行する場合でも、ハイパ�
 
 次の図は、NetApp Astra Tridentを使用してOpenShiftクラスタと統合できるバックエンドのネットアップストレージを示しています。
 
-image::a-w-n_astra_trident.png[Astra Tridentを使用]
+image:a-w-n_astra_trident.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 ONTAP Storage Virtual Machine（SVM）はセキュアマルチテナンシーを提供します。単一のOpenShiftクラスタは、単一のSVMまたは複数のSVMに接続することも、複数のONTAP クラスタに接続することもできます。ストレージクラスは、パラメータまたはラベルに基づいてバックエンドストレージをフィルタリングします。ストレージ管理者は、Tridentバックエンド構成を使用してストレージシステムに接続するためのパラメータを定義します。接続が正常に確立されると、Tridentバックエンドが作成され、ストレージクラスでフィルタできる情報が入力されます。
 
 ストレージクラスとバックエンドの関係を次に示します。
 
-image::rhhc-storage-options-sc2ontap.png[ストレージクラスとONTAP の関係]
+image:rhhc-storage-options-sc2ontap.png["ストレージクラスとONTAP の関係"]
 
 アプリケーション所有者がストレージクラスを使用して永続ボリュームを要求します。バックエンドストレージはストレージクラスでフィルタリングされます。ポッドとバックエンドストレージの関係を以下に示します。
 
-image::rhhc_storage_opt_pod2vol.png[ポッドとONTAP ボリュームの関係]
+image:rhhc_storage_opt_pod2vol.png["ポッドとONTAP ボリュームの関係"]
 
 
 
@@ -58,6 +58,6 @@ vSphere環境では、VMware CSIドライバやAstra Trident CSIを選択してO
 
 ONTAP は、VMware CSIとAstra Trident CSIのどちらについても、NFSとマルチパスのnconnect、セッショントランキング、Kerberosなど、ブロックプロトコルのCHAP認証などをサポートします。
 
-AWSでは、FSx for NetApp ONTAP （FSxN）を単一のアベイラビリティゾーン（AZ）または複数のAZに導入できます。高可用性を必要とする本番ワークロードに対しては、複数のAZを使用することでゾーンレベルのフォールトトレランスが実現し、NVMe読み取りキャッシュも単一のAZよりも優れています。詳細については、を参照してください link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/performance.html["AWSパフォーマンスのガイドライン"]。ディザスタリカバリサイトのコストを削減するために、単一のAZ FSx ONTAPを利用できます。 image：：rhhc_storage_options_fsxn_options.png ["Replication between Multi-AZ and Single-AZ "]
+AWSでは、FSx for NetApp ONTAP （FSxN）を単一のアベイラビリティゾーン（AZ）または複数のAZに導入できます。高可用性を必要とする本番ワークロードに対しては、複数のAZを使用することでゾーンレベルのフォールトトレランスが実現し、NVMe読み取りキャッシュも単一のAZよりも優れています。詳細については、を参照してください link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/performance.html["AWSパフォーマンスのガイドライン"]。ディザスタリカバリサイトのコストを削減するために、単一のAZ FSx ONTAPを利用できます。image:rhhc_storage_options_fsxn_options.png["複数のAZと単一のAZの間のレプリケーション"]
 
 FSx ONTAP でサポートされるSVMの数については、を参照してください link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-svms.html#max-svms["FSx ONTAP Storage Virtual Machineの管理"]

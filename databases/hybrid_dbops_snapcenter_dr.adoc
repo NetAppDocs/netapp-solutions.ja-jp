@@ -22,18 +22,18 @@ keywords: 'netapp, solutions, database, SnapCenter, DR, "business continuity", "
 
 . クローンリカバリが最後に使用可能なログで実行されるかどうかを検証するために、小さなテストテーブルを作成して行を挿入しました。テストデータは、使用可能な最後のログへの完全リカバリ後にリカバリされます。
 +
-image::snapctr_ora_dr_01.PNG[スナップtr ora DR 01]
+image:snapctr_ora_dr_01.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . Oracle のデータベース管理ユーザ ID として SnapCenter にログインします。リソースタブに移動します。このタブには、 SnapCenter で保護されている Oracle データベースが表示されます。
 +
-image::snapctr_ora_dr_02.PNG[Snapctr ora DR 02]
+image:snapctr_ora_dr_02.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . Oracle ログリソースグループを選択し、 Backup Now （今すぐバックアップ）をクリックして Oracle ログバックアップを手動で実行し、最新のトランザクションをクラウド内のデスティネーションにフラッシュします。実際の DR シナリオでは、最後にリカバリ可能なトランザクションはデータベースログボリュームからクラウドへのレプリケーション頻度によって異なり、クラウドへのレプリケーションは企業の RTO ポリシーまたは RPO ポリシーによって異なります。
 +
-image::snapctr_ora_dr_03.PNG[Snapctr ora DR 03]
+image:snapctr_ora_dr_03.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
-image::snapctr_ora_dr_04.PNG[Snapctr ora DR 04]
+image:snapctr_ora_dr_04.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
 
@@ -41,25 +41,25 @@ NOTE: 非同期 SnapMirror では、ディザスタリカバリシナリオで�
 
 . セカンダリ・ミラー・バックアップで最後のログ・バックアップを選択し、ログ・バックアップをマウントします。
 +
-image::snapctr_ora_dr_05.PNG[Snapctr ora DR 05]
+image:snapctr_ora_dr_05.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
-image::snapctr_ora_dr_06.PNG[スナップtr ora DR 06]
+image:snapctr_ora_dr_06.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 最後のフルデータベースバックアップを選択し、 Clone をクリックしてクローンワークフローを開始します。
 +
-image::snapctr_ora_dr_07.PNG[スナップtr ora DR 07]
+image:snapctr_ora_dr_07.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . ホスト上で一意のクローン DB ID を選択します。
 +
-image::snapctr_ora_dr_08.PNG[Snapctr ora DR 08]
+image:snapctr_ora_dr_08.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . ログボリュームをプロビジョニングし、 Oracle フラッシュリカバリ領域とオンラインログのターゲット DR サーバにマウントします。
 +
-image::snapctr_ora_dr_09.PNG[Snapctr ora DR 09]
+image:snapctr_ora_dr_09.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
-image::snapctr_ora_dr_10.PNG[Snapctr ora DR 10]
+image:snapctr_ora_dr_10.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
 
@@ -67,31 +67,31 @@ NOTE: Oracle クローン手順はログボリュームを作成しないため�
 
 . ターゲットのクローンホストと、データファイル、制御ファイル、および REDO ログを配置する場所を選択します。
 +
-image::snapctr_ora_dr_11.PNG[Snapctr ora DR 11]
+image:snapctr_ora_dr_11.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . クローンのクレデンシャルを選択します。ターゲット・サーバの Oracle ホーム構成の詳細を入力します
 +
-image::snapctr_ora_dr_12.PNG[Snapctr ora DR 12]
+image:snapctr_ora_dr_12.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . クローニングの前に実行するスクリプトを指定します。データベースパラメータは必要に応じて調整できます。
 +
-image::snapctr_ora_dr_13.PNG[Snapctr ora DR 13]
+image:snapctr_ora_dr_13.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . リカバリオプションとして Until Cancel を選択して、使用可能なすべてのアーカイブログをリカバリで実行し、セカンダリクラウドの場所に最後にレプリケートされたトランザクションをリカバリします。
 +
-image::snapctr_ora_dr_14.PNG[Snapctr ora DR 14]
+image:snapctr_ora_dr_14.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 必要に応じて、 SMTP サーバで E メール通知を設定します。
 +
-image::snapctr_ora_dr_15.PNG[スナップtr ora DR 15]
+image:snapctr_ora_dr_15.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . DR クローンの概要：
 +
-image::snapctr_ora_dr_16.PNG[スナップtr ora DR 16]
+image:snapctr_ora_dr_16.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . クローニングされた DB は、クローンの完了直後に SnapCenter に登録され、バックアップ保護に使用できます。
 +
-image::snapctr_ora_dr_16_1.PNG[Snapctr ora DR 16 1]
+image:snapctr_ora_dr_16_1.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -101,11 +101,11 @@ image::snapctr_ora_dr_16_1.PNG[Snapctr ora DR 16 1]
 
 . クラウドの DR サイトでフラッシュ、レプリケート、リカバリされた最後のテストトランザクションを検証します。
 +
-image::snapctr_ora_dr_17.PNG[スナップtr ora DR 17]
+image:snapctr_ora_dr_17.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . フラッシュリカバリ領域を設定します。
 +
-image::snapctr_ora_dr_18.PNG[スナップtr ora DR 18]
+image:snapctr_ora_dr_18.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . ユーザアクセス用に Oracle リスナーを設定します。
 . レプリケートされたソースボリュームからクローンボリュームをスプリットします。
@@ -121,42 +121,42 @@ NOTE: クローンスプリットでは、一時的にストレージスペー�
 
 . 同様に、 SQL クローンリカバリが前回使用可能なログを通過したかどうかを検証するために、小さなテストテーブルを作成して行を挿入しました。テストデータは、使用可能な最後のログへのフルリカバリ後にリカバリされます。
 +
-image::snapctr_sql_dr_01.PNG[snapctr SQL DR 01]
+image:snapctr_sql_dr_01.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . SQL Server 用のデータベース管理ユーザ ID で SnapCenter にログインします。[ リソース ] タブに移動します。このタブには、 SQL Server 保護リソースグループが表示されます。
 +
-image::snapctr_sql_dr_02.PNG[snapctr SQL DR 02]
+image:snapctr_sql_dr_02.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . パブリッククラウドのセカンダリストレージにレプリケートする最後のトランザクションをフラッシュするには、ログバックアップを手動で実行します。
 +
-image::snapctr_sql_dr_03.PNG[snapctr SQL DR 03]
+image:snapctr_sql_dr_03.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . クローンに対して最後に実行した SQL Server のフルバックアップを選択します。
 +
-image::snapctr_sql_dr_04.PNG[snapctr SQL DR 04]
+image:snapctr_sql_dr_04.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . クローンサーバ、クローンインスタンス、クローン名、マウントオプションなどのクローン設定を行います。クローニングが実行されるセカンダリストレージの場所が自動的に入力されます。
 +
-image::snapctr_sql_dr_05.PNG[snapctr SQL DR 05]
+image:snapctr_sql_dr_05.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 適用するすべてのログバックアップを選択します。
 +
-image::snapctr_sql_dr_06.PNG[snapctr SQL DR 06]
+image:snapctr_sql_dr_06.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . クローニングの前後に実行するオプションのスクリプトを指定します。
 +
-image::snapctr_sql_dr_07.PNG[snapctr SQL DR 07]
+image:snapctr_sql_dr_07.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . E メール通知が必要な場合は、 SMTP サーバを指定します。
 +
-image::snapctr_sql_dr_08.PNG[snapctr SQL DR 08]
+image:snapctr_sql_dr_08.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . DR クローンの概要：クローニングされたデータベースはただちに SnapCenter に登録され、バックアップ保護に使用できます。
 +
-image::snapctr_sql_dr_09.PNG[snapctr SQL DR 09]
+image:snapctr_sql_dr_09.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
-image::snapctr_sql_dr_10.PNG[snapctr SQL DR 10]
+image:snapctr_sql_dr_10.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -166,11 +166,11 @@ image::snapctr_sql_dr_10.PNG[snapctr SQL DR 10]
 
 . クローニングジョブのステータスを監視する。
 +
-image::snapctr_sql_dr_11.PNG[snapctr SQL DR 11]
+image:snapctr_sql_dr_11.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . すべてのログファイルクローンとリカバリで、最後のトランザクションがレプリケートされてリカバリされたことを確認します。
 +
-image::snapctr_sql_dr_12.PNG[snapctr SQL DR 12]
+image:snapctr_sql_dr_12.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . DR サーバで、 SQL Server ログバックアップ用の新しい SnapCenter ログディレクトリを設定します。
 . レプリケートされたソースボリュームからクローンボリュームをスプリットします。

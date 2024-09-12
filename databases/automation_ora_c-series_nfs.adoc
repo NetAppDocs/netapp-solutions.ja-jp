@@ -54,7 +54,7 @@ NetApp AFF Cシリーズは、オールフラッシュのアクセス性を高�
 
 === アーキテクチャ
 
-image::automation_ora_c-series_nfs_archit.png[このイメージは、iSCSIとASMを使用したAWSパブリッククラウドでのOracle導入構成の詳細な図を示しています。]
+image:automation_ora_c-series_nfs_archit.png["このイメージは、iSCSIとASMを使用したAWSパブリッククラウドでのOracle導入構成の詳細な図を示しています。"]
 
 
 
@@ -182,32 +182,23 @@ installer_archives:
 
 . ONTAP System Managerにログインして、ONTAPクラスタの初回インストール後にブロードキャストドメインに各ドメインに適切に割り当てられたイーサネットポートが設定されていることを確認します。通常は、クラスタ用のブロードキャストドメイン、管理用のブロードキャストドメイン、データなどのワークロード用のブロードキャストドメインを使用します。
 +
-image::automation_ora_c-series_nfs_net_01.png[このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。]
+image:automation_ora_c-series_nfs_net_01.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"]
 
 . ネットワーク-イーサネットポートで、 `Link Aggregate Group` LACPリンクアグリゲートグループポートa0aを作成して、アグリゲートグループポートのメンバーポート間で負荷分散とフェイルオーバーを実現します。C400コントローラでは、4つのデータポート（e0e、e0f、e0g、e0h）を使用できます。
 +
-image::automation_ora_c-series_nfs_net_02.png[このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。]
+image:automation_ora_c-series_nfs_net_02.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"]
 
 . グループ内のイーサネットポートを選択します。 `LACP` モードの場合、および `Port` 負荷分散用。
 +
-image::automation_ora_c-series_nfs_net_03.png[このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。]
+image:automation_ora_c-series_nfs_net_03.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"]
 
 . 作成されたLACPポートa0aとブロードキャストドメインを検証 `Data` はLACPポートで動作しています。
 +
-image::automation_ora_c-series_nfs_net_04.png[このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。]
-
-+
-image::automation_ora_c-series_nfs_net_05.png[このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。]
+image:automation_ora_c-series_nfs_net_04.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"] image:automation_ora_c-series_nfs_net_05.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"]
 
 . 移動元 `Ethernet Ports`をクリックします。 `VLAN` NFSプロトコルでのOracleワークロード用に各コントローラノードにVLANを追加します。
 +
-image::automation_ora_c-series_nfs_net_06.png[このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。]
-
-+
-image::automation_ora_c-series_nfs_net_07.png[このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。]
-
-+
-image::automation_ora_c-series_nfs_net_08.png[このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。]
+image:automation_ora_c-series_nfs_net_06.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"] image:automation_ora_c-series_nfs_net_07.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"] image:automation_ora_c-series_nfs_net_08.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"]
 
 . クラスタ管理IPからsshを使用してCシリーズコントローラにログインし、ネットワークフェイルオーバーグループが正しく設定されていることを確認します。ONTAPでは、フェイルオーバーグループが自動的に作成および管理されます。
 +
@@ -238,42 +229,39 @@ HCG-NetApp-C400-E9U9
 ....
 . 移動元 `STORAGE - Storage VMs`をクリックし、[+Add]をクリックしてOracle用のSVMを作成します。
 +
-image::automation_ora_c-series_nfs_svm_01.png[このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。]
+image:automation_ora_c-series_nfs_svm_01.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"]
 
 . Oracle SVMに名前を付け、 `Enable NFS` および `Allow NFS client access`。
 +
-image::automation_ora_c-series_nfs_svm_02.png[このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。]
+image:automation_ora_c-series_nfs_svm_02.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"]
 
 . NFSエクスポートポリシーの追加 `Default` ルール。
 +
-image::automation_ora_c-series_nfs_svm_03.png[このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。]
+image:automation_ora_c-series_nfs_svm_03.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"]
 
 . インチ `NETWORK INTERFACE`で、各ノードのNFS LIFアドレスにIPアドレスを入力します。
 +
-image::automation_ora_c-series_nfs_svm_04.png[このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。]
+image:automation_ora_c-series_nfs_svm_04.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"]
 
 . SVMでOracleが稼働中でNFS LIFのステータスがアクティブであることを検証します。
 +
-image::automation_ora_c-series_nfs_svm_05.png[このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。]
-
-+
-image::automation_ora_c-series_nfs_svm_06.png[このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。]
+image:automation_ora_c-series_nfs_svm_05.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"] image:automation_ora_c-series_nfs_svm_06.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"]
 
 . 移動元 `STORAGE-Volumes` タブをクリックしてOracleデータベース用のNFSボリュームを追加します。
 +
-image::automation_ora_c-series_nfs_vol_01.png[このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。]
+image:automation_ora_c-series_nfs_vol_01.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"]
 
 . ボリュームに名前を付け、容量を割り当て、パフォーマンスレベルを指定します。
 +
-image::automation_ora_c-series_nfs_vol_02.png[このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。]
+image:automation_ora_c-series_nfs_vol_02.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"]
 
 . インチ `Access Permission`で、前の手順で作成したデフォルトポリシーを選択します。オフにする `Enable Snapshot Copies` SnapCenterを使用してアプリケーションと整合性のあるSnapshotを作成することを推奨します。
 +
-image::automation_ora_c-series_nfs_vol_03.png[このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。]
+image:automation_ora_c-series_nfs_vol_03.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"]
 
 . DBサーバごとに3つのDBボリューム（server_name_u01-binary、server_name_u02-data、server_name_u03-logs）を作成します。
 +
-image::automation_ora_c-series_nfs_vol_04.png[このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。]
+image:automation_ora_c-series_nfs_vol_04.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"]
 
 +
 
@@ -665,13 +653,7 @@ DIRNAME
 ....
 . Oracle Enterprise Manager Expressにログインして、データベースを検証します。
 +
-image::automation_ora_c-series_nfs_em_01.png[このイメージは、Oracle Enterprise Manager Expressのログイン画面を示しています。]
-
-+
-image::automation_ora_c-series_nfs_em_02.png[このイメージは、Oracle Enterprise Manager Expressのコンテナデータベースビューを提供します。]
-
-+
-image::automation_ora_c-series_nfs_em_03.png[このイメージは、Oracle Enterprise Manager Expressのコンテナデータベースビューを提供します。]
+image:automation_ora_c-series_nfs_em_01.png["このイメージは、Oracle Enterprise Manager Expressのログイン画面を示しています。"] image:automation_ora_c-series_nfs_em_02.png["このイメージは、Oracle Enterprise Manager Expressのコンテナデータベースビューを提供します。"] image:automation_ora_c-series_nfs_em_03.png["このイメージは、Oracle Enterprise Manager Expressのコンテナデータベースビューを提供します。"]
 
 
 

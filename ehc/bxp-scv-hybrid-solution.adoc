@@ -47,7 +47,7 @@ summary:
 
 ONTAPは、業界をリードするネットアップのストレージ解決策で、SANプロトコルとNASプロトコルのどちらでアクセスしてもユニファイドストレージを提供します。3-2-1バックアップ戦略により、オンプレミスのデータが複数のメディアタイプで確実に保護されます。NetAppは、高速フラッシュから低コストのメディアまで、さまざまなプラットフォームを提供します。
 
-image::bxp-scv-hybrid-40.png[ONTAPデータストレージ]
+image:bxp-scv-hybrid-40.png["ONTAPデータストレージ"]
 
 ネットアップのすべてのハードウェアプラットフォームの詳細については、 https://www.netapp.com/data-storage/["NetAppデータストレージ"]。
 
@@ -72,15 +72,15 @@ BlueXPのバックアップとリカバリでソースとしてプライマリ�
 
 *ファンアウトトポロジ*–SnapCenter Plug-in for VMware vSphereによってバックアップが開始されると、ローカルスナップショットが即座に作成されます。次に、最新のSnapshotをセカンダリONTAPクラスタにレプリケートするSnapMirror処理を開始します。BlueXPのバックアップとリカバリでは、ポリシーによって、選択したクラウドプロバイダのオブジェクトストレージにデータのSnapshotコピーを転送するソースとしてプライマリONTAPクラスタが指定されます。
 
-image::bxp-scv-hybrid-01.png[ファンアウトトポロジ,800,418]
+image:bxp-scv-hybrid-01.png["ファンアウトトポロジ、800、418"]
 
 *カスケードトポロジ*–SCVを使用してプライマリとセカンダリのデータコピーを作成する手順は、前述のファンアウトトポロジと同じです。ただし、今回はBlueXPのバックアップとリカバリでポリシーを作成し、オブジェクトストレージへのバックアップをセカンダリONTAPクラスタから開始するように指定します。
 
-image::bxp-scv-hybrid-02.png[カスケードトポロジ]
+image:bxp-scv-hybrid-02.png["カスケードトポロジ"]
 
 BlueXPのバックアップとリカバリでは、オンプレミスのONTAP SnapshotのバックアップコピーをAWS Glacier、Azure Blob、GCPアーカイブストレージに作成できます。
 
-image::bxp-scv-hybrid-03.png[カスケードトポロジ]
+image:bxp-scv-hybrid-03.png["カスケードトポロジ"]
 
 また、オブジェクトストレージのバックアップターゲットとしてNetApp StorageGRIDを使用することもできます。StorageGRIDの詳細については、 https://www.netapp.com/data-storage/storagegrid["StorageGRIDランディングページ"]。
 
@@ -133,7 +133,7 @@ image::bxp-scv-hybrid-03.png[カスケードトポロジ]
 
 この解決策 のテストと検証は、最終的な導入環境と異なる場合があるラボで実施しました。
 
-image::bxp-scv-hybrid-04.png[解決策 アーキテクチャ図]
+image:bxp-scv-hybrid-04.png["解決策 アーキテクチャ図"]
 
 
 
@@ -170,34 +170,34 @@ BlueXPのWebコンソールで次の手順を実行する必要があります�
 
 . ソース（プライマリ）ONTAPストレージシステムをデスティネーション（セカンダリ）ONTAPストレージシステムにドラッグアンドドロップします。
 +
-image::bxp-scv-hybrid-41.png[ストレージシステムのドラッグアンドドロップ]
+image:bxp-scv-hybrid-41.png["ストレージシステムのドラッグアンドドロップ"]
 
 . 表示されたメニューから* Replication（レプリケーション）*を選択します。
 +
-image::bxp-scv-hybrid-42.png[レプリケーションの選択]
+image:bxp-scv-hybrid-42.png["レプリケーションの選択"]
 
 . [デスティネーションピアリングのセットアップ]*ページで、ストレージシステム間の接続に使用するデスティネーションのクラスタ間LIFを選択します。
 +
-image::bxp-scv-hybrid-43.png[クラスタ間LIFを選択]
+image:bxp-scv-hybrid-43.png["クラスタ間LIFを選択"]
 
 . [デスティネーションボリューム名]*ページで、最初にソースボリュームを選択してからデスティネーションボリュームの名前を入力し、デスティネーションSVMとアグリゲートを選択します。[次へ]*をクリックして続行します。
 +
-image::bxp-scv-hybrid-44.png[ソースボリュームを選択]
+image:bxp-scv-hybrid-44.png["ソースボリュームを選択"]
 
 +
-image::bxp-scv-hybrid-45.png[デスティネーションボリュームの詳細]
+image:bxp-scv-hybrid-45.png["デスティネーションボリュームの詳細"]
 
 . レプリケーションの最大転送速度を選択します。
 +
-image::bxp-scv-hybrid-46.png[最大転送速度]
+image:bxp-scv-hybrid-46.png["最大転送速度"]
 
 . セカンダリバックアップの保持スケジュールを決定するポリシーを選択します。このポリシーは事前に作成することも（*スナップショット保持ポリシーの作成*手順の手動プロセスを参照）、後で必要に応じて変更することもできます。
 +
-image::bxp-scv-hybrid-47.png[保持ポリシーを選択]
+image:bxp-scv-hybrid-47.png["保持ポリシーを選択"]
 
 . 最後に、すべての情報を確認し、* Go *ボタンをクリックしてレプリケーションセットアッププロセスを開始します。
 +
-image::bxp-scv-hybrid-48.png[確認して実行]
+image:bxp-scv-hybrid-48.png["確認して実行"]
 
 
 
@@ -215,7 +215,7 @@ SnapMirror関係を確立するために必要なすべての手順は、System 
 
 . ONTAP System Managerで、ネットワークの概要ページに移動し、タイプ：クラスタ間のIPアドレスを取得します。このIPアドレスは、FSXがインストールされているAWS VPCと通信するように設定されています。
 +
-image::dr-vmc-aws-image10.png[DR VMCのAWSイメージ10]
+image:dr-vmc-aws-image10.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . CLIを使用してクラスタ間IPアドレスを取得するには、次のコマンドを実行します。
 +
@@ -239,7 +239,7 @@ Confirm the passphrase:
 ....
 . ソースクラスタでは、ONTAP System ManagerまたはCLIを使用してクラスタピア関係を確立できます。ONTAP System Managerで、Protection > Overviewの順に選択し、Peer Clusterを選択します。
 +
-image::dr-vmc-aws-image12.png[DR VMC AWSイメージ12]
+image:dr-vmc-aws-image12.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . Peer Cluster（ピアクラスタ）ダイアログボックスで、必要な情報を入力します。
 +
@@ -248,7 +248,7 @@ image::dr-vmc-aws-image12.png[DR VMC AWSイメージ12]
 .. デスティネーションONTAPクラスタのクラスタ間LIFのIPアドレスを入力します。
 .. クラスタピアリングの開始をクリックしてプロセスを完了します。
 +
-image::dr-vmc-aws-image13.png[DR VMC AWSイメージ13]
+image:dr-vmc-aws-image13.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -273,7 +273,7 @@ ONTAP-Dest::> vserver peer create -vserver DestSVM -peer-vserver Backup -peer-cl
 . ソースONTAP クラスタで、ONTAP System ManagerまたはCLIのいずれかを使用してピアリング関係を承認します。
 . ONTAP System Managerで、保護>概要に移動し、Storage VMピアの下にあるピアStorage VMを選択します。
 +
-image::dr-vmc-aws-image15.png[DR VMC AWSイメージ15]
+image:dr-vmc-aws-image15.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . Peer Storage VMダイアログボックスで、次のフィールドに入力します。
 +
@@ -281,7 +281,7 @@ image::dr-vmc-aws-image15.png[DR VMC AWSイメージ15]
 ** デスティネーションクラスタ
 ** デスティネーションStorage VM
 +
-image::dr-vmc-aws-image16.png[DR VMC AWSイメージ16]
+image:dr-vmc-aws-image16.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -301,7 +301,7 @@ NOTE: セカンダリストレージでは、Snapshotを保持するために、
 
 次の例は、SQL Serverデータベースおよびログボリュームの日次バックアップに使用するポリシーの一部として生成されたすべてのSnapshotに適用されるSnapMirrorラベルを示しています。
 
-image::dr-vmc-aws-image17.png[DR VMCのAWSイメージ17]
+image:dr-vmc-aws-image17.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 SQL ServerデータベースのSnapCenter ポリシーの作成の詳細については、を参照してください https://docs.netapp.com/us-en/snapcenter/protect-scsql/task_create_backup_policies_for_sql_server_databases.html["SnapCenter のドキュメント"^]。
 
@@ -377,11 +377,11 @@ ONTAP-Dest::> snapmirror initialize -destination-path DestSVM:DestVol
 
 . SnapCenter Plug-in for VMware vSphereで、左側のメニューの*[ストレージシステム]*に移動し、*[追加]*ボタンをクリックします。
 +
-image::bxp-scv-hybrid-05.png[ストレージシステム]
+image:bxp-scv-hybrid-05.png["ストレージシステム"]
 
 . プライマリONTAPストレージシステムのクレデンシャルとプラットフォームタイプを入力し、*[追加]*をクリックします。
 +
-image::bxp-scv-hybrid-06.png[ストレージシステムの追加]
+image:bxp-scv-hybrid-06.png["ストレージシステムの追加"]
 
 . セカンダリONTAPストレージシステムに対してこの手順を繰り返します。
 
@@ -398,11 +398,11 @@ image::bxp-scv-hybrid-06.png[ストレージシステムの追加]
 
 . SnapCenter Plug-in for VMware vSphereで、左側のメニューの*[Policies]*に移動し、*[Create]*ボタンをクリックします。
 +
-image::bxp-scv-hybrid-07.png[ポリシー]
+image:bxp-scv-hybrid-07.png["ポリシー"]
 
 . ポリシーの名前、保持期間、頻度とレプリケーションのオプション、およびSnapshotラベルを指定します。
 +
-image::bxp-scv-hybrid-08.png[ポリシーの作成]
+image:bxp-scv-hybrid-08.png["ポリシーの作成"]
 
 +
 
@@ -427,12 +427,12 @@ NOTE: Snapshotラベルは、セカンダリONTAPクラスタにレプリケー�
 
 . SnapCenter Plug-in for VMware vSphereで、左側のメニューの*[リソースグループ]*に移動し、*[作成]*ボタンをクリックします。
 +
-image::bxp-scv-hybrid-09.png[リソースグループを作成する]
+image:bxp-scv-hybrid-09.png["リソースグループを作成する"]
 
 . [Create Resource Group]ウィザードで、グループの名前と概要、および通知を受信するために必要な情報を入力します。[次へ]*をクリックします。
 . 次のページで、バックアップジョブに含めるデータストアと仮想マシンを選択し、*[Next]*をクリックします。
 +
-image::bxp-scv-hybrid-10.png[データストアと仮想マシンの選択]
+image:bxp-scv-hybrid-10.png["データストアと仮想マシンの選択"]
 
 +
 
@@ -440,7 +440,7 @@ NOTE: 特定のVMまたはデータストア全体を選択できます。どち
 
 . 複数のデータストアに配置されているVMDKを使用するVMのデータストアにスパニングするオプションを選択し、*[Next]*をクリックします。
 +
-image::bxp-scv-hybrid-11.png[データストアのスパニング]
+image:bxp-scv-hybrid-11.png["データストアのスパニング"]
 
 +
 
@@ -448,7 +448,7 @@ NOTE: 現在、BlueXPのバックアップ/リカバリでは、複数のデー�
 
 . 次のページで、リソースグループに関連付けるポリシーを選択し、*[次へ]*をクリックします。
 +
-image::bxp-scv-hybrid-12.png[リソースグループポリシー]
+image:bxp-scv-hybrid-12.png["リソースグループポリシー"]
 
 +
 
@@ -456,7 +456,7 @@ NOTE: BlueXPのバックアップとリカバリを使用してSCV管理Snapshot
 
 . バックアップを実行する時刻を決定するスケジュールを選択します。[次へ]*をクリックします。
 +
-image::bxp-scv-hybrid-13.png[リソースグループポリシー]
+image:bxp-scv-hybrid-13.png["リソースグループポリシー"]
 
 . 最後に、概要ページを確認し、*[完了]*でリソースグループの作成を完了します。
 
@@ -470,11 +470,11 @@ image::bxp-scv-hybrid-13.png[リソースグループポリシー]
 . SnapCenter Plug-in for VMware vSphereで、左側のメニューの*[リソースグループ]*に移動します。
 . バックアップジョブを開始するには、目的のリソースグループを選択し、*[今すぐ実行]*ボタンをクリックします。
 +
-image::bxp-scv-hybrid-14.png[バックアップジョブの実行]
+image:bxp-scv-hybrid-14.png["バックアップジョブの実行"]
 
 . バックアップジョブを監視するには、左側のメニューの*[ダッシュボード]*に移動します。[Recent Job Activities]*で、ジョブID番号をクリックしてジョブの進捗状況を監視します。
 +
-image::bxp-scv-hybrid-15.png[ジョブの進捗状況の監視]
+image:bxp-scv-hybrid-15.png["ジョブの進捗状況の監視"]
 
 
 
@@ -498,15 +498,15 @@ BlueXPコネクタの詳細については、 https://docs.netapp.com/us-en/blue
 
 . キャンバスから*[Add Working Environment]*を選択して開始します。
 +
-image::bxp-scv-hybrid-16.png[作業環境の追加]
+image:bxp-scv-hybrid-16.png["作業環境の追加"]
 
 . 選択した場所から*オンプレミス*を選択し、*検出*ボタンをクリックします。
 +
-image::bxp-scv-hybrid-17.png[オンプレミスを選択]
+image:bxp-scv-hybrid-17.png["オンプレミスを選択"]
 
 . ONTAPストレージシステムのクレデンシャルを入力し、*[検出]*ボタンをクリックして作業環境を追加します。
 +
-image::bxp-scv-hybrid-18.png[ストレージシステムのクレデンシャルの追加]
+image:bxp-scv-hybrid-18.png["ストレージシステムのクレデンシャルの追加"]
 
 
 
@@ -518,23 +518,23 @@ image::bxp-scv-hybrid-18.png[ストレージシステムのクレデンシャル
 
 . BlueXPの左側のメニューで*[保護]>[バックアップとリカバリ]>[仮想マシン]*を選択します。
 +
-image::bxp-scv-hybrid-19.png[仮想マシンの選択]
+image:bxp-scv-hybrid-19.png["仮想マシンの選択"]
 
 . 仮想マシンのメイン画面から*[設定]*ドロップダウンメニューにアクセスし、* SnapCenter Plug-in for VMware vSphere *を選択します。
 +
-image::bxp-scv-hybrid-20.png[設定ドロップダウンメニュー]
+image:bxp-scv-hybrid-20.png["設定ドロップダウンメニュー"]
 
 . [Register]ボタンをクリックし、SnapCenter Plug-inアプライアンスのIPアドレスとポート番号、およびvCenter管理アプライアンスのユーザ名とパスワードを入力します。[登録]ボタンをクリックして、検出プロセスを開始します。
 +
-image::bxp-scv-hybrid-21.png[SCVおよびvCenter情報を入力]
+image:bxp-scv-hybrid-21.png["SCVおよびvCenter情報を入力"]
 
 . ジョブの進捗状況は、[Job Monitoring]タブで監視できます。
 +
-image::bxp-scv-hybrid-22.png[ジョブの進捗状況の表示]
+image:bxp-scv-hybrid-22.png["ジョブの進捗状況の表示"]
 
 . 検出が完了すると、検出されたすべてのSCVアプライアンスのデータストアと仮想マシンを表示できるようになります。
 +
-image::bxp-scv-hybrid-23.png[使用可能なリソースを表示]
+image:bxp-scv-hybrid-23.png["使用可能なリソースを表示"]
 
 
 
@@ -548,7 +548,7 @@ image::bxp-scv-hybrid-23.png[使用可能なリソースを表示]
 
 . BlueXPの仮想マシンのバックアップとリカバリのメインページで、*[設定]*ドロップダウンメニューにアクセスし、*[ポリシー]*を選択します。
 +
-image::bxp-scv-hybrid-24.png[仮想マシンの選択]
+image:bxp-scv-hybrid-24.png["仮想マシンの選択"]
 
 . [Create Policy]*をクリックして、*[Create Policy for Hybrid Backup]*ウィンドウにアクセスします。
 +
@@ -557,7 +557,7 @@ image::bxp-scv-hybrid-24.png[仮想マシンの選択]
 .. バックアップをオンプレミスのプライマリまたはセカンダリONTAPストレージシステムから実行するかどうかを選択します。
 .. 必要に応じて、バックアップをアーカイブストレージに階層化してコストをさらに削減する期間を指定します。
 +
-image::bxp-scv-hybrid-25.png[バックアップポリシーの作成]
+image:bxp-scv-hybrid-25.png["バックアップポリシーの作成"]
 
 +
 
@@ -578,27 +578,27 @@ NOTE: ここで入力したSnapMirrorラベルは、ポリシーを適用する�
 
 . BlueXPの仮想マシンのバックアップとリカバリのメインページで、バックアップするデータストアの設定ドロップダウンにアクセスし、*[バックアップのアクティブ化]*を選択します。
 +
-image::bxp-scv-hybrid-26.png[バックアップをアクティブ化]
+image:bxp-scv-hybrid-26.png["バックアップをアクティブ化"]
 
 . データ保護処理に使用するポリシーを割り当てて、*[次へ]*をクリックします。
 +
-image::bxp-scv-hybrid-27.png[ポリシーを割り当てます]
+image:bxp-scv-hybrid-27.png["ポリシーを割り当てます"]
 
 . 以前に作業環境が検出された場合は、[作業環境の追加]*ページにチェックマークが付いたデータストアと作業環境が表示されます。作業環境がまだ検出されていない場合は、ここに追加できます。[次へ]*をクリックして続行します。
 +
-image::bxp-scv-hybrid-28.png[作業環境の追加]
+image:bxp-scv-hybrid-28.png["作業環境の追加"]
 
 . [Select Provider]*ページで、AWSをクリックし、*[Next]*ボタンをクリックして次に進みます。
 +
-image::bxp-scv-hybrid-29.png[クラウドプロバイダを選択]
+image:bxp-scv-hybrid-29.png["クラウドプロバイダを選択"]
 
 . AWSのプロバイダ固有のクレデンシャル情報（AWSアクセスキーとシークレットキー、リージョン、アーカイブ層など）を入力します。また、オンプレミスのONTAPストレージシステムのONTAP IPスペースを選択します。[次へ]*をクリックします。
 +
-image::bxp-scv-hybrid-30.png[クラウド提供クレデンシャルを指定]
+image:bxp-scv-hybrid-30.png["クラウド提供クレデンシャルを指定"]
 
 . 最後に、バックアップジョブの詳細を確認し、*[バックアップをアクティブ化]*ボタンをクリックしてデータストアのデータ保護を開始します。
 +
-image::bxp-scv-hybrid-31.png[確認してアクティブ化]
+image:bxp-scv-hybrid-31.png["確認してアクティブ化"]
 
 +
 
@@ -631,19 +631,19 @@ NetAppは、柔軟性に優れた3-2-1戦略を提供し、プライマリ、セ
 . vCenter Clientで、*[インベントリ]>[ストレージ]*に移動し、リストアする仮想マシンが格納されているデータストアをクリックします。
 . [設定]タブで*[バックアップ]*をクリックして、使用可能なバックアップのリストにアクセスします。
 +
-image::bxp-scv-hybrid-32.png[バックアップのリストへのアクセス]
+image:bxp-scv-hybrid-32.png["バックアップのリストへのアクセス"]
 
 . バックアップをクリックしてVMのリストにアクセスし、リストアするVMを選択します。[リストア]*をクリックします。
 +
-image::bxp-scv-hybrid-33.png[リストアするVMを選択]
+image:bxp-scv-hybrid-33.png["リストアするVMを選択"]
 
 . [Restore]ウィザードで、仮想マシン全体または特定のVMDKをリストアする場合に選択します。元の場所または別の場所にインストールする場合は、リストア後にVM名を指定し、デスティネーションデータストアを選択します。「 * 次へ * 」をクリックします。
 +
-image::bxp-scv-hybrid-34.png[リストアの詳細を指定します]
+image:bxp-scv-hybrid-34.png["リストアの詳細を指定します"]
 
 . プライマリストレージとセカンダリストレージのどちらからバックアップするかを選択します。
 +
-image::bxp-scv-hybrid-35.png[プライマリまたはセカンダリを選択]
+image:bxp-scv-hybrid-35.png["プライマリまたはセカンダリを選択"]
 
 . 最後に、バックアップジョブの概要を確認し、[Finish]をクリックしてリストアプロセスを開始します。
 
@@ -664,20 +664,20 @@ BlueXPのバックアップとリカバリから仮想マシンをリストア�
 
 . [保護]>[バックアップとリカバリ]>[仮想マシン]*に移動し、[仮想マシン]をクリックしてリストア可能な仮想マシンのリストを表示します。
 +
-image::bxp-scv-hybrid-36.png[VMのアクセスリスト]
+image:bxp-scv-hybrid-36.png["VMのアクセスリスト"]
 
 . リストアするVMの設定ドロップダウンメニューにアクセスし、
 +
-image::bxp-scv-hybrid-37.png[設定からリストアを選択]
+image:bxp-scv-hybrid-37.png["設定からリストアを選択"]
 
 . リストア元のバックアップを選択し、*[Next]*をクリックします。
 +
-image::bxp-scv-hybrid-38.png[バックアップを選択]
+image:bxp-scv-hybrid-38.png["バックアップを選択"]
 
 . バックアップジョブの概要を確認し、*[リストア]*をクリックしてリストアプロセスを開始します。
 . [ジョブ監視]*タブでリストアジョブの進捗状況を監視します。
 +
-image::bxp-scv-hybrid-39.png[[Job Monitoring]タブからのリストアの確認]
+image:bxp-scv-hybrid-39.png["[Job Monitoring]タブからのリストアの確認"]
 
 
 

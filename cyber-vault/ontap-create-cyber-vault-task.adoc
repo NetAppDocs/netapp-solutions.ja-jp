@@ -1,0 +1,71 @@
+---
+sidebar: sidebar 
+keywords: Cyber vault, cybervault, cyber-vault, data protection, security, ransomware, ONTAP 
+permalink: /cyber-vault/ontap-create-cyber-vault-task.html 
+summary: このページに記載されている手順は、ONTAPベースのサイバーヴォールトソリューションの作成に役立ちます。 
+---
+= ONTAPでサイバーボールトを構築
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+以下の手順は、ONTAPを使用したサイバーボールトの作成に役立ちます。
+
+.作業を開始する前に
+* ソースクラスタでONTAP 9以降が実行されている必要があります。
+* ソースアグリゲートとデスティネーションアグリゲートは64ビットである必要があります。
+* ピアSVMを含むピアクラスタにソースボリュームとデスティネーションボリュームを作成する必要があります。詳細については、を参照してください link:../../ontap-sm-classic/peering/index.html["クラスタピアリング"^]。
+* ボリュームの自動拡張が無効になっている場合は、デスティネーションボリュームに、ソースボリュームで使用されているスペースよりも少なくとも5%多い空きスペースが必要です。
+
+
+.タスクの内容
+次の図は、SnapLock Complianceバックアップ関係を初期化する手順を示しています。
+
+image::ontap-cyber-vault-air-gap.png[NetApp ONTAPを使用したエアギャップサイバーボールト]
+
+.手順
+. エアギャップデータを受信するサイバーボールトにするデスティネーションアレイを特定します。
+. デスティネーションアレイで、サイバーバックアップ、link:../../ontap/system-admin/install-license-task.html["ONTAP Oneライセンスをインストールする"^]、、およびlink:../../ontap/snaplock/initialize-complianceclock-task.html["コンプライアンスクロックの初期化"^]（9.10.1より前のリリースのONTAPを使用している場合）を準備しますlink:../../ontap/snaplock/create-snaplock-aggregate-task.html["SnapLock Complianceアグリゲートを作成する"^]。
+. デスティネーションアレイで、DPタイプのSnapLock Complianceデスティネーションボリュームを作成します。
++
+`volume create -vserver SVM_name -volume volume_name -aggregate aggregate_name -snaplock-type compliance|enterprise -type DP -size size`
+
+. ONTAP 9 .10.1以降では、SnapLockボリュームとSnapLock以外のボリュームを同じアグリゲート上に配置できます。そのため、ONTAP 9 .10.1を使用している場合は、SnapLockアグリゲートを別途作成する必要はありません。 `-snaplock-type`コンプライアンスタイプを指定するには、volumeオプションを使用します。ONTAP 9 10.1より前のONTAPリリースでは、SnapLockモードのComplianceがアグリゲートから継承されます。バージョンに依存しないデスティネーションボリュームはサポートされません。デスティネーションボリュームの言語設定は、ソースボリュームの言語設定と一致している必要があります。
++
+次のコマンドは、という名前の2GBのSnapLock Complianceボリュームを `dstvolB` `SVM2`アグリゲート上に作成し `node01_aggr`ます。
+
++
+`cluster2::> volume create -vserver SVM2 -volume dstvolB -aggregate node01_aggr -snaplock-type compliance -type DP -size 2GG`
+
+. デスティネーションクラスタでエアギャップを作成するには、の説明に従ってデフォルトの保持期間を設定しますlink:../../ontap/snaplock/set-default-retention-period-task.html["デフォルトの保持期間を設定する"^]。バックアップデスティネーションであるSnapLockには、デフォルトの保持期間が割り当てられています。この期間の最初の値は、SnapLock Complianceボリュームでは最小0年、最大30年に設定されています。各NetApp Snapshotコピーは、最初はこのデフォルトの保持期間でコミットされます。default-retention-periodを変更する必要があります。保持期間は必要に応じてあとから延長できますが、短縮することはできません。詳細については、を参照してください link:../../ontap/snaplock/set-retention-period-task.html["保持期限の設定の概要を確認します"^]。
+. link:../../ontap/data-protection/create-replication-relationship-task.html["新しいレプリケーション関係を作成"^]SnapLock以外のソースと手順3で作成した新しいSnapLockデスティネーション間。
++
+この例では、XDPDefaultポリシーを使用して、dailyおよびweeklyというラベルのSnapshotコピーを毎時スケジュールに基づいてバックアップする、デスティネーションSnapLockボリュームdstvolBとの新しいSnapMirror関係を作成します。
+
++
+`cluster2::> snapmirror create -source-path SVM1:srcvolA -destination-path SVM2:dstvolB -vserver SVM2 -policy XDPDefault -schedule hourly`
+
++
+link:../../ontap/data-protection/create-custom-replication-policy-concept.html["カスタムレプリケーションポリシーを作成します。"^]またはlink:../../ontap/data-protection/create-replication-job-schedule-task.html["カスタムスケジュール"^]、使用可能なデフォルト値が適切でない場合に使用します。
+
+. デスティネーションSVMで、手順5で作成したSnapVault関係を初期化します。
++
+`snapmirror initialize -destination-path destination_path`
+
+. 次のコマンドでは、 SVM1 のソースボリューム srcvolA と SVM2 のデスティネーションボリューム dstvolB との関係を初期化します。
++
+`cluster2::> snapmirror initialize -destination-path SVM2:dstvolB`
+
+. 関係が初期化されアイドル状態になったら、デスティネーションでsnapshot showコマンドを使用して、レプリケートされたSnapshotコピーに適用されているSnapLock有効期限を確認します。
++
+この例では、SnapMirrorラベルとSnapLockの有効期限が設定されたボリュームdstvolB上のSnapshotコピーを表示しています。
+
++
+`cluster2::> snapshot show -vserver SVM2 -volume dstvolB -fields snapmirror-label, snaplock-expiry-time`
+
+

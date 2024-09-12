@@ -1,0 +1,36 @@
+---
+sidebar: sidebar 
+keywords: Cyber vault, cybervault, cyber-vault, data protection, security, ransomware, ONTAP, hardening 
+permalink: /cyber-vault/ontap-cyber-vault-hardening.html 
+summary: ONTAPのサイバーボールトを強化するために推奨される追加手順 
+---
+= サイバーバックアップの強化
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+これらは、ONTAPサイバーボールトを強化するための追加の推奨事項です。その他の推奨事項と手順については、以下のONTAP強化ガイドを参照してください。
+
+
+
+== サイバーボールトのセキュリティ強化に関する推奨事項
+
+* サイバーボールトの管理プレーンを分離
+* デスティネーションクラスタのデータLIFは追加の攻撃ベクトルであるため、有効にしないでください。
+* デスティネーションクラスタで、サービスポリシーを使用してクラスタ間LIFへのアクセスをソースクラスタに制限する
+* サービスポリシーと要塞ホストを使用して、デスティネーションクラスタの管理LIFをアクセスを制限できるように分割する
+* ソースクラスタからサイバーボールトへのすべてのデータトラフィックを制限して、SnapMirrorトラフィックに必要なポートだけを許可する
+* 可能な場合は、ONTAP内で不要な管理アクセス方法を無効にして、攻撃対象領域を減らします。
+* 監査ログとリモートログストレージを有効にする
+* 複数の管理者による検証を可能にし、通常のストレージ管理者（CISOスタッフなど）以外の管理者による検証を必要とする
+* ロールベースアクセス制御の実装
+* System Managerとsshで管理者の多要素認証が必要
+* スクリプトとREST API呼び出しにトークンベースの認証を使用する
+
+
+link:../../ontap/ontap-security-hardening/security-hardening-overview.html["ONTAPセキュリティ強化ガイド"]link:../../ontap/multi-admin-verify/index.html["マルチ管理者検証の概要"^]link:https://www.netapp.com/media/17055-tr4647.pdf["ONTAP多要素認証ガイド"^]これらの硬化手順の実行方法については、およびを参照してください。

@@ -22,7 +22,7 @@ NetApp BlueXP  コンソールに統合されたBlueXP  ディザスタリカ�
 
 BlueXP  ディザスタリカバリでは、ONTAPのFlexCloneテクノロジを使用して、ディザスタリカバリサイトで最後にレプリケートされたSnapshotから、スペース効率に優れたNFSデータストアのコピーを作成します。ディザスタリカバリテストが完了すると、レプリケートされた実際の本番リソースに影響を与えることなく、テスト環境を簡単に削除できます。実際にフェイルオーバーが発生した場合は、BlueXP  ディザスタリカバリサービスによって必要なすべての手順が調整され、数回クリックするだけで、指定されたディザスタリカバリサイトで保護対象の仮想マシンが自動的に起動されます。また、SnapMirror関係をプライマリサイトに反転し、必要に応じてフェイルバック処理のためにセカンダリからプライマリに変更をレプリケートします。これらの機能はすべて、他の有名な代替製品と比較して数分の1のコストで提供されます。
 
-image::dr-draas-nfs-image1.png[DR DRaaS NFSイメージ1]
+image:dr-draas-nfs-image1.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -34,7 +34,7 @@ BlueXP  ディザスタリカバリを開始するには、BlueXP  コンソ�
 . BlueXP  の左側のナビゲーションで、[Protection]>[Disaster Recovery]を選択します。
 . BlueXP  ディザスタリカバリのダッシュボードが表示されます。
 +
-image::dr-draas-nfs-image2.png[DR DRaaS NFSイメージ2]
+image:dr-draas-nfs-image2.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -54,7 +54,7 @@ image::dr-draas-nfs-image2.png[DR DRaaS NFSイメージ2]
 
 NOTE: NetAppでは、BlueXP  Connectorがソースリソースとデスティネーションリソースとネットワーク経由で通信できるように、BlueXP  Connectorをデスティネーションサイトまたは3番目のサイトに配置することを推奨しています。
 
-image::dr-draas-nfs-image3.png[DR DRaaS NFSイメージ3]
+image:dr-draas-nfs-image3.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -64,17 +64,17 @@ image::dr-draas-nfs-image3.png[DR DRaaS NFSイメージ3]
 
 BlueXP  コンソールを開き、左側のナビゲーションから*[保護]>[ディザスタリカバリ]*を選択します。[Discover vCenter servers（vCenterサーバの検出）]*を選択するか、トップメニューで*[Sites（サイト）]>[Add（追加）]>[Add vCenter（vCenterの追加）]
 
-image::dr-draas-nfs-image4.png[DR DRaaS NFSイメージ4]
+image:dr-draas-nfs-image4.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 次のプラットフォームを追加します。
 
 * *ソース*。オンプレミスのvCenter：
 +
-image::dr-draas-nfs-image5.png[DR DRaaS NFSイメージ5]
+image:dr-draas-nfs-image5.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 * *デスティネーション*。VMC SDDC vCenter：
 +
-image::dr-draas-nfs-image6.png[DR DRaaS NFSイメージ6]
+image:dr-draas-nfs-image6.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -97,14 +97,14 @@ NOTE: CLIまたはSystem Managerを使用してボリュームに対してSnapMi
 
 SnapMirrorレプリケーションの作成プロセスは、どのアプリケーションでも同じです。プロセスは手動でも自動でもかまいません。最も簡単な方法は、BlueXP  を活用してSnapMirrorレプリケーションを設定する方法です。環境内のソースONTAPシステムをデスティネーションにドラッグアンドドロップするだけで、残りのプロセスをウィザードで実行できます。
 
-image::dr-draas-nfs-image7.png[DR DRaaS NFSイメージ7]
+image:dr-draas-nfs-image7.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 BlueXP  DRaaSでは、次の2つの基準が満たされていれば、同じことを自動化することもできます。
 
 * ソースクラスタとデスティネーションクラスタにピア関係が確立されています。
 * ソースSVMとデスティネーションSVMのピア関係が確立されています。
 +
-image::dr-draas-nfs-image8.png[DR DRaaS NFSイメージ8]
+image:dr-draas-nfs-image8.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -117,36 +117,36 @@ NOTE: CLIを使用してボリュームに対してSnapMirror関係がすでに�
 
 ソースサイトとデスティネーションサイトが追加されると、BlueXP  ディザスタリカバリによって詳細な自動検出が実行され、VMと関連するメタデータが表示されます。BlueXP  ディザスタリカバリでは、VMで使用されているネットワークとポートグループも自動的に検出されて読み込まれます。
 
-image::dr-draas-nfs-image9.png[DR DRaaS NFSイメージ9]
+image:dr-draas-nfs-image9.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 サイトを追加したら、VMをリソースグループにグループ化できます。BlueXP  ディザスタリカバリリソースグループを使用すると、依存するVMのセットを論理グループにグループ化できます。論理グループには、リカバリ時に実行できるブート順序とブート遅延が含まれます。リソースグループの作成を開始するには、*[リソースグループ]*に移動し、*[新しいリソースグループの作成]*をクリックします。
 
-image::dr-draas-nfs-image10.png[DR DRaaS NFSイメージ10]
+image:dr-draas-nfs-image10.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-image::dr-draas-nfs-image11.png[DR DRaaS NFSイメージ11]
+image:dr-draas-nfs-image11.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 NOTE: リソースグループは、レプリケーション計画の作成時に作成することもできます。
 
 シンプルなドラッグアンドドロップメカニズムを使用して、リソースグループの作成時にVMのブート順序を定義または変更できます。
 
-image::dr-draas-nfs-image12.png[DR DRaaS NFSイメージ12]
+image:dr-draas-nfs-image12.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 リソースグループを作成したら、次のステップでは、災害発生時に仮想マシンとアプリケーションをリカバリするための実行計画または計画を作成します。前提条件で説明したように、SnapMirrorレプリケーションは事前に構成することも、DRaaSはレプリケーション計画の作成時に指定したRPOと保持数を使用して構成することもできます。
 
-image::dr-draas-nfs-image13.png[DR DRaaS NFSイメージ13]
+image:dr-draas-nfs-image13.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-image::dr-draas-nfs-image14.png[DR DRaaS NFSイメージ14]
+image:dr-draas-nfs-image14.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 レプリケーション計画を設定するには、ドロップダウンからソースとデスティネーションのvCenterプラットフォームを選択し、計画に含めるリソースグループを選択します。また、アプリケーションのリストア方法と電源投入方法のグループ化、クラスタとネットワークのマッピングも選択します。リカバリプランを定義するには、*[レプリケーションプラン]*タブに移動し、*[プランの追加]*をクリックします。
 
 最初にソースvCenterを選択し、次にデスティネーションvCenterを選択します。
 
-image::dr-draas-nfs-image15.png[DR DRaaS NFSイメージ15]
+image:dr-draas-nfs-image15.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 次の手順では、既存のリソースグループを選択します。リソースグループが作成されていない場合は、ウィザードを使用して、リカバリ目標に基づいて必要な仮想マシンをグループ化（基本的に機能的なリソースグループを作成）できます。これは、アプリケーション仮想マシンのリストア方法のオペレーションシーケンスの定義にも役立ちます。
 
-image::dr-draas-nfs-image16.png[DR DRaaS NFSイメージ16]
+image:dr-draas-nfs-image16.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 NOTE: リソースグループでは'ドラッグアンドドロップ機能を使用してブート順序を設定できますこれを使用すると、リカバリプロセス中にVMの電源をオンにする順序を簡単に変更できます。
@@ -156,33 +156,33 @@ NOTE: リソースグループ内の各仮想マシンは、順序に基づい�
 
 以下のスクリーンショットは、リソースグループを事前に作成していない場合に、組織の要件に基づいて仮想マシンまたは特定のデータストアをフィルタリングするオプションを示しています。
 
-image::dr-draas-nfs-image17.png[DR DRaaS NFSイメージ17]
+image:dr-draas-nfs-image17.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 リソースグループを選択したら、フェイルオーバーマッピングを作成します。この手順では、ソース環境のリソースをデスティネーションにマッピングする方法を指定します。これには、コンピューティングリソースや仮想ネットワークが含まれます。IPカスタマイズ、プリスクリプトとポストスクリプト、ブート遅延、アプリケーションの整合性など。詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/bluexp-disaster-recovery/use/drplan-create.html#select-applications-to-replicate-and-assign-resource-groups["レプリケーション計画の作成"]。
 
-image::dr-draas-nfs-image18.png[DR DRaaS NFSイメージ18]
+image:dr-draas-nfs-image18.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 NOTE: デフォルトでは、テスト処理とフェイルオーバー処理の両方に同じマッピングパラメータが使用されます。テスト環境に異なるマッピングを設定するには、次のようにチェックボックスをオフにしてから[Test mapping]オプションを選択します。
 
-image::dr-draas-nfs-image19.png[DR DRaaS NFSイメージ19]
+image:dr-draas-nfs-image19.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 リソースのマッピングが完了したら、[Next]をクリックします。
 
-image::dr-draas-nfs-image20.png[DR DRaaS NFSイメージ20]
+image:dr-draas-nfs-image20.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 繰り返しタイプを選択します。簡単に言えば、[Migrate]（フェイルオーバーを使用した1回限りの移行）または[Recurring Continuous Replication]オプションを選択します。このチュートリアルでは、[複製]オプションが選択されています。
 
-image::dr-draas-nfs-image21.png[DR DRaaS NFSイメージ21]
+image:dr-draas-nfs-image21.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 完了したら、作成したマッピングを確認し、*[プランの追加]*をクリックします。
 
 
 NOTE: 異なるボリュームやSVMのVMをレプリケーションプランに含めることができます。VMの配置（同じボリュームまたは同じSVM内の別 々 のボリューム、異なるSVM上の別 々 のボリューム）に応じて、BlueXP  ディザスタリカバリでは整合グループSnapshotが作成されます。
 
-image::dr-draas-nfs-image22.png[DR DRaaS NFSイメージ22]
+image:dr-draas-nfs-image22.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-image::dr-draas-nfs-image23.png[DR DRaaS NFSイメージ23]
+image:dr-draas-nfs-image23.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 BlueXP  DRaaSは次のワークフローで構成されています。
 
@@ -198,11 +198,11 @@ BlueXP  DRaaSは次のワークフローで構成されています。
 
 BlueXP  でのテストフェイルオーバーDRaaSは、VMware管理者が本番環境を中断することなくリカバリプランを完全に検証できるようにするための運用手順です。
 
-image::dr-draas-nfs-image24.png[DR DRaaS NFSイメージ24]
+image:dr-draas-nfs-image24.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 BlueXP  DRaaSには、テストフェイルオーバー処理のオプション機能としてスナップショットを選択する機能が組み込まれています。この機能により、VMware管理者は、環境で最近行われた変更がデスティネーションサイトにレプリケートされ、テスト中に存在することを確認できます。このような変更には、VMゲストオペレーティングシステムへのパッチなどが含まれます。
 
-image::dr-draas-nfs-image25.png[DR DRaaS NFSイメージ25]
+image:dr-draas-nfs-image25.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 VMware管理者がテストフェイルオーバー処理を実行すると、BlueXP  DRaaSによって次のタスクが自動化されます。
 
@@ -214,7 +214,7 @@ VMware管理者がテストフェイルオーバー処理を実行すると、Bl
 * レプリケーションプランに保存されているカスタムコマンドを実行します。
 * レプリケーション計画に定義されている順序でVMの電源をオンにします。
 +
-image::dr-draas-nfs-image26.png[DR DRaaS NFSイメージ26]
+image:dr-draas-nfs-image26.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -224,7 +224,7 @@ image::dr-draas-nfs-image26.png[DR DRaaS NFSイメージ26]
 
 フェイルオーバーテストのクリーンアップ処理は、レプリケーションプランテストが完了し、VMware管理者がクリーンアッププロンプトに応答したあとに実行されます。
 
-image::dr-draas-nfs-image27.png[DR DRaaS NFSイメージ27]
+image:dr-draas-nfs-image27.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 この操作により、仮想マシン（VM）とレプリケーションプランのステータスがREADY状態にリセットされます。
 
@@ -240,7 +240,7 @@ VMware管理者がリカバリ操作を実行すると、BlueXP  DRaaSは次の
 
 BlueXP  DRaaSには、実際のフェイルオーバーを実行するための2つの方法があります。計画的移行とフェイルオーバーです。最初の方法である計画的移行では、VMのシャットダウンとストレージレプリケーションの同期をプロセスに組み込み、VMをリカバリしたり、デスティネーションサイトに効果的に移動したりします。移行を計画的に行うには、移行元サイトへのアクセスが必要です。2つ目の方法であるフェイルオーバーは、計画的/計画外フェイルオーバーです。デスティネーションサイトで、最後にストレージのレプリケーションが完了した時点からVMをリカバリします。ソリューションに設計されたRPOによっては、DRシナリオである程度のデータ損失が予想されます。
 
-image::dr-draas-nfs-image28.png[DR DRaaS NFSイメージ28]
+image:dr-draas-nfs-image28.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 VMware管理者がフェイルオーバー処理を実行すると、BlueXP  DRaaSによって次のタスクが自動化されます。
 
@@ -252,7 +252,7 @@ VMware管理者がフェイルオーバー処理を実行すると、BlueXP  DR
 * レプリケーション計画で定義された順序でVMの電源をオンにします。
 
 
-image::dr-draas-nfs-image29.png[DR DRaaS NFSイメージ29]
+image:dr-draas-nfs-image29.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -260,7 +260,7 @@ image::dr-draas-nfs-image29.png[DR DRaaS NFSイメージ29]
 
 フェイルバックは、リカバリ後にソースサイトとデスティネーションサイトの元の構成をリストアするオプションの手順です。
 
-image::dr-draas-nfs-image30.png[DR DRaaS NFSイメージ30]
+image:dr-draas-nfs-image30.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 VMware管理者は、元のソースサイトにサービスをリストアする準備ができたら、フェイルバック手順を構成して実行できます。
 
@@ -280,14 +280,14 @@ BlueXP  DRaaSへのアクセスと設定の詳細については、を参照し
 
 BlueXP  またはONTAP CLIから、該当するデータストアボリュームのレプリケーションヘルスステータスを監視できます。また、フェイルオーバーまたはテストフェイルオーバーのステータスは、ジョブ監視を使用して追跡できます。
 
-image::dr-draas-nfs-image31.png[DR DRaaS NFSイメージ31]
+image:dr-draas-nfs-image31.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 NOTE: 進行中またはキューに登録されているジョブを停止する場合は、キャンセルすることもできます。
 
 BlueXP  のディザスタリカバリダッシュボードを使用して、ディザスタリカバリサイトとレプリケーション計画のステータスを確実に評価できます。これにより、正常なサイト、切断されているサイト、パフォーマンスが低下しているサイトや計画を迅速に特定できます。
 
-image::dr-draas-nfs-image32.png[DR DRaaS NFSイメージ32]
+image:dr-draas-nfs-image32.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 これにより、カスタマイズされたディザスタリカバリ計画を処理するための強力なソリューションが提供されます。フェイルオーバーは、計画的フェイルオーバーまたはフェイルオーバーとして実行できます。災害発生時にDRサイトのアクティブ化が決定した場合は、ボタンをクリックするだけで実行できます。
 

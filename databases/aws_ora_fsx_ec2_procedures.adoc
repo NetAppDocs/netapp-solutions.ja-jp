@@ -44,7 +44,7 @@ EC2およびFSXサービスでOracle環境を実行するために必要なリ�
 
 アーキテクチャ図に示されているOracleのハイアベイラビリティ構成については、リージョン内の少なくとも4つのアベイラビリティゾーンを有効にする必要があります。また、ディザスタリカバリに必要な距離を満たすために、複数のアベイラビリティゾーンを異なるリージョンに配置することもできます。
 
-image::aws_ora_fsx_ec2_inst_01.PNG[AWS ora FSx EC2インストール01]
+image:aws_ora_fsx_ec2_inst_01.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -65,38 +65,35 @@ image::aws_ora_fsx_ec2_inst_01.PNG[AWS ora FSx EC2インストール01]
 
 . EC2ダッシュボードで、黄色のLaunch Instanceボタンをクリックして、EC2インスタンス導入ワークフローを開始します。
 +
-image::aws_ora_fsx_ec2_inst_02.PNG[AWS ora FSx EC2インストール02]
+image:aws_ora_fsx_ec2_inst_02.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 手順1で、「Red Hat Enterprise Linux 8（HVM）」、「SSD Volume Type-AMI-0b0af3577fe5e3532（64ビットx86）/AM-01fc429821bf1f4b4（64ビットARM ）」を選択します。
 +
-image::aws_ora_fsx_ec2_inst_03.PNG[AWS ora FSx EC2インストール03]
+image:aws_ora_fsx_ec2_inst_03.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 手順2で、Oracleデータベースのワークロードに基づいて適切なCPUとメモリの割り当てを持つm5インスタンスタイプを選択します。[次へ：インスタンスの詳細を構成]をクリックします。
 +
-image::aws_ora_fsx_ec2_inst_04.PNG[AWS ora FSx EC2インストール04]
+image:aws_ora_fsx_ec2_inst_04.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 手順3で、インスタンスを配置するVPCとサブネットを選択し、パブリックIPの割り当てを有効にします。[次へ：ストレージの追加]をクリックします。
 +
-image::aws_ora_fsx_ec2_inst_05.PNG[AWS ora FSx EC2インストール05]
+image:aws_ora_fsx_ec2_inst_05.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 手順4で、ルートディスクに十分なスペースを割り当てます。スワップを追加するには、スペースが必要な場合があります。デフォルトでは、EC2インスタンスはゼロスワップスペースを割り当てますが、これはOracleの実行には最適ではありません。
 +
-image::aws_ora_fsx_ec2_inst_06.PNG[AWS ora FSx EC2インストール06]
+image:aws_ora_fsx_ec2_inst_06.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 手順5で、必要に応じて、インスタンス識別用のタグを追加します。
 +
-image::aws_ora_fsx_ec2_inst_07.PNG[AWS ora FSx EC2インストール07]
+image:aws_ora_fsx_ec2_inst_07.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 手順6で、既存のセキュリティグループを選択するか、インスタンスに対して適切なインバウンドポリシーとアウトバウンドポリシーを使用して新しいセキュリティグループを作成します。
 +
-image::aws_ora_fsx_ec2_inst_08.PNG[AWS ora FSx EC2インストール08]
+image:aws_ora_fsx_ec2_inst_08.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 手順7で、インスタンス構成の概要を確認し、[起動]をクリックしてインスタンスの展開を開始します。インスタンスにアクセスするためのキーペアの作成またはキーペアの選択を求められます。
 +
-image::aws_ora_fsx_ec2_inst_09.PNG[AWS ora FSx EC2インストール09]
-
-+
-image::aws_ora_fsx_ec2_inst_09_1.PNG[AWS ora FSx EC2インストール09 1]
+image:aws_ora_fsx_ec2_inst_09.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"] image:aws_ora_fsx_ec2_inst_09_1.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . SSHキーペアを使用してEC2インスタンスにログインします。必要に応じて、キーの名前とインスタンスのIPアドレスを変更します。
 +
@@ -129,7 +126,7 @@ EC2インスタンス環境では、OSにEBSルートボリュームが割り当
 * バックアップとメンテナンス：自動日次バックアップを無効にします。データベースストレージのバックアップは、SnapCenter のスケジュール設定によって実行されます。
 * SVMの詳細ページから、SVM管理IPアドレスとプロトコル固有のアクセスアドレスを取得します。FSX設定の自動化に必要です。
 +
-image::aws_rds_custom_deploy_fsx_01.PNG[AWS RDSカスタムデプロイFSx 01]
+image:aws_rds_custom_deploy_fsx_01.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -137,35 +134,35 @@ image::aws_rds_custom_deploy_fsx_01.PNG[AWS RDSカスタムデプロイFSx 01]
 
 . FSXコンソールで、Create File Systemをクリックして、FSXプロビジョニングワークフローを開始します。
 +
-image::aws_ora_fsx_ec2_stor_01.PNG[AWS ora FSx EC2スタ01]
+image:aws_ora_fsx_ec2_stor_01.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . NetApp ONTAP のAmazon FSXを選択します。[ 次へ ] をクリックします。
 +
-image::aws_ora_fsx_ec2_stor_02.PNG[AWS ora FSx EC2スタ02]
+image:aws_ora_fsx_ec2_stor_02.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . [標準作成]を選択し、[ファイルシステムの詳細]でファイルシステムに「Multi-AZ HA」という名前を付けます。データベースのワークロードに基づいて、最大80、000 SSDのIOPSを自動またはユーザプロビジョニングのどちらかを選択します。FSXストレージには、バックエンドで最大2TiBのNVMeキャッシングが搭載されており、これにより測定IOPSをさらに向上させることができます。
 +
-image::aws_ora_fsx_ec2_stor_03.PNG[AWS ora FSx EC2 Stor 03]
+image:aws_ora_fsx_ec2_stor_03.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . [ネットワークとセキュリティ]セクションで、VPC、セキュリティグループ、およびサブネットを選択します。これらは、FSX展開の前に作成する必要があります。FSXクラスタ（プライマリまたはスタンバイ）の役割に基づいて、FSXストレージノードを適切なゾーンに配置します。
 +
-image::aws_ora_fsx_ec2_stor_04.PNG[AWS ora FSx EC2 Stor 04]
+image:aws_ora_fsx_ec2_stor_04.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . [セキュリティと暗号化]セクションで、デフォルトを受け入れ、fsxadminパスワードを入力します。
 +
-image::aws_ora_fsx_ec2_stor_05.PNG[AWS ora FSx EC2 Stor 05]
+image:aws_ora_fsx_ec2_stor_05.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . SVM名とvsadminパスワードを入力します。
 +
-image::aws_ora_fsx_ec2_stor_06.PNG[AWS ora FSx EC2 Stor 06]
+image:aws_ora_fsx_ec2_stor_06.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . ボリューム構成は空白のままにします。この時点でボリュームを作成する必要はありません。
 +
-image::aws_ora_fsx_ec2_stor_07.PNG[AWS ora FSx EC2 Stor 07]
+image:aws_ora_fsx_ec2_stor_07.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . Summaryページを確認し、Create File Systemをクリックして、FSXファイルシステムのプロビジョニングを完了します。
 +
-image::aws_ora_fsx_ec2_stor_08.PNG[AWS ora FSx EC2 Stor 08]
+image:aws_ora_fsx_ec2_stor_08.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -189,11 +186,7 @@ image::aws_ora_fsx_ec2_stor_08.PNG[AWS ora FSx EC2 Stor 08]
 
 AWS FSXコンソールから、Oracleデータベースファイルストレージ用に、Oracleバイナリ用、Oracleデータ用、Oracleログ用の3つのボリュームを作成できます。ボリュームの名前が、適切に識別されるようにOracleホスト名（自動化ツールキットのhostsファイルに定義されている）と一致していることを確認してください。この例では、EC2インスタンスの一般的なIPアドレスベースのホスト名ではなく、db1をEC2 Oracleホスト名として使用します。
 
-image::aws_ora_fsx_ec2_stor_09.PNG[AWS ora FSx EC2 Stor 09]
-
-image::aws_ora_fsx_ec2_stor_10.PNG[AWS ora FSx EC2 stor 10]
-
-image::aws_ora_fsx_ec2_stor_11.PNG[AWS ora FSx EC2 Stor 11]
+image:aws_ora_fsx_ec2_stor_09.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"] image:aws_ora_fsx_ec2_stor_10.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"] image:aws_ora_fsx_ec2_stor_11.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 NOTE: iSCSI LUNの作成は、現在FSXコンソールではサポートされていません。OracleのiSCSI LUNを導入する場合は、NetApp Automation ToolkitによるONTAP の自動化を使用してボリュームとLUNを作成できます。
@@ -289,7 +282,7 @@ vserver peer create -vserver primary_vserver_name -peer-vserver standby_vserver_
 ----
 . クラスタとSVMのピアが正しく設定されていることを確認します。
 +
-image::aws_ora_fsx_ec2_stor_14.PNG[AWS ora FSx EC2 Stor 14]
+image:aws_ora_fsx_ec2_stor_14.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . プライマリFSXクラスタのソースボリュームごとに、スタンバイFSXクラスタにターゲットNFSボリュームを作成します。環境に応じてボリューム名を置き換えます。
 +
@@ -422,16 +415,16 @@ NOTE: Oracleバイナリをプライマリクラスタからスタンバイク�
 
 . SnapCenter の自動インストールが完了したら、SnapCenter サーバがインストールされているWindowsホストの管理ユーザとしてSnapCenter にログインします。
 +
-image::aws_rds_custom_deploy_snp_01.PNG[AWS RDSカスタムデプロイSNP 01]
+image:aws_rds_custom_deploy_snp_01.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 左側のメニューから、[設定]、[クレデンシャル]、[新規]の順にクリックして、SnapCenter プラグインのインストールに使用するEC2ユーザクレデンシャルを追加します。
 +
-image::aws_rds_custom_deploy_snp_02.PNG[AWS RDSカスタムデプロイSNP 02]
+image:aws_rds_custom_deploy_snp_02.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . EC2インスタンス・ホスト上の/etc/ssh/sshd_configファイルを編集して'ec2-userパスワードをリセットし'パスワードSSH認証を有効にします
 . [ sudo権限を使用する]チェックボックスがオンになっていることを確認します。前の手順でEC2-USERパスワードをリセットしただけです。
 +
-image::aws_rds_custom_deploy_snp_03.PNG[AWS RDSカスタムデプロイSNP 03]
+image:aws_rds_custom_deploy_snp_03.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 名前解決のために、SnapCenter サーバ名とIPアドレスをEC2インスタンスホストファイルに追加します。
 +
@@ -451,31 +444,31 @@ image::aws_rds_custom_deploy_snp_03.PNG[AWS RDSカスタムデプロイSNP 03]
 ----
 . 左側のメニューで、[Hosts]>[Managed Hosts]の順に選択し、[Add]をクリックしてEC2インスタンスホストをSnapCenter に追加します。
 +
-image::aws_rds_custom_deploy_snp_04.PNG[AWS RDSカスタムデプロイSNP 04]
+image:aws_rds_custom_deploy_snp_04.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
 [Oracleデータベース]をオンにし、送信する前に[その他のオプション]をクリックします。
 
 +
-image::aws_rds_custom_deploy_snp_05.PNG[AWS RDSカスタムデプロイSNP 05]
+image:aws_rds_custom_deploy_snp_05.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
 インストール前チェックをスキップするをオンにします。インストール前のチェックをスキップしていることを確認し、保存後に送信をクリックします。
 
 +
-image::aws_rds_custom_deploy_snp_06.PNG[AWS RDSカスタムデプロイSNP 06]
+image:aws_rds_custom_deploy_snp_06.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
 [Confirm Fingerprint (指紋の確認)]というプロンプトが表示されたら、[Confirm and Submit (確認して送信)]をクリック
 
 +
-image::aws_rds_custom_deploy_snp_07.PNG[AWS RDSカスタムデプロイSNP 07]
+image:aws_rds_custom_deploy_snp_07.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
 プラグインの設定が正常に完了すると、管理対象ホストの全体的なステータスはrunningと表示されます。
 
 +
-image::aws_rds_custom_deploy_snp_08.PNG[AWS RDSカスタムデプロイSNP 08]
+image:aws_rds_custom_deploy_snp_08.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -500,4 +493,4 @@ SnapCenter のデータベースバックアップはユーザが設定でき、
 
 次の図は、Oracleデータベースをバックアップするように設定されたリソースグループの例を示しています。
 
-image::aws_rds_custom_deploy_snp_09.PNG[AWS RDSカスタムデプロイSNP 09]
+image:aws_rds_custom_deploy_snp_09.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]

@@ -101,30 +101,27 @@ NOTE: このツールキットリポジトリのコンテンツとの派生物�
 ====
 . HTMLパーサーAWRモジュールを開きます。
 +
-image::db_sizing_ora_parser_01.png[このイメージは、Oracleサイジング用のHTMLパーサー画面を示しています。]
+image:db_sizing_ora_parser_01.png["このイメージは、Oracleサイジング用のHTMLパーサー画面を示しています。"]
 
 . 出力形式が.csvであることを確認し、 `Upload files` AWRレポートをアップロードします。パーサーは、テーブルの概要とoutput.csvファイルを含むHTMLページに結果を返します。 `Download` フォルダ。
 +
-image::db_sizing_ora_parser_02.png[このイメージは、Oracleサイジング用のHTMLパーサー画面を示しています。]
+image:db_sizing_ora_parser_02.png["このイメージは、Oracleサイジング用のHTMLパーサー画面を示しています。"]
 
 . Excelテンプレートファイルを開き、CSVコンテンツをコピーして列Aとセル1に貼り付け、DBサーバのサイジング情報を生成します。
 +
-image::db_sizing_ora_parser_03_anf.png[この画像は、Oracleサイジング用のExcelテンプレートのスクリーンショットです。]
+image:db_sizing_ora_parser_03_anf.png["この画像は、Oracleサイジング用のExcelテンプレートのスクリーンショットです。"]
 
 . 列Aとフィールド1と2を強調表示し、 `Data`をクリックします `Text to Columns` をクリックして、テキストウィザードを開きます。を選択します `Delimited`をクリックします `Next` 次の画面に移動します。
 +
-image::db_sizing_ora_parser_04_anf.png[この画像は、Oracleサイジング用のExcelテンプレートのスクリーンショットです。]
+image:db_sizing_ora_parser_04_anf.png["この画像は、Oracleサイジング用のExcelテンプレートのスクリーンショットです。"]
 
 . チェックしてください `Other`を入力し、「=」と入力します。 `Delimiters`。をクリックします `Next` 次の画面に移動します。
 +
-image::db_sizing_ora_parser_05_anf.png[この画像は、Oracleサイジング用のExcelテンプレートのスクリーンショットです。]
+image:db_sizing_ora_parser_05_anf.png["この画像は、Oracleサイジング用のExcelテンプレートのスクリーンショットです。"]
 
 . をクリックします `Finish` をクリックして、読み取り可能な列形式への文字列変換を完了します。メモVMとANFのサイジングのフィールドに、Oracle AWRレポートから取得したデータが入力されています。
 +
-image::db_sizing_ora_parser_06_anf.png[この画像は、Oracleサイジング用のExcelテンプレートのスクリーンショットです。]
-
-+
-image::db_sizing_ora_parser_07_anf.png[この画像は、Oracleサイジング用のExcelテンプレートのスクリーンショットです。]
+image:db_sizing_ora_parser_06_anf.png["この画像は、Oracleサイジング用のExcelテンプレートのスクリーンショットです。"] image:db_sizing_ora_parser_07_anf.png["この画像は、Oracleサイジング用のExcelテンプレートのスクリーンショットです。"]
 
 . スクリプトora_db_data_size.sql、ora_db_logs_size.sqlをsqlplusのDBAとして実行し、既存のOracleデータベースのデータサイズとアーカイブログサイズを保持期間の日数で取得します。
 +
@@ -167,7 +164,7 @@ NOTE: 上記のスクリプトを使用して取得したデータベースの�
 
 . 結果をExcelファイルに入力してサイジングガイダンスの出力を完了します。
 +
-image::db_sizing_ora_parser_08_anf.png[この画像は、Oracleサイジング用のExcelテンプレートのスクリーンショットです。]
+image:db_sizing_ora_parser_08_anf.png["この画像は、Oracleサイジング用のExcelテンプレートのスクリーンショットです。"]
 
 . ANFでは、3層のサービスレベル（Standard、Premium、Ultra）を使用してデータベースボリュームのスループット制限を管理します。を参照してください link:https://learn.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-service-levels["Azure NetApp Files のサービスレベル"^] を参照してください。サイジングガイダンスの出力に基づいて、データベースに必要なスループットを提供するANFサービスレベルを選択します。
 

@@ -59,7 +59,7 @@ Kafkaを使用するNFSストレージの問題 名を変更するための解�
 
 このテストケースで使用されているベンチマークツールはです https://openmessaging.cloud/["OpenMessagingの略"^] フレームワーク：OpenMessagingは、ベンダーに依存せず、言語に依存しません。金融、eコマース、IoT、ビッグデータに関する業界ガイドラインを提供し、異種システムやプラットフォーム間でメッセージングやストリーミングアプリケーションを開発するのに役立ちます。次の図は、OpenMessagingクライアントとKafkaクラスタの相互作用を示しています。
 
-image::kafka-nfs-image8.png[この画像は、OpenMessagingクライアントとKafkaクラスタの相互作用を示しています。]
+image:kafka-nfs-image8.png["この画像は、OpenMessagingクライアントとKafkaクラスタの相互作用を示しています。"]
 
 * *コンピューティング。* 3ノードのKafkaクラスタを使用し、3ノードのZookeeperアンサンブルを専用サーバ上で実行しました。各ブローカーには、専用のLIFを介してNetApp CVOインスタンス上の単一のボリュームへのNFSv4.1マウントポイントが2つありました。
 * *監視。* Prometheus-Grafanaの組み合わせには2つのノードを使用しました。ワークロードの生成については、このKafkaクラスタとの間でデータを生成したり消費したりできる3ノードクラスタを別途用意しています。
@@ -71,12 +71,12 @@ image::kafka-nfs-image8.png[この画像は、OpenMessagingクライアントと
 
 
 
-image::kafka-nfs-image9.png[この画像は、Kafkaブローカー用に選択された仕様を示しています。]
+image:kafka-nfs-image9.png["この画像は、Kafkaブローカー用に選択された仕様を示しています。"]
 
 * * OpenMessagingベンチマーク（OMB）のワークロード構成。*次の仕様が提供されました。以下で強調されている目標生産者率を指定しました。
 
 
-image::kafka-nfs-image10.png[この画像は、OpenMessagingベンチマークワークロード構成用に選択された仕様を示しています。]
+image:kafka-nfs-image10.png["この画像は、OpenMessagingベンチマークワークロード構成用に選択された仕様を示しています。"]
 
 
 
@@ -113,15 +113,15 @@ KafkaでNetApp NFSストレージを使用する主なメリットは2つあり�
 * ※プロデュース率が高い場合、CPU使用率のドリフトが3倍に減少※プロデュース率の上昇に伴い、CPU使用率の上昇は予想通り上昇しました。しかし、DASを使用するKafkaブローカーのCPU使用率は、低い生産率では31%から高い生産率では70%に上昇し、39%の増加となりました。一方、NFSストレージバックエンドでは、CPU利用率が26%から38%に上昇し、12%も上昇しました。
 
 
-image::kafka-nfs-image11.png[このグラフは、DASベースのクラスタの動作を示しています。]
+image:kafka-nfs-image11.png["このグラフは、DASベースのクラスタの動作を示しています。"]
 
-image::kafka-nfs-image12.png[このグラフは、NFSベースのクラスタの動作を示しています。]
+image:kafka-nfs-image12.png["このグラフは、NFSベースのクラスタの動作を示しています。"]
 
 また、メッセージ数が100、000の場合、DASのCPU利用率はNFSクラスタよりも高くなります。
 
-image::kafka-nfs-image13.png[このグラフは、100、000個のメッセージを表示するDASベースのクラスタの動作を示しています。]
+image:kafka-nfs-image13.png["このグラフは、100、000個のメッセージを表示するDASベースのクラスタの動作を示しています。"]
 
-image::kafka-nfs-image14.png[このグラフは、メッセージ数100、000個のNFSベースのクラスタの動作を示しています。]
+image:kafka-nfs-image14.png["このグラフは、メッセージ数100、000個のNFSベースのクラスタの動作を示しています。"]
 
 
 
@@ -156,7 +156,7 @@ image::kafka-nfs-image14.png[このグラフは、メッセージ数100、000個
 |===
 次の図は、NASベースのKafkaクラスタのアーキテクチャを示しています。
 
-image::kafka-nfs-image8.png[この図は、NASベースのKafkaクラスタのアーキテクチャを示しています。]
+image:kafka-nfs-image8.png["この図は、NASベースのKafkaクラスタのアーキテクチャを示しています。"]
 
 * *コンピューティング。* 3ノードのZookeeperアンサンブルを専用サーバー上で実行する3ノードのKafkaクラスタ。各ブローカーには、専用のLIFを介してNetApp CVOインスタンス上の単一のボリュームへのNFSマウントポイントが2つあります。
 * *監視。* PrometheusとGrafanaの組み合わせでは2ノード。ワークロードの生成には、このKafkaクラスタを生成して使用できる3ノードクラスタを別 々 に使用します。
@@ -164,7 +164,7 @@ image::kafka-nfs-image8.png[この図は、NASベースのKafkaクラスタの�
 * *ブローカーの設定*このテストケースで設定可能な要素の1つはKafkaブローカーです。Kafkaブローカーのために以下の仕様が選択されました。。 `replica.lag.time.mx.ms` は、特定のノードがISRリストから削除される速度を決定するため、高い値に設定されます。不良ノードと正常ノードを切り替える場合、そのブローカーIDがISRリストから除外されないようにします。
 
 
-image::kafka-nfs-image15.png[この画像は、Kafkaブローカー用に選択された仕様を示しています。]
+image:kafka-nfs-image15.png["この画像は、Kafkaブローカー用に選択された仕様を示しています。"]
 
 
 
@@ -182,7 +182,7 @@ image::kafka-nfs-image15.png[この画像は、Kafkaブローカー用に選択�
 ** * EC2ベースのクラスタ。* Kafkaブローカーのデータディレクトリがにマッピングされています `/mnt/data-2` （次の図では、cluster1のBroker-1（左側のターミナル））。
 ** * NetApp NFSベースのクラスタ。* KafkaブローカーのデータディレクトリがNFSポイントにマウントされている `/mnt/data` （次の図では、cluster2のBroker-1（右側の端末））。
 +
-image::kafka-nfs-image16.png[この図は、2つの端末画面を示しています。]
+image:kafka-nfs-image16.png["この図は、2つの端末画面を示しています。"]
 
 
 
@@ -215,11 +215,11 @@ EC2ベースのクラスタで110GBのデータを新しいブローカーノー
 
 . バックアップノードは08：55：53、730に開始されました。
 +
-image::kafka-nfs-image17.png[この図は、DASベースのクラスタのログ出力を示しています。]
+image:kafka-nfs-image17.png["この図は、DASベースのクラスタのログ出力を示しています。"]
 
 . データの再構築プロセスは09:05:24,860に終了しました。110GBのデータの処理には約10分かかります。
 +
-image::kafka-nfs-image18.png[この図は、DASベースのクラスタのログ出力を示しています。]
+image:kafka-nfs-image18.png["この図は、DASベースのクラスタのログ出力を示しています。"]
 
 
 
@@ -229,17 +229,17 @@ image::kafka-nfs-image18.png[この図は、DASベースのクラスタのログ
 
 . バックアップノードは09：39：17、213に開始されました。開始ログエントリは以下のように強調表示されます。
 +
-image::kafka-nfs-image19.png[この図は、NFSベースのクラスタのログ出力を示しています。]
+image:kafka-nfs-image19.png["この図は、NFSベースのクラスタのログ出力を示しています。"]
 
 . データの再構築プロセスは09:42:29,115に終了しました。110GBのデータの処理には約3分かかります。
 +
-image::kafka-nfs-image20.png[この図は、NFSベースのクラスタのログ出力を示しています。]
+image:kafka-nfs-image20.png["この図は、NFSベースのクラスタのログ出力を示しています。"]
 
 +
 このテストを、約1TBのデータを含むブローカーに対して繰り返しました。DASでは約48分、NFSでは約3分かかりました。結果を次のグラフに示します。
 
 +
-image::kafka-nfs-image21.png[このグラフには、DASベースのクラスタまたはNFSベースのクラスタのブローカーにロードされたデータ量に応じて、ブローカーのリカバリにかかる時間が表示されます。]
+image:kafka-nfs-image21.png["このグラフには、DASベースのクラスタまたはNFSベースのクラスタのブローカーにロードされたデータ量に応じて、ブローカーのリカバリにかかる時間が表示されます。"]
 
 
 
@@ -275,7 +275,7 @@ KafkaクラスタのストレージレイヤはNetApp ONTAP を介してプロ�
 |===
 次の図は、NASベースのKafkaクラスタのアーキテクチャを示しています。
 
-image::kafka-nfs-image8.png[この図は、NASベースのKafkaクラスタのアーキテクチャを示しています。]
+image:kafka-nfs-image8.png["この図は、NASベースのKafkaクラスタのアーキテクチャを示しています。"]
 
 * *コンピューティング。* 3ノードのKafkaクラスタを使用し、3ノードのZookeeperアンサンブルを専用サーバ上で実行しました。各ブローカーには、専用のLIFを介してNetApp CVOインスタンス上の単一のボリュームへのNFSマウントポイントが2つありました。
 * *監視。* Prometheus-Grafanaの組み合わせには2つのノードを使用しました。ワークロードの生成には、独立した3ノードクラスタを使用し、このKafkaクラスタを生成して使用しました。
@@ -300,8 +300,8 @@ image::kafka-nfs-image8.png[この図は、NASベースのKafkaクラスタの�
 
 OMBツールを使用して生成したデータでは、ストレージ容量削減比率が1.70：1で約33%削減されました。次の図に示すように、生成されたデータに使用された論理スペースは420.3GB、データの保持に使用された物理スペースは281.7GBです。
 
-image::kafka-nfs-image22.png[この図は、VMDISKでのスペース削減を示しています。]
+image:kafka-nfs-image22.png["この図は、VMDISKでのスペース削減を示しています。"]
 
-image::kafka-nfs-image23.png[スクリーンショット]
+image:kafka-nfs-image23.png["スクリーンショット"]
 
-image::kafka-nfs-image24.png[スクリーンショット]
+image:kafka-nfs-image24.png["スクリーンショット"]

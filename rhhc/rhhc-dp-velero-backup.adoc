@@ -37,14 +37,14 @@ spec:
 ....
 バックアップが完了すると、[Phase]に[Completed]と表示されます。
 
-image::redhat_openshift_OADP_backup_image1.png[バックアップの完了]
+image:redhat_openshift_OADP_backup_image1.png["バックアップの完了"]
 
 S3ブラウザアプリケーションを使用して、オブジェクトストレージ内のバックアップを確認できます。バックアップのパスは、設定されたバケットにプレフィックス名（velero/container-demo-backup）で表示されます。ボリュームSnapshot、ログ、およびアプリケーションのその他のメタデータなど、バックアップの内容を確認できます。
 
 
 NOTE: StorageGRIDでは、Tenant ManagerのS3コンソールを使用してバックアップオブジェクトを表示することもできます。
 
-image::redhat_openshift_OADP_backup_image2.png[S3のバックアップオブジェクト]
+image:redhat_openshift_OADP_backup_image2.png["S3のバックアップオブジェクト"]
 
 
 
@@ -70,8 +70,8 @@ cron式0 7 ***は、バックアップが毎日7時に作成されることを�
 
 作成したスケジュールは有効になります。
 
-image::redhat_openshift_OADP_backup_image3.png[スケジュールの作成]
+image:redhat_openshift_OADP_backup_image3.png["スケジュールの作成"]
 
 バックアップはこのスケジュールに従って作成され、[Backup]タブで確認できます。
 
-image::redhat_openshift_OADP_backup_image4.png[スケジュールバックアップが完了しました]
+image:redhat_openshift_OADP_backup_image4.png["スケジュールバックアップが完了しました"]

@@ -66,7 +66,7 @@ ONTAPストレージクラスタとVIワークロードドメインの間でNFS�
 
 . ONTAPシステムマネージャで、左側のメニューの*[Storage VMs]*に移動し、NFSトラフィックに使用するSVMをクリックします。[概要]*タブの*[ネットワークIPインターフェイス]*で、*[NFS]*の右側にある数値をクリックします。リストで、必要なLIF IPアドレスが表示されていることを確認します。
 +
-image::vmware-vcf-aff-image03.png[SVMのLIFの確認]
+image:vmware-vcf-aff-image03.png["SVMのLIFの確認"]
 
 
 
@@ -95,21 +95,21 @@ ONTAP System Managerでエクスポートポリシーを作成して、NFSボリ
 . ONTAPシステムマネージャの左側のメニュー*[Storage VM]*をクリックし、リストからSVMを選択します。
 . [設定]タブで*[エクスポートポリシー]*を探し、矢印をクリックしてアクセスします。
 +
-image::vmware-vcf-aff-image06.png[アクセスエクスポートポリシー]
+image:vmware-vcf-aff-image06.png["アクセスエクスポートポリシー"]
 
 +
 ｛nbsp｝
 
 . [新しいエクスポートポリシー]*ウィンドウでポリシーの名前を追加し、*[新しいルールの追加]*ボタンをクリックし、*+[追加]*ボタンをクリックして新しいルールの追加を開始します。
 +
-image::vmware-vcf-aff-image07.png[新しいエクスポートポリシー]
+image:vmware-vcf-aff-image07.png["新しいエクスポートポリシー"]
 
 +
 ｛nbsp｝
 
 . ルールに含めるIPアドレス、IPアドレス範囲、またはネットワークを入力します。[SMB/CIFS]*ボックスと* FlexCache *ボックスをオフにし、アクセスの詳細を選択します。ESXiホストにアクセスするには、[UNIX]ボックスを選択するだけで十分です。
 +
-image::vmware-vcf-aff-image08.png[新しいルールを保存]
+image:vmware-vcf-aff-image08.png["新しいルールを保存"]
 
 +
 
@@ -132,21 +132,21 @@ NOTE: VIワークロードドメインを導入する場合、VCFはNFSサーバ
 
 . ONTAPシステムマネージャで、左側のメニュー*[ストレージ]>[ボリューム]*に移動し、*+追加*をクリックして新しいボリュームを作成します。
 +
-image::vmware-vcf-aff-image09.png[新しいボリュームの追加]
+image:vmware-vcf-aff-image09.png["新しいボリュームの追加"]
 
 +
 ｛nbsp｝
 
 . ボリュームの名前を追加し、必要な容量を入力して、ボリュームをホストするStorage VMを選択します。[その他のオプション]*をクリックして続行します。
 +
-image::vmware-vcf-aff-image10.png[ボリュームの詳細を追加]
+image:vmware-vcf-aff-image10.png["ボリュームの詳細を追加"]
 
 +
 ｛nbsp｝
 
 . [Access Permissions]で、NFSサーバとNFSトラフィックの両方の検証に使用する、VCF管理ネットワークまたはIPアドレスとNFSネットワークのIPアドレスを含むエクスポートポリシーを選択します。
 +
-image::vmware-vcf-aff-image11.png[ボリュームの詳細を追加]
+image:vmware-vcf-aff-image11.png["ボリュームの詳細を追加"]
 
 +
 [+]
@@ -167,14 +167,14 @@ ESXiホストをVI Workload Domainにデプロイする準備として、ESXiホ
 
 . SDDC ManagerのWebインターフェイスで、左側のメニューの*[ネットワーク設定]*に移動し、*+[ネットワークプールの作成]*ボタンをクリックします。
 +
-image::vmware-vcf-aff-image04.png[ネットワークプールの作成]
+image:vmware-vcf-aff-image04.png["ネットワークプールの作成"]
 
 +
 ｛nbsp｝
 
 . ネットワークプールの名前を入力し、NFSのチェックボックスを選択して、ネットワークの詳細をすべて入力します。vMotionネットワーク情報について、この手順を繰り返します。
 +
-image::vmware-vcf-aff-image05.png[ネットワークプールの構成]
+image:vmware-vcf-aff-image05.png["ネットワークプールの構成"]
 
 +
 ｛nbsp｝
@@ -192,21 +192,21 @@ ESXiホストをワークロードドメインとして導入する前に、そ�
 
 . SDDCマネージャインターフェイスで、左側のメニューの*[ホスト]*に移動し、*[コミッションホスト]*ボタンをクリックします。
 +
-image::vmware-vcf-aff-image16.png[コミッションホストの開始]
+image:vmware-vcf-aff-image16.png["コミッションホストの開始"]
 
 +
 ｛nbsp｝
 
 . 最初のページは前提条件チェックリストです。続行するには、すべての前提条件を再確認し、すべてのチェックボックスをオンにします。
 +
-image::vmware-vcf-aff-image17.png[前提条件の確認]
+image:vmware-vcf-aff-image17.png["前提条件の確認"]
 
 +
 ｛nbsp｝
 
 . [ホストの追加と検証]ウィンドウで、*[ホストFQDN ]*、*[ストレージタイプ]*、*[ネットワークプール]の名前（ワークロードドメインに使用するvMotionおよびNFSストレージのIPアドレスを含む）、およびESXiホストへのアクセスに必要なクレデンシャルを入力します。[追加]*をクリックして、検証するホストグループにホストを追加します。
 +
-image::vmware-vcf-aff-image18.png[[Host Addition and Validation]ウィンドウ]
+image:vmware-vcf-aff-image18.png["[Host Addition and Validation]ウィンドウ"]
 
 +
 ｛nbsp｝
@@ -214,14 +214,14 @@ image::vmware-vcf-aff-image18.png[[Host Addition and Validation]ウィンドウ]
 . 検証するホストをすべて追加したら、*[すべて検証]*ボタンをクリックして続行します。
 . すべてのホストが検証済みであることを確認したら、*[次へ]*をクリックして続行します。
 +
-image::vmware-vcf-aff-image19.png[すべて検証し、[Next]をクリックします。]
+image:vmware-vcf-aff-image19.png["すべて検証し、[Next]をクリックします。"]
 
 +
 ｛nbsp｝
 
 . 委託するホストのリストを確認し、*[Commission]*ボタンをクリックしてプロセスを開始します。SDDCマネージャのタスクパネルからコミッショニングプロセスを監視します。
 +
-image::vmware-vcf-aff-image20.png[すべて検証し、[Next]をクリックします。]
+image:vmware-vcf-aff-image20.png["すべて検証し、[Next]をクリックします。"]
 
 
 
@@ -235,7 +235,7 @@ VIワークロードドメインの導入手順については、を参照して
 
 . SDDC Managerのダッシュボードで、右上隅にある*+ Workload Domain *をクリックして、新しいワークロードドメインを作成します。
 +
-image::vmware-vcf-aff-image12.png[新しいワークロードドメインを作成する]
+image:vmware-vcf-aff-image12.png["新しいワークロードドメインを作成する"]
 
 +
 ｛nbsp｝
@@ -245,18 +245,18 @@ image::vmware-vcf-aff-image12.png[新しいワークロードドメインを作�
 
 VI Configurationウィザードで必要な情報の入力については、を参照してください。 link:https://docs.vmware.com/en/VMware-Cloud-Foundation/5.1/vcf-admin/GUID-E64CEFDD-DCA2-4D19-B5C5-D8ABE66407B8.html#GUID-E64CEFDD-DCA2-4D19-B5C5-D8ABE66407B8["SDDC Manager UIを使用したVIワークロードドメインの導入"]。
 
-+image：：vmware-vcf-aff-image13.png[VI構成ウィザード]
++image:vmware-vcf-aff-image13.png["VI構成ウィザード"]
 
 . [NFS Storage]セクションで、[Datastore Name]、NFSボリュームのフォルダマウントポイント、およびONTAP NFS Storage VM LIFのIPアドレスを入力します。
 +
-image::vmware-vcf-aff-image14.png[NFSストレージ情報の追加]
+image:vmware-vcf-aff-image14.png["NFSストレージ情報の追加"]
 
 +
 ｛nbsp｝
 
 . VI Configuration（VI設定）ウィザードでSwitch Configuration（スイッチの設定）とLicense（ライセンス）の手順を完了し、* Finish（終了）*をクリックしてWorkload Domainの作成プロセスを開始します。
 +
-image::vmware-vcf-aff-image15.png[Complete VI Configurationウィザード]
+image:vmware-vcf-aff-image15.png["Complete VI Configurationウィザード"]
 
 +
 ｛nbsp｝

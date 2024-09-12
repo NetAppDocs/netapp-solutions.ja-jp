@@ -54,7 +54,7 @@ TR-4987では、 link:automation_ora_anf_nfs.html["NFSを使用したAzure NetAp
 
 === アーキテクチャ
 
-image::automation_ora_anf_nfs_archit.png[このイメージは、iSCSIとASMを使用したAWSパブリッククラウドでのOracle導入構成の詳細な図を示しています。]
+image:automation_ora_anf_nfs_archit.png["このイメージは、iSCSIとASMを使用したAWSパブリッククラウドでのOracle導入構成の詳細な図を示しています。"]
 
 
 
@@ -204,58 +204,43 @@ video::960fb370-c6e0-4406-b6d5-b110014130e8[panopto,width=360]
 . SnapCenter Windowsサーバから、最新バージョン（現在は5.0）のSnapCenterインストール実行ファイルをNetApp Support Siteからダウンロードしてインストールします。 link:https://mysupport.netapp.com/site/["NetApp |サポート"^]。
 . SnapCenterサーバのインストールが完了したら、ブラウザを起動して、Windowsのローカル管理者ユーザまたはドメインユーザのクレデンシャル（ポート8146）を使用してSnapCenterにログインします。
 +
-image::snapctr_ora_azure_anf_setup_01.png[このイメージは、SnapCenterサーバのログイン画面を示しています。]
+image:snapctr_ora_azure_anf_setup_01.png["このイメージは、SnapCenterサーバのログイン画面を示しています。"]
 
 . レビュー `Get Started` オンラインメニュー。
 +
-image::snapctr_ora_azure_anf_setup_02.png[この画像は、SnapCenterサーバのオンラインメニューを提供します。]
+image:snapctr_ora_azure_anf_setup_02.png["この画像は、SnapCenterサーバのオンラインメニューを提供します。"]
 
 . インチ `Settings-Global Settings`、チェック `Hypervisor Settings` [更新]をクリックします。
 +
-image::snapctr_ora_azure_anf_setup_03.png[このイメージは、SnapCenterサーバのハイパーバイザー設定を提供します。]
+image:snapctr_ora_azure_anf_setup_03.png["このイメージは、SnapCenterサーバのハイパーバイザー設定を提供します。"]
 
 . 必要に応じて、 `Session Timeout` SnapCenter UIの場合は、希望する間隔に移動します。
 +
-image::snapctr_ora_azure_anf_setup_04.png[このイメージは、SnapCenterサーバのセッションタイムアウトを提供します。]
+image:snapctr_ora_azure_anf_setup_04.png["このイメージは、SnapCenterサーバのセッションタイムアウトを提供します。"]
 
 . 必要に応じて、SnapCenterにユーザを追加します。
 +
-image::snapctr_ora_azure_anf_setup_06.png[このイメージは、SnapCenterサーバの設定-ユーザとアクセスを提供します]
+image:snapctr_ora_azure_anf_setup_06.png["このイメージは、SnapCenterサーバの設定-ユーザとアクセスを提供します"]
 
 . 。 `Roles` タブには、さまざまなSnapCenterユーザに割り当てることができる組み込みロールが表示されます。カスタムロールは、必要な権限を持つ管理者ユーザが作成することもできます。
 +
-image::snapctr_ora_azure_anf_setup_07.png[この画像は、SnapCenterサーバの役割を示しています。]
+image:snapctr_ora_azure_anf_setup_07.png["この画像は、SnapCenterサーバの役割を示しています。"]
 
 . 移動元 `Settings-Credential`で、SnapCenter管理ターゲットのクレデンシャルを作成します。このデモのユースケースでは、Azure VMへのログインに使用するLinuxユーザと、容量プールへのアクセスに使用するANFクレデンシャルを使用します。
 +
-image::snapctr_ora_azure_anf_setup_08.png[このイメージは、SnapCenterサーバのクレデンシャルを提供します]
-
-+
-image::snapctr_ora_azure_anf_setup_09.png[このイメージは、SnapCenterサーバのクレデンシャルを提供します]
-
-+
-image::snapctr_ora_azure_anf_setup_10.png[このイメージは、SnapCenterサーバのクレデンシャルを提供します]
+image:snapctr_ora_azure_anf_setup_08.png["このイメージは、SnapCenterサーバのクレデンシャルを提供します"] image:snapctr_ora_azure_anf_setup_09.png["このイメージは、SnapCenterサーバのクレデンシャルを提供します"] image:snapctr_ora_azure_anf_setup_10.png["このイメージは、SnapCenterサーバのクレデンシャルを提供します"]
 
 . 移動元 `Storage Systems` タブ、追加 `Azure NetApp Files` 上記で作成したクレデンシャルを使用
 +
-image::snapctr_ora_azure_anf_setup_11.png[このイメージは、Azure NetApp Files for SnapCenterサーバを提供します。]
-
-+
-image::snapctr_ora_azure_anf_setup_12.png[このイメージは、Azure NetApp Files for SnapCenterサーバを提供します。]
+image:snapctr_ora_azure_anf_setup_11.png["このイメージは、Azure NetApp Files for SnapCenterサーバを提供します。"] image:snapctr_ora_azure_anf_setup_12.png["このイメージは、Azure NetApp Files for SnapCenterサーバを提供します。"]
 
 . 移動元 `Hosts` タブで、Azure DB VMを追加します。これにより、Linux上のOracle用SnapCenterプラグインがインストールされます。
 +
-image::snapctr_ora_azure_anf_setup_13.png[このイメージは、SnapCenterサーバ用のホストを提供します。]
-
-+
-image::snapctr_ora_azure_anf_setup_14.png[このイメージは、SnapCenterサーバ用のホストを提供します。]
-
-+
-image::snapctr_ora_azure_anf_setup_15.png[このイメージは、SnapCenterサーバ用のホストを提供します。]
+image:snapctr_ora_azure_anf_setup_13.png["このイメージは、SnapCenterサーバ用のホストを提供します。"] image:snapctr_ora_azure_anf_setup_14.png["このイメージは、SnapCenterサーバ用のホストを提供します。"] image:snapctr_ora_azure_anf_setup_15.png["このイメージは、SnapCenterサーバ用のホストを提供します。"]
 
 . DBサーバVMにホストプラグインをインストールすると、ホスト上のデータベースが自動検出され、 `Resources` タブ。戻る `Settings-Polices`を使用して、Oracleデータベースのフルオンラインバックアップとアーカイブログのみのバックアップのバックアップポリシーを作成します。このドキュメントを参照 link:https://docs.netapp.com/us-en/snapcenter/protect-sco/task_create_backup_policies_for_oracle_database.html["Oracle データベースのバックアップポリシーの作成"^] 詳細な手順については、を参照してください。
 +
-image::snapctr_ora_azure_anf_setup_05.png[この画像は、SnapCenterサーバの設定-ポリシーを提供しています]
+image:snapctr_ora_azure_anf_setup_05.png["この画像は、SnapCenterサーバの設定-ポリシーを提供しています"]
 
 
 
@@ -270,57 +255,51 @@ NetAppのSnapshotバックアップでは、データベースボリュームの
 
 . 移動 `Resources` タブ：データベースVMにSnapCenterプラグインをインストールした後に検出されたデータベースが表示されます。最初は、 `Overall Status` データベースの表示数： `Not protected`。
 +
-image::snapctr_ora_azure_anf_bkup_01.png[このイメージは、SnapCenterサーバのデータベースバックアップを提供します。]
+image:snapctr_ora_azure_anf_bkup_01.png["このイメージは、SnapCenterサーバのデータベースバックアップを提供します。"]
 
 . をクリックします `View` ドロップダウンで次の値に変更： `Resource Group`。をクリックします `Add` 右側にサインインしてリソースグループを追加します。
 +
-image::snapctr_ora_azure_anf_bkup_02.png[このイメージは、SnapCenterサーバのデータベースバックアップを提供します。]
+image:snapctr_ora_azure_anf_bkup_02.png["このイメージは、SnapCenterサーバのデータベースバックアップを提供します。"]
 
 . リソースグループ、タグ、カスタムの命名規則に名前を付けます。
 +
-image::snapctr_ora_azure_anf_bkup_03.png[このイメージは、SnapCenterサーバのデータベースバックアップを提供します。]
+image:snapctr_ora_azure_anf_bkup_03.png["このイメージは、SnapCenterサーバのデータベースバックアップを提供します。"]
 
 . にリソースを追加する `Resource Group`。類似するリソースをグループ化すると、大規模な環境でのデータベース管理を簡易化できます。
 +
-image::snapctr_ora_azure_anf_bkup_04.png[このイメージは、SnapCenterサーバのデータベースバックアップを提供します。]
+image:snapctr_ora_azure_anf_bkup_04.png["このイメージは、SnapCenterサーバのデータベースバックアップを提供します。"]
 
 . バックアップポリシーを選択し、下の[+]記号をクリックしてスケジュールを設定します。 `Configure Schedules`。
 +
-image::snapctr_ora_azure_anf_bkup_05.png[このイメージは、SnapCenterサーバのデータベースバックアップを提供します。]
-
-+
-image::snapctr_ora_azure_anf_bkup_06.png[このイメージは、SnapCenterサーバのデータベースバックアップを提供します。]
+image:snapctr_ora_azure_anf_bkup_05.png["このイメージは、SnapCenterサーバのデータベースバックアップを提供します。"] image:snapctr_ora_azure_anf_bkup_06.png["このイメージは、SnapCenterサーバのデータベースバックアップを提供します。"]
 
 . ポリシーにバックアップ検証が設定されていない場合は、[Verification]ページはそのままにしておきます。
 +
-image::snapctr_ora_azure_anf_bkup_07.png[このイメージは、SnapCenterサーバのデータベースバックアップを提供します。]
+image:snapctr_ora_azure_anf_bkup_07.png["このイメージは、SnapCenterサーバのデータベースバックアップを提供します。"]
 
 . バックアップのレポートと通知をEメールで送信するには、環境にSMTPメールサーバが必要です。メールサーバが設定されていない場合は黒のままにします。
 +
-image::snapctr_ora_azure_anf_bkup_08.png[このイメージは、SnapCenterサーバのデータベースバックアップを提供します。]
+image:snapctr_ora_azure_anf_bkup_08.png["このイメージは、SnapCenterサーバのデータベースバックアップを提供します。"]
 
 . 新しいリソースグループの概要。
 +
-image::snapctr_ora_azure_anf_bkup_09.png[このイメージは、SnapCenterサーバのデータベースバックアップを提供します。]
+image:snapctr_ora_azure_anf_bkup_09.png["このイメージは、SnapCenterサーバのデータベースバックアップを提供します。"]
 
 . 上記の手順を繰り返して、対応するバックアップポリシーでデータベースのアーカイブログのみのバックアップを作成します。
 +
-image::snapctr_ora_azure_anf_bkup_10_1.png[このイメージは、SnapCenterサーバのデータベースバックアップを提供します。]
+image:snapctr_ora_azure_anf_bkup_10_1.png["このイメージは、SnapCenterサーバのデータベースバックアップを提供します。"]
 
 . リソースグループをクリックすると、そのグループに含まれているリソースが表示されます。スケジュールされたバックアップジョブのほかに、1回限りのバックアップを実行するには、 `Backup Now`。
 +
-image::snapctr_ora_azure_anf_bkup_10.png[このイメージは、SnapCenterサーバのデータベースバックアップを提供します。]
-
-+
-image::snapctr_ora_azure_anf_bkup_11.png[このイメージは、SnapCenterサーバのデータベースバックアップを提供します。]
+image:snapctr_ora_azure_anf_bkup_10.png["このイメージは、SnapCenterサーバのデータベースバックアップを提供します。"] image:snapctr_ora_azure_anf_bkup_11.png["このイメージは、SnapCenterサーバのデータベースバックアップを提供します。"]
 
 . 実行中のジョブをクリックすると監視ウィンドウが開き、オペレータはジョブの進捗状況をリアルタイムで追跡できます。
 +
-image::snapctr_ora_azure_anf_bkup_12.png[このイメージは、SnapCenterサーバのデータベースバックアップを提供します。]
+image:snapctr_ora_azure_anf_bkup_12.png["このイメージは、SnapCenterサーバのデータベースバックアップを提供します。"]
 
 . バックアップジョブが正常に完了すると、データベーストポロジの下にSnapshotバックアップセットが表示されます。フルデータベースバックアップセットには、データベースデータボリュームのSnapshotとデータベースログボリュームのSnapshotが含まれます。ログのみのバックアップには、データベースログボリュームのSnapshotのみが含まれます。
 +
-image::snapctr_ora_azure_anf_bkup_13.png[このイメージは、SnapCenterサーバのデータベースバックアップを提供します。]
+image:snapctr_ora_azure_anf_bkup_13.png["このイメージは、SnapCenterサーバのデータベースバックアップを提供します。"]
 
 
 
@@ -335,35 +314,35 @@ SnapCenterによるデータベースリカバリでは、データベースボ�
 
 . 移動元 `Resources` タブでデータベースを開きます。 `Primary Backup(s)` ページデータベースデータボリュームのSnapshotを選択し、 `Restore` ボタンをクリックしてデータベースリカバリワークフローを起動します。Oracle SCNまたはタイムスタンプでリカバリを実行する場合は、バックアップセット内のSCN番号またはタイムスタンプをメモします。
 +
-image::snapctr_ora_azure_anf_restore_01.png[このイメージは、SnapCenterサーバのデータベースリストアを提供します。]
+image:snapctr_ora_azure_anf_restore_01.png["このイメージは、SnapCenterサーバのデータベースリストアを提供します。"]
 
 . 選択するオプション `Restore Scope`。コンテナ・データベースの場合、SnapCenterでは、フル・コンテナ・データベース（すべてのデータファイル）、プラガブル・データベース、または表領域・レベルのリストアを柔軟に実行できます。
 +
-image::snapctr_ora_azure_anf_restore_02.png[このイメージは、SnapCenterサーバのデータベースリストアを提供します。]
+image:snapctr_ora_azure_anf_restore_02.png["このイメージは、SnapCenterサーバのデータベースリストアを提供します。"]
 
 . 選択するオプション `Recovery Scope`。 `All logs` は、バックアップセット内の使用可能なすべてのアーカイブログを適用することを意味します。SCNまたはタイムスタンプによるポイントインタイムリカバリも使用できます。
 +
-image::snapctr_ora_azure_anf_restore_03.png[このイメージは、SnapCenterサーバのデータベースリストアを提供します。]
+image:snapctr_ora_azure_anf_restore_03.png["このイメージは、SnapCenterサーバのデータベースリストアを提供します。"]
 
 . 。 `PreOps` リストア/リカバリ処理の前に、データベースに対してスクリプトを実行できます。
 +
-image::snapctr_ora_azure_anf_restore_04.png[このイメージは、SnapCenterサーバのデータベースリストアを提供します。]
+image:snapctr_ora_azure_anf_restore_04.png["このイメージは、SnapCenterサーバのデータベースリストアを提供します。"]
 
 . 。 `PostOps` リストア/リカバリ処理後にデータベースに対してスクリプトを実行できます。
 +
-image::snapctr_ora_azure_anf_restore_05.png[このイメージは、SnapCenterサーバのデータベースリストアを提供します。]
+image:snapctr_ora_azure_anf_restore_05.png["このイメージは、SnapCenterサーバのデータベースリストアを提供します。"]
 
 . 必要に応じてEメールで通知
 +
-image::snapctr_ora_azure_anf_restore_06.png[このイメージは、SnapCenterサーバのデータベースリストアを提供します。]
+image:snapctr_ora_azure_anf_restore_06.png["このイメージは、SnapCenterサーバのデータベースリストアを提供します。"]
 
 . リストアジョブの概要
 +
-image::snapctr_ora_azure_anf_restore_07.png[このイメージは、SnapCenterサーバのデータベースリストアを提供します。]
+image:snapctr_ora_azure_anf_restore_07.png["このイメージは、SnapCenterサーバのデータベースリストアを提供します。"]
 
 . [Running job]をクリックして開きます。 `Job Details` ウィンドウ。ジョブステータスは、 `Monitor` タブ。
 +
-image::snapctr_ora_azure_anf_restore_08.png[このイメージは、SnapCenterサーバのデータベースリストアを提供します。]
+image:snapctr_ora_azure_anf_restore_08.png["このイメージは、SnapCenterサーバのデータベースリストアを提供します。"]
 
 
 
@@ -378,43 +357,43 @@ SnapCenterを使用したデータベースクローンは、ボリュームのS
 
 . 移動元 `Resources` タブでデータベースを開きます。 `Primary Backup(s)` ページデータベースデータボリュームのSnapshotを選択し、 `clone` ボタンをクリックしてデータベースクローンワークフローを起動します。
 +
-image::snapctr_ora_azure_anf_clone_01.png[このイメージは、SnapCenterサーバのデータベースクローンを提供します。]
+image:snapctr_ora_azure_anf_clone_01.png["このイメージは、SnapCenterサーバのデータベースクローンを提供します。"]
 
 . クローンデータベースのSIDに名前を付けます。必要に応じて、コンテナデータベースのクローニングもPDBレベルで実行できます。
 +
-image::snapctr_ora_azure_anf_clone_02.png[このイメージは、SnapCenterサーバのデータベースクローンを提供します。]
+image:snapctr_ora_azure_anf_clone_02.png["このイメージは、SnapCenterサーバのデータベースクローンを提供します。"]
 
 . クローンデータベースコピーを配置するDBサーバを選択します。別の名前を付ける場合を除き、デフォルトのファイルの場所を保持します。
 +
-image::snapctr_ora_azure_anf_clone_03.png[このイメージは、SnapCenterサーバのデータベースクローンを提供します。]
+image:snapctr_ora_azure_anf_clone_03.png["このイメージは、SnapCenterサーバのデータベースクローンを提供します。"]
 
 . クローンDBホストには、ソースデータベースと同じOracleソフトウェアスタックがインストールされ、設定されている必要があります。デフォルトのクレデンシャルは維持するが変更する `Oracle Home Settings` クローンDBホストの設定と照合します。
 +
-image::snapctr_ora_azure_anf_clone_04.png[このイメージは、SnapCenterサーバのデータベースクローンを提供します。]
+image:snapctr_ora_azure_anf_clone_04.png["このイメージは、SnapCenterサーバのデータベースクローンを提供します。"]
 
 . 。 `PreOps` クローニング処理の前にスクリプトを実行できます。データベースパラメータは、本番環境のデータベースと比較して、クローンDBのニーズに合わせて調整できます（SGAターゲットの削減など）。
 +
-image::snapctr_ora_azure_anf_clone_05.png[このイメージは、SnapCenterサーバのデータベースクローンを提供します。]
+image:snapctr_ora_azure_anf_clone_05.png["このイメージは、SnapCenterサーバのデータベースクローンを提供します。"]
 
 . 。 `PostOps` クローニング処理後にデータベースに対してスクリプトを実行できます。クローンデータベースのリカバリには、SCN、タイムスタンプベース、またはキャンセル（バックアップセット内の最後のアーカイブログへのデータベースのロールフォワード）までのいずれかを使用できます。
 +
-image::snapctr_ora_azure_anf_clone_06.png[このイメージは、SnapCenterサーバのデータベースクローンを提供します。]
+image:snapctr_ora_azure_anf_clone_06.png["このイメージは、SnapCenterサーバのデータベースクローンを提供します。"]
 
 . 必要に応じてEメールで通知
 +
-image::snapctr_ora_azure_anf_clone_07.png[このイメージは、SnapCenterサーバのデータベースクローンを提供します。]
+image:snapctr_ora_azure_anf_clone_07.png["このイメージは、SnapCenterサーバのデータベースクローンを提供します。"]
 
 . クローニングジョブの概要。
 +
-image::snapctr_ora_azure_anf_clone_08.png[このイメージは、SnapCenterサーバのデータベースクローンを提供します。]
+image:snapctr_ora_azure_anf_clone_08.png["このイメージは、SnapCenterサーバのデータベースクローンを提供します。"]
 
 . [Running job]をクリックして開きます。 `Job Details` ウィンドウ。ジョブステータスは、 `Monitor` タブ。
 +
-image::snapctr_ora_azure_anf_clone_09.png[このイメージは、SnapCenterサーバのデータベースリストアを提供します。]
+image:snapctr_ora_azure_anf_clone_09.png["このイメージは、SnapCenterサーバのデータベースリストアを提供します。"]
 
 . クローンデータベースはすぐにSnapCenterに登録されます。
 +
-image::snapctr_ora_azure_anf_clone_10.png[このイメージは、SnapCenterサーバのデータベースリストアを提供します。]
+image:snapctr_ora_azure_anf_clone_10.png["このイメージは、SnapCenterサーバのデータベースリストアを提供します。"]
 
 . DBサーバホスト上のクローンデータベースを検証します。クローン開発データベースの場合は、データベースアーカイブモードをオフにする必要があります。
 +

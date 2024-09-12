@@ -147,15 +147,15 @@ SQL Server用のボリュームとLUNを作成するには、次の手順を実�
 . でAmazon FSXコンソールを開きます https://console.aws.amazon.com/fsx/[]
 . CreationメソッドのStandard Createオプションを使用して、NetApp ONTAP ファイルシステムのAmazon FSXを作成します。これにより、FSxadminとvsadminの資格情報を定義できます。
 +
-image::sql-awsec2-image1.png[SQL awsec2イメージ1]
+image:sql-awsec2-image1.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . fsxadminのパスワードを指定します。
 +
-image::sql-awsec2-image2.png[SQL awsec2イメージ2]
+image:sql-awsec2-image2.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . SVMのパスワードを指定します。
 +
-image::sql-awsec2-image3.png[SQL awsec2イメージ3]
+image:sql-awsec2-image3.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . に示す手順に従ってボリュームを作成します https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-volumes.html["NetApp ONTAP のFSX上にボリュームを作成する"^]。
 +
@@ -193,7 +193,7 @@ Set-Service -Name msiscsi -StartupType Automatic
 Get-InitiatorPort | select NodeAddress
 ....
 +
-image::sql-awsec2-image4.png[SQL awsec2イメージ4]
+image:sql-awsec2-image4.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . puttyを使用してStorage Virtual Machine（SVM）に接続し、igroupを作成します。
 +
@@ -206,7 +206,7 @@ igroup create -igroup igrp_ws2019sql1 -protocol iscsi -ostype windows -initiator
 lun create -path /vol/vol_awssqlprod01_data/lun_awssqlprod01_data -size 700GB -ostype windows_2008 -space-allocation enabled lun create -path /vol/vol_awssqlprod01_log/lun_awssqlprod01_log -size 100GB -ostype windows_2008 -space-allocation enabled
 ....
 +
-image::sql-awsec2-image5.png[SQL awsec2イメージ5]
+image:sql-awsec2-image5.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . OSのパーティショニングスキームを使用してI/Oアライメントを実行するには、推奨されるLUNタイプとしてwindows_2008を使用してください。を参照してください https://docs.netapp.com/us-en/ontap/san-admin/io-misalignments-properly-aligned-luns-concept.html["こちらをご覧ください"^] 追加情報 の場合。
 . 次のSSHコマンドを使用して、作成したLUNにigroupをマッピングします。
@@ -216,21 +216,21 @@ lun show
 lun map -path /vol/vol_awssqlprod01_data/lun_awssqlprod01_data -igroup igrp_awssqlprod01lun map -path /vol/vol_awssqlprod01_log/lun_awssqlprod01_log -igroup igrp_awssqlprod01
 ....
 +
-image::sql-awsec2-image6.png[SQL awsec2イメージ6]
+image:sql-awsec2-image6.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . Windowsフェイルオーバークラスタを使用する共有ディスクの場合は、SSHコマンドを実行して、Windowsフェイルオーバークラスタに参加しているすべてのサーバに属するigroupに同じLUNをマッピングします。
 . iSCSIターゲットを使用してWindows ServerをSVMに接続する。AWSポータルでターゲットのIPアドレスを検索します。
 +
-image::sql-awsec2-image7.png[SQL awsec2イメージ7]
+image:sql-awsec2-image7.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . Server ManagerおよびToolsメニューから、iSCSI Initiatorを選択します。[Discovery]タブを選択し、[Discover Portal]を選択します。前の手順で確認したiSCSI IPアドレスを入力し、Advanced（詳細設定）を選択します。[ローカルアダプタ]から[Microsoft iSCSIイニシエータ]を選択します。イニシエータIPから、サーバのIPを選択します。[OK]を選択して、すべてのウィンドウを閉じます。
 +
-image::sql-awsec2-image8.png[SQL awsec2イメージ8]
+image:sql-awsec2-image8.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . SVMの2つ目のiSCSI IPについて手順12を繰り返します。
 . [* Targets *（ターゲット*）]タブを選択し、[* Connect *（接続*）]を選択して、[* Enable muti-path *（マルチパスを有効にする*）
 +
-image::sql-awsec2-image9.png[SQL awsec2イメージ9]
+image:sql-awsec2-image9.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . パフォーマンスを最大限に高めるには、セッションをさらに追加します。5つのiSCSIセッションを作成することを推奨します。*プロパティ*>*セッションの追加*>*詳細設定*を選択し、ステップ12を繰り返します。
 +
@@ -239,7 +239,7 @@ $TargetPortals = ('10.2.1.167', '10.2.2.12')
 foreach ($TargetPortal in $TargetPortals) {New-IscsiTargetPortal -TargetPortalAddress $TargetPortal}
 ....
 +
-image::sql-awsec2-image10.png[SQL awsec2イメージ10]
+image:sql-awsec2-image10.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -259,7 +259,7 @@ Connect-IscsiTarget -IsMultipathEnabled $true -NodeAddress $target.NodeAddress -
 }
 ....
 +
-image::sql-awsec2-image11.png[SQL awsec2イメージ11]
+image:sql-awsec2-image11.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 .. 次のPowerShellコマンドを使用してディスクを初期化します。
 +
@@ -268,7 +268,7 @@ $disks = Get-Disk | where PartitionStyle -eq raw
 foreach ($disk in $disks) {Initialize-Disk $disk.Number}
 ....
 +
-image::sql-awsec2-image12.png[SQL awsec2イメージ12]
+image:sql-awsec2-image12.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 .. PowerShellを使用して、Create PartitionコマンドとFormat Diskコマンドを実行します。
 +
@@ -350,7 +350,7 @@ NetApp SnapCenter は、ティア1エンタープライズアプリケーショ�
 ====
 次の図に、SnapCenter でバックアップする場合のMicrosoft SQL Serverデータベースストレージレイアウトの作成に関する考慮事項を示します。
 
-image::sql-awsec2-image13.png[SQL awsec2イメージ13]
+image:sql-awsec2-image13.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 *ベストプラクティス*
 
@@ -383,15 +383,15 @@ SnapCenter をインストールしたら、次の手順を実行してセット
 
 . クレデンシャルを設定するには、* Settings *>* New *を選択し、クレデンシャル情報を入力します。
 +
-image::sql-awsec2-image14.png[SQL awsec2イメージ14]
+image:sql-awsec2-image14.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . [ストレージ・システム]>[新規]を選択してストレージ・システムを追加し、にONTAP ストレージ情報に適切なFSXを入力します。
 +
-image::sql-awsec2-image15.png[SQL awsec2イメージ15]
+image:sql-awsec2-image15.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . [*Hosts*>*Add*]を選択してホストを追加し、ホスト情報を入力します。SnapCenter によって、WindowsおよびSQL Serverプラグインが自動的にインストールされます。この処理には時間がかかることがあります。
 +
-image::sql-awsec2-image16.png[SQL awsec2イメージ16]
+image:sql-awsec2-image16.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -409,13 +409,13 @@ NOTE: SnapCenter は、ホストログディレクトリを使用してトラン
 * tempdbデータベースを含まないシステムデータベースバックアップ
 * 10%のLUNオーバーヘッド・スペースホスト・ログ・ディレクトリを専用のボリュームまたはLUNに配置しますホストログディレクトリのデータ量は、バックアップのサイズとバックアップを保持する日数によって異なります。
 +
-image::sql-awsec2-image17.png[SQL awsec2イメージ17]
+image:sql-awsec2-image17.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
 LUNがすでにプロビジョニングされている場合は、ホストログディレクトリを表すマウントポイントを選択できます。
 
 +
-image::sql-awsec2-image18.png[SQL awsec2イメージ18]
+image:sql-awsec2-image18.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -435,23 +435,23 @@ image::sql-awsec2-image18.png[SQL awsec2イメージ18]
 +
 .. [*リソース]を選択し、左上のドロップダウン・メニューから[Microsoft SQL Server]を選択します。[*リソースを更新*]を選択します。
 +
-image::sql-awsec2-image19.png[SQL awsec2イメージ19]
+image:sql-awsec2-image19.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 .. バックアップするデータベースを選択し、* Next *および（**）を選択してポリシーを追加します（作成していない場合）。新しいポリシーを作成するには、「*新しいSQL Serverバックアップポリシー」に従います。
 +
-image::sql-awsec2-image20.png[SQL awsec2イメージ20]
+image:sql-awsec2-image20.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 .. 必要に応じて、検証サーバを選択します。このサーバは、フルバックアップの作成後にSnapCenter でDBCC CHECKDBを実行するサーバです。[次へ*]をクリックして通知を確認し、[*概要*]を選択します。確認したら、[完了]をクリックします。
 +
-image::sql-awsec2-image21.png[SQL awsec2イメージ21]
+image:sql-awsec2-image21.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 .. [今すぐバックアップする]をクリックして、バックアップをテストします。ポップアップ・ウィンドウで、*バックアップ*を選択します。
 +
-image::sql-awsec2-image22.png[SQL awsec2イメージ22]
+image:sql-awsec2-image22.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 .. バックアップが完了したことを確認するには、* Monitor *を選択します。
 +
-image::sql-awsec2-image23.png[SQL awsec2イメージ23]
+image:sql-awsec2-image23.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -473,13 +473,13 @@ FSX ONTAP をEC2上のSQL Serverとともに使用する主な利点の1つは'�
 
 . Resources（リソース）を選択し、リストアするデータベースを選択します。
 +
-image::sql-awsec2-image24.png[SQL awsec2イメージ24]
+image:sql-awsec2-image24.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . データベースのリストアに使用するバックアップ名を選択し、リストアを選択します。
 . 「* Restore *」ポップアップ・ウィンドウに従って、データベースを復元します。
 . 「* Monitor *」を選択して、リストア・プロセスが正常に完了したことを確認します。
 +
-image::sql-awsec2-image25.png[SQL awsec2イメージ25]
+image:sql-awsec2-image25.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -550,12 +550,12 @@ EC2で実行する新しいSQL Serverインスタンスにデータベースを�
 . [リソース]を選択し、次にクローンを作成するデータベースを選択します。
 . クローンを作成するバックアップ名を選択し、Cloneを選択します。
 +
-image::sql-awsec2-image26.png[SQL awsec2イメージ26]
+image:sql-awsec2-image26.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . バックアップからのクローン作成の手順に従い、EC2に新しいSQL Serverインスタンスを指定し、インスタンス名を指定してクローンプロセスを終了します。
 . Monitorを選択して、クローニングが完了したことを確認します。
 +
-image::sql-awsec2-image27.png[SQL awsec2イメージ27]
+image:sql-awsec2-image27.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 

@@ -79,15 +79,15 @@ ONTAPツールでVVOLデータストアを作成するには、次の手順を�
 ====
 . vSphere ClientのメインメニューからNetApp ONTAPツールを選択してアクセスします。
 +
-image::vmware-asa-image6.png[NetApp ONTAPツール]
+image:vmware-asa-image6.png["NetApp ONTAPツール"]
 
 . ONTAPツールで、左側のメニューから*ストレージシステム*を選択し、*追加*を押します。
 +
-image::vmware-asa-image8.png[ストレージシステムの追加]
+image:vmware-asa-image8.png["ストレージシステムの追加"]
 
 . ストレージシステムのIPアドレス、クレデンシャル、およびポート番号を入力します。[追加]*をクリックして検出プロセスを開始します。
 +
-image::vmware-asa-image9.png[ストレージシステムの追加]
+image:vmware-asa-image9.png["ストレージシステムの追加"]
 
 
 
@@ -101,31 +101,31 @@ ONTAPツールでストレージ機能プロファイルを作成するには、
 
 . ONTAPツールで、左側のメニューから*[ストレージ機能プロファイル]*を選択し、*[作成]*を押します。
 +
-image::vmware-asa-image7.png[ストレージ機能プロファイル]
+image:vmware-asa-image7.png["ストレージ機能プロファイル"]
 
 . ストレージ機能プロファイルの作成*ウィザードで、プロファイルの名前と概要を指定し、*[次へ]*をクリックします。
 +
-image::vmware-asa-image10.png[SCPの名前を追加]
+image:vmware-asa-image10.png["SCPの名前を追加"]
 
 . プラットフォームタイプを選択し、* Asymmetric *をfalseに設定するオールフラッシュSANアレイをストレージシステムとして指定します。
 +
-image::vmware-asa-image11.png[SCP用Platorm]
+image:vmware-asa-image11.png["SCP用Platorm"]
 
 . 次に、プロトコルまたは*任意*を選択して、使用可能なすべてのプロトコルを許可します。「 * 次へ * 」をクリックして続行します。
 +
-image::vmware-asa-image12.png[SCPのプロトコル]
+image:vmware-asa-image12.png["SCPのプロトコル"]
 
 . パフォーマンス*ページでは、許容される最小IOPSと最大IOPSの形式でサービス品質を設定できます。
 +
-image::vmware-asa-image13.png[SCPのQoS]
+image:vmware-asa-image13.png["SCPのQoS"]
 
 . 必要に応じて、[ストレージ属性]ページでストレージ効率、スペースリザベーション、暗号化、階層化ポリシーを選択します。
 +
-image::vmware-asa-image14.png[SCPの属性]
+image:vmware-asa-image14.png["SCPの属性"]
 
 . 最後に、概要を確認し、[完了]をクリックしてプロファイルを作成します。
 +
-image::vmware-asa-image15.png[SCPの概要]
+image:vmware-asa-image15.png["SCPの概要"]
 
 
 
@@ -137,23 +137,23 @@ ONTAPツールでVVOLデータストアを作成するには、次の手順を�
 
 . ONTAPツールで*概要*を選択し、*はじめに*タブで*プロビジョニング*をクリックしてウィザードを開始します。
 +
-image::vmware-asa-image16.png[データストアのプロビジョニング]
+image:vmware-asa-image16.png["データストアのプロビジョニング"]
 
 . [新しいデータストア]ウィザードの*[全般]*ページで、vSphereデータセンターまたはクラスタのデスティネーションを選択します。dastatoreタイプとして*[VVols]*を選択し、データストアの名前を入力してプロトコルを選択します。
 +
-image::vmware-asa-image17.png[[全般]ページ]
+image:vmware-asa-image17.png["[全般]ページ"]
 
 . [ストレージシステム]ページで、ストレージ機能プロファイル、ストレージシステム、SVMを選択します。[次へ]*をクリックして続行します。
 +
-image::vmware-asa-image18.png[ストレージシステム]
+image:vmware-asa-image18.png["ストレージシステム"]
 
 . [ストレージ属性]*ページでを選択してデータストア用の新しいボリュームを作成し、作成するボリュームのストレージ属性を入力します。[追加]*をクリックしてボリュームを作成し、*[次へ]*をクリックして続行します。
 +
-image::vmware-asa-image19.png[ストレージ属性]
+image:vmware-asa-image19.png["ストレージ属性"]
 
 . 最後に概要を確認し、*[終了]*をクリックしてVVOLデータストアの作成プロセスを開始します。
 +
-image::vmware-asa-image20.png[サマリページ]
+image:vmware-asa-image20.png["サマリページ"]
 
 
 
@@ -173,19 +173,19 @@ VMストレージポリシーを作成するには、次の手順を実行しま
 
 . vSphere Clientのメインメニューから*[Policies and Profiles]*を選択します。
 +
-image::vmware-asa-image21.png[ポリシーとプロファイル]
+image:vmware-asa-image21.png["ポリシーとプロファイル"]
 
 . VMストレージポリシーの作成*ウィザードで、まずポリシーの名前と概要を入力し、*[次へ]*をクリックして続行します。
 +
-image::vmware-asa-image22.png[[VM storage policy]ウィザード]
+image:vmware-asa-image22.png["[VM storage policy]ウィザード"]
 
 . [ポリシー構造]*ページで、NetApp clustered Data ONTAP VVOLストレージのルールを有効にするように選択して*[次へ]*をクリックします。
 +
-image::vmware-asa-image23.png[ポリシー構造]
+image:vmware-asa-image23.png["ポリシー構造"]
 
 . 選択したポリシー構造に固有の次のページで、VMストレージポリシーで使用するストレージシステムについて説明するストレージ機能プロファイルを選択します。[次へ]*をクリックして続行します。
 +
-image::vmware-asa-image24.png[ポリシー構造]
+image:vmware-asa-image24.png["ポリシー構造"]
 
 . [ストレージの互換性]ページで、このポリシーに一致するVSANデータストアのリストを確認し、*[次へ]*をクリックします。
 . 最後に、実装するポリシーを確認し、*[終了]*をクリックしてポリシーを作成します。
@@ -207,22 +207,22 @@ VMストレージポリシーは、仮想マシン（VM）データの格納と�
 
 . [新しい仮想マシン]ウィザードで*[新しい仮想マシンの作成]*を選択し、*[次へ]*を選択して続行します。
 +
-image::vmware-asa-image25.png[新規仮想マシン]
+image:vmware-asa-image25.png["新規仮想マシン"]
 
 . 名前を入力して仮想マシンの場所を選択し、* Next *をクリックします。
 . [Select a compute resource]*ページでデスティネーションを選択し、*[Next]*をクリックします。
 +
-image::vmware-asa-image26.png[コンピューティングリソース]
+image:vmware-asa-image26.png["コンピューティングリソース"]
 
 . [ストレージの選択]*ページで、VMストレージポリシーと、VMのデスティネーションとなるvVolデータストアを選択します。[次へ]*をクリックします。
 +
-image::vmware-asa-image27.png[ストレージを選択します]
+image:vmware-asa-image27.png["ストレージを選択します"]
 
 . [Select compatibility]ページで、VMと互換性を持つvSphereのバージョンを選択します。
 . 新しいVMのゲストOSファミリーとバージョンを選択し、*[Next]*をクリックします。
 . [ハードウェアのカスタマイズ]ページに必要事項を入力します。ハードディスク（VMDKファイル）ごとに個別のVMストレージポリシーを選択できることに注意してください。
 +
-image::vmware-asa-image28.png[ストレージを選択します]
+image:vmware-asa-image28.png["ストレージを選択します"]
 
 . 最後に、概要ページを確認し、*[Finish]*をクリックしてVMを作成します。
 

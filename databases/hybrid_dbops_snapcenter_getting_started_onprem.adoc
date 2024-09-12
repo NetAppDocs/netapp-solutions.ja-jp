@@ -35,7 +35,7 @@ NetApp SnapCenter ツールでは、ロールベースアクセス制御（ RBAC
 . [ 設定とユーザー ] の下の [ アクセス ] タブに移動し、 [ 追加 ] をクリックして新しいユーザーを追加します。新しいユーザ ID は、手順 1 で Windows Active Directory に作成した管理者ユーザにリンクされます。。必要に応じて、適切なロールをユーザに割り当てます。必要に応じて、管理者ユーザにリソースを割り当てます。
 
 
-image::snapctr_admin_users.PNG[snapctr adminユーザ]
+image:snapctr_admin_users.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -83,7 +83,7 @@ NOTE: SnapCenter プラグインをクラウド DB サーバーインスタン�
 
 [ 設定 ] > [ グローバル設定 ] に移動します。ハイパーバイザー設定で、「 VM に iSCSI 直接接続ディスクまたはすべてのホスト用の NFS がある」を選択し、更新をクリックします。
 
-image::snapctr_vmware_global.PNG[snapctr vmwareグローバル]
+image:snapctr_vmware_global.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -93,23 +93,23 @@ image::snapctr_vmware_global.PNG[snapctr vmwareグローバル]
 . 左側のメニューから [Hosts] タブをクリックし、 [Add] をクリックして [Add Host] ワークフローを開きます。
 . ホストタイプとして Windows を選択しますホスト名には ' ホスト名または IP アドレスを指定できますホスト名を SnapCenter ホストから正しいホスト IP アドレスに解決する必要があります。手順 2 で作成したホストクレデンシャルを選択します。インストールするプラグインパッケージとして Microsoft Windows と Microsoft SQL Server を選択します。
 +
-image::snapctr_add_windows_host_01.PNG[snapctr Windowsホスト01の追加]
+image:snapctr_add_windows_host_01.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . プラグインが Windows ホストにインストールされると、その全体的なステータスは「 Configure log directory 」と表示されます。
 +
-image::snapctr_add_windows_host_02.PNG[snapctr Windowsホストの追加02]
+image:snapctr_add_windows_host_02.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . ホスト名をクリックして、 SQL Server ログディレクトリの設定を開きます。
 +
-image::snapctr_add_windows_host_03.PNG[snapctr Windowsホストの追加03]
+image:snapctr_add_windows_host_03.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . [ ログディレクトリの設定 ] をクリックして、 [ Plug-in for SQL Server の設定 ] を開きます。
 +
-image::snapctr_add_windows_host_04.PNG[snapctr Windowsホスト04の追加]
+image:snapctr_add_windows_host_04.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . [ 参照 ] をクリックしてネットアップストレージを検出し、ログディレクトリを設定できるようにします。 SnapCenter はこのログディレクトリを使用して、 SQL Server トランザクションログファイルをロールアップします。[ 保存 ] をクリックします。
 +
-image::snapctr_add_windows_host_05.PNG[snapctr Windowsホストの追加05]
+image:snapctr_add_windows_host_05.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
 
@@ -117,14 +117,14 @@ NOTE: DB ホストにプロビジョニングされたネットアップスト�
 
 . ログディレクトリを構成すると、 Windows ホストプラグインの [ 全般的なステータス ] が [ 実行中 ] に変更されます。
 +
-image::snapctr_add_windows_host_06.PNG[snapctr Windowsホストの追加06]
+image:snapctr_add_windows_host_06.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . ホストをデータベース管理ユーザー ID に割り当てるには、 [ 設定とユーザー ] の [ アクセス ] タブに移動し、データベース管理ユーザー ID ( この場合はホストを割り当てる必要がある sqldba ) をクリックして、 [ 保存 ] をクリックしてホストリソースの割り当てを完了します。
 +
-image::snapctr_add_windows_host_07.PNG[snapctr Windowsホストの追加07]
+image:snapctr_add_windows_host_07.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
-image::snapctr_add_windows_host_08.PNG[snapctr Windowsホストの追加08]
+image:snapctr_add_windows_host_08.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -136,26 +136,26 @@ image::snapctr_add_windows_host_08.PNG[snapctr Windowsホストの追加08]
 . 左側のメニューから [Hosts] タブをクリックし、 [Add] をクリックして [Add Host] ワークフローを開きます。
 . ホストタイプとして Linux を選択します。ホスト名には、ホスト名または IP アドレスを使用できます。ただし、ホスト名を解決して、 SnapCenter ホストから正しいホスト IP アドレスを取得する必要があります。手順 2 で作成したホストクレデンシャルを選択します。ホストのクレデンシャルには sudo 権限が必要です。Oracle Database をインストールするプラグインとしてチェックし、 Oracle と Linux の両方のホストプラグインをインストールします。
 +
-image::snapctr_add_linux_host_01.PNG[snapctr Linuxホスト01の追加]
+image:snapctr_add_linux_host_01.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . [ その他のオプション ] をクリックし、 [ インストール前のチェックをスキップ ] を選択します。 インストール前のチェックを省略するかどうかを確認するプロンプトが表示されます。[ はい ] をクリックし、 [ 保存 ] をクリック
 +
-image::snapctr_add_linux_host_02.PNG[snapctr Linuxホストの追加02]
+image:snapctr_add_linux_host_02.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . Submit をクリックして、プラグインのインストールを開始します。次のように指紋の確認を求められます。
 +
-image::snapctr_add_linux_host_03.PNG[snapctr add Linuxホスト03]
+image:snapctr_add_linux_host_03.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . SnapCenter はホストの検証と登録を実行し、プラグインを Linux ホストにインストールします。ステータスは、プラグインのインストールから実行に変わります。
 +
-image::snapctr_add_linux_host_04.PNG[snapctr Linuxホスト04の追加]
+image:snapctr_add_linux_host_04.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 新しく追加したホストに、適切なデータベース管理ユーザ ID （この場合は oradba ）を割り当てます。
 +
-image::snapctr_add_linux_host_05.PNG[snapctr Linuxホストの追加05]
+image:snapctr_add_linux_host_05.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
-image::snapctr_add_linux_host_06.PNG[snapctr Linuxホストの追加06]
+image:snapctr_add_linux_host_06.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -165,23 +165,23 @@ image::snapctr_add_linux_host_06.PNG[snapctr Linuxホストの追加06]
 
 プラグインのインストールが正常に完了すると、ホスト上のデータベースリソースがすぐに検出されます。左側のメニューの [ リソース ] タブをクリックします。データベースプラットフォームのタイプに応じて、データベース、リソースグループなどのさまざまなビューを使用できます。ホスト上のリソースが検出されて表示されない場合は、 Refresh Resources タブをクリックする必要があります。
 
-image::snapctr_resources_ora.PNG[snapctrリソースora]
+image:snapctr_resources_ora.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 データベースが最初に検出されると、全体的なステータスは「 Not protected 」と表示されます。 前のスクリーンショットは、バックアップポリシーでまだ保護されていない Oracle データベースを示しています。
 
 バックアップの設定またはポリシーが設定されていて、バックアップが実行された場合、データベースの全体的なステータスには、バックアップのステータスが「 Backup succeeded 」と表示され、最後のバックアップのタイムスタンプが表示されます。次のスクリーンショットは、 SQL Server ユーザデータベースのバックアップステータスを示しています。
 
-image::snapctr_resources_sql.PNG[snapctrリソースSQL]
+image:snapctr_resources_sql.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 データベースアクセスクレデンシャルが適切に設定されていない場合は、赤いロックボタンが表示され、データベースにアクセスできないことが示されます。たとえば、 Windows クレデンシャルにデータベースインスタンスへの sysadmin アクセスがない場合、赤いロックを解除するためにデータベースクレデンシャルを再設定する必要があります。
 
-image::snapctr_add_windows_host_09.PNG[snapctr Windowsホストの追加09]
+image:snapctr_add_windows_host_09.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-image::snapctr_add_windows_host_10.PNG[snapctr Windowsホスト10の追加]
+image:snapctr_add_windows_host_10.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 Windows レベルまたはデータベースレベルのいずれかで適切なクレデンシャルを設定すると、赤いロックは消え、 SQL Server Type の情報が収集および確認されます。
 
-image::snapctr_add_windows_host_11.PNG[snapctr Windowsホストの追加11]
+image:snapctr_add_windows_host_11.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -194,13 +194,13 @@ image::snapctr_add_windows_host_11.PNG[snapctr Windowsホストの追加11]
 オンプレミスクラスタ：
 
 +
-image::snapctr_cluster_replication_01.PNG[snapctrクラスタレプリケーション01]
+image:snapctr_cluster_replication_01.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
 ターゲットの CVO クラスタ：
 
 +
-image::snapctr_cluster_replication_02.PNG[snapctrクラスタレプリケーション02]
+image:snapctr_cluster_replication_02.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . クラスタ間 LIF を設定した場合、 NetApp Cloud Manager でドラッグアンドドロップを使用してクラスタピアリングとボリュームレプリケーションを設定できます。を参照してください link:hybrid_dbops_snapcenter_getting_started_aws.html#aws-public-cloud["はじめに - AWS パブリッククラウド"] を参照してください。
 +
@@ -208,19 +208,19 @@ image::snapctr_cluster_replication_02.PNG[snapctrクラスタレプリケーシ�
 
 . ONTAP システムマネージャにログインします。クラスタ > 設定に移動し、ピアクラスタをクリックして、クラウド内の CVO インスタンスとのクラスタピアリングをセットアップします。
 +
-image::snapctr_vol_snapmirror_00.PNG[snapctr vol snapmirror 00]
+image:snapctr_vol_snapmirror_00.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . Volumes （ボリューム）タブに移動します。レプリケートするデータベースボリュームを選択し、 Protect （保護）をクリックします。
 +
-image::snapctr_vol_snapmirror_01.PNG[snapctr vol snapmirror 01]
+image:snapctr_vol_snapmirror_01.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 保護ポリシーを非同期に設定します。デスティネーションクラスタと Storage SVM を選択してください。
 +
-image::snapctr_vol_snapmirror_02.PNG[snapctr vol snapmirror 02]
+image:snapctr_vol_snapmirror_02.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . ソースとターゲットの間でボリュームが同期されていること、およびレプリケーション関係が正常な状態であることを確認します。
 +
-image::snapctr_vol_snapmirror_03.PNG[snapctr vol snapmirror 03]
+image:snapctr_vol_snapmirror_03.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -231,15 +231,15 @@ image::snapctr_vol_snapmirror_03.PNG[snapctr vol snapmirror 03]
 . SnapCenterAdmin 権限でユーザ ID を使用して SnapCenter にログインします。
 . メニューからストレージシステムタブをクリックし、新規をクリックして、レプリケートされたターゲットデータベースボリュームをホストする CVO ストレージ SVM を SnapCenter に追加します。Storage System フィールドにクラスタ管理 IP を入力し、適切なユーザ名とパスワードを入力します。
 +
-image::snapctr_add_cvo_svm_01.PNG[snapctr CVO SVM 01を追加]
+image:snapctr_add_cvo_svm_01.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . [ その他のオプション ] をクリックして、追加のストレージ構成オプションを開きます。[ プラットフォーム Cloud Volumes ONTAP ] フィールドで、 [ 保存 ] をクリックし、 [ セカンダリ ] をオンにします。
 +
-image::snapctr_add_cvo_svm_02.PNG[snapctr CVO SVMを追加02]
+image:snapctr_add_cvo_svm_02.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . に示すように、ストレージシステムを SnapCenter データベース管理ユーザ ID に割り当てます <<3. SnapCenter ホストプラグインのインストール>>。
 +
-image::snapctr_add_cvo_svm_03.PNG[snapctr CVO SVMを追加03]
+image:snapctr_add_cvo_svm_03.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -255,35 +255,35 @@ image::snapctr_add_cvo_svm_03.PNG[snapctr CVO SVMを追加03]
 
 . データベース管理ユーザ ID として SnapCenter にログインし、 [ 設定 ] をクリックして、 [ ポリシー ] をクリックします。
 +
-image::snapctr_ora_policy_data_01.PNG[snapctr oraポリシーデータ01]
+image:snapctr_ora_policy_data_01.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 新規をクリックして新しいバックアップポリシー作成ワークフローを開始するか、変更する既存のポリシーを選択します。
 +
-image::snapctr_ora_policy_data_02.PNG[snapctr oraポリシーデータ02]
+image:snapctr_ora_policy_data_02.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . バックアップタイプとスケジュール頻度を選択します。
 +
-image::snapctr_ora_policy_data_03.PNG[snapctr oraポリシーデータ03]
+image:snapctr_ora_policy_data_03.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . バックアップ保持を設定します。これにより、保持するフルデータベースバックアップコピーの数が定義されます。
 +
-image::snapctr_ora_policy_data_04.PNG[snapctr oraポリシーデータ04]
+image:snapctr_ora_policy_data_04.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . セカンダリレプリケーションのオプションを選択して、クラウドのセカンダリサイトにレプリケートするローカルプライマリ Snapshot バックアップをプッシュします。
 +
-image::snapctr_ora_policy_data_05.PNG[snapctr oraポリシーデータ05]
+image:snapctr_ora_policy_data_05.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . バックアップの実行前と実行後に実行するオプションのスクリプトを指定します。
 +
-image::snapctr_ora_policy_data_06.PNG[snapctr oraポリシーデータ06]
+image:snapctr_ora_policy_data_06.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 必要に応じてバックアップ検証を実行
 +
-image::snapctr_ora_policy_data_07.PNG[snapctr oraポリシーデータ07]
+image:snapctr_ora_policy_data_07.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . まとめ
 +
-image::snapctr_ora_policy_data_08.PNG[snapctr oraポリシーデータ08]
+image:snapctr_ora_policy_data_08.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -294,31 +294,31 @@ image::snapctr_ora_policy_data_08.PNG[snapctr oraポリシーデータ08]
 . データベース管理ユーザ ID で SnapCenter にログインし、 [ 設定 ] をクリックして、 [ ポリシー ] をクリックします。
 . 新規をクリックして新しいバックアップポリシー作成ワークフローを開始するか、既存のポリシーを選択して変更します。
 +
-image::snapctr_ora_policy_log_01.PNG[snapctr oraポリシーログ01]
+image:snapctr_ora_policy_log_01.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . バックアップタイプとスケジュール頻度を選択します。
 +
-image::snapctr_ora_policy_log_02.PNG[snapctr oraポリシーログ02]
+image:snapctr_ora_policy_log_02.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . ログの保持期間を設定します。
 +
-image::snapctr_ora_policy_log_03.PNG[snapctr oraポリシーログ03]
+image:snapctr_ora_policy_log_03.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . パブリッククラウド内のセカンダリサイトへのレプリケーションを有効にします。
 +
-image::snapctr_ora_policy_log_04.PNG[snapctr oraポリシーログ04]
+image:snapctr_ora_policy_log_04.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . ログバックアップの前後に実行するオプションのスクリプトを指定します。
 +
-image::snapctr_ora_policy_log_05.PNG[snapctr oraポリシーログ05]
+image:snapctr_ora_policy_log_05.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . バックアップ検証スクリプトを指定します。
 +
-image::snapctr_ora_policy_log_06.PNG[snapctr oraポリシーログ06]
+image:snapctr_ora_policy_log_06.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . まとめ
 +
-image::snapctr_ora_policy_log_07.PNG[snapctr oraポリシーログ07]
+image:snapctr_ora_policy_log_07.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -328,35 +328,35 @@ image::snapctr_ora_policy_log_07.PNG[snapctr oraポリシーログ07]
 
 . データベース管理ユーザ ID で SnapCenter にログインし、 [ 設定 ] をクリックして、 [ ポリシー ] をクリックします。
 +
-image::snapctr_sql_policy_data_01.PNG[snapctr SQLポリシーデータ01]
+image:snapctr_sql_policy_data_01.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 新規をクリックして新しいバックアップポリシー作成ワークフローを開始するか、既存のポリシーを選択して変更します。
 +
-image::snapctr_sql_policy_data_02.PNG[snapctr SQLポリシーデータ02]
+image:snapctr_sql_policy_data_02.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . バックアップオプションとスケジュール頻度を定義します。可用性グループが設定された SQL Server の場合は、優先バックアップレプリカを設定できます。
 +
-image::snapctr_sql_policy_data_03.PNG[snapctr SQLポリシーデータ03]
+image:snapctr_sql_policy_data_03.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . バックアップの保持期間を設定します。
 +
-image::snapctr_sql_policy_data_04.PNG[snapctr SQLポリシーデータ04]
+image:snapctr_sql_policy_data_04.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . クラウドのセカンダリサイトへのバックアップコピーレプリケーションを有効にする。
 +
-image::snapctr_sql_policy_data_05.PNG[snapctr SQLポリシーデータ05]
+image:snapctr_sql_policy_data_05.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . バックアップジョブの前後に実行するオプションのスクリプトを指定します。
 +
-image::snapctr_sql_policy_data_06.PNG[snapctr SQLポリシーデータ06]
+image:snapctr_sql_policy_data_06.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . バックアップ検証を実行するオプションを指定します。
 +
-image::snapctr_sql_policy_data_07.PNG[snapctr SQLポリシーデータ07]
+image:snapctr_sql_policy_data_07.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . まとめ
 +
-image::snapctr_sql_policy_data_08.PNG[snapctr SQLポリシーデータ08]
+image:snapctr_sql_policy_data_08.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -366,27 +366,27 @@ image::snapctr_sql_policy_data_08.PNG[snapctr SQLポリシーデータ08]
 
 . データベース管理ユーザ ID で SnapCenter にログインし、 [ 設定 ] 、 [ ポリシー ] 、 [ 新規 ] の順にクリックして、新しいポリシー作成ワークフローを開始します。
 +
-image::snapctr_sql_policy_log_01.PNG[snapctr SQLポリシーログ01]
+image:snapctr_sql_policy_log_01.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . ログバックアップオプションとスケジュール頻度を定義します。可用性グループが設定された SQL Server の場合は、優先バックアップレプリカを設定できます。
 +
-image::snapctr_sql_policy_log_02.PNG[snapctr SQLポリシーログ02]
+image:snapctr_sql_policy_log_02.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . SQL Server データバックアップポリシーでログバックアップの保持を定義します。デフォルトをここで受け入れます。
 +
-image::snapctr_sql_policy_log_03.PNG[snapctr SQLポリシーログ03]
+image:snapctr_sql_policy_log_03.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . クラウドのセカンダリへのログバックアップのレプリケーションを有効にします。
 +
-image::snapctr_sql_policy_log_04.PNG[snapctr SQLポリシーログ04]
+image:snapctr_sql_policy_log_04.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . バックアップジョブの前後に実行するオプションのスクリプトを指定します。
 +
-image::snapctr_sql_policy_log_05.PNG[snapctr SQLポリシーログ05]
+image:snapctr_sql_policy_log_05.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . まとめ
 +
-image::snapctr_sql_policy_log_06.PNG[snapctr SQLポリシーログ06]
+image:snapctr_sql_policy_log_06.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -402,35 +402,35 @@ SnapCenter では、リソースグループを使用して、サーバでホス
 
 . データベース管理ユーザ ID で SnapCenter にログインし、 Resources タブに移動します。[ 表示 ] ドロップダウンリストで、 [ データベース ] または [ リソースグループ ] を選択して、リソースグループ作成ワークフローを起動します。
 +
-image::snapctr_ora_rgroup_full_01.PNG[snapctr ora rgroup full 01]
+image:snapctr_ora_rgroup_full_01.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . リソースグループの名前とタグを指定します。Snapshot コピーの命名形式を定義し、冗長なアーカイブログデスティネーションが設定されている場合は省略できます。
 +
-image::snapctr_ora_rgroup_full_02.PNG[snapctr ora rgroup full 02]
+image:snapctr_ora_rgroup_full_02.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . リソースグループにデータベースリソースを追加する。
 +
-image::snapctr_ora_rgroup_full_03.PNG[snapctr ora rgroup full 03]
+image:snapctr_ora_rgroup_full_03.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . ドロップダウンリストから、セクション 7 で作成したフルバックアップポリシーを選択します。
 +
-image::snapctr_ora_rgroup_full_04.PNG[snapctr ora rgroup full 04]
+image:snapctr_ora_rgroup_full_04.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . （ + ）記号をクリックして、目的のバックアップスケジュールを設定します。
 +
-image::snapctr_ora_rgroup_full_05.PNG[snapctr ora rgroup full 05]
+image:snapctr_ora_rgroup_full_05.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . Load Locators （ロケータのロード）をクリックして、ソースボリュームとデスティネーションボリュームをロードします。
 +
-image::snapctr_ora_rgroup_full_06.PNG[snapctr ora rgroup full 06]
+image:snapctr_ora_rgroup_full_06.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 必要に応じて、 SMTP サーバに E メール通知を設定します。
 +
-image::snapctr_ora_rgroup_full_07.PNG[snapctr ora rgroup full 07]
+image:snapctr_ora_rgroup_full_07.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . まとめ
 +
-image::snapctr_ora_rgroup_full_08.PNG[snapctr ora rgroup full 08]
+image:snapctr_ora_rgroup_full_08.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -440,35 +440,35 @@ image::snapctr_ora_rgroup_full_08.PNG[snapctr ora rgroup full 08]
 
 . データベース管理ユーザ ID で SnapCenter にログインし、 Resources タブに移動します。[ 表示 ] ドロップダウンリストで、 [ データベース ] または [ リソースグループ ] を選択して、リソースグループ作成ワークフローを起動します。
 +
-image::snapctr_ora_rgroup_log_01.PNG[snapctr ora rgroup log 01]
+image:snapctr_ora_rgroup_log_01.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . リソースグループの名前とタグを指定します。Snapshot コピーの命名形式を定義し、冗長なアーカイブログデスティネーションが設定されている場合は省略できます。
 +
-image::snapctr_ora_rgroup_log_02.PNG[snapctr ora rgroupログ02]
+image:snapctr_ora_rgroup_log_02.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . リソースグループにデータベースリソースを追加する。
 +
-image::snapctr_ora_rgroup_log_03.PNG[snapctr ora rgroup log 03]
+image:snapctr_ora_rgroup_log_03.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . ドロップダウンリストから、セクション 7 で作成したログバックアップポリシーを選択します。
 +
-image::snapctr_ora_rgroup_log_04.PNG[snapctr ora rgroup log 04]
+image:snapctr_ora_rgroup_log_04.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . （ + ）記号をクリックして、目的のバックアップスケジュールを設定します。
 +
-image::snapctr_ora_rgroup_log_05.PNG[snapctr ora rgroup log 05]
+image:snapctr_ora_rgroup_log_05.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . バックアップ検証が設定されている場合は、ここに表示されます。
 +
-image::snapctr_ora_rgroup_log_06.PNG[snapctr ora rgroup log 06]
+image:snapctr_ora_rgroup_log_06.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 必要に応じて、 E メール通知用の SMTP サーバを設定します。
 +
-image::snapctr_ora_rgroup_log_07.PNG[snapctr ora rgroupログ07]
+image:snapctr_ora_rgroup_log_07.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . まとめ
 +
-image::snapctr_ora_rgroup_log_08.PNG[snapctr ora rgroup log 08]
+image:snapctr_ora_rgroup_log_08.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -478,31 +478,31 @@ image::snapctr_ora_rgroup_log_08.PNG[snapctr ora rgroup log 08]
 
 . データベース管理ユーザ ID で SnapCenter にログインし、 Resources タブに移動します。[ 表示 ] ドロップダウンリストで、 [ データベース ] または [ リソースグループ ] を選択して、リソースグループ作成ワークフローを起動します。リソースグループの名前とタグを指定します。Snapshot コピーの命名形式を定義できます。
 +
-image::snapctr_sql_rgroup_full_01.PNG[snapctr SQL rgroup full 01]
+image:snapctr_sql_rgroup_full_01.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . バックアップするデータベースリソースを選択します。
 +
-image::snapctr_sql_rgroup_full_02.PNG[snapctr SQL rgroup full 02]
+image:snapctr_sql_rgroup_full_02.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . セクション 7 で作成したフル SQL バックアップポリシーを選択します。
 +
-image::snapctr_sql_rgroup_full_03.PNG[snapctr sql rgroup full 03]
+image:snapctr_sql_rgroup_full_03.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . バックアップの正確なタイミングおよび頻度を追加します。
 +
-image::snapctr_sql_rgroup_full_04.PNG[snapctr sql rgroup full 04]
+image:snapctr_sql_rgroup_full_04.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . バックアップ検証を実行する場合は、セカンダリ上のバックアップ用の検証サーバを選択します。Load Locator （ロケータのロード）をクリックしてセカンダリストレージの場所を入力します。
 +
-image::snapctr_sql_rgroup_full_05.PNG[snapctr SQL rgroup full 05]
+image:snapctr_sql_rgroup_full_05.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 必要に応じて、 SMTP サーバに E メール通知を設定します。
 +
-image::snapctr_sql_rgroup_full_06.PNG[snapctr SQL rgroup full 06]
+image:snapctr_sql_rgroup_full_06.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . まとめ
 +
-image::snapctr_sql_rgroup_full_07.PNG[snapctr SQL rgroup full 07]
+image:snapctr_sql_rgroup_full_07.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -512,31 +512,31 @@ image::snapctr_sql_rgroup_full_07.PNG[snapctr SQL rgroup full 07]
 
 . データベース管理ユーザ ID で SnapCenter にログインし、 Resources タブに移動します。[ 表示 ] ドロップダウンリストで、 [ データベース ] または [ リソースグループ ] を選択して、リソースグループ作成ワークフローを起動します。リソースグループの名前とタグを指定します。Snapshot コピーの命名形式を定義できます。
 +
-image::snapctr_sql_rgroup_log_01.PNG[snapctr SQL rgroupログ01]
+image:snapctr_sql_rgroup_log_01.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . バックアップするデータベースリソースを選択します。
 +
-image::snapctr_sql_rgroup_log_02.PNG[snapctr SQL rgroupログ02]
+image:snapctr_sql_rgroup_log_02.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . セクション 7 で作成した SQL ログバックアップポリシーを選択します。
 +
-image::snapctr_sql_rgroup_log_03.PNG[snapctr SQL rgroupログ03]
+image:snapctr_sql_rgroup_log_03.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . バックアップの正確なタイミングと頻度を追加します。
 +
-image::snapctr_sql_rgroup_log_04.PNG[snapctr SQL rgroupログ04]
+image:snapctr_sql_rgroup_log_04.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . バックアップ検証を実行する場合は、セカンダリ上のバックアップ用の検証サーバを選択します。Load Locator をクリックしてセカンダリストレージの場所を入力します。
 +
-image::snapctr_sql_rgroup_log_05.PNG[snapctr SQL rgroupログ05]
+image:snapctr_sql_rgroup_log_05.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 必要に応じて、 SMTP サーバに E メール通知を設定します。
 +
-image::snapctr_sql_rgroup_log_06.PNG[snapctr SQL rgroupログ06]
+image:snapctr_sql_rgroup_log_06.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . まとめ
 +
-image::snapctr_sql_rgroup_log_07.PNG[snapctr SQL rgroupログ07]
+image:snapctr_sql_rgroup_log_07.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -546,10 +546,10 @@ image::snapctr_sql_rgroup_log_07.PNG[snapctr SQL rgroupログ07]
 
 データベースリソースを保護するためにデータベースバックアップリソースグループを作成すると、定義済みのスケジュールに従ってバックアップジョブが実行されます。[ モニタ ] タブでジョブの実行ステータスを確認します。
 
-image::snapctr_job_status_sql.PNG[snapctrジョブステータスsql]
+image:snapctr_job_status_sql.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 リソースタブでデータベース名をクリックしてデータベースバックアップの詳細を表示し、ローカルコピーとミラーコピーを切り替えて、 Snapshot バックアップがパブリッククラウドのセカンダリサイトにレプリケートされていることを確認します。
 
-image::snapctr_job_status_ora.PNG[snapctrジョブステータスora]
+image:snapctr_job_status_ora.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 この時点で、クラウド内のデータベースバックアップコピーをクローニングして、開発 / テストプロセスを実行したり、プライマリに障害が発生した場合にディザスタリカバリを実行したりできます。

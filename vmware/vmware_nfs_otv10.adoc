@@ -37,7 +37,7 @@ ONTAP Tools for VMware vSphere 10は次世代アーキテクチャを特徴と�
 
 次の図は、ONTAP tools for VMware vSphere 10の実装のアーキテクチャコンポーネントを示しています。
 
-image::vmware-nfs-otv10-image29.png[otv10アーキテクチャ]
+image:vmware-nfs-otv10-image29.png["otv10アーキテクチャ"]
 
 
 
@@ -77,14 +77,14 @@ NFSトラフィック用の複数のLIFを含むSVMを作成するには、次�
 
 . ONTAPシステムマネージャで、左側のメニュー*[Storage VMs]*に移動し、*+[追加]*をクリックして開始します。
 +
-image::vmware-vcf-asa-image01.png[[+ Add]をクリックしてSVMの作成を開始]
+image:vmware-vcf-asa-image01.png["[+ Add]をクリックしてSVMの作成を開始"]
 
 +
 ｛nbsp｝
 
 . Storage VMの追加*ウィザードで、SVMの*名前*を指定し、* IPスペース*を選択して*[アクセスプロトコル]*で*[SMB/CIFS、NFS、S3 *]タブをクリックし、*[NFSを有効にする]*チェックボックスをオンにします。
 +
-image::vmware-vcf-aff-image35.png[Storage VM追加ウィザード- NFSの有効化]
+image:vmware-vcf-aff-image35.png["Storage VM追加ウィザード- NFSの有効化"]
 
 +
 
@@ -92,14 +92,14 @@ TIP: ONTAP Tools for VMware vSphereを使用してデータストアの導入プ
 
 . [ネットワークインターフェイス]セクションで、最初のLIFの*[IPアドレス]*、*[サブネットマスク]*、および*[ブロードキャストドメインとポート]*を入力します。それ以降のLIFの場合は、チェックボックスをオンにすると、残りのすべてのLIFで共通の設定を使用するか、別 々 の設定を使用できます。
 +
-image::vmware-vcf-aff-image36.png[LIFのネットワーク情報を入力]
+image:vmware-vcf-aff-image36.png["LIFのネットワーク情報を入力"]
 
 +
 ｛nbsp｝
 
 . （マルチテナンシー環境の場合）Storage VM管理アカウントを有効にするかどうかを選択し、*[保存]*をクリックしてSVMを作成します。
 +
-image::vmware-vcf-asa-image04.png[SVMアカウントを有効にして終了]
+image:vmware-vcf-asa-image04.png["SVMアカウントを有効にして終了"]
 
 
 
@@ -117,7 +117,7 @@ image::vmware-vcf-asa-image04.png[SVMアカウントを有効にして終了]
 
 . vSphere Clientで、ワークロードドメインの*[Inventory]>[Networking]*に移動します。既存のDistributed Switchに移動し、* New Distributed Port Group...*を作成するアクションを選択します。
 +
-image::vmware-nfs-otv10-image01.png[新しいポートグループの作成を選択]
+image:vmware-nfs-otv10-image01.png["新しいポートグループの作成を選択"]
 
 +
 ｛nbsp｝
@@ -125,7 +125,7 @@ image::vmware-nfs-otv10-image01.png[新しいポートグループの作成を�
 . [New Distributed Port Group]*ウィザードで、新しいポートグループの名前を入力し、*[Next]*をクリックして続行します。
 . [設定の構成]ページで、すべての設定を入力します。VLANを使用している場合は、正しいVLAN IDを指定してください。[次へ]*をクリックして続行します。
 +
-image::vmware-vcf-asa-image23.png[VLAN IDを入力]
+image:vmware-vcf-asa-image23.png["VLAN IDを入力"]
 
 +
 ｛nbsp｝
@@ -133,14 +133,14 @@ image::vmware-vcf-asa-image23.png[VLAN IDを入力]
 . [選択内容の確認]ページで、変更内容を確認し、*[終了]*をクリックして新しい分散ポートグループを作成します。
 . ポートグループが作成されたら、ポートグループに移動して*[設定の編集...]*の操作を選択します。
 +
-image::vmware-vcf-aff-image37.png[DPG -設定の編集]
+image:vmware-vcf-aff-image37.png["DPG -設定の編集"]
 
 +
 ｛nbsp｝
 
 . [Distributed Port Group]-[Edit Settings]*ページで、左側のメニューの*[Teaming and failover]*に移動します。NFSトラフィックに使用するアップリンクのチーミングを有効にするには、それらのアップリンクが[アクティブなアップリンク]領域にまとめられていることを確認します。未使用のアップリンクを*未使用のアップリンク*に移動します。
 +
-image::vmware-nfs-otv10-image02.png[DPGチームアップリンク]
+image:vmware-nfs-otv10-image02.png["DPGチームアップリンク"]
 
 +
 ｛nbsp｝
@@ -156,21 +156,21 @@ image::vmware-nfs-otv10-image02.png[DPGチームアップリンク]
 
 . vSphere Clientで、ワークロードドメインインベントリ内のいずれかのESXiホストに移動します。[設定]タブで*[VMkernel adapters]*を選択し、*[ネットワークの追加...]*をクリックして開始します。
 +
-image::vmware-nfs-otv10-image03.png[ネットワーク追加ウィザードの開始]
+image:vmware-nfs-otv10-image03.png["ネットワーク追加ウィザードの開始"]
 
 +
 ｛nbsp｝
 
 . [接続タイプの選択]ウィンドウで*[VMkernel Network Adapter]*を選択し、*[次へ]*をクリックして続行します。
 +
-image::vmware-vcf-asa-image08.png[VMkernelネットワークアダプタを選択]
+image:vmware-vcf-asa-image08.png["VMkernelネットワークアダプタを選択"]
 
 +
 ｛nbsp｝
 
 . [ターゲットデバイスの選択]ページで、以前に作成したNFS用の分散ポートグループのいずれかを選択します。
 +
-image::vmware-nfs-otv10-image04.png[ターゲットポートグループを選択]
+image:vmware-nfs-otv10-image04.png["ターゲットポートグループを選択"]
 
 +
 ｛nbsp｝
@@ -178,14 +178,14 @@ image::vmware-nfs-otv10-image04.png[ターゲットポートグループを選�
 . [ポートのプロパティ]ページで、デフォルト（有効なサービスなし）のままにし、*[次へ]*をクリックして続行します。
 . [IPv4 settings]*ページで、*[IP address]*、*[Subnet mask]*を入力し、新しいゲートウェイIPアドレスを指定します（必要な場合のみ）。[次へ]*をクリックして続行します。
 +
-image::vmware-nfs-otv10-image05.png[VMkernel IPv4設定]
+image:vmware-nfs-otv10-image05.png["VMkernel IPv4設定"]
 
 +
 ｛nbsp｝
 
 . [選択内容の確認]ページで選択内容を確認し、*[終了]*をクリックしてVMkernelアダプタを作成します。
 +
-image::vmware-nfs-otv10-image06.png[VMkernelの選択内容の確認]
+image:vmware-nfs-otv10-image06.png["VMkernelの選択内容の確認"]
 
 
 
@@ -212,14 +212,14 @@ NOTE: 非HA構成のシナリオでは、3つの使用可能なIPアドレスが
 . vSphere 8クラスタのvCenterアプライアンスにログインします。
 . vCenterアプライアンスのインターフェイスで管理クラスタを右クリックし、* Deploy OVF Template…*を選択します。
 +
-image::vmware-nfs-otv10-image07.png[OVFテンプレートの導入...]
+image:vmware-nfs-otv10-image07.png["OVFテンプレートの導入..."]
 
 +
 ｛nbsp｝
 
 . [Deploy OVF Template]ウィザードで、*[Local file]*ラジオボタンをクリックし、前の手順でダウンロードしたONTAP tools OVAファイルを選択します。
 +
-image::vmware-vcf-aff-image22.png[OVAファイルを選択]
+image:vmware-vcf-aff-image22.png["OVAファイルを選択"]
 
 +
 ｛nbsp｝
@@ -227,14 +227,14 @@ image::vmware-vcf-aff-image22.png[OVAファイルを選択]
 . ウィザードの手順2~5では、VMの名前とフォルダを選択し、コンピューティングリソースを選択して詳細を確認し、ライセンス契約に同意します。
 . 構成ファイルとディスクファイルの格納場所として、ローカルデータストアまたはVSANデータストアを選択します。
 +
-image::vmware-nfs-otv10-image08.png[OVAファイルを選択]
+image:vmware-nfs-otv10-image08.png["OVAファイルを選択"]
 
 +
 ｛nbsp｝
 
 . [Select network]ページで、管理トラフィックに使用するネットワークを選択します。
 +
-image::vmware-nfs-otv10-image09.png[ネットワークの選択]
+image:vmware-nfs-otv10-image09.png["ネットワークの選択"]
 
 +
 ｛nbsp｝
@@ -245,7 +245,7 @@ image::vmware-nfs-otv10-image09.png[ネットワークの選択]
 NOTE: ONTAP Tools 10には、複数のノードを使用した高可用性の導入など、複数の導入構成が用意されています。すべての導入構成のドキュメントについては、を参照してください https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/deploy/prepare-deployment.html["ONTAP Tools for VMware vSphereの導入準備"]。
 
 +
-image::vmware-nfs-otv10-image10.png[ネットワークの選択]
+image:vmware-nfs-otv10-image10.png["ネットワークの選択"]
 
 +
 ｛nbsp｝
@@ -267,10 +267,10 @@ image::vmware-nfs-otv10-image10.png[ネットワークの選択]
 [次へ]*をクリックして続行します。
 
 +
-image::vmware-nfs-otv10-image11.png[OTVテンプレートのカスタマイズ1]
+image:vmware-nfs-otv10-image11.png["OTVテンプレートのカスタマイズ1"]
 
 +
-image::vmware-nfs-otv10-image12.png[OTVテンプレートのカスタマイズ2]
+image:vmware-nfs-otv10-image12.png["OTVテンプレートのカスタマイズ2"]
 
 +
 ｛nbsp｝
@@ -288,70 +288,70 @@ ONTAPツールマネージャは、ONTAPツール10のグローバル設定を�
 
 . ONTAP tools Managerにアクセスするには、 https://loadBalanceIP:8443/virtualization/ui/[]Webブラウザでに移動し、導入時に指定した管理クレデンシャルを使用してログインします。
 +
-image::vmware-nfs-otv10-image13.png[ONTAP Toolsマネージャ]
+image:vmware-nfs-otv10-image13.png["ONTAP Toolsマネージャ"]
 
 +
 ｛nbsp｝
 
 . [Getting Started]ページで、*[Go to Storage backends]*をクリックします。
 +
-image::vmware-nfs-otv10-image14.png[はじめに]
+image:vmware-nfs-otv10-image14.png["はじめに"]
 
 +
 ｛nbsp｝
 
 . [ストレージバックエンド]*ページで、*[追加]*をクリックして、ONTAP tools 10に登録するONTAPストレージシステムのクレデンシャルを入力します。
 +
-image::vmware-nfs-otv10-image15.png[ストレージバックエンドの追加]
+image:vmware-nfs-otv10-image15.png["ストレージバックエンドの追加"]
 
 +
 ｛nbsp｝
 
 . [ストレージバックエンドの追加]*ボックスで、ONTAPストレージシステムのクレデンシャルを入力します。
 +
-image::vmware-nfs-otv10-image16.png[ストレージバックエンドの追加]
+image:vmware-nfs-otv10-image16.png["ストレージバックエンドの追加"]
 
 +
 ｛nbsp｝
 
 . 左側のメニューで*[vCenters]*をクリックし、*[add]*をクリックして、ONTAP tools 10に登録するvCenterサーバのクレデンシャルを入力します。
 +
-image::vmware-nfs-otv10-image17.png[vCenterサーバの追加]
+image:vmware-nfs-otv10-image17.png["vCenterサーバの追加"]
 
 +
 ｛nbsp｝
 
 . [Add vCenter]*ボックスで、ONTAPストレージシステムのクレデンシャルを入力します。
 +
-image::vmware-nfs-otv10-image18.png[ストレージのクレデンシャルの追加]
+image:vmware-nfs-otv10-image18.png["ストレージのクレデンシャルの追加"]
 
 +
 ｛nbsp｝
 
 . 新しく検出されたvCenter Serverの縦3ドットメニューで、*[ストレージバックエンドの関連付け]*を選択します。
 +
-image::vmware-nfs-otv10-image19.png[ストレージバックエンドの関連付け]
+image:vmware-nfs-otv10-image19.png["ストレージバックエンドの関連付け"]
 
 +
 ｛nbsp｝
 
 . [ストレージバックエンドの関連付け]*ボックスで、vCenterサーバに関連付けるONTAPストレージシステムを選択し、*[関連付け]*をクリックして操作を完了します。
 +
-image::vmware-nfs-otv10-image20.png[関連付けるストレージシステムの選択]
+image:vmware-nfs-otv10-image20.png["関連付けるストレージシステムの選択"]
 
 +
 ｛nbsp｝
 
 . インストールを確認するには、vSphere Clientにログインし、左側のメニューから* NetApp ONTAP tools *を選択します。
 +
-image::vmware-nfs-otv10-image21.png[Access ONTAP toolsプラグイン]
+image:vmware-nfs-otv10-image21.png["Access ONTAP toolsプラグイン"]
 
 +
 ｛nbsp｝
 
 . ONTAP toolsダッシュボードで、ストレージバックエンドがvCenter Serverに関連付けられていることを確認します。
 +
-image::vmware-nfs-otv10-image22.png[ONTAP Toolsダッシュボード]
+image:vmware-nfs-otv10-image22.png["ONTAP Toolsダッシュボード"]
 
 +
 ｛nbsp｝
@@ -366,42 +366,42 @@ ONTAP tools 10を使用して、NFSで実行されているONTAPデータスト�
 
 . vSphere Clientで、ストレージインベントリに移動します。actions *メニューから* NetApp ONTAP tools > Create datastore *を選択します。
 +
-image::vmware-nfs-otv10-image23.png[ONTAP tools -データストアの作成]
+image:vmware-nfs-otv10-image23.png["ONTAP tools -データストアの作成"]
 
 +
 ｛nbsp｝
 
 . データストアの作成ウィザードの*[タイプ]*ページで、[NFS]ラジオボタンをクリックし、*[次へ]*をクリックして続行します。
 +
-image::vmware-nfs-otv10-image24.png[データストアタイプを選択]
+image:vmware-nfs-otv10-image24.png["データストアタイプを選択"]
 
 +
 ｛nbsp｝
 
 . [名前とプロトコル]*ページで、データストアの名前、サイズ、プロトコルを入力します。[次へ]*をクリックして続行します。
 +
-image::vmware-nfs-otv10-image25.png[データストアタイプを選択]
+image:vmware-nfs-otv10-image25.png["データストアタイプを選択"]
 
 +
 ｛nbsp｝
 
 . [ストレージ]*ページで、プラットフォーム（ストレージシステムをタイプでフィルタリング）とStorage VMを選択します。必要に応じて、カスタムのエクスポートポリシーを選択します。[次へ]*をクリックして続行します。
 +
-image::vmware-nfs-otv10-image26.png[[ストレージ]ページ]
+image:vmware-nfs-otv10-image26.png["[ストレージ]ページ"]
 
 +
 ｛nbsp｝
 
 . [ストレージ属性]*ページで、使用するストレージアグリゲートを選択し、必要に応じてスペースリザベーションやQoSなどの詳細オプションを選択します。[次へ]*をクリックして続行します。
 +
-image::vmware-nfs-otv10-image27.png[[ストレージ属性]ページ]
+image:vmware-nfs-otv10-image27.png["[ストレージ属性]ページ"]
 
 +
 ｛nbsp｝
 
 . 最後に、*[概要]*を確認し、[終了]をクリックしてNFSデータストアの作成を開始します。
 +
-image::vmware-nfs-otv10-image28.png[概要を確認して終了]
+image:vmware-nfs-otv10-image28.png["概要を確認して終了"]
 
 
 
@@ -413,21 +413,21 @@ ONTAP tools 10を使用して既存のNFSデータストアのサイズを変更
 
 . vSphere Clientで、ストレージインベントリに移動します。actions *メニューから* NetApp ONTAP tools > Resize datastore *を選択します。
 +
-image::vmware-nfs-otv10-image30.png[データストアのサイズ変更を選択]
+image:vmware-nfs-otv10-image30.png["データストアのサイズ変更を選択"]
 
 +
 ｛nbsp｝
 
 . [データストアのサイズ変更]*ウィザードで、データストアの新しいサイズ（GB）を入力し、*[サイズ変更]*をクリックして続行します。
 +
-image::vmware-nfs-otv10-image31.png[データストアのサイズ変更ウィザード]
+image:vmware-nfs-otv10-image31.png["データストアのサイズ変更ウィザード"]
 
 +
 ｛nbsp｝
 
 . [最近のタスク]*ペインでサイズ変更ジョブの進捗状況を監視します。
 +
-image::vmware-nfs-otv10-image32.png[[最近のタスク]ペイン]
+image:vmware-nfs-otv10-image32.png["[最近のタスク]ペイン"]
 
 +
 ｛nbsp｝

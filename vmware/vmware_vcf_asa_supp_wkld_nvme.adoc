@@ -44,7 +44,7 @@ summary:
 
 NetAppでは、NVMe/TCPに完全に冗長なネットワーク設計を推奨しています。次の図は、ストレージシステム、スイッチ、ネットワークアダプタ、およびホストシステムにフォールトトレランスを提供する冗長構成の例を示しています。『NetApp』を参照してください。 link:https://docs.netapp.com/us-en/ontap/san-config/index.html["SAN 構成リファレンス"] 追加情報 の場合。
 
-image::vmware-vcf-asa-image74.png[NVMe-TCPネットワーク設計]
+image:vmware-vcf-asa-image74.png["NVMe-TCPネットワーク設計"]
 
 複数のパスをまたいだマルチパスとフェイルオーバーを実現するために、NetAppでは、NVMe/TCP構成のすべてのSVMについて、ストレージノードごとに少なくとも2つのLIFを別 々 のイーサネットネットワークに配置することを推奨しています。
 
@@ -71,14 +71,14 @@ NVMe/TCPトラフィック用のLIFを複数持つSVMを作成するには、次
 
 . ONTAPシステムマネージャで、左側のメニュー*[Storage VMs]*に移動し、*+[追加]*をクリックして開始します。
 +
-image::vmware-vcf-asa-image01.png[[+ Add]をクリックしてSVMの作成を開始]
+image:vmware-vcf-asa-image01.png["[+ Add]をクリックしてSVMの作成を開始"]
 
 +
 ｛nbsp｝
 
 . Storage VMの追加*ウィザードで、SVMの*名前*を指定して*[IP Space]*を選択し、*[アクセスプロトコル]*で*[NVMe]*タブをクリックし、*[NVMe/TCPを有効にする]*チェックボックスをオンにします。
 +
-image::vmware-vcf-asa-image75.png[Storage VM追加ウィザード- NVMe/TCPの有効化]
+image:vmware-vcf-asa-image75.png["Storage VM追加ウィザード- NVMe/TCPの有効化"]
 
 +
 ｛nbsp｝
@@ -89,14 +89,14 @@ image::vmware-vcf-asa-image75.png[Storage VM追加ウィザード- NVMe/TCPの�
 NOTE: 複数のパスをまたいだマルチパスとフェイルオーバーを実現するために、NetAppでは、NVMe/TCP構成のすべてのSVMについて、ストレージノードごとに少なくとも2つのLIFを別 々 のイーサネットネットワークに配置することを推奨しています。
 
 +
-image::vmware-vcf-asa-image76.png[LIFのネットワーク情報を入力]
+image:vmware-vcf-asa-image76.png["LIFのネットワーク情報を入力"]
 
 +
 ｛nbsp｝
 
 . （マルチテナンシー環境の場合）Storage VM管理アカウントを有効にするかどうかを選択し、*[保存]*をクリックしてSVMを作成します。
 +
-image::vmware-vcf-asa-image04.png[SVMアカウントを有効にして終了]
+image:vmware-vcf-asa-image04.png["SVMアカウントを有効にして終了"]
 
 
 
@@ -125,7 +125,7 @@ Host NQN: nqn.2014-08.com.netapp.sddc:nvme:vcf-wkld-esx01
 . クラスタ内の各ESXiホストのNQNを記録する
 . ONTAPシステムマネージャで、左側のメニューの*[NVMeネームスペース]*に移動し、*+追加*をクリックして開始します。
 +
-image::vmware-vcf-asa-image93.png[[+ Add]をクリックしてNVMeネームスペースを作成します]
+image:vmware-vcf-asa-image93.png["[+ Add]をクリックしてNVMeネームスペースを作成します"]
 
 +
 ｛nbsp｝
@@ -135,7 +135,7 @@ image::vmware-vcf-asa-image93.png[[+ Add]をクリックしてNVMeネームス�
 
 [その他のオプション]*をクリックして、Snapshot保護ポリシーなどの追加項目を設定します。最後に、*[保存]*をクリックしてNVMeネームスペースを作成します。
 
-+image：：vmware-vcf-asa-image93.png [NVMeネームスペースを作成するには[+追加]をクリックしてください]
++image:vmware-vcf-asa-image93.png["[+ Add]をクリックしてNVMeネームスペースを作成します"]
 
 ====
 
@@ -151,7 +151,7 @@ NVMe/TCPネットワークごとに新しい分散ポートグループを作成
 
 . vSphere Clientで、ワークロードドメインの*[Inventory]>[Networking]*に移動します。既存のDistributed Switchに移動し、* New Distributed Port Group...*を作成するアクションを選択します。
 +
-image::vmware-vcf-asa-image22.png[新しいポートグループの作成を選択]
+image:vmware-vcf-asa-image22.png["新しいポートグループの作成を選択"]
 
 +
 ｛nbsp｝
@@ -159,7 +159,7 @@ image::vmware-vcf-asa-image22.png[新しいポートグループの作成を選�
 . [New Distributed Port Group]*ウィザードで、新しいポートグループの名前を入力し、*[Next]*をクリックして続行します。
 . [設定の構成]ページで、すべての設定を入力します。VLANを使用している場合は、正しいVLAN IDを指定してください。[次へ]*をクリックして続行します。
 +
-image::vmware-vcf-asa-image23.png[VLAN IDを入力]
+image:vmware-vcf-asa-image23.png["VLAN IDを入力"]
 
 +
 ｛nbsp｝
@@ -168,18 +168,18 @@ image::vmware-vcf-asa-image23.png[VLAN IDを入力]
 . 同じ手順を繰り返して、使用する2つ目のNVMe/TCPネットワーク用の分散ポートグループを作成し、* VLAN ID *が正しいことを確認します。
 . 両方のポートグループが作成されたら、最初のポートグループに移動し、*[設定の編集...]*の操作を選択します。
 +
-image::vmware-vcf-asa-image77.png[DPG -設定の編集]
+image:vmware-vcf-asa-image77.png["DPG -設定の編集"]
 
 +
 ｛nbsp｝
 
 . [Distributed Port Group]-[Edit Settings]*ページで、左側のメニューの*[Teaming and failover]*に移動し、* uplink2 *をクリックして*[Unused Uplinks]*に移動します。
 +
-image::vmware-vcf-asa-image78.png[アップリンク2を未使用に移動]
+image:vmware-vcf-asa-image78.png["アップリンク2を未使用に移動"]
 
 . 2つ目のNVMe/TCPポートグループに対してこの手順を繰り返します。ただし、今回は* uplink1*を* unused uplinks *に移動します。
 +
-image::vmware-vcf-asa-image79.png[アップリンク1を未使用に移動]
+image:vmware-vcf-asa-image79.png["アップリンク1を未使用に移動"]
 
 
 
@@ -191,42 +191,42 @@ image::vmware-vcf-asa-image79.png[アップリンク1を未使用に移動]
 
 . vSphere Clientで、ワークロードドメインインベントリ内のいずれかのESXiホストに移動します。[設定]タブで*[VMkernel adapters]*を選択し、*[ネットワークの追加...]*をクリックして開始します。
 +
-image::vmware-vcf-asa-image30.png[ネットワーク追加ウィザードの開始]
+image:vmware-vcf-asa-image30.png["ネットワーク追加ウィザードの開始"]
 
 +
 ｛nbsp｝
 
 . [接続タイプの選択]ウィンドウで*[VMkernel Network Adapter]*を選択し、*[次へ]*をクリックして続行します。
 +
-image::vmware-vcf-asa-image08.png[VMkernelネットワークアダプタを選択]
+image:vmware-vcf-asa-image08.png["VMkernelネットワークアダプタを選択"]
 
 +
 ｛nbsp｝
 
 . [ターゲットデバイスの選択]ページで、以前に作成したiSCSI用の分散ポートグループの1つを選択します。
 +
-image::vmware-vcf-asa-image95.png[ターゲットポートグループを選択]
+image:vmware-vcf-asa-image95.png["ターゲットポートグループを選択"]
 
 +
 ｛nbsp｝
 
 . [ポートのプロパティ]ページで、*[NVMe over TCP]*のボックスをクリックし、*[次へ]*をクリックして続行します。
 +
-image::vmware-vcf-asa-image96.png[VMkernelポートプロパティ]
+image:vmware-vcf-asa-image96.png["VMkernelポートプロパティ"]
 
 +
 ｛nbsp｝
 
 . [IPv4 settings]*ページで、*[IP address]*、*[Subnet mask]*を入力し、新しいゲートウェイIPアドレスを指定します（必要な場合のみ）。[次へ]*をクリックして続行します。
 +
-image::vmware-vcf-asa-image97.png[VMkernel IPv4設定]
+image:vmware-vcf-asa-image97.png["VMkernel IPv4設定"]
 
 +
 ｛nbsp｝
 
 . [選択内容の確認]ページで選択内容を確認し、*[終了]*をクリックしてVMkernelアダプタを作成します。
 +
-image::vmware-vcf-asa-image98.png[VMkernelの選択内容の確認]
+image:vmware-vcf-asa-image98.png["VMkernelの選択内容の確認"]
 
 +
 ｛nbsp｝
@@ -244,14 +244,14 @@ NVMe over TCPアダプタを取り付けてNVMeコントローラを検出する
 
 . vSphere Clientで、ワークロードドメインクラスタ内のいずれかのESXiホストに移動します。[設定]タブで、メニューの*[ストレージアダプタ]*をクリックし、*[ソフトウェアアダプタの追加]*ドロップダウンメニューから*[NVMe over TCPアダプタの追加]*を選択します。
 +
-image::vmware-vcf-asa-image99.png[NVMe over TCPアダプタの追加]
+image:vmware-vcf-asa-image99.png["NVMe over TCPアダプタの追加"]
 
 +
 ｛nbsp｝
 
 . [ソフトウェアの追加]*[NVMe over TCPアダプタ]*ウィンドウで、*[物理ネットワークアダプタ]*ドロップダウンメニューにアクセスし、NVMeアダプタを有効にする正しい物理ネットワークアダプタを選択します。
 +
-image::vmware-vcf-asa-image100.png[物理アダプタの選択]
+image:vmware-vcf-asa-image100.png["物理アダプタの選択"]
 
 +
 ｛nbsp｝
@@ -259,7 +259,7 @@ image::vmware-vcf-asa-image100.png[物理アダプタの選択]
 . NVMe over TCPトラフィックに割り当てられた2つ目のネットワークに対して同じ手順を繰り返し、正しい物理アダプタを割り当てます。
 . 新しくインストールしたNVMe over TCPアダプタの1つを選択し、*[コントローラ]*タブで*[コントローラの追加]*を選択します。
 +
-image::vmware-vcf-asa-image101.png[コントローラの追加]
+image:vmware-vcf-asa-image101.png["コントローラの追加"]
 
 +
 ｛nbsp｝
@@ -271,7 +271,7 @@ image::vmware-vcf-asa-image101.png[コントローラの追加]
 ** 検出されたコントローラのリストで、このNVMe over TCPアダプタとネットワークアドレスが一致している2台のコントローラのチェックボックスをクリックします。
 ** [OK]*ボタンをクリックして、選択したコントローラを追加します。
 +
-image::vmware-vcf-asa-image102.png[コントローラの検出と追加]
+image:vmware-vcf-asa-image102.png["コントローラの検出と追加"]
 
 +
 ｛nbsp｝
@@ -280,7 +280,7 @@ image::vmware-vcf-asa-image102.png[コントローラの検出と追加]
 
 . 数秒後、[Devices]タブにNVMeネームスペースが表示されます。
 +
-image::vmware-vcf-asa-image103.png[デバイスの下にNVMeネームスペースが表示される]
+image:vmware-vcf-asa-image103.png["デバイスの下にNVMeネームスペースが表示される"]
 
 +
 ｛nbsp｝
@@ -296,7 +296,7 @@ NVMeネームスペースにVMFSデータストアを作成するには、次の
 
 . vSphere Clientで、ワークロードドメインクラスタ内のいずれかのESXiホストに移動します。[操作]メニューで*[ストレージ]>[新しいデータストア...]*を選択します。
 +
-image::vmware-vcf-asa-image104.png[NVMe over TCPアダプタの追加]
+image:vmware-vcf-asa-image104.png["NVMe over TCPアダプタの追加"]
 
 +
 ｛nbsp｝
@@ -304,7 +304,7 @@ image::vmware-vcf-asa-image104.png[NVMe over TCPアダプタの追加]
 . [新しいデータストア]ウィザードで、タイプとして* VMFS *を選択します。[次へ]*をクリックして続行します。
 . [名前とデバイスの選択]*ページで、データストアの名前を指定し、使用可能なデバイスのリストからNVMeネームスペースを選択します。
 +
-image::vmware-vcf-asa-image105.png[名前とデバイスの選択]
+image:vmware-vcf-asa-image105.png["名前とデバイスの選択"]
 
 +
 ｛nbsp｝
@@ -312,7 +312,7 @@ image::vmware-vcf-asa-image105.png[名前とデバイスの選択]
 . [VMFS version]*ページで、データストアのVMFSのバージョンを選択します。
 . [パーティションの設定]ページで、必要に応じてデフォルトのパーティションスキームを変更します。[次へ]*をクリックして続行します。
 +
-image::vmware-vcf-asa-image106.png[NVMeパーティションの設定]
+image:vmware-vcf-asa-image106.png["NVMeパーティションの設定"]
 
 +
 ｛nbsp｝
@@ -320,7 +320,7 @@ image::vmware-vcf-asa-image106.png[NVMeパーティションの設定]
 . [選択内容の確認]ページで概要を確認し、*[終了]*をクリックしてデータストアを作成します。
 . インベントリ内の新しいデータストアに移動し、*[ホスト]*タブをクリックします。正しく設定されていれば、クラスタ内のすべてのESXiホストが表示され、新しいデータストアにアクセスできるようになります。
 +
-image::vmware-vcf-asa-image107.png[データストアに接続されているホスト]
+image:vmware-vcf-asa-image107.png["データストアに接続されているホスト"]
 
 +
 ｛nbsp｝

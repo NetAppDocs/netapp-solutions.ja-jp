@@ -22,22 +22,22 @@ keywords: hybrid cloud, database, solutions, dev/test, workflow
 
 . Oracle 用のデータベース管理ユーザ ID で SnapCenter にログインします。リソースタブに移動します。このタブには、 SnapCenter で保護されている Oracle データベースが表示されます。
 +
-image::snapctr_ora_clone_01.PNG[snapctr oraクローン01]
+image:snapctr_ora_clone_01.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . バックアップトポロジと詳細表示に使用するオンプレミスデータベースの名前をクリックします。セカンダリでレプリケートされた場所が有効になっている場合は、リンクされたミラーバックアップが表示されます。
 +
-image::snapctr_ora_clone_02.PNG[snapctr oraクローン02]
+image:snapctr_ora_clone_02.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . ミラーバックアップをクリックして、ミラーバックアップビューに切り替えました。その後、セカンダリミラーバックアップが表示されます。
 +
-image::snapctr_ora_clone_03.PNG[snapctr oraクローン03]
+image:snapctr_ora_clone_03.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . クローニングするミラーされたセカンダリデータベースバックアップコピーを選択し、時間およびシステムの変更番号または SCN でリカバリポイントを決定します。通常は、クローニングするフルデータベースバックアップ時間または SCN の末尾にリカバリポイントを設定します。リカバリポイントを決定したら、必要なログファイルのバックアップをリカバリ用にマウントする必要があります。ログファイルのバックアップは、クローンデータベースをホストする対象の DB サーバにマウントする必要があります。
 +
-image::snapctr_ora_clone_04.PNG[snapctr oraクローン04]
+image:snapctr_ora_clone_04.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
-image::snapctr_ora_clone_05.PNG[snapctr oraクローン05]
+image:snapctr_ora_clone_05.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
 
@@ -45,42 +45,42 @@ NOTE: ログの削除が有効で、リカバリポイントが最後のログ�
 
 . クローニングするフルデータベースバックアップコピーを選択し、クローンボタンをクリックして DB クローンワークフローを開始します。
 +
-image::snapctr_ora_clone_06.PNG[snapctr oraクローン06]
+image:snapctr_ora_clone_06.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 完全なコンテナデータベースまたは CDB クローンに適したクローン DB SID を選択してください。
 +
-image::snapctr_ora_clone_07.PNG[snapctr oraクローン07]
+image:snapctr_ora_clone_07.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . クラウド内のターゲットクローンホストを選択すると、クローンワークフローによってデータファイル、制御ファイル、および REDO ログディレクトリが作成されます。
 +
-image::snapctr_ora_clone_08.PNG[snapctr oraクローン08]
+image:snapctr_ora_clone_08.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . なしクレデンシャル名は OS ベースの認証に使用され、データベースポートは無関係になります。ターゲットのクローン DB サーバで設定した Oracle Home 、 Oracle OS User 、 Oracle OS Group を適切な値に設定します。
 +
-image::snapctr_ora_clone_09.PNG[snapctr oraクローン09]
+image:snapctr_ora_clone_09.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . クローニング処理の前に実行するスクリプトを指定します。さらに重要な点は、ここでデータベースインスタンスのパラメータを調整または定義できることです。
 +
-image::snapctr_ora_clone_10.PNG[Snapctr oraクローン10]
+image:snapctr_ora_clone_10.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 日時または SCN でリカバリポイントを指定します。Cancel を実行するまで ' データベースは使用可能なアーカイブ・ログまでリカバリされますアーカイブログボリュームをマウントするターゲットホストから、外部アーカイブログの場所を指定します。ターゲットサーバの Oracle 所有者がオンプレミスの本番サーバと異なる場合は、アーカイブログディレクトリがターゲットサーバの Oracle 所有者によって読み取り可能であることを確認します。
 +
-image::snapctr_ora_clone_11.PNG[Snapctr oraクローン11]
+image:snapctr_ora_clone_11.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
-image::snapctr_ora_clone_12.PNG[Snapctr oraクローン12]
+image:snapctr_ora_clone_12.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 必要に応じて、 SMTP サーバに E メール通知を設定します。
 +
-image::snapctr_ora_clone_13.PNG[Snapctr oraクローン13]
+image:snapctr_ora_clone_13.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . クローンの概要：
 +
-image::snapctr_ora_clone_14.PNG[Snapctr oraクローン14]
+image:snapctr_ora_clone_14.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . クローニング後に検証して、クローンデータベースが正常に動作することを確認する必要があります。開発 / テストデータベースでは、リスナーの起動や DB ログアーカイブモードのオフなどのいくつかの追加タスクを実行できます。
 +
-image::snapctr_ora_clone_15.PNG[Snapctr oraクローン15]
+image:snapctr_ora_clone_15.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
@@ -90,46 +90,46 @@ image::snapctr_ora_clone_15.PNG[Snapctr oraクローン15]
 
 . SQL Server 用のデータベース管理ユーザ ID で SnapCenter にログインします。[ リソース ] タブに移動します。このタブには、 SnapCenter によって保護されている SQL Server ユーザーデータベースとパブリッククラウド内のターゲットスタンバイ SQL インスタンスが表示されます。
 +
-image::snapctr_sql_clone_01.PNG[snapctr SQLクローン01]
+image:snapctr_sql_clone_01.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . バックアップトポロジおよび詳細ビューで使用するオンプレミス SQL Server ユーザデータベース名をクリックします。セカンダリでレプリケートされた場所が有効になっている場合は、リンクされたミラーバックアップが表示されます。
 +
-image::snapctr_sql_clone_02.PNG[snapctr SQLクローン02]
+image:snapctr_sql_clone_02.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . ミラーバックアップをクリックして、ミラーバックアップビューに切り替えます。セカンダリミラーバックアップが表示されます。SnapCenter では SQL Server トランザクションログがリカバリ専用のドライブにバックアップされるため、ここにはフルデータベースバックアップのみが表示されます。
 +
-image::snapctr_sql_clone_03.PNG[snapctr SQLクローン03]
+image:snapctr_sql_clone_03.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . バックアップコピーを選択し、 [ クローン ] ボタンをクリックして、 [ バックアップからクローン ] ワークフローを起動します。
 +
-image::snapctr_sql_clone_04_1.PNG[snapctr SQLクローン04 1]
+image:snapctr_sql_clone_04_1.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
-image::snapctr_sql_clone_04.PNG[snapctr SQLクローン04]
+image:snapctr_sql_clone_04.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . ターゲットクローンサーバとしてクラウドサーバを選択し、クローンインスタンス名を指定し、クローンデータベース名を指定します。自動割り当てマウントポイントまたはユーザ定義のマウントポイントパスを選択します。
 +
-image::snapctr_sql_clone_05.PNG[snapctr SQLクローン05]
+image:snapctr_sql_clone_05.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . リカバリポイントは、ログのバックアップ時刻または特定の日時を基準に決定します。
 +
-image::snapctr_sql_clone_06.PNG[snapctr SQLクローン06]
+image:snapctr_sql_clone_06.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . クローニング処理の前後に実行するオプションのスクリプトを指定します。
 +
-image::snapctr_sql_clone_07.PNG[snapctr SQLクローン07]
+image:snapctr_sql_clone_07.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . E メール通知が必要な場合は、 SMTP サーバを設定します。
 +
-image::snapctr_sql_clone_08.PNG[snapctr SQLクローン08]
+image:snapctr_sql_clone_08.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . クローンの概要。
 +
-image::snapctr_sql_clone_09.PNG[snapctr SQLクローン09]
+image:snapctr_sql_clone_09.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . ジョブステータスを監視し、目的のユーザデータベースがクラウドクローンサーバのターゲット SQL インスタンスに接続されていることを確認します。
 +
-image::snapctr_sql_clone_10.PNG[snapctr SQLクローン10]
+image:snapctr_sql_clone_10.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 

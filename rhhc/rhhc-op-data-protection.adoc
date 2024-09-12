@@ -34,7 +34,7 @@ SnapshotとACCを使用して、データのポイントインタイムコピー
 
 === ACCでスナップショットを設定しています
 
-image::rhhc-onprem-dp-snap.png[Astra Control Centerの[Snapshot]ビュー]
+image:rhhc-onprem-dp-snap.png["Astra Control Centerの[Snapshot]ビュー"]
 
 
 
@@ -48,7 +48,7 @@ image::rhhc-onprem-dp-snap.png[Astra Control Centerの[Snapshot]ビュー]
 
 ACCは、バックアップが格納されているS3バケットからアプリケーションをリストアします。
 
-image::rhhc-onprem-dp-br.png[Astra Control Centerのリストアオプション]
+image:rhhc-onprem-dp-br.png["Astra Control Centerのリストアオプション"]
 
 
 
@@ -64,7 +64,7 @@ https://github.com/NetApp/Verda["NetApp Verda GitHubプロジェクト"] 一般�
 
 == redisアプリケーションのpre-Snapshot用のサンプル実行フック。
 
-image::rhhc-onprem-dp-br-hook.png[Astra Control Centerの実行フック]
+image:rhhc-onprem-dp-br-hook.png["Astra Control Centerの実行フック"]
 
 
 
@@ -81,7 +81,7 @@ NOTE: レプリケーションは、バックアップがS3に保存され、S3�
 
 === ACCを使用したSnapMirror
 
-image::rhhc-onprem-dp-rep.png[Astra Control Centerのレプリケーション]
+image:rhhc-onprem-dp-rep.png["Astra Control Centerのレプリケーション"]
 
 
 NOTE: SANエコノミーおよびNASエコノミーのストレージドライバは、レプリケーション機能をサポートしていません。を参照してください link:https://docs.netapp.com/us-en/astra-control-center/get-started/requirements.html#astra-trident-requirements["こちらをご覧ください"] を参照してください。
@@ -104,7 +104,7 @@ ONTAP 用のハードウェアプラットフォームのほとんどは、デ�
 
 MetroCluster 解決策 には、両方のフォールトドメインから同じネットワークアドレスにアクセスするためのレイヤ2ネットワーク拡張または機能が必要です。MetroCluster を設定すると、MetroCluster SVM内のすべてのボリュームが保護され、SyncMirror （RPOゼロ）のメリットが得られるため、解決策 はアプリケーション所有者に対して透過的に実行されます。
 
-image::rhhc-onprem-dp-bc.png[Business Continuity解決策 with MetroCluster の略]
+image:rhhc-onprem-dp-bc.png["Business Continuity解決策 with MetroCluster の略"]
 
 
 TIP: Tridentバックエンド構成（TBC）の場合は、MetroCluster 構成を使用する際にデータLIFとSVMを指定しないでください。管理LIF用のSVM管理IPを指定し、vsadminロールのクレデンシャルを使用してください。

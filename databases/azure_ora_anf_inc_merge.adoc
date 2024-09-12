@@ -55,7 +55,7 @@ VLDBのSLAに関心があり、OracleデータベースをAzureなどのパブ�
 
 === アーキテクチャ
 
-image::azure_ora_anf_vldb_architecture.png[この画像は、ANFを使用したAzureパブリッククラウドでのOracle VLDBインクリメンタルマージの実装の詳細を示しています。]
+image:azure_ora_anf_vldb_architecture.png["この画像は、ANFを使用したAzureパブリッククラウドでのOracle VLDBインクリメンタルマージの実装の詳細を示しています。"]
 
 
 
@@ -139,27 +139,27 @@ NOTE: Oracleインストールファイルをステージングするための�
 
 . まず、Azureポータルコンソールから、Oracle VLDBイメージコピーのステージングに使用するANF容量プールに移動します。
 +
-image::azure_ora_anf_vldb_vol_01.png[この画像は、Azureポータルコンソールを使用したANFボリュームのプロビジョニング画面を示しています。]
+image:azure_ora_anf_vldb_vol_01.png["この画像は、Azureポータルコンソールを使用したANFボリュームのプロビジョニング画面を示しています。"]
 
 . 選択した容量プールから- `database`をクリックします。 `Volumes` 次に、 `Add volume` をクリックして、add-volumeワークフローを起動します。
 +
-image::azure_ora_anf_vldb_vol_02.png[この画像は、Azureポータルコンソールを使用したANFボリュームのプロビジョニング画面を示しています。]
+image:azure_ora_anf_vldb_vol_02.png["この画像は、Azureポータルコンソールを使用したANFボリュームのプロビジョニング画面を示しています。"]
 
 . 入力 `Volume name`、 `Quota`、 `Virtual network`および `Delegated subnet` 移動先 `Protocol` ページ
 +
-image::azure_ora_anf_vldb_vol_03.png[この画像は、Azureポータルコンソールを使用したANFボリュームのプロビジョニング画面を示しています。]
+image:azure_ora_anf_vldb_vol_03.png["この画像は、Azureポータルコンソールを使用したANFボリュームのプロビジョニング画面を示しています。"]
 
 . ファイルパスをメモし、許可されるクライアントのCIDR範囲を入力して、 `Root Access` をクリックします。
 +
-image::azure_ora_anf_vldb_vol_04.png[この画像は、Azureポータルコンソールを使用したANFボリュームのプロビジョニング画面を示しています。]
+image:azure_ora_anf_vldb_vol_04.png["この画像は、Azureポータルコンソールを使用したANFボリュームのプロビジョニング画面を示しています。"]
 
 . 必要に応じてボリュームタグを追加
 +
-image::azure_ora_anf_vldb_vol_05.png[この画像は、Azureポータルコンソールを使用したANFボリュームのプロビジョニング画面を示しています。]
+image:azure_ora_anf_vldb_vol_05.png["この画像は、Azureポータルコンソールを使用したANFボリュームのプロビジョニング画面を示しています。"]
 
 . ボリュームを確認して作成します。
 +
-image::azure_ora_anf_vldb_vol_06.png[この画像は、Azureポータルコンソールを使用したANFボリュームのプロビジョニング画面を示しています。]
+image:azure_ora_anf_vldb_vol_06.png["この画像は、Azureポータルコンソールを使用したANFボリュームのプロビジョニング画面を示しています。"]
 
 . プライマリOracle VLDBサーバにsudo権限を持つユーザとしてログインし、ANFストレージからエクスポートしたNFSボリュームをマウントします。必要に応じて、ANF NFSサーバのIPアドレスとファイルパスを変更します。ANF NFSサーバのIPアドレスは、ANFボリュームのコンソールページから取得できます。
 +

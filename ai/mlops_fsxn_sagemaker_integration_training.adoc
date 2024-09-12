@@ -39,7 +39,7 @@ Amazon FSx for NetApp ONTAPは、AWSが提供するフルマネージドスト�
 
 === ネットワーク環境
 
-image::mlops_fsxn_sagemaker_integration_training_0.png[ネットワーク環境]
+image:mlops_fsxn_sagemaker_integration_training_0.png["ネットワーク環境"]
 
 FSxN（Amazon FSx for NetApp ONTAP）は、AWSのストレージサービスです。これには、NetApp ONTAPシステムで実行されているファイルシステムと、接続するAWSで管理されるSystem Virtual Machine（SVM）が含まれます。次の図では、AWSで管理されるNetApp ONTAPサーバがVPCの外部に配置されています。SVMはSageMakerとNetApp ONTAPシステムの仲介役として機能し、SageMakerからの処理要求を受け取り、基盤となるストレージに転送します。FSxNにアクセスするには、SageMakerをFSxN展開と同じVPC内に配置する必要があります。この構成により、SageMakerとFSxN間の通信とデータアクセスが保証されます。
 
@@ -55,7 +55,7 @@ FSxN（Amazon FSx for NetApp ONTAP）は、AWSのストレージサービスで�
 
 == 統合の概要
 
-image::mlops_fsxn_sagemaker_integration_training_1.png[トレーニングワークフロー]
+image:mlops_fsxn_sagemaker_integration_training_1.png["トレーニングワークフロー"]
 
 FSxNのトレーニングデータを使用してSageMakerでディープラーニングモデルを構築するワークフローは、データローダーの定義、モデルのトレーニング、デプロイの3つの主なステップに要約できます。大まかに言えば、これらのステップはMLOpsパイプラインの基盤を形成します。ただし、各ステップには、包括的な実装のためのいくつかの詳細なサブステップが含まれています。これらのサブステップには、データの前処理、データセットの分割、モデルの構成、ハイパーパラメータの調整、モデルの評価など、さまざまなタスクが含まれます。 モデルの導入を支援します。これらの手順により、SageMaker環境内でFSxNからのトレーニングデータを使用してディープラーニングモデルを構築し、展開するための徹底的で効果的なプロセスが保証されます。
 
@@ -353,7 +353,7 @@ sagemaker_predictor = sagemaker_model.deploy(
 image_object = list(bucket.objects.filter('dataset/tyre'))[0].get()
 image_bytes = image_object['Body'].read()
 
-with Image.open(with Image.open(BytesIO(image_bytes)) as image::
+with Image.open(with Image.open(BytesIO(image_bytes)) as image:
     predicted_classes = sagemaker_predictor.predict(image)
 
     print(predicted_classes)

@@ -68,7 +68,7 @@ NetAppシニアデータ&アプリケーションサイエンティスト、Jian
 
 == アーキテクチャ
 
-image::mlops_fsxn_cictcd_0.png[アーキテクチャ]
+image:mlops_fsxn_cictcd_0.png["アーキテクチャ"]
 
 このMLOpsパイプラインは、cronジョブを利用してサーバレス関数をトリガーし、ライフサイクルコールバック関数に登録されたAWSサービスを実行する実用的な実装です。AWS EventBridge *はcronジョブとして機能します。モデルの再トレーニングと再デプロイを担当する* AWS Lambda関数*を定期的に呼び出します。このプロセスでは、* AWS SageMaker Notebook *インスタンスをスピンアップして必要なタスクを実行します。
 
@@ -86,11 +86,11 @@ AWS SageMaker Notebookインスタンスのライフサイクルコールバッ�
 
 . ライフサイクル構成を設定するには、* Sagemaker *パネルを開き、* Admin configurations *セクションの* Lifecycle configurations *に移動します。
 +
-image::mlops_fsxn_cictcd_1.png[SageMakerパネル]
+image:mlops_fsxn_cictcd_1.png["SageMakerパネル"]
 
 . [Notebook Instance]タブを選択し、[Create configuration]ボタンをクリックします。
 +
-image::mlops_fsxn_cictcd_2.png[ライフサイクル設定のようこそページ]
+image:mlops_fsxn_cictcd_2.png["ライフサイクル設定のようこそページ"]
 
 . 次のコードを入力領域に貼り付けます。
 +
@@ -116,15 +116,15 @@ EOF
 ----
 . このスクリプトは、推論のためのモデルの再トレーニングと再配置を処理するJupyter Notebookを実行します。実行が完了すると、ノートブックは5分以内に自動的にシャットダウンされます。問題点とコード実装の詳細については、を参照してください。 link:./mlops_fsxn_sagemaker_integration_training.html["パート2 - SageMakerのモデルトレーニングのデータソースとしてAWS FSx for NetApp ONTAP（FSxN）を活用"]。
 +
-image::mlops_fsxn_cictcd_3.png[ライフサイクル構成を作成します]
+image:mlops_fsxn_cictcd_3.png["ライフサイクル構成を作成します"]
 
 . 作成後、Notebook Instances（ノートブックインスタンス）に移動してターゲットインスタンスを選択し、Actions（アクション）ドロップダウンの* Update settings（設定の更新）*をクリックします。
 +
-image::mlops_fsxn_cictcd_4.png[[Update settings]ドロップダウン]
+image:mlops_fsxn_cictcd_4.png["[Update settings]ドロップダウン"]
 
 . 作成した* Lifecycle configuration *を選択し、* Update notebook instance *をクリックします。
 +
-image::mlops_fsxn_cictcd_5.png[ノートブックのライフサイクル構成の更新]
+image:mlops_fsxn_cictcd_5.png["ノートブックのライフサイクル構成の更新"]
 
 
 
@@ -136,15 +136,15 @@ image::mlops_fsxn_cictcd_5.png[ノートブックのライフサイクル構成�
 
 . AWS Lambda Function *を作成するには、該当するパネルに移動し、* Functions *タブに切り替えて* Create Function *をクリックします。
 +
-image::mlops_fsxn_cictcd_6.png[AWS Lambda関数のようこそページ]
+image:mlops_fsxn_cictcd_6.png["AWS Lambda関数のようこそページ"]
 
 . ページに必要なすべてのエントリをファイルし、ランタイムを*Python 3.10*に切り替えることを忘れないでください。
 +
-image::mlops_fsxn_cictcd_7.png[AWS Lambda関数の作成]
+image:mlops_fsxn_cictcd_7.png["AWS Lambda関数の作成"]
 
 . 指定されたロールに必要な権限* AmazonSageMakerFullAccess*があることを確認し、* Create Function *ボタンをクリックしてください。
 +
-image::mlops_fsxn_cictcd_8.png[実行ロールを選択]
+image:mlops_fsxn_cictcd_8.png["実行ロールを選択"]
 
 . 作成したLambda関数を選択します。[コード]タブで、次のコードをコピーしてテキスト領域に貼り付けます。このコードは、* fsxn-ontap *という名前のノートブックインスタンスを起動します。
 +
@@ -164,15 +164,15 @@ def lambda_handler(event, context):
 ----
 . このコード変更を適用するには、*配布*ボタンをクリックします。
 +
-image::mlops_fsxn_cictcd_9.png[導入]
+image:mlops_fsxn_cictcd_9.png["導入"]
 
 . このAWS Lambda関数をトリガーする方法を指定するには、Add Triggerボタンをクリックします。
 +
-image::mlops_fsxn_cictcd_10.png[AWS Functionトリガーの追加]
+image:mlops_fsxn_cictcd_10.png["AWS Functionトリガーの追加"]
 
 . ドロップダウンメニューから[EventBridge]を選択し、[Create a new rule]というラベルの付いたラジオボタンをクリックします。[スケジュール式]フィールドに、次のように入力します。 `rate(1 day)`をクリックし、[追加]ボタンをクリックして、この新しいcronジョブルールを作成し、AWS Lambda関数に適用します。
 +
-image::mlops_fsxn_cictcd_11.png[finalizeトリガ]
+image:mlops_fsxn_cictcd_11.png["finalizeトリガ"]
 
 
 

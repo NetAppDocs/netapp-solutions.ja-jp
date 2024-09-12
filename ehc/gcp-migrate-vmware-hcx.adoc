@@ -66,7 +66,7 @@ NOTE: HCx advancedはデフォルトオプションであり、VMware HCX Enterp
 ====
 テスト目的で、この検証に使用したオンプレミスのラボ環境は、Cloud VPNを介して接続されています。これにより、オンプレミスからGoogle Cloud VPCへの接続が可能になります。
 
-image::gcpd-hcx-image1.png[この図は、この解決策 で使用されているアーキテクチャの概要を示しています。]
+image:gcpd-hcx-image1.png["この図は、この解決策 で使用されているアーキテクチャの概要を示しています。"]
 
 HCXの詳細な図については、を参照してください https://www.vmware.com/content/dam/digitalmarketing/vmware/en/pdf/products/vmw-google-cloud-vmware-engine-logical-design-poster-for-workload-mobility.pdf["VMwareへのリンク"^]
 
@@ -84,10 +84,10 @@ VMware Engineでプライベートクラウドをプロビジョニングする�
 
 . Google VMware Engine Portalにログインし、HCX Cloud Managerにサインインします。
 +
-HCX Consoleにログインするには、[HCX version link image::gcpd-hcx-image2.png[HCX Console access with link on GCVE resource]をクリックするか、[vSphere Management Network]タブの[HCX FQDN]をクリックします。 image::gcpd-hcx-image3.png [FQDNリンクを使用したHCXコンソールアクセス]
+HCX Consoleにログインするには、[HCX version]リンクをimage:gcpd-hcx-image2.png["GCVEリソースのリンクを使用したHCxコンソールアクセス"]クリックするか、[vSphere Management Network]タブの[HCX FQDN]をクリックします。image:gcpd-hcx-image3.png["FQDNリンクを使用したHCxコンソールアクセス"]
 
 . HCX Cloud Managerで、[*Administration]>[System Updates*（システムアップデート*）]の順に選択します。
-. [Request download link]*をクリックし、OVAファイルをダウンロードします。 image：：gcpd-hcx-image4.png [ダウンロードリンクをリクエスト]
+. [Request download link]*をクリックし、OVAファイルをダウンロードします。image:gcpd-hcx-image4.png["ダウンロードリンクをリクエストします"]
 . HCX Cloud ManagerをHCX Cloud Manager UIから入手可能な最新バージョンに更新します。
 
 
@@ -102,7 +102,7 @@ HCX ConnectorをオンプレミスのvCenter Serverにダウンロードして�
 . 前の手順で説明したように、Google Cloud VMware Engine上のHCXコンソールからOVAをダウンロードしてもらいます。
 . OVAをダウンロードしたら、* Deploy OVF Template *オプションを使用して、OVAをオンプレミスのVMware vSphere環境に導入します。
 +
-image::gcpd-hcx-image5.png[正しいOVAテンプレートを選択するためのスクリーンショット。]
+image:gcpd-hcx-image5.png["正しいOVAテンプレートを選択するためのスクリーンショット。"]
 
 . OVA導入に必要なすべての情報を入力し、「*次へ*」をクリックしてから、「*完了」をクリックしてVMware HCX Connector OVAを導入します。
 +
@@ -119,7 +119,7 @@ NOTE: 仮想アプライアンスの電源を手動でオンにします。
 ====
 VMware HCX Connector OVAをオンプレミスに導入してアプライアンスを起動したら、次の手順を実行してHCX Connectorをアクティブにします。Google Cloud VMware Engineポータルからライセンスキーを生成し、VMware HCX Managerでアクティブ化します。
 
-. VMware Engineポータルで、[Resources]をクリックしてプライベートクラウドを選択し、*[HCX Manager Cloud Version]*の下のダウンロードアイコンをクリックします。 image::gcpd-hcx-image6.png [HCXライセンスをダウンロード]ダウンロードしたファイルを開き、ライセンスキー文字列をコピーします。
+. VMware Engineポータルで、Resources（リソース）をクリックし、プライベートクラウドを選択して、* HCX Manager Cloud Version（HCXマネージャクラウドバージョン）の下にあるdownload（ダウンロード）アイコンをクリックします。*image:gcpd-hcx-image6.png["HCXライセンスをダウンロードします"] ダウンロードしたファイルを開き、ライセンスキー文字列をコピーします。
 . オンプレミスのVMware HCX Managerにログインします `"https://hcxmanagerIP:9443"` 管理者のクレデンシャルを使用
 +
 
@@ -150,7 +150,7 @@ NOTE: Embedded PSCの場合、VMware vCenter ServerのFQDNまたはIPアドレ�
 NOTE: この処理には10~20分かかります。また、プラグインをvCenter Serverに追加する必要があります。
 
 +
-image::gcpd-hcx-image7.png[完了したプロセスを示すスクリーンショット]
+image:gcpd-hcx-image7.png["完了したプロセスを示すスクリーンショット"]
 
 
 
@@ -162,7 +162,7 @@ image::gcpd-hcx-image7.png[完了したプロセスを示すスクリーンシ�
 
 . オンプレミスのvCenter環境とGoogle Cloud VMware Engine SDDCの間にサイトペアを作成するには、オンプレミスのvCenter Serverにログインし、新しいHCX vSphere Web Clientプラグインにアクセスします。
 +
-image::gcpd-hcx-image8.png[HCX vSphere Web Clientプラグインのスクリーンショット。]
+image:gcpd-hcx-image8.png["HCX vSphere Web Clientプラグインのスクリーンショット。"]
 
 . [インフラストラクチャ]で、[サイトペアリングの追加*]をクリックします。
 +
@@ -170,7 +170,7 @@ image::gcpd-hcx-image8.png[HCX vSphere Web Clientプラグインのスクリー�
 NOTE: プライベートクラウドにアクセスするためのCloud-Owner-Role権限を持つユーザのために、Google Cloud VMware Engine HCX Cloud ManagerのURLまたはIPアドレスとクレデンシャルを入力します。
 
 +
-image::gcpd-hcx-image9.png[CloudOwnerロールのURLまたはIPアドレスとクレデンシャルのスクリーンショット。]
+image:gcpd-hcx-image9.png["CloudOwnerロールのURLまたはIPアドレスとクレデンシャルのスクリーンショット。"]
 
 . [ 接続 ] をクリックします。
 +
@@ -179,7 +179,7 @@ NOTE: VMware HCX Connectorは、ポート443経由でHCX Cloud Manager IPにル�
 
 . ペアリングが作成されると、新しく構成されたサイトペアリングがHCXダッシュボードで使用できるようになります。
 +
-image::gcpd-hcx-image10.png[HCXダッシュボードで完了したプロセスのスクリーンショット]
+image:gcpd-hcx-image10.png["HCXダッシュボードで完了したプロセスのスクリーンショット"]
 
 
 
@@ -195,7 +195,7 @@ VMware HCX Interconnectサービスアプライアンスは、インターネッ
 NOTE: コンピューティングプロファイルでは、導入されるアプライアンスや、HCXサービスからアクセスできるVMwareデータセンターの部分などの導入パラメータを定義します。
 
 +
-image::gcpd-hcx-image11.png[vSphere Client Interconnectページのスクリーンショット]
+image:gcpd-hcx-image11.png["vSphere Client Interconnectページのスクリーンショット"]
 
 . コンピューティングプロファイルを作成したら、*マルチサイトサービスメッシュ>ネットワークプロファイル>ネットワークプロファイルの作成*を選択して、ネットワークプロファイルを作成します。
 +
@@ -206,7 +206,7 @@ image::gcpd-hcx-image11.png[vSphere Client Interconnectページのスクリー�
 NOTE: この手順には複数のIPアドレスが必要です。これらのIPアドレスは、管理ネットワークからインターコネクトアプライアンスに割り当てられます。
 
 +
-image::gcpd-hcx-image12.png[ネットワークプロファイルのスクリーンショット。]
+image:gcpd-hcx-image12.png["ネットワークプロファイルのスクリーンショット。"]
 
 . 現時点では、コンピューティングプロファイルとネットワークプロファイルは正常に作成されています。
 . [Interconnect（相互接続）]オプションの[* Service Mesh*（サービスメッシュ*）]タブを選択してサービスメッシュを作成し、オンプレミスサイトとGCVE SDDCサイトを選択します。
@@ -216,11 +216,11 @@ image::gcpd-hcx-image12.png[ネットワークプロファイルのスクリー�
 NOTE: このプロセスの一部として、セキュアなトランスポートファブリックを作成するために、ソースサイトとターゲットサイトの両方にHCXアプライアンスが展開され、自動的に設定されます。
 
 +
-image::gcpd-hcx-image13.png[vSphere Client InterconnectページのService Meshタブのスクリーンショット]
+image:gcpd-hcx-image13.png["vSphere Client InterconnectページのService Meshタブのスクリーンショット"]
 
 . これが設定の最後の手順です。導入が完了するまでに約30分かかります。サービスメッシュを設定すると、ワークロードVMを移行するためのIPsecトンネルが正常に作成され、環境の準備が整います。
 +
-image::gcpd-hcx-image14.png[vSphere Client InterconnectページのHCXアプライアンスのスクリーンショット]
+image:gcpd-hcx-image14.png["vSphere Client InterconnectページのHCXアプライアンスのスクリーンショット"]
 
 
 
@@ -246,15 +246,15 @@ NOTE: IPアドレスを変更せずにVMを移行するには、ネットワー�
 
 . オンプレミスのvSphereクライアントから、Inventoryに移動し、移行するVMを右クリックして、HCX Actions > Migrate to HCX Target Siteを選択します。
 +
-image::gcpd-hcx-image15.png[GCPD HCxイメージ15]
+image:gcpd-hcx-image15.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 仮想マシンの移行ウィザードで、リモートサイト接続（ターゲットGCVE）を選択します。
 +
-image::gcpd-hcx-image16.png[GCPD HCxイメージ16]
+image:gcpd-hcx-image16.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 必須フィールド（クラスタ、ストレージ、デスティネーションネットワーク）を更新し、検証をクリックします。
 +
-image::gcpd-hcx-image17.png[GCPD HCxイメージ17]
+image:gcpd-hcx-image17.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . 検証チェックが完了したら、Goをクリックして移行を開始します。
 +
@@ -263,7 +263,7 @@ NOTE: vMotionによる転送では、VMのアクティブメモリ、実行状�
 
 . VMotionの進捗状況と完了は'HCX＞Migrationダッシュボードから監視できます
 +
-image::gcpd-hcx-image18.png[GCPD HCxイメージ18]
+image:gcpd-hcx-image18.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 

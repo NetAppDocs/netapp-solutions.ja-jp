@@ -60,7 +60,7 @@ VCF解決策は、ネイティブのKubernetesワークロードと仮想マシ�
 
 VCFは、単一の管理ドメインと最大24個のVIワークロードドメインで構成され、それぞれがアプリケーション対応インフラストラクチャの単位となります。ワークロードドメインは、単一のvCenterインスタンスで管理される1つ以上のvSphereクラスタで構成されます。
 
-image::vmware-vcf-aff-image02.png[VCFアーキテクチャ]
+image:vmware-vcf-aff-image02.png["VCFアーキテクチャ"]
 
 VCFのアーキテクチャと計画の詳細については、を参照してください。 link:https://docs.vmware.com/en/VMware-Cloud-Foundation/5.1/vcf-design/GUID-A550B597-463F-403F-BE9A-BFF3BECB9523.html["VMware Cloud Foundationのアーキテクチャモデルとワークロードドメインタイプ"]。
 
@@ -72,7 +72,7 @@ VCFのアーキテクチャと計画の詳細については、を参照して�
 
 VMwareは、VCFのストレージオプションを* principal *ストレージと* supplemental *ストレージに分割しています。VCF管理ドメインでは、vSANをプリンシパルストレージとして使用する必要があります。ただし、管理ドメインには多くの追加ストレージオプションがあり、VIワークロードドメインではプリンシパルと追加ストレージの両方のオプションを使用できます。
 
-image::vmware-vcf-aff-image01.png[VCFストレージオプション]
+image:vmware-vcf-aff-image01.png["VCFストレージオプション"]
 
 *ワークロードドメイン向けのプリンシパルストレージ*
 プリンシパルストレージとは、SDDC Managerのセットアッププロセス中にVI Workload Domainに直接接続できるあらゆるタイプのストレージを指します。プリンシパルストレージは、ワークロードドメイン用に最初に構成されたデータストアであり、VSAN、VVOL（VMFS）、NFS、およびファイバチャネル上のVMFSを含みます。

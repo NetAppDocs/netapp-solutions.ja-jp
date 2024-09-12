@@ -1,0 +1,32 @@
+---
+sidebar: sidebar 
+keywords: Cyber vault, cybervault, cyber-vault, data protection, security, ransomware, ONTAP, hardening 
+permalink: /cyber-vault/ontap-cyber-vault-sizing.html 
+summary: ONTAPサイバーボールトのサイジングに役立つガイダンス 
+---
+= ONTAPを使用したサイバーヴォールトのサイジング
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+サイバーボールトをサイジングするには、所定のRTO（Recovery Time Objective：目標復旧時間）でリストアする必要があるデータの量を把握する必要があります。適切なサイズのサイバーボールトソリューションを適切に設計するには、多くの要因が関与します。
+
+
+
+== サイジングに関する考慮事項
+
+. ソースプラットフォームモデル（FAS V AFF AシリーズV AFF Cシリーズ）を教えてください。
+. ソースとサイバーボールトの間の帯域幅とレイテンシはどれくらいか？
+. ファイルのサイズとファイルの数を教えてください。
+. 目標復旧時間はどのくらいですか？
+. RTO（目標復旧時間）内にリカバリする必要があるデータの量
+. サイバーヴォールトに取り込まれるSnapMirrorファンイン関係の数
+. リカバリは一度に1回または複数回行われますか。
+. このような複数のリカバリは同じプライマリで実行されるのでしょうか。
+. SnapMirrorは、バックアップからのリカバリ中にバックアップにレプリケートされますか。
+

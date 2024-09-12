@@ -18,7 +18,7 @@ VMware Tanzu Kubernetes Grid Integrated（TKGI）Editionは、従来のVMware En
 
 TKGIは、オンプレミスのvSphere環境またはOpenStack環境、あるいは各IaaSサービス上の主要なパブリッククラウドのいずれかにインストールして操作できます。さらに、TKGIとNSXおよびNSXとNSXとの統合により、エンタープライズワークロードの幅広いユースケースが可能になります。TKGIとその機能の詳細については、のマニュアルを参照してください link:https://docs.vmware.com/en/VMware-Tanzu-Kubernetes-Grid-Integrated-Edition/index.html["こちらをご覧ください"^]。
 
-image::vtwn_image04.png[VMware Tanzu Kubernetes Grid統合エディション]
+image:vtwn_image04.png["VMware Tanzu Kubernetes Grid統合エディション"]
 
 TKGIは、さまざまなユースケースとデザインに基づいて、さまざまなプラットフォームにさまざまな構成でインストールされています。ガイドに従ってください link:https://docs.vmware.com/en/VMware-Tanzu-Kubernetes-Grid-Integrated-Edition/1.14/tkgi/GUID-index.html["こちらをご覧ください"^] TKGIとその前提条件をインストールおよび構成するには、次の手順に従います。TKGIは、改ざん不可の構成イメージを実行するTanzu Kubernetesクラスタのノードとして、Bosh VMを使用します。また、Bosh VMに対する手動変更は、リブート後も維持されません。
 
@@ -26,7 +26,7 @@ TKGIは、さまざまなユースケースとデザインに基づいて、さ�
 
 * NetApp Tridentでは、特権コンテナへのアクセスが必要です。そのため、TKGIのインストール中に、Tanzu Kubernetesクラスタノードプランを構成する手順でEnable Privileged Containers（特権コンテナを有効にする）チェックボックスを選択してください。
 +
-image::vtwn_image05.jpg[TKGIの特権コンテナ]
+image:vtwn_image05.jpg["TKGIの特権コンテナ"]
 
 * ワークロードの要件を満たすようにワーカーノードの構成を選択し、すべての本番環境を複数のマスター環境に導入してフォールトトレランスを実現することを推奨します。したがって、推奨されるTKGIクラスタ計画は、少なくとも3つのマスターと、少なくとも4つのvCPUと12GBのRAMを持つ3人のワーカーで構成され、負荷の高いワークロードを実現します。
 

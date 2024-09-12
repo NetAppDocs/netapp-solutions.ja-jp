@@ -54,7 +54,7 @@ Oracleデータベースの運用コストを削減したいと考えていて�
 
 === アーキテクチャ
 
-image::aws_ora_fsx_data_guard_architecture.png[このイメージは、FSxNを使用したAWSでのOracle Data Guardの実装の詳細を示しています。]
+image:aws_ora_fsx_data_guard_architecture.png["このイメージは、FSxNを使用したAWSでのOracle Data Guardの実装の詳細を示しています。"]
 
 
 
@@ -863,15 +863,15 @@ ip-172-30-15-45.ec2.internal
 ....
 . FSxストレージクラスタを `Storage Systems` FSxクラスタ管理IPとfsxadminクレデンシャルを使用するSnapCenterの場合。
 +
-image::aws_ora_fsx_data_guard_clone_01.png[GUIでのこの手順を示すスクリーンショット。]
+image:aws_ora_fsx_data_guard_clone_01.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . AWS EC2-userをに追加 `Credential` インチ `Settings`。
 +
-image::aws_ora_fsx_data_guard_clone_02.png[GUIでのこの手順を示すスクリーンショット。]
+image:aws_ora_fsx_data_guard_clone_02.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . スタンバイEC2 DBインスタンスの追加とクローンEC2 DBインスタンスの追加： `Hosts`。
 +
-image::aws_ora_fsx_data_guard_clone_03.png[GUIでのこの手順を示すスクリーンショット。]
+image:aws_ora_fsx_data_guard_clone_03.png["GUIでのこの手順を示すスクリーンショット。"]
 
 +
 
@@ -879,51 +879,51 @@ NOTE: クローンEC2 DBインスタンスには、同様のOracleソフトウ�
 
 . オフライン/フルデータベースバックアップのマウント用にカスタマイズしたバックアップポリシーを作成します。
 +
-image::aws_ora_fsx_data_guard_clone_04.png[GUIでのこの手順を示すスクリーンショット。]
+image:aws_ora_fsx_data_guard_clone_04.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . バックアップポリシーを適用してスタンバイデータベースを保護 `Resources` タブ。
 +
-image::aws_ora_fsx_data_guard_clone_05.png[GUIでのこの手順を示すスクリーンショット。]
+image:aws_ora_fsx_data_guard_clone_05.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . データベース名をクリックすると、データベースバックアップのページが開きます。データベースクローンに使用するバックアップを選択し、 `Clone` ボタンをクリックしてクローニングワークフローを起動します。
 +
-image::aws_ora_fsx_data_guard_clone_06.png[GUIでのこの手順を示すスクリーンショット。]
+image:aws_ora_fsx_data_guard_clone_06.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . 選択するオプション `Complete Database Clone` クローンインスタンスにSIDという名前を付けます。
 +
-image::aws_ora_fsx_data_guard_clone_07.png[GUIでのこの手順を示すスクリーンショット。]
+image:aws_ora_fsx_data_guard_clone_07.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . クローンホストを選択します。このホストは、クローンデータベースをスタンバイDBからホストします。データファイル、制御ファイル、およびREDOログはデフォルトのままにします。クローンホストに、スタンバイデータベースのディスクグループに対応する2つのASMディスクグループが作成されます。
 +
-image::aws_ora_fsx_data_guard_clone_08.png[GUIでのこの手順を示すスクリーンショット。]
+image:aws_ora_fsx_data_guard_clone_08.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . OSベースの認証にはデータベースクレデンシャルは必要ありません。Oracleホーム設定を、クローンEC2データベースインスタンスに設定されている設定と照合します。
 +
-image::aws_ora_fsx_data_guard_clone_09.png[GUIでのこの手順を示すスクリーンショット。]
+image:aws_ora_fsx_data_guard_clone_09.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . 必要に応じてクローンデータベースのパラメータを変更し、Cloenの前に実行するスクリプトを指定します。
 +
-image::aws_ora_fsx_data_guard_clone_10.png[GUIでのこの手順を示すスクリーンショット。]
+image:aws_ora_fsx_data_guard_clone_10.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . 「SQL to run after clone」と入力します。デモでは、dev/test/reportデータベースのデータベースアーカイブモードをオフにするコマンドを実行しました。
 +
-image::aws_ora_fsx_data_guard_clone_11.png[GUIでのこの手順を示すスクリーンショット。]
+image:aws_ora_fsx_data_guard_clone_11.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . 必要に応じてEメール通知を設定します。
 +
-image::aws_ora_fsx_data_guard_clone_12.png[GUIでのこの手順を示すスクリーンショット。]
+image:aws_ora_fsx_data_guard_clone_12.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . 概要を確認し、 `Finish` をクリックしてクローンを開始します。
 +
-image::aws_ora_fsx_data_guard_clone_13.png[GUIでのこの手順を示すスクリーンショット。]
+image:aws_ora_fsx_data_guard_clone_13.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . クローニングジョブの監視 `Monitor` タブ。データベースのボリュームサイズでは、約300GBのデータベースをクローニングするのに約8分かかったことがわかりました。
 +
-image::aws_ora_fsx_data_guard_clone_14.png[GUIでのこの手順を示すスクリーンショット。]
+image:aws_ora_fsx_data_guard_clone_14.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . にすぐに登録されているSnapCenterからクローンデータベースを検証します。 `Resources` タブをクリックします。
 +
-image::aws_ora_fsx_data_guard_clone_15.png[GUIでのこの手順を示すスクリーンショット。]
+image:aws_ora_fsx_data_guard_clone_15.png["GUIでのこの手順を示すスクリーンショット。"]
 
 . クローンEC2インスタンスからクローンデータベースを照会します。プライマリデータベースで発生したテストトランザクションが、データベースをクローニングするまでトラバースされたことを検証しました。
 +

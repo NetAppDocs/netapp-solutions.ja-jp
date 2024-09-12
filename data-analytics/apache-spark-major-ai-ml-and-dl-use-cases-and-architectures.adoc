@@ -42,7 +42,7 @@ Spark NLPの基礎となるディープラーニングエンジンは、機械�
 
 == Horovodの分散トレーニング
 
-MapReduce関連のパフォーマンスの中核となるHadoop検証は、TeraGen、TeraSort、TeraValidate、およびDFSIO（読み取りおよび書き込み）を使用して実行されます。に、TeraGenおよびTeraSortの検証結果を示します http://www.netapp.com/us/media/tr-3969.pdf["TR-3969：『NetApp Solutions for Hadoop』"^] Eシリーズおよび「ストレージ階層化」（xref）for AFF のセクションに記載されています。
+MapReduce関連のパフォーマンスの中核となるHadoop検証は、TeraGen、TeraSort、TeraValidate、およびDFSIO（読み取りおよび書き込み）を使用して実行されます。TeraGenおよびTeraSortの検証結果は、 http://www.netapp.com/us/media/tr-3969.pdf[]（Eシリーズ）およびAFFの「Storage Tiering」（xref）セクションに記載されています。
 
 お客様からの要望に基づいて、Sparkを使用したトレーニングの配布は、さまざまなユースケースで最も重要なトレーニングの1つと考えています。このドキュメントでは、を使用しました https://horovod.readthedocs.io/en/stable/spark_include.html["Hovorod on Spark（SparkでのHovorod"^] ネットアップのオンプレミス、クラウドネイティブ、ハイブリッドクラウドソリューションでSparkのパフォーマンスを検証するには、AFF ストレージコントローラ、Azure NetApp Files 、FAS StorageGRID をご利用ください。
 
@@ -95,4 +95,4 @@ DCNに加えて、CTRの予測に使用される他の一般的なディープ�
 
 今回のNetApp Sparkの解決策 検証では、E5760、E5724、AFF-A800の3種類のストレージコントローラを使用しました。Eシリーズストレージコントローラは、12Gbps SAS接続の5つのデータノードに接続されました。AFF のHAペアストレージコントローラは、エクスポートされたNFSボリュームを10GbEでHadoopワーカーノードに接続することで提供します。Hadoopクラスタのメンバーは、Eシリーズ、AFF 、およびStorageGRID のHadoopソリューションで10GbE接続を介して接続されます。
 
-image::apache-spark-image10.png[検証に使用するアーキテクチャ。]
+image:apache-spark-image10.png["検証に使用するアーキテクチャ。"]

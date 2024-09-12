@@ -55,7 +55,7 @@ summary: 『解決策』では、AWSのVMware CloudでのOracleの導入と保�
 
 === アーキテクチャ
 
-image::aws_ora_fsx_vmc_architecture.png[このイメージは、iSCSIとASMを使用したAWSパブリッククラウドでのOracle導入構成の詳細な図を示しています。]
+image:aws_ora_fsx_vmc_architecture.png["このイメージは、iSCSIとASMを使用したAWSパブリッククラウドでのOracle導入構成の詳細な図を示しています。"]
 
 
 
@@ -165,7 +165,7 @@ git clone https://github.com/NetApp-Automation/na_aws_fsx_ec2_deploy.git
 ....
 . VMCに導入するOracle環境をホストするために、AWS上のVMware SDDCでVMを構築します。このデモでは、Oracle DBサーバとしてLinux VMを2台、SnapCenterサーバとしてWindowsサーバを1台、必要に応じてAnsibleコントローラとしてオプションのLinuxサーバを1台構築し、Oracleのインストールや設定を自動化しました。次に、解決策検証のためのラボ環境のスナップショットを示します。
 +
-image::aws_ora_fsx_vmc_vm_08.png[VMC SDDCテスト環境を示すスクリーンショット。]
+image:aws_ora_fsx_vmc_vm_08.png["VMC SDDCテスト環境を示すスクリーンショット。"]
 
 . 必要に応じて、NetAppには、Oracleの導入と設定を実行するためのいくつかの自動化ツールキットも用意されています。を参照してください link:index.html["DB自動化ツールキット"^] を参照してください。
 
@@ -1488,23 +1488,23 @@ NOTE: Windowsサーバがドメイン環境に導入されている場合は、�
 . インストールユーザとしてHTTPSポート8846を使用してSnapCenter UIにログインし、SnapCenter for Oracleを設定します。
 . 更新 `Hypervisor Settings` をクリックします。
 +
-image::aws_ora_fsx_vmc_snapctr_01.png[SnapCenterの設定を示すスクリーンショット。]
+image:aws_ora_fsx_vmc_snapctr_01.png["SnapCenterの設定を示すスクリーンショット。"]
 
 . Oracleデータベースバックアップポリシーを作成します。障害発生時のデータ損失を最小限に抑えるために、別のアーカイブログバックアップポリシーを作成してバックアップ間隔を長くすることを推奨します。
 +
-image::aws_ora_fsx_vmc_snapctr_02.png[SnapCenterの設定を示すスクリーンショット。]
+image:aws_ora_fsx_vmc_snapctr_02.png["SnapCenterの設定を示すスクリーンショット。"]
 
 . データベースサーバの追加 `Credential` DB VMへのSnapCenterアクセス用。このクレデンシャルには、Linux VMの場合はsudo権限、Windows VMの場合は管理者権限が必要です。
 +
-image::aws_ora_fsx_vmc_snapctr_03.png[SnapCenterの設定を示すスクリーンショット。]
+image:aws_ora_fsx_vmc_snapctr_03.png["SnapCenterの設定を示すスクリーンショット。"]
 
 . FSx ONTAPストレージクラスタを `Storage Systems` クラスタ管理IPを使用し、fsxadminユーザIDで認証
 +
-image::aws_ora_fsx_vmc_snapctr_04.png[SnapCenterの設定を示すスクリーンショット。]
+image:aws_ora_fsx_vmc_snapctr_04.png["SnapCenterの設定を示すスクリーンショット。"]
 
 . VMC内のOracleデータベースVMの追加先： `Hosts` 前の手順6で作成したサーバクレデンシャルを使用します。
 +
-image::aws_ora_fsx_vmc_snapctr_05.png[SnapCenterの設定を示すスクリーンショット。]
+image:aws_ora_fsx_vmc_snapctr_05.png["SnapCenterの設定を示すスクリーンショット。"]
 
 
 
@@ -1522,27 +1522,27 @@ SnapCenterはFSx ONTAPボリュームスナップショットを活用するこ�
 
 . から `Resources` タブをクリックします。VMがSnapCenterに追加されると、VM上のすべてのデータベースが自動検出されます。初期状態では、データベースのステータスは `Not protected`。
 +
-image::aws_ora_fsx_vmc_snapctr_06.png[SnapCenterの設定を示すスクリーンショット。]
+image:aws_ora_fsx_vmc_snapctr_06.png["SnapCenterの設定を示すスクリーンショット。"]
 
 . データベースVMなどの論理グループにデータベースをバックアップするリソースグループを作成します。 この例では、VM ora_02上のすべてのデータベースに対してオンラインデータベースのフルバックアップを実行するために、ora_02_dataグループを作成しました。リソースグループora_02_logでは、VM上でのみアーカイブログのバックアップが実行されます。リソースグループを作成すると、バックアップを実行するスケジュールも定義されます。
 +
-image::aws_ora_fsx_vmc_snapctr_07.png[SnapCenterの設定を示すスクリーンショット。]
+image:aws_ora_fsx_vmc_snapctr_07.png["SnapCenterの設定を示すスクリーンショット。"]
 
 . リソースグループのバックアップは、 `Back up Now` リソースグループに定義されているポリシーを使用してバックアップを実行します。
 +
-image::aws_ora_fsx_vmc_snapctr_08.png[SnapCenterの設定を示すスクリーンショット。]
+image:aws_ora_fsx_vmc_snapctr_08.png["SnapCenterの設定を示すスクリーンショット。"]
 
 . バックアップジョブは、 `Monitor` タブをクリックして実行中のジョブをクリックします。
 +
-image::aws_ora_fsx_vmc_snapctr_09.png[SnapCenterの設定を示すスクリーンショット。]
+image:aws_ora_fsx_vmc_snapctr_09.png["SnapCenterの設定を示すスクリーンショット。"]
 
 . バックアップが成功すると、データベースのステータスにジョブステータスと最新のバックアップ時間が表示されます。
 +
-image::aws_ora_fsx_vmc_snapctr_10.png[SnapCenterの設定を示すスクリーンショット。]
+image:aws_ora_fsx_vmc_snapctr_10.png["SnapCenterの設定を示すスクリーンショット。"]
 
 . [database]をクリックして、各データベースのバックアップセットを確認します。
 +
-image::aws_ora_fsx_vmc_snapctr_11.png[SnapCenterの設定を示すスクリーンショット。]
+image:aws_ora_fsx_vmc_snapctr_11.png["SnapCenterの設定を示すスクリーンショット。"]
 
 
 
@@ -1651,39 +1651,39 @@ ORA-00942: table or view does not exist
 ....
 . 前の手順で作成したバックアップセットで、ログバックアップのSCN数をメモします。をクリックします `Restore` をクリックして、リストア-リカバリワークフローを起動します。
 +
-image::aws_ora_fsx_vmc_snapctr_12.png[SnapCenterの設定を示すスクリーンショット。]
+image:aws_ora_fsx_vmc_snapctr_12.png["SnapCenterの設定を示すスクリーンショット。"]
 
 . リストア対象を選択します。
 +
-image::aws_ora_fsx_vmc_snapctr_13.png[SnapCenterの設定を示すスクリーンショット。]
+image:aws_ora_fsx_vmc_snapctr_13.png["SnapCenterの設定を示すスクリーンショット。"]
 
 . 最後のフルデータベースバックアップのログSCNまでのリカバリ範囲を選択してください。
 +
-image::aws_ora_fsx_vmc_snapctr_14.png[SnapCenterの設定を示すスクリーンショット。]
+image:aws_ora_fsx_vmc_snapctr_14.png["SnapCenterの設定を示すスクリーンショット。"]
 
 . 実行する任意のプリスクリプトを指定します。
 +
-image::aws_ora_fsx_vmc_snapctr_15.png[SnapCenterの設定を示すスクリーンショット。]
+image:aws_ora_fsx_vmc_snapctr_15.png["SnapCenterの設定を示すスクリーンショット。"]
 
 . 実行するオプションのafter-scriptを指定します。
 +
-image::aws_ora_fsx_vmc_snapctr_16.png[SnapCenterの設定を示すスクリーンショット。]
+image:aws_ora_fsx_vmc_snapctr_16.png["SnapCenterの設定を示すスクリーンショット。"]
 
 . 必要に応じてジョブレポートを送信します。
 +
-image::aws_ora_fsx_vmc_snapctr_17.png[SnapCenterの設定を示すスクリーンショット。]
+image:aws_ora_fsx_vmc_snapctr_17.png["SnapCenterの設定を示すスクリーンショット。"]
 
 . 概要を確認し、 `Finish` リストアとリカバリを開始します。
 +
-image::aws_ora_fsx_vmc_snapctr_18.png[SnapCenterの設定を示すスクリーンショット。]
+image:aws_ora_fsx_vmc_snapctr_18.png["SnapCenterの設定を示すスクリーンショット。"]
 
 . [Oracle Restart grid control]から、cdb3がリストア中でリカバリcdb4がオンラインで使用可能であることがわかります。
 +
-image::aws_ora_fsx_vmc_snapctr_19.png[SnapCenterの設定を示すスクリーンショット。]
+image:aws_ora_fsx_vmc_snapctr_19.png["SnapCenterの設定を示すスクリーンショット。"]
 
 . 移動元 `Monitor` タブでジョブを開き、詳細を確認します。
 +
-image::aws_ora_fsx_vmc_snapctr_20.png[SnapCenterの設定を示すスクリーンショット。]
+image:aws_ora_fsx_vmc_snapctr_20.png["SnapCenterの設定を示すスクリーンショット。"]
 
 . DB VM ora_02で、リカバリが正常に完了した後にドロップされたテーブルがリカバリされたことを確認します。
 +
@@ -1754,39 +1754,39 @@ SQL>
 
 . データベースcdb3バックアップリストを開きます。任意のデータバックアップから、 `Clone` ボタンをクリックしてデータベースクローンワークフローを起動します。
 +
-image::aws_ora_fsx_vmc_snapctr_21.png[SnapCenterの設定を示すスクリーンショット。]
+image:aws_ora_fsx_vmc_snapctr_21.png["SnapCenterの設定を示すスクリーンショット。"]
 
 . クローンデータベースのSIDに名前を付けます。
 +
-image::aws_ora_fsx_vmc_snapctr_22.png[SnapCenterの設定を示すスクリーンショット。]
+image:aws_ora_fsx_vmc_snapctr_22.png["SnapCenterの設定を示すスクリーンショット。"]
 
 . VMCのVMをターゲットデータベースホストとして選択します。同じバージョンのOracleがホストにインストールされ、設定されている必要があります。
 +
-image::aws_ora_fsx_vmc_snapctr_23.png[SnapCenterの設定を示すスクリーンショット。]
+image:aws_ora_fsx_vmc_snapctr_23.png["SnapCenterの設定を示すスクリーンショット。"]
 
 . ターゲット・ホスト上の適切なORACLE_HOME、ユーザ、およびグループを選択します。クレデンシャルをデフォルトのままにする。
 +
-image::aws_ora_fsx_vmc_snapctr_24.png[SnapCenterの設定を示すスクリーンショット。]
+image:aws_ora_fsx_vmc_snapctr_24.png["SnapCenterの設定を示すスクリーンショット。"]
 
 . クローンデータベースの設定やリソースの要件に合わせて、クローンデータベースのパラメータを変更します。
 +
-image::aws_ora_fsx_vmc_snapctr_25.png[SnapCenterの設定を示すスクリーンショット。]
+image:aws_ora_fsx_vmc_snapctr_25.png["SnapCenterの設定を示すスクリーンショット。"]
 
 . リカバリ範囲を選択します。 `Until Cancel` バックアップセット内で使用可能な最後のログファイルまでクローンをリカバリします。
 +
-image::aws_ora_fsx_vmc_snapctr_26.png[SnapCenterの設定を示すスクリーンショット。]
+image:aws_ora_fsx_vmc_snapctr_26.png["SnapCenterの設定を示すスクリーンショット。"]
 
 . 概要を確認し、クローンジョブを起動します。
 +
-image::aws_ora_fsx_vmc_snapctr_27.png[SnapCenterの設定を示すスクリーンショット。]
+image:aws_ora_fsx_vmc_snapctr_27.png["SnapCenterの設定を示すスクリーンショット。"]
 
 . クローンジョブの実行を監視します。 `Monitor` タブ。
 +
-image::aws_ora_fsx_vmc_snapctr_28.png[SnapCenterの設定を示すスクリーンショット。]
+image:aws_ora_fsx_vmc_snapctr_28.png["SnapCenterの設定を示すスクリーンショット。"]
 
 . クローンデータベースはすぐにSnapCenterに登録されます。
 +
-image::aws_ora_fsx_vmc_snapctr_29.png[SnapCenterの設定を示すスクリーンショット。]
+image:aws_ora_fsx_vmc_snapctr_29.png["SnapCenterの設定を示すスクリーンショット。"]
 
 . DB VM ora_02からは、クローニングされたデータベースもOracle Restartグリッドコントロールに登録され、ドロップされたテストテーブルが次のようにクローニングされたデータベースcdb3tstにリカバリされます。
 +
