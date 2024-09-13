@@ -1,0 +1,202 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_openshift_virtualization_bpg.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+summary: Red Hat OpenShift VirtualizationでのVMに関するベストプラクティスの推奨事項 
+---
+= Red Hat OpenShift VirtualizationでのVMに関するベストプラクティスの推奨事項
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+作成者：Banu Sundhar、NetApp
+
+[role="lead"]
+このセクションでは、新しいVMを導入する場合、またはVMware環境からOpenShift Container PlatformのOpenShift Virtualizationに既存のVMをインポートする場合に考慮する必要があるさまざまな要因について説明します。
+
+
+
+== VM パフォーマンス
+
+OpenShift Virtualizationで新しいVMを作成する場合は、アクセスパターンと、VMで実行されるワークロードのパフォーマンス（IOPSとスループット）要件を考慮する必要があります。これは、OpenShift ContainerプラットフォームのOpenShift仮想化で実行する必要があるVMの数と、VMディスクに使用するストレージの種類に影響します。
+
+VMディスク用に選択するストレージのタイプは、次の要因によって決まります。
+
+* ワークロードのデータアクセスに必要なプロトコルアクセス
+* 必要なアクセスモード（RWOとRWX）
+* ワークロードに必要なパフォーマンス特性
+
+
+詳細については、「ストレージ構成」セクションを参照してください。
+
+
+
+== VMワークロードの高可用性
+
+OpenShift Virtualizationは、VMのライブマイグレーションをサポートしています。ライブマイグレーションでは、ワークロードを中断することなく、実行中の仮想マシンインスタンス（VMI）を別のノードに移動できます。移行は、クラスタのアップグレード中や、メンテナンスや構成変更のためにノードを取り外す必要があるときに、スムーズに移行するのに役立ちます。ライブマイグレーションでは、ReadWriteMany（RWX）アクセスモードを提供する共有ストレージソリューションを使用する必要があります。VMディスクは、RWXアクセスモードを提供するストレージオプションでバックアップする必要があります。OpenShift Virtualizationは、VMIが**ライブマイグレーション可能であることを確認し、可能であれば、** evictionStrategy**は** LiveMigrate**に設定されます。詳細は、を参照してください link:https://docs.openshift.com/container-platform/latest/virt/live_migration/virt-about-live-migration.html["Red Hatドキュメントのライブマイグレーションのセクションについて"] 。
+
+** RWX**アクセスモードをサポートするドライバを使用することが重要です。RWXアクセスモードをサポートするドライバの詳細については、「ストレージ構成」セクションを参照してください。
+
+
+
+== ストレージ構成
+
+Trident CSIプロビジョニングツールには、NetAppストレージオプションを使用してストレージをプロビジョニングするための複数のドライバ（NAS、NASエコノミー、NAS FlexGroup、SAN、SANエコノミー）が用意されています。**使用プロトコル:** NASドライバはNASプロトコル(NFSおよびSMB)を使用します* SANドライバはiSCSIまたはNVMe/TCPプロトコルを使用します
+
+ワークロードの要件とストレージ利用率に基づいてストレージ構成をどのようにするかを決定するには、次の点に注意してください。
+
+* NASドライバは、1つのFlexVolに1つの永続ボリューム（PV）を作成します。
+* NASエコノミードライバは、共有FlexVol上のqtreeにPVを1つ作成します。（200 PVSごとに1つのFlexVolume、50～300の間で設定可能）
+* NAS - FlexGroupドライバが1つのFlexGroup上の1つのPVに作成
+* SANドライバが専用のFlexVol上のLUNに1つのPVを作成
+* SANエコノミードライバは、共有FlexVolume上のLUNに1つのPVを作成します（100 PVSごとに1つのFlexVolume、50～200の間で設定可能）。
+
+
+次の図にこれを示します。
+
+image::redhat_openshift_bpg_image1.png[ドライバ]
+
+また、ドライバでサポートされているアクセスモードも異なります。
+
+ONTAP NASドライバのサポート
+
+* ファイルシステムアクセスおよびRWO、ROX、RWX、RWOPアクセスモード。
+
+
+ONTAP SANドライバは、rawブロックモードとファイルシステムモードをサポートしています。
+
+* rawブロックモードでは、RWO、ROX、RWX、RWOPアクセスモードをサポートできます。
+* ファイルシステムモードでは、RWOおよびRWOPアクセスモードのみが許可されます。
+
+
+OpenShift仮想化仮想マシンのライブマイグレーションでは、ディスクにRWXアクセスモードが必要です。そのため、ONTAPでバックアップされたPVCおよびPVSを作成するには、rawブロックボリュームモードでNASドライバまたはSANドライバを選択することが重要です。
+
+
+
+== **ストレージ構成のベストプラクティス**
+
+
+
+=== **専用Storage Virtual Machine（SVM）**
+
+Storage Virtual Machine （ SVM ）を使用すると、 ONTAP システムのテナントを分離し、管理者が分離できます。SVMをOpenShiftコンテナとOpenShift仮想化VM専用にすると、Privilegesの委譲が可能になり、リソース消費を制限するためのベストプラクティスを適用できます。
+
+
+
+=== ** SVM上の最大ボリューム数を制限する**
+
+Trident がストレージシステム上の使用可能なボリュームをすべて消費しないようにするには、 SVM に制限を設定する必要があります。コマンドラインから実行できます。
+
+[source, cli]
+----
+vserver modify -vserver <svm_name> -max-volumes <num_of_volumes>
+----
+max-volumesの値は、個 々 のONTAPノードではなく、ONTAPクラスタ内のすべてのノードでプロビジョニングされたボリュームの合計です。その結果、 ONTAP クラスタノードの Trident でプロビジョニングされたボリュームの数が、別のノードよりもはるかに多い、または少ない場合があります。これを回避するには、Tridentで使用するSVMに、クラスタ内の各ノードから同数のアグリゲートを割り当てる必要があります。
+
+
+
+=== ** Tridentで作成されるボリュームの最大サイズを制限**
+
+ONTAPでは、SVM単位で最大ボリュームサイズを設定できます。
+
+. vserver createコマンドを使用してSVMを作成し、ストレージの上限を設定します。
+
+
+[source, cli]
+----
+vserver create -vserver vserver_name -aggregate aggregate_name -rootvolume root_volume_name -rootvolume-security-style {unix|ntfs|mixed} -storage-limit value
+----
+. 既存のSVMのストレージ制限を変更するには、次の手順を実行します。
++
+[source, cli]
+----
+vserver modify -vserver vserver_name -storage-limit value -storage-limit-threshold-alert percentage
+----
+
+
+
+NOTE: ストレージ制限は、データ保護ボリュームを含むSVM、SnapMirror関係にあるボリューム、またはMetroCluster構成には設定できません。
+
+ストレージアレイでボリュームサイズを制御するだけでなく、 Kubernetes の機能も利用する必要があります。
+
+. Tridentで作成できるボリュームの最大サイズを設定するには、backend.json定義で** limitVolumeSize**パラメータを使用します。
+. ONTAP SAN-EconomyドライバおよびONTAP NAS-Economyドライバのプールとして使用されるFlexVolの最大サイズを設定するには、backend.json定義で** limitVolumePoolSize**パラメータを使用します。
+
+
+
+
+=== ** SVM QoSポリシーを使用**
+
+SVMにサービス品質（QoS）ポリシーを適用して、プロビジョニングされたTridentボリュームで消費されるIOPSの数を制限します。これにより、Tridentでプロビジョニングされたストレージを使用するワークロードがTrident SVMの外部のワークロードに影響を与えるのを防ぐことができます。
+
+ONTAP QoSポリシーグループは、ボリュームのQoSオプションを提供し、ユーザが1つ以上のワークロードのスループットの上限を定義できるようにします。QoSポリシーグループの詳細については、を参照してください。link:https://docs.netapp.com/us-en/ontap-cli/index.html["ONTAP 9.15 QoS コマンド"]
+
+
+
+=== **ストレージリソースへのアクセスをKubernetesクラスタメンバーに制限**
+
+**ネームスペースの使用** Tridentで作成されたNFSボリュームおよびiSCSI LUNへのアクセスの制限は、Kubernetes環境のセキュリティ体制の重要な要素です。これにより、 Kubernetes クラスタに属していないホストがボリュームにアクセスしたり、データが予期せず変更されたりすることを防止できます。
+
+また、コンテナ内のプロセスは、ホストにマウントされたストレージにアクセスできますが、コンテナ用ではありません。ネームスペースを使用してリソースの論理境界を設定すると、この問題を回避できます。ただし、
+
+ネームスペースは Kubernetes のリソースの論理的な境界であることを理解することが重要です。そのため、必要に応じて名前空間を使用して分離することが重要です。ただし、特権コンテナは通常よりも大幅に多くのホストレベルの権限で実行されます。そのため、を使用してこの機能を無効にしlink:https://kubernetes.io/docs/concepts/policy/pod-security-policy/["ポッドセキュリティポリシー"]ます。
+
+**専用のエクスポートポリシーを使用**専用のインフラストラクチャノードまたはユーザーアプリケーションをスケジュールできないその他のノードを持つOpenShift環境では、別のエクスポートポリシーを使用して、ストレージリソースへのアクセスをさらに制限する必要があります。これには、これらのインフラノードに導入されているサービス（ OpenShift Metrics サービスや Logging サービスなど）のエクスポートポリシーの作成と、非インフラノードに導入されている標準アプリケーションの作成が含まれます。
+
+Tridentはエクスポートポリシーを自動的に作成、管理できます。これにより、 Trident はプロビジョニング対象のボリュームへのアクセスを Kubernetes クラスタ内のノードに制限し、ノードの追加や削除を簡易化します。
+
+ただし、エクスポートポリシーを手動で作成する場合は、各ノードのアクセス要求を処理する1つ以上のエクスポートルールをそのポリシーに入力します。
+
+**アプリケーションSVMのshowmountを無効にする** Kubernetesクラスタに導入されたポッドは、データLIFに対してshowmount -eコマンドを発行し、使用可能なマウント（アクセスできないマウントも含む）のリストを受け取ることができます。これを回避するには、次のCLIを使用してshowmount機能を無効にします。
+
+[source, cli]
+----
+vserver nfs modify -vserver <svm_name> -showmount disabled
+----
+
+NOTE: ストレージ構成とTridentの使用に関するベストプラクティスの詳細については、link:https://docs.netapp.com/us-en/trident/["Trident のドキュメント"]
+
+
+
+== ** OpenShift Virtualization - Tuning & Scaling Guide **
+
+Red Hatは文書化していlink:https://docs.openshift.com/container-platform/latest/scalability_and_performance/recommended-performance-scale-practices/recommended-control-plane-practices.html["OpenShiftクラスタの拡張に関する推奨事項と制限事項"]ます。
+
+さらにlink:https://access.redhat.com/articles/6994974]["OpenShift仮想化チューニングガイド"]、およびも文書化されていlink:https://access.redhat.com/articles/6571671["OpenShift仮想化4.xでサポートされる制限"]ます。
+
+
+NOTE: 上記のコンテンツにアクセスするには、アクティブなRed Hatサブスクリプションが必要です。
+
+チューニングガイドには、次のような多くのチューニングパラメータに関する情報が記載されています。
+
+* 複数のVMを一度または大量に作成するためのパラメータの調整
+* VMのライブマイグレーション
+* link:https://docs.openshift.com/container-platform/latest/virt/vm_networking/virt-dedicated-network-live-migration.htm["ライブマイグレーション用の専用ネットワークの設定"]
+* ワークロードタイプを含めることによるVMテンプレートのカスタマイズ
+
+
+サポートされる制限は、OpenShiftでVMを実行した場合のテスト対象オブジェクトの最大数を記載したものです。
+
+**仮想マシンの最大数**
+
+* VMあたりの仮想CPUの最大数
+* VMあたりの最大メモリと最小メモリ
+* VMあたりの最大ディスクサイズ
+* VMあたりのホットプラグ可能ディスクの最大数
+
+
+**同時ライブマイグレーションを含むホストの最大数**（ノード単位およびクラスタ単位）
+
+**クラスタの最大数**定義済みVMの最大数
+
+
+
+=== ** VMware環境からのVMの移行**
+
+VMware環境からのVMの移行の詳細については、link:https://docs.netapp.com/us-en/netapp-solutions/containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_migration_using_mtv.html["ワークフロー Red Hat OpenShift Virtualization with NetApp ONTAP"]
+
+同じ移行計画でESXiホストから10個を超えるVMを移行する場合は、ホストのNFCサービスメモリを増やす必要があります。そうしないと、NFCサービスメモリの並列接続数が10に制限されるため、移行が失敗します。詳細については、Red Hatのドキュメントを参照してください。link：https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.6/html/installing_and_using_the_migration_toolkit_for_virtualization/prerequisites_mtv#increasing-nfc-memory-vmware-host_mtv[Increasing the NFC service memory of an ESXi host]
