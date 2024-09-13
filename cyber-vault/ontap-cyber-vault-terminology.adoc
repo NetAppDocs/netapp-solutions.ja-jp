@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 keywords: Cyber vault, cybervault, cyber-vault, data protection, security, ransomware, ONTAP, hardening 
-permalink: /cyber-vault/ontap-cyber-vault-terminology.html 
+permalink: cyber-vault/ontap-cyber-vault-terminology.html 
 summary: ONTAPの用語を使用したサイバーボールト 
 ---
 = Cyber Vault ONTAPの用語
@@ -16,9 +16,9 @@ summary: ONTAPの用語を使用したサイバーボールト
 [role="lead"]
 これらは、サイバーボールトアーキテクチャで一般的に使用される用語です。
 
-* Autonomous Ransomware Protection（ARP）*- Autonomous Ransomware Protection（ARP）機能は、NAS（NFSおよびSMB）環境のワークロード分析を使用して、ランサムウェア攻撃の可能性がある異常なアクティビティをプロアクティブかつリアルタイムで検出し、警告します。攻撃が疑われると、ARPはスケジュールされたSnapshotコピーからの既存の保護に加えて、新しいSnapshotコピーも作成します。詳細については、link:../../ontap/anti-ransomware/index.html["自律型ランサムウェア対策に関するONTAPのドキュメント"^]
+* Autonomous Ransomware Protection（ARP）*- Autonomous Ransomware Protection（ARP）機能は、NAS（NFSおよびSMB）環境のワークロード分析を使用して、ランサムウェア攻撃の可能性がある異常なアクティビティをプロアクティブかつリアルタイムで検出し、警告します。攻撃が疑われると、ARPはスケジュールされたSnapshotコピーからの既存の保護に加えて、新しいSnapshotコピーも作成します。詳細については、link:https://docs.netapp.com/us-en/ontap/anti-ransomware/index.html["自律型ランサムウェア対策に関するONTAPのドキュメント"^]
 
-*エアギャップ（論理）*- ONTAPを使用すると、NetAppストレージを論理的なエアギャップのあるサイバーボールトとして構成できます。link:../../ontap/snaplock/commit-snapshot-copies-worm-concept.html["SnapLock ComplianceによるSnapshotコピーのWORM保護"^]
+*エアギャップ（論理）*- ONTAPを使用すると、NetAppストレージを論理的なエアギャップのあるサイバーボールトとして構成できます。link:https://docs.netapp.com/us-en/ontap/snaplock/commit-snapshot-copies-worm-concept.html["SnapLock ComplianceによるSnapshotコピーのWORM保護"^]
 
 *エアギャップ（物理）*-物理的にエアギャップされたシステムは、そのシステムにネットワーク接続されていません。テープバックアップを使用すると、イメージを別の場所に移動できます。SnapLock Complianceの論理的なエアギャップは、物理的なエアギャップシステムと同様に堅牢です。
 
@@ -28,10 +28,10 @@ summary: ONTAPの用語を使用したサイバーボールト
 
 *消去できないSnapshotコピー*-例外なく削除できないSnapshotコピー（サポート部門やストレージシステムの低レベルフォーマット機能を含む）。
 
-*改ざん防止Snapshotコピー*-改ざん防止Snapshotコピーは、SnapLock Complianceクロック機能を使用して、指定した期間Snapshotコピーをロックします。これらのロックされたスナップショットは、ユーザーまたはNetAppサポートが削除することはできません。ロックされたSnapshotコピーを使用して、ランサムウェア攻撃、マルウェア、ハッカー、不正な管理者、または偶発的な削除によってボリュームが侵害された場合にデータをリカバリできます。詳細については、link:../../ontap/snaplock/snapshot-lock-concept.html["改ざん防止機能を備えたSnapshotコピーに関するONTAPのドキュメント"^]
+*改ざん防止Snapshotコピー*-改ざん防止Snapshotコピーは、SnapLock Complianceクロック機能を使用して、指定した期間Snapshotコピーをロックします。これらのロックされたスナップショットは、ユーザーまたはNetAppサポートが削除することはできません。ロックされたSnapshotコピーを使用して、ランサムウェア攻撃、マルウェア、ハッカー、不正な管理者、または偶発的な削除によってボリュームが侵害された場合にデータをリカバリできます。詳細については、link:https://docs.netapp.com/us-en/ontap/snaplock/snapshot-lock-concept.html["改ざん防止機能を備えたSnapshotコピーに関するONTAPのドキュメント"^]
 
-* SnapLock *- SnapLockは、規制やガバナンスに準拠するためにWORMストレージを使用して変更不可能な状態でファイルを保管する組織向けの、ハイパフォーマンスなコンプライアンスソリューションです。詳細については、を参照してlink:../../ontap/snaplock/["SnapLockに関するONTAPのドキュメント"^]ください。
+* SnapLock *- SnapLockは、規制やガバナンスに準拠するためにWORMストレージを使用して変更不可能な状態でファイルを保管する組織向けの、ハイパフォーマンスなコンプライアンスソリューションです。詳細については、を参照してlink:https://docs.netapp.com/us-en/ontap/snaplock/["SnapLockに関するONTAPのドキュメント"^]ください。
 
-* SnapMirror *- SnapMirrorは、データを効率的にレプリケートするように設計されたディザスタ・リカバリ・レプリケーション・テクノロジーです。SnapMirrorでは、ミラー（またはデータの完全なコピー）、バックアップ（Snapshotコピーの保持期間が長いデータのコピー）、またはその両方を、オンプレミスまたはクラウドのセカンダリシステムに作成できます。これらのコピーは、災害、クラウドへのバースト、サイバーバックアップ（バックアップポリシーを使用してバックアップをロックする場合）など、さまざまな目的に使用できます。詳細については、link:../../ontap/concepts/snapmirror-disaster-recovery-data-transfer-concept.html["SnapMirrorに関するONTAPのドキュメント"^]
+* SnapMirror *- SnapMirrorは、データを効率的にレプリケートするように設計されたディザスタ・リカバリ・レプリケーション・テクノロジーです。SnapMirrorでは、ミラー（またはデータの完全なコピー）、バックアップ（Snapshotコピーの保持期間が長いデータのコピー）、またはその両方を、オンプレミスまたはクラウドのセカンダリシステムに作成できます。これらのコピーは、災害、クラウドへのバースト、サイバーバックアップ（バックアップポリシーを使用してバックアップをロックする場合）など、さまざまな目的に使用できます。詳細については、link:https://docs.netapp.com/us-en/ontap/concepts/snapmirror-disaster-recovery-data-transfer-concept.html["SnapMirrorに関するONTAPのドキュメント"^]
 
-* SnapVault *- ONTAP 9 .3では、vaultポリシーまたはmirror-vaultポリシーを使用してSnapMirrorを設定するためにSnapVaultが廃止されました。この用語は、まだ使用されていますが、同様に減価償却されています。詳細については、を参照してlink:../../ontap/concepts/snapvault-archiving-concept.html["SnapVaultに関するONTAPのドキュメント"^]ください。
+* SnapVault *- ONTAP 9 .3では、vaultポリシーまたはmirror-vaultポリシーを使用してSnapMirrorを設定するためにSnapVaultが廃止されました。この用語は、まだ使用されていますが、同様に減価償却されています。詳細については、を参照してlink:https://docs.netapp.com/us-en/ontap/concepts/snapvault-archiving-concept.html["SnapVaultに関するONTAPのドキュメント"^]ください。
