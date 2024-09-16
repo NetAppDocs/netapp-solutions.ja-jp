@@ -16,7 +16,7 @@ summary: Red Hat OpenShift VirtualizationでのVMに関するベストプラク�
 作成者：Banu Sundhar、NetApp
 
 [role="lead"]
-このセクションでは、新しいVMを導入する場合、またはVMware環境からOpenShift Container PlatformのOpenShift Virtualizationに既存のVMをインポートする場合に考慮する必要があるさまざまな要因について説明します。
+このセクションでは、新しいVMを導入する場合、またはVMware vSphereからOpenShift Container PlatformのOpenShift Virtualizationに既存のVMをインポートする場合に考慮する必要があるさまざまな要因について説明します。
 
 
 
@@ -31,7 +31,7 @@ VMディスク用に選択するストレージのタイプは、次の要因に
 * ワークロードに必要なパフォーマンス特性
 
 
-詳細については、「ストレージ構成」セクションを参照してください。
+詳細については、後述の「ストレージ構成」の項を参照してください。
 
 
 
@@ -39,21 +39,23 @@ VMディスク用に選択するストレージのタイプは、次の要因に
 
 OpenShift Virtualizationは、VMのライブマイグレーションをサポートしています。ライブマイグレーションでは、ワークロードを中断することなく、実行中の仮想マシンインスタンス（VMI）を別のノードに移動できます。移行は、クラスタのアップグレード中や、メンテナンスや構成変更のためにノードを取り外す必要があるときに、スムーズに移行するのに役立ちます。ライブマイグレーションでは、ReadWriteMany（RWX）アクセスモードを提供する共有ストレージソリューションを使用する必要があります。VMディスクは、RWXアクセスモードを提供するストレージオプションでバックアップする必要があります。OpenShift Virtualizationは、VMIが**ライブマイグレーション可能であることを確認し、可能であれば、** evictionStrategy**は** LiveMigrate**に設定されます。詳細は、を参照してください link:https://docs.openshift.com/container-platform/latest/virt/live_migration/virt-about-live-migration.html["Red Hatドキュメントのライブマイグレーションのセクションについて"] 。
 
-** RWX**アクセスモードをサポートするドライバを使用することが重要です。RWXアクセスモードをサポートするドライバの詳細については、「ストレージ構成」セクションを参照してください。
+** RWX**アクセスモードをサポートするドライバを使用することが重要です。RWXアクセスモードをサポートするONTAPドライバの詳細については、後述の「ストレージ構成」の項を参照してください。
 
 
 
 == ストレージ構成
 
-Trident CSIプロビジョニングツールには、NetAppストレージオプションを使用してストレージをプロビジョニングするための複数のドライバ（NAS、NASエコノミー、NAS FlexGroup、SAN、SANエコノミー）が用意されています。**使用プロトコル:** NASドライバはNASプロトコル(NFSおよびSMB)を使用します* SANドライバはiSCSIまたはNVMe/TCPプロトコルを使用します
+Trident CSIプロビジョニングツールには、NetAppストレージオプションを使用してストレージをプロビジョニングするための複数のドライバ（NAS、NASエコノミー、NAS FlexGroup、SAN、SANエコノミー）が用意されています。
+
+**使用プロトコル:** NASドライバはNASプロトコル(NFSおよびSMB)を使用します* SANドライバはiSCSIまたはNVMe/TCPプロトコルを使用します
 
 ワークロードの要件とストレージ利用率に基づいてストレージ構成をどのようにするかを決定するには、次の点に注意してください。
 
-* NASドライバは、1つのFlexVolに1つの永続ボリューム（PV）を作成します。
-* NASエコノミードライバは、共有FlexVol上のqtreeにPVを1つ作成します。（200 PVSごとに1つのFlexVolume、50～300の間で設定可能）
-* NAS - FlexGroupドライバが1つのFlexGroup上の1つのPVに作成
+* ** NAS **ドライバは、1つのFlexVolume上に1つの永続ボリューム（PV）を作成します。
+* ** NASエコノミー**ドライバは、共有FlexVolume上のqtreeにPVを1つ作成します。（200 PVSごとに1つのFlexVolume、50～300の間で設定可能）
+* ** NAS - FlexGroup **ドライバが1つのFlexGroup上の1つのPVに作成
 * SANドライバが専用のFlexVol上のLUNに1つのPVを作成
-* SANエコノミードライバは、共有FlexVolume上のLUNに1つのPVを作成します（100 PVSごとに1つのFlexVolume、50～200の間で設定可能）。
+* ** SANエコノミー**ドライバは、共有FlexVolume上のLUNに1つのPVを作成します（100 PVSごとに1つのFlexVolume、50～200の間で構成可能）。
 
 
 次の図にこれを示します。
@@ -62,12 +64,12 @@ image::redhat_openshift_bpg_image1.png[ドライバ]
 
 また、ドライバでサポートされているアクセスモードも異なります。
 
-ONTAP NASドライバのサポート
+** ONTAP NASドライバのサポート**
 
 * ファイルシステムアクセスおよびRWO、ROX、RWX、RWOPアクセスモード。
 
 
-ONTAP SANドライバは、rawブロックモードとファイルシステムモードをサポートしています。
+** ONTAP SANドライバは'rawブロックモードとファイル・システム・モードをサポート**
 
 * rawブロックモードでは、RWO、ROX、RWX、RWOPアクセスモードをサポートできます。
 * ファイルシステムモードでは、RWOおよびRWOPアクセスモードのみが許可されます。
@@ -197,6 +199,37 @@ NOTE: 上記のコンテンツにアクセスするには、アクティブなRe
 
 === ** VMware環境からのVMの移行**
 
-VMware環境からのVMの移行の詳細については、link:https://docs.netapp.com/us-en/netapp-solutions/containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_migration_using_mtv.html["ワークフロー Red Hat OpenShift Virtualization with NetApp ONTAP"]
+Migration Toolkit for OpenShift Virtualizationは、Red Hatが提供するオペレータで、OpenShift Container PlatformのOperatorHubから入手できます。このツールを使用して、vSphere、Red Hat Virtualization、OpenStack、OpenShift VirtualizationからVMを移行できます。
 
-同じ移行計画でESXiホストから10個を超えるVMを移行する場合は、ホストのNFCサービスメモリを増やす必要があります。そうしないと、NFCサービスメモリの並列接続数が10に制限されるため、移行が失敗します。詳細については、Red Hatのドキュメントを参照してください。link：https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.6/html/installing_and_using_the_migration_toolkit_for_virtualization/prerequisites_mtv#increasing-nfc-memory-vmware-host_mtv[Increasing the NFC service memory of an ESXi host]
+vSphereからのVMの移行の詳細については、link:https://docs.netapp.com/us-en/netapp-solutions/containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_migration_using_mtv.html["ワークフロー Red Hat OpenShift Virtualization with NetApp ONTAP"]
+
+CLIまたはMigration Webコンソールから、さまざまなパラメータの制限を設定できます。いくつかのサンプルを以下に示します。
+
+. Max concurrent virtual machine migrations（仮想マシンの最大同時移行）同時に移行できる仮想マシンの最大数を設定します。デフォルト値は20台の仮想マシンです。
+. Precopy interval (minutes)ウォーム移行を開始する前に、新しいスナップショットが要求される間隔を制御します。デフォルト値は60分です。
+. スナップショットポーリング間隔（秒）は、oVirtウォーム移行中にスナップショットの作成または削除のステータスをシステムがチェックする頻度を決定します。デフォルト値は10秒です。
+
+
+同じ移行計画でESXiホストから10個を超えるVMを移行する場合は、ホストのNFCサービスメモリを増やす必要があります。そうしないと、NFCサービスメモリの並列接続数が10に制限されるため、移行が失敗します。詳細については、Red Hatのドキュメントを参照してください。link:https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.6/html/installing_and_using_the_migration_toolkit_for_virtualization/prerequisites_mtv#increasing-nfc-memory-vmware-host_mtv["ESXiホストのNFCサービスメモリの拡張"]
+
+ここでは、仮想化向け移行ツールキットを使用して、vSphereの同じホストからOpenShift仮想化に10台のVMを並行して移行する方法を紹介します。
+
+**同じESXiホスト上のVM **
+
+image::redhat_openshift_bpg_image2-a.png[同一ホスト上のVM]
+
+** VMwareから10台のVMを移行するためのプランが最初に作成されます**
+
+image::redhat_openshift_bpg_image2.png[移行計画]
+
+**移行計画の実行が開始されました**
+
+image::redhat_openshift_bpg_image3.png[移行-計画-実行]
+
+** 10台すべてのVMが正常に移行されました**
+
+image::redhat_openshift_bpg_image4.png[移行計画-成功]
+
+** 10台すべてのVMがOpenShift Virtualizationで実行中の状態にある**
+
+image::redhat_openshift_bpg_image5.png[移行済み- VMS -実行中]
