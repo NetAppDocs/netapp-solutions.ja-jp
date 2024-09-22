@@ -1,0 +1,135 @@
+---
+sidebar: sidebar 
+permalink: cyber-vault/ontap-cyber-vault-powershell-creation.html 
+keywords: Cyber vault, powershell, script, configuration, validation, hardening 
+summary: ONTAPベースのサイバーボールトを構成、強化、検証するためのNetApp ONTAPソリューション 
+---
+= PowerShellを使用したONTAPサイバーヴォールトの作成
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media
+
+
+[role="lead"]
+従来の方法を使用するエアギャップバックアップでは、スペースを確保し、プライマリメディアとセカンダリメディアを物理的に分離します。メディアをオフサイトに移動したり、接続を切断したりすることで、攻撃者はデータにアクセスできなくなります。これによりデータが保護されますが、リカバリ時間が長くなる可能性があります。SnapLock Complianceでは、物理的な分離は必要ありません。SnapLock Complianceは、保存されたSnapshotのポイントインタイムの読み取り専用コピーを保護します。その結果、データに迅速にアクセスし、削除や消去を防止し、変更や改ざんを防止できます。
+
+
+
+== 前提条件
+
+このドキュメントの次のセクションで説明する手順を開始する前に、次の前提条件を満たしていることを確認してください。
+
+* ソースクラスタでONTAP 9以降が実行されている必要があります。
+* ソースアグリゲートとデスティネーションアグリゲートは64ビットである必要があります。
+* ソースクラスタとデスティネーションクラスタのピア関係が確立されている必要があります。
+* ソースとデスティネーションのSVMのピア関係が確立されている必要があります。
+* クラスタピアリングの暗号化が有効になっていることを確認
+
+
+ONTAPサイバーボールトへのデータ転送を設定するには、いくつかの手順が必要です。プライマリボリュームで、適切なスケジュールを使用して作成するコピーと作成するタイミングを指定するSnapshotポリシーを設定し、ラベルを割り当ててSnapVaultで転送するコピーを指定します。セカンダリでは、転送するSnapshotコピーのラベルと、それらのコピーのうち何個をサイバーバックアップに保持するかを指定するSnapMirrorポリシーを作成する必要があります。これらのポリシーを設定したら、SnapVault関係を作成し、転送スケジュールを確立します。
+
+
+NOTE: 本ドキュメントでは、プライマリストレージと指定されたONTAPサイバーボールトがすでにセットアップおよび設定されていることを前提としています。
+
+
+NOTE: サイバーボールトクラスタは、ソースデータと同じデータセンターにも別のデータセンターにも配置できます。
+
+
+
+== ONTAPサイバーボールトを作成する手順
+
+. ONTAP CLIまたはSystem Managerを使用して、コンプライアンスクロックを初期化してください。
+. SnapLock Complianceを有効にしてデータ保護ボリュームを作成します。
+. SnapMirror createコマンドを使用して、SnapVaultデータ保護関係を作成します。
+. デスティネーションボリュームのデフォルトのSnapLock Compliance保持期間を設定します。
+
+
+
+NOTE: デフォルトの保持期間は「最小に設定」です。バックアップデスティネーションであるSnapLockには、デフォルトの保持期間が割り当てられています。この期間の最初の値は、SnapLock Complianceボリュームでは最小0年、最大30年に設定されています。各NetApp Snapshotコピーは、最初はこのデフォルトの保持期間でコミットされます。保持期間は必要に応じてあとから延長できますが、短縮することはできません。
+
+上記には手動の手順が含まれています。セキュリティの専門家は、プロセスを自動化して、エラーの大きなマージンをもたらす手動管理を回避することをお勧めします。以下は、SnapLock Complianceの前提条件と設定、およびクロックの初期化を完全に自動化するコードスニペットです。
+
+次に、ONTAPコンプライアンスクロックを初期化するためのPowerShellコード例を示します。
+
+[source, powershell]
+----
+function initializeSnapLockComplianceClock {
+    try {
+        $nodes = Get-NcNode
+
+        $isInitialized = $false
+        logMessage -message "Cheking if snaplock compliance clock is initialized"
+        foreach($node in $nodes) {
+            $check = Get-NcSnaplockComplianceClock -Node $node.Node
+            if ($check.SnaplockComplianceClockSpecified -eq "True") {
+                $isInitialized = $true
+            }
+        }
+
+        if ($isInitialized) {
+            logMessage -message "SnapLock Compliance clock already initialized" -type "SUCCESS"
+        } else {
+            logMessage -message "Initializing SnapLock compliance clock"
+            foreach($node in $nodes) {
+                Set-NcSnaplockComplianceClock -Node $node.Node
+            }
+            logMessage -message "Successfully initialized SnapLock Compliance clock" -type "SUCCESS"
+        }
+    } catch {
+        handleError -errorMessage $_.Exception.Message
+    }
+}
+
+----
+ここでは、ONTAPサイバーボールトを構成するためのPowerShellコード例を示します。
+
+[source, powershell]
+----
+function configureCyberVault {
+    for($i = 0; $i -lt $DESTINATION_VOLUME_NAMES.Length; $i++) {
+        try {
+            # checking if the volume already exists and is of type snaplock compliance
+            logMessage -message "Checking if SnapLock Compliance volume $($DESTINATION_VOLUME_NAMES[$i]) already exists in vServer $DESTINATION_VSERVER"
+            $volume = Get-NcVol -Vserver $DESTINATION_VSERVER -Volume $DESTINATION_VOLUME_NAMES[$i] | Select-Object -Property Name, State, TotalSize, Aggregate, Vserver, Snaplock | Where-Object { $_.Snaplock.Type -eq "compliance" }
+            if($volume) {
+                $volume
+                logMessage -message "SnapLock Compliance volume $($DESTINATION_VOLUME_NAMES[$i]) already exists in vServer $DESTINATION_VSERVER" -type "SUCCESS"
+            } else {
+                # Create SnapLock Compliance volume
+                logMessage -message "Creating SnapLock Compliance volume: $($DESTINATION_VOLUME_NAMES[$i])"
+                New-NcVol -Name $DESTINATION_VOLUME_NAMES[$i] -Aggregate $DESTINATION_AGGREGATE_NAMES[$i] -SnaplockType Compliance -Type DP -Size $DESTINATION_VOLUME_SIZES[$i] -ErrorAction Stop | Select-Object -Property Name, State, TotalSize, Aggregate, Vserver
+                logMessage -message "Volume $($DESTINATION_VOLUME_NAMES[$i]) created successfully" -type "SUCCESS"
+            }
+
+            # Set SnapLock volume attributes
+            logMessage -message "Setting SnapLock volume attributes for volume: $($DESTINATION_VOLUME_NAMES[$i])"
+            Set-NcSnaplockVolAttr -Volume $DESTINATION_VOLUME_NAMES[$i] -MinimumRetentionPeriod $SNAPLOCK_MIN_RETENTION -MaximumRetentionPeriod $SNAPLOCK_MAX_RETENTION -ErrorAction Stop | Select-Object -Property Type, MinimumRetentionPeriod, MaximumRetentionPeriod
+            logMessage -message "SnapLock volume attributes set successfully for volume: $($DESTINATION_VOLUME_NAMES[$i])" -type "SUCCESS"
+
+            # checking snapmirror relationship
+            logMessage -message "Checking if SnapMirror relationship exists between source volume $($SOURCE_VOLUME_NAMES[$i]) and destination SnapLock Compliance volume $($DESTINATION_VOLUME_NAMES[$i])"
+            $snapmirror = Get-NcSnapmirror | Select-Object SourceCluster, SourceLocation, DestinationCluster, DestinationLocation, Status, MirrorState | Where-Object { $_.SourceCluster -eq $SOURCE_ONTAP_CLUSTER_NAME -and $_.SourceLocation -eq "$($SOURCE_VSERVER):$($SOURCE_VOLUME_NAMES[$i])" -and $_.DestinationCluster -eq $DESTINATION_ONTAP_CLUSTER_NAME -and $_.DestinationLocation -eq "$($DESTINATION_VSERVER):$($DESTINATION_VOLUME_NAMES[$i])" -and ($_.Status -eq "snapmirrored" -or $_.Status -eq "uninitialized") }
+            if($snapmirror) {
+                $snapmirror
+                logMessage -message "SnapMirror relationship already exists for volume: $($DESTINATION_VOLUME_NAMES[$i])" -type "SUCCESS"
+            } else {
+                # Create SnapMirror relationship
+                logMessage -message "Creating SnapMirror relationship for volume: $($DESTINATION_VOLUME_NAMES[$i])"
+                New-NcSnapmirror -SourceCluster $SOURCE_ONTAP_CLUSTER_NAME -SourceVserver $SOURCE_VSERVER -SourceVolume $SOURCE_VOLUME_NAMES[$i] -DestinationCluster $DESTINATION_ONTAP_CLUSTER_NAME -DestinationVserver $DESTINATION_VSERVER -DestinationVolume $DESTINATION_VOLUME_NAMES[$i] -Policy $SNAPMIRROR_PROTECTION_POLICY -Schedule $SNAPMIRROR_SCHEDULE -ErrorAction Stop | Select-Object -Property SourceCluster, SourceLocation, DestinationCluster, DestinationLocation, Status, Policy, Schedule
+                logMessage -message "SnapMirror relationship created successfully for volume: $($DESTINATION_VOLUME_NAMES[$i])" -type "SUCCESS"
+            }
+
+        } catch {
+            handleError -errorMessage $_.Exception.Message
+        }
+    }
+}
+
+----
+. 上記の手順が完了すると、SnapLock ComplianceとSnapVaultを使用したエアギャップサイバーヴォールトの準備が整います。
+
+
+Snapshotデータをサイバーバックアップに転送する前に、SnapVault関係を初期化する必要があります。ただし、その前に、ヴォールトを保護するためにセキュリティ強化を実行する必要があります。

@@ -1,0 +1,29 @@
+---
+sidebar: sidebar 
+permalink: cyber-vault/ontap-cyber-vault-powershell-data-recovery.html 
+keywords: Cyber vault, powershell, script, configuration, validation, hardening 
+summary: ONTAPベースのサイバーボールトを構成、強化、検証するためのNetApp ONTAPソリューション 
+---
+= ONTAPサイバーヴォールトデータリカバリ
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media
+
+
+[role="lead"]
+実稼働中のデータセンターでデータが破壊された場合、サイバーボールトのデータを選択した環境に安全にリカバリできます。物理的にエアギャップされたソリューションとは異なり、エアギャップされたONTAPサイバーボールトは、SnapLock ComplianceやSnapMirrorなどのネイティブONTAP機能を使用して構築されています。その結果、迅速かつ簡単に実行できるリカバリプロセスが実現します。
+
+ランサムウェア攻撃が発生し、サイバーボールトからのリカバリが必要になった場合、サイバーボールトに格納されているSnapshotコピーを使用して暗号化されたデータをリストアするため、リカバリプロセスはシンプルで簡単です。
+
+image:ontap-cyber-vault-data-recovery.png["関係のリストア"]
+
+リカバリのためにデータを迅速に検証、分離、分析するために、必要に応じて迅速にデータをオンラインに戻す方法を提供する必要がある場合。これは、FlexCloneでSnapLockタイプオプションを非SnapLockタイプに設定して使用することで簡単に実現できます。
+
+
+NOTE: Snapshot.13.1以降では、ロックされたSnapshotコピーをSnapLockバックアップ関係のデスティネーションSnapLock SnapLockボリュームにリストアするには、snapshot-typeオプションを「SnapLock」に設定してONTAP 9 FlexCloneを作成します。ボリュームクローン作成処理を実行する場合は、Snapshotコピーを「parent-snapshot」として指定します。SnapLockタイプのFlexCloneボリュームの作成に関する詳細情報link:https://docs.netapp.com/us-en/ontap/volumes/create-flexclone-task.html?q=volume+clone["はい。"]
+
+
+NOTE: サイバーボールトからリカバリ手順を実行することで、サイバーボールトに接続してデータを取得するための適切な手順が確立されます。この手順の計画とテストは、サイバー攻撃イベント中のリカバリに不可欠です。

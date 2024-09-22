@@ -1,0 +1,133 @@
+---
+sidebar: sidebar 
+permalink: proxmox/proxmox-overview.html 
+keywords: proxmox ve, kvm, qemu, lxc, vm 
+summary:  
+---
+= Proxmox仮想環境の概要
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Proxmox Virtual EnvironmentはDebian LinuxをベースとしたオープンソースのType-1ハイパーバイザ（ベアメタルサーバにインストール）である。仮想マシン（VM）とLinuxコンテナ（LXC）をホストできます。
+
+
+
+== 概要
+
+Proxmox Virtual Environment（VE）は、同じホスト上で完全なVMとコンテナベースの仮想化の両方をサポートします。Kernel-Based Virtual Machine（KVM）とQuick Emulator（QEMU）は、仮想マシンの完全な仮想化に使用されます。QEMUはオープンソースのマシンエミュレータおよび仮想化ツールであり、KVMカーネルモジュールを使用してホストCPU上で直接ゲストコードを実行します。Linux Containers（LXC）を使用すると、リブート後もデータが永続的に保持されるVMのようにコンテナを管理できます。
+
+image:proxmox-overview-image01.png["Proxmoxホスト上のVMとLXC"]
+
+自動化タスクにはRESTful APIを使用できます。API呼び出しの情報については、link:https://pve.proxmox.com/pve-docs/api-viewer/index.html["Proxmox VE APIビューア"]
+
+
+
+== クラスタ管理
+
+Webベースの管理ポータルは、Proxmox VEノードのポート8006で使用できます。一連のノードをまとめてクラスタを形成できます。Proxmox VE構成は `/etc/pve`、クラスタのすべてのノードで共有されます。Proxmox VEは、を使用してlink:https://pve.proxmox.com/wiki/Cluster_Manager["Corosyncクラスタエンジン"]クラスタを管理します。管理ポータルには、クラスタの任意のノードからアクセスできます。
+
+image:proxmox-overview-image02.png["管理インターフェイス"]
+
+クラスタを使用すると、ホストノードで障害が発生した場合に、VMとコンテナを他のノードで監視して再起動できます。VMとコンテナをハイアベイラビリティ（HA）用に設定する必要があります。グループを作成することで、VMとコンテナを特定のホストサブセットでホストできます。VMまたはコンテナは、優先度が最も高いホストでホストされています。詳細については、link:https://pve.proxmox.com/wiki/High_Availability["HAマネージャ"]
+
+image:proxmox-overview-image03.png["HAグループの優先度"]
+
+認証オプションには、Linux PAM、Proxmox VE PAM、LDAP、Microsoft AD、OpenIDがあります。権限は、ロールおよびリソースの集合であるリソースプールの使用を介して割り当てることができます。詳細については、link:https://pve.proxmox.com/pve-docs/chapter-pveum.html["Proxmoxユーザ管理"]
+
+
+TIP: LDAP/Microsoft ADの接続クレデンシャルは、クリアテキストで、ホストファイルシステムで保護する必要があるファイルに保存される場合があります。
+
+
+
+== コンピューティング
+
+VMのCPUオプションには、CPUコアとソケットの数（vCPUの数を指定）、NUMAを選択するオプション、アフィニティの定義、制限の設定、およびCPUタイプが含まれます。
+
+image:proxmox-overview-image11.png["VM CPUオプション"]
+
+CPUの種類と、CPUがライブマイグレーションにどのように影響するかについては、以下を確認してください。link:https://pve.proxmox.com/pve-docs/chapter-qm.html#qm_cpu["Proxmox VEドキュメントのQEMU/KVM仮想マシンに関するセクション"]
+
+LXCコンテナイメージのCPUオプションを次のスクリーンショットに示します。
+
+image:proxmox-overview-image12.png["lxc CPUオプション"]
+
+VMとLXCはメモリサイズを指定できます。VMの場合、Balooning機能はLinux VMに対して使用できます。詳細については、を参照してください。link:https://pve.proxmox.com/pve-docs/chapter-qm.html#qm_memory["Proxmox VEドキュメントのQEMU/KVM仮想マシンに関するセクション"]
+
+
+
+== ストレージ
+
+仮想マシンは、構成ファイル、 `/etc/pve/qemu-server/<vm id>.conf`、および仮想ディスクコンポーネントで構成されます。サポートされる仮想ディスク形式は、raw、qcow2、およびVMDKです。QCOW2は、さまざまなストレージタイプでシンプロビジョニングとスナップショット機能を提供できます。
+
+image:proxmox-overview-image04.png["VMのディスクフォーマット"]
+
+iSCSI LUNをrawデバイスとしてVMに提供するオプションがあります。
+
+LXCには、独自の構成ファイル、 `/etc/pve/lxc/<container id>.conf`、およびコンテナディスクコンポーネントもあります。データボリュームは、サポートされているストレージタイプからマウントできます。
+
+image:proxmox-overview-image05.png["コンテナ追加マウント"]
+
+サポートされるストレージタイプには、ローカルディスク、NAS（SMBとNFS）、SAN（FC、iSCSI、NVMe-oFなど）があります。詳細については、を参照してください。link:https://pve.proxmox.com/pve-docs/chapter-pvesm.html["Proxmox VEストレージ"]
+
+すべてのストレージボリュームには、許可されるコンテンツタイプが設定されています。NASボリュームはすべてのコンテンツタイプをサポートしますが、SANはVMイメージとコンテナイメージに限定されます。
+
+
+NOTE: ディレクトリストレージタイプでは、すべてのコンテンツタイプもサポートされます。SMB接続クレデンシャルはクリアテキストで保存され、rootのみがアクセスできます。
+
+image:proxmox-overview-image06.png["NASヲシヨウシタコンテンツタイフ"]
+
+image:proxmox-overview-image07.png["SANヲシヨウスルコンテンツタイフ"]
+
+Broadcom vSphere環境からVMをインポートするために、vSphereホストをストレージデバイスとして含めることもできます。
+
+
+
+== ネットワーク
+
+Proxmox VEは、Software Defined Networking（SDN）を実装するために、LinuxブリッジやOpen vSwitchなどのネイティブLinuxネットワーク機能をサポートしています。ホスト上のイーサネットインターフェイスをボンディングして、冗長性と高可用性を実現できます。その他のオプションについては、を参照してください。link:https://pve.proxmox.com/pve-docs/chapter-sysadmin.html#_choosing_a_network_configuration["Proxmox VEドキュメント"]
+
+image:proxmox-overview-image08.png["ボンディングされたネットワーク"]
+
+ゲストネットワークはクラスタレベルで設定でき、変更はメンバーホストにプッシュされます。分離は、ゾーン、VNet、およびサブネットで管理されます。link:https://pve.proxmox.com/pve-docs/chapter-pvesdn.html["ゾーン"]Simple、VLAN、VLAN Stacking、VXLAN、EVPNなどのネットワークタイプを定義します。
+
+ゾーンのタイプに応じて、ネットワークの動作は異なり、特定の機能、利点、および制限事項が提供されます。
+
+SDNのユースケースは、個 々 のノード上の独立したプライベートネットワークから、異なる場所にある複数のPVEクラスタにまたがる複雑なオーバーレイネットワークまで多岐にわたります。
+
+クラスタ全体のデータセンターSDN管理インターフェイスでVNetを設定すると、各ノードでローカルに共通のLinuxブリッジとして使用し、VMおよびコンテナに割り当てることができます。
+
+VMが作成されると、ユーザは接続するLinuxブリッジを選択できます。VMの作成後にインターフェイスを追加できます。
+
+image:proxmox-overview-image13.png["VMネットワークの選択"]
+
+これはデータセンターレベルのVNet情報です。
+
+image:proxmox-overview-image14.png["データセンターのVNet情報"]
+
+
+
+== 監視
+
+データセンター、ホスト、VM、コンテナ、ストレージなどのほとんどのオブジェクトの概要ページには、詳細が表示され、一部のパフォーマンス指標も表示されます。次のスクリーンショットは、ホストの概要ページを示しており、インストールされているパッケージに関する情報が含まれています。
+
+image:proxmox-overview-image09.png["[Host package]ビュー"]
+
+ホスト、ゲスト、ストレージなどに関する統計は、外部のGraphiteデータベースまたはInfluxdbデータベースにプッシュできます。詳細については、を参照してください link:https://pve.proxmox.com/pve-docs/chapter-sysadmin.html#external_metric_server["Proxmox VEドキュメント"]。
+
+
+
+== データ保護
+
+Proxmox VEには、バックアップコンテンツ用に構成されたストレージにVMとコンテナをバックアップおよびリストアするオプションが含まれています。バックアップは、UIまたはCLIからvzdumpツールを使用して開始することも、スケジュールを設定することもできます。詳細については、を参照して link:https://pve.proxmox.com/pve-docs/chapter-vzdump.html["Proxmox VEドキュメントのバックアップとリストアに関するセクション"]ください。
+
+image:proxmox-overview-image10.png["Proxmox VEバックアップストレージコンテンツ"]
+
+バックアップ・コンテンツは'ソース・サイトのダイスターから保護するためにオフサイトに保存する必要があります
+
+Veeamでは、バージョン12.2でProxmox VEがサポートされるようになりました。これにより、vSphereからProxmox VEホストにVMバックアップをリストアできます。

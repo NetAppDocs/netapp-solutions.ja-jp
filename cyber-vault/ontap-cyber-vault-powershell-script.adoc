@@ -1,0 +1,75 @@
+---
+sidebar: sidebar 
+permalink: cyber-vault/ontap-cyber-vault-powershell-script.html 
+keywords: Cyber vault, powershell, script, configuration, validation, hardening 
+summary: ONTAPベースのサイバーボールトを構成、強化、検証するためのNetApp ONTAPソリューション 
+---
+= 設定、分析、cronスクリプト
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media
+
+
+[role="lead"]
+NetAppでは、ダウンロードしてサイバーバックアップ関係の設定、検証、スケジュール設定に使用できる単一のスクリプトを作成しました。
+
+
+
+== このスクリプトの機能
+
+* クラスタピアリング
+* SVMピアリング
+* DPボリュームノサクセイ
+* SnapMirror関係と初期化
+* サイバーボールトに使用するONTAPシステムを強化
+* 転送スケジュールに基づいて関係を休止して再開する
+* セキュリティ設定を定期的に検証し、異常を示すレポートを生成
+
+
+
+
+== このスクリプトの使用方法
+
+スクリプトをダウンロードして使用するには、次の手順を実行します。
+
+* Windows PowerShellを管理者として起動します。
+* スクリプトが格納されているディレクトリに移動します。
+*  `.\`構文と必要なパラメータを使用してスクリプトを実行します。
+
+
+
+NOTE: すべての情報を入力してください。最初の実行（構成モード）では、本番システムと新しいサイバーボールトシステムの両方のクレデンシャルを要求します。その後、システム間にSVMピア（存在しない場合）、ボリューム、およびSnapMirrorが作成されて初期化されます。
+
+
+NOTE: cronモードを使用すると、データ転送の休止と再開をスケジュールできます。
+
+
+
+== 動作モード
+
+自動化スクリプトには `configure`、 `analyze`およびの3つの実行モードが用意されています `cron`。
+
+[source, powershell]
+----
+if($SCRIPT_MODE -eq "configure") {
+        configure
+    } elseif ($SCRIPT_MODE -eq "analyze") {
+        analyze
+    } elseif ($SCRIPT_MODE -eq "cron") {
+        runCron
+    }
+----
+* Configure -検証チェックを実行し、システムをエアギャップとして設定します。
+* 分析-自動化された監視およびレポート機能。監視グループに異常や疑わしいアクティビティに関する情報を送信して、設定がドリフトしないようにします。
+* cron -切断されたインフラを有効にするには、cronモードでLIFを自動的に無効にして転送関係を休止します。
+
+
+システムのパフォーマンスとデータ量の両方に応じて、選択したボリュームのデータの転送には時間がかかります。
+
+[source, powershell]
+----
+./script.ps1 -SOURCE_ONTAP_CLUSTER_MGMT_IP "172.21.166.157" -SOURCE_ONTAP_CLUSTER_NAME "NTAP915_Src" -SOURCE_VSERVER "svm_NFS" -SOURCE_VOLUME_NAME "Src_RP_Vol01" -DESTINATION_ONTAP_CLUSTER_MGMT_IP "172.21.166.159" -DESTINATION_ONTAP_CLUSTER_NAME "NTAP915_Destn" -DESTINATION_VSERVER "svm_nim_nfs" -DESTINATION_AGGREGATE_NAME "NTAP915_Destn_01_VM_DISK_1" -DESTINATION_VOLUME_NAME "Dst_RP_Vol01_Vault" -DESTINATION_VOLUME_SIZE "5g" -SNAPLOCK_MIN_RETENTION "15minutes" -SNAPLOCK_MAX_RETENTION "30minutes" -SNAPMIRROR_PROTECTION_POLICY "XDPDefault" -SNAPMIRROR_SCHEDULE "5min" -DESTINATION_CLUSTER_USERNAME "admin" -DESTINATION_CLUSTER_PASSWORD "PASSWORD123"
+----

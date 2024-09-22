@@ -1,0 +1,425 @@
+---
+sidebar: sidebar 
+permalink: ehc/veeam-gcnv-dr-to-gcve.html 
+keywords: disaster recovery, avs, google cloud, gcp, gcve, gcnv, google cloud netapp volumes, netapp volumes, dr, veeam, replication 
+summary:  
+---
+= Veeam ReplicationとGoogle Cloud NetApp Volumesデータストアを使用したGoogle Cloud VMware Engineへのディザスタリカバリ
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+危機的状況にある企業にとって、包括的なディザスタリカバリ計画は非常に重要です。多くの組織が、日 々 の運用やディザスタリカバリにクラウドコンピューティングを活用しています。このプロアクティブなアプローチにより、コストのかかるビジネスの中断を軽減または解消できます。
+
+この記事では、Veeam Backup & Replicationを使用してオンプレミスのVMware VMからGoogle Cloud NetApp Volume（NetApp Volume）を使用したGoogle Cloud VMware Engine（GCVE）へのディザスタリカバリを設定する方法について説明します。
+
+
+
+== 概要
+
+Google Cloud NetApp Volumesは、GoogleとNetAppが提供する、Google Cloud向けのストレージサービスです。NetApp Volumes Serviceは、ハイパフォーマンスなNFS / SMBストレージを提供します。VMware認定のNetApp Volumes NFSストレージは、GCVEでESXiホストの外部データストアとして使用できます。ユーザは、GCVEプライベートクラウドとNetApp Volumeプロジェクトの間にピアリング接続を確立する必要があります。リージョン内のストレージアクセスに起因するネットワーク料金は発生しません。NetApp VolumeボリュームをGoogle Cloudコンソールで作成し、削除保護を有効にしてから、ボリュームをデータストアとしてESXiホストにマウントできます。
+
+NetApp VolumeベースのNFSデータストアは、VMレプリケーション機能を提供する検証済みのサードパーティソリューションを使用して、オンプレミスからデータをレプリケートできます。NetApp Volumeデータストアを追加することで、ストレージに対応するために多数のESXiホストで構成されるGoogle Cloud VMware Engine（GCVE）ベースのSDDCを構築する代わりに、導入コストを最適化できます。このアプローチは「パイロットライトクラスタ」と呼ばれます。パイロットライトクラスタは、最小限のGCVEホスト構成（GCVE ESXiホスト×3）とNetApp Volumeデータストアの容量で構成され、容量の要件に合わせて個別に拡張できます。
+
+その目的は、フェイルオーバーを管理するためのコアコンポーネントだけで、対費用効果の高いインフラを維持することです。パイロットライトクラスタは、フェールオーバーが発生した場合に、GCVEホストを拡張および追加できます。フェイルオーバーが解決され、通常の運用が再開されると、パイロットライトクラスタはその規模を縮小し、低コストの運用モードに戻ることができます。
+
+
+
+== 本書の目的
+
+この記事では、Google Cloud NetApp VolumeデータストアとVeeam Backup & Replicationを使用して、Veeam VMレプリケーションソフトウェア機能を使用してオンプレミスのVMware VMからGCVEへのディザスタリカバリを設定する方法について説明します。
+
+Veeam Backup & Replicationは、仮想環境向けのバックアップおよびレプリケーションアプリケーションです。仮想マシンがレプリケートされると、Veeam Backup & Replicationは、VMの正確なコピーをネイティブのVMware vSphere形式でターゲットのGCVE SDDCクラスタに作成します。Veeam Backup & Replicationは、コピーと元のVMの同期を維持します。DRサイトにはVMのコピーがすぐにマウントされているため、レプリケーションによって最適なRecovery Time Objective（RTO；目標復旧時間）が実現します。
+
+このレプリケーションメカニズムにより、災害発生時にGCVEでワークロードを迅速に開始できます。Veeam Backup & Replicationソフトウェアは、WAN経由のレプリケーションや低速接続のトラフィック転送も最適化します。また、重複データブロック、ゼロデータブロック、スワップファイル、「除外VMゲストOSファイル」も除外されます。ソフトウェアはレプリカトラフィックも圧縮します。レプリケーションジョブがネットワーク帯域幅全体を消費しないようにするには、WANアクセラレータとネットワークスロットリングルールを使用します。
+
+Veeam Backup & Replicationのレプリケーションプロセスはジョブベースです。つまり、レプリケーションはレプリケーションジョブを設定して実行されます。災害が発生した場合は、レプリカコピーにフェイルオーバーすることで、フェイルオーバーをトリガーしてVMをリカバリできます。フェイルオーバーが実行されると、レプリケートされたVMが元のVMの役割を引き継ぎます。フェイルオーバーは、レプリカの最新の状態、または既知の正常な復元ポイントに実行できます。これにより、必要に応じてランサムウェアからのリカバリや個別のテストが可能Veeam Backup & Replicationには、さまざまなディザスタリカバリシナリオに対応するためのオプションが複数用意されています。
+
+
+
+== 解決策の概要
+
+この解決策では、次の手順の概要を説明します。
+
+. Google Cloud NetApp Volumeを使用したNFSボリュームの作成
+. GCPプロセスに従って、NetApp Volume NFSボリュームからGCVEデータストアを作成します。
+. Veeam Backup & Replicationを使用してVMレプリカを作成するためのレプリケーションジョブを設定します。
+. フェイルオーバープランを作成し、フェイルオーバーを実行します。
+. 災害が完了し、プライマリサイトが稼働したら、本番環境のVMにスイッチバックします。
+
+
+
+NOTE: GCVEデータストアとして使用するNetApp Volumeでボリュームを作成する場合は、NFS v3のみがサポートされます。
+
+NetApp Volume NFSボリュームをGCVEのデータストアとして使用する方法の詳細については、を参照してください https://cloud.google.com/vmware-engine/docs/vmware-ecosystem/howto-cloud-volumes-datastores-gcve["NFSボリュームをGoogle Cloud NetApp VolumeでホストされるvSphereデータストアとして使用"]。
+
+
+
+== アーキテクチャ
+
+次の図は、このドキュメントで説明しているソリューションのアーキテクチャを示しています。Veeam Backup & ReplicationサーバをオンプレミスサイトとGCVE SDDCの両方に配置することを推奨します。バックアップとリカバリはオンプレミスのVeeamサーバで実行、管理され、レプリケーションはGCVE SDDCのVeeamサーバで管理されます。このアーキテクチャは、プライマリデータセンターで障害が発生した場合に最高の可用性を提供します。
+
+image::dr-veeam-gcnv-image01.png[アーキテクチャ図]
+
+
+
+== GCVEおよびNetApp VolumeデータストアへのVeeamレプリケーションの前提条件
+
+このソリューションには、次のコンポーネントと構成が必要です。
+
+. NetApp Volumeには、作成するNFSボリュームに十分な空き容量があるストレージプールがあります。
+. Veeam Backup & Replicationソフトウェアは、適切なネットワーク接続を備えたオンプレミス環境で実行されます。
+. Veeam Backup & ReplicationバックアップVMがソースとターゲットのGCVE SDDCクラスタに接続されていることを確認します。
+. Veeam Backup & ReplicationのバックアップVMが、ソースとターゲットの両方のGCVEクラスタでVeeam ProxyサーバVMに接続されていることを確認します。
+. バックアップサーバは、短縮名を解決し、ソースvCenterとターゲットvCenterに接続できる必要があります。
+
+
+ユーザは、VMware Engine CloudコンソールUIの[VPCネットワークピアリング]または[プライベート接続]ページを使用して、GCVEプライベートクラウドとNetApp Volumesプロジェクト間にピアリング接続を確立する必要があります。
+
+
+NOTE: Veeam Backup & ReplicationのインベントリにGCVE vCenterサーバを追加するには、Privilegesが昇格されたGCVEソリューションのユーザアカウントが必要です。詳細については、Google Cloud Platform（GCP）のドキュメントを参照してください https://cloud.google.com/vmware-engine/docs/private-clouds/classic-console/howto-elevate-privilege["VMware Engine Privilegesの昇格"]。
+
+詳細については https://helpcenter.veeam.com/docs/backup/vsphere/replica_limitations.html?ver=120["考慮事項および制限事項"]、Veeam Backup & Replicationのドキュメントのを参照してください。
+
+
+
+== 導入手順
+
+以降のセクションでは、Google Cloud NetApp Volumeを使用してNFSデータストアを作成してマウントし、Veeam Backup and Replicationを使用してオンプレミスのデータセンターとGoogle Cloud VMware Engineの間に完全なディザスタリカバリソリューションを実装する導入手順について説明します。
+
+
+
+=== GCVE用のNetApp Volume NFSボリュームとデータストアを作成する
+
+ https://cloud.google.com/vmware-engine/docs/vmware-ecosystem/howto-cloud-volumes-datastores-gcve["NFSボリュームをGoogle Cloud NetApp VolumeでホストされるvSphereデータストアとして使用"]GCVEのデータストアとしてGoogle Cloud NetApp Volumesを使用する方法の概要については、を参照してください。
+
+NetApp Volumeを使用してGCVE用のNFSデータストアを作成して使用するには、次の手順を実行します。
+
+.NetApp Volume NFSボリュームの作成
+[%collapsible]
+====
+Google Cloud NetApp Volumeには、Google Cloud Platform（GCP）コンソールからアクセスできます。
+
+ https://cloud.google.com/netapp/volumes/docs/configure-and-use/volumes/create-volume["ボリュームの作成"]この手順の詳細については、Google Cloud NetApp Volumesドキュメントのを参照してください。
+
+. Webブラウザで、 https://console.cloud.google.com/[]GCPコンソールに移動してログインします。開始するには* NetApp Volume *を検索してください。
+. NetApp Volume *管理インターフェイスで、*[作成]*をクリックしてNFSボリュームの作成を開始します。
++
+image::dr-veeam-gcnv-image02.png[ボリュームの作成]
+
++
+｛nbsp｝
+
+. ボリュームの作成*ウィザードで、必要な情報をすべて入力します。
++
+** ボリュームの名前。
+** ボリュームを作成するストレージプール。
+** NFSボリュームのマウント時に使用する共有名。
+** ボリュームの容量（GiB）。
+** 使用するストレージプロトコル。
+** [Block volume from deletion when clients are connected]（クライアント接続時にボリュームの削除をブロックする）チェックボックスをオンにします（データストアとしてマウントする場合はGCVEが必要）。
+** ボリュームにアクセスするためのエクスポートルール。NFSネットワーク上のESXiアダプタのIPアドレスです。
+** ローカルSnapshotを使用してボリュームを保護するために使用されるSnapshotスケジュール。
+** 必要に応じて、ボリュームをバックアップするか、ボリュームのラベルを作成するかを選択します。
++
+
+NOTE: GCVEデータストアとして使用するNetApp Volumeでボリュームを作成する場合は、NFS v3のみがサポートされます。
+
++
+image::dr-veeam-gcnv-image03.png[ボリュームの作成]
+
++
+｛nbsp｝
+
++
+image::dr-veeam-gcnv-image04.png[ボリュームの作成]
+
++
+｛nbsp｝*[作成]*をクリックしてボリュームの作成を完了してください。
+
+
+
+. ボリュームの作成後は、ボリュームのプロパティページでボリュームのマウントに必要なNFSエクスポートパスを確認できます。
++
+image::dr-veeam-gcnv-image05.png[ボリュームプロパティ]
+
+
+
+====
+.GCVEにNFSデータストアをマウント
+[%collapsible]
+====
+本書の執筆時点でGCVEでデータストアをマウントするプロセスでは、ボリュームをNFSデータストアとしてマウントするためにGCPサポートチケットを開く必要があります。
+
+詳細については、を参照してください https://cloud.google.com/vmware-engine/docs/vmware-ecosystem/howto-cloud-volumes-datastores-gcve["NFSボリュームをGoogle Cloud NetApp VolumeでホストされるvSphereデータストアとして使用"] 。
+
+====
+
+
+=== VMをGCVEにレプリケートし、フェイルオーバープランとフェイルバックを実行
+
+.GCVE内のNFSデータストアへのVMのレプリケート
+[%collapsible]
+====
+Veeam Backup & Replicationはレプリケーション時にVMware vSphereスナップショット機能を活用し、Veeam Backup & ReplicationはVMware vSphereにVMスナップショットの作成を要求します。VMスナップショットは、仮想ディスク、システムの状態、設定、メタデータを含むVMのポイントインタイムコピーです。Veeam Backup & Replicationでは、Snapshotをレプリケーションのデータソースとして使用します。
+
+VMをレプリケートするには、次の手順を実行します。
+
+. Veeam Backup & Replicationコンソールを開きます。
+. [ホーム]タブで、*[レプリケーションジョブ]>[仮想マシン...]をクリックします。*
++
+image::dr-veeam-gcnv-image06.png[VMレプリケーションジョブの作成]
+
++
+｛nbsp｝
+
+. 新規レプリケーションジョブ*ウィザードの*名前*ページで、ジョブ名を指定し、適切な詳細制御チェックボックスを選択します。
++
+** オンプレミスとGCP間の接続で帯域幅が制限されている場合は、[Replica seeding]チェックボックスをオンにします。
+** GCVE SDDC上のセグメントがオンプレミスサイトネットワークのセグメントと一致しない場合は、[Network remapping（for GCVE SDDC sites with different networks）]チェックボックスをオンにします。
+** オンプレミスの本番サイトのIPアドレス指定方式がターゲットGCVEサイトのIPアドレス指定方式と異なる場合は、Replica Re-IP（for DR sites with different IP addressing scheme）チェックボックスをオンにします。
++
+image::dr-veeam-gcnv-image07.png[[Name]ページ]
+
++
+｛nbsp｝
+
+
+
+. [仮想マシン]ページで、GCVE SDDCに接続されているNetApp VolumeデータストアにレプリケートするVMを選択します。[追加]*をクリックし、*[オブジェクトの追加]*ウィンドウで必要なVMまたはVMコンテナを選択して*[追加]*をクリックします。「 * 次へ * 」をクリックします。
++
+
+NOTE: 仮想マシンをVSANに配置して、使用可能なVSANデータストアの容量をいっぱいにすることができます。パイロットライトクラスタでは、3ノードVSANクラスタの使用可能容量が制限されます。残りのデータはGoogle Cloud NetApp Volumesデータストアに簡単に配置してVMをリカバリしたり、クラスタを拡張してCPU /メモリの要件を満たすことができます。
+
++
+image::dr-veeam-gcnv-image08.png[レプリケートするVMを選択]
+
++
+｛nbsp｝
+
+. [Destination]*ページで、デスティネーションをGCVE SDDCクラスタ/ホストとして選択し、VMレプリカ用の適切なリソースプール、VMフォルダ、GCNVデータストアを選択します。「 * 次へ * 」をクリックして続行します。
++
+image::dr-veeam-gcnv-image09.png[デスティネーションの詳細を選択]
+
++
+｛nbsp｝
+
+. [ネットワーク]ページで、必要に応じてソースとターゲットの仮想ネットワーク間のマッピングを作成します。「 * 次へ * 」をクリックして続行します。
++
+image::dr-veeam-gcnv-image10.png[ネットワークマッピング]
+
++
+｛nbsp｝
+
+. [Re-IP]ページで、[Add...]ボタンをクリックして新しいRe-IPルールを追加します。ソースVMとターゲットVMのIP範囲を入力して、フェイルオーバー時にソースVMに適用されるネットワークを指定します。アスタリスクを使用して、そのオクテットのアドレス範囲を指定します。「 * 次へ * 」をクリックして続行します。
++
+image::dr-veeam-gcnv-image11.png[[Re-IP]ページ]
+
++
+｛nbsp｝
+
+. [Job Settings]*ページで、VMレプリカのメタデータと保持ポリシーを格納するバックアップリポジトリを指定し、下部にある[* Advanced...*]ボタンを選択して追加のジョブ設定を行います。「 * 次へ * 」をクリックして続行します。
+. [データ転送]*で、ソースサイトとターゲットサイトに存在するプロキシサーバーを選択し、[直接]オプションを選択したままにします。WANアクセラレータが設定されている場合は、ここで選択することもできます。「 * 次へ * 」をクリックして続行します。
++
+image::dr-veeam-gcnv-image12.png[データ転送]
+
++
+｛nbsp｝
+
+. [Guest Processing]ページで、必要に応じて[Enable application-aware processing]チェックボックスをオンにし、[Guest OS credentials]*を選択します。「 * 次へ * 」をクリックして続行します。
++
+image::dr-veeam-gcnv-image13.png[ゲスト処理]
+
++
+｛nbsp｝
+
+. [スケジュール]ページで、レプリケーションジョブを実行する時間と頻度を定義します。「 * 次へ * 」をクリックして続行します。
++
+image::dr-veeam-gcnv-image14.png[[スケジュール]ページ]
+
++
+｛nbsp｝
+
+. 最後に、*サマリ*ページでジョブ設定を確認します。[完了]*をクリックしたときにジョブを実行する*チェックボックスをオンにし、*[完了]*をクリックしてレプリケーションジョブの作成を完了します。
+. 一度実行すると、ジョブステータスウィンドウにレプリケーションジョブが表示されます。
++
+image::dr-veeam-gcnv-image15.png[[Job Status]ウィンドウ]
+
++
+Veeamレプリケーションの詳細については、link:https://helpcenter.veeam.com/docs/backup/vsphere/replication_process.html?ver=120["レプリケーションの仕組み"]
+
+
+
+====
+.フェイルオーバープランの作成
+[%collapsible]
+====
+最初のレプリケーションまたはシードが完了したら、フェイルオーバープランを作成します。フェイルオーバープランは、依存するVMのフェイルオーバーを1つずつ、またはグループとして自動的に実行するのに役立ちます。フェイルオーバープランは、ブート遅延を含むVMの処理順序の青写真です。フェイルオーバープランは、重要な依存VMがすでに実行されていることを確認するのにも役立ちます。
+
+最初のレプリケーションまたはシードが完了したら、フェイルオーバープランを作成します。この計画は、依存VMのフェイルオーバーを個別またはグループ単位でオーケストレーションするための戦略的青写真として機能します。VMの処理順序を定義し、必要なブート遅延を組み込み、重要な依存VMが他のVMよりも先に動作するようにします。適切に構造化されたフェイルオーバープランを実装することで、災害復旧プロセスを合理化し、ダウンタイムを最小限に抑え、フェイルオーバー時に相互に依存するシステムの整合性を維持できます。
+
+プランを作成する際、Veeam Backup & Replicationは最新のリストアポイントを自動的に特定して使用し、VMレプリカを開始します。
+
+
+NOTE: フェイルオーバープランを作成できるのは、初期レプリケーションが完了し、VMレプリカがReady状態になってからです。
+
+
+NOTE: フェイルオーバープランの実行時に同時に起動できるVMの最大数は10です。
+
+
+NOTE: フェイルオーバープロセス中は、ソースVMの電源はオフになりません。
+
+フェイルオーバープラン*を作成するには、次の手順を実行します。
+
+. [ホーム]*ビューで、*[リストア]*セクションの*[フェイルオーバープラン]*ボタンをクリックします。ドロップダウンで*[VMware vSphere...]*を選択します。
++
+image::dr-veeam-gcnv-image16.png[フェイルオーバープランを作成]
+
++
+｛nbsp｝
+
+. [New Failover Plan]ウィザードの[General]*ページで、プランの名前と説明を入力します。必要に応じて、フェイルオーバー前およびフェイルオーバー後のスクリプトを追加できます。たとえば、スクリプトを実行して、レプリケートされたVMを起動する前にVMをシャットダウンします。
++
+image::dr-veeam-gcnv-image17.png[[全般]ページ]
+
++
+｛nbsp｝
+
+. [Virtual Machines]ページで、*[Add VM]*のボタンをクリックし、*[From replicas...]*を選択します。フェイルオーバープランに含めるVMを選択し、アプリケーションの依存関係に合わせてVMのブート順序と必要なブート遅延を変更します。
++
+image::dr-veeam-gcnv-image18.png[[仮想マシン]ページ]
+
++
+｛nbsp｝
+
++
+image::dr-veeam-gcnv-image19.png[起動順序と遅延]
+
++
+｛nbsp｝
+
++
+[適用]*をクリックして続行します。
+
+. 最後に、すべてのフェイルオーバープラン設定を確認し、* Finish *をクリックしてフェイルオーバープランを作成します。
+
+
+レプリケーション・ジョブの作成の詳細については'を参照してlink:https://helpcenter.veeam.com/docs/backup/vsphere/replica_job.html?ver=120["レプリケーションジョブの作成"]ください
+
+====
+.フェイルオーバープランの実行
+[%collapsible]
+====
+フェイルオーバー時には、本番サイトのソースVMがディザスタリカバリサイトのレプリカにスイッチオーバーします。このプロセスの一環として、Veeam Backup & ReplicationはVMレプリカを必要なリストアポイントにリストアし、すべてのI/OアクティビティをソースVMからそのレプリカに転送します。レプリカは、実際の災害だけでなく、DRドリルのシミュレーションにも使用されます。フェイルオーバーシミュレーションでは、ソースVMは引き続き実行されます。必要なテストが完了したら、フェイルオーバーを元に戻して正常な動作に戻すことができます。
+
+
+NOTE: フェイルオーバー中のIP競合を回避するために、ネットワークセグメンテーションが設定されていることを確認します。
+
+フェイルオーバープランを開始するには、次の手順を実行します。
+
+. 開始するには、*[ホーム]*ビューで、左側のメニューの*[レプリカ]>[フェイルオーバープラン]*をクリックし、*[開始]*ボタンをクリックします。または、* Start to...*ボタンを使用して、以前の復元ポイントにフェイルオーバーすることもできます。
++
+image::dr-veeam-gcnv-image20.png[フェイルオーバープランを開始]
+
++
+｛nbsp｝
+
+. フェイルオーバーの進行状況を* Executing failover plan *ウィンドウで監視します。
++
+image::dr-veeam-gcnv-image21.png[フェイルオーバーの進捗状況を監視する]
+
++
+｛nbsp｝
+
+
+
+
+NOTE: Veeam Backup & Replicationは、レプリカがReady状態に戻るまで、ソースVMのすべてのレプリケーションアクティビティを停止します。
+
+フェイルオーバープランの詳細については、を参照してください。 link:https://helpcenter.veeam.com/docs/backup/vsphere/failover_plan.html?ver=120["フェイルオーバープラン"]。
+
+====
+.業務用サイトへのフェイルバック
+[%collapsible]
+====
+フェイルオーバーの実行は中間ステップとみなされ、要件に基づいて完了する必要があります。オプションには次のものがあります。
+
+* *本番環境へのフェイルバック*-元のVMに戻り、レプリカのアクティブ期間中に行われたすべての変更をソースVMに同期します。
+
+
+
+NOTE: フェイルバック中、変更は転送されますが、すぐには適用されません。元のVMの機能が検証されたら、*[Commit failback]*を選択します。元のVMが予期しない動作を示す場合は、[Undo failback]*を選択してVMレプリカに戻します。
+
+* *フェイルオーバーを元に戻す*-元のVMに戻り、その運用期間中にVMレプリカに加えられたすべての変更を破棄します。
+* *永続的フェイルオーバー*-元のVMからそのレプリカに永続的に切り替え、そのレプリカを継続的な操作のための新しいプライマリVMとして確立します。
+
+
+このシナリオでは、[Failback to production]オプションが選択されています。
+
+業務用サイトへのフェイルバックを実行するには、次の手順を実行します。
+
+. [ホーム]ビューで、左側のメニューの*[レプリカ]>[アクティブ]*をクリックします。含めるVMを選択し、トップメニューの*[Failback to Production]*ボタンをクリックします。
++
+image::dr-veeam-gcnv-image22.png[フェイルバックの開始]
+
++
+｛nbsp｝
+
+. フェイルバック*ウィザードの*レプリカ*ページで、フェイルバック・ジョブに含めるレプリカを選択します。
+. [デスティネーション]ページで*[元のVMへのフェイルバック]*を選択し、*[次へ]*をクリックして続行します。
++
+image::dr-veeam-gcnv-image23.png[元のVMへのフェイルバック]
+
++
+｛nbsp｝
+
+. [フェイルバックモード]ページで*[自動]*を選択して、できるだけ早くフェイルバックを開始します。
++
+image::dr-veeam-gcnv-image24.png[フェイルバックモード]
+
++
+｛nbsp｝
+
+. [概要]ページで、*[リストア後にターゲットVMをパワーオンする]*を選択し、[完了]をクリックしてフェイルバックジョブを開始します。
++
+image::dr-veeam-gcnv-image25.png[フェイルバックジョブの概要]
+
++
+｛nbsp｝
+
+
+
+フェイルバックコミットはフェイルバック操作を終了し、本番VMへの変更が正常に統合されたことを確認します。コミットすると、Veeam Backup & Replicationはリストアされた本番VMの通常のレプリケーションアクティビティを再開します。これにより、リストアされたレプリカのステータスが_Failback_to_Ready_に変更されます。
+
+. フェイルバックをコミットするには、*[レプリカ]>[アクティブ]*に移動し、コミットするVMを選択して右クリックし、*[フェイルバックのコミット]*を選択します。
++
+image::dr-veeam-gcnv-image26.png[フェイルバックのコミット]
+
++
+｛nbsp｝
+
++
+image::dr-veeam-gcnv-image27.png[フェールバックのコミットに成功しました]
+
++
+｛nbsp｝本番環境へのフェイルバックが成功すると、VMはすべて元の本番サイトにリストアされます。
+
+
+
+フェイルバックプロセスの詳細については、次のVeeamのドキュメントを参照してください： link:https://helpcenter.veeam.com/docs/backup/vsphere/failover_failback.html?ver=120["レプリケーションのフェイルオーバーとフェイルバック"]。
+
+====
+
+
+== まとめ
+
+Google Cloud NetApp Volumeのデータストア機能を使用すると、Veeamなどの検証済みサードパーティツールを使用して、対費用効果の高いディザスタリカバリ（DR）ソリューションを実現できます。VMレプリカ用の大規模な専用クラスタの代わりにパイロットライトクラスタを使用することで、組織はコストを大幅に削減できます。このアプローチにより、クラウドベースのディザスタリカバリのために既存の社内バックアップソリューションを活用して、カスタマイズされたDR戦略が可能になり、オンプレミスのデータセンターを追加する必要がなくなります。災害発生時には、ワンクリックでフェイルオーバーを開始することも、自動的に実行するように設定することもできるため、ダウンタイムを最小限に抑えながらビジネス継続性を確保できます。
+
+このプロセスの詳細については、詳細なウォークスルービデオをご覧ください。
+
+video::b2fb8597-c3fe-49e2-8a84-b1f10118db6d[panopto,width=Video walkthrough of the solution]

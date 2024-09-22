@@ -1,0 +1,408 @@
+---
+sidebar: sidebar 
+permalink: proxmox/proxmox-ontap.html 
+keywords: netapp, proxmox, proxmox ve, all-flash, nfs, iscsi, ontap, storage, aff 
+summary: Proxmox Virtual Environment（VE）の共有ストレージを使用すると、VMのライブマイグレーションの時間が短縮され、環境全体でバックアップと整合性のあるテンプレートのターゲットとして適しています。ONTAPストレージは、Proxmox VEホスト環境のニーズだけでなく、ゲストファイル、ブロック、オブジェクトストレージのニーズにも対応できます。 
+---
+= Proxmox VEとONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Proxmox Virtual Environment（VE）の共有ストレージを使用すると、VMのライブマイグレーションの時間が短縮され、環境全体でバックアップと整合性のあるテンプレートのターゲットとして適しています。ONTAPストレージは、Proxmox VEホスト環境のニーズだけでなく、ゲストファイル、ブロック、オブジェクトストレージのニーズにも対応できます。
+
+Proxmox VEホストは、FC、イーサネット、またはその他のサポート対象インターフェイスをスイッチにケーブル接続し、ONTAP論理インターフェイスと通信できる必要があります。
+
+
+
+== ONTAPの機能の概要
+
+*共通機能*
+
+* スケールアウトクラスタ
+* セキュア認証とRBACのサポート
+* ゼロトラストマルチ管理サポート
+* セキュアマルチテナンシー
+* SnapMirrorを使用してデータをレプリケートします。
+* Snapshotによるポイントインタイムコピー。
+* スペース効率に優れたクローン：
+* 重複排除、圧縮などのStorage Efficiency機能
+* Kubernetes向けのTrident CSIサポート
+* SnapLock
+* 改ざん防止Snapshotコピーロック
+* 暗号化のサポート
+* FabricPoolを使用してコールドデータをオブジェクトストアに階層化します。
+* BlueXP  とCloudInsightsの統合：
+* Microsoftオフロードデータ転送（ODX）
+
+
+* NAS *
+
+* FlexGroupボリュームはスケールアウトNASコンテナであり、ハイパフォーマンス、負荷分散、拡張性を提供します。
+* FlexCacheを使用すると、データをグローバルに分散しながら、データに対するローカルの読み取り/書き込みアクセスを提供できます。
+* マルチプロトコルのサポートにより、NFSと同様にSMB経由でも同じデータにアクセスできます。
+* NFS nconnectでは、TCP接続ごとに複数のTCPセッションを確立できるため、ネットワークスループットが向上します。これにより、最新のサーバで利用可能な高速NICの使用率が向上します。
+* NFSセッショントランキングにより、データ転送速度、高可用性、フォールトトレランスが向上します。
+* SMBマルチチャネルにより、データ転送速度、高可用性、フォールトトレランスが向上します。
+* ファイル権限のためのActive Directory / LDAPとの統合。
+* TLS経由のNFSとのセキュアな接続。
+* NFS Kerberosのサポート。
+* NFS over RDMAの略。
+* Windows IDとUNIX ID間のネームマッピング。
+* 自律型ランサムウェア対策：
+* ファイルシステム分析：
+
+
+* SAN*
+
+* SnapMirrorアクティブ同期により、フォールトドメイン間でクラスタを拡張します。
+* ASAモデルは、アクティブ/アクティブマルチパスとファストパスフェイルオーバーを提供します。
+* FC、iSCSI、NVMe-oFプロトコルをサポート
+* iSCSI CHAP相互認証のサポート。
+* 選択的LUNマップとポートセット。
+
+
+
+
+== ONTAPでサポートされるProxmox VEストレージタイプ
+
+NASプロトコル（NFS / SMB）は、すべてのコンテンツタイプのProxmox VEをサポートしており、通常はデータセンターレベルで1回設定されます。ゲストVMは、NASストレージ上でraw、qcow2、またはVMDKタイプのディスクを使用できます。クライアントからのデータのポイントインタイムコピーにアクセスするために、ONTAP Snapshotを表示できるようにすることができます。SANプロトコル（FC / iSCSI / NVMe-oF）を使用するブロックストレージは、通常、ホスト単位で構成され、Proxmox VEでサポートされるVMディスクとコンテナイメージのコンテンツタイプに制限されます。ゲストVMとコンテナは、ブロックストレージをrawデバイスとして使用します。
+
+[cols="25% 15% 15% 15% 15% 15%"]
+|===
+| コンテンツタイプ | NFS | SMB / CIFS | FC | iSCSI | NVMe-oF 
+
+
+| バックアップ | はい。 | はい。  a| 
+いいえ^1^
+ a| 
+いいえ^1^
+ a| 
+いいえ^1^
+
+
+
+| VM ディスク数 | はい。 | はい。  a| 
+はい^2^
+ a| 
+はい^2^
+ a| 
+はい^2^
+
+
+
+| CTボリューム | はい。 | はい。  a| 
+はい^2^
+ a| 
+はい^2^
+ a| 
+はい^2^
+
+
+
+| ISOイメージ | はい。 | はい。  a| 
+いいえ^1^
+ a| 
+いいえ^1^
+ a| 
+いいえ^1^
+
+
+
+| CTテンプレート | はい。 | はい。  a| 
+いいえ^1^
+ a| 
+いいえ^1^
+ a| 
+いいえ^1^
+
+
+
+| スニペット | はい。 | はい。  a| 
+いいえ^1^
+ a| 
+いいえ^1^
+ a| 
+いいえ^1^
+
+|===
+*注:* 1 -共有フォルダを作成し、ディレクトリストレージタイプを使用するには、クラスタファイルシステムが必要です。2- LVMストレージタイプを使用します。
+
+
+
+== SMB / CIFSストレージ
+
+SMB / CIFSファイル共有を利用するには、ストレージ管理者が実行する必要がある特定のタスクがあります。仮想化管理者は、Proxmox VE UIまたはシェルを使用して共有をマウントできます。SMBマルチチャネルにより、フォールトトレランスが実現し、パフォーマンスが向上します。詳細については、を参照してください。link:https://www.netapp.com/pdf.html?item=/media/17136-tr4740.pdf["TR4740 - SMB 3.0マルチチャネル"]
+
+
+NOTE: パスワードはクリアテキストファイルに保存され、rootユーザのみがアクセスできます。を参照してください link:https://pve.proxmox.com/pve-docs/chapter-pvesm.html#storage_cifs["Proxmox VEドキュメント"]。
+
+.<strong>ストレージ管理タスク</strong>
+[%collapsible]
+====
+ONTAPを初めて使用する場合は、System Managerインターフェイスを使用してこれらのタスクを実行してください。
+
+. SVMでSMBが有効になっていることを確認します。link:https://docs.netapp.com/us-en/ontap/smb-config/configure-access-svm-task.html["ONTAP 9 のドキュメント"]詳細については、を参照してください。
+. コントローラごとに少なくとも2つのLIFが必要です。上記のリンクの手順に従います。このソリューションで使用するLIFのスクリーンショットを参照してください。
++
+image:proxmox-ontap-image01.png["NASインターフェイスの詳細"]
+
+. Active Directoryまたはワークグループベースの認証を使用します。上記のリンクの手順に従います。
++
+image:proxmox-ontap-image02.png["ドメイン情報に参加"]
+
+. ボリュームを作成します。FlexGroupを使用する場合は、必ずクラスタ全体にデータを分散するオプションをオンにしてください。
++
+image:proxmox-ontap-image23.png["FlexGroupオプション"]
+
+. SMB共有を作成し、権限を調整します。link:https://docs.netapp.com/us-en/ontap/smb-config/configure-client-access-shared-storage-concept.html["ONTAP 9 のドキュメント"]詳細については、を参照してください。
++
+image:proxmox-ontap-image03.png["SMB共有情報"]
+
+. 仮想化管理者がタスクを完了できるように、SMBサーバ、共有名、およびクレデンシャルを指定します。
+
+
+====
+.<strong>仮想化管理タスク</strong>
+[%collapsible]
+====
+. 共有の認証に使用するSMBサーバ、共有名、およびクレデンシャルを収集します。
+. 少なくとも2つのインターフェイスが（フォールトトレランスのために）異なるVLANに設定されており、NICがRSSをサポートしていることを確認してください。
+. 管理UIを使用している場合は `https:<proxmox-node>:8006`、データセンターをクリックし、ストレージを選択して、[Add]をクリックして[SMB/CIFS]を選択します。
++
+image:proxmox-ontap-image04.png["SMBストレージナビゲーション"]
+
+. 詳細を入力すると、共有名が自動的に入力されます。すべてのコンテンツを選択します。追加をクリックします。
++
+image:proxmox-ontap-image05.png["SMBストレージの追加"]
+
+. マルチチャネルオプションを有効にするには、クラスタ上のいずれかのノードでシェルに移動し、pvesm set pvesmb01 --options multichannel, max_channels=4と入力します。
++
+image:proxmox-ontap-image06.png["マルチチャネルセットアップ"]
+
+. 上記のタスクの内容は/etc/pve/storage.cfgにあります。
++
+image:proxmox-ontap-image07.png["SMBノストレエシコウセイフアイル"]
+
+
+
+====
+
+
+== NFSストレージ
+
+ONTAPは、Proxmox VEでサポートされているすべてのNFSバージョンをサポートしています。フォールトトレランスとパフォーマンスの向上を実現するには、link:https://docs.netapp.com/us-en/ontap/nfs-trunking/index.html["セッショントランキング"]を使用します。セッショントランキングを使用するには、NFS v4.1以上が必要です。
+
+ONTAPを初めて使用する場合は、System Managerインターフェイスを使用してこれらのタスクを実行してください。
+
+.<strong>ストレージ管理タスク</strong>
+[%collapsible]
+====
+. SVMでNFSが有効になっていることを確認します。を参照して link:https://docs.netapp.com/us-en/ontap/nfs-config/verify-protocol-enabled-svm-task.html["ONTAP 9 のドキュメント"]
+. コントローラごとに少なくとも2つのLIFが必要です。上記のリンクの手順に従います。ここでは、ラボで使用するLIFのスクリーンショットを参照してください。
++
+image:proxmox-ontap-image01.png["NASインターフェイスの詳細"]
+
+. Proxmox VEホストのIPアドレスまたはサブネットへのアクセスを提供するNFSエクスポートポリシーを作成または更新します。link:https://docs.netapp.com/us-en/ontap/nfs-config/create-export-policy-task.html["エクスポートポリシーの作成"]およびを参照してくださいlink:https://docs.netapp.com/us-en/ontap/nfs-config/add-rule-export-policy-task.html["エクスポートポリシーにルールを追加する"]。
+. link:https://docs.netapp.com/us-en/ontap/nfs-config/create-volume-task.html["ボリュームの作成"]です。FlexGroupを使用する場合は、必ずクラスタ全体にデータを分散するオプションをオンにしてください。
++
+image:proxmox-ontap-image23.png["FlexGroupオプション"]
+
+. link:https://docs.netapp.com/us-en/ontap/nfs-config/associate-export-policy-flexvol-task.html["ボリュームへのエクスポートポリシーの割り当て"]
++
+image:proxmox-ontap-image08.png["NFSボリュームの情報"]
+
+. NFSボリュームの準備が完了したことを仮想化管理者に通知
+
+
+====
+.<strong>仮想化管理タスク</strong>
+[%collapsible]
+====
+. 少なくとも2つのインターフェイスが異なるVLANに設定されていることを確認します（フォールトトレランス用）。NICボンディングを使用します。
+. 管理UIを使用している場合は `https:<proxmox-node>:8006`、データセンターをクリックし、ストレージを選択して、[Add]をクリックして[NFS]を選択します。
++
+image:proxmox-ontap-image09.png["NFSストレージのナビゲーション"]
+
+. サーバ情報を指定したら、詳細を入力してNFSエクスポートが読み込まれ、リストから選択されます。コンテンツオプションを選択することを忘れないでください。
++
+image:proxmox-ontap-image10.png["NFSストレージの追加"]
+
+. セッショントランキングの場合、すべてのProxmox VEホストで/etc/fstabファイルを更新して、max_connectおよびNFSバージョンオプションとともに異なるLIFアドレスを使用して同じNFSエクスポートをマウントします。
++
+image:proxmox-ontap-image11.png["セッショントランクのfstabエントリ"]
+
+. ここでは、NFSの/etc/pve/storage.cfgの内容を示します。
++
+image:proxmox-ontap-image12.png["NFSのストレージ構成ファイル"]
+
+
+
+====
+
+
+== iSCSIを使用したLVM
+
+Proxmoxホスト間で共有ストレージ用の論理ボリュームマネージャを構成するには、次のタスクでを実行します。
+
+.<strong>仮想化管理タスク</strong>
+[%collapsible]
+====
+. それぞれのイーサネットNIC上の2つのLinuxブリッジが設定されていることを確認します（理想的には異なるVLAN上）。
+. すべてのProxmox VEホストにmultipath-toolsがインストールされていることを確認します。起動時に起動することを確認します。
++
+[source, shell]
+----
+apt list | grep multipath-tools
+# If need to install, execute the following line.
+apt-get install multipath-tools
+systemctl enable multipathd
+----
+. すべてのProxmox VEホストのiSCSIホストiqnを収集し、ストレージ管理者に提供します。
++
+[source, shell]
+----
+cat /etc/iscsi/initiator.name
+----
+
+
+====
+.<strong>ストレージ管理タスク</strong>
+[%collapsible]
+====
+ONTAPを初めて使用する場合は、System Managerを使用して操作性を向上させてください。
+
+. SVMが使用可能でiSCSIプロトコルが有効になっていることを確認します。フォローlink:https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["ONTAP 9 のドキュメント"]
+. 各コントローラにiSCSI専用のLIFを2つ用意します。
++
+image:proxmox-ontap-image13.png["iSCSIインターフェイスの詳細"]
+
+. igroupを作成し、ホストのiSCSIイニシエータを設定します。
+. 必要なサイズのLUNをSVM上に作成し、上記の手順で作成したigroupに提供します。
++
+image:proxmox-ontap-image14.png["iSCSI LUNの詳細"]
+
+. LUNが作成されたことを仮想化管理者に通知します。
+
+
+====
+.<strong>仮想化管理タスク</strong>
+[%collapsible]
+====
+. 管理UIに移動し `https:<proxmox node>:8006`、データセンターをクリックしてストレージを選択し、追加をクリックしてiSCSIを選択します。
++
+image:proxmox-ontap-image15.png["iSCSIストレージのナビゲーション"]
+
+. ストレージID名を指定してください。通信に問題がない場合は、ONTAPのiSCSI LIFアドレスがターゲットを選択できる必要があります。ここでは、ゲストVMへのLUNアクセスを直接提供しないことを目的としているため、このチェックボックスをオフにします。
++
+image:proxmox-ontap-image16.png["iSCSIストレージタイプノサクセイ"]
+
+. [Add]をクリックし、[LVM]を選択します。
++
+image:proxmox-ontap-image17.png["LVMストレージのナビゲーション"]
+
+. ストレージID名を指定し、前の手順で作成したiSCSIストレージと一致するベースストレージを選択します。ベースボリュームのLUNを選択します。ボリュームグループ名を指定します。共有が選択されていることを確認
++
+image:proxmox-ontap-image18.png["LVMストレエシノサクセイ"]
+
+. 以下は、iSCSIボリュームを使用するLVMのストレージ構成ファイルの例です。
++
+image:proxmox-ontap-image19.png["LVM iSCSIの設定"]
+
+
+
+====
+
+
+=== NVMe/TCP対応LVM
+
+Proxmoxホスト間で共有ストレージ用に論理ボリュームマネージャを構成するには、次のタスクを実行します。
+
+.<strong>仮想化管理タスク</strong>
+[%collapsible]
+====
+. それぞれ独自のイーサネットデバイスを持つ2つのLinuxブリッジが設定されていることを確認します（理想的には異なるVLAN上）。
+. クラスタ上のすべてのProxmoxホストで、次のコマンドを実行してホストイニシエータ情報を収集します。
++
+[source, shell]
+----
+nvme show-hostnqn
+----
+. 収集したホストのNQN情報をストレージ管理者に提供し、必要なサイズのNVMeネームスペースを要求します。
+
+
+====
+.<strong>ストレージ管理タスク</strong>
+[%collapsible]
+====
+ONTAPを初めて使用する場合は、System Managerを使用して操作性を向上させてください。
+
+. SVMでNVMeプロトコルが有効になっていることを確認してください。参照してくださいlink:https://docs.netapp.com/us-en/ontap/san-admin/create-nvme-namespace-subsystem-task.html["ONTAP 9ノNVMeタスクノトキユメント"]。
+. NVMeネームスペースを作成します。
++
+image:proxmox-ontap-image20.png["NVMeネームスペースの作成"]
+
+. サブシステムを作成し、ホストのnqnsを割り当てます（CLIを使用している場合）。上記の参照リンクを参照してください。
+. NVMeネームスペースが作成されたことを仮想化管理者に通知します。
+
+
+====
+.<strong>仮想化管理タスク</strong>
+[%collapsible]
+====
+. クラスタ内の各Proxmox VEホストでshellに移動し、/etc/nvme/discovery.confファイルを作成して、環境に固有のコンテンツを更新します。
++
+[source, shell]
+----
+root@pxmox01:~# cat /etc/nvme/discovery.conf
+# Used for extracting default parameters for discovery
+#
+# Example:
+# --transport=<trtype> --traddr=<traddr> --trsvcid=<trsvcid> --host-traddr=<host-traddr> --host-iface=<host-iface>
+
+-t tcp -l 1800 -a 172.21.118.153
+-t tcp -l 1800 -a 172.21.118.154
+-t tcp -l 1800 -a 172.21.119.153
+-t tcp -l 1800 -a 172.21.119.154
+----
+. NVMeサブシステムへのログイン
++
+[source, shell]
+----
+nvme connect-all
+----
+. デバイスの詳細を調べて収集します。
++
+[source, shell]
+----
+nvme list
+nvme netapp ontapdevices
+nvme list-subsys
+lsblk -l
+----
+. ボリュームグループの作成
++
+[source, shell]
+----
+vgcreate pvens02 /dev/mapper/<device id>
+----
+. 管理UIに移動し `https:<proxmox node>:8006`、データセンターをクリックしてストレージを選択し、追加をクリックしてLVMを選択します。
++
+image:proxmox-ontap-image17.png["LVMストレージのナビゲーション"]
+
+. ストレージID名を指定し、既存のボリュームグループを選択して、CLIで作成したボリュームグループを選択します。共有オプションを必ずチェックしてください。
++
+image:proxmox-ontap-image21.png["キソンvgノLVM"]
+
+. ここでは、NVMe/TCPを使用するLVMのストレージ構成ファイルの例を示します。
++
+image:proxmox-ontap-image22.png["NVMe上のLVMのTCP設定"]
+
+
+
+====

@@ -1,0 +1,120 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/dremio-lakehouse-solution-verification.html 
+keywords: performance, tests, dremio 
+summary: ONTAPやStorageGRIDなどのNetAppオブジェクトストレージを使用して、SQLワークロードのための5ノードを使用したTPC-DSテストを実施しました。 
+---
+= ソリューション検証の概要
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+このセクションでは、複数のソースからSQLテストクエリを実行して、機能を検証し、NetAppストレージへのスピルオーバーをテストおよび検証しました。
+
+
+
+=== オブジェクトストレージでのSQLクエリ
+
+. dremio.envで、サーバあたりのメモリを250GBに設定します。
++
+....
+root@hadoopmaster:~# for i in hadoopmaster hadoopnode1 hadoopnode2 hadoopnode3 hadoopnode4; do ssh $i "hostname; grep -i  DREMIO_MAX_MEMORY_SIZE_MB /opt/dremio/conf/dremio-env; cat /proc/meminfo  | grep -i memtotal"; done
+hadoopmaster
+#DREMIO_MAX_MEMORY_SIZE_MB=120000
+DREMIO_MAX_MEMORY_SIZE_MB=250000
+MemTotal:       263515760 kB
+hadoopnode1
+#DREMIO_MAX_MEMORY_SIZE_MB=120000
+DREMIO_MAX_MEMORY_SIZE_MB=250000
+MemTotal:       263515860 kB
+hadoopnode2
+#DREMIO_MAX_MEMORY_SIZE_MB=120000
+DREMIO_MAX_MEMORY_SIZE_MB=250000
+MemTotal:       263515864 kB
+hadoopnode3
+#DREMIO_MAX_MEMORY_SIZE_MB=120000
+DREMIO_MAX_MEMORY_SIZE_MB=250000
+MemTotal:       264004556 kB
+node4
+#DREMIO_MAX_MEMORY_SIZE_MB=120000
+DREMIO_MAX_MEMORY_SIZE_MB=250000
+MemTotal:       263515484 kB
+root@hadoopmaster:~#
+....
+. dremio.confファイルのオーバーフローの場所（$｛DREMIO_HOME｝"/dremiocache）とストレージの詳細を確認してください。
++
+....
+paths: {
+  # the local path for dremio to store data.
+  local: ${DREMIO_HOME}"/dremiocache"
+
+  # the distributed path Dremio data including job results, downloads, uploads, etc
+  #dist: "hdfs://hadoopmaster:9000/dremiocache"
+  dist: "dremioS3:///dremioconf"
+}
+
+services: {
+  coordinator.enabled: true,
+  coordinator.master.enabled: true,
+  executor.enabled: false,
+  flight.use_session_service: false
+}
+
+zookeeper: "10.63.150.130:2181,10.63.150.153:2181,10.63.150.151:2181"
+services.coordinator.master.embedded-zookeeper.enabled: false
+....
+. Dremioオーバーフローの場所をNetApp NFSストレージに指定する
++
+....
+root@hadoopnode1:~# ls -ltrh /dremiocache
+total 4.0K
+drwx------ 3 nobody nogroup 4.0K Sep 13 16:00 spilling_stlrx2540m4-12-10g_45678
+root@hadoopnode1:~# ls -ltrh /opt/dremio/dremiocache/
+total 8.0K
+drwxr-xr-x 3 dremio dremio 4.0K Aug 22 18:19 spill_old
+drwxr-xr-x 4 dremio dremio 4.0K Aug 22 18:19 cm
+lrwxrwxrwx 1 root   root     12 Aug 22 19:03 spill -> /dremiocache
+root@hadoopnode1:~# ls -ltrh /dremiocache
+total 4.0K
+drwx------ 3 nobody nogroup 4.0K Sep 13 16:00 spilling_stlrx2540m4-12-10g_45678
+root@hadoopnode1:~# df -h /dremiocache
+Filesystem                              Size  Used Avail Use% Mounted on
+10.63.150.159:/dremiocache_hadoopnode1  2.1T  209M  2.0T   1% /dremiocache
+root@hadoopnode1:~#
+....
+. コンテキストを選択します。このテストでは、ONTAP S3に存在するTPCDSで生成された寄木細工ファイルに対してテストを実行しました。Dremioダッシュボード-> SQLランナー->コンテキスト-> NetAppONTAPS3 -> Parquet1TB
+
+
+image:ontaps3-context.png["contexをontaps3 Parquetフォルダに設定します。"]
+
+. DremioダッシュボードからTPC-DS query67を実行します。
+
+
+image:TPCDS-Q67.png["TPC-DSの99個のクエリの1つであるクエリ67を実行します。"]
+
+. ジョブがすべてのExecutorで実行されていることを確認します。Dremioダッシュボード->ジョブ-><jobid>-> rawプロファイル-> external_sort ->ホスト名を選択
+
+
+image:node-in-query.png["Q67クエリ内のノードのリスト"]
+
+. SQLクエリの実行中に、NetAppストレージコントローラでスプリットフォルダのデータキャッシュを確認できます。
++
+....
+root@hadoopnode1:~# ls -ltrh /dremiocache
+total 4.0K
+drwx------ 3 nobody nogroup 4.0K Sep 13 16:00 spilling_stlrx2540m4-12-10g_45678
+root@hadoopnode1:~# ls -ltrh /dremiocache/spilling_stlrx2540m4-12-10g_45678/
+total 4.0K
+drwxr-xr-x 2 root daemon 4.0K Sep 13 16:23 1726243167416
+....
+. SQLクエリがオーバーフローで完了しましたimage:spinover.png["クエリ67が完了したときに詳細をこぼす"]
+. ジョブ完了の概要。image:jobsummary.png["完了したクエリのジョブサマリ67"]
+. 流出データのサイズを確認するimage:splleddata.png["クエリ結果からのSplleddataの詳細"]
+
+
+NASオブジェクトストレージとStorageGRIDオブジェクトストレージにも同じ手順が適用されます。

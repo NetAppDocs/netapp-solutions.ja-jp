@@ -1,0 +1,73 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/dremio-lakehouse-technology-overview.html 
+keywords: storagegrid, apache, dremio, lakehouse, 
+summary: このセクションでは、この解決策で使用されるテクノロジーについて説明します。 
+---
+= テクノロジ要件
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本ドキュメントでは、以下に示すハードウェアとソフトウェアの構成を検証に使用しています。これらの構成は、環境のセットアップに役立つガイドラインですが、個 々 のお客様の要件によって特定のコンポーネントが異なる場合があることに注意してください。
+
+
+
+=== ハードウェア要件
+
+|===
+| ハードウェア | 詳細 
+
+
+| NetApp AFFストレージアレイHAペア  a| 
+* A800
+* ONTAP 9 .14.1
+* 3.49TB SSD-NVM×48
+* 2つのS3バケット：Dremioメタデータと顧客データ
+
+
+
+
+| Fujitsu PRIMERGY RX2540 M4×4  a| 
+* CPU×64
+* Intel®Xeon®Gold 6142 CPU（2.60GHz）
+* 256 GM物理メモリ
+* 100GbEネットワークポート×1
+
+
+
+
+| ネットワーキング  a| 
+* 100GbE
+
+
+
+
+| StorageGRID | * 1 x SG100、3 x SGF6024 * 3 x 24 x 7.68TB * 2つのS3バケット：Dremioメタデータと顧客データ。 
+|===
+
+
+=== ソフトウェア要件
+
+|===
+| ソフトウェア | 詳細 
+
+
+| デレミオ  a| 
+* バージョン-25.0.3-202405170357270647 -d2042e1b
+* Enterprise Edition
+
+
+
+
+| オンプレミス  a| 
+* 5ノードDremioクラスタ
+* マスターコーディネータ1名とエグゼキュータ4名
+
+
+|===
