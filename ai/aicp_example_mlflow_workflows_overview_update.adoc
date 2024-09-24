@@ -1,6 +1,6 @@
 ---
 sidebar: sidebar 
-permalink: ai/aicp_example_mlflow_workflows_overview.html 
+permalink: ai/aicp_example_mlflow_workflows_overview_update.html 
 keywords: AI, control plane, MLOps, MLflow 
 summary: NetAppを使用したオープンソースMLOps - NetAppおよびMLflowを使用したデータセットからモデルへのトレーサビリティ 
 ---
@@ -113,7 +113,7 @@ mlflow.set_tracking_uri("<your_tracking_server_uri>>:<port>>")
 ----
 上記のコードスニペットは、スナップショットIDをMLflow実験追跡サーバーに記録します。このサーバーは、モデルのトレーニングに使用された特定のデータセットとモデルをトレースするために使用できます。これにより、モデルのトレーニングに使用された特定のデータセットとモデル、データの前処理、入力ファイルのトークン化、トークナイザーとモデルのロード、テキストのエンコード、生成、デコード、モデルの保存、モデルの微調整、link:https://www.nltk.org/api/nltk.lm.api.html["NLTK"^]パープレキシティースコアを使用したモデルの評価、およびハイパーパラメータとメトリクスのMLflowへの記録が可能になります。たとえば、次の図は、さまざまな実験の実行に対するスキキット学習モデルの平均二乗誤差（MSE）を示しています。
 
-image::aicp_mlrun-mlflow_sklearn-MLmodels_MSEs.png[aicp mlrun mlflow sklearn MLmodels MSE]
+image::aicp_mlrun-mlflow_sklearn-MLmodels_MSEs.png[入力/出力ダイアログを示す図、または書き込まれた内容を表す図]
 
 データ分析、基幹業務の責任者、経営陣は、特定の制約、設定、期間、その他の状況下でどのモデルが最も優れているかを理解し、推測するのは簡単です。モデルの前処理、トークン化、読み込み、エンコード、生成、デコード、保存、微調整、評価の方法の詳細については、 `dotk-mlflow` `netapp_dataops.k8s`リポジトリ内のパッケージ化されたPythonの例を参照してください。
 
@@ -132,7 +132,7 @@ image::aicp_mlrun-mlflow_sklearn-MLmodels_MSEs.png[aicp mlrun mlflow sklearn MLm
 
 結果にlink:https://mlflow.org/docs/latest/model-registry.html#deploy-and-organize-models["MLflowのモデルレジストリ"^]は、次のランダムフォレストモデル、バージョン、およびタグが含まれます。
 
-image::aicp_mlrun-mlflow_sklearn_modelRegistry_sk-learn-random-forest-reg-model_versions.png[aicp mlrun mlflow sklearn modelRegistry sk learn random forest reg model versions]
+image::aicp_mlrun-mlflow_sklearn_modelRegistry_sk-learn-random-forest-reg-model_versions.png[入力/出力ダイアログを示す図、または書き込まれた内容を表す図]
 
 Kubernetes経由で推論サーバにモデルを導入するには、次のJupyter Notebookを実行します。この例では、 `dotk-mlflow`パッケージを使用する代わりに、最初のモデルの平均二乗誤差(MSE)を最小化するようにランダムフォレスト回帰モデルアーキテクチャを変更していることに注意してください。したがって、このようなモデルの複数のバージョンをModel Registryで作成します。
 
@@ -194,22 +194,22 @@ Created version '3' of model 'sk-learn-random-forest-reg-model'.
 ....
 Model Registryでは、必要なモデル、バージョン、タグを保存した後、モデルのトレーニングに使用された特定のデータセット、モデル、コード、およびデータの処理、トークナイザーとモデルのロード、テキストのエンコード、生成、デコード、モデルの保存、モデルの微調整、NLTK Perplexity Scoreログまたはその他の適切なメトリクスを使用してモデルを評価すること `snapshot_id`'s and your chosen metrics to MLflow by choosing the corerct experiment under `mlrun`ができます。
 
-image::aicp_jhub_mlrun-experiments.png[aicp jhub mlrun実験]
+image::aicp_jhub_mlrun-experiments.png[入力/出力ダイアログを示す図、または書き込まれた内容を表す図]
 
 同様に `phi-2_finetuned_model`、 `torch`ライブラリを使用してGPUまたはvGPUを使用して量子化された重みを計算したの場合、次の中間アーティファクトを検査できます。これにより、ワークフロー全体のパフォーマンス最適化、拡張性（スループット/ SLA保証）、コスト削減が可能になります。
 
-image::aicp_jhub_mlrun-torch_artifacts.png[aicp jhub mlrunトーチアーティファクト]
+image::aicp_jhub_mlrun-torch_artifacts.png[入力/出力ダイアログを示す図、または書き込まれた内容を表す図]
 
 Scikit-LearnとMLflowを使用して1回の実験を実行する場合、次の図は生成されたアーティファクト、 `conda`環境、 `MLmodel`ファイル、 `MLmodel`およびディレクトリを示しています。
 
-image::aicp_jhub_mlrun-mlflow_sklearn-MLmodel.png[aicp jhub mlrun mlflow sklearn MLmodel]
+image::aicp_jhub_mlrun-mlflow_sklearn-MLmodel.png[入力/出力ダイアログを示す図、または書き込まれた内容を表す図]
 
 お客様は、「デフォルト」、「ステージ」、「プロセス」、「ボトルネック」などのタグを指定して、AIワークフローのさまざまな特性を整理したり、最新の結果を記録したり、 `contributors`データサイエンスチームの開発者の進捗状況を追跡したりすることができます。デフォルトタグ""の場合、 `mlflow.log-model.history` `mlflow.runName` `mlflow.source.type` `mlflow.source.name` `mlflow.user`JupyterHubの現在アクティブなファイルナビゲータタブの下に、、、、およびが保存されている場合は、次の手順を実行します。
 
-image::aicp_jhub_mlrun-mlflow-tags.png[aicp jhub mlrun mlflowタグ]
+image::aicp_jhub_mlrun-mlflow-tags.png[入力/出力ダイアログを示す図、または書き込まれた内容を表す図]
 
 最後に、ユーザは独自に指定されたJupyter Workspaceを使用できます。このワークスペースはバージョン管理され、Kubernetesクラスタ内の永続ボリューム要求（PVC）に格納されます。次の図は、 `netapp_dataops.k8s`Pythonパッケージを含むJupyterワークスペースと、正常に作成されたの結果を示してい `VolumeSnapshot`ます。
 
-image::aicp_jhub_dotk_nb_cvs_usrWsVol.png[aicp jhub dotk nb cvs usrWsVol]
+image::aicp_jhub_dotk_nb_cvs_usrWsVol.png[入力/出力ダイアログを示す図、または書き込まれた内容を表す図]
 
 業界で実績のあるネットアップのSnapshot®やその他のテクノロジを使用して、エンタープライズレベルのデータ保護、移動、効率的な圧縮を実現しました。その他のAIのユースケースについては、のlink:https://docs.netapp.com/us-en/netapp-solutions/ai/aipod_nv_intro.html["NetApp AIPod"^]ドキュメントを参照してください。
