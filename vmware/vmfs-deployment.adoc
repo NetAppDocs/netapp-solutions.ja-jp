@@ -382,7 +382,7 @@ image:vmfs-deploy-image37.png["入力/出力ダイアログを示す図、また
 
 まとめると、ONTAP ASAストレージを使用してVMware環境のTCOを最適化する場合は、シンプルで効率的なVMバックアップ方法としてSnapCenter Plug-in for VMwareを使用してください。スナップショットのバックアップが数秒で完了するため、VMのバックアップとリストアをシームレスかつ高速に実行できます。
 
-link:https://docs.netapp.com/us-en/netapp-solutions/ehc/bxp-scv-hybrid-solution.html#restoring-virtual-machines-in-the-case-of-data-loss["ソリューションガイド"]link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_get_started_overview.html["製品ドキュメント"]SnapCenterの設定、バックアップ、プライマリストレージシステムまたはセカンダリストレージシステムからのリストア、さらには長期保持用にオブジェクトストレージに格納されたバックアップからのリストアについても、この資料を参照してください。
+link:../ehc/bxp-scv-hybrid-solution.html#restoring-virtual-machines-in-the-case-of-data-loss["ソリューションガイド"]link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_get_started_overview.html["製品ドキュメント"]SnapCenterの設定、バックアップ、プライマリストレージシステムまたはセカンダリストレージシステムからのリストア、さらには長期保持用にオブジェクトストレージに格納されたバックアップからのリストアについても、この資料を参照してください。
 
 ストレージコストを削減するために、FabricPoolボリューム階層化を有効にして、Snapshotコピーのデータを低コストのストレージ階層に自動的に移動できます。Snapshotコピーは通常、割り当てられたストレージの10%以上を使用します。これらのポイントインタイムコピーは、データ保護とディザスタリカバリにとって重要ですが、ほとんど使用されず、ハイパフォーマンスストレージを効率的に使用することはできません。FabricPoolの「Snapshotのみ」ポリシーを使用すると、ハイパフォーマンスストレージのスペースを簡単に解放できます。このポリシーを有効にすると、ボリューム内でアクティブなファイルシステムで使用されていない非アクティブなSnapshotコピーブロックがオブジェクト階層に移動され、読み取りが完了するとSnapshotコピーがローカル階層に移動されてVMまたはデータストア全体がリカバリされます。このオブジェクト階層には、プライベートクラウド（NetApp StorageGRIDなど）またはパブリッククラウド（AWSやAzureなど）を使用できます。
 
@@ -412,9 +412,9 @@ MAVの詳細および保護機能の設定方法については、を参照し�
 
 各ハイパースケーラでNetAppを基盤とする1Pサービスと統合することで、シンプルな移行アプローチでvSphereベースのクラウドソリューションを実現できます。プラットフォームの再構築、IPの変更、アーキテクチャの変更は不要です。また、この最適化により、ホストの数を vSphere で必要な量以上に抑えながらストレージの設置面積を拡張できます。ただし、ストレージ階層、セキュリティ、ファイルは変更されません。
 
-* の詳細なガイダンスを表示しますlink:https://docs.netapp.com/us-en/netapp-solutions/ehc/aws-migrate-vmware-hcx.html["FSx for ONTAPデータストアへのワークロードの移行"]。
-* の詳細なガイダンスを表示しますlink:https://docs.netapp.com/us-en/netapp-solutions/ehc/azure-migrate-vmware-hcx.html["Azure NetApp Filesデータストアへのワークロードの移行"]。
-* の詳細なガイダンスを表示しますlink:https://docs.netapp.com/us-en/netapp-solutions/ehc/gcp-migrate-vmware-hcx.html["Google Cloud NetApp Volumeデータストアへのワークロードの移行"]。
+* の詳細なガイダンスを表示しますlink:../ehc/aws-migrate-vmware-hcx.html["FSx for ONTAPデータストアへのワークロードの移行"]。
+* の詳細なガイダンスを表示しますlink:../ehc/azure-migrate-vmware-hcx.html["Azure NetApp Filesデータストアへのワークロードの移行"]。
+* の詳細なガイダンスを表示しますlink:../ehc/gcp-migrate-vmware-hcx.html["Google Cloud NetApp Volumeデータストアへのワークロードの移行"]。
 
 
 
@@ -433,9 +433,9 @@ MAVの詳細および保護機能の設定方法については、を参照し�
 
 任意のハイパースケーラでVMware Cloudをディザスタリカバリのターゲットとして使用したいお客様は、ONTAPストレージを基盤とするデータストア（Azure NetApp Files、FSx for ONTAP、Google Cloud NetAppボリューム）を使用して、VMレプリケーション機能を提供する検証済みのサードパーティソリューションを使用して、オンプレミスからデータをレプリケートできます。ONTAPストレージを基盤とするデータストアを追加することで、より少ない数のESXiホストで、デスティネーションでのディザスタリカバリのコストを最適化できます。また、オンプレミス環境のセカンダリサイトの運用を停止できるため、コストを大幅に削減できます。
 
-* の詳細なガイダンスを表示しますlink:https://docs.netapp.com/us-en/netapp-solutions/ehc/veeam-fsxn-dr-to-vmc.html["FSx for ONTAPデータストアに対するディザスタリカバリ"]。
-* の詳細なガイダンスを表示しますlink:https://docs.netapp.com/us-en/netapp-solutions/ehc/azure-native-dr-jetstream.html["Azure NetApp Filesデータストアへのディザスタリカバリ"]。
-* の詳細なガイダンスを表示しますlink:https://docs.netapp.com/us-en/netapp-solutions/ehc/gcp-app-dr-sc-cvs-veeam.html["Google Cloud NetApp Volumeデータストアに対するディザスタリカバリ"]。
+* の詳細なガイダンスを表示しますlink:../ehc/veeam-fsxn-dr-to-vmc.html["FSx for ONTAPデータストアに対するディザスタリカバリ"]。
+* の詳細なガイダンスを表示しますlink:../ehc/azure-native-dr-jetstream.html["Azure NetApp Filesデータストアへのディザスタリカバリ"]。
+* の詳細なガイダンスを表示しますlink:../ehc/gcp-app-dr-sc-cvs-veeam.html["Google Cloud NetApp Volumeデータストアに対するディザスタリカバリ"]。
 
 
 

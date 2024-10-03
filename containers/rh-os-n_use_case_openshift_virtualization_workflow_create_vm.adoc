@@ -35,7 +35,7 @@ OpenShiftクラスタに仮想マシンを簡単に作成するには、次の�
 
 仮想マシンが作成されて起動し、* running *状態になります。デフォルトのストレージクラスを使用して、ブートディスク用にPVCと対応するPVが自動的に作成されます。将来VMをライブマイグレーションできるようにするには、ディスクに使用するストレージクラスがRWXボリュームをサポートできることを確認する必要があります。これはライブマイグレーションの要件です。ONTAP-NASとONTAP-SAN（iSCSIプロトコルとNVMe/TCPプロトコルのvolumeModeブロック）では、それぞれのストレージクラスを使用して作成されたボリュームのRWXアクセスモードがサポートされます。
 
-クラスタでONTAP-SANストレージクラスを設定するには、を参照してください。 link:https://docs.netapp.com/us-en/netapp-solutions/containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_migration_using_mtv.html["VMwareからOpenShiftによる仮想化へのVMの移行に関するセクション"]。
+クラスタでONTAP SANストレージクラスを設定するには、を参照してくださいlink:rh-os-n_use_case_openshift_virtualization_workflow_vm_migration_using_mtv.html["VMwareからOpenShiftによる仮想化へのVMの移行に関するセクション"]。
 
 
 NOTE: ONTAP NASまたはiSCSIをクラスタのデフォルトのストレージクラスとしてセットアップできます。[Quick create VirtualMachine]をクリックすると、デフォルトのストレージクラスを使用して、VMのブート可能なルートディスク用のPVCとPVが作成されます。デフォルトのストレージクラスがONTAP-NASまたはONTAP-SANでない場合は、[Customize VirtualMachine]>[Customize VirtualMachine parameters]>[Disks]を選択し、必要なストレージクラスを使用するようにディスクを編集して、ディスクのストレージクラスを選択できます。

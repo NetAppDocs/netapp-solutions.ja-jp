@@ -24,7 +24,7 @@ summary: このソリューションでは、vSphere Virtual Volumes（VVol）�
 
 VMware vSphere Virtual Volumes（VVOL）は、SAN / NASの管理および統合フレームワークです。仮想ディスクをネイティブストレージオブジェクトとして公開し、仮想ディスクレベルでアレイベースの処理を可能にします。言い換えれば、VVOLはSAN / NASデバイスをVM対応にし、単一の仮想ディスクの単位でVM主体のアプローチでアレイベースのデータサービスを活用できるようにします。 VVOLを使用すると、お客様は、現在のストレージへの投資と移行に固有の機能を、システムを停止することなく活用できます。すべてのストレージタイプに対応する仮想環境に最適化された、シンプルで効率的な運用モデルに移行できます。
 
-では、link:https://docs.netapp.com/us-en/netapp-solutions/databases/vcf_ora_si_vvol.html["TR-4996"^]VVOLを使用したVCFで、単一インスタンスのOracleデータベースを導入して保護するデモを実施しました。このドキュメントでは、VVOLをNetApp ONTAPストレージクラスタのプライマリデータベースストレージとして使用するVMware Cloud Foundation環境にOracle RACデータベースを導入して保護する方法について説明します。Oracle RACデータベースは、ローカルストレージシステム上のローカルファイルシステムに導入されているかのように設定されます。このテクニカルレポートでは、Oracle RAC環境用のVCFでVVOLを作成する手順について説明します。また、VVOL上のVCFにNetApp自動化ツールキットを使用してOracle RACデータベースを導入し、NetApp SnapCenter UIツールを使用してRACデータベースを保護するデモも行います。
+では、link:vcf_ora_si_vvol.html["TR-4996"^]VVOLを使用したVCFで、単一インスタンスのOracleデータベースを導入して保護するデモを実施しました。このドキュメントでは、VVOLをNetApp ONTAPストレージクラスタのプライマリデータベースストレージとして使用するVMware Cloud Foundation環境にOracle RACデータベースを導入して保護する方法について説明します。Oracle RACデータベースは、ローカルストレージシステム上のローカルファイルシステムに導入されているかのように設定されます。このテクニカルレポートでは、Oracle RAC環境用のVCFでVVOLを作成する手順について説明します。また、VVOL上のVCFにNetApp自動化ツールキットを使用してOracle RACデータベースを導入し、NetApp SnapCenter UIツールを使用してRACデータベースを保護するデモも行います。
 
 この解決策 は、次のユースケースに対応します。
 
@@ -151,7 +151,7 @@ image:vcf_orarac_vvol_architecture.png["このイメージは、iSCSIとASMを�
 導入には、次の前提条件が必要です。
 
 . VMware VCFがセットアップされました。VCFの作成方法については、VMwareのドキュメントを参照してください link:https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["VMware Cloud Foundationのドキュメント"^]。
-. VCFワークロードドメイン内で、3台のLinux VM（Oracle RACデータベースクラスタ用に2台、Ansibleコントローラ用に1台）をプロビジョニングします。NetApp SnapCenterサーバを実行するためのWindowsサーバVMを1つプロビジョニングします。Oracleデータベースを自動導入するためのAnsibleコントローラのセットアップについては、次の資料を参照して link:https://docs.netapp.com/us-en/netapp-solutions/automation/getting-started.html["NetApp解決策 自動化の導入"^]ください。
+. VCFワークロードドメイン内で、3台のLinux VM（Oracle RACデータベースクラスタ用に2台、Ansibleコントローラ用に1台）をプロビジョニングします。NetApp SnapCenterサーバを実行するためのWindowsサーバVMを1つプロビジョニングします。Oracleデータベースを自動導入するためのAnsibleコントローラのセットアップについては、次の資料を参照して link:../automation/getting-started.html["NetApp解決策 自動化の導入"^]ください。
 . Oracle RACデータベースVMには、少なくとも2つのネットワークインターフェイスをプロビジョニングしておく必要があります。1つはOracle RACプライベートインターコネクト用、もう1つはアプリケーションまたはパブリックデータトラフィック用です。
 . VCFには、SnapCenterプラグインバージョン6.0 for VMware vSphereが導入されています。プラグインの配置については、次のリソースを参照してください。 link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/["SnapCenter Plug-in for VMware vSphere のドキュメント"^]
 . VMware vSphere向けのONTAPツールがVCFに導入されている。VMware vSphere導入のためのONTAPツールについては、次のリソースを参照してください。 link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["ONTAP Tools for VMware vSphereのドキュメント"^]
@@ -1203,20 +1203,8 @@ Version 19.18.0.0.0
 
 このドキュメントに記載されている情報の詳細については、以下のドキュメントや Web サイトを参照してください。
 
-* VMware Cloud Foundationの場合
-+
-link:https://www.vmware.com/products/cloud-infrastructure/vmware-cloud-foundation["https://www.vmware.com/products/cloud-infrastructure/vmware-cloud-foundation"^]
-
-* ネットアップのエンタープライズデータベースソリューション
-+
-link:https://docs.netapp.com/us-en/netapp-solutions/databases/index.html["https://docs.netapp.com/us-en/netapp-solutions/databases/index.html"^]
-
-* SnapCenterソフトウェア6.0
-+
-link:https://docs.netapp.com/us-en/snapcenter/concept/concept_snapcenter_overview.html["https://docs.netapp.com/us-en/snapcenter/concept/concept_snapcenter_overview.html"^]
-
-* ONTAP Tools for VMware vSphereのドキュメント
-+
-link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html"^]
-
+* link:https://www.vmware.com/products/cloud-infrastructure/vmware-cloud-foundation["VMware Cloud Foundationの場合"^]
+* link:index.html["ネットアップのエンタープライズデータベースソリューション"^]
+* link:https://docs.netapp.com/us-en/snapcenter/concept/concept_snapcenter_overview.html["SnapCenterソフトウェア6.0"^]
+* link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["ONTAP Tools for VMware vSphereのドキュメント"^]
 

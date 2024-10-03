@@ -148,7 +148,7 @@ image:vcf_ora_si_vvols_architecture.png["このイメージは、iSCSIとASMを�
 導入には、次の前提条件が必要です。
 
 . VMware VCFがセットアップされました。VCFの作成方法については、VMwareのドキュメントを参照してください link:https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["VMware Cloud Foundationのドキュメント"^]。
-. VCFワークロードドメイン内で、3台のLinux VM（Oracleデータベース用に2台、Ansibleコントローラ用に1台）をプロビジョニングします。NetApp SnapCenterサーバを実行するためのWindowsサーバVMを1つプロビジョニングします。Oracleデータベースを自動導入するためのAnsibleコントローラのセットアップについては、次の資料を参照して link:https://docs.netapp.com/us-en/netapp-solutions/automation/getting-started.html["NetApp解決策 自動化の導入"^]ください。
+. VCFワークロードドメイン内で、3台のLinux VM（Oracleデータベース用に2台、Ansibleコントローラ用に1台）をプロビジョニングします。NetApp SnapCenterサーバを実行するためのWindowsサーバVMを1つプロビジョニングします。Oracleデータベースを自動導入するためのAnsibleコントローラのセットアップについては、次の資料を参照して link:../automation/getting-started.html["NetApp解決策 自動化の導入"^]ください。
 . VCFには、SnapCenterプラグインバージョン6.0 for VMware vSphereが導入されています。プラグインの配置については、次のリソースを参照してください。 link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/["SnapCenter Plug-in for VMware vSphere のドキュメント"^]
 . VMware vSphere向けのONTAPツールがVCFに導入されている。VMware vSphere導入のためのONTAPツールについては、次のリソースを参照してください。 link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["ONTAP Tools for VMware vSphereのドキュメント"^]
 
@@ -434,7 +434,7 @@ UUID=aff942c4-b224-4b62-807d-6a5c22f7b623 /boot                   xfs     defaul
 
 [%collapsible]
 ====
-VVOLを使用するVCFにOracleを導入するには、NetApp自動化ツールキットを活用することを推奨します。xfsファイルシステムでOracleの自動導入を実行する方法の詳細については、TR-4992を参照してください link:https://docs.netapp.com/us-en/netapp-solutions/databases/automation_ora_c-series_nfs.html["NFSを使用したNetApp CシリーズへのOracleの導入を簡易化、自動化"^]。TR-4992では、NFSを使用したNetApp CシリーズへのOracleの自動導入について説明していますが、データベースVMへのNFSファイルシステムのマウントをバイパスした場合は、vVolを使用したVCFへのOracleの導入と同じです。特定のタグではスキップします。以下に、ステップバイステップの手順を示します。
+VVOLを使用するVCFにOracleを導入するには、NetApp自動化ツールキットを活用することを推奨します。xfsファイルシステムでOracleの自動導入を実行する方法の詳細については、TR-4992を参照してください link:automation_ora_c-series_nfs.html["NFSを使用したNetApp CシリーズへのOracleの導入を簡易化、自動化"^]。TR-4992では、NFSを使用したNetApp CシリーズへのOracleの自動導入について説明していますが、データベースVMへのNFSファイルシステムのマウントをバイパスした場合は、vVolを使用したVCFへのOracleの導入と同じです。特定のタグではスキップします。以下に、ステップバイステップの手順を示します。
 
 . sshを使用してAnsibleコントローラVMに管理者ユーザとしてログインし、NFS上のOracle向け自動化ツールキットのコピーをクローニングします。
 +
@@ -449,7 +449,7 @@ LINUX.X64_193000_db_home.zip
 p34765931_190000_Linux-x86-64.zip
 p6880880_190000_Linux-x86-64.zip
 ....
-. TR-4992のこのセクションの手順に従って、導入ターゲットのファイルホスト、グローバル変数file-vars/vars.yml、およびローカルDB VM変数file-host_vars/host_name .ymlを設定します link:https://docs.netapp.com/us-en/netapp-solutions/databases/automation_ora_c-series_nfs.html#parameter-files-configuration["パラメータファイルの設定"^]。ローカルDB VM変数ファイルからNFS_LIF変数をコメントアウトします。
+. TR-4992のこのセクションの手順に従って、導入ターゲットのファイルホスト、グローバル変数file-vars/vars.yml、およびローカルDB VM変数file-host_vars/host_name .ymlを設定します link:automation_ora_c-series_nfs.html#parameter-files-configuration["パラメータファイルの設定"^]。ローカルDB VM変数ファイルからNFS_LIF変数をコメントアウトします。
 . AnsibleコントローラとデータベースVMの間にSSHキーレス認証をセットアップします。SSHキーペアを生成し、公開鍵をデータベースVMのadminユーザrootディレクトリ.sshフォルダauthorized_keysファイルにコピーする必要があります。
 +
 [source, cli]
@@ -852,16 +852,7 @@ SQL>
 
 このドキュメントに記載されている情報の詳細については、以下のドキュメントや Web サイトを参照してください。
 
-* VMware Cloud Foundationの場合
-+
-link:https://www.vmware.com/products/cloud-infrastructure/vmware-cloud-foundation["https://www.vmware.com/products/cloud-infrastructure/vmware-cloud-foundation"^]
-
-* ネットアップのエンタープライズデータベースソリューション
-+
-link:https://docs.netapp.com/us-en/netapp-solutions/databases/index.html["https://docs.netapp.com/us-en/netapp-solutions/databases/index.html"^]
-
-* SnapCenterソフトウェア6.0
-+
-link:https://docs.netapp.com/us-en/snapcenter/concept/concept_snapcenter_overview.html["https://docs.netapp.com/us-en/snapcenter/concept/concept_snapcenter_overview.html"^]
-
+* link:https://www.vmware.com/products/cloud-infrastructure/vmware-cloud-foundation["VMware Cloud Foundationの場合"^]
+* link:index.html["ネットアップのエンタープライズデータベースソリューション"^]
+* link:https://docs.netapp.com/us-en/snapcenter/concept/concept_snapcenter_overview.html["SnapCenterソフトウェア6.0"^]
 
