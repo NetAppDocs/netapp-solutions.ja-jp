@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: containers/rh-os-n_use_case_multitenancy_architecture.html 
-keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, Multitenancy, Multi-tenancy 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, Multitenancy, Multi-tenancy 
 summary: ネットアップを使用した Red Hat OpenShift でのマルチテナンシーの構成 
 ---
 = アーキテクチャ
@@ -14,13 +14,13 @@ summary: ネットアップを使用した Red Hat OpenShift でのマルチテ�
 
 
 [role="lead"]
-ネットアップ ONTAP を基盤とする Red Hat OpenShift と Astra Trident は、デフォルトでワークロードを分離する機能を提供していませんが、マルチテナンシーの設定に使用できる幅広い機能を備えています。ネットアップ ONTAP を基盤とする Astra Trident を使用した Red Hat OpenShift クラスタでのマルチテナント解決策の設計について理解を深めるために、一連の要件を含む例を検討し、その構成について概説します。
+NetApp ONTAPを基盤とするRed Hat OpenShiftとTridentは、デフォルトでワークロード間の分離を提供しませんが、マルチテナンシーの設定に使用できる幅広い機能を提供します。NetApp ONTAPを基盤とするTridentを備えたRed Hat OpenShiftクラスタでのマルチテナントソリューションの設計について理解を深めるために、一連の要件を含む例を検討し、その構成の概要を説明します。
 
-2 つの異なるチームが取り組んでいる 2 つのプロジェクトの一環として、組織が Red Hat OpenShift クラスタ上で 2 つのワークロードを実行するとします。こうしたワークロードのデータは、 NetApp ONTAP NAS バックエンドの Astra Trident によって動的にプロビジョニングされる PVC 上に存在します。組織では、この 2 つのワークロードに対応するマルチテナント解決策を設計し、これらのプロジェクトに使用されるリソースを分離して、セキュリティとパフォーマンスを維持することが求められています。主に、これらのアプリケーションを提供するデータに重点が置かれています。
+2 つの異なるチームが取り組んでいる 2 つのプロジェクトの一環として、組織が Red Hat OpenShift クラスタ上で 2 つのワークロードを実行するとします。これらのワークロードのデータは、NetApp ONTAP NASバックエンド上のTridentによって動的にプロビジョニングされるPVCに格納されます。組織では、この 2 つのワークロードに対応するマルチテナント解決策を設計し、これらのプロジェクトに使用されるリソースを分離して、セキュリティとパフォーマンスを維持することが求められています。主に、これらのアプリケーションを提供するデータに重点が置かれています。
 
-次の図は、ネットアップ ONTAP を基盤とする Astra Trident を使用した Red Hat OpenShift クラスタ上のマルチテナント解決策を示しています。
+次の図は、NetApp ONTAPを基盤とするTridentを備えたRed Hat OpenShiftクラスタ上のマルチテナントソリューションを示しています。
 
-image:redhat_openshift_image40.jpg["ネットアップ ONTAP を基盤とする Astra Trident を使用した Red Hat OpenShift クラスタのマルチテナンシー"]
+image:redhat_openshift_image40.jpg["NetApp ONTAPを基盤とするTridentを備えたRed Hat OpenShiftクラスタ上のマルチテナンシー"]
 
 
 
@@ -28,7 +28,7 @@ image:redhat_openshift_image40.jpg["ネットアップ ONTAP を基盤とする 
 
 . NetApp ONTAP ストレージクラスタ
 . Red Hat OpenShift クラスタ
-. Astra Trident
+. Trident
 
 
 
@@ -47,7 +47,7 @@ Red Hat OpenShift クラスタの永続的ストレージプロバイダとし�
 
 
 
-== Astra Trident
+== Trident
 
 NetApp ONTAP で作成されたプロジェクトごとに異なる SVM が作成されたら、各 SVM を異なる Trident バックエンドにマッピングする必要があります。Trident のバックエンド構成は、 OpenShift クラスタリソースへの永続的ストレージの割り当てを促進します。また、マッピング先の SVM の詳細が必要です。これは、バックエンドのプロトコルドライバである必要があります。必要に応じて、ストレージでのボリュームのプロビジョニング方法を定義したり、ボリュームのサイズやアグリゲートの使用などを制限したりできます。Trident バックエンドの定義に関する詳細はこちらをご覧ください https://docs.netapp.com/us-en/trident/trident-use/backends.html["こちらをご覧ください"^]。
 

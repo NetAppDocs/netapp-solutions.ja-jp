@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: containers/dwn_use_case_integrated_data_protection.html 
-keywords: NetApp Astra Control, Astra Control Center, Application, Trident, Astra Trident, Helm, Operator, ONTAP, OpenShift, Kubernetes, Red Hat OpenShift, DevOps, Data Protection, Continuous Data Protection, Induce Data Protection into CI/CD, CI, CD, CI/CD 
+keywords: NetApp Astra Control, Astra Control Center, Application, Trident, Trident, Helm, Operator, ONTAP, OpenShift, Kubernetes, Red Hat OpenShift, DevOps, Data Protection, Continuous Data Protection, Induce Data Protection into CI/CD, CI, CD, CI/CD 
 summary: NetApp Astra Control Center は、 NetApp の信頼できるデータ保護テクノロジを基盤とするオンプレミス環境に導入された、ステートフル Kubernetes ワークロード向けの豊富なストレージおよびアプリケーション対応データ管理サービスを提供します。 
 ---
 = NetApp Astra Controlにより、CI / CDパイプラインへの保護を統合
@@ -28,7 +28,7 @@ DevOpsワークフローの最も一般的な用途の1つは、継続的統合�
 
 image:dwn_image1.jpg["ネットアップAstraを使用したDevOpsのユースケース1アーキテクチャ"]
 
-このユースケースの検証に使用したアプリケーションはです https://magento.com/["Magento"^]は、Webベースのフロントエンドを備えたEコマース解決策 、検索および分析機能用のElasticsearchインスタンス、ショッピングインベントリとトランザクションの詳細をすべて追跡するMariaDBデータベースです。このコンテナ化されたアプリケーションは、Red Hat OpenShiftクラスタにインストールされました。アプリケーション内のすべてのポッドで、永続ボリュームを使用してデータを格納しました。永続ボリュームは、コンテナストレージインターフェイスに準拠したKubernetes向けストレージオーケストレーションツールであるNetApp Astra Tridentによって自動的に作成され、ネットアップストレージシステムでストレージをプロビジョニングできるようになりました。さらに、Astra Control Centerのアプリケーション保護機能を利用するために、問題のアプリケーションはAstra Controlによって管理されました。Astra Controlは、永続的ボリュームに保存されたデータとともに、アプリケーションの状態を保存したアプリケーションのバックアップをトリガするために使用されました。使用しました https://github.com/NetApp/netapp-astra-toolkits["NetApp Astra Control Python SDK"^] アプリケーションのバックアップを開始するプロセスを自動化するために、CI / CDパイプラインに導入されました。このパイプラインは、という一般的なCI / CDツールを使用して作成、実行されました [https://www.jenkins.io/["Jenkins"^]]を選択すると、アプリケーションの構築、保護、導入のためのフローが自動化されます。
+このユースケースの検証に使用されたアプリケーションは、Webベースのフロントエンドを備えたEコマースソリューション、検索と分析機能のためのElasticsearchインスタンス、すべてのショッピングインベントリとトランザクションの詳細を追跡するMariaDBデータベースでした https://magento.com/["Magento"^]。このコンテナ化されたアプリケーションは、Red Hat OpenShiftクラスタにインストールされました。アプリケーション内のすべてのポッドで、永続ボリュームを使用してデータを格納しました。永続ボリュームは、コンテナストレージインターフェイスに準拠したKubernetes向けストレージオーケストレーションツールであるNetApp Tridentによって自動的に作成され、NetAppストレージシステムでストレージをプロビジョニングできます。さらに、Astra Control Centerのアプリケーション保護機能を利用するために、問題のアプリケーションはAstra Controlによって管理されました。Astra Controlは、永続的ボリュームに保存されたデータとともに、アプリケーションの状態を保存したアプリケーションのバックアップをトリガするために使用されました。を使用して https://github.com/NetApp/netapp-astra-toolkits["NetApp Astra Control Python SDK"^]アプリケーションのバックアップをトリガーするプロセスを自動化し、CI / CDパイプラインに導入しました。このパイプラインは[https://www.jenkins.io/["Jenkins"^]、一般的なCI/CDツールである]を使用して作成および実行され、アプリケーションのビルド、保護、デプロイのフローを自動化しました。
 
 CI/CDパイプラインに保護機能を導入するための前提条件と手順 について説明します。
 
@@ -39,7 +39,7 @@ CI/CDパイプラインに保護機能を導入するための前提条件と手
 前提条件として、次のツールまたはプラットフォームを導入および設定しました。
 
 . Red Hat OpenShift Container Platform
-. ネットアップのOpenShiftにTridentをインストールし、バックエンドからNetApp ONTAP システムを構成
+. NetApp TridentをOpenShiftにインストールし、NetApp ONTAPシステムへのバックエンドを構成
 . NetApp ONTAP バックエンドをポイントするデフォルトのストレージクラスが設定されている
 . OpenShiftクラスタにNetApp Astraコントロールセンターをインストール
 . OpenShiftクラスタをAstra Control Centerにマネージドクラスタとして追加

@@ -14,14 +14,14 @@ summary:
 
 
 [role="lead"]
-このセクションでは、AWS（ROSA）でマネージドRed Hat OpenShiftクラスタをセットアップする大まかなワークフローについて説明します。このスライドでは、Astra TridentによるストレージバックエンドとしてManaged FSx for NetApp ONTAP （FSxN）を使用して永続ボリュームを提供しています。BlueXPを使用したAWSへのFSxNの導入について詳しく説明します。また、ROSAクラスタ上のステートフルアプリケーションに対して、BlueXPとOpenShiftのGitOps（Argo CD）を使用してデータ保護と移行のアクティビティを実行する方法についても詳しく説明します。
+このセクションでは、AWS（ROSA）でマネージドRed Hat OpenShiftクラスタをセットアップする大まかなワークフローについて説明します。ここでは、TridentによるストレージバックエンドとしてManaged FSx for NetApp ONTAP（FSxN）を使用して永続ボリュームを提供しています。BlueXPを使用したAWSへのFSxNの導入について詳しく説明します。また、ROSAクラスタ上のステートフルアプリケーションに対して、BlueXPとOpenShiftのGitOps（Argo CD）を使用してデータ保護と移行のアクティビティを実行する方法についても詳しく説明します。
 
 次の図は、AWSに導入され、FSxNをバックエンドストレージとして使用するROSAクラスタを示しています。
 
 image:rhhc-rosa-with-fsxn.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
-NOTE: この解決策 は、AWSの2つのVPCで2つのROSAクラスタを使用して検証されました。各ROSAクラスタは、Astra Tridentを使用してFSxNに統合されています。ROSAクラスタとFSxNをAWSに導入するには、いくつかの方法があります。このセットアップの概要概要 には、使用した具体的な方法のドキュメントへのリンクが記載されています。その他の方法については、に記載されている関連リンクを参照して link:rhhc-resources.html["リソースセクション"]ください。
+NOTE: この解決策 は、AWSの2つのVPCで2つのROSAクラスタを使用して検証されました。各ROSAクラスタは、Tridentを使用してFSxNと統合されました。ROSAクラスタとFSxNをAWSに導入するには、いくつかの方法があります。このセットアップの概要概要 には、使用した具体的な方法のドキュメントへのリンクが記載されています。その他の方法については、に記載されている関連リンクを参照して link:rhhc-resources.html["リソースセクション"]ください。
 
 セットアッププロセスは、次の手順に分けることができます。
 
@@ -47,10 +47,10 @@ NOTE: この解決策 は、AWSの2つのVPCで2つのROSAクラスタを使用�
 * Helmチャートを使用して、ROSAクラスタにTridentをインストールします。HelmチャートのURL： https://netapp.github.io/trident-helm-chart[]
 
 
-.ROSAクラスタ向けのFSxNとAstra Tridentの統合
+.ROSAクラスタ用のFSxNとTridentの統合
 video::621ae20d-7567-4bbf-809d-b01200fa7a68[panopto]
 
-NOTE: OpenShift GitOpsを使用すると、ApplicationSetを使用してArgoCDに登録されたすべての管理対象クラスタにAstra Trident CSIを導入できます。
+NOTE: OpenShift GitOpsを使用すると、ApplicationSetを使用してArgoCDに登録されたすべての管理対象クラスタにTrident CSIを導入できます。
 
 image:rhhc-trident-helm.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 

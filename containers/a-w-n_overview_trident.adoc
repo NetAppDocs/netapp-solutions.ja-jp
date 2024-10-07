@@ -1,10 +1,10 @@
 ---
 sidebar: sidebar 
 permalink: containers/a-w-n_overview_trident.html 
-keywords: Trident, Astra Trident, Helm, Operator, iSCSI, NFS 
-summary: Astra Tridentは、コンテナやKubernetesディストリビューション向けの、Anthosを含む、完全にサポートされているオープンソースストレージオーケストレーションツールです。 
+keywords: Trident, Trident, Helm, Operator, iSCSI, NFS 
+summary: Tridentは、Anthosを含むコンテナとKubernetesディストリビューション向けの、完全サポートされたオープンソースストレージオーケストレーションツールです。 
 ---
-= Astra Trident の概要
+= Tridentの概要
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,27 +14,27 @@ summary: Astra Tridentは、コンテナやKubernetesディストリビューシ
 
 
 [role="lead"]
-Astra Tridentは、Anthosを含むコンテナとKubernetesディストリビューション向けの、完全サポートされたオープンソースストレージオーケストレーションツールです。Tridentは、NetApp ONTAP を含むネットアップのストレージポートフォリオ全体と連携し、NFS接続とiSCSI接続もサポートします。Trident を使用すると、ストレージ管理者の手を煩わせることなく、エンドユーザがネットアップストレージシステムからストレージをプロビジョニングして管理できるため、 DevOps ワークフローが高速化されます。
+Tridentは、Anthosを含むコンテナとKubernetesディストリビューション向けの、完全サポートされたオープンソースストレージオーケストレーションツールです。Tridentは、NetApp ONTAP を含むネットアップのストレージポートフォリオ全体と連携し、NFS接続とiSCSI接続もサポートします。Trident を使用すると、ストレージ管理者の手を煩わせることなく、エンドユーザがネットアップストレージシステムからストレージをプロビジョニングして管理できるため、 DevOps ワークフローが高速化されます。
 
 管理者は、プロジェクトのニーズとストレージシステムモデルに基づいて複数のストレージバックエンドを構成し、圧縮、特定のディスクタイプ、QoSレベルなどの高度なストレージ機能を有効にして一定のレベルのパフォーマンスを保証できます。定義されたバックエンドは、プロジェクトの開発者が永続的ボリューム要求（ PVC ）を作成し、永続的ストレージをオンデマンドでコンテナに接続するために使用できます。
 
 image:a-w-n_astra_trident.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-Astra Tridentは、迅速な開発サイクルを実現し、Kubernetesと同様、年間4回リリースされます。
+Tridentは開発サイクルが速く、Kubernetesと同様に年4回リリースされています。
 
-Astra Tridentの最新バージョンに関するドキュメントを参照できます https://docs.netapp.com/us-en/trident/index.html["こちらをご覧ください"]。Trident のどのバージョンがサポートされているかを確認できます Kubernetes ディストリビューションのテストに使用 https://docs.netapp.com/us-en/trident/trident-get-started/requirements.html#supported-frontends-orchestrators["こちらをご覧ください"]。
+Tridentの最新バージョンのドキュメントを参照 https://docs.netapp.com/us-en/trident/index.html["こちらをご覧ください"]できます。どのKubernetesディストリビューションでテストされたTridentのバージョンのサポートマトリックス https://docs.netapp.com/us-en/trident/trident-get-started/requirements.html#supported-frontends-orchestrators["こちらをご覧ください"]です。
 
 20.04 リリース以降、 Trident のセットアップは Trident オペレータによって実行されます。オペレータが大規模な導入を容易にし、 Trident インストールの一部として導入されたポッドの自己修復などの追加サポートを提供します。
 
 22.04リリースでは、Trident Operatorのインストールを容易にするためにHelmチャートを使用できるようになりました。
 
-Astra Tridentのインストールの詳細については、を参照してください https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["こちらをご覧ください"]。
+Tridentのインストールの詳細については、を参照してください https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["こちらをご覧ください"]。
 
 
 
 == ストレージ・システム・バックエンドを作成します
 
-Astra Trident Operator のインストールが完了したら、使用するネットアップストレージプラットフォームに合わせてバックエンドを設定する必要があります。Astra Tridentのセットアップと設定を続行するには、次のリンクを参照してください。link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-postdeployment.html#step-1-create-a-backend["バックエンドを作成します。"]
+Tridentオペレータによるインストールが完了したら、使用している特定のNetAppストレージプラットフォーム用にバックエンドを設定する必要があります。Tridentのセットアップと設定を続行するには、次のリンクをクリックしてください。link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-postdeployment.html#step-1-create-a-backend["バックエンドを作成します。"]
 
 
 

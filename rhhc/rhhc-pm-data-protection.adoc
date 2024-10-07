@@ -16,13 +16,13 @@ summary:
 [role="lead"]
 このページには、Astra Control Serviceを使用したAWS（ROSA）クラスタでのマネージドRed Hat OpenShiftのデータ保護オプションが表示されます。Astra Control Service（ACS）では、使いやすいグラフィカルユーザインターフェイスを使用して、クラスタの追加、クラスタ上で実行されるアプリケーションの定義、アプリケーション対応のデータ管理アクティビティの実行を行うことができます。ACS関数には、ワークフローの自動化を可能にするAPIを使用してアクセスすることもできます。
 
-Astra Control（ACSまたはACC）に搭載されるのは、NetApp Astra Tridentです。Astra Tridentは、Red Hat OpenShift、EKS、AKS、SUSE Rancher、Anthosなど、いくつかのタイプのKubernetesクラスタを統合します。 FAS / AFF、ONTAP Select、CVO、Google Cloud Volumes Service、Azure NetApp Files、Amazon FSx for NetApp ONTAPなど、さまざまな種類のNetApp ONTAPストレージを使用できます。
+Astra Control（ACSまたはACC）の電源はNetApp Tridentです。Tridentは、Red Hat OpenShift、EKS、AKS、SUSE Rancher、AnthosなどのいくつかのタイプのKubernetesクラスタを、FAS / AFF、ONTAP Select、CVO、Google Cloud Volumes Service、Azure NetApp Files、Amazon FSx for NetApp ONTAPなどのさまざまな種類のNetApp ONTAPストレージと統合します。
 
 ここでは、ACSを使用した次のデータ保護オプションの詳細について説明します。
 
 * ある地域で実行されているROSAアプリケーションのバックアップと復元と、別の地域への復元を示すビデオ。
 * ROSAアプリケーションのスナップショットと復元を示すビデオ。
-* ROSAクラスタ（Amazon FSx for NetApp ONTAP）のインストール、NetApp Astra Tridentを使用したストレージバックエンドとの統合、ROSAクラスタへのPostgreSQLアプリケーションのインストール、ACSを使用したアプリケーションのスナップショットの作成とそこからのアプリケーションのリストアの詳細を順を追って説明します。
+* ROSAクラスタ（Amazon FSx for NetApp ONTAP）のインストール、NetApp Tridentを使用したストレージバックエンドとの統合、ROSAクラスタへのPostgreSQLアプリケーションのインストール、ACSを使用したアプリケーションのスナップショットの作成、そこからのアプリケーションのリストアの詳細を順を追って説明します。
 * ACSを使用してFSx for ONTAPを使用してROSAクラスタ上のMySQLアプリケーションのスナップショットを作成し、そのスナップショットからリストアする手順の詳細を示すブログ。
 
 
@@ -75,7 +75,7 @@ video::36ecf505-5d1d-4e99-a6f8-b11c00341793[panopto]
 
 . 管理者ユーザを作成し、クラスタにログインします。
 . クラスタ用のkubeconfigファイルを作成します。
-. クラスタにAstra Tridentをインストール
+. クラスタにTridentをインストールします。
 . Trident CSIプロビジョニングツールを使用して、バックエンド、ストレージクラス、Snapshotクラスの構成を作成
 . クラスタにPostgreSQLアプリケーションを導入します。
 . データベースを作成し、レコードを追加します。
@@ -110,9 +110,9 @@ NOTE: トークンを使用してクラスタにログインすることもで�
 
 
 
-==== ** 3.クラスタへのAstra Tridentのインストール**
+==== ** 3.クラスタへのTridentのインストール**
 
-ROSAクラスタにAstra Trident（最新バージョン）をインストールこれを行うには、以下の手順のいずれかに従うことができます。 link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["こちらをご覧ください"]。クラスタのコンソールからhelmを使用してTridentをインストールするには、まずTridentというプロジェクトを作成します。
+Trident（最新バージョン）をROSAクラスタにインストールします。これを行うには、指定された手順のいずれかに従うことができますlink:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["こちらをご覧ください"]。クラスタのコンソールからhelmを使用してTridentをインストールするには、まずTridentというプロジェクトを作成します。
 
 image:rhhc-trident-project-create.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 

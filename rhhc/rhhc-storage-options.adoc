@@ -14,9 +14,9 @@ summary:
 
 
 [role="lead"]
-Red Hat Open ShiftコンテナをVMwareで実行する場合でも、ハイパースケーラで実行する場合でも、NetApp Astra Tridentは、サポートするさまざまなタイプのバックエンドネットアップストレージのCSIプロビジョニングツールとして使用できます。
+Red Hat OpenShiftコンテナがVMwareで実行されているかハイパースケーラで実行されているかに関係なく、NetApp Tridentは、サポートするさまざまなタイプのバックエンドNetAppストレージのCSIプロビジョニングツールとして使用できます。
 
-次の図は、NetApp Astra Tridentを使用してOpenShiftクラスタと統合できるバックエンドのネットアップストレージを示しています。
+次の図は、NetApp Tridentを使用してOpenShiftクラスタと統合できるさまざまなバックエンドNetAppストレージを示しています。
 
 image:a-w-n_astra_trident.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
@@ -34,7 +34,7 @@ image:rhhc_storage_opt_pod2vol.png["ポッドとONTAP ボリュームの関係"]
 
 == Container Storage Interface（CSI）オプション
 
-vSphere環境では、VMware CSIドライバやAstra Trident CSIを選択してONTAP と統合できます。VMware CSIでは永続ボリュームがローカルSCSIディスクとして使用され、Tridentではネットワークが使用されます。VMware CSIはONTAP でのRWXアクセスモードをサポートしていないため、RWXモードが必要な場合は、アプリケーションでTrident CSIを使用する必要があります。FCベースの導入ではVMware CSIが推奨され、SnapMirror Business Continuity（SMBC）によってゾーンレベルの高可用性が実現されます。
+vSphere環境では、VMware CSIドライバまたはTrident CSIを選択してONTAPと統合できます。VMware CSIでは永続ボリュームがローカルSCSIディスクとして使用され、Tridentではネットワークが使用されます。VMware CSIはONTAP でのRWXアクセスモードをサポートしていないため、RWXモードが必要な場合は、アプリケーションでTrident CSIを使用する必要があります。FCベースの導入ではVMware CSIが推奨され、SnapMirror Business Continuity（SMBC）によってゾーンレベルの高可用性が実現されます。
 
 
 
@@ -56,7 +56,7 @@ vSphere環境では、VMware CSIドライバやAstra Trident CSIを選択してO
 * ontap-nas-flexgroup（専用の大規模ボリューム）
 
 
-ONTAP は、VMware CSIとAstra Trident CSIのどちらについても、NFSとマルチパスのnconnect、セッショントランキング、Kerberosなど、ブロックプロトコルのCHAP認証などをサポートします。
+VMware CSIとTrident CSIの両方で、ONTAPはnconnect、セッショントランキング、KerberosなどのNFSとマルチパス、CHAP認証などのブロックプロトコルをサポートしています。
 
 AWSでは、FSx for NetApp ONTAP （FSxN）を単一のアベイラビリティゾーン（AZ）または複数のAZに導入できます。高可用性を必要とする本番ワークロードに対しては、複数のAZを使用することでゾーンレベルのフォールトトレランスが実現し、NVMe読み取りキャッシュも単一のAZよりも優れています。詳細については、を参照してください link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/performance.html["AWSパフォーマンスのガイドライン"]。ディザスタリカバリサイトのコストを削減するために、単一のAZ FSx ONTAPを利用できます。image:rhhc_storage_options_fsxn_options.png["複数のAZと単一のAZの間のレプリケーション"]
 

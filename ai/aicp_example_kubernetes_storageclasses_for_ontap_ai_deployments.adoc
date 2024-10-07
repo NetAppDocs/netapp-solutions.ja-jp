@@ -14,9 +14,9 @@ summary: NetAppを使用したオープンソースのMLOps - NetApp AIPod環境
 
 
 [role="lead"]
-Astra Tridentを使用してKubernetesクラスタ内のストレージリソースを動的にプロビジョニングするには、Kubernetes StorageClassを1つ以上作成する必要があります。以降の例は、このソリューションのコンポーネントをに導入する場合に作成するさまざまなタイプのStorageClassesを示して link:aipod_nv_intro.html["NetApp AIPod"^]います。StorageClasses、および他のプラットフォーム/環境のStorageClassesなどの詳細については、を参照してください link:https://docs.netapp.com/us-en/trident/index.html["Astra Trident のドキュメント"^]。
+Trident を使用して Kubernetes クラスタ内のストレージリソースを動的にプロビジョニングするには、 Kubernetes StorageClasses を 1 つ以上作成する必要があります。以降の例は、このソリューションのコンポーネントをに導入する場合に作成するさまざまなタイプのStorageClassesを示して link:aipod_nv_intro.html["NetApp AIPod"^]います。StorageClasses、および他のプラットフォーム/環境のStorageClassesなどの詳細については、を参照してください link:https://docs.netapp.com/us-en/trident/index.html["Trident のドキュメント"^]。
 
-. NetAppでは、セクションで作成したFlexGroup対応のTridentバックエンド用にストレージクラスを作成することを推奨します。 link:aicp_example_trident_backends_for_ontap_ai_deployments.html["NetApp AIPod環境でのAstra Tridentバックエンドの例"]、手順 1.以降のコマンド例では、セクションで作成した2つのバックエンドの例に対応する複数のStorageClassesを作成しています。 link:aicp_example_trident_backends_for_ontap_ai_deployments.html["NetApp AIPod環境でのAstra Tridentバックエンドの例"]、ステップ1 - link:https://docs.netapp.com/us-en/ontap/nfs-rdma/["RDMA経由のNFS"] そうではありません
+. NetAppではlink:aicp_example_trident_backends_for_ontap_ai_deployments.html["NetApp AIPod導入のTridentバックエンドの例"]、手順1で作成したFlexGroup対応Tridentバックエンド用にストレージクラスを作成することを推奨しています。以降のコマンド例では、セクションで作成した2つのバックエンドlink:aicp_example_trident_backends_for_ontap_ai_deployments.html["NetApp AIPod導入のTridentバックエンドの例"]（手順1）で使用するバックエンドと使用しlink:https://docs.netapp.com/us-en/ontap/nfs-rdma/["RDMA経由のNFS"]ないバックエンドに対応する複数のStorageClassesを作成する方法を示します。
 +
 対応する PersistentVolumeClaim （ PVC ）が削除されたときに永続ボリュームが削除されないようにするため、次の例では「 Retain 」の「 ReclaimPolicy 」の値を使用しています。「 ReclaimPolicy 」フィールドの詳細については、公式を参照してください https://kubernetes.io/docs/concepts/storage/storage-classes/["Kubernetes のドキュメント"^]。
 
@@ -64,7 +64,7 @@ NAME                             PROVISIONER             AGE
 aipod-flexgroups-retain          csi.trident.netapp.io   0m
 aipod-flexgroups-retain-rdma     csi.trident.netapp.io   0m
 ....
-. に対応するストレージクラスを作成することも推奨します セクションで作成した FlexVol 対応の Trident バックエンド link:aicp_example_trident_backends_for_ontap_ai_deployments.html["AIPod環境向けのAstra Tridentバックエンドの例"]、ステップ 2 。以下のコマンド例は、 FlexVol ボリューム用の単一のストレージクラスの作成を示しています。
+. NetAppではlink:aicp_example_trident_backends_for_ontap_ai_deployments.html["AIPod配置用のTridentバックエンドの例"]、手順2で作成したFlexVol対応Tridentバックエンドに対応するStorageClassを作成することも推奨しています。以下のコマンド例は、 FlexVol ボリューム用の単一のストレージクラスの作成を示しています。
 +
 注：次の例では、StorageClass定義ファイルのStoragePoolフィールドに特定のバックエンドが指定されていません。Kubernetesを使用してこのStorageClassを使用するボリュームを管理すると、Tridentは、 `ontap-nas` ドライバ。
 

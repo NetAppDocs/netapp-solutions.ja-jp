@@ -1,8 +1,8 @@
 ---
 sidebar: sidebar 
 permalink: containers/rh-os-n_private_registry.html 
-keywords: Advanced Configuration, Private Registry, Astra Trident, OpenShift Registry, NetApp Astra Control Center Registry 
-summary: このセクションでは、 Astra Trident が提供する永続的ストレージを使用して、プライベートイメージレジストリを作成および設定します。 
+keywords: Advanced Configuration, Private Registry, Trident, OpenShift Registry, NetApp Astra Control Center Registry 
+summary: このセクションでは、Tridentが提供する永続的ストレージによってバックアップされるプライベートイメージレジストリの作成と構成について説明します。 
 ---
 = プライベートイメージレジストリを作成しています
 :hardbreaks:
@@ -16,7 +16,7 @@ summary: このセクションでは、 Astra Trident が提供する永続的�
 [role="lead"]
 Red Hat OpenShift の導入では、のようなパブリックレジストリを使用します https://quay.io["キー・ IO"] または https://hub.docker.com["DockerHub"] お客様のほとんどのニーズに対応ただし、お客様が独自のプライベートイメージまたはカスタマイズされたイメージをホストしたい場合があります。
 
-この手順ドキュメントでは、 Astra Trident と NetApp ONTAP が提供する永続的ボリュームを使用して作成された、プライベートイメージレジストリを作成しています。
+この手順では、TridentおよびNetApp ONTAPが提供する永続ボリュームによってバックアップされるプライベートイメージレジストリの作成について説明します。
 
 
 NOTE: Astra Control Center では、 Astra コンテナに必要なイメージをホストするためにレジストリが必要です。次のセクションでは、 Red Hat OpenShift クラスタにプライベートレジストリをセットアップし、 Astra Control Center のインストールをサポートするために必要なイメージをプッシュする手順について説明します。

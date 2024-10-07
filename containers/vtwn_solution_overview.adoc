@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: containers/vtwn_solution_overview.html 
-keywords: VMware Tanzu, Tanzu, DevOps, Netapp, Astra Trident, Astra Control, Astra 
+keywords: VMware Tanzu, Tanzu, DevOps, Netapp, Trident, Astra Control, Astra 
 summary: このリファレンスガイドでは、Tanzu Kubernetes Grid（TKG）、Tanzu Kubernetes Grid Service（TKGS）、またはTanzu Kubernetes Grid Integrated（TKGI）のいずれかとして、ネットアップによって検証済みの複数のデータセンター環境に導入された、さまざまなVMware Tanzu Kubernetesソリューションの導入方法を検証します。 
 ---
 = NVA-1166：ネットアップを使用したVMware Tanzuの評価
@@ -16,7 +16,7 @@ summary: このリファレンスガイドでは、Tanzu Kubernetes Grid（TKG�
 ネットアップ、 Alan Cowles 氏と Nikhil M Kulkarni 氏
 
 [role="lead"]
-このリファレンスガイドでは、Tanzu Kubernetes Grid（TKG）、Tanzu Kubernetes Grid Service（TKGS）、またはTanzu Kubernetes Grid Integrated（TKGI）のいずれかとして、ネットアップによって検証済みの複数のデータセンター環境に導入された、さまざまなVMware Tanzu Kubernetesソリューションの導入方法を検証します。また、ネットアップストレージシステムとAstra Tridentストレージオーケストレーションツールとのストレージ統合についても説明します。Tridentストレージオーケストレーションツールを使用して永続的ストレージを管理し、Astra Control Centerで、永続的ストレージを使用してステートフルアプリケーションのバックアップとクローニングを実行できます。最後に、解決策 の統合と検証のビデオデモを紹介します。
+このリファレンスガイドでは、Tanzu Kubernetes Grid（TKG）、Tanzu Kubernetes Grid Service（TKGS）、またはTanzu Kubernetes Grid Integrated（TKGI）のいずれかとして、ネットアップによって検証済みの複数のデータセンター環境に導入された、さまざまなVMware Tanzu Kubernetesソリューションの導入方法を検証します。また、NetAppストレージシステムとのストレージ統合や、永続的ストレージを管理するためのTridentストレージオーケストレーションツール、永続的ストレージを使用するステートフルアプリケーションのバックアップとクローニングを行うためのAstra Control Centerについても説明します。最後に、解決策 の統合と検証のビデオデモを紹介します。
 
 
 
@@ -69,7 +69,7 @@ VMware Tanzuには、ネットアップのソリューションエンジニア�
 * WindowsまたはLinuxのワーカーノード（Ubuntu / Photon）を使用できます。
 * NSXとT、HA Proxy、AVIネットワーク、またはロードバランサをコントロールプレーンに使用できます。
 * TKGはアプリケーション/データプレーンでMetalLBをサポートしています。
-* vSphere CSIおよびNetApp Astra TridentなどのサードパーティCSISを使用可能
+* vSphere CSIだけでなく、NetApp TridentなどのサードパーティCSISも使用できます。
 
 
 *『VMware Tanzu Kubernetes Grid Service（TKGS）』
@@ -80,7 +80,7 @@ VMware Tanzuには、ネットアップのソリューションエンジニア�
 * WindowsまたはLinuxのワーカーノード（Ubuntu / Photon）を使用できます。
 * NSXとT、HA Proxy、AVIネットワーク、またはロードバランサをコントロールプレーンに使用できます。
 * TKGSはアプリケーション/データプレーンでMetalLBをサポートしています。
-* vSphere CSIおよびNetApp Astra TridentなどのサードパーティCSISを使用可能
+* vSphere CSIだけでなく、NetApp TridentなどのサードパーティCSISも使用できます。
 * は、Tanzuを使用したvSphereポッドのサポートを提供し、環境内の有効なESXiホストでポッドを直接実行できるようにします。
 
 
@@ -91,7 +91,7 @@ VMware Tanzuには、ネットアップのソリューションエンジニア�
 * vSphere 6.7U3以降、およびAWS、Azure、GCPでサポートされます。
 * ウィザードを使用してセットアップすると、導入が簡単になります。
 * BOSHが管理する変更不可の制御VMでTanzuを実行します。
-* NetApp Astra Tridentのように、vSphere CSIやサードパーティのCSISを利用できる（一部の条件が適用される）
+* vSphere CSIだけでなく、NetApp TridentなどのサードパーティCSISも使用できます（一部の条件が適用されます）。
 
 
 *「vSphereポッド」（Tanzu（vSphereポッド）を使用したvSphere *
@@ -120,9 +120,9 @@ NetApp Astra Control Centerは、ステートフルKubernetesワークロード�
 
 詳細については、 NetApp Astra の Web サイトをご覧ください https://cloud.netapp.com/astra["こちらをご覧ください"]。
 
-Astra Tridentは、コンテナやKubernetesディストリビューション向けの、VMware Tanzuなどのオープンソースの完全サポートされたストレージオーケストレーションツールです。
+Tridentは、VMware Tanzuを含むコンテナとKubernetesディストリビューション向けのオープンソースで完全サポートされているストレージオーケストレーションツールです。
 
-詳細については、 Astra Trident の Web サイトをご覧ください https://docs.netapp.com/us-en/trident/index.html["こちらをご覧ください"]。
+詳細については、TridentのWebサイトを参照して https://docs.netapp.com/us-en/trident/index.html["こちらをご覧ください"]ください。
 
 
 
@@ -140,7 +140,7 @@ Astra Tridentは、コンテナやKubernetesディストリビューション向
 | ネットアップアストラコントロールセンター | アプリケーション対応データ管理 | 22.04 
 
 
-| ネットアップアストラト Trident | ストレージオーケストレーション | 22.04.0 
+| NetApp Trident | ストレージオーケストレーション | 22.04.0 
 
 
 | VMware Tanzu Kubernetesグリッド | コンテナオーケストレーション | 1.4以降 

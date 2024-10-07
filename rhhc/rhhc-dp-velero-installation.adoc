@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: rhhc/rhhc-dp-velero-installation.html 
-keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, OADP operator, Openshift Data Protection Application operator, Velero 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OADP operator, Openshift Data Protection Application operator, Velero 
 summary: NetApp ONTAPを使用したRed Hat OpenShiftコンテナアプリケーションのデータ保護 
 ---
 = OpenShift API for Data Protection（OADP）Operatorのインストール
@@ -21,9 +21,9 @@ summary: NetApp ONTAPを使用したRed Hat OpenShiftコンテナアプリケー
 == 前提条件
 
 * RHCOSワーカーノードを含むベアメタルインフラにインストールされたRed Hat OpenShiftクラスタ（バージョン4.12以降）
-* Astra Tridentを使用してクラスタと統合されるNetApp ONTAPクラスタ
+* Tridentを使用してクラスタに統合されたNetApp ONTAPクラスタ
 * ONTAP クラスタの SVM で設定された Trident バックエンド
-* OpenShift クラスタ上でストレージクラスを構成し、 Astra Trident をプロビジョニングツールとして提供
+* TridentをプロビジョニングツールとしてOpenShiftクラスタに設定されたストレージクラス
 * クラスタに作成されたTrident Snapshotクラス
 * Red Hat OpenShift クラスタへのクラスタ管理者アクセス
 * NetApp ONTAP クラスタへの管理者アクセス
@@ -165,8 +165,7 @@ YAMLファイルのspecセクションは、上記の例のように、次のパ
 **バックアップの場所**
 ONTAP S3またはStorageGRID S3（クレデンシャルおよびYAMLに表示されるその他の情報）は、veleroのデフォルトのBackupLocationとして設定されます。
 
-**スナップショットの場所**
-Container Storage Interface（CSI）スナップショットを使用する場合は、CSIドライバを登録するためにVolumeSnapshotClass CRを作成するため、スナップショットの場所を指定する必要はありません。この例では、Astra Trident CSIを使用し、Trident CSIドライバを使用してVolumeSnapShotClass CRを作成しています。
+** snapshotLocations ** Container Storage Interface（CSI）スナップショットを使用する場合、CSIドライバを登録するためにVolumeSnapshotClass CRを作成するため、スナップショットの場所を指定する必要はありません。この例では、Trident CSIを使用し、以前にTrident CSIドライバを使用してVolumeSnapShotClass CRを作成しています。
 
 ** CSIプラグインを有効にする**
 CSIスナップショットを使用して永続ボリュームをバックアップするには、VeleroのdefaultPluginsにCSIを追加します。

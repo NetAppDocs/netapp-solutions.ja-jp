@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-このセクションでは、AWSでOpenShiftクラスタをセットアップおよび管理し、それらにステートフルアプリケーションを導入する方法の大まかなワークフローについて説明します。このスライドでは、Astra Tridentを使用してNetApp Cloud Volumes ONTAP ストレージを使用し、永続ボリュームを提供する方法を示しています。ステートフルアプリケーションに対してデータ保護と移行のアクティビティを実行するためのAstra Control Centerの使用方法について詳しく説明します。
+このセクションでは、AWSでOpenShiftクラスタをセットアップおよび管理し、それらにステートフルアプリケーションを導入する方法の大まかなワークフローについて説明します。ここでは、Tridentを使用してNetApp Cloud Volumes ONTAPストレージを使用し、永続ボリュームを提供しています。ステートフルアプリケーションに対してデータ保護と移行のアクティビティを実行するためのAstra Control Centerの使用方法について詳しく説明します。
 
 
 NOTE: Red Hat OpenShift ContainerプラットフォームクラスタをAWSに導入する方法はいくつかあります。このセットアップの概要概要 には、使用した具体的な方法のドキュメントへのリンクが記載されています。その他の方法については、に記載されている関連リンクを参照して link:rhhc-resources.html["リソースセクション"]ください。
@@ -54,7 +54,7 @@ TIP: ACMを使用してクラスタを作成する場合は、フォームビュ
 NOTE: コネクタはクラウド環境にも設置できます。を参照してください link:https://docs.netapp.com/us-en/cloud-manager-setup-admin/concept-connectors.html["こちらをご覧ください"] 追加情報 の場合。
 
 ====
-.OCPクラスタにAstra Tridentをインストール
+.OCPクラスタへのTridentのインストール
 [%collapsible]
 ====
 * Helmを使用してTrident Operatorを導入します。手順を参照してください link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy-helm.html["こちらをご覧ください"]
@@ -69,7 +69,7 @@ AWSのOCPクラスタをAstra Control Centerに追加します。
 
 ====
 .マルチゾーンアーキテクチャにTridentのCSIトポロジ機能を使用
-今日のクラウドプロバイダは、Kubernetes / OpenShiftのクラスタ管理者がゾーンベースのクラスタのノードを生成できるようにしています。ノードは、リージョンによって異なるアベイラビリティゾーンに配置することも、リージョンによって配置することもできます。マルチゾーンアーキテクチャでワークロード用のボリュームをプロビジョニングするために、 Astra Trident は CSI トポロジを使用します。CSI トポロジ機能を使用すると、領域およびアベイラビリティゾーンに基づいて、ボリュームへのアクセスをノードのサブセットに制限できます。を参照してください link:https://docs.netapp.com/us-en/trident/trident-use/csi-topology.html["こちらをご覧ください"] を参照してください。
+今日のクラウドプロバイダは、Kubernetes / OpenShiftのクラスタ管理者がゾーンベースのクラスタのノードを生成できるようにしています。ノードは、リージョンによって異なるアベイラビリティゾーンに配置することも、リージョンによって配置することもできます。マルチゾーンアーキテクチャでワークロード用のボリュームのプロビジョニングを容易にするために、TridentではCSIトポロジを使用しています。CSI トポロジ機能を使用すると、領域およびアベイラビリティゾーンに基づいて、ボリュームへのアクセスをノードのサブセットに制限できます。詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-use/csi-topology.html["こちらをご覧ください"]。
 
 
-NOTE: Kubernetesでは2つのボリュームバインドモードがサポートされます。-**_VolumeBindingMode_が_Immediate_**（デフォルト）に設定されている場合、Astra Tridentはトポロジを認識せずにボリュームを作成します。永続ボリュームは、要求側ポッドのスケジュール要件に依存せずに作成されます。-**_VolumeBindingMode_が_WaitForFirstConsumer_**に設定されている場合、PVCの永続ボリュームの作成とバインドは、そのPVCを使用するポッドがスケジュールされて作成されるまで遅延します。これにより、トポロジの要件に応じたスケジュールの制約を満たすようにボリュームが作成されます。Astra Tridentのストレージバックエンドは、アベイラビリティゾーン（トポロジ対応バックエンド）に基づいて選択的にボリュームをプロビジョニングするように設計できます。ストレージクラスがそのようなバックエンドを使用する場合、ボリュームは、サポートされているリージョン / ゾーンでスケジュールされているアプリケーションから要求された場合にのみ作成されます。（Topology-Aware StorageClass）を参照してください link:https://docs.netapp.com/us-en/trident/trident-use/csi-topology.html["こちらをご覧ください"] を参照してください。
+NOTE: Kubernetesは2つのボリュームバインドモードをサポートします。-**_VolumeBindingMode_が_Immediate_**（デフォルト）に設定されている場合、Tridentはトポロジを認識せずにボリュームを作成します。永続ボリュームは、要求側ポッドのスケジュール要件に依存せずに作成されます。-**_VolumeBindingMode_が_WaitForFirstConsumer_**に設定されている場合、PVCの永続ボリュームの作成とバインドは、そのPVCを使用するポッドがスケジュールされて作成されるまで遅延します。これにより、トポロジの要件に応じたスケジュールの制約を満たすようにボリュームが作成されます。Tridentストレージバックエンドは、アベイラビリティゾーン（トポロジ対応バックエンド）に基づいて選択的にボリュームをプロビジョニングするように設計できます。ストレージクラスがそのようなバックエンドを使用する場合、ボリュームは、サポートされているリージョン / ゾーンでスケジュールされているアプリケーションから要求された場合にのみ作成されます。（Topology-Aware StorageClass）詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-use/csi-topology.html["こちらをご覧ください"]。

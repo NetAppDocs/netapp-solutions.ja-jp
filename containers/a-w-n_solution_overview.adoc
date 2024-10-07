@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: containers/a-w-n_solution_overview.html 
-keywords: NVA-1165, Anthos, GKE, Netapp, Astra Trident 
+keywords: NVA-1165, Anthos, GKE, Netapp, Trident 
 summary: このリファレンスガイドで解決策 は、ネットアップとエンジニアリングパートナーの検証を受け、複数のデータセンター環境に導入する場合のAnthosの導入を検証しました。 
 ---
 = NVA-1165：ネットアップを使用したAnthos
@@ -16,7 +16,7 @@ summary: このリファレンスガイドで解決策 は、ネットアップ�
 ネットアップBanu SundharとSuresh Thoppay
 
 [role="lead"]
-このリファレンスガイドで解決策 は、ネットアップとエンジニアリングパートナーの協力のもと、Anthosを複数のデータセンター環境に導入する際の検証について説明します。また、ネットアップストレージシステムとのストレージ統合の詳細についても、Astra Tridentストレージオーケストレーションツールを使用して永続的ストレージを管理する方法を紹介しています。最後に、解決策 検証と実際のユースケースをいくつか確認して文書化します。
+このリファレンスガイドで解決策 は、ネットアップとエンジニアリングパートナーの協力のもと、Anthosを複数のデータセンター環境に導入する際の検証について説明します。また、永続的ストレージを管理するためのTridentストレージオーケストレーションツールを使用したNetAppストレージシステムとのストレージ統合についても詳しく説明します。最後に、解決策 検証と実際のユースケースをいくつか確認して文書化します。
 
 
 
@@ -26,7 +26,7 @@ NetApp解決策 を搭載したAnthosは、以下のユースケースでお客�
 
 * ベアメタル上の「bmctl」ツールまたはVMware vSphere上の「gkectl」ツールを使用して展開されたAnthos環境の導入と管理が容易になります。
 * エンタープライズコンテナと仮想化ワークロードのパワーを、vSphere上またはとベアメタル上に仮想的に導入されたAnthosで活用できます https://cloud.google.com/anthos/clusters/docs/bare-metal/1.9/how-to/vm-workloads["Kubevirt"^]。
-* ネットアップストレージとKubernetes向けオープンソースストレージオーケストレーションツールであるAstra Tridentとともに使用されるAnthosの特徴を強調した実際の構成とユースケース
+* NetAppストレージやKubernetes向けのオープンソースストレージオーケストレーションツールであるTridentと併用した場合の、Anthosの機能に焦点を当てた実際の構成とユースケース。
 
 
 
@@ -72,9 +72,9 @@ Anthos の詳細については、 Anthos の Web サイトを参照してくだ
 
 === ネットアップとストレージの統合
 
-Astra Tridentは、オープンソースで、Anthosを含むコンテナやKubernetesディストリビューション向けの完全にサポートされているストレージオーケストレーションツールです。
+Tridentは、Anthosを含むコンテナとKubernetesディストリビューション向けのオープンソースで完全サポートされているストレージオーケストレーションツールです。
 
-詳細については、 Astra Trident の Web サイトをご覧ください https://docs.netapp.com/us-en/trident/index.html["こちらをご覧ください"]。
+詳細については、TridentのWebサイトを参照して https://docs.netapp.com/us-en/trident/index.html["こちらをご覧ください"]ください。
 
 
 

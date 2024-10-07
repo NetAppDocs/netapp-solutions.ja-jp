@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: containers/dwn_use_case_flexclone.html 
-keywords: OpenShift, Kubernetes, Astra Control, Astra Trident, NetApp ONTAP, Cloning, FlexClones, Jenkins, Application 
+keywords: OpenShift, Kubernetes, Astra Control, Trident, NetApp ONTAP, Cloning, FlexClones, Jenkins, Application 
 summary: FlexCloneテクノロジを使用した迅速な導入 
 ---
 = NetApp FlexCloneテクノロジでソフトウェア開発を高速化
@@ -38,7 +38,7 @@ NetApp FlexCloneテクノロジの詳細については、のページを参照�
 
 . Red Hat OpenShift 4.6.8+、Rancher 2.5+、Kubernetes 1.19+などのサポートされるKubernetesディストリビューション。
 . ネットアップアストラコントロールセンター21.12以降
-. NetApp ONTAP システム。ネットアップのTrident経由でストレージバックエンドを設定します。
+. ストレージバックエンドがNetApp Tridentで構成されたNetApp ONTAPシステム。
 . Ansible 2.9以降
 . NetApp Astra Controlの管理対象アプリケーションとしてクローニングする環境用のテンプレート。
 
@@ -72,7 +72,7 @@ NOTE: どちらのプロセスも自動化できます。
 
 image:Astra-DevOps-UC3-Templates.png["テンプレートイメージ（Templates Image）"]
 
-各環境はNetApp Astra制御によって管理され、ネットアップONTAP ストレージシステムに現在格納されている永続的ボリュームは、ネットアップAstra Tridentが提供するNFSバックエンドを使用している。
+これらの各環境は、NetApp Astra Controlによって管理されます。現在の永続ボリュームは、NetApp Tridentが提供するNFSバックエンドを備えたNetApp ONTAPストレージシステムに格納されています。
 
 
 

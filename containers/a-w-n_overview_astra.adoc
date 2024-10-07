@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: containers/a-w-n_overview_astra.html 
-keywords: NetApp Astra Control, Astra Control Center, Application, Trident, Astra Trident, Helm, Operator, ONTAP, OpenShift, Kubernetes, Red Hat OpenShift 
+keywords: NetApp Astra Control, Astra Control Center, Application, Trident, Trident, Helm, Operator, ONTAP, OpenShift, Kubernetes, Red Hat OpenShift 
 summary: NetApp Astra Control Center は、 NetApp の信頼できるデータ保護テクノロジを基盤とするオンプレミス環境に導入された、ステートフル Kubernetes ワークロード向けの豊富なストレージおよびアプリケーション対応データ管理サービスを提供します。 
 ---
 = NetApp Astra Control Center の概要
@@ -18,9 +18,9 @@ NetApp Astra Control Center は、オンプレミス環境に導入され、ネ�
 
 image:redhat_openshift_image44.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-NetApp Astra Control Center は、 Astra Trident ストレージオーケストレーションツールを導入し、 NetApp ONTAP ストレージシステムにストレージクラスとストレージバックエンドを使用して構成した Red Hat OpenShift クラスタにインストールできます。
+NetApp Astra Control Centerは、Tridentストレージオーケストレーションツールが導入され、NetApp ONTAPストレージシステムへのストレージクラスとストレージバックエンドで構成されているRed Hat OpenShiftクラスタにインストールできます。
 
-Astra Trident のインストールと設定を行い、 Astra Control Center をサポートするには、を参照してください link:rh-os-n_overview_trident.html["本ドキュメント"^]。
+Astra Control CenterをサポートするためのTridentのインストールと設定については、を参照してくださいlink:rh-os-n_overview_trident.html["本ドキュメント"^]。
 
 クラウド接続環境では、 Cloud Insights を使用して高度なモニタリングとテレメトリを提供します。Cloud Insights 接続がない場合は、限定的な監視と計測（7日間の指標）を使用でき、オープン指標エンドポイントを介してKubernetesの標準の監視ツール（PrometheusとGrafana）にエクスポートされます。
 
@@ -35,14 +35,14 @@ Astra Control Center の有料版に加え、 90 日間の評価ライセンス�
 == Astra Control Center のインストールの前提条件
 
 . 1 つ以上の Red Hat OpenShift クラスタ。バージョン 4.6 EUS および 4.7 が現在サポートされています。
-. 各 Red Hat OpenShift クラスタに Astra Trident をインストールして設定しておく必要があります。
+. Tridentが各Red Hat OpenShiftクラスタにインストールおよび設定されている必要があります。
 . ONTAP 9.5 以降を実行している NetApp ONTAP ストレージシステムが 1 つ以上必要です。
 +
 
 NOTE: サイトに各OpenShiftをインストールし、永続的ストレージ専用のSVMを用意することがベストプラクティスです。マルチサイト環境では、追加のストレージシステムが必要です。
 
 . Trident ストレージバックエンドは、 ONTAP クラスタがサポートする SVM を含む各 OpenShift クラスタで設定する必要があります。
-. ストレージプロビジョニングツールとして Astra Trident を使用し、各 OpenShift クラスタに設定されたデフォルトのストレージクラス。
+. Tridentをストレージプロビジョニングツールとして使用して、各OpenShiftクラスタに設定されたデフォルトのストレージクラス。
 . ロードバランシングや OpenShift Services の公開のために、各 OpenShift クラスタにロードバランサをインストールして構成する必要があります。
 +
 

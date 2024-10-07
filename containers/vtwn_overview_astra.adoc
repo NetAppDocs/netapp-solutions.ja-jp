@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: containers/vtwn_overview_astra.html 
-keywords: NetApp Astra Control, Astra Control Center, Application, Trident, Astra Trident, Helm, Operator, ONTAP, Tanzu, Kubernetes, VMware Tanzu 
+keywords: NetApp Astra Control, Astra Control Center, Application, Trident, Trident, Helm, Operator, ONTAP, Tanzu, Kubernetes, VMware Tanzu 
 summary: NetApp Astra Control Centerは、ネットアップの信頼できるデータ保護テクノロジを基盤とするオンプレミス環境に導入された、ステートフルKubernetesワークロード向けの豊富なストレージサービスとアプリケーション対応データ管理サービスを提供します。 
 ---
 = NetApp Astra Controlの概要
@@ -23,9 +23,9 @@ NetApp Astra Control Center は、オンプレミス環境に導入され、ネ�
 
 image:redhat_openshift_image44.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-NetApp Astra Control Centerは、Astra Tridentストレージオーケストレーションツールを導入して、NetApp ONTAP ストレージシステムにストレージクラスとストレージバックエンドで構成されている｛k8s_distribution_name｝クラスタにインストールできます。
+NetApp Astra Control Centerは、Tridentストレージオーケストレーションツールが導入され、NetApp ONTAPストレージシステムへのストレージクラスとストレージバックエンドで構成されている｛k8s_distribution_name｝クラスタにインストールできます。
 
-Astra Tridentの詳細については、を参照してください link:dwn_overview_trident.html["このドキュメントはこちら"^]。
+Tridentの詳細については、を参照してくださいlink:dwn_overview_trident.html["このドキュメントはこちら"^]。
 
 クラウド接続環境では、 Cloud Insights を使用して高度なモニタリングとテレメトリを提供します。Cloud Insights 接続がない場合は、限定的な監視と計測（7日間の指標）を使用でき、オープン指標エンドポイントを介してKubernetesの標準の監視ツール（PrometheusとGrafana）にエクスポートされます。
 
@@ -52,14 +52,14 @@ Astra Control Centerには、プログラム経由でアクセスするための
 Astra Control Centerのインストールには、次の前提条件が必要です。
 
 * 1つ以上のTanzu Kubernetesクラスタは、管理クラスタまたはTKGSまたはTKGIによって管理されます。TKGワークロードクラスタ1.4 +およびTKGIユーザークラスタ1.12.2+がサポートされています。
-* 各Tanzu KubernetesクラスタにAstra Tridentがインストールおよび設定されている必要があります。
+* Tridentが各Tanzu Kubernetesクラスタにインストールおよび設定されている必要があります。
 * ONTAP 9.5 以降を実行している NetApp ONTAP ストレージシステムが 1 つ以上必要です。
 +
 
 NOTE: サイトにある各Tanzu Kubernetesインストールでは、永続的ストレージ用の専用SVMを使用することを推奨します。マルチサイト環境では、追加のストレージシステムが必要です。
 
 * Tridentストレージバックエンドは、ONTAP クラスタから作成されたSVMを含む各Tanzu Kubernetesクラスタで設定する必要があります。
-* 各Tanzu Kubernetesクラスタに設定されたデフォルトのStorageClassには、Astra Tridentをストレージプロビジョニングツールとして使用します。
+* 各Tanzu Kubernetesクラスタにデフォルトのストレージクラスが設定され、Tridentがストレージプロビジョニングツールとして使用されます。
 * ingressType「AccTraefik」を使用している場合は、ロードバランシングとアストラコントロールセンターの公開のために、各Tanzu Kubernetesクラスタにロードバランサをインストールし、設定する必要があります。
 * ingressType「Generic」を使用している場合は、Astra Control Centerを公開するために、各Tanzu Kubernetesクラスタに入力コントローラをインストールし、設定する必要があります。
 * NetApp アストラ Control Center イメージをホストするには、プライベートイメージのレジストリを設定する必要があります。

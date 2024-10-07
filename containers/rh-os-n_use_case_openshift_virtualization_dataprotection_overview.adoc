@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: containers/rh-os-n_use_case_openshift_virtualization_dataprotection_overview.html 
-keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization, OADP operator, Openshift Data Protection Application operator, velero 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization, OADP operator, Openshift Data Protection Application operator, velero 
 summary: NetApp ONTAPを使用したRed Hat OpenShift仮想化によるデータ保護 
 ---
 = OpenShift API for Data Protection（OADP）を使用したOpenShift VirtualizationでのVMのデータ保護
@@ -16,11 +16,11 @@ summary: NetApp ONTAPを使用したRed Hat OpenShift仮想化によるデータ
 作成者：Banu Sundhar、NetApp
 
 [role="lead"]
-このセクションでは、NetApp ONTAP S3またはNetApp StorageGRID S3上のVeleroでOpenShift API for Data Protection（OADP）を使用してVMのバックアップを作成する方法について詳しく説明します。VMディスクの永続的ボリューム（PV）のバックアップは、CSIのAstra Trident Snapshotを使用して作成されます。
+このセクションでは、NetApp ONTAP S3またはNetApp StorageGRID S3上のVeleroでOpenShift API for Data Protection（OADP）を使用してVMのバックアップを作成する方法について詳しく説明します。VMディスクの永続ボリューム（PV）のバックアップは、CSI Tridentスナップショットを使用して作成されます。
 
 OpenShift仮想化環境の仮想マシンは、OpenShift Containerプラットフォームのワーカーノードで実行されるコンテナ化されたアプリケーションです。VMメタデータとVMの永続ディスクを保護して、VMが失われたり破損したりした場合にリカバリできるようにすることが重要です。
 
-OpenShift仮想化VMの永続ディスクは、次のコマンドを使用してOpenShiftクラスタに統合されたONTAPストレージによってバックアップできます。 link:https://docs.netapp.com/us-en/trident/["Astra Trident CSI"]。このセクションでは、 link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/installing/installing-oadp-ocs.html["OpenShift API for Data Protection（OADP）"] データボリュームを含むVMのバックアップを
+OpenShift仮想化VMの永続ディスクは、を使用してOpenShiftクラスタに統合されたONTAPストレージによってバックアップできますlink:https://docs.netapp.com/us-en/trident/["Trident CSI"]。このセクションでは、を使用してlink:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/installing/installing-oadp-ocs.html["OpenShift API for Data Protection（OADP）"]、データボリュームを含むVMのバックアップを
 
 * ONTAPオブジェクトストレージ
 * StorageGRID
@@ -44,10 +44,8 @@ OADP 1.3は、OpenShiftクラスタ4.12以降のOperator Hubから利用でき�
 * OpenShift VirtualizationをOperator経由でインストールRed Hatが提供するOpenShift Virtualization Operator
 * Red Hatが提供するOADP Operator 1.13
 * Linux版Velero CLI 1.13
-* Astra Trident 24.02
+* Trident 24.02
 * ONTAP 9.12
 
 
-link:https://docs.netapp.com/us-en/trident/["Astra Trident CSI"]
-link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/installing/installing-oadp-ocs.html["OpenShift API for Data Protection（OADP）"]
-link:https://velero.io/["ベレロカプセル"]
+link:https://docs.netapp.com/us-en/trident/["Trident CSI"] link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/installing/installing-oadp-ocs.html["OpenShift API for Data Protection（OADP）"] link:https://velero.io/["ベレロカプセル"]

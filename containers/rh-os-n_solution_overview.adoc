@@ -1,8 +1,8 @@
 ---
 sidebar: sidebar 
 permalink: containers/rh-os-n_solution_overview.html 
-keywords: NVA-1160, Red Hat, OpenShift, Netapp, Astra Trident 
-summary: このリファレンスドキュメントでは、ネットアップによって検証済みの複数の異なるデータセンター環境に Installer Provisioned Infrastructure （ IPI ）を通じて導入された Red Hat OpenShift 解決策の導入を検証します。また、ネットアップストレージシステムとの統合についても、 Astra Trident ストレージオーケストレーションツールを使用して永続的ストレージを管理することで詳しく説明します。最後に、解決策検証と実際の使用事例をいくつか確認して文書化します。 
+keywords: NVA-1160, Red Hat, OpenShift, Netapp, Trident 
+summary: このリファレンスドキュメントでは、ネットアップによって検証済みの複数の異なるデータセンター環境に Installer Provisioned Infrastructure （ IPI ）を通じて導入された Red Hat OpenShift 解決策の導入を検証します。また、Tridentストレージオーケストレーションツールを使用した永続的ストレージの管理によるNetAppストレージシステムとのストレージ統合についても詳しく説明します。最後に、解決策検証と実際の使用事例をいくつか確認して文書化します。 
 ---
 = NVA-1160 ：ネットアップでの Red Hat OpenShift
 :hardbreaks:
@@ -16,7 +16,7 @@ summary: このリファレンスドキュメントでは、ネットアップ�
 ネットアップ、 Alan Cowles 氏と Nikhil M Kulkarni 氏
 
 [role="lead"]
-このリファレンスドキュメントでは、ネットアップによって検証済みの複数の異なるデータセンター環境に Installer Provisioned Infrastructure （ IPI ）を通じて導入された Red Hat OpenShift 解決策の導入を検証します。また、ネットアップストレージシステムとの統合についても、 Astra Trident ストレージオーケストレーションツールを使用して永続的ストレージを管理することで詳しく説明します。最後に、解決策検証と実際の使用事例をいくつか確認して文書化します。
+このリファレンスドキュメントでは、ネットアップによって検証済みの複数の異なるデータセンター環境に Installer Provisioned Infrastructure （ IPI ）を通じて導入された Red Hat OpenShift 解決策の導入を検証します。また、Tridentストレージオーケストレーションツールを使用した永続的ストレージの管理によるNetAppストレージシステムとのストレージ統合についても詳しく説明します。最後に、解決策検証と実際の使用事例をいくつか確認して文書化します。
 
 
 
@@ -26,7 +26,7 @@ summary: このリファレンスドキュメントでは、ネットアップ�
 
 * ベアメタル、 Red Hat OpenStack Platform 、 Red Hat Virtualization 、 VMware vSphere に IPI （インストーラでプロビジョニングされたインフラ）を使用して導入した Red Hat OpenShift の導入と管理が容易です。
 * OSP 、 RHV 、 vSphere 、または OpenShift Virtualization を使用したベアメタルに導入された Red Hat OpenShift を使用して、エンタープライズコンテナと仮想化ワークロードのパワーを組み合わせたもの。
-* ネットアップストレージと Kubernetes 向けオープンソースストレージオーケストレーションツールである Astra Trident とともに使用される Red Hat OpenShift の機能を紹介する実際の構成とユースケース。
+* NetAppストレージおよびKubernetes向けのオープンソースストレージオーケストレーションツールであるTridentと組み合わせて使用した場合の、Red Hat OpenShiftの機能に焦点を当てた実際の構成とユースケース。
 
 
 
@@ -76,9 +76,9 @@ NetApp Astra Controlは、オンプレミス環境に導入され、信頼性の
 
 詳細については、 NetApp Astra の Web サイトをご覧ください https://docs.netapp.com/us-en/astra-family/["こちらをご覧ください"]。
 
-Astra Trident は、コンテナや Kubernetes ディストリビューション向けの、 Red Hat OpenShift などのオープンソースで完全にサポートされているストレージオーケストレーションツールです。
+Tridentは、Red Hat OpenShiftを含むコンテナとKubernetesディストリビューション向けのオープンソースで完全サポートされているストレージオーケストレーションツールです。
 
-詳細については、 Astra Trident の Web サイトをご覧ください https://docs.netapp.com/us-en/trident/index.html["こちらをご覧ください"]。
+詳細については、TridentのWebサイトを参照して https://docs.netapp.com/us-en/trident/index.html["こちらをご覧ください"]ください。
 
 
 
@@ -105,7 +105,7 @@ Astra Trident は、コンテナや Kubernetes ディストリビューション
 | ネットアップアストラコントロール | アプリケーション対応データ管理 | 21.12.60、23.04、23.07、23.10、24.02 
 
 
-| ネットアップアストラト Trident | ストレージオーケストレーション | 22.01.0、23.04、23.07、23.10、24.02 
+| NetApp Trident | ストレージオーケストレーション | 22.01.0、23.04、23.07、23.10、24.02 
 
 
 | Red Hat OpenShift のサービスです | コンテナオーケストレーション | 4.6 EUS、4.7、4.8、4.10、4.11、 4.12、4.13、4.14 
