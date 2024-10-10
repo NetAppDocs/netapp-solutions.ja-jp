@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: ai/vector-database-milvus-with-Amazon-FSxN-for-NetApp-ONTAP.html 
 keywords: vector database 
-summary: milvusとAmazon FSxN for NetApp ONTAP - VECTOR DATABASE解決策for NetApp 
+summary: milvusとAmazon FSx ONTAP for NetApp ONTAP - NetApp向けベクトルデータベースソリューション 
 ---
-= MilvusとAmazon FSxN for NetApp ONTAP -ファイルとオブジェクトの二重性
+= MilvusとAmazon FSx ONTAP for NetApp ONTAP -ファイルとオブジェクトの二重性
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,23 +14,22 @@ summary: milvusとAmazon FSxN for NetApp ONTAP - VECTOR DATABASE解決策for Net
 
 
 [role="lead"]
-このセクションでは、VECTORデータベース解決策for NetAppのAmazon FSxNを使用したmilvusクラスタのセットアップについて説明します。
+このセクションでは、Amazon FSx ONTAPを使用したNetApp向けベクターデータベースソリューションのmilvusクラスタセットアップについて説明します。
 
 
 
-== MilvusとAmazon FSxN for NetApp ONTAP–ファイルとオブジェクトの二重性
+== MilvusとAmazon FSx ONTAP for NetApp ONTAP–ファイルとオブジェクトの二重性
 
-このセクションでは、クラウドにベクターデータベースをデプロイする必要がある理由と、Dockerコンテナ内のAmazon FSxN for NetApp ONTAPにベクターデータベース( milvusスタンドアロン)をデプロイする手順について説明します。
+このセクションでは、クラウドにベクターデータベースを導入する必要がある理由と、Dockerコンテナ内のAmazon FSx ONTAP for NetApp ONTAPにベクターデータベース（milvusスタンドアロン）を導入する手順について説明します。
 
-クラウドにベクターデータベースを配置すると、特に高次元データを処理し、類似性検索を実行する必要があるアプリケーションには、いくつかの大きな利点があります。1つ目は、クラウドベースの導入により拡張性が向上し、増大するデータボリュームやクエリの負荷に合わせてリソースを簡単に調整できることです。これにより、データベースは高いパフォーマンスを維持しながら、増加する需要に効率的に対処できます。2つ目は、クラウドを導入することで、地理的に離れた場所にデータをレプリケートできるため、高可用性とディザスタリカバリが実現し、データ損失のリスクが最小限に抑えられ、予期しないイベントが発生しても継続的なサービスが提供されることです。3つ目は、使用したリソースに対してのみ料金が発生するため、対費用効果が高く、必要に応じてスケールアップまたはスケールダウンできるため、ハードウェアへの多額の先行投資が不要です。最後に、クラウドにベクターデータベースを導入すると、どこからでもデータにアクセスして共有できるため、コラボレーションが強化され、チームベースの作業やデータ主導の意思決定が容易になります。
-この検証で使用したAmazon FSxN for NetApp ONTAPを使用したmilvusスタンドアロンのアーキテクチャを確認してください。
+クラウドにベクターデータベースを配置すると、特に高次元データを処理し、類似性検索を実行する必要があるアプリケーションには、いくつかの大きな利点があります。1つ目は、クラウドベースの導入により拡張性が向上し、増大するデータボリュームやクエリの負荷に合わせてリソースを簡単に調整できることです。これにより、データベースは高いパフォーマンスを維持しながら、増加する需要に効率的に対処できます。2つ目は、クラウドを導入することで、地理的に離れた場所にデータをレプリケートできるため、高可用性とディザスタリカバリが実現し、データ損失のリスクが最小限に抑えられ、予期しないイベントが発生しても継続的なサービスが提供されることです。3つ目は、使用したリソースに対してのみ料金が発生するため、対費用効果が高く、必要に応じてスケールアップまたはスケールダウンできるため、ハードウェアへの多額の先行投資が不要です。最後に、クラウドにベクターデータベースを導入すると、どこからでもデータにアクセスして共有できるため、コラボレーションが強化され、チームベースの作業やデータ主導の意思決定が容易になります。この検証で使用したAmazon FSx ONTAP for NetApp ONTAPを使用したmilvusスタンドアロンのアーキテクチャを確認してください。
 
 image:Amazon_fsxn_milvus.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-. Amazon FSxN for NetApp ONTAPインスタンスを作成し、VPC、VPCセキュリティグループ、およびサブネットの詳細をメモします。この情報は、EC2インスタンスを作成するときに必要になります。詳細については、こちらをご覧ください。 https://us-east-1.console.aws.amazon.com/fsx/home?region=us-east-1#file-system-create[]
-. EC2インスタンスを作成し、VPC、セキュリティグループ、およびサブネットがAmazon FSxN for NetApp ONTAPインスタンスのものと一致するようにします。
+. Amazon FSx ONTAP for NetApp ONTAPインスタンスを作成し、VPC、VPCセキュリティグループ、サブネットの詳細をメモします。この情報は、EC2インスタンスを作成するときに必要になります。詳細については、こちらをご覧ください。 https://us-east-1.console.aws.amazon.com/fsx/home?region=us-east-1#file-system-create[]
+. EC2インスタンスを作成し、VPC、セキュリティグループ、およびサブネットがAmazon FSx ONTAP for NetApp ONTAPインスタンスのものと一致していることを確認します。
 . コマンド「apt-get install nfs-common」を使用してnfs-commonをインストールし、「sudo apt-get update」を使用してパッケージ情報を更新します。
-. マウントフォルダを作成し、そのフォルダにAmazon FSxN for NetApp ONTAPをマウントします。
+. マウントフォルダを作成し、そのフォルダにAmazon FSx ONTAP for NetApp ONTAPをマウントします。
 +
 ....
 ubuntu@ip-172-31-29-98:~$ mkdir /home/ubuntu/milvusvectordb
@@ -83,8 +82,8 @@ drwxr-xr-x 4 root root 4.0K Apr  4 20:21 minio
 drwxr-xr-x 5 root root 4.0K Apr  4 20:21 milvus
 ubuntu@ip-172-31-29-98:~$
 ----
-. VECTORデータベースの読み書き機能とAmazon FSxN for NetApp ONTAPのデータを検証するために、Python Milvus SDKとPyMilvusのサンプルプログラムを使用しました。'apt-get install python3-numpy python3-pip'を使用して必要なパッケージをインストールし、'pip3 install pymilvus'を使用してPyMilvusをインストールします。
-. VECTORデータベースのAmazon FSxN for NetApp ONTAPからのデータの書き込みおよび読み取り操作を検証します。
+. VECTORデータベースの読み書き機能とAmazon FSx ONTAP for NetApp ONTAPのデータを検証するために、Python Milvus SDKとPyMilvusのサンプルプログラムを使用しました。'apt-get install python3-numpy python3-pip'を使用して必要なパッケージをインストールし、'pip3 install pymilvus'を使用してPyMilvusをインストールします。
+. VECTORデータベースでAmazon FSx ONTAP for NetApp ONTAPからのデータの書き込み処理と読み取り処理を検証します。
 +
 [source, python]
 ----
@@ -195,6 +194,6 @@ volumes/minio/a-bucket/files/stats_log/448789845791611912/448789845791611913/448
 root@ip-172-31-29-98:~/pymilvus/examples#
 ----
 +
-このセクションでは、AmazonのNetApp FSxN for NetApp ONTAPデータストレージを利用して、Dockerコンテナ内にスタンドアロンのMilvusセットアップを導入および運用する方法を効果的に説明します。このセットアップにより、ベクトルデータベースの機能を活用して高次元データを処理し、複雑なクエリを実行できます。これらはすべて、Dockerコンテナのスケーラブルで効率的な環境内で実行できます。Amazon FSxN for NetApp ONTAPインスタンスを作成し、EC2インスタンスを一致させることで、リソース利用率とデータ管理を最適化できます。VECTORデータベースでFSxNからのデータの書き込みおよび読み取り操作を正しく検証することで、信頼性が高く一貫したデータ操作を保証できます。さらに、AIワークロードからS3プロトコルを介してデータをリスト（読み取り）できるため、データへのアクセスが強化されます。したがって、この包括的なプロセスは、AmazonのFSxN for NetApp ONTAPの機能を活用して、大規模なデータ操作を管理するための堅牢で効率的な解決策を顧客に提供します。
+このセクションでは、AmazonのNetApp FSx ONTAP for NetApp ONTAPデータストレージを利用して、Dockerコンテナ内にスタンドアロンのMilvusセットアップを導入および運用する方法を効果的に説明します。このセットアップにより、ベクトルデータベースの機能を活用して高次元データを処理し、複雑なクエリを実行できます。これらはすべて、Dockerコンテナのスケーラブルで効率的な環境内で実行できます。Amazon FSx ONTAP for NetApp ONTAPインスタンスを作成し、EC2インスタンスを一致させることで、お客様はリソース利用率とデータ管理を最適化できます。VECTORデータベースでFSx ONTAPからデータの書き込み/読み取り操作を正しく検証することで、信頼性と一貫性のあるデータ操作が保証されます。さらに、AIワークロードからS3プロトコルを介してデータをリスト（読み取り）できるため、データへのアクセスが強化されます。そのため、この包括的なプロセスは、AmazonのFSx ONTAP for NetApp ONTAPの機能を活用して、大規模なデータ操作を管理するための堅牢で効率的なソリューションをお客様に提供します。
 
 

@@ -129,7 +129,7 @@ video::e479b91f-eacd-46bf-bfa1-b01200f0015a[panopto]
 
 . AWSアカウントが設定され、必要なVPCとネットワークセグメントがAWSアカウント内に作成されている。
 . AWS EC2コンソールでは、2つのEC2 Linuxインスタンスを導入する必要があります。1つはプライマリのPostgreSQL DBサーバ、もう1つはスタンバイのDRサイトです。プライマリおよびスタンバイDRサイトでのコンピューティングの冗長性を確保するために、2つの追加EC2 LinuxインスタンスをスタンバイPostgreSQL DBサーバとして配置します。環境セットアップの詳細については、前のセクションのアーキテクチャ図を参照してください。また、も参照してください link:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html["Linuxインスタンスのユーザーガイド"] を参照してください。
-. AWS EC2コンソールから、FSX ONTAP ストレージHAクラスタを2つ導入して、PostgreSQLデータベースボリュームをホストします。FSXストレージの導入に慣れていない場合は、マニュアルを参照してください link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-file-systems.html["ONTAP ファイルシステム用のFSXを作成しています"] を参照してください。
+. AWS EC2コンソールから、FSX ONTAP ストレージHAクラスタを2つ導入して、PostgreSQLデータベースボリュームをホストします。FSxストレージの導入に慣れていない場合は、ステップバイステップの手順についてドキュメントを参照してくださいlink:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-file-systems.html["FSx ONTAPファイルシステムの作成"]。
 . AnsibleコントローラをホストするCentOS Linux VMを構築します。Ansibleコントローラは、オンプレミスとAWSクラウドのどちらにも配置できます。オンプレミスにある場合は、VPC、EC2 Linuxインスタンス、およびFSXストレージクラスタへのSSH接続が必要です。
 . のセクション「RHEL / CentOSへのCLI導入に使用するAnsible Control Nodeのセットアップ」の説明に従って、リソースからAnsibleコントローラをセットアップします link:../automation/getting-started.html["NetApp解決策 自動化の導入"]。
 . パブリックのNetApp GitHubサイトから、自動化ツールキットのコピーをクローニングします。
@@ -376,7 +376,7 @@ ansible-playbook -i hosts postgresql_standby_resync.yml -u ec2-user --private-ke
 
 このドキュメントに記載されている情報の詳細については、以下のドキュメントや Web サイトを参照してください。
 
-* NetApp ONTAP 対応の Amazon FSX
+* Amazon FSx ONTAP
 
 
 link:https://aws.amazon.com/fsx/netapp-ontap/["https://aws.amazon.com/fsx/netapp-ontap/"^]

@@ -4,7 +4,7 @@ permalink: ehc/dro-overview.html
 keywords: NetApp Solutions, hybrid, multicloud, multi cloud, hyperscalers, vmware, disaster recovery orchestrator, DRO 
 summary:  
 ---
-= TR-4955：『Disaster Recovery with FSX for ONTAP and VMC（AWS VMware Cloud）』
+= TR-4955：『Disaster Recovery with FSx ONTAP and VMC（AWS VMware Cloud）』
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-クラウドへのディザスタリカバリは、耐障害性に優れた対費用効果の高い方法で、サイトの停止やデータ破損からワークロードを保護します（ランサムウェアなど）。NetApp SnapMirrorテクノロジを使用すると、オンプレミスのVMwareワークロードをAWSで実行されるFSX for ONTAP にレプリケートできます。
+クラウドへのディザスタリカバリは、耐障害性に優れた対費用効果の高い方法で、サイトの停止やデータ破損からワークロードを保護します（ランサムウェアなど）。NetApp SnapMirrorテクノロジを使用すると、オンプレミスのVMwareワークロードを、AWSで実行されるFSx ONTAPにレプリケートできます。
 
 ネットアップ、 Niyaz Mohamed
 
@@ -22,9 +22,9 @@ summary:
 
 == 概要
 
-ディザスタリカバリオーケストレーションツール（DRO：UIを備えたスクリプト化された解決策 ）を使用すると、オンプレミスからFSX for ONTAP にレプリケートされたワークロードをシームレスにリカバリできます。DROは'VMの登録からVMCへのSnapMirrorレベルからNSXで直接ネットワーク・マッピングへのリカバリを自動化しますこの機能はすべてのVMC環境に含まれています。
+ディザスタリカバリオーケストレーションツール（DRO、UIを備えたスクリプト化されたソリューション）を使用すると、オンプレミスからFSx ONTAPにレプリケートされたワークロードをシームレスにリカバリできます。DROは、SnapMirrorレベルからVMCへのVM登録、NSX-T上のネットワークマッピングへのリカバリを自動化します。この機能は、すべてのVMC環境に含まれています。
 
-image:dro-vmc-image1.png["この図は、オンプレミスのデータセンター、AWS SDDCインスタンス上のVMwareクラウド、およびNetApp ONTAP 用のAmazon FSX間の構造と相互接続を示しています。これには、SnapMirrorレプリケーション、DRaaS Opsトラフィック、インターネットまたは直接接続、VMware Transit Connectが含まれます。"]
+image:dro-vmc-image1.png["この図は、オンプレミスのデータセンター、VMware Cloud on AWS SDDCインスタンス、およびAmazon FSx ONTAPの構造と相互接続を示しています。これには、SnapMirrorレプリケーション、DRaaS Opsトラフィック、インターネットまたは直接接続、VMware Transit Connectが含まれます。"]
 
 
 
@@ -41,15 +41,15 @@ NOTE: 初期リリースでは、DROは既存のパイロットライトクラ�
 
 
 
-=== ONTAP のFSXをプロビジョニングして構成します
+=== FSx ONTAPのプロビジョニングと設定
 
-Amazon FSX for NetApp ONTAP はフルマネージドサービスで、広く普及しているNetApp ONTAP ファイルシステムを基盤に、信頼性、拡張性、パフォーマンス、機能豊富なファイルストレージを提供します。この手順を実行します link:aws-native-overview.html["リンク"^] ONTAP のFSXをプロビジョニングおよび構成するには、次の手順を実行します
+Amazon FSx ONTAPは、広く普及しているNetApp ONTAPファイルシステムを基盤に構築された、信頼性、拡張性、パフォーマンス、機能豊富なファイルストレージを提供するフルマネージドサービスです。以下の手順に従って、link:aws-native-overview.html["リンク"^]FSx ONTAPのプロビジョニングと設定を行います。
 
 
 
-=== SnapMirrorをONTAP 用にFSXに導入して設定する
+=== FSx ONTAPへのSnapMirrorの導入と設定
 
-次の手順では、NetApp BlueXPを使用して、AWSインスタンス上のONTAP 用にプロビジョニングされたFSXを検出し、必要なデータストアボリュームをオンプレミス環境から適切な頻度でFSX for ONTAP にレプリケートし、ネットアップのSnapshotコピーを保持します。
+次のステップでは、NetApp BlueXP  を使用して、プロビジョニングされたFSx ONTAP on AWSインスタンスを検出し、必要なデータストアボリュームをオンプレミス環境からFSx ONTAPにレプリケートします。その際、適切な頻度でNetApp Snapshotコピーを保持します。
 
 image:dro-vmc-image2.png["この図は、有効なサービス間のさまざまなやり取りを示すBlueXP Canvas関係マップを示しています。"]
 
@@ -144,9 +144,9 @@ image:dro-vmc-image3.png["Disaster Recovery Orchestratorのログイン画面。
 
 == DRO構成
 
-FSX for ONTAP およびVMCが適切に構成されると、FSX for ONTAP 上の読み取り専用SnapMirrorコピーを使用して、オンプレミスのワークロードをVMCに自動でリカバリするためのDROの設定を開始できます。
+FSx ONTAPとVMCが適切に設定されたら、FSx ONTAPの読み取り専用SnapMirrorコピーを使用してオンプレミスのVMCへのワークロードのリカバリを自動化するDROの設定を開始できます。
 
-AWSでDROエージェントを導入し、FSX for ONTAP が導入されているVPCにも導入することを推奨します（ピア接続も可能です）。DROエージェントがネットワーク経由でオンプレミスコンポーネントおよびFSX for ONTAP およびVMCリソースと通信できるようにします。
+NetAppでは、DROエージェントがオンプレミスのコンポーネントやFSx ONTAPおよびVMCリソースとネットワーク経由で通信できるように、AWSにDROエージェントを導入し、FSx ONTAPが導入されているVPCにもDROエージェントを導入することを推奨しています（ピア接続も可能です）。
 
 まず、オンプレミスリソースとクラウドリソース（vCenterとストレージの両方）を検出してDROに追加します。サポートされているブラウザでDROを開き、デフォルトのユーザー名とパスワード（admin/admin）およびサイトの追加を使用します。サイトは、Discoverオプションを使用して追加することもできます。次のプラットフォームを追加します。
 
@@ -159,7 +159,7 @@ AWSでDROエージェントを導入し、FSX for ONTAP が導入されている
 * クラウド
 +
 ** VMC vCenter
-** FSX for ONTAP の略
+** FSX ONTAP の略
 
 
 
@@ -168,7 +168,7 @@ image:dro-vmc-image4.png["一時的なプレースホルダイメージ概要 �
 
 image:dro-vmc-image5.png["ソースサイトとデスティネーションサイトを含むDROサイト概要ページ。"]
 
-追加されると、DROは自動検出を実行し、対応するSnapMirrorレプリカがソースストレージからFSX for ONTAP にあるVMを表示します。DROは、VMが使用するネットワークとポートグループを自動的に検出して、それらにデータを入力します。
+追加されると、DROは自動検出を実行し、ソースストレージからFSx ONTAPに対応するSnapMirrorレプリカを持つVMを表示します。DROは、VMが使用するネットワークとポートグループを自動的に検出して、それらにデータを入力します。
 
 image:dro-vmc-image6.png["219台のVMと10個のデータストアを含む自動検出画面"]
 
@@ -259,7 +259,7 @@ image:dro-vmc-image18.png["リバースデータ同期オプションを含む�
 
 image:dro-vmc-image20.png["[フェイルバック]オプションを含むドロップダウンを含むレプリケーションプランの概要のスクリーンショット"] image:dro-vmc-image21.png["元のプロダクションサイトがアップして実行されているDROサマリーページのスクリーンショット。"]
 
-NetApp BlueXPでは、該当するボリューム（読み書き可能ボリュームとしてVMCにマッピングされているボリューム）のレプリケーションの健常性が遮断されていることがわかります。テストフェイルオーバー中、DROはデスティネーションボリュームまたはレプリカボリュームをマッピングしません。代わりに、必要なSnapMirror（またはSnapshot）インスタンスのFlexCloneコピーを作成し、FlexCloneインスタンスを公開します。FlexCloneインスタンスは、ONTAP のFSX用に追加の物理容量を消費することはありません。このプロセスにより、DRのテストや優先度の異なるワークフローの実行中も、ボリュームが変更されず、レプリカジョブを続行できます。また'このプロセスにより'エラーが発生した場合や破損したデータがリカバリされた場合には'レプリカが破壊されるリスクを伴わずにリカバリをクリーンアップできます
+NetApp BlueXPでは、該当するボリューム（読み書き可能ボリュームとしてVMCにマッピングされているボリューム）のレプリケーションの健常性が遮断されていることがわかります。テストフェイルオーバー中、DROはデスティネーションボリュームまたはレプリカボリュームをマッピングしません。代わりに、必要なSnapMirror（またはSnapshot）インスタンスのFlexCloneコピーが作成され、FlexCloneインスタンスが公開されます。これにより、FSx ONTAPの物理容量が追加で消費されることはありません。このプロセスにより、DRのテストや優先度の異なるワークフローの実行中も、ボリュームが変更されず、レプリカジョブを続行できます。また'このプロセスにより'エラーが発生した場合や破損したデータがリカバリされた場合には'レプリカが破壊されるリスクを伴わずにリカバリをクリーンアップできます
 
 image:dro-vmc-image22.png["一時的なプレースホルダイメージ概要 。"]
 

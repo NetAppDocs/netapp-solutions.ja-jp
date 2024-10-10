@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: vmware/migrate-vms-to-ec2-fsxn-arch.html 
 keywords: netapp, vmware, amazon, ec2, fsxn, migration, iscsi, 
-summary: このテクニカルレポートでは、Cirrus Migrate Cloud（CMC）のMigrateOps「data-mobility-as-code」機能を使用して、データディスクがFSx for ONTAP iSCSI LUNに配置されたオンプレミスのVMware vSphere VMをAmazon EC2インスタンスに移行する方法について説明します。 
+summary: このテクニカルレポートでは、Cirrus Migrate Cloud（CMC）のMigrateOps「data-mobility-as-code」機能を使用して、データディスクがFSx ONTAP iSCSI LUNに配置されたAmazon EC2インスタンスにオンプレミスのVMware vSphere VMを移行する方法について説明します。 
 ---
-= FSxNを使用したAmazon EC2へのVMの移行：アーキテクチャと前提条件
+= Amazon FSx for NetApp ONTAPを使用したAmazon EC2へのVMの移行：アーキテクチャと前提条件
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -22,11 +22,11 @@ summary: このテクニカルレポートでは、Cirrus Migrate Cloud（CMC）
 
 次の図は、CMC MigrateOpsを使用してVMware上の仮想マシンディスク（VMDK）データをAWSに移行するアーキテクチャの概要を示しています。
 
-image:migrate-ec2-fsxn-image01.png["FSxNを使用したAmazon EC2へのVMの移行のアーキテクチャ図"]
+image:migrate-ec2-fsxn-image01.png["FSx ONTAPを使用したAmazon EC2へのVMの移行のアーキテクチャ図"]
 
 
 
-== Amazon EC2とFSx for ONTAP iSCSIを使用してVMware VMをAWSに移行する方法
+== Amazon EC2とFSx ONTAP iSCSIを使用してVMware VMをAWSに移行する方法
 
 
 
@@ -37,12 +37,12 @@ image:migrate-ec2-fsxn-image01.png["FSxNを使用したAmazon EC2へのVMの移�
 * AWS上*
 
 * AWSアカウント。これには、サブネット、VPCセットアップ、ルーティングテーブル、セキュリティルールの移行、セキュリティグループの権限が含まれます。 ネットワークに関するその他の要件（ロードバランシングなど）他の移行と同様に、最も労力と考慮事項をネットワークに投入する必要があります。
-* FSx for ONTAPとAmazon EC2の両方のインスタンスをプロビジョニングできる適切なIAMロール。
-* ルートテーブルとセキュリティグループは、FSx for ONTAPとの通信を許可されます。
+* FSx ONTAPインスタンスとAmazon EC2インスタンスの両方をプロビジョニングできる適切なIAMロール。
+* ルートテーブルとセキュリティグループは、FSx ONTAPとの通信を許可されます。
 * 適切なセキュリティグループにインバウンドルールを追加して（詳細については以下を参照）、オンプレミスのデータセンターからAWSへのセキュアなデータ転送を可能にします。
 * パブリックインターネットドメイン名を解決できる有効なDNS。
 * DNSによる解決が機能しており、ホスト名を解決できることを確認します。
-* 最適なパフォーマンスとサイズ適正化を実現するには、ソース環境のパフォーマンスデータを使用してFSx for ONTAPストレージのサイズを適正化します。
+* 最適なパフォーマンスとサイズ適正化を実現するには、ソース環境のパフォーマンスデータを使用してFSx ONTAPストレージのサイズを適正化します。
 * 各MigrateOpsセッションは1つのEIPを使用するため、並列処理を増やすにはEIPのクォータを増やす必要があります。デフォルトのEIPクォータは5です。
 * （Active Directoryベースのワークロードを移行する場合）Amazon EC2上のWindows Active Directoryドメイン。
 

@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: rhhc/rhhc-pm-data-protection.html 
-keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMWare, provider managed storage, ONTAP, AWS FSxN, Astra Control Service 
+keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMWare, provider managed storage, ONTAP, AWS FSx ONTAP, Astra Control Service 
 summary:  
 ---
 = データ保護
@@ -16,14 +16,14 @@ summary:
 [role="lead"]
 このページには、Astra Control Serviceを使用したAWS（ROSA）クラスタでのマネージドRed Hat OpenShiftのデータ保護オプションが表示されます。Astra Control Service（ACS）では、使いやすいグラフィカルユーザインターフェイスを使用して、クラスタの追加、クラスタ上で実行されるアプリケーションの定義、アプリケーション対応のデータ管理アクティビティの実行を行うことができます。ACS関数には、ワークフローの自動化を可能にするAPIを使用してアクセスすることもできます。
 
-Astra Control（ACSまたはACC）の電源はNetApp Tridentです。Tridentは、Red Hat OpenShift、EKS、AKS、SUSE Rancher、AnthosなどのいくつかのタイプのKubernetesクラスタを、FAS / AFF、ONTAP Select、CVO、Google Cloud Volumes Service、Azure NetApp Files、Amazon FSx for NetApp ONTAPなどのさまざまな種類のNetApp ONTAPストレージと統合します。
+Astra Control（ACSまたはACC）の電源はNetApp Tridentです。Tridentは、Red Hat OpenShift、EKS、AKS、SUSE Rancher、AnthosなどのいくつかのタイプのKubernetesクラスタを、FAS / AFF、ONTAP Select、CVO、Google Cloud Volumes Service、Azure NetApp Files、Amazon FSx ONTAPなどのさまざまな種類のNetApp ONTAPストレージと統合します。
 
 ここでは、ACSを使用した次のデータ保護オプションの詳細について説明します。
 
 * ある地域で実行されているROSAアプリケーションのバックアップと復元と、別の地域への復元を示すビデオ。
 * ROSAアプリケーションのスナップショットと復元を示すビデオ。
-* ROSAクラスタ（Amazon FSx for NetApp ONTAP）のインストール、NetApp Tridentを使用したストレージバックエンドとの統合、ROSAクラスタへのPostgreSQLアプリケーションのインストール、ACSを使用したアプリケーションのスナップショットの作成、そこからのアプリケーションのリストアの詳細を順を追って説明します。
-* ACSを使用してFSx for ONTAPを使用してROSAクラスタ上のMySQLアプリケーションのスナップショットを作成し、そのスナップショットからリストアする手順の詳細を示すブログ。
+* ROSAクラスタ（Amazon FSx ONTAP）のインストール、NetApp Tridentを使用したストレージバックエンドとの統合、ROSAクラスタへのPostgreSQLアプリケーションのインストール、ACSを使用したアプリケーションのスナップショットの作成とそこからのアプリケーションのリストアの詳細を順を追って説明します。
+* ACSを使用してFSx ONTAPを使用してROSAクラスタ上のMySQLアプリケーションのスナップショットを作成し、そのスナップショットからリストアする手順の詳細を示すブログ。
 
 
 
@@ -40,7 +40,7 @@ video::01dd455e-7f5a-421c-b501-b01200fa91fd[panopto]
 
 次のビデオでは、ROSAアプリケーションのスナップショットを作成してからスナップショットから復元する方法を示します。
 
-.Amazon FSx for NetApp ONTAPストレージを使用したRed Hat OpenShift Service on AWS（ROSA）クラスタでのアプリケーションのスナップショット/リストア
+.Amazon FSx ONTAPストレージを使用したRed Hat OpenShift Service on AWS（ROSA）クラスタでのアプリケーションのスナップショット/リストア
 video::36ecf505-5d1d-4e99-a6f8-b11c00341793[panopto]
 
 
@@ -65,7 +65,7 @@ video::36ecf505-5d1d-4e99-a6f8-b11c00341793[panopto]
 * link:https://console.redhat.com/openshift/downloads["OpenShift CLI"]（OC）
 * サブネットと適切なゲートウェイおよびルートを備えたvPC
 * link:https://docs.openshift.com/rosa/rosa_install_access_delete_clusters/rosa_getting_started_iam/rosa-installing-rosa.html["Rosaクラスタインストール済み"] VPCに挿入
-* link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/getting-started-step1.html["NetApp ONTAP 対応の Amazon FSX"] 同じVPCに作成
+* link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/getting-started-step1.html["Amazon FSx ONTAP"]同じVPCに作成
 * ROSAクラスタへのアクセス link:https://console.redhat.com/openshift/overview["OpenShiftハイブリッドクラウドコンソール"]
 
 
@@ -128,7 +128,7 @@ image:rhhc-trident-installed.png["入力/出力ダイアログを示す図、ま
 
 ==== ** 4.Trident CSIプロビジョニングツールを使用して、バックエンド、ストレージクラス、スナップショットクラスの構成を作成**
 
-以下のYAMLファイルを使用して、Tridentバックエンドオブジェクト、ストレージクラスオブジェクト、およびVolumesnapshotオブジェクトを作成します。作成したAmazon FSx for NetApp ONTAPファイルシステム、管理LIF、およびファイルシステムのSVM名のクレデンシャルを、バックエンドの構成YAMLで指定してください。これらの詳細を確認するには、Amazon FSxのAWSコンソールに移動し、ファイルシステムを選択して、[管理]タブに移動します。また、[UPDATE]をクリックして、 `fsxadmin` ユーザ：
+以下のYAMLファイルを使用して、Tridentバックエンドオブジェクト、ストレージクラスオブジェクト、およびVolumesnapshotオブジェクトを作成します。作成したAmazon FSx ONTAPファイルシステム、管理LIF、およびファイルシステムのSVM名のクレデンシャルをバックエンドの構成YAMLに入力してください。これらの詳細を確認するには、Amazon FSxのAWSコンソールに移動し、ファイルシステムを選択して、[管理]タブに移動します。また、[更新]をクリックしてユーザーのパスワードを設定し `fsxadmin`ます。
 
 
 NOTE: コマンドラインを使用して、ハイブリッドクラウドコンソールからオブジェクトを作成したり、YAMLファイルを使用してオブジェクトを作成したりできます。
@@ -211,7 +211,7 @@ image:rhhc-postgres-install.png["入力/出力ダイアログを示す図、ま�
 
 NOTE: アプリケーションポッドが実行されていない場合は、セキュリティコンテキストの制約が原因でエラーが発生している可能性があります。image:rhhc-scc-error.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"] `runAsUser` `fsGroup` `statefuleset.apps/postgresql` `oc get project`次のように、コマンドの出力にあるuidを使用してオブジェクトのフィールドとフィールドを編集し、エラーを修正します。image:rhhc-scc-fix.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-PostgreSQLアプリケーションを実行し、Amazon FSx for NetApp ONTAPストレージを基盤とする永続ボリュームを使用する必要があります。
+PostgreSQLアプリケーションを実行し、Amazon FSx ONTAPストレージを基盤とする永続ボリュームを使用する必要があります。
 
 image:rhhc-postgres-running.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 

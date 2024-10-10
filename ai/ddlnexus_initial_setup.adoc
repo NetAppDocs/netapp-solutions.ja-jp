@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: ai/ddlnexus_initial_setup.html 
-keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, Hybrid, Hybrid Cloud, Hybrid Multicloud, Cloud, AWS, Amazon, Amazon Web Services, FSx for NetApp ONTAP, FSx, NetApp ONTAP, FlexCache, SnapMirror, BlueXP 
+keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, Hybrid, Hybrid Cloud, Hybrid Multicloud, Cloud, AWS, Amazon, Amazon Web Services, FSx ONTAP, FSx, NetApp ONTAP, FlexCache, SnapMirror, BlueXP 
 summary: Domino Data LabとNetAppによるハイブリッドマルチクラウドMLOps -初期セットアップ 
 ---
 = 初期セットアップ
@@ -23,11 +23,11 @@ summary: Domino Data LabとNetAppによるハイブリッドマルチクラウ�
 このセクションで説明する手順を実行する前に、次のタスクがすでに実行されていることを前提としています。
 
 * オンプレミスのNetApp ONTAPストレージプラットフォームの導入と設定が完了している。詳細については、を参照してください link:https://www.netapp.com/support-and-training/documentation/["ネットアップの製品マニュアル"]。
-* AWSでAmazon FSx for NetApp ONTAPインスタンスをすでにプロビジョニングしておきます。詳細については、を参照してください link:https://aws.amazon.com/fsx/netapp-ontap/["Amazon FSx for NetApp ONTAPの製品ページ"]。
+* AWSでAmazon FSx ONTAPインスタンスをすでにプロビジョニングしておきます。詳細については、を参照してlink:https://aws.amazon.com/fsx/netapp-ontap/["Amazon FSx ONTAPの製品ページ"]ください。
 * オンプレミスのデータセンターにKubernetesクラスタをプロビジョニング済みである。詳細については、を参照してください link:https://docs.dominodatalab.com/en/latest/admin_guide/b35e66/admin-guide/["Domino管理者ガイド"]。
 * AWSでAmazon EKSクラスタをプロビジョニング済みである。詳細については、を参照してください link:https://docs.dominodatalab.com/en/latest/admin_guide/b35e66/admin-guide/["Domino管理者ガイド"]。
 * オンプレミスのKubernetesクラスタにNetApp Tridentをインストールしておきます。また、ストレージリソースのプロビジョニングと管理にオンプレミスのNetApp ONTAPストレージプラットフォームを使用するようにTridentインスタンスを設定しました。詳細については、を参照してlink:https://docs.netapp.com/us-en/trident/index.html["NetApp Trident のドキュメント"]ください。
-* NetApp TridentをAmazon EKSクラスタにインストールしておきます。また、ストレージリソースのプロビジョニングと管理にAmazon FSx for NetApp ONTAPインスタンスを使用するようにTridentインスタンスを設定しました。詳細については、を参照してlink:https://docs.netapp.com/us-en/trident/index.html["NetApp Trident のドキュメント"]ください。
+* NetApp TridentをAmazon EKSクラスタにインストールしておきます。また、ストレージリソースのプロビジョニングと管理にAmazon FSx ONTAPインスタンスを使用するように、このTridentインスタンスを設定しました。詳細については、を参照してlink:https://docs.netapp.com/us-en/trident/index.html["NetApp Trident のドキュメント"]ください。
 * オンプレミスのデータセンターとAWSの仮想プライベートクラウド（VPC）の間に双方向のネットワーク接続が必要です。これを実装するためのさまざまなオプションの詳細については、を参照してください。 link:https://docs.aws.amazon.com/vpc/latest/userguide/vpn-connections.html["Amazon Virtual Private Network（VPN）ドキュメント"]。
 
 
@@ -41,7 +41,7 @@ Domino Enterprise MLOps PlatformをAWSにインストールするには、に記
 NOTE: を参照してください link:https://docs.dominodatalab.com/en/latest/admin_guide/7f4331/install-configuration-reference/#storage-classes["Dominoインストール構成リファレンスガイド"] Domino.ymlインストール構成ファイルで共有ストレージクラスを指定する方法の詳細については、を参照してください。
 
 
-NOTE: link:https://www.netapp.com/media/79922-tr-4952.pdf["テクニカルレポートTR-4952"] Amazon FSx for NetApp ONTAPを使用したAWSでのDominoの導入について説明します。発生した問題のトラブルシューティングに役立つ参考資料になります。
+NOTE: link:https://www.netapp.com/media/79922-tr-4952.pdf["テクニカルレポートTR-4952"]Amazon FSx ONTAPを使用したAWSでのDominoの導入について説明します。発生した問題のトラブルシューティングに役立つ参考資料になります。
 
 
 

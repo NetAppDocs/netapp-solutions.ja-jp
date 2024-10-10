@@ -4,7 +4,7 @@ permalink: databases/sqlsb-backup-restore-aws-fsxn.html
 keywords: SQL server, SQL, backup, recover, AWS, aws, sql 
 summary:  
 ---
-= TR-4951：『Backup and Recovery for Microsoft SQL Server on AWS FSx for ONTAP 』
+= TR-4951：『Backup and Recovery for Microsoft SQL Server on AWS FSx ONTAP』
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -16,7 +16,7 @@ summary:
 著者：Niyaz Mohammed、Carine Ngwekwe -ネットアップソリューションエンジニアリング
 
 [role="lead"]
-本ドキュメントでは、AWS FSx for ONTAP with SnapCenter でMicrosoft SQL Serverのバックアップとリカバリを実行するために必要な手順について説明します。これには、次の情報が含まれます。
+このドキュメントでは、AWS FSx ONTAP with SnapCenterでMicrosoft SQL Serverのバックアップとリカバリを実行するために必要な手順について説明します。これには、次の情報が含まれます。
 
 * NetApp SnapCenter の構成
 * SnapCenter バックアップ処理
@@ -32,7 +32,7 @@ summary:
 SnapCenter の設定とMicrosoft SQL Serverリソースの保護について、次の手順を実行する必要があります。次の各手順については、以降のセクションで詳しく説明します。
 
 . SQL Serverのバックアップおよびリストアユーザのsysadminクレデンシャルを設定します。
-. ストレージを設定します。SnapCenter からAmazon FSx for NetApp ONTAP Storage Virtual Machine（SVM）にアクセスするためのAmazon Web Services（AWS）管理クレデンシャルを指定してください。
+. ストレージを設定します。SnapCenterからAmazon FSx ONTAP Storage Virtual Machine（SVM）にアクセスするためのAmazon Web Services（AWS）管理クレデンシャルを指定してください。
 . SnapCenter にSQL Serverホストを追加します。必要なSnapCenter プラグインを導入してインストールします。
 . ポリシーを設定する。バックアップ処理のタイプ、保持、およびオプションのSnapshotバックアップのレプリケーションを定義します。
 . Microsoft SQL Serverデータベースを設定して保護します。
@@ -72,7 +72,7 @@ SnapCenter でストレージを設定するには、次の手順を実行しま
 +
 image:sqlsb-aws-image4.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-. FSx for ONTAP 管理*エンドポイントを提供します。
+. FSx ONTAP管理*エンドポイントを提供します。
 +
 image:sqlsb-aws-image5.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
@@ -107,7 +107,7 @@ SQL Serverパッケージがインストールされます。
 
 image:sqlsb-aws-image9.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-. インストールが完了したら、*[リソース]タブに移動して、FSx for ONTAP iSCSIボリュームがすべて存在するかどうかを確認します。
+. インストールが完了したら、*[リソース]タブに移動して、FSx ONTAP iSCSIボリュームがすべて存在するかどうかを確認します。
 +
 image:sqlsb-aws-image10.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 

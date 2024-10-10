@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: ai/ddlnexus_expose_netapp_vols.html 
-keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, Hybrid, Hybrid Cloud, Hybrid Multicloud, Cloud, AWS, Amazon, Amazon Web Services, FSx for NetApp ONTAP, FSx, NetApp ONTAP, FlexCache, SnapMirror, BlueXP 
+keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, Hybrid, Hybrid Cloud, Hybrid Multicloud, Cloud, AWS, Amazon, Amazon Web Services, FSx ONTAP, FSx, NetApp ONTAP, FlexCache, SnapMirror, BlueXP 
 summary: DominoデータラボとNetAppによるハイブリッドマルチクラウドMLOps -既存のNetApp VolumeをDominoに公開 
 ---
 = 既存のNetAppボリュームをDominoに公開
@@ -39,7 +39,7 @@ NetAppボリュームとDominoを併用すると、次のようなメリット�
 === KubernetesでPVとPVCを作成
 
 
-NOTE: オンプレミスボリュームの場合は、オンプレミスのKubernetesクラスタにPVとPVCを作成します。Amazon FSx for NetApp ONTAPボリュームの場合は、Amazon EKSでPVとPVCを作成します。
+NOTE: オンプレミスボリュームの場合は、オンプレミスのKubernetesクラスタにPVとPVCを作成します。Amazon FSx ONTAPボリュームの場合は、Amazon EKSでPVとPVCを作成します。
 
 まず、Kubernetesクラスタに永続ボリューム（PV）と永続ボリューム要求（PVC）を作成する必要があります。PVおよびPVCを作成するには、 link:https://docs.dominodatalab.com/en/latest/admin_guide/4cdae9/set-up-kubernetes-pv-and-pvc/#_nfs_pvpvc_example["NFS PV/PVCの例"] Domino管理者ガイドから、環境に合わせて値を更新します。の正しい値を指定してください `namespace`、 `nfs.path`および `nfs.server` フィールド。また、PVとPVCには、対応するONTAP NFSボリュームに格納されているデータの性質を表す一意の名前を付けることを推奨します。たとえば、ボリュームに製造上の欠陥の画像が含まれている場合は、PVという名前を付けることができます。 `pv-mfg-defect-images`およびPVC `pvc-mfg-defect-images`。
 

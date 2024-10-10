@@ -22,7 +22,7 @@ summary: 解決策では、プライマリデータベースストレージと�
 
 == 目的
 
-Amazon FSx for NetApp ONTAPは、AWSクラウドでフルマネージドのNetApp ONTAPファイルシステムを起動して実行できるストレージサービスです。NetAppファイルシステムで使い慣れた機能、パフォーマンス、機能、APIを、フルマネージドのAWSサービスならではの即応性、拡張性、簡易性で提供します。Oracleなどの最も要件の厳しいデータベースワークロードを、AWSクラウドで安心して実行できます。
+Amazon FSx ONTAPは、AWSクラウドでフルマネージドのNetApp ONTAPファイルシステムを起動して実行できるストレージサービスです。NetAppファイルシステムで使い慣れた機能、パフォーマンス、機能、APIを、フルマネージドのAWSサービスならではの即応性、拡張性、簡易性で提供します。Oracleなどの最も要件の厳しいデータベースワークロードを、AWSクラウドで安心して実行できます。
 
 このドキュメントでは、Ansibleによる自動化を使用してAmazon FSx ONTAPファイルシステムにOracleデータベースを簡単に導入する方法について説明します。Oracleデータベースは、データアクセス用にiSCSIプロトコルを使用し、データベースストレージディスク管理用にOracle ASMを使用して、スタンドアロンの再起動構成で導入されます。また、AWSクラウドでのストレージ効率に優れたデータベース処理を実現するNetApp SnapCenter UIツールを使用したOracleデータベースのバックアップ、リストア、クローニングについても説明します。
 
@@ -143,7 +143,7 @@ image:automation_ora_aws-fsx_iscsi_archit.png["このイメージは、iSCSIとA
 
 . AWSアカウントが設定され、必要なVPCとネットワークセグメントがAWSアカウント内に作成されている。
 . AWS EC2コンソールから、EC2 LinuxインスタンスをOracle DBサーバとして導入します。ec2-userのSSH秘密鍵/公開鍵認証を有効にします。環境のセットアップの詳細については、前のセクションのアーキテクチャ図を参照してください。また、も参照してください link:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html["Linuxインスタンスのユーザーガイド"^] を参照してください。
-. AWS FSxコンソールから、要件を満たすAmazon FSx ONTAPファイルシステムをプロビジョニングします。ドキュメントを確認する link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-file-systems.html["ONTAP ファイルシステム用のFSXを作成しています"^] を参照してください。
+. AWS FSxコンソールから、要件を満たすAmazon FSx ONTAPファイルシステムをプロビジョニングします。詳細な手順については、ドキュメントを参照してlink:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-file-systems.html["FSx ONTAPファイルシステムの作成"^]ください。
 . 手順2と3は、次のTerraform自動化ツールキットを使用して実行できます。このツールキットでは、という名前のEC2インスタンスが作成されます `ora_01` という名前のFSxファイルシステムがあります `fsx_01`。実行する前に、指示をよく確認し、環境に合わせて変数を変更してください。テンプレートは、独自の導入要件に合わせて簡単に変更できます。
 +
 [source, cli]
@@ -585,7 +585,7 @@ TR-4979を参照 link:aws_ora_fsx_vmc_guestmount.html#oracle-backup-restore-and-
 
 このドキュメントに記載されている情報の詳細については、以下のドキュメントや Web サイトを参照してください。
 
-* NetApp ONTAP 対応の Amazon FSX
+* Amazon FSx ONTAP
 +
 link:https://aws.amazon.com/fsx/netapp-ontap/["https://aws.amazon.com/fsx/netapp-ontap/"^]
 

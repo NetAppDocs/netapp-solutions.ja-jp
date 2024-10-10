@@ -24,11 +24,11 @@ summary: 「解決策 」では、AWS FSx ONTAP ストレージおよびEC2コ�
 
 ASM（Automatic Storage Management）は、多くのOracle環境で採用されている一般的なOracleストレージボリュームマネージャです。また、Oracleが推奨するストレージ管理解決策 でもあります。これは'従来のボリューム・マネージャやファイル・システムに代わるものですOracleバージョン11g以降、ASMはデータベースではなくグリッドインフラにパッケージ化されました。そのため、RACを使用しないストレージ管理にOracle ASMを使用するには、Oracleグリッドインフラをスタンドアロンサーバにインストールする必要があります（Oracle Restartとも呼ばれます）。これにより、Oracleデータベースの導入がさらに複雑になります。ただし、名前が示すように、Oracleが再起動モードで導入されている場合、障害が発生したOracleサービスは、グリッドインフラによって、またはホストのリブート後にユーザの介入なしで自動的に再開されます。これにより、ある程度の高可用性またはHA機能が提供されます。
 
-このドキュメントでは、EC2コンピューティングインスタンスを使用するAmazon FSx for ONTAP ストレージ環境にiSCSIプロトコルとOracle ASMを使用してOracleデータベースを導入する方法を説明します。また、NetApp BlueXPコンソールを通じてNetApp SnapCenter サービスを使用してOracleデータベースをバックアップ、リストア、クローニングし、開発とテストに使用する方法や、AWSパブリッククラウドでストレージ効率に優れたデータベース運用を実現するその他のユースケースについて説明します。
+このドキュメントでは、EC2コンピューティングインスタンスを使用するAmazon FSx ONTAPストレージ環境にiSCSIプロトコルとOracle ASMを使用してOracleデータベースを導入する方法を説明します。また、NetApp BlueXPコンソールを通じてNetApp SnapCenter サービスを使用してOracleデータベースをバックアップ、リストア、クローニングし、開発とテストに使用する方法や、AWSパブリッククラウドでストレージ効率に優れたデータベース運用を実現するその他のユースケースについて説明します。
 
 この解決策 は、次のユースケースに対応します。
 
-* iSCSI / ASMを使用したAmazon FSx for ONTAP ストレージおよびEC2コンピューティングインスタンスへのOracleデータベース導入
+* iSCSI / ASMを使用したAmazon FSx ONTAPストレージおよびEC2コンピューティングインスタンスへのOracleデータベース導入
 * iSCSI / ASMを使用して、パブリックAWSクラウドでOracleワークロードをテストおよび検証します
 * AWSに導入されたOracleデータベースの再起動機能のテストと検証
 
@@ -97,8 +97,8 @@ image:aws_ora_fsx_ec2_iscsi_asm_architecture.png["このイメージは、iSCSI�
 
 * * EC2コンピューティングインスタンス。*これらのテストと検証では、OracleデータベースコンピューティングインスタンスにAWS EC2 T2.xlargeインスタンスタイプを使用しました。本番環境では、データベースワークロード向けに最適化されているため、OracleのコンピューティングインスタンスとしてM5タイプのEC2インスタンスを使用することを推奨します。実際のワークロード要件に基づいて、vCPUの数とRAMの容量に合わせてEC2インスタンスのサイズを適切に設定する必要があります。
 * * FSXストレージHAクラスタのシングルゾーンまたはマルチゾーン展開。*このテストと検証では、FSX HAクラスタを単一のAWSアベイラビリティゾーンに導入しました。本番環境では、FSX HAペアを2つの異なるアベイラビリティゾーンに導入することを推奨します。FSX HAクラスタは、アクティブ/パッシブファイルシステムのペアで同期ミラーされるHAペアで、ストレージレベルの冗長性を提供するために割り当てられます。マルチゾーン導入により、単一のAWSゾーンで障害が発生した場合の高可用性がさらに向上します。
-* * FSxストレージクラスタのサイジング。* Amazon FSx for ONTAP ストレージファイルシステムは、SSDの最大16万IOPS、最大4GBpsのスループット、最大192TiBの容量を提供します。ただし、プロビジョニングされたIOPS、スループット、およびストレージ制限（最小1、024GiB）については、導入時の実際の要件に基づいてクラスタのサイジングを行うことができます。アプリケーションの可用性に影響を与えることなく、容量をオンザフライで動的に調整できます。
-* * Oracleデータとログのレイアウト。*テストと検証では、データ用とログ用にそれぞれ2つのASMディスクグループを導入しました。+DATA ASMディスクグループ内で、データボリュームに4つのLUNをプロビジョニングしました。+logs ASMディスクグループ内で、logsボリュームに2つのLUNをプロビジョニングしました。一般に、Amazon FSx for ONTAP ボリューム内に複数のLUNをレイアウトすると、パフォーマンスが向上します。
+* * FSxストレージクラスタのサイジング*Amazon FSx ONTAPストレージファイルシステムは、SSDの最大16万IOPS、最大4GBpsのスループット、最大192TiBの容量を提供します。ただし、プロビジョニングされたIOPS、スループット、およびストレージ制限（最小1、024GiB）については、導入時の実際の要件に基づいてクラスタのサイジングを行うことができます。アプリケーションの可用性に影響を与えることなく、容量をオンザフライで動的に調整できます。
+* * Oracleデータとログのレイアウト*テストと検証では、データ用とログ用にそれぞれ2つのASMディスクグループを導入しました。+DATA ASMディスクグループ内で、データボリュームに4つのLUNをプロビジョニングしました。+logs ASMディスクグループ内で、logsボリュームに2つのLUNをプロビジョニングしました。一般に、Amazon FSx ONTAPボリューム内に複数のLUNをレイアウトすると、パフォーマンスが向上します。
 * * iSCSI構成。* EC2インスタンスデータベースサーバは、iSCSIプロトコルを使用してFSxストレージに接続します。EC2インスタンスは通常、単一のネットワークインターフェイスまたはENIを使用して導入されます。単一のNICインターフェイスがiSCSIトラフィックとアプリケーショントラフィックの両方を伝送します。アプリケーションとiSCSIの両方のトラフィックスループット要件を満たす適切なEC2コンピューティングインスタンスを選択するには、Oracle AWRレポートを慎重に分析して、OracleデータベースのI/Oピークスループット要件を測定することが重要です。また、マルチパスが適切に設定されている両方のFSx iSCSIエンドポイントに4つのiSCSI接続を割り当てることを推奨します。
 * *作成するOracle ASMディスクグループごとに使用するOracle ASM冗長性レベル。* FSxはすでにFSxクラスタレベルでストレージをミラーリングしているため、External Redundancy（外部冗長性）を使用する必要があります。つまり、このオプションでは、Oracle ASMがディスクグループの内容をミラーリングすることはできません。
 * *データベースのバックアップ。*ネットアップでは、NetApp BlueXPコンソールのUIから利用できる、クラウドでのデータベースのバックアップ、リストア、クローニングを行うためのSnapCenter ソフトウェアサービスのSaaSバージョンを提供しています。このようなサービスを実装して、高速（1分未満）のスナップショットバックアップ、高速（数分）のデータベースリストア、データベースクローニングを実現することを推奨します。
@@ -120,7 +120,7 @@ image:aws_ora_fsx_ec2_iscsi_asm_architecture.png["このイメージは、iSCSI�
 
 . AWSアカウントが設定され、必要なVPCとネットワークセグメントがAWSアカウント内に作成されている。
 . AWS EC2コンソールから、2つのEC2 Linuxインスタンスを導入する必要があります。1つはプライマリOracle DBサーバとして、もう1つはオプションのクローンターゲットDBサーバとして使用します。環境セットアップの詳細については、前のセクションのアーキテクチャ図を参照してください。また、も参照してください link:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html["Linuxインスタンスのユーザーガイド"^] を参照してください。
-. AWS EC2コンソールから、Amazon FSx for ONTAP ストレージHAクラスタを導入して、Oracleデータベースボリュームをホストします。FSXストレージの導入に慣れていない場合は、マニュアルを参照してください link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-file-systems.html["ONTAP ファイルシステム用のFSXを作成しています"^] を参照してください。
+. AWS EC2コンソールから、Amazon FSx ONTAPストレージHAクラスタを導入してOracleデータベースボリュームをホストします。FSxストレージの導入に慣れていない場合は、ステップバイステップの手順についてドキュメントを参照してくださいlink:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-file-systems.html["FSx ONTAPファイルシステムの作成"^]。
 . 手順2と3は、次のTerraform自動化ツールキットを使用して実行できます。このツールキットでは、という名前のEC2インスタンスが作成されます `ora_01` という名前のFSxファイルシステムがあります `fsx_01`。実行する前に、指示をよく確認し、環境に合わせて変数を変更してください。
 +
 ....
@@ -1055,7 +1055,7 @@ alter database open;
 ....
 
 
-これでOracle 19Cバージョン19.18は完了です。Amazon FSx for ONTAP およびEC2コンピューティングインスタンスでの導入を再開します。必要に応じて、Oracleの制御ファイルとオンラインログファイルを+logsディスクグループに移動することを推奨します。
+これでOracle 19Cバージョン19.18は完了です。Amazon FSx ONTAPおよびEC2コンピューティングインスタンスでの導入を再開します。必要に応じて、Oracleの制御ファイルとオンラインログファイルを+logsディスクグループに移動することを推奨します。
 
 ====
 
@@ -1084,7 +1084,7 @@ link:https://docs.oracle.com/en/database/oracle/oracle-database/19/ladbi/install
 +
 link:https://docs.oracle.com/en/database/oracle/oracle-database/19/ladbi/installing-and-configuring-oracle-database-using-response-files.html#GUID-D53355E9-E901-4224-9A2A-B882070EDDF7["https://docs.oracle.com/en/database/oracle/oracle-database/19/ladbi/installing-and-configuring-oracle-database-using-response-files.html#GUID-D53355E9-E901-4224-9A2A-B882070EDDF7"^]
 
-* NetApp ONTAP 対応の Amazon FSX
+* Amazon FSx ONTAP
 +
 link:https://aws.amazon.com/fsx/netapp-ontap/["https://aws.amazon.com/fsx/netapp-ontap/"^]
 

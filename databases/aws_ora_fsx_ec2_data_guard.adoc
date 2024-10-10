@@ -54,7 +54,7 @@ Oracleデータベースの運用コストを削減したいと考えていて�
 
 === アーキテクチャ
 
-image:aws_ora_fsx_data_guard_architecture.png["このイメージは、FSxNを使用したAWSでのOracle Data Guardの実装の詳細を示しています。"]
+image:aws_ora_fsx_data_guard_architecture.png["この画像は、AWSでFSx ONTAPを使用したOracle Data Guardの実装の詳細を示しています。"]
 
 
 
@@ -117,7 +117,7 @@ image:aws_ora_fsx_data_guard_architecture.png["このイメージは、FSxNを�
 * *データベース・ストレージ管理*運用を簡素化するために、Oracle Data Guard構成でOracle Automatic Storage Management（Oracle ASM）およびOracle Managed Files（OMF）をセットアップする場合は、プライマリ・データベースとスタンバイ・データベースで対称的にセットアップすることをお勧めします。
 * * EC2コンピューティングインスタンス。*このテストと検証では、AWS EC2 T2.xlargeインスタンスをOracleデータベースコンピューティングインスタンスとして使用しました。NetAppでは、データベースワークロード向けに最適化されているため、本番環境ではOracleのコンピューティングインスタンスとしてM5タイプのEC2インスタンスを使用することを推奨しています。実際のワークロード要件に基づいて、vCPUの数とRAMの容量に合わせてEC2インスタンスのサイズを適切に設定する必要があります。
 * * FSXストレージHAクラスタのシングルゾーンまたはマルチゾーン展開。*このテストと検証では、FSX HAクラスタを単一のAWSアベイラビリティゾーンに導入しました。本番環境では、FSX HAペアを2つの異なるアベイラビリティゾーンに導入することを推奨します。FSxクラスタは、ストレージレベルの冗長性を提供するために、アクティブ/パッシブファイルシステムのペアで同期ミラーリングされるHAペアで常にプロビジョニングされます。マルチゾーン導入により、単一のAWSゾーンで障害が発生した場合の高可用性がさらに向上します。
-* * FSxストレージクラスタのサイジング。* Amazon FSx for ONTAP ストレージファイルシステムは、SSDの最大16万IOPS、最大4GBpsのスループット、最大192TiBの容量を提供します。ただし、プロビジョニングされたIOPS、スループット、およびストレージ制限（最小1、024GiB）については、導入時の実際の要件に基づいてクラスタのサイジングを行うことができます。アプリケーションの可用性に影響を与えることなく、容量をオンザフライで動的に調整できます。
+* * FSxストレージクラスタのサイジング*Amazon FSx ONTAPストレージファイルシステムは、SSDの最大16万IOPS、最大4GBpsのスループット、最大192TiBの容量を提供します。ただし、プロビジョニングされたIOPS、スループット、およびストレージ制限（最小1、024GiB）については、導入時の実際の要件に基づいてクラスタのサイジングを行うことができます。アプリケーションの可用性に影響を与えることなく、容量をオンザフライで動的に調整できます。
 
 
 
@@ -143,7 +143,7 @@ image:aws_ora_fsx_data_guard_architecture.png["このイメージは、FSxNを�
 
 . AWSアカウントが設定され、必要なVPCとネットワークセグメントがAWSアカウント内に作成されている。
 . AWS EC2コンソールから、最低3つのEC2 Linuxインスタンスを導入する必要があります。1つはプライマリOracle DBインスタンス、1つはスタンバイOracle DBインスタンス、1つはレポート作成、開発、テスト用のクローンターゲットDBインスタンスです。 環境のセットアップの詳細については、前のセクションのアーキテクチャ図を参照してください。AWSについても確認 link:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html["Linuxインスタンスのユーザーガイド"^] を参照してください。
-. AWS EC2コンソールから、Amazon FSx for ONTAPストレージHAクラスタを導入して、Oracleスタンバイデータベースを格納するOracleボリュームをホストします。FSXストレージの導入に慣れていない場合は、マニュアルを参照してください link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-file-systems.html["ONTAP ファイルシステム用のFSXを作成しています"^] を参照してください。
+. AWS EC2コンソールから、Amazon FSx ONTAPストレージHAクラスタを導入して、Oracleスタンバイデータベースを格納するOracleボリュームをホストします。FSxストレージの導入に慣れていない場合は、ステップバイステップの手順についてドキュメントを参照してくださいlink:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-file-systems.html["FSx ONTAPファイルシステムの作成"^]。
 . 手順2と3は、次のTerraform自動化ツールキットを使用して実行できます。このツールキットでは、という名前のEC2インスタンスが作成されます `ora_01` という名前のFSxファイルシステムがあります `fsx_01`。実行する前に、指示をよく確認し、環境に合わせて変数を変更してください。テンプレートは、独自の導入要件に合わせて簡単に変更できます。
 +
 [source, cli]
@@ -998,7 +998,7 @@ link:https://docs.oracle.com/en/database/oracle/oracle-database/19/sbydb/index.h
 +
 link:aws_ora_fsx_ec2_deploy_intro.html["はじめに"]
 
-* NetApp ONTAP 対応の Amazon FSX
+* Amazon FSx ONTAP
 +
 link:https://aws.amazon.com/fsx/netapp-ontap/["https://aws.amazon.com/fsx/netapp-ontap/"^]
 

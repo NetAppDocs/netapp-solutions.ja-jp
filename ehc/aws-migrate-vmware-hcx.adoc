@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-Amazon Web Services（AWS）上のVMware Cloud（VMC）の一般的なユースケースであり、Amazon FSX for NetApp ONTAP 上の追加のNFSデータストアは、VMwareワークロードの移行です。VMware HCXは、オンプレミスの仮想マシン（VM）とそのデータを、VMwareがサポートする任意のデータストア上で実行して、FSX for ONTAP の補足的なNFSデータストアを含むVMCデータストアに移動するための、さまざまな移行方法を推奨します。
+Amazon Web Services（AWS）上のVMware Cloud（VMC）と、Amazon FSx ONTAP上の補完的なNFSデータストアの一般的なユースケースとして、VMwareワークロードの移行があります。VMware HCXは推奨されるオプションであり、VMwareがサポートする任意のデータストアで実行されているオンプレミスの仮想マシン（VM）とそのデータを、FSx ONTAP上の補完的なNFSデータストアを含むVMCデータストアに移動するためのさまざまな移行方法を提供します。
 
 執筆者：NetApp Solutions Engineering
 
@@ -54,7 +54,7 @@ HCXのアクティベーションと展開を行う前に、次のインスト�
 . 既存のVMC SDDCを使用するか、次の手順で新しいSDDCを作成します link:aws-setup.html["ネットアップのリンク"^] またはこれ https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws.getting-started/GUID-EF198D55-03E3-44D1-AC48-6E2ABA31FF02.html["VMwareへのリンク"^]。
 . オンプレミスのvCenter環境からVMC SDDCへのネットワークパスで、vMotionを使用したVMの移行がサポートされている必要があります。
 . 必要なを確認します https://docs.vmware.com/en/VMware-HCX/4.4/hcx-user-guide/GUID-A631101E-8564-4173-8442-1D294B731CEB.html["ファイアウォールルールとポート"^] オンプレミスのvCenter ServerとSDDC vCenter間のvMotionトラフィックに許可されます。
-. ONTAP NFSボリュームのFSXは、VMC SDDCに補助的なデータストアとしてマウントする必要があります。  NFSデータストアを適切なクラスタに接続するには、以下の手順を実行します link:aws-native-overview.html["ネットアップのリンク"^] またはこれ https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-D55294A3-7C40-4AD8-80AA-B33A25769CCA.html["VMwareへのリンク"^]。
+. FSx ONTAP NFSボリュームは、補助データストアとしてVMC SDDCにマウントする必要があります。NFSデータストアを適切なクラスタに接続するには、またはこの https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-D55294A3-7C40-4AD8-80AA-B33A25769CCA.html["VMwareへのリンク"^]に記載されている手順を実行しlink:aws-native-overview.html["ネットアップのリンク"^]ます。
 
 
 ====
@@ -315,14 +315,14 @@ HCXマイグレーションオプションと、HCXを使用してオンプレ�
 NOTE: VMware HCX vMotionには、100 Mbps以上のスループット機能が必要です。
 
 
-NOTE: ONTAP データストア用のターゲットVMC FSXには、移行に対応できる十分なスペースが必要です。
+NOTE: 移行先のVMC FSx ONTAPデータストアには、移行に対応できる十分なスペースが必要です。
 
 ====
 
 
 == まとめ
 
-オールクラウドとハイブリッドクラウドのどちらをターゲットとしていても、オンプレミスのあらゆるタイプ/ベンダーストレージに保存されているデータを対象としている場合でも、NetApp ONTAP 対応のAmazon FSXとHCXは、データ要件をアプリケーションレイヤにシームレスにすることで、ワークロードの導入と移行を実現する優れたオプションを提供します。どのようなユースケースでも、VMCとFSX for ONTAP データストアを選択すれば、オンプレミスと複数のクラウドにわたるクラウドのメリット、一貫したインフラ、運用、ワークロードの双方向の移動、エンタープライズクラスの容量とパフォーマンスを迅速に実現できます。VMware vSphereレプリケーション、VMware vMotion、さらにはNFCコピーを使用してストレージを接続し、VMを移行するための一般的なプロセスと手順は同じです。
+ターゲットがオールクラウドでもハイブリッドクラウドでも、オンプレミスのあらゆるタイプ/ベンダーのストレージに存在するデータでも、Amazon FSx ONTAPとHCXは、ワークロードの導入と移行のための優れたオプションを提供し、アプリケーションレイヤへのデータ要件をシームレスにすることでTCOを削減します。どのようなユースケースであっても、VMCとFSx ONTAPデータストアを組み合わせることで、クラウドのメリットを迅速に実現し、オンプレミスと複数のクラウドにわたって一貫したインフラと運用、ワークロードの双方向のモビリティ、エンタープライズクラスの容量とパフォーマンスを実現できます。VMware vSphereレプリケーション、VMware vMotion、さらにはNFCコピーを使用してストレージを接続し、VMを移行するための一般的なプロセスと手順は同じです。
 
 
 
@@ -331,7 +331,7 @@ NOTE: ONTAP データストア用のターゲットVMC FSXには、移行に対�
 本ドキュメントの主な内容は次のとおりです。
 
 * Amazon FSX ONTAP をVMC SDDCを使用するデータストアとして使用できるようになりました。
-* ONTAP データストア用のFSXを使用して、任意のオンプレミスデータセンターからVMCに簡単にデータを移行できます
+* FSx ONTAPデータストアを使用して、任意のオンプレミスデータセンターからVMCにデータを簡単に移行できます。
 * 移行アクティビティ中に容量とパフォーマンスの要件を満たすために、FSX ONTAP データストアを簡単に拡張および縮小できます。
 
 
@@ -345,7 +345,7 @@ NOTE: ONTAP データストア用のターゲットVMC FSXには、移行に対�
 +
 https://docs.vmware.com/en/VMware-Cloud-on-AWS/["https://docs.vmware.com/en/VMware-Cloud-on-AWS/"^]
 
-* Amazon FSX for NetApp ONTAP のドキュメント
+* Amazon FSx ONTAPのドキュメント
 +
 https://docs.aws.amazon.com/fsx/latest/ONTAPGuide["https://docs.aws.amazon.com/fsx/latest/ONTAPGuide"^]
 

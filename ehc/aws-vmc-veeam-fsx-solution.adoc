@@ -1,10 +1,10 @@
 ---
 sidebar: sidebar 
 permalink: ehc/aws-vmc-veeam-fsx-solution.html 
-keywords: disaster recovery, vmc, vmware cloud, aws, amazon web services, nfs datastore, fsxn, fsx for ontap, fsx for netapp ontap, backup, restore, sql server, oracle 
+keywords: disaster recovery, vmc, vmware cloud, aws, amazon web services, nfs datastore, fsxn, FSx ONTAP, FSx ONTAP, backup, restore, sql server, oracle 
 summary:  
 ---
-= Veeam Backup & Restore in VMware Cloud with Amazon FSx for ONTAP
+= Amazon FSx ONTAPを使用したVMware CloudでのVeeamのバックアップとリストア
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-Veeam Backup & Replicationは、VMware Cloud内のデータを保護するための効果的で信頼性の高い解決策 です。この解決策 では、Veeam Backup and Replicationを使用して、FSx for ONTAP NFSデータストアにあるアプリケーションVMをVMware Cloudでバックアップおよびリストアするための適切なセットアップと構成について説明します。
+Veeam Backup & Replicationは、VMware Cloud内のデータを保護するための効果的で信頼性の高い解決策 です。このソリューションでは、Veeam Backup and Replicationを使用して、VMware CloudのFSx ONTAP NFSデータストアにあるアプリケーションVMをバックアップおよびリストアするための適切なセットアップと構成について説明します。
 
 作成者：Josh Powell -ネットアップソリューションエンジニアリングチーム
 
@@ -22,7 +22,7 @@ Veeam Backup & Replicationは、VMware Cloud内のデータを保護するため
 
 == 概要
 
-VMware Cloud（AWS）は、補完的ストレージとしてNFSデータストアの使用をサポートしています。FSx for NetApp ONTAP は、SDDCクラスタ内のESXiホストの数に関係なく拡張できる、クラウドアプリケーション用の大量のデータを保存する必要があるお客様向けのセキュアな解決策 です。このAWS統合ストレージサービスは、従来のNetApp ONTAP の機能をすべて備えた、効率性に優れたストレージを提供します。
+VMware Cloud（AWS）では、NFSデータストアを補助ストレージとして使用できます。FSx ONTAPは、SDDCクラスタ内のESXiホストの数に関係なく拡張できる、クラウドアプリケーション用の大量のデータを保存する必要があるお客様向けのセキュアなソリューションです。このAWS統合ストレージサービスは、従来のNetApp ONTAP の機能をすべて備えた、効率性に優れたストレージを提供します。
 
 
 
@@ -30,16 +30,16 @@ VMware Cloud（AWS）は、補完的ストレージとしてNFSデータスト�
 
 この解決策 は、次のユースケースに対応します。
 
-* バックアップリポジトリとしてFSx for NetApp ONTAP を使用して、VMCでホストされているWindowsおよびLinux仮想マシンのバックアップとリストアを実行できます。
-* FSx for NetApp ONTAP をバックアップリポジトリとして使用して、Microsoft SQL Serverアプリケーションデータをバックアップおよびリストアします。
-* バックアップリポジトリとしてFSx for NetApp ONTAP を使用した、Oracleアプリケーションデータのバックアップとリストア
+* FSX ONTAPをバックアップリポジトリとして使用して、VMCでホストされているWindowsおよびLinux仮想マシンのバックアップとリストアを実行します。
+* FSx ONTAPをバックアップリポジトリとして使用して、Microsoft SQL Serverアプリケーションデータをバックアップおよびリストアします。
+* FSx ONTAPをバックアップリポジトリとして使用して、Oracleアプリケーションデータをバックアップおよびリストアします。
 
 
 
 
-=== Amazon FSx for ONTAP を使用したNFSデータストア
+=== Amazon FSx ONTAPを使用したNFSデータストア
 
-この解決策 内のすべての仮想マシンは、FSx for ONTAP の補完的NFSデータストア上に配置されます。FSx for ONTAP を補完的NFSデータストアとして使用することには、いくつかのメリットがあります。たとえば、次のことが可能です。
+このソリューションのすべての仮想マシンは、FSx ONTAPの補完的NFSデータストア上に配置されます。FSx ONTAPを補完的NFSデータストアとして使用することには、いくつかのメリットがあります。たとえば、次のことが可能です。
 
 * 複雑なセットアップと管理を必要とせずに、拡張性と可用性に優れたクラウドファイルシステムを構築できます。
 * 既存のVMware環境との統合により、使い慣れたツールやプロセスを使用してクラウドリソースを管理できます。
@@ -49,10 +49,10 @@ VMware Cloud（AWS）は、補完的ストレージとしてNFSデータスト�
 .解決策 の導入の概要
 [%collapsible]
 ====
-以下のリストには、Veeam Backup & Replicationの設定、バックアップリポジトリとしてFSx for ONTAP を使用したバックアップジョブとリストアジョブの実行、SQL ServerとOracleのVMとデータベースのリストアに必要な手順の概要が記載されています。
+このリストには、Veeam Backup & Replicationの設定、バックアップリポジトリとしてFSx ONTAPを使用したバックアップジョブとリストアジョブの実行、SQL ServerとOracleのVMとデータベースのリストアに必要な手順の概要が記載されています。
 
-. Veeam Backup & ReplicationのiSCSIバックアップリポジトリとして使用するFSx for ONTAP ファイルシステムを作成します。
-. Veeamプロキシを導入して、バックアップワークロードを分散し、FSx for ONTAP でホストされたiSCSIバックアップリポジトリをマウントします。
+. Veeam Backup & ReplicationのiSCSIバックアップリポジトリとして使用するFSx ONTAPファイルシステムを作成します。
+. Veeam Proxyを導入して、バックアップワークロードを分散し、FSx ONTAPでホストされたiSCSIバックアップリポジトリをマウントします。
 . SQL Server、Oracle、Linux、Windowsの仮想マシンをバックアップするようにVeeam Backup Jobsを設定します。
 . SQL Server仮想マシンおよび個 々 のデータベースをリストアします。
 . Oracle仮想マシンおよび個 々 のデータベースをリストアします。
@@ -62,22 +62,22 @@ VMware Cloud（AWS）は、補完的ストレージとしてNFSデータスト�
 .前提条件
 [%collapsible]
 ====
-この解決策 の目的は、VMware Cloudで実行され、FSx for NetApp ONTAP でホストされるNFSデータストア上に配置された仮想マシンのデータ保護について説明することです。この解決策 は、次のコンポーネントが構成され、使用可能な状態にあることを前提としています。
+このソリューションの目的は、VMware Cloudで実行され、FSx ONTAPでホストされるNFSデータストア上に配置された仮想マシンのデータ保護を実証することです。この解決策 は、次のコンポーネントが構成され、使用可能な状態にあることを前提としています。
 
-. FSx for ONTAP ファイルシステムで、VMware Cloudに接続された1つ以上のNFSデータストアを使用します。
+. VMware Cloudに接続された1つ以上のNFSデータストアで構成されるFSx ONTAPファイルシステム。
 . Veeam Backup & ReplicationソフトウェアがインストールされたMicrosoft Windows Server VM。
 +
 ** vCenter Serverが、IPアドレスまたは完全修飾ドメイン名を使用してVeeam Backup & Replicationサーバによって検出されている。
 
 
 . 解決策 の導入時にVeeamバックアッププロキシコンポーネントとともにインストールするMicrosoft Windows Server VM。
-. Microsoft SQL Server VMとVMDKおよびアプリケーションデータがFSx for ONTAP NFSデータストアに格納されている。この解決策 では、2つのSQLデータベースを2つの独立したVMDKに格納しました。
+. Microsoft SQL Server VMとVMDKおよびアプリケーションデータがFSx ONTAP NFSデータストアに格納されている。この解決策 では、2つのSQLデータベースを2つの独立したVMDKに格納しました。
 +
 ** 注：ベストプラクティスとして、データベースとトランザクションログファイルは別 々 のドライブに配置します。これにより、パフォーマンスと信頼性が向上します。これは、トランザクションログがシーケンシャルに書き込まれるのに対し、データベースファイルはランダムに書き込まれるためです。
 
 
-. OracleデータベースVMとVMDKおよびアプリケーションデータがFSx for ONTAP NFSデータストアに格納されている。
-. FSx for ONTAP NFSデータストア上に配置されたVMDKを使用したLinuxおよびWindowsのファイルサーバVM。
+. OracleデータベースVMとVMDKおよびアプリケーションデータがFSx ONTAP NFSデータストアに格納されている。
+. FSx ONTAP NFSデータストア上に配置されたVMDKを使用したLinuxおよびWindowsのファイルサーバVM。
 . Veeamには、バックアップ環境のサーバとコンポーネント間の通信に特定のTCPポートが必要です。Veeamバックアップインフラコンポーネントでは、必要なファイアウォールルールが自動的に作成されます。ネットワークポート要件の詳細なリストについては、の「ポート」のセクションを参照してください https://helpcenter.veeam.com/docs/backup/vsphere/used_ports.html?zoom_highlight=network+ports&ver=120["Veeam Backup and Replication User Guide for VMware vSphereを参照してください"]。
 
 
@@ -93,16 +93,16 @@ image:aws-vmc-veeam-00.png["解決策 アーキテクチャ図"]
 .ハードウェア/ソフトウェアコンポーネント
 [%collapsible]
 ====
-この解決策 の目的は、VMware Cloudで実行され、FSx for NetApp ONTAP でホストされるNFSデータストア上に配置された仮想マシンのデータ保護について説明することです。この解決策 では、次のコンポーネントが設定済みで、使用可能な状態であることを前提としています。
+このソリューションの目的は、VMware Cloudで実行され、FSx ONTAPでホストされるNFSデータストア上に配置された仮想マシンのデータ保護を実証することです。この解決策 では、次のコンポーネントが設定済みで、使用可能な状態であることを前提としています。
 
-* Microsoft Windows VMはFSx for ONTAP NFSデータストアに配置されます
-* FSx for ONTAP NFSデータストアにあるLinux（CentOS）VM
-* FSx for ONTAP NFSデータストアに配置されたMicrosoft SQL Server VM
+* FSx ONTAP NFSデータストアに配置されたMicrosoft Windows VM
+* FSx ONTAP NFSデータストア上のLinux（CentOS）VM
+* FSx ONTAP NFSデータストアに配置されたMicrosoft SQL Server VM
 +
 ** 2つのデータベースが別 々 のVMDKにホストされている
 
 
-* Oracle VMはFSx for ONTAP NFSデータストアに配置されます
+* FSx ONTAP NFSデータストアにOracle VMを配置
 
 
 ====
@@ -110,11 +110,11 @@ image:aws-vmc-veeam-00.png["解決策 アーキテクチャ図"]
 
 == 解決策 の導入
 
-この解決策 では、Veeam Backup & Replicationソフトウェアを使用して、AWS上のVMwareクラウドSDDC内のSQL Server、Oracle、WindowsおよびLinuxファイルサーバ仮想マシンのバックアップとリカバリを実行する解決策 の導入と検証の詳細な手順を説明します。この解決策 の仮想マシンは、FSx for ONTAP でホストされる補完的なNFSデータストアに配置されます。また、Veeamバックアップリポジトリに使用するiSCSIボリュームのホストには、独立したFSx for ONTAP ファイルシステムが使用されます。
+この解決策 では、Veeam Backup & Replicationソフトウェアを使用して、AWS上のVMwareクラウドSDDC内のSQL Server、Oracle、WindowsおよびLinuxファイルサーバ仮想マシンのバックアップとリカバリを実行する解決策 の導入と検証の詳細な手順を説明します。このソリューションの仮想マシンは、FSx ONTAPによってホストされる補完的なNFSデータストアに配置されます。また、Veeamバックアップリポジトリに使用されるiSCSIボリュームのホストには、独立したFSx ONTAPファイルシステムが使用されます。
 
-FSx for ONTAP ファイルシステムの作成、バックアップリポジトリとして使用するiSCSIボリュームのマウント、バックアップジョブの作成と実行、VMとデータベースのリストアについて説明します。
+FSx ONTAPファイルシステムの作成、バックアップリポジトリとして使用するiSCSIボリュームのマウント、バックアップジョブの作成と実行、VMとデータベースのリストアについて説明します。
 
-FSx for NetApp ONTAP の詳細については、を参照してください https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html["FSx for ONTAP ユーザガイド"^]。
+FSx ONTAPの詳細については、を参照してください https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html["FSx ONTAPユーザガイド"^]。
 
 Veeam Backup and Replicationの詳細については、を参照してください https://www.veeam.com/documentation-guides-datasheets.html?productId=8&version=product%3A8%2F221["Veeam Help Centerテクニカルドキュメント"^] サイト
 
@@ -182,22 +182,22 @@ image:aws-vmc-veeam-10.png["ネットワークトラフィックルールを設�
 
 === ストレージとバックアップリポジトリを設定します
 
-プライマリVeeam BackupサーバとVeeam Proxyサーバは、直接接続されたストレージ形式のバックアップリポジトリにアクセスできます。このセクションでは、FSx for ONTAP ファイルシステムの作成、VeeamサーバへのiSCSI LUNのマウント、バックアップリポジトリの作成について説明します。
+プライマリVeeam BackupサーバとVeeam Proxyサーバは、直接接続されたストレージ形式のバックアップリポジトリにアクセスできます。このセクションでは、FSx ONTAPファイルシステムの作成、VeeamサーバへのiSCSI LUNのマウント、バックアップリポジトリの作成について説明します。
 
-.FSx for ONTAP ファイルシステムを作成
+.FSx ONTAPファイルシステムの作成
 [%collapsible]
 ====
-Veeamバックアップリポジトリ用のiSCSIボリュームのホストに使用するFSx for ONTAP ファイルシステムを作成します。
+Veeamバックアップリポジトリ用のiSCSIボリュームのホストに使用するFSx ONTAPファイルシステムを作成します。
 
 . AWSコンソールで、FSxに移動し、*ファイルシステムの作成*をクリックします
 +
-image:aws-vmc-veeam-01.png["FSx for ONTAP ファイルシステムを作成します"]
+image:aws-vmc-veeam-01.png["FSx ONTAPファイルシステムの作成"]
 
-. Amazon FSx for NetApp ONTAP *を選択し、* Next *を選択して続行します。
+. Amazon FSx ONTAP *を選択し、* Next *を選択して続行します。
 +
-image:aws-vmc-veeam-02.png["[Amazon FSx for NetApp ONTAP ]を選択します"]
+image:aws-vmc-veeam-02.png["Amazon FSx ONTAPを選択"]
 
-. ファイルシステム名、導入タイプ、SSDストレージ容量、FSx for ONTAP クラスタを配置するVPCを入力します。これは、VMware Cloud内の仮想マシンネットワークと通信するように設定されたVPCである必要があります。[次へ]*をクリックします。
+. ファイルシステム名、導入タイプ、SSDストレージ容量、FSx ONTAPクラスタを配置するVPCを入力します。これは、VMware Cloud内の仮想マシンネットワークと通信するように設定されたVPCである必要があります。[次へ]*をクリックします。
 +
 image:aws-vmc-veeam-03.png["ファイルシステム情報を入力します"]
 
@@ -208,13 +208,13 @@ image:aws-vmc-veeam-03.png["ファイルシステム情報を入力します"]
 .iSCSI LUNを設定してマウントします
 [%collapsible]
 ====
-FSx for ONTAP でiSCSI LUNを作成して設定し、Veeamバックアップサーバとプロキシサーバにマウントします。これらのLUNは、あとでVeeamバックアップリポジトリの作成に使用されます。
+FSx ONTAPでiSCSI LUNを作成して設定し、Veeamバックアップサーバとプロキシサーバにマウントします。これらのLUNは、あとでVeeamバックアップリポジトリの作成に使用されます。
 
 
-NOTE: FSx for ONTAP でiSCSI LUNを作成するプロセスは複数の手順で構成されます。ボリューム作成の最初のステップは、Amazon FSxコンソールまたはNetApp ONTAP CLIで実行できます。
+NOTE: FSx ONTAPでiSCSI LUNを作成するプロセスは複数の手順で構成されます。ボリューム作成の最初のステップは、Amazon FSxコンソールまたはNetApp ONTAP CLIで実行できます。
 
 
-NOTE: FSx for ONTAP の使用方法の詳細については、を参照してください https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html["FSx for ONTAP ユーザガイド"^]。
+NOTE: FSx ONTAPの使用方法の詳細については、を参照して https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html["FSx ONTAPユーザガイド"^]ください。
 
 . NetApp ONTAP CLIから次のコマンドを使用して初期ボリュームを作成します。
 +
@@ -449,7 +449,7 @@ image:aws-vmc-veeam-36.png["リストから復元ポイントを選択します"
 
 VMware Cloudは、ビジネスクリティカルなアプリケーションを実行し、機密データを保存するための強力なプラットフォームです。セキュアなデータ保護解決策 は、ビジネス継続性を確保し、サイバー脅威やデータ損失から保護するためにVMware Cloudを利用する企業にとって不可欠です。信頼性と堅牢性に優れたデータ保護解決策 を選択することで、企業は、重要なデータが何であっても安全であることを確信できます。
 
-本ドキュメントで紹介するユースケースは、ネットアップ、VMware、Veeamの統合に焦点を当てた実績のあるデータ保護テクノロジに焦点を当てています。FSx for ONTAP は、AWSのVMware Cloud向けの補完的NFSデータストアとしてサポートされており、すべての仮想マシンとアプリケーションデータに使用されます。Veeam Backup & Replicationは、バックアップ/リカバリプロセスの改善、自動化、合理化を支援するために設計された包括的なデータ保護解決策 です。VeeamをiSCSIバックアップターゲットボリューム（FSx for ONTAP でホスト）と組み合わせて使用すると、VMware Cloudに存在するアプリケーションデータに対して、安全で管理しやすいデータ保護解決策 を提供できます。
+本ドキュメントで紹介するユースケースは、ネットアップ、VMware、Veeamの統合に焦点を当てた実績のあるデータ保護テクノロジに焦点を当てています。FSx ONTAPは、AWSのVMware Cloud向けの補完的NFSデータストアとしてサポートされており、すべての仮想マシンとアプリケーションデータに使用されます。Veeam Backup & Replicationは、バックアップ/リカバリプロセスの改善、自動化、合理化を支援するために設計された包括的なデータ保護解決策 です。Veeamは、FSx ONTAPでホストされるiSCSIバックアップターゲットボリュームと組み合わせて使用され、VMware Cloudに存在するアプリケーションデータに対して、安全で管理しやすいデータ保護ソリューションを提供します。
 
 
 
@@ -457,7 +457,7 @@ VMware Cloudは、ビジネスクリティカルなアプリケーションを�
 
 この解決策 に記載されているテクノロジの詳細については、次の追加情報 を参照してください。
 
-* https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html["FSx for ONTAP ユーザガイド"^]
+* https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html["FSx ONTAPユーザガイド"^]
 * https://www.veeam.com/documentation-guides-datasheets.html?productId=8&version=product%3A8%2F221["Veeam Help Centerテクニカルドキュメント"^]
 * https://www.veeam.com/kb2414["VMware Cloud on AWSのサポート：考慮事項および制限事項"]
 

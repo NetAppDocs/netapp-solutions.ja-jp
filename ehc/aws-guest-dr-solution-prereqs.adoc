@@ -141,14 +141,14 @@ VMware Cloud on AWS は、 VMware のエンタープライズクラスの SDDC �
 AWS上のVMware Cloudの詳細については、以下を参照してください https://docs.vmware.com/en/VMware-Cloud-on-AWS/index.html["リンクをクリックしてください"^]。
 
 ====
-.NetApp ONTAP 対応の Amazon FSX
+.Amazon FSx ONTAP
 [%collapsible]
 ====
-Amazon FSX for NetApp ONTAP は、フル機能を備えたフルマネージドのONTAP システムで、ネイティブのAWSサービスとして利用できます。NetApp ONTAP を基盤に構築されており、使い慣れた機能に加えて、フルマネージドのクラウドサービスが簡易化されています。
+Amazon FSx ONTAPは、フル機能を備えたフルマネージドのONTAPシステムで、AWSのネイティブサービスとして利用できます。NetApp ONTAP を基盤に構築されており、使い慣れた機能に加えて、フルマネージドのクラウドサービスが簡易化されています。
 
-Amazon FSX for ONTAP は、パブリッククラウドまたはオンプレミスのVMwareなど、さまざまなコンピューティングタイプにマルチプロトコルサポートを提供します。今日のゲスト接続のユースケースや、テクニカルプレビューのNFSデータストアで利用できるAmazon FSX for ONTAP を使用すると、企業は自社のオンプレミス環境やクラウドで使い慣れた機能を活用できます。
+Amazon FSx ONTAPは、パブリッククラウドやオンプレミスのVMwareを含む、さまざまなコンピューティングタイプに対してマルチプロトコルサポートを提供します。Amazon FSx ONTAPは、現在ゲスト接続のユースケースと技術プレビュー版のNFSデータストアで利用できるため、企業はオンプレミス環境とクラウドで使い慣れた機能を活用できます。
 
-NetApp ONTAP のAmazon FSXの詳細については、以下を参照してください https://aws.amazon.com/fsx/netapp-ontap/["リンクをクリックしてください"]。
+Amazon FSx ONTAPの詳細については、次のページを参照して https://aws.amazon.com/fsx/netapp-ontap/["リンクをクリックしてください"]ください。
 
 ====
 
@@ -188,7 +188,7 @@ VMwareとONTAP を使用してオンプレミスでDR解決策 を構築し、AW
 
 * オンプレミスのVMware環境とONTAP をプロビジョニング
 * VMwareクラウド環境
-* ONTAP ファイルシステム用のAmazon
+* Amazon for FSx ONTAPファイルシステム
 * オンプレミス環境とAWS間の接続
 * AWS VPCへの接続
 
@@ -319,7 +319,7 @@ NetApp Cloud Managerを使用してリソースを導入できる必要があり
 
 
 =====
-.NetApp ONTAP 対応の Amazon FSX
+.Amazon FSx ONTAP
 [%collapsible]
 =====
 AWSアカウントを作成したら、次のタスクを実行できます。
@@ -440,7 +440,7 @@ NOTE: vCloud Directorを使用する場合は、基盤となるvCenter Serverで
 
 == ネットワーキング
 
-この解決策 では、ネットアップのSyncMirror 処理を実行するために、オンプレミスのONTAP クラスタからAWS FSXへのネットアップONTAP インターコネクトクラスタのネットワークアドレス間の通信が正常に行われている必要があります。また、VeeamバックアップサーバからAWS S3バケットにアクセスできる必要があります。インターネット転送を使用する代わりに、既存のVPNまたはDirect ConnectリンクをS3バケットへのプライベートリンクとして使用できます。
+このソリューションでは、NetApp SyncMirrorの処理を実行するために、オンプレミスのONTAPクラスタからAWS FSx ONTAPインターコネクトクラスタネットワークアドレスへの通信を成功させる必要があります。また、VeeamバックアップサーバからAWS S3バケットにアクセスできる必要があります。インターネット転送を使用する代わりに、既存のVPNまたはDirect ConnectリンクをS3バケットへのプライベートリンクとして使用できます。
 
 .オンプレミス
 [%collapsible]
@@ -484,7 +484,7 @@ LIF （論理インターフェイス）は、クラスタ内のノードへの�
 .仮想プライベートネットワーク（VPN）
 [%collapsible]
 =====
-VPN（バーチャルプライベートネットワーク）は、多くの場合、インターネットベースまたはプライベートMPLSネットワークを使用したセキュアなIPSecトンネルの作成に使用されます。VPNのセットアップは簡単ですが、信頼性（インターネットベースの場合）と速度が不足しています。エンドポイントは、AWS VPCまたはVMware Cloud SDDCで終了できます。このディザスタリカバリ解決策 用に、オンプレミスネットワークからNetApp ONTAP 用のAWS FSXへの接続を作成しました。そのため、NetApp ONTAP 向けFSXが接続されているAWS VPC（Virtual Private GatewayまたはTransit Gateway）で終端できます。
+VPN（バーチャルプライベートネットワーク）は、多くの場合、インターネットベースまたはプライベートMPLSネットワークを使用したセキュアなIPSecトンネルの作成に使用されます。VPNのセットアップは簡単ですが、信頼性（インターネットベースの場合）と速度が不足しています。エンドポイントは、AWS VPCまたはVMware Cloud SDDCで終了できます。このディザスタリカバリソリューションでは、オンプレミスネットワークからAWS FSx ONTAPへの接続を作成しました。そのため、FSx ONTAPが接続されているAWS VPC（Virtual Private GatewayまたはTransit Gateway）で終端できます。
 
 VPN設定は、ルートベースまたはポリシーベースのいずれかです。ルートベースの設定では、エンドポイントは自動的にルートを交換し、セットアップは新しく作成されたサブネットへのルートを学習します。ポリシーベースの設定では、ローカルサブネットとリモートサブネットを定義する必要があります。また、新しいサブネットが追加され、IPSecトンネル内で通信が許可される場合は、ルートを更新する必要があります。
 
@@ -501,7 +501,7 @@ image:dr-vmc-aws-image3.png["入力/出力ダイアログを示す図、また�
 =====
 Direct ConnectはAWSネットワークへの専用リンクを提供します。専用接続では、1Gbps、10Gbps、または100Gbpsのイーサネットポートを使用してAWSへのリンクを作成します。AWS Direct Connectパートナーは、自社とAWSの間に確立されたネットワークリンクを使用してホスト接続を提供します。この接続は50MBpsから10Gbpsまで提供されます。デフォルトでは、トラフィックは暗号化されません。ただし、MACsecまたはIPsecを使用してトラフィックを保護するためのオプションが用意されています。MACsecはレイヤ2暗号化を提供し、IPsecはレイヤ3暗号化を提供します。MACsecでは、通信するデバイスを秘匿することで、より優れたセキュリティを実現します。
 
-お客様のルータ機器がAWS Direct Connectの場所にある。この設定を行うには、AWSパートナーネットワーク（APN）を使用します。このルータとAWSルータの間に物理的な接続が確立されます。VPC上のNetApp ONTAP のFSXへのアクセスを有効にするには、Direct ConnectからVPCへのプライベート仮想インターフェイスまたはトランジット仮想インターフェイスが必要です。プライベート仮想インターフェイスでは、VPCへのDirect Connectの拡張性に制限があります。
+お客様のルータ機器がAWS Direct Connectの場所にある。この設定を行うには、AWSパートナーネットワーク（APN）を使用します。このルータとAWSルータの間に物理的な接続が確立されます。VPCでFSx ONTAPにアクセスできるようにするには、プライベート仮想インターフェイスまたはDirect ConnectからVPCへのトランジット仮想インターフェイスが必要です。プライベート仮想インターフェイスでは、VPCへのDirect Connectの拡張性に制限があります。
 
 次の図は、Direct Connectインターフェイスオプションを示しています。
 
@@ -520,7 +520,7 @@ image:dr-vmc-aws-image4.png["入力/出力ダイアログを示す図、また�
 ====
 クラウドでは、基盤となるネットワークインフラはクラウドサービスプロバイダによって管理されますが、お客様はAWSでVPCネットワーク、サブネット、ルーティングテーブルなどを管理する必要があります。また、コンピューティングエッジでNSXネットワークセグメントを管理する必要があります。SDDCグループは、外部VPCとトランジット接続のルートをグループ化します。
 
-VMware Cloudに接続されたVPCにFSX for NetApp ONTAP with Multi-AZ Availabilityが導入されている場合、iSCSIトラフィックは、通信を有効にするために必要なルートテーブルの更新を受信します。デフォルトでは、VMware Cloudから、接続されたVPC上のFSX ONTAP NFS/SMBサブネットへの、複数AZ環境用のルートはありません。そのルートを定義するために、VMware Cloud SDDCグループを使用しました。このグループはVMwareが管理する中継ゲートウェイであり、同じリージョン内のVMware Cloud SDDCと外部VPCおよびその他のトランジットゲートウェイとの間の通信を可能にします。
+マルチAZの可用性を備えたFSx ONTAPがVMware Cloudに接続されたVPCに導入されている場合、iSCSIトラフィックは、通信を有効にするために必要なルートテーブルの更新を受け取ります。デフォルトでは、VMware Cloudから、接続されたVPC上のFSX ONTAP NFS/SMBサブネットへの、複数AZ環境用のルートはありません。そのルートを定義するために、VMware Cloud SDDCグループを使用しました。このグループはVMwareが管理する中継ゲートウェイであり、同じリージョン内のVMware Cloud SDDCと外部VPCおよびその他のトランジットゲートウェイとの間の通信を可能にします。
 
 
 NOTE: トランジットゲートウェイの使用に関連するデータ転送コストがあります。地域固有のコストの詳細については、を参照してください https://aws.amazon.com/transit-gateway/pricing/["リンクをクリックしてください"^]。
@@ -611,12 +611,12 @@ image:dr-vmc-aws-image7.png["入力/出力ダイアログを示す図、また�
 ====
 この解決策 には、フェイルオーバープロセスの一環としてリストアされた仮想マシンをホストするためのVMware Cloud on AWSが含まれています。本書の執筆時点では、VMwareはVMおよびVMDKをホストするデータストア用のVSANストレージをサポートしています。
 
-FSX for ONTAP は、SnapCenter およびSyncMirror を使用してミラーリングされるアプリケーションデータのセカンダリストレージとして使用されます。フェイルオーバー・プロセスの一環として'FSX for ONTAP クラスタはプライマリ・ストレージに変換され'データベース・アプリケーションはFSXストレージ・クラスタ上で実行される通常の機能を再開できます
+FSx ONTAPは、SnapCenterとSyncMirrorを使用してミラーリングされるアプリケーションデータのセカンダリストレージとして使用されます。フェイルオーバープロセスの一環として、FSx ONTAPクラスタがプライマリストレージに変換され、データベースアプリケーションはFSxストレージクラスタでの通常の機能を再開できます。
 
-.NetApp ONTAP セットアップ用のAmazon FSX
+.Amazon FSx ONTAPのセットアップ
 [%collapsible]
 =====
-Cloud Managerを使用してAWS FSX for NetApp ONTAP を導入するには、の手順に従います https://docs.netapp.com/us-en/cloud-manager-fsx-ontap/start/task-getting-started-fsx.html["リンクをクリックしてください"^]。
+Cloud Managerを使用してAWS FSx ONTAPを導入するには、の手順に従います https://docs.netapp.com/us-en/cloud-manager-fsx-ontap/start/task-getting-started-fsx.html["リンクをクリックしてください"^]。
 
 FSX ONTAP を導入したら、オンプレミスのONTAP インスタンスをFSX ONTAP にドラッグアンドドロップして、ボリュームのレプリケーションセットアップを開始します。
 
@@ -628,7 +628,7 @@ image:dr-vmc-aws-image8.png["入力/出力ダイアログを示す図、また�
 .ネットワークインタフェースが作成されました
 [%collapsible]
 =====
-NetApp ONTAP のFSXには、ネットワークインターフェイスが事前に設定されており、iSCSI、NFS、SMB、およびクラスタ間ネットワークに使用できる状態になっています。
+FSx ONTAPにはネットワークインターフェイスが事前に設定されており、iSCSI、NFS、SMB、クラスタ間ネットワークにすぐに使用できます。
 
 =====
 .VMデータストアストレージ

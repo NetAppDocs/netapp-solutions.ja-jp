@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: ai/mlops_fsxn_cictcd.html 
-keywords: FSxN, MLOps, NetApp ONTAP, AWS Lambda Functions, SageMaker, AWS S3 
+keywords: FSx ONTAP, FSx ONTAP, MLOps, NetApp ONTAP, AWS Lambda Functions, SageMaker, AWS S3 
 summary: この記事では、自動モデル再トレーニング、導入、コスト最適化に焦点を当てて、AWSサービスを使用してMLOpsパイプラインを構築するためのガイドを提供します。 
 ---
 = パート3 -簡易化されたMLOpsパイプラインの構築（CI/CT/CD）
@@ -34,10 +34,10 @@ NetAppシニアデータ&アプリケーションサイエンティスト、Jian
 | 機能性 | 名前 | コメント（ Comment ） 
 
 
-| データストレージ | AWS FSxN | を参照してください link:./mlops_fsxn_s3_integration.html["パート1 - AWS FSx for NetApp ONTAP（FSxN）をプライベートS3バケットとしてAWS SageMakerに統合する"]。 
+| データストレージ | AWS FSX ONTAP の略 | を参照してください link:./mlops_fsxn_s3_integration.html["パート1 - Amazon FSx for NetApp ONTAP（FSx ONTAP）をプライベートS3バケットとしてAWS SageMakerに統合する"]。 
 
 
-| データサイエンスIDE | AWS SageMaker | このチュートリアルは、で紹介されているJupyterノートブックをベースにしています。 link:./mlops_fsxn_sagemaker_integration_training.html["パート2 - SageMakerのモデルトレーニングのデータソースとしてAWS FSx for NetApp ONTAP（FSxN）を活用"]。 
+| データサイエンスIDE | AWS SageMaker | このチュートリアルは、に示すJupyterノートブックに基づいてlink:./mlops_fsxn_sagemaker_integration_training.html["パート2 - SageMakerのモデルトレーニングのデータソースとしてAmazon FSx for NetApp ONTAP（FSx ONTAP）を活用"]います。 
 
 
 | MLOpsパイプラインをトリガーする機能 | AWS Lambda関数 | - 
@@ -58,8 +58,8 @@ NetAppシニアデータ&アプリケーションサイエンティスト、Jian
 
 == 前提条件
 
-* 事前設定されたFSxNファイルシステム。このチュートリアルでは、FSxNに保存されているデータをトレーニングプロセスに利用します。
-* 前述のFSxNファイルシステムと同じVPCを共有するように構成された* SageMaker Notebookインスタンス*。
+* 構成済みのFSx ONTAPファイルシステム。このチュートリアルでは、FSx ONTAPに保存されているデータをトレーニングプロセスに利用します。
+* 前述のFSx ONTAPファイルシステムと同じVPCを共有するように設定された* SageMakerノートブックインスタンス*。
 * * AWS Lambda関数*をトリガーする前に、* SageMaker Notebookインスタンス*が*停止*ステータスになっていることを確認してください。
 * ディープニューラルネットワークの計算に必要なGPUアクセラレーションを利用するには、* ml.g4dn.xlarge *インスタンスタイプが必要です。
 
@@ -114,7 +114,7 @@ echo "Starting the autostop script in cron"
 (crontab -l 2>/dev/null; echo "*/5 * * * * bash -c 'if ps -p $nbconvert_pid > /dev/null; then echo \"Notebook is still running.\" >> /var/log/jupyter.log; else echo \"Notebook execution completed.\" >> /var/log/jupyter.log; $PYTHON_DIR -c \"import boto3;boto3.client(\'sagemaker\').stop_notebook_instance(NotebookInstanceName=get_notebook_name())\" >> /var/log/jupyter.log; fi'") | crontab -
 EOF
 ----
-. このスクリプトは、推論のためのモデルの再トレーニングと再配置を処理するJupyter Notebookを実行します。実行が完了すると、ノートブックは5分以内に自動的にシャットダウンされます。問題点とコード実装の詳細については、を参照してください。 link:./mlops_fsxn_sagemaker_integration_training.html["パート2 - SageMakerのモデルトレーニングのデータソースとしてAWS FSx for NetApp ONTAP（FSxN）を活用"]。
+. このスクリプトは、推論のためのモデルの再トレーニングと再配置を処理するJupyter Notebookを実行します。実行が完了すると、ノートブックは5分以内に自動的にシャットダウンされます。問題点とコード実装の詳細については、を参照してくださいlink:./mlops_fsxn_sagemaker_integration_training.html["パート2 - SageMakerのモデルトレーニングのデータソースとしてAmazon FSx for NetApp ONTAP（FSx ONTAP）を活用"]。
 +
 image:mlops_fsxn_cictcd_3.png["ライフサイクル構成を作成します"]
 
@@ -176,6 +176,6 @@ image:mlops_fsxn_cictcd_11.png["finalizeトリガ"]
 
 
 
-2段階の設定が完了すると、* AWS Lambda関数*が毎日* SageMaker Notebook *を開始し、* FSxN *リポジトリのデータを使用してモデルの再トレーニングを実行し、更新されたモデルを本番環境に再導入し、* SageMaker Notebook *インスタンスを自動的にシャットダウンしてコストを最適化します。これにより、モデルが常に最新の状態に保たれます。
+2段階の設定が完了すると、* AWS Lambda関数*が毎日* SageMaker Notebook *を開始し、* FSx ONTAP *リポジトリのデータを使用してモデルの再トレーニングを実行し、更新されたモデルを本番環境に再導入し、* SageMaker Notebook *インスタンスを自動的にシャットダウンしてコストを最適化します。これにより、モデルが常に最新の状態に保たれます。
 
 これで、MLOpsパイプラインを開発するためのチュートリアルは終了です。

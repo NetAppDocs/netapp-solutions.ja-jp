@@ -62,7 +62,7 @@ VMware SDDC を導入する際、使用するクラウドに関係なく、最�
 
 ストレージを大量に消費するワークロードをホストし、クラウドホスト型の VMware 解決策でスケールアウトする場合、デフォルトのハイパーコンバージドインフラでは、コンピューティングリソースとストレージリソースの両方で拡張を行う必要があります。
 
-Azure NetApp Files 、 NetApp ONTAP 向け Amazon FSX 、 Cloud Volumes ONTAP （ 3 つの主要ハイパースケーラすべてに対応）、 Cloud Volumes Service for Google Cloud などの NetApp Cloud Volume と統合することで、お客様はストレージを個別に拡張できるオプションを利用できるようになりました。 また、必要に応じてコンピューティングノードを SDDC クラスタに追加します。
+Azure NetApp Files、Amazon FSx ONTAP、Cloud Volumes ONTAP（3つの主要ハイパースケーラすべてで利用可能）、Cloud Volumes Service for Google CloudなどのNetApp Cloud Volumesと統合することで、お客様はストレージを個別に拡張でき、コンピューティングノードを必要に応じてSDDCクラスタに追加するだけで済みます。
 
 
 
@@ -74,7 +74,7 @@ Azure NetApp Files 、 NetApp ONTAP 向け Amazon FSX 、 Cloud Volumes ONTAP �
 * クラスタホスト上に構築された VSAN のストレージ容量の制限に非常に簡単に到達できます。NetApp Cloud Volume を使用して、アクティブなデータセットをホストするか、またはティアクーラデータを永続的ストレージにホストするかに応じてストレージを拡張できます。
 
 
-Azure NetApp Files 、 NetApp ONTAP 向け Amazon FSX 、 Cloud Volumes ONTAP （ 3 つの主要なハイパースケーラすべてで利用可能）、および Cloud Volumes Service for Google Cloud は、ゲスト VM と組み合わせて使用できます。このハイブリッドストレージアーキテクチャは、ゲストオペレーティングシステムとアプリケーションバイナリデータを保持する VSAN データストアで構成されます。アプリケーションデータは、ゲストベースの iSCSI イニシエータを介して VM に接続されます。または、 Amazon FSX for NetApp ONTAP 、 Cloud Volume ONTAP 、 Azure NetApp Files 、 Cloud Volumes Service for Google Cloud と直接通信する NFS/SMB マウントを使用して VM に接続されます。この構成では、 VSAN と同様にストレージ容量の問題を簡単に解決できます。使用可能な空きスペースは、使用する余裕容量およびストレージポリシーによって異なります。
+ゲストVMは、Azure NetApp Files、Amazon FSx ONTAP、Cloud Volumes ONTAP（3つの主要ハイパースケーラすべてで利用可能）、およびCloud Volumes Service for Google Cloudを使用できます。このハイブリッドストレージアーキテクチャは、ゲストオペレーティングシステムとアプリケーションバイナリデータを保持する VSAN データストアで構成されます。アプリケーションデータは、ゲストベースのiSCSIイニシエータまたはAmazon FSx ONTAP、Cloud Volume ONTAP、Azure NetApp Files、Cloud Volumes Service for Google Cloudと直接通信するNFS / SMBマウントを介してVMに接続されます。この構成では、 VSAN と同様にストレージ容量の問題を簡単に解決できます。使用可能な空きスペースは、使用する余裕容量およびストレージポリシーによって異なります。
 
 次に、 AWS 上の VMware Cloud 上の 3 ノード SDDC クラスタについて考えてみましょう。
 
@@ -103,7 +103,7 @@ NOTE: 本ドキュメントの作成時点で使用可能な唯一のオプシ�
 === 覚えておいてください
 
 * ハイブリッドストレージモデルでは、ホスト自体にも近接しているため、特定のレイテンシ要件に対処するために、 VSAN データストアにティア 1 または高優先度のワークロードを配置します。トランザクションのレイテンシが許容されるワークロード VM には、ゲスト内メカニズムを使用します。
-* NetApp SnapMirror ® テクノロジを使用して、オンプレミスの ONTAP システムから Cloud Volumes ONTAP または Amazon FSX for NetApp ONTAP にワークロードデータをレプリケートすることで、ブロックレベルのメカニズムによって移行を簡易化できます。これは、 Azure NetApp Files および Cloud Volume サービスには適用されません。Azure NetApp FilesまたはCloud Volumes Servicesへのデータ移行には、使用するファイルプロトコルに応じて、NetApp XCP、BlueXPのコピーと同期、rysnc、またはRobocopyを使用します。
+* NetApp SnapMirror®テクノロジを使用して、オンプレミスのONTAPシステムからCloud Volumes ONTAPまたはAmazon FSx ONTAPにワークロードデータをレプリケートすることで、ブロックレベルのメカニズムを使用して簡単に移行できます。これは、 Azure NetApp Files および Cloud Volume サービスには適用されません。Azure NetApp FilesまたはCloud Volumes Servicesへのデータ移行には、使用するファイルプロトコルに応じて、NetApp XCP、BlueXPのコピーと同期、rysnc、またはRobocopyを使用します。
 * テストでは、該当する SDDC からストレージにアクセスする際のレイテンシが 2 ～ 4 ミリ秒増加しました。ストレージをマッピングする際には、このレイテンシをアプリケーション要件に考慮してください。
 * テストフェイルオーバーおよび実際のフェイルオーバー時にゲスト接続ストレージをマウントする場合は、 iSCSI イニシエータが再設定されていること、 SMB 共有の DNS が更新されていること、および NFS マウントポイントが fstab で更新されていることを確認してください。
 * ゲスト内の Microsoft Multipath I/O （ MPIO ；マルチパス I/O ）、ファイアウォール、ディスクタイムアウトのレジストリ設定が VM 内で適切に設定されていることを確認します。

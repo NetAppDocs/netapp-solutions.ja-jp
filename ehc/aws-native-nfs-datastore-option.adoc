@@ -14,23 +14,23 @@ summary:
 
 
 [role="lead"]
-VMware Cloudの準備が完了してAWS VPCに接続したら、接続元のVPCまたは既存のデフォルトVPCではなく、新しく指定したVPCにAmazon FSX for NetApp ONTAP を導入する必要があります。
+VMware Cloudの準備が完了してAWS VPCに接続したら、元の接続または既存のデフォルトVPCではなく、新しく指定したVPCにAmazon FSx ONTAPを導入する必要があります。
 
-まず、SDDCが配置されている同じリージョンとアベイラビリティゾーンにVPCを追加で導入し、そのVPCにAmazon FSX for NetApp ONTAP を導入します。 https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-6B20CA3B-ABCD-4939-9176-BCEA44473C2B.html["VMware Cloud内のSDDCグループの構成"^] コンソールを使用すると、FSX for ONTAP を導入する、新しく指定したVPCに接続するために必要なネットワーク設定オプションを使用できます。
-
-
-NOTE: FSX for ONTAP は、AWS SDDC上のVMwareクラウドと同じ可用性ゾーンに導入します。
+まず、SDDCが配置されているリージョンとアベイラビリティゾーンに追加のVPCを導入し、その新しいVPCにAmazon FSx ONTAPを導入します。 https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-6B20CA3B-ABCD-4939-9176-BCEA44473C2B.html["VMware Cloud内のSDDCグループの構成"^]コンソールでは、FSx ONTAPを導入する新しく指定されたVPCに接続するために必要なネットワーク構成オプションを使用できます。
 
 
-NOTE: 接続されたVPCにFSX for ONTAP を導入することはできません。代わりに、新しい指定されたVPCに導入してから、SDDCグループを介してVPCをVMware Managed Transit Gateway（vTGW）に接続する必要があります。
+NOTE: FSx ONTAPはVMware Cloud on AWS SDDCと同じアベイラビリティゾーンに導入します。
 
-.手順1：新しい指定のVPCにAmazon FSX for ONTAP を作成する
+
+NOTE: 接続されているVPCにFSx ONTAPを導入することはできません。代わりに、新しい指定されたVPCに導入してから、SDDCグループを介してVPCをVMware Managed Transit Gateway（vTGW）に接続する必要があります。
+
+.ステップ1：新しい指定VPCでAmazon FSx ONTAPを作成
 [%collapsible]
 ====
-NetApp ONTAP ファイルシステム用のAmazon FSXを作成してマウントするには、次の手順を実行します。
+Amazon FSx ONTAPファイルシステムを作成してマウントするには、次の手順を実行します。
 
 . Amazon FSXコンソール（https://console.aws.amazon.com/fsx/`）を開き、* Create file system *を選択して、* File System Creation *ウィザードを開始します。
-. [ファイルシステムタイプの選択]ページで、[*Amazon FSX for NetApp ONTAP *]を選択し、[次へ]をクリックします。[ファイルシステムの作成*]ページが表示されます。
+. [ファイルシステムタイプの選択]ページで、* Amazon FSx ONTAP *を選択し、*[次へ]*をクリックします。[ファイルシステムの作成*]ページが表示されます。
 +
 image:fsx-nfs-image2.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
@@ -52,7 +52,7 @@ NOTE: 接続されたVPCではなく、新しい指定のVPCであることを�
 
 +
 
-NOTE: デフォルトでは、ONTAP のFSXは、ファイルシステムのデフォルトのエンドポイントIPアドレス範囲として198.19.0.0/16を使用します。エンドポイントのIPアドレス範囲が、AWS SDDCのVMC、関連付けられたVPCサブネット、およびオンプレミスインフラと競合しないことを確認してください。よくわからない場合は、重複しない範囲を使用してください。
+NOTE: デフォルトでは、FSx ONTAPはファイルシステムのデフォルトのエンドポイントIPアドレス範囲として198.19.0.0/16を使用します。エンドポイントのIPアドレス範囲が、AWS SDDCのVMC、関連付けられたVPCサブネット、およびオンプレミスインフラと競合しないことを確認してください。よくわからない場合は、重複しない範囲を使用してください。
 
 +
 image:fsx-nfs-image5.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
@@ -146,7 +146,7 @@ NOTE: 容量とパフォーマンスの要件に従って、これまでの手�
 
 
 
-Amazon FSX for ONTAP のパフォーマンスについては、を参照してください https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/performance.html["Amazon FSX for NetApp ONTAP のパフォーマンス"^]。
+Amazon FSx ONTAPのパフォーマンスについては、を参照してください https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/performance.html["Amazon FSx ONTAPのパフォーマンス"^]。
 
 ====
 .手順2：SDDCグループを作成します
@@ -177,7 +177,7 @@ image:fsx-nfs-image14.png["入力/出力ダイアログを示す図、または�
 
 . ［*アカウントの追加*］をクリックします。
 +
-.. ONTAP ファイルシステム用のFSXのプロビジョニングに使用したAWSアカウントを指定します。
+.. FSx ONTAPファイルシステムのプロビジョニングに使用したAWSアカウントを指定します。
 .. [ 追加（ Add ） ] をクリックします。
 
 
@@ -201,7 +201,7 @@ image:fsx-nfs-image16.png["入力/出力ダイアログを示す図、または�
 [%collapsible]
 ====
 . AWSコンソールでVPCサービスページに移動し、FSXファイルシステムのプロビジョニングに使用したVPCに移動します。ここでは、右側のナビゲーションペインで*Transit Gateway Attachment*をクリックして、トランジットゲートウェイの添付ファイルを作成します。
-. [*VPC Attachment*]で、[DNS Support]がオンになっていることを確認し、FSX for ONTAP が展開されているVPCを選択します。
+. [VPC Attachment]*で[DNS Support]がオンになっていることを確認し、FSx ONTAPが導入されたVPCを選択します。
 +
 image:fsx-nfs-image17.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
@@ -222,7 +222,7 @@ NOTE: このオプションが表示されるまでに数分かかることが�
 
 . 次に、[* Routes *]列の[* External VPC *]タブで、[* Add Routes *]オプションをクリックして、必要なルートを追加します。
 +
-** ネットアップONTAP フローティングIPを含むAmazon FSXのフローティングIP範囲のルート。
+** Amazon FSx ONTAPフローティングIPのフローティングIP範囲のルート。
 ** 新しく作成される外部 VPC アドレススペースのルート。
 +
 image:fsx-nfs-image21.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
@@ -254,7 +254,7 @@ image:fsx-nfs-image25.png["入力/出力ダイアログを示す図、または�
 
 +
 
-NOTE: 接続の問題を回避するために、VPC（FSX for ONTAP が存在する場合）のルートテーブルが更新されていることを確認します。
+NOTE: 接続の問題を回避するために、VPC（FSx ONTAPが存在する）ルートテーブルが更新されていることを確認します。
 
 +
 

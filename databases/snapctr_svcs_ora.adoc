@@ -24,11 +24,11 @@ summary: 解決策には、AzureクラウドでBlueXPコンソールを使用し
 
 SnapCenter サービスは、従来のSnapCenter データベース管理UIツールのSaaSバージョンで、NetApp BlueXPクラウド管理コンソールから利用できます。これは、ネットアップクラウドストレージで実行されるOracleやHANAなどのデータベース向けの、ネットアップのクラウドバックアップ、データ保護ソリューションに不可欠な要素です。このSaaSベースのサービスは、一般にWindowsドメイン環境で動作するWindowsサーバを必要とする従来のSnapCenter スタンドアロンサーバの導入を簡素化します。
 
-このドキュメントでは、Amazon FSx for ONTAP ストレージおよびEC2コンピューティングインスタンスに導入されたOracleデータベースをバックアップ、リストア、クローニングするためにSnapCenter サービスを設定する方法を説明します。セットアップと使用ははるかに簡単ですが、SnapCenter サービスは、従来のSnapCenter UIツールで使用できる主要な機能を提供します。
+このドキュメントでは、Amazon FSx ONTAPストレージとEC2コンピューティングインスタンスに導入されたOracleデータベースをバックアップ、リストア、クローニングするようにSnapCenterサービスを設定する方法を説明します。セットアップと使用ははるかに簡単ですが、SnapCenter サービスは、従来のSnapCenter UIツールで使用できる主要な機能を提供します。
 
 この解決策 は、次のユースケースに対応します。
 
-* Amazon FSx for ONTAP でホストされるOracleデータベースのSnapshotを使用したデータベースバックアップ
+* Amazon FSx ONTAPでホストされるOracleデータベースのスナップショットを使用したデータベースバックアップ
 * 障害発生時のOracleデータベースリカバリ
 * 開発/テスト環境やその他のユースケース向けに、ストレージ効率に優れた高速なプライマリデータベースクローニングを実現します
 
@@ -39,10 +39,10 @@ SnapCenter サービスは、従来のSnapCenter データベース管理UIツ�
 
 この解決策 の対象読者は次のとおりです。
 
-* Amazon FSx for ONTAP ストレージで実行されるOracleデータベースを管理するDBAです
+* Amazon FSx ONTAPストレージで実行されるOracleデータベースを管理するデータベース管理者
 * 解決策 アーキテクト。パブリックAWSクラウドでのOracleデータベースのバックアップ、リストア、クローニングのテストに関心を示しています
-* Amazon FSx for ONTAP ストレージをサポートおよび管理するストレージ管理者
-* Amazon FSx for ONTAP ストレージに導入されたアプリケーションを所有するアプリケーション所有者
+* Amazon FSx ONTAPストレージをサポートおよび管理するストレージ管理者
+* Amazon FSx ONTAPストレージに導入されたアプリケーションを所有するアプリケーション所有者
 
 
 
@@ -101,7 +101,7 @@ image:snapctr_svcs_architecture.png["この画像は、管理するUI、コネ�
 * *コネクタは、データベースとFSxと同じVPCに導入します。*可能な場合は、同じAWS VPCに導入する必要があります。これにより、FSxストレージとEC2コンピューティングインスタンスへの接続が可能になります。
 * * SnapCenter Connector用に作成されたAWS IAMポリシー。* JSON形式のポリシーは、詳細なSnapCenter サービスドキュメントに記載されています。BlueXPコンソールを使用してコネクタの導入を起動すると、前提条件と必要な権限の詳細をJSON形式で設定するように求められます。このポリシーは、コネクタを所有するAWSユーザアカウントに割り当てる必要があります。
 * * AWSアカウントアクセスキーとAWSアカウントで作成されたSSHキーペア。* SSHキーペアは、コネクタホストにログインし、EC2 DBサーバホストにデータベースプラグインを導入するためにEC2ユーザに割り当てられます。アクセスキーは、上記のIAMポリシーを使用して必要なコネクタをプロビジョニングする権限を付与します。
-* * BlueXPコンソール設定にクレデンシャルが追加されました。* Amazon FSx for ONTAPをBlueXP作業環境に追加するには、BlueXPコンソール設定でAmazon FSx for ONTAPにアクセスするためのBlueXP権限を付与するクレデンシャルが設定されます。
+* * BlueXP  コンソール設定にクレデンシャルが追加されました。*Amazon FSx ONTAPをBlueXP  作業環境に追加するには、Amazon FSx ONTAPにアクセスするためのBlueXP  権限を付与するクレデンシャルが、BlueXP  コンソールの設定で設定されます。
 * *EC2データベースインスタンスホストにjava-11-openjdkがインストールされています。* SnapCenterサービスのインストールにはJavaバージョン11が必要です。プラグインを導入する前に、アプリケーションホストにインストールする必要があります。
 
 
@@ -109,11 +109,11 @@ image:snapctr_svcs_architecture.png["この画像は、管理するUI、コネ�
 
 == 解決策 の導入
 
-クラウドネイティブアプリケーションデータの保護に役立つ、より広範な範囲を含む広範なネットアップドキュメントが用意されています。このドキュメントの目的は、Amazon FSx for ONTAP に導入されたOracleデータベースとEC2コンピューティングインスタンスを保護するための、BlueXPコンソールを使用したSnapCenter サービスの導入に関するステップバイステップの手順を説明することです。このドキュメントには、より一般的な手順には含まれていない可能性がある特定の詳細が記載されています。
+クラウドネイティブアプリケーションデータの保護に役立つ、より広範な範囲を含む広範なネットアップドキュメントが用意されています。このドキュメントの目的は、Amazon FSx ONTAPおよびEC2コンピューティングインスタンスに導入されたOracleデータベースを保護するためのBlueXP  コンソールを使用したSnapCenterサービスの導入について、ステップバイステップの手順を説明することです。このドキュメントには、より一般的な手順には含まれていない可能性がある特定の詳細が記載されています。
 
 開始するには、次の手順を実行します。
 
-* 一般的な手順をお読みください link:https://docs.netapp.com/us-en/cloud-manager-backup-restore/concept-protect-cloud-app-data-to-cloud.html#architecture["クラウドネイティブアプリケーションのデータを保護"^] と、OracleとAmazon FSx for ONTAP に関連するセクションを紹介します。
+* 一般的な手順と、OracleとAmazon FSx ONTAPに関連するセクションを確認してくださいlink:https://docs.netapp.com/us-en/cloud-manager-backup-restore/concept-protect-cloud-app-data-to-cloud.html#architecture["クラウドネイティブアプリケーションのデータを保護"^]。
 * 次のビデオチュートリアルをご覧ください。
 
 
@@ -128,9 +128,9 @@ video::4b0fd212-7641-46b8-9e55-b01200f9383a[panopto]
 導入には、次の前提条件が必要です。
 
 . Oracleデータベースが完全に導入され、実行されているEC2インスタンス上のプライマリOracleデータベースサーバ。
-. AWSに導入されたAmazon FSx for ONTAPクラスタで、上記のデータベースボリュームをホストしています。
+. 上記のデータベースボリュームをホストしているAWSに導入されたAmazon FSx ONTAPクラスタ。
 . EC2インスタンス上のオプションのデータベースサーバ。開発/テストワークロード、または本番環境のOracleデータベースの完全なデータセットを必要とするあらゆるユースケースをサポートする目的で、代替ホストへのOracleデータベースのクローニングをテストするために使用できます。
-. Amazon FSx for ONTAP およびEC2コンピューティングインスタンスにOracleデータベースを導入する場合、上記の前提条件を満たすために支援が必要な場合は、を参照してください link:aws_ora_fsx_ec2_iscsi_asm.html["iSCSI / ASMを使用したAWS FSX/EC2でのOracleデータベースの導入と保護"^] またはホワイトペーパー link:aws_ora_fsx_ec2_deploy_intro.html["Oracle Database Deployment on EC2 and FSx Best Practicesを参照してください"^]
+. Amazon FSx ONTAPおよびEC2コンピューティングインスタンスにOracleデータベースを導入する場合、上記の前提条件を満たすために支援が必要な場合は、またはホワイトペーパーを参照してください。link:aws_ora_fsx_ec2_iscsi_asm.html["iSCSI / ASMを使用したAWS FSX/EC2でのOracleデータベースの導入と保護"^]link:aws_ora_fsx_ec2_deploy_intro.html["Oracle Database Deployment on EC2 and FSx Best Practicesを参照してください"^]
 
 
 ====
@@ -256,21 +256,21 @@ image:snapctr_svcs_setup_01.png["GUIでのこの手順を示すスクリーン�
 
 image:snapctr_svcs_setup_02.png["GUIでのこの手順を示すスクリーンショット。"]
 
-. [Amazon FSx for ONTAP *]の横にある*[Discover existing]*をクリックします。
+. [Amazon FSx ONTAP *]の横にある*[Discover Existing]*をクリックします。
 
 
 image:snapctr_svcs_setup_03.png["GUIでのこの手順を示すスクリーンショット。"]
 
-. 前のセクションで作成した*[クレデンシャル名]*を選択して、FSx for ONTAPの管理に必要な権限をBlueXPに付与します。クレデンシャルを追加していない場合は、BlueXPコンソールの右上にある*[設定]*メニューから追加できます。
+. 前のセクションで作成した*[Credentials Name]*を選択して、BlueXP  にFSx ONTAPの管理に必要な権限を付与します。クレデンシャルを追加していない場合は、BlueXPコンソールの右上にある*[設定]*メニューから追加できます。
 +
 image:snapctr_svcs_setup_04.png["GUIでのこの手順を示すスクリーンショット。"]
 
-. Amazon FSx for ONTAP が導入されているAWSリージョンを選択し、OracleデータベースをホストしているFSxクラスタを選択して、[追加]をクリックします。
+. Amazon FSx ONTAPが導入されているAWSリージョンを選択し、OracleデータベースをホストしているFSxクラスタを選択して、[追加]をクリックします。
 
 
 image:snapctr_svcs_setup_05.png["GUIでのこの手順を示すスクリーンショット。"]
 
-. 検出されたAmazon FSx for ONTAP インスタンスが作業環境に表示されるようになりました。
+. 検出されたAmazon FSx ONTAPインスタンスが作業環境に表示されます。
 
 
 image:snapctr_svcs_setup_06.png["GUIでのこの手順を示すスクリーンショット。"]
@@ -280,7 +280,7 @@ image:snapctr_svcs_setup_06.png["GUIでのこの手順を示すスクリーン�
 
 image:snapctr_svcs_setup_07.png["GUIでのこの手順を示すスクリーンショット。"]
 
-. Amazon FSx for ONTAP にログインしたら、データベースストレージの情報（データベースボリュームなど）を確認します。
+. Amazon FSx ONTAPにログインしたら、データベースストレージの情報（データベースボリュームなど）を確認します。
 
 
 image:snapctr_svcs_setup_08.png["GUIでのこの手順を示すスクリーンショット。"]
@@ -449,7 +449,7 @@ link:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.htmll["https:
 
 link:https://docs.netapp.com/us-en/cloud-manager-backup-restore/index.html["https://docs.netapp.com/us-en/cloud-manager-backup-restore/index.html"^]
 
-* NetApp ONTAP 対応の Amazon FSX
+* Amazon FSx ONTAP
 
 
 link:https://aws.amazon.com/fsx/netapp-ontap/["https://aws.amazon.com/fsx/netapp-ontap/"^]

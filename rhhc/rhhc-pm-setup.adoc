@@ -14,14 +14,14 @@ summary:
 
 
 [role="lead"]
-このセクションでは、AWS（ROSA）でマネージドRed Hat OpenShiftクラスタをセットアップする大まかなワークフローについて説明します。ここでは、TridentによるストレージバックエンドとしてManaged FSx for NetApp ONTAP（FSxN）を使用して永続ボリュームを提供しています。BlueXPを使用したAWSへのFSxNの導入について詳しく説明します。また、ROSAクラスタ上のステートフルアプリケーションに対して、BlueXPとOpenShiftのGitOps（Argo CD）を使用してデータ保護と移行のアクティビティを実行する方法についても詳しく説明します。
+このセクションでは、AWS（ROSA）でマネージドRed Hat OpenShiftクラスタをセットアップする大まかなワークフローについて説明します。ここでは、マネージドAmazon FSx for NetApp ONTAP（FSx ONTAP）を、Tridentによるストレージバックエンドとして使用して永続ボリュームを提供する方法について説明します。BlueXP  を使用したAWSでのFSx ONTAPの導入について詳しく説明します。また、ROSAクラスタ上のステートフルアプリケーションに対して、BlueXPとOpenShiftのGitOps（Argo CD）を使用してデータ保護と移行のアクティビティを実行する方法についても詳しく説明します。
 
-次の図は、AWSに導入され、FSxNをバックエンドストレージとして使用するROSAクラスタを示しています。
+次の図は、AWSに導入され、FSx ONTAPをバックエンドストレージとして使用するROSAクラスタを示しています。
 
 image:rhhc-rosa-with-fsxn.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
-NOTE: この解決策 は、AWSの2つのVPCで2つのROSAクラスタを使用して検証されました。各ROSAクラスタは、Tridentを使用してFSxNと統合されました。ROSAクラスタとFSxNをAWSに導入するには、いくつかの方法があります。このセットアップの概要概要 には、使用した具体的な方法のドキュメントへのリンクが記載されています。その他の方法については、に記載されている関連リンクを参照して link:rhhc-resources.html["リソースセクション"]ください。
+NOTE: この解決策 は、AWSの2つのVPCで2つのROSAクラスタを使用して検証されました。各ROSAクラスタは、Tridentを使用してFSx ONTAPと統合されています。ROSAクラスタとFSx ONTAPをAWSに導入するには、いくつかの方法があります。このセットアップの概要概要 には、使用した具体的な方法のドキュメントへのリンクが記載されています。その他の方法については、に記載されている関連リンクを参照して link:rhhc-resources.html["リソースセクション"]ください。
 
 セットアッププロセスは、次の手順に分けることができます。
 
@@ -33,11 +33,11 @@ NOTE: この解決策 は、AWSの2つのVPCで2つのROSAクラスタを使用�
 
 
 ====
-.FSxNをインストールします
+.FSx ONTAPのインストール
 [%collapsible]
 ====
-* BlueXPからVPCにFSxNをインストールします。を参照してください link:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html["こちらをご覧ください"] （BlueXPアカウントの作成と使用を開始するため）を参照してください link:https://docs.netapp.com/us-en/cloud-manager-fsx-ontap/index.html["こちらをご覧ください"] FSxNのインストールに使用します。を参照してください link:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html["こちらをご覧ください"] FSxNを管理するためにAWSでコネクタを作成します。
-* AWSを使用してFSxNを導入する。を参照してください link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/getting-started-step1.html["こちらをご覧ください"] AWSコンソールを使用した導入用。
+* BlueXP  からVPCにFSx ONTAPをインストールします。BlueXP  アカウントの作成と使用方法については、を参照してくださいlink:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html["こちらをご覧ください"]。FSx ONTAPのインストールについて詳しくは、こちらをご覧くださいlink:https://docs.netapp.com/us-en/cloud-manager-fsx-ontap/index.html["こちらをご覧ください"]。AWSでコネクタを作成してFSx ONTAPを管理する方法を参照してlink:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html["こちらをご覧ください"]ください。
+* AWSを使用してFSx ONTAPを導入します。AWSコンソールを使用した導入については、を参照してくださいlink:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/getting-started-step1.html["こちらをご覧ください"]
 
 
 ====
@@ -47,7 +47,7 @@ NOTE: この解決策 は、AWSの2つのVPCで2つのROSAクラスタを使用�
 * Helmチャートを使用して、ROSAクラスタにTridentをインストールします。HelmチャートのURL： https://netapp.github.io/trident-helm-chart[]
 
 
-.ROSAクラスタ用のFSxNとTridentの統合
+.FSx ONTAPとTrident for ROSAクラスタの統合
 video::621ae20d-7567-4bbf-809d-b01200fa7a68[panopto]
 
 NOTE: OpenShift GitOpsを使用すると、ApplicationSetを使用してArgoCDに登録されたすべての管理対象クラスタにTrident CSIを導入できます。
@@ -55,7 +55,7 @@ NOTE: OpenShift GitOpsを使用すると、ApplicationSetを使用してArgoCD�
 image:rhhc-trident-helm.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 ====
-.Tridentを使用したバックエンドとストレージクラスの作成（FSxN向け）
+.Tridentを使用してバックエンドとストレージクラスを作成（FSx ONTAPの場合）
 [%collapsible]
 ====
 * を参照してください link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-postdeployment.html["こちらをご覧ください"] バックエンドとストレージクラスの作成の詳細については、を参照してください。

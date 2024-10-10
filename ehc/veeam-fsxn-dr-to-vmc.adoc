@@ -1,10 +1,10 @@
 ---
 sidebar: sidebar 
 permalink: ehc/veeam-fsxn-dr-to-vmc.html 
-keywords: disaster recovery, vmc, vmware cloud, aws, amazon web services, fsxn, fsx for ontap, fsx for netapp ontap, disaster recovery, dr, veeam, replication 
+keywords: disaster recovery, vmc, vmware cloud, aws, amazon web services, fsxn, FSx ONTAP, FSx ONTAP, disaster recovery, dr, veeam, replication 
 summary:  
 ---
-= Veeam ReplicationとFSx for ONTAPを使用したVMware Cloud on AWSへのディザスタリカバリ
+= Veeam ReplicationとFSx ONTAPを使用したVMware Cloud on AWSへのディザスタリカバリ
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-Amazon FSx for NetApp ONTAPとVMware Cloud on AWSの統合は、ネットアップのONTAPファイルシステム上に構築されたAWS管理の外部NFSデータストアで、SDDCのクラスタに接続できます。コンピューティングリソースとは別に拡張できる、柔軟性に優れたハイパフォーマンスな仮想ストレージインフラをお客様に提供します。
+Amazon FSx ONTAPとVMware Cloud on AWSの統合は、NetAppのONTAPファイルシステム上に構築されたAWS管理の外部NFSデータストアで、SDDC内のクラスタに接続できます。コンピューティングリソースとは別に拡張できる、柔軟性に優れたハイパフォーマンスな仮想ストレージインフラをお客様に提供します。
 
 作成者：Niyaz Mohamed - NetAppソリューションエンジニアリング
 
@@ -22,15 +22,15 @@ Amazon FSx for NetApp ONTAPとVMware Cloud on AWSの統合は、ネットアッ�
 
 == 概要
 
-VMware Cloud on AWS SDDCをディザスタリカバリのターゲットとして使用することを検討しているお客様の場合、FSx for ONTAPデータストアを使用して、VMレプリケーション機能を提供する検証済みのサードパーティ製解決策を使用してオンプレミスからデータをレプリケートできます。FSx for ONTAPデータストアを追加することで、ストレージに対応するためだけに大量のESXiホストを使用してAWS SDDC上にVMwareクラウドを構築するよりも、コストを最適化できます。
+VMware Cloud on AWS SDDCをディザスタリカバリのターゲットとして使用することを検討しているお客様の場合、FSx ONTAPデータストアを使用して、VMレプリケーション機能を提供する検証済みのサードパーティソリューションを使用してオンプレミスからデータをレプリケートできます。FSx ONTAPデータストアを追加することで、ストレージに対応するためだけに大量のESXiホストを使用してAWS SDDC上にVMwareクラウドを構築するよりも、コストを最適化できます。
 
-また、このアプローチは、VMCのパイロットライトクラスタとFSx for ONTAPデータストアを使用してVMレプリカをホストするのにも役立ちます。レプリケーション計画を正常にフェイルオーバーすることで、VMware Cloud on AWSへの移行オプションとして同じプロセスを拡張することもできます。
+このアプローチは、VMCのパイロットライトクラスタとFSx ONTAPデータストアを使用してVMレプリカをホストするのにも役立ちます。レプリケーション計画を正常にフェイルオーバーすることで、VMware Cloud on AWSへの移行オプションとして同じプロセスを拡張することもできます。
 
 
 
 == 問題点
 
-本ドキュメントでは、FSx for ONTAPデータストアとVeeam Backup and Replicationを使用して、VMレプリケーション機能を使用してオンプレミスのVMware VMからVMware Cloud on AWSへのディザスタリカバリを設定する方法について説明します。
+本ドキュメントでは、FSx ONTAPデータストアとVeeam Backup and Replicationを使用して、VMレプリケーション機能を使用してオンプレミスのVMware VMからVMware Cloud on AWSへのディザスタリカバリを設定する方法について説明します。
 
 Veeam Backup & Replicationを使用すると、オンサイトとリモートのレプリケーションでディザスタリカバリ（DR）を実現できます。仮想マシンがレプリケートされると、Veeam Backup & Replicationは、ネイティブのVMware vSphere形式でターゲットのVMware Cloud on AWS SDDCクラスタにVMの正確なコピーを作成し、元のVMとの同期を維持します。
 
@@ -51,7 +51,7 @@ image:dr-veeam-fsx-image1.png["Veeam ReplicationとFSx ONTAP for VMCを使用し
 === 手順の概要
 
 . Veeam Backup & Replicationソフトウェアは、適切なネットワーク接続を備えたオンプレミス環境で実行されています。
-. VMware Cloud on AWSの設定：VMware Cloud Tech Zoneに関する記事を参照 link:https://vmc.techzone.vmware.com/fsx-guide["VMware Cloud on AWS integration with Amazon FSx for NetApp ONTAP導入ガイド"] 導入するには、VMware Cloud on AWS SDDCとFSx for ONTAPをNFSデータストアとして設定します。（最小限の構成でセットアップされたパイロットライト環境は、DR目的で使用できます。インシデントが発生した場合、VMはこのクラスタにフェイルオーバーし、ノードを追加できます）。
+. VMware Cloud on AWSを設定します。VMware Cloud on AWS SDDCとFSx ONTAPをNFSデータストアとして導入、設定する方法については、VMware Cloud Tech Zoneの記事を参照してlink:https://vmc.techzone.vmware.com/fsx-guide["VMware Cloud on AWS integration with Amazon FSx ONTAP導入ガイド"]ください。（最小限の構成でセットアップされたパイロットライト環境は、DR目的で使用できます。インシデントが発生した場合、VMはこのクラスタにフェイルオーバーし、ノードを追加できます）。
 . Veeam Backup and Replicationを使用してVMレプリカを作成するためのレプリケーションジョブを設定します。
 . フェイルオーバープランを作成し、フェイルオーバーを実行
 . 災害が完了し、プライマリサイトが稼働したら、本番環境のVMにスイッチバックします。
@@ -59,11 +59,11 @@ image:dr-veeam-fsx-image1.png["Veeam ReplicationとFSx ONTAP for VMCを使用し
 
 
 
-=== VMCおよびFSx for ONTAPデータストアへのVeeam VMレプリケーションの前提条件
+=== VMCおよびFSx ONTAPデータストアへのVeeam VMレプリケーションの前提条件
 
 . Veeam Backup & ReplicationのバックアップVMがソースvCenterと、AWS SDDCクラスタ上のターゲットVMwareクラウドに接続されていることを確認します。
 . バックアップサーバは、短縮名を解決し、ソースvCenterとターゲットvCenterに接続できる必要があります。
-. ターゲットのFSx for ONTAPデータストアには、レプリケートされたVMのVMDKを格納できるだけの十分な空きスペースが必要
+. ターゲットのFSx ONTAPデータストアには、レプリケートされたVMのVMDKを格納できるだけの十分な空きスペースが必要
 
 
 追加情報については、「考慮事項と制限事項」を参照してください。 link:https://helpcenter.veeam.com/docs/backup/vsphere/replica_limitations.html?ver=120["こちらをご覧ください"]。
@@ -91,11 +91,11 @@ image:dr-veeam-fsx-image2.png["入力/出力ダイアログを示す図、また
 
 
 
-. [仮想マシン]ステップで、VMware Cloud on AWS SDDCに接続されたFSx for ONTAPデータストアにレプリケートする必要のあるVMを選択します。仮想マシンをVSANに配置して、使用可能なVSANデータストアの容量をいっぱいにすることができます。パイロットライトクラスタでは、3ノードクラスタの使用可能容量が制限されます。残りのデータはFSx for ONTAPデータストアにレプリケートできます。[追加]*をクリックし、*[オブジェクトの追加]*ウィンドウで必要なVMまたはVMコンテナを選択して*[追加]*をクリックします。「 * 次へ * 」をクリックします。
+. [Virtual Machines]手順で、VMware Cloud on AWS SDDCに接続されたFSx ONTAPデータストアにレプリケートする必要のあるVMを選択します。仮想マシンをVSANに配置して、使用可能なVSANデータストアの容量をいっぱいにすることができます。パイロットライトクラスタでは、3ノードクラスタの使用可能容量が制限されます。残りのデータはFSx ONTAPデータストアにレプリケートできます。[追加]*をクリックし、*[オブジェクトの追加]*ウィンドウで必要なVMまたはVMコンテナを選択して*[追加]*をクリックします。「 * 次へ * 」をクリックします。
 +
 image:dr-veeam-fsx-image3.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-. その後、デスティネーションをVMware Cloud on AWS SDDCクラスター/ホストとして選択し、VMレプリカ用の適切なリソースプール、VMフォルダ、FSx for ONTAPデータストアを選択します。次に*[次へ]*をクリックします。
+. その後、デスティネーションをVMware Cloud on AWS SDDCクラスター/ホストとして選択し、VMレプリカ用の適切なリソースプール、VMフォルダ、FSx ONTAPデータストアを選択します。次に*[次へ]*をクリックします。
 +
 image:dr-veeam-fsx-image4.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
@@ -221,7 +221,7 @@ image:dr-veeam-fsx-image19.png["入力/出力ダイアログを示す図、ま�
 
 == まとめ
 
-FSx for ONTAPデータストア機能を使用すると、Veeamやその他の検証済みサードパーティ製ツールを使用して、VMのレプリカコピーに対応するためだけにクラスタ内の多数のホストを立ち上げることなく、パイロットライトクラスタを使用して低コストのDR解決策を提供できます。これにより、カスタマイズされたディザスタリカバリ計画を処理する強力な解決策が提供されます。また、既存のバックアップ製品を社内で再利用してDRのニーズを満たすことができるため、オンプレミスのDRデータセンターを終了することで、クラウドベースのディザスタリカバリを実現できます。フェイルオーバーは、計画的フェイルオーバーまたはフェイルオーバーとして実行でき、災害発生時にボタンをクリックするだけでDRサイトをアクティブ化できます。
+FSx ONTAPデータストア機能により、Veeamまたは検証済みの他社製ツールを使用して、VMのレプリカコピーに対応するためだけにクラスタ内の多数のホストを立ち上げることなく、Pilot Lightクラスタを使用して低コストのDRソリューションを提供できます。これにより、カスタマイズされたディザスタリカバリ計画を処理する強力な解決策が提供されます。また、既存のバックアップ製品を社内で再利用してDRのニーズを満たすことができるため、オンプレミスのDRデータセンターを終了することで、クラウドベースのディザスタリカバリを実現できます。フェイルオーバーは、計画的フェイルオーバーまたはフェイルオーバーとして実行でき、災害発生時にボタンをクリックするだけでDRサイトをアクティブ化できます。
 
 このプロセスの詳細については、詳細なウォークスルービデオをご覧ください。
 

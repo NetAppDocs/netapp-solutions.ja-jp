@@ -107,15 +107,15 @@ ssh -i ora-db1v2.pem ec2-user@54.80.114.77
 
 
 
-== Oracleデータベースストレージ用のONTAP ファイルシステム用のFSXをプロビジョニングします
+== Oracleデータベースストレージ用のFSx ONTAPファイルシステムのプロビジョニング
 
-EC2インスタンス環境では、OSにEBSルートボリュームが割り当てられます。FSX for ONTAP ファイル・システムは'Oracleバイナリ'データ'ログ・ボリュームなど'Oracleデータベース・ストレージ・ボリュームを提供しますFSXストレージNFSボリュームは、AWS FSXコンソールから、またはOracleインストールからプロビジョニングできます。また、自動化パラメータファイルでユーザーが設定したボリュームを割り当てる、構成の自動化も可能です。
+EC2インスタンス環境では、OSにEBSルートボリュームが割り当てられます。FSx ONTAPファイルシステムは、Oracleバイナリ、データ、ログボリュームを含むOracleデータベースストレージボリュームを提供します。FSXストレージNFSボリュームは、AWS FSXコンソールから、またはOracleインストールからプロビジョニングできます。また、自動化パラメータファイルでユーザーが設定したボリュームを割り当てる、構成の自動化も可能です。
 
 
 
-=== ONTAP ファイルシステム用のFSXを作成しています
+=== FSx ONTAPファイルシステムの作成
 
-このドキュメントを参照 https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-file-systems.html["ONTAP ファイルシステムのFSXの管理"^] ONTAP ファイルシステム用のFSXを作成する場合。
+FSx ONTAPファイルシステムの作成について、このドキュメントを参照していました https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-file-systems.html["FSx ONTAPファイルシステムの管理"^]。
 
 主な考慮事項：
 
@@ -136,7 +136,7 @@ image:aws_rds_custom_deploy_fsx_01.png["入力/出力ダイアログを示す図
 +
 image:aws_ora_fsx_ec2_stor_01.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-. NetApp ONTAP のAmazon FSXを選択します。[ 次へ ] をクリックします。
+. [Amazon FSx ONTAP ]を選択します。[ 次へ ] をクリックします。
 +
 image:aws_ora_fsx_ec2_stor_02.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
@@ -170,7 +170,7 @@ image:aws_ora_fsx_ec2_stor_08.png["入力/出力ダイアログを示す図、�
 
 === Oracleデータベース用のデータベースボリュームのプロビジョニング
 
-を参照してください link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-volumes.html["ONTAP ボリュームのFSXの管理-ボリュームの作成"^] を参照してください。
+詳細は、を参照してください link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-volumes.html["FSx ONTAPボリュームの管理-ボリュームの作成"^] 。
 
 主な考慮事項：
 

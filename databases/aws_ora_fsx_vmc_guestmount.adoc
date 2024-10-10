@@ -132,10 +132,10 @@ image:aws_ora_fsx_vmc_architecture.png["このイメージは、iSCSIとASMを�
 
 === 導入にあたって考慮すべき主な要因
 
-* * FSxからVMCへの接続。* VMware Cloud on AWSにSDDCを導入すると、SDDCはAWSアカウントと組織専用のVPC内に作成され、VMwareによって管理されます。また、SDDCを自分のAWSアカウント（お客様のAWSアカウント）に接続する必要があります。この接続により、SDDCは顧客アカウントに属するAWSサービスにアクセスできます。FSx for ONTAPは、お客様のアカウントに導入されるAWSサービスです。VMC SDDCをお客様のアカウントに接続すると、VMC SDDC内のVMでFSxストレージを使用してゲストを直接マウントできるようになります。
-* * FSXストレージHAクラスタのシングルゾーンまたはマルチゾーン展開。*このテストと検証では、FSX HAクラスタを単一のAWSアベイラビリティゾーンに導入しました。また、パフォーマンスを向上させ、アベイラビリティゾーン間でのデータ転送料金を回避するために、NetAppではFSx for NetApp ONTAPとVMware Cloud on AWSを同じアベイラビリティゾーンに導入することを推奨しています。
-* * FSxストレージクラスタのサイジング。* Amazon FSx for ONTAP ストレージファイルシステムは、SSDの最大16万IOPS、最大4GBpsのスループット、最大192TiBの容量を提供します。ただし、プロビジョニングされたIOPS、スループット、およびストレージ制限（最小1、024GiB）を基準にしてクラスタのサイズを設定することもできます。アプリケーションの可用性に影響を与えることなく、容量をオンザフライで動的に調整できます。
-* * Oracleデータとログのレイアウト。*テストと検証では、データ用とログ用にそれぞれ2つのASMディスクグループを導入しました。+DATA ASMディスクグループ内で、データボリュームに4つのLUNをプロビジョニングしました。+logs ASMディスクグループ内で、ログボリュームに2つのLUNをプロビジョニングしました。一般に、Amazon FSx for ONTAPボリューム内に複数のLUNをレイアウトすると、パフォーマンスが向上します。
+* * FSxとVMCの接続。*VMware Cloud on AWSにSDDCを導入すると、SDDCはAWSアカウントと組織専用のVPC内に作成され、VMwareによって管理されます。また、SDDCを自分のAWSアカウント（お客様のAWSアカウント）に接続する必要があります。この接続により、SDDCは顧客アカウントに属するAWSサービスにアクセスできます。FSx ONTAPは、お客様のアカウントに導入されるAWSサービスです。VMC SDDCをお客様のアカウントに接続すると、VMC SDDC内のVMでFSxストレージを使用してゲストを直接マウントできるようになります。
+* * FSxストレージHAクラスタのシングルゾーンまたはマルチゾーン導入*今回のテストと検証では、1つのAWSアベイラビリティゾーンにFSx HAクラスタを導入しました。また、NetAppでは、パフォーマンスを向上させ、アベイラビリティゾーン間でのデータ転送料金を回避するために、FSx ONTAPとVMware Cloud on AWSを同じアベイラビリティゾーンに導入することを推奨しています。
+* * FSxストレージクラスタのサイジング*Amazon FSx ONTAPストレージファイルシステムは、SSDの最大16万IOPS、最大4GBpsのスループット、最大192TiBの容量を提供します。ただし、プロビジョニングされたIOPS、スループット、およびストレージ制限（最小1、024GiB）を基準にしてクラスタのサイズを設定することもできます。アプリケーションの可用性に影響を与えることなく、容量をオンザフライで動的に調整できます。
+* * Oracleデータとログのレイアウト*テストと検証では、データ用とログ用にそれぞれ2つのASMディスクグループを導入しました。+DATA ASMディスクグループ内で、データボリュームに4つのLUNをプロビジョニングしました。+logs ASMディスクグループ内で、ログボリュームに2つのLUNをプロビジョニングしました。一般に、Amazon FSx ONTAPボリューム内に複数のLUNをレイアウトすると、パフォーマンスが向上します。
 * * iSCSI構成。* VMC SDDC内のデータベースVMは、iSCSIプロトコルを使用してFSxストレージに接続します。Oracle AWRレポートを慎重に分析してアプリケーションとiSCSIのトラフィックスループットの要件を特定することにより、OracleデータベースのI/Oピークスループットの要件を測定することが重要です。また、マルチパスが適切に設定されている両方のFSx iSCSIエンドポイントに4つのiSCSI接続を割り当てることを推奨します。
 * *作成するOracle ASMディスクグループごとに使用するOracle ASM冗長性レベル。* FSx ONTAPはすでにFSxクラスタレベルでストレージをミラーリングしているため、External Redundancy（外部冗長性）を使用する必要があります。つまり、このオプションでは、Oracle ASMがディスクグループの内容をミラーリングできません。
 * *データベースのバックアップ。* NetAppは、データベースのバックアップ、リストア、クローニングを実行するためのSnapCenterソフトウェアスイートで、使いやすいUIインターフェイスを備えています。NetAppでは、このような管理ツールを実装して、高速（1分未満）のSnapshotバックアップ、高速（数分）のデータベースリストア、データベースクローンを実現することを推奨しています。
@@ -157,7 +157,7 @@ image:aws_ora_fsx_vmc_architecture.png["このイメージは、iSCSIとASMを�
 
 . VMware Cloud on AWSを使用したSoftware-Defined Data Center（SDDC）が作成されている。VMCでSDDCを作成する方法の詳細については、VMwareのドキュメントを参照してください。 link:https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws.getting-started/GUID-3D741363-F66A-4CF9-80EA-AA2866D1834E.html["AWSでのVMware Cloudの導入"^]
 . AWSアカウントが設定され、必要なVPCとネットワークセグメントがAWSアカウント内に作成されている。AWSアカウントはVMC SDDCにリンクされています。
-. AWS EC2コンソールから、Amazon FSx for ONTAPストレージHAクラスタを導入してOracleデータベースボリュームをホストします。FSXストレージの導入に慣れていない場合は、マニュアルを参照してください link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-file-systems.html["ONTAP ファイルシステム用のFSXを作成しています"^] を参照してください。
+. AWS EC2コンソールから、Amazon FSx ONTAPストレージHAクラスタを導入してOracleデータベースボリュームをホストします。FSxストレージの導入に慣れていない場合は、ステップバイステップの手順についてドキュメントを参照してくださいlink:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-file-systems.html["FSx ONTAPファイルシステムの作成"^]。
 . 上記の手順は、次のTerraform自動化ツールキットを使用して実行できます。このツールキットでは、SSHとFSxファイルシステムを介したVMCアクセスのSDDCのジャンプホストとしてEC2インスタンスを作成します。実行する前に、手順をよく確認し、環境に合わせて変数を変更してください。
 +
 ....
@@ -1464,7 +1464,7 @@ alter database open;
 ----
 
 
-これでOracle 19Cバージョン19.18は完了です。Amazon FSx for ONTAPストレージとVMC DB VMでの導入を再開します。必要に応じて、Oracleの制御ファイルとオンラインログファイルを+logsディスクグループに移動することを推奨します。
+これでOracle 19Cバージョン19.18は完了です。Amazon FSx ONTAPストレージとVMC DB VMでの導入を再開します。必要に応じて、Oracleの制御ファイルとオンラインログファイルを+logsディスクグループに移動することを推奨します。
 
 ====
 
@@ -1907,7 +1907,7 @@ link:https://docs.oracle.com/en/database/oracle/oracle-database/19/ladbi/install
 +
 link:https://docs.oracle.com/en/database/oracle/oracle-database/19/ladbi/installing-and-configuring-oracle-database-using-response-files.html#GUID-D53355E9-E901-4224-9A2A-B882070EDDF7["https://docs.oracle.com/en/database/oracle/oracle-database/19/ladbi/installing-and-configuring-oracle-database-using-response-files.html#GUID-D53355E9-E901-4224-9A2A-B882070EDDF7"^]
 
-* NetApp ONTAP 対応の Amazon FSX
+* Amazon FSx ONTAP
 +
 link:https://aws.amazon.com/fsx/netapp-ontap/["https://aws.amazon.com/fsx/netapp-ontap/"^]
 

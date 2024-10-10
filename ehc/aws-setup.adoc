@@ -28,7 +28,7 @@ NOTE: 現在、Cloud Volumes ONTAP （CVO）をAWS VMCに接続する方法と�
 ====
 link:https://www.vmware.com/products/vmc-on-aws.html["AWS 上の VMware Cloud"] AWS エコシステム内の VMware ベースのワークロードにクラウドネイティブのエクスペリエンスを提供します。各 VMware Software-Defined Data Center （ SDDC ）は Amazon Virtual Private Cloud （ VPC ）内で動作し、フル VMware スタック（ vCenter Server を含む）、 NSX ベースの Software-Defined Networking 、 VSAN ソフトウェア定義ストレージ、およびワークロードにコンピューティングリソースとストレージリソースを提供する 1 つ以上の ESXi ホストを提供します。
 
-このセクションでは、 AWS で VMware Cloud をセットアップおよび管理する方法について説明します。また、 AWS で NetApp ONTAP を使用する場合は Amazon FSX 、ゲスト内ストレージを使用する場合は Cloud Volumes ONTAP と組み合わせて使用する方法についても説明します。
+このセクションでは、VMware Cloud on AWSをセットアップおよび管理し、Amazon FSx ONTAPやCloud Volumes ONTAP on AWSと組み合わせてゲスト内ストレージで使用する方法について説明します。
 
 
 NOTE: 現在、Cloud Volumes ONTAP （CVO）をAWS VMCに接続する方法としてサポートされているのは、ゲスト内ストレージだけです。
@@ -105,11 +105,11 @@ SDDC の導入の詳細な手順については、を参照してください li
 ====
 VMware Cloud を FSX ONTAP に接続するには、次の手順を実行します。
 
-. VMware Cloud の導入が完了して AWS VPC に接続されているため、 Amazon FSX for NetApp ONTAP を、元の接続済み VPC ではなく新しい VPC に導入する必要があります（以下のスクリーンショットを参照）。接続された VPC に FSX （ NFS および SMB のフローティング IP ）が導入されている場合、これらの IP にはアクセスできません。Cloud Volumes ONTAP のような iSCSI エンドポイントは、接続された VPC からは正常に機能します。
+. VMware Cloudの導入が完了してAWS VPCに接続されたら、Amazon FSx ONTAPを元の接続VPCではなく新しいVPCに導入する必要があります（下のスクリーンショットを参照）。接続された VPC に FSX （ NFS および SMB のフローティング IP ）が導入されている場合、これらの IP にはアクセスできません。Cloud Volumes ONTAP のような iSCSI エンドポイントは、接続された VPC からは正常に機能します。
 +
 image:aws-connect-fsx-1.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-. 同じリージョンに別の VPC を導入し、その新しい VPC に Amazon FSX for NetApp ONTAP を導入します。
+. 同じリージョンに追加のVPCを導入してから、新しいVPCにAmazon FSx ONTAPを導入します。
 +
 VMware Cloud コンソールで SDDC グループを構成すると、 FSX が導入された新しい VPC に接続するために必要なネットワーク設定オプションが有効になります。手順 3 で、「グループ用の VMware トランジット接続の構成に添付ファイルおよびデータ転送ごとの料金が発生する」がチェックされていることを確認し、「グループの作成」を選択します。このプロセスが完了するまでに数分かかることがあります。
 
@@ -134,7 +134,7 @@ image:aws-connect-fsx-10.png["入力/出力ダイアログを示す図、また�
 
 . [External VPC （外部 VPC ） ] タブで、 [Routes] 列の編集アイコンをクリックし、次の必要なルートを追加します。
 +
-** NetApp ONTAP の Amazon FSX のフローティング IP 範囲のルート link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/supported-fsx-clients.html["フローティング IP"]。
+** Amazon FSx ONTAPのフローティングIP範囲のルートlink:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/supported-fsx-clients.html["フローティング IP"]。
 ** Cloud Volumes ONTAP のフローティング IP 範囲のルート（該当する場合）。
 ** 新しく作成される外部 VPC アドレススペースのルート。
 +

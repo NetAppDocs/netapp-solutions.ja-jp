@@ -20,34 +20,34 @@ AWSでは、ゲスト接続のネットアップストレージをネイティ�
 
 == FSX ONTAP の略
 
-Amazon FSX for NetApp ONTAP はフルマネージドサービスで、ネットアップの広く普及したONTAP ファイルシステムを基盤に、信頼性、拡張性、パフォーマンス、機能豊富なファイルストレージを提供します。FSX for ONTAP は、ネットアップファイルシステムの使い慣れた機能、パフォーマンス、機能、API操作に、AWSのフルマネージドサービスならではの即応性、拡張性、シンプルさを兼ね備えています。
+Amazon FSx ONTAPは、NetAppの人気のあるONTAPファイルシステム上に構築された、信頼性、拡張性、パフォーマンス、機能豊富なファイルストレージを提供するフルマネージドサービスです。FSx ONTAPは、NetAppファイルシステムで使い慣れた機能、パフォーマンス、機能、API操作と、フルマネージドのAWSサービスの即応性、拡張性、シンプルさを兼ね備えています。
 
-FSX for ONTAP は、機能豊富で高速で柔軟性に優れた共有ファイルストレージを提供します。このストレージは、AWSまたはオンプレミスで動作するLinux、Windows、macOSコンピューティングインスタンスから幅広くアクセスできます。FSX for ONTAP は、1ミリ秒未満のレイテンシでハイパフォーマンスのソリッドステートドライブ（SSD）ストレージを提供します。FSX for ONTAP を使用すると、SSDストレージに支払うデータの量がごくわずかであるのに、ワークロードでSSDレベルのパフォーマンスを実現できます。
+FSx ONTAPは、豊富な機能を備え、高速で柔軟性に優れた共有ファイルストレージを提供します。AWSやオンプレミスで実行されるLinux、Windows、macOSのコンピューティングインスタンスから幅広くアクセスできます。FSx ONTAPは、1ミリ秒未満のレイテンシを実現するハイパフォーマンスなソリッドステートドライブ（SSD）ストレージを提供します。FSx ONTAPを使用すると、ワークロードでSSDレベルのパフォーマンスを達成しながら、SSDストレージの料金をデータのごく一部に限定することができます。
 
-ボタンをクリックするだけでファイルのスナップショット作成、複製、複製ができるため、FSX for ONTAP でのデータ管理が簡単になります。さらに、FSX for ONTAP は、データを低コストで柔軟なストレージに自動的に階層化し、容量のプロビジョニングや管理の必要性を軽減します。
+FSx ONTAPでは、ボタンをクリックするだけでファイルのスナップショット作成、クローニング、複製ができるため、データ管理が簡単になります。さらに、FSx ONTAPでは、データが低コストで柔軟性に優れたストレージに自動的に階層化されるため、容量のプロビジョニングや管理の必要性が軽減されます。
 
-また、FSX for ONTAP は、フルマネージドのバックアップとクロスリージョンディザスタリカバリのサポートにより、可用性と耐久性に優れたストレージを提供します。データの保護とセキュリティを容易にするため、ONTAP 対応FSXは、一般的な データ セキュリティ アプリケーションとウィルス対策アプリケーションをサポートしています。
+FSx ONTAPは、フルマネージドのバックアップとリージョン間ディザスタリカバリのサポートを備えた、可用性とデータ保持性に優れたストレージも提供します。データの保護とセキュリティを容易にするために、FSx ONTAPは一般的なデータセキュリティおよびウイルス対策アプリケーションをサポートしています。
 
 
 
 === ゲスト接続ストレージとしての FSX ONTAP
 
-.AWS で VMware Cloud を使用して、 NetApp ONTAP 用に Amazon FSX を設定します
+.Amazon FSx ONTAPとVMware Cloud on AWSの構成
 [%collapsible]
 ====
-Amazon FSX for NetApp ONTAP ファイル共有および LUN は、 AWS の VMware クラウドにある VMware SDDC 環境内で作成された VM からマウントできます。また、このボリュームは、 Linux クライアントにマウントして NFS または SMB プロトコルを使用して Windows クライアントにマッピングすることもできます。また、 iSCSI 経由でマウントした場合、 Linux クライアントまたは Windows クライアントから LUN にブロックデバイスとしてアクセスできます。NetApp ONTAP ファイルシステム用の Amazon FSX は、次の手順ですばやく設定できます。
+Amazon FSx ONTAPファイル共有とLUNは、AWSのVMwareクラウドのVMware SDDC環境内で作成されたVMからマウントできます。また、このボリュームは、 Linux クライアントにマウントして NFS または SMB プロトコルを使用して Windows クライアントにマッピングすることもできます。また、 iSCSI 経由でマウントした場合、 Linux クライアントまたは Windows クライアントから LUN にブロックデバイスとしてアクセスできます。NetApp ONTAP ファイルシステム用の Amazon FSX は、次の手順ですばやく設定できます。
 
 
-NOTE: パフォーマンスを向上させ、アベイラビリティゾーン間でのデータ転送料金を回避するには、 NetApp ONTAP 向け Amazon FSX と AWS 上の VMware Cloud を同じアベイラビリティゾーンに配置する必要があります。
+NOTE: パフォーマンスを向上させ、アベイラビリティゾーン間でデータ転送料金が発生しないようにするには、Amazon FSx ONTAPとVMware Cloud on AWSを同じアベイラビリティゾーンに配置する必要があります。
 
 ====
-.ONTAP ボリューム用に Amazon FSX を作成してマウントします
+.Amazon FSx ONTAPボリュームの作成とマウント
 [%collapsible]
 ====
-NetApp ONTAP ファイルシステム用に Amazon FSX を作成してマウントするには、次の手順を実行します。
+Amazon FSx ONTAPファイルシステムを作成してマウントするには、次の手順を実行します。
 
 . を開きます link:https://console.aws.amazon.com/fsx/["Amazon FSX コンソール"] ファイルシステムの作成を選択して ' ファイルシステム作成ウィザードを開始します
-. [Select File System Type] ページで、 [Amazon FSX for NetApp ONTAP ] を選択し、 [Next] をクリックします。Create File System ページが表示されます。
+. [Select File System Type]ページで、[Amazon FSx ONTAP ]を選択し、[Next]をクリックします。Create File System ページが表示されます。
 
 
 image:aws-fsx-guest-1.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
@@ -91,7 +91,7 @@ image:aws-fsx-guest-7.png["入力/出力ダイアログを示す図、または�
 
 image:aws-fsx-guest-8.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"] image:aws-fsx-guest-9.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"] image:aws-fsx-guest-10.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-詳細については、を参照してください link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/getting-started.html["Amazon FSX for NetApp ONTAP の利用を開始する"]。
+詳細については、を参照してくださいlink:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/getting-started.html["Amazon FSx ONTAP導入ガイド"]。
 
 上記のようにファイルシステムを作成したら、必要なサイズとプロトコルでボリュームを作成します。
 
@@ -117,7 +117,7 @@ image:aws-fsx-guest-11.png["入力/出力ダイアログを示す図、または
 . 次のコマンドを使用して、ボリュームのマウントポイント用のディレクトリを作成します。
 +
  $ sudo mkdir /fsx/nfsdemovol01
-. 前の手順で作成したディレクトリに、 NetApp ONTAP NFS ボリュームの Amazon FSX をマウントします。
+. 前の手順で作成したディレクトリにAmazon FSx ONTAP NFSボリュームをマウントします。
 +
  sudo mount -t nfs nfsvers=4.1,198.19.254.239:/nfsdemovol01 /fsx/nfsdemovol01
 
@@ -165,19 +165,19 @@ Amazon FSX ファイルシステムでの SMB 共有の作成と管理の詳細�
 image:aws-fsx-guest-26.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 ====
-.iSCSI を使用して、 NetApp ONTAP LUN の FSX をホストに接続します
+.iSCSIを使用したFSx ONTAP LUNのホストへの接続
 [%collapsible]
 ====
-.iSCSI を使用して、 NetApp ONTAP LUN の FSX をホストに接続します
+.iSCSIを使用したFSx ONTAP LUNのホストへの接続
 video::0d03e040-634f-4086-8cb5-b01200fb8515[panopto]
-FSX の iSCSI トラフィックは、前のセクションで説明したルートを介して、 VMware Transit Connect/AWS Transit Gateway を経由します。NetApp ONTAP 用に Amazon FSX 内の LUN を設定するには、該当するマニュアルを参照してください link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/supported-fsx-clients.html["こちらをご覧ください"]。
+FSX の iSCSI トラフィックは、前のセクションで説明したルートを介して、 VMware Transit Connect/AWS Transit Gateway を経由します。Amazon FSx ONTAPでLUNを設定するには、のドキュメントに従ってくださいlink:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/supported-fsx-clients.html["こちらをご覧ください"]。
 
 Linux クライアントでは、 iSCSI デーモンが実行されていることを確認します。LUN のプロビジョニングが完了したら、（例として） Ubuntu を使用した iSCSI 構成に関する詳細なガイダンスを参照してください。 link:https://ubuntu.com/server/docs/service-iscsi["こちらをご覧ください"]。
 
 このドキュメントでは、 iSCSI LUN を Windows ホストに接続する方法を示します。
 
 ====
-.NetApp ONTAP の FSX で LUN をプロビジョニングします。
+.FSx ONTAPでLUNをプロビジョニングします。
 [%collapsible]
 ====
 . ONTAP ファイルシステムの FSX の管理ポートを使用して、 NetApp ONTAP CLI にアクセスします。
@@ -453,7 +453,7 @@ Cloud Volumes ONTAP （ DIY ）ファイルシステムを VMC 内の VM から 
 . 次のコマンドを使用して、ボリュームのマウントポイント用のディレクトリを作成します。
 +
  $ sudo mkdir /fsxcvotesting01/nfsdemovol01
-. 前の手順で作成したディレクトリに、 NetApp ONTAP NFS ボリュームの Amazon FSX をマウントします。
+. 前の手順で作成したディレクトリにAmazon FSx ONTAP NFSボリュームをマウントします。
 +
  sudo mount -t nfs nfsvers=4.1,172.16.0.2:/nfsdemovol01 /fsxcvotesting01/nfsdemovol01
 

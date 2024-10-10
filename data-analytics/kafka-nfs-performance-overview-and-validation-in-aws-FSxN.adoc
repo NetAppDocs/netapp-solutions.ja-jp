@@ -1,10 +1,10 @@
 ---
 sidebar: sidebar 
 permalink: data-analytics/kafka-nfs-performance-overview-and-validation-in-aws-FSxN.html 
-keywords: AWS FSx for NetApp ONTAP, openmessage benchmarking, architectural setup, kafka 
+keywords: AWS FSx ONTAP, openmessage benchmarking, architectural setup, kafka 
 summary: ストレージレイヤをNetApp NFS上にマウントしたKafkaクラスタは、AWSクラウドでのパフォーマンスについてベンチマークテストを実施しました。ベンチマークの例については、次のセクションで説明します。 
 ---
-= AWS FSx for NetApp ONTAPでのパフォーマンスの概要と検証
+= AWS FSx ONTAPでのパフォーマンスの概要と検証
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,43 +14,37 @@ summary: ストレージレイヤをNetApp NFS上にマウントしたKafkaク�
 
 
 [role="lead"]
-ストレージレイヤをNetApp NFS上にマウントしたKafkaクラスタは、AWS FSx for NetApp ONTAPでパフォーマンスのベンチマークを実施しました。ベンチマークの例については、次のセクションで説明します。
+NetApp NFS上にストレージレイヤがマウントされたKafkaクラスタは、AWS FSx ONTAPでパフォーマンスのベンチマークを実施しました。ベンチマークの例については、次のセクションで説明します。
 
 
 
-== AWS FSx for NetApp ONTAPでのApache Kafkaの使用
+== AWS FSx ONTAPのApache Kafka
 
 Network File System（NFS；ネットワークファイルシステム）は、大量のデータを格納するために広く使用されているネットワークファイルシステムです。ほとんどの組織では、データがApache Kafkaなどのストリーミングアプリケーションによって生成されるようになっています。このようなワークロードには、拡張性、低レイテンシ、最新のストレージ機能を備えた堅牢なデータ取り込みアーキテクチャが必要です。リアルタイム分析を実現し、実用的な分析情報を提供するには、適切に設計されたパフォーマンスの高いインフラが必要です。
 
-Kafkaは、設計上POSIX準拠のファイルシステムと連携し、ファイル操作をファイルシステムに依存して処理しますが、NFSv3ファイルシステムにデータを格納する場合、KafkaブローカーのNFSクライアントは、ファイル操作をXFSやext4などのローカルファイルシステムとは異なる方法で解釈できます。一般的な例としては、NFSのsilly renameがあり、クラスタの拡張時やパーティションの再割り当て時にKafkaブローカーでエラーが発生していました。この課題に対処するため、NetAppはオープンソースのLinux NFSクライアントを更新し、RHEL8.7とRHEL9.1で一般提供されるようになりました。また、最新のFSx for NetApp ONTAPリリースであるONTAP 9.12.1からサポートされるようになりました。
+Kafkaは、設計上POSIX準拠のファイルシステムと連携し、ファイル操作をファイルシステムに依存して処理しますが、NFSv3ファイルシステムにデータを格納する場合、KafkaブローカーのNFSクライアントは、ファイル操作をXFSやext4などのローカルファイルシステムとは異なる方法で解釈できます。一般的な例としては、NFSのsilly renameがあり、クラスタの拡張時やパーティションの再割り当て時にKafkaブローカーでエラーが発生していました。この課題に対処するため、NetAppはオープンソースのLinux NFSクライアントを更新し、RHEL8.7およびRHEL9.1で一般提供されるようになりました。また、最新のFSx ONTAPリリースであるONTAP 9 12.1からサポートされるようになりました。
 
-Amazon FSx for NetApp ONTAPは、拡張性とパフォーマンスに優れたフルマネージドのNFSファイルシステムをクラウドで提供します。FSx for NetApp ONTAPのKafkaデータは、大量のデータを処理し、フォールトトレランスを確保するように拡張できます。NFSは、重要で機密性の高いデータセットに対して一元的なストレージ管理とデータ保護を提供します。
+Amazon FSx ONTAPは、拡張性とパフォーマンスに優れたフルマネージドのNFSファイルシステムをクラウドで提供します。FSx ONTAP上のKafkaデータは、大量のデータを処理し、フォールトトレランスを確保するために拡張できます。NFSは、重要で機密性の高いデータセットに対して一元的なストレージ管理とデータ保護を提供します。
 
-これらの機能強化により、AWSのお客様はAWSコンピューティングサービスでKafkaワークロードを実行する際にFSx for NetApp ONTAPを活用できるようになります。次のようなメリットがあります。
-* CPU使用率を削減して、I/O待機時間を短縮します
-* Kafkaブローカーのリカバリ時間の短縮。
-*信頼性と効率性。
-*拡張性とパフォーマンス。
-*マルチアベイラビリティゾーンの可用性。
-*データ保護：
+これらの機能強化により、AWSのお客様はAWSコンピューティングサービスでKafkaワークロードを実行する際にFSx ONTAPを活用できるようになります。これらの利点は次のとおりです。* CPU使用率の削減によるI/O待機時間の短縮* Kafkaブローカーのリカバリ時間の短縮。*信頼性と効率性。*拡張性とパフォーマンス。*マルチアベイラビリティゾーンの可用性。*データ保護：
 
 
 
-=== AWS FSx for NetApp ONTAPでのパフォーマンスの概要と検証
+=== AWS FSx ONTAPでのパフォーマンスの概要と検証
 
 ストレージレイヤをNetApp NFS上にマウントしたKafkaクラスタは、AWSクラウドでのパフォーマンスについてベンチマークテストを実施しました。ベンチマークの例については、次のセクションで説明します。
 
 
 
-==== AWS FSx for NetApp ONTAPのKafka
+==== AWS FSx ONTAPのKafka
 
-AWS FSx for NetApp ONTAPを使用したKafkaクラスタは、AWSクラウドでのパフォーマンスについてベンチマークを実施しました。このベンチマークについては、以降のセクションで説明します。
+AWS FSx ONTAPを使用したKafkaクラスタは、AWSクラウドでのパフォーマンスについてベンチマークを実施しました。このベンチマークについては、以降のセクションで説明します。
 
 
 
 ==== アーキテクチャのセットアップ
 
-次の表に、AWS FSx for NetApp ONTAPを使用したKafkaクラスタの環境構成を示します。
+次の表に、AWS FSx ONTAPを使用するKafkaクラスタの環境構成を示します。
 
 |===
 | プラットフォームコンポーネント | 環境の構成 
@@ -68,25 +62,25 @@ AWS FSx for NetApp ONTAPを使用したKafkaクラスタは、AWSクラウドで
 | すべてのノード上のオペレーティングシステム | RHEL8.6 
 
 
-| AWS FSx for NetApp ONTAP | マルチアストラゼネカ、4GB/秒のスループット、160000 IOPS 
+| AWS FSX ONTAP の略 | マルチアストラゼネカ、4GB/秒のスループット、160000 IOPS 
 |===
 
 
-==== NetApp FSx for NetApp ONTAPのセットアップ
+==== NetApp FSx ONTAPのセットアップ
 
-. 最初のテストでは、2TBの容量と40000のIOPSで2GB/秒のスループットを実現するFSx for NetApp ONTAPファイルシステムを作成しました。
+. 最初のテストでは、2TBの容量と40000 IOPSで2GB/秒のスループットを実現するFSx ONTAPファイルシステムを作成しました。
 +
 ....
 [root@ip-172-31-33-69 ~]# aws fsx create-file-system --region us-east-2  --storage-capacity 2048 --subnet-ids <desired subnet 1> subnet-<desired subnet 2> --file-system-type ONTAP --ontap-configuration DeploymentType=MULTI_AZ_HA_1,ThroughputCapacity=2048,PreferredSubnetId=<desired primary subnet>,FsxAdminPassword=<new password>,DiskIopsConfiguration="{Mode=USER_PROVISIONED,Iops=40000"}
 ....
 +
-この例では、AWS CLIを使用してFSx for NetApp ONTAPを導入しています。必要に応じて、環境内でコマンドをさらにカスタマイズする必要があります。FSx for NetApp ONTAPはAWSコンソールからさらに導入、管理できるため、コマンドラインの入力が少なく、導入がより簡単かつ合理的になります。
+この例では、AWS CLIを使用してFSx ONTAPを導入しています。必要に応じて、環境内でコマンドをさらにカスタマイズする必要があります。FSx ONTAPはAWSコンソールからさらに導入、管理できるため、コマンドラインの入力が少なく、導入がより簡単かつ合理的になります。
 
 +
-ドキュメントFSx for NetApp ONTAPでは、テストリージョン（US-East-1）の2GB/秒スループットファイルシステムで達成可能な最大IOPSは8万IOPSです。FSx for NetApp ONTAPファイルシステムの合計最大IOPSは16万IOPSですが、そのためには4GB/秒のスループット導入が必要です。このことについては、このドキュメントの後半で説明します。
+ドキュメントFSx ONTAPでは、テストリージョン（US-East-1）の2GB/秒スループットファイルシステムで達成可能な最大IOPSは8万IOPSです。FSx ONTAPファイルシステムの合計最大IOPSは16万IOPSですが、これを達成するには4GB/秒のスループット導入が必要です。これについては、このドキュメントの後半で説明します。
 
 +
-FSx for NetApp ONTAPのパフォーマンス仕様の詳細については、AWS FSx for NetApp ONTAPのドキュメントを参照してください。 https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/performance.html[] 。
+FSx ONTAPのパフォーマンス仕様の詳細については、AWS FSx ONTAPのドキュメントを参照してください。 https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/performance.html[]
 
 +
 FSx「create-file-system」のコマンドライン構文の詳細については、以下を参照してください。 https://docs.aws.amazon.com/cli/latest/reference/fsx/create-file-system.html[]
@@ -94,13 +88,12 @@ FSx「create-file-system」のコマンドライン構文の詳細について�
 +
 たとえば、KMSキーが指定されていない場合に使用されるデフォルトのAWS FSxマスターキーとは異なり、特定のKMSキーを指定できます。
 
-. FSx for NetApp ONTAPファイルシステムを作成するときは、ファイルシステムを次のように定義したら、JSONで「lifecycle」ステータスが「available」に変わるまで待ちます。
+. FSx ONTAPファイルシステムを作成するときは、ファイルシステムを次のように定義したら、JSONの「ライフサイクル」ステータスが「利用可能」に変わるまで待ちます。
 +
 ....
 [root@ip-172-31-33-69 ~]# aws fsx describe-file-systems  --region us-east-1 --file-system-ids fs-02ff04bab5ce01c7c
 ....
-. fsxadminユーザを使用してFSx for NetApp ONTAP SSHにログインし、クレデンシャルを検証します。
-Fsxadminは、作成時にFSx for NetApp ONTAPファイルシステムのデフォルトの管理者アカウントです。fsxadminのパスワードは、手順1で完了したように、AWSコンソールまたはAWS CLIでファイルシステムを最初に作成したときに設定したパスワードです。
+. fsxadminユーザを使用してFSx ONTAP SSHにログインし、クレデンシャルを検証します。fsxadminは、作成時にFSx ONTAPファイルシステムのデフォルトの管理アカウントです。fsxadminのパスワードは、手順1で完了したように、AWSコンソールまたはAWS CLIでファイルシステムを最初に作成したときに設定したパスワードです。
 +
 ....
 [root@ip-172-31-33-69 ~]# ssh fsxadmin@198.19.250.244
@@ -113,15 +106,15 @@ Warning: Permanently added '198.19.250.244' (ED25519) to the list of known hosts
 
 This is your first recorded login.
 ....
-. クレデンシャルの検証が完了したら、FSx for NetApp ONTAPファイルシステムにSVMを作成
+. クレデンシャルの検証が完了したら、FSx ONTAPファイルシステムにSVMを作成
 +
 ....
 [root@ip-172-31-33-69 ~]# aws fsx --region us-east-1 create-storage-virtual-machine --name svmkafkatest --file-system-id fs-02ff04bab5ce01c7c
 ....
 +
-Storage Virtual Machine（SVM）は分離されたファイルサーバで、FSx for NetApp ONTAPボリューム内のデータを管理およびアクセスするための独自の管理クレデンシャルとエンドポイントを備え、FSx for NetApp ONTAPマルチテナンシーを提供します。
+Storage Virtual Machine（SVM）は分離されたファイルサーバで、FSx ONTAPボリューム内のデータを管理およびアクセスするための独自の管理クレデンシャルとエンドポイントを備え、FSx ONTAPマルチテナンシーを提供します。
 
-. プライマリSVMの設定が完了したら、新しく作成したFSx for NetApp ONTAPファイルシステムにSSHで接続し、以下のサンプルコマンドを使用してSVMにボリュームを作成します。同様に、この検証用に6つのボリュームを作成します。Kafkaのパフォーマンスが向上するように、デフォルトのコンスティチュエント（8個）以下のコンスティチュエントを使用してください。
+. プライマリSVMの設定が完了したら、新しく作成したFSx ONTAPファイルシステムにSSH接続し、以下のサンプルコマンドを使用してSVMにボリュームを作成します。同様に、この検証用に6つのボリュームを作成します。Kafkaのパフォーマンスが向上するように、デフォルトのコンスティチュエント（8個）以下のコンスティチュエントを使用してください。
 +
 ....
 FsxId02ff04bab5ce01c7c::*> volume create -volume kafkafsxN1 -state online -policy default -unix-permissions ---rwxr-xr-x -junction-active true -type RW -snapshot-policy none  -junction-path /kafkafsxN1 -aggr-list aggr1
@@ -180,9 +173,9 @@ FsxId02ff04bab5ce01c7c::*> volume mount -volume kafkafsxN5 -junction-path /kafka
 FsxId02ff04bab5ce01c7c::*> volume mount -volume kafkafsxN6 -junction-path /kafkafsxN6
 ....
 +
-FSx for NetApp ONTAPでは、ボリュームをシンプロビジョニングできます。この例では、拡張されたボリュームの合計容量がファイルシステムの合計容量を超えているため、プロビジョニングされた追加のボリューム容量のロックを解除するには、ファイルシステムの合計容量を拡張する必要があります。これについては、次の手順で説明します。
+FSx ONTAPでは、ボリュームをシンプロビジョニングできます。この例では、拡張されたボリュームの合計容量がファイルシステムの合計容量を超えているため、プロビジョニングされた追加のボリューム容量のロックを解除するには、ファイルシステムの合計容量を拡張する必要があります。これについては、次の手順で説明します。
 
-. 次に、パフォーマンスと容量を強化するために、FSx for NetApp ONTAPのスループット容量を2GB/秒から4GB/秒、IOPSから160000、容量を5TBに拡張しました。
+. 次に、パフォーマンスと容量を強化するために、FSx ONTAPのスループット容量を2GB/秒から4GB/秒、IOPSを160000、容量を5TBに拡張しました。
 +
 ....
 [root@ip-172-31-33-69 ~]# aws fsx update-file-system --region us-east-1  --storage-capacity 5120 --ontap-configuration 'ThroughputCapacity=4096,DiskIopsConfiguration={Mode=USER_PROVISIONED,Iops=160000}' --file-system-id fs-02ff04bab5ce01c7c
@@ -191,17 +184,17 @@ FSx for NetApp ONTAPでは、ボリュームをシンプロビジョニングで
 FSx「update-file-system」の詳細なコマンドライン構文は、次のとおりです。
 https://docs.aws.amazon.com/cli/latest/reference/fsx/update-file-system.html[]
 
-. FSx for NetApp ONTAPボリュームは、nconnectおよびデフォルトのオプションを使用してKafkaブローカーにマウントされます。
+. FSx ONTAPボリュームは、Kafkaブローカーでnconnectとデフォルトのオプションを使用してマウントされます。
 +
-次の図は、FSx for NetApp ONTAPベースのKafkaクラスタの最終的なアーキテクチャを示しています。
+次の図は、FSx ONTAPベースのKafkaクラスタの最終的なアーキテクチャを示しています。
 
 +
-image:aws-fsx-kafka-arch1.png["この図は、FSxNベースのKafkaクラスタのアーキテクチャを示しています。"]
+image:aws-fsx-kafka-arch1.png["この図は、FSx ONTAPベースのKafkaクラスタのアーキテクチャを示しています。"]
 
 +
-** コンピューティング：3ノードのKafkaクラスタを使用し、専用サーバで3ノードのZookeeperアンサンブルを実行しました。各ブローカーには、FSx for NetApp ONTAPインスタンス上の6つのボリュームに対するNFSマウントポイントが6つありました。
+** コンピューティング：3ノードのKafkaクラスタを使用し、専用サーバで3ノードのZookeeperアンサンブルを実行しました。各ブローカーには、FSx ONTAPインスタンス上の6つのボリュームに対するNFSマウントポイントが6つありました。
 ** 監視：Prometheus-Grafanaの組み合わせには2つのノードを使用しました。ワークロードの生成には、独立した3ノードクラスタを使用し、このKafkaクラスタを生成して使用しました。
-** ストレージ：FSx for NetApp ONTAPを使用し、2TBのボリュームを6個マウントしました。その後、NFSマウントを使用してボリュームをKafkaブローカーにエクスポートしました。FSx for NetApp ONTAPボリュームは、16のnconnectセッションとKafkaブローカーのデフォルトオプションでマウントされます。
+** ストレージ：FSx ONTAPを使用し、2TBのボリュームを6個マウントしました。その後、NFSマウントを使用してボリュームをKafkaブローカーにエクスポートしました。FSx ONTAPボリュームは、16のnconnectセッションとKafkaブローカーのデフォルトオプションでマウントされます。
 
 
 
@@ -236,19 +229,19 @@ sudo bin/benchmark –drivers driver-kafka/kafka-throughput.yaml workloads/1-top
 
 NFSで実行されるKafkaインスタンスのパフォーマンスをベンチマークするために、2種類のドライバを使用してワークロードを生成しました。ドライバの違いは、log flushプロパティです。
 
-Kafkaレプリケーションファクタ1とFSx for NetApp ONTAPの場合：
+Kafkaレプリケーションファクタ1とFSx ONTAPの場合：
 
 * Syncドライバで一貫して生成された総スループット：最大3218 Mbps、最大パフォーマンス（最大3652 Mbps）
 * スループットドライバによって一貫して生成された総スループット：最大3679 Mbps、最大3908 Mbpsのパフォーマンス。
 
 
-レプリケーションファクタ3のKafkaとFSx for NetApp ONTAPの場合：
+レプリケーションファクタ3のKafkaとFSx ONTAPの場合：
 
 * Syncドライバで一貫して生成される合計スループット：最大1252 Mbps、最大1382 Mbps。
 * スループットドライバによって一貫して生成される総スループット：最大1218 Mbps、最大パフォーマンス（最大1328 Mbps）
 
 
-Kafkaレプリケーションファクタ3では、FSx for NetApp ONTAPで読み取りと書き込みの処理が3回行われました。Kafkaレプリケーションファクタ1では、読み取りと書き込みの処理がFSx for NetApp ONTAPで1回行われたため、どちらの検証でも、 4GB/秒の最大スループットに到達できました。
+Kafkaレプリケーションファクタ3では、FSx ONTAPで読み取りと書き込みの処理が3回行われました。Kafkaレプリケーションファクタ1では、読み取りと書き込みの処理がFSx ONTAPで1回行われたため、どちらの検証でも最大スループットである4GB/秒に到達できました。
 
 Syncドライバはログが即座にディスクにフラッシュされるときに一貫したスループットを生成できますが、Throughputドライバはログがディスクに一括コミットされるときにスループットのバーストを生成します。
 
@@ -256,10 +249,10 @@ Syncドライバはログが即座にディスクにフラッシュされると�
 
 image:aws-fsxn-performance-rf-1-rf-3.png["この画像は、RF1およびRF3でのKafkaのパフォーマンスを示しています"]
 
-以下の表は、Kafkaレプリケーションファクタ3で2GB/秒のFSx for NetApp ONTAPと4GB/秒のパフォーマンスを示しています。レプリケーションファクタ3は、FSx for NetApp ONTAPストレージで読み取りと書き込みの処理を3回行います。スループットドライバの合計レートは881 MB/秒で、2GB/秒のFSx for NetApp ONTAPファイルシステムではKafkaの読み取りと書き込みを行います。スループットドライバの合計レートは1328 MB/秒で、Kafkaの読み取りと書き込みを行います。Kafkaのパフォーマンスは、FSx for NetApp ONTAPのスループットに基づいてリニアで拡張性に優れています。
+以下の表は、Kafkaレプリケーションファクタ3の2GB/秒FSx ONTAPと4GB/秒のパフォーマンスを示しています。レプリケーションファクタ3は、FSx ONTAPストレージで読み取りと書き込みの処理を3回行います。スループットドライバの合計レートは881 MB/秒で、2GB/秒のFSx ONTAPファイルシステムではKafkaの読み取りと書き込みを行います。スループットドライバの合計レートは1328 MB/秒で、Kafkaの読み取りと書き込みを行います。Kafkaのパフォーマンスは、FSx ONTAPのスループットに基づいてリニアで拡張性に優れています。
 
 image:aws-fsxn-2gb-4gb-scale.png["この図は、2GB/秒と4GB/秒のスケールアウトパフォーマンスを示しています。"]
 
-以下のグラフは、EC2インスタンスとFSx for NetApp ONTAPのパフォーマンスを示しています（Kafkaレプリケーション係数：3）。
+以下の表は、EC2インスタンスとFSx ONTAPのパフォーマンスを示しています（Kafkaレプリケーション係数：3）。
 
-image:aws-fsxn-ec2-fsxn-comparition.png["この図は、RF3でのEC2とFSxNのパフォーマンス比較を示しています。"]
+image:aws-fsxn-ec2-fsxn-comparition.png["この画像は、RF3でのEC2とFSx ONTAPのパフォーマンス比較を示しています。"]

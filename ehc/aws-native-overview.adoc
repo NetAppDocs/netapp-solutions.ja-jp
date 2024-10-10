@@ -4,7 +4,7 @@ permalink: ehc/aws-native-overview.html
 keywords:  
 summary:  
 ---
-= TR-4938：AWSにVMware CloudでNFSデータストアとしてAmazon FSX for ONTAP をマウント
+= TR-4938：『Mount Amazon FSx ONTAP as a NFS datastore with VMware Cloud on AWS』
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-本ドキュメントでは、VMware Cloud on AWSを使用してAmazon FSx for ONTAPをNFSデータストアとしてマウントする方法について説明します。
+本ドキュメントでは、VMware Cloud on AWSを使用してAmazon FSx ONTAPをNFSデータストアとしてマウントする方法について説明します。
 
 ネットアップ、 Niyaz Mohamed
 
@@ -24,11 +24,11 @@ summary:
 
 成功を収めている組織は、変革と刷新の道を歩んでいます。このプロセスの一環として、企業は通常、既存のVMwareへの投資を使用して、クラウドのメリットを活用し、プロセスの移行、バースト、拡張、ディザスタリカバリを可能なかぎりシームレスに実行する方法を模索しています。クラウドに移行するお客様は、柔軟性とバースト性、データセンターの終了、データセンターの統合、ライフサイクルの終了、合併、合併などのユースケースを評価する必要があります。 買収など。
 
-VMware Cloud on AWSはお客様に独自のハイブリッド機能を提供するため、大多数のお客様に適していますが、ネイティブストレージの選択肢が限られているため、ストレージの負荷が高い組織での有用性が制限されています。ストレージはホストに直接関連付けられているため、ストレージを拡張する唯一の方法は、ホストを追加することです。これにより、ストレージを大量に消費するワークロードのコストを35～40%以上増加させることができます。このようなワークロードには、追加の処理能力ではなく、ストレージと分離されたパフォーマンスが必要ですが、追加のホストに料金を支払うことになります。ここでは、を行います https://aws.amazon.com/about-aws/whats-new/2022/08/announcing-vmware-cloud-aws-integration-amazon-fsx-netapp-ontap/["最近の統合"^] ONTAP 向けFSXは、VMware Cloud on AWSを使用して、大量のストレージとパフォーマンスを必要とするワークロードに最適です。
+VMware Cloud on AWSはお客様に独自のハイブリッド機能を提供するため、大多数のお客様に適していますが、ネイティブストレージの選択肢が限られているため、ストレージの負荷が高い組織での有用性が制限されています。ストレージはホストに直接関連付けられているため、ストレージを拡張する唯一の方法は、ホストを追加することです。これにより、ストレージを大量に消費するワークロードのコストを35～40%以上増加させることができます。このようなワークロードには、追加の処理能力ではなく、ストレージと分離されたパフォーマンスが必要ですが、追加のホストに料金を支払うことになります。 https://aws.amazon.com/about-aws/whats-new/2022/08/announcing-vmware-cloud-aws-integration-amazon-fsx-netapp-ontap/["最近の統合"^]FSx ONTAPは、VMware Cloud on AWSを使用してストレージやパフォーマンスの負荷の高いワークロードを実行する場合に便利です。
 
 次のシナリオを考えてみましょう。お客様は8台のホストで馬力を求めています（vCPU / vMem）が必要ですが、ストレージにも大きな要件があります。評価に基づいて、ストレージ要件を満たすために16台のホストが必要です。これにより、必要な容量をすべて追加購入するだけで、より多くのストレージが必要になるため、全体的なTCOが増加します。これは、移行、ディザスタリカバリ、バースト、開発/テストなど、あらゆるユースケースに当てはまります。 など。
 
-このドキュメントでは、AWS上のVMware Cloud用のNFSデータストアとしてONTAP 用のFSXをプロビジョニングして接続するために必要な手順を説明します。
+このドキュメントでは、VMware Cloud on AWS用のNFSデータストアとしてFSx ONTAPをプロビジョニングおよび接続するために必要な手順を説明します。
 
 
 NOTE: この解決策 は、VMwareからも入手できます。にアクセスしてください link:https://vmc.techzone.vmware.com/resource/vmware-cloud-aws-integration-amazon-fsx-netapp-ontap-deployment-guide["VMware Cloud Tech Zone"] を参照してください。
@@ -38,7 +38,7 @@ NOTE: この解決策 は、VMwareからも入手できます。にアクセス�
 == 接続オプション
 
 
-NOTE: AWS上のVMware Cloudでは、複数AZおよび単一AZ環境のFSX for ONTAP をサポートします。
+NOTE: VMware Cloud on AWSは、FSx ONTAPの複数のAZ環境と単一のAZ環境の両方をサポートしています。
 
 ここでは、ハイレベルな接続アーキテクチャと、ホストを追加することなくSDDCクラスタ内のストレージを拡張するために解決策 を実装するために必要な手順について説明します。
 
@@ -46,25 +46,25 @@ image:fsx-nfs-image1.png["入力/出力ダイアログを示す図、または�
 
 導入手順の概要は次のとおりです。
 
-. 新しい指定VPCでAmazon FSX for ONTAP を作成します。
+. 新しい指定VPCにAmazon FSx ONTAPを作成します。
 . SDDCグループを作成します。
 . VMware Transit ConnectとTGWの添付ファイルを作成します。
 . ルーティング（AWS VPCとSDDC）とセキュリティグループを設定する。
 . NFSボリュームをデータストアとしてSDDCクラスタに接続します。
 
 
-ONTAP 用のFSXをNFSデータストアとしてプロビジョニングして接続する前に、まずCloud SDDC環境でVMwareをセットアップするか、またはv1.20以上にアップグレードした既存のSDDCを取得する必要があります。詳細については、を参照してください link:https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws.getting-started/GUID-3D741363-F66A-4CF9-80EA-AA2866D1834E.html["AWSでのVMware Cloudの導入"^]。
+FSx ONTAPをNFSデータストアとしてプロビジョニングして接続する前に、VMware on Cloud SDDC環境をセットアップするか、既存のSDDCをv1.20以上にアップグレードしておく必要があります。詳細については、を参照してlink:https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws.getting-started/GUID-3D741363-F66A-4CF9-80EA-AA2866D1834E.html["AWSでのVMware Cloudの導入"^]ください。
 
 
-NOTE: ONTAP のFSXは、現在、ストレッチクラスタではサポートされていません。
+NOTE: FSx ONTAPは現在、ストレッチクラスタではサポートされていません。
 
 
 
 == まとめ
 
-このドキュメントでは、AWSでVMwareクラウドを使用してAmazon FSX for ONTAP を設定するために必要な手順について説明します。Amazon FSX for ONTAP は、アプリケーションワークロードとファイルサービスを導入および管理する優れたオプションを提供し、データ要件をアプリケーションレイヤとシームレスにすることでTCOを削減します。どのようONTAP なユースケースでも、オンプレミスからAWSにクラウドのメリット、一貫したインフラ、運用を迅速に実現するためには、AWS対応のVMwareクラウドとAmazon FSXを選択し、ワークロードの双方向の移動性、エンタープライズクラスの容量とパフォーマンスを実現できます。ストレージの接続に使用する一般的なプロセスと手順は同じです。新しい名前と同様に変更されたデータの位置にすぎないことを忘れないでください。ツールとプロセスはすべて変わらないので、Amazon FSX for ONTAP を使用すると、全体的な導入を最適化できます。
+このドキュメントでは、Amazon FSx ONTAPとVMware Cloud on AWSを設定するために必要な手順について説明します。Amazon FSx ONTAPは、ファイルサービスとともにアプリケーションワークロードを導入、管理するための優れたオプションを提供します。また、データ要件をアプリケーションレイヤでシームレスに行えるため、TCOを削減できます。どのようなユースケースであっても、VMware Cloud on AWSとAmazon FSx ONTAPを組み合わせることで、クラウドのメリットを迅速に実現し、オンプレミスからAWSへの一貫したインフラと運用、ワークロードの双方向のモビリティ、エンタープライズクラスの容量とパフォーマンスを実現できます。ストレージの接続に使用する一般的なプロセスと手順は同じです。覚えておいてください。ツールとプロセスはすべて同じであり、Amazon FSx ONTAPは導入全体の最適化に役立ちます。
 
 このプロセスの詳細については、詳細なウォークスルービデオをご覧ください。
 
-.Amazon FSx for ONTAP VMware Cloud
+.Amazon FSx ONTAP VMware Cloud
 video::6462f4e4-2320-42d2-8d0b-b01200f00ccb[panopto]
