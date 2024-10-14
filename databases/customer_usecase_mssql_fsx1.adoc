@@ -1,0 +1,63 @@
+---
+sidebar: sidebar 
+permalink: databases/customer_usecase_mssql_fsx1.html 
+keywords: SQL Server, WSFC, AWS, FSx ONTAP, EC2, SnapCenter 
+summary: この実際のお客様のユースケース例では、コストを削減するために、SQLサーバワークロードをオンプレミスからAmazon FSx ONTAPに移行する際の課題、ソリューション、成果について説明します。 
+---
+= 医療製品企業、オンプレミスのSQLワークロードをAmazon FSx ONTAPに移行してコストを削減
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+NetAppソリューションエンジニアリングチーム
+
+[role="lead"]
+この実際のお客様のユースケース例では、コストを削減するために、SQLサーバワークロードをオンプレミスからAmazon FSx ONTAPに移行する際の課題、ソリューション、成果について説明します。
+
+
+
+== 課題
+
+* このお客様は、サードパーティがホストするプライベートデータセンターでSQL Serverのワークロードを実行していました。ホスティングコストの増加が問題になっていました。
+* IT部門は、アウトソーシングや従業員の離職により、アプリケーションアーキテクチャや既存のインフラに関する知識が不足していました。
+* NetApp ONTAPの管理経験はほとんど、またはまったくありませんでした。
+* 既存のインフラストラクチャの更新を決定する前に、ITは厳しいスケジュールで実行されています。
+* SQL Server環境は大規模（100TB）で、SQL Always Onを使用して2つのデータセンター間で高可用性を実現する複雑な環境です。3つの一時的な環境が、AppSyncを使用してセカンダリデータコピーから作成され、データは毎日/毎週更新されます。本番データから更新するたびに、SQLスクリプトを使用して専用のデータフラグを変更する必要があります。
+
+
+image:customer_usecase_mssql_fsx1_before.png["このイメージは、移行前のお客様環境の構成の詳細を示しています。"]
+
+
+
+== 主要なソリューション・コンポーネント
+
+* オンプレミスのホスト型Dell Unity SANおよびAppSync環境からAWS Amazon FSx ONTAP with NetApp SnapCenterへの移行
+* Amazon FSx ONTAPのシンクローン機能は、ストレージコストの削減に役立ちます。また、完全に自動化されたSnapCenterのクローンライフサイクル管理は、他のすべての一時的な環境要件を満たします。
+* プライマリSQL Server DBをAWS EBSに導入し、セカンダリコピーを単一AZのAmazon FSx ONTAPにレプリケート
+* POCはSnapCenterがAppSyncの代替として適切であることを証明した。
+* セットアップ、移行、継続的なサポートを提供する、信頼できる経験豊富なパートナー。詳細なソリューション実装ガイドが、Amazon FSx ONTAPおよびSnapCenterの初めてのユーザと経験の浅いユーザを支援します。
+
+
+image:customer_usecase_mssql_fsx1_after.png["このイメージは、移行後のお客様の環境構成の詳細を示しています。"]
+
+
+
+== 成果
+
+* プライベートデータセンターでホスティングを継続する場合と比較して、40%のコスト削減
+* 300社のお客様をサポートするフルマネージドのAmazon FSx ONTAPサービスとSnapCenter
+* PreProd、UAT、QA環境向けに、ほぼ瞬時にシンプロビジョニングされたクローンを自動化できる機能を維持
+* 期日前の移行、契約更新コストの回避、ベンダーとの関係の不満から、パブリッククラウドでの価値あるエクスペリエンスへの移行
+* Amazon FSx上のSQL Serverは、パフォーマンスを維持しながらデータの冗長性を強化しました。
+* 将来的にリージョン間DRを容易に実現できます。
+
+
+
+
+== 追加情報の参照先
+
+NetAppエンタープライズデータベースソリューションの詳細については、次のWebサイトを参照してください。link:https://docs.netapp.com/us-en/netapp-solutions/databases/index.html["ネットアップのエンタープライズデータベースソリューション"^]
