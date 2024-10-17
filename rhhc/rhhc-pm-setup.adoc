@@ -58,7 +58,7 @@ image:rhhc-trident-helm.png["入力/出力ダイアログを示す図、また�
 .Tridentを使用してバックエンドとストレージクラスを作成（FSx ONTAPの場合）
 [%collapsible]
 ====
-* を参照してください link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-postdeployment.html["こちらをご覧ください"] バックエンドとストレージクラスの作成の詳細については、を参照してください。
+* バックエンドとストレージクラスの作成の詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-use/backends.html["こちらをご覧ください"]。
 * OpenShiftコンソールから、Trident CSIを使用してFsxN用に作成したストレージクラスをデフォルトで作成します。下のスクリーンショットを参照：
 
 
@@ -72,7 +72,7 @@ image:rhhc-default-storage-class.png["入力/出力ダイアログを示す図�
 * クラスタ用の新しいArgo CDインスタンスをセットアップします。手順を参照してください link:https://docs.openshift.com/container-platform/4.10/cicd/gitops/setting-up-argocd-instance.html["こちらをご覧ください"]。
 
 
-Argo CDのコンソールを開き、アプリをデプロイします。たとえば、Argo CDとHelm Chartを使用してJenkins Appをデプロイできます。アプリケーションを作成するときに、次の詳細が提供されました。プロジェクト:デフォルトクラスタ: https://kubernetes.default.svc[]名前空間: Jenkins Helm ChartのURL : https://charts.bitnami.com/bitnami[]
+Argo CDのコンソールを開き、アプリをデプロイします。たとえば、Argo CDとHelm Chartを使用してJenkins Appをデプロイできます。プロジェクト:デフォルトクラスタ:'https://kubernetes.default.svc'[](引用符なし)名前空間: Jenkins Helm ChartのURL :(引用符なし)'https://charts.bitnami.com/bitnami'[]
 
 Helmパラメータ：global.storageClass：fsxn -nas
 

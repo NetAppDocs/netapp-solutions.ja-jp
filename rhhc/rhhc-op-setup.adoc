@@ -37,10 +37,10 @@ image:rhhc-on-premises.png["入力/出力ダイアログを示す図、または
 .VMware vSphere（ハブクラスタ）にOpenShift Container Platformクラスタを導入して設定
 [%collapsible]
 ====
-の手順を参照してください link:https://access.redhat.com/documentation/en-us/assisted_installer_for_openshift_container_platform/2022/html/assisted_installer_for_openshift_container_platform/installing-on-vsphere#doc-wrapper/["支援された展開"] OCPクラスタを導入する方法。
+の手順を参照してくださいlink:https://docs.openshift.com/container-platform/4.17/installing/installing_vsphere/installing-vsphere-assisted-installer.html["支援された展開"]OCPクラスタを導入する方法。
 
 
-TIP: 次の点に注意してください。-インストーラに提供するsshの公開鍵と秘密鍵を作成します。これらのキーは、必要に応じてマスターノードとワーカーノードにログインするために使用されます。-アシスタントインストーラからインストーラプログラムをダウンロードします。このプログラムを使用して、VMware vSphere環境でマスターノードとワーカーノード用に作成したVMをブートします。- VMには、CPU、メモリ、およびハードディスクの最小要件が必要です。（のvm createコマンドを参照してください link:https://access.redhat.com/documentation/en-us/assisted_installer_for_openshift_container_platform/2022/html/assisted_installer_for_openshift_container_platform/installing-on-vsphere#doc-wrapper/["これ"] この情報を提供するマスターノードとワーカーノードのページ）-すべてのVMでdiskUUIDを有効にする必要があります。-マスター用に最低3ノード、ワーカー用に3ノードを作成します。-インストーラによって検出されたら、VMware vSphere統合トグルボタンをオンにします。
+TIP: 次の点に注意してください。-インストーラに提供するsshの公開鍵と秘密鍵を作成します。これらのキーは、必要に応じてマスターノードとワーカーノードにログインするために使用されます。-アシスタントインストーラからインストーラプログラムをダウンロードします。このプログラムを使用して、VMware vSphere環境でマスターノードとワーカーノード用に作成したVMをブートします。- VMには、CPU、メモリ、およびハードディスクの最小要件が必要です。（この情報を提供するマスターノードとワーカーノードについては、ページのvm createコマンドを参照してlink:https://docs.redhat.com/en/documentation/assisted_installer_for_openshift_container_platform/2024/html/installing_openshift_container_platform_with_the_assisted_installer/installing-on-vsphere["これ"]ください）。すべてのVMでdiskUUIDを有効にする必要があります。-マスター用に最低3ノード、ワーカー用に3ノードを作成します。-インストーラによって検出されたら、VMware vSphere統合トグルボタンをオンにします。
 
 ====
 .ハブクラスタにAdvanced Cluster Managementをインストールします
@@ -81,7 +81,7 @@ TIP: 次の点に注意してください。-インストーラに提供するss
 * 手順を参照してください link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy-operator.html["こちらをご覧ください"]。
 * ONTAP-NAS用のストレージバックエンドを作成
 * ONTAP-NAS用のストレージクラスを作成
-* 手順を参照してください link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-postdeployment.html["こちらをご覧ください"]。
+* 手順を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-use/create-stor-class.html["こちらをご覧ください"]。
 
 
 ====
