@@ -26,7 +26,9 @@ ONTAP Storage Virtual Machine（SVM）はセキュアマルチテナンシーを
 
 image:rhhc-storage-options-sc2ontap.png["ストレージクラスとONTAP の関係"]
 
-アプリケーション所有者がストレージクラスを使用して永続ボリュームを要求します。バックエンドストレージはストレージクラスでフィルタリングされます。ポッドとバックエンドストレージの関係を以下に示します。
+アプリケーション所有者がストレージクラスを使用して永続ボリュームを要求します。バックエンドストレージはストレージクラスでフィルタリングされます。
+
+ポッドとバックエンドストレージの関係を以下に示します。
 
 image:rhhc_storage_opt_pod2vol.png["ポッドとONTAP ボリュームの関係"]
 
@@ -34,7 +36,9 @@ image:rhhc_storage_opt_pod2vol.png["ポッドとONTAP ボリュームの関係"]
 
 == Container Storage Interface（CSI）オプション
 
-vSphere環境では、VMware CSIドライバまたはTrident CSIを選択してONTAPと統合できます。VMware CSIでは永続ボリュームがローカルSCSIディスクとして使用され、Tridentではネットワークが使用されます。VMware CSIはONTAP でのRWXアクセスモードをサポートしていないため、RWXモードが必要な場合は、アプリケーションでTrident CSIを使用する必要があります。FCベースの導入ではVMware CSIが推奨され、SnapMirror Business Continuity（SMBC）によってゾーンレベルの高可用性が実現されます。
+vSphere環境では、VMware CSIドライバまたはTrident CSIを選択してONTAPと統合できます。VMware CSIでは永続ボリュームがローカルSCSIディスクとして使用され、Tridentではネットワークが使用されます。
+
+VMware CSIはONTAP でのRWXアクセスモードをサポートしていないため、RWXモードが必要な場合は、アプリケーションでTrident CSIを使用する必要があります。FCベースの導入ではVMware CSIが推奨され、SnapMirror Business Continuity（SMBC）によってゾーンレベルの高可用性が実現されます。
 
 
 
@@ -58,6 +62,8 @@ vSphere環境では、VMware CSIドライバまたはTrident CSIを選択してO
 
 VMware CSIとTrident CSIの両方で、ONTAPはnconnect、セッショントランキング、KerberosなどのNFSとマルチパス、CHAP認証などのブロックプロトコルをサポートしています。
 
-AWSでは、Amazon FSx for NetApp ONTAP（FSx ONTAP）を単一のアベイラビリティゾーン（AZ）または複数のAZに導入できます。高可用性を必要とする本番ワークロードに対しては、複数のAZを使用することでゾーンレベルのフォールトトレランスが実現し、NVMe読み取りキャッシュも単一のAZよりも優れています。詳細については、を参照してください link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/performance.html["AWSパフォーマンスのガイドライン"]。ディザスタリカバリサイトのコストを削減するために、単一のAZ FSx ONTAPを利用できます。image:rhhc_storage_options_fsxn_options.png["複数のAZと単一のAZの間のレプリケーション"]
+AWSでは、Amazon FSx for NetApp ONTAP（FSx ONTAP）を単一のアベイラビリティゾーン（AZ）または複数のAZに導入できます。高可用性を必要とする本番ワークロードに対しては、複数のAZを使用することでゾーンレベルのフォールトトレランスが実現し、NVMe読み取りキャッシュも単一のAZよりも優れています。詳細については、を参照してください link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/performance.html["AWSパフォーマンスのガイドライン"]。
+
+ディザスタリカバリサイトのコストを削減するために、単一のAZ FSx ONTAPを利用できます。image:rhhc_storage_options_fsxn_options.png["複数のAZと単一のAZの間のレプリケーション"]
 
 FSx ONTAP でサポートされるSVMの数については、を参照してください link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-svms.html#max-svms["FSx ONTAP Storage Virtual Machineの管理"]

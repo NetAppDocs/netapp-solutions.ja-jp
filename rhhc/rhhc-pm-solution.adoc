@@ -4,26 +4,23 @@ permalink: rhhc/rhhc-pm-solution.html
 keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP 
 summary:  
 ---
-= NetApp解決策 とAWS上のマネージドRed Hat OpenShift Containerプラットフォームのワークロード
+= マネージドRed Hat OpenShiftコンテナプラットフォームワークロードを使用したNetAppソリューション
 :allow-uri-read: 
 
 
 
 
-== NetApp解決策 とAWS上のマネージドRed Hat OpenShift Containerプラットフォームのワークロード
+== マネージドRed Hat OpenShiftコンテナプラットフォームワークロードを使用したNetAppソリューション
 
 [role="lead"]
-お客様は、「クラウド生まれ」の場合もあれば、一部のワークロードやすべてのワークロードをデータセンターからクラウドに移行する準備ができた時点で、最新化に向けた取り組みを進めている場合もあります。ワークロードの実行に、プロバイダが管理するOpenShiftコンテナとプロバイダが管理するネットアップストレージをクラウドで使用することもできます。コンテナワークロードに対応した本番環境を成功させるためには、マネージドRed Hat OpenShiftコンテナクラスタ（ROSA）をクラウドに計画して導入する必要があります。AWSクラウドにいる場合は、ストレージのニーズに合わせてFSx ONTAPを導入することもできます。
+お客様は、「クラウド生まれ」の場合もあれば、一部のワークロードやすべてのワークロードをデータセンターからクラウドに移行する準備ができた時点で、最新化に向けた取り組みを進めている場合もあります。ワークロードの実行に、プロバイダが管理するOpenShiftコンテナとプロバイダが管理するネットアップストレージをクラウドで使用することもできます。コンテナワークロードに対応した本番環境を成功させるためには、マネージドRed Hat OpenShiftコンテナクラスタを計画し、クラウドに導入する必要があります。です。NetAppは、業界をリードする3つのパブリッククラウドすべてで、マネージドRed Hatソリューション向けのフルマネージドストレージ製品を提供しています。
+
+* Amazon FSx for NetApp ONTAP（FSx ONTAP）*
 
 FSx ONTAPは、AWSでのコンテナ導入にデータ保護、信頼性、柔軟性を提供します。Tridentは、お客様のステートフルアプリケーション向けに永続的FSx ONTAPストレージを利用するための動的ストレージプロビジョニングツールとして機能します。
 
 ROSAは、コントロールプレーンノードが複数のアベイラビリティゾーンに分散した状態でHAモードで導入できるため、FSx ONTAP は、高可用性を提供し、AZの障害から保護するマルチAZオプションを使用してプロビジョニングすることもできます。
 
+* Google Cloud NetApp Volumes *
 
-NOTE: ファイルシステムの優先アベイラビリティゾーン（AZ）からAmazon FSxファイルシステムにアクセスする場合、データ転送料金は発生しません。価格設定の詳細については、を参照してください link:https://aws.amazon.com/fsx/netapp-ontap/pricing/["こちらをご覧ください"]。
-
-
-
-== OpenShift Containerワークロード向けのデータ保護と移行用解決策
-
-image:rhhc-rosa-with-fsxn.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
+Red Hat OpenShift Dedicatedは、ハイブリッドクラウド全体でアプリケーションを迅速に構築、導入、拡張できる、フルマネージドのアプリケーションプラットフォームです。Google Cloud NetApp Volumeは永続ボリュームを提供し、ONTAPのエンタープライズデータ管理機能のフルスイートをGoogle CloudのOpenShift環境に提供します。
