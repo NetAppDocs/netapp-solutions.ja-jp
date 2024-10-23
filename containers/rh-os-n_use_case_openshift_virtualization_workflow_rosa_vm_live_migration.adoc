@@ -1,0 +1,33 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_openshift_virtualization_workflow_rosa_vm_live_migration.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, ROSA, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+summary: ROSAでのRed Hat OpenShift仮想化 
+---
+= VMライブマイグレーション
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+このセクションでは、VMのライブマイグレーションを実行してから、ディスクの内容を確認します。ライブマイグレーションとは、通常の運用を中断したりダウンタイムを発生させたりすることなく、実行中の仮想マシン（VM）を1つの物理ホストから別のホストに移動するプロセスのことです。エンドユーザーに悪影響を及ぼすことはありません。ライブマイグレーションは、仮想化における重要なステップと考えられています。実行中のオペレーティングシステム（OS）、メモリ、ストレージ、およびネットワーク接続を使用して、VM全体を現在のノードからデスティネーションに移動できます。以下では、現在のノードから新しいノードへのVMのライブマイグレーションを実行する方法を説明します。
+
+VMが実行されているノードをメモします。image:redhat_openshift_ocpv_rosa_image24.png["OCP-V VMの現在のノード"]
+
+3つの点をクリックし、[Migrate]を選択します。image:redhat_openshift_ocpv_rosa_image25.png["OCP-V VMのライブ移行"]
+
+[Overview]ページでは、移行が成功し、[Status]が[Succeeded]に変わったことを確認できます。image:redhat_openshift_ocpv_rosa_image26.png["OCP-V VMの移行に成功しました"]
+
+ライブ移行が完了すると、VMは別のノードに移動します。image:redhat_openshift_ocpv_rosa_image27.png["別のノードのOCP-V VM"]
+
+Webコンソールを開き、ディスクの内容を表示します。ライブマイグレーション前に作成したものと同じ2つのファイルが残っています。image:redhat_openshift_ocpv_rosa_image28.png["ライブ移行後のOCP-V VM同一ファイル1"] image:redhat_openshift_ocpv_rosa_image29.png["ライブ移行後のOCP-V VM同一ファイル2"]
+
+新しいノードのVMのストレージに同じディスクが表示されるimage:redhat_openshift_ocpv_rosa_image30.png["ライブマイグレーション後のOCP-V VMの同じディスク"]
+
+また、PVCは同じです。image:redhat_openshift_ocpv_rosa_image31.png["ライブマイグレーション後のOCP-V VM同一PVC"]
+
+VMポッドに関連付けられているボリュームも、以前と同じ（PVCが2つ）になります。image:redhat_openshift_ocpv_rosa_image32.png["ライブマイグレーション後のOCP-V VM同一PVC"]
