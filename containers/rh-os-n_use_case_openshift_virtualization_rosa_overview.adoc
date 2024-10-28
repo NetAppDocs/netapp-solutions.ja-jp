@@ -1,0 +1,114 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_openshift_virtualization_rosa_overview.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, ROSA, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+summary: ROSAでのRed Hat OpenShift仮想化 
+---
+= ROSAにFSxNを使用したRed Hat OpenShift Virtualizationの導入
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+
+
+== 概要
+
+このセクションでは、FSx for NetApp ONTAPをROSAクラスタのデフォルトのストレージクラスとして設定し、FSx ONTAPストレージをボリュームに活用する仮想マシンを作成する方法について詳しく説明します。また、ゲストクレデンシャルを使用して仮想マシンに接続し、仮想マシンを再起動する方法についても説明します。最後に、現在のノードから新しいノードへの仮想マシンのライブマイグレーションを実行します。VMの再起動とライブマイグレーション後に、ディスクストレージの内容を確認します。
+
+
+
+== 前提条件
+
+* link:https://signin.aws.amazon.com/signin?redirect_uri=https://portal.aws.amazon.com/billing/signup/resume&client_id=signup["AWS アカウント"]
+* link:https://console.redhat.com/["Red Hatアカウント"]
+* ROSAクラスタを作成してアクセスするためのIAMユーザlink:https://www.rosaworkshop.io/rosa/1-account_setup/["適切な権限を持つ"]
+* link:https://aws.amazon.com/cli/["AWS CLI"]
+* link:https://console.redhat.com/openshift/downloads["ローザCLI"]
+* link:https://console.redhat.com/openshift/downloads["OpenShiftコマンドラインインターフェイス"]（OC）
+* link:https://docs.aws.amazon.com/eks/latest/userguide/helm.html["Helm 3のドキュメント"]
+* link:https://docs.openshift.com/rosa/rosa_hcp/rosa-hcp-sts-creating-a-cluster-quickly.html["HCP ROSAクラスタ"]（少なくとも3つのベアメタルワーカーノードを使用）
+* link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.17/html/virtualization/installing#virt-aws-bm_preparing-cluster-for-virt["ROSAクラスタにインストールされたOpenShift Virtualization"]
+* link:https://console.redhat.com/openshift/overview["Red Hat OpenShift Webコンソールへのアクセス"]
+
+
+
+
+== 初期セットアップ
+
+このセクションでは、デフォルトのストレージクラスをTrident - CSIに設定し、デフォルトのVolumeSnapshotClassをFSxボリュームSnapshotクラスに設定する方法を説明します。次に、テンプレートからVMを作成し、ゲストクレデンシャルを使用して接続してログインする方法について説明します。
+
+デフォルトのストレージクラスがTrident - CSIに設定されていることを確認image:redhat_openshift_ocpv_rosa_image1.png["OCP-Vのデフォルトのストレージクラス"]
+
+デフォルトのVolumeSnapShotClassesが図のように設定されていることを確認するimage:redhat_openshift_ocpv_rosa_image2.png["OCP-VのデフォルトのVolumeSnapshotクラス"]
+
+デフォルト値が設定されていない場合は、コンソールまたはコマンドラインから設定できます。
+
+[source]
+----
+$ oc patch storageclass trident-csi -p '{"metadata": {"annotations": {"storageclass.kubernetes.io/is-default-class": "true"}}}'
+----
+[source]
+----
+$ oc patch VolumeSnapshotClasses fsx-snapclass -p '{"metadata": {"annotations": {"snapshot.storage.kubernetes.io/is-default-class": "true"}}}'
+----
+
+
+=== **テンプレートからVMを作成**
+
+Webコンソールを使用して、テンプレートからVMを作成します。Red Hat OpenShiftService on AWSコンソールで、仮想マシンを作成します。VMの作成に使用できるテンプレートがクラスタに用意されています。下のスクリーンショットでは、このリストからFedora VMを選択します。VMに名前を付け、[**仮想マシンのカスタマイズ*]をクリックします。[**ディスク*]タブを選択し、[**ディスクの追加*]をクリックします。ディスクの名前をわかりやすい名前に変更してください。ストレージクラスに** Trident CSI**が選択されていることを確認してください。**保存**をクリックします。[**仮想マシンの作成*]をクリックします。
+
+数分後、VMはrunning状態になります。image:redhat_openshift_ocpv_rosa_image3.png["OCP-VテンプレートからのVMの作成"]
+
+image:redhat_openshift_ocpv_rosa_image4.png["使用可能なOCP-Vテンプレートソース"]
+
+image:redhat_openshift_ocpv_rosa_image5.png["OCP-V VMのカスタマイズ"]
+
+image:redhat_openshift_ocpv_rosa_image6.png["[OCP-V Disks]タブ"]
+
+image:redhat_openshift_ocpv_rosa_image7.png["OCP-Vディスクの追加"]
+
+image:redhat_openshift_ocpv_rosa_image8.png["OCP-V VM実行中"]
+
+
+
+=== ** VM用に作成されたすべてのオブジェクトを確認**
+
+ストレージディスク。image:redhat_openshift_ocpv_rosa_image9.png["OCP-Vストレージディスク"]
+
+VMのファイルシステムには、パーティション、ファイルシステムタイプ、およびマウントポイントが表示されます。image:redhat_openshift_ocpv_rosa_image10.png["OCP-Vファイルシステム"]
+
+VM用に2つのPVCが作成されます。1つはブートディスクから作成され、もう1つはホットプラグディスク用に作成されます。image:redhat_openshift_ocpv_rosa_image11.png["OCP-V VM PVC"]
+
+起動ディスクのPVCは、アクセスモードがReadWriteManyで、ストレージクラスがTrident CSIであることを示しています。image:redhat_openshift_ocpv_rosa_image12.png["OCP-V VMブートディスクPVC"]
+
+同様に、ホットプラグディスクのPVCでは、アクセスモードがReadWriteManyで、ストレージクラスがTrident CSIであることが示されます。image:redhat_openshift_ocpv_rosa_image13.png["OCP-V VMホットプラグディスクPVC"]
+
+下のスクリーンショットでは、VMのポッドのステータスが「Running」になっています。image:redhat_openshift_ocpv_rosa_image14.png["OCP-V VM実行中"]
+
+VMポッドに関連付けられている2つのボリュームと、それらに関連付けられている2つのPVCが表示されます。image:redhat_openshift_ocpv_rosa_image15.png["OCP-V VM PVCおよびPVS"]
+
+
+
+=== ** VMへの接続**
+
+[Webコンソールを開く]ボタンをクリックし、ゲストクレデンシャルを使用してログインします。image:redhat_openshift_ocpv_rosa_image16.png["OCP-V VM接続"]
+
+image:redhat_openshift_ocpv_rosa_image17.png["OCP-Vログイン"]
+
+次のコマンドを実行します。
+
+[source]
+----
+$ df (to display information about the disk space usage on a file system).
+----
+[source]
+----
+$ dd if=/dev/urandom of=random.dat bs=1M count=10240 (to create a file called random.dat in the home dir and fill it with random data).
+----
+このディスクには11GBのデータが格納されています。image:redhat_openshift_ocpv_rosa_image18.png["OCP-V VMがディスクをいっぱいにする"]
+
+viを使用して、テストに使用するサンプルテキストファイルを作成します。image:redhat_openshift_ocpv_rosa_image19.png["OCP-Vファイルの作成"]

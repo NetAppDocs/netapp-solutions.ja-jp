@@ -1,0 +1,126 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_rosa_solution_app_workflows.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift Service on AWS, 
+summary: AWSでのRed Hat OpenShiftサービスとNetApp ONTAP 
+---
+= AWSでのRed Hat OpenShiftサービスとNetApp ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+
+
+== ボリュームSnapshotの作成
+
+** 1.アプリボリュームのスナップショットを作成する**このセクションでは、アプリに関連付けられたボリュームのTridentスナップショットを作成する方法を説明します。これは、アプリデータのポイントインタイムコピーです。アプリケーションデータが失われた場合は、この時点のコピーからデータをリカバリできます。注：このSnapshotは、ONTAP（オンプレミスまたはクラウド）の元のボリュームと同じアグリゲートに格納されます。そのため、ONTAPストレージアグリゲートが失われた場合、スナップショットからアプリデータを回復できません。
+
+** a。VolumeSnapshotClassを作成するvolume-snapshot-class.yamlという名前のファイルに次のマニフェストを保存します。
+
+[source]
+----
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+ name: fsx-snapclass
+driver: csi.trident.netapp.io
+deletionPolicy: Delete
+----
+上記のマニフェストを使用してスナップショットを作成します。
+
+image:redhat_openshift_container_rosa_image20.png["Snapshotクラス"]
+
+** B.次に、スナップショットを作成します** VolumeSnapshotを作成して、PostgreSQLデータのポイントインタイムコピーを作成し、既存のPVCのスナップショットを作成します。これにより、ファイルシステムバックエンドにほとんどスペースを消費しないFSxスナップショットが作成されます。次のマニフェストをvolume-snapshot.yamlという名前のファイルに保存します。
+
+[source]
+----
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshot
+metadata:
+ name: postgresql-volume-snap-01
+spec:
+ volumeSnapshotClassName: fsx-snapclass
+ source:
+   persistentVolumeClaimName: data-postgresql-0
+----
+** C。ボリュームSnapshotを作成し、作成されたことを確認します**
+
+データベースを削除してデータ損失をシミュレートします（データ損失はさまざまな理由で発生する可能性があります。ここでは、データベースを削除してシミュレートしています）。
+
+image:redhat_openshift_container_rosa_image21.png["ボリューム Snapshot"]
+
+** d。データベースを削除してデータ損失をシミュレートします（データ損失はさまざまな理由で発生する可能性があります。ここでは、データベースを削除してシミュレートしています）**
+
+image:redhat_openshift_container_rosa_image22.png["データベース接続"]
+
+image:redhat_openshift_container_rosa_image23.png["データベースの削除"]
+
+
+
+== ボリュームSnapshotからリストア
+
+** 1.スナップショットからの復元**このセクションでは、アプリボリュームのTridentスナップショットからアプリケーションを復元する方法を説明します。
+
+** a。スナップショットからボリュームクローンを作成**
+
+ボリュームを以前の状態に復元するには、作成したスナップショットのデータに基づいて新しいPVCを作成する必要があります。これを行うには、次のマニフェストをpvc-clone.yamlという名前のファイルに保存します。
+
+[source]
+----
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+ name: postgresql-volume-clone
+spec:
+ accessModes:
+   - ReadWriteOnce
+ storageClassName: trident-csi
+ resources:
+   requests:
+     storage: 8Gi
+ dataSource:
+   name: postgresql-volume-snap-01
+   kind: VolumeSnapshot
+   apiGroup: snapshot.storage.k8s.io
+----
+上記のマニフェストを使用して、スナップショットをソースとしてPVCを作成し、ボリュームのクローンを作成します。マニフェストを適用し、クローンが作成されたことを確認します。
+
+image:redhat_openshift_container_rosa_image24.png["PostgreSQLのSnapshotからのクローン"]
+
+** B.元のPostgreSQLインストールの削除**
+
+image:redhat_openshift_container_rosa_image25.png["PostgreSQLアプリの削除"]
+
+** C。新しいクローンPVCを使用して新しいPostgreSQLアプリケーションを作成する**
+
+[source]
+----
+$ helm install postgresql bitnami/postgresql --set primary.persistence.enabled=true --set primary.persistence.existingClaim=postgresql-volume-clone -n postgresql
+----
+image:redhat_openshift_container_rosa_image26.png["PostgreSQLの新規インストール"]
+
+** d。アプリケーションポッドが実行中状態であることを確認します**
+
+image:redhat_openshift_container_rosa_image27.png["PostgreSQLの新規インストール"]
+
+** e。ポッドがクローンをPVCとして使用することを確認します**
+
+image:redhat_openshift_container_rosa_image28.png["PostgreSQL new install describe"]
+
+image:redhat_openshift_container_rosa_image29.png["新しいPVCがクローン"]
+
+f）データベースが想定どおりにリストアされたことを確認するには、コンテナコンソールに戻り、既存のデータベースを表示します。
+
+image:redhat_openshift_container_rosa_image30.png["リストアされたデータベース"]
+
+
+
+== デモビデオ
+
+.Amazon FSx for NetApp ONTAPとAWSでのRed Hat OpenShiftサービス（ホスト型コントロールプレーンを使用）
+video::213061d2-53e6-4762-a68f-b21401519023[panopto,width=360]
+Red Hat OpenShiftおよびOpenShiftソリューションに関するその他のビデオをご覧くださいlink:https://docs.netapp.com/us-en/netapp-solutions/containers/rh-os-n_videos_and_demos.html["こちらをご覧ください"]。

@@ -13,5 +13,240 @@ summary: AWSでのRed Hat OpenShiftサービスとNetApp ONTAP
 :imagesdir: ../media/
 
 
-[role="lead"]
+
+
+== 概要
+
 このセクションでは、ROSAで実行されるアプリケーションの永続的ストレージレイヤとしてFSx for ONTAPを活用する方法を説明します。ROSAクラスタへのNetApp Trident CSIドライバのインストール、FSx for ONTAPファイルシステムのプロビジョニング、サンプルステートフルアプリケーションの導入について説明します。また、アプリケーションデータをバックアップおよび復元するための戦略も示します。この統合ソリューションにより、AZ間で容易に拡張できる共有ストレージフレームワークを確立し、Trident CSIドライバを使用してデータのスケーリング、保護、リストアのプロセスを簡素化できます。
+
+
+
+== 前提条件
+
+* link:https://signin.aws.amazon.com/signin?redirect_uri=https://portal.aws.amazon.com/billing/signup/resume&client_id=signup["AWS アカウント"]
+* link:https://console.redhat.com/["Red Hatアカウント"]
+* ROSAクラスタを作成してアクセスするためのIAMユーザlink:https://www.rosaworkshop.io/rosa/1-account_setup/["適切な権限を持つ"]
+* link:https://aws.amazon.com/cli/["AWS CLI"]
+* link:https://console.redhat.com/openshift/downloads["ローザCLI"]
+* link:https://console.redhat.com/openshift/downloads["OpenShiftコマンドラインインターフェイス"]（OC）
+* ヘルム3link:https://docs.aws.amazon.com/eks/latest/userguide/helm.html["ドキュメント"]
+* link:https://docs.openshift.com/rosa/rosa_hcp/rosa-hcp-sts-creating-a-cluster-quickly.html["HCP ROSAクラスタ"]
+* link:https://console.redhat.com/openshift/overview["Red Hat OpenShift Webコンソールへのアクセス"]
+
+
+この図は、複数のAZに展開されたROSAクラスタを示しています。Rosaクラスタのマスターノード、インフラノードはRed HatのVPCにあり、ワーカーノードはお客様のアカウントのVPCにあります。同じVPC内にFSx for ONTAPファイルシステムを作成し、TridentドライバをROSAクラスタにインストールして、このVPCのすべてのサブネットがファイルシステムに接続できるようにします。
+
+image:redhat_openshift_container_rosa_image1.png["Rosaアーキテクチャ"]
+
+
+
+== 初期セットアップ
+
+** 1.FSx for NetApp ONTAPのプロビジョニング**
+
+ROSAクラスタと同じVPC内にマルチAZ FSx for NetApp ONTAPを作成します。これにはいくつかの方法があります。CloudFormationスタックを使用したFSxNの作成の詳細が記載されています。
+
+** a. GitHubリポジトリのクローン**
+
+[source]
+----
+$ git clone https://github.com/aws-samples/rosa-fsx-netapp-ontap.git
+----
+** B. CloudFormationスタックの実行**パラメータ値を独自の値に置き換えて、以下のコマンドを実行します。
+
+[source]
+----
+$ cd rosa-fsx-netapp-ontap/fsx
+----
+[source]
+----
+$ aws cloudformation create-stack \
+  --stack-name ROSA-FSXONTAP \
+  --template-body file://./FSxONTAP.yaml \
+  --region <region-name> \
+  --parameters \
+  ParameterKey=Subnet1ID,ParameterValue=[subnet1_ID] \
+  ParameterKey=Subnet2ID,ParameterValue=[subnet2_ID] \
+  ParameterKey=myVpc,ParameterValue=[VPC_ID] \
+ParameterKey=FSxONTAPRouteTable,ParameterValue=[routetable1_ID,routetable2_ID] \
+  ParameterKey=FileSystemName,ParameterValue=ROSA-myFSxONTAP \
+  ParameterKey=ThroughputCapacity,ParameterValue=1024 \
+  ParameterKey=FSxAllowedCIDR,ParameterValue=[your_allowed_CIDR] \
+  ParameterKey=FsxAdminPassword,ParameterValue=[Define Admin password] \
+  ParameterKey=SvmAdminPassword,ParameterValue=[Define SVM password] \
+  --capabilities CAPABILITY_NAMED_IAM
+----
+WHERE: region-name: ROSAクラスタが展開されているリージョンと同じsubnet1_ID: FSxNサブネットの優先サブネットのid 2_ID: FSxNのスタンバイサブネットのid VPC_ID: ROSAクラスタが展開されているVPCのid routetable1_ID, routetable2_ID: ONTAPすべてのトラフィックがFSx for ONTAPの特定のポートにアクセスできるようにするには、0.0.0.0/0または適切なCIDRを使用します。Define Admin password：FSxNにログインするためのパスワードDefine SVM password：作成されるSVMにログインするためのパスワード。
+
+以下に示すAmazon FSxコンソールを使用して、ファイルシステムとStorage Virtual Machine（SVM）が作成されていることを確認します。
+
+image:redhat_openshift_container_rosa_image2.png["FSxNが作成されました"]
+
+** 2. ROSAクラスタ用のTrident CSIドライバのインストールと設定**
+
+** a. Trident Helmリポジトリの追加**
+
+[source]
+----
+$ helm repo add netapp-trident https://netapp.github.io/trident-helm-chart
+----
+** B. helmを使用してTridentをインストール**
+
+[source]
+----
+$ helm install trident netapp-trident/trident-operator --version 100.2406.0 --create-namespace --namespace trident
+----
+
+NOTE: インストールするバージョンに応じて、表示されているコマンドでversionパラメータを変更する必要があります。正しいバージョン番号については、を参照してlink:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy-helm.html["ドキュメント"]ください。Tridentのその他のインストール方法については、『Trident』を参照してlink:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["ドキュメント"]ください。
+
+** C.すべてのTridentポッドが実行中状態であることを確認します**
+
+image:redhat_openshift_container_rosa_image3.png["実行中のTridentポッド"]
+
+** 3.FSx for ONTAP（ONTAP NAS）を使用するようにTrident CSIバックエンドを構成**
+
+Tridentバックエンド構成では、ストレージシステムとの通信方法（ここではFSx for ONTAP）をTridentに設定します。バックエンドの作成にあたっては、クラスタ管理インターフェイスとNFSデータインターフェイスに接続するSVMのクレデンシャルを指定します。を使用して、FSxファイルシステムでストレージボリュームをプロビジョニングしますlink:https://docs.netapp.com/us-en/trident/trident-use/ontap-nas.html["ONTAP - NAS ドライバ"]。
+
+** a。まず、次のYAMLを使用してSVMクレデンシャルのシークレットを作成します**
+
+[source]
+----
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backend-fsx-ontap-nas-secret
+  namespace: trident
+type: Opaque
+stringData:
+  username: vsadmin
+  password: <value provided for Define SVM password as a parameter to the Cloud Formation Stack>
+----
+
+NOTE: 以下に示すように、FSxN用に作成したSVMのパスワードをAWS Secrets Managerから取得することもできます。
+
+image:redhat_openshift_container_rosa_image4.png["AWS Secrets Manager"]
+
+image:redhat_openshift_container_rosa_image5.png["シークレットを取得"]
+
+** B.次に、次のコマンドを使用してSVMクレデンシャルのシークレットをROSAクラスタに追加します**
+
+[source]
+----
+$ oc apply -f svm_secret.yaml
+----
+シークレットがTridentネームスペースに追加されたことを確認するには、次のコマンドを使用します。
+
+[source]
+----
+$ oc get secrets -n trident |grep backend-fsx-ontap-nas-secret
+----
+image:redhat_openshift_container_rosa_image6.png["シークレットの適用"]
+
+** C。次に、このためのバックエンドオブジェクト**を作成し、クローンされたGitリポジトリの** FSX**ディレクトリに移動します。backend-ansc-nas.yamlファイルを開きますONTAP。次の項目を、** managementLIF**を管理DNS名** dataLIF**に、Amazon FSx SVMのNFS DNS名、** SVM**をSVM名に置き換えます。次のコマンドを使用して、バックエンドオブジェクトを作成します。
+
+次のコマンドを使用して、バックエンドオブジェクトを作成します。
+
+[source]
+----
+$ oc apply -f backend-ontap-nas.yaml
+----
+
+NOTE: 以下のスクリーンショットに示すように、Amazon FSxコンソールから管理DNS名、NFS DNS名、SVM名を確認できます。
+
+image:redhat_openshift_container_rosa_image7.png["LIFの取得"]
+
+** d。次に、次のコマンドを実行して、バックエンドオブジェクトが作成され、[フェーズ]が[バインド済み]、[ステータス]が[成功]になっていることを確認します**
+
+image:redhat_openshift_container_rosa_image8.png["バックエンドの作成"]
+
+** 4.ストレージクラスの作成**これでTridentバックエンドを設定したので、バックエンドを使用するKubernetesストレージクラスを作成できます。ストレージクラスは、クラスタで使用できるリソースオブジェクトです。アプリケーションに対して要求できるストレージのタイプについて説明し、分類します。
+
+** a。FSxフォルダのstorage-class-csi-nas.yamlファイルを確認します。**
+
+[source]
+----
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: trident-csi
+provisioner: csi.trident.netapp.io
+parameters:
+  backendType: "ontap-nas"
+  fsType: "ext4"
+allowVolumeExpansion: True
+reclaimPolicy: Retain
+----
+** B.ROSAクラスタでストレージクラスを作成し、Trident CSIストレージクラスが作成されていることを確認します。**
+
+image:redhat_openshift_container_rosa_image9.png["バックエンドの作成"]
+
+これで、Trident CSIドライバのインストールとFSx for ONTAPファイルシステムへの接続は完了です。FSx for ONTAPのファイルボリュームを使用して、サンプルのPostgreSQLステートフルアプリケーションをROSAに導入できるようになりました。
+
+** C。Trident CSIストレージクラスを使用して作成されたPVCおよびPVCがないことを確認します。**
+
+image:redhat_openshift_container_rosa_image10.png["Tridentを使用したPVCなし"]
+
+** d。アプリケーションがTrident CSIを使用してPVを作成できることを確認します。**
+
+** fsx**フォルダにあるpvc-pvc.yamlファイルを使用してTridentを作成します。
+
+[source]
+----
+pvc-trident.yaml
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: basic
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: trident-csi
+----
+ You can issue the following commands to create a pvc and verify that it has been created.
+image:redhat_openshift_container_rosa_image11.png["Tridentを使用したテストPVCの作成"]
+
+** 5.サンプルのPostgreSQLステートフルアプリケーションの導入**
+
+** a。Helmを使用してPostgreSQLをインストール**
+
+[source]
+----
+$ helm install postgresql bitnami/postgresql -n postgresql --create-namespace
+----
+image:redhat_openshift_container_rosa_image12.png["PostgreSQLのインストール"]
+
+** B.アプリケーションポッドが実行中であること、およびアプリケーション用にPVCとPVが作成されていることを確認します。**
+
+image:redhat_openshift_container_rosa_image13.png["PostgreSQLポッド"]
+
+image:redhat_openshift_container_rosa_image14.png["PostgreSQL PVC"]
+
+image:redhat_openshift_container_rosa_image15.png["PostgreSQL pv"]
+
+** C。PostgreSQLクライアントの配備**
+
+**次のコマンドを使用して、インストールされたPostgreSQLサーバーのパスワードを取得します。**
+
+[source]
+----
+$ export POSTGRES_PASSWORD=$(kubectl get secret --namespace postgresql postgresql -o jsoata.postgres-password}" | base64 -d)
+----
+**次のコマンドを使用してPostgreSQLクライアントを実行し、パスワードを使用してサーバに接続します**
+
+[source]
+----
+$ kubectl run postgresql-client --rm --tty -i --restart='Never' --namespace postgresql --image docker.io/bitnami/postgresql:16.2.0-debian-11-r1 --env="PGPASSWORD=$POSTGRES_PASSWORD" \
+> --command -- psql --host postgresql -U postgres -d postgres -p 5432
+----
+image:redhat_openshift_container_rosa_image16.png["PostgreSQLクライアント"]
+
+** d。データベースとテーブルを作成します。テーブルのスキーマを作成し、テーブルに2行のデータを挿入します。**
+
+image:redhat_openshift_container_rosa_image17.png["PostgreSQLテーブル、スキーマ、行"]
+
+image:redhat_openshift_container_rosa_image18.png["PostgreSQL行1"]
+
+image:redhat_openshift_container_rosa_image19.png["PostgreSQL行2"]
