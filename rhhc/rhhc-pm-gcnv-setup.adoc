@@ -1,0 +1,66 @@
+---
+sidebar: sidebar 
+permalink: rhhc/rhhc-pm-gcnv-setup.html 
+keywords: NetApp Solutions, Redhat OpenShift Dedicated, Red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP, Google Cloud, Google Cloud NetApp Volumes 
+summary:  
+---
+= Google Cloud NetApp Volumeを使用してGoogle CloudにOpenShift専用を導入、設定
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+このセクションでは、Google CloudプラットフォームにOpenShift専用（OSD）クラスタをセットアップする大まかなワークフローについて説明します。NetApp Tridentでは、Google Cloud NetApp Volumeをストレージバックエンドとして使用し、Kubernetesで実行されるステートフルアプリケーションに永続ボリュームを提供しています。
+
+次の図は、Google Cloudに導入されたOSDクラスタで、NetApp Volumeをバックエンドストレージとして使用している様子を示しています。
+
+image:rhhc-osd-with-gcnv.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
+
+セットアッププロセスは、次の手順に分けることができます。
+
+.Google CloudへのOSDクラスタのインストール
+* クラスタに既存のVPCを使用する場合は、OSDクラスタ用にVPC、2つのサブネット、1つのクラウドルータ、および2つのGCPクラウドNATを作成する必要があります。手順についてはを参照してくださいlink:https://cloud.redhat.com/experts/gcp/osd_preexisting_vpc/["こちらをご覧ください"]。
+* Customer Cloud Subscription（CCS）課金モデルを使用してGCPにOSDクラスタをインストールする手順については、を参照してくださいlink:https://docs.openshift.com/dedicated/osd_install_access_delete_cluster/creating-a-gcp-cluster.html#osd-create-gcp-cluster-ccs_osd-creating-a-cluster-on-gcp["こちらをご覧ください"]。OSDはGoogle Cloud Marketplaceにも含まれています。Google Cloud Marketplaceソリューションを使用してOSDをインストールする方法を示すビデオがありlink:https://www.youtube.com/watch?v=p9KBFvMDQJM["こちらをご覧ください"]ます。
+
+
+.Google Cloud NetApp Volumeを有効にする
+* Google Cloud NetApp Volumeへのアクセスの設定については、を参照してくださいlink:https://cloud.google.com/netapp/volumes/docs/get-started/configure-access/workflow["こちらをご覧ください"]。を含むまでのすべての手順を実行します。
+* ストレージ プールを作成します。Google Cloud NetApp Volumeでストレージプールをセットアップする方法については、を参照してくださいlink:https://cloud.google.com/netapp/volumes/docs/get-started/quickstarts/create-storage-pool#create_a_storage_pool["こちらをご覧ください"]。OSDで実行されるステートフルなKubernetesアプリケーション用のボリュームは、ストレージプール内に作成されます。
+
+
+.OSDクラスタへのTridentのインストール（Helmチャートを使用）
+* Helmチャートを使用して、TridentをOSDクラスタにインストールします。Helmチャートの取り付け方法については、を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy-helm.html#critical-information-about-astra-trident-24-06["こちらをご覧ください"]。ヘルムチャートが表示される場合がありlink:https://github.com/NetApp/trident/tree/master/helm/trident-operator["こちらをご覧ください"]ます。
+
+
+.NetApp VolumeとNetApp Trident for OSDクラスタの統合
+Tridentを使用してバックエンドクラスとストレージクラスを作成（Google Cloud NetApp Volume向け）
+
+* バックエンドの作成の詳細については、こちらを参照してください。
+* Kubernetesの現在のストレージクラスにデフォルトとマークされているものがある場合は、ストレージクラスを編集してアノテーションを削除します。
+* Astra Trident CSIプロビジョニングツールを使用して、NetAppボリューム用のストレージクラスを少なくとも1つ作成します。アノテーションを使用して、いずれかのストレージクラスをデフォルトに設定します。これにより、PVCマニフェストで明示的に呼び出されていないPVCでこのストレージクラスを使用できるようになります。アノテーションの例を次に示します。
+
+
+[source]
+----
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: gcnv-standard-k8s
+  annotations:
+    storageclass.kubernetes.io/is-default-class: “true”
+provisioner: csi.trident.netapp.io
+parameters:
+  backendType: "google-cloud-netapp-volumes"
+  trident.netapp.io/nasType: "nfs"
+allowVolumeExpansion: true
+----
+.OpenShift GitOpsを使用したアプリケーションの導入（Argo CD）
+* クラスタにOpenShift GitOpsオペレータをインストールします。手順を参照してくださいlink:https://docs.openshift.com/gitops/1.13/installing_gitops/installing-openshift-gitops.html["こちらをご覧ください"]。
+* クラスタ用の新しいArgo CDインスタンスをセットアップします。手順を参照してくださいlink:https://docs.openshift.com/gitops/1.13/argocd_instance/setting-up-argocd-instance.html["こちらをご覧ください"]。
+
+
+Argo CDのコンソールを開き、アプリをデプロイします。たとえば、Argo CDとHelm Chartを使用してJenkins Appをデプロイできます。プロジェクト:デフォルトクラスタ:'https://kubernetes.default.svc'[](引用符なし)名前空間: Jenkins Helm ChartのURL :(引用符なし)'https://charts.bitnami.com/bitnami'[]
