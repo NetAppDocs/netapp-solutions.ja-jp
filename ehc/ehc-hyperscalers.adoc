@@ -76,7 +76,7 @@ NOTE: Cloud Volumes ONTAP をAzure VMware解決策 に接続する方法とし�
 このセクションでは、 GCVE のセットアップと管理方法、およびネットアップストレージの接続に使用できるオプションとの組み合わせについて説明します。
 
 
-NOTE: Cloud Volume と Cloud Volumes ONTAP サービスを GCVE に接続する方法としてサポートされているのは、ゲスト内ストレージだけです。
+NOTE: Cloud Volumes ONTAPとGoogle Cloud NetApp VolumeをGCVEに接続するためにサポートされている唯一の方法はゲスト内ストレージです。
 
 セットアッププロセスは、次の手順に分けることができます。
 
@@ -127,13 +127,13 @@ Azure は、以下の構成でネットアップストレージをサポート�
 Google Cloud は、次の構成でネットアップストレージをサポートします。
 
 * Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用
-* Cloud Volumes Service （ CVS ）をゲスト接続ストレージとして使用できるようになりました
-* Cloud Volumes Service （CVS）をNFSデータストアとして追加
+* ゲスト接続ストレージとしてのGoogle Cloud NetApp Volume（NetApp Volume）
+* 補完的なNFSデータストアとしてのGoogle Cloud NetApp Volume（NetApp Volume）
 
 
-詳細を表示します link:gcp-guest.html["GCVEのゲスト接続ストレージオプション"]。
+詳細を表示しますlink:gcp-guest.html["GCVEのゲスト接続ストレージオプション"]。詳細を表示しますlink:gcp-ncvs-datastore.html["GCVEの補足的なNFSデータストアオプション"]。
 
-詳細については、をご覧ください link:https://www.netapp.com/blog/cloud-volumes-service-google-cloud-vmware-engine/["NetApp Cloud Volumes Service データストアでのGoogle Cloud VMware Engineのサポート（ネットアップブログ）"^] または link:https://cloud.google.com/blog/products/compute/how-to-use-netapp-cvs-as-datastores-with-vmware-engine["ネットアップCVSをGoogle Cloud VMware Engineのデータストアとして使用する方法（Googleブログ）"^]
+またはの詳細については、link:https://www.netapp.com/blog/cloud-volumes-service-google-cloud-vmware-engine/["Google Cloud NetApp VolumeデータストアでのGoogle Cloud VMware Engineのサポート（NetAppブログ）"^]link:https://cloud.google.com/blog/products/compute/how-to-use-netapp-cvs-as-datastores-with-vmware-engine["How to use Google Cloud NetApp Volumes as datastore for Google Cloud VMware Engine（Googleブログ）"^]
 
 --
 ====

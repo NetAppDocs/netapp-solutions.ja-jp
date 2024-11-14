@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-GCPは、Cloud Volumes ONTAP （CVO）またはCloud Volumes Service （CVS）でゲスト接続のネットアップストレージをサポートします。
+GCPは、Cloud Volumes ONTAP（CVO）またはGoogle Cloud NetApp Volume（NetApp Volume）を使用したゲスト接続NetAppストレージをサポートしています。
 
 
 
@@ -216,27 +216,27 @@ image:gcve-cvo-guest-26.png["入力/出力ダイアログを示す図、また�
 ====
 
 
-== Cloud Volumes Service （CVS）
+== Google Cloud NetApp Volume（NetApp Volume）
 
-Cloud Volume サービス（CVS）は、高度なクラウドソリューションを提供するための包括的なデータサービスポートフォリオです。Cloud Volume サービスは、主要なクラウドプロバイダ向けに複数のファイルアクセスプロトコルをサポートしています（NFSとSMBのサポート）。
+Google Cloud NetApp Volumes（NetApp Volumes）は、高度なクラウドソリューションを提供するためのデータサービスの包括的なポートフォリオです。NetApp Volumeは、主要なクラウドプロバイダ向けに複数のファイルアクセスプロトコルをサポートしています（NFSとSMBのサポート）。
 
 その他のメリットと機能としては、Snapshotによるデータ保護とリストア、オンプレミスとクラウドの間でデータをレプリケート、同期、移行するための特別な機能、専用フラッシュストレージシステムのレベルで一貫した高パフォーマンスが挙げられます。
 
 
 
-=== Cloud Volumes Service （ CVS ）をゲスト接続ストレージとして使用できるようになりました
+=== ゲスト接続ストレージとしてのGoogle Cloud NetApp Volume（NetApp Volume）
 
-.VMware Engine を使用して Cloud Volumes Service を設定します
+.VMware Engineを使用したNetApp Volumeの設定
 [%collapsible]
 ====
-Cloud Volumes Service 共有は、 VMware エンジン環境で作成された VM からマウントできます。Cloud Volumes Service では SMB プロトコルと NFS プロトコルがサポートされているため、ボリュームを Linux クライアントにマウントして Windows クライアントにマッピングすることもできます。Cloud Volumes Service ボリュームは簡単な手順で設定できます。
+Google Cloud NetApp Volume共有は、VMware Engine環境で作成されたVMからマウントできます。Google Cloud NetApp VolumeはSMBプロトコルとNFSプロトコルをサポートしているため、ボリュームをLinuxクライアントにマウントしてWindowsクライアントにマッピングすることもできます。Google Cloud NetApp Volumeボリュームは、簡単な手順でセットアップできます。
 
-Cloud Volume Service と Google Cloud VMware Engine のプライベートクラウドは同じリージョンに配置する必要があります。
+Google Cloud NetApp VolumeとGoogle Cloud VMware Engineのプライベートクラウドは同じリージョンに配置する必要があります。
 
-Google Cloud Marketplace で NetApp Cloud Volumes Service for Google Cloud を購入、有効化、設定するには、次の手順を実行します link:https://cloud.google.com/vmware-engine/docs/quickstart-prerequisites["ガイド"]。
+Google Cloud MarketplaceからGoogle Cloud NetApp Volumes for Google Cloudを購入、有効化、設定するには、以下の手順に従ってください。link:https://cloud.google.com/vmware-engine/docs/quickstart-prerequisites["ガイド"]
 
 ====
-.CVS NFS ボリュームを GCVE プライベートクラウドに作成する
+.GCVEプライベートクラウドへのNetApp Volume NFSボリュームの作成
 [%collapsible]
 ====
 NFS ボリュームを作成してマウントするには、次の手順を実行します。
@@ -253,7 +253,7 @@ image:gcve-cvs-guest-2.png["入力/出力ダイアログを示す図、または
 +
 image:gcve-cvs-guest-3.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-. 適切なサービスを選択します。GCVE は、 CVS パフォーマンスと希望するサービスレベルを選択して、アプリケーションワークロードの要件に基づいてレイテンシの向上とパフォーマンスの向上を実現します。
+. 適切なサービスを選択します。GCVEの場合は、NetApp Volumes - Performanceを選択し、アプリケーションワークロードの要件に基づいてレイテンシを改善し、パフォーマンスを向上させるために必要なサービスレベルを選択します。
 +
 image:gcve-cvs-guest-4.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
@@ -271,7 +271,7 @@ image:gcve-cvs-guest-7.png["入力/出力ダイアログを示す図、または
 
 . この手順では、ボリュームにアクセスできる VPC ネットワークを選択します。VPC ピアリングが実行されていることを確認します。
 +
-ヒント： VPC ピアリングが行われていない場合は、ピアリングコマンドの説明を示すポップアップボタンが表示されます。Cloud Shell セッションを開き、適切なコマンドを実行して、 Cloud Volumes Service プロデューサーと VPC をピアリングします。事前に VPC ピアリングを準備する場合は、以下の手順を参照してください。
+ヒント： VPC ピアリングが行われていない場合は、ピアリングコマンドの説明を示すポップアップボタンが表示されます。Cloud Shellセッションを開き、適切なコマンドを実行して、VPCとGoogle Cloud NetApp Volume Producerのピア関係を設定します。事前に VPC ピアリングを準備する場合は、以下の手順を参照してください。
 
 +
 image:gcve-cvs-guest-8.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
@@ -345,7 +345,7 @@ AD 接続が確立されたら、必要なサービスレベルを指定して�
 +
 image:gcve-cvs-guest-31.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-. 適切なサービスを選択します。GCVE として、 CVS パフォーマンスと希望するサービスレベルを選択し、ワークロード要件に基づいてレイテンシの向上とパフォーマンスの向上を実現します。
+. 適切なサービスを選択します。GCVEの場合は、NetApp Volumes - Performanceを選択し、ワークロードの要件に基づいてレイテンシを改善し、パフォーマンスを向上させるために必要なサービスレベルを選択します。
 +
 image:gcve-cvs-guest-32.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
@@ -363,7 +363,7 @@ image:gcve-cvs-guest-35.png["入力/出力ダイアログを示す図、また�
 
 . この手順では、ボリュームにアクセスできる VPC ネットワークを選択します。VPC ピアリングが実行されていることを確認します。
 +
-ヒント： VPC ピアリングが行われていない場合は、ピアリングコマンドの説明を示すポップアップボタンが表示されます。Cloud Shell セッションを開き、適切なコマンドを実行して、 Cloud Volumes Service プロデューサーと VPC をピアリングします。事前に VPC ピアリングを準備する場合は、こちらを参照してください link:https://cloud.google.com/architecture/partners/netapp-cloud-volumes/setting-up-private-services-access?hl=en["手順"]。
+ヒント： VPC ピアリングが行われていない場合は、ピアリングコマンドの説明を示すポップアップボタンが表示されます。Cloud Shellセッションを開き、適切なコマンドを実行して、VPCとGoogle Cloud NetApp Volume Producerのピア関係を設定します。事前にVPCピアリングを準備する場合は、こちらを参照してlink:https://cloud.google.com/architecture/partners/netapp-cloud-volumes/setting-up-private-services-access?hl=en["手順"]ください。
 
 +
 image:gcve-cvs-guest-36.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]

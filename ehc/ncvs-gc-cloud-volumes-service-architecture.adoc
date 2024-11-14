@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: ehc/ncvs-gc-cloud-volumes-service-architecture.html 
 keywords: tenancy model, shared vpcs, service controls, packet sniffing, trace considerations 
-summary: Cloud Volumes Service は、CloudSQL、Google Cloud VMware Engine（GCVE）、ファイルストアなど、他のGoogle Cloudネイティブサービスと同様に、Google PSAを使用してサービスを提供します。 
+summary: Google Cloud NetApp Volumesは、CloudSQL、Google Cloud VMware Engine（GCVE）、ファイルストアなど、Google Cloudの他のネイティブサービスと同様に、Google PSAを使用してサービスを提供します。 
 ---
-= Cloud Volumes Service アーキテクチャ
+= Google Cloud NetApp Volumeのアーキテクチャ
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,9 +14,9 @@ summary: Cloud Volumes Service は、CloudSQL、Google Cloud VMware Engine（GCV
 
 
 [role="lead"]
-CloudSQL、Google Cloud VMware Engine（GCVE）、ファイルストアなど、他のGoogle Cloudネイティブサービスと同様の方法で、Cloud Volumes Service はを使用します https://cloud.google.com/vpc/docs/private-services-access?hl=en_US["Google PSA"^] サービスを提供します。PSAでは、サービスは、を使用するサービスプロデューサプロジェクト内に構築されます https://cloud.google.com/vpc/docs/vpc-peering?hl=en_US["vPCネットワークピアリング"^] サービスコンシューマに接続するには、次の手順に従います。サービスプロデューサーはネットアップが提供して運用します。サービスコンシューマは、Cloud Volumes Service ファイル共有にアクセスするクライアントをホストする、お客様のプロジェクトのVPCです。
+Google Cloud NetApp Volumesは、CloudSQL、Google Cloud VMware Engine（GCVE）、ファイルストアなど、Google Cloudの他のネイティブサービスと同様にサービスの提供に使用します https://cloud.google.com/vpc/docs/private-services-access?hl=en_US["Google PSA"^]。PSAでは、サービスはサービスプロデューサープロジェクト内に構築されます。このプロジェクトは、を使用して https://cloud.google.com/vpc/docs/vpc-peering?hl=en_US["vPCネットワークピアリング"^]サービスコンシューマに接続します。サービスプロデューサーはNetAppによって提供および運用され、サービスコンシューマは顧客プロジェクトのVPCであり、Google Cloud NetApp Volumeのファイル共有にアクセスするクライアントをホストします。
 
-から参照される次の図 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/architecture?hl=en_US["アーキテクチャセクション"^] Cloud Volumes Service のドキュメントの概要をに示します。
+次の図は、Google Cloud NetApp Volumesのドキュメントのから参照しています。この図は概要を示しています https://cloud.google.com/architecture/partners/netapp-cloud-volumes/architecture?hl=en_US["アーキテクチャセクション"^]。
 
 image:ncvs-gc-image1.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
@@ -26,15 +26,15 @@ image:ncvs-gc-image1.png["入力/出力ダイアログを示す図、または�
 
 == テナンシーモデル
 
-Cloud Volumes Service では、個々のプロジェクトが固有のテナントとみなされます。つまり、ボリュームやSnapshotコピーの操作はプロジェクト単位で実行されます。つまり、すべてのボリュームは、で作成されたプロジェクトによって所有され、そのプロジェクトだけが、デフォルトでボリューム内のデータを管理およびアクセスできます。これは、サービスのコントロールプレーンビューと見なされます。
+Google Cloud NetApp Volumeでは、個 々 のプロジェクトは固有のテナントとみなされます。つまり、ボリュームやSnapshotコピーの操作はプロジェクト単位で実行されます。つまり、すべてのボリュームは、で作成されたプロジェクトによって所有され、そのプロジェクトだけが、デフォルトでボリューム内のデータを管理およびアクセスできます。これは、サービスのコントロールプレーンビューと見なされます。
 
 
 
 === 共有 VPC
 
-データプレーンビューでは、Cloud Volumes Service を共有VPCに接続できます。ボリュームは、ホスティングプロジェクトまたは共有VPCに接続されたサービスプロジェクトのいずれかで作成できます。その共有VPCに接続されたすべてのプロジェクト（ホストまたはサービス）が、ネットワークレイヤのボリュームにアクセスできます（TCP / IP）。共有VPCでネットワーク接続を確立しているすべてのクライアントはNASプロトコルを使用してデータにアクセスできる可能性があるため、個々のボリュームでのアクセス制御（ユーザ/グループのアクセス制御リスト（ACL）やNFSエクスポートのホスト名/ IPアドレスなど）を使用して、データにアクセスできるユーザを制御する必要があります。
+データプレーンビューでは、Google Cloud NetApp Volumeを共有VPCに接続できます。ボリュームは、ホスティングプロジェクトまたは共有VPCに接続されたサービスプロジェクトのいずれかで作成できます。その共有VPCに接続されたすべてのプロジェクト（ホストまたはサービス）が、ネットワークレイヤのボリュームにアクセスできます（TCP / IP）。共有VPCでネットワーク接続を確立しているすべてのクライアントはNASプロトコルを使用してデータにアクセスできる可能性があるため、個々のボリュームでのアクセス制御（ユーザ/グループのアクセス制御リスト（ACL）やNFSエクスポートのホスト名/ IPアドレスなど）を使用して、データにアクセスできるユーザを制御する必要があります。
 
-Cloud Volumes Service は、顧客プロジェクトごとに最大5つのVPCに接続できます。コントロールプレーンでは、どのVPCに接続されているかに関係なく、作成されたすべてのボリュームをプロジェクトで管理できます。データプレーンではVPCが相互に分離され、各ボリュームは1つのVPCにのみ接続できます。
+Google Cloud NetApp Volumeは、お客様のプロジェクトごとに最大5つのVPCに接続できます。コントロールプレーンでは、どのVPCに接続されているかに関係なく、作成されたすべてのボリュームをプロジェクトで管理できます。データプレーンではVPCが相互に分離され、各ボリュームは1つのVPCにのみ接続できます。
 
 個々のボリュームへのアクセスは、プロトコル固有の（NFS / SMB）アクセス制御メカニズムによって制御されます。
 
@@ -46,9 +46,9 @@ Cloud Volumes Service は、顧客プロジェクトごとに最大5つのVPCに
 
 vPCサービスコントロールは、インターネットに接続され、世界中でアクセス可能なGoogleクラウド サービス の周辺にアクセス制御境界を確立します。これらのサービスは、ユーザIDを使用してアクセス制御を提供しますが、どのネットワークロケーション要求の送信元を制限することはできません。vPCサービスコントロールは、定義されたネットワークへのアクセスを制限する機能を導入することで、このギャップを解消します。
 
-Cloud Volumes Service データプレーンは外部インターネットには接続されず、明確に定義されたネットワーク境界（境界）を持つプライベートVPCに接続されます。ネットワーク内では、各ボリュームはプロトコル固有のアクセス制御を使用します。外部ネットワーク接続は、Google Cloudプロジェクト管理者によって明示的に作成されます。ただし、コントロールプレーンはデータプレーンと同じ保護機能を提供しません。また、有効なクレデンシャル（）を持つ任意の場所から誰でもアクセスできます https://datatracker.ietf.org/doc/html/rfc7519["JWTトークン"^]）。
+Google Cloud NetApp Volumesデータプレーンは、外部インターネットには接続されず、ネットワーク境界（境界）が明確に定義されたプライベートVPCに接続されます。ネットワーク内では、各ボリュームはプロトコル固有のアクセス制御を使用します。外部ネットワーク接続は、Google Cloudプロジェクト管理者によって明示的に作成されます。ただし、コントロールプレーンはデータプレーンと同じ保護機能を備えておらず、有効なクレデンシャルを使用してどこからでもアクセスできます（ https://datatracker.ietf.org/doc/html/rfc7519["JWTトークン"^]）。
 
-つまり、Cloud Volumes Service データプレーンは、VPCサービスコントロールをサポートする必要なく、ネットワークアクセス制御機能を提供します。VPCサービスコントロールは明示的に使用しません。
+つまり、Google Cloud NetApp Volumesデータプレーンはネットワークアクセス制御機能を提供します。VPCサービス制御をサポートする必要はなく、VPCサービス制御を明示的に使用することもありません。
 
 
 
@@ -56,12 +56,12 @@ Cloud Volumes Service データプレーンは外部インターネットには�
 
 パケットキャプチャは、ネットワークの問題やその他の問題（NAS権限、LDAP接続など）のトラブルシューティングに役立ちますが、悪意を持ってネットワークIPアドレス、MACアドレス、ユーザ名およびグループ名、エンドポイントで使用されているセキュリティレベルなどの情報を取得することもできます。Google Cloudネットワーク、VPC、およびファイアウォールルールの設定方法が原因で、ユーザのログインクレデンシャルやを使用しないとネットワークパケットへの不要なアクセスを取得できなくなります link:ncvs-gc-control-plane-architecture.html#jwt-tokens["JWTトークン"] クラウドインスタンスへ。パケットキャプチャはエンドポイント（仮想マシン（VM）など）でのみ可能であり、VPC内部のエンドポイントでのみ可能です。ただし、共有VPCまたは外部ネットワークトンネル/ IP転送を使用してエンドポイントへの外部トラフィックを明示的に許可している場合は除きます。クライアントの外部でトラフィックをスニファする方法はありません。
 
-共有VPCを使用する場合は、NFS Kerberosまたは/またはを使用した転送中の暗号化が可能です link:ncvs-gc-data-encryption-in-transit.html#smb-encryption["SMB暗号化"] トレースから収集された情報の多くを隠すことができます。ただし、一部のトラフィックは、などのプレーンテキストで送信されます link:ncvs-gc-other-nas-infrastructure-service-dependencies.html#dns["DNS"] および link:ncvs-gc-other-nas-infrastructure-service-dependencies.html#ldap-queries["LDAPクエリ"]。次の図に、Cloud Volumes Service から発信されたプレーンテキストLDAPクエリからのパケットキャプチャと、公開されている可能性のある識別情報を示します。Cloud Volumes Service のLDAPクエリでは、現在、暗号化またはLDAP over SSLがサポートされていません。CVS - Active Directoryから要求された場合に、パフォーマンスがLDAP署名をサポートします。CVS-SWではLDAP署名はサポートされません。
+共有VPCを使用すると、NFS Kerberosを使用した転送中の暗号化や、link:ncvs-gc-data-encryption-in-transit.html#smb-encryption["SMB暗号化"]トレースから収集された情報の大部分をマスクできます。ただし、一部のトラフィックは、やなどのプレーンテキストで送信されますlink:ncvs-gc-other-nas-infrastructure-service-dependencies.html#dns["DNS"]link:ncvs-gc-other-nas-infrastructure-service-dependencies.html#ldap-queries["LDAPクエリ"]。次の図は、Google Cloud NetApp Volumeから送信されたプレーンテキストLDAPクエリからのパケットキャプチャと、公開される可能性のある識別情報を示しています。Google Cloud NetApp VolumeのLDAPクエリでは、現在、暗号化またはLDAP over SSLはサポートされていません。NetApp Volumes - Active Directoryから要求された場合、パフォーマンスでLDAP署名がサポートされます。NetApp Volumes-SWではLDAP署名がサポートされません。
 
 image:ncvs-gc-image2.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
-NOTE: unixUserPasswordはLDAPによって照会され、プレーンテキストではなくソルトハッシュで送信されます。デフォルトでは、Windows LDAPではunixUserPasswordフィールドは読み込まれません。このフィールドは、LDAPを使用してクライアントへの対話型ログインを行う必要がある場合にのみ必要になります。Cloud Volumes Service では、インスタンスへの対話型LDAPログインはサポートされていません。
+NOTE: unixUserPasswordはLDAPによって照会され、プレーンテキストではなくソルトハッシュで送信されます。デフォルトでは、Windows LDAPではunixUserPasswordフィールドは読み込まれません。このフィールドは、LDAPを使用してクライアントへの対話型ログインを行う必要がある場合にのみ必要になります。Google Cloud NetApp Volumeでは、インスタンスへの対話型LDAPログインはサポートされていません。
 
 次の図は、AUTH_SYSでNFSをキャプチャしたあとの、NFS Kerberos通信からのパケットキャプチャを示しています。トレースで使用できる情報が2つの違いと、転送中の暗号化を有効にすることでNASトラフィックの全体的なセキュリティが向上することに注意してください。
 

@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: data-analytics/bda-ai-data-mover-solution-for-ai.html 
 keywords: data mover, ai, hadoop, nipam, nfs, azure, 
-summary: Data Mover 解決策 for AI は、お客様のニーズに基づいて AI 運用の Hadoop データを処理します。ネットアップは、 NIPAM を使用して HDFS から NFS にデータを移動します。あるユースケースでは、クラウド内の GPU クラウドインスタンスからデータを処理するために、データをオンプレミスの NFS に移動し、別のお客様が Windows Azure ストレージ Blob から Cloud Volumes Service に移動する必要がありました。 
+summary: Data Mover 解決策 for AI は、お客様のニーズに基づいて AI 運用の Hadoop データを処理します。ネットアップは、 NIPAM を使用して HDFS から NFS にデータを移動します。あるユースケースでは、オンプレミスのNFSにデータを移動する必要があり、別のお客様は、クラウドのGPUクラウドインスタンスからデータを処理するために、Windows Azure Storage BlobからGoogle Cloud NetApp Volumeにデータを移動する必要がありました。 
 ---
 = AI 向け Data Mover 解決策
 :hardbreaks:
@@ -14,7 +14,7 @@ summary: Data Mover 解決策 for AI は、お客様のニーズに基づいて 
 
 
 [role="lead"]
-Data Mover 解決策 for AI は、お客様のニーズに基づいて AI 運用の Hadoop データを処理します。ネットアップは、 NIPAM を使用して HDFS から NFS にデータを移動します。あるユースケースでは、クラウド内の GPU クラウドインスタンスからデータを処理するために、データをオンプレミスの NFS に移動し、別のお客様が Windows Azure ストレージ Blob から Cloud Volumes Service に移動する必要がありました。
+Data Mover 解決策 for AI は、お客様のニーズに基づいて AI 運用の Hadoop データを処理します。ネットアップは、 NIPAM を使用して HDFS から NFS にデータを移動します。あるユースケースでは、オンプレミスのNFSにデータを移動する必要があり、別のお客様は、クラウドのGPUクラウドインスタンスからデータを処理するために、Windows Azure Storage BlobからGoogle Cloud NetApp Volumeにデータを移動する必要がありました。
 
 次の図は、 Data Mover の解決策の詳細を示しています。
 
@@ -28,8 +28,8 @@ Data Mover 解決策を構築するには、次の手順が必要です。
 . HDFS SAN LUN からのデータは、 NIPAM および「 hadoop distcp 」コマンドによって NFS ボリュームにコピーされます。NIPAM は、複数のネットワークインターフェイスの帯域幅を使用してデータを転送します。この処理によってデータコピー時間が短縮され、より多くのデータを転送できるようになります。
 . どちらの NFS ボリュームも、 AI 処理用に AI クラスタにプロビジョニングされます。
 . オンプレミスの NFS データを処理するために、クラウド内の GPU を使用する場合は、 NFS ボリュームが NetApp SnapMirror テクノロジを使用して NetApp Private Storage （ NPS ）にミラーリングされ、 GPU のクラウドサービスプロバイダにマウントされます。
-. お客様は、 GPU のデータをクラウドサービスプロバイダから EC2 / EMR 、 HDInsight 、または DataProc サービスで処理したいと考えています。Hadoop データムーバーは、 NIPAM および「 hadoop distcp 」コマンドを使用して、 Hadoop サービスから Cloud Volume サービスにデータを移動します。
-. Cloud Volumes Service データは、 NFS プロトコルを使用して AI にプロビジョニングされます。 AI で処理されたデータは、オンプレミスの場所に送信し、 NIPAM 、 SnapMirror 、 NPS を通じて、 NVIDIA クラスタに加えてビッグデータ分析にも使用できます。
+. お客様は、 GPU のデータをクラウドサービスプロバイダから EC2 / EMR 、 HDInsight 、または DataProc サービスで処理したいと考えています。Hadoopデータムーバーは、NIPAMとコマンドを使用して、HadoopサービスからGoogle Cloud NetApp Volumeにデータを移動します `hadoop distcp`。
+. Google Cloud NetApp Volumeのデータは、NFSプロトコルを使用してAIにプロビジョニングされます。AIで処理されたデータは、NIPAM、SnapMirror、NPS経由でNVIDIAクラスタに加えて、オンプレミスの場所でもビッグデータ分析用に送信できます。
 
 
 このシナリオでは、 NAS システム内のファイル数が多く、オンプレミスのネットアップストレージコントローラで AI 処理を実行するために必要なリモートサイトにデータが配置されています。このシナリオでは、 XCP Migration Tool を使用してデータをより高速に移行することをお勧めします。

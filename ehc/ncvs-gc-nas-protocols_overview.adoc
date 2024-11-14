@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: ehc/ncvs-gc-nas-protocols_overview.html 
 keywords: nas, nfs, smb, cifs 
-summary: NASプロトコルには、NFS（v3およびv4.1）とSMB / CIFS（2.xおよび3.x）があります。CVSでは、これらのプロトコルを使用して、複数のNASクライアント間でデータへの共有アクセスが許可されます。また、Cloud Volumes Service は、NAS共有内のファイルやフォルダのIDおよび権限の設定をすべて満たしながら、NFSクライアントとSMB / CIFSクライアントへのアクセスを同時に提供（デュアルプロトコル）できます。 
+summary: NASプロトコルには、NFS（v3およびv4.1）とSMB / CIFS（2.xおよび3.x）があります。これらのプロトコルにより、NetApp Volumeで複数のNASクライアント間のデータへの共有アクセスが可能になります。さらに、Google Cloud NetApp Volumeは、NFSクライアントとSMB / CIFSクライアントに同時にアクセス（デュアルプロトコル）できるようにすると同時に、NAS共有内のファイルとフォルダのIDと権限の設定をすべてそのまま使用できます。 
 ---
 = NASプロトコルの概要
 :hardbreaks:
@@ -14,7 +14,7 @@ summary: NASプロトコルには、NFS（v3およびv4.1）とSMB / CIFS（2.x�
 
 
 [role="lead"]
-NASプロトコルには、NFS（v3およびv4.1）とSMB / CIFS（2.xおよび3.x）があります。CVSでは、これらのプロトコルを使用して、複数のNASクライアント間でデータへの共有アクセスが許可されます。また、Cloud Volumes Service は、NAS共有内のファイルやフォルダのIDおよび権限の設定をすべて満たしながら、NFSクライアントとSMB / CIFSクライアントへのアクセスを同時に提供（デュアルプロトコル）できます。最高レベルのデータ転送セキュリティを維持するため、Cloud Volumes Service は、SMB暗号化とNFS Kerberos 5pを使用して転送中のプロトコル暗号化をサポートしています。
+NASプロトコルには、NFS（v3およびv4.1）とSMB / CIFS（2.xおよび3.x）があります。これらのプロトコルにより、NetApp Volumeで複数のNASクライアント間のデータへの共有アクセスが可能になります。さらに、Google Cloud NetApp Volumeは、NFSクライアントとSMB / CIFSクライアントに同時にアクセス（デュアルプロトコル）できるようにすると同時に、NAS共有内のファイルとフォルダのIDと権限の設定をすべてそのまま使用できます。データ転送のセキュリティを最大限に高めるために、Google Cloud NetApp VolumesはSMB暗号化とNFS Kerberos 5pを使用した転送中のプロトコル暗号化をサポートしています。
 
 
-NOTE: デュアルプロトコルはCVSパフォーマンスでのみ使用できます。
+NOTE: デュアルプロトコルはNetApp Volumeでのみ使用できます（パフォーマンスのみ）。

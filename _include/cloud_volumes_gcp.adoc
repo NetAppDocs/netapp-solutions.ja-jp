@@ -304,10 +304,10 @@ GCP の HA ペアの NetApp CVO インスタンスの Terraform 変数。
 | * GCP_CVP_GCP_volume_size_unit * | 文字列 | （オプション） ['GB' または 'TB'] 。デフォルトは「 TB 」です。 
 |===
 --
-.CVS ボリューム
+.NetAppボリューム
 --
-.GCPにNetApp CVSボリュームを導入するためのTerraform構成ファイル
-このセクションでは、 GCP （ Google Cloud Platform ）で NetApp CVS （ Cloud Volume サービス）ボリュームを導入 / 設定するためのさまざまな Terraform 設定ファイルについて説明します。
+.GCPにNetApp Volumeを導入するためのTerraform構成ファイル
+このセクションでは、GCP（Google Cloud Platform）にNetApp Volume（Google Cloud NetApp Volumes）ボリュームを導入/設定するためのさまざまなTerraform構成ファイルについて説明します。
 
 Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-gcp/latest/docs[]
 
@@ -361,25 +361,25 @@ Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/ne
     terraform destroy
 ----
 .降水量：
-「 CVS ボリューム」
+`NetApp Volumes Volume`
 
-NetApp GCP CVS ボリュームの Terraform 変数。
+NetApp GCP NetApp VolumeのTerraform変数。
 
 [cols="20%, 10%, 70%"]
 |===
 | * 名前 * | * タイプ * | * 概要 * 
 
 
-| * gcp_cvs_name * | 文字列 | （必須） NetApp CVS ボリュームの名前。 
+| * gcp_cvs_name * | 文字列 | （必須）NetApp Volumeボリュームの名前。 
 
 
-| * gcp_cvs_project_id * | 文字列 | （必須） CVS ボリュームを作成する GCP project_id 。 
+| * gcp_cvs_project_id * | 文字列 | （必須）NetAppボリュームを作成するGCP project_id。 
 
 
-| * gcp_cvs_gcp_service_account_path * | 文字列 | （必須） GCP 認証に使用する service_account JSON ファイルのローカルパス。このサービスアカウントは、 GCP で CVS ボリュームを作成するために使用します。 
+| * gcp_cvs_gcp_service_account_path * | 文字列 | （必須） GCP 認証に使用する service_account JSON ファイルのローカルパス。このサービスアカウントは、GCPでNetAppボリュームを作成するために使用します。 
 
 
-| * gcp_cvs_region * | 文字列 | （必須） CVS ボリュームを作成する GCP ゾーン。 
+| * gcp_cvs_region * | 文字列 | （必須）NetAppボリュームを作成するGCPゾーン。 
 
 
 | * gcp_cvs_network * | 文字列 | （必須）ボリュームのネットワーク VPC 。 

@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: ehc/ncvs-gc-service-operation.html 
 keywords: physical security, operations team, customer responsibilities, malicious sre protection, certifications, gdpr 
-summary: Cloud Volumes Service チームはGoogle Cloudでバックエンドサービスを管理し、複数の戦略を使用してプラットフォームを保護し、不要なアクセスを防止します。 
+summary: Google Cloud NetApp Volumesチームは、Google Cloudのバックエンドサービスを管理し、複数の戦略を使用してプラットフォームを保護し、不要なアクセスを防止します。 
 ---
 = サービスの処理
 :hardbreaks:
@@ -14,9 +14,9 @@ summary: Cloud Volumes Service チームはGoogle Cloudでバックエンドサ�
 
 
 [role="lead"]
-Cloud Volumes Service チームはGoogle Cloudでバックエンドサービスを管理し、複数の戦略を使用してプラットフォームを保護し、不要なアクセスを防止します。
+Google Cloud NetApp Volumesチームは、Google Cloudのバックエンドサービスを管理し、複数の戦略を使用してプラットフォームを保護し、不要なアクセスを防止します。
 
-お客様ごとに固有のサブネットが割り当てられ、デフォルトで他のお客様から遮断されたアクセス権が付与される。Cloud Volumes Service の各テナントは、データを完全に分離するために独自のネームスペースとVLANを取得する。ユーザが認証されると、Service Delivery Engine（SDE；サービス提供エンジン）はそのテナントに固有の設定データのみを読み取ることができます。
+各お客様には、デフォルトで他のお客様から遮断された独自のサブネットが割り当てられ、Google Cloud NetApp Volume内のすべてのテナントには独自のネームスペースとVLANが割り当てられてデータが完全に分離されます。ユーザが認証されると、Service Delivery Engine（SDE；サービス提供エンジン）はそのテナントに固有の設定データのみを読み取ることができます。
 
 
 
@@ -30,41 +30,41 @@ Cloud Volumes Service チームはGoogle Cloudでバックエンドサービス�
 
 == 運用チーム
 
-Cloud Volumes Service の運用チームは、クラウドボリュームサービス向けの生産エンジニアリングとサイト信頼性エンジニア（SRE）、およびハードウェア向けのネットアップフィールドサポートエンジニアとパートナーで構成されています。すべての運用チームメンバーは、Google Cloudでの作業が認定されており、発行されたチケットごとに詳細な作業記録が保持されています。また、各意思決定が適切に精査されるように、厳格な変更管理および承認プロセスが用意されています。
+Google Cloud NetApp Volumesの運用チームは、本番エンジニアリングチームと、Google Cloud NetApp Volumesのサイト信頼性エンジニア（SRE）と、ハードウェアのNetAppフィールドサポートエンジニアおよびパートナーで構成されています。すべての運用チームメンバーは、Google Cloudでの作業が認定されており、発行されたチケットごとに詳細な作業記録が保持されています。また、各意思決定が適切に精査されるように、厳格な変更管理および承認プロセスが用意されています。
 
-SREチームは、コントロールプレーンと、UI要求からCloud Volumes Service のバックエンドハードウェアおよびソフトウェアにデータをルーティングする方法を管理します。SREチームは、ボリュームやinodeの最大数などのシステムリソースも管理します。SREは、カスタマーデータとやり取りしたり、カスタマーデータにアクセスしたりすることはできません。SREは、バックエンドハードウェアに対する新しいディスク交換要求やメモリ交換要求などのReturn Material Authorizations（RMA）との調整も行います。
+SREチームはコントロールプレーンを管理し、Google Cloud NetApp VolumeのUI要求からバックエンドのハードウェアやソフトウェアにデータがどのようにルーティングされるかを管理します。SREチームは、ボリュームやinodeの最大数などのシステムリソースも管理します。SREは、カスタマーデータとやり取りしたり、カスタマーデータにアクセスしたりすることはできません。SREは、バックエンドハードウェアに対する新しいディスク交換要求やメモリ交換要求などのReturn Material Authorizations（RMA）との調整も行います。
 
 
 
 == お客様の責任
 
-Cloud Volumes Service のお客様は、組織のActive Directoryとユーザーの役割管理だけでなく、ボリュームとデータの操作も管理します。お客様は管理者ロールを割り当てられ、ネットアップとGoogle Cloudが提供する2つの事前定義されたロール（管理者とビューア）を使用して、同じGoogle Cloudプロジェクト内の他のエンドユーザに権限を委譲できます。
+Google Cloud NetApp Volumeをご利用のお客様は、組織のActive Directoryとユーザロールの管理、およびボリュームとデータの操作を管理しています。お客様は管理者ロールを割り当てられ、ネットアップとGoogle Cloudが提供する2つの事前定義されたロール（管理者とビューア）を使用して、同じGoogle Cloudプロジェクト内の他のエンドユーザに権限を委譲できます。
 
-管理者は、お客様のプロジェクト内の任意のVPCを、お客様が適切と判断したCloud Volumes Service にピアリングできます。Google Cloud Marketplaceサブスクリプションへのアクセスの管理、およびデータプレーンへのアクセス権を持つVPCの管理は、お客様の責任において行ってください。
+管理者は、お客様が適切であると判断したお客様のプロジェクト内の任意のVPCをGoogle Cloud NetApp Volumeとピアリングできます。Google Cloud Marketplaceサブスクリプションへのアクセスの管理、およびデータプレーンへのアクセス権を持つVPCの管理は、お客様の責任において行ってください。
 
 
 
 == 悪意のあるSRE保護
 
-Cloud Volumes Service は、悪意のあるSREが存在するシナリオやSRE資格情報が侵害された場合に、どのように保護するのかという懸念事項があります。
+発生する可能性がある懸念事項の1つは、Google Cloud NetApp Volumeが悪意のあるSREが存在するシナリオやSREクレデンシャルが侵害されたシナリオからどのように保護するかです。
 
-本番環境へのアクセスには、限られた数のSRE担当者のみが使用されます。管理者権限は、経験豊富な一部の管理者にも制限されています。Cloud Volumes Service の運用環境で実行されるすべてのアクションは記録され、ベースラインまたは疑わしいアクティビティへの異常は、セキュリティ情報およびイベント管理（SIEM）脅威インテリジェンスプラットフォームによって検出されます。その結果、悪意のあるアクションを追跡し、Cloud Volumes Service バックエンドに過剰な損害が発生する前に軽減することができます。
+本番環境へのアクセスには、限られた数のSRE担当者のみが使用されます。管理者権限は、経験豊富な一部の管理者にも制限されています。Google Cloud NetApp Volumes本番環境のユーザが実行したすべてのアクションがログに記録され、ベースラインへの異常な動作や疑わしいアクティビティがあれば、ネットアップのセキュリティ情報イベント管理（SIEM）脅威インテリジェンスプラットフォームによって検出されます。その結果、Google Cloud NetApp Volumeのバックエンドに多大な被害が及ぶ前に、悪意のある操作を追跡して軽減できます。
 
 
 
 == ボリュームのライフサイクル
 
-Cloud Volumes Service は、サービス内のオブジェクトのみを管理し、ボリューム内のデータは管理しません。データ、ACL、ファイル所有者などを管理できるのは、ボリュームにアクセスしているクライアントだけです。これらのボリューム内のデータは保存中も暗号化され、Cloud Volumes Service インスタンスのテナントのみにアクセスできます。
+Google Cloud NetApp Volumeはサービス内のオブジェクトのみを管理し、ボリューム内のデータは管理しません。データ、ACL、ファイル所有者などを管理できるのは、ボリュームにアクセスしているクライアントだけです。これらのボリューム内のデータは保存時に暗号化され、アクセスはGoogle Cloud NetApp Volumeインスタンスのテナントに制限されます。
 
-Cloud Volumes Service のボリュームライフサイクルはcreate-update-deleteです。ボリュームは、ボリュームが削除されるまでボリュームのSnapshotコピーを保持します。Cloud Volumes Service 内のボリュームを削除できるのは、検証済みのCloud Volumes Service 管理者だけです。管理者がボリューム削除を要求した場合、削除の確認のためにボリューム名を入力する手順が追加で必要になります。ボリュームを削除すると、そのボリュームは削除され、リカバリできなくなります。
+Google Cloud NetApp Volumeのボリュームライフサイクルは、create-update-deleteです。ボリュームのSnapshotコピーは、ボリュームが削除されるまで保持されます。また、Google Cloud NetApp Volumeのボリュームを削除できるのは、検証済みのGoogle Cloud NetApp Volume管理者だけです。管理者がボリューム削除を要求した場合、削除の確認のためにボリューム名を入力する手順が追加で必要になります。ボリュームを削除すると、そのボリュームは削除され、リカバリできなくなります。
 
-Cloud Volumes Service 契約を終了した場合、ネットアップは特定の期間が経過したボリュームに削除マークを付けます。この期間が終了する前に、お客様の要求に応じてボリュームをリカバリできます。
+Google Cloud NetApp Volumeの契約が終了した場合、NetAppは一定期間が経過した時点でボリュームを削除対象としてマークします。この期間が終了する前に、お客様の要求に応じてボリュームをリカバリできます。
 
 
 
 == 認定資格
 
-Google Cloud向けCloud Volume サービスは、現在ISO/IEC 27001：2013およびISO/IEC 27018：2019規格に準拠しています。サービスは最近、SOC2 Type Iアテステーションレポートを受信しました。ネットアップの データ セキュリティ への取り組みとプライバシーに関する詳細については、を参照してください https://www.netapp.com/company/trust-center/compliance/["コンプライアンス：データ セキュリティ とデータプライバシー"^]。
+Google Cloud NetApp Volume for Google Cloudは、現在、ISO/IEC 27001：2013およびISO/IEC 27018：2019規格の認定を受けています。サービスは最近、SOC2 Type Iアテステーションレポートを受信しました。データセキュリティとプライバシーに対するNetAppの取り組みの詳細については、を参照してください https://www.netapp.com/company/trust-center/compliance/["コンプライアンス：データ セキュリティ とデータプライバシー"^]。
 
 
 
