@@ -1,0 +1,59 @@
+---
+sidebar: sidebar 
+permalink: ehc/azure-storage-options.html 
+keywords: azure, netapp, anf, storage, options, nfs, supplemental, cvo 
+summary: NetAppストレージは、ゲスト接続ストレージまたは補助ストレージとしてAzure VMware Serviceに接続できます。 
+---
+= Azure仮想化サービス：NetAppストレージを使用するためのオプション
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+NetAppストレージは、ゲスト接続ストレージまたは補助ストレージとしてAzure VMware Serviceに接続できます。
+
+
+
+== Azure NetApp Files （ANF）を追加のNFSデータストアとして使用できます
+
+NFSデータストアのサポートは、オンプレミス環境のESXiバージョン3で導入され、vSphereのストレージ機能が大幅に拡張されました。
+
+vSphere on NFSは、高いパフォーマンスと安定性を提供するため、オンプレミスの仮想化環境に広く採用されているオプションです。オンプレミスのデータセンターに大量のネットワーク接続型ストレージ（NAS）がある場合は、Azure NetApp Fileデータストアを使用してAzureにAzure VMware解決策 SDDCを導入することで、容量とパフォーマンスの課題を克服することを検討してください。
+
+Azure NetApp Files は、業界をリードする高可用性NetApp ONTAP データ管理ソフトウェアを基盤としています。Microsoft Azureサービスは、基本、メインストリーム、および専門の3つのカテゴリに分類されます。Azure NetApp Files は特殊なカテゴリに分類され、多くの地域にすでに導入されているハードウェアによってサポートされています。Azure NetApp Filesには高可用性（HA）が組み込まれており、ほとんどのシステム停止からデータを保護し、99.99%^のアップタイムという業界トップクラスのSLAを提供します。
+
+補助的なNFSデータストアとしてのANFの詳細については、次のサイトを参照してください。
+
+* link:azure-native-overview.html["NFSデータストアとしてのANF：概要"]
+* link:azure-native-nfs-datastore-option.html["AzureのNFSデータストアの追加オプション"]
+
+
+
+
+== ゲスト接続ストレージとしての Azure NetApp Files （ ANF
+
+Azure NetApp Filesは、エンタープライズクラスのデータ管理とストレージをAzureで実現するため、ワークロードとアプリケーションを簡単に管理できます。パフォーマンスを低下させることなく、ワークロードをクラウドに移行して実行できます。
+
+Azure NetApp Filesは障害を取り除き、すべてのファイルベースアプリケーションをクラウドに移行できるようにします。初めてアプリケーションを再設計する必要はなく、アプリケーションの永続的ストレージを複雑化することもありません。
+
+このサービスはMicrosoft Azure Portalを通じて提供されるため、ユーザはMicrosoft Enterprise Agreementの一部としてフルマネージドサービスを利用できます。マイクロソフトが管理するワールドクラスのサポートにより、安心してご利用いただけます。この1つの解決策 で、マルチプロトコルワークロードをすばやく簡単に追加できます。従来の環境でも、WindowsとLinuxの両方のファイルベースアプリケーションを構築して導入できます。
+
+詳細については、を参照してくださいlink:azure-guest.html#anf["ゲスト接続ストレージとしてANFを選択します"]。
+
+
+
+== Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用
+
+Cloud Volumes ONTAP（CVO）は、業界をリードするクラウドデータ管理ソリューションです。NetAppのONTAPストレージソフトウェアを基盤として構築され、Amazon Web Services（AWS）、Microsoft Azure、Google Cloud Platform（GCP）でネイティブに利用できます。
+
+ソフトウェアで定義されるONTAP バージョンで、クラウドネイティブなストレージを消費し、クラウドとオンプレミスで同じストレージソフトウェアを使用できるため、まったく新しい方法でIT担当者のデータ管理を再トレーニングする必要がありません。
+
+CVOを使用すれば、エッジ、データセンター、クラウド間でシームレスにデータを移動し、ハイブリッドクラウドを統合できます。すべてを1画面の管理コンソールであるNetApp Cloud Managerで管理できます。
+
+設計上、CVOは卓越したパフォーマンスと高度なデータ管理機能を備えており、クラウドで最も要件の厳しいアプリケーションにも対応できます
+
+詳細については、を参照してくださいlink:azure-guest.html#azure-cvo["CVOをゲスト接続型ストレージとして"]。

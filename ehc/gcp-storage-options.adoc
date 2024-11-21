@@ -1,0 +1,49 @@
+---
+sidebar: sidebar 
+permalink: ehc/gcp-storage-options.html 
+keywords: gcp, gcve, gcnv, nfs, supplemental, datastore, vcenter, vmware, cvo, storage, options 
+summary: NetAppストレージは、ゲスト接続または補助ストレージとしてGoogle Cloud仮想化エンジンに接続できます。 
+---
+= Google Cloud VMware Engine：NetAppストレージを使用するためのオプション
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+NetAppストレージは、ゲスト接続または補助ストレージとしてGoogle Cloud仮想化エンジンに接続できます。
+
+
+
+== 補完的なNFSデータストアとしてのGoogle Cloud NetApp Volume（NetApp Volume）
+
+Google Cloud VMware Engine（GCVE）環境で追加のストレージ容量が必要な場合は、Google Cloud NetApp Volumeを使用して補完的なNFSデータストアとしてマウントできます。Google Cloud NetApp Volumeにデータを格納することで、リージョン間でレプリケーションを実行して災害からデータを保護できます。
+
+詳細については、link:gcp-ncvs-datastore.html["補完的なNFSデータストアとしてのGoogle Cloud NetApp Volume（NetApp Volume）"]
+
+
+
+== ゲスト接続ストレージとしてのNetApp CVO
+
+Cloud Volumes ONTAP （CVO）は、ネットアップのONTAP ストレージソフトウェアを基盤に構築された、業界をリードするクラウドデータ管理解決策 です。Amazon Web Services（AWS）、Microsoft Azure、Google Cloud Platform（GCP）でネイティブに利用できます。
+
+ソフトウェアで定義されるONTAP バージョンで、クラウドネイティブなストレージを消費し、クラウドとオンプレミスで同じストレージソフトウェアを使用できるため、まったく新しい方法でIT担当者のデータ管理を再トレーニングする必要がありません。
+
+CVOを使用すれば、エッジ、データセンター、クラウド間でシームレスにデータを移動し、ハイブリッドクラウドを統合できます。すべてを1画面の管理コンソールであるNetApp Cloud Managerで管理できます。
+
+CVOは、設計上、卓越したパフォーマンスと高度なデータ管理機能を提供し、クラウドで最も要件の厳しいアプリケーションにも対応します。
+
+詳細については、link:gcp-guest.html#gcp-cvo["ゲスト接続ストレージとしてのNetApp CVO"]
+
+
+
+== ゲスト接続ストレージとしてのGoogle Cloud NetApp Volume（NetApp Volume）
+
+Google Cloud NetApp Volume共有は、VMware Engine環境で作成されたVMからマウントできます。Google Cloud NetApp VolumeはSMBプロトコルとNFSプロトコルをサポートしているため、ボリュームをLinuxクライアントにマウントしてWindowsクライアントにマッピングすることもできます。Google Cloud NetApp Volumeボリュームは、簡単な手順でセットアップできます。
+
+Google Cloud NetApp VolumeとGoogle Cloud VMware Engineのプライベートクラウドは同じリージョンに配置する必要があります。
+
+詳細については、link:gcp-guest.html#gcnv["ゲスト接続ストレージとしてのGoogle Cloud NetApp Volume（NetApp Volume）"]

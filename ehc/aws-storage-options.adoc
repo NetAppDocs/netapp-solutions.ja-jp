@@ -1,0 +1,57 @@
+---
+sidebar: sidebar 
+permalink: ehc/aws-storage-options.html 
+keywords: aws, netapp, fsxn, storage, options, nfs, supplemental, cvo 
+summary: NetAppストレージは、ゲスト接続ストレージまたは補助ストレージとしてAzure VMware Serviceに接続できます。 
+---
+= Amazon Web Services：NetAppストレージを使用するためのオプション
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+NetAppストレージは、ゲスト接続ストレージまたは補助ストレージとしてAmazon Web Servicesに接続できます。
+
+
+
+== Amazon FSx for NetApp ONTAP（FSx ONTAP）を補完的NFSデータストアとして使用
+
+Amazon FSx ONTAPは、ファイルサービスとともにアプリケーションワークロードを導入、管理するための優れたオプションを提供します。また、データ要件をアプリケーションレイヤでシームレスに行えるため、TCOを削減できます。どのようなユースケースであっても、VMware Cloud on AWSとAmazon FSx ONTAPを組み合わせることで、クラウドのメリットを迅速に実現し、オンプレミスからAWSへの一貫したインフラと運用、ワークロードの双方向のモビリティ、エンタープライズクラスの容量とパフォーマンスを実現できます。ストレージの接続に使用する一般的なプロセスと手順は同じです。
+
+詳細については、次のサイトを参照してください。
+
+* link:aws-native-overview.html["補足的なNFSデータストアとしてのFSX ONTAP ：概要"]
+* link:aws-native-nfs-datastore-option.html["補完データストアとしてのAmazon FSx for ONTAP"]
+
+
+
+
+== Amazon FSx for NetApp ONTAPをゲスト接続ストレージとして使用
+
+Amazon FSx ONTAPは、NetAppの人気のあるONTAPファイルシステム上に構築された、信頼性、拡張性、パフォーマンス、機能豊富なファイルストレージを提供するフルマネージドサービスです。FSx ONTAPは、NetAppファイルシステムで使い慣れた機能、パフォーマンス、機能、API操作と、フルマネージドのAWSサービスの即応性、拡張性、シンプルさを兼ね備えています。
+
+FSx ONTAPは、豊富な機能を備え、高速で柔軟性に優れた共有ファイルストレージを提供します。AWSやオンプレミスで実行されるLinux、Windows、macOSのコンピューティングインスタンスから幅広くアクセスできます。FSx ONTAPは、1ミリ秒未満のレイテンシを実現するハイパフォーマンスなソリッドステートドライブ（SSD）ストレージを提供します。FSx ONTAPを使用すると、ワークロードでSSDレベルのパフォーマンスを達成しながら、SSDストレージの料金をデータのごく一部に限定することができます。
+
+FSx ONTAPでは、ボタンをクリックするだけでファイルのスナップショット作成、クローニング、複製ができるため、データ管理が簡単になります。さらに、FSx ONTAPでは、データが低コストで柔軟性に優れたストレージに自動的に階層化されるため、容量のプロビジョニングや管理の必要性が軽減されます。
+
+FSx ONTAPは、フルマネージドのバックアップとリージョン間ディザスタリカバリのサポートを備えた、可用性とデータ保持性に優れたストレージも提供します。データの保護とセキュリティを容易にするために、FSx ONTAPは一般的なデータセキュリティおよびウイルス対策アプリケーションをサポートしています。
+
+詳細については、link:aws-guest.html#fsx-ontap["ゲスト接続ストレージとしてのFSX ONTAP"]
+
+
+
+== Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用
+
+Cloud Volumes ONTAP （CVO）は、ネットアップのONTAP ストレージソフトウェアを基盤に構築された、業界をリードするクラウドデータ管理解決策 です。Amazon Web Services（AWS）、Microsoft Azure、Google Cloud Platform（GCP）でネイティブに利用できます。
+
+ソフトウェアで定義されるONTAP バージョンで、クラウドネイティブなストレージを消費し、クラウドとオンプレミスで同じストレージソフトウェアを使用できるため、まったく新しい方法でIT担当者のデータ管理を再トレーニングする必要がありません。
+
+CVOを使用すれば、エッジ、データセンター、クラウド間でシームレスにデータを移動し、ハイブリッドクラウドを統合できます。すべてを1画面の管理コンソールであるNetApp Cloud Managerで管理できます。
+
+CVOは、設計上、卓越したパフォーマンスと高度なデータ管理機能を提供し、クラウドで最も要件の厳しいアプリケーションにも対応します。
+
+詳細については、を参照してくださいlink:aws-guest.html#aws-cvo["CVOをゲスト接続型ストレージとして"]。
