@@ -16,7 +16,7 @@ summary: Proxmox Virtual Environment（VE）の共有ストレージを使用す
 [role="lead"]
 Proxmox Virtual Environment（VE）の共有ストレージを使用すると、VMのライブマイグレーションの時間が短縮され、環境全体でバックアップと整合性のあるテンプレートのターゲットとして適しています。ONTAPストレージは、Proxmox VEホスト環境のニーズだけでなく、ゲストファイル、ブロック、オブジェクトストレージのニーズにも対応できます。
 
-Proxmox VEホストは、FC、イーサネット、またはその他のサポート対象インターフェイスをスイッチにケーブル接続し、ONTAP論理インターフェイスと通信できる必要があります。
+Proxmox VEホストは、FC、イーサネット、またはその他のサポート対象インターフェイスをスイッチにケーブル接続し、ONTAP論理インターフェイスと通信できる必要があります。常に確認して https://mysupport.netapp.com/matrix/#welcome["Interoperability Matrix Tool"]サポートされている構成をください。
 
 
 
@@ -142,6 +142,8 @@ SMB / CIFSファイル共有を利用するには、ストレージ管理者が�
 
 NOTE: パスワードはクリアテキストファイルに保存され、rootユーザのみがアクセスできます。を参照してください link:https://pve.proxmox.com/pve-docs/chapter-pvesm.html#storage_cifs["Proxmox VEドキュメント"]。
 
+.ONTAPを使用したSMB共有ストレージプール
+video::5b4ae54a-08d2-4f7d-95ec-b22d015f6035[panopto,width=360]
 .<strong>ストレージ管理タスク</strong>
 [%collapsible]
 ====
@@ -200,6 +202,8 @@ ONTAPは、Proxmox VEでサポートされているすべてのNFSバージョ�
 
 ONTAPを初めて使用する場合は、System Managerインターフェイスを使用してこれらのタスクを実行してください。
 
+.ONTAPでのNFS nconnectオプション
+video::f6c9aba3-b070-45d6-8048-b22e001acfd4[panopto,width=360]
 .<strong>ストレージ管理タスク</strong>
 [%collapsible]
 ====
@@ -248,12 +252,14 @@ image:proxmox-ontap-image12.png["NFSのストレージ構成ファイル"]
 
 == iSCSIを使用したLVM
 
+.ONTAPを使用したiSCSIでのLVM共有プール
+video::d66ef67f-bcc2-4ced-848e-b22e01588e8c[panopto,width=360]
 Proxmoxホスト間で共有ストレージ用の論理ボリュームマネージャを構成するには、次のタスクでを実行します。
 
 .<strong>仮想化管理タスク</strong>
 [%collapsible]
 ====
-. それぞれのイーサネットNIC上の2つのLinuxブリッジが設定されていることを確認します（理想的には異なるVLAN上）。
+. 2つのLinux VLANインターフェイスが使用可能であることを確認します。
 . すべてのProxmox VEホストにmultipath-toolsがインストールされていることを確認します。起動時に起動することを確認します。
 +
 [source, shell]
@@ -319,14 +325,16 @@ image:proxmox-ontap-image19.png["LVM iSCSIの設定"]
 ====
 
 
-=== NVMe/TCP対応LVM
+== NVMe/TCP対応LVM
 
+.ONTAPを使用したNVMe/TCPによるLVM共有プール
+video::80164fe4-06db-4c21-a25d-b22e0179c3d2[panopto,width=360]
 Proxmoxホスト間で共有ストレージ用に論理ボリュームマネージャを構成するには、次のタスクを実行します。
 
 .<strong>仮想化管理タスク</strong>
 [%collapsible]
 ====
-. それぞれ独自のイーサネットデバイスを持つ2つのLinuxブリッジが設定されていることを確認します（理想的には異なるVLAN上）。
+. 2つのLinux VLANインターフェイスが使用可能であることを確認します。
 . クラスタ上のすべてのProxmoxホストで、次のコマンドを実行してホストイニシエータ情報を収集します。
 +
 [source, shell]
