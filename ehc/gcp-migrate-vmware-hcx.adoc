@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: ehc/gcp-migrate-vmware-hcx.html 
-keywords: gcp, gcve, hybrid multicloud, migrate, vmware hcx, hcx, google cloud, enterprise, hybrid, cloud, migration 
+keywords: gcp, gcve, hybrid, multicloud, migrate, vmware, hcx, google, cloud, enterprise, hybrid, cloud, migration 
 summary:  
 ---
 = VMware HCXを使用したGoogle Cloud VMware Engine上のGoogle Cloud NetApp Volumeデータストアへのワークロードの移行-クイックスタートガイド
@@ -68,7 +68,7 @@ NOTE: HCx advancedはデフォルトオプションであり、VMware HCX Enterp
 
 image:gcpd-hcx-image1.png["この図は、この解決策 で使用されているアーキテクチャの概要を示しています。"]
 
-HCXの詳細な図については、を参照してください https://www.vmware.com/content/dam/digitalmarketing/vmware/en/pdf/products/vmw-google-cloud-vmware-engine-logical-design-poster-for-workload-mobility.pdf["VMwareへのリンク"^]
+GoogleでVMware HCXを使用する方法の詳細については、 https://cloud.google.com/vmware-engine/docs/workloads/howto-migrate-vms-using-hcx["VMwareへのリンク"^]
 
 ====
 
@@ -111,7 +111,7 @@ NOTE: 仮想アプライアンスの電源を手動でオンにします。
 
 
 
-手順については、を参照してください https://docs.vmware.com/en/VMware-HCX/4.5/hcx-user-guide/GUID-47774FEA-6BDA-48E5-9D5F-ABEAD64FDDF7.html["VMware HCXユーザーガイド"^]。
+詳細な手順については、を参照してください https://cloud.google.com/vmware-engine/docs/workloads/howto-migrate-vms-using-hcx#prepare-for-hcx-manager-installation["Google HCXドキュメント"^]。
 
 ====
 .手順3：ライセンスキーを使用してHCXコネクタをアクティブにします
@@ -230,7 +230,7 @@ image:gcpd-hcx-image14.png["vSphere Client InterconnectページのHCXアプラ�
 ====
 さまざまなVMware HCX移行テクノロジを使用して、オンプレミスとGCVEのSDDC間でワークロードを双方向に移行できます。VMは、HCXバルク移行、HCX vMotion、HCXコールド移行、HCX Replication Assisted vMotion（HCX Enterprise Editionで利用可能）、HCX OS Assisted Migration（HCX Enterprise Editionで利用可能）などの複数の移行テクノロジーを使用して、VMware HCXでアクティブ化されたエンティティとの間で移動できます。
 
-さまざまなHCX移行メカニズムの詳細については、を参照してください https://docs.vmware.com/en/VMware-HCX/4.5/hcx-user-guide/GUID-8A31731C-AA28-4714-9C23-D9E924DBB666.html["VMware HCXの移行タイプ"^]。
+さまざまなHCX移行メカニズムの詳細については、を参照してください https://cloud.google.com/vmware-engine/docs/workloads/howto-migrate-vms-using-hcx["VMware HCXを使用したVMware VMの移行に関するドキュメント"^]。
 
 HCX-IXアプライアンスは、Mobility Agentサービスを使用して、vMotion、コールド、およびReplication Assisted vMotion（RAV）の移行を実行します。
 
@@ -259,7 +259,7 @@ image:gcpd-hcx-image17.png["入力/出力ダイアログを示す図、または
 . 検証チェックが完了したら、Goをクリックして移行を開始します。
 +
 
-NOTE: vMotionによる転送では、VMのアクティブメモリ、実行状態、IPアドレス、およびMACアドレスがキャプチャされます。HCX vMotionの要件と制限の詳細については、を参照してください https://docs.vmware.com/en/VMware-HCX/4.5/hcx-user-guide/GUID-517866F6-AF06-4EFC-8FAE-DA067418D584.html["VMware HCX vMotionとコールドマイグレーションについて理解する"^]。
+NOTE: vMotionによる転送では、VMのアクティブメモリ、実行状態、IPアドレス、およびMACアドレスがキャプチャされます。HCX vMotionの要件と制限事項の詳細については、を参照してください https://techdocs.broadcom.com/us/en/vmware-cis/hcx/vmware-hcx/4-10/vmware-hcx-user-guide-4-10/migrating-virtual-machines-with-vmware-hcx/understanding-vmware-hcx-vmotion-and-cold-migration.html#GUID-517866F6-AF06-4EFC-8FAE-DA067418D584-en["VMware HCX vMotionとコールドマイグレーションについて理解する"^]。
 
 . VMotionの進捗状況と完了は'HCX＞Migrationダッシュボードから監視できます
 +

@@ -16,7 +16,7 @@ summary:
 [role="lead"]
 VMware Cloudの準備が完了してAWS VPCに接続したら、元の接続または既存のデフォルトVPCではなく、新しく指定したVPCにAmazon FSx ONTAPを導入する必要があります。
 
-まず、SDDCが配置されているリージョンとアベイラビリティゾーンに追加のVPCを導入し、その新しいVPCにAmazon FSx ONTAPを導入します。 https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-6B20CA3B-ABCD-4939-9176-BCEA44473C2B.html["VMware Cloud内のSDDCグループの構成"^]コンソールでは、FSx ONTAPを導入する新しく指定されたVPCに接続するために必要なネットワーク構成オプションを使用できます。
+まず、SDDCが配置されているリージョンとアベイラビリティゾーンに追加のVPCを導入し、その新しいVPCにAmazon FSx ONTAPを導入します。 https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-networking-security/GUID-C957DBA7-16F5-412B-BB72-15B49B714723.html["VMware Cloud内のSDDCグループの構成"^]コンソールでは、FSx ONTAPを導入する新しく指定されたVPCに接続するために必要なネットワーク構成オプションを使用できます。
 
 
 NOTE: FSx ONTAPはVMware Cloud on AWS SDDCと同じアベイラビリティゾーンに導入します。
@@ -171,7 +171,7 @@ image:fsx-nfs-image13.png["入力/出力ダイアログを示す図、または�
 .手順3：VMware Transit Connectを設定します
 [%collapsible]
 ====
-. 新しく作成した代表VPCをSDDCグループに接続します。[* External VPC *（外部VPC *）]タブを選択し、に従います https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-A3D03968-350E-4A34-A53E-C0097F5F26A9.html["グループに外部VPCを接続する手順"^]。このプロセスは、完了までに10～15分かかる場合があります。
+. 新しく作成した代表VPCをSDDCグループに接続します。[External VPC]タブを選択し、の手順に従います https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-networking-security/GUID-A3D03968-350E-4A34-A53E-C0097F5F26A9.html["グループに外部VPCを接続する手順"^]。このプロセスは、完了までに10～15分かかる場合があります。
 +
 image:fsx-nfs-image14.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 

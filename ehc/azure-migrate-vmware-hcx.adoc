@@ -56,7 +56,7 @@ NOTE: HCx advancedはデフォルトオプションであり、VMware HCX Enterp
 * 既存のAzure VMware解決策 Software-Defined Data Center（SDDC）を使用するか、またはこれを使用してプライベートクラウドを作成します link:azure-setup.html["ネットアップのリンク"^] またはこれ https://docs.microsoft.com/en-us/azure/azure-vmware/deploy-azure-vmware-solution?tabs=azure-portal["Microsoftのリンク"^]。
 * オンプレミスのVMware vSphere対応データセンターからVMと関連データを移行するには、データセンターからSDDC環境へのネットワーク接続が必要です。ワークロードを移行する前に、 https://docs.microsoft.com/en-us/azure/azure-vmware/tutorial-expressroute-global-reach-private-cloud["サイト間VPNまたはエクスプレスルートグローバルリーチ接続をセットアップします"^] オンプレミス環境とそれぞれのプライベートクラウドの間。
 * オンプレミスのVMware vCenter Server環境からAzure VMware解決策 プライベートクラウドへのネットワークパスで、vMotionを使用したVMの移行がサポートされている必要があります。
-* 必要なを確認します https://docs.vmware.com/en/VMware-HCX/4.4/hcx-user-guide/GUID-A631101E-8564-4173-8442-1D294B731CEB.html["ファイアウォールルールとポート"^] オンプレミスのvCenter ServerとSDDC vCenter間のvMotionトラフィックに許可されます。プライベートクラウドでは、vMotionネットワーク上のルーティングはデフォルトで設定されます。
+* オンプレミスのvCenter ServerとSDDC vCenterの間のvMotionトラフィックに必要なが許可されていることを確認し https://learn.microsoft.com/en-us/azure/azure-vmware/tutorial-network-checklist?source=recommendations["ファイアウォールルールとポート"^]ます。プライベートクラウドでは、vMotionネットワーク上のルーティングはデフォルトで設定されます。
 * Azure NetApp Files NFSボリュームは、Azure VMware解決策 でデータストアとしてマウントする必要があります。詳細な手順を実行します https://learn.microsoft.com/en-us/azure/azure-vmware/attach-azure-netapp-files-to-azure-vmware-solution-hosts?tabs=azure-portal["リンク"^] を使用して、Azure NetApp Files データストアをAzure VMwareソリューションホストに接続します。
 
 
@@ -261,7 +261,7 @@ image:anfd-hcx-image15.png["vSphere Client Interconnectのページで完了し�
 ====
 さまざまなVMware HCX移行テクノロジを使用して、オンプレミスとAzure SDDC間でワークロードを双方向に移行できます。VMは、HCXバルク移行、HCX vMotion、HCXコールド移行、HCX Replication Assisted vMotion（HCX Enterprise Editionで利用可能）、HCX OS Assisted Migration（HCX Enterprise Editionで利用可能）などの複数の移行テクノロジーを使用して、VMware HCXでアクティブ化されたエンティティとの間で移動できます。
 
-さまざまなHCX移行メカニズムの詳細については、を参照してください https://docs.vmware.com/en/VMware-HCX/4.4/hcx-user-guide/GUID-8A31731C-AA28-4714-9C23-D9E924DBB666.html["VMware HCXの移行タイプ"^]。
+さまざまなHCX移行メカニズムの詳細については、を参照してください https://learn.microsoft.com/en-us/azure/azure-vmware/architecture-migrate#vmware-hcx-migration-options["VMware HCXの移行タイプ"^]。
 
 *一括移行*
 
@@ -294,7 +294,7 @@ NOTE: この移行では、移行元VMディスクのデータをプレースホ
 
 image:anfd-hcx-image19.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-さまざまな移行オプションの詳細と、HCXを使用してオンプレミスからAzure VMware解決策 にワークロードを移行する方法については、を参照してください https://docs.vmware.com/en/VMware-HCX/4.4/hcx-user-guide/GUID-14D48C15-3D75-485B-850F-C5FCB96B5637.html["VMware HCXユーザーガイド"^]。
+さまざまな移行オプションの詳細と、HCXを使用してオンプレミスからAzure VMware Solutionにワークロードを移行する方法については、を参照してください https://learn.microsoft.com/en-us/azure/azure-vmware/architecture-migrate["VMware HCXの移行に関する考慮事項"^]。
 
 このプロセスの詳細については、次のビデオをご覧ください。
 
@@ -348,7 +348,7 @@ https://docs.microsoft.com/en-us/azure/azure-vmware/["https://docs.microsoft.com
 
 https://docs.microsoft.com/en-us/azure/azure-netapp-files/["https://docs.microsoft.com/en-us/azure/azure-netapp-files/"^]
 
-* VMware HCXユーザーガイド
+* VMware HCXの移行に関する考慮事項
 
 
-https://docs.vmware.com/en/VMware-HCX/4.4/hcx-user-guide/GUID-BFD7E194-CFE5-4259-B74B-991B26A51758.html["https://docs.vmware.com/en/VMware-HCX/4.4/hcx-user-guide/GUID-BFD7E194-CFE5-4259-B74B-991B26A51758.html"^]
+https://learn.microsoft.com/en-us/azure/azure-vmware/architecture-migrate["https://learn.microsoft.com/en-us/azure/azure-vmware/architecture-migrate"^]
