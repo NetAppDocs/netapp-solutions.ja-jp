@@ -40,7 +40,7 @@ image:aipod_nv_a90_netdetail.png["入力/出力ダイアログを示す図、ま
 | スイッチ1のポート37~40 | AFF - A90-01～-04 | ポートe11a 
 
 
-| スイッチ1のポート41~44 | AFF - A90-01～-04 | ポートe8a 
+| スイッチ1のポート41~44 | AFF - A90-01～-04 | ポートe2a 
 
 
 | スイッチ1のポート57～64 | switch2 への ISL を使用します | ポート57～64 
@@ -61,7 +61,7 @@ image:aipod_nv_a90_netdetail.png["入力/出力ダイアログを示す図、ま
 | スイッチ2のポート37~40 | AFF - A90-01～-04 | ポートe11b 
 
 
-| スイッチ2のポート41~44 | AFF - A90-01～-04 | ポートe8b 
+| スイッチ2のポート41~44 | AFF - A90-01～-04 | ポートe2b 
 
 
 | スイッチ2のポート57～64 | switch1 への ISL を使用します | ポート57～64 
@@ -100,7 +100,7 @@ SN4600スイッチの設定に使用する基本的な手順は、次のとお�
 . 両方のスイッチのクライアントポートとストレージポートのペアごとにLACP MLAGを設定
 +
 ** 各スイッチのDGX-H100-01のポートswp17（enp170s0f1np1とenp41s0f1np1）、DGX-H100-02のポートswp18（bond1-16）
-** 各スイッチのポートswp41（AFF A90-01（e8aおよびe8b）、ポートswp42（AFF A90-02）など）（bond17-20）
+** 各スイッチのポートswp41（AFF A90-01（e2aおよびe2b）、ポートswp42（AFF A90-02）など）（bond17-20）
 ** nv set interface bondX bond member swpX
 ** NV set interface bondX bond MLAG id X
 
@@ -201,7 +201,7 @@ image:aipod_nv_a90_logical.png["入力/出力ダイアログを示す図、ま�
 . 各コントローラでifgrpを設定
 +
 ** net port ifgrp create -node <node>-ifgrp a1a -mode multimode_lacp-distr-function port
-** net port ifgrp add -port -node <node>-ifgrp <ifgrp>-ports <node>：e8a、<node>：e8b
+** net port ifgrp add -port -node <node>-ifgrp <ifgrp>-ports <node>：e2a、<node>：e2b
 
 
 . 各コントローラのifgrpで管理VLANポートを設定
@@ -245,7 +245,7 @@ image:aipod_nv_a90_logical.png["入力/出力ダイアログを示す図、ま�
 +
 ** SVMでRDMAをサポートするように設定
 +
-*** vserver modify -vserver basepod-data-rdma enabled
+*** vserver nfs modify -vserver basepod-data-rdma enabled
 
 
 ** LIFの作成
