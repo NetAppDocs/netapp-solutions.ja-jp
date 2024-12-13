@@ -110,10 +110,27 @@ NetAppサイバーヴォールトの基盤はSnapMirrorとSnapLock Complianceで
 ONTAP Snapshotコピーは、デフォルトでは変更できないため、SnapLock Complianceで消去できません。NetAppがサポートされていない場合でも、SnapLock Snapshotコピーを削除できます。質問すべきより良い質問は、NetAppのサイバーボールトが業界の他のサイバーボールトよりも優れている理由です。まず、ONTAPは地球上で最も安全なストレージであり、ハードウェア層とソフトウェア層の両方に保存されている秘密データと最高機密データを保存することを可能にするCSfCの検証を取得しました。詳細は、をlink:https://www.netapp.com/esg/trust-center/compliance/CSfC-Program/["CSfCはこちらから入手できます。"^]参照してください。さらに、ONTAPはストレージレイヤでエアギャップを埋めることができ、サイバーヴォールトシステムがレプリケーションを制御して、サイバーヴォールトネットワーク内にエアギャップを作成することができます。
 
 ====
-.サイバーヴォールトのソースボリュームを、ONTAP FabricPool対応ボリューム（ONTAP S3またはStorageGRIDに階層化されたボリューム）にすることはできますか。
+.サイバーヴォールト上のボリュームでONTAP FabricPoolを使用できますか。
 [%collapsible%open]
 ====
-いいえ。使用するポリシーに関係なく、FabricPoolのソースボリュームをSnapLock Complianceのデスティネーションにレプリケートすることはできません。
+いいえ。ポリシーに関係なく、サイバーバックアップボリューム（SnapLock Compliance SnapMirrorデスティネーション）をFabricPoolを使用して階層化することはできません。
+
+image:ontap-cyber-vault-fabric-pool-configurations.png["Cyber vault Fabric Poolのサポートされる構成"]
+
+
+NOTE: ファブリックプール*をサイバーボールトで使用できない*シナリオは複数あります。
+
+. FabricPoolのコールド階層*でサイバーヴォールトクラスタを使用することはできません。これは、S3プロトコルを有効にすると、サイバーヴォールトリファレンスアーキテクチャのセキュアな性質が無効になるためです。また、ファブリックプールに使用されるS3バケットは保護できません。
+. データがボリューム内でロックされているため、サイバーヴォールト*上のSnapLock ComplianceボリュームをS3バケットに階層化することはできません*。
+
+
+image:ontap-cyber-vault-fabric-pool-configurations-p-s-cv.png["カスケード関係でサポートされるCyber vault Fabric Pool構成"]
+
+====
+.ONTAP S3ワームはサイバーボールトで利用できますか。
+[%collapsible%open]
+====
+いいえ。S3は、リファレンスアーキテクチャの安全性を無効にするデータアクセスプロトコルです。
 
 ====
 .NetAppサイバーボールトは、別のONTAPパーソナリティまたはプロファイルで実行されますか？
