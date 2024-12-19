@@ -43,6 +43,10 @@ image:ontap-cyber-vault-air-gap.png["NetApp ONTAPを使用したエアギャッ�
 `cluster2::> volume create -vserver SVM2 -volume dstvolB -aggregate node01_aggr -snaplock-type compliance -type DP -size 2GG`
 
 . デスティネーションクラスタでエアギャップを作成するには、の説明に従ってデフォルトの保持期間を設定しますlink:https://docs.netapp.com/us-en/ontap/snaplock/set-default-retention-period-task.html["デフォルトの保持期間を設定する"^]。バックアップデスティネーションであるSnapLockには、デフォルトの保持期間が割り当てられています。この期間の値は、最初は0年以上最大100年（ONTAP 9 .10.1以降）に設定されています。以前のONTAPリリースでは、値は0~70です。）SnapLock Complianceボリュームの場合。各NetApp Snapshotコピーは、最初はこのデフォルトの保持期間でコミットされます。default-retention-periodを変更する必要があります。保持期間は必要に応じてあとから延長できますが、短縮することはできません。詳細については、を参照してください link:https://docs.netapp.com/us-en/ontap/snaplock/set-retention-period-task.html["保持期限の設定の概要を確認します"^]。
++
+
+NOTE: サービスプロバイダは、保持期間を決定する際に、お客様の契約終了日を考慮する必要があります。たとえば、サイバーボールトの保持期間が30日であり、保持期間が満了する前に顧客の契約が終了した場合、サイバーボールト内のデータは保持期間が満了するまで削除できません。
+
 . link:https://docs.netapp.com/us-en/ontap/data-protection/create-replication-relationship-task.html["新しいレプリケーション関係を作成"^]SnapLock以外のソースと手順3で作成した新しいSnapLockデスティネーション間。
 +
 この例では、XDPDefaultポリシーを使用して、dailyおよびweeklyというラベルのSnapshotコピーを毎時スケジュールに基づいてバックアップする、デスティネーションSnapLockボリュームdstvolBとの新しいSnapMirror関係を作成します。
