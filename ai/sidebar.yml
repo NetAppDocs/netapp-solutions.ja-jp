@@ -29,17 +29,59 @@ entries:
     url: "/ai/tr-4859.html"
 - title: データパイプライン、データレイク、管理
   entries:
-  - title: MLOps向けAmazon FSx for NetApp ONTAP（FSx ONTAP）
-    pdf-filename: MLOps向けAmazon FSx for NetApp ONTAP（FSx ONTAP）
+  - title: NetAppによるオープンソースMLOps
+    pdf-filename: NetAppによるオープンソースMLOps
     entries:
-    - title: 概要
-      url: "/ai/mlops_fsxn_intro.html"
-    - title: パート1 - Amazon FSx for NetApp ONTAP（FSx ONTAP）をプライベートS3バケットとしてAWS SageMakerに統合する
-      url: "/ai/mlops_fsxn_s3_integration.html"
-    - title: パート2 - SageMakerのモデルトレーニングのデータソースとしてAmazon FSx for NetApp ONTAP（FSx ONTAP）を活用
-      url: "/ai/mlops_fsxn_sagemaker_integration_training.html"
-    - title: パート3 -簡易化されたMLOpsパイプラインの構築（CI/CT/CD）
-      url: "/ai/mlops_fsxn_cictcd.html"
+    - title: はじめに
+      url: "/ai/aicp_introduction.html"
+    - title: テクノロジの概要
+      url: "/ai/aicp_concepts_and_components.html"
+    - title: アーキテクチャ
+      url: "/ai/aicp_hardware_and_software_requirements.html"
+    - title: NetApp Tridentの設定
+      entries:
+      - title: NetApp AIPod導入のTridentバックエンドの例
+        url: "/ai/aicp_example_trident_backends_for_ontap_ai_deployments.html"
+      - title: NetApp AIPod環境向けのKubernetesストレージクラスの例
+        url: "/ai/aicp_example_kubernetes_storageclasses_for_ontap_ai_deployments.html"
+    - title: Apache の通気
+      entries:
+      - title: Apache Airflow の導入
+        url: "/ai/aicp_apache_airflow_deployment.html"
+      - title: エアーフローでのNetApp DataOps Toolkitの使用
+        url: "/ai/aicp_example_apache_airflow_workflows_overview.html"
+    - title: JupyterHub
+      entries:
+      - title: JupyterHubの導入
+        url: "/ai/aicp_jupyterhub_deployment.html"
+      - title: NetApp DataOps ToolkitとJupyterHubの併用
+        url: "/ai/aicp_example_jupyterhub_workflows_overview.html"
+    - title: MLflow
+      entries:
+      - title: MLflowの展開
+        url: "/ai/aicp_mlflow_deployment.html"
+      - title: NetAppおよびMLflowによるデータセットからモデルへのトレーサビリティ
+        url: "/ai/aicp_example_mlflow_traceability.html"
+    - title: クビフロー
+      entries:
+      - title: Kubeflow の導入
+        url: "/ai/aicp_kubeflow_deployment_overview.html"
+      - title: 例： Kubeflow の操作とタスク
+        entries:
+        - title: データサイエンティストまたは開発者向けに Jupyter Notebook Workspace をプロビジョニングします 使用
+          url: "/ai/aicp_provision_a_jupyter_notebook_workspace_for_data_scientist_or_developer_use.html"
+        - title: KubeflowでのNetApp DataOps Toolkitの使用
+          url: "/ai/aicp_example_notebooks_and_pipelines.html"
+        - title: ワークフロー例-画像認識モデルのトレーニング
+          url: "/ai/aicp_kubeflow_train_image_recognition.html"
+    - title: Trident の運用例
+      url: "/ai/aicp_example_trident_operations_overview.html"
+    - title: AIPod導入時のハイパフォーマンスジョブの例
+      entries:
+      - title: シングルノードの AI ワークロードを実行
+        url: "/ai/aicp_execute_a_single-node_ai_workload.html"
+      - title: 分散型 AI の同期ワークロードを実行します
+        url: "/ai/aicp_execute_a_synchronous_distributed_ai_workload.html"
   - title: Domino Data LabとNetAppによるハイブリッドマルチクラウドMLOps
     pdf-filename: Domino Data LabとNetAppによるハイブリッドマルチクラウドMLOps
     entries:
@@ -78,61 +120,19 @@ entries:
         url: "/ai/nvaie_ngc_tensorflow.html"
     - title: 追加情報の検索場所
       url: "/ai/nvaie_additional_information.html"
+  - title: MLOps向けAmazon FSx for NetApp ONTAP（FSx ONTAP）
+    pdf-filename: MLOps向けAmazon FSx for NetApp ONTAP（FSx ONTAP）
+    entries:
+    - title: 概要
+      url: "/ai/mlops_fsxn_intro.html"
+    - title: パート1 - Amazon FSx for NetApp ONTAP（FSx ONTAP）をプライベートS3バケットとしてAWS SageMakerに統合する
+      url: "/ai/mlops_fsxn_s3_integration.html"
+    - title: パート2 - SageMakerのモデルトレーニングのデータソースとしてAmazon FSx for NetApp ONTAP（FSx ONTAP）を活用
+      url: "/ai/mlops_fsxn_sagemaker_integration_training.html"
+    - title: パート3 -簡易化されたMLOpsパイプラインの構築（CI/CT/CD）
+      url: "/ai/mlops_fsxn_cictcd.html"
   - title: 自動運転ワークロード向けの NetApp StorageGRID データレイク
     url: "/ai/tr-4851.html"
-  - title: NetAppによるオープンソースMLOps
-    pdf-filename: NetAppによるオープンソースMLOps
-    entries:
-    - title: はじめに
-      url: "/ai/aicp_introduction.html"
-    - title: テクノロジの概要
-      url: "/ai/aicp_concepts_and_components.html"
-    - title: アーキテクチャ
-      url: "/ai/aicp_hardware_and_software_requirements.html"
-    - title: NetApp Tridentの設定
-      entries:
-      - title: NetApp AIPod導入のTridentバックエンドの例
-        url: "/ai/aicp_example_trident_backends_for_ontap_ai_deployments.html"
-      - title: NetApp AIPod環境向けのKubernetesストレージクラスの例
-        url: "/ai/aicp_example_kubernetes_storageclasses_for_ontap_ai_deployments.html"
-    - title: Apache の通気
-      entries:
-      - title: Apache Airflow の導入
-        url: "/ai/aicp_apache_airflow_deployment.html"
-      - title: エアーフローでのNetApp DataOps Toolkitの使用
-        url: "/ai/aicp_example_apache_airflow_workflows_overview.html"
-    - title: JupyterHub
-      entries:
-      - title: JupyterHubの導入
-        url: "/ai/aicp_jupyterhub_deployment.html"
-      - title: NetApp DataOps ToolkitとJupyterHubの併用
-        url: "/ai/aicp_example_jupyterhub_workflows_overview.html"
-    - title: MLflow
-      entries:
-      - title: MLflowの展開
-        url: "/ai/aicp_mlflow_deployment.html"
-      - title: NetAppおよびMLflowによるデータセットからモデルへのトレーサビリティ
-        url: "/ai/aicp_example_mlflow_workflows_overview.html"
-    - title: クビフロー
-      entries:
-      - title: Kubeflow の導入
-        url: "/ai/aicp_kubeflow_deployment_overview.html"
-    - title: 例： Kubeflow の操作とタスク
-      entries:
-      - title: データサイエンティストまたは開発者向けに Jupyter Notebook Workspace をプロビジョニングします 使用
-        url: "/ai/aicp_provision_a_jupyter_notebook_workspace_for_data_scientist_or_developer_use.html"
-      - title: KubeflowでのNetApp DataOps Toolkitの使用
-        url: "/ai/aicp_example_notebooks_and_pipelines.html"
-      - title: ワークフロー例-画像認識モデルのトレーニング
-        url: "/ai/aicp_kubeflow_train_image_recognition.html"
-    - title: Trident の運用例
-      url: "/ai/aicp_example_trident_operations_overview.html"
-    - title: AIPod導入時のハイパフォーマンスジョブの例
-      entries:
-      - title: シングルノードの AI ワークロードを実行
-        url: "/ai/aicp_execute_a_single-node_ai_workload.html"
-      - title: 分散型 AI の同期ワークロードを実行します
-        url: "/ai/aicp_execute_a_synchronous_distributed_ai_workload.html"
   - title: Iguazio による MLRun パイプライン
     pdf-filename: Iguazio による MLRun パイプライン
     entries:
