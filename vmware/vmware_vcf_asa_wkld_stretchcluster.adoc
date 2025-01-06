@@ -1,0 +1,64 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware_vcf_asa_wkld_stretchcluster.html 
+keywords: netapp, vmware, cloud, foundation, vcf, asa, all-flash, array, ontap tools, otv, sddc, iscsi 
+summary:  
+---
+= VCF VIワークロードドメイン用のONTAPを使用したストレッチクラスタ
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+このシナリオでは、ONTAP Tools for VMware vSphere（OTV）を使用して、VCF VIワークロードドメイン用のストレッチクラスタを構成する方法を説明します。
+
+作成者：Suresh Thoppay
+
+
+
+== シナリオの概要
+
+VCFワークロードドメイン上のデータストアをSnapMirrorアクティブ同期で保護して、ストレッチクラスタソリューションを実現できます。保護はvSphereクラスタレベルで有効になり、クラスタ内のすべてのONTAPブロックデータストアが保護されます。
+
+.ワークロードドメインのプリンシパルストレージ
+[%collapsible]
+====
+ワークロードドメインは、VCFインポートツールを使用してインポートするか、SDDCマネージャを使用して展開できます。SDDC Managerを使用して展開すると、既存の環境をインポートするよりも多くのネットワークオプションが提供されます。
+
+. FC上にVMFSを使用したワークロードドメインの作成
+. ワークロードドメインvCenterをONTAP tools Managerに登録してvCenterプラグインを導入
+. ONTAP toolsへのストレージシステムの登録
+. vSphereクラスタの保護
+
+
+
+NOTE: クラスタが拡張または縮小されるたびに、ソースまたはターゲットに加えられた変更を示すために、クラスタのONTAP toolsでホストクラスタ関係を更新する必要があります。
+
+====
+.ワークロードドメイン上の補助ストレージ
+[%collapsible]
+====
+ワークロードドメインが起動して実行されたら、ONTAPツールを使用して追加データストアを作成し、整合グループの拡張をトリガーできます。
+
+
+TIP: vSphereクラスタが保護されている場合は、クラスタ内のすべてのデータストアが保護されます。
+
+====
+
+
+== 追加情報
+
+ONTAPストレージシステムの構成については、 link:https://docs.netapp.com/us-en/ontap["ONTAP 9ドキュメント"] 中央（Center）：
+
+VCFの設定については、を参照してください。 link:https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["VMware Cloud Foundationのドキュメント"]。
+
+
+
+== この解決策のビデオデモ
+
+.ONTAPツールを使用したVCF用のストレッチクラスタ
+video::569a91a9-2679-4414-b6dc-b25d00ff0c5a[panopto,width=360]

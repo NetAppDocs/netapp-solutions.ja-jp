@@ -1,0 +1,72 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware_vcf_asa_mgmt_stretchcluster.html 
+keywords: netapp, vmware, cloud, foundation, vcf, asa, all-flash, array, ontap tools, otv, sddc, iscsi 
+summary:  
+---
+= VCF管理ドメイン用のONTAPを使用したストレッチクラスタ
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+このシナリオでは、ONTAP Tools for VMware vSphere（OTV）を使用して、VCF管理ドメインとワークロードドメイン用のストレッチクラスタを構成する方法を説明します。
+
+作成者：Suresh Thoppay
+
+
+
+== シナリオの概要
+
+ストレッチクラスタソリューションは、VCF管理ドメインまたはワークロードドメインのデフォルトクラスタまたは追加のクラスタに実装できます。FC上のVMFSは、主要なデータストアと補助的なデータストアの両方でサポートされます。iSCSI上のVMFSは、補完的なデータストアでのみサポートされます。SnapMirrorアクティブ同期を使用したNVMe-oFでのVMFSのサポートについては、IMTを参照してください。
+
+.管理ドメインのプリンシパルストレージ
+[%collapsible]
+====
+VCF 5.2以降では、VCFインポートツールを使用して、VSANなしで管理ドメインを展開できます。VCFインポートツールの変換オプションを使用すると、既存のvCenter環境を管理ドメインに導入できます。vCenter内のすべてのクラスタが管理ドメインに追加されます。変換するには、各クラスタに専用の分散スイッチが必要です。VCFインポートツールが複数のネットワークプロファイルをサポートするまでは、vMotionネットワークにストレッチVLANを使用することを検討してください。
+
+. vSphereホストの導入
+. vCenterサーバをローカルデータストアに導入する（vCenterは管理ドメインに変換されるvSphereホスト上に共存させる必要がある）
+. ONTAP Tools for VMware vSphereの導入
+. VMware vSphere用SnapCenterプラグインの導入（オプション）
+. データストアの作成（FCゾーンの設定が必要）
+. 新しく作成したデータストアへのVMの移行
+. vSphereクラスタの保護
+
+
+
+NOTE: クラスタが拡張または縮小されるたびに、ソースまたはターゲットに加えられた変更を示すために、クラスタのONTAP toolsでホストクラスタ関係を更新する必要があります。
+
+====
+.管理ドメイン上の補助ストレージ
+[%collapsible]
+====
+管理ドメインが起動して実行されたら、ONTAPツールを使用して追加データストアを作成し、整合グループの拡張をトリガーできます。
+
+
+TIP: vSphereクラスタが保護されている場合は、クラスタ内のすべてのデータストアが保護されます。
+
+VCF環境がCloud Builderツールを使用して導入されている場合は、iSCSIで追加ストレージを作成するために、ONTAPツールを導入してiSCSIデータストアを作成し、vSphereクラスタを保護します。
+
+
+NOTE: クラスタが拡張または縮小されるたびに、ソースまたはターゲットに加えられた変更を示すために、クラスタのONTAP toolsでホストクラスタ関係を更新する必要があります。
+
+====
+
+
+== 追加情報
+
+ONTAPストレージシステムの構成については、 link:https://docs.netapp.com/us-en/ontap["ONTAP 9ドキュメント"] 中央（Center）：
+
+VCFの設定については、を参照してください。 link:https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["VMware Cloud Foundationのドキュメント"]。
+
+
+
+== この解決策のビデオデモ
+
+.ONTAPツールを使用したVCF用のストレッチクラスタ
+video::569a91a9-2679-4414-b6dc-b25d00ff0c5a[panopto,width=360]
