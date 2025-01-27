@@ -40,7 +40,7 @@ image:ontap-cyber-vault-air-gap.png["NetApp ONTAPを使用したエアギャッ�
 次のコマンドは、という名前の2GBのSnapLock Complianceボリュームを `dstvolB` `SVM2`アグリゲート上に作成し `node01_aggr`ます。
 
 +
-`cluster2::> volume create -vserver SVM2 -volume dstvolB -aggregate node01_aggr -snaplock-type compliance -type DP -size 2GG`
+`cluster2::> volume create -vserver SVM2 -volume dstvolB -aggregate node01_aggr -snaplock-type compliance -type DP -size 2GB`
 
 . デスティネーションクラスタでエアギャップを作成するには、の説明に従ってデフォルトの保持期間を設定しますlink:https://docs.netapp.com/us-en/ontap/snaplock/set-default-retention-period-task.html["デフォルトの保持期間を設定する"^]。バックアップデスティネーションであるSnapLockには、デフォルトの保持期間が割り当てられています。この期間の値は、最初は0年以上最大100年（ONTAP 9 .10.1以降）に設定されています。以前のONTAPリリースでは、値は0~70です。）SnapLock Complianceボリュームの場合。各NetApp Snapshotコピーは、最初はこのデフォルトの保持期間でコミットされます。default-retention-periodを変更する必要があります。保持期間は必要に応じてあとから延長できますが、短縮することはできません。詳細については、を参照してください link:https://docs.netapp.com/us-en/ontap/snaplock/set-retention-period-task.html["保持期限の設定の概要を確認します"^]。
 +
