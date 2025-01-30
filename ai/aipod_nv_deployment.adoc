@@ -28,19 +28,19 @@ image:aipod_nv_a90_netdetail.png["入力/出力ダイアログを示す図、ま
 | スイッチとポート | デバイス | デバイスポート 
 
 
-| スイッチ1のポート1~16 | DGX-H100-01~16 | enp170s0f0np0、slot1ポート1 
+| スイッチ1のポート1～16 | DGX-H100-01~16 | enp170s0f0np0、slot1ポート1 
 
 
 | スイッチ1のポート17～32 | DGX-H100-01~16 | enp170s0f1np1、slot1ポート2 
 
 
-| スイッチ1のポート33-36 | AFF - A90-01～-04 | ポートe6a 
+| スイッチ1のポート33～36 | AFF - A90-01～-04 | ポートe6a 
 
 
-| スイッチ1のポート37~40 | AFF - A90-01～-04 | ポートe11a 
+| スイッチ1のポート37～40 | AFF - A90-01～-04 | ポートe11a 
 
 
-| スイッチ1のポート41~44 | AFF - A90-01～-04 | ポートe2a 
+| スイッチ1のポート41～44 | AFF - A90-01～-04 | ポートe2a 
 
 
 | スイッチ1のポート57～64 | switch2 への ISL を使用します | ポート57～64 
@@ -49,19 +49,19 @@ image:aipod_nv_a90_netdetail.png["入力/出力ダイアログを示す図、ま
 |  |  |  
 
 
-| スイッチ2ポート1~16 | DGX-H100-01~16 | enp41s0f0np0、スロット2、ポート1 
+| スイッチ2のポート1～16 | DGX-H100-01~16 | enp41s0f0np0、スロット2、ポート1 
 
 
-| スイッチ2ポート17～32 | DGX-H100-01~16 | enp41s0f1np1、スロット2、ポート2 
+| スイッチ2のポート17～32 | DGX-H100-01~16 | enp41s0f1np1、スロット2、ポート2 
 
 
-| スイッチ2ポート33-36 | AFF - A90-01～-04 | ポートe6b 
+| スイッチ2のポート33～36 | AFF - A90-01～-04 | ポートe6b 
 
 
-| スイッチ2のポート37~40 | AFF - A90-01～-04 | ポートe11b 
+| スイッチ2のポート37～40 | AFF - A90-01～-04 | ポートe11b 
 
 
-| スイッチ2のポート41~44 | AFF - A90-01～-04 | ポートe2b 
+| スイッチ2のポート41～44 | AFF - A90-01～-04 | ポートe2b 
 
 
 | スイッチ2のポート57～64 | switch1 への ISL を使用します | ポート57～64 
@@ -100,7 +100,7 @@ SN4600スイッチの設定に使用する基本的な手順は、次のとお�
 . 両方のスイッチのクライアントポートとストレージポートのペアごとにLACP MLAGを設定
 +
 ** 各スイッチのDGX-H100-01のポートswp17（enp170s0f1np1とenp41s0f1np1）、DGX-H100-02のポートswp18（bond1-16）
-** 各スイッチのポートswp41（AFF A90-01（e2aおよびe2b）、ポートswp42（AFF A90-02）など）（bond17-20）
+** 各スイッチのAFF-A90-01のポートswp41（e2aとe2b）、AFF-A90-02のポートswp42（bond17-20）
 ** nv set interface bondX bond member swpX
 ** NV set interface bondX bond MLAG id X
 
@@ -122,7 +122,7 @@ SN4600スイッチの設定に使用する基本的な手順は、次のとお�
 +
 *** クライアントNICに障害が発生した場合のL3スイッチからスイッチへのルーティング用のVLAN 3
 *** 各DGXシステムのストレージポート1用VLAN 101（enp170s0f0np0、slot1ポート1）
-*** 各AFF A90ストレージコントローラのポートe6aおよびe11a用VLAN 102
+*** 各AFF A90ストレージコントローラのポートe6aおよびe11a用のVLAN 102
 *** VLAN 301（各DGXシステムおよびストレージコントローラへのMLAGインターフェイスを使用した管理用）
 
 
@@ -289,7 +289,7 @@ image:aipod_nv_a90_logical.png["入力/出力ダイアログを示す図、ま�
 
 . エクスポート ポリシーの作成
 +
-** export-policy rule create -vserver basepod-data-policy default -client-match 100.127.101.0 / 24-rorule sys-rwrule sys-superuser sys
+** export-policy rule create -vserver basepod-data-policy default -client-match 100.127.101.0/24 -rorule sys-rwrule sys-superuser sys
 ** export-policy rule create -vserver basepod-data-policy default -client-match 100.127.201.0/24 -rorule sys-rwrule sys-superuser sys
 
 
@@ -366,9 +366,9 @@ image:aipod_nv_a90_logical.png["入力/出力ダイアログを示す図、ま�
 . LACPボンディング用のインバンドネットワークポートの設定（enp170s0f1np1、enp41s0f1np1）
 . 各ストレージサブネットへのプライマリパスとセカンダリパスの静的ルートを設定する
 +
-** route add–net 100.127.0.0/17 gw 100.127.101.1 metric 20
+** ルート追加–net 100.127.0.0/17 gw 100.127.101.1 metric 20
 ** ルート追加–net 100.127.0.0/17 gw 100.127.201.1 metric 30
-** route add–net 100.127.128.0/17 gw 100.127.201.1 metric 20
+** ルート追加–net 100.127.128.0/17 gw 100.127.201.1 metric 20
 ** ルート追加–net 100.127.128.0/17 gw 100.127.101.1 metric 30
 
 

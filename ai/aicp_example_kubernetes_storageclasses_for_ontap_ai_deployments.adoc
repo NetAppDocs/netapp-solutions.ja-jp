@@ -16,7 +16,7 @@ summary: NetAppを使用したオープンソースのMLOps - NetApp AIPod環境
 [role="lead"]
 Trident を使用して Kubernetes クラスタ内のストレージリソースを動的にプロビジョニングするには、 Kubernetes StorageClasses を 1 つ以上作成する必要があります。以降の例は、このソリューションのコンポーネントをに導入する場合に作成するさまざまなタイプのStorageClassesを示して link:aipod_nv_intro.html["NetApp AIPod"^]います。StorageClasses、および他のプラットフォーム/環境のStorageClassesなどの詳細については、を参照してください link:https://docs.netapp.com/us-en/trident/index.html["Trident のドキュメント"^]。
 
-. NetAppではlink:aicp_example_trident_backends_for_ontap_ai_deployments.html["NetApp AIPod導入のTridentバックエンドの例"]、手順1で作成したFlexGroup対応Tridentバックエンド用にストレージクラスを作成することを推奨しています。以降のコマンド例では、セクションで作成した2つのバックエンドlink:aicp_example_trident_backends_for_ontap_ai_deployments.html["NetApp AIPod導入のTridentバックエンドの例"]（手順1）で使用するバックエンドと使用しlink:https://docs.netapp.com/us-en/ontap/nfs-rdma/["RDMA経由のNFS"]ないバックエンドに対応する複数のStorageClassesを作成する方法を示します。
+. NetAppではlink:aicp_example_trident_backends_for_ontap_ai_deployments.html["NetApp AIPod導入のTridentバックエンドの例"]、手順1で作成したFlexGroup対応Tridentバックエンド用にストレージクラスを作成することを推奨しています。以降のコマンド例では、セクションで作成した2つのバックエンドlink:aicp_example_trident_backends_for_ontap_ai_deployments.html["NetApp AIPod導入のTridentバックエンドの例"]（手順1）で使用するバックエンドと使用しlink:https://docs.netapp.com/us-en/ontap/nfs-rdma/["NFS over RDMA"]ないバックエンドに対応する複数のStorageClassesを作成する方法を示します。
 +
 次の例では、対応するPersistentVolumeClaim（PVC）が削除されても永続ボリュームが削除されないようにするために、の値を `Retain`使用します。 `reclaimPolicy`フィールドの詳細については `reclaimPolicy`、公式を参照してください https://kubernetes.io/docs/concepts/storage/storage-classes/["Kubernetes のドキュメント"^]。
 
