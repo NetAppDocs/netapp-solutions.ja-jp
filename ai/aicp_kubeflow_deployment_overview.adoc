@@ -22,7 +22,7 @@ summary: NetAppを使用したオープンソースMLOps - Kubeflowの導入
 
 このセクションで説明する導入の演習を行う前に、次の作業をすでに実行していることを前提としています。
 
-. すでに稼働中のKubernetesクラスタがあり、導入するKubeflowバージョンでサポートされているKubernetesのバージョンを実行している。サポートされているKubernetesバージョンのリストについては、 link:https://www.kubeflow.org/docs/releases/["Kubeflow の公式ドキュメント"^]。
+. すでに稼働中のKubernetesクラスタがあり、導入するKubeflowバージョンでサポートされているKubernetesのバージョンを実行している。サポートされているKubernetesバージョンのリストについては、のKubeflowバージョンの依存関係を参照してlink:https://www.kubeflow.org/docs/releases/["Kubeflow の公式ドキュメント"^]ください。
 . KubernetesクラスタにNetApp Tridentをインストールして設定しておく必要があります。Tridentの詳細については、を参照してlink:https://docs.netapp.com/us-en/trident/index.html["Trident のドキュメント"]ください。
 
 
@@ -32,11 +32,11 @@ summary: NetAppを使用したオープンソースMLOps - Kubeflowの導入
 
 Kubeflowを導入する前に、Kubernetesクラスタ内でデフォルトのStorageClassを指定することを推奨します。Kubeflowの導入プロセスで、デフォルトのStorageClassを使用して新しい永続ボリュームのプロビジョニングが試行されることがあります。StorageClassがデフォルトのStorageClassとして指定されていない場合、導入に失敗する可能性があります。クラスタ内のデフォルトの StorageClass を指定するには、導入ジャンプホストから次のタスクを実行します。クラスタ内ですでにデフォルトの StorageClass を指定している場合は、この手順を省略できます。
 
-. 既存のストレージクラスの 1 つをデフォルトのストレージクラスとして指定します。次のコマンド例は、という名前のStorageClassの指定を示しています。 `ontap-ai-flexvols-retain` をデフォルトのStorageClassとして設定します。
+. 既存のストレージクラスの 1 つをデフォルトのストレージクラスとして指定します。次のコマンド例では、という名前のStorageClassをデフォルトのStorageClassとして指定しています `ontap-ai-flexvols-retain`。
 
 
 
-NOTE: 「 ONTAP-NAS-flexgroup 」の Trident バックエンドタイプには、かなり大きな最小 PVC サイズがあります。デフォルトでは、 Kubeflow はサイズが数 GB しかない PVC のプロビジョニングを試みます。したがって、 Kubeflow の導入の目的で、「 ONTAP-NAS-flexgroup 」バックエンドタイプをデフォルトの StorageClass として使用する StorageClass を指定しないでください。
+NOTE:  `ontap-nas-flexgroup`Tridentバックエンドタイプの最小PVCサイズはかなり大きいです。デフォルトでは、 Kubeflow はサイズが数 GB しかない PVC のプロビジョニングを試みます。したがって、バックエンドタイプを使用するStorageClassを、Kubeflow導入のためのデフォルトのStorageClassとして指定しないで `ontap-nas-flexgroup`ください。
 
 ....
 $ kubectl get sc
@@ -58,7 +58,7 @@ ontap-ai-flexvols-retain (default)   csi.trident.netapp.io   54s
 
 == Kubeflowの導入オプション
 
-Kubeflowを導入するには、さまざまなオプションがあります。を参照してください link:https://www.kubeflow.org/docs/started/installing-kubeflow/["Kubeflow の公式ドキュメント"] を参照し、ニーズに最適な導入オプションを選択してください。
+Kubeflowを導入するには、さまざまなオプションがあります。導入オプションの一覧については、を参照してlink:https://www.kubeflow.org/docs/started/installing-kubeflow/["Kubeflow の公式ドキュメント"]、ニーズに最適なオプションを選択してください。
 
 
-NOTE: 検証のために、次のツールを使用してKubeflow 1.7を導入しました。 link:https://www.deploykf.org["deployKF"] 0.1.1。
+NOTE: 検証のために、0.1.1を使用してKubeflow 1.7を導入しましlink:https://www.deploykf.org["deployKF"]た。

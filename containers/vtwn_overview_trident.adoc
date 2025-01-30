@@ -26,17 +26,17 @@ image:redhat_openshift_image2.png["入力/出力ダイアログを示す図、�
 
 Tridentは開発サイクルが速く、Kubernetesと同様に年4回リリースされています。
 
-Tridentの最新バージョンは、2022年4月にリリースされた22.04です。どのKubernetesディストリビューションでテストされたTridentのバージョンのサポートマトリックス https://docs.netapp.com/us-en/trident/trident-get-started/requirements.html#supported-frontends-orchestrators["こちらをご覧ください"]です。
+Tridentの最新バージョンは、2022年4月にリリースされた22.04です。どのKubernetesディストリビューションでテストされたTridentのバージョンのサポートマトリックス https://docs.netapp.com/us-en/trident/trident-get-started/requirements.html#supported-frontends-orchestrators["ここをクリック"]です。
 
 20.04 リリース以降、 Trident のセットアップは Trident オペレータによって実行されます。オペレータが大規模な導入を容易にし、Tridentのインストールの一部として導入されるポッドの自己修復などの追加サポートを提供します。
 
-21.01 リリースでは、 Trident Operator のインストールを容易にするために Helm チャートを使用できるようになりました。
+21.01リリースでは、Trident Operatorのインストールを容易にするためにHelmチャートを使用できるようになりました。
 
 
 
 == Helmを使用してTridentオペレータを導入
 
-. Trident にはこのファイルを渡すオプションがないため、まず、ユーザクラスタの「 kubeconfig 」ファイルの場所を環境変数として設定します。
+. 最初に、ユーザクラスタのファイルの場所を環境変数として設定し、 `kubeconfig`参照する必要がないようにします。これは、Tridentにはこのファイルを渡すオプションがないためです。
 +
 [listing]
 ----

@@ -70,7 +70,7 @@ sti96_vsim_ucs540p_aggr1
 ....
 +
 
-NOTE: データアグリゲートがない場合は、「 storage aggr create 」コマンドを使用して新しいアグリゲートを作成します。
+NOTE: データアグリゲートがない場合は、コマンドを使用して新しいアグリゲートを作成し `storage aggr create`ます。
 
 . ターゲットクラスタシステムに SVM を作成します。
 +
@@ -280,7 +280,7 @@ dir c:\netapp\xcp
                2 File(s)     12,143,409 bytes
                3 Dir(s)  29,219,549,184 bytes free
 ....
-. XCP Windows クライアント・ホスト・システムで XCP show コマンドを実行して、ソース・ノードの SMB エクスポートを照会します。
+. XCP Windowsクライアントホストシステムでコマンドを実行して、ソースノードのSMBエクスポートを照会します `xcp show`。
 +
 ....
 C:\WRSHDNT>c:\netapp\xcp\xcp show \\10.237.165.71
@@ -310,7 +310,7 @@ ROOTSHARE                         Everyone                                      
  ipc$                              Everyone                                       Allow/Full Control
  c$                                Administrators                                 Allow/Full Control/
 ....
-. コピーのために 'help' コマンドを実行します
+. コピーのコマンドを実行し `help`ます。
 +
 ....
 C:\WRSHDNT>c:\netapp\xcp\xcp help copy
@@ -341,7 +341,7 @@ optional arguments:
                         groups (eg. domain\administrators)
   -root                 copy acl for root directorytxt
 ....
-. ターゲット ONTAP システムで、「 fallback-user 」および「 fallback-group 」引数パスの値として指定する必要があるローカルユーザおよびローカルグループ名のリストを取得します。
+. ターゲットのONTAPシステムで、および `fallback-group`Argumentsパスの値として指定する必要があるローカルユーザとローカルグループの名前のリストを取得します `fallback-user`。
 +
 ....
 cluster::*> local-user show
@@ -361,9 +361,9 @@ vs1            BUILTIN\Power Users              Restricted administrative privil
 vs1            BUILTIN\Users                    All users
 5 entries were displayed
 ....
-. ACL を持つ CIFS データをソースからターゲットに移行するには 'acl' および– fallback-user/group' オプションを指定して 'XCP copy' コマンドを実行します
+. ACLを使用してCIFSデータをソースからターゲットに移行するには、オプションと `–fallback-user/group`オプションを指定してコマンドを `-acl`実行し `xcp copy`ます。
 +
-「 fallback-user/group 」オプションには、 Active Directory またはローカルユーザ / グループ内のターゲットシステムに存在する任意のユーザまたはグループを指定します。
+オプションには `fallback-user/group`、Active Directoryまたはローカルユーザ/グループからターゲットシステムへの任意のユーザまたはグループを指定します。
 
 +
 ....
@@ -389,7 +389,7 @@ ERROR failed to obtain fallback security principal "D60AB15C2AFC4D6\Administrato
 753 scanned, 0 errors, 0 skipped, 752 copied, 54.7KiB (1.23KiB/s), 44s
 C:\WRSHDNT>
 ....
-. 「 XCP copy 」で「 error failed to obfallback security principal 」 ( フォールバックセキュリティプリンシパルの取得に失敗しました ) というエラーメッセージが表示された場合は、 hosts ファイルに宛先ボックスを追加します (C:\Windows\System32\drivers\etc\hosts) 。
+. エラーメッセージが表示された `ERROR failed to obtain fallback security principal`場合は `xcp copy`、hostsファイルに保存先のボックスを追加し(`C:\Windows\System32\drivers\etc\hosts`ます）。
 +
 ネットアップストレージのデスティネーションボックスのエントリには、次の形式を使用します。
 
@@ -426,7 +426,7 @@ vs1
                                                                    e0e     true
 10.237.165.87  D60AB15C2AFC4D6  -> destination box entry to be added in hosts file.
 ....
-. hosts ファイルに destination box エントリを追加した後にエラーメッセージ「 error failed to get fallback security principal 」が表示される場合は、ターゲットシステムにユーザ / グループが存在しません。
+. hostsファイルに宛先ボックスエントリを追加してもエラーメッセージが表示される場合は、 `ERROR failed to obtain fallback security principal`ターゲットシステムにユーザー/グループが存在しません。
 +
 ....
 C:\WRSHDNT>c:\netapp\xcp\xcp copy -acl -fallback-user D60AB15C2AFC4D6\unknown_user -fallback-group BUILTIN\Users  \\10.237.165.79\source_share \\10.237.165.89\dest_share
@@ -443,7 +443,7 @@ ERROR failed to obtain fallback security principal "D60AB15C2AFC4D6\unknown_user
 753 scanned, 0 errors, 0 skipped, 752 copied, 54.7KiB (2.44KiB/s), 22s
 C:\WRSHDNT>
 ....
-. ACL を持つ CIFS データを移行するには 'XCP copy' を使用します（ルート・フォルダを使用するかどうかは関係ありません）
+. ACLを使用して（ルートフォルダの有無にかかわらず）CIFSデータを移行する場合に使用します `xcp copy`。
 +
 ルートフォルダを使用せずに、次のコマンドを実行します。
 

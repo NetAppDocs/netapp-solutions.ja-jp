@@ -20,13 +20,13 @@ keywords: Anthos, Kubernetes, MetalLB, LoadBalancer, Astra, Astra Control Center
 
 == MetalLB ロードバランサをインストールします
 
-MetalLBロードバランサは、VMware上のAnthosクラスタと完全に統合されており、1.11リリース以降のAdminおよびUserクラスタセットアップの一部として自動展開を実行しています。ロード・バランサ情報を提供するために変更する必要がある'対応する'cluster.yamlの構成ファイル内にテキストのブロックがありますサポートされている他のロードバランサソリューションのような外部リソースの導入を必要とするのではなく、Anthosクラスタで自己ホストされます。また、IPプールを作成し、クラウドプロバイダで実行されていないクラスタでロードバランサタイプのKubernetesサービスの作成時にアドレスを自動的に割り当てることもできます。
+MetalLBロードバランサは、VMware上のAnthosクラスタと完全に統合されており、1.11リリース以降のAdminおよびUserクラスタセットアップの一部として自動展開を実行しています。それぞれの構成ファイルには、ロードバランサ情報を提供するために変更が必要なテキストブロックがあり `cluster.yaml`ます。サポートされている他のロードバランサソリューションのような外部リソースの導入を必要とするのではなく、Anthosクラスタで自己ホストされます。また、IPプールを作成し、クラウドプロバイダで実行されていないクラスタでロードバランサタイプのKubernetesサービスの作成時にアドレスを自動的に割り当てることもできます。
 
 
 
 == Anthosとの統合
 
-Anthos管理用のMetalLBロードバランサをイネーブルにする場合、「admin-cluster .yaml」ファイルにある「Loadbalancer:」セクションの一部の行を変更する必要があります。変更する必要がある値は、「controlPlaneVip:」アドレスを設定し、「kind：」をMetalLBとして設定することだけです。例については、次のコードスニペットを参照してください。
+Anthos adminでMetalLBロードバランサを有効にする場合は、ファイル内のセクションの `admin-cluster.yaml`いくつかの行を変更する必要があります `loadBalancer:`。変更する必要がある値は、アドレスを設定してから、をMetalLBとして設定する `kind:`ことだけです `controlPlaneVIP:`。例については、次のコードスニペットを参照してください。
 
 [listing]
 ----
@@ -43,7 +43,7 @@ loadBalancer:
   # Uncomment the corresponding field below to provide the detailed spec
   kind: MetalLB
 ----
-AnthosユーザクラスタでMetalLBロードバランサをイネーブルにする場合、更新が必要な「user-cluster.yaml」ファイルごとに2つの領域があります。まず'admin-cluster.yaml'ファイルと同様に'controlPlaneVip:`'ingressVip:`'と'kind :'の値をLoadbalancerの:`セクションで変更する必要があります例については、次のコードスニペットを参照してください。
+AnthosユーザクラスタでMetalLBロードバランサを有効にする場合は、各ファイルで更新が必要な領域が2つあり `user-cluster.yaml`ます。まず、ファイルと同様に、 `admin-cluster.yaml`セクションの、、 `ingressVIP:`および `kind:`の値を `loadBalancer:`変更する必要があります `controlPlaneVIP:`。例については、次のコードスニペットを参照してください。
 
 [listing]
 ----
@@ -61,7 +61,7 @@ loadBalancer:
 
 NOTE: 設定の後半で、MetalLBロードバランサに割り当てられたIPアドレスのプール内に、ingressVIP IPアドレスが存在している必要があります。
 
-次に'metalLB:'サブセクションに移動し'addressPools:'セクションを修正して'-name:'変数にプールの名前を付けますまた、MetalLBが「address:」変数に範囲を提供することで、LoadBalancer型のサービスに割り当てることができるIPアドレスのプールを作成する必要があります。
+次に、サブセクションに移動し、変数でプールに名前を付けてセクションを `- name:`変更する `addressPools:`必要があり `metalLB:`ます。また、変数に範囲を指定することで、MetalLBがLoadBalancerタイプのサービスに割り当てることができるIPアドレスのプールを作成する必要があります `addresses:`。
 
 [listing]
 ----

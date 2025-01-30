@@ -4,7 +4,7 @@ permalink: ai/osrunai_solution_technology_overview.html
 keywords:  
 summary:  
 ---
-= 解決策テクノロジ
+= ソリューションテクノロジ
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -22,7 +22,7 @@ image:osrunai_image2.png["入力/出力ダイアログを示す図、または�
 
 == この解決策で使用されているハードウェア
 
-この解決策は、 ONTAP AI リファレンスアーキテクチャ DGX 1 ノードと AFF A800 ストレージシステム 1 台を使用して検証されました。 https://www.netapp.com/pdf.html?item=/media/7677-nva1121designpdf.pdf["NVA-1121."^]この検証で使用したインフラの詳細については、を参照してください。
+この解決策は、 ONTAP AI リファレンスアーキテクチャ DGX 1 ノードと AFF A800 ストレージシステム 1 台を使用して検証されました。 https://www.netapp.com/pdf.html?item=/media/7677-nva1121designpdf.pdf["NVA-1121"^]この検証で使用したインフラの詳細については、を参照してください。
 
 次の表に、テストで解決策を実装するために必要なハードウェアコンポーネントを示します。
 
@@ -30,19 +30,19 @@ image:osrunai_image2.png["入力/出力ダイアログを示す図、または�
 | ハードウェア | 数量 
 
 
-| DGX-1 システム | 2. 
+| DGX-1システム | 2 
 
 
-| AFF A800 | 1. 
+| AFF A800用 | 1 
 
 
-| Nexus 3232C スイッチ | 2. 
+| Nexus 3232C スイッチ | 2 
 |===
 
 
 == ソフトウェア要件
 
-この解決策は、 Run ： AI オペレータがインストールされた基本的な Kubernetes 環境で検証されました。Kubernetes はを使用して導入されました https://github.com/NVIDIA/deepops["NVIDIA DeepOps のことです"^] 導入エンジン：本番環境に必要なすべてのコンポーネントを導入します。DeepOps は自動的に導入されます https://netapp.io/persistent-storage-provisioner-for-kubernetes/["NetApp Trident"^] Kubernetes 環境との永続的なストレージ統合のために、デフォルトのストレージクラスが作成されました。これにより、コンテナは AFF A800 ストレージシステムのストレージを活用できます。Trident と ONTAP AI の Kubernetes の詳細については、を参照してください https://www.netapp.com/us/media/tr-4798.pdf["TR-4798"^]。
+この解決策は、 Run ： AI オペレータがインストールされた基本的な Kubernetes 環境で検証されました。KubernetesはDeployment Engineを使用して導入され、本番環境に必要なすべてのコンポーネントが導入されました https://github.com/NVIDIA/deepops["NVIDIA DeepOps のことです"^]。Kubernetes環境との永続的ストレージ統合のためにDeepOpsが自動的に導入され https://netapp.io/persistent-storage-provisioner-for-kubernetes/["NetApp Trident"^]、コンテナがAFF A800ストレージシステムのストレージを利用するようにデフォルトのストレージクラスが作成されました。ONTAP AIでのTrident with Kubernetesの詳細については、を参照してください https://www.netapp.com/us/media/tr-4798.pdf["TR-4798"^]。
 
 次の表に、テストで解決策を実装するために必要なソフトウェアコンポーネントを示します。
 
@@ -53,7 +53,7 @@ image:osrunai_image2.png["入力/出力ダイアログを示す図、または�
 | NetApp ONTAP データ管理ソフトウェア | 9.6p4 
 
 
-| Cisco NX-OS スイッチのファームウェア | 7.0 （ 3 ） I6 （ 1 ） 
+| Cisco NX-OS スイッチのファームウェア | 7.0（3）I6（1） 
 
 
 | NVIDIA DGX OS | 4.0.4 - Ubuntu 18.04 LTS 
@@ -73,4 +73,4 @@ image:osrunai_image2.png["入力/出力ダイアログを示す図、または�
 
 | Docker コンテナプラットフォーム | 18.06.1-CE [e68fc7a] 
 |===
-実行に必要なその他のソフトウェア要件： AI は、から入手できます https://docs.run.ai/Administrator/Cluster-Setup/Run-AI-GPU-Cluster-Prerequisites/["AI GPU クラスタの前提条件を実行します"^]。
+Run：AIのその他のソフトウェア要件については、を参照してください https://docs.run.ai/Administrator/Cluster-Setup/Run-AI-GPU-Cluster-Prerequisites/["AI GPU クラスタの前提条件を実行します"^]。

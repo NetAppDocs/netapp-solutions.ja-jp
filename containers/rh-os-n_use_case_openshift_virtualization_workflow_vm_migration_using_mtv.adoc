@@ -54,7 +54,7 @@ systemctl start postgresql.service`
 systemctl enable postgresql.service
 The above command ensures that the server can start in the VM in OpenShift Virtualization after migration
 ----
-** 2つのデータベース、1つのテーブル、および1つの行が追加されました。を参照してください link:https://access.redhat.com/documentation/fr-fr/red_hat_enterprise_linux/9/html/configuring_and_using_database_servers/installing-postgresql_using-postgresql["こちらをご覧ください"] RHELにPostgreSQLサーバをインストールし、データベースエントリとテーブルエントリを作成する手順については、を参照してください。
+** 2つのデータベース、1つのテーブル、および1つの行が追加されました。RHELにPostgreSQLサーバをインストールし、データベースとテーブルエントリを作成する手順については、を参照してくださいlink:https://access.redhat.com/documentation/fr-fr/red_hat_enterprise_linux/9/html/configuring_and_using_database_servers/installing-postgresql_using-postgresql["ここをクリック"]。
 
 
 
@@ -75,8 +75,7 @@ MTVをインストールする前に、次のインストールが完了しま�
 * link:https://docs.openshift.com/container-platform/4.13/virt/install/installing-virt-web.html["OpenShift 仮想化"]
 
 
-OpenShiftクラスタノードにiSCSIとマルチパスをインストールするには、以下のYAMLファイルを使用します。
-**クラスタノードをiSCSI用に準備しています**
+OpenShiftクラスタノードにiSCSIとマルチパスをインストールするには、以下のYAMLファイルを使用します**クラスタノードをiSCSI用に準備する**
 
 [source, yaml]
 ----
@@ -133,8 +132,7 @@ spec:
   updateStrategy:
     type: RollingUpdate
 ----
-次のYAMLファイルを使用して、ONTAP SANストレージを使用するためのTridentバックエンド構成を作成
-** iSCSI向けTridentバックエンド**
+次のYAMLファイルを使用して、ONTAP SANストレージを使用するためのTridentバックエンド構成を作成します** iSCSI用のTridentバックエンド**
 
 [source, yaml]
 ----
@@ -160,8 +158,7 @@ spec:
   credentials:
     name: backend-tbc-ontap-san-secret
 ----
-次のYAMLファイルを使用して、ONTAP SANストレージを使用するためのTridentストレージクラス構成を作成
-** iSCSI用のTridentストレージクラス**
+次のYAMLファイルを使用して、ONTAP SANストレージを使用するためのTridentストレージクラス構成を作成します** iSCSI用のTridentストレージクラス**
 
 [source, yaml]
 ----
@@ -181,14 +178,13 @@ allowVolumeExpansion: true
 
 === * MTVのインストール*
 
-これで、Migration Toolkit for Virtualization（MTV）をインストールできます。付属の説明書を参照してください。 link:https://access.redhat.com/documentation/en-us/migration_toolkit_for_virtualization/2.5/html/installing_and_using_the_migration_toolkit_for_virtualization/installing-the-operator["こちらをご覧ください"] を参照してください。
+これで、Migration Toolkit for Virtualization（MTV）をインストールできます。インストールのヘルプについては、提供されている手順を参照してlink:https://access.redhat.com/documentation/en-us/migration_toolkit_for_virtualization/2.5/html/installing_and_using_the_migration_toolkit_for_virtualization/installing-the-operator["ここをクリック"]ください。
 
-Migration Toolkit for Virtualization（MTV）ユーザーインターフェイスは、OpenShift Webコンソールに統合されています。
-次を参照できます。 link:https://access.redhat.com/documentation/en-us/migration_toolkit_for_virtualization/2.5/html/installing_and_using_the_migration_toolkit_for_virtualization/migrating-vms-web-console#mtv-ui_mtv["こちらをご覧ください"] さまざまなタスクのユーザーインターフェイスの使用を開始します。
+Migration Toolkit for Virtualization（MTV）ユーザーインターフェイスは、OpenShift Webコンソールに統合されています。さまざまなタスクのユーザーインターフェイスの使用を開始するには、を参照してlink:https://access.redhat.com/documentation/en-us/migration_toolkit_for_virtualization/2.5/html/installing_and_using_the_migration_toolkit_for_virtualization/migrating-vms-web-console#mtv-ui_mtv["ここをクリック"]ください。
 
 **ソースプロバイダの作成**
 
-RHEL VMをVMwareからOpenShift Virtualizationに移行するには、まずVMwareのソースプロバイダを作成する必要があります。手順を参照してください link:https://access.redhat.com/documentation/en-us/migration_toolkit_for_virtualization/2.5/html/installing_and_using_the_migration_toolkit_for_virtualization/migrating-vms-web-console#adding-providers["こちらをご覧ください"] ソースプロバイダを作成します。
+RHEL VMをVMwareからOpenShift Virtualizationに移行するには、まずVMwareのソースプロバイダを作成する必要があります。ソースプロバイダを作成する手順を参照してlink:https://access.redhat.com/documentation/en-us/migration_toolkit_for_virtualization/2.5/html/installing_and_using_the_migration_toolkit_for_virtualization/migrating-vms-web-console#adding-providers["ここをクリック"]ください。
 
 VMwareソースプロバイダを作成するには、次のものが必要です。
 
@@ -203,10 +199,9 @@ VMwareソースプロバイダを作成するには、次のものが必要で�
 image:rh-os-n_use_case_vm_migration_source_provider.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
-NOTE: Migration Toolkit for Virtualization（MTV）では、VMware Virtual Disk Development Kit（VDDK）SDKを使用して、VMware vSphereからの仮想ディスクの転送を高速化します。そのため、VDDKイメージはオプションですが作成することを強くお勧めします。
-この機能を使用するには、VMware Virtual Disk Development Kit（VDDK）をダウンロードし、VDDKイメージをビルドして、VDDKイメージをイメージレジストリにプッシュします。
+NOTE: Migration Toolkit for Virtualization（MTV）では、VMware Virtual Disk Development Kit（VDDK）SDKを使用して、VMware vSphereからの仮想ディスクの転送を高速化します。そのため、VDDKイメージはオプションですが作成することを強くお勧めします。この機能を使用するには、VMware Virtual Disk Development Kit（VDDK）をダウンロードし、VDDKイメージをビルドして、VDDKイメージをイメージレジストリにプッシュします。
 
-表示される指示に従います。 link:https://access.redhat.com/documentation/en-us/migration_toolkit_for_virtualization/2.5/html/installing_and_using_the_migration_toolkit_for_virtualization/prerequisites#creating-vddk-image_mtv["こちらをご覧ください"] VDDKイメージを作成して、OpenShiftクラスタからアクセス可能なレジストリにプッシュします。
+表示される手順に従って、link:https://access.redhat.com/documentation/en-us/migration_toolkit_for_virtualization/2.5/html/installing_and_using_the_migration_toolkit_for_virtualization/prerequisites#creating-vddk-image_mtv["ここをクリック"]VDDKイメージを作成し、OpenShiftクラスタからアクセス可能なレジストリにプッシュします。
 
 **送信先プロバイダの作成**
 
@@ -214,13 +209,12 @@ OpenShift仮想化プロバイダがソースプロバイダであるため、�
 
 **移行計画の作成**
 
-表示される指示に従います。 link:https://access.redhat.com/documentation/en-us/migration_toolkit_for_virtualization/2.5/html/installing_and_using_the_migration_toolkit_for_virtualization/migrating-vms-web-console#creating-migration-plan_mtv["こちらをご覧ください"] をクリックして移行計画を作成します。
+表示される手順に従って、link:https://access.redhat.com/documentation/en-us/migration_toolkit_for_virtualization/2.5/html/installing_and_using_the_migration_toolkit_for_virtualization/migrating-vms-web-console#creating-migration-plan_mtv["ここをクリック"]移行計画を作成します。
 
 まだ計画を作成していない場合は、計画の作成時に次のものを作成する必要があります。
 
 * ソースネットワークをターゲットネットワークにマッピングするネットワークマッピング。
-* ソースデータストアをターゲットストレージクラスにマッピングするストレージマッピング。このためには、ONTAP-SANストレージクラスを選択できます。
-移行計画が作成されると、計画のステータスが*準備完了*と表示され、計画を*開始*できるようになります。
+* ソースデータストアをターゲットストレージクラスにマッピングするストレージマッピング。このためには、ONTAP-SANストレージクラスを選択できます。移行計画が作成されると、計画のステータスが*準備完了*と表示され、計画を*開始*できるようになります。
 
 
 image:rh-os-n_use_case_vm_migration_using_mtv_plan_ready.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
@@ -229,7 +223,6 @@ image:rh-os-n_use_case_vm_migration_using_mtv_plan_ready.png["入力/出力ダ�
 
 image:rh-os-n_use_case_vm_migration_using_mtv_plan_complete.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-すべての手順が完了したら、左側のナビゲーションメニューの*[仮想化]*の*[仮想マシン]*をクリックすると、移行されたVMが表示されます。
-仮想マシンへのアクセス手順が記載されています。 link:https://docs.openshift.com/container-platform/4.13/virt/virtual_machines/virt-accessing-vm-consoles.html["こちらをご覧ください"]。
+すべての手順が完了したら、左側のナビゲーションメニューの*[仮想化]*の*[仮想マシン]*をクリックすると、移行されたVMが表示されます。仮想マシンへのアクセス手順が記載されていlink:https://docs.openshift.com/container-platform/4.13/virt/virtual_machines/virt-accessing-vm-consoles.html["ここをクリック"]ます。
 
 仮想マシンにログインして、posgresqlデータベースの内容を検証できます。データベース、テーブル、およびテーブル内のエントリは、ソースVMで作成されたものと同じである必要があります。

@@ -18,13 +18,13 @@ Azureでは、ネイティブのAzure NetApp Files （ANF）サービスまた�
 
 
 
-== Azure NetApp ファイル（ ANF ）
+== Azure NetApp Files（ANF）
 
 Azure NetApp Files は、エンタープライズクラスのデータ管理とストレージをAzureに提供するため、ワークロードとアプリケーションを簡単に管理できます。パフォーマンスを低下させることなく、ワークロードをクラウドに移行して実行できます。
 
 Azure NetApp Files は障害を取り除き、ファイルベースのアプリケーションをすべてクラウドに移行できるようにします。初めてアプリケーションを再設計する必要はなく、アプリケーションの永続的ストレージを複雑化することもありません。
 
-このサービスはMicrosoft Azure Portalを通じて提供されるため、ユーザはMicrosoft Enterprise Agreementの一部としてフルマネージドサービスを利用できます。マイクロソフトが管理するワールドクラスのサポートにより、安心してご利用いただけます。この1つの解決策 で、マルチプロトコルワークロードをすばやく簡単に追加できます。従来の環境でも、WindowsとLinuxの両方のファイルベースアプリケーションを構築して導入できます。
+このサービスはMicrosoft Azure Portalを通じて提供されるため、ユーザはMicrosoft Enterprise Agreementの一部としてフルマネージドサービスを利用できます。マイクロソフトが管理するワールドクラスのサポートにより、安心してご利用いただけます。この単一ソリューションにより、マルチプロトコルワークロードをすばやく簡単に追加できます。WindowsとLinuxの両方のファイルベースアプリケーションを、レガシー環境でも構築、導入できます。
 
 
 
@@ -45,7 +45,7 @@ Azure NetApp Files ボリュームを作成してマウントするには、次�
 
 . Azure ポータルにログインし、 Azure NetApp Files にアクセスします。Azure NetApp Files サービスへのアクセスを確認し、 Azure NetApp Files リソースプロバイダを登録するには、 _az プロバイダ登録 -- namespace Microsoft.NetApp – wait_command を使用します。登録が完了したら、ネットアップアカウントを作成します。
 +
-詳細な手順については、を参照してください link:https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-create-netapp-account["Azure NetApp Files 共有"]。このページでは、ステップバイステップのプロセスについて説明します。
+詳細な手順については、を参照してくださいlink:https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-create-netapp-account["Azure NetApp Files 共有"]。このページでは、ステップバイステップのプロセスについて説明します。
 
 +
 image:azure-anf-guest-1.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
@@ -57,7 +57,7 @@ image:azure-anf-guest-1.png["入力/出力ダイアログを示す図、また�
 +
 image:azure-anf-guest-2.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-. Azure NetApp Files の委任されたサブネットを設定し、ボリュームを作成する際にこのサブネットを指定します。委任されたサブネットを作成する詳細な手順については、を参照してください link:https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-delegate-subnet["サブネットを Azure NetApp Files に委譲します"]。
+. Azure NetApp Files の委任されたサブネットを設定し、ボリュームを作成する際にこのサブネットを指定します。委任されたサブネットを作成する詳細な手順については、を参照してくださいlink:https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-delegate-subnet["サブネットを Azure NetApp Files に委譲します"]。
 +
 image:azure-anf-guest-3.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
@@ -76,7 +76,7 @@ image:azure-anf-guest-5.png["入力/出力ダイアログを示す図、また�
 image:azure-anf-guest-6.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 +
-サイズまたはクォータ別の Azure NetApp Files ボリュームのパフォーマンスの詳細については、を参照してください link:https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-performance-considerations["Azure NetApp Files のパフォーマンスに関する考慮事項"]。
+サイズまたはクォータ別のAzure NetApp Filesボリュームパフォーマンスの詳細については、を参照してくださいlink:https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-performance-considerations["Azure NetApp Files のパフォーマンスに関する考慮事項"]。
 
 . 接続が確立されると、ボリュームをマウントしてアプリケーションデータに使用できるようになります。
 +
@@ -100,7 +100,7 @@ image:azure-anf-guest-9.png["入力/出力ダイアログを示す図、また�
 ====
 
 
-== Cloud Volumes ONTAP （CVO）
+== Cloud Volumes ONTAP（CVO）
 
 Cloud Volumes ONTAP （CVO）は、ネットアップのONTAP ストレージソフトウェアを基盤に構築された、業界をリードするクラウドデータ管理解決策 です。Amazon Web Services（AWS）、Microsoft Azure、Google Cloud Platform（GCP）でネイティブに利用できます。
 
@@ -119,10 +119,10 @@ CVOを使用すれば、エッジ、データセンター、クラウド間で�
 ====
 解決策共有および LUN は、 Azure VMware Cloud Volumes ONTAP SDDC 環境で作成された VM からマウントできます。Cloud Volumes ONTAP は iSCSI 、 SMB 、 NFS の各プロトコルをサポートしているため、このボリュームは Linux クライアントおよび Windows クライアントにもマウントできます。Cloud Volumes ONTAP ボリュームは、いくつかの簡単な手順で設定できます。
 
-ディザスタリカバリや移行の目的でオンプレミス環境からクラウドにボリュームをレプリケートするには、サイト間 VPN または ExpressRoute を使用して、 Azure へのネットワーク接続を確立します。オンプレミスから Cloud Volumes ONTAP へのデータのレプリケートについては、本ドキュメントでは扱いません。オンプレミスシステムと Cloud Volumes ONTAP システム間でデータをレプリケートする方法については、を参照してください link:https://docs.netapp.com/us-en/occm/task_replicating_data.html#setting-up-data-replication-between-systems["システム間のデータレプリケーションの設定"]。
+ディザスタリカバリや移行の目的でオンプレミス環境からクラウドにボリュームをレプリケートするには、サイト間 VPN または ExpressRoute を使用して、 Azure へのネットワーク接続を確立します。オンプレミスから Cloud Volumes ONTAP へのデータのレプリケートについては、本ドキュメントでは扱いません。オンプレミスシステムとCloud Volumes ONTAPシステム間でデータをレプリケートする方法については、を参照してくださいlink:https://docs.netapp.com/us-en/occm/task_replicating_data.html#setting-up-data-replication-between-systems["システム間のデータレプリケーションの設定"]。
 
 
-NOTE: 使用 link:https://cloud.netapp.com/cvo-sizer["Cloud Volumes ONTAP サイジングツール"] Cloud Volumes ONTAP インスタンスのサイズを正確に設定します。また、オンプレミスのパフォーマンスを監視し、 Cloud Volumes ONTAP のサイジングツールの情報として使用できます。
+NOTE: Cloud Volumes ONTAPインスタンスの正確なサイズ設定に使用しlink:https://cloud.netapp.com/cvo-sizer["Cloud Volumes ONTAP サイジングツール"]ます。また、オンプレミスのパフォーマンスを監視し、 Cloud Volumes ONTAP のサイジングツールの情報として使用できます。
 
 . NetApp Cloud Central にログイン— Fabric View （ファブリックビュー）画面が表示されます。Cloud Volumes ONTAP タブを探し、 Go to Cloud Manager を選択します。ログインすると、キャンバス画面が表示されます。
 +
@@ -152,7 +152,7 @@ image:azure-cvo-guest-6.png["入力/出力ダイアログを示す図、また�
 +
 image:azure-cvo-guest-7.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-. ライセンスオプションとして、「従量課金制」または「 BYOL for using existing license 」を選択します。この例では、 ［ 従量課金制 ］ オプションを使用します。
+. 既存のライセンスを使用する場合は、従量課金制またはBYOLのライセンスオプションを選択します。この例では、 ［ 従量課金制 ］ オプションを使用します。
 +
 image:azure-cvo-guest-8.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
@@ -203,7 +203,7 @@ image:azure-cvo-guest-24.png["入力/出力ダイアログを示す図、また�
 LUN をホストに接続するには、次の手順を実行します。
 
 . キャンバスページで、 Cloud Volumes ONTAP 作業環境をダブルクリックしてボリュームを作成および管理します。
-. Add Volume （ボリュームの追加） > New Volume （新しいボリューム）をクリックし、 iSCSI を選択して Create Initiator Group （イニシエータContinue をクリックします。 .
+. Add Volume （ボリュームの追加） > New Volume （新しいボリューム）をクリックし、 iSCSI を選択して Create Initiator Group （イニシエータ続行をクリックします。
 +
 image:azure-cvo-guest-30.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
@@ -216,9 +216,9 @@ Azure VMware 解決策 SDDC にあるホストでも同じ処理を実行する�
 .. ［ iSCSI イニシエータのプロパティ ］ ダイアログ・ボックスを開きます ［ サーバーマネージャ ］ ＞ ［ ダッシュボード ］ ＞ ［ ツール ］ ＞ ［ iSCSI イニシエータ ］
 .. Discovery （検出）タブで、 Discover Portal （ポータルの検出）または Add Portal （ポータルの追加）をクリックし、 iSCSI ターゲットポートの IP アドレスを入力します。
 .. ターゲットタブで検出されたターゲットを選択し、ログオンまたは接続をクリックします。
-.. [ マルチパスを有効にする ] を選択し、コンピュータの起動時に [ この接続を自動的に復元する ] または [ この接続をお気に入りターゲットのリストに追加する ] を選択します。Advanced （詳細設定）をクリック
+.. [ マルチパスを有効にする ] を選択し、コンピュータの起動時に [ この接続を自動的に復元する ] または [ この接続をお気に入りターゲットのリストに追加する ] を選択します。詳細設定をクリックします。
 +
-* 注： * Windows ホストからクラスタ内の各ノードへの iSCSI 接続が確立されている必要があります。ネイティブ DSM では、使用する最適なパスが選択されます。
+* 注： * Windows ホストからクラスタ内の各ノードへの iSCSI 接続が確立されている必要があります。標準のDSMで最適なパスが選択されます。
 
 +
 image:azure-cvo-guest-31.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
@@ -237,10 +237,10 @@ Storage Virtual Machine （ SVM ）の LUN は、 Windows ホストではディ�
 
 image:azure-cvo-guest-32.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-Windows ホストから初めてアクセスした時点では、新しい LUN にはパーティションやファイルシステムは設定されていません。LUN を初期化します。必要に応じて、次の手順を実行してファイルシステムで LUN をフォーマットします。
+Windowsホストから初めてアクセスされた新しいLUNには、パーティションやファイルシステムはありません。LUN を初期化します。必要に応じて、次の手順を実行してファイルシステムで LUN をフォーマットします。
 
-. Windows ディスク管理を開始します。
-. LUN を右クリックし、必要なディスクまたはパーティションのタイプを選択します。
+. Windowsディスクの管理を起動します。
+. LUNを右クリックし、必要なディスクまたはパーティションのタイプを選択します。
 . ウィザードの指示に従います。この例では、ドライブ E ：がマウントされています
 
 

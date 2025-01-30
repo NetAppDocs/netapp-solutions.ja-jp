@@ -35,7 +35,7 @@ Oracle ASMは、通常、FC、iSCSIストレージプロトコル、およびLUN
 
 
 
-== 対象者
+== 対象読者
 
 この解決策 は、次のユーザーを対象としています。
 
@@ -83,7 +83,7 @@ image:aws_ora_fsx_ec2_nfs_asm_architecture.png["このイメージは、iSCSIと
 | Oracle Grid Infrastructureの略 | バージョン19.18 | RUパッチp34762026_190000_Linux-x86-64.zipを適用しました 
 
 
-| Oracle データベース | バージョン19.18 | RUパッチp34765931_190000_Linux-x86-64.zipを適用しました 
+| Oracleデータベース | バージョン19.18 | RUパッチp34765931_190000_Linux-x86-64.zipを適用しました 
 
 
 | Oracle OPatchの略 | バージョン12.2.0.1.36 | 最新のパッチp6880880_190000_Linux-x86-64.zip 
@@ -95,13 +95,13 @@ image:aws_ora_fsx_ec2_nfs_asm_architecture.png["このイメージは、iSCSIと
 
 === 導入にあたって考慮すべき主な要因
 
-* * EC2コンピューティングインスタンス。*これらのテストと検証では、OracleデータベースコンピューティングインスタンスにAWS EC2 T2.xlargeインスタンスタイプを使用しました。本番環境では、データベースワークロード向けに最適化されているため、OracleのコンピューティングインスタンスとしてM5タイプのEC2インスタンスを使用することを推奨します。実際のワークロード要件に基づいて、vCPUの数とRAMの容量に合わせてEC2インスタンスのサイズを適切に設定する必要があります。
-* * FSXストレージHAクラスタのシングルゾーンまたはマルチゾーン展開。*このテストと検証では、FSX HAクラスタを単一のAWSアベイラビリティゾーンに導入しました。本番環境では、FSX HAペアを2つの異なるアベイラビリティゾーンに導入することを推奨します。FSX HAクラスタは、アクティブ/パッシブファイルシステムのペアで同期ミラーされるHAペアで、ストレージレベルの冗長性を提供するために割り当てられます。マルチゾーン導入により、単一のAWSゾーンで障害が発生した場合の高可用性がさらに向上します。
+* * EC2コンピューティングインスタンス*今回のテストと検証では、OracleデータベースのコンピューティングインスタンスにAWS EC2 T2.xlargeインスタンスタイプを使用しました。本番環境では、データベースワークロード向けに最適化されているため、OracleのコンピューティングインスタンスとしてM5タイプのEC2インスタンスを使用することを推奨します。実際のワークロード要件に基づいて、vCPUの数とRAMの容量に合わせてEC2インスタンスのサイズを適切に設定する必要があります。
+* * FSxストレージHAクラスタのシングルゾーンまたはマルチゾーン導入*今回のテストと検証では、1つのAWSアベイラビリティゾーンにFSx HAクラスタを導入しました。本番環境では、FSX HAペアを2つの異なるアベイラビリティゾーンに導入することを推奨します。FSX HAクラスタは、アクティブ/パッシブファイルシステムのペアで同期ミラーされるHAペアで、ストレージレベルの冗長性を提供するために割り当てられます。マルチゾーン導入により、単一のAWSゾーンで障害が発生した場合の高可用性がさらに向上します。
 * * FSxストレージクラスタのサイジング*Amazon FSx ONTAPストレージファイルシステムは、SSDの最大16万IOPS、最大4GBpsのスループット、最大192TiBの容量を提供します。ただし、プロビジョニングされたIOPS、スループット、およびストレージ制限（最小1、024GiB）については、導入時の実際の要件に基づいてクラスタのサイジングを行うことができます。アプリケーションの可用性に影響を与えることなく、容量をオンザフライで動的に調整できます。
-* * Oracleデータとログのレイアウト。*テストと検証では、データ用とログ用にそれぞれ2つのASMディスクグループを導入しました。+data ASMディスクグループ内で、データNFSファイルシステムのマウントポイントに4本のディスクをプロビジョニングしました。+logs ASMディスクグループ内で、logs NFSファイルシステムマウントポイントに2本のディスクをプロビジョニングしました。大規模なデータベース環境では、ASMディスクグループを複数のFSxファイルシステムにまたがって構築し、FSxファイルシステムにアンカーされた複数のNFSマウントポイントを介してASM NFSディスクを分散させることができます。このセットアップは、4GBpsを超えるスループットと160,000のSSD物理IOPSの要件を満たすように設計されています。
-* * dNFS構成。* dNFSはOracleカーネルに組み込まれており、OracleをNFSストレージに導入すると、Oracleデータベースのパフォーマンスが大幅に向上することが知られています。DNFSはOracleバイナリにパッケージ化されていますが、デフォルトではオンになっていません。NFS上にOracleデータベースを導入する場合は、このオプションをオンにする必要があります。大規模なデータベースに複数のFSxファイルシステムを導入する場合は、dNFSマルチパスを適切に設定する必要があります。
-* *作成したOracle ASMディスクグループごとに使用するOracle ASM冗長性レベル。* FSxはすでにFSxクラスタレベルでストレージをミラーリングしているため、必要です `ONLY` Use External Redundancy（外部冗長性を使用）。つまり、このオプションではOracle ASMはディスクグループの内容をミラーリングできません。Oracleデータベースのデータストレージ用NFSにはハードNFSマウントオプションが必要であるため、これはASMコンテンツをOracleレベルでミラーリングする場合には望ましくないため、特に重要です。
-* *データベースのバックアップ。*ネットアップでは、NetApp BlueXPコンソールのUIから利用できる、クラウドでのデータベースのバックアップ、リストア、クローニングを行うためのSnapCenter ソフトウェアサービスのSaaSバージョンを提供しています。このようなサービスを実装して、高速（1分未満）のスナップショットバックアップ、高速（数分）のデータベースリストア、データベースクローニングを実現することを推奨します。
+* * Oracleデータとログのレイアウト*テストと検証では、データ用とログ用にそれぞれ2つのASMディスクグループを導入しました。+data ASMディスクグループ内で、データNFSファイルシステムのマウントポイントに4本のディスクをプロビジョニングしました。+logs ASMディスクグループ内で、logs NFSファイルシステムマウントポイントに2本のディスクをプロビジョニングしました。大規模なデータベース環境では、ASMディスクグループを複数のFSxファイルシステムにまたがって構築し、FSxファイルシステムにアンカーされた複数のNFSマウントポイントを介してASM NFSディスクを分散させることができます。このセットアップは、4GBpsを超えるスループットと160,000のSSD物理IOPSの要件を満たすように設計されています。
+* * dNFS構成。* dNFSはOracleカーネルに組み込まれており、OracleをNFSストレージに導入すると、Oracleデータベースのパフォーマンスが劇的に向上することが知られています。dNFSはOracleバイナリにパッケージ化されていますが、デフォルトではオンになっていません。NFS上にOracleデータベースを導入する場合は、このオプションをオンにする必要があります。大規模なデータベースに複数のFSxファイルシステムを導入する場合は、dNFSマルチパスを適切に設定する必要があります。
+* *作成する各Oracle ASMディスクグループに使用するOracle ASM冗長性レベル*FSxはすでにFSxクラスタレベルでストレージをミラーリングしているため、External Redundancy（外部冗長性）を使用する必要があります `ONLY`。つまり、このオプションでは、Oracle ASMがディスクグループの内容をミラーリングすることを許可しません。Oracleデータベースのデータストレージ用NFSにはハードNFSマウントオプションが必要であるため、これはASMコンテンツをOracleレベルでミラーリングする場合には望ましくないため、特に重要です。
+* *データベースのバックアップ。*NetAppは、NetApp BlueXP  コンソールのUIから使用できる、クラウドでのデータベースのバックアップ、リストア、クローニングを行うためのSaaSバージョンのSnapCenterソフトウェアサービスを提供します。このようなサービスを実装して、高速（1分未満）のスナップショットバックアップ、高速（数分）のデータベースリストア、データベースクローニングを実現することを推奨します。
 
 
 
@@ -119,9 +119,9 @@ image:aws_ora_fsx_ec2_nfs_asm_architecture.png["このイメージは、iSCSIと
 導入には、次の前提条件が必要です。
 
 . AWSアカウントが設定され、必要なVPCとネットワークセグメントがAWSアカウント内に作成されている。
-. AWS EC2コンソールから、2つのEC2 Linuxインスタンスを導入する必要があります。1つはプライマリOracle DBサーバとして、もう1つはオプションのクローンターゲットDBサーバとして使用します。環境セットアップの詳細については、前のセクションのアーキテクチャ図を参照してください。また、も参照してください link:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html["Linuxインスタンスのユーザーガイド"^] を参照してください。
+. AWS EC2コンソールから、2つのEC2 Linuxインスタンスを導入する必要があります。1つはプライマリOracle DBサーバとして、もう1つはオプションのクローンターゲットDBサーバとして使用します。環境セットアップの詳細については、前のセクションのアーキテクチャ図を参照してください。詳細については、も参照してlink:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html["Linuxインスタンスのユーザーガイド"^]ください。
 . AWS EC2コンソールから、Amazon FSx ONTAPストレージHAクラスタを導入してOracleデータベースボリュームをホストします。FSxストレージの導入に慣れていない場合は、ステップバイステップの手順についてドキュメントを参照してくださいlink:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-file-systems.html["FSx ONTAPファイルシステムの作成"^]。
-. 手順2と3は、次のTerraform自動化ツールキットを使用して実行できます。このツールキットでは、という名前のEC2インスタンスが作成されます `ora_01` という名前のFSxファイルシステムがあります `fsx_01`。実行する前に、指示をよく確認し、環境に合わせて変数を変更してください。
+. 手順2と3は、次のTerraform自動化ツールキットを使用して実行できます。このツールキットでは、というEC2インスタンスとという名前のFSxファイルシステム `fsx_01`が作成され `ora_01`ます。実行する前に、指示をよく確認し、環境に合わせて変数を変更してください。
 +
 ....
 git clone https://github.com/NetApp-Automation/na_aws_fsx_ec2_deploy.git
@@ -140,16 +140,16 @@ NOTE: Oracleインストールファイルをステージングするための�
 ====
 前提条件をプロビジョニングした状態で、ec2-userとしてec2インスタンスにログインし、rootユーザにsudoを実行して、Oracleインストール用のLinuxカーネルを設定します。
 
-. ステージングディレクトリを作成します `/tmp/archive` フォルダに移動し、を設定します `777` 許可。
+. ステージングディレクトリフォルダを作成し `/tmp/archive`、権限を設定し `777`ます。
 +
 ....
 mkdir /tmp/archive
 
 chmod 777 /tmp/archive
 ....
-. Oracleバイナリインストールファイルおよびその他の必要なrpmファイルをにダウンロードしてステージングします `/tmp/archive` ディレクトリ。
+. Oracleバイナリインストールファイルおよびその他の必要なrpmファイルをダウンロードして、ディレクトリにステージングし `/tmp/archive`ます。
 +
-に記載されているインストールファイルのリストを参照してください `/tmp/archive` EC2インスタンス。
+EC2インスタンスのに記載される次のインストールファイルのリストを参照してください `/tmp/archive`。
 
 +
 ....
@@ -170,7 +170,7 @@ total 10537316
 ....
 yum install /tmp/archive/oracle-database-preinstall-19c-1.0-2.el8.x86_64.rpm
 ....
-. 不足しているをダウンロードしてインストールします `compat-libcap1` Linux 8の場合。
+. Linux 8で不足しているをダウンロードしてインストールし `compat-libcap1`ます。
 +
 ....
 yum install /tmp/archive/compat-libcap1-1.10-7.el7.x86_64.rpm
@@ -180,7 +180,7 @@ yum install /tmp/archive/compat-libcap1-1.10-7.el7.x86_64.rpm
 ....
 yum install /tmp/archive/netapp_linux_unified_host_utilities-7-1.x86_64.rpm
 ....
-. をインストールします `policycoreutils-python-utils`EC2インスタンスでは使用できません。
+. をインストールし `policycoreutils-python-utils`ます。EC2インスタンスでは使用できません。
 +
 ....
 yum install /tmp/archive/policycoreutils-python-utils-2.9-9.el8.noarch.rpm
@@ -202,7 +202,7 @@ echo never > /sys/kernel/mm/transparent_hugepage/enabled
 echo never > /sys/kernel/mm/transparent_hugepage/defrag
 ....
 +
-に次の行を追加します `/etc/rc.local` 無効にします `transparent_hugepage` 再起動後：
+リブート後に無効にするには、 `transparent_hugepage`に次の行を追加し `/etc/rc.local`ます。
 
 +
 ....
@@ -214,19 +214,19 @@ echo never > /sys/kernel/mm/transparent_hugepage/defrag
             echo never > /sys/kernel/mm/transparent_hugepage/defrag
           fi
 ....
-. を変更してSELinuxを無効にします `SELINUX=enforcing` 終了： `SELINUX=disabled`。変更を有効にするには、ホストをリブートする必要があります。
+. に `SELINUX=disabled`変更してSELinuxを無効にします `SELINUX=enforcing`。変更を有効にするには、ホストをリブートする必要があります。
 +
 ....
 vi /etc/sysconfig/selinux
 ....
-. に次の行を追加します `limit.conf` 引用符を使用せずにファイル記述子の制限とスタックサイズを設定します `" "`。
+. 次の行をに追加し `limit.conf`て、ファイル記述子の制限と、引用符なしのスタックサイズを設定し `" "`ます。
 +
 ....
 vi /etc/security/limits.conf
   "*               hard    nofile          65536"
   "*               soft    stack           10240"
 ....
-. 次の手順に従って、EC2インスタンスにスワップスペースを追加します。 link:https://aws.amazon.com/premiumsupport/knowledge-center/ec2-memory-swap-file/["スワップファイルを使用して、Amazon EC2インスタンスのスワップスペースとして機能するようにメモリを割り当てるにはどうすればよいですか。"^] 追加するスペースの正確な量は、最大16GのRAMのサイズによって異なります。
+. 次の命令に従って、EC2インスタンスにスワップスペースを追加します。追加する正確な容量は、最大16GのRAMのサイズによって異なります。link:https://aws.amazon.com/premiumsupport/knowledge-center/ec2-memory-swap-file/["スワップファイルを使用して、Amazon EC2インスタンスのスワップスペースとして機能するようにメモリを割り当てるにはどうすればよいですか。"^]
 . ASM SYSASMグループに使用するASMグループを追加します
 +
 ....
@@ -311,12 +311,12 @@ ssh -i ora_01.pem ec2-user@172.30.15.58
 ....
 sudo mkdir /u01
 ....
-. バイナリボリュームをにマウントします `/u01`がFSx NFS LIFのIPアドレスに変更されました。ネットアップの自動化ツールキットを使用してFSxクラスタを導入した場合、FSx仮想ストレージサーバのNFS LIFのIPアドレスがリソースプロビジョニングの実行時に出力に表示されます。それ以外の場合は、AWS FSxコンソールUIから取得できます。
+. バイナリボリュームをにマウントし `/u01`、FSx NFS LIFのIPアドレスに変更します。ネットアップの自動化ツールキットを使用してFSxクラスタを導入した場合、FSx仮想ストレージサーバのNFS LIFのIPアドレスがリソースプロビジョニングの実行時に出力に表示されます。それ以外の場合は、AWS FSxコンソールUIから取得できます。
 +
 ....
 sudo mount -t nfs 172.30.15.19:/ora_01_biny /u01 -o rw,bg,hard,vers=3,proto=tcp,timeo=600,rsize=65536,wsize=65536
 ....
-. 変更 `/u01` Oracleユーザーおよび関連づけられているプライマリグループに対するマウントポイントの所有権
+. マウントポイントの所有権をOracleユーザおよび関連付けられているプライマリグループに変更します `/u01`。
 +
 ....
 sudo chown oracle:oinstall /u01
@@ -326,12 +326,12 @@ sudo chown oracle:oinstall /u01
 ....
 sudo mkdir /oradata
 ....
-. データボリュームをにマウントします `/oradata`がFSx NFS LIFのIPアドレスに変更されました
+. データボリュームをにマウントし `/oradata`、FSx NFS LIFのIPアドレスに変更
 +
 ....
 sudo mount -t nfs 172.30.15.19:/ora_01_data /oradata -o rw,bg,hard,vers=3,proto=tcp,timeo=600,rsize=65536,wsize=65536
 ....
-. 変更 `/oradata` Oracleユーザーおよび関連づけられているプライマリグループに対するマウントポイントの所有権
+. マウントポイントの所有権をOracleユーザおよび関連付けられているプライマリグループに変更します `/oradata`。
 +
 ....
 sudo chown oracle:oinstall /oradata
@@ -341,17 +341,17 @@ sudo chown oracle:oinstall /oradata
 ....
 sudo mkdir /oralogs
 ....
-. ログボリュームをにマウントします `/oralogs`がFSx NFS LIFのIPアドレスに変更されました
+. ログボリュームをにマウントし `/oralogs`、FSx NFS LIFのIPアドレスに変更
 +
 ....
 sudo mount -t nfs 172.30.15.19:/ora_01_logs /oralogs -o rw,bg,hard,vers=3,proto=tcp,timeo=600,rsize=65536,wsize=65536
 ....
-. 変更 `/oralogs` Oracleユーザーおよび関連づけられているプライマリグループに対するマウントポイントの所有権
+. マウントポイントの所有権をOracleユーザおよび関連付けられているプライマリグループに変更します `/oralogs`。
 +
 ....
 sudo chown oracle:oinstall /oralogs
 ....
-. にマウントポイントを追加します `/etc/fstab`。
+. にマウントポイントを追加し `/etc/fstab`ます。
 +
 ....
 sudo vi /etc/fstab
@@ -408,7 +408,7 @@ chmod 640 /oralogs/asm/*
 
 [%collapsible]
 ====
-. SSH経由でEC2インスタンスにEC2-userとしてログインし、コメントを解除してパスワード認証を有効にします `PasswordAuthentication yes` コメントすることができます `PasswordAuthentication no`。
+. SSH経由でEC2インスタンスにEC2-userとしてログインし、コメントを解除してからコメントアウトし `PasswordAuthentication no`てパスワード認証を有効にします。 `PasswordAuthentication yes`
 +
 ....
 sudo vi /etc/ssh/sshd_config
@@ -445,23 +445,23 @@ cd /u01/app/oracle/product/19.0.0/grid
 ....
 unzip -q /tmp/archive/LINUX.X64_193000_grid_home.zip
 ....
-. グリッドホームからを削除します `OPatch` ディレクトリ。
+. grid homeからディレクトリを削除し `OPatch`ます。
 +
 ....
 rm -rf OPatch
 ....
-. グリッドホームからコピー `p6880880_190000_Linux-x86-64.zip` をgrid_homeに移動し、解凍します。
+. grid homeからgrid_homeにコピーして `p6880880_190000_Linux-x86-64.zip`解凍します。
 +
 ....
 cp /tmp/archive/p6880880_190000_Linux-x86-64.zip .
 unzip p6880880_190000_Linux-x86-64.zip
 ....
-. グリッドホームから、修正してください `cv/admin/cvu_config`をクリックし、コメントを解除して置換します `CV_ASSUME_DISTID=OEL5` を使用 `CV_ASSUME_DISTID=OL7`。
+. グリッドホームから、修正 `cv/admin/cvu_config`、コメント解除、および置換を `CV_ASSUME_DISTID=OEL5` `CV_ASSUME_DISTID=OL7`行います。
 +
 ....
 vi cv/admin/cvu_config
 ....
-. を準備します `gridsetup.rsp` サイレントインストール用のファイルを作成し、にRSPファイルを配置します `/tmp/archive` ディレクトリ。RSPファイルは、セクションA、B、およびGを次の情報でカバーする必要があります。
+. サイレントインストール用のファイルを準備し `gridsetup.rsp`、RSPファイルをディレクトリに配置し `/tmp/archive`ます。RSPファイルは、セクションA、B、およびGを次の情報でカバーする必要があります。
 +
 ....
 INVENTORY_LOCATION=/u01/app/oraInventory
@@ -482,17 +482,17 @@ oracle.install.asm.configureAFD=false
 
 ....
 . EC2インスタンスにrootユーザとしてログインします。
-. をインストールします `cvuqdisk-1.0.10-1.rpm`。
+. をインストールし `cvuqdisk-1.0.10-1.rpm`ます。
 +
 ....
 rpm -ivh /u01/app/oracle/product/19.0.0/grid/cv/rpm/cvuqdisk-1.0.10-1.rpm
 ....
-. EC2インスタンスにOracleユーザとしてログインし、でパッチを展開します `/tmp/archive` フォルダ。
+. EC2インスタンスにOracleユーザーとしてログインし、フォルダにパッチを展開し `/tmp/archive`ます。
 +
 ....
 unzip p34762026_190000_Linux-x86-64.zip
 ....
-. grid home/u01/app/oracle/product/19.0.0/gridからOracleユーザーとしてを起動します `gridSetup.sh` グリッドインフラのインストールに使用します。
+. grid home/u01/app/oracle/product/19.0.0/gridから、をOracleユーザーとして起動し、grid infrastructureのインストールを開始し `gridSetup.sh`ます。
 +
 ....
  ./gridSetup.sh -applyRU /tmp/archive/34762026/ -silent -responseFile /tmp/archive/gridsetup.rsp
@@ -544,7 +544,7 @@ ora.evmd            ONLINE  ONLINE       ip-172-30-15-58          STABLE
 
 [%collapsible]
 ====
-. Oracleユーザとしてログインし、設定を解除します `$ORACLE_HOME` および `$ORACLE_SID` 設定されている場合。
+. Oracleユーザとしてログインし、設定を解除します `$ORACLE_HOME`（設定されている場合）。 `$ORACLE_SID`
 +
 ....
 unset ORACLE_HOME
@@ -561,28 +561,28 @@ cd /u01/app/oracle/product/19.0.0/db1
 ....
 unzip -q /tmp/archive/LINUX.X64_193000_db_home.zip
 ....
-. DBホームからを削除します `OPatch` ディレクトリ。
+. DBホームから、ディレクトリを削除し `OPatch`ます。
 +
 ....
 rm -rf OPatch
 ....
-. DBホームからコピーします `p6880880_190000_Linux-x86-64.zip` 終了： `grid_home`をクリックして解凍します。
+. DBホームからに `grid_home`コピーし、 `p6880880_190000_Linux-x86-64.zip`解凍します。
 +
 ....
 cp /tmp/archive/p6880880_190000_Linux-x86-64.zip .
 unzip p6880880_190000_Linux-x86-64.zip
 ....
-. DBホームから、を修正します `cv/admin/cvu_config`をクリックし、コメントを解除して置換します `CV_ASSUME_DISTID=OEL5` を使用 `CV_ASSUME_DISTID=OL7`。
+. DB homeから修正し、 `cv/admin/cvu_config`コメントを解除してからで `CV_ASSUME_DISTID=OL7`置換し `CV_ASSUME_DISTID=OEL5`ます。
 +
 ....
 vi cv/admin/cvu_config
 ....
-. から `/tmp/archive` ディレクトリで、DB 19.18 RUパッチを解凍します。
+. ディレクトリから `/tmp/archive`、DB 19.18 RUパッチを解凍します。
 +
 ....
 unzip p34765931_190000_Linux-x86-64.zip
 ....
-. でDBサイレントインストールRSPファイルを準備します `/tmp/archive/dbinstall.rsp` 次の値を持つディレクトリ：
+. 次の値を使用して、ディレクトリ内のDBサイレントインストールRSPファイルを準備します `/tmp/archive/dbinstall.rsp`。
 +
 ....
 oracle.install.option=INSTALL_DB_SWONLY
@@ -599,17 +599,17 @@ oracle.install.db.OSKMDBA_GROUP=dba
 oracle.install.db.OSRACDBA_GROUP=dba
 oracle.install.db.rootconfig.executeRootScript=false
 ....
-. db1 home/u01/app/oracle/product/19.0.0/db1から、サイレントソフトウェアのみのDBインストールを実行します。
+. db1 home/u01/app/oracle/product/19.0.0/db1から、ソフトウェアのみのサイレントデータベースインストールを実行します。
 +
 ....
  ./runInstaller -applyRU /tmp/archive/34765931/ -silent -ignorePrereqFailure -responseFile /tmp/archive/dbinstall.rsp
 ....
-. rootユーザとして、を実行します `root.sh` ソフトウェアのみのインストール後にスクリプトを作成します。
+. rootユーザとして、ソフトウェアのみのインストール後にスクリプトを実行し `root.sh`ます。
 +
 ....
 /u01/app/oracle/product/19.0.0/db1/root.sh
 ....
-. Oracleユーザとして、を作成します `dbca.rsp` 次のエントリを含むファイル：
+. Oracleユーザとして、次のエントリを含むファイルを作成し `dbca.rsp`ます。
 +
 ....
 gdbName=db1.demo.netapp.com
@@ -634,7 +634,7 @@ totalMemory=8192
 ....
 +
 
-NOTE: EC2インスタンスホストで使用可能なメモリに基づいて合計メモリを設定します。Oracleはの75%を割り当てています `totalMemory` DBインスタンスのSGAまたはバッファキャッシュへ。
+NOTE: EC2インスタンスホストで使用可能なメモリに基づいて合計メモリを設定します。Oracleでは、の75%がDBインスタンスのSGAまたはバッファキャッシュに割り当てられ `totalMemory`ています。
 
 . Oracleユーザとして、dbcaを使用してDB作成を起動します。
 +
@@ -903,11 +903,11 @@ This completes Oracle 19c version 19.18 Restart deployment on an Amazon FSx ONTA
 
 == SnapCenter サービスを使用したOracleデータベースのバックアップ、リストア、クローニング
 
-現時点では、NFSおよびASMストレージオプションを使用するOracleデータベースは、従来のSnapCenter Server UIツールでのみサポートされています。を参照してください。 link:hybrid_dbops_snapcenter_usecases.html["SnapCenter を使用したハイブリッドクラウドデータベースソリューション"^] NetApp SnapCenter UIツールを使用したOracleデータベースのバックアップ、リストア、およびクローニングの詳細については、を参照してください。
+現時点では、NFSおよびASMストレージオプションを使用するOracleデータベースは、従来のSnapCenter Server UIツールでのみサポートされています。NetApp SnapCenter UIツールを使用したOracleデータベースのバックアップ、リストア、およびクローニングの詳細については、を参照してください。link:hybrid_dbops_snapcenter_usecases.html["SnapCenter を使用したハイブリッドクラウドデータベースソリューション"^]
 
 
 
-== 追加情報の参照先
+== 詳細情報の入手方法
 
 このドキュメントに記載されている情報の詳細については、以下のドキュメントや Web サイトを参照してください。
 

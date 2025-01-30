@@ -18,10 +18,10 @@ Trident を使用して Kubernetes クラスタ内のストレージリソース
 
 . NetAppでは、AIPod用にFlexGroup対応のTridentバックエンドを作成することを推奨しています。
 +
-以降のコマンド例では、AIPod Storage Virtual Machine（SVM）用にFlexGroup対応のTridentバックエンドを作成しています。このバックエンドは、 `ontap-nas-flexgroup` ストレージドライバ。ONTAP では、 FlexVol と FlexGroup の 2 つの主要なデータボリュームタイプがサポートされます。FlexVol ボリュームのサイズは限られています（現時点では、最大サイズは環境によって異なります）。一方、 FlexGroup ボリュームは最大 20PB 、 4 、 000 億ファイルまでリニアに拡張でき、データ管理を大幅に簡易化する単一のネームスペースを提供します。そのため、 FlexGroup ボリュームは、大量のデータに依存する AI や ML のワークロードに最適です。
+以降のコマンド例では、AIPod Storage Virtual Machine（SVM）用にFlexGroup対応のTridentバックエンドを作成しています。このバックエンドはストレージドライバを使用し `ontap-nas-flexgroup`ます。ONTAP では、 FlexVol と FlexGroup の 2 つの主要なデータボリュームタイプがサポートされます。FlexVol ボリュームのサイズは限られています（現時点では、最大サイズは環境によって異なります）。一方、 FlexGroup ボリュームは最大 20PB 、 4 、 000 億ファイルまでリニアに拡張でき、データ管理を大幅に簡易化する単一のネームスペースを提供します。そのため、 FlexGroup ボリュームは、大量のデータに依存する AI や ML のワークロードに最適です。
 
 +
-少量のデータを処理していて、 FlexGroup ボリュームではなく FlexVol ボリュームを使用する場合は、「 ONTAP-NAS-flexgroup 」ストレージドライバの代わりに「 ONTAP-NAS' ストレージドライバ」を使用する Trident バックエンドを作成できます。
+少量のデータを処理していて、FlexGroupボリュームの代わりにFlexVolボリュームを使用する場合は、ストレージドライバではなくストレージドライバを `ontap-nas-flexgroup`使用するTridentバックエンドを作成できます `ontap-nas`。
 
 +
 ....

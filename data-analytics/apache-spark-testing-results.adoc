@@ -21,19 +21,19 @@ EシリーズとStorageGRID の検証には、Hadoopレプリケーションフ�
 次の表に、Sparkのパフォーマンス検証のハードウェア構成を示します。
 
 |===
-| を入力します | Hadoopワーカーノード | ドライブタイプ | ノードあたりのドライブ数 | ストレージコントローラ 
+| タイプ | Hadoopワーカーノード | ドライブタイプ | ノードあたりのドライブ数 | ストレージコントローラ 
 
 
-| SG6060 の設計 | 4. | （ SAS ）。 | 12. | 単一のハイアベイラビリティ（HA）ペア 
+| SG6060 | 4 | SAS | 12 | 単一のハイアベイラビリティ（HA）ペア 
 
 
-| E5760 | 4. | （ SAS ）。 | 60 | 単一のHAペア 
+| E5760 | 4 | SAS | 60 | 単一のHAペア 
 
 
-| E5724 | 4. | （ SAS ）。 | 24 | 単一のHAペア 
+| E5724 | 4 | SAS | 24 | 単一のHAペア 
 
 
-| AFF800が必要です | 4. | SSD の場合 | 6. | 単一のHAペア 
+| AFF800 | 4 | SSD | 6 | 単一のHAペア 
 |===
 次の表に、ソフトウェア要件を示します。
 
@@ -53,7 +53,7 @@ EシリーズとStorageGRID の検証には、Hadoopレプリケーションフ�
 | Git | 2.24.1 
 
 
-| GCC/G++ | 11.2.1. 
+| GCC/G++ | 11.2.1 
 
 
 | 火花 | 3.2.1 
@@ -77,9 +77,9 @@ EシリーズとStorageGRID の検証には、Hadoopレプリケーションフ�
 
 == 財務心理分析
 
-公開しました link:../ai/ai-sent-support-center-analytics.html["TR-4910 ：『 NetApp AI と顧客コミュニケーションを組み合わせた感情分析』"^]を使用して、エンドツーエンドの会話型AIパイプラインを構築しました https://github.com/NetApp/netapp-dataops-toolkit["NetApp DataOps ツールキット"^]、AFF ストレージ、NVIDIA DGXシステムパイプラインは、DataOpsツールキットを活用して、バッチオーディオ信号処理、Automatic Speech Recognition（ASR）、転送学習、感情分析を実行します。 https://developer.nvidia.com/riva["NVIDIA Riva SDKを参照してください"^]および https://developer.nvidia.com/tao["Taoフレームワーク"^]。金融サービス業界へのセンチメント分析のユースケースの拡大、SparkNLPワークフローの構築、特定事業体の認識など、さまざまなNLPタスクに対する3つのBERTモデルのロード、NASDAQ Top 10 Companiesの四半期収益コールに関するセンテンスレベルのセンチメントの取得。
+ネットアップが公開したlink:../ai/ai-sent-support-center-analytics.html["TR-4910 ：『 NetApp AI と顧客コミュニケーションを組み合わせた感情分析』"^]レポートでは、AFFストレージとNVIDIA DGXシステムを使用して、エンドツーエンドの会話型AIパイプラインを構築し https://github.com/NetApp/netapp-dataops-toolkit["NetApp DataOps ツールキット"^]ました。パイプラインは、DataOps Toolkit、およびを https://developer.nvidia.com/tao["Taoフレームワーク"^]活用して、バッチオーディオ信号処理、自動音声認識（ASR）、転送学習、感情分析を実行します https://developer.nvidia.com/riva["NVIDIA Riva SDKを参照してください"^]。金融サービス業界へのセンチメント分析のユースケースの拡大、SparkNLPワークフローの構築、特定事業体の認識など、さまざまなNLPタスクに対する3つのBERTモデルのロード、NASDAQ Top 10 Companiesの四半期収益コールに関するセンテンスレベルのセンチメントの取得。
 
-次のスクリプト「センチメント_アナリシス_スパーク」。PY’はFinBERTモデルを使用してHDFS内のトランスクリプトを処理し、次の表に示すようにポジティブでニュートラルでネガティブな感情カウントを生成します。
+次のスクリプトで `sentiment_analysis_spark. py`は、FinBERTモデルを使用してHDFS内のトランスクリプトを処理し、ポジティブ、ニュートラル、ネガティブの感情カウントを生成します。次の表を参照してください。
 
 ....
 -bash-4.2$ time ~/anaconda3/bin/spark-submit
@@ -102,19 +102,19 @@ sys4m47.676s
 | センチメントの数値と割合 | 10社すべて | AAPL | AMD | AMZN | CSCO | GOOGL | INTC | マイクロソフト | NVDA 
 
 
-| 正の数 | 7447 | 1567年 | 743 | 290 | 682 | 826 | 824 | 904 | 417 
+| 正の数 | 7447 | 1567 | 743 | 290 | 682 | 826 | 824 | 904 | 417 
 
 
 | ニュートラルカウント | 64067 | 6856 | 7596 | 5086 | 6650 | 5914 | 6099 | 5715 | 6189 
 
 
-| 負の数 | 1787年になります | 253 | 213 | 84 | 189 | 97 | 282 | 202. | 89 
+| 負の数 | 1787 | 253 | 213 | 84 | 189 | 97 | 282 | 202 | 89 
 
 
-| 分類なしのカウント | 196 | 0 | 0 | 76 | 0 | 0 | 0 | 1. | 0 
+| 分類なしのカウント | 196 | 0 | 0 | 76 | 0 | 0 | 0 | 1 | 0 
 
 
-| （合計数） | 73497 | 8676 | 8552. | 5536 | 7521 | 6837 | 7205. | 6822 | 6695 
+| （合計数） | 73497 | 8676 | 8552 | 5536 | 7521 | 6837 | 7205 | 6822 | 6695 
 |===
 割合の点では、CEOとCFOが話している文のほとんどは事実上であり、中立的な感情を持っています。決算発表時に、アナリストは肯定的または否定的な感情を伝える可能性のある質問をします。また、マイナスやプラスの心理が株価に与える影響についても、取引日の同日または翌日に定量的に調査することもできます。
 
@@ -126,18 +126,18 @@ sys4m47.676s
 
 | 肯定的  a| 
 10.13%
-| 18.06％ | 8.69% | 5.24% | 9.07% | 12.08% | 11.44% | 13.25% | 6.23% 
+| 18.06% | 8.69% | 5.24% | 9.07% | 12.08% | 11.44% | 13.25% | 6.23% 
 
 
 | ニュートラル | 87.17% | 79.02% | 88.82% | 91.87% | 88.42% | 86.50% | 84.65% | 83.77% | 92.44% 
 
 
-| 負 | 2.43% | 2.92％ | 2.49％ | 1.52% | 2.51 % | 1.42 % | 3.91% | 2.96 % | 1.33% 
+| 負 | 2.43% | 2.92% | 2.49% | 1.52% | 2.51% | 1.42% | 3.91% | 2.96% | 1.33% 
 
 
-| 分類なし | 0.27% | 0% | 0% | 1.37 % | 0% | 0% | 0% | 0.01% | 0% 
+| 分類なし | 0.27% | 0% | 0% | 1.37% | 0% | 0% | 0% | 0.01% | 0% 
 |===
-ワークフローの実行時間に関しては'local'モードからHDFSの分散環境に至るまで4.78倍の大幅な改善が見られましたまた'NFSを活用することで'さらに0.14%の向上が見られました
+ワークフローの実行時間に関しては、HDFSのモードから分散環境への移行が4.78倍に大幅に改善し、NFSの活用によってさらに0.14%も改善し `local`ました。
 
 ....
 -bash-4.2$ time ~/anaconda3/bin/spark-submit
@@ -162,7 +162,7 @@ image:apache-spark-image11.png["SparkのNLP感情分析のエンドツーエン�
 
 == Horovodのパフォーマンスを使用した分散トレーニング
 
-次のコマンドでは、1つのコアを持つ160個の実行者を持つ単一の「マスター」ノードを使用して、Sparkクラスタ内にランタイム情報とログファイルを生成しました。実行者メモリはメモリ不足エラーを回避するために5GBに制限されていました。を参照してください link:apache-spark-python-scripts-for-each-major-use-case.html["「主要な各ユースケース用のPythonスクリプト」"] データ処理、モデル・トレーニング、およびモデル精度計算の詳細については、「kers_spark_horovod_Rossmann _dimator.py」を参照してください。
+次のコマンドは、それぞれ1つのコアを持つ160個のExecutorを持つ単一のノードを使用して、Sparkクラスタにランタイム情報とログファイルを生成しまし `master`た。実行者メモリはメモリ不足エラーを回避するために5GBに制限されていました。のData Processing、モデルトレーニング、およびモデル精度計算の詳細については、の `keras_spark_horovod_rossmann_estimator.py`項を参照してくださいlink:apache-spark-python-scripts-for-each-major-use-case.html["「主要な各ユースケース用のPythonスクリプト」"]。
 
 ....
 (base) [root@n138 horovod]# time spark-submit
@@ -186,7 +186,7 @@ sys2m30.127s
 ....
 入力データの処理、DNNモデルのトレーニング、精度の計算、TensorFlowチェックポイントと予測結果のCSVファイルの作成に43分以上かかりました。トレーニング期間を10に制限しました。実際には100に設定されていることが多く、モデルの精度が十分であることを確認しています。トレーニング時間は通常、エポックの数に比例して拡大します。
 
-次に、クラスタで使用可能な4つのワーカーノードを使用して、HDFS内のデータで「yarn」モードで同じスクリプトを実行しました。
+次に、クラスタで使用可能な4つのワーカーノードを使用し、HDFSのデータを使用してモードで同じスクリプトを実行しまし `yarn`た。
 
 ....
 (base) [root@n138 horovod]# time spark-submit
@@ -206,9 +206,9 @@ real8m13.728s
 user7m48.421s
 sys1m26.063s
 ....
-HorovodのモデルとSparkのデータの並列化により、「yarn」と「local」モードを比較したランタイムが5.29x短縮され、トレーニング期間が10時間に短縮されました。次の図に、凡例に「hdfs」と「Local」を示します。基盤となるTensorFlow DNNモデルのトレーニングを、GPUがあればさらに高速化できます。このテストを実施し、今後のテクニカルレポートに結果を公開する予定です。
+HorovodのモデルとSparkのデータ並列処理では `local`、10個のトレーニングエポックで5.29倍のランタイムの高速化が見られました `yarn`。次の図に、凡例と `Local`を示します `HDFS`。基盤となるTensorFlow DNNモデルのトレーニングを、GPUがあればさらに高速化できます。このテストを実施し、今後のテクニカルレポートに結果を公開する予定です。
 
-次のテストでは、NFSとHDFSの入力データをランタイムで比較しました。AFF A800のNFSボリュームは、Sparkクラスタ内の5つのノード（マスター1つ、ワーカー4つ）にまたがって「/sparkdemo/horovod」にマウントされました。前のテストと同様のコマンドを実行しましたが'--data-dir'パラメータは現在NFSマウントを指しています
+次のテストでは、NFSとHDFSの入力データをランタイムで比較しました。AFF A800上のNFSボリュームは、Sparkクラスタ内の5つのノード（1つのマスターと4つのワーカー）にマウントされました `/sparkdemo/horovod`。前のテストと同様のコマンドを実行し、パラメータで `--data- dir`NFSマウントを指定しました。
 
 ....
 (base) [root@n138 horovod]# time spark-submit
@@ -240,18 +240,18 @@ image:apache-spark-image12.png["Horovod Sparkのワークフローランタイ�
 
 クリック率を最大化するように設計されたレコメンダシステムでは、低い順に数学的に計算される可能性のある、ユーザーの行動の背後にある高度な機能の相互作用を学習する必要があります。低次と高次の両方の機能の相互作用は、どちらか一方をバイアスすることなく、ディープラーニングモデルにとっても同様に重要です。新しいニューラルネットワークアーキテクチャでの機能学習に向けて、界面活性化機械ベースのニューラルネットワークであるDeep Factorization Machine（DeepFM）は、界面活性化装置を組み合わせた推奨製品です。
 
-従来の三角分解機械は、機能間の潜伏ベクトルの内側としてのペアワイズ機能の相互作用をモデル化しますが、理論的には高次情報をキャプチャすることができます。実際には、機械学習の実践では、一般的に、計算と保管の複雑さが高いため、二次フィーチャーの相互作用しか使用しませGoogleなどのディープニューラルネットワークのバリエーション https://arxiv.org/abs/1606.07792["ワイド・モデルとディープ・モデル"^] 一方、リニアワイドモデルとディープモデルを組み合わせて、ハイブリッドネットワーク構造で高度な機能の相互作用を学習します。
+従来の三角分解機械は、機能間の潜伏ベクトルの内側としてのペアワイズ機能の相互作用をモデル化しますが、理論的には高次情報をキャプチャすることができます。実際には、機械学習の実践では、一般的に、計算と保管の複雑さが高いため、二次フィーチャーの相互作用しか使用しませ一方、Googleのようなディープニューラルネットワークの変種は https://arxiv.org/abs/1606.07792["ワイド"^]、線形ワイドモデルとディープモデルを組み合わせることで、ハイブリッドネットワーク構造における高度な機能の相互作用を学習します。
 
 このワイド・ディープ・モデルには2つの入力があります。1つは基本的なワイド・モデル用で、もう1つはディープのためです。後者の部分では、エキスパートフィーチャー・エンジニアリングが必要です。このため、この手法は他のドメインには一般的にできません。ワイド・ディープ・モデルとは異なり、DeepFMはフィーチャー・エンジニアリングなしでRAW機能を使用して効率的にトレーニングできます。ワイド・パートとディープ・パートは同じ入力と埋め込みベクトルを共有するためです。
 
-私たちはまず'セクションのrun_classification_Crito_spark.pyを使用して'ctr_trine.csv'という名前のCSVファイルにCrito'trine.csv'をNFSマウント'/sparkdemo/tr-4570-data'に格納しました link:apache-spark-python-scripts-for-each-major-use-case.html["「主なユースケースごとにPythonスクリプトを用意しています。」"] このスクリプト内で'関数process_input_file'は'タブを削除し'区切り文字として''を'改行として''を挿入するための複数の文字列メソッドを実行しますコードブロックがコメントとして表示されるように、元の「train .txt」を1回だけ処理する必要があることに注意してください。
+最初にCriteo (11GB)ファイルをNFSマウントに格納された `/sparkdemo/tr-4570-data`CSVファイルに `ctr_train.csv`処理しまし `train.txt` `run_classification_criteo_spark.py`た。このスクリプト内のセクションから、link:apache-spark-python-scripts-for-each-major-use-case.html["「主なユースケースごとにPythonスクリプトを用意しています。」"]関数は `process_input_file`いくつかの文字列メソッドを実行してタブを削除し、区切り文字および改行として `‘\n’`挿入します `‘,’`。コードブロックがコメントとして表示されるように、元のコードを1回だけ処理する必要があることに注意して `train.txt`ください。
 
-以下の異なるDLモデルのテストでは、「ctr_train .csv」を入力ファイルとして使用しました。その後のテスト実行では、入力CSVファイルがSpark DataFrameに読み込まれ、スキーマに「label」のフィールド、整数の高密度フィーチャー「I1」、「I2」、「I3」、…、「I13」が含まれています。 また'希薄な機能は''C1'、'C2'、'C3'、…、'C26']`です次の「spark-smSubmit」コマンドは、入力CSVで実行し、クロス検証用に20%のスプリットを備えたDeepFMモデルをトレーニングし、10回のトレーニング期間後に最適なモデルを選択して、テストセットの予測精度を計算します。
+さまざまなDLモデルの次のテストでは、入力ファイルとしてを使用しまし `ctr_train.csv`た。その後のテスト実行では、入力CSVファイルがSpark DataFrameに読み込まれ、フィールド、整数密度フィーチャー `['I1', 'I2', 'I3', …, 'I13']`、およびスパースフィーチャーを `['C1', 'C2', 'C3', …, 'C26']`含むスキーマが含まれてい `‘label’`ます。次の `spark-submit`コマンドは、入力CSVを取り込み、20%分割してクロスバリデーションを行うDeepFMモデルをトレーニングし、10回のトレーニングエポック後に最適なモデルを選択してテストセットの予測精度を計算します。
 
 ....
 (base) [root@n138 ~]# time spark-submit --master yarn --executor-memory 5g --executor-cores 1 --num-executors 160 /sparkusecase/DeepCTR/examples/run_classification_criteo_spark.py --data-dir file:///sparkdemo/tr-4570-data > /tmp/run_classification_criteo_spark_local.log 2>&1
 ....
-データファイル「ctr_train .csv」は11 GBを超えるため、エラーを回避するには、データセットサイズよりも十分な「spark.driver.maxResultSize」を設定する必要があります。
+データファイルは11GBを超えるため、 `ctr_train.csv`エラーを回避するためにデータセットサイズよりも十分に大きい値を設定する必要があります `spark.driver.maxResultSize`。
 
 ....
  spark = SparkSession.builder \
@@ -267,7 +267,7 @@ image:apache-spark-image12.png["Horovod Sparkのワークフローランタイ�
     .config("spark.driver.maxResultSize", "50gb") \
     .getOrCreate()
 ....
-上記のSparkSession.Builder'構成でも有効になっています https://arrow.apache.org/["Apache Arrowの"^]は、SparkのDataFrameを「df.toPandas ()」メソッドを使用してPandas DataFrameに変換します。
+上記の構成では `SparkSession.builder`、メソッドを使用 https://arrow.apache.org/["Apache Arrowの"^]してSpark DataFrameをPandas DataFrameに変換します `df.toPandas()`。
 
 ....
 22/06/17 15:56:21 INFO scheduler.DAGScheduler: Job 2 finished: toPandas at /sparkusecase/DeepCTR/examples/run_classification_criteo_spark.py:96, took 627.126487 s
@@ -285,7 +285,7 @@ Testing dataset size =  9168124
 2022-06-18 07:19:20.101478: I tensorflow/core/platform/cpu_feature_guard.cc:151] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
 To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
 ....
-ソースからTensorFlowを構築する場合は、を使用することを推奨します https://bazel.build/["バザー"^]。今回の環境では、シェルプロンプトで以下のコマンドを実行して、「リタイア」、「リタイヤ」、「バザール」をインストールしました。
+ソースからTensorFlowを構築するにはNetApp、を使用することをお勧めします https://bazel.build/["バザー"^]。この環境では、シェルプロンプトで、、 `dnf-plugins`、およびBazelをインストールするために次のコマンドを実行しまし `dnf`た。
 
 ....
 yum install dnf
@@ -293,7 +293,7 @@ dnf install 'dnf-command(copr)'
 dnf copr enable vbatts/bazel
 dnf install bazel5
 ....
-ビルドプロセス中にC++ 17の機能を使用するには、GCC 5以降を有効にする必要があります。この機能は、RHELがソフトウェアコレクションライブラリ(SCL)とともに提供します。次のコマンドは'devtoolset'とGCC 11.2.1をRHEL 7.9クラスタにインストールします
+ビルドプロセス中にC++ 17の機能を使用するには、GCC 5以降を有効にする必要があります。この機能は、RHELがソフトウェアコレクションライブラリ(SCL)とともに提供します。次のコマンドは、RHEL 7.9クラスタにとGCC 11.2.1をインストールし `devtoolset`ます。
 
 ....
 subscription-manager repos --enable rhel-server-rhscl-7-rpms
@@ -303,9 +303,9 @@ yum update
 scl enable devtoolset-11 bash
 . /opt/rh/devtoolset-11/enable
 ....
-最後の2つのコマンドは'devtoolsets-11'を有効にしますこれには'/opt/r/devtoolset11-root//usr/bin/gcc`(GCC 11.2.1)が使用されますまた'gitのバージョンが1.8.3よりも大きいことを確認してください(RHEL 7.9に付属しています)これを参照してください https://travis.media/how-to-upgrade-git-on-rhel7-and-centos7/["記事"^] 「git」を2.24.1に更新します。
+最後の2つのコマンドは、（GCC 11.2.1）を使用して `/opt/rh/devtoolset-11/root/usr/bin/gcc`イネーブルになっていることに注意してください `devtoolset-11`。また、バージョンが1.8.3よりも大きいことを確認して `git`ください（RHEL 7.9に付属しています）。2.24.1へのアップデートについては `git`こちらを参照して https://travis.media/how-to-upgrade-git-on-rhel7-and-centos7/["記事"^]ください。
 
-最新のTensorFlowマスターリポジトリもすでにクローニング済みであるとします。次に'workspace'ファイルを使用して'workspace'ディレクトリを作成し'AVX、AVX2、FMAを使用してソースからTensorFlowを構築しますconfigureファイルを実行し、正しいPythonバイナリの場所を指定します。 https://developer.nvidia.com/cuda-toolkit["CUDA （ CUDA"^] はGPUを使用していないため、テストでは無効になっています。設定に応じて'`. bazelrc'ファイルが生成されますさらに、ファイルを編集し、HDFSのサポートを有効にするために「build--define=no_hdfs_support=false」を設定しました。セクションの「. bazelrc」を参照してください link:apache-spark-python-scripts-for-each-major-use-case.html["「主なユースケースごとにPythonスクリプトを用意しています。」"] 設定とフラグの完全なリストについては、を参照してください。
+最新のTensorFlowマスターリポジトリもすでにクローニング済みであるとします。次に、AVX、AVX2、およびFMAを使用してソースからTensorFlowを構築するためのファイルを含むディレクトリを `WORKSPACE`作成し `workspace`ます。ファイルを実行し `configure`、正しいPythonバイナリの場所を指定します。 https://developer.nvidia.com/cuda-toolkit["CUDA （ CUDA"^]はGPUを使用していないため、テストでは無効になっています。 `.bazelrc`設定に従ってファイルが生成されます。さらに、ファイルを編集し、HDFSサポートを有効にするようにを設定しまし `build --define=no_hdfs_support=false`た。設定とフラグの完全なリストについては、セクションのlink:apache-spark-python-scripts-for-each-major-use-case.html["「主なユースケースごとにPythonスクリプトを用意しています。」"]を参照してください `.bazelrc`。
 
 ....
 ./configure

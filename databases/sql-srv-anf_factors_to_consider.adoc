@@ -18,9 +18,9 @@ summary: このセクションでは、クラウドで Azure NetApp Files を SQ
 
 
 
-== VM パフォーマンス
+== VMパフォーマンス
 
-パブリッククラウドのリレーショナルデータベースのパフォーマンスを最適化するには、適切な VM サイズを選択することが重要です。Microsoft では、オンプレミスサーバ環境の SQL Server と同じデータベースパフォーマンス調整オプションを引き続き使用することを推奨しています。使用 https://docs.microsoft.com/en-us/azure/virtual-machines/sizes-memory["メモリの最適化"^] SQL Server ワークロードのパフォーマンスを最適化するための VM サイズ。既存の導入環境のパフォーマンスデータを収集し、適切なインスタンスを選択しながら RAM と CPU の利用率を確認します。ほとんどの導入環境では、 D 、 E 、または M シリーズのいずれかを選択できます。
+パブリッククラウドのリレーショナルデータベースのパフォーマンスを最適化するには、適切な VM サイズを選択することが重要です。Microsoft では、オンプレミスサーバ環境の SQL Server と同じデータベースパフォーマンス調整オプションを引き続き使用することを推奨しています。SQL Serverワークロードのパフォーマンスを最適化するには、VMサイズを使用します https://docs.microsoft.com/en-us/azure/virtual-machines/sizes-memory["メモリの最適化"^]。既存の導入環境のパフォーマンスデータを収集し、適切なインスタンスを選択しながら RAM と CPU の利用率を確認します。ほとんどの導入環境では、 D 、 E 、または M シリーズのいずれかを選択できます。
 
 * 注： *
 
@@ -32,7 +32,7 @@ summary: このセクションでは、クラウドで Azure NetApp Files を SQ
 
 == VM の冗長性
 
-冗長性と高可用性を高めるには、 SQL Server VM を同じにする必要があります https://docs.microsoft.com/en-us/azure/virtual-machines/availability-set-overview["可用性セット"^] または別のものです https://docs.microsoft.com/en-us/azure/availability-zones/az-overview["可用性ゾーン"^]。Azure VM を作成する場合は、アベイラビリティセットとアベイラビリティゾーンのどちらかを設定する必要があります。 Azure VM を両方に含めることはできません。
+冗長性と高可用性を高めるには、SQL Server VMを同一または異なる https://docs.microsoft.com/en-us/azure/availability-zones/az-overview["可用性ゾーン"^]VMに配置する必要があります https://docs.microsoft.com/en-us/azure/virtual-machines/availability-set-overview["可用性セット"^]。Azure VM を作成する場合は、アベイラビリティセットとアベイラビリティゾーンのどちらかを設定する必要があります。 Azure VM を両方に含めることはできません。
 
 
 
@@ -49,11 +49,11 @@ Microsoft SQL Server では、ストレージオプションとして SMB ファ
 
 NOTE: SQL Server データベース用のファイル共有ストレージでは、継続的可用性がサポートされている必要があります。これにより、ファイル共有データに中断なくアクセスできます。
 
-Azure NetApp Files は、あらゆる要求の厳しいワークロードに対応できる高性能なファイルストレージを提供し、ブロックストレージソリューションに比べて SQL Server の TCO を削減します。ブロックストレージでは、 VM の I/O およびディスク処理の帯域幅に制限があり、ネットワーク帯域幅の制限だけが Azure NetApp Files に適用されます。つまり、 Azure NetApp Files には VM レベルの I/O 制限は適用されません。これらの I/O 制限がない場合、 Azure NetApp Files に接続された小規模な VM で SQL Server を実行することも、はるかに大規模な VM で SQL Server を実行することもできます。Azure NetApp Files は、コンピューティングとソフトウェアのライセンスコストを削減することで、 SQL Server の導入コストを削減します。Azure NetApp Files for SQL Server 環境を使用することによるコスト分析とパフォーマンス上のメリットの詳細については、を参照してください https://docs.microsoft.com/en-us/azure/azure-netapp-files/solutions-benefits-azure-netapp-files-sql-server["Azure NetApp Files for SQL Server の導入のメリット"^]。
+Azure NetApp Files は、あらゆる要求の厳しいワークロードに対応できる高性能なファイルストレージを提供し、ブロックストレージソリューションに比べて SQL Server の TCO を削減します。ブロックストレージでは、 VM の I/O およびディスク処理の帯域幅に制限があり、ネットワーク帯域幅の制限だけが Azure NetApp Files に適用されます。つまり、 Azure NetApp Files には VM レベルの I/O 制限は適用されません。これらの I/O 制限がない場合、 Azure NetApp Files に接続された小規模な VM で SQL Server を実行することも、はるかに大規模な VM で SQL Server を実行することもできます。Azure NetApp Files は、コンピューティングとソフトウェアのライセンスコストを削減することで、 SQL Server の導入コストを削減します。Azure NetApp Filesを使用してSQL Serverを導入する場合の詳細なコスト分析とパフォーマンス上のメリットについては、を参照して https://docs.microsoft.com/en-us/azure/azure-netapp-files/solutions-benefits-azure-netapp-files-sql-server["Azure NetApp Files for SQL Server の導入のメリット"^]ください。
 
 
 
-=== 利点
+=== メリット
 
 Azure NetApp Files for SQL Server を使用する利点は次のとおりです。
 
@@ -64,8 +64,8 @@ Azure NetApp Files for SQL Server を使用する利点は次のとおりです�
 
 * 注： *
 
-* 冗長性と高可用性を高めるには、 SQL Server VM を同じにする必要があります https://docs.microsoft.com/en-us/azure/virtual-machines/availability-set-overview["可用性セット"^] または違う https://docs.microsoft.com/en-us/azure/availability-zones/az-overview["可用性ゾーン"^]。ユーザ定義のデータファイルが必要な場合は、ファイルパスの要件を考慮してください。その場合は、 SQL FCI over SQL AOAG を選択します。
-* 次の UNC パスがサポートされます。 file:///\\ANFSMB-b4ca.anf.test\SQLDB%20and%20\\ANFSMB-b4ca.anf.test\SQLDB\["\\ANFSMB-b4ca.anf.test\sqldb および \\ANFSMB-b4ca.anf.test\sqldb\"^]。
+* 冗長性と高可用性を高めるには、SQL Server VMを同一または異なるVM https://docs.microsoft.com/en-us/azure/availability-zones/az-overview["可用性ゾーン"^]に配置する必要があります https://docs.microsoft.com/en-us/azure/virtual-machines/availability-set-overview["可用性セット"^]。ユーザ定義のデータファイルが必要な場合は、ファイルパスの要件を考慮してください。その場合は、 SQL FCI over SQL AOAG を選択します。
+* 次のUNCパスがサポートされています。 file:///\\ANFSMB-b4ca.anf.test\SQLDB%20and%20\\ANFSMB-b4ca.anf.test\SQLDB\["\\ANFSMB-b4ca.anf.test\sqldb および \\ANFSMB-b4ca.anf.test\sqldb\"^]
 * ループバック UNC パスはサポートされていません。
 * サイジングには、オンプレミス環境の履歴データを使用します。OLTP ワークロードの場合は、ワークロードの平均時間とピーク時間、ディスク読み取り回数 / 秒、ディスク書き込み回数 / 秒のパフォーマンスカウンタを使用して、ターゲット IOPS とパフォーマンス要件を一致させます。Data Warehouse および Reporting のワークロードの場合は、ワークロードの平均時間とピーク時間、およびディスクの読み取りバイト数 / 秒とディスクの書き込みバイト数 / 秒を使用して、ターゲットのスループットを調整します平均値は、ボリュームの形状変更機能と組み合わせて使用できます。
 
@@ -74,7 +74,7 @@ Azure NetApp Files for SQL Server を使用する利点は次のとおりです�
 
 == 継続的可用性を備えた共有を作成
 
-Azure ポータルまたは Azure CLI を使用して、継続的可用性を備えた共有を作成する。ポータルで、 [ 継続的な可用性を有効にする ] プロパティオプションを選択します。Azure CLI では、「 azz netappfiles volume create with the sm-continuously-available - AVL 」オプションを「 $True 」に設定して、共有を継続的可用性を備えた共有として指定します。継続的可用性を有効にした新しいボリュームの作成の詳細については、を参照してください https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-create-volumes-smb["継続的可用性を備えた共有を作成しています"^]。
+Azure ポータルまたは Azure CLI を使用して、継続的可用性を備えた共有を作成する。ポータルで、[Enable Continuous Availability]プロパティオプションを選択します。Azure CLIの場合、に設定されたオプションを `$True`使用して、共有を継続的可用性を備えた共有として指定します `az netappfiles volume create with the smb-continuously-avl`。継続的可用性が有効な新しいボリュームの作成の詳細については、を参照してください https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-create-volumes-smb["継続的可用性を備えた共有を作成しています"^]。
 
 * 注： *
 
@@ -105,7 +105,7 @@ image:sql-srv-anf_image2.png["入力/出力ダイアログを示す図、また�
 
 == パフォーマンスの検証
 
-あらゆる導入同様、 VM とストレージをテストすることが重要です。ストレージの検証には、 HammerDB 、 Apploader 、などのツールを使用します https://github.com/NetApp/SQL_Storage_Benchmark["SQL Server Storage Benchmark （ SB ）ツール"^]、または適切な読み取り / 書き込み混在の任意のカスタムスクリプトまたは fio を使用する必要があります。ただし、 SQL Server のワークロードのほとんどは、ビジー状態の OLTP ワークロードでも、読み取りが 80~90% 、書き込みが 10~20% 近くになることに注意してください。
+あらゆる導入同様、 VM とストレージをテストすることが重要です。ストレージの検証には、HammerDB、Appploader、、、または適切な読み取り/書き込みの組み合わせを持つ任意のカスタムスクリプトまたはfioなどのツールを https://github.com/NetApp/SQL_Storage_Benchmark["SQL Server Storage Benchmark （ SB ）ツール"^]使用する必要があります。ただし、 SQL Server のワークロードのほとんどは、ビジー状態の OLTP ワークロードでも、読み取りが 80~90% 、書き込みが 10~20% 近くになることに注意してください。
 
 パフォーマンスを確認するために、 Premium サービスレベルを使用してボリュームに対してクイックテストを実行しました。このテストでは、ボリュームサイズを 100GB から 2TB にオンザフライで拡張しました。アプリケーションへのアクセスを中断することなく、データの移行もゼロでした。
 

@@ -16,7 +16,7 @@ summary: RHV は、 Red Hat Enterprise Linux （ RHEL ）上で動作し、 KVM 
 [role="lead"]
 Red Hat Virtualization （ RHV ）は、 Red Hat Enterprise Linux （ RHEL ）で実行され、 KVM ハイパーバイザーを使用するエンタープライズ仮想データセンタープラットフォームです。
 
-RHV の詳細については、を参照してください link:https://www.redhat.com/en/technologies/virtualization/enterprise-virtualization["Red Hat Virtualization の Web サイト"^]。
+RHVの詳細については、を参照してくださいlink:https://www.redhat.com/en/technologies/virtualization/enterprise-virtualization["Red Hat Virtualization の Web サイト"^]。
 
 RHV は以下の機能を提供します。
 
@@ -37,7 +37,7 @@ NetApp 解決策上の Red Hat OpenShift では、 2 つのデータスイッチ
 
 
 
-=== VLAN の要件
+=== VLANの要件
 
 RHV 上の Red Hat OpenShift は、仮想ローカルエリアネットワーク（ VLAN ）を使用して、さまざまな目的でネットワークトラフィックを論理的に分離するように設計されています。この構成は、お客様のニーズに合わせて拡張することも、特定のネットワークサービスをさらに分離することもできます。次の表に、ネットアップで解決策を検証する際に解決策を実装するために必要な VLAN を示します。
 
@@ -55,7 +55,7 @@ RHV 上の Red Hat OpenShift は、仮想ローカルエリアネットワーク
 | インバンド管理ネットワーク | RHV-H ノード、 RHV-Manager 、および ovirtmgmt ネットワークの管理 | 3343 
 
 
-| ストレージネットワーク | NetApp Element iSCSI 用のストレージネットワーク | 344 
+| ストレージネットワーク | NetApp Element iSCSI 用のストレージネットワーク | 3344 
 
 
 | 移行用ネットワーク | 仮想ゲスト移行用のネットワーク | 3345 
@@ -95,7 +95,7 @@ VM とホストのアフィニティを有効にすると、 OpenShift マスタ
 
 パラメータに定義された条件は、強制またはソフト強制のいずれかです。強制をハードに行うことで、アフィニティグループ内の VM は、外部条件に関係なく常に正または負のアフィニティに従って配置されます。ソフトな適用では、可能なかぎり、アフィニティグループ内の VM に対して肯定的または否定的なアフィニティに従って高い優先度が設定されます。このドキュメントで説明する 2 つまたは 3 つのハイパーバイザー構成では、ソフトアフィニティが推奨される設定です。大規模なクラスタでは、ハードアフィニティによって OpenShift ノードを適切に分散できます。
 
-アフィニティグループを設定するには、を参照してください link:https://access.redhat.com/documentation/en-us/red_hat_virtualization/4.4/html/virtual_machine_management_guide/sect-affinity_groups["Red Hat 6.11アフィニティグループのドキュメント"^]。
+アフィニティグループを設定するには、を参照してくださいlink:https://access.redhat.com/documentation/en-us/red_hat_virtualization/4.4/html/virtual_machine_management_guide/sect-affinity_groups["Red Hat 6.11アフィニティグループのドキュメント"^]。
 
 
 
@@ -103,4 +103,4 @@ VM とホストのアフィニティを有効にすると、 OpenShift マスタ
 
 IPI を使用すると、このドキュメントで前述した対話型ウィザードを使用して、 OpenShift クラスタを簡単に導入できます。ただし、一部のデフォルト値については、クラスタの導入時に変更が必要になる場合があります。
 
-このような場合は、クラスタをすぐに導入せずにウィザードを実行してタスクを実行できます。クラスタの導入に使用する構成ファイルが作成されます。これは、 IPI のデフォルト値を変更する場合や、マルチテナンシーなどの他の用途のために環境内に同一のクラスタを複数導入する場合に非常に便利です。OpenShift 用にカスタマイズされたインストール構成の作成の詳細については、を参照してください link:https://docs.openshift.com/container-platform/4.4/installing/installing_rhv/installing-rhv-customizations.html["Red Hat OpenShift カスタマイズを使用した RHV へのクラスタのインストール"^]。
+このような場合は、クラスタをすぐに導入せずにウィザードを実行してタスクを実行できます。クラスタの導入に使用する構成ファイルが作成されます。これは、 IPI のデフォルト値を変更する場合や、マルチテナンシーなどの他の用途のために環境内に同一のクラスタを複数導入する場合に非常に便利です。OpenShift用にカスタマイズされたインストール構成を作成する方法の詳細については、を参照してくださいlink:https://docs.openshift.com/container-platform/4.4/installing/installing_rhv/installing-rhv-customizations.html["Red Hat OpenShift カスタマイズを使用した RHV へのクラスタのインストール"^]。

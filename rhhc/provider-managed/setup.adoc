@@ -21,7 +21,7 @@ summary:
 image:rhhc-rosa-with-fsxn.png[""]
 
 
-NOTE: この解決策 は、AWSの2つのVPCで2つのROSAクラスタを使用して検証されました。各ROSAクラスタは、Astra Tridentを使用してFSxNに統合されています。ROSAクラスタとFSxNをAWSに導入するには、いくつかの方法があります。このセットアップの概要概要 には、使用した具体的な方法のドキュメントへのリンクが記載されています。その他の方法については、に記載されている関連リンクを参照してください link:../rhhc-resources.html["リソースセクション"]。
+NOTE: この解決策 は、AWSの2つのVPCで2つのROSAクラスタを使用して検証されました。各ROSAクラスタは、Astra Tridentを使用してFSxNに統合されています。ROSAクラスタとFSxNをAWSに導入するには、いくつかの方法があります。このセットアップの概要概要 には、使用した具体的な方法のドキュメントへのリンクが記載されています。その他の方法については、に記載されている関連リンクを参照して link:../rhhc-resources.html["リソースセクション"]ください。
 
 セットアッププロセスは、次の手順に分けることができます。
 
@@ -29,22 +29,22 @@ NOTE: この解決策 は、AWSの2つのVPCで2つのROSAクラスタを使用�
 [%collapsible]
 ====
 * 2つのVPCを作成し、VPC間にVPCピアリング接続を設定します。
-* を参照してください link:https://docs.openshift.com/rosa/welcome/index.html["こちらをご覧ください"] ROSAクラスタのインストール手順については、を参照してください。
+* ROSAクラスタのインストール手順については、を参照してくださいlink:https://docs.openshift.com/rosa/welcome/index.html["ここをクリック"]。
 
 
 ====
 .FSxNをインストールします
 [%collapsible]
 ====
-* BlueXPからVPCにFSxNをインストールします。を参照してください link:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html["こちらをご覧ください"] （BlueXPアカウントの作成と使用を開始するため）を参照してください link:https://docs.netapp.com/us-en/cloud-manager-fsx-ontap/index.html["こちらをご覧ください"] FSxNのインストールに使用します。を参照してください link:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html["こちらをご覧ください"] FSxNを管理するためにAWSでコネクタを作成します。
-* AWSを使用してFSxNを導入する。を参照してください link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/getting-started-step1.html["こちらをご覧ください"] AWSコンソールを使用した導入用。
+* BlueXPからVPCにFSxNをインストールします。BlueXP  アカウントの作成と使用方法については、を参照してくださいlink:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html["ここをクリック"]。FSxNのインストールについては、を参照してくださいlink:https://docs.netapp.com/us-en/cloud-manager-fsx-ontap/index.html["ここをクリック"]。FSxNを管理するためにAWSでコネクタを作成する方法については、を参照してくださいlink:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html["ここをクリック"]。
+* AWSを使用してFSxNを導入する。AWSコンソールを使用した導入については、を参照してくださいlink:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/getting-started-step1.html["ここをクリック"]
 
 
 ====
 .ROSAクラスタへのTridentのインストール（Helmチャートを使用）
 [%collapsible]
 ====
-* Helmチャートを使用して、ROSAクラスタにTridentをインストールします。HelmチャートのURL： https://netapp.github.io/trident-helm-chart[]
+* TridentをROSAクラスタにインストールするには、Helmチャートを使用します。HelmチャートのURL： https://netapp.github.io/trident-helm-chart[]
 
 
 .ROSAクラスタ向けのFSxNとAstra Tridentの統合
@@ -58,7 +58,7 @@ image:rhhc-trident-helm.png[""]
 .Tridentを使用したバックエンドとストレージクラスの作成（FSxN向け）
 [%collapsible]
 ====
-* を参照してください link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-postdeployment.html["こちらをご覧ください"] バックエンドとストレージクラスの作成の詳細については、を参照してください。
+* バックエンドとストレージクラスの作成の詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-postdeployment.html["ここをクリック"]。
 * OpenShiftコンソールから、Trident CSIを使用してFsxN用に作成したストレージクラスをデフォルトで作成します。下のスクリーンショットを参照：
 
 
@@ -68,11 +68,11 @@ image:rhhc-default-storage-class.png[""]
 .OpenShift GitOpsを使用したアプリケーションの導入（Argo CD）
 [%collapsible]
 ====
-* クラスタにOpenShift GitOpsオペレータをインストールします。手順を参照してください link:https://docs.openshift.com/container-platform/4.10/cicd/gitops/installing-openshift-gitops.html["こちらをご覧ください"]。
-* クラスタ用の新しいArgo CDインスタンスをセットアップします。手順を参照してください link:https://docs.openshift.com/container-platform/4.10/cicd/gitops/setting-up-argocd-instance.html["こちらをご覧ください"]。
+* クラスタにOpenShift GitOpsオペレータをインストールします。手順を参照してくださいlink:https://docs.openshift.com/container-platform/4.10/cicd/gitops/installing-openshift-gitops.html["ここをクリック"]。
+* クラスタ用の新しいArgo CDインスタンスをセットアップします。手順を参照してくださいlink:https://docs.openshift.com/container-platform/4.10/cicd/gitops/setting-up-argocd-instance.html["ここをクリック"]。
 
 
-Argo CDのコンソールを開き、アプリをデプロイします。たとえば、Argo CDとHelm Chartを使用してJenkins Appをデプロイできます。アプリケーションを作成するときに、次の詳細が提供されました。プロジェクト:デフォルトクラスタ: https://kubernetes.default.svc[]名前空間: Jenkins Helm ChartのURL : https://charts.bitnami.com/bitnami[]
+Argo CDのコンソールを開き、アプリをデプロイします。たとえば、Argo CDとHelm Chartを使用してJenkins Appをデプロイできます。アプリケーションを作成するときに、次の詳細が提供されました。プロジェクト:デフォルトクラスタ: https://kubernetes.default.svc[]名前空間: Jenkins Helm ChartのURL。 https://charts.bitnami.com/bitnami[]
 
 Helmパラメータ：global.storageClass：fsxn -nas
 

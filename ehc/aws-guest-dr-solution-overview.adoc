@@ -84,7 +84,7 @@ image:dr-vmc-aws-image11.png["入力/出力ダイアログを示す図、また�
 ====
 ONTAP クラスタ間のクラスタピアリングを確立するには、開始側のONTAP クラスタで入力した一意のパスフレーズを、もう一方のピアクラスタで確認する必要があります。
 
-. デスティネーションFSXクラスタ上で' cluster peer createコマンドを使用してピアリングを設定しますプロンプトが表示されたら、あとでソースクラスタで使用する一意のパスフレーズを入力して作成プロセスを完了します。
+. コマンドを使用して、デスティネーションFSxクラスタでピアリングを設定し `cluster peer create`ます。プロンプトが表示されたら、あとでソースクラスタで使用する一意のパスフレーズを入力して作成プロセスを完了します。
 +
 ....
 FSx-Dest::> cluster peer create -address-family ipv4 -peer-addrs source_intercluster_1, source_intercluster_2
@@ -98,7 +98,7 @@ image:dr-vmc-aws-image12.png["入力/出力ダイアログを示す図、また�
 . Peer Cluster（ピアクラスタ）ダイアログボックスで、必要な情報を入力します。
 +
 .. デスティネーションFSXクラスタでピアクラスタ関係を確立するために使用したパスフレーズを入力します。
-.. [はい]を選択して'暗号化された関係を確立します
+.. を選択し `Yes`て暗号化された関係を確立します。
 .. デスティネーションFSXクラスタのクラスタ間LIFのIPアドレスを入力します。
 .. クラスタピアリングの開始をクリックしてプロセスを完了します。
 +
@@ -160,7 +160,7 @@ NOTE: セカンダリストレージでは、Snapshotを保持するために、
 
 image:dr-vmc-aws-image17.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-SQL ServerデータベースのSnapCenter ポリシーの作成の詳細については、を参照してください https://docs.netapp.com/us-en/snapcenter/protect-scsql/task_create_backup_policies_for_sql_server_databases.html["SnapCenter のドキュメント"^]。
+SQL ServerデータベースのSnapCenterポリシーの作成の詳細については、を参照してください https://docs.netapp.com/us-en/snapcenter/protect-scsql/task_create_backup_policies_for_sql_server_databases.html["SnapCenter のドキュメント"^]。
 
 まず、保持するSnapshotコピーの数にルールを指定してSnapMirrorポリシーを作成する必要があります。
 
@@ -224,11 +224,11 @@ FSx-Dest::> snapmirror initialize -destination-path DestSVM:DestVol
 ====
 この解決策 では、NetApp SnapCenter を使用して、アプリケーションと整合性のあるSQL Serverデータベースのバックアップを作成します。仮想マシンのVMDKをバックアップするVeeam Backup & Replicationと併用することで、オンプレミスのデータセンターとクラウドベースのデータセンター向けに包括的なディザスタリカバリ解決策 を実現できます。
 
-SnapCenter ソフトウェアはネットアップサポートサイトから入手でき、ドメインまたはワークグループ内にあるMicrosoft Windowsシステムにインストールできます。詳細な計画ガイドとインストール手順については、を参照してください https://docs.netapp.com/us-en/snapcenter/install/install_workflow.html["ネットアップドキュメントセンター"^]。
+SnapCenter ソフトウェアはNetApp Support Siteから入手でき、ドメインまたはワークグループ内にあるMicrosoft Windowsシステムにインストールできます。詳細な計画ガイドとインストール手順については、を参照し https://docs.netapp.com/us-en/snapcenter/install/install_workflow.html["ネットアップドキュメントセンター"^]てください。
 
-SnapCenter ソフトウェアは、から入手できます https://mysupport.netapp.com["リンクをクリックしてください"^]。
+SnapCenterソフトウェアは、から入手できます https://mysupport.netapp.com["リンクをクリックしてください"^]。
 
-インストール後、\\ https://Virtual_Cluster_IP_or_FQDN:8146_を使用してWebブラウザからSnapCenter コンソールにアクセスできます。
+インストール後は、_\https://Virtual_Cluster_IP_or_FQDN:8146_.を使用してWebブラウザからSnapCenterコンソールにアクセスできます。
 
 コンソールにログインしたら、バックアップSQL ServerおよびOracleデータベース用にSnapCenter を設定する必要があります。
 
@@ -252,7 +252,7 @@ image:dr-vmc-aws-image20.png["入力/出力ダイアログを示す図、また�
 
 
 
-SnapCenter へのストレージシステムの追加に関する詳細については、のドキュメントを参照してください https://docs.netapp.com/us-en/snapcenter/install/task_add_storage_systems.html["リンクをクリックしてください"^]。
+SnapCenterへのストレージシステムの追加に関する詳細については、のマニュアルを参照してください https://docs.netapp.com/us-en/snapcenter/install/task_add_storage_systems.html["リンクをクリックしてください"^]。
 
 ====
 .SnapCenter にホストを追加します
@@ -265,7 +265,7 @@ SnapCenter へのストレージシステムの追加に関する詳細につい
 +
 image:dr-vmc-aws-image21.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-. Oracleの場合は、[Add Host]ダイアログボックスの必須フィールドに入力し、Oracle Databaseプラグインのチェックボックスをオンにします。次に、Submitをクリックして検出プロセスを開始し、ホストをSnapCenter に追加します。
+. Oracleの場合、[ホストの追加]ダイアログボックスの必要なフィールドに入力し、Oracle Databaseプラグインのチェックボックスを選択します。次に、[送信]をクリックして検出プロセスを開始し、ホストをSnapCenterに追加します。
 +
 image:dr-vmc-aws-image22.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
@@ -281,9 +281,9 @@ image:dr-vmc-aws-image22.png["入力/出力ダイアログを示す図、また�
 
 image:dr-vmc-aws-image23.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-SQL Serverバックアップのポリシー作成の詳細については、を参照してください https://docs.netapp.com/us-en/snapcenter/protect-scsql/task_create_backup_policies_for_sql_server_databases.html["SnapCenter のドキュメント"^]。
+SQL Serverバックアップのポリシー作成の詳細については、を参照して https://docs.netapp.com/us-en/snapcenter/protect-scsql/task_create_backup_policies_for_sql_server_databases.html["SnapCenter のドキュメント"^]ください。
 
-Oracleバックアップのポリシー作成の詳細については、を参照してください https://docs.netapp.com/us-en/snapcenter/protect-sco/task_create_backup_policies_for_oracle_database.html["SnapCenter のドキュメント"^]。
+Oracleバックアップのポリシー作成の詳細については、を参照して https://docs.netapp.com/us-en/snapcenter/protect-sco/task_create_backup_policies_for_oracle_database.html["SnapCenter のドキュメント"^]ください。
 
 * 注： *
 
@@ -310,16 +310,16 @@ image:dr-vmc-aws-image25.png["入力/出力ダイアログを示す図、また�
 
 SnapCenter のドキュメントでは、SQL ServerデータベースとOracleデータベースの両方について、リソースグループを作成する手順を詳しく説明しています。
 
-SQLリソースのバックアップについては、を参照してください https://docs.netapp.com/us-en/snapcenter/protect-scsql/task_back_up_sql_resources.html["リンクをクリックしてください"^]。
+SQLリソースのバックアップについては、を参照して https://docs.netapp.com/us-en/snapcenter/protect-scsql/task_back_up_sql_resources.html["リンクをクリックしてください"^]ください。
 
-Oracleリソースのバックアップについては、を参照してください https://docs.netapp.com/us-en/snapcenter/protect-sco/task_back_up_oracle_resources.html["リンクをクリックしてください"^]。
+Oracleリソースのバックアップについては、を参照して https://docs.netapp.com/us-en/snapcenter/protect-sco/task_back_up_oracle_resources.html["リンクをクリックしてください"^]ください。
 
 ====
 
 
 === Veeam Backup Serverを導入して設定します
 
-Veeam Backup & Replicationソフトウェアは、解決策 で、アプリケーション仮想マシンのバックアップと、Veeamスケールアウトバックアップリポジトリ（SOBR）を使用したAmazon S3バケットへのバックアップのコピーのアーカイブを行うために使用します。Veeamは、この解決策 内のWindowsサーバに導入されます。Veeamの導入に関する具体的なガイダンスについては、を参照してください https://www.veeam.com/documentation-guides-datasheets.html["Veeamヘルプセンターのテクニカルドキュメント"^]。
+Veeam Backup & Replicationソフトウェアは、解決策 で、アプリケーション仮想マシンのバックアップと、Veeamスケールアウトバックアップリポジトリ（SOBR）を使用したAmazon S3バケットへのバックアップのコピーのアーカイブを行うために使用します。Veeamは、この解決策 内のWindowsサーバに導入されます。Veeamの導入に関する具体的なガイダンスについては、を参照して https://www.veeam.com/documentation-guides-datasheets.html["Veeamヘルプセンターのテクニカルドキュメント"^]ください。
 
 .Veeamスケールアウトバックアップリポジトリを設定
 [%collapsible]
@@ -337,12 +337,12 @@ Veeam Backup & Replicationソフトウェアは、解決策 で、アプリケ�
 =====
 まず、ONTAP ストレージクラスタと関連するSMB / NFSファイルシステムをストレージインフラとしてVeeamに追加します。
 
-. Veeamコンソールを開き、ログインします。ストレージインフラに移動し、ストレージの追加を選択します。
+. Veeamコンソールを開き、ログインします。[Storage Infrastructure]に移動し、[Add Storage]を選択します。
 +
 image:dr-vmc-aws-image26.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . ストレージの追加ウィザードで、ストレージベンダーとしてネットアップを選択し、Data ONTAP を選択します。
-. 管理IPアドレスを入力し、NASファイラーボックスをオンにします。次へをクリックします。
+. 管理IPアドレスを入力し、NASファイラーボックスをオンにします。[Next]をクリックします。
 +
 image:dr-vmc-aws-image27.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
@@ -362,7 +362,7 @@ image:dr-vmc-aws-image30.png["入力/出力ダイアログを示す図、また�
 +
 image:dr-vmc-aws-image31.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-. リポジトリを作成するには、[新規バックアップリポジトリ]ウィザードのすべての手順に従います。Veeamバックアップリポジトリの作成の詳細については、を参照してください https://www.veeam.com/documentation-guides-datasheets.html["Veeamの製品ドキュメント"^]。
+. リポジトリを作成するには、[新規バックアップリポジトリ]ウィザードのすべての手順に従います。Veeam Backup Repositoriesの作成の詳細については、を参照して https://www.veeam.com/documentation-guides-datasheets.html["Veeamの製品ドキュメント"^]ください。
 +
 image:dr-vmc-aws-image32.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
@@ -417,7 +417,7 @@ image:dr-vmc-aws-image39.png["入力/出力ダイアログを示す図、また�
 .スケールアウトバックアップリポジトリジョブを作成
 [%collapsible]
 =====
-Veeamを設定する最後の手順は、新しく作成したバックアップ先のSOBRを使用してバックアップジョブを作成することです。バックアップジョブの作成は、ストレージ管理者の作業内容に含まれる通常の作業であり、ここでは詳細な手順については説明しません。Veeamでのバックアップジョブの作成の詳細については、を参照してください https://www.veeam.com/documentation-guides-datasheets.html["Veeam Help Centerテクニカルドキュメント"^]。
+Veeamを設定する最後の手順は、新しく作成したバックアップ先のSOBRを使用してバックアップジョブを作成することです。バックアップジョブの作成は、ストレージ管理者の作業内容に含まれる通常の作業であり、ここでは詳細な手順については説明しません。Veeamでのバックアップジョブの作成の詳細については、を参照して https://www.veeam.com/documentation-guides-datasheets.html["Veeam Help Centerテクニカルドキュメント"^]ください。
 
 =====
 ====
@@ -432,9 +432,9 @@ Veeamを設定する最後の手順は、新しく作成したバックアップ
 ====
 SnapCenter サーバは、VMware Cloud SDDCに導入するか、VPC内のEC2インスタンスにインストールし、VMware Cloud環境にネットワーク接続します。
 
-SnapCenter ソフトウェアはネットアップサポートサイトから入手でき、ドメインまたはワークグループ内にあるMicrosoft Windowsシステムにインストールできます。詳細な計画ガイドとインストール手順については、を参照してください https://docs.netapp.com/us-en/snapcenter/install/install_workflow.html["ネットアップドキュメントセンター"^]。
+SnapCenter ソフトウェアはNetApp Support Siteから入手でき、ドメインまたはワークグループ内にあるMicrosoft Windowsシステムにインストールできます。詳細な計画ガイドとインストール手順については、を参照し https://docs.netapp.com/us-en/snapcenter/install/install_workflow.html["ネットアップドキュメントセンター"^]てください。
 
-SnapCenter ソフトウェアは、から入手できます https://mysupport.netapp.com["リンクをクリックしてください"^]。
+SnapCenterソフトウェアは、から入手でき https://mysupport.netapp.com["リンクをクリックしてください"^]ます。
 
 ====
 .セカンダリWindows SnapCenter サーバを設定します
@@ -452,13 +452,13 @@ FSX ONTAP にミラーリングされたアプリケーション・データの�
 
 
 ====
-.セカンダリVeeam Backup & Replicationサーバを導入します
+.セカンダリVeeam Backup & Replicationサーバを導入
 [#deploy-secondary-veeam%collapsible]
 ====
-Veeam Backup & Replicationサーバは、AWS上のVMware CloudまたはEC2インスタンス上のWindowsサーバにインストールできます。実装の詳細なガイダンスについては、を参照してください https://www.veeam.com/documentation-guides-datasheets.html["Veeam Help Centerテクニカルドキュメント"^]。
+Veeam Backup & Replicationサーバは、AWS上のVMware CloudまたはEC2インスタンス上のWindowsサーバにインストールできます。実装に関する詳細なガイダンスについては、を参照して https://www.veeam.com/documentation-guides-datasheets.html["Veeam Help Centerテクニカルドキュメント"^]ください。
 
 ====
-.セカンダリVeeam Backup & Replicationサーバを設定します
+.セカンダリVeeam Backup & Replicationサーバの設定
 [%collapsible]
 ====
 Amazon S3ストレージにバックアップされた仮想マシンをリストアするには、WindowsサーバにVeeamサーバをインストールし、VMware Cloud、FSX ONTAP 、および元のバックアップリポジトリが格納されたS3バケットと通信するように設定する必要があります。また、リストア後にVMの新しいバックアップを実行するために、FSX ONTAP に新しいバックアップリポジトリが設定されている必要があります。
@@ -471,7 +471,7 @@ Amazon S3ストレージにバックアップされた仮想マシンをリス�
 . VMをリストアしたら、SQL VMとOracle VMを保護するための新しいバックアップジョブを確立します。
 
 
-Veeamを使用したVMのリストアの詳細については、を参照してください link:#restore-veeam-full["アプリケーションVMをVeeam Full Restoreでリストアします"]。
+Veeamを使用したVMのリストアの詳細については、セクションを参照してlink:#restore-veeam-full["アプリケーションVMをVeeam Full Restoreでリストアします"]ください。
 
 ====
 
@@ -518,7 +518,7 @@ SnapCenter は、REST APIコマンドを実行するためのWebクライアン�
 =====
 Swaggerページに移動したら、認証トークンを取得してデータベースリストアプロセスを開始する必要があります。
 
-. SnapCenter Swagger API Webページ（\\ https://<SnapCenterサーバIP >：8146 /スワッガ/_）にアクセスします。
+. SnapCenter Swagger API Webページ（_\ https：//< SnapCenterサーバIP>：8146/swagger/_）にアクセスします。
 +
 image:dr-vmc-aws-image40.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
@@ -546,7 +546,7 @@ image:dr-vmc-aws-image43.png["入力/出力ダイアログを示す図、また�
 +
 image:dr-vmc-aws-image44.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-. 「/4.6/disasterrecovery/sa/backup」セクションを展開し、「試してみてください」をクリックします。
+. セクションを展開し `/4.6/disasterrecovery/server/backup`、[Try it out]をクリックします。
 +
 image:dr-vmc-aws-image45.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
@@ -617,7 +617,7 @@ SnapCenter では、MySQLデータベースおよび構成ファイルのバッ�
 リストア・プロセスを開始するには、次の手順を実行します。
 
 . セカンダリSnapCenter サーバのSwagger API Webページに移動し、前述の手順に従って認証トークンを取得します。
-. Swaggerページの[Disaster Recovery]セクションに移動し、[0/4.6/disasterrecovery/sa/restore]を選択して、[Try it out]をクリックします。
+. Swaggerページの[Disaster Recovery]セクションに移動し、を選択して `/4.6/disasterrecovery/server/restore`[Try it out]をクリックします。
 +
 image:dr-vmc-aws-image48.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
@@ -635,9 +635,9 @@ image:dr-vmc-aws-image51.png["入力/出力ダイアログを示す図、また�
 
 . セカンダリストレージからのSQL Serverのリストアを有効にするには、SnapCenter データベースをディザスタリカバリモードに切り替える必要があります。この処理は、Swagger API Webページで個別の処理として開始されます。
 +
-.. [Disaster Recovery]セクションに移動し'[/4.6/disasterrecovery/storage]をクリックします
+.. [Disaster Recovery]セクションに移動し、をクリックします `/4.6/disasterrecovery/storage`。
 .. ユーザー認証トークンに貼り付けます。
-.. SmSetDisasterRecoverySettingsRequestセクションで'EnableDisasterRecoverを'true'に変更します
+.. [SmSetDisasterRecoverySettingsRequest]セクションで、をに `true`変更します `EnableDisasterRecover`。
 .. Executeをクリックして'SQL Serverの災害復旧モードを有効にします
 +
 image:dr-vmc-aws-image52.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
@@ -751,7 +751,7 @@ image:dr-vmc-aws-image67.png["入力/出力ダイアログを示す図、また�
 リカバリ手順を続行するには、次の前提条件を満たしている必要があります。
 
 . Windows Server VMがVeeam Full Restoreを使用してVMware Cloud SDDCにリストアされている。
-. セカンダリSnapCenter サーバが確立され、セクションで説明する手順に従ってSnapCenter データベースのリストアと設定が完了している link:#snapcenter-backup-and-restore-process-summary["SnapCenter のバックアップとリストアのプロセスの概要"]
+. セクションで説明した手順に従って、セカンダリSnapCenterサーバが確立され、SnapCenterデータベースのリストアと設定が完了している。link:#snapcenter-backup-and-restore-process-summary["SnapCenter のバックアップとリストアのプロセスの概要"]
 
 
 .VM：SQL Server VMのリストア後の設定
@@ -791,7 +791,7 @@ FSx-Dest::> igroup create -vserver DestSVM -igroup igroupName -protocol iSCSI -o
 ....
 FSx-Dest::> lun mapping create -vserver DestSVM -path LUNPath igroup igroupName
 ....
-. パス名を検索するには'lun showコマンドを実行します
+. パス名を確認するには、コマンドを実行し `lun show`ます。
 
 
 ====
@@ -866,7 +866,7 @@ image:dr-vmc-aws-image76.png["入力/出力ダイアログを示す図、また�
 リカバリ手順を続行するには、次の前提条件を満たしている必要があります。
 
 . Veeam Full Restoreを使用して、Oracle LinuxサーバVMがVMware Cloud SDDCにリストアされている。
-. セカンダリSnapCenter サーバが確立され、このセクションで説明する手順でSnapCenter データベースおよび構成ファイルがリストアされている link:#snapcenter-backup-and-restore-process-summary["SnapCenter のバックアップとリストアのプロセスの概要"]
+. このセクションで説明する手順を使用して、セカンダリSnapCenterサーバが確立され、SnapCenterデータベースと構成ファイルがリストアされている。link:#snapcenter-backup-and-restore-process-summary["SnapCenter のバックアップとリストアのプロセスの概要"]
 
 
 .Oracleリストア用にFSXを設定する–SnapMirror関係を解除します
@@ -928,7 +928,7 @@ Oracleデータベースに関連付けられたボリュームごとに、こ�
 
 +
 
-NOTE: 再起動時にNFSマウントを維持するには'/etc/fstabファイルを編集してマウント・コマンドを追加します
+NOTE: リブート時にNFSマウントを維持するには、ファイルを編集し `/etc/fstab`てmountコマンドを追加します。
 
 . Oracleサーバをリブートします。Oracleデータベースは正常に起動し、使用できるようになっている必要があります。
 
@@ -956,7 +956,7 @@ FSx ONTAP on AWSは、SnapCenterやSyncMirrorとシームレスに統合して�
 
 
 
-=== 追加情報の参照先
+=== 詳細情報の入手方法
 
 このドキュメントに記載されている情報の詳細については、以下のドキュメントや Web サイトを参照してください。
 

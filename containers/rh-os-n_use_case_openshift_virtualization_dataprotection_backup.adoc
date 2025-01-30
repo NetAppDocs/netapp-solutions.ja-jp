@@ -20,7 +20,7 @@ summary: NetApp ONTAP を使用した Red Hat OpenShift Virtualization
 
 == VMのバックアップの作成手順
 
-VM全体（VMメタデータとVMディスク）のオンデマンドバックアップを作成するには、[** Backup*]タブをクリックします。これにより、バックアップカスタムリソース（CR）が作成されます。バックアップCRを作成するためのサンプルYAMLが用意されています。このYAMLを使用すると、指定したネームスペース内のVMとそのディスクがバックアップされます。追加のパラメータは、 link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/oadp-creating-backup-cr.html["ドキュメント"]。
+VM全体（VMメタデータとVMディスク）のオンデマンドバックアップを作成するには、[** Backup*]タブをクリックします。これにより、バックアップカスタムリソース（CR）が作成されます。バックアップCRを作成するためのサンプルYAMLが用意されています。このYAMLを使用すると、指定したネームスペース内のVMとそのディスクがバックアップされます。に示すように、追加のパラメータを設定できます link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/oadp-creating-backup-cr.html["ドキュメント"]。
 
 CSIによって、ディスクをバックアップする永続ボリュームのスナップショットが作成されます。VMのバックアップとそのディスクのスナップショットが作成され、YAMLで指定されたバックアップの場所に格納されます。バックアップは、ttlで指定された30日間システムに残ります。
 
@@ -53,8 +53,7 @@ image:redhat_openshift_OADP_backup_image2.jpg["S3のバックアップオブジ�
 
 == OpenShift VirtualizationでのVMのスケジュールバックアップの作成
 
-スケジュールに従ってバックアップを作成するには、スケジュールCRを作成する必要があります。
-スケジュールは、単にバックアップを作成する時刻を指定できるcron式です。スケジュールCRを作成するためのサンプルYAML。
+スケジュールに従ってバックアップを作成するには、スケジュールCRを作成する必要があります。スケジュールは、単にバックアップを作成する時刻を指定できるcron式です。スケジュールCRを作成するためのサンプルYAML。
 
 ....
 apiVersion: velero.io/v1
@@ -72,8 +71,7 @@ spec:
     defaultVolumesToFsBackup: true
     ttl: 720h0m0s
 ....
-cron式0 7 ***は、バックアップが毎日7時に作成されることを意味します。
-バックアップに含めるネームスペースとバックアップの格納場所も指定されます。そのため、バックアップCRではなく、スケジュールCRを使用して、指定した時刻と頻度でバックアップを作成します。
+cron式0 7 ***は、バックアップが毎日7時に作成されることを意味します。バックアップに含めるネームスペースとバックアップの格納場所も指定されます。そのため、バックアップCRではなく、スケジュールCRを使用して、指定した時刻と頻度でバックアップを作成します。
 
 作成したスケジュールは有効になります。
 

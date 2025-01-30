@@ -4,7 +4,7 @@ permalink: ai/nvaie_ngc_setup.html
 keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, NVIDIA AI Enterprise, NVAIE, VMware, NGC 
 summary: ネットアップとVMwareを利用するNVIDIA AI Enterprise - NVIDIA NGCソフトウェアを利用-セットアップ 
 ---
-= セットアップ（ Setup ）
+= セットアップ
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -20,19 +20,19 @@ summary: ネットアップとVMwareを利用するNVIDIA AI Enterprise - NVIDIA
 
 == 前提条件
 
-このセクションで説明する手順を実行する前に、に記載されている手順に従ってNVIDIA AI Entrpriseホストソフトウェアがすでに導入されていることを前提としています link:nvaie_initial_setup.html["初期セットアップ"] ページ
+このセクションで説明する手順を実行する前に、ページに記載されている手順に従って、NVIDIA AIエンタープライズホストソフトウェアをすでに導入していることを前提としていlink:nvaie_initial_setup.html["初期セットアップ"]ます。
 
 
 
 == vGPUを使用してUbuntuゲストVMを作成します
 
-まず、vGPUを使用してUbuntu 20.04ゲストVMを作成する必要があります。vGPUを使用してUbuntu 20.04ゲストVMを作成する場合は、の手順に従います link:https://docs.nvidia.com/ai-enterprise/deployment-guide-vmware/0.1.0/first-vm.html["NVIDIA AI Enterprise導入ガイド"]。
+まず、vGPUを使用してUbuntu 20.04ゲストVMを作成する必要があります。vGPUを使用してUbuntu 20.04ゲストVMを作成するには、の手順の概要に従いlink:https://docs.nvidia.com/ai-enterprise/deployment-guide-vmware/0.1.0/first-vm.html["NVIDIA AI Enterprise導入ガイド"]ます。
 
 
 
 == NVIDIA Guest Softwareをダウンロードしてインストールします
 
-次に、前の手順で作成したゲストVMに必要なNVIDIAゲストソフトウェアをインストールします。必要なNVIDIAゲストソフトウェアをゲストVMにダウンロードしてインストールするには、のセクション5.1-5.4に記載されている手順に従います link:https://docs.nvidia.com/ai-enterprise/latest/quick-start-guide/index.html["NVIDIA AI Enterpriseクイックスタートガイド"]。
+次に、前の手順で作成したゲストVMに必要なNVIDIAゲストソフトウェアをインストールします。必要なNVIDIAゲストソフトウェアをゲストVMにダウンロードしてインストールするには、『』のセクション5.1～5.4に記載されている手順に従いますlink:https://docs.nvidia.com/ai-enterprise/latest/quick-start-guide/index.html["NVIDIA AI Enterpriseクイックスタートガイド"]。
 
 
 NOTE: セクション5.4で説明した検証タスクを実行するときは、ガイドの作成後にCUDAコンテナイメージが更新されているため、別のCUDAコンテナイメージバージョンタグを使用する必要がある場合があります。今回の検証では「nvidia / CUDA：11.0.3-base-ubuntu20.04」を使用しました。
@@ -41,7 +41,7 @@ NOTE: セクション5.4で説明した検証タスクを実行するときは�
 
 == AI /分析フレームワークコンテナをダウンロード
 
-次に、NVIDIA NGCからAIまたは分析フレームワークのコンテナイメージをダウンロードして、ゲストVM内で利用できるようにする必要があります。ゲストVM内でフレームワークコンテナをダウンロードするには、の手順に従います link:https://docs.nvidia.com/ai-enterprise/deployment-guide-vmware/0.1.0/installing-ai.html["NVIDIA AI Enterprise導入ガイド"]。
+次に、NVIDIA NGCからAIまたは分析フレームワークのコンテナイメージをダウンロードして、ゲストVM内で利用できるようにする必要があります。ゲストVM内でフレームワークコンテナをダウンロードするには、に記載されている手順に従いますlink:https://docs.nvidia.com/ai-enterprise/deployment-guide-vmware/0.1.0/installing-ai.html["NVIDIA AI Enterprise導入ガイド"]。
 
 
 

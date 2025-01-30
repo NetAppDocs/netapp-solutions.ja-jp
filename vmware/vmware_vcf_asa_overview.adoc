@@ -35,7 +35,7 @@ VMware Cloud Foundation（VCF）は、ハイブリッドクラウド環境でエ
 
 
 
-== 対象者
+== 対象読者
 
 この解決策 は、次のユーザーを対象としています。
 
@@ -63,7 +63,7 @@ VCFは、単一の管理ドメインと最大24個のVIワークロードドメ�
 
 image:vmware-vcf-aff-image02.png["VCFアーキテクチャ"]
 
-VCFのアーキテクチャと計画の詳細については、を参照してください。 link:https://docs.vmware.com/en/VMware-Cloud-Foundation/5.1/vcf-design/GUID-A550B597-463F-403F-BE9A-BFF3BECB9523.html["VMware Cloud Foundationのアーキテクチャモデルとワークロードドメインタイプ"]。
+VCFのアーキテクチャと計画の詳細については、を参照してくださいlink:https://docs.vmware.com/en/VMware-Cloud-Foundation/5.1/vcf-design/GUID-A550B597-463F-403F-BE9A-BFF3BECB9523.html["VMware Cloud Foundationのアーキテクチャモデルとワークロードドメインタイプ"]。
 
 ｛nbsp｝
 
@@ -82,44 +82,39 @@ image:vmware-vcf-aff-image01.png["VCFストレージオプション"]
 | ストレージ タイプ | 管理ドメイン-デフォルトクラスタ | 管理ドメイン-追加クラスタ | VIワークロードドメイン-デフォルトクラスタ | VIワークロードドメイン-追加クラスタ 
 
 
-| FC上のVMFS | *インポートツール* | * SDDC API * | はい。 | はい。 
+| FC上のVMFS | *インポートツール* | * SDDC API * | はい | はい 
 
 
 | iSCSI上のVMFS | NA | NA | NA | NA 
 
 
-| VVOLとFC | NA | NA | いいえ | はい。 
+| VVOLとFC | NA | NA | いいえ | はい 
 
 
-| iSCSIを使用するVVOL | NA | NA | いいえ | はい。 
+| iSCSIを使用するVVOL | NA | NA | いいえ | はい 
 |===
 * NA - VCFではサポートされていません。
 
 
-*管理ドメインとワークロードドメイン用の補助ストレージ*
-補助ストレージは、クラスタの作成後にいつでも管理ドメインまたはワークロードドメインに追加できるストレージタイプです。補助ストレージは、サポートされるストレージオプションの範囲が最も広く、すべてNetApp ASAアレイでサポートされます。ほとんどのストレージプロトコルタイプでは、ONTAP Tools for VMware vSphereを使用して補完的ストレージを導入できます。
+* Supplemental Storage for Management and Workload Domains * Supplemental Storageは、クラスタの作成後にいつでも管理ドメインまたはワークロードドメインに追加できるストレージタイプです。補助ストレージは、サポートされるストレージオプションの範囲が最も広く、すべてNetApp ASAアレイでサポートされます。ほとんどのストレージプロトコルタイプでは、ONTAP Tools for VMware vSphereを使用して補完的ストレージを導入できます。
 
 [cols="25% 25% 25% 25%"]
 |===
 | ストレージ タイプ | 管理ドメイン-デフォルトクラスタ | 管理ドメイン-追加クラスタ | VIワークロードドメイン 
 
 
-| FC上のVMFS | はい。 | はい。 | はい。 
+| FC上のVMFS | はい | はい | はい 
 
 
-| iSCSI上のVMFS | はい。 | はい。 | はい。 
+| iSCSI上のVMFS | はい | はい | はい 
 
 
-| VVOLとFC | はい。 | はい。 | はい。 
+| VVOLとFC | はい | はい | はい 
 
 
-| iSCSIを使用するVVOL | はい。 | はい。 | はい。 
+| iSCSIを使用するVVOL | はい | はい | はい 
 |===
-VMware Cloud Foundationに関するその他のドキュメントリソース：
-* link:https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["VMware Cloud Foundationのドキュメント"]
-* link:https://docs.vmware.com/en/VMware-Cloud-Foundation/5.1/vcf-design/GUID-2156EC66-BBBB-4197-91AD-660315385D2E.html["VMware Cloud Foundationでサポートされるストレージタイプ"]
-* link:https://docs.vmware.com/en/VMware-Cloud-Foundation/5.1/vcf-admin/GUID-2C4653EB-5654-45CB-B072-2C2E29CB6C89.html["VMware Cloud Foundationでのストレージの管理"]
-｛nbsp｝
+VMware Cloud Foundationに関するその他のドキュメントリソース：*link:https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["VMware Cloud Foundationのドキュメント"]*link:https://docs.vmware.com/en/VMware-Cloud-Foundation/5.1/vcf-design/GUID-2156EC66-BBBB-4197-91AD-660315385D2E.html["VMware Cloud Foundationでサポートされるストレージタイプ"]*link:https://docs.vmware.com/en/VMware-Cloud-Foundation/5.1/vcf-admin/GUID-2C4653EB-5654-45CB-B072-2C2E29CB6C89.html["VMware Cloud Foundationでのストレージの管理"]｛nbsp｝
 
 
 
@@ -137,8 +132,7 @@ CシリーズQLCフラッシュアレイは、大容量のユースケースを�
 
 image:vmware-asa-image2.png["幅= 800"]
 
-詳細については、 https://www.netapp.com/data-storage/all-flash-san-storage-array["NetApp ASAランディングページ"]。
-｛nbsp｝
+詳細については、を参照してください https://www.netapp.com/data-storage/all-flash-san-storage-array["NetApp ASAランディングページ"]。｛nbsp｝
 
 
 
@@ -148,16 +142,15 @@ ASAは、iSCSI、ファイバチャネル（FC）、Fibre Channel over Ethernet�
 
 * iSCSI *- NetApp ASAはiSCSIを強力にサポートし、IPネットワーク経由でストレージ・デバイスにブロック・レベルでアクセスできるようにします。iSCSIイニシエータとのシームレスな統合により、iSCSI LUNの効率的なプロビジョニングと管理が可能になります。マルチパス、CHAP認証、ALUAのサポートなど、ONTAPの高度な機能。
 
-iSCSI構成の設計ガイダンスについては、を参照してください。 https://docs.netapp.com/us-en/ontap/san-config/configure-iscsi-san-hosts-ha-pairs-reference.html["SAN構成のリファレンスドキュメント"]。
+iSCSI構成の設計ガイダンスについては、を参照して https://docs.netapp.com/us-en/ontap/san-config/configure-iscsi-san-hosts-ha-pairs-reference.html["SAN構成のリファレンスドキュメント"]ください。
 
 *ファイバ・チャネル*- NetApp ASAは'SAN（ストレージ・エリア・ネットワーク）で一般的に使用される高速ネットワーク・テクノロジーであるファイバ・チャネル（FC）を包括的にサポートしますONTAPはFCインフラとシームレスに統合されるため、ストレージデバイスへの信頼性と効率性に優れたブロックレベルアクセスが実現します。ゾーニング、マルチパス、ファブリックログイン（FLOGI）などの機能を使用して、FC環境でのパフォーマンスの最適化、セキュリティの強化、シームレスな接続の確保を実現します。
 
-ファイバチャネル構成の設計ガイダンスについては、を参照してください。 https://docs.netapp.com/us-en/ontap/san-config/fc-config-concept.html["SAN構成のリファレンスドキュメント"]。
+ファイバチャネル構成の設計ガイダンスについては、を参照してください https://docs.netapp.com/us-en/ontap/san-config/fc-config-concept.html["SAN構成のリファレンスドキュメント"]。
 
 * NVMe over Fabrics *- NetApp ONTAPおよびASAはNVMe over Fabricsをサポートします。NVMe/FCでは、Fibre Channelインフラ経由のNVMeストレージデバイスと、NVMe/TCP over Storage IPネットワークを使用できます。
 
-NVMeに関する設計ガイダンスについては、を参照してください。 https://docs.netapp.com/us-en/ontap/nvme/support-limitations.html["NVMeの構成、サポート、制限事項"]
-｛nbsp｝
+NVMeに関する設計ガイダンスについては、｛nbsp｝を参照してください https://docs.netapp.com/us-en/ontap/nvme/support-limitations.html["NVMeの構成、サポート、制限事項"]
 
 
 
@@ -169,8 +162,7 @@ NetAppオールフラッシュSANアレイでは、両方のコントローラ�
 
 アクティブ/アクティブパスでは、計画的テイクオーバーと計画外テイクオーバーの両方で、IO再開時間は2~3秒です。
 
-詳細については、を参照してください https://www.netapp.com/pdf.html?item=/media/85671-tr-4968.pdf["TR-4968『NetApp All-SAS Array–Data Availability and Integrity with the NetApp ASA』"]。
-｛nbsp｝
+詳細については、を参照してください https://www.netapp.com/pdf.html?item=/media/85671-tr-4968.pdf["TR-4968『NetApp All-SAS Array–Data Availability and Integrity with the NetApp ASA』"]。｛nbsp｝
 
 
 
@@ -184,8 +176,7 @@ NetAppでは、NetAppオールフラッシュSANアレイ独自のストレー�
 
 *ランサムウェアからのリカバリ保証：*ランサムウェア攻撃が発生した場合のデータリカバリが保証されます。
 
-を参照してください https://www.netapp.com/data-storage/all-flash-san-storage-array/["NetApp ASA製品ポータル"] を参照してください。
-｛nbsp｝
+詳細については、を参照してください https://www.netapp.com/data-storage/all-flash-san-storage-array/["NetApp ASA製品ポータル"]。｛nbsp｝
 
 
 
@@ -197,8 +188,7 @@ ONTAPツールを使用すると、ストレージシステムの一連の属性
 
 ONTAPツールには、ONTAPストレージシステム用の* VMware vSphere APIs for Storage Awareness（VASA）Provider *も含まれています。このツールを使用すると、VMware Virtual Volume（VVOL）データストアのプロビジョニング、ストレージ機能プロファイルの作成と使用、コンプライアンスの検証、パフォーマンスの監視を行うことができます。
 
-NetApp ONTAPツールの詳細については、 link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["VMware vSphere ドキュメント用の ONTAP ツール"] ページ
-｛nbsp｝
+NetApp ONTAPツールの詳細については、ページを参照してくださいlink:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["VMware vSphere ドキュメント用の ONTAP ツール"]。｛nbsp｝
 
 
 
@@ -218,11 +208,11 @@ SnapCenter Plug-in for VMware vSphereは、vSphere Clientと統合されたユ�
 
 SnapCenter Plug-inは、NetAppストレージアレイ上のハードウェアベースのスナップショットと連携して、仮想マシンの休止をオーケストレーションします。SnapMirrorテクノロジは、クラウドを含むセカンダリストレージシステムにバックアップのコピーをレプリケートするために使用されます。
 
-詳細については、を参照してください https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere["SnapCenter Plug-in for VMware vSphere のドキュメント"]。
+詳細については、を参照して https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere["SnapCenter Plug-in for VMware vSphereのドキュメント"]ください。
 
 BlueXPとの統合により、データのコピーをクラウド上のオブジェクトストレージに拡張する3-2-1ルールのバックアップ戦略が実現します。
 
-BlueXPを使用した3-2-1バックアップ戦略の詳細については、 link:../ehc/bxp-scv-hybrid-solution.html["3-2-1 SnapCenterプラグインとBlueXPによるVMのバックアップとリカバリによるVMwareのデータ保護"]。
+BlueXP  を使用した3-2-1バックアップ戦略の詳細については、を参照してくださいlink:../ehc/bxp-scv-hybrid-solution.html["3-2-1 SnapCenterプラグインとBlueXPによるVMのバックアップとリカバリによるVMwareのデータ保護"]。
 
 
 
@@ -232,9 +222,9 @@ BlueXPを使用した3-2-1バックアップ戦略の詳細については、 li
 
 このドキュメントで説明するシナリオは次のとおりです。
 
-* * ONTAPツールを使用して、VCF管理ドメインにiSCSIデータストアを導入します*。をクリックします link:vmware_vcf_asa_supp_mgmt_iscsi.html["*ここ*"] を参照してください。
-* * ONTAPツールを使用して、VVOL（iSCSI）データストアをVIワークロードドメインに導入します*。をクリックします link:vmware_vcf_asa_supp_wkld_vvols.html["*ここ*"] を参照してください。
-* * NVMe over TCPデータストアをVIワークロードドメインで使用するように設定します*。をクリックします link:vmware_vcf_asa_supp_wkld_nvme.html["*ここ*"] を参照してください。
+* * ONTAPツールを使用して、VCF管理ドメインにiSCSIデータストアを導入します*。をクリックlink:vmware_vcf_asa_supp_mgmt_iscsi.html["*ここ*"]して導入手順を表示します。
+* * ONTAPツールを使用して、VVOL（iSCSI）データストアをVIワークロードドメインに導入します*。をクリックlink:vmware_vcf_asa_supp_wkld_vvols.html["*ここ*"]して導入手順を表示します。
+* * NVMe over TCPデータストアをVIワークロードドメインで使用するように設定します*。をクリックlink:vmware_vcf_asa_supp_wkld_nvme.html["*ここ*"]して導入手順を表示します。
 * * SnapCenter Plug-in for VMware vSphereを導入して使用し、VIワークロードドメイン内のVMを保護およびリストアする*クリックすると導入手順が表示されます。link:vmware_vcf_asa_scv_wkld.html["*ここ*"]
 * *ストレッチクラスタとVMFSデータストアを管理ドメインで使用*クリックすると導入手順が表示されます。link:vmware_vcf_asa_mgmt_stretchcluster.html["*ここ*"]
 * *ストレッチクラスタとVMFSデータストアをVIワークロードドメインで使用*クリックすると導入手順が表示されます。link:vmware_vcf_asa_wkld_stretchcluster.html["*ここ*"]

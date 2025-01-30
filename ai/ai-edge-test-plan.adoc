@@ -14,33 +14,33 @@ summary: このドキュメントは、 MLPerf Inference v0.7 コード、 MLPer
 
 
 [role="lead"]
-このドキュメントは MLPerf 推論 v0.7 に準拠しています https://github.com/mlperf/inference_results_v0.7/tree/master/closed/Lenovo["コード"^]、 MLPerf Inference v1.1 https://github.com/mlcommons/inference_results_v1.1/tree/main/closed/Lenovo["コード"^]および https://github.com/mlcommons/inference_policies/blob/master/inference_rules.adoc["ルール"^]。次の表に示すように、エッジでの推論向けに設計された MLPerf ベンチマークを実行しました。
+このドキュメントは、MLPerf Inference v0.7、MLPerf Inference v1.1 https://github.com/mlcommons/inference_results_v1.1/tree/main/closed/Lenovo["コード"^]、およびの https://github.com/mlcommons/inference_policies/blob/master/inference_rules.adoc["ルール"^]あとに続きます https://github.com/mlperf/inference_results_v0.7/tree/master/closed/Lenovo["コード"^]。次の表に示すように、エッジでの推論向けに設計された MLPerf ベンチマークを実行しました。
 
 |===
-| 面積（ Area ） | タスク | モデル | データセット | QSL サイズ | 品質 | マルチストリーム遅延制約 
+| 面積 | タスク | モデル | データセット | QSLサイズ | 品質 | マルチストリーム遅延制約 
 
 
-| ビジョン | 画像分類 | Resnet50v1.5 | ImageNet (224x224) | 1024 | FP32 の 99% | 50 ミリ秒 
+| ビジョン | 画像分類 | Resnet50v1.5 | ImageNet (224x224) | 1024 | FP32 の 99% | 50ミリ秒 
 
 
-| ビジョン | 物体検出（大） | SSD リネット 34 | ココ (1200x1200) | 64 | FP32 の 99% | 66 ミリ秒 
+| ビジョン | 物体検出（大） | SSD リネット 34 | Coco（1200x1200） | 64 | FP32 の 99% | 66ミリ秒 
 
 
-| ビジョン | 物体検出（小） | ssd - MobileNetsv1 を参照してください | ココ (300 x 300) | 256 | FP32 の 99% | 50 ミリ秒 
+| ビジョン | 物体検出（小） | ssd - MobileNetsv1 を参照してください | ココ (300 x 300) | 256 | FP32 の 99% | 50ミリ秒 
 
 
-| ビジョン | 医療画像のセグメンテーション | 3D UNET | 2019 年 BRT （ 224x224x160 ） | 16 | FP32 の 99% および 99.9% | 該当なし 
+| ビジョン | 医療画像のセグメンテーション | 3D UNET | 2019 年 BRT （ 224x224x160 ） | 16 | FP32 の 99% および 99.9% | N/A 
 
 
-| スピーチ | 音声テキスト | RNNT | ライブラリキーテック開発 - クリーン | 2513 | FP32 の 99% | 該当なし 
+| スピーチ | 音声テキスト | RNNT | ライブラリキーテック開発 - クリーン | 2513 | FP32 の 99% | N/A 
 
 
-| 言語 | 言語処理 | BERT | 分隊 v1.1 | 10833 | FP32 の 99% | 該当なし 
+| 言語 | 言語処理 | BERT | 分隊 v1.1 | 10833 | FP32 の 99% | N/A 
 |===
 次の表に、 Edge ベンチマークのシナリオを示します。
 
 |===
-| 面積（ Area ） | タスク | シナリオ 
+| 面積 | タスク | シナリオ 
 
 
 | ビジョン | 画像分類 | シングルストリーム、オフライン、マルチストリーム 

@@ -32,13 +32,13 @@ summary: データはNFSで利用でき、AWS SageMakerからS3からアクセ�
 | ソフトウェア | 数量 
 
 
-| BlueXP | 1. 
+| BlueXP | 1 
 
 
-| NetApp Cloud Volumes ONTAP の略 | 1. 
+| NetApp Cloud Volumes ONTAP の略 | 1 
 
 
-| AWS SageMaker Notebook | 1. 
+| AWS SageMaker Notebook | 1 
 |===
 
 
@@ -60,7 +60,7 @@ data-duality解決策 を導入するには、次のタスクを実行します�
 この検証ではAWSを使用しました。AzureやGoogle Cloudにも対応しています。AWSでBlueXPコネクタを作成するには、次の手順を実行します。
 
 . BlueXPでは、mcarl-marketplace-subscriptionに基づくクレデンシャルを使用しました。
-. 環境に適したリージョンを選択します（例：us-east-1 [N.[Virginia]）をクリックし、認証方法を選択します（例：[Assume Role]や[AWS Keys]）。この検証では、AWSキーを使用します。
+. 環境に適したリージョン（us-east-1 [N.Virginia]など）を選択し、認証方法（[Assume Role]や[AWS Keys]など）を選択します。この検証では、AWSキーを使用します。
 . コネクタの名前を指定し、ロールを作成します。
 . パブリックIPが必要かどうかに応じて、VPC、サブネット、キーペアなどのネットワークの詳細を指定します。
 . セキュリティグループの詳細（任意の場所やIP範囲の情報など、ソースタイプからのHTTP、HTTPS、SSHアクセスなど）を指定します。
@@ -76,17 +76,17 @@ data-duality解決策 を導入するには、次のタスクを実行します�
 BlueXPでCloud Volumes ONTAP インスタンスを作成するには、次の手順を実行します。
 
 . 新しい作業環境を作成し、クラウドプロバイダを選択して、Cloud Volumes ONTAPインスタンスのタイプ（シングルCVO、HA、Amazon FSx ONTAP for ONTAPなど）を選択します。
-. Cloud Volumes ONTAP クラスタ名やクレデンシャルなどの詳細を入力します。この検証では、というCloud Volumes ONTAP インスタンスを作成しました `svm_sagemaker_cvo_sn1`。
+. Cloud Volumes ONTAP クラスタ名やクレデンシャルなどの詳細を入力します。この検証では、というCloud Volumes ONTAPインスタンスを作成しまし `svm_sagemaker_cvo_sn1`た。
 . Cloud Volumes ONTAP に必要なサービスを選択します。この検証では監視のみを選択したため、* Data Sense & Compliance *と* Backup to Cloud Services *を無効にしました。
 . [Location & Connectivity]*セクションで、AWSリージョン、VPC、サブネット、セキュリティグループ、SSH認証方式を選択します。 パスワードまたはキーペアのいずれかです。
 . 充電方法を選択します。この検証には* Professional *を使用しました。
 . POCとSmall Workloads *、Database and Application Data Production Workloads *、Cost Effective DR *、Highest Performance Production Workloads *などの構成済みパッケージを選択できます。この検証では、* POCと小規模ワークロード*を選択しました。
-. 特定のサイズ、許可するプロトコル、およびエクスポートオプションを指定してボリュームを作成します。この検証では、というボリュームを作成しました `vol1`。
+. 特定のサイズ、許可するプロトコル、およびエクスポートオプションを指定してボリュームを作成します。この検証では、というボリュームを作成しまし `vol1`た。
 . プロファイルのディスクタイプと階層化ポリシーを選択します。この検証では、* Storage Efficiency *と*汎用SSD–動的パフォーマンス*を無効にしました。
 . 最後に、Cloud Volumes ONTAP インスタンスを確認して作成します。BlueXPでCloud Volumes ONTAP 作業環境が作成されるまで15~20分待ちます。
 . 二重プロトコルをイネーブルにするには、次のパラメータを設定します。デュアルプロトコル（NFS / S3）はONTAP 9からサポートされています。12.1以降。
 +
-.. この検証では、というSVMを作成しました `svm_sagemaker_cvo_sn1` およびvolumeです `vol1`。
+.. この検証では、と `vol1`という名前のSVMを作成しまし `svm_sagemaker_cvo_sn1`た。
 .. SVMのプロトコルでNFSとS3がサポートされていることを確認します。サポートされていない場合は、サポートするようにSVMを変更します。
 +
 ....
@@ -519,7 +519,7 @@ ERROR: pip's dependency resolver does not currently take into account all t he p
 awscli 1.27.44 requires botocore==1.29.44, but you have botocore 1.29.72 wh ich is incompatible.
 aiobotocore 2.0.1 requires botocore<1.22.9,>=1.22.8, but you have botocore 1.29.72 which is incompatible. Successfully installed boto3-1.26.72 botocore-1.29.72 sagemaker-2.132.0 Note: you may need to restart the kernel to use updated packages.
 ....
-. 次の手順では、データを使用します (`dbpedia_csv`）はs3バケットからダウンロードされます `ontapbucket1` 機械学習で使用されるJupyter Notebookインスタンスにコピーします。
+. 次の手順では(`dbpedia_csv`、データ）がs3バケットから機械学習で使用されるJupyter Notebookインスタンスにダウンロードされます `ontapbucket1`。
 +
 ....
 In [2]: import sagemaker
@@ -558,7 +558,7 @@ with open("dbpedia_csv/classes.txt") as f:
         index_to_label[str(i + 1)] = label.strip()
 ....
 +
-出力には、内のファイルとフォルダが一覧表示されます `ontapbucket1` AWS SageMaker機械学習検証のデータとして使用されるバケット。
+出力には、AWS SageMaker機械学習検証のデータとして使用されるバケット内のファイルとフォルダが一覧表示され `ontapbucket1`ます。
 
 +
 ....
@@ -578,7 +578,7 @@ total 191344
 -rw-rw-r-- 1 ec2-user ec2-user  21775285 Feb 16 19:43 test.csv
 -rw-rw-r-- 1 ec2-user ec2-user 174148970 Feb 16 19:43 train.csv
 ....
-. データ前処理フェーズを開始して、トレーニングデータをスペース区切りのトークン化されたテキスト形式に前処理します。この形式は、BlazingTextアルゴリズムとnltkライブラリによって使用され、DBPediaデータセットから入力文をトークン化します。nltkトークナイザーおよびその他のライブラリをダウンロードします。。 `transform_instance` 並列で各データインスタンスに適用するには、Pythonマルチプロセッシングモジュールを使用します。
+. データ前処理フェーズを開始して、トレーニングデータをスペース区切りのトークン化されたテキスト形式に前処理します。この形式は、BlazingTextアルゴリズムとnltkライブラリによって使用され、DBPediaデータセットから入力文をトークン化します。nltkトークナイザーおよびその他のライブラリをダウンロードします。並列で各データインスタンスに適用されるは、 `transform_instance`Pythonマルチプロセッシングモジュールを使用します。
 +
 ....
 ln [7]: from random import shuffle
@@ -652,7 +652,7 @@ s3_validation_data = "s3://{}/{}".format(bucket, validation_channel)
 CPU times: user 546 ms, sys: 163 ms, total: 709 ms
 Wall time: 1.32 s
 ....
-. アーティファクトがアルゴリズムのトレーニングジョブの出力になるように、モデルアーティファクトがロードされるS3に出力場所を設定します。を作成します `sageMaker.estimator.Estimator` トレーニングジョブを起動するオブジェクト。
+. アーティファクトがアルゴリズムのトレーニングジョブの出力になるように、モデルアーティファクトがロードされるS3に出力場所を設定します。トレーニングジョブを起動するオブジェクトを作成し `sageMaker.estimator.Estimator`ます。
 +
 ....
 In [9]: s3_output_location = "s3://{}/{}/output".format(bucket, prefix)
@@ -670,7 +670,7 @@ See: https://sagemaker.readthedocs.io/en/stable/v2.html for details.
 Defaulting to the only supported framework/algorithm version: 1. Ignoring f ramework/algorithm version: latest.
 Using SageMaker BlazingText container: 811284229777.dkr.ecr.us-east-1.amazo naws.com/blazingtext:1 (us-east-1)
 ....
-. SageMakerを定義します `Estrimator` リソース構成とハイパーパラメータを使用して、c4.4xlargeインスタンスの監視モードを使用してDBPediaデータセットでテキスト分類をトレーニングします。
+. リソース構成とハイパーパラメータを使用してSageMakerを定義し `Estrimator`、c4.4xlargeインスタンスの監視モードを使用してDBPediaデータセットのテキスト分類をトレーニングします。
 +
 ....
 In [12]: bt_model = sagemaker.estimator.Estimator(
@@ -695,7 +695,7 @@ hyperparameters={
  },
      )
 ....
-. データチャネルとアルゴリズム間のハンドシェイクを準備します。これを行うには、を作成します `sagemaker.session.s3_input` データチャネルからオブジェクトを取得し、アルゴリズムが使用するためにディクショナリに保持します。
+. データチャネルとアルゴリズム間のハンドシェイクを準備します。これを行うには、データチャネルからオブジェクトを作成し `sagemaker.session.s3_input`、アルゴリズムが使用するディクショナリに保持します。
 +
 ....
 ln [13]: train_data = sagemaker.inputs.TrainingInput(
@@ -712,7 +712,7 @@ validation_data = sagemaker.inputs.TrainingInput(
 )
 data_channels = {"train": train_data, "validation": validation_data}
 ....
-. ジョブが完了すると、[Job Complete]メッセージが表示されます。トレーニング済みモデルは、としてセットアップされたS3バケットにあります `output_path` 推定量の中で。
+. ジョブが完了すると、[Job Complete]メッセージが表示されます。トレーニング済みモデルは、試算ツールでとして設定されたS3バケットにあり `output_path`ます。
 +
 ....
 ln [14]: bt_model.fit(inputs=data_channels, logs=True)
@@ -805,7 +805,7 @@ print(json.dumps(predictions, indent=2))
   }
 ]
 ....
-. デフォルトでは、モデルは最も高い確率で1つの予測を返します。上部を取得します `k` 予測、設定 `k` を設定ファイルに保存します。
+. デフォルトでは、モデルは最も高い確率で1つの予測を返します。上位の予測を取得するには `k`、構成ファイルでを設定し `k`ます。
 +
 ....
 In [17]: payload = {"instances": tokenized_sentences, "configuration": {"k": 2}}

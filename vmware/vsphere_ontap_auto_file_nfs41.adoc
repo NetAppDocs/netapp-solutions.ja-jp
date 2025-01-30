@@ -24,7 +24,7 @@ summary: このページでは、 NetApp ONTAP NFS バージョン 4 のデー�
 * ONTAP ストレージシステム（ FAS / AFF / CVO / ONTAP Select / クラウドボリュームサービス / Azure ネットアップファイル） ｛ ONTAP_version ｝ を実行しています
 * ONTAP クレデンシャル（ SVM 名、ユーザ ID 、パスワード）
 * NFS の ONTAP ネットワークポート、 SVM 、および LUN の情報
-* link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-nfs-vaai/GUID-BBD301EF-496A-4974-B205-5F878E44BF59.html++["完了した NFS 設定ワークシート"]
+* link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-nfs-vaai/GUID-BBD301EF-496A-4974-B205-5F878E44BF59.html++["記入済みの NFS 構成ワークシート"]
 * vCenter Server クレデンシャル
 * vSphere ホスト情報 ｛ vsphere_version ｝
 * NFS VMkernel アダプタの IP 情報
@@ -42,7 +42,7 @@ summary: このページでは、 NetApp ONTAP NFS バージョン 4 のデー�
 
 == 手順
 
-* との互換性を確認します https://mysupport.netapp.com/matrix["Interoperability Matrix Tool （ IMT ）"]
+* との互換性を確認します。 https://mysupport.netapp.com/matrix["Interoperability Matrix Tool （ IMT ）"]
 +
 ** link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-nfs-vaai/GUID-DA231492-F8D1-4E1B-A634-79BA906ECE76.html++["NFS 構成がサポートされていることを確認します。"]
 
@@ -54,10 +54,10 @@ summary: このページでは、 NetApp ONTAP NFS バージョン 4 のデー�
 
 == ONTAP タスク
 
-. link:https://docs.netapp.com/us-en/ontap-cli-98/system-license-show.html["NFS の ONTAP ライセンスを確認"]
+. link:https://docs.netapp.com/us-en/ontap-cli-98/system-license-show.html["NFS の ONTAP ライセンスを確認します"]
 +
-.. 「 system license show 」コマンドを使用して、 NFS がリストされているかどうかを確認します。
-.. ライセンスを追加するには 'license add-license-code <license code> を使用します
+.. コマンドを使用し `system license show`て、NFSが表示されるかどうかを確認します。
+.. ライセンスを追加する場合に使用し `license add -license-code <license code>`ます。
 
 
 . link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.pow-nfs-cg/GUID-6D7A1BB1-C672-46EF-B3DC-08EBFDCE1CD5.html++["NFS の設定ワークフローに従います"]

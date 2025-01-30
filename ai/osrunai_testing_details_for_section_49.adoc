@@ -14,18 +14,18 @@ summary:
 
 
 [role="lead"]
-ここでは、のテストについて詳しく説明します link:osrunai_basic_resource_allocation_fairness.html["基本的な資源配分フェアネス"]。
+ここでは、セクションのテストの詳細について説明しlink:osrunai_basic_resource_allocation_fairness.html["基本的な資源配分フェアネス"]ます。
 
 次の順序でジョブを送信します。
 
 |===
-| プロジェクト | GPU の数 | 合計 | コメント（ Comment ） 
+| プロジェクト | GPU の数 | 合計 | コメント 
 
 
-| チーム -d | 2. | 6 月 8 日 | team -b/c ワークロードが一時停止し、「 pending 」に移動します。 
+| チーム -d | 2 | 6/8 | team-b/cワークロードが一時停止し、に移動し `pending`ます。 
 
 
-| チーム -d | 2. | 8 月 8 日 | 他のチーム (b/c) のワークロードは一時停止し、「保留中」に移動します。 
+| チーム -d | 2 | 8/8 | 他のチーム（b/c）ワークロードは一時停止してに移動し `pending`ます。 
 |===
 実行される次のコマンドシーケンスを参照してください。
 
@@ -38,15 +38,15 @@ $ runai submit d-2-gg -i gcr.io/run-ai-demo/quickstart -g 2 -p team-d$ runai sub
 | プロジェクト | GPU が割り当てられました | ワークロードキュー 
 
 
-| チーム A | 4 月 4 日 | なし 
+| チーム A | 4/4 | なし 
 
 
-| チーム - b | 2/2. | なし 
+| チーム - b | 2/2 | なし 
 
 
-| チーム -c | 2/2. | なし 
+| チーム -c | 2/2 | なし 
 
 
-| チーム -d | 8 月 8 日 | なし 
+| チーム -d | 8/8 | なし 
 |===
-を参照してください link:osrunai_basic_resource_allocation_fairness.html["基本的な資源配分フェアネス"] を参照してください。
+進行中のテストシナリオについては、の項を参照してくださいlink:osrunai_basic_resource_allocation_fairness.html["基本的な資源配分フェアネス"]。

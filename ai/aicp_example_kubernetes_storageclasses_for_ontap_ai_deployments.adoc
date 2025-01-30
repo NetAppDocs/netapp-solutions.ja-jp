@@ -18,13 +18,13 @@ Trident を使用して Kubernetes クラスタ内のストレージリソース
 
 . NetAppではlink:aicp_example_trident_backends_for_ontap_ai_deployments.html["NetApp AIPod導入のTridentバックエンドの例"]、手順1で作成したFlexGroup対応Tridentバックエンド用にストレージクラスを作成することを推奨しています。以降のコマンド例では、セクションで作成した2つのバックエンドlink:aicp_example_trident_backends_for_ontap_ai_deployments.html["NetApp AIPod導入のTridentバックエンドの例"]（手順1）で使用するバックエンドと使用しlink:https://docs.netapp.com/us-en/ontap/nfs-rdma/["RDMA経由のNFS"]ないバックエンドに対応する複数のStorageClassesを作成する方法を示します。
 +
-対応する PersistentVolumeClaim （ PVC ）が削除されたときに永続ボリュームが削除されないようにするため、次の例では「 Retain 」の「 ReclaimPolicy 」の値を使用しています。「 ReclaimPolicy 」フィールドの詳細については、公式を参照してください https://kubernetes.io/docs/concepts/storage/storage-classes/["Kubernetes のドキュメント"^]。
+次の例では、対応するPersistentVolumeClaim（PVC）が削除されても永続ボリュームが削除されないようにするために、の値を `Retain`使用します。 `reclaimPolicy`フィールドの詳細については `reclaimPolicy`、公式を参照してください https://kubernetes.io/docs/concepts/storage/storage-classes/["Kubernetes のドキュメント"^]。
 
 +
-注：次の例のStorageClassesで使用される最大転送サイズは262144です。この最大転送サイズを使用するには、それに応じてONTAPシステムの最大転送サイズを設定する必要があります。詳細については、を参照して link:https://docs.netapp.com/us-en/ontap/nfs-admin/nfsv3-nfsv4-performance-tcp-transfer-size-concept.html["ONTAP のドキュメント"^] ください。
+注：次の例のStorageClassesで使用される最大転送サイズは262144です。この最大転送サイズを使用するには、それに応じてONTAPシステムの最大転送サイズを設定する必要があります。詳細については、を参照して link:https://docs.netapp.com/us-en/ontap/nfs-admin/nfsv3-nfsv4-performance-tcp-transfer-size-concept.html["ONTAPのドキュメント"^] ください。
 
 +
-注：RDMA経由のNFSを使用するには、ONTAPシステムでRDMA経由のNFSを設定する必要があります。詳細については、を参照して link:https://docs.netapp.com/us-en/ontap/nfs-rdma/["ONTAP のドキュメント"^] ください。
+注：RDMA経由のNFSを使用するには、ONTAPシステムでRDMA経由のNFSを設定する必要があります。詳細については、を参照して link:https://docs.netapp.com/us-en/ontap/nfs-rdma/["ONTAPのドキュメント"^] ください。
 
 +
 注：次の例では、StorageClass定義ファイルのStoragePoolフィールドに特定のバックエンドが指定されていません。
@@ -66,7 +66,7 @@ aipod-flexgroups-retain-rdma     csi.trident.netapp.io   0m
 ....
 . NetAppではlink:aicp_example_trident_backends_for_ontap_ai_deployments.html["AIPod配置用のTridentバックエンドの例"]、手順2で作成したFlexVol対応Tridentバックエンドに対応するStorageClassを作成することも推奨しています。以下のコマンド例は、 FlexVol ボリューム用の単一のストレージクラスの作成を示しています。
 +
-注：次の例では、StorageClass定義ファイルのStoragePoolフィールドに特定のバックエンドが指定されていません。Kubernetesを使用してこのStorageClassを使用するボリュームを管理すると、Tridentは、 `ontap-nas` ドライバ。
+注：次の例では、StorageClass定義ファイルのStoragePoolフィールドに特定のバックエンドが指定されていません。Kubernetesを使用してこのStorageClassを使用するボリュームを管理する場合、Tridentはドライバを使用する使用可能なバックエンドを使用しようとし `ontap-nas`ます。
 
 +
 ....

@@ -41,13 +41,13 @@ NetAppボリュームとDominoを併用すると、次のようなメリット�
 
 NOTE: オンプレミスボリュームの場合は、オンプレミスのKubernetesクラスタにPVとPVCを作成します。Amazon FSx ONTAPボリュームの場合は、Amazon EKSでPVとPVCを作成します。
 
-まず、Kubernetesクラスタに永続ボリューム（PV）と永続ボリューム要求（PVC）を作成する必要があります。PVおよびPVCを作成するには、 link:https://docs.dominodatalab.com/en/latest/admin_guide/4cdae9/set-up-kubernetes-pv-and-pvc/#_nfs_pvpvc_example["NFS PV/PVCの例"] Domino管理者ガイドから、環境に合わせて値を更新します。の正しい値を指定してください `namespace`、 `nfs.path`および `nfs.server` フィールド。また、PVとPVCには、対応するONTAP NFSボリュームに格納されているデータの性質を表す一意の名前を付けることを推奨します。たとえば、ボリュームに製造上の欠陥の画像が含まれている場合は、PVという名前を付けることができます。 `pv-mfg-defect-images`およびPVC `pvc-mfg-defect-images`。
+まず、Kubernetesクラスタに永続ボリューム（PV）と永続ボリューム要求（PVC）を作成する必要があります。PVとPVCを作成するには、Domino管理者ガイドのを使用してlink:https://docs.dominodatalab.com/en/latest/admin_guide/4cdae9/set-up-kubernetes-pv-and-pvc/#_nfs_pvpvc_example["NFS PV/PVCの例"]、環境に合わせて値を更新します。、 `nfs.path`、および `nfs.server`の各フィールドに正しい値を指定して `namespace`ください。また、PVとPVCには、対応するONTAP NFSボリュームに格納されているデータの性質を表す一意の名前を付けることを推奨します。たとえば、ボリュームに製造上の欠陥のイメージが含まれている場合は、PV、およびPVC `pvc-mfg-defect-images`に名前を付けることができます `pv-mfg-defect-images`。
 
 
 
 === Dominoへの外部データボリュームの登録
 
-次に、Dominoに外部データボリュームを登録する必要があります。外部データボリュームを登録するには、 link:https://docs.dominodatalab.com/en/latest/admin_guide/9c3564/register-external-data-volumes/["手順"] Domino管理者ガイドを参照してください。ボリュームを登録するときは、[ボリュームタイプ]ドロップダウンメニューから[NFS]を選択してください。[NFS]を選択すると、[Available Volumes]リストにPVCが表示されます。
+次に、Dominoに外部データボリュームを登録する必要があります。外部データボリュームを登録するには、Domino管理者ガイドのを参照してくださいlink:https://docs.dominodatalab.com/en/latest/admin_guide/9c3564/register-external-data-volumes/["手順"]。ボリュームを登録するときは、[ボリュームタイプ]ドロップダウンメニューから[NFS]を選択してください。[NFS]を選択すると、[Available Volumes]リストにPVCが表示されます。
 
 image:ddlnexus_image3.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
@@ -70,4 +70,4 @@ image:ddlnexus_image3.png["入力/出力ダイアログを示す図、または�
 
 === Dominoへの外部データボリュームの登録
 
-次に、Dominoに外部データボリュームを登録する必要があります。外部データボリュームを登録するには、 link:https://docs.dominodatalab.com/en/latest/admin_guide/9c3564/register-external-data-volumes/["手順"] Domino管理者ガイドを参照してください。ボリュームを登録する際は、必ず「ボリュームタイプ」ドロップダウンメニューから「汎用」を選択してください。[Generic]を選択すると、[Available Volumes]リストにPVCが表示されます。
+次に、Dominoに外部データボリュームを登録する必要があります。外部データボリュームを登録するには、Domino管理者ガイドのを参照してくださいlink:https://docs.dominodatalab.com/en/latest/admin_guide/9c3564/register-external-data-volumes/["手順"]。ボリュームを登録する際は、必ず「ボリュームタイプ」ドロップダウンメニューから「汎用」を選択してください。[Generic]を選択すると、[Available Volumes]リストにPVCが表示されます。

@@ -48,10 +48,10 @@ summary:
 * 保護対象のクラスタSCVに仮想マシンが存在する。
 
 
-iSCSI VMFSデータストアを補助ストレージとして構成する方法については、を参照してください。 link:vmware_vcf_asa_supp_mgmt_iscsi.html["*管理ドメイン用の補助ストレージとしてのiSCSI *"] を参照してください。OTVを使用してデータストアを導入するプロセスは、管理ドメインとワークロードドメインで同じです。
+iSCSI VMFSデータストアを補助ストレージとして構成する方法については、このドキュメントのを参照してくださいlink:vmware_vcf_asa_supp_mgmt_iscsi.html["*管理ドメイン用の補助ストレージとしてのiSCSI *"]。OTVを使用してデータストアを導入するプロセスは、管理ドメインとワークロードドメインで同じです。
 
 
-TIP: SCVで作成されたバックアップをセカンダリストレージにレプリケートすることに加えて、VMのNetApp BlueXPバックアップ/リカバリを使用して、大手3社のクラウドプロバイダのいずれかのオブジェクトストレージにデータのオフサイトコピーを作成できます。詳細については、『解決策』を参照してください。 link:../ehc/bxp-scv-hybrid-solution.html["3-2-1 SnapCenterプラグインとBlueXPによるVMのバックアップとリカバリによるVMwareのデータ保護"]。
+TIP: SCVで作成されたバックアップをセカンダリストレージにレプリケートすることに加えて、VMのNetApp BlueXPバックアップ/リカバリを使用して、大手3社のクラウドプロバイダのいずれかのオブジェクトストレージにデータのオフサイトコピーを作成できます。詳細については、ソリューションを参照してlink:../ehc/bxp-scv-hybrid-solution.html["3-2-1 SnapCenterプラグインとBlueXPによるVMのバックアップとリカバリによるVMwareのデータ保護"]ください。
 
 image:vmware-vcf-asa-image108.png["3-2-1バックアップ戦略"]
 
@@ -74,7 +74,7 @@ SnapCenter Plug-inはVCF管理ドメインでホストされますが、VIワー
 
 vCenterクライアントで次の手順を実行して、SCVをVIワークロードドメインに導入します。
 
-. NetApp Support Siteのダウンロード領域からSCV導入用のOVAファイルをダウンロードします。 link:https://mysupport.netapp.com/site/products/all/details/scv/downloads-tab["*ここ*"]。
+. NetAppサポートサイトのダウンロード領域から、SCV導入用のOVAファイルをダウンロードしますlink:https://mysupport.netapp.com/site/products/all/details/scv/downloads-tab["*ここ*"]。
 . 管理ドメインの[vCenter Client]で、*[Deploy OVF Template...]*を選択します。
 +
 image:vmware-vcf-asa-image46.png["OVFテンプレートの導入..."]
@@ -174,7 +174,7 @@ image:vmware-vcf-asa-image56.png["ストレージシステムのクレデンシ�
 .SCVでのバックアップポリシーの設定
 [%collapsible]
 ====
-SCVバックアップポリシーの作成の詳細については、を参照してください。 link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_create_backup_policies_for_vms_and_datastores.html["VM とデータストアのバックアップポリシーの作成"]。
+SCVバックアップポリシーの作成の詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_create_backup_policies_for_vms_and_datastores.html["VMとデータストアのバックアップポリシーの作成"]。
 
 新しいバックアップポリシーを作成するには、次の手順を実行します。
 
@@ -208,7 +208,7 @@ image:vmware-vcf-asa-image58.png["ポリシーの詳細を入力"]
 .SCVでのリソースグループの作成
 [%collapsible]
 ====
-SCVリソースグループの作成の詳細については、を参照してください。 link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_create_resource_groups_for_vms_and_datastores.html["リソースグループを作成する"]。
+SCVリソースグループの作成の詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_create_resource_groups_for_vms_and_datastores.html["リソースグループの作成"]。
 
 新しいリソースグループを作成するには、次の手順を実行します。
 
@@ -238,7 +238,7 @@ image:vmware-vcf-asa-image61.png["[スパニングデータストア]オプシ�
 +
 ｛nbsp｝
 
-. [ポリシー]*ページで、以前に作成したポリシーを1つ以上選択し、このリソースグループで使用します。  [次へ]*をクリックして続行します。
+. [ポリシー]*ページで、以前に作成したポリシーを1つ以上選択し、このリソースグループで使用します。[次へ]*をクリックして続行します。
 +
 image:vmware-vcf-asa-image62.png["ポリシーの選択"]
 
@@ -296,7 +296,7 @@ VM、VMDK、または個 々 のフォルダをリストアするには、次の
 ====
 SCVを使用してVMをリストアするには、次の手順を実行します。
 
-. vSphere ClientでリストアするVMに移動し、右クリックして* SnapCenter Plug-in for VMware vSphere *に移動します。  サブメニューから*[リストア]*を選択します。
+. vSphere ClientでリストアするVMに移動し、右クリックして* SnapCenter Plug-in for VMware vSphere *に移動します。サブメニューから*[リストア]*を選択します。
 +
 image:vmware-vcf-asa-image67.png["VMをリストアする場合に選択"]
 
@@ -403,7 +403,7 @@ image:vmware-vcf-asa-image83.png["Windowsフアイルシステムヘノアクセ
 ====
 ONTAPツールには、WindowsサーバOS上のVMDKからのゲストファイルシステムのリストア機能があります。これは、SnapCenterプラグインインターフェイスから一元的に実行されます。
 
-詳細については、を参照してください。 link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_restore_guest_files_and_folders_overview.html["ゲストファイルとフォルダをリストアします"] SCVドキュメントサイト
+詳細については、SCVのドキュメントサイトにあるを参照してくださいlink:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_restore_guest_files_and_folders_overview.html["ゲストファイルとフォルダのリストア"]。
 
 Windowsシステムでゲストファイルシステムのリストアを実行するには、次の手順を実行します。
 
@@ -474,8 +474,8 @@ image:vmware-vcf-asa-image92.png["ゲストファイル参照2"]
 
 == 追加情報
 
-VCFの設定については、を参照してください。 https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["VMware Cloud Foundationのドキュメント"]。
+VCFの設定については、を参照してください https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["VMware Cloud Foundationのドキュメント"]。
 
-ONTAPストレージシステムの構成については、 https://docs.netapp.com/us-en/ontap["ONTAP 9ドキュメント"] 中央（Center）：
+ONTAPストレージシステムの構成については、センターを参照して https://docs.netapp.com/us-en/ontap["ONTAP 9ドキュメント"]ください。
 
-SnapCenter Plug-in for VMware vSphereの使用方法については、を参照してください。 https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/["SnapCenter Plug-in for VMware vSphere のドキュメント"]。
+SnapCenter Plug-in for VMware vSphereの使用方法については、を参照して https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/["SnapCenter Plug-in for VMware vSphereのドキュメント"]ください。

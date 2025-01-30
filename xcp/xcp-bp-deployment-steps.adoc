@@ -26,7 +26,7 @@ summary: このセクションでは、 NetApp XCP でのデータ転送の導�
 | 解決策コンポーネント | 詳細 
 
 
-| XCP バージョン 1.7  a| 
+| XCPバージョン1.7  a| 
 * Linux サーバ × 1 - Linux （ RHEL 7.9 または RHEL 8 ）
 * Windows サーバ × 1 – Windows Server 2019 標準
 
@@ -35,16 +35,16 @@ summary: このセクションでは、 NetApp XCP でのデータ転送の導�
 
 | ソースボリュームの NetApp AFF ストレージアレイ HA ペア  a| 
 * AFF8080
-* NetApp ONTAP 9.
-* NFS プロトコル
+* NetApp ONTAP 9
+* NFSプロトコル
 
 
 
 
 | デスティネーションボリューム用の NetApp AFF ストレージアレイ HA ペア  a| 
-* AFF A800
+* AFF A800用
 * ONTAP 9
-* NFS プロトコル
+* NFSプロトコル
 
 
 
@@ -52,16 +52,16 @@ summary: このセクションでは、 NetApp XCP でのデータ転送の導�
 | Fujitsu PRIMERGY RX2540 サーバ | 各装置には、 *48 CPU * Intel Xeon * 256GB 物理メモリ * 10GbE デュアルポートが搭載されています 
 
 
-| ネットワーキング | 10GbE 
+| ネットワーク | 10GbE 
 |===
 
 
 == 導入手順 - NAS
 
-データ転送用に NetApp XCP を導入するには、まず移行先で XCP ソフトウェアをインストールしてアクティブ化します。詳細については、を参照してください https://mysupport.netapp.com/documentation/productlibrary/index.html?productID=63064["NetApp XCP ユーザガイド"^]。これには、次の手順を実行します。
+データ転送用に NetApp XCP を導入するには、まず移行先で XCP ソフトウェアをインストールしてアクティブ化します。で詳細を確認できます https://mysupport.netapp.com/documentation/productlibrary/index.html?productID=63064["NetApp XCP ユーザガイド"^]。これには、次の手順を実行します。
 
-. のセクションで説明した前提条件を満たしていること link:xcp-bp-netapp-xcp-overview.html#prerequisites-for-xcp["「 XCP の前提条件」"]
-. から XCP ソフトウェアをダウンロードします https://mysupport.netapp.com/site/products/all/details/netapp-xcp/downloads-tab["NetApp XCP （ダウンロード）ページ"^]。
+. セクションに記載されている前提条件を満たしていることlink:xcp-bp-netapp-xcp-overview.html#prerequisites-for-xcp["「 XCP の前提条件」"]
+. からXCPソフトウェアをダウンロードし https://mysupport.netapp.com/site/products/all/details/netapp-xcp/downloads-tab["NetApp XCP （ダウンロード）ページ"^]ます。
 . ダウンロードした XCP tar ファイルを XCP サーバにコピーします。
 +
 ....
@@ -72,7 +72,7 @@ summary: このセクションでは、 NetApp XCP でのデータ転送の導�
 ....
 [root@mastr-53 src]# tar -zxvf NETAPP_XCP_1.6.1.tgz
 ....
-. からライセンスをダウンロードします https://xcp.netapp.com/license/xcp.xwic%20["https://xcp.netapp.com/license/xcp.xwic"^] XCP サーバにコピーします。
+. ライセンスをXCPサーバからダウンロードし https://xcp.netapp.com/license/xcp.xwic%20["https://xcp.netapp.com/license/xcp.xwic"^]、XCPサーバにコピーします。
 . ライセンスをアクティブ化します。
 +
 ....
@@ -81,7 +81,7 @@ summary: このセクションでは、 NetApp XCP でのデータ転送の導�
 [root@mastr-53 src]# cd /usr/src/xcp/linux/
 [root@mastr-53 linux]# ./xcp activate
 ....
-. ソース NFS ポートとデスティネーション NFS サーバを特定します。デフォルトのポートは 2049. です。
+. ソース NFS ポートとデスティネーション NFS サーバを特定します。デフォルトのポートは2049です。
 +
 ....
 [root@mastr-53 ~]# rpcinfo -p 10.63.150.213
@@ -107,7 +107,7 @@ A800-Node1-2::> volume mount -vserver Hadoop_SVM -volume xcpcatalog_vol -junctio
 [root@mastr-53 ~]# showmount -e 10.63.150.63 | grep xcpca
 /xcpcatalog (everyone)
 ....
-.. xcp.ini` を更新します
+.. 更新 `xcp.ini`（Update）：
 +
 ....
 [root@mastr-53 ~]# cat /opt/NetApp/xFiles/xcp/xcp.ini
@@ -119,7 +119,7 @@ catalog = 10.63.150.64:/xcpcatalog
 ....
 
 
-. XCP show を使用して ' ソース NAS エクスポートを検索します検索：
+. を使用して、ソースNASエクスポートを検索し `xcp show`ます。検索：
 +
 ....
 == NFS Exports ==
@@ -141,7 +141,7 @@ catalog = 10.63.150.64:/xcpcatalog
 +
 ソース NAS データをスキャンすることで、データレイアウトを把握し、移行の潜在的な問題を特定するのに役立ちます。XCP スキャン処理時間は、ファイル数とディレクトリ深度に比例します。NAS データに精通している場合は、この手順を省略できます。
 
-. 'XCP scan' が作成したレポートを確認します主に読み取り不能フォルダと読み取り不能ファイルを検索します。
+. によって作成されたレポートを確認します `xcp scan`。主に読み取り不能フォルダと読み取り不能ファイルを検索します。
 +
 ....
 [root@mastr-53 linux]# mount 10.63.150.64:/xcpcatalog  /xcpcatalog
@@ -168,7 +168,7 @@ A800-Node1-2::> volume show -volume xcpcatalog -fields files,files-used
 [root@mastr-53 ~]# df -h /xcpsrc_vol
 [root@mastr-53 ~]# df -h /xcpdest/
 ....
-. 「 XCP copy 」を使用してソースからデスティネーションにデータをコピーし、概要を確認します。
+. を使用してソースからデスティネーションにデータをコピーし `xcp copy`、概要を確認します。
 +
 ....
 [root@mastr-53 linux]# ./xcp copy -newid create_Sep091599198212 10.63.150.127:/xcpsrc_vol 10.63.150.63:/xcpdest
@@ -186,7 +186,7 @@ NOTE: デフォルトでは、データをコピーするための 7 つの並�
 
 +
 
-NOTE: ソースボリュームは読み取り専用にすることを推奨します。ソースボリュームは、リアルタイムでアクティブなライブファイルシステムです。NetApp XCP はアプリケーションによって継続的に変更されるライブソースをサポートしていないため、「 XCP copy 」操作が失敗することがあります。
+NOTE: ソースボリュームは読み取り専用にすることを推奨します。ソースボリュームは、リアルタイムでアクティブなライブファイルシステムです。 `xcp copy`NetApp XCPは、アプリケーションによって継続的に変更されるライブソースをサポートしていないため、処理が失敗することがあります。
 
 +
 Linux では、 XCP Linux がカタログ化を実行するため、 XCP にインデックス ID が必要です。
@@ -201,7 +201,7 @@ A800-Node1_vs1 xcpdest 21251126 15039685
 
 A800-Node1-2::>
 ....
-. 'XCP sync' を使用して差分更新を実行します
+. を使用して、増分更新を実行し `xcp sync`ます。
 +
 ....
 [root@mastr-53 linux]# ./xcp sync -id create_Sep091599198212
@@ -212,9 +212,9 @@ Total Time  : 3m31s.
 STATUS      : PASSED
 ....
 +
-このドキュメントでは、リアルタイムをシミュレートするために、ソースデータの 100 万個のファイルの名前が変更され、更新されたファイルは「 XCP sync 」を使用してデスティネーションにコピーされました。Windows の場合、 XCP にはソースパスとデスティネーションパスの両方が必要です。
+このドキュメントでは、リアルタイムをシミュレートするために、ソースデータ内の100万個のファイルの名前を変更し、を使用して更新されたファイルをデスティネーションにコピーしました `xcp sync`。Windows の場合、 XCP にはソースパスとデスティネーションパスの両方が必要です。
 
-. データ転送を検証送信元と宛先が同じデータであることを検証するには、「 XCP verify 」を使用します。
+. データ転送を検証を使用して、ソースとデスティネーションに同じデータがあることを検証できます `xcp verify`。
 +
 ....
 Xcp command : xcp verify 10.63.150.127:/xcpsrc_vol 10.63.150.63:/xcpdest
@@ -225,10 +225,10 @@ STATUS      : PASSED
 ....
 
 
-XCP のマニュアルには 'CAN'copy''sync' および 've rify' オペレーション用の複数のオプション（例を含む）が用意されています詳細については、を参照してください https://mysupport.netapp.com/documentation/productlibrary/index.html?productID=63064["NetApp XCP ユーザガイド"^]。
+XCPのマニュアルには、、 `copy`、、 `sync` `verify`およびの操作に関する複数のオプション（例付き）が用意されています `scan`。詳細については、を参照して https://mysupport.netapp.com/documentation/productlibrary/index.html?productID=63064["NetApp XCP ユーザガイド"^]ください。
 
 
-NOTE: Windows のお客様は、アクセス制御リスト（ ACL ）を使用してデータをコピーする必要があります。ネットアップでは、コマンド XCP copy-acl-fallbackuser\<username>-fallbackgroup\<username または groupname> <source><destination>` を使用することを推奨しています。パフォーマンスを最大限に高めるために、 ACL を備えた SMB データと NFS と SMB の両方からアクセスできるデータが格納されたソースボリュームを検討する場合、ターゲットは NTFS ボリュームである必要があります。XCP （ NFS バージョン）を使用して、 Linux サーバからデータをコピーし、 Windows サーバからの「 -acl 」および「 -nodata 」オプションを使用して XCP （ SMB バージョン）同期を実行し、ソースデータからターゲット SMB データに ACL をコピーします。
+NOTE: Windows のお客様は、アクセス制御リスト（ ACL ）を使用してデータをコピーする必要があります。NetAppは、コマンドの使用を推奨してい `xcp copy -acl -fallbackuser\<username> -fallbackgroup\<username or groupname> <source> <destination>`ます。パフォーマンスを最大限に高めるために、 ACL を備えた SMB データと NFS と SMB の両方からアクセスできるデータが格納されたソースボリュームを検討する場合、ターゲットは NTFS ボリュームである必要があります。XCP（NFSバージョン）を使用してLinuxサーバからデータをコピーし、Windowsサーバのオプションおよび `-nodata`オプションとのXCP（SMBバージョン）同期を実行し `-acl`て、ACLをソースデータからターゲットSMBデータにコピーします。
 
 詳細な手順については、を参照してください https://helpcenter.netwrix.com/NA/Configure_IT_Infrastructure/Accounts/DCA_Manage_Auditing_Security_Log.html["「監査とセキュリティログ」ポリシーを設定しています"^]。
 
@@ -244,7 +244,7 @@ NOTE: Windows のお客様は、アクセス制御リスト（ ACL ）を使用�
 
 MapRFS/HDFS 機能の場合は、ルート以外のユーザ環境で次の手順を実行する必要があります。通常、 root 以外のユーザは HDFS 、 MapR 、または HDFS および MapRFS ファイルシステムを変更する権限を持つユーザです。
 
-. CLI またはユーザの .bashrc ファイルと 'XCP コマンドを使用して 'CLASSPATH 'hadoop home ' Nhdfsa_libjvm_path ' lm_library_path ' および Nhdfsa_LIBhdfsa_path 変数を設定します
+. コマンドと一緒に、CLIまたはユーザの.bashrcファイルでCLASSPATH、HADOP_HOME、NHDFS_libjvm_path、LB_LIBRARY_PATH、およびNHDFS_LIBHDFS_PATH変数を設定します `xcp`。
 +
 ** Nhdfsa_lidbhdfs_path は、 libhdfs.so ファイルを指しています。このファイルは、 Hadoop ディストリビューションの一部として HDFS / MapRFS ファイルとファイルシステムを操作し操作するための HDFS API を提供します。
 ** Nhdfs_libjvm_path は、 libjvm.so ファイルを指しています。これは JRE の場所にある共有 Java 仮想マシンライブラリです。
@@ -277,7 +277,7 @@ export NHDFS_LIBHDFS_PATH=$HADOOP_HOME/lib64/libhdfs.so
 . 導入の手順から 1 ～ 9 の手順を実行します。
 . 次の例では、 HDFS から NFS にデータを移行します。
 +
-.. HDFS 内に（「 hadoop fs -copyFromLocal 」を使用して）フォルダとファイルを作成します。
+.. HDFSでフォルダとファイルを作成（を使用）し `hadoop fs -copyFromLocal`ます。
 +
 [listing]
 ----

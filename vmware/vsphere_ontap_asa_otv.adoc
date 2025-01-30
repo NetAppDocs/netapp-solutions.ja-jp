@@ -14,8 +14,7 @@ summary:
 
 
 [role="lead"]
-ONTAP Tools for VMwareを使用すると、管理者はvSphere Clientから直接NetAppストレージを管理できます。ONTAPツールを使用すると、データストアの導入と管理、およびVVOLデータストアのプロビジョニングを行うことができます。
-ONTAPツールを使用すると、ストレージシステムの一連の属性を決定するストレージ機能プロファイルにデータストアをマッピングできます。これにより、ストレージのパフォーマンスやQoSなどの特定の属性を持つデータストアを作成できます。
+ONTAP Tools for VMwareを使用すると、管理者はvSphere Clientから直接NetAppストレージを管理できます。ONTAPツールを使用すると、データストアの導入と管理、およびVVOLデータストアのプロビジョニングを行うことができます。ONTAPツールを使用すると、ストレージシステムの一連の属性を決定するストレージ機能プロファイルにデータストアをマッピングできます。これにより、ストレージのパフォーマンスやQoSなどの特定の属性を持つデータストアを作成できます。
 
 作成者：Josh Powell -ネットアップソリューションエンジニアリングチーム
 
@@ -31,7 +30,7 @@ ONTAPツールには、次のコンポーネントが含まれています。
 
 * Storage Replication Adapter（SRA）：* VMware Site Recovery Manager（SRM）で有効にして使用すると、障害発生時にvCenter Serverのデータストアと仮想マシンを簡単にリカバリできるため、ディザスタリカバリ用に保護対象サイトとリカバリサイトを設定できます。
 
-NetApp ONTAP Tools for VMwareの詳細については、を参照してください。 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["VMware vSphere ドキュメント用の ONTAP ツール"]。
+NetApp ONTAP tools for VMwareの詳細については、を参照してください https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["VMware vSphere ドキュメント用の ONTAP ツール"]。
 
 
 
@@ -41,7 +40,7 @@ NetApp ONTAP Tools for VMwareの詳細については、を参照してくださ
 
 VVOLデータストアでは、各仮想ディスクがVVOLになり、ストレージシステムのネイティブLUNオブジェクトになります。ストレージシステムとvSphereの統合は、VMware APIのfor Storage Awareness（VASA）プロバイダ（ONTAP Toolsとともにインストール）を通じて行われ、ストレージシステムはVMデータを認識して適切に管理できます。vCenter Clientで定義されたストレージポリシーは、ストレージリソースの割り当てと管理に使用されます。
 
-ONTAPを使用するVVOLの詳細については、を参照してください。 https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vvols-overview.html["Virtual Volumes VVol）とONTAP"]。
+ONTAPを使用するVVOLの詳細については、を参照してください https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vvols-overview.html["Virtual Volumes VVol）とONTAP"]。
 
 この解決策では、次の手順の概要を説明します。
 
@@ -153,7 +152,7 @@ image:vmware-asa-image19.png["ストレージ属性"]
 
 . 最後に概要を確認し、*[終了]*をクリックしてVVOLデータストアの作成プロセスを開始します。
 +
-image:vmware-asa-image20.png["サマリページ"]
+image:vmware-asa-image20.png["[Summary]ページ"]
 
 
 
@@ -216,16 +215,16 @@ image:vmware-asa-image26.png["コンピューティングリソース"]
 
 . [ストレージの選択]*ページで、VMストレージポリシーと、VMのデスティネーションとなるvVolデータストアを選択します。[次へ]*をクリックします。
 +
-image:vmware-asa-image27.png["ストレージを選択します"]
+image:vmware-asa-image27.png["ストレージの選択"]
 
 . [Select compatibility]ページで、VMと互換性を持つvSphereのバージョンを選択します。
 . 新しいVMのゲストOSファミリーとバージョンを選択し、*[Next]*をクリックします。
 . [ハードウェアのカスタマイズ]ページに必要事項を入力します。ハードディスク（VMDKファイル）ごとに個別のVMストレージポリシーを選択できることに注意してください。
 +
-image:vmware-asa-image28.png["ストレージを選択します"]
+image:vmware-asa-image28.png["ストレージの選択"]
 
 . 最後に、概要ページを確認し、*[Finish]*をクリックしてVMを作成します。
 
 
 ====
-つまり、NetApp ONTAPツールを使用すると、ONTAPストレージシステムにVVOLデータストアを作成するプロセスが自動化されます。ストレージ機能プロファイルは、データストアの作成に使用するストレージシステムだけでなく、個 々 のVMDKベースで実装できるQoSポリシーも定義します。VVOLは、シンプルなストレージ管理パラダイムを提供し、NetAppとVMwareの緊密な統合を実現する実用的な解決策であり、仮想環境を効率的かつきめ細かく制御できます。
+つまり、NetApp ONTAPツールを使用すると、ONTAPストレージシステムにVVOLデータストアを作成するプロセスが自動化されます。ストレージ機能プロファイルは、データストアの作成に使用するストレージシステムを定義するだけでなく、VMDK単位で実装できるQoSポリシーも定義します。VVOLは、シンプルなストレージ管理パラダイムを提供し、NetAppとVMwareの緊密な統合により、仮想環境を効率的かつきめ細かく制御するための実用的なソリューションです。

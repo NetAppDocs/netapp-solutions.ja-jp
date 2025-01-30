@@ -44,7 +44,7 @@ image:gcve-deploy-1.png["入力/出力ダイアログを示す図、または書
 ====
 プライベートクラウドのプロビジョニングが完了したら、プライベートクラウドへのプライベートアクセスを設定して、高スループットで低レイテンシのデータパス接続を実現します。
 
-これにより、 Cloud Volumes ONTAP インスタンスが実行されている VPC ネットワークが、 GCVE プライベートクラウドと通信できるようになります。これを行うには、に従ってくださいlink:https://cloud.google.com/architecture/partners/netapp-cloud-volumes/quickstart["GCP ドキュメント"]。Cloud Volume Serviceについては、テナントホストプロジェクト間で1回限りのピアリングを実行して、VMware EngineとGoogle Cloud NetApp Volumeの間に接続を確立します。詳細な手順については、次の手順link:https://cloud.google.com/vmware-engine/docs/vmware-ecosystem/howto-cloud-volumes-service["リンク"]を実行してください。
+これにより、 Cloud Volumes ONTAP インスタンスが実行されている VPC ネットワークが、 GCVE プライベートクラウドと通信できるようになります。これを行うには、に従ってくださいlink:https://cloud.google.com/architecture/partners/netapp-cloud-volumes/quickstart["GCPのドキュメント"]。Cloud Volume Serviceについては、テナントホストプロジェクト間で1回限りのピアリングを実行して、VMware EngineとGoogle Cloud NetApp Volumeの間に接続を確立します。詳細な手順については、次の手順link:https://cloud.google.com/vmware-engine/docs/vmware-ecosystem/howto-cloud-volumes-service["リンク"]を実行してください。
 
 image:gcve-access-1.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
@@ -52,9 +52,9 @@ CloudOwner@gve.loca ユーザを使用して vCenter にサインインします
 
 image:gcve-access-2.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-Windows 仮想マシンでブラウザを開き、 vCenter Web Client の URL にアクセスします (`"https://10.0.16.6/"`）にアクセスし、adminユーザ名としてCloudOwner@gve.locaを使用して、コピーしたパスワードを貼り付けます。同様に、 Web クライアントの URL を使用して NSX Manager にアクセスすることもできます (`"https://10.0.16.11/"`）をクリックし、adminユーザ名を使用してコピーしたパスワードを貼り付け、新しいセグメントを作成するか、既存の階層ゲートウェイを変更します。
+Windows仮想マシンで、ブラウザを開き、vCenter Web ClientのURLに移動し(`"https://10.0.16.6/"`ます）、adminユーザ名にCloudOwner@gve.locaを使用して、コピーしたパスワードを貼り付けます。同様に、NSX-TマネージャにはWebクライアントURLを使用してアクセスする(`"https://10.0.16.11/"`こともできます）。管理者ユーザ名を使用し、コピーしたパスワードを貼り付けて、新しいセグメントを作成したり、既存の階層ゲートウェイを変更したりできます。
 
-オンプレミスネットワークから VMware Engine プライベートクラウドに接続する場合は、クラウド VPN または Cloud Interconnect を利用して適切な接続を行い、必要なポートが開いていることを確認します。詳細な手順については、次の手順を実行してください link:https://ubuntu.com/server/docs/service-iscsi["リンク"]。
+オンプレミスネットワークから VMware Engine プライベートクラウドに接続する場合は、クラウド VPN または Cloud Interconnect を利用して適切な接続を行い、必要なポートが開いていることを確認します。詳細な手順については、次の手順link:https://ubuntu.com/server/docs/service-iscsi["リンク"]を実行してください。
 
 image:gcve-access-3.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 

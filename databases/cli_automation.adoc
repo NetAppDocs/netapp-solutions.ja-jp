@@ -20,7 +20,7 @@ summary: このページでは、 NetApp ONTAP ストレージ上に Oracle19c �
 
 == CLI による Oracle 19C データベースの導入
 
-このセクションでは、 CLI を使用して Oracle19c データベースを準備および導入するために必要な手順について説明します。を確認しておきます link:getting_started_requirements.html["「はじめに」および「要件」セクション"] それに応じて環境の準備を整えます。
+このセクションでは、 CLI を使用して Oracle19c データベースを準備および導入するために必要な手順について説明します。を確認し、それに応じて環境を準備しておきlink:getting_started_requirements.html["「はじめに」および「要件」セクション"]ます。
 
 
 
@@ -74,7 +74,7 @@ NOTE: このプレイブックの内容は、導入する Oracle ホストとデ
 
 === host_vars で host_name .yml ファイルを編集します
 
-各 Oracle ホストには、ホスト固有の変数を含むホスト名で識別されるホスト変数ファイルがあります。ホストには任意の名前を指定できます。Host VAR Config セクションから「 host_vars 」を編集してコピーし、目的の「 host_name.yml 」ファイルに貼り付けます。
+各 Oracle ホストには、ホスト固有の変数を含むホスト名で識別されるホスト変数ファイルがあります。ホストには任意の名前を指定できます。を編集して[Host VARs Config]セクションからコピーし `host_vars`、目的のファイルに貼り付け `host_name.yml`ます。
 
 
 NOTE: 青の項目は、環境に合わせて変更する必要があります。
@@ -121,9 +121,9 @@ host_datastores_nfs:
 
 === vars.yml ファイルを編集します
 
-変数 .yml` ファイルは 'Oracle の導入に向けて ' 環境固有のすべての変数（ ONTAP 'Linux'Oracle ）を統合します
+このファイルには `vars.yml`、Oracle環境に固有のすべての変数（ONTAP、Linux、またはOracle）が統合されています。
 
-. 変数を VAR セクションから編集してコピーし、変数を自分の「 vars.yml 」ファイルに貼り付けます。
+. VARsセクションから変数を編集してコピーし、これらの変数をファイルに貼り付け `vars.yml`ます。
 
 
 [source, shell]
@@ -224,7 +224,7 @@ initial_pwd_all: "netapp123"
 
 === プレイブックを実行します
 
-必要な環境の前提条件を完了し ' 変数を vars.yml' および 'Your_host.yml' にコピーした後 ' プレイブックを導入する準備が整いました
+必要な環境の前提条件を満たし、変数をとにコピーしたら `vars.yml`、 `your_host.yml`プレイブックを導入する準備が整いました。
 
 
 NOTE: <username> は、環境に合わせて変更する必要があります。
@@ -257,14 +257,14 @@ ansible-playbook -i hosts all_playbook.yml -u username -k -K -t oracle_config -e
 
 . host_vars 変数を改訂します。
 +
-.. ステップ 3 に戻ります - 'host_vars' の下の 'host_name.yml' ファイルを編集します
+.. 手順3 -のファイルを `host_vars`編集するに戻り `host_name.yml`ます。
 .. Oracle SID を別の名前文字列に変更します。
 .. リスナーポートを別の番号に変更します。
 .. EM Express をインストールしている場合は、 EM Express ポートを別の番号に変更します。
-.. 変更したホスト変数を 'host_vars' の下の Oracle ホスト変数ファイルにコピーして貼り付けます
+.. 修正したホスト変数をコピーして、のOracleホスト変数ファイルに貼り付け `host_vars`ます。
 
 
-. 上記のように 'ORACLE_CONFIG' タグを使用してプレイブックを実行します インチ <<プレイブックを実行します>>。
+. 上記のに示すように、タグを使用してPlaybookを実行し `oracle_config`<<プレイブックを実行します>>ます。
 
 
 
@@ -362,4 +362,4 @@ CDB2_PDB1
 
 === サポートが必要な場所
 
-ツールキットに関するサポートが必要な場合は、にご参加ください link:https://netapppub.slack.com/archives/C021R4WC0LC["ネットアップの解決策自動化コミュニティでは、余裕期間のチャネルがサポートさ"] また、ソリューション自動化チャネルを検索して、質問や問い合わせを投稿しましょう。
+ツールキットに関するサポートが必要な場合は、に参加してlink:https://netapppub.slack.com/archives/C021R4WC0LC["ネットアップの解決策自動化コミュニティでは、余裕期間のチャネルがサポートさ"]ソリューションオートメーションチャネルを探し、質問やお問い合わせを投稿してください。

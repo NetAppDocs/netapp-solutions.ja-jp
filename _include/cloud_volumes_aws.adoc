@@ -6,10 +6,10 @@
 ====
 .CVO シングルノードの導入
 --
-.NetApp CVO（シングルノードインスタンス）をAWSに導入するための構成ファイルがTerraformにあります
+.AWSにNetApp CVO（シングルノードインスタンス）を導入するためのTerraform構成ファイル
 このセクションでは、 AWS （ Amazon Web Services ）上でシングルノードの NetApp CVO （ Cloud Volumes ONTAP ）を導入 / 構成するための、さまざまな Terraform 構成ファイルを提供しています。
 
-Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
+Terraformドキュメント： https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
 
 .手順
 テンプレートを実行するには、次の手順を実行します。
@@ -39,7 +39,7 @@ Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/ne
 ** デフォルトの出力形式は [None] ： json です
 
 
-. 変数 /AWS_CVO-SILE_Node_deployment.tfvar' の変数値を更新します
+. の変数値を更新します。 `vars/aws_cvo_single_node_deployment.tfvar`
 +
 
 NOTE: 変数「 AWS_Connector_deploy_bool 」の値を true または false に設定することで、コネクタを導入することができます。
@@ -77,9 +77,9 @@ NOTE: 変数「 AWS_Connector_deploy_bool 」の値を true または false に�
     terraform destroy
 ----
 .降水量：
-「コネクタ」
+`Connector`
 
-CVO 導入用の NetApp AWS Connector インスタンスの Terraform 変数。
+NetApp AWS Connector インスタンスの CVO 導入用の Terraform 変数。
 
 [cols="20%, 10%, 70%"]
 |===
@@ -113,12 +113,12 @@ CVO 導入用の NetApp AWS Connector インスタンスの Terraform 変数。
 | * AWS_Connector_iAM_instance_profile_name * | 文字列 | （必須）コネクタのインスタンスプロファイルの名前。 
 
 
-| * AWS_Connector_account_id * | 文字列 | （オプション）コネクタを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウント ID は、 Cloud Manager のアカウントタブにあります https://cloudmanager.netapp.com[]。 
+| * AWS_Connector_account_id * | 文字列 | （オプション）コネクタを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウントIDは、Cloud Managerの[Account]タブで確認できます https://cloudmanager.netapp.com[]。 
 
 
 | * AWS_connector_public_ip_bool * | ブール値 | （任意）インスタンスにパブリック IP アドレスを関連付けるかどうかを指定します。指定しない場合は、サブネットの設定に基づいて関連付けが行われます。 
 |===
-「シングルノードインスタンス」
+`Single Node Instance`
 
 単一の NetApp CVO インスタンスの Terraform 変数。
 
@@ -147,10 +147,10 @@ CVO 導入用の NetApp AWS Connector インスタンスの Terraform 変数。
 --
 .CVO HA の導入
 --
-.NetApp CVO（HAペア）をAWSに導入するための構成ファイルがTerraformにあります
+.NetApp CVO（HAペア）をAWSに導入するための構成ファイルをTerraformしています
 このセクションでは、 AWS （ Amazon Web Services ）のハイアベイラビリティペアに NetApp CVO （ Cloud Volumes ONTAP ）を導入 / 構成するための、さまざまな Terraform 構成ファイルを提供しています。
 
-Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
+Terraformドキュメント： https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
 
 .手順
 テンプレートを実行するには、次の手順を実行します。
@@ -180,7 +180,7 @@ Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/ne
 ** デフォルトの出力形式は [None] ： json です
 
 
-. 変数 /AWS_CVO-HA_DEVELOT.tfvars の変数値を更新します。
+. の変数値を更新し `vars/aws_cvo_ha_deployment.tfvars`ます。
 +
 
 NOTE: 変数「 AWS_Connector_deploy_bool 」の値を true または false に設定することで、コネクタを導入することができます。
@@ -218,9 +218,9 @@ NOTE: 変数「 AWS_Connector_deploy_bool 」の値を true または false に�
     terraform destroy
 ----
 .降水量：
-「コネクタ」
+`Connector`
 
-CVO 導入用の NetApp AWS Connector インスタンスの Terraform 変数。
+NetApp AWS Connector インスタンスの CVO 導入用の Terraform 変数。
 
 [cols="20%, 10%, 70%"]
 |===
@@ -254,12 +254,12 @@ CVO 導入用の NetApp AWS Connector インスタンスの Terraform 変数。
 | * AWS_Connector_iAM_instance_profile_name * | 文字列 | （必須）コネクタのインスタンスプロファイルの名前。 
 
 
-| * AWS_Connector_account_id * | 文字列 | （オプション）コネクタを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウント ID は、 Cloud Manager のアカウントタブにあります https://cloudmanager.netapp.com[]。 
+| * AWS_Connector_account_id * | 文字列 | （オプション）コネクタを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウントIDは、Cloud Managerの[Account]タブで確認できます https://cloudmanager.netapp.com[]。 
 
 
-| * AWS_connector_public_ip_bool * | ブール値 | （任意）インスタンスにパブリック IP アドレスを関連付けるかどうかを指定します。指定しない場合は、サブネットの設定に基づいて関連付けが行われます。 
+| * AWS_connector_public_ip_bool * | ブール値 | （任意）パブリックIPアドレスをインスタンスに関連付けるかどうかを指定します。指定しない場合は、サブネットの設定に基づいて関連付けが行われます。 
 |===
-HA ペア
+`HA Pair`
 
 HA ペアの NetApp CVO インスタンスの変数はテラフォームされます。
 
@@ -268,7 +268,7 @@ HA ペアの NetApp CVO インスタンスの変数はテラフォームされ�
 | * 名前 * | * タイプ * | * 概要 * 
 
 
-| * CVO-is_HA * | ブール値 | （オプション）作業環境が HA ペアであるかどうかを示します（ [true 、 false] ）。デフォルトは false です。 
+| * CVO-is_HA * | ブール値 | （オプション）作業環境が HA ペアであるかどうかを示します（ [true 、 false] ）。デフォルトはfalseです。 
 
 
 | * CVO-NAME * | 文字列 | （必須） Cloud Volumes ONTAP 作業環境の名前。 
@@ -277,10 +277,10 @@ HA ペアの NetApp CVO インスタンスの変数はテラフォームされ�
 | * CVF_REGION * | 文字列 | （必須）作業環境を作成するリージョン。 
 
 
-| * CVO-node1 _subnet_id * | 文字列 | （必須）最初のノードを作成するサブネット ID 。 
+| * cvo_node1_subnet_id* | 文字列 | （必須）最初のノードを作成するサブネット ID 。 
 
 
-| * CVO-node2 _subnet_id * | 文字列 | （必須） 2 つ目のノードを作成するサブネット ID 。 
+| * cvo_node2_subnet_id* | 文字列 | （必須） 2 つ目のノードを作成するサブネット ID 。 
 
 
 | * CVO-vPC_id * | 文字列 | （オプション）作業環境を作成する VPC ID 。この引数を指定しない場合は、指定したサブネット ID を使用して VPC が計算されます。 
@@ -304,7 +304,7 @@ HA ペアの NetApp CVO インスタンスの変数はテラフォームされ�
 | * CVO-data_floating_IP * | 文字列 | （任意） HA FloatingIP の場合は、データフローティング IP アドレス。 
 
 
-| * CVO-data_floating_ip2 * | 文字列 | （任意） HA FloatingIP の場合は、データフローティング IP アドレス。 
+| * cvo_data_floating_ip2* | 文字列 | （任意） HA FloatingIP の場合は、データフローティング IP アドレス。 
 
 
 | * CVO-SVM_floating_IP * | 文字列 | （オプション） HA FloatingIP の場合、 SVM 管理のフローティング IP アドレス。 
@@ -318,7 +318,7 @@ HA ペアの NetApp CVO インスタンスの変数はテラフォームされ�
 .NetApp ONTAP FSXをAWSに導入するためのTerraform構成ファイル
 このセクションには、 AWS （ Amazon Web Services ）上で NetApp ONTAP FSX を導入 / 設定するための、さまざまな Terraform 構成ファイルが含まれています。
 
-Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
+Terraformドキュメント： https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
 
 .手順
 テンプレートを実行するには、次の手順を実行します。
@@ -348,7 +348,7 @@ Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/ne
 ** デフォルトの出力形式 [None] ：
 
 
-. 変数 /AWS_FSX_deployment.tfvars の変数値を更新します
+. の変数値を更新します。 `vars/aws_fsx_deployment.tfvars`
 +
 
 NOTE: 変数「 AWS_Connector_deploy_bool 」の値を true または false に設定することで、コネクタを導入することができます。
@@ -386,7 +386,7 @@ NOTE: 変数「 AWS_Connector_deploy_bool 」の値を true または false に�
     terraform destroy
 ----
 .レシピ：
-「コネクタ」
+`Connector`
 
 NetApp AWS Connector インスタンスの Terraform 変数。
 
@@ -422,12 +422,12 @@ NetApp AWS Connector インスタンスの Terraform 変数。
 | * AWS_Connector_iAM_instance_profile_name * | 文字列 | （必須）コネクタのインスタンスプロファイルの名前。 
 
 
-| * AWS_Connector_account_id * | 文字列 | （オプション）コネクタを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウント ID は、 Cloud Manager のアカウントタブにあります https://cloudmanager.netapp.com[]。 
+| * AWS_Connector_account_id * | 文字列 | （オプション）コネクタを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウントIDは、Cloud Managerの[Account]タブで確認できます https://cloudmanager.netapp.com[]。 
 
 
-| * AWS_connector_public_ip_bool * | ブール値 | （任意）インスタンスにパブリック IP アドレスを関連付けるかどうかを指定します。指定しない場合は、サブネットの設定に基づいて関連付けが行われます。 
+| * AWS_connector_public_ip_bool * | ブール値 | （任意）パブリックIPアドレスをインスタンスに関連付けるかどうかを指定します。指定しない場合は、サブネットの設定に基づいて関連付けが行われます。 
 |===
-「 FSX インスタンス」
+`FSx Instance`
 
 NetApp ONTAP FSX インスタンスの Terraform 変数。
 
@@ -448,7 +448,7 @@ NetApp ONTAP FSX インスタンスの Terraform 変数。
 | * fsx_secondary_subnet_id * | 文字列 | （必須）作業環境を作成するセカンダリサブネット ID 。 
 
 
-| * fsx_account_id * | 文字列 | （必須） FSX インスタンスを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウント ID は、 Cloud Manager のアカウントタブにあります https://cloudmanager.netapp.com[]。 
+| * fsx_account_id * | 文字列 | （必須） FSX インスタンスを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウントIDは、Cloud Managerの[Account]タブで確認できます https://cloudmanager.netapp.com[]。 
 
 
 | * FSX_workspace_id * | 文字列 | （必須）作業環境の Cloud Manager ワークスペースの ID 。 

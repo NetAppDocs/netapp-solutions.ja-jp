@@ -37,7 +37,7 @@ NOTE: F5 BIG-IP システムは、専用のハードウェア、クラウド、�
 |===
 
 
-| テクノロジ | ソフトウェアのバージョン 
+| テクノロジ | ソフトウェアバージョン 
 
 
 | Red Hat OpenShift のサービスです | 4.6 EUS 、 4.7 
@@ -58,7 +58,7 @@ NOTE: F5 BIG-IP システムは、専用のハードウェア、クラウド、�
 
 == インストール
 
-. F5 Application Services 3 拡張機能をインストールして、 big-IP システムが命令コマンドではなく JSON で構成を受け入れるようにします。に進みます https://github.com/F5Networks/f5-appsvcs-extension/releases["F5 AS3 GitHub リポジトリ"^]をクリックし、最新の RPM ファイルをダウンロードします。
+. F5 Application Services 3 拡張機能をインストールして、 big-IP システムが命令コマンドではなく JSON で構成を受け入れるようにします。に移動し https://github.com/F5Networks/f5-appsvcs-extension/releases["F5 AS3 GitHub リポジトリ"^]、最新のRPMファイルをダウンロードします。
 . F5 BIG-IP システムにログインし、 iApps > Package Management LX に移動して、 Import （インポート）をクリックします。
 . [ ファイルの選択 ] をクリックして、ダウンロードした AS3 RPM ファイルを選択し、 [OK] をクリックして、 [ アップロード ] をクリックします。
 +
@@ -186,7 +186,7 @@ image:redhat_openshift_image119.jpg["F5BigIpCtlr を作成します"]
 . YAML View をクリックし、必要なパラメータを更新した後で次の内容を貼り付けます。
 +
 
-NOTE: 以下のパラメータ「 bigip_dpartition 」、「 OpenShift 」 SDN_NAME 」、「 bigip_url 」、「 bigip_login_secret 」を更新して、内容をコピーする前にセットアップの値を反映させます。
+NOTE:  `bigip_login_secret`コンテンツをコピーする前に、パラメータ'OpenShift_SDN_NAME' `bigip_url`および以下を更新し `bigip_partition`て、セットアップの値を反映させてください。
 
 +
 [listing]
@@ -231,7 +231,7 @@ image:redhat_openshift_image120.jpg["F5 CIS ポッドを検証します"]
 
 NOTE: Red Hat OpenShift は、デフォルトで、 L7 ロードバランシングのルートを介してサービスを公開する方法を提供します。組み込みの OpenShift ルータは、これらのルートのトラフィックのアドバタイズと処理を行います。ただし、外部 F5 BIG-IP システムを介してルートをサポートするように F5 CIS を構成することもできます。このシステムは、補助ルータとして実行することも、自己ホスト型 OpenShift ルータに代わるものでもあります。CIS は、 OpenShift ルートのルータとして機能する BIG-IP システムに仮想サーバを作成し、 BIG-IP はアドバタイズメントとトラフィックルーティングを処理します。この機能を有効にするためのパラメータについては、次のドキュメントを参照してください。これらのパラメータは、 APPS/v1 API の OpenShift Deployment リソースに対して定義されています。したがって、 F5BigIpCtlr リソース cis.f5.com/v1 API でこれらを使用する場合は、パラメータ名にハイフン (-) をアンダースコア (_) に置き換えます。
 
-. CIS リソースの作成に渡される引数には 'IPAM:true' と 'custom_resource_mode:true' がありますこれらのパラメータは 'IPAM コントローラとの CIS 統合を有効にするために必要ですF5 IPAM リソースを作成して 'CIS で IPAM 統合が有効になっていることを確認します
+. CISリソースの作成に渡される引数には、とがあり `custom_resource_mode: true`ます `ipam: true`。これらのパラメータは 'IPAM コントローラとの CIS 統合を有効にするために必要ですF5 IPAM リソースを作成して 'CIS で IPAM 統合が有効になっていることを確認します
 +
 [listing]
 ----
@@ -293,7 +293,7 @@ NOTE: 以下の spec.template.spec.containers [0] の ip-range パラメータ�
 
 +
 
-NOTE: IPAM コントローラが定義された範囲から IP アドレスを検出して割り当てるには 'ipamLabels[`range1' および range2` を以下の例に示します ] が 'LoadBalancer 型のサービスに注釈を付ける必要があります
+NOTE: IPAMコントローラが定義された範囲からIPアドレスを検出して割り当てるためには、LoadBalancerタイプのサービスに対して、ipamLabels[`range1`および `range2`以下の例で]に注釈を付ける必要があります。
 
 +
 [listing]

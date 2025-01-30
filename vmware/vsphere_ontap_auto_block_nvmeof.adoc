@@ -21,12 +21,12 @@ summary: このページでは、 VMware vSphere 環境に VMFS データスト�
 == 必要なもの
 
 * vSphere 環境と ONTAP を管理するために必要な基本的なスキル
-* link:++https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-059DDF49-2A0C-49F5-BB3B-907A21EC94D6.html++["NVMe/FC の基本的な知識"]。
+* link:++https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-059DDF49-2A0C-49F5-BB3B-907A21EC94D6.html++["NVMe/FC の基本的な知識"]です。
 * ｛ ONTAP_version ｝ を実行している ONTAP ストレージシステム（ FAS/AFF/CVO/ONTAP Select / ASA ）
 * ONTAP クレデンシャル（ SVM 名、ユーザ ID 、パスワード）
 * ホスト、ターゲット、および ONTAP と LUN の情報用の WWPN
 * link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-429C4DDD-5EC0-4DBD-8EA8-76082AB7ADEC.html++["記入済みの FC 構成ワークシート"]
-* vCenter Server の各サービスを提供
+* vCenter Server
 * vSphere ホスト情報（ ｛ vsphere_version ｝ ）
 * ファブリックスイッチ
 +
@@ -43,7 +43,7 @@ summary: このページでは、 VMware vSphere 環境に VMFS データスト�
 
 == VMFS データストアをプロビジョニングする
 
-. との互換性を確認します https://mysupport.netapp.com/matrix["Interoperability Matrix Tool （ IMT ）"]。
+. との互換性を確認します https://mysupport.netapp.com/matrix["Interoperability Matrix Tool（IMT）"]。
 . link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-7D444A0D-02CE-4A21-8017-CB1DC99EFD9A.html++["NVMe/FC 構成がサポートされていることを確認します。"]
 
 
@@ -59,9 +59,9 @@ summary: このページでは、 VMware vSphere 環境に VMFS データスト�
 
 . SVM で NVMe/FC 論理インターフェイスが使用可能になっていることを確認してください。
 +
-.. 「 Network Interface show 」を使用して、 FCP アダプタを確認します。
+.. FCPアダプタの確認に使用し `Network Interface show`ます。
 .. GUI を使用して SVM を作成する場合、論理インターフェイスはそのプロセスの一部です。
-.. ネットワーク・インターフェイスの名前を変更するには ' Network Interface modify コマンドを使用します
+.. ネットワークインターフェイスの名前を変更するには、コマンドを使用し `Network Interface modify`ます。
 
 
 . link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.dot-cm-sanag/GUID-BBBAB2E4-E106-4355-B95C-C3626DCD5088.html++["NVMe ネームスペースとサブシステムを作成する"]
@@ -71,7 +71,7 @@ summary: このページでは、 VMware vSphere 環境に VMFS データスト�
 
 == VMware vSphere タスク
 
-. HBA ドライバがインストールされていることを確認しますVMware がサポートする HBA には、すぐに使用できるドライバが含まれており、に表示されます link:++https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-ED20B7BE-0D1C-4BF7-85C9-631D45D96FEC.html++["ストレージアダプタ情報"]
+. HBA ドライバがインストールされていることを確認しますVMwareがサポートしているHBAには、すぐに導入できるドライバが用意されており、次のサイトに表示されます。link:++https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-ED20B7BE-0D1C-4BF7-85C9-631D45D96FEC.html++["ストレージアダプタ情報"]
 . link:++https://docs.netapp.com/us-en/ontap-sanhost/nvme_esxi_7.html++["vSphere ホストの NVMe ドライバのインストールと検証のタスクを実行します"]
 . link:++https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-5AC611E0-7CEB-4604-A03C-F600B1BA2D23.html++["VMFS データストアを作成します"]
 

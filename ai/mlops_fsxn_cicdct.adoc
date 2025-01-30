@@ -15,8 +15,7 @@ summary: この記事では、自動モデル再トレーニング、導入、�
 
 
 [role="lead"]
-*作成者：*
-NetAppシニアデータ&アプリケーションサイエンティスト、Jian Jian（Ken）
+*著者：* Jian Jian（Ken）、NetAppシニアデータおよび応用科学者
 
 
 
@@ -29,13 +28,13 @@ NetAppシニアデータ&アプリケーションサイエンティスト、Jian
 == マニフェスト
 
 |===
-| 機能性 | 名前 | コメント（ Comment ） 
+| 機能 | 名前 | コメント 
 
 
 | データストレージ | AWS FSxN | を参照してください link:./mlops_fsxn_s3_integration.html["パート1 - AWS FSx for NetApp ONTAP（FSxN）をプライベートS3バケットとしてAWS SageMakerに統合する"]。 
 
 
-| データサイエンスIDE | AWS SageMaker | このチュートリアルは、で紹介されているJupyterノートブックをベースにしています。 link:./mlops_fsxn_sagemaker_integration_training.html["パート2 - SageMakerのモデルトレーニングのデータソースとしてAWS FSx for NetApp ONTAP（FSxN）を活用"]。 
+| データサイエンスIDE | AWS SageMaker | このチュートリアルは、に示すJupyterノートブックに基づいてlink:./mlops_fsxn_sagemaker_integration_training.html["パート2 - SageMakerのモデルトレーニングのデータソースとしてAWS FSx for NetApp ONTAP（FSxN）を活用"]います。 
 
 
 | MLOpsパイプラインをトリガーする機能 | AWS Lambda関数 | - 
@@ -112,7 +111,7 @@ echo "Starting the autostop script in cron"
 (crontab -l 2>/dev/null; echo "*/5 * * * * bash -c 'if ps -p $nbconvert_pid > /dev/null; then echo \"Notebook is still running.\" >> /var/log/jupyter.log; else echo \"Notebook execution completed.\" >> /var/log/jupyter.log; $PYTHON_DIR -c \"import boto3;boto3.client(\'sagemaker\').stop_notebook_instance(NotebookInstanceName=get_notebook_name())\" >> /var/log/jupyter.log; fi'") | crontab -
 EOF
 ----
-. このスクリプトは、推論のためのモデルの再トレーニングと再配置を処理するJupyter Notebookを実行します。実行が完了すると、ノートブックは5分以内に自動的にシャットダウンされます。問題点とコード実装の詳細については、を参照してください。 link:./mlops_fsxn_sagemaker_integration_training.html["パート2 - SageMakerのモデルトレーニングのデータソースとしてAWS FSx for NetApp ONTAP（FSxN）を活用"]。
+. このスクリプトは、推論のためのモデルの再トレーニングと再配置を処理するJupyter Notebookを実行します。実行が完了すると、ノートブックは5分以内に自動的にシャットダウンされます。問題点とコード実装の詳細については、を参照してくださいlink:./mlops_fsxn_sagemaker_integration_training.html["パート2 - SageMakerのモデルトレーニングのデータソースとしてAWS FSx for NetApp ONTAP（FSxN）を活用"]。
 +
 image:mlops_fsxn_cictcd_3.png["エラー：ライフサイクル設定の作成"]
 
@@ -168,7 +167,7 @@ image:mlops_fsxn_cictcd_9.png["エラー：導入"]
 +
 image:mlops_fsxn_cictcd_10.png["エラー：[Add AWS Function Trigger]"]
 
-. ドロップダウンメニューから[EventBridge]を選択し、[Create a new rule]というラベルの付いたラジオボタンをクリックします。[スケジュール式]フィールドに、次のように入力します。 `rate(1 day)`をクリックし、[追加]ボタンをクリックして、この新しいcronジョブルールを作成し、AWS Lambda関数に適用します。
+. ドロップダウンメニューから[EventBridge]を選択し、[Create a new rule]というラベルの付いたラジオボタンをクリックします。[Schedule expression]フィールドにと入力して `rate(1 day)`[Add]ボタンをクリックし、この新しいcronジョブルールを作成してAWS Lambda関数に適用します。
 +
 image:mlops_fsxn_cictcd_11.png["エラー：Finalize trigger"]
 

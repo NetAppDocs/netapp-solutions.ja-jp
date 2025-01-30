@@ -34,7 +34,7 @@ summary: 解決策は、AzureクラウドのANFにOracleを導入する際のコ
 
 
 
-== 対象者
+== 対象読者
 
 この解決策 は、次のユーザーを対象としています。
 
@@ -45,9 +45,9 @@ summary: 解決策は、AzureクラウドのANFにOracleを導入する際のコ
 
 
 
-== 使用許諾
+== ライセンス
 
-このツールキットリポジトリのコンテンツにアクセス、ダウンロード、インストール、または使用することにより、 link:https://netapp.sharepoint.com/sites/CIEBuilt-OnsTeam-DatabasesandApps/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FCIEBuilt%2DOnsTeam%2DDatabasesandApps%2FShared%20Documents%2FDatabases%20and%20Apps%2FDatabase%20Solutions%2FDB%20Sizing%20Toolkits%2FOracle%20Sizing%20Guidance%20for%20ANF%2FLICENSE%2ETXT&parent=%2Fsites%2FCIEBuilt%2DOnsTeam%2DDatabasesandApps%2FShared%20Documents%2FDatabases%20and%20Apps%2FDatabase%20Solutions%2FDB%20Sizing%20Toolkits%2FOracle%20Sizing%20Guidance%20for%20ANF["ライセンスファイル"^]。
+このツールキットリポジトリのコンテンツにアクセス、ダウンロード、インストール、または使用することにより、に記載されているライセンスの条件に同意したことになりlink:https://netapp.sharepoint.com/sites/CIEBuilt-OnsTeam-DatabasesandApps/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FCIEBuilt%2DOnsTeam%2DDatabasesandApps%2FShared%20Documents%2FDatabases%20and%20Apps%2FDatabase%20Solutions%2FDB%20Sizing%20Toolkits%2FOracle%20Sizing%20Guidance%20for%20ANF%2FLICENSE%2ETXT&parent=%2Fsites%2FCIEBuilt%2DOnsTeam%2DDatabasesandApps%2FShared%20Documents%2FDatabases%20and%20Apps%2FDatabase%20Solutions%2FDB%20Sizing%20Toolkits%2FOracle%20Sizing%20Guidance%20for%20ANF["ライセンスファイル"^]ます。
 
 
 NOTE: このツールキットリポジトリのコンテンツとの派生物の生成および/または共有には、一定の制限があります。コンテンツを使用する前に、必ずライセンスの条件をお読みください。すべての条件に同意しない場合は、このリポジトリ内のコンテンツにアクセス、ダウンロード、または使用しないでください。
@@ -75,7 +75,7 @@ NOTE: このツールキットリポジトリのコンテンツとの派生物�
 
 [%collapsible]
 ====
-リポジトリからツールキットを取得する link:https://netapp.sharepoint.com/sites/CIEBuilt-OnsTeam-DatabasesandApps/Shared%20Documents/Forms/AllItems.aspx?csf=1&web=1&e=uJYdVB&CID=bec786b6%2Dccaa%2D42e3%2Db47d%2Ddf0dcb0ce0ef&RootFolder=%2Fsites%2FCIEBuilt%2DOnsTeam%2DDatabasesandApps%2FShared%20Documents%2FDatabases%20and%20Apps%2FDatabase%20Solutions%2FDB%20Sizing%20Toolkits%2FOracle%20Sizing%20Guidance%20for%20ANF&FolderCTID=0x01200006E27E44A468B3479EA2D52BCD950351["ANF向けOracleサイジングガイダンス"^]
+リポジトリからツールキットを取得するlink:https://netapp.sharepoint.com/sites/CIEBuilt-OnsTeam-DatabasesandApps/Shared%20Documents/Forms/AllItems.aspx?csf=1&web=1&e=uJYdVB&CID=bec786b6%2Dccaa%2D42e3%2Db47d%2Ddf0dcb0ce0ef&RootFolder=%2Fsites%2FCIEBuilt%2DOnsTeam%2DDatabasesandApps%2FShared%20Documents%2FDatabases%20and%20Apps%2FDatabase%20Solutions%2FDB%20Sizing%20Toolkits%2FOracle%20Sizing%20Guidance%20for%20ANF&FolderCTID=0x01200006E27E44A468B3479EA2D52BCD950351["ANF向けOracleサイジングガイダンス"^]
 
 ====
 
@@ -86,7 +86,7 @@ NOTE: このツールキットリポジトリのコンテンツとの派生物�
 ====
 このツールキットは、WebベースのHTMLパーサーと、Oracleデータベース情報を収集する2つのSQLスクリプトで構成されています。出力はExcelテンプレートに入力され、Oracleデータベースサーバのコンピューティングとストレージのサイジングガイダンスが生成されます。
 
-* を使用します。 link:https://app.atroposs.com/#/awr-module["HTMLパーサー"^] AWRレポートから現在のOracleデータベースのサイジング情報を取得するAWRモジュール。
+* AWRモジュールを使用してlink:https://app.atroposs.com/#/awr-module["HTMLパーサー"^]、AWRレポートから現在のOracleデータベースのサイジング情報を取得します。
 * ora_db_data_szie.sqlをDBAとして実行し'データベースから物理的なOracleデータファイル・サイズを取得します
 * ora_db_logs_size.sqlをDBAとして実行して、Oracleアーカイブ・ログ・サイズを取得し、必要なアーカイブ・ログの保持期間（日数）を設定します。
 * 上記で取得したサイジング情報をExcelテンプレートファイルoracle_db_sizing_template_anf.xlsxに入力し、Oracle DBサーバのコンピューティングとストレージに関するサイジングガイダンスを作成します。
@@ -103,7 +103,7 @@ NOTE: このツールキットリポジトリのコンテンツとの派生物�
 +
 image:db_sizing_ora_parser_01.png["このイメージは、Oracleサイジング用のHTMLパーサー画面を示しています。"]
 
-. 出力形式が.csvであることを確認し、 `Upload files` AWRレポートをアップロードします。パーサーは、テーブルの概要とoutput.csvファイルを含むHTMLページに結果を返します。 `Download` フォルダ。
+. 出力形式を.csvにチェックし、をクリックし `Upload files`てAWRレポートをアップロードします。パーサーは、テーブルの概要とフォルダ内のoutput.csvファイルを含むHTMLページに結果を返します `Download`。
 +
 image:db_sizing_ora_parser_02.png["このイメージは、Oracleサイジング用のHTMLパーサー画面を示しています。"]
 
@@ -111,15 +111,15 @@ image:db_sizing_ora_parser_02.png["このイメージは、Oracleサイジング
 +
 image:db_sizing_ora_parser_03_anf.png["この画像は、Oracleサイジング用のExcelテンプレートのスクリーンショットです。"]
 
-. 列Aとフィールド1と2を強調表示し、 `Data`をクリックします `Text to Columns` をクリックして、テキストウィザードを開きます。を選択します `Delimited`をクリックします `Next` 次の画面に移動します。
+. 列Aとフィールド1と2を強調表示し、をクリックして `Data` `Text to Columns`テキストウィザードを開きます。を選択し `Delimited`、 `Next`次の画面に進みます。
 +
 image:db_sizing_ora_parser_04_anf.png["この画像は、Oracleサイジング用のExcelテンプレートのスクリーンショットです。"]
 
-. チェックしてください `Other`を入力し、「=」と入力します。 `Delimiters`。をクリックします `Next` 次の画面に移動します。
+. チェックし `Other`てから、として「=」と入力します `Delimiters`。クリックして `Next`次の画面に進みます。
 +
 image:db_sizing_ora_parser_05_anf.png["この画像は、Oracleサイジング用のExcelテンプレートのスクリーンショットです。"]
 
-. をクリックします `Finish` をクリックして、読み取り可能な列形式への文字列変換を完了します。メモVMとANFのサイジングのフィールドに、Oracle AWRレポートから取得したデータが入力されています。
+. をクリックし `Finish`て、文字列の読み取り可能な列形式への変換を完了します。メモVMとANFのサイジングのフィールドに、Oracle AWRレポートから取得したデータが入力されています。
 +
 image:db_sizing_ora_parser_06_anf.png["この画像は、Oracleサイジング用のExcelテンプレートのスクリーンショットです。"] image:db_sizing_ora_parser_07_anf.png["この画像は、Oracleサイジング用のExcelテンプレートのスクリーンショットです。"]
 
@@ -166,12 +166,12 @@ NOTE: 上記のスクリプトを使用して取得したデータベースの�
 +
 image:db_sizing_ora_parser_08_anf.png["この画像は、Oracleサイジング用のExcelテンプレートのスクリーンショットです。"]
 
-. ANFでは、3層のサービスレベル（Standard、Premium、Ultra）を使用してデータベースボリュームのスループット制限を管理します。を参照してください link:https://learn.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-service-levels["Azure NetApp Files のサービスレベル"^] を参照してください。サイジングガイダンスの出力に基づいて、データベースに必要なスループットを提供するANFサービスレベルを選択します。
+. ANFでは、3層のサービスレベル（Standard、Premium、Ultra）を使用してデータベースボリュームのスループット制限を管理します。詳細については、を参照してください link:https://learn.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-service-levels["Azure NetApp Files のサービスレベル"^] 。サイジングガイダンスの出力に基づいて、データベースに必要なスループットを提供するANFサービスレベルを選択します。
 
 
 ====
 
 
-== 追加情報の参照先
+== 詳細情報の入手方法
 
-NetAppデータベースソリューションの詳細については、次のWebサイトを参照してください。 link:index.html["ネットアップのエンタープライズデータベースソリューション"^]
+NetAppデータベースソリューションの詳細については、次のWebサイトを参照してください。link:index.html["ネットアップのエンタープライズデータベースソリューション"^]

@@ -40,20 +40,20 @@ image:rhhc-on-premises.png["入力/出力ダイアログを示す図、または
 の手順を参照してくださいlink:https://docs.openshift.com/container-platform/4.17/installing/installing_vsphere/installing-vsphere-assisted-installer.html["支援された展開"]OCPクラスタを導入する方法。
 
 
-TIP: 次の点に注意してください。-インストーラに提供するsshの公開鍵と秘密鍵を作成します。これらのキーは、必要に応じてマスターノードとワーカーノードにログインするために使用されます。-アシスタントインストーラからインストーラプログラムをダウンロードします。このプログラムを使用して、VMware vSphere環境でマスターノードとワーカーノード用に作成したVMをブートします。- VMには、CPU、メモリ、およびハードディスクの最小要件が必要です。（この情報を提供するマスターノードとワーカーノードについては、ページのvm createコマンドを参照してlink:https://docs.redhat.com/en/documentation/assisted_installer_for_openshift_container_platform/2024/html/installing_openshift_container_platform_with_the_assisted_installer/installing-on-vsphere["これ"]ください）。すべてのVMでdiskUUIDを有効にする必要があります。-マスター用に最低3ノード、ワーカー用に3ノードを作成します。-インストーラによって検出されたら、VMware vSphere統合トグルボタンをオンにします。
+TIP: 次の点に注意してください。-インストーラに提供するsshの公開鍵と秘密鍵を作成します。これらのキーは、必要に応じてマスターノードとワーカーノードにログインするために使用されます。-アシスタントインストーラからインストーラプログラムをダウンロードします。このプログラムを使用して、VMware vSphere環境でマスターノードとワーカーノード用に作成したVMをブートします。- VMには、CPU、メモリ、およびハードディスクの最小要件が必要です。（この情報を提供するマスターノードとワーカーノードについては、ページのvm createコマンドを参照してlink:https://docs.redhat.com/en/documentation/assisted_installer_for_openshift_container_platform/2024/html/installing_openshift_container_platform_with_the_assisted_installer/installing-on-vsphere["これは"]ください）。すべてのVMでdiskUUIDを有効にする必要があります。-マスター用に最低3ノード、ワーカー用に3ノードを作成します。-インストーラによって検出されたら、VMware vSphere統合トグルボタンをオンにします。
 
 ====
 .ハブクラスタにAdvanced Cluster Managementをインストールします
 [%collapsible]
 ====
-これは、ハブクラスタのAdvanced Cluster Management Operatorを使用してインストールします。手順を参照してください link:https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.7/html/install/installing#doc-wrapper["こちらをご覧ください"]。
+これは、ハブクラスタのAdvanced Cluster Management Operatorを使用してインストールします。手順を参照してlink:https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.7/html/install/installing#doc-wrapper["ここをクリック"]ください。
 
 ====
 .ハブクラスタに内部Red Hat Quayレジストリをインストールします。
 [%collapsible]
 ====
 * Astraイメージをプッシュするには内部レジストリが必要です。Quay内部レジストリは、HubクラスタのOperatorを使用してインストールされます。
-* 手順を参照してください link:https://access.redhat.com/documentation/en-us/red_hat_quay/2.9/html-single/deploy_red_hat_quay_on_openshift/index#installing_red_hat_quay_on_openshift["こちらをご覧ください"]
+* 取扱説明書を参照してください。link:https://access.redhat.com/documentation/en-us/red_hat_quay/2.9/html-single/deploy_red_hat_quay_on_openshift/index#installing_red_hat_quay_on_openshift["ここをクリック"]
 
 
 ====
@@ -61,7 +61,7 @@ TIP: 次の点に注意してください。-インストーラに提供するss
 [%collapsible]
 ====
 * 追加のクラスタは、ハブクラスタのACMを使用して展開できます。
-* 手順を参照してください link:https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.7/html/clusters/cluster_mce_overview#vsphere_prerequisites["こちらをご覧ください"]。
+* 手順を参照してlink:https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.7/html/clusters/cluster_mce_overview#vsphere_prerequisites["ここをクリック"]ください。
 
 
 ====
@@ -78,10 +78,10 @@ TIP: 次の点に注意してください。-インストーラに提供するss
 [%collapsible]
 ====
 * ハブ、ソース、デスティネーションの3つのクラスタすべてにNetApp Tridentをインストール
-* 手順を参照してください link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy-operator.html["こちらをご覧ください"]。
+* 手順を参照してlink:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy-operator.html["ここをクリック"]ください。
 * ONTAP-NAS用のストレージバックエンドを作成
 * ONTAP-NAS用のストレージクラスを作成
-* 手順を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-use/create-stor-class.html["こちらをご覧ください"]。
+* 手順を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-use/create-stor-class.html["ここをクリック"]。
 
 
 ====
@@ -89,7 +89,7 @@ TIP: 次の点に注意してください。-インストーラに提供するss
 [%collapsible]
 ====
 * NetApp Astra Control Centerは、ハブクラスタでAstra Operatorを使用してインストールします。
-* 手順を参照してください link:https://docs.netapp.com/us-en/astra-control-center/get-started/acc_operatorhub_install.html["こちらをご覧ください"]。
+* 手順を参照してlink:https://docs.netapp.com/us-en/astra-control-center/get-started/acc_operatorhub_install.html["ここをクリック"]ください。
 
 
 覚えておくべきポイント：*サポートサイトからNetApp Astra Control Centerのイメージをダウンロード*イメージを内部レジストリにプッシュします。*こちらの手順を参照してください。
@@ -98,7 +98,7 @@ TIP: 次の点に注意してください。-インストーラに提供するss
 .ソースクラスタにアプリケーションを導入します
 [%collapsible]
 ====
-OpenShift GitOpsを使用してアプリケーションを導入します。（例：Postgres、Ghost）
+OpenShift GitOpsを使用してアプリケーションを導入します。（Postgres、Ghostなど）
 
 ====
 .ソースクラスタとデスティネーションクラスタをAstra Control Centerに追加

@@ -29,7 +29,7 @@ NOTE: 接続されているVPCにFSx ONTAPを導入することはできませ�
 ====
 Amazon FSx ONTAPファイルシステムを作成してマウントするには、次の手順を実行します。
 
-. Amazon FSXコンソール（https://console.aws.amazon.com/fsx/`）を開き、* Create file system *を選択して、* File System Creation *ウィザードを開始します。
+. でAmazon FSxコンソールを開き `https://console.aws.amazon.com/fsx/`、* Create file system *を選択して* File System Creation *ウィザードを開始します。
 . [ファイルシステムタイプの選択]ページで、* Amazon FSx ONTAP *を選択し、*[次へ]*をクリックします。[ファイルシステムの作成*]ページが表示されます。
 +
 image:fsx-nfs-image2.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
@@ -73,7 +73,7 @@ image:fsx-nfs-image7.png["入力/出力ダイアログを示す図、または�
 +
 [cols="50%, 50%"]
 |===
-| 設定 | 設定 
+| 設定 | 構成 
 
 
 | ボリュームギャランティ（スペースギャランティ形式） | なし（シンプロビジョニング）–デフォルトで設定されます 
@@ -88,7 +88,7 @@ image:fsx-nfs-image7.png["入力/出力ダイアログを示す図、または�
 | オートサイズ（autosize-mode） | grow_shrink 
 
 
-| ストレージ効率 | enabled–デフォルトで設定されます 
+| Storage Efficiency | enabled–デフォルトで設定されます 
 
 
 | 自動削除 | ボリューム/古い順に選択します 
@@ -97,10 +97,10 @@ image:fsx-nfs-image7.png["入力/出力ダイアログを示す図、または�
 | ボリューム階層化ポリシー | Snapshotのみ–デフォルトで設定されます 
 
 
-| 最初に試行してください | 自動拡張 
+| 最初に試す | 自動拡張 
 
 
-| スナップショットポリシー | なし 
+| Snapshotポリシー | なし 
 |===
 +
 次のSSHコマンドを使用して、ボリュームを作成および変更します。
@@ -154,9 +154,9 @@ Amazon FSx ONTAPのパフォーマンスについては、を参照してくだ�
 ====
 ファイルシステムとSVMを作成したら、VMwareコンソールを使用してSDDCグループを作成し、VMware Transit Connectを設定します。これを行うには、次の手順を実行します。VMware Cloud ConsoleとAWSコンソールの間を移動する必要があります。
 
-. VMCコンソールにhttps://vmc.vmware.com`からログインします。
+. VMCコンソールにログインし `https://vmc.vmware.com`ます。
 . [*インベントリ*]ページで、[*SDDCグループ*]をクリックします。
-. [*SDDCグループ*]タブで、[*actions*]をクリックし、[*SDDCグループの作成*]を選択します。SDDCグループの名前は「FSxONTAPDatastoreGrp」です。
+. [*SDDCグループ*]タブで、[*actions*]をクリックし、[*SDDCグループの作成*]を選択します。デモ目的では、SDDCグループが呼び出されます `FSxONTAPDatastoreGrp`。
 . [メンバシップ]グリッドで、グループメンバとして含めるSDDCを選択します。
 +
 image:fsx-nfs-image12.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
@@ -178,7 +178,7 @@ image:fsx-nfs-image14.png["入力/出力ダイアログを示す図、または�
 . ［*アカウントの追加*］をクリックします。
 +
 .. FSx ONTAPファイルシステムのプロビジョニングに使用したAWSアカウントを指定します。
-.. [ 追加（ Add ） ] をクリックします。
+.. [追加]*をクリックします。
 
 
 . AWSコンソールに戻り、同じAWSアカウントにログインして、* Resource Access Manager *サービスページに移動します。リソース共有を承認するボタンがあります。

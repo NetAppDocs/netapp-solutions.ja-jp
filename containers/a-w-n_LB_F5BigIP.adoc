@@ -30,20 +30,20 @@ NOTE: F5 BIG-IP システムは、専用のハードウェア、クラウド、�
 
 == 検証済みのリリース
 
-この解決策 は、VMware vSphereに導入された仮想アプライアンスを使用します。F5 BIG-IP 仮想アプライアンスのネットワークは、ネットワーク環境に基づいて、 2 アームまたは 3 アームの構成で設定できます。本ドキュメントでの導入は、 2 つの設定に基づいています。Anthosで仮想アプライアンスを使用するための構成方法については、こちらをご覧ください https://cloud.google.com/solutions/partners/installing-f5-big-ip-adc-for-gke-on-prem["こちらをご覧ください"]。
+この解決策 は、VMware vSphereに導入された仮想アプライアンスを使用します。F5 BIG-IP 仮想アプライアンスのネットワークは、ネットワーク環境に基づいて、 2 アームまたは 3 アームの構成で設定できます。本ドキュメントでの導入は、 2 つの設定に基づいています。Anthosで使用する仮想アプライアンスの設定に関する詳細については、を参照して https://cloud.google.com/solutions/partners/installing-f5-big-ip-adc-for-gke-on-prem["ここをクリック"]ください。
 
 ネットアップのソリューションエンジニアリングチームでは、今回のラボの以下の表に示すリリースを、オンプレミスのAnthos環境で機能することを検証しました。
 
 |===
 
 
-| メーカー | を入力します | バージョン 
+| メーカー | タイプ | バージョン 
 
 
-| F5キー | BIG-IP VE | 15.0.1-0.0.11 
+| F5 | BIG-IP VE | 15.0.1-0.0.11 
 
 
-| F5キー | BIG-IP VE | 16.1.0-0.0.19 
+| F5 | BIG-IP VE | 16.1.0-0.0.19 
 |===
 
 
@@ -51,17 +51,17 @@ NOTE: F5 BIG-IP システムは、専用のハードウェア、クラウド、�
 
 F5 BIG-IPをインストールするには、次の手順を実行します。
 
-. から Virtual Application Open Virtual Appliance （ OVA ；仮想アプリケーションオープン仮想アプライアンス）ファイルをダウンロードします F5 キー https://downloads.f5.com/esd/serveDownload.jsp?path=/big-ip/big-ip_v15.x/15.0.1/english/virtual-edition/&sw=BIG-IP&pro=big-ip_v15.x&ver=15.0.1&container=Virtual-Edition&file=BIGIP-15.0.1-0.0.11.ALL-vmware.ova["こちらをご覧ください"]。
+. 仮想アプリケーションOpen Virtual Appliance（OVA）ファイルをF5からダウンロードします https://downloads.f5.com/esd/serveDownload.jsp?path=/big-ip/big-ip_v15.x/15.0.1/english/virtual-edition/&sw=BIG-IP&pro=big-ip_v15.x&ver=15.0.1&container=Virtual-Edition&file=BIGIP-15.0.1-0.0.11.ALL-vmware.ova["ここをクリック"]。
 +
 
 NOTE: アプライアンスをダウンロードするには、 F5 に登録する必要があります。これらは、 Big IP Virtual Edition ロードバランサ用の 30 日間のデモライセンスを提供します。アプライアンスを本番環境に導入するには、 10Gbps の永続的ライセンスを推奨します。
 
-. インフラストラクチャリソースプールを右クリックし、[Deploy OVF Template]を選択します。手順 1 でダウンロードした OVA ファイルを選択するためのウィザードが起動します。次へをクリックします。
+. インフラストラクチャリソースプールを右クリックし、[Deploy OVF Template]を選択します。手順 1 でダウンロードした OVA ファイルを選択するためのウィザードが起動します。[Next]をクリックします。
 +
 image:deploy-big_ip_1.png["Big IP Appliance を導入します"]
 
 . [ 次へ ] をクリックして各手順を続行し、ストレージ選択画面に達するまで表示される各画面のデフォルト値を受け入れます。仮想マシンを導入するVM_Datastoreを選択し、Nextをクリックします。
-. ウィザードの次の画面では、環境で使用する仮想ネットワークをカスタマイズできます。[External] フィールドに VM_Network を選択し、 [Management] フィールドに [Management_Network] を選択します。内部および HA は、 F5 BIG-IP アプライアンスの高度な設定に使用され、設定されていません。これらのパラメータは単独で使用することも、インフラストラクチャ以外の分散ポートグループに接続するように設定することもできます。次へをクリックします。
+. ウィザードの次の画面では、環境で使用する仮想ネットワークをカスタマイズできます。[External] フィールドに VM_Network を選択し、 [Management] フィールドに [Management_Network] を選択します。内部および HA は、 F5 BIG-IP アプライアンスの高度な設定に使用され、設定されていません。これらのパラメータは単独で使用することも、インフラストラクチャ以外の分散ポートグループに接続するように設定することもできます。[Next]をクリックします。
 +
 image:deploy-big_ip_2.png["Big _IP Appliance 、パート 2 を展開します"]
 
@@ -78,7 +78,7 @@ image:big-IP_config_1.png["BIG-IP 設定"]
 +
 image:big-IP_config_2.png["BIG-IP Configuration 、パート 2"]
 
-. 次の画面では、アプライアンスのライセンスを有効にするよう求められます。Activate をクリックして開始します。次のページでメッセージが表示されたら、ダウンロード用に登録したときに受け取った 30 日間の評価ライセンスキーか、アプライアンスの購入時に取得した永久ライセンスのいずれかを貼り付けます。次へをクリックします。
+. 次の画面では、アプライアンスのライセンスを有効にするよう求められます。Activate をクリックして開始します。次のページでメッセージが表示されたら、ダウンロード用に登録したときに受け取った 30 日間の評価ライセンスキーか、アプライアンスの購入時に取得した永久ライセンスのいずれかを貼り付けます。[Next]をクリックします。
 +
 image:big-IP_config_3.png["BIG-IP Configuration 、パート 3"]
 
@@ -125,7 +125,7 @@ image:big-IP_config_10.png["BIG-IP Configuration 、パート 10"]
 +
 image:big-IP_config_11.png["BIG-IP Configuration 、パート 11"]
 
-. 表示される画面には、現在の共通パーティションのみが表示されます。右側の[作成]をクリックして最初の追加パーティションを作成し、「GKE-ADMIN」という名前を付けます。[繰り返し]をクリックし'パーティションにUser-Cluster-1という名前を付けます[繰り返し]ボタンをもう一度クリックして'次のパーティションにUser-Cluster-2'という名前を付けます最後に、 [ 終了 ] をクリックしてウィザードを完了します。パーティションリスト画面が表示され、すべてのパーティションが表示されます。
+. 表示される画面には、現在の共通パーティションのみが表示されます。右側の[作成]をクリックして、最初の追加パーティションを作成し、名前を付け `GKE-Admin`ます。[繰り返し]をクリックし、パーティションに名前を付け `User-Cluster-1`ます。[繰り返し]ボタンをもう一度クリックして、次のパーティションに名前を付け `User-Cluster-2`ます。最後に、 [ 終了 ] をクリックしてウィザードを完了します。パーティションリスト画面が表示され、すべてのパーティションが表示されます。
 +
 image:big-IP_config_12.png["BIG-IP Configuration 、パート 12"]
 

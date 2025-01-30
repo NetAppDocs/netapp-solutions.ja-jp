@@ -34,7 +34,7 @@ NetApp SnapCenter ソフトウェアは、使いやすいエンタープライ�
 
 
 
-== 対象者
+== 対象読者
 
 この解決策 は、次のユーザーを対象としています。
 
@@ -48,7 +48,7 @@ NetApp SnapCenter ソフトウェアは、使いやすいエンタープライ�
 
 == 解決策 のテストおよび検証環境
 
-この解決策のテストと検証は、最終的な導入環境とは一致しない可能性があるラボ環境で実行しました。を参照してください <<導入にあたって考慮すべき主な要因>> を参照してください。
+この解決策のテストと検証は、最終的な導入環境とは一致しない可能性があるラボ環境で実行しました。詳細については、を参照してください<<導入にあたって考慮すべき主な要因>>。
 
 
 
@@ -79,19 +79,19 @@ image:snapctr_psql_brc_architecture.png["このイメージは、SnapCenterを�
 | Red Hat Linux | RHEL Linux 8.6（LVM）- x64 Gen2 | テスト用にRedHatサブスクリプションを導入 
 
 
-| Windows Serverの場合 | 2022データセンター、AE Hotpatch-x64 Gen2 | SnapCenterサアハノホスト 
+| Windows Server | 2022データセンター、AE Hotpatch-x64 Gen2 | SnapCenterサアハノホスト 
 
 
 | PostgreSQL データベース | バージョン14.13 | HammerDB TPCCスキーマが格納されたPostgreSQL DBクラスタ 
 
 
-| SnapCenter サーバ | バージョン6.0 | ワークグループの導入 
+| SnapCenterサーバ | バージョン6.0 | ワークグループの導入 
 
 
 | JDKを開く | バージョンjava-11-openjdk | DB VMでのSnapCenterプラグインの要件 
 
 
-| NFS | バージョン 3.0 以降 | データとログを別 々 のマウントポイントに分離 
+| NFS | バージョン3.0 | データとログを別 々 のマウントポイントに分離 
 
 
 | Ansible | コア2.16.2 | Python 3.6.8 
@@ -119,11 +119,11 @@ image:snapctr_psql_brc_architecture.png["このイメージは、SnapCenterを�
 
 === 導入にあたって考慮すべき主な要因
 
-* * SnapCenterの導入。* SnapCenterは、Windowsドメインまたはワークグループ環境に導入できます。ドメインベースの展開の場合、ドメインユーザーアカウントはドメイン管理者アカウントであるか、ドメインユーザーがSnapCenterホスティングサーバー上のローカル管理者のグループに属している必要があります。
-* *名前解決。* SnapCenterサーバーは、管理対象の各ターゲットデータベースサーバーホストのIPアドレスに名前を解決する必要があります。各ターゲット・データベース・サーバ・ホストは、SnapCenterサーバ名をIPアドレスに解決する必要があります。DNSサーバを使用できない場合は、ローカルホストファイルに名前を追加して解決します。
-* *リソースグループの設定。* SnapCenterのリソースグループは、一緒にバックアップできる同様のリソースを論理的にグループ化したものです。これにより、大規模なデータベース環境でのバックアップジョブの数が削減され、簡易化されます。
-* *フルデータベースバックアップとアーカイブログバックアップを別 々 に実行します。*フルデータベースバックアップには、データボリュームとログボリュームの整合グループSnapshotが含まれます。フルデータベースSnapshotを頻繁に作成すると、ストレージ消費量は増加しますが、RTOは向上します。もう1つの方法は、フルデータベーススナップショットの頻度を減らし、アーカイブログのバックアップを頻繁に行うことです。これにより、ストレージ消費量が削減され、RPOが向上しますが、RTOが延長される可能性があります。バックアップスキームを設定する際には、RTOとRPOの目標を考慮してください。ボリューム上のSnapshotバックアップの数には制限（1023）もあります。
-* *権限委譲。*必要に応じて、SnapCenter UIに組み込まれているロールベースのアクセス制御を利用して、アプリケーションチームやデータベースチームに権限を委譲できます。
+* * SnapCenterの導入*SnapCenterは、Windowsドメインまたはワークグループ環境に導入できます。ドメインベースの展開の場合、ドメインユーザーアカウントはドメイン管理者アカウントであるか、ドメインユーザーがSnapCenterホスティングサーバー上のローカル管理者のグループに属している必要があります。
+* *名前解決。*SnapCenterサーバは'管理対象の各ターゲット・データベース・サーバ・ホストの名前をIPアドレスに解決する必要があります各ターゲット・データベース・サーバ・ホストは、SnapCenterサーバ名をIPアドレスに解決する必要があります。DNSサーバを使用できない場合は、ローカルホストファイルに名前を追加して解決します。
+* *リソースグループの設定。*SnapCenterのリソースグループは、同様のリソースをまとめてバックアップできる論理的なグループです。これにより、大規模なデータベース環境でのバックアップジョブの数が削減され、簡易化されます。
+* *フルデータベースとアーカイブログのバックアップは別 々 に実行*フルデータベースバックアップには、データボリュームとログボリュームの整合グループSnapshotが含まれます。フルデータベースSnapshotを頻繁に作成すると、ストレージ消費量は増加しますが、RTOは向上します。もう1つの方法は、フルデータベーススナップショットの頻度を減らし、アーカイブログのバックアップを頻繁に行うことです。これにより、ストレージ消費量が削減され、RPOが向上しますが、RTOが延長される可能性があります。バックアップスキームを設定する際には、RTOとRPOの目標を考慮してください。ボリューム上のSnapshotバックアップの数には制限（1023）もあります。
+* * Privileges委任。*SnapCenter UIに組み込まれたロールベースアクセス制御を活用して、必要に応じてPrivilegesをアプリケーションチームやデータベースチームに委譲できます。
 
 
 
@@ -139,7 +139,7 @@ image:snapctr_psql_brc_architecture.png["このイメージは、SnapCenterを�
 [%collapsible]
 ====
 . 導入環境では、ONTAPストレージ上で2つの既存のPostgreSQLデータベースが実行されている必要があります。1つはプライマリDBサーバとして、もう1つはクローンDBサーバとして実行されます。ONTAPへのPostgreSQLデータベースの導入については、TR-4956：『link:aws_postgres_fsx_ec2_hadr.html["AWS FSX/EC2におけるPostgreSQL高可用性導入とディザスタリカバリの自動化"^]looking for the PostgreSQL automated deployment playbook on primary instance』を参照してください。
-. NetApp SnapCenter UIツールを最新バージョンで実行するようにWindowsサーバをプロビジョニングします。詳細については、次のリンクを参照してください。link:https://docs.netapp.com/us-en/snapcenter/install/task_install_the_snapcenter_server_using_the_install_wizard.html["SnapCenter サーバをインストールします"^]
+. NetApp SnapCenter UIツールを最新バージョンで実行するようにWindowsサーバをプロビジョニングします。詳細については、次のリンクを参照してください。link:https://docs.netapp.com/us-en/snapcenter/install/task_install_the_snapcenter_server_using_the_install_wizard.html["SnapCenterサーバのインストール"^]
 
 
 ====
@@ -149,7 +149,7 @@ image:snapctr_psql_brc_architecture.png["このイメージは、SnapCenterを�
 
 [%collapsible]
 ====
-SnapCenterのインストールと設定に進む前に、オンラインを使用することをお勧めしlink:https://docs.netapp.com/us-en/snapcenter/index.html["SnapCenter ソフトウェアのドキュメント"^]ます。ONTAPでPostgreSQL用SnapCenterソフトウェアをインストールしてセットアップする手順の概要を以下に示します。
+SnapCenterのインストールと設定に進む前に、オンラインを使用することをお勧めしlink:https://docs.netapp.com/us-en/snapcenter/index.html["SnapCenterソフトウェアのドキュメント"^]ます。ONTAPでPostgreSQL用SnapCenterソフトウェアをインストールしてセットアップする手順の概要を以下に示します。
 
 . SnapCenter Windowsサーバから'から最新のJava JDKをダウンロードしてインストールしlink:https://www.java.com/en/["デスクトップアプリケーション用Javaの取得"^]ますWindowsファイアウォールをオフにします。
 . SnapCenter Windowsサーバから、SnapCenter 6.0 Windowsの前提条件をダウンロードしてインストールまたは更新します。PowerShell-PowerShell-7.4.3-win-x64.msiおよび.Net hosting package-dotnet-hosting-8.0.6-win
@@ -160,15 +160,15 @@ SnapCenterのインストールと設定に進む前に、オンラインを使�
 +
 image:snapctr_ora_azure_anf_setup_01.png["このイメージは、SnapCenterサーバのログイン画面を示しています。"]
 
-. レビュー `Get Started` オンラインメニュー。
+. オンラインメニューを確認し `Get Started`ます。
 +
 image:snapctr_ora_azure_anf_setup_02.png["この画像は、SnapCenterサーバのオンラインメニューを提供します。"]
 
-. インチ `Settings-Global Settings`、チェック `Hypervisor Settings` [更新]をクリックします。
+. で `Settings-Global Settings`、をオンにして `Hypervisor Settings`[更新]をクリックします。
 +
 image:snapctr_ora_azure_anf_setup_03.png["このイメージは、SnapCenterサーバのハイパーバイザー設定を提供します。"]
 
-. 必要に応じて、 `Session Timeout` SnapCenter UIの場合は、希望する間隔に移動します。
+. 必要に応じて、SnapCenter UIを目的の間隔に調整します `Session Timeout`。
 +
 image:snapctr_ora_azure_anf_setup_04.png["このイメージは、SnapCenterサーバのセッションタイムアウトを提供します。"]
 
@@ -176,7 +176,7 @@ image:snapctr_ora_azure_anf_setup_04.png["このイメージは、SnapCenterサ�
 +
 image:snapctr_ora_azure_anf_setup_06.png["このイメージは、SnapCenterサーバの設定-ユーザとアクセスを提供します"]
 
-. 。 `Roles` タブには、さまざまなSnapCenterユーザに割り当てることができる組み込みロールが表示されます。カスタムロールは、必要な権限を持つ管理者ユーザが作成することもできます。
+.  `Roles`タブには、さまざまなSnapCenterユーザに割り当てることができる組み込みロールが表示されます。カスタムロールは、必要な権限を持つ管理者ユーザが作成することもできます。
 +
 image:snapctr_ora_azure_anf_setup_07.png["この画像は、SnapCenterサーバの役割を示しています。"]
 
@@ -366,7 +366,7 @@ image:snapctr_psql_restore_06.png["このイメージは、SnapCenterサーバ�
 +
 image:snapctr_psql_restore_07.png["このイメージは、SnapCenterサーバのデータベースリストアを提供します。"]
 
-. [Running job]をクリックして開きます。 `Job Details` ウィンドウ。ジョブステータスは、 `Monitor` タブ。
+. [Running job]をクリックしてウィンドウを開きます `Job Details`。ジョブステータスは、タブから開くことも、表示することもできます `Monitor`。
 +
 image:snapctr_psql_restore_08.png["このイメージは、SnapCenterサーバのデータベースリストアを提供します。"]
 
@@ -442,7 +442,7 @@ image:snapctr_psql_clone_04.png["このイメージは、SnapCenterサーバの�
 +
 image:snapctr_psql_clone_05.png["このイメージは、SnapCenterサーバのデータベースクローンを提供します。"]
 
-. [Running job]をクリックして開きます。 `Job Details` ウィンドウ。ジョブステータスは、 `Monitor` タブ。
+. [Running job]をクリックしてウィンドウを開きます `Job Details`。ジョブステータスは、タブから開くことも、表示することもできます `Monitor`。
 +
 image:snapctr_psql_clone_06.png["このイメージは、SnapCenterサーバのデータベースリストアを提供します。"]
 
@@ -479,11 +479,11 @@ postgres=# select pg_read_file('/etc/hostname') as hostname;
 ====
 
 
-== 追加情報の参照先
+== 詳細情報の入手方法
 
 このドキュメントに記載されている情報の詳細については、以下のドキュメントや Web サイトを参照してください。
 
-* SnapCenter ソフトウェアのドキュメント
+* SnapCenterソフトウェアのドキュメント
 +
 link:https://docs.netapp.com/us-en/snapcenter/index.html["https://docs.netapp.com/us-en/snapcenter/index.html"^]
 

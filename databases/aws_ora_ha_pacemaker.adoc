@@ -34,7 +34,7 @@ Oracleをパブリッククラウドで自己管理して実行しようとす�
 
 
 
-== 対象者
+== 対象読者
 
 この解決策 は、次のユーザーを対象としています。
 
@@ -48,7 +48,7 @@ Oracleをパブリッククラウドで自己管理して実行しようとす�
 
 == 解決策 のテストおよび検証環境
 
-この解決策のテストと検証は、最終的な導入環境とは一致しない可能性があるラボ環境で実行しました。を参照してください <<導入にあたって考慮すべき主な要因>> を参照してください。
+この解決策のテストと検証は、最終的な導入環境とは一致しない可能性があるラボ環境で実行しました。詳細については、を参照してください<<導入にあたって考慮すべき主な要因>>。
 
 
 
@@ -82,7 +82,7 @@ image:aws_ora_fsx_ec2_pcs_architecture.png["この画像は、Pacemaker Clusteri
 | Red Hat Linux | RHEL Linux 8.6（LVM）- x64 Gen2 | テスト用にRedHatサブスクリプションを導入 
 
 
-| Oracle データベース | バージョン19.18 | RUパッチp34765931_190000_Linux-x86-64.zipを適用しました 
+| Oracleデータベース | バージョン19.18 | RUパッチp34765931_190000_Linux-x86-64.zipを適用しました 
 
 
 | Oracle OPatchの略 | バージョン12.2.0.1.36 | 最新のパッチp6880880_190000_Linux-x86-64.zip 
@@ -91,7 +91,7 @@ image:aws_ora_fsx_ec2_pcs_architecture.png["この画像は、Pacemaker Clusteri
 | ペースメーカー | バージョン0.10.18 | RHEL 8.0 by RedHat向け高可用性アドオン 
 
 
-| NFS | バージョン 3.0 以降 | Oracle dNFSが有効 
+| NFS | バージョン3.0 | Oracle dNFSが有効 
 
 
 | Ansible | コア2.16.2 | Python 3.6.8 
@@ -125,8 +125,8 @@ image:aws_ora_fsx_ec2_pcs_architecture.png["この画像は、Pacemaker Clusteri
 * *スタンバイノードでのフェンス遅延。*2ノードPCSクラスタでは、クォーラムは人為的に1に設定されます。クラスタノード間の通信に問題が発生した場合、どちらかのノードがもう一方のノードをフェンシングしようとし、データが破損する可能性があります。スタンバイノードに遅延を設定すると、問題が軽減され、スタンバイノードがフェンシングされている間もプライマリノードがサービスを提供し続けることができます。
 * *複数のAZ展開の考慮事項*このソリューションは、単一のアベイラビリティゾーンに導入され、検証されます。複数のAZ環境でPCSフローティングIPをアベイラビリティゾーン間で移動するには、追加のAWSネットワークリソースが必要です。
 * * Oracleデータベースのストレージレイアウト*このソリューションのデモでは、テストデータベースNTAP用に3つのデータベースボリュームをプロビジョニングし、Oracleのバイナリ、データ、ログをホストします。ボリュームは、NFS経由で/u01-binary、/u02-data、および/u03-logとしてOracle DBサーバにマウントされます。冗長性を確保するために、/u02と/u03のマウントポイントにデュアル制御ファイルが設定されています。
-* * dNFS構成。* dNFS（Oracle 11g以降で利用可能）を使用すると、DB VM上で実行されるOracleデータベースは、ネイティブNFSクライアントよりも大幅に多くのI/Oを処理できます。Oracleの自動導入では、NFSv3にdNFSがデフォルトで設定されます。
-* *データベースのバックアップ。* NetAppは、データベースのバックアップ、リストア、クローニングを実行するためのSnapCenterソフトウェアスイートで、使いやすいUIインターフェイスを備えています。NetAppでは、このような管理ツールを実装して、高速（1分未満）のSnapshotバックアップ、高速（数分）のデータベースリストア、データベースクローンを実現することを推奨しています。
+* * dNFS設定*dNFS（Oracle 11g以降で使用可能）を使用すると、DB VM上で実行されるOracleデータベースでネイティブNFSクライアントよりも大幅に多くのI/Oを処理できます。Oracleの自動導入では、NFSv3にdNFSがデフォルトで設定されます。
+* *データベースのバックアップ。*NetAppは、データベースのバックアップ、リストア、クローニングを実行するためのSnapCenterソフトウェアスイートで、使いやすいUIインターフェイスを備えています。NetAppでは、このような管理ツールを実装して、高速（1分未満）のSnapshotバックアップ、高速（数分）のデータベースリストア、データベースクローンを実現することを推奨しています。
 
 
 
@@ -144,9 +144,9 @@ image:aws_ora_fsx_ec2_pcs_architecture.png["この画像は、Pacemaker Clusteri
 導入には、次の前提条件が必要です。
 
 . AWSアカウントが設定され、必要なVPCとネットワークセグメントがAWSアカウント内に作成されている。
-. 最新バージョンのAnsibleとGitがインストールされたAnsibleコントローラノードとしてLinux VMをプロビジョニングします。詳細については、次のリンクを参照してください。 link:../automation/getting-started.html["NetApp解決策 自動化の導入"^] セクション-
-`Setup the Ansible Control Node for CLI deployments on RHEL / CentOS` または
-`Setup the Ansible Control Node for CLI deployments on Ubuntu / Debian`。
+. 最新バージョンのAnsibleとGitがインストールされたAnsibleコントローラノードとしてLinux VMをプロビジョニングします。詳細については、セクション-または
+`Setup the Ansible Control Node for CLI deployments on Ubuntu / Debian`の
+`Setup the Ansible Control Node for CLI deployments on RHEL / CentOS`リンクを参照してください。link:../automation/getting-started.html["NetApp解決策 自動化の導入"^]
 +
 AnsibleコントローラとEC2インスタンスのDB VM間でSSH公開鍵/秘密鍵認証を有効にします。
 
@@ -1823,7 +1823,7 @@ NetAppは、AWS EC2とAmazon FSx ONTAPに導入されたOracleデータベース
 ====
 
 
-== 追加情報の参照先
+== 詳細情報の入手方法
 
 このドキュメントに記載されている情報の詳細については、以下のドキュメントや Web サイトを参照してください。
 

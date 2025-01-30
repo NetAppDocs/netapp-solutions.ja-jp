@@ -22,13 +22,13 @@ summary: Domino Data LabとNetAppによるハイブリッドマルチクラウ�
 
 このセクションで説明する手順を実行する前に、次のタスクがすでに実行されていることを前提としています。
 
-* オンプレミスのNetApp ONTAPストレージプラットフォームの導入と設定が完了している。詳細については、を参照してください link:https://www.netapp.com/support-and-training/documentation/["ネットアップの製品マニュアル"]。
+* オンプレミスのNetApp ONTAPストレージプラットフォームの導入と設定が完了している。詳細については、を参照してlink:https://www.netapp.com/support-and-training/documentation/["ネットアップの製品マニュアル"]ください。
 * AWSでAmazon FSx ONTAPインスタンスをすでにプロビジョニングしておきます。詳細については、を参照してlink:https://aws.amazon.com/fsx/netapp-ontap/["Amazon FSx ONTAPの製品ページ"]ください。
-* オンプレミスのデータセンターにKubernetesクラスタをプロビジョニング済みである。詳細については、を参照してください link:https://docs.dominodatalab.com/en/latest/admin_guide/b35e66/admin-guide/["Domino管理者ガイド"]。
-* AWSでAmazon EKSクラスタをプロビジョニング済みである。詳細については、を参照してください link:https://docs.dominodatalab.com/en/latest/admin_guide/b35e66/admin-guide/["Domino管理者ガイド"]。
+* オンプレミスのデータセンターにKubernetesクラスタをプロビジョニング済みである。詳細については、を参照してlink:https://docs.dominodatalab.com/en/latest/admin_guide/b35e66/admin-guide/["Domino管理者ガイド"]ください。
+* AWSでAmazon EKSクラスタをプロビジョニング済みである。詳細については、を参照してlink:https://docs.dominodatalab.com/en/latest/admin_guide/b35e66/admin-guide/["Domino管理者ガイド"]ください。
 * オンプレミスのKubernetesクラスタにNetApp Tridentをインストールしておきます。また、ストレージリソースのプロビジョニングと管理にオンプレミスのNetApp ONTAPストレージプラットフォームを使用するようにTridentインスタンスを設定しました。詳細については、を参照してlink:https://docs.netapp.com/us-en/trident/index.html["NetApp Trident のドキュメント"]ください。
 * NetApp TridentをAmazon EKSクラスタにインストールしておきます。また、ストレージリソースのプロビジョニングと管理にAmazon FSx ONTAPインスタンスを使用するように、このTridentインスタンスを設定しました。詳細については、を参照してlink:https://docs.netapp.com/us-en/trident/index.html["NetApp Trident のドキュメント"]ください。
-* オンプレミスのデータセンターとAWSの仮想プライベートクラウド（VPC）の間に双方向のネットワーク接続が必要です。これを実装するためのさまざまなオプションの詳細については、を参照してください。 link:https://docs.aws.amazon.com/vpc/latest/userguide/vpn-connections.html["Amazon Virtual Private Network（VPN）ドキュメント"]。
+* オンプレミスのデータセンターとAWSの仮想プライベートクラウド（VPC）の間に双方向のネットワーク接続が必要です。これを実装するためのさまざまなオプションの詳細については、を参照してくださいlink:https://docs.aws.amazon.com/vpc/latest/userguide/vpn-connections.html["Amazon Virtual Private Network（VPN）ドキュメント"]。
 
 
 
@@ -38,7 +38,7 @@ summary: Domino Data LabとNetAppによるハイブリッドマルチクラウ�
 Domino Enterprise MLOps PlatformをAWSにインストールするには、に記載されている手順に従いますlink:https://docs.dominodatalab.com/en/latest/admin_guide/c1eec3/deploy-domino/["Domino管理者ガイド"]。Dominoは、以前にプロビジョニングしたのと同じAmazon EKSクラスタに導入する必要があります。また、このEKSクラスタにNetApp Tridentがインストールおよび設定されている必要があります。また、Domino.ymlインストール構成ファイルで、Tridentで管理されるストレージクラスを共有ストレージクラスとして指定する必要があります。
 
 
-NOTE: を参照してください link:https://docs.dominodatalab.com/en/latest/admin_guide/7f4331/install-configuration-reference/#storage-classes["Dominoインストール構成リファレンスガイド"] Domino.ymlインストール構成ファイルで共有ストレージクラスを指定する方法の詳細については、を参照してください。
+NOTE: Domino.ymlインストール構成ファイルで共有ストレージクラスを指定する方法の詳細については、を参照してlink:https://docs.dominodatalab.com/en/latest/admin_guide/7f4331/install-configuration-reference/#storage-classes["Dominoインストール構成リファレンスガイド"]ください。
 
 
 NOTE: link:https://www.netapp.com/media/79922-tr-4952.pdf["テクニカルレポートTR-4952"]Amazon FSx ONTAPを使用したAWSでのDominoの導入について説明します。発生した問題のトラブルシューティングに役立つ参考資料になります。
@@ -47,7 +47,7 @@ NOTE: link:https://www.netapp.com/media/79922-tr-4952.pdf["テクニカルレポ
 
 == Domino Nexusの有効化
 
-次に、Domino Nexusを有効にする必要があります。を参照してください link:https://docs.dominodatalab.com/en/latest/admin_guide/c65074/nexus-hybrid-architecture/["Domino管理者ガイド"] を参照してください。
+次に、Domino Nexusを有効にする必要があります。詳細については、を参照して link:https://docs.dominodatalab.com/en/latest/admin_guide/c65074/nexus-hybrid-architecture/["Domino管理者ガイド"] ください。
 
 
 

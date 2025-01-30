@@ -44,7 +44,7 @@ Jetstream DRを使用すると、オンプレミスからAVS、特にAzure NetAp
 
 
 . 災害発生時に、指定したAVS DRサイトでAzure NetApp Files データストアへのフェイルオーバーをトリガーします。
-. 保護対象サイトのリカバリ後、保護対象サイトへのフェイルバックを起動します。開始する前に、前提条件が満たされていることを確認してください https://docs.microsoft.com/en-us/azure/azure-vmware/deploy-disaster-recovery-using-jetstream["リンク"^] また、JetStream Softwareが提供するBandwidth Testing Tool（BWT）を実行して、JetStream DRソフトウェアで使用した場合にAzure BLOBストレージとそのレプリケーション帯域幅のパフォーマンスを評価します。接続を含む前提条件が整ったら、からJetStream DR for AVSをセットアップして登録します https://portal.azure.com/["Azure Marketplace で入手できます"^]。ソフトウェアバンドルをダウンロードしたら、上記のインストールプロセスに進みます。
+. 保護対象サイトがリカバリされたら、保護対象サイトへのフェイルバックを実行します。開始する前に、この説明に従って前提条件が満たされていることを確認し https://docs.microsoft.com/en-us/azure/azure-vmware/deploy-disaster-recovery-using-jetstream["リンク"^]、JetStream Softwareが提供するBandwidth Testing Tool（BWT）を実行して、JetStream DRソフトウェアとともに使用した場合のAzure Blobストレージの潜在的なパフォーマンスとレプリケーション帯域幅を評価します。接続などの前提条件が整ったら、からJetStream DR for AVSをセットアップしてサブスクライブし https://portal.azure.com/["Azure Marketplace で入手できます"^]ます。ソフトウェアバンドルをダウンロードしたら、上記のインストールプロセスに進みます。
 
 
 ====
@@ -219,7 +219,7 @@ image:vmware-dr-image21.png["入力/出力ダイアログを示す図、また�
 . オンプレミス環境をリストア災害のタイプによっては、保護対象クラスタの構成をリストアまたは検証しなければならない場合があります。必要に応じて、JetStream DRソフトウェアを再インストールする必要があります。
 +
 
-NOTE: 注：Automation Toolkitで提供されている「recovery_utility_prepare_failback」スクリプトを使用すると、古いVMやドメイン情報などの元の保護サイトをクリーンアップできます。
+NOTE: 注： `recovery_utility_prepare_failback`Automation Toolkitに付属のスクリプトを使用すると、古いVMやドメイン情報などの元の保護サイトをクリーンアップできます。
 
 . リストアされたオンプレミス環境にアクセスし、Jetstream DR UIに移動して、適切な保護ドメインを選択します。保護サイトがフェイルバックできる状態になったら、UIで[Failback]オプションを選択します。
 +

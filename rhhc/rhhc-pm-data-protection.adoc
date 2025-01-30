@@ -57,16 +57,16 @@ video::36ecf505-5d1d-4e99-a6f8-b11c00341793[panopto]
 
 === セットアップの前提条件
 
-* link:https://signin.aws.amazon.com/signin?redirect_uri=https://portal.aws.amazon.com/billing/signup/resume&client_id=signup["AWS アカウント"]
+* link:https://signin.aws.amazon.com/signin?redirect_uri=https://portal.aws.amazon.com/billing/signup/resume&client_id=signup["AWSアカウント"]
 * link:https://console.redhat.com/["Red Hat OpenShiftアカウント"]
-* IAMユーザ link:https://www.rosaworkshop.io/rosa/1-account_setup/["適切な権限"] ROSAクラスタを作成してアクセスするには
+* ROSAクラスタを作成してアクセスするためのIAMユーザlink:https://www.rosaworkshop.io/rosa/1-account_setup/["適切な権限"]
 * link:https://aws.amazon.com/cli/["AWS CLI"]
 * link:https://console.redhat.com/openshift/downloads["ローザCLI"]
 * link:https://console.redhat.com/openshift/downloads["OpenShift CLI"]（OC）
 * サブネットと適切なゲートウェイおよびルートを備えたvPC
-* link:https://docs.openshift.com/rosa/rosa_install_access_delete_clusters/rosa_getting_started_iam/rosa-installing-rosa.html["Rosaクラスタインストール済み"] VPCに挿入
+* link:https://docs.openshift.com/rosa/rosa_install_access_delete_clusters/rosa_getting_started_iam/rosa-installing-rosa.html["Rosaクラスタインストール済み"]VPCに挿入
 * link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/getting-started-step1.html["Amazon FSx ONTAP"]同じVPCに作成
-* ROSAクラスタへのアクセス link:https://console.redhat.com/openshift/overview["OpenShiftハイブリッドクラウドコンソール"]
+* ROSAクラスタへのアクセスlink:https://console.redhat.com/openshift/overview["OpenShiftハイブリッドクラウドコンソール"]
 
 
 
@@ -89,34 +89,34 @@ video::36ecf505-5d1d-4e99-a6f8-b11c00341793[panopto]
 
 
 
-==== ** 1：管理者ユーザを作成してクラスタにログイン**
+==== ** 1.管理者ユーザを作成してクラスタにログイン**
 
 次のコマンドを使用してadminユーザを作成し、ROSAクラスタにアクセスします（adminユーザを作成する必要があるのは、インストール時にadminユーザを作成しなかった場合だけです）。
 
 `rosa create admin --cluster=<cluster-name>`
 
-次のような出力が表示されます。を使用してクラスタにログインします。 `oc login` コマンドは出力に表示されます。
+次のような出力が表示されます。出力に表示されたコマンドを使用して、クラスタにログインし `oc login`ます。
 
 image:rhhc-rosa-cluster-admin-create.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
-NOTE: トークンを使用してクラスタにログインすることもできます。クラスタの作成時にすでにadminユーザを作成している場合は、Red Hat OpenShift Hybrid Cloudコンソールからadminユーザのクレデンシャルを使用してクラスタにログインできます。右上隅にログインしているユーザの名前が表示されていることをクリックすると、 `oc login` コマンドラインのコマンド（トークンログイン）。
+NOTE: トークンを使用してクラスタにログインすることもできます。クラスタの作成時にすでにadminユーザを作成している場合は、Red Hat OpenShift Hybrid Cloudコンソールからadminユーザのクレデンシャルを使用してクラスタにログインできます。次に、右上隅にログインしているユーザーの名前が表示されているをクリックすると、コマンドラインのコマンド(トークンログイン)を取得できます `oc login`。
 
 
 
 ==== ** 2.クラスタのkubeconfigファイルを作成**
 
-手順に従います link:https://docs.netapp.com/us-en/astra-control-service/get-started/create-kubeconfig.html#create-a-kubeconfig-file-for-red-hat-openshift-service-on-aws-rosa-clusters["こちらをご覧ください"] ROSAクラスタ用のkubeconfigファイルを作成します。このkubeconfigファイルは、あとでクラスタをACSに追加するときに使用されます。
+手順に従って、link:https://docs.netapp.com/us-en/astra-control-service/get-started/create-kubeconfig.html#create-a-kubeconfig-file-for-red-hat-openshift-service-on-aws-rosa-clusters["ここをクリック"]ROSAクラスタ用のkubeconfigファイルを作成します。このkubeconfigファイルは、あとでクラスタをACSに追加するときに使用されます。
 
 
 
 ==== ** 3.クラスタへのTridentのインストール**
 
-Trident（最新バージョン）をROSAクラスタにインストールします。これを行うには、指定された手順のいずれかに従うことができますlink:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["こちらをご覧ください"]。クラスタのコンソールからhelmを使用してTridentをインストールするには、まずTridentというプロジェクトを作成します。
+Trident（最新バージョン）をROSAクラスタにインストールします。これを行うには、指定された手順のいずれかに従うことができますlink:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["ここをクリック"]。クラスタのコンソールからhelmを使用してTridentをインストールするには、まずTridentというプロジェクトを作成します。
 
 image:rhhc-trident-project-create.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-次に、[開発者]ビューからHelmチャートリポジトリを作成します。URLフィールドの使用 `'https://netapp.github.io/trident-helm-chart'`。次に、Tridentオペレータ用のHelmリリースを作成します。
+次に、[開発者]ビューからHelmチャートリポジトリを作成します。URLフィールドにはを使用し `'https://netapp.github.io/trident-helm-chart'`ます。次に、Tridentオペレータ用のHelmリリースを作成します。
 
 image:rhhc-helm-repo-create.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"] image:rhhc-helm-release-create.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
@@ -192,7 +192,7 @@ deletionPolicy: Delete
 
 image:rhhc-tbc-sc-verify.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-この時点で重要な変更点は、あとで導入するPostgreSQLアプリケーションでデフォルトのストレージクラスを使用できるように、ONTAP-NASをgp3ではなくデフォルトのストレージクラスに設定することです。クラスタのOpenShiftコンソールで、[Storage]で[StorageClasses]を選択します。現在のデフォルトクラスのアノテーションをfalseに編集し、ontap-nasストレージクラスに対してstorageclass.kubernetes.io/is-default-classをtrueに設定して追加します。
+この時点で重要な変更点は、あとで導入するPostgreSQLアプリケーションでデフォルトのストレージクラスを使用できるように、ONTAP-NASをgp3ではなくデフォルトのストレージクラスに設定することです。クラスタのOpenShiftコンソールで、[Storage]で[StorageClasses]を選択します。現在のデフォルトクラスのアノテーションをfalseに編集し、ONTAP NASストレージクラスに対してstorageclass.kubernetes.io/is-default-classをtrueに設定したアノテーションを追加します。
 
 image:rhhc-change-default-sc.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
@@ -257,7 +257,7 @@ image:rhhc-snapshot-on-demand.png["入力/出力ダイアログを示す図、�
 
 
 
-==== ** 10。PostgreSQLアプリケーション内のデータベースの削除**
+==== ** 10.PostgreSQLアプリケーション内のデータベースの削除**
 
 PostgreSQLに再度ログインし、利用可能なデータベースを一覧表示し、以前に作成したデータベースを削除して、データベースが削除されたことを確認します。
 
@@ -279,6 +279,6 @@ image:rhhc-app-restore-3.png["入力/出力ダイアログを示す図、また�
 
 ==== ** 12.アプリケーションがスナップショットから復元されたことを確認します**
 
-PostgreSQLクライアントにログインすると、以前に使用していたテーブルとレコードが表示されます。  これで終わりです。ボタンをクリックするだけで、アプリケーションは以前の状態に復元されます。Astra Controlを使用することで、お客様はそれを簡単に実現できます。
+PostgreSQLクライアントにログインすると、以前に使用していたテーブルとレコードが表示されます。これで終わりです。ボタンをクリックするだけで、アプリケーションは以前の状態に復元されます。Astra Controlを使用することで、お客様はそれを簡単に実現できます。
 
 image:rhhc-app-restore-verify.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]

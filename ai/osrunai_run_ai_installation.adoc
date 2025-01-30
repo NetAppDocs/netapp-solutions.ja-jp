@@ -20,13 +20,13 @@ Run ： AI をインストールするには、次の手順を実行します。
 . GPU ノードの準備：
 +
 .. NVIDIA ドライバが GPU ノードにインストールされていることを確認します。
-.. 「 nvidia - Docker 」がインストールされ、デフォルトの Docker ランタイムとして設定されていることを確認します。
+.. がインストールされ、デフォルトのDockerランタイムとして設定されていることを確認します `nvidia-docker`。
 
 
 . インストール実行： AI ：
 +
-.. にログインします https://app.run.ai["AI 管理 UI を実行"^] クラスタを作成できます。
-.. 作成した「 runai-operator-<clustername> .yaml 」ファイルをダウンロードします。
+.. にログインし https://app.run.ai["AI 管理 UI を実行"^]てクラスタを作成します。
+.. 作成したファイルをダウンロードし `runai-operator-<clustername>.yaml`ます。
 .. オペレータ設定を Kubernetes クラスタに適用します。
 +
 ....
@@ -38,7 +38,7 @@ kubectl apply -f runai-operator-<clustername>.yaml
 +
 .. に進みます https://app.run.ai/["https://app.run.ai/"^]。
 .. 概要ダッシュボードに移動します。
-.. 右上の GPU の数が、想定される GPU の数と GPU ノードの数をすべてサーバのリストに表示していることを確認します。実行： AI 導入の詳細については、を参照してください https://docs.run.ai/Administrator/Cluster-Setup/Installing-Run-AI-on-an-on-premise-Kubernetes-Cluster/["Run ： AI をオンプレミスの Kubernetes クラスタにインストール"^] および https://docs.run.ai/Administrator/Researcher-Setup/Installing-the-Run-AI-Command-Line-Interface/["Run ： AI CLI のインストール"^]。
+.. 右上のGPU数が予想されるGPU数を反映しており、GPUノードがすべてサーバのリストに含まれていることを確認します。Run：AI導入の詳細については、および https://docs.run.ai/Administrator/Researcher-Setup/Installing-the-Run-AI-Command-Line-Interface/["Run ： AI CLI のインストール"^]を参照してください。 https://docs.run.ai/Administrator/Cluster-Setup/Installing-Run-AI-on-an-on-premise-Kubernetes-Cluster/["Run ： AI をオンプレミスの Kubernetes クラスタにインストール"^]
 
 
 

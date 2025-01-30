@@ -24,9 +24,9 @@ summary:
 
 必要に応じて、VCFのSDDC Managerで実行する必要がある手順について外部ドキュメントを参照し、ストレージ構成の部分に固有の手順のみを説明します。
 
-VCFでVVOLストレージを使用する方法の詳細については、を参照してください。 link:https://docs.vmware.com/en/VMware-Cloud-Foundation/5.1/vcf-admin/GUID-28A95C3D-1344-4579-A562-BEE5D07AAD2F.html["VMware Cloud Foundationを使用したVVOLストレージ"]。
+VCFでVVolストレージを使用する方法の詳細については、を参照してくださいlink:https://docs.vmware.com/en/VMware-Cloud-Foundation/5.1/vcf-admin/GUID-28A95C3D-1344-4579-A562-BEE5D07AAD2F.html["VMware Cloud Foundationを使用したVVOLストレージ"]。
 
-VCFモードでのONTAPツールの使用については、を参照してください。 link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/deploy/vmware_cloud_foundation_mode_deployment.html["ONTAP ツールの VMware Cloud Foundation 配置モード"]。
+VCFモードでのONTAPツールの使用については、を参照してくださいlink:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/deploy/vmware_cloud_foundation_mode_deployment.html["ONTAP tools用のVMware Cloud Foundation導入モード"]。
 
 このシナリオでは、次の手順の概要を説明します。
 
@@ -51,16 +51,16 @@ VCFモードでのONTAPツールの使用については、を参照してくだ
 * VCF管理ドメインの展開が完了し、SDDCマネージャインターフェイスにアクセスできます。
 * 4台のESXiホストがSDDC Managerインベントリに送信されます。
 * この目的のために確立されたVLANまたはネットワークセグメント上でNFSストレージトラフィック用に予約されているIPアドレス。
-* ONTAP Tools for VMware vSphere v9.13はからダウンロードします。 link:https://mysupport.netapp.com/site/["ネットアップサポート"] サイト
+* ONTAP tools for VMware vSphere v9.13は、サイトからダウンロードしlink:https://mysupport.netapp.com/site/["NetAppのサポート"]ます。
 * vVolコンテナを格納できるだけの十分な容量を持つONTAPストレージシステムに作成されたNFSボリューム。
 
 
 
 NOTE: VIワークロードドメインを導入する場合、VCFはNFSサーバへの接続を検証します。これは、NFS IPアドレスを使用してvmkernelアダプタを追加する前に、ESXiホスト上の管理アダプタを使用して行います。そのため、検証を続行するためには、1）管理ネットワークがNFSサーバにルーティング可能であること、または2）NFSデータストアボリュームをホストするSVMに管理ネットワーク用のLIFが追加されていることを確認する必要があります。
 
-ONTAPストレージシステムの構成については、 link:https://docs.netapp.com/us-en/ontap["ONTAP 9ドキュメント"] 中央（Center）：
+ONTAPストレージシステムの構成については、センターを参照してlink:https://docs.netapp.com/us-en/ontap["ONTAP 9ドキュメント"]ください。
 
-VCFの設定については、を参照してください。 link:https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["VMware Cloud Foundationのドキュメント"]。
+VCFの設定については、を参照してくださいlink:https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["VMware Cloud Foundationのドキュメント"]。
 
 
 
@@ -81,7 +81,7 @@ ONTAP Tools for VMware vSphere（OTV）はVMアプライアンスとして導入
 
 ONTAP Tools for VMware vSphereを導入するには、次の手順を実行します。
 
-. ONTAP toolsのOVAイメージをから取得します。 link:https://mysupport.netapp.com/site/products/all/details/otv/downloads-tab["NetApp Support Site"] ローカルフォルダにダウンロードします。
+. からONTAP toolsのOVAイメージを取得しlink:https://mysupport.netapp.com/site/products/all/details/otv/downloads-tab["NetAppサポートサイト"]、ローカルフォルダにダウンロードします。
 . VCF管理ドメインのvCenterアプライアンスにログインします。
 . vCenterアプライアンスのインターフェイスで管理クラスタを右クリックし、* Deploy OVF Template…*を選択します。
 +
@@ -200,7 +200,7 @@ image:vmware-vcf-aff-image32.png["ストレージシステムを追加するた�
 
 . Swagger UIで、[Container：APIs related to containers]までスクロールし、[Post /2.0/admin/containers]を選択します。
 +
-image:vmware-vcf-aff-image33.png["/2.0/admin/containersを参照してください"]
+image:vmware-vcf-aff-image33.png["/2.0/admin/containers"]
 
 . [* appliance-api-token*]フィールドに、前の手順で取得したVCFトークンを入力します。トークンは最終的に期限切れになるため、新しいトークンを定期的に取得する必要がある場合があります。
 . [containerRequest]ボックスで、次の必須フィールドに入力します。

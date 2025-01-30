@@ -43,8 +43,8 @@ image:hdcs-sh-image5.png["入力/出力ダイアログを示す図、または�
 
 本番環境のデータは、中間バックアップクラスタを通じてテープに保護されます。
 
-* hadoop distcp-update <hdfs1 ><hdfs2>` コマンドを実行することにより、 HDFS1 データが HDFS2 にコピーされます。
-* バックアップ・クラスタは NFS ゲートウェイとして機能し ' テープ・ライブラリを介して Linux'cp' コマンドを使用してデータを手動でテープにコピーします
+* HDFS1のデータは、コマンドを実行してHDFS2にコピーされ `hadoop distcp -update <hdfs1> <hdfs2>`ます。
+* バックアップクラスタはNFSゲートウェイとして機能し、テープライブラリを使用してLinuxコマンドを実行し、データをテープに手動でコピーします `cp`。
 
 
 元の Hadoop ネイティブバックアップ解決策には次のようなメリットがあります。
@@ -79,14 +79,14 @@ image:hdcs-sh-image6.png["入力/出力ダイアログを示す図、または�
 
 * 本番環境の Hadoop クラスタには、保護が必要な HDFS 内のお客様の分析データがあります。
 * HDFS を使用するバックアップ Hadoop クラスタは、データの中間的な場所として機能します。Just a Bunch of Disks （ JBOD ）は、本番環境の Hadoop クラスタとバックアップの Hadoop クラスタの両方で HDFS にストレージを提供する。
-* 「 hadoop distcp – update – diff<hdfs1 ><hdfs2>` コマンド」を実行することで、 Hadoop 本番クラスタの HDFS からバックアップクラスタの HDFS へと Hadoop 本番データを保護します。
+* Hadoop本番環境のデータを保護するコマンドを実行して、本番クラスタのHDFSからバックアップクラスタのHDFSにデータを保護します `Hadoop distcp –update –diff <hdfs1> <hdfs2>`。
 
 
 
 NOTE: Hadoop スナップショットは、本番環境からバックアップ Hadoop クラスタへデータを保護するために使用されます。
 
 * NetApp ONTAP ストレージコントローラは、バックアップ Hadoop クラスタにプロビジョニングされる NFS エクスポートボリュームを提供します。
-* を実行します `Hadoop distcp` コマンドMapReduceと複数のマッパーを活用して、分析データをバックアップHadoopクラスタからNFSに保護します。
+* MapReduceと複数のマッパーを活用してコマンドを実行することで、 `Hadoop distcp`分析データがバックアップHadoopクラスタからNFSに保護されます。
 +
 ネットアップストレージシステム上の NFS にデータを格納したあと、必要に応じて、ネットアップの Snapshot 、 SnapRestore 、および FlexClone テクノロジを使用して Hadoop データをバックアップ、リストア、および複製します。
 
@@ -124,7 +124,7 @@ image:hdcs-sh-image7.png["入力/出力ダイアログを示す図、または�
 
 * NetApp ONTAP ストレージコントローラは、本番用 Hadoop クラスタに対して NFS エクスポートをプロビジョニングします。
 +
-Hadoopネイティブ `hadoop distcp` コマンドは、Hadoopデータを本番用クラスタのHDFSからNFSに保護します。
+hadoopネイティブコマンドは、 `hadoop distcp`Hadoopデータを本番用クラスタのHDFSからNFSに保護します。
 
 * ネットアップストレージシステム上の NFS にデータを格納したあと、 Snapshot 、 SnapRestore 、および FlexClone テクノロジを使用して、必要に応じて Hadoop データをバックアップ、リストア、および複製します。
 

@@ -35,7 +35,7 @@ SnapCenter サービスは、従来のSnapCenter データベース管理UIツ�
 
 
 
-== 対象者
+== 対象読者
 
 この解決策 の対象読者は次のとおりです。
 
@@ -83,7 +83,7 @@ image:snapctr_svcs_azure_architect.png["この画像は、管理するUI、コ�
 | Red Hat Linux | Red Hat Enterprise Linux 8.7（LVM）- x64 Gen2 | テスト用にRedHatサブスクリプションを導入 
 
 
-| Oracle データベース | バージョン19.18 | RUパッチp34765931_190000_Linux-x86-64.zipを適用しました 
+| Oracleデータベース | バージョン19.18 | RUパッチp34765931_190000_Linux-x86-64.zipを適用しました 
 
 
 | Oracle OPatchの略 | バージョン12.2.0.1.36 | 最新のパッチp6880880_190000_Linux-x86-64.zip 
@@ -95,11 +95,11 @@ image:snapctr_svcs_azure_architect.png["この画像は、管理するUI、コ�
 
 === 導入にあたって考慮すべき主な要因
 
-* *コネクタは、データベースおよびAzure NetApp Filesと同じ仮想ネットワーク/サブネットに導入します。*可能な場合は、同じAzure仮想ネットワークおよびリソースグループに導入する必要があります。これにより、Azure NetApp FilesストレージおよびAzureコンピューティングインスタンスへの接続が可能になります。
-* * AzureポータルでSnapCenter Connector用に作成されたAzureユーザアカウントまたはActive Directoryサービスの原則。* BlueXP Connectorを導入するには、仮想マシンやその他のコンピューティングリソースの作成と構成、ネットワークの構成、Azureサブスクリプションへのアクセスに特定の権限が必要です。また、コネクタが動作するためのロールと権限を後で作成するための権限も必要です。Azureで権限を持つカスタムロールを作成し、ユーザーアカウントまたはサービス原則に割り当てます。詳細については、次のリンクを参照してください。link:https://docs.netapp.com/us-en/bluexp-setup-admin/task-set-up-permissions-azure.html#set-up-permissions-to-create-the-connector-from-bluexp["Azure権限を設定する"^]。
-* * Azureリソースグループで作成されたsshキーペア。* sshキーペアは、コネクタホストにログインするためのAzure VMユーザに割り当てられ、プラグインをデプロイして実行するためのデータベースVMホストにも割り当てられます。BlueXPコンソールUIでは、sshキーを使用してSnapCenterサービスプラグインをデータベースホストに導入し、プラグインのワンステップインストールとアプリケーションホストデータベースの検出を行います。
-* * BlueXPコンソールの設定にクレデンシャルが追加されました。* Azure NetApp FilesストレージをBlueXP作業環境に追加するには、BlueXPコンソールからAzure NetApp Filesにアクセスするための権限を付与するクレデンシャルをBlueXPコンソールの設定で設定する必要があります。
-* * Azure VMデータベースインスタンスホストにjava-11-openjdkがインストールされています。* SnapCenterサービスのインストールには、Javaバージョン11が必要です。プラグインを導入する前に、アプリケーションホストにインストールする必要があります。
+* *コネクタは、データベースおよびAzure NetApp Filesと同じ仮想ネットワーク/サブネットに導入します。*可能な場合は、同じAzure仮想ネットワークとリソースグループにコネクタを導入し、Azure NetApp FilesストレージとAzureコンピューティングインスタンスへの接続を可能にする必要があります。
+* * SnapCenter Connector用にAzureポータルで作成されたAzureユーザーアカウントまたはActive Directoryサービスの原則*BlueXP  Connectorを導入するには、仮想マシンやその他のコンピューティングリソースの作成と設定、ネットワークの設定、Azureサブスクリプションへのアクセスを行うための特定の権限が必要です。また、コネクタが動作するためのロールと権限を後で作成するための権限も必要です。Azureで権限を持つカスタムロールを作成し、ユーザーアカウントまたはサービス原則に割り当てます。詳細については、次のリンクを参照してください。link:https://docs.netapp.com/us-en/bluexp-setup-admin/task-set-up-permissions-azure.html#set-up-permissions-to-create-the-connector-from-bluexp["Azure権限を設定する"^]
+* * Azureリソースグループに作成されたsshキーペア。*sshキーペアは、コネクタホストにログインするためのAzure VMユーザに割り当てられ、プラグインをデプロイおよび実行するためのデータベースVMホストにも割り当てられます。BlueXP  コンソールUIは、sshキーを使用して、プラグインのインストールとアプリケーションホストデータベースの検出をワンステップで行うために、データベースホストにSnapCenterサービスプラグインをデプロイします。
+* * BlueXP  コンソール設定にクレデンシャルが追加されました。*Azure NetApp FilesストレージをBlueXP  作業環境に追加するには、BlueXP  コンソールからAzure NetApp Filesにアクセスするための権限を付与するクレデンシャルをBlueXP  コンソール設定で設定する必要があります。
+* * Azure VMデータベースインスタンスホストにjava-11-openjdkがインストールされている。*SnapCenterサービスのインストールにはJavaバージョン11が必要です。プラグインを導入する前に、アプリケーションホストにインストールする必要があります。
 
 
 
@@ -128,7 +128,7 @@ video::48adf2d8-3f5e-4ab3-b25c-b04a014635ac[panopto]
 . Oracleデータベースが完全に導入されて実行されているAzure VMインスタンス上のプライマリOracleデータベースサーバ。
 . Azureに導入されるAzure NetApp Filesストレージサービスの容量プール。「ハードウェアコンポーネント」セクションに記載されているデータベースストレージのニーズを満たす容量を備えています。
 . Azure VMインスタンス上のセカンダリデータベースサーバ。開発/テストワークロード、または本番環境のOracleデータベースの完全なデータセットが必要なあらゆるユースケースをサポートする目的で、代替ホストへのOracleデータベースのクローニングをテストするために使用できます。
-. Azure NetApp FilesおよびAzureコンピューティングインスタンスに追加情報for Oracleデータベースを導入する場合は、を参照してください。 link:azure_ora_nfile_usecase.html["Azure NetApp Files へのOracleデータベースの導入と保護"^]。
+. Azure NetApp FilesおよびAzureコンピューティングインスタンスへのOracleデータベースの導入の詳細については、を参照してくださいlink:azure_ora_nfile_usecase.html["Azure NetApp Files へのOracleデータベースの導入と保護"^]。
 
 
 ====
@@ -138,7 +138,7 @@ video::48adf2d8-3f5e-4ab3-b25c-b04a014635ac[panopto]
 
 [%collapsible]
 ====
-. リンクを使用してください link:https://console.bluexp.netapp.com/["NetApp BlueXP"] をクリックして、BlueXPコンソールにアクセスしてください。
+. リンクを使用してlink:https://console.bluexp.netapp.com/["NetApp BlueXP"]BlueXP  コンソールアクセスにサインアップします。
 . AzureユーザーアカウントまたはActive Directoryサービスの原則を作成し、Azure Connector展開用のAzureポータルで役割を持つ権限を付与します。
 . Azureリソースを管理するようにBlueXPをセットアップするには、BlueXPクレデンシャルを追加します。BlueXPでは、サービスプリンシパルアプリケーション（クライアントシークレット）のクライアントシークレットであるAzure Active Directory（アプリケーションクライアントID）での認証に使用できるActive Directoryサービスプリンシパルの詳細を記載します。 および組織のActive Directory ID（テナントID）。
 . また、コネクタのプロビジョニングやデータベースプラグインのインストールに備えて、Azure Virtual Network、リソースグループ、セキュリティグループ、VMアクセス用のSSHキーなども必要です。
@@ -163,7 +163,7 @@ image:snapctr_svcs_connector_03-addc.png["GUIでのこの手順を示すスク�
 +
 image:snapctr_svcs_connector_04-azure.png["GUIでのこの手順を示すスクリーンショット。"]
 
-. Azureアカウントですでに設定されている場合は、* Permission *、* Authentication *、* Networking *の各手順をスキップしてください。設定されていない場合は、先に進む前に設定する必要があります。ここから、前のセクションで参照したAzureポリシーの権限を取得することもできます。<<BlueXPへのオンボーディング>>. 」
+. Azureアカウントですでに設定されている場合は、* Permission *、* Authentication *、* Networking *の各手順をスキップしてください。設定されていない場合は、先に進む前に設定する必要があります。ここから、前のセクションで参照しているAzureポリシーの権限を取得することもできます<<BlueXPへのオンボーディング>>。
 +
 image:snapctr_svcs_connector_05-azure.png["GUIでのこの手順を示すスクリーンショット。"]
 
@@ -430,7 +430,7 @@ link:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html["https:/
 +
 link:https://docs.netapp.com/us-en/cloud-manager-backup-restore/index.html["https://docs.netapp.com/us-en/cloud-manager-backup-restore/index.html"^]
 
-* Azure NetApp Files の特長
+* Azure NetApp Files
 +
 link:https://azure.microsoft.com/en-us/products/netapp["https://azure.microsoft.com/en-us/products/netapp"^]
 

@@ -20,28 +20,28 @@ summary: このセクションでは、この解決策の検証に使用する�
 
 == オペレーティングシステムと AI 推論のセットアップ
 
-AFF C190 には、 NVIDIA ドライバと Docker を搭載した Ubuntu 18.04 を使用し、 NVIDIA GPU をサポートし、 MLPerf を使用しました https://github.com/mlperf/inference_results_v0.7/tree/master/closed/Lenovo["コード"^] Lenovo から MLPerf Inference v0.7 への提出書類の一部として提供されます。
+AFF C190では、Ubuntu 18.04とNVIDIAドライバ、NVIDIA GPUをサポートするDockerを使用し、LenovoがMLPerf Inference v0.7に提出する際に利用可能なMLPerfを使用し https://github.com/mlperf/inference_results_v0.7/tree/master/closed/Lenovo["コード"^]ました。
 
-EF280 には、 NVIDIA ドライバと Docker を搭載した Ubuntu 20.04 を使用し、 NVIDIA GPU と MLPerf をサポートしました https://github.com/mlcommons/inference_results_v1.1/tree/main/closed/Lenovo["コード"^] Lenovo から MLPerf Inference v1.1 への提出の一部として提供されています。
+EF280では、Ubuntu 20.04とNVIDIAドライバを使用し、NVIDIA GPUとMLPerfをサポートしたDockerを使用して、LenovoからMLPerf https://github.com/mlcommons/inference_results_v1.1/tree/main/closed/Lenovo["コード"^] Inference v1.1に提出しました。
 
 AI 推論をセットアップするには、次の手順を実行します。
 
 . 登録が必要なデータセット、 ImageNet 2012 Validation set 、 Crito Terabyte データセット、および BRT 2019 Training セットをダウンロードし、ファイルを解凍します。
-. 1TB 以上の作業ディレクトリを作成し、ディレクトリを参照する環境変数「 M LPERF_scratch_path 」を定義します。
+. 1TB以上の作業ディレクトリを作成し、そのディレクトリを参照する環境変数を定義します `MLPERF_SCRATCH_PATH`。
 +
 このディレクトリは、ネットワークストレージのユースケース用に共有ストレージ上で共有するか、またはローカルデータでテストする際にローカルディスク上で共有する必要があります。
 
-. make 「 prebuild 」コマンドを実行します。このコマンドは、必要な推論タスク用の Docker コンテナを構築して起動します。
+. makeコマンドを実行し `prebuild`ます。このコマンドは、必要な推論タスク用にDockerコンテナを構築して起動します。
 +
 
 NOTE: 実行中の Docker コンテナ内から次のコマンドがすべて実行されます。
 
 +
-** MLPerf Inference タスク用のトレーニング済み AI モデル「 make download_model 」をダウンロードしてください
-** 無料でダウンロードできる追加のデータセット「 make download_data 」をダウンロードしてください
-** データをプリプロセスします。「 preprocess_data 」にします
-** 「 make build 」を実行します。
-** コンピューティングサーバの GPU に最適化された推論エンジン「 generate_engines 」を構築します
+** MLPerf推論タスク向けのトレーニング済みAIモデルをダウンロード： `make download_model`
+** 無料でダウンロード可能な追加データセットのダウンロード： `make download_data`
+** データの前処理：make `preprocess_data`
+** を実行します `make build`。
+** コンピューティングサーバのGPU向けに最適化された推論エンジンを構築します。 `make generate_engines`
 ** 推論ワークロードを実行するには、次のコマンドを実行します（ 1 つのコマンド）。
 
 

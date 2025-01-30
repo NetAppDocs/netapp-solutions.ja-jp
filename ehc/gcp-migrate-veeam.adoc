@@ -35,8 +35,7 @@ image:gcp_migration_veeam_01.png["Veeam VM Replication Architectureの略"]
 このドキュメントでは、既存のvSphereサーバからGoogle Cloud VMware Engineへのネットワーク接続を確立するために、Google Cloud VPN、Cloud Interconnect、またはその他のネットワークオプションが用意されていることを前提としています。
 
 
-NOTE: オンプレミスのデータセンターをGoogle Cloudに接続する方法は複数ありますが、この方法では、このドキュメントの特定のワークフローの概要を説明することはできません。
-を参照してください link:https://cloud.google.com/network-connectivity/docs/how-to/choose-product["Google Cloudのドキュメント"] オンプレミスからGoogleへの適切な接続方法
+NOTE: オンプレミスのデータセンターをGoogle Cloudに接続する方法は複数ありますが、この方法では、このドキュメントの特定のワークフローの概要を説明することはできません。オンプレミスからGoogleへの適切な接続方法については、を参照してlink:https://cloud.google.com/network-connectivity/docs/how-to/choose-product["Google Cloudのドキュメント"]ください。
 
 
 
@@ -55,7 +54,7 @@ NOTE: オンプレミスのデータセンターをGoogle Cloudに接続する�
 
 
 
-=== 展開の詳細
+=== 導入の詳細
 
 
 
@@ -67,15 +66,13 @@ GCVE vCenterにログインし、十分なスペースがあるNFSデータス�
 
 ==== Veeam Backup Recoveryが既存のVMware vSphere環境に導入されていることを確認します
 
-を参照してください link:https://helpcenter.veeam.com/docs/backup/vsphere/replication_components.html?ver=120["Veeamレプリケーションのコンポーネント"] 必要なコンポーネントをインストールするためのドキュメント。
+必要なコンポーネントをインストールするには、ドキュメントを参照してくださいlink:https://helpcenter.veeam.com/docs/backup/vsphere/replication_components.html?ver=120["Veeamレプリケーションのコンポーネント"]。
 
 
 
 ==== レプリケーションジョブを作成して、Google Cloud VMware Engineインスタンスへの仮想マシンのレプリケーションを開始します。
 
-オンプレミスのvCenterとGCVEのvCenterをVeeamに登録する必要があります。 link:https://helpcenter.veeam.com/docs/backup/vsphere/replica_job.html?ver=120["vSphere VMレプリケーションジョブをセットアップします"]
-ここでは、その方法を説明するビデオを紹介します
-link:https://youtu.be/uzmKXtv7EeY["レプリケーションジョブを設定します"]。
+オンプレミスのvCenterとGCVEのvCenterをVeeamに登録する必要があります。link:https://helpcenter.veeam.com/docs/backup/vsphere/replica_job.html?ver=120["vSphere VMレプリケーションジョブをセットアップします"]ここでは、その方法を説明するビデオをlink:https://youtu.be/uzmKXtv7EeY["レプリケーションジョブを設定します"]紹介します。
 
 
 NOTE: レプリカVMは、ソースVMとは異なるIPを持つことができ、異なるポートグループに接続することもできます。詳細については、上記のビデオを確認してください。
@@ -84,13 +81,13 @@ NOTE: レプリカVMは、ソースVMとは異なるIPを持つことができ�
 
 ==== Veeamレプリケーションジョブのフェイルオーバーを実行します
 
-VMを移行するには、を実行します link:https://helpcenter.veeam.com/docs/backup/vsphere/performing_failover.html?ver=120["フェールオーバーを実行します"]
+VMを移行するには、link:https://helpcenter.veeam.com/docs/backup/vsphere/performing_failover.html?ver=120["フェールオーバーを実行します"]
 
 
 
 ==== Veeamで永続的フェイルオーバーを実行
 
-GCVEを新しいソース環境として扱うには、を実行します link:https://helpcenter.veeam.com/docs/backup/vsphere/permanent_failover.html?ver=120["永続的フェイルオーバー"]
+GCVEを新しいソース環境として扱うには、link:https://helpcenter.veeam.com/docs/backup/vsphere/permanent_failover.html?ver=120["永続的フェイルオーバー"]
 
 
 

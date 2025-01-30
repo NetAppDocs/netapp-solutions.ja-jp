@@ -30,23 +30,23 @@ Azure環境をセットアップし、アカウントを作成してサブスク
 
 
 
-==== 1.仮想ネットワークまたはVNetを作成します
+==== 1.仮想ネットワークまたはVNetを作成する
 
 Azure Virtual Network（VNet；Azure仮想ネットワーク）は、Azureのプライベートネットワークの基本的なビルディングブロックです。VNetを使用すると、Azure Virtual Machines（VM；Azure仮想マシン）などのさまざまなタイプのAzureリソース間、インターネット、オンプレミスネットワーク間で安全に通信できるようになります。Azure VMをプロビジョニングする前に、VNet（VMが導入される場所）を設定しておく必要があります。
 
-を参照してください link:https://docs.microsoft.com/en-us/azure/virtual-network/quick-create-portal["Azureポータルを使用して仮想ネットワークを作成する"^] VNetを作成するために使用します。
+VNetの作成方法については、を参照してくださいlink:https://docs.microsoft.com/en-us/azure/virtual-network/quick-create-portal["Azureポータルを使用して仮想ネットワークを作成する"^]。
 
 
 
-==== 2. ANF用のネットアップストレージアカウントと容量プールを作成します
+==== 2.ANF用のNetAppストレージアカウントと容量プールを作成
 
 この導入シナリオでは、Azure VM OSは通常のAzureストレージを使用してプロビジョニングされますが、ANFボリュームはNFS経由でOracleデータベースを実行するようにプロビジョニングされます。まず、ネットアップストレージアカウントと、ストレージボリュームをホストするための容量プールを作成する必要があります。
 
-を参照してください link:https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-quickstart-set-up-account-create-volumes?tabs=azure-portal["Azure NetApp Files をセットアップし、NFSボリュームを作成"^] でANF容量プールを設定してください。
+ANF容量プールのセットアップについては、を参照してくださいlink:https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-quickstart-set-up-account-create-volumes?tabs=azure-portal["Azure NetApp Files をセットアップし、NFSボリュームを作成"^]。
 
 
 
-==== 3. Oracle用にAzure VMをプロビジョニング
+==== 3.Oracle用のAzure VMのプロビジョニング
 
 ワークロードに基づいて、必要なAzure VMのタイプ、およびOracle用に導入するVM vCPUおよびRAMのサイズを決定します。次に、AzureコンソールでVMのアイコンをクリックして、VM導入ワークフローを起動します。
 
@@ -86,7 +86,7 @@ image:db_ora_azure_anf_vm_08.png["「このスクリーンショットは、「�
 
 
 
-==== 4. Oracle用にANFデータベースボリュームをプロビジョニングします
+==== 4.Oracle用のANFデータベースボリュームをプロビジョニング
 
 Oracleバイナリボリューム、データボリューム、ログボリューム用のANF容量プール用に3つのNFSボリュームを作成する必要があります。
 
@@ -126,7 +126,7 @@ image:db_ora_azure_anf_vols_05.png["ボリューム作成画面のステージ�
 
 === Ansibleコントローラをセットアップします
 
-Ansibleコントローラが設定されていない場合は、を参照してください link:../automation/automation_introduction.html["NetApp 解決策の自動化"^]に、Ansibleコントローラのセットアップ方法の詳細が記載されています。
+Ansibleコントローラをセットアップしていない場合は、を参照してくださいlink:../automation/automation_introduction.html["NetApp 解決策の自動化"^]。Ansibleコントローラのセットアップ方法の詳細については、を参照してください。
 
 
 
@@ -142,7 +142,7 @@ git clone https://github.com/NetApp-Automation/na_oracle19c_deploy.git
 
 === ツールキットを構成に応じて実行します
 
-を参照してください link:cli_automation.html#cli-deployment-oracle-19c-database["CLI による Oracle 19C データベースの導入"^] をクリックして、CLIでプレイブックを実行します。ONTAP ではなくAzureコンソールからデータベースボリュームを作成する場合、グローバルVARファイル内の変数設定の部分は無視できます。
+CLIを使用してプレイブックを実行するには、を参照してくださいlink:cli_automation.html#cli-deployment-oracle-19c-database["CLI による Oracle 19C データベースの導入"^]。ONTAP ではなくAzureコンソールからデータベースボリュームを作成する場合、グローバルVARファイル内の変数設定の部分は無視できます。
 
 
 NOTE: このツールキットには、RU 19.8でOracle 19Cがデフォルトで導入されています。他のパッチレベルにも簡単に適応でき、デフォルトの設定を若干変更することもできます。また、デフォルトのシードデータベースアクティブログファイルもデータボリュームに導入されます。ログボリュームにアクティブなログファイルが必要な場合は、最初の導入後にログファイルを再配置します。必要に応じて、ネットアップの解決策 チームにご連絡ください。
@@ -157,9 +157,9 @@ Azure Application-consistent Snapshotツール（AzAcSnap）は、ストレー�
 
 === AzAcSnapツールをインストールします
 
-. の最新バージョンを取得します link:https://aka.ms/azacsnapinstaller["AzArcSnapインストーラ"^]。
+. の最新バージョンを取得しlink:https://aka.ms/azacsnapinstaller["AzArcSnapインストーラ"^]ます。
 . ダウンロードした自己インストーラをターゲットシステムにコピーします。
-. デフォルトのインストールオプションを使用して、rootユーザとして自己インストーラを実行します。必要に応じて、を使用してファイルを実行可能にします `chmod +x *.run` コマンドを実行します
+. デフォルトのインストールオプションを使用して、rootユーザとして自己インストーラを実行します。必要に応じて、コマンドを使用してファイルを実行可能にし `chmod +x *.run`ます。
 +
 [source, cli]
 ----
@@ -175,7 +175,7 @@ SnapshotツールはOracleデータベースと通信します。バックアッ
 
 
 
-==== 1. AzAcSnapデータベースユーザーを設定します
+==== 1.AzAcSnapデータベースユーザーのセットアップ
 
 次の例は、Oracleデータベースユーザのセットアップと、sqlplusを使用したOracleデータベースへの通信を示しています。この例のコマンドでは、Oracleデータベースでユーザ（AZACSNAP）を設定し、必要に応じてIPアドレス、ユーザ名、およびパスワードを変更します。
 
@@ -216,11 +216,11 @@ quit;
 
 
 
-==== 2. Oracleウォレットを使用したDBアクセス用に、linuxユーザazacsnapを設定します
+==== 2.Oracleウォレットを使用したDBアクセス用のLinuxユーザazacsnapの構成
 
 AzAcSnapのデフォルトインストールでは、azacsnap OSユーザが作成されます。Bashシェル環境では、Oracleウォレットに格納されたパスワードを使用してOracleデータベースにアクセスするように設定する必要があります。
 
-. rootユーザとして、を実行します `cat /etc/oratab` ホスト上のORACLE_HOME変数とORACLE_SID変数を識別するコマンドです。
+. rootユーザとしてコマンドを実行し、 `cat /etc/oratab`ホストのORACLE_HOME変数とORACLE_SID変数を特定します。
 +
 [source, cli]
 ----
@@ -249,7 +249,7 @@ mkstore -wrl $TNS_ADMIN/.oracle_wallet/ -create
 ----
 mkstore -wrl $TNS_ADMIN/.oracle_wallet/ -createCredential AZACSNAP azacsnap AzPasswd1
 ----
-. を作成します `tnsnames-ora` ファイル。次のコマンド例では、hostをOracleデータベースのIPアドレスに設定し、Server SIDをOracleデータベースSIDに設定します。
+. ファイルを作成し `tnsnames-ora`ます。次のコマンド例では、hostをOracleデータベースのIPアドレスに設定し、Server SIDをOracleデータベースSIDに設定します。
 +
 [source, cli]
 ----
@@ -257,7 +257,7 @@ echo "# Connection string
 AZACSNAP=\"(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=172.30.137.142)(PORT=1521))(CONNECT_DATA=(SID=ORATST)))\"
 " > $TNS_ADMIN/tnsnames.ora
 ----
-. を作成します `sqlnet.ora` ファイル。
+. ファイルを作成し `sqlnet.ora`ます。
 +
 [source, cli]
 ----
@@ -337,7 +337,7 @@ az ad sp create-for-rbac --name "AzAcSnap" --role Contributor --scopes /subscrip
   "managementEndpointUrl": "https://management.core.windows.net/"
 }
 ----
-. 出力コンテンツをというファイルにカットアンドペーストします `oracle.json` Linuxユーザazacsnapのユーザbinディレクトリに格納され、適切なシステム権限でファイルを保護します。
+. 出力内容を切り取って、Linuxユーザのazacsnapユーザのbinディレクトリに保存されているというファイルに貼り付け `oracle.json`、適切なシステム権限でファイルを保護します。
 
 
 
@@ -361,7 +361,7 @@ su - azacsnap
 ----
 cd /home/azacsnap/bin/
 ----
-. ストレージバックアップの詳細ファイルを設定これにより、が作成されます `azacsnap.json` 構成ファイル
+. ストレージバックアップの詳細ファイルを設定これにより、構成ファイルが作成され `azacsnap.json`ます。
 +
 [source, cli]
 ----

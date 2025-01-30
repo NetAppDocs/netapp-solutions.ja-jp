@@ -42,15 +42,15 @@ summary:
 * VIワークロードドメインは以前に導入されています。
 
 
-NetAppでは、NVMe/TCPに完全に冗長なネットワーク設計を推奨しています。次の図は、ストレージシステム、スイッチ、ネットワークアダプタ、およびホストシステムにフォールトトレランスを提供する冗長構成の例を示しています。『NetApp』を参照してください。 link:https://docs.netapp.com/us-en/ontap/san-config/index.html["SAN 構成リファレンス"] 追加情報 の場合。
+NetAppでは、NVMe/TCPに完全に冗長なネットワーク設計を推奨しています。次の図は、ストレージシステム、スイッチ、ネットワークアダプタ、およびホストシステムにフォールトトレランスを提供する冗長構成の例を示しています。詳細については、『NetApp』を参照してlink:https://docs.netapp.com/us-en/ontap/san-config/index.html["SAN構成のリファレンス"]ください。
 
 image:vmware-vcf-asa-image74.png["NVMe-TCPネットワーク設計"]
 
 複数のパスをまたいだマルチパスとフェイルオーバーを実現するために、NetAppでは、NVMe/TCP構成のすべてのSVMについて、ストレージノードごとに少なくとも2つのLIFを別 々 のイーサネットネットワークに配置することを推奨しています。
 
-このドキュメントでは、新しいSVMを作成し、IPアドレス情報を指定してNVMe / TCPトラフィック用に複数のLIFを作成するプロセスについて説明します。既存のSVMに新しいLIFを追加する方法については、を参照してください。 link:https://docs.netapp.com/us-en/ontap/networking/create_a_lif.html["LIFを作成する（ネットワークインターフェイス）"]。
+このドキュメントでは、新しいSVMを作成し、IPアドレス情報を指定してNVMe / TCPトラフィック用に複数のLIFを作成するプロセスについて説明します。既存のSVMに新しいLIFを追加する方法については、を参照してくださいlink:https://docs.netapp.com/us-en/ontap/networking/create_a_lif.html["LIFを作成する（ネットワークインターフェイス）"]。
 
-ONTAPストレージシステムのNVMeでの追加情報の設計に関する考慮事項については、を参照してください。 link:https://docs.netapp.com/us-en/ontap/nvme/support-limitations.html["NVMeの構成、サポート、制限事項"]。
+ONTAPストレージシステムのNVMe設計に関する考慮事項の詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/ontap/nvme/support-limitations.html["NVMeの構成、サポート、制限事項"]。
 
 
 
@@ -332,6 +332,6 @@ image:vmware-vcf-asa-image107.png["データストアに接続されているホ
 
 == 追加情報
 
-ONTAPストレージシステムの構成については、 link:https://docs.netapp.com/us-en/ontap["ONTAP 9ドキュメント"] 中央（Center）：
+ONTAPストレージシステムの構成については、センターを参照してlink:https://docs.netapp.com/us-en/ontap["ONTAP 9ドキュメント"]ください。
 
-VCFの設定については、を参照してください。 link:https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["VMware Cloud Foundationのドキュメント"]。
+VCFの設定については、を参照してくださいlink:https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["VMware Cloud Foundationのドキュメント"]。

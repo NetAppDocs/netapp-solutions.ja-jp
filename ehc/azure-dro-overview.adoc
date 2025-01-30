@@ -32,7 +32,7 @@ image:azure-dro-image1.png["入力/出力ダイアログを示す図、または
 
 === 前提条件と一般的な推奨事項
 
-* レプリケーションピアリングを作成して、リージョン間レプリケーションが有効になっていることを確認します。を参照してください https://learn.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-create-peering["Azure NetApp Files のボリュームレプリケーションを作成します"^]。
+* レプリケーションピアリングを作成して、リージョン間レプリケーションが有効になっていることを確認します。を参照してください https://learn.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-create-peering["Azure NetApp Files のボリュームレプリケーションを作成します"^]
 * ソースとターゲットのAzure VMware解決策 プライベートクラウド間でExpressRouteグローバルリーチを設定する必要があります。
 * リソースにアクセスできるサービスプリンシパルが必要です。
 * サポートされるトポロジは、プライマリAVSサイトからセカンダリAVSサイトです。
@@ -50,9 +50,9 @@ NOTE: カスケードトポロジ、ファンイントポロジ、ファンア�
 
 === Azure VMware解決策 を導入します
 
-。 https://learn.microsoft.com/en-us/azure/azure-vmware/introduction["Azure VMware 解決策の略"^] （AVS）は、Microsoft Azureパブリッククラウド内で完全に機能するVMware SDDCを提供するハイブリッドクラウドサービスです。AVSはMicrosoftが完全に管理およびサポートするファーストパーティの解決策 で、Azureインフラストラクチャを使用するVMwareにより検証されています。そのため、お客様は、コンピューティングの仮想化にVMware ESXi、ハイパーコンバージドストレージにvSAN、ネットワークとセキュリティにNSXを利用できます。また、Microsoft Azureのグローバルなプレゼンス、クラスをリードするデータセンター施設、Azureネイティブのサービスとソリューションで構成される豊富なエコシステムへの近接性を活用できます。Azure VMware解決策 SDDCとAzure NetApp Files を組み合わせることで、ネットワークレイテンシを最小限に抑えながら最高のパフォーマンスを実現できます。
+（AVS）は、 https://learn.microsoft.com/en-us/azure/azure-vmware/introduction["Azure VMware 解決策の略"^]Microsoft Azureパブリッククラウド内で完全に機能するVMware SDDCを提供するハイブリッドクラウドサービスです。AVSはMicrosoftが完全に管理およびサポートするファーストパーティの解決策 で、Azureインフラストラクチャを使用するVMwareにより検証されています。そのため、お客様は、コンピューティングの仮想化にVMware ESXi、ハイパーコンバージドストレージにvSAN、ネットワークとセキュリティにNSXを利用できます。また、Microsoft Azureのグローバルなプレゼンス、クラスをリードするデータセンター施設、Azureネイティブのサービスとソリューションで構成される豊富なエコシステムへの近接性を活用できます。Azure VMware解決策 SDDCとAzure NetApp Files を組み合わせることで、ネットワークレイテンシを最小限に抑えながら最高のパフォーマンスを実現できます。
 
-AzureでAVSプライベートクラウドを構成するには、以下の手順に従います link:azure-setup.html["リンク"^] を参照してください https://learn.microsoft.com/en-us/azure/azure-vmware/deploy-azure-vmware-solution?tabs=azure-portal["リンク"^] （Microsoftのマニュアル）。  最小限の構成でセットアップされたパイロットライト環境は、DR目的で使用できます。  このセットアップには、重要なアプリケーションをサポートするためのコアコンポーネントのみが含まれており、フェイルオーバーが発生した場合に、より多くのホストをスケールアウトして生成し、負荷の大部分を処理することができます。
+AzureでAVSプライベートクラウドを構成するには、NetAppのドキュメントではこちらの手順、Microsoftのドキュメントでは https://learn.microsoft.com/en-us/azure/azure-vmware/deploy-azure-vmware-solution?tabs=azure-portal["リンク"^]こちらの手順を実行してlink:azure-setup.html["リンク"^]ください。最小限の構成でセットアップされたパイロットライト環境は、DR目的で使用できます。このセットアップには、重要なアプリケーションをサポートするためのコアコンポーネントのみが含まれており、フェイルオーバーが発生した場合に、より多くのホストをスケールアウトして生成し、負荷の大部分を処理することができます。
 
 
 NOTE: 初期リリースでは、DROは既存のAVS SDDCクラスタをサポートしています。オンデマンドのSDDC作成は、今後のリリースで提供される予定です。
@@ -61,7 +61,7 @@ NOTE: 初期リリースでは、DROは既存のAVS SDDCクラスタをサポー
 
 === Azure NetApp Files をプロビジョニングして設定
 
-https://learn.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-introduction["Azure NetApp Files の特長"^] エンタープライズクラスのハイパフォーマンスな従量課金制ファイルストレージサービスです。以下の手順に従ってください https://learn.microsoft.com/en-us/azure/azure-vmware/attach-azure-netapp-files-to-azure-vmware-solution-hosts?tabs=azure-portal["リンク"^] AVSプライベートクラウド環境を最適化するために、Azure NetApp Files をNFSデータストアとしてプロビジョニングおよび設定します。
+https://learn.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-introduction["Azure NetApp Files"^]エンタープライズクラスのハイパフォーマンスな従量課金制ファイルストレージサービスです。AVSプライベートクラウド環境を最適化するために、Azure NetApp FilesをNFSデータストアとしてプロビジョニングおよび設定するには、次の手順を実行 https://learn.microsoft.com/en-us/azure/azure-vmware/attach-azure-netapp-files-to-azure-vmware-solution-hosts?tabs=azure-portal["リンク"^]します。
 
 
 
@@ -71,7 +71,7 @@ https://learn.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-in
 
 image:azure-dro-image2.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-以下の手順に従ってください https://learn.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-create-peering["リンク"^] レプリケーションピアリングを作成してリージョン間レプリケーションを設定するには、次の手順を実行します。デスティネーションの容量プールのサービスレベルは、ソースの容量プールのサービスレベルと同じにすることができます。ただし、このユースケースでは、標準のサービスレベルを選択してから選択できます https://learn.microsoft.com/en-us/azure/azure-netapp-files/dynamic-change-volume-service-level["サービスレベルを変更する"^] 実際に災害が発生した場合やDRシミュレーションが発生した場合。
+レプリケーションピアリングを作成してリージョン間レプリケーションを設定するには、次の手順を実行 https://learn.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-create-peering["リンク"^]します。デスティネーションの容量プールのサービスレベルは、ソースの容量プールのサービスレベルと同じにすることができます。ただし、このユースケースでは、標準のサービスレベルを選択してから、実際の災害やDRシミュレーションが発生した場合に選択できます https://learn.microsoft.com/en-us/azure/azure-netapp-files/dynamic-change-volume-service-level["サービスレベルを変更する"^]。
 
 
 NOTE: リージョン間レプリケーション関係は前提条件であり、事前に作成しておく必要があります。
@@ -92,13 +92,13 @@ DROの使用を開始するには、指定されたAzure仮想マシンでUbuntu
 * OS要件：*
 
 * Ubuntu Focal 20.04 (LTS)指定されたエージェント仮想マシンに次のパッケージをインストールする必要があります。
-* Docker です
+* Docker
 * docker-composeの略
-* JqChange `docker.sock` 次の新しい権限を追加します。 `sudo chmod 666 /var/run/docker.sock`。
+* JqChange `docker.sock` to this new permission: `sudo chmod 666 /var/run/docker.sock`.
 
 
 
-NOTE: 。 `deploy.sh` スクリプトは、必要なすべての前提条件を実行します。
+NOTE:  `deploy.sh`スクリプトは、必要なすべての前提条件を実行します。
 
 手順は次のとおりです。
 
@@ -111,7 +111,7 @@ git clone https://github.com/NetApp/DRO-Azure.git
 
 NOTE: エージェントは、セカンダリAVSサイトリージョンまたはプライマリAVSサイトリージョンのSDDCとは別のAZにインストールする必要があります。
 
-. パッケージを解凍し、導入スクリプトを実行して、ホストIP（例：  `10.10.10.10`）。
+. パッケージを解凍し、導入スクリプトを実行して、ホストIP（など `10.10.10.10`）を入力します。
 +
 ....
 tar xvf draas_package.tar
@@ -139,14 +139,14 @@ Azure NetApp Files とAVSが正しく設定されたら、プライマリAVSサ�
 
 この処理を実行するには、次の手順を実行します。
 
-. サポートされているブラウザでDROを開き、デフォルトのユーザ名とパスワードを使用します /`admin`/`admin`）。パスワードは、[Change Password]オプションを使用して初回ログイン後にリセットできます。
+. サポートされているブラウザでDROを開き、デフォルトのユーザ名とパスワードを使用し/`admin`/`admin`ます）。パスワードは、[Change Password]オプションを使用して初回ログイン後にリセットできます。
 . DROコンソールの右上にある*設定*アイコンをクリックし、*資格情報*を選択します。
 . [Add New Credential]をクリックし、ウィザードの手順に従います。
 . クレデンシャルを定義するには、必要な権限を付与するAzure Active Directoryサービスプリンシパルに関する情報を入力します。
 +
 ** クレデンシャル名
 ** テナントID
-** クライアント ID
+** クライアントID
 ** クライアントシークレット
 ** サブスクリプションID
 +
@@ -185,7 +185,7 @@ NOTE: このドキュメントでは、デモ用にソースサイトを追加�
 
 . vCenterの詳細を更新します。これを行うには、プライマリAVS SDDCのドロップダウンからクレデンシャル、Azureリージョン、およびリソースグループを選択します。
 . DROには、リージョン内で使用可能なすべてのSDDCが一覧表示されます。ドロップダウンから、指定したプライベートクラウドのURLを選択します。
-. を入力します `cloudadmin@vsphere.local` ユーザクレデンシャル。これにはAzure Portalからアクセスできます。ここに記載されている手順に従ってください https://learn.microsoft.com/en-us/azure/azure-vmware/tutorial-access-private-cloud["リンク"^]。完了したら、*[続行]*をクリックします。
+. ユーザクレデンシャルを入力し `cloudadmin@vsphere.local`ます。これにはAzure Portalからアクセスできます。ここに記載されている手順に従って https://learn.microsoft.com/en-us/azure/azure-vmware/tutorial-access-private-cloud["リンク"^]ください。完了したら、*[続行]*をクリックします。
 +
 image:azure-dro-image6.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
@@ -324,7 +324,7 @@ Azure NetApp Files とAzure VMwareディザスタリカバリ解決策 には、
 
 
 
-=== 追加情報の参照先
+=== 詳細情報の入手方法
 
 このドキュメントに記載されている情報の詳細については、以下のドキュメントや Web サイトを参照してください。
 

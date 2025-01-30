@@ -30,25 +30,16 @@ summary: 技術要件ベクトルデータベース解決策for NetApp
 | ハードウェア | 詳細 
 
 
-| NetApp AFFストレージアレイHAペア | * A800
-* ONTAP 9.14.1
-* 3.49TB SSD-NVM×48
-* 2つのフレキシブルグループボリューム：メタデータとデータ。
-*メタデータNFSボリュームには、250GBの永続ボリュームが12個あります。
-*データはONTAP NAS S3ボリューム 
+| NetApp AFFストレージアレイHAペア | * A800 * ONTAP 9.14.1 * 48 x 3.49TB SSD-NVM * 2個のフレキシブルグループボリューム（メタデータとデータ）。*メタデータNFSボリュームには、250GBの永続ボリュームが12個あります。*データはONTAP NAS S3ボリューム 
 
 
-| Fujitsu PRIMERGY RX2540 M4×6 | * 64 CPU
-* Intel（R）Xeon（R）Gold 6142 CPU（2.60GHz）
-*256 GM物理メモリ
-* 1 x 100GbEネットワークポート 
+| Fujitsu PRIMERGY RX2540 M4×6 | * 64 CPU * Intel（R）Xeon（R）Gold 6142 CPU（2.60GHz）* 256 GM物理メモリ* 1 x 100GbEネットワークポート 
 
 
-| ネットワーキング | 100GbE 
+| ネットワーク | 100GbE 
 
 
-| StorageGRID | * SG100×1、SGF6024×3
-* 3 x 24 x 7.68TB 
+| StorageGRID | SG100×1、SGF6024×3×3×24×7.68TB 
 |===
 
 
@@ -58,14 +49,10 @@ summary: 技術要件ベクトルデータベース解決策for NetApp
 | ソフトウェア | 詳細 
 
 
-| ミルバスクラスタ | *chart-milvus-4.1.11.
-*アプリのバージョン–2.3.4
-* bookkeeper、zookeeper、pulsar、etcd、proxyなどの依存バンドル querynode、worker 
+| ミルバスクラスタ | *chart-milvus-4.1.11.* APPバージョン–2.3.4 * bookkeeper、zookeeper、pulsar、etcd、proxy、querynode、workerなどの依存バンドル 
 
 
-| Kubernetes | * 5ノードのKubernetesクラスタ
-* 1マスターノードと4ワーカーノード
-*バージョン–1.7.2 
+| Kubernetes | * 5ノードK8sクラスタ* 1マスターノードと4ワーカーノード*バージョン–1.7.2 
 
 
 | Python | *3.10.12. 

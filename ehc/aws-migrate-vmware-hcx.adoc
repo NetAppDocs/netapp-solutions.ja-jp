@@ -51,7 +51,7 @@ VMware HCXのインストールと構成の手順の概要を次に示します�
 
 HCXのアクティベーションと展開を行う前に、次のインストール手順を完了する必要があります。
 
-. 既存のVMC SDDCを使用するか、次の手順で新しいSDDCを作成します link:aws-setup.html["ネットアップのリンク"^] またはこれ https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws.getting-started/GUID-EF198D55-03E3-44D1-AC48-6E2ABA31FF02.html["VMwareへのリンク"^]。
+. 既存のVMC SDDCを使用するか、またはこの https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws.getting-started/GUID-EF198D55-03E3-44D1-AC48-6E2ABA31FF02.html["VMwareへのリンク"^]後に新しいSDDCを作成しlink:aws-setup.html["ネットアップのリンク"^]ます。
 . オンプレミスのvCenter環境からVMC SDDCへのネットワークパスで、vMotionを使用したVMの移行がサポートされている必要があります。
 . オンプレミスのvCenter ServerとSDDC vCenterの間のvMotionトラフィックに必要なが許可されていることを確認し https://techdocs.broadcom.com/us/en/vmware-cis/hcx/vmware-hcx/4-10/vmware-hcx-user-guide-4-10/preparing-for-hcx-installations/network-port-and-protocol-requirements.html["ファイアウォールルールとポート"^]ます。
 . FSx ONTAP NFSボリュームは、補助データストアとしてVMC SDDCにマウントする必要があります。NFSデータストアを適切なクラスタに接続するには、またはこの https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-D55294A3-7C40-4AD8-80AA-B33A25769CCA.html["VMwareへのリンク"^]に記載されている手順を実行しlink:aws-native-overview.html["ネットアップのリンク"^]ます。
@@ -79,7 +79,7 @@ image:fsx-hcx-image1.png["入力/出力ダイアログを示す図、または�
 ====
 インストールを実行するには、次の手順を実行します。
 
-. でVMCコンソールにログインします https://vmc.vmware.com/home["vmc.vmware.com"^] Inventoryにアクセスします。
+. でVMCコンソールにログインし https://vmc.vmware.com/home["vmc.vmware.com"^]、Inventoryにアクセスします。
 . 適切なSDDCを選択し、アドオンにアクセスするには、[SDDCで詳細を表示]をクリックして、[Add ONS]タブを選択します。
 . Activate for VMware HCXをクリックします。
 +
@@ -105,7 +105,7 @@ image:fsx-hcx-image2.png["入力/出力ダイアログを示す図、または�
 image:fsx-hcx-image5.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . Deploy OVF Templateウィザードで必要な情報を入力し、NextをクリックしてからFinishをクリックして、VMware HCX Connector OVAを導入します。
-. 仮想アプライアンスの電源を手動でオンにします。詳しい手順については、を参照してください https://docs.vmware.com/en/VMware-HCX/services/user-guide/GUID-BFD7E194-CFE5-4259-B74B-991B26A51758.html["VMware HCXユーザーガイド"^]。
+. 仮想アプライアンスの電源を手動でオンにします。詳細な手順については、を参照してください https://docs.vmware.com/en/VMware-HCX/services/user-guide/GUID-BFD7E194-CFE5-4259-B74B-991B26A51758.html["VMware HCXユーザーガイド"^]。
 
 
 ====
@@ -123,7 +123,7 @@ image:fsx-hcx-image7.png["入力/出力ダイアログを示す図、または�
 
 NOTE: オンプレミスに配置されたHCXコネクタごとに、個別のキーが必要です。
 
-. オンプレミスのVMware HCX Connectorにログインします `"https://hcxconnectorIP:9443"` 管理者のクレデンシャルを使用
+. 管理者のクレデンシャルを使用して、オンプレミスのVMware HCX Connectorにログインし `"https://hcxconnectorIP:9443"`ます。
 +
 
 NOTE: OVAの導入時に定義されたパスワードを使用します。
@@ -133,7 +133,7 @@ NOTE: OVAの導入時に定義されたパスワードを使用します。
 
 NOTE: 有効化を正常に完了するには、オンプレミスHCXコネクタにインターネットアクセスが必要です。
 
-. データセンターの場所で、VMware HCX Managerをオンプレミスにインストールする場所を指定します。Continue をクリックします。 .
+. データセンターの場所で、VMware HCX Managerをオンプレミスにインストールする場所を指定します。続行をクリックします。
 . [システム名]で名前を更新し、[続行]をクリックします。
 . [はい]を選択してから、[続行]
 . [vCenterの接続]で、IPアドレスまたは完全修飾ドメイン名（FQDN）とvCenter Serverの資格情報を入力し、[続行]をクリックします。
@@ -337,7 +337,7 @@ NOTE: 移行先のVMC FSx ONTAPデータストアには、移行に対応でき�
 
 
 
-== 追加情報の参照先
+== 詳細情報の入手方法
 
 このドキュメントに記載されている情報の詳細については、次の Web サイトのリンクを参照してください。
 

@@ -34,7 +34,7 @@ NetApp AFF Cシリーズは、オールフラッシュのアクセス性を高�
 
 
 
-== 対象者
+== 対象読者
 
 この解決策 は、次のユーザーを対象としています。
 
@@ -48,7 +48,7 @@ NetApp AFF Cシリーズは、オールフラッシュのアクセス性を高�
 
 == 解決策 のテストおよび検証環境
 
-この解決策のテストと検証は、最終的な導入環境とは一致しない可能性があるラボ環境で実行しました。を参照してください <<導入にあたって考慮すべき主な要因>> を参照してください。
+この解決策のテストと検証は、最終的な導入環境とは一致しない可能性があるラボ環境で実行しました。詳細については、を参照してください<<導入にあたって考慮すべき主な要因>>。
 
 
 
@@ -82,22 +82,22 @@ image:automation_ora_c-series_nfs_archit.png["このイメージは、iSCSIとAS
 | Red Hat Linux | RHEL Linux 8.6（LVM）- x64 Gen2 | テスト用にRedHatサブスクリプションを導入 
 
 
-| Windows Serverの場合 | 2022年データセンターx64 Gen2 | SnapCenterサアハノホスト 
+| Windows Server | 2022年データセンターx64 Gen2 | SnapCenterサアハノホスト 
 
 
-| Oracle データベース | バージョン19.18 | RUパッチp34765931_190000_Linux-x86-64.zipを適用しました 
+| Oracleデータベース | バージョン19.18 | RUパッチp34765931_190000_Linux-x86-64.zipを適用しました 
 
 
 | Oracle OPatchの略 | バージョン12.2.0.1.36 | 最新のパッチp6880880_190000_Linux-x86-64.zip 
 
 
-| SnapCenter サーバ | バージョン5.0 | ワークグループの導入 
+| SnapCenterサーバ | バージョン5.0 | ワークグループの導入 
 
 
 | JDKを開く | バージョンjava-11-openjdk | DB VMでのSnapCenterプラグインの要件 
 
 
-| NFS | バージョン 3.0 以降 | Oracle dNFSが有効 
+| NFS | バージョン3.0 | Oracle dNFSが有効 
 
 
 | Ansible | コア2.16.2 | Python 3.6.8 
@@ -125,11 +125,11 @@ image:automation_ora_c-series_nfs_archit.png["このイメージは、iSCSIとAS
 
 === 導入にあたって考慮すべき主な要因
 
-* * Oracleデータベースのストレージレイアウト。*この自動化されたOracle導入では、Oracleのバイナリ、データ、ログをホストするために、各データベースに3つのデータベースボリュームをデフォルトでプロビジョニングします。ボリュームは、NFS経由で/u01-binary、/u02-data、/u03-logsとしてOracle DBサーバにマウントされます。冗長性を確保するために、/u02と/u03のマウントポイントにデュアル制御ファイルが設定されています。
-* *複数のDBサーバの導入。*自動化解決策では、1回のAnsibleプレイブック実行でOracleコンテナデータベースを複数のDBサーバに導入できます。DBサーバの数に関係なく、プレイブックの実行は変わりません。複数のコンテナデータベースを1つのVMインスタンスに導入するには、別 々 のデータベースインスタンスID（Oracle SID）を使用して同じ環境を繰り返します。ただし、導入したデータベースをサポートするのに十分なメモリがホストにあることを確認してください。
-* * dNFS構成。* dNFS（Oracle 11g以降で利用可能）を使用すると、DB VM上で実行されるOracleデータベースは、ネイティブNFSクライアントよりも大幅に多くのI/Oを処理できます。Oracleの自動導入では、NFSv3にdNFSがデフォルトで設定されます。
-* * C400コントローラペアでのロードバランシング。* OracleデータベースボリュームをC400コントローラノードに均等に配置して、ワークロードを分散します。DB1をコントローラ1に、DB2をコントローラ2に（以下同様）。DBボリュームをローカルのLIFアドレスにマウントします。
-* *データベースのバックアップ。* NetAppは、データベースのバックアップ、リストア、クローニングを実行するためのSnapCenterソフトウェアスイートで、使いやすいUIインターフェイスを備えています。NetAppでは、このような管理ツールを実装して、高速（1分未満）のSnapshotバックアップ、高速（数分）のデータベースリストア、データベースクローンを実現することを推奨しています。
+* * Oracleデータベースのストレージレイアウト*このOracleの自動導入では、各データベースに3つのデータベースボリュームをプロビジョニングし、Oracleのバイナリ、データ、ログをデフォルトでホストします。ボリュームは、NFS経由で/u01-binary、/u02-data、/u03-logsとしてOracle DBサーバにマウントされます。冗長性を確保するために、/u02と/u03のマウントポイントにデュアル制御ファイルが設定されています。
+* *複数のDBサーバの導入*この自動化ソリューションでは、Oracleコンテナデータベースを1回のAnsible Playbookで複数のDBサーバに導入できます。DBサーバの数に関係なく、プレイブックの実行は変わりません。複数のコンテナデータベースを1つのVMインスタンスに導入するには、別 々 のデータベースインスタンスID（Oracle SID）を使用して同じ環境を繰り返します。ただし、導入したデータベースをサポートするのに十分なメモリがホストにあることを確認してください。
+* * dNFS設定*dNFS（Oracle 11g以降で使用可能）を使用すると、DB VM上で実行されるOracleデータベースでネイティブNFSクライアントよりも大幅に多くのI/Oを処理できます。Oracleの自動導入では、NFSv3にdNFSがデフォルトで設定されます。
+* * C400コントローラペアでの負荷分散*OracleデータベースボリュームをC400コントローラノードに均等に配置して、ワークロードを分散します。DB1をコントローラ1に、DB2をコントローラ2に（以下同様）。DBボリュームをローカルのLIFアドレスにマウントします。
+* *データベースのバックアップ。*NetAppは、データベースのバックアップ、リストア、クローニングを実行するためのSnapCenterソフトウェアスイートで、使いやすいUIインターフェイスを備えています。NetAppでは、このような管理ツールを実装して、高速（1分未満）のSnapshotバックアップ、高速（数分）のデータベースリストア、データベースクローンを実現することを推奨しています。
 
 
 
@@ -148,10 +148,10 @@ image:automation_ora_c-series_nfs_archit.png["このイメージは、iSCSIとAS
 
 . NetApp Cシリーズストレージコントローラペアがラックに設置され、スタックされ、最新バージョンのONTAPオペレーティングシステムがインストールされて設定されている。必要に応じて、このセットアップガイドを参照してください。 https://docs.netapp.com/us-en/ontap-systems/c400/install-detailed-guide.html#step-1-prepare-for-installation["詳細ガイド- AFF C400"^]
 . 2台のLinux VMをOracle DBサーバとしてプロビジョニング環境のセットアップの詳細については、前のセクションのアーキテクチャ図を参照してください。
-. NetApp SnapCenter UIツールを最新バージョンで実行するようにWindowsサーバをプロビジョニングします。詳細については、次のリンクを参照してください。 link:https://docs.netapp.com/us-en/snapcenter/install/task_install_the_snapcenter_server_using_the_install_wizard.html["SnapCenter サーバをインストールします"^]
-. 最新バージョンのAnsibleとGitがインストールされたAnsibleコントローラノードとしてLinux VMをプロビジョニングします。詳細については、次のリンクを参照してください。 link:../automation/getting-started.html["NetApp解決策 自動化の導入"^] セクション-
-`Setup the Ansible Control Node for CLI deployments on RHEL / CentOS` または
-`Setup the Ansible Control Node for CLI deployments on Ubuntu / Debian`。
+. NetApp SnapCenter UIツールを最新バージョンで実行するようにWindowsサーバをプロビジョニングします。詳細については、次のリンクを参照してください。link:https://docs.netapp.com/us-en/snapcenter/install/task_install_the_snapcenter_server_using_the_install_wizard.html["SnapCenterサーバのインストール"^]
+. 最新バージョンのAnsibleとGitがインストールされたAnsibleコントローラノードとしてLinux VMをプロビジョニングします。詳細については、セクション-または
+`Setup the Ansible Control Node for CLI deployments on Ubuntu / Debian`の
+`Setup the Ansible Control Node for CLI deployments on RHEL / CentOS`リンクを参照してください。link:../automation/getting-started.html["NetApp解決策 自動化の導入"^]
 +
 AnsibleコントローラとデータベースVMの間のSSH公開鍵/秘密鍵認証を有効にします。
 
@@ -184,19 +184,19 @@ installer_archives:
 +
 image:automation_ora_c-series_nfs_net_01.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"]
 
-. ネットワーク-イーサネットポートで、 `Link Aggregate Group` LACPリンクアグリゲートグループポートa0aを作成して、アグリゲートグループポートのメンバーポート間で負荷分散とフェイルオーバーを実現します。C400コントローラでは、4つのデータポート（e0e、e0f、e0g、e0h）を使用できます。
+. ネットワーク-イーサネットポートから、をクリックし `Link Aggregate Group`てLACPリンクアグリゲートグループポートa0aを作成します。これにより、アグリゲートグループポート内のメンバーポート間で負荷分散とフェイルオーバーが可能になります。C400コントローラでは、4つのデータポート（e0e、e0f、e0g、e0h）を使用できます。
 +
 image:automation_ora_c-series_nfs_net_02.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"]
 
-. グループ内のイーサネットポートを選択します。 `LACP` モードの場合、および `Port` 負荷分散用。
+. グループ内のイーサネットポート、モード、および `Port`負荷分散を選択します `LACP`。
 +
 image:automation_ora_c-series_nfs_net_03.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"]
 
-. 作成されたLACPポートa0aとブロードキャストドメインを検証 `Data` はLACPポートで動作しています。
+. 作成されたLACPポートa0aを検証し、ブロードキャストドメインがLACPポートで動作していることを確認します `Data`。
 +
 image:automation_ora_c-series_nfs_net_04.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"] image:automation_ora_c-series_nfs_net_05.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"]
 
-. 移動元 `Ethernet Ports`をクリックします。 `VLAN` NFSプロトコルでのOracleワークロード用に各コントローラノードにVLANを追加します。
+. で `Ethernet Ports`、をクリックして、 `VLAN`NFSプロトコルでのOracleワークロード用に各コントローラノードにVLANを追加します。
 +
 image:automation_ora_c-series_nfs_net_06.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"] image:automation_ora_c-series_nfs_net_07.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"] image:automation_ora_c-series_nfs_net_08.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"]
 
@@ -227,19 +227,19 @@ HCG-NetApp-C400-E9U9
 3 entries were displayed.
 
 ....
-. 移動元 `STORAGE - Storage VMs`をクリックし、[+Add]をクリックしてOracle用のSVMを作成します。
+. で `STORAGE - Storage VMs`、[+Add]をクリックしてOracle用のSVMを作成します。
 +
 image:automation_ora_c-series_nfs_svm_01.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"]
 
-. Oracle SVMに名前を付け、 `Enable NFS` および `Allow NFS client access`。
+. Oracle SVMに名前を付けます。および `Allow NFS client access`を確認します。 `Enable NFS`
 +
 image:automation_ora_c-series_nfs_svm_02.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"]
 
-. NFSエクスポートポリシーの追加 `Default` ルール。
+. NFSエクスポートポリシールールを追加します `Default`。
 +
 image:automation_ora_c-series_nfs_svm_03.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"]
 
-. インチ `NETWORK INTERFACE`で、各ノードのNFS LIFアドレスにIPアドレスを入力します。
+. で `NETWORK INTERFACE`、NFS LIFアドレスの各ノードのIPアドレスを入力します。
 +
 image:automation_ora_c-series_nfs_svm_04.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"]
 
@@ -247,7 +247,7 @@ image:automation_ora_c-series_nfs_svm_04.png["このイメージは、cシリー
 +
 image:automation_ora_c-series_nfs_svm_05.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"] image:automation_ora_c-series_nfs_svm_06.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"]
 
-. 移動元 `STORAGE-Volumes` タブをクリックしてOracleデータベース用のNFSボリュームを追加します。
+. タブから `STORAGE-Volumes`Oracleデータベース用のNFSボリュームを追加します。
 +
 image:automation_ora_c-series_nfs_vol_01.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"]
 
@@ -255,7 +255,7 @@ image:automation_ora_c-series_nfs_vol_01.png["このイメージは、cシリー
 +
 image:automation_ora_c-series_nfs_vol_02.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"]
 
-. インチ `Access Permission`で、前の手順で作成したデフォルトポリシーを選択します。オフにする `Enable Snapshot Copies` SnapCenterを使用してアプリケーションと整合性のあるSnapshotを作成することを推奨します。
+. で、 `Access Permission`前の手順で作成したデフォルトポリシーを選択します。SnapCenterを使用してアプリケーションと整合性のあるSnapshotを作成する場合は、このチェックボックスをオフにし `Enable Snapshot Copies`ます。
 +
 image:automation_ora_c-series_nfs_vol_03.png["このイメージは、cシリーズコントローラの設定のスクリーンショットを示しています。"]
 
@@ -294,7 +294,7 @@ Ansible Playbookは、事前定義されたパラメータを使用してデー�
 
 [%collapsible]
 ====
-. Ansibleターゲット `hosts` ファイル構成：
+. Ansibleターゲット `hosts`ファイル構成：
 +
 [source, shell]
 ----
@@ -304,7 +304,7 @@ ora_01 ansible_host=10.61.180.21 ansible_ssh_private_key_file=ora_01.pem
 ora_02 ansible_host=10.61.180.23 ansible_ssh_private_key_file=ora_02.pem
 
 ----
-. グローバル `vars/vars.yml` ファイル構成
+. グローバル `vars/vars.yml`ファイル構成
 +
 [source, shell]
 ----
@@ -343,7 +343,7 @@ db_domain: solutions.netapp.com
 initial_pwd_all: XXXXXXXX
 
 ----
-. ローカルDBサーバ `host_vars/host_name.yml` ora_01.yml、ora_02.ymlなどの構成
+. ora_01.yml、ora_02.ymlなどのローカルDBサーバ `host_vars/host_name.yml`構成
 +
 [source, shell]
 ----
@@ -664,12 +664,12 @@ image:automation_ora_c-series_nfs_em_01.png["このイメージは、Oracle Ente
 
 [%collapsible]
 ====
-NetAppでは、Cシリーズに導入されたOracleデータベースを管理するために、SnapCenter UIツールを推奨しています。TR-4979を参照 link:aws_ora_fsx_vmc_guestmount.html#oracle-backup-restore-and-clone-with-snapcenter["ゲストマウント型FSx ONTAPにより、VMware Cloud on AWSでシンプルな自己管理型Oracleを実現"^] セクション。 `Oracle backup, restore, and clone with SnapCenter` SnapCenterのセットアップと、データベースのバックアップ、リストア、クローニングのワークフローの実行の詳細については、を参照してください。
+NetAppでは、Cシリーズに導入されたOracleデータベースを管理するために、SnapCenter UIツールを推奨しています。link:aws_ora_fsx_vmc_guestmount.html#oracle-backup-restore-and-clone-with-snapcenter["ゲストマウント型FSx ONTAPにより、VMware Cloud on AWSでシンプルな自己管理型Oracleを実現"^] `Oracle backup, restore, and clone with SnapCenter`SnapCenterのセットアップとデータベースのバックアップ、リストア、クローニングのワークフローの実行については、TR-4979を参照してください。
 
 ====
 
 
-== 追加情報の参照先
+== 詳細情報の入手方法
 
 このドキュメントに記載されている情報の詳細については、以下のドキュメントや Web サイトを参照してください。
 

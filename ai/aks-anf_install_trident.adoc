@@ -16,26 +16,26 @@ summary:
 [role="lead"]
 Helm を使用して Trident をインストールするには、次の手順を実行します。
 
-. Install Helm （インストール手順については、を参照してください） https://helm.sh/docs/intro/install/["ソース"^]）。
+. Helmをインストールします（インストール手順については、を参照してください https://helm.sh/docs/intro/install/["ソース"^]）。
 . Trident 20.01.1 インストーラをダウンロードして展開します。
 +
 ....
 $wget
 $tar -xf trident-installer-21.01.1.tar.gz
 ....
-. ディレクトリを 'trident-installer' に変更します
+. ディレクトリをに変更します `trident-installer`。
 +
 ....
 $cd trident-installer
 ....
-. tridentctl' をシステム「 $PATH 」のディレクトリにコピーします。
+. システムのディレクトリに `$PATH`コピーし `tridentctl`ます。
 +
 ....
 $sudo cp ./tridentctl /usr/local/bin
 ....
-. Kubernetes （ Kubernetes ）クラスタに Trident をインストールし、 Helm （を参照 https://scaleoutsean.github.io/2021/02/02/trident-21.01-install-with-helm-on-netapp-hci.html["ソース"^]）：
+. Helm（）を使用してKubernetes（K8s）クラスタにTridentをインストールし https://scaleoutsean.github.io/2021/02/02/trident-21.01-install-with-helm-on-netapp-hci.html["ソース"^]ます。
 +
-.. ディレクトリを 'helm' ディレクトリに変更します
+.. ディレクトリをディレクトリに変更します `helm`。
 +
 ....
 $cd helm
@@ -80,8 +80,8 @@ $az ad sp create-for-rbac --name ""
 ....
 
 
-. Trident バックエンド JSON ファイルを作成します。例：「 anf-backend.json 」
-. 任意のテキストエディタを使用して 'anf-backend.json ファイル内の次のフィールドに値を入力します
+. TridentバックエンドJSONファイル（例：name）を作成します `anf-backend.json`。
+. 任意のテキストエディタを使用して、ファイル内の次のフィールドに値を入力し `anf-backend.json`ます。
 +
 ....
 {
@@ -104,13 +104,13 @@ $az ad sp create-for-rbac --name ""
 ....
 . 次のフィールドを置き換えます。
 +
-** ' スクリプト ID' 。お客様の Azure サブスクリプション ID
-** 「 tenantID 」。前の手順で「 AZ AD SP 」の出力から取得した Azure テナント ID 。
-** 「 clientID 」。前のステップで 'AZ ad sp' の出力からのあなたの appID 。
-** 「 clientSecret 」を入力します。前の手順で「 AZ ad sp 」の出力から得たパスワード。
+** `subscriptionID`です。お客様の Azure サブスクリプション ID
+** `tenantID`です。前の手順のの出力に表示されたAzureテナントID `az ad sp`。
+** `clientID`です。前の手順での出力から取得したappID `az ad sp`。
+** `clientSecret`です。前の手順のの出力で確認したパスワード `az ad sp`。
 
 
-. 構成ファイルとして 'anf-backend.json を使用して 'trident'namespace に Azure NetApp Files バックエンドを作成するように Trident に指示します
+. を構成ファイルとして使用して、ネームスペースに `anf-backend.json`Azure NetApp Filesバックエンドを作成するようにTridentに指示し `trident`ます。
 +
 ....
 $tridentctl create backend -f anf-backend.json -n trident
@@ -118,8 +118,8 @@ $tridentctl create backend -f anf-backend.json -n trident
 +
 image:aks-anf_image8.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-. ストレージクラスを作成する。Kubernetes ユーザは、名前でストレージクラスを指定する PVC を使用してボリュームをプロビジョニングします。前の手順で作成した Trident バックエンドを参照するストレージクラス「 azurenetappfiles 」を作成するよう、 Kubernetes に指示します。
-. ストレージクラスおよびコピー用の YAML （ 'anf-storage-class.yaml ）ファイルを作成します。
+. ストレージクラスを作成する。Kubernetes ユーザは、名前でストレージクラスを指定する PVC を使用してボリュームをプロビジョニングします。Kubernetesで、前の手順で作成したTridentバックエンドを参照するストレージクラスを作成するように指示します `azurenetappfiles`。
+. (`anf-storage-class.yaml`ストレージクラス用のYAML）ファイルを作成し、コピーします。
 +
 ....
 apiVersion: storage.k8s.io/v1

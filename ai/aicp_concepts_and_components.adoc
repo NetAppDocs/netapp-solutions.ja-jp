@@ -67,7 +67,7 @@ link:https://docs.netapp.com/us-en/trident/index.html["Trident"^]ONTAP（AFF、F
 
 == Apache の通気
 
-Apache Airflow は、複雑なエンタープライズワークフローのプログラムによるオーサリング、スケジューリング、監視を可能にするオープンソースのワークフロー管理プラットフォームです。ETL やデータパイプラインのワークフローを自動化する目的でよく使用されますが、こうした種類のワークフローに限定されるわけではありません。Airflow プロジェクトは Airbnb が開始しましたが、業界で非常に人気があり、現在は Apache Software Foundation の後援を受けています。空気の流れは Python で書かれており、 Python スクリプトを使用して空気の流れが作られています。また、空気の流れは、「コードとしての設定」という原則に基づいて設計されています。 現在、多くの企業のエアフローユーザが Kubernetes の上で通気を実行しています。
+Apache Airflow は、複雑なエンタープライズワークフローのプログラムによるオーサリング、スケジューリング、監視を可能にするオープンソースのワークフロー管理プラットフォームです。ETL やデータパイプラインのワークフローを自動化する目的でよく使用されますが、こうした種類のワークフローに限定されるわけではありません。Airflow プロジェクトは Airbnb が開始しましたが、業界で非常に人気があり、現在は Apache Software Foundation の後援を受けています。AirflowはPythonで書かれ、AirflowのワークフローはPythonスクリプトで作成され、Airflowは「コードとしての設定」の原則の下で設計されています。現在、多くの企業のAirflowユーザがKubernetes上でAirflowを実行しています。
 
 
 
@@ -109,7 +109,7 @@ Kubeflow は Kubernetes 向けのオープンソースの AI / ML ツールキ�
 
 === Kubeflow パイプライン
 
-Kubeflow Pipelines は Kubeflow の主要コンポーネントです。Kubeflow Pipelines は、移植性と拡張性に優れた AI および ML ワークフローを定義、導入するためのプラットフォームと標準です。詳細については、を参照してください https://www.kubeflow.org/docs/components/pipelines/["Kubeflow の公式ドキュメント"^]。
+Kubeflow Pipelines は Kubeflow の主要コンポーネントです。Kubeflow Pipelines は、移植性と拡張性に優れた AI および ML ワークフローを定義、導入するためのプラットフォームと標準です。詳細については、を参照して https://www.kubeflow.org/docs/components/pipelines/["Kubeflow の公式ドキュメント"^]ください。
 
 
 
@@ -121,7 +121,7 @@ Kubeflow を使用すると、 Kubernetes での Jupyter Notebook Server のプ�
 
 === カティブ
 
-Katibは、自動機械学習（AutoML）向けのKubernetesネイティブプロジェクトです。Katibはハイパーパラメータチューニング、早期停止、ニューラルアーキテクチャ検索（NAS）をサポートしている。Katibは、機械学習（ML）フレームワークに依存しないプロジェクトです。ユーザが選択した任意の言語で記述されたアプリケーションのハイパーパラメータを調整でき、TensorFlow、MXNet、PyTorch、XGBoostなどの多くのMLフレームワークをネイティブでサポートします。 その他。Katibは、Bayesian最適化、Tree of Parzen Estimators、Random Search、Covariance Matrix Adaptation Evolution Strategy、Hyperband、Efficient Neural Architecture Search、Differentiable Architecture Searchなど、さまざまなAutoMLアルゴリズムをサポートしています。Kubeflow のコンテキスト内の Jupyter Notebook の詳細については、を参照してください https://www.kubeflow.org/docs/components/katib/overview/["Kubeflow の公式ドキュメント"^]。
+Katibは、自動機械学習（AutoML）向けのKubernetesネイティブプロジェクトです。Katibはハイパーパラメータチューニング、早期停止、ニューラルアーキテクチャ検索（NAS）をサポートしている。Katibは、機械学習（ML）フレームワークに依存しないプロジェクトです。ユーザが選択した任意の言語で記述されたアプリケーションのハイパーパラメータを調整でき、TensorFlow、MXNet、PyTorch、XGBoostなどの多くのMLフレームワークをネイティブでサポートします。 その他。Katibは、Bayesian最適化、Tree of Parzen Estimators、Random Search、Covariance Matrix Adaptation Evolution Strategy、Hyperband、Efficient Neural Architecture Search、Differentiable Architecture Searchなど、さまざまなAutoMLアルゴリズムをサポートしています。Kubeflowのコンテキスト内でのJupyter Notebookの詳細については、を参照してください https://www.kubeflow.org/docs/components/katib/overview/["Kubeflow の公式ドキュメント"^]。
 
 
 
@@ -139,7 +139,7 @@ ONTAP データ管理ソフトウェアには、運用を合理化および簡�
 
 * インラインデータコンパクション、強化された重複排除：データコンパクションはストレージブロック内の無駄なスペースを削減し、重複排除は実効容量を大幅に増やします。この環境データはローカルに格納され、データはクラウドに階層化されます。
 * 最小、最大、アダプティブのQuality of Service（AQoS）。きめ細かいサービス品質（QoS）管理機能により、高度に共有された環境で重要なアプリケーションのパフォーマンスレベルを維持できます。
-* NetApp FabricPool の略。Amazon Web Services（AWS）、Azure、NetApp StorageGRID ストレージ解決策 など、パブリッククラウドとプライベートクラウドのストレージオプションへコールドデータを自動的に階層化します。FabricPool の詳細については、を参照してください https://www.netapp.com/pdf.html?item=/media/17239-tr4598pdf.pdf["TR-4598：『FabricPool best bests』"^]。
+* NetApp FabricPool の略。Amazon Web Services（AWS）、Azure、NetApp StorageGRID ストレージ解決策 など、パブリッククラウドとプライベートクラウドのストレージオプションへコールドデータを自動的に階層化します。FabricPoolの詳細については、を参照してください https://www.netapp.com/pdf.html?item=/media/17239-tr4598pdf.pdf["TR-4598：『FabricPool best bests』"^]。
 
 
 
@@ -149,7 +149,7 @@ ONTAP データ管理ソフトウェアには、運用を合理化および簡�
 ONTAP は、卓越したパフォーマンスとデータ保護を実現し、以下の方法でこれらの機能を拡張します。
 
 * パフォーマンスとレイテンシの低下：ONTAP は、可能なかぎり最小のレイテンシで最高のスループットを提供します。
-* データ保護ONTAP には、組み込みのデータ保護機能が用意されており、すべてのプラットフォームを共通の管理機能で管理できます。
+* データ保護：ONTAP には、組み込みのデータ保護機能が用意されており、すべてのプラットフォームを共通の管理機能で管理できます。
 * NetApp Volume Encryption（NVE）：ONTAP は、オンボードと外部キー管理の両方をサポートし、ボリュームレベルでのネイティブな暗号化を実現します。
 * マルチテナンシーおよび多要素認証ONTAP を使用すると、最高レベルのセキュリティでインフラリソースを共有できます。
 
@@ -171,17 +171,17 @@ ONTAP は、次の機能を備えており、要件が厳しく、絶えず変�
 
 NetApp Snapshot コピーは、ボリュームの読み取り専用のポイントインタイムイメージです。次の図に示すように、イメージには Snapshot コピーが最後に作成されたあとに作成されたファイルへの変更だけが記録されるため、ストレージスペースは最小限しか消費せず、パフォーマンスのオーバーヘッドもわずかです。
 
-Snapshot コピーの効率性は、 ONTAP の中核的なストレージ仮想化テクノロジである Write Anywhere File Layout （ WAFL ）によって実現します。WAFL は、データベースと同様に、メタデータを使用してディスク上の実際のデータブロックを参照します。ただし、データベースとは異なり、 WAFL は既存のブロックを上書きしません。更新されたデータは新しいブロックに書き込まれ、メタデータが変更されます。ONTAP では、 Snapshot コピーの作成時にデータブロックをコピーするのではなくメタデータを参照するため、非常に効率的です。他のシステムと違ってコピーするブロックを探すシーク時間もなければ、コピー自体を作成するコストもかかりません。
+Snapshot コピーの効率性は、 ONTAP の中核的なストレージ仮想化テクノロジである Write Anywhere File Layout （ WAFL ）によって実現します。WAFLは、データベースと同様に、メタデータを使用してディスク上の実際のデータブロックを参照します。ただし、データベースとは異なり、WAFLは既存のブロックを上書きしません。更新されたデータは新しいブロックに書き込まれ、メタデータが変更されます。ONTAP では、 Snapshot コピーの作成時にデータブロックをコピーするのではなくメタデータを参照するため、非常に効率的です。他のシステムと違ってコピーするブロックを探すシーク時間もなければ、コピー自体を作成するコストもかかりません。
 
-Snapshot コピーを使用して、個々のファイルまたは LUN をリカバリしたり、ボリュームの内容全体をリストアしたりできます。ONTAP は、 Snapshot コピーのポインタ情報をディスク上のデータと比較することで、ダウンタイムや多大なパフォーマンスコストなしで損失オブジェクトや破損オブジェクトを再構築します。
+Snapshot コピーを使用して、個々のファイルまたは LUN をリカバリしたり、ボリュームの内容全体をリストアしたりできます。ONTAPは、Snapshotコピー内のポインタ情報をディスク上のデータと比較して、ダウンタイムや大幅なパフォーマンスコストを発生させることなく、欠落または破損したオブジェクトを再構築します。
 
 image:aicp_image4.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 
 
-== NetApp FlexClone テクノロジ
+== NetApp FlexCloneテクノロジ
 
-NetApp FlexClone テクノロジは、 Snapshot メタデータを参照してボリュームの書き込み可能なポイントインタイムコピーを作成します。コピーと親でデータブロックが共有されるため、次の図に示すように、コピーに変更が書き込まれるまではメタデータに必要な分しかストレージは消費されません。従来の手法でコピーを作成すると数分から数時間かかりますが、 FlexClone ソフトウェアを使用すれば大規模なデータセットのコピーもほぼ瞬時に作成できます。そのため、同じデータセットのコピーが複数必要な状況（開発用ワークスペースなど）や一時的にデータセットのコピーが必要な状況（本番環境のデータセットでアプリケーションをテストする場合など）に適しています。
+NetApp FlexClone テクノロジは、 Snapshot メタデータを参照してボリュームの書き込み可能なポイントインタイムコピーを作成します。コピーと親でデータブロックが共有されるため、次の図に示すように、コピーに変更が書き込まれるまではメタデータに必要な分しかストレージは消費されません。従来型のコピーの作成には数分から数時間かかることがありますが、FlexCloneソフトウェアを使用すると、大規模なデータセットでもほぼ瞬時にコピーできます。そのため、同じデータセットのコピーが複数必要な状況（開発用ワークスペースなど）や一時的にデータセットのコピーが必要な状況（本番環境のデータセットでアプリケーションをテストする場合など）に適しています。
 
 image:aicp_image5.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 

@@ -20,17 +20,17 @@ NetApp Trident は、コンテナ化されたアプリケーションが求め�
 
 == 既存の名前空間での PVC の再利用
 
-大規模な AI プロジェクトでは、異なるコンテナで同じ Kubernetes PV に対してデータの読み取りや書き込みを行う方が効率的な場合があります。Kubernetes Persistent Volume Claim （ PVC ；永続ボリューム要求）を再利用するには、ユーザが PVC を作成しておく必要があります。を参照してください https://netapp-trident.readthedocs.io/["NetApp Trident のドキュメント"^] PVC 作成の詳細については、を参照してください。次に、既存の PVC を再利用する例を示します。
+大規模な AI プロジェクトでは、異なるコンテナで同じ Kubernetes PV に対してデータの読み取りや書き込みを行う方が効率的な場合があります。Kubernetes Persistent Volume Claim （ PVC ；永続ボリューム要求）を再利用するには、ユーザが PVC を作成しておく必要があります。PVCの作成の詳細については、を参照してください https://netapp-trident.readthedocs.io/["NetApp Trident のドキュメント"^]。次に、既存の PVC を再利用する例を示します。
 
 ....
 $ runai submit pvc-test -p team-a --pvc test:/tmp/pvc1mount -i gcr.io/run-ai-demo/quickstart -g 1
 ....
-次のコマンドを実行して ' プロジェクト 'team -a' のジョブ pvc-test' のステータスを表示します
+次のコマンドを実行して、プロジェクトの `team-a`ジョブのステータスを確認し `pvc-test`ます。
 
 ....
 $ runai get pvc-test -p team-a
 ....
-'team -a' ジョブ 'pvctest' にマウントされた PV /tmp/pvc1mount が表示されますこのようにして、複数のコンテナが同じボリュームから読み取ることができるため、開発中または本番環境で競合する複数のモデルが存在する場合に便利です。データサイエンティストは、モデルのアンサンブルを構築し、大多数の投票またはその他の技術によって予測結果を組み合わせることができます。
+pv/tmp/pvc1mountがジョブ `pvc-test`にマウントされていることを確認します `team-a`。このようにして、複数のコンテナが同じボリュームから読み取ることができるため、開発中または本番環境で競合する複数のモデルが存在する場合に便利です。データサイエンティストは、モデルのアンサンブルを構築し、大多数の投票またはその他の技術によって予測結果を組み合わせることができます。
 
 次のコマンドを使用してコンテナシェルにアクセスします。
 

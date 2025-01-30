@@ -35,7 +35,7 @@ NetApp ASAシステムは、SANインフラに最新のソリューションを�
 
 
 
-== 対象者
+== 対象読者
 
 この解決策 は、次のユーザーを対象としています。
 
@@ -49,7 +49,7 @@ NetApp ASAシステムは、SANインフラに最新のソリューションを�
 
 == 解決策 のテストおよび検証環境
 
-この解決策のテストと検証は、最終的な導入環境とは一致しない可能性があるラボ環境で実行しました。を参照してください <<導入にあたって考慮すべき主な要因>> を参照してください。
+この解決策のテストと検証は、最終的な導入環境とは一致しない可能性があるラボ環境で実行しました。詳細については、を参照してください<<導入にあたって考慮すべき主な要因>>。
 
 
 
@@ -71,7 +71,7 @@ image:automation_ora_asa_iscsi_archit.png["このイメージは、iSCSIおよ�
 | NetApp ASA A400 | バージョン9.13.1P1 | NS224シェルフ×2、NVMe AFFドライブ×48、合計容量69.3TiB 
 
 
-| UCSB-B2004-M4 | Intel（R）Xeon（R）CPU E5-2690 v4（2.60GHz） | 4ノードのVMware ESXiクラスタ 
+| UCSB-B200-M4 | Intel（R）Xeon（R）CPU E5-2690 v4（2.60GHz） | 4ノードのVMware ESXiクラスタ 
 
 
 3+| *ソフトウェア* 
@@ -80,19 +80,19 @@ image:automation_ora_asa_iscsi_archit.png["このイメージは、iSCSIおよ�
 | Red Hat Linux | RHEL-8.6、4.18.0-372.9.1.el8.x86_64カーネル | テスト用にRedHatサブスクリプションを導入 
 
 
-| Windows Serverの場合 | 2022 Standard、10.0.20348ビルド20348 | SnapCenterサアハノホスト 
+| Windows Server | 2022 Standard、10.0.20348ビルド20348 | SnapCenterサアハノホスト 
 
 
 | Oracle Grid Infrastructureの略 | バージョン19.18 | RUパッチp34762026_190000_Linux-x86-64.zipを適用しました 
 
 
-| Oracle データベース | バージョン19.18 | RUパッチp34765931_190000_Linux-x86-64.zipを適用しました 
+| Oracleデータベース | バージョン19.18 | RUパッチp34765931_190000_Linux-x86-64.zipを適用しました 
 
 
 | Oracle OPatchの略 | バージョン12.2.0.1.36 | 最新のパッチp6880880_190000_Linux-x86-64.zip 
 
 
-| SnapCenter サーバ | バージョン4.9P1 | ワークグループの導入 
+| SnapCenterサーバ | バージョン4.9P1 | ワークグループの導入 
 
 
 | VMware vSphere ハイパーバイザー | バージョン6.5.0.20000 | VMware Tools、バージョン：11365-Linux、12352-Windows 
@@ -123,11 +123,11 @@ image:automation_ora_asa_iscsi_archit.png["このイメージは、iSCSIおよ�
 
 === 導入にあたって考慮すべき主な要因
 
-* * Oracleデータベースのストレージレイアウト。*このOracleの自動導入では、デフォルトで4つのデータベースボリュームをプロビジョニングして、Oracleのバイナリ、データ、ログをホストします。次に、データLUNとログLUNから2つのASMディスクグループを作成します。+data ASMディスクグループ内で、各ASA A400クラスタノードの1つのボリュームに2つのデータLUNをプロビジョニングしました。+logs ASMディスクグループ内で、1つのASA A400ノードのログボリュームに2つのLUNを作成します。ONTAPボリューム内に複数のLUNをレイアウトすると、一般的にパフォーマンスが向上します。
-* *複数のDBサーバの導入。*自動化解決策では、1回のAnsibleプレイブック実行でOracleコンテナデータベースを複数のDBサーバに導入できます。DBサーバの数に関係なく、プレイブックの実行は変わりません。複数のDBサーバを導入する場合は、データベースLUNをASA A400のデュアルコントローラに最適に配置するアルゴリズムを使用してPlaybookを構築します。バイナリと奇数のDBサーバのLUNは、コントローラ1のサーバホストインデックスプレースに記録されます。バイナリと偶数のDBサーバのLUNは、コントローラ2のサーバホストインデックスプレースに記録されます。DBデータLUNは2台のコントローラに均等に分散されます。Oracle ASMは、2台のコントローラ上のデータLUNを1つのASMディスクグループに統合して、両方のコントローラの処理能力を最大限に活用します。
-* * iSCSI構成。*データベースVMは、ストレージアクセス用にiSCSIプロトコルを使用してASAストレージに接続します。冗長性を確保するために各コントローラノードでデュアルパスを設定し、マルチパスストレージアクセス用にDBサーバでiSCSIマルチパスを設定する必要があります。パフォーマンスとスループットを最大化するには、ストレージネットワークでジャンボフレームを有効にします。
-* *作成する各Oracle ASMディスクグループに使用するOracle ASM冗長性レベル。* ASA A400では、クラスタディスクレベルでデータ保護のためにRAID DPでストレージが構成されるため、次を使用する必要があります。 `External Redundancy`これは、このオプションでは、Oracle ASMがディスクグループの内容をミラーリングすることを許可しないことを意味します。
-* *データベースのバックアップ。* NetAppは、データベースのバックアップ、リストア、クローニングを実行するためのSnapCenterソフトウェアスイートで、使いやすいUIインターフェイスを備えています。NetAppでは、このような管理ツールを実装して、高速（1分未満）のSnapshotバックアップ、高速（数分）のデータベースリストア、データベースクローンを実現することを推奨しています。
+* * Oracleデータベースのストレージレイアウト*このOracleの自動導入では、デフォルトで4つのデータベースボリュームをプロビジョニングし、Oracleのバイナリ、データ、ログをホストします。次に、データLUNとログLUNから2つのASMディスクグループを作成します。+data ASMディスクグループ内で、各ASA A400クラスタノードの1つのボリュームに2つのデータLUNをプロビジョニングしました。+logs ASMディスクグループ内で、1つのASA A400ノードのログボリュームに2つのLUNを作成します。ONTAPボリューム内に複数のLUNをレイアウトすると、一般的にパフォーマンスが向上します。
+* *複数のDBサーバの導入*この自動化ソリューションでは、Oracleコンテナデータベースを1回のAnsible Playbookで複数のDBサーバに導入できます。DBサーバの数に関係なく、プレイブックの実行は変わりません。複数のDBサーバを導入する場合は、データベースLUNをASA A400のデュアルコントローラに最適に配置するアルゴリズムを使用してPlaybookを構築します。バイナリと奇数のDBサーバのLUNは、コントローラ1のサーバホストインデックスプレースに記録されます。バイナリと偶数のDBサーバのLUNは、コントローラ2のサーバホストインデックスプレースに記録されます。DBデータLUNは2台のコントローラに均等に分散されます。Oracle ASMは、2台のコントローラ上のデータLUNを1つのASMディスクグループに統合して、両方のコントローラの処理能力を最大限に活用します。
+* * iSCSI構成*データベースVMは、ストレージアクセスのためにiSCSIプロトコルを使用してASAストレージに接続します。冗長性を確保するために各コントローラノードでデュアルパスを設定し、マルチパスストレージアクセス用にDBサーバでiSCSIマルチパスを設定する必要があります。パフォーマンスとスループットを最大化するには、ストレージネットワークでジャンボフレームを有効にします。
+* *作成する各Oracle ASMディスクグループに使用するOracle ASM冗長性レベル*ASA A400では、データ保護のためにRAID DPのストレージがクラスタディスクレベルで構成されるため、を使用する必要があります。これは、オプションでは、 `External Redundancy`Oracle ASMにディスクグループの内容をミラーリングすることを許可しないことを意味します。
+* *データベースのバックアップ。*NetAppは、データベースのバックアップ、リストア、クローニングを実行するためのSnapCenterソフトウェアスイートで、使いやすいUIインターフェイスを備えています。NetAppでは、このような管理ツールを実装して、高速（1分未満）のSnapshotバックアップ、高速（数分）のデータベースリストア、データベースクローンを実現することを推奨しています。
 
 
 
@@ -144,15 +144,15 @@ image:automation_ora_asa_iscsi_archit.png["このイメージは、iSCSIおよ�
 ====
 導入には、次の前提条件が必要です。
 
-. ここでは、NetApp ASAストレージアレイが設置および設定されていることを前提としています。これには、iSCSIブロードキャストドメイン、両方のコントローラノード上のLACPインターフェイスグループa0a、両方のコントローラノード上のiSCSI VLANポート（a0a-<iscsi-a-vlan-id>、a0a-<iscsi-b-vlan-id>）が含まれます。ヘルプが必要な場合の詳細な手順については、次のリンクを参照してください。 link:https://docs.netapp.com/us-en/ontap-systems/asa400/install-detailed-guide.html["詳細ガイド- ASA A400"^]
-. 最新バージョンのAnsibleとGitがインストールされたAnsibleコントローラノードとしてLinux VMをプロビジョニングします。詳細については、次のリンクを参照してください。 link:../automation/getting-started.html["NetApp解決策 自動化の導入"^] セクション- `Setup the Ansible Control Node for CLI deployments on RHEL / CentOS` または `Setup the Ansible Control Node for CLI deployments on Ubuntu / Debian`。
+. ここでは、NetApp ASAストレージアレイが設置および設定されていることを前提としています。これには、iSCSIブロードキャストドメイン、両方のコントローラノード上のLACPインターフェイスグループa0a、両方のコントローラノード上のiSCSI VLANポート（a0a-<iscsi-a-vlan-id>、a0a-<iscsi-b-vlan-id>）が含まれます。ヘルプが必要な場合の詳細な手順については、次のリンクを参照してください。link:https://docs.netapp.com/us-en/ontap-systems/asa400/install-detailed-guide.html["詳細ガイド- ASA A400"^]
+. 最新バージョンのAnsibleとGitがインストールされたAnsibleコントローラノードとしてLinux VMをプロビジョニングします。詳細については、セクション-または `Setup the Ansible Control Node for CLI deployments on Ubuntu / Debian`の `Setup the Ansible Control Node for CLI deployments on RHEL / CentOS`リンクを参照してください。link:../automation/getting-started.html["NetApp解決策 自動化の導入"^]
 . iSCSI用のNetApp Oracle Deployment Automation Toolkitのコピーをクローニングします。
 +
 [source, cli]
 ----
 git clone https://bitbucket.ngage.netapp.com/scm/ns-bb/na_oracle_deploy_iscsi.git
 ----
-. NetApp SnapCenter UIツールを最新バージョンで実行するようにWindowsサーバをプロビジョニングします。詳細については、次のリンクを参照してください。 link:https://docs.netapp.com/us-en/snapcenter/install/task_install_the_snapcenter_server_using_the_install_wizard.html["SnapCenter サーバをインストールします"^]
+. NetApp SnapCenter UIツールを最新バージョンで実行するようにWindowsサーバをプロビジョニングします。詳細については、次のリンクを参照してください。link:https://docs.netapp.com/us-en/snapcenter/install/task_install_the_snapcenter_server_using_the_install_wizard.html["SnapCenterサーバのインストール"^]
 . ベアメタルまたは仮想VMのRHEL Oracle DBサーバを2台構築します。パスワード権限なしでsudoを使用してDBサーバに管理者ユーザを作成し、AnsibleホストとOracle DBサーバホストの間でSSHの秘密鍵/公開鍵認証を有効にします。Oracle 19CインストールファイルをDBサーバ/tmp/archiveディレクトリにステージングします。
 +
 ....
@@ -196,7 +196,7 @@ Ansible Playbookは、事前定義されたパラメータを使用してデー�
 
 [%collapsible]
 ====
-. Ansibleターゲット `hosts` ファイル構成：
+. Ansibleターゲット `hosts`ファイル構成：
 +
 [source, shell]
 ----
@@ -210,7 +210,7 @@ ora_01 ansible_host=10.61.180.21 ansible_ssh_private_key_file=ora_01.pem
 ora_02 ansible_host=10.61.180.23 ansible_ssh_private_key_file=ora_02.pem
 
 ----
-. グローバル `vars/vars.yml` ファイル構成
+. グローバル `vars/vars.yml`ファイル構成
 +
 [source, shell]
 ----
@@ -265,7 +265,7 @@ db_domain: solutions.netapp.com
 initial_pwd_all: xxxxxxxx
 
 ----
-. ローカルDBサーバ `host_vars/host_name.yml` 構成
+. ローカルDBサーバ `host_vars/host_name.yml`の設定
 +
 [source, shell]
 ----
@@ -418,7 +418,7 @@ ora.ntap1.db
 ....
 +
 
-NOTE: 無視する `Not All Endpoints Registered` 州内の詳細。これは、リスナーとの手動および動的なデータベース登録の競合が原因で発生するため、無視しても問題ありません。
+NOTE: [In State]の詳細は無視します `Not All Endpoints Registered`。これは、リスナーとの手動および動的なデータベース登録の競合が原因で発生するため、無視しても問題ありません。
 
 . ASMフィルタドライバが正常に動作していることを確認します。
 +
@@ -496,12 +496,12 @@ image:automation_ora_asa_em_03.png["この画像は、Oracle Enterprise Manager 
 
 [%collapsible]
 ====
-TR-4979を参照 link:aws_ora_fsx_vmc_guestmount.html#oracle-backup-restore-and-clone-with-snapcenter["ゲストマウント型FSx ONTAPにより、VMware Cloud on AWS上のシンプルで自己管理型のOracleを実現"^] セクション。 `Oracle backup, restore, and clone with SnapCenter` SnapCenterのセットアップと、データベースのバックアップ、リストア、クローニングのワークフローの実行の詳細については、を参照してください。
+link:aws_ora_fsx_vmc_guestmount.html#oracle-backup-restore-and-clone-with-snapcenter["ゲストマウント型FSx ONTAPにより、VMware Cloud on AWS上のシンプルで自己管理型のOracleを実現"^] `Oracle backup, restore, and clone with SnapCenter`SnapCenterのセットアップとデータベースのバックアップ、リストア、クローニングのワークフローの実行については、TR-4979を参照してください。
 
 ====
 
 
-== 追加情報の参照先
+== 詳細情報の入手方法
 
 このドキュメントに記載されている情報の詳細については、以下のドキュメントや Web サイトを参照してください。
 
@@ -517,7 +517,7 @@ link:https://docs.oracle.com/en/database/oracle/oracle-database/19/ladbi/install
 +
 link:https://docs.oracle.com/en/database/oracle/oracle-database/19/ladbi/installing-and-configuring-oracle-database-using-response-files.html#GUID-D53355E9-E901-4224-9A2A-B882070EDDF7["https://docs.oracle.com/en/database/oracle/oracle-database/19/ladbi/installing-and-configuring-oracle-database-using-response-files.html#GUID-D53355E9-E901-4224-9A2A-B882070EDDF7"^]
 
-* ONTAPでRed Hat Enterprise Linux 8.2を使用する
+* Red Hat Enterprise Linux 8.2とONTAPの併用
 +
 link:https://docs.netapp.com/us-en/ontap-sanhost/hu_rhel_82.html#all-san-array-configurations["https://docs.netapp.com/us-en/ontap-sanhost/hu_rhel_82.html#all-san-array-configurations"^]
 

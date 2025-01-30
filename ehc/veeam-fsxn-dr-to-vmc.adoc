@@ -34,7 +34,7 @@ VMware Cloud on AWS SDDCをディザスタリカバリのターゲットとし�
 
 Veeam Backup & Replicationを使用すると、オンサイトとリモートのレプリケーションでディザスタリカバリ（DR）を実現できます。仮想マシンがレプリケートされると、Veeam Backup & Replicationは、ネイティブのVMware vSphere形式でターゲットのVMware Cloud on AWS SDDCクラスタにVMの正確なコピーを作成し、元のVMとの同期を維持します。
 
-VMのコピーがすぐに開始できる状態にあるため、レプリケーションによって最適なRecovery Time Objective（RTO；目標復旧時間）値が得られます。  このレプリケーションメカニズムにより、災害発生時にVMware Cloud on AWS SDDCでワークロードを迅速に開始できます。Veeam Backup & Replicationソフトウェアは、WAN経由のレプリケーションや低速接続のトラフィック転送も最適化します。さらに、重複データブロック、ゼロデータブロック、スワップファイル、除外VMゲストOSファイルを除外し、レプリカトラフィックを圧縮します。
+VMのコピーがすぐに開始できる状態にあるため、レプリケーションによって最適なRecovery Time Objective（RTO；目標復旧時間）値が得られます。このレプリケーションメカニズムにより、災害発生時にVMware Cloud on AWS SDDCでワークロードを迅速に開始できます。Veeam Backup & Replicationソフトウェアは、WAN経由のレプリケーションや低速接続のトラフィック転送も最適化します。さらに、重複データブロック、ゼロデータブロック、スワップファイル、除外VMゲストOSファイルを除外し、レプリカトラフィックを圧縮します。
 
 レプリケーションジョブがネットワーク帯域幅全体を消費しないようにするには、WANアクセラレータとネットワークスロットリングルールを設定します。Veeam Backup & Replicationのレプリケーションプロセスはジョブベースです。つまり、レプリケーションはレプリケーションジョブを設定して実行されます。災害が発生した場合は、レプリカコピーにフェイルオーバーすることで、フェイルオーバーをトリガーしてVMをリカバリできます。
 
@@ -66,11 +66,11 @@ image:dr-veeam-fsx-image1.png["Veeam ReplicationとFSx ONTAP for VMCを使用し
 . ターゲットのFSx ONTAPデータストアには、レプリケートされたVMのVMDKを格納できるだけの十分な空きスペースが必要
 
 
-追加情報については、「考慮事項と制限事項」を参照してください。 link:https://helpcenter.veeam.com/docs/backup/vsphere/replica_limitations.html?ver=120["こちらをご覧ください"]。
+詳細については、「考慮事項と制限事項」を参照してくださいlink:https://helpcenter.veeam.com/docs/backup/vsphere/replica_limitations.html?ver=120["ここをクリック"]。
 
 
 
-=== 展開の詳細
+=== 導入の詳細
 
 .ステップ1：VMのレプリケート
 [%collapsible]
@@ -81,7 +81,7 @@ VMをレプリケートするには、次の手順を実行します。
 
 . Veeam Backup & Replicationコンソールを開きます。
 . [Home]ビューで、[Replication Job]>[Virtual machine]>[VMware vSphere]を選択します。
-. ジョブ名を指定し、適切な詳細制御チェックボックスを選択します。次へをクリックします。
+. ジョブ名を指定し、適切な詳細制御チェックボックスを選択します。[Next]をクリックします。
 +
 ** オンプレミスとAWS間の接続で帯域幅が制限されている場合は、[Replica seeding]チェックボックスをオンにします。
 ** VMware Cloud on AWS SDDC上のセグメントがオンプレミスサイトネットワークのセグメントと一致しない場合は、[Network remapping（for AWS VMC sites with different networks）]チェックボックスをオンにします。
@@ -120,7 +120,7 @@ image:dr-veeam-fsx-image7.png["入力/出力ダイアログを示す図、また
 
 image:dr-veeam-fsx-image8.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-追加情報によるVeeamレプリケーションについては、を参照してください。 link:https://helpcenter.veeam.com/docs/backup/vsphere/replication_process.html?ver=120["レプリケーションの仕組み"]。
+Veeamレプリケーションの詳細については、を参照してくださいlink:https://helpcenter.veeam.com/docs/backup/vsphere/replication_process.html?ver=120["レプリケーションの仕組み"]。
 
 ====
 .手順2：フェイルオーバープランを作成する
@@ -152,7 +152,7 @@ image:dr-veeam-fsx-image10.png["入力/出力ダイアログを示す図、ま�
 
 
 
-レプリケーションジョブを作成するための追加情報については、を参照してください。 link:https://helpcenter.veeam.com/docs/backup/vsphere/replica_job.html?ver=120["レプリケーションジョブの作成"]。
+レプリケーションジョブの作成の詳細については、を参照してくださいlink:https://helpcenter.veeam.com/docs/backup/vsphere/replica_job.html?ver=120["レプリケーションジョブの作成"]。
 
 ====
 .手順3：フェイルオーバープランを実行する
@@ -180,7 +180,7 @@ image:dr-veeam-fsx-image14.png["入力/出力ダイアログを示す図、ま�
 
 NOTE: Veeam Backup & Replicationは、レプリカがReady状態に戻るまで、ソースVMのすべてのレプリケーションアクティビティを停止します。
 
-フェイルオーバープランの詳細については、を参照してください。 link:https://helpcenter.veeam.com/docs/backup/vsphere/failover_plan.html?ver=120["フェイルオーバープラン"]。
+フェイルオーバープランの詳細については、を参照してくださいlink:https://helpcenter.veeam.com/docs/backup/vsphere/failover_plan.html?ver=120["フェイルオーバープラン"]。
 
 ====
 .手順4：本番サイトへのフェイルバック
@@ -206,7 +206,7 @@ image:dr-veeam-fsx-image16.png["入力/出力ダイアログを示す図、ま�
 
 フェイルバックコミットは、フェイルバック操作を完了する方法の1つです。フェイルバックがコミットされると、フェイルバックされたVM（本番VM）に送信された変更が想定どおりに機能していることが確認されます。コミット処理が完了すると、Veeam Backup & Replicationは本番用VMのレプリケーションアクティビティを再開します。
 
-フェイルバックプロセスの詳細については、次のVeeamのドキュメントを参照してください： link:https://helpcenter.veeam.com/docs/backup/vsphere/failover_failback.html?ver=120["レプリケーションのフェイルオーバーとフェイルバック"]。
+フェイルバックプロセスの詳細については、Veeamのドキュメントを参照してくださいlink:https://helpcenter.veeam.com/docs/backup/vsphere/failover_failback.html?ver=120["レプリケーションのフェイルオーバーとフェイルバック"]。
 
 image:dr-veeam-fsx-image17.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 

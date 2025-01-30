@@ -24,8 +24,8 @@ MetalLB は、 OpenShift クラスタにインストールされた自己ホス�
 
 MetalLB が OpenShift クラスタの外部でロードバランササービスに割り当てられた IP アドレスをどのようにアナウンスするかに基づいて、次の 2 つのモードで動作します。
 
-* * レイヤ 2 モード。 * このモードでは、 OpenShift クラスタ内の 1 つのノードがサービスの所有権を取得し、その IP の ARP 要求に応答して、 OpenShift クラスタ外で到達可能にします。IP をアドバタイズするのはノードだけなので、帯域幅のボトルネックと低速フェールオーバーの制限があります。詳細については、のドキュメントを参照してください link:https://metallb.universe.tf/concepts/layer2/["こちらをご覧ください"]。
-* * このモードでは、 OpenShift クラスタ内のすべてのノードがルータとの BGP ピアリングセッションを確立し、トラフィックをサービス IP に転送するためにルートをアドバタイズします。このための前提条件は、 MetalLB をそのネットワーク内のルータと統合することです。BGP のハッシュメカニズムにより、サービスの IP-to-Node マッピングが変更されることがあります。詳細については、のドキュメントを参照してください link:https://metallb.universe.tf/concepts/bgp/["こちらをご覧ください"]。
+* *レイヤ2モード。*このモードでは、OpenShiftクラスタ内の1つのノードがサービスの所有権を取得し、そのIPに対するARP要求に応答してOpenShiftクラスタの外部に到達できるようにします。IP をアドバタイズするのはノードだけなので、帯域幅のボトルネックと低速フェールオーバーの制限があります。詳細については、のドキュメントを参照してlink:https://metallb.universe.tf/concepts/layer2/["ここをクリック"]ください。
+* * BGPモード。*このモードでは、OpenShiftクラスタ内のすべてのノードがルータとのBGPピアリングセッションを確立し、トラフィックをサービスIPに転送するルートをアドバタイズします。このための前提条件は、 MetalLB をそのネットワーク内のルータと統合することです。BGP のハッシュメカニズムにより、サービスの IP-to-Node マッピングが変更されることがあります。詳細については、のドキュメントを参照してlink:https://metallb.universe.tf/concepts/bgp/["ここをクリック"]ください。
 
 
 
@@ -42,7 +42,7 @@ NOTE: このマニュアルでは、レイヤ 2 モードで MetalLB を設定�
 [netapp-user@rhel7 ~]$ wget https://raw.githubusercontent.com/metallb/metallb/v0.10.2/manifests/namespace.yaml
 [netapp-user@rhel7 ~]$ wget https://raw.githubusercontent.com/metallb/metallb/v0.10.2/manifests/metallb.yaml
 ----
-. ファイル「 metallb.yaml 」を編集し、「 pec.template.spec.securityContext` 」をコントローラ展開とスピーカー DemonSet から削除します。
+. ファイルを編集し `metallb.yaml`、コントローラの配置とスピーカーのデーモンセットから削除し `spec.template.spec.securityContext`ます。
 +
 * 削除する行数： *
 
@@ -53,7 +53,7 @@ securityContext:
   runAsNonRoot: true
   runAsUser: 65534
 ----
-. 「 metallb-system' 」ネームスペースを作成します。
+. ネームスペースを作成し `metallb-system`ます。
 +
 [listing]
 ----
@@ -89,7 +89,7 @@ deployment.apps/controller created
 [netapp-user@rhel7 ~]$ oc adm policy add-scc-to-user privileged -n metallb-system -z speaker
 clusterrole.rbac.authorization.k8s.io/system:openshift:scc:privileged added: "speaker"
 ----
-. 「 metalLB - システム」ネームスペースに「 ConfigMap 」を作成して、 MetalLB を設定します。
+.  `metallb-system`ネームスペースにを作成してMetalLBを設定し `ConfigMap`ます。
 +
 [listing]
 ----
@@ -114,6 +114,6 @@ configmap/config created
 . これで、ロードバランササービスが作成されると、 MetalLB は外部 IP をサービスに割り当て、 ARP 要求に応答して IP アドレスをアドバタイズします。
 +
 
-NOTE: BGP モードで MetalLB を設定する場合は、上記の手順 6 を省略し、 MetalLB マニュアルの手順に従います link:https://metallb.universe.tf/concepts/bgp/["こちらをご覧ください"]。
+NOTE: MetalLBをBGPモードで設定する場合は、上記の手順6をスキップし、MetalLBのマニュアルに記載されている手順に従いますlink:https://metallb.universe.tf/concepts/bgp/["ここをクリック"]。
 
 

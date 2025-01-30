@@ -38,7 +38,7 @@ VMware vSphere Foundation（VVF）は、さまざまな仮想化ワークロー�
 
 
 
-=== 対象者
+=== 対象読者
 
 この解決策 は、次のユーザーを対象としています。
 
@@ -62,7 +62,7 @@ vSphere Foundationの中央コンポーネントであるVMware vCenterは、vSp
 
 VVF解決策は、ネイティブのKubernetesワークロードと仮想マシンベースのワークロードの両方をサポートします。主なコンポーネントは次のとおりです。
 
-* VMware vSphere の場合
+* VMware vSphere
 * VMware vSAN
 * ARIA規格
 * vSphere向けVMware Tanzu Kubernetesグリッドサービス
@@ -129,7 +129,7 @@ NFS構成に関する設計ガイダンスについては、を参照して http
 
 * iSCSI *- NetApp AFFはiSCSIを強力にサポートし、IPネットワーク経由でストレージ・デバイスにブロック・レベルでアクセスできるようにします。iSCSIイニシエータとのシームレスな統合により、iSCSI LUNの効率的なプロビジョニングと管理が可能になります。マルチパス、CHAP認証、ALUAのサポートなど、ONTAPの高度な機能。
 
-iSCSI構成の設計ガイダンスについては、を参照してください。 https://docs.netapp.com/us-en/ontap/san-config/configure-iscsi-san-hosts-ha-pairs-reference.html["SAN構成のリファレンスドキュメント"]。
+iSCSI構成の設計ガイダンスについては、を参照して https://docs.netapp.com/us-en/ontap/san-config/configure-iscsi-san-hosts-ha-pairs-reference.html["SAN構成のリファレンスドキュメント"]ください。
 
 *ファイバ・チャネル*- NetApp AFFは'SAN（ストレージ・エリア・ネットワーク）で一般的に使用される高速ネットワーク・テクノロジーであるファイバ・チャネル（FC）を包括的にサポートしますONTAPはFCインフラとシームレスに統合されるため、ストレージデバイスへの信頼性と効率性に優れたブロックレベルアクセスが実現します。ゾーニング、マルチパス、ファブリックログイン（FLOGI）などの機能を使用して、FC環境でのパフォーマンスの最適化、セキュリティの強化、シームレスな接続の確保を実現します。
 
@@ -137,7 +137,7 @@ iSCSI構成の設計ガイダンスについては、を参照してください
 
 * NVMe over Fabrics *- NetApp ONTAPはNVMe over Fabricsをサポートします。NVMe/FCでは、Fibre Channelインフラ経由のNVMeストレージデバイスと、NVMe/TCP over Storage IPネットワークを使用できます。
 
-NVMeに関する設計ガイダンスについては、を参照してください。 https://docs.netapp.com/us-en/ontap/nvme/support-limitations.html["NVMeの構成、サポート、制限事項"]。
+NVMeに関する設計ガイダンスについては、を参照してください https://docs.netapp.com/us-en/ontap/nvme/support-limitations.html["NVMeの構成、サポート、制限事項"]。
 
 
 
@@ -197,11 +197,11 @@ SnapCenter Plug-in for VMware vSphereは、vSphere Clientと統合されたユ�
 
 SnapCenter Plug-inは、NetAppストレージアレイ上のハードウェアベースのスナップショットと連携して、仮想マシンの休止をオーケストレーションします。SnapMirrorテクノロジは、クラウドを含むセカンダリストレージシステムにバックアップのコピーをレプリケートするために使用されます。
 
-詳細については、を参照してください https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere["SnapCenter Plug-in for VMware vSphere のドキュメント"]。
+詳細については、を参照して https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere["SnapCenter Plug-in for VMware vSphereのドキュメント"]ください。
 
 BlueXPとの統合により、データのコピーをクラウド上のオブジェクトストレージに拡張する3-2-1ルールのバックアップ戦略が実現します。
 
-BlueXPを使用した3-2-1バックアップ戦略の詳細については、 link:../ehc/bxp-scv-hybrid-solution.html["3-2-1 SnapCenterプラグインとBlueXPによるVMのバックアップとリカバリによるVMwareのデータ保護"]。
+BlueXP  を使用した3-2-1バックアップ戦略の詳細については、を参照してくださいlink:../ehc/bxp-scv-hybrid-solution.html["3-2-1 SnapCenterプラグインとBlueXPによるVMのバックアップとリカバリによるVMwareのデータ保護"]。
 
 SnapCenter Plug-inの詳細な導入手順については、ソリューションを参照してくださいlink:vmware_vcf_asa_scv_wkld.html["SnapCenter Plug-in for VMware vSphereを使用してVCFワークロードドメイン上のVMを保護する"]。
 

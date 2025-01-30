@@ -17,16 +17,16 @@ summary: NAS共有にGoogle Cloud NetApp Volumeを使用している場合、適
 NAS共有にGoogle Cloud NetApp Volumeを使用している場合、適切に機能するために外部の依存関係が必要になることがあります。これらの依存関係は、特定の状況下で有効になっています。次の表に、さまざまな設定オプションと、必要な依存関係を示します。
 
 |===
-| 設定 | 必須の依存関係です 
+| 構成 | 必須の依存関係です 
 
 
-| NFSv3のみ | なし 
+| NFSv3 のみ | なし 
 
 
 | NFSv3 Kerberosのみ | Windows Active Directory：* KDC * DNS * LDAP 
 
 
-| NFSv4.1のみ | クライアントIDマッピング設定（/etc/idmap.conf） 
+| NFSv4.1 のみ | クライアントIDマッピング設定（/etc/idmap.conf） 
 
 
 | NFSv4.1 Kerberosのみ  a| 
@@ -67,7 +67,7 @@ Google Cloud NetApp VolumeはLDAPクライアントとして機能し、UNIX ID�
 
 Active DirectoryをUNIX LDAPサーバとして使用するには、UNIX IDに使用するユーザおよびグループに、必要なUNIX属性を設定する必要があります。Google Cloud NetApp Volumesは、に基づいて属性を照会するデフォルトのLDAPスキーマテンプレートを使用します。 https://tools.ietf.org/id/draft-howard-rfc2307bis-01.txt["RFC-2307 -bis"^]このため、次の表に、ユーザとグループにデータを入力するために最低限必要なActive Directory属性と、それぞれの属性がどのような目的で使用されているかを示します。
 
-Active DirectoryでのLDAP属性の設定の詳細については、を参照してください https://cloud.google.com/architecture/partners/netapp-cloud-volumes/managing-dual-protocol-access["デュアルプロトコルアクセスの管理"^]
+Active DirectoryでのLDAP属性の設定の詳細については、を参照してください。 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/managing-dual-protocol-access["デュアルプロトコルアクセスの管理"^]
 
 |===
 | 属性 | 機能 
@@ -161,19 +161,19 @@ Google Cloud NetApp VolumeインスタンスでLDAPを有効にすると、デ�
 | 優先されるActive Directoryサーバ | LDAPで使用する優先Active Directoryサーバを設定します。Google Cloud NetApp Volumeではサポートされていません。代わりに、Active Directoryサイトを使用してLDAPサーバの選択を制御します。 | 未設定。 | いいえ 
 
 
-| SMBサーバクレデンシャルを使用してバインド | SMBマシンアカウントを使用してLDAPにバインドします。現時点では、Google Cloud NetApp VolumeでサポートされているLDAPのバインド方法は唯一です。 | 正しいです | いいえ 
+| SMBサーバクレデンシャルを使用してバインド | SMBマシンアカウントを使用してLDAPにバインドします。現時点では、Google Cloud NetApp VolumeでサポートされているLDAPのバインド方法は唯一です。 | 正しい | いいえ 
 
 
-| スキーマテンプレート | LDAPクエリに使用するスキーマテンプレート。 | MS-AD-BIS を参照してください | いいえ 
+| スキーマテンプレート | LDAPクエリに使用するスキーマテンプレート。 | MS-AD-BIS | いいえ 
 
 
 | LDAPサーバポート | LDAPクエリに使用するポート番号。Google Cloud NetApp Volumeは現在、標準のLDAPポート389のみを使用します。LDAPS /ポート636は、現在サポートされていません。 | 389 | いいえ 
 
 
-| LDAPSが有効になっています | LDAP over Secure Sockets Layer（SSL）をクエリおよびバインドに使用するかどうかを制御します。現在、Google Cloud NetApp Volumeではサポートされていません。 | いいえ | いいえ 
+| LDAPSが有効になっています | LDAP over Secure Sockets Layer（SSL）をクエリおよびバインドに使用するかどうかを制御します。現在、Google Cloud NetApp Volumeではサポートされていません。 | 正しくない | いいえ 
 
 
-| クエリタイムアウト（秒） | クエリがタイムアウトしました。クエリに指定した値よりも長い時間がかかると、クエリが失敗します。 | 3. | いいえ 
+| クエリタイムアウト（秒） | クエリがタイムアウトしました。クエリに指定した値よりも長い時間がかかると、クエリが失敗します。 | 3 | いいえ 
 
 
 | 最小バインド認証レベル | サポートされる最小バインドレベルを指定します。Google Cloud NetApp VolumeではLDAPバインドにマシンアカウントが使用され、Active Directoryではデフォルトで匿名バインドがサポートされないため、このオプションはセキュリティ上有効ではありません。 | 匿名 | いいえ 
@@ -206,10 +206,10 @@ Google Cloud NetApp VolumeインスタンスでLDAPを有効にすると、デ�
 | ネットグループ検索範囲 | ネットグループDN検索の検索範囲。値には、base、onelevel、subtreeのいずれかを指定できます。Google Cloud NetApp Volumeでは、ネットグループの検索範囲の設定はサポートされていません。 | サブツリー | いいえ 
 
 
-| LDAPでstart_tlsを使用します | Start TLSを使用して、証明書ベースのLDAP接続をポート389経由で行います。現在、Google Cloud NetApp Volumeではサポートされていません。 | いいえ | いいえ 
+| LDAPでstart_tlsを使用します | Start TLSを使用して、証明書ベースのLDAP接続をポート389経由で行います。現在、Google Cloud NetApp Volumeではサポートされていません。 | 正しくない | いいえ 
 
 
-| ホスト単位のネットグループ検索を有効にします | ネットグループをすべてのメンバーの一覧に展開するのではなく、ホスト名によるネットグループ検索を有効にします。現在、Google Cloud NetApp Volumeではサポートされていません。 | いいえ | いいえ 
+| ホスト単位のネットグループ検索を有効にします | ネットグループをすべてのメンバーの一覧に展開するのではなく、ホスト名によるネットグループ検索を有効にします。現在、Google Cloud NetApp Volumeではサポートされていません。 | 正しくない | いいえ 
 
 
 | ホスト単位のネットグループDN | ホスト単位のネットグループ検索がLDAPクエリを開始するDNを定義します。ホスト単位のネットグループは、現在Google Cloud NetApp Volumeではサポートされていません。 | 未設定 | いいえ 
@@ -221,7 +221,7 @@ Google Cloud NetApp VolumeインスタンスでLDAPを有効にすると、デ�
 | クライアントセッションのセキュリティ | LDAPで使用されるセッションセキュリティのレベルを定義します（sign、seal、none）。LDAP署名はNetApp Volumes-Performanceでサポートされます（Active Directoryから要求された場合）。NetApp Volumes-SWではLDAP署名がサポートされません。どちらのタイプのサービスでも、現時点ではシーリングはサポートされていません。 | なし | いいえ 
 
 
-| LDAPリファーラルキャッシュ | 複数のLDAPサーバを使用している場合、リファーラル追跡を使用すると、クライアントが最初のサーバでエントリが見つからなかったときに、リスト内の他のLDAPサーバを参照することができます。現時点では、Google Cloud NetApp Volumeではサポートされていません。 | いいえ | いいえ 
+| LDAPリファーラルキャッシュ | 複数のLDAPサーバを使用している場合、リファーラル追跡を使用すると、クライアントが最初のサーバでエントリが見つからなかったときに、リスト内の他のLDAPサーバを参照することができます。現時点では、Google Cloud NetApp Volumeではサポートされていません。 | 正しくない | いいえ 
 
 
 | グループメンバーシップフィルタ | LDAPサーバからグループメンバーシップを検索するときに使用するカスタムのLDAP検索フィルタを提供します。現時点では、Google Cloud NetApp Volumeではサポートされていません。 | 未設定 | いいえ 
@@ -252,7 +252,7 @@ Google Cloud NetApp Volumeはデフォルトで、同一のユーザ名を持つ
 |===
 Google Cloud NetApp Volumeでは現在、LDAP検索でドメインプレフィックスが使用されていないため、複数のドメインのLDAP環境でLDAPネームマップ検索が正しく機能しません。
 
-次の例は、Windows名が「asymmetric」で、UNIX名が「unix-user」で、SMBとNFSの両方からファイルを書き込む際の動作を示しています。
+次の例は、というWindows名のユーザ、UNIX `unix-user`名のユーザ、およびSMBとNFSの両方からファイルを書き込むときの動作を示して `asymmetric`います。
 
 次の図に、LDAP属性がWindowsサーバからどのように見えているかを示します。
 
@@ -266,7 +266,7 @@ uid=1207(unix-user) gid=1220(sharedgroup) groups=1220(sharedgroup)
 # id asymmetric
 id: asymmetric: no such user
 ....
-ファイルがNFSから「unix-user」として書き込まれると、NFSクライアントから次のような結果になります。
+ファイルがとしてNFSから書き込まれる `unix-user`と、NFSクライアントから次の結果が返されます。
 
 ....
 sh-4.2$ pwd
@@ -284,14 +284,14 @@ Owner
 -----
 NTAP\asymmetric
 ....
-逆に、WindowsユーザがSMBクライアントから「asymmetric」で作成したファイルの場合、次のテキストに示すように、適切なUNIX所有者が表示されます。
+一方、WindowsユーザがSMBクライアントから作成したファイル `asymmetric`には、次のテキストに示すように、適切なUNIX所有者が表示されます。
 
 SMB：
 
 ....
 PS Z:\ntfs> echo TEXT > asymmetric-user-smb.txt
 ....
-NFS ：
+NFS：
 
 ....
 sh-4.2$ ls -la | grep asymmetric-user-smb.txt
@@ -303,7 +303,7 @@ TEXT
 
 === LDAPチャネルバインド
 
-Windows Active Directoryドメインコントローラの脆弱性により、 https://msrc.microsoft.com/update-guide/vulnerability/ADV190023["マイクロソフトセキュリティアドバイザリADV190023"^] DCによるLDAPバインドの許可方法を変更します。
+Windows Active Directoryドメインコントローラに脆弱性があるため、 https://msrc.microsoft.com/update-guide/vulnerability/ADV190023["マイクロソフトセキュリティアドバイザリADV190023"^]DCでLDAPバインドを許可する方法が変更されます。
 
 Google Cloud NetApp Volumeの影響は、他のLDAPクライアントと同じです。Google Cloud NetApp Volumeは現在チャネルバインディングをサポートしていません。Google Cloud NetApp Volumeでは、ネゴシエーションを通じてデフォルトでLDAP署名がサポートされるため、LDAPチャネルバインディングは問題になりません。チャネルバインドを有効にした状態でLDAPへのバインドに問題がある場合は、ADV190023の修正手順に従って、Google Cloud NetApp VolumeからのLDAPバインドを成功させるようにします。
 
@@ -317,7 +317,7 @@ Active Directory DNSを設定して、DNSレコードを更新できるサーバ
 
 Googleプロジェクト内のリソースは、既定ではGoogle Cloud DNSを使用しますが、Active Directory DNSには接続されていません。クラウドDNSを使用するクライアントは、Google Cloud NetApp Volumeから返されたUNCパスを解決できません。Active Directoryドメインに参加しているWindowsクライアントは、Active Directory DNSを使用するように設定され、このようなUNCパスを解決できます。
 
-クライアントをActive Directoryに参加させるには、Active Directory DNSを使用するようにそのDNS設定を構成する必要があります。必要に応じて、Active Directory DNSに要求を転送するようにCloud DNSを設定することができます。を参照してください https://cloud.google.com/architecture/partners/netapp-cloud-volumes/faqs-netapp["クライアントでSMB NetBIOS名を解決できないのはなぜですか？"^]を参照してください。
+クライアントをActive Directoryに参加させるには、Active Directory DNSを使用するようにそのDNS設定を構成する必要があります。必要に応じて、Active Directory DNSに要求を転送するようにCloud DNSを設定することができます。詳細については、を参照してください https://cloud.google.com/architecture/partners/netapp-cloud-volumes/faqs-netapp["クライアントでSMB NetBIOS名を解決できないのはなぜですか？"^]。
 
 
 NOTE: Google Cloud NetApp Volumeは現在DNSSECをサポートしておらず、DNSクエリはプレーンテキストで実行されます。
@@ -330,6 +330,6 @@ NOTE: Google Cloud NetApp Volumeは現在DNSSECをサポートしておらず、
 
 
 
-== アンチウイルスによる保護
+== ウィルス対策保護
 
 クライアントからNAS共有へのGoogle Cloud NetApp Volumeでウィルススキャンを実行する必要があります。現在、Google Cloud NetApp Volumeにはウィルス対策機能が標準で統合されていません。

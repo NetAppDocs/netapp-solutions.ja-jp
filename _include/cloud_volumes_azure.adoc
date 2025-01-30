@@ -9,7 +9,7 @@
 .AzureにANFボリュームを導入するための環境設定ファイルを用意しています
 このセクションでは、 Azure に ANF （ Azure NetApp Files ）ボリュームを導入 / 設定するためのさまざまな Terraform 設定ファイルを示します。
 
-Terraform ドキュメント : https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs[]
+Terraformドキュメント： https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs[]
 
 .手順
 テンプレートを実行するには、次の手順を実行します。
@@ -32,7 +32,7 @@ Terraform ドキュメント : https://registry.terraform.io/providers/hashicorp
 ----
     az login
 ----
-. vars/azure_anf.tfvars の変数値を更新します
+. の変数値を更新し `vars/azure_anf.tfvars`ます。
 +
 
 NOTE: 既存の VNet およびサブネットを使用して ANF ボリュームを導入することもできます。変数「 vnet_creation_bool 」と「 subnet_creation_bool 」の値を false に設定し、「 subnet_id_for _anf_vol 」を指定します。これらの値を true に設定して新しい VNet とサブネットを作成する場合にも、新しく作成したサブネットからサブネット ID が自動的に取得されます。
@@ -70,7 +70,7 @@ NOTE: 既存の VNet およびサブネットを使用して ANF ボリューム
   terraform destroy
 ----
 .降水量：
-「シングルノードインスタンス」
+`Single Node Instance`
 
 単一のネットアップ ANF ボリュームに対応する Terraform 変数。
 
@@ -97,31 +97,31 @@ NOTE: 既存の VNet およびサブネットを使用して ANF ボリューム
 | * az _capacity_pool_size * | 整数 | （必須）容量プールサイズ（ TB ）。 
 
 
-| * az_vnet_creation_bool * | ブール値 | （必須）新しい VNet を作成する場合は、このブール値を「 true 」に設定します。既存の VNet を使用するには、このパラメータを「 false 」に設定します。 
+| * az_vnet_creation_bool * | ブーリアン | （必須）新しいVNetを作成する場合は、このブール値をに設定します `true`。既存のVNetを使用する場合は、に設定し `false`ます。 
 
 
-| * az_subnet_creation_bool * | ブール値 | （必須）新しいサブネットを作成するには、このブーリアンを「 true 」に設定します。既存のサブネットを使用する場合は 'false に設定します 
+| * az_subnet_creation_bool * | ブーリアン | （必須）新しいサブネットを作成するには、このブーリアンをに設定します `true`。既存のサブネットを使用する場合は、に設定します `false`。 
 
 
-| * az _subnet_id_for _anf_vol * | 文字列 | （必須）「 subnet_creation_bool 」を true に設定して既存のサブネットを使用する場合に、サブネット ID を指定します。false に設定する場合は、デフォルト値のままにします。 
+| * az _subnet_id_for _anf_vol * | 文字列 | （必須）trueに設定して既存のサブネットを使用する場合は、サブネットIDを指定し `subnet_creation_bool`ます。false に設定する場合は、デフォルト値のままにします。 
 
 
-| * AZ_NetApp_POOL_SERVICE_LEVEL * | 文字列 | （必須）ファイルシステムのターゲットパフォーマンス。有効な値は 'Premium'Standard' または Ultra です 
+| * AZ_NetApp_POOL_SERVICE_LEVEL * | 文字列 | （必須）ファイルシステムのターゲットパフォーマンス。有効な値は `Premium`、 `Standard`、または `Ultra`です。 
 
 
-| * AZ_NetApp_vol_SERVICE_LEVEL * | 文字列 | （必須）ファイルシステムのターゲットパフォーマンス。有効な値は 'Premium'Standard' または Ultra です 
+| * AZ_NetApp_vol_SERVICE_LEVEL * | 文字列 | （必須）ファイルシステムのターゲットパフォーマンス。有効な値は `Premium`、 `Standard`、または `Ultra`です。 
 
 
-| * AZ_NetApp_vol_protocol * | 文字列 | （オプション）リストで表されるターゲットボリュームプロトコル。サポートされる単一の値には 'CIFS'nfsv3' または 'NFSv4.1 があります引数が定義されていない場合、デフォルトは「 nfsv3 」です。これを変更すると、新しいリソースが強制的に作成され、データが失われます。 
+| * AZ_NetApp_vol_protocol * | 文字列 | （オプション）リストで表されるターゲットボリュームプロトコル。サポートされる単一の値は `CIFS`、 `NFSv3`、または `NFSv4.1`です。引数が定義されていない場合は、デフォルトでになり `NFSv3`ます。これを変更すると、新しいリソースが強制的に作成され、データが失われます。 
 
 
-| * AZ_NetApp_vol_security_style * | 文字列 | （任意）ボリュームセキュリティ形式。有効値は「 Unix 」または「 NTFS 」です。指定されない場合 ' 単一プロトコル・ボリュームは 'nfsv3' または 'nfsv3' ボリュームの場合は 'UNIX' にデフォルトで作成されますが 'CIFS' の場合は 'NTFS' にデフォルト設定されますデュアル・プロトコル・ボリュームでは ' 指定しない場合 'ntfs_' の値になります 
+| * AZ_NetApp_vol_security_style * | 文字列 | （オプション）ボリュームのセキュリティ形式。指定できる値は、または `Ntfs`です `Unix`。指定しない場合、単一プロトコルボリュームが作成され、の場合は `NFSv3`デフォルトで、 `NFSv4.1`の場合はvolume、の場合は `CIFS`デフォルトで `Ntfs`作成され `Unix`ます。デュアルプロトコルボリュームで指定しない場合、値はになります `Ntfs`。 
 
 
 | * AZ_NetApp_vol_storage_quota * | 文字列 | （必須）ファイルシステムに許可される最大ストレージクォータ（ギガバイト単位）。 
 |===
 
-NOTE: このスクリプトでは、推奨事項に従って、 `prevent_destroy` 構成ファイル内の偶発的なデータ損失の可能性を軽減するためのLifecycle引数。詳細については、を参照してください `prevent_destroy` lifecycle引数はterraformのドキュメントを参照してください。 https://developer.hashicorp.com/terraform/tutorials/state/resource-lifecycle#prevent-resource-deletion[]。
+NOTE: 推奨されているとおり、このスクリプトは lifecycle引数を使用して `prevent_destroy`、構成ファイル内の偶発的なデータ損失の可能性を軽減します。lifecycle引数の詳細については `prevent_destroy`、terraformのドキュメントを参照してください https://developer.hashicorp.com/terraform/tutorials/state/resource-lifecycle#prevent-resource-deletion[]。
 
 --
 .ANF データ保護
@@ -129,7 +129,7 @@ NOTE: このスクリプトでは、推奨事項に従って、 `prevent_destro
 .Azure上にデータ保護機能を備えたANFボリュームを導入するための構成ファイルを用意しています
 このセクションでは、 Azure でデータ保護を使用して ANF （ Azure NetApp Files ）ボリュームを導入 / 設定するためのさまざまな Terraform 設定ファイルについて説明します。
 
-Terraform ドキュメント : https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs[]
+Terraformドキュメント： https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs[]
 
 .手順
 テンプレートを実行するには、次の手順を実行します。
@@ -152,7 +152,7 @@ Terraform ドキュメント : https://registry.terraform.io/providers/hashicorp
 ----
     az login
 ----
-. vars/azure_anf_data_protection_tfvars の変数値を更新します。
+. の変数値を更新し `vars/azure_anf_data_protection.tfvars`ます。
 +
 
 NOTE: 既存の VNet およびサブネットを使用して ANF ボリュームを導入することもできます。変数「 vnet_creation_bool 」と「 subnet_creation_bool 」の値を false に設定し、「 subnet_id_for _anf_vol 」を指定します。これらの値を true に設定して新しい VNet とサブネットを作成する場合にも、新しく作成したサブネットからサブネット ID が自動的に取得されます。
@@ -190,7 +190,7 @@ NOTE: 既存の VNet およびサブネットを使用して ANF ボリューム
   terraform destroy
 ----
 .降水量：
-「 ANF データ保護」
+`ANF Data Protection`
 
 データ保護が有効になっている単一の ANF ボリューム用の変数を Terraform します。
 
@@ -232,40 +232,40 @@ NOTE: 既存の VNet およびサブネットを使用して ANF ボリューム
 | * AZ_capacity pool_size_secondary * | 整数 | （必須）容量プールサイズ（ TB ）。 
 
 
-| * az_vnet_primary_creation_bool * | ブール値 | （必須）プライマリボリューム用の新しい VNet を作成する場合は、このブーリアンを「 true 」に設定します。既存の VNet を使用するには、このパラメータを「 false 」に設定します。 
+| * az_vnet_primary_creation_bool * | ブーリアン | （必須）プライマリボリュームの新しいVNetを作成する場合は、このブーリアンをに設定します `true`。既存のVNetを使用する場合は、に設定し `false`ます。 
 
 
-| * az_vnet_secondary_creation_bool * | ブール値 | （必須）セカンダリボリューム用の新しい VNet を作成する場合は、このブーリアンを「 true 」に設定します。既存の VNet を使用するには、このパラメータを「 false 」に設定します。 
+| * az_vnet_secondary_creation_bool * | ブーリアン | （必須）セカンダリボリュームの新しいVNetを作成する場合は、このブーリアンをに設定します `true`。既存のVNetを使用する場合は、に設定し `false`ます。 
 
 
-| * az_subnet_primary_creation_bool * | ブール値 | （必須）このブール値を「 true 」に設定して、プライマリボリュームの新しいサブネットを作成します。既存のサブネットを使用する場合は 'false に設定します 
+| * az_subnet_primary_creation_bool * | ブーリアン | （必須）プライマリボリュームの新しいサブネットを作成する場合は、このブーリアンをに設定します `true`。既存のサブネットを使用する場合は、に設定します `false`。 
 
 
-| * az_subnet_secondary_creation_bool * | ブール値 | （必須）セカンダリボリュームの新しいサブネットを作成するには、このブーリアンを「 true 」に設定します。既存のサブネットを使用する場合は 'false に設定します 
+| * az_subnet_secondary_creation_bool * | ブーリアン | （必須）セカンダリボリュームの新しいサブネットを作成する場合は、このブーリアンをに設定します `true`。既存のサブネットを使用する場合は、に設定します `false`。 
 
 
-| * az _primary_subnet_id_for _anf_vol * | 文字列 | （必須）「 subnet_primary_creation_bool 」を true に設定して既存のサブネットを使用する場合に、サブネット ID を指定します。false に設定する場合は、デフォルト値のままにします。 
+| * az _primary_subnet_id_for _anf_vol * | 文字列 | （必須）trueに設定して既存のサブネットを使用する場合は、サブネットIDを指定し `subnet_primary_creation_bool`ます。false に設定する場合は、デフォルト値のままにします。 
 
 
-| * AZ_SECONDARY _subnet_id_on_anf_vol * | 文字列 | （必須）「 subnet_secondary_creation_bool 」を true に設定して既存のサブネットを使用する場合に備えて、サブネット ID を指定します。false に設定する場合は、デフォルト値のままにします。 
+| * AZ_SECONDARY _subnet_id_on_anf_vol * | 文字列 | （必須）trueに設定して既存のサブネットを使用する場合は、サブネットIDを指定し `subnet_secondary_creation_bool`ます。false に設定する場合は、デフォルト値のままにします。 
 
 
-| * AZ_NetApp_POOL_SERVICE_LEVEL_PRIMARY * | 文字列 | （必須）ファイルシステムのターゲットパフォーマンス。有効な値は 'Premium'Standard' または Ultra です 
+| * AZ_NetApp_POOL_SERVICE_LEVEL_PRIMARY * | 文字列 | （必須）ファイルシステムのターゲットパフォーマンス。有効な値は `Premium`、 `Standard`、または `Ultra`です。 
 
 
-| * AZ_NetApp_POOL_SERVICE_LEVEL_SECONDARY * | 文字列 | （必須）ファイルシステムのターゲットパフォーマンス。有効な値は 'Premium'Standard' または Ultra です 
+| * AZ_NetApp_POOL_SERVICE_LEVEL_SECONDARY * | 文字列 | （必須）ファイルシステムのターゲットパフォーマンス。有効な値は `Premium`、 `Standard`、または `Ultra`です。 
 
 
-| * AZ_NetApp_vol_SERVICE_LEVEL_PRIMARY * | 文字列 | （必須）ファイルシステムのターゲットパフォーマンス。有効な値は 'Premium'Standard' または Ultra です 
+| * AZ_NetApp_vol_SERVICE_LEVEL_PRIMARY * | 文字列 | （必須）ファイルシステムのターゲットパフォーマンス。有効な値は `Premium`、 `Standard`、または `Ultra`です。 
 
 
-| * AZ_NetApp_vol_SERVICE_LEVEL_SECONDARY * | 文字列 | （必須）ファイルシステムのターゲットパフォーマンス。有効な値は 'Premium'Standard' または Ultra です 
+| * AZ_NetApp_vol_SERVICE_LEVEL_SECONDARY * | 文字列 | （必須）ファイルシステムのターゲットパフォーマンス。有効な値は `Premium`、 `Standard`、または `Ultra`です。 
 
 
-| * AZ_NetApp_vol_protocol_primary * | 文字列 | （オプション）リストで表されるターゲットボリュームプロトコル。サポートされる単一の値には 'CIFS'nfsv3' または 'NFSv4.1 があります引数が定義されていない場合、デフォルトは「 nfsv3 」です。これを変更すると、新しいリソースが強制的に作成され、データが失われます。 
+| * AZ_NetApp_vol_protocol_primary * | 文字列 | （オプション）リストで表されるターゲットボリュームプロトコル。サポートされる単一の値は `CIFS`、 `NFSv3`、または `NFSv4.1`です。引数が定義されていない場合は、デフォルトでになり `NFSv3`ます。これを変更すると、新しいリソースが強制的に作成され、データが失われます。 
 
 
-| * AZ_NetApp_vol_protocol_secondary * | 文字列 | （オプション）リストで表されるターゲットボリュームプロトコル。サポートされる単一の値には 'CIFS'nfsv3' または 'NFSv4.1 があります引数が定義されていない場合、デフォルトは「 nfsv3 」です。これを変更すると、新しいリソースが強制的に作成され、データが失われます。 
+| * AZ_NetApp_vol_protocol_secondary * | 文字列 | （オプション）リストで表されるターゲットボリュームプロトコル。サポートされる単一の値は `CIFS`、 `NFSv3`、または `NFSv4.1`です。引数が定義されていない場合は、デフォルトでになり `NFSv3`ます。これを変更すると、新しいリソースが強制的に作成され、データが失われます。 
 
 
 | * AZ_NetApp_vol_storage_quota_policy_primary * | 文字列 | （必須）ファイルシステムに許可される最大ストレージクォータ（ギガバイト単位）。 
@@ -274,10 +274,10 @@ NOTE: 既存の VNet およびサブネットを使用して ANF ボリューム
 | * AZ_NetApp_vol_storage_QUOTA_SECONDARY * | 文字列 | （必須）ファイルシステムに許可される最大ストレージクォータ（ギガバイト単位）。 
 
 
-| * AZ_DP_replication_frequency * | 文字列 | （必須）レプリケーション頻度。サポートされる値は「 10 分」、「時間単位」、「日単位」です。値は大文字と小文字が区別されます。 
+| * AZ_DP_replication_frequency * | 文字列 | （必須）レプリケーション頻度。サポートされる値は `10minutes`、、 `hourly`、、 `daily`の値では大文字と小文字が区別されます。 
 |===
 
-NOTE: このスクリプトでは、推奨事項に従って、 `prevent_destroy` 構成ファイル内の偶発的なデータ損失の可能性を軽減するためのLifecycle引数。詳細については、を参照してください `prevent_destroy` lifecycle引数はterraformのドキュメントを参照してください。 https://developer.hashicorp.com/terraform/tutorials/state/resource-lifecycle#prevent-resource-deletion[]。
+NOTE: 推奨されているとおり、このスクリプトは lifecycle引数を使用して `prevent_destroy`、構成ファイル内の偶発的なデータ損失の可能性を軽減します。lifecycle引数の詳細については `prevent_destroy`、terraformのドキュメントを参照してください https://developer.hashicorp.com/terraform/tutorials/state/resource-lifecycle#prevent-resource-deletion[]。
 
 --
 .ANF デュアルプロトコル
@@ -285,7 +285,7 @@ NOTE: このスクリプトでは、推奨事項に従って、 `prevent_destro
 .Azure上にデュアルプロトコルを使用してANFボリュームを導入するための構成ファイルが用意されています
 このセクションでは、 Azure でデュアルプロトコルを有効にした ANF （ Azure NetApp Files ）ボリュームを導入 / 設定するためのさまざまな Terraform 設定ファイルについて説明します。
 
-Terraform ドキュメント : https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs[]
+Terraformドキュメント： https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs[]
 
 .手順
 テンプレートを実行するには、次の手順を実行します。
@@ -308,7 +308,7 @@ Terraform ドキュメント : https://registry.terraform.io/providers/hashicorp
 ----
     az login
 ----
-. vars/azure_anf_dual_protocol.tfvars の変数値を更新します。
+. の変数値を更新し `vars/azure_anf_dual_protocol.tfvars`ます。
 +
 
 NOTE: 既存の VNet およびサブネットを使用して ANF ボリュームを導入することもできます。変数「 vnet_creation_bool 」と「 subnet_creation_bool 」の値を false に設定し、「 subnet_id_for _anf_vol 」を指定します。これらの値を true に設定して新しい VNet とサブネットを作成する場合にも、新しく作成したサブネットからサブネット ID が自動的に取得されます。
@@ -346,7 +346,7 @@ NOTE: 既存の VNet およびサブネットを使用して ANF ボリューム
   terraform destroy
 ----
 .降水量：
-「シングルノードインスタンス」
+`Single Node Instance`
 
 デュアルプロトコルが有効な単一の ANF ボリューム用の Terraform 変数。
 
@@ -373,25 +373,25 @@ NOTE: 既存の VNet およびサブネットを使用して ANF ボリューム
 | * az _capacity_pool_size * | 整数 | （必須）容量プールサイズ（ TB ）。 
 
 
-| * az_vnet_creation_bool * | ブール値 | （必須）新しい VNet を作成する場合は、このブール値を「 true 」に設定します。既存の VNet を使用するには、このパラメータを「 false 」に設定します。 
+| * az_vnet_creation_bool * | ブーリアン | （必須）新しいVNetを作成する場合は、このブール値をに設定します `true`。既存のVNetを使用する場合は、に設定し `false`ます。 
 
 
-| * az_subnet_creation_bool * | ブール値 | （必須）新しいサブネットを作成するには、このブーリアンを「 true 」に設定します。既存のサブネットを使用する場合は 'false に設定します 
+| * az_subnet_creation_bool * | ブーリアン | （必須）新しいサブネットを作成するには、このブーリアンをに設定します `true`。既存のサブネットを使用する場合は、に設定します `false`。 
 
 
-| * az _subnet_id_for _anf_vol * | 文字列 | （必須）「 subnet_creation_bool 」を true に設定して既存のサブネットを使用する場合に、サブネット ID を指定します。false に設定する場合は、デフォルト値のままにします。 
+| * az _subnet_id_for _anf_vol * | 文字列 | （必須）trueに設定して既存のサブネットを使用する場合は、サブネットIDを指定し `subnet_creation_bool`ます。false に設定する場合は、デフォルト値のままにします。 
 
 
-| * AZ_NetApp_POOL_SERVICE_LEVEL * | 文字列 | （必須）ファイルシステムのターゲットパフォーマンス。有効な値は 'Premium'Standard' または Ultra です 
+| * AZ_NetApp_POOL_SERVICE_LEVEL * | 文字列 | （必須）ファイルシステムのターゲットパフォーマンス。有効な値は `Premium`、 `Standard`、または `Ultra`です。 
 
 
-| * AZ_NetApp_vol_SERVICE_LEVEL * | 文字列 | （必須）ファイルシステムのターゲットパフォーマンス。有効な値は 'Premium'Standard' または Ultra です 
+| * AZ_NetApp_vol_SERVICE_LEVEL * | 文字列 | （必須）ファイルシステムのターゲットパフォーマンス。有効な値は `Premium`、 `Standard`、または `Ultra`です。 
 
 
-| * AZ_NetApp_vol_protocol1 * | 文字列 | （必須）ターゲットボリュームプロトコル。リストで表されます。サポートされる単一の値には 'CIFS'nfsv3' または 'NFSv4.1 があります引数が定義されていない場合、デフォルトは「 nfsv3 」です。これを変更すると、新しいリソースが強制的に作成され、データが失われます。 
+| * az_netapp_vol_protocol1* | 文字列 | （必須）ターゲットボリュームプロトコル。リストで表されます。サポートされる単一の値は `CIFS`、 `NFSv3`、または `NFSv4.1`です。引数が定義されていない場合は、デフォルトでになり `NFSv3`ます。これを変更すると、新しいリソースが強制的に作成され、データが失われます。 
 
 
-| * AZ_NetApp_vol_protocol2 * | 文字列 | （必須）ターゲットボリュームプロトコル。リストで表されます。サポートされる単一の値には 'CIFS'nfsv3' または 'NFSv4.1 があります引数が定義されていない場合、デフォルトは「 nfsv3 」です。これを変更すると、新しいリソースが強制的に作成され、データが失われます。 
+| * az_netapp_vol_protocol2* | 文字列 | （必須）ターゲットボリュームプロトコル。リストで表されます。サポートされる単一の値は `CIFS`、 `NFSv3`、または `NFSv4.1`です。引数が定義されていない場合は、デフォルトでになり `NFSv3`ます。これを変更すると、新しいリソースが強制的に作成され、データが失われます。 
 
 
 | * AZ_NetApp_vol_storage_quota * | 文字列 | （必須）ファイルシステムに許可される最大ストレージクォータ（ギガバイト単位）。 
@@ -409,7 +409,7 @@ NOTE: 既存の VNet およびサブネットを使用して ANF ボリューム
 | * AZ_SMB_DNS_servers * | 文字列 | （必須） ActiveDirectory オブジェクトを作成するための DNS サーバ IP 。 
 |===
 
-NOTE: このスクリプトでは、推奨事項に従って、 `prevent_destroy` 構成ファイル内の偶発的なデータ損失の可能性を軽減するためのLifecycle引数。詳細については、を参照してください `prevent_destroy` lifecycle引数はterraformのドキュメントを参照してください。 https://developer.hashicorp.com/terraform/tutorials/state/resource-lifecycle#prevent-resource-deletion[]。
+NOTE: 推奨されているとおり、このスクリプトは lifecycle引数を使用して `prevent_destroy`、構成ファイル内の偶発的なデータ損失の可能性を軽減します。lifecycle引数の詳細については `prevent_destroy`、terraformのドキュメントを参照してください https://developer.hashicorp.com/terraform/tutorials/state/resource-lifecycle#prevent-resource-deletion[]。
 
 --
 .Snapshot からの ANF ボリューム
@@ -417,7 +417,7 @@ NOTE: このスクリプトでは、推奨事項に従って、 `prevent_destro
 .Azure上のSnapshotからANFボリュームを導入するための構成ファイルをテラフォームしてください
 このセクションでは、 Azure 上の Snapshot から ANF （ Azure NetApp Files ）ボリュームを導入 / 設定するためのさまざまな Terraform 設定ファイルを示します。
 
-Terraform ドキュメント : https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs[]
+Terraformドキュメント： https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs[]
 
 .手順
 テンプレートを実行するには、次の手順を実行します。
@@ -440,7 +440,7 @@ Terraform ドキュメント : https://registry.terraform.io/providers/hashicorp
 ----
     az login
 ----
-. vars/azure_anf_volume_from_snapshot.tfvars の変数値を更新します。
+. の変数値を更新し `vars/azure_anf_volume_from_snapshot.tfvars`ます。
 
 
 
@@ -479,7 +479,7 @@ NOTE: 既存の VNet およびサブネットを使用して ANF ボリューム
   terraform destroy
 ----
 .降水量：
-「シングルノードインスタンス」
+`Single Node Instance`
 
 Snapshot を使用する単一の ANF ボリューム用の変数を Terraform します。
 
@@ -506,22 +506,22 @@ Snapshot を使用する単一の ANF ボリューム用の変数を Terraform �
 | * az _capacity_pool_size * | 整数 | （必須）容量プールサイズ（ TB ）。 
 
 
-| * az_vnet_creation_bool * | ブール値 | （必須）新しい VNet を作成する場合は、このブール値を「 true 」に設定します。既存の VNet を使用するには、このパラメータを「 false 」に設定します。 
+| * az_vnet_creation_bool * | ブーリアン | （必須）新しいVNetを作成する場合は、このブール値をに設定します `true`。既存のVNetを使用する場合は、に設定し `false`ます。 
 
 
-| * az_subnet_creation_bool * | ブール値 | （必須）新しいサブネットを作成するには、このブーリアンを「 true 」に設定します。既存のサブネットを使用する場合は 'false に設定します 
+| * az_subnet_creation_bool * | ブーリアン | （必須）新しいサブネットを作成するには、このブーリアンをに設定します `true`。既存のサブネットを使用する場合は、に設定します `false`。 
 
 
-| * az _subnet_id_for _anf_vol * | 文字列 | （必須）「 subnet_creation_bool 」を true に設定して既存のサブネットを使用する場合に、サブネット ID を指定します。false に設定する場合は、デフォルト値のままにします。 
+| * az _subnet_id_for _anf_vol * | 文字列 | （必須）trueに設定して既存のサブネットを使用する場合は、サブネットIDを指定し `subnet_creation_bool`ます。false に設定する場合は、デフォルト値のままにします。 
 
 
-| * AZ_NetApp_POOL_SERVICE_LEVEL * | 文字列 | （必須）ファイルシステムのターゲットパフォーマンス。有効な値は 'Premium'Standard' または Ultra です 
+| * AZ_NetApp_POOL_SERVICE_LEVEL * | 文字列 | （必須）ファイルシステムのターゲットパフォーマンス。有効な値は `Premium`、 `Standard`、または `Ultra`です。 
 
 
-| * AZ_NetApp_vol_SERVICE_LEVEL * | 文字列 | （必須）ファイルシステムのターゲットパフォーマンス。有効な値は 'Premium'Standard' または Ultra です 
+| * AZ_NetApp_vol_SERVICE_LEVEL * | 文字列 | （必須）ファイルシステムのターゲットパフォーマンス。有効な値は `Premium`、 `Standard`、または `Ultra`です。 
 
 
-| * AZ_NetApp_vol_protocol * | 文字列 | （オプション）リストで表されるターゲットボリュームプロトコル。サポートされる単一の値には 'CIFS'nfsv3' または 'NFSv4.1 があります引数が定義されていない場合、デフォルトは「 nfsv3 」です。これを変更すると、新しいリソースが強制的に作成され、データが失われます。 
+| * AZ_NetApp_vol_protocol * | 文字列 | （オプション）リストで表されるターゲットボリュームプロトコル。サポートされる単一の値は `CIFS`、 `NFSv3`、または `NFSv4.1`です。引数が定義されていない場合は、デフォルトでになり `NFSv3`ます。これを変更すると、新しいリソースが強制的に作成され、データが失われます。 
 
 
 | * AZ_NetApp_vol_storage_quota * | 文字列 | （必須）ファイルシステムに許可される最大ストレージクォータ（ギガバイト単位）。 
@@ -530,7 +530,7 @@ Snapshot を使用する単一の ANF ボリューム用の変数を Terraform �
 | * AZ_SNAPSHOT_ID * | 文字列 | （必須）新しい ANF ボリュームを作成する際に使用する Snapshot ID 。 
 |===
 
-NOTE: このスクリプトでは、推奨事項に従って、 `prevent_destroy` 構成ファイル内の偶発的なデータ損失の可能性を軽減するためのLifecycle引数。詳細については、を参照してください `prevent_destroy` lifecycle引数はterraformのドキュメントを参照してください。 https://developer.hashicorp.com/terraform/tutorials/state/resource-lifecycle#prevent-resource-deletion[]。
+NOTE: 推奨されているとおり、このスクリプトは lifecycle引数を使用して `prevent_destroy`、構成ファイル内の偶発的なデータ損失の可能性を軽減します。lifecycle引数の詳細については `prevent_destroy`、terraformのドキュメントを参照してください https://developer.hashicorp.com/terraform/tutorials/state/resource-lifecycle#prevent-resource-deletion[]。
 
 --
 .CVO シングルノードの導入
@@ -538,7 +538,7 @@ NOTE: このスクリプトでは、推奨事項に従って、 `prevent_destro
 .AzureにシングルノードのCVOを導入するための構成ファイルがTerraformに用意されています
 このセクションでは、 Azure 上にシングルノード CVO （ Cloud Volumes ONTAP ）を導入 / 構成するための各種 Terraform 構成ファイルを紹介します。
 
-Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
+Terraformドキュメント： https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
 
 .手順
 テンプレートを実行するには、次の手順を実行します。
@@ -561,7 +561,7 @@ Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/ne
 ----
     az login
 ----
-. 変数 \azure_CVO-SILE_NODE_deployment.tfvars の変数を更新します。
+. の変数を更新し `vars\azure_cvo_single_node_deployment.tfvars`ます。
 . Terraform リポジトリを初期化して、すべての前提条件をインストールし、導入の準備をします。
 +
 [source, cli]
@@ -595,7 +595,7 @@ Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/ne
   terraform destroy
 ----
 .降水量：
-「シングルノードインスタンス」
+`Single Node Instance`
 
 単一ノードの Cloud Volumes ONTAP （ CVO ）用の Terraform 変数。
 
@@ -634,7 +634,7 @@ Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/ne
 | * AZ_Connector_associate_public_IP_address * | 文字列 | （必須）仮想マシンにパブリック IP アドレスを関連付けるかどうかを指定します。 
 
 
-| * AZ_Connector_account_id * | 文字列 | （必須）コネクタを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウント ID は、 Cloud Manager のアカウントタブにあります https://cloudmanager.netapp.com[]。 
+| * AZ_Connector_account_id * | 文字列 | （必須）コネクタを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウントIDは、Cloud Managerの[Account]タブで確認できます https://cloudmanager.netapp.com[]。 
 
 
 | * AZ_Connector_admin_password * | 文字列 | （必須）コネクタのパスワード。 
@@ -658,34 +658,34 @@ Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/ne
 | * AZ_CVO-vnet_resource_group * | 文字列 | （必須）仮想ネットワークに関連付けられた Azure 内のリソースグループ。 
 
 
-| * AZ_CVO-data_encryption_type* | 文字列 | （必須）作業環境に使用する暗号化のタイプ： [Azure] 、 [none] 。デフォルトは「 azure 」です。 
+| * AZ_CVO-data_encryption_type* | 文字列 | （必須）作業環境で使用する暗号化のタイプ： `AZURE`、 `NONE`]。デフォルトはです `AZURE`。 
 
 
-| * AZ_CVO-storage_type * | 文字列 | （必須）最初のデータ・アグリゲートのストレージ・タイプ： ['Premium_LRS'Standard_LRS'StandardSSD_LRS]デフォルトは 'Premium_LRS' です 
+| * AZ_CVO-storage_type * | 文字列 | （必須）最初のデータアグリゲートのストレージのタイプ： `Premium_LRS`、 `Standard_LRS`、 `StandardSSD_LRS`]。デフォルトはです。 `Premium_LRS` 
 
 
 | * AZ_CVO-svm_svm_svm_name * をクリックします | 文字列 | （必須） Cloud Volumes ONTAP の管理パスワード。 
 
 
-| * AZ_CVO-workspace_id * | 文字列 | （必須） Cloud Volumes ONTAP を導入する Cloud Manager ワークスペースの ID 。指定しない場合、 Cloud Manager は最初のワークスペースを使用します。ID は、の [ ワークスペース（ Workspace ） ] タブで確認できます https://cloudmanager.netapp.com[]。 
+| * AZ_CVO-workspace_id * | 文字列 | （必須） Cloud Volumes ONTAP を導入する Cloud Manager ワークスペースの ID 。指定しない場合、 Cloud Manager は最初のワークスペースを使用します。IDは、の[ワークスペース]タブから確認できます https://cloudmanager.netapp.com[]。 
 
 
-| * AZ_CVF_capacity _tier * | 文字列 | （必須）最初のデータ・アグリゲートのデータ階層化を有効にするかどうかを指定します（ [`lob`,'none`] ）デフォルトは「 BLOB 」です。 
+| * AZ_CVF_capacity _tier * | 文字列 | （必須）最初のデータアグリゲートでデータ階層化を有効にするかどうか：[`Blob`、 `NONE`]。デフォルトはです `BLOB`。 
 
 
-| * AZ_CVF_Writing _speed_state * | 文字列 | （必須） Cloud Volumes ONTAP の書き込み速度設定： [`normal`,`high`]デフォルトは「 normal 」です。この引数は HA ペアには関係ありません。 
+| * AZ_CVF_Writing _speed_state * | 文字列 | （必須）Cloud Volumes ONTAP：、 `HIGH`]の書き込み速度設定 `NORMAL`。デフォルトはです `NORMAL`。この引数は HA ペアには関係ありません。 
 
 
 | * AZ_CVF_ONTAP_VERSION * | 文字列 | （必須）必要な ONTAP のバージョン。「 use_latest_version 」が true に設定されている場合は無視されます。デフォルトでは最新バージョンが使用されます。 
 
 
-| * AZ_CVF_INSTANY_TYPE * | 文字列 | （必須）選択したライセンスタイプに応じて使用するインスタンスのタイプ。 Explore ： [`Standard_DS3_v2'Standard ： [`Standard_DS4_v2'Standard_DS13_v2'Standard_L8s_v2'Premium ： ['Standard_DS5_v2''Standard_DS14_v2'v2''Pay_DS3_v2''''PAY'v2 インスタンスタイプごとに定義された BYOL ：すべてのライセンスタイプサポートされるインスタンスタイプの詳細については、 Cloud Volumes ONTAP リリースノートを参照してください。デフォルトは 'Standard_DS4_v2' です 
+| * AZ_CVF_INSTANY_TYPE * | 文字列 | （必須）使用するインスタンスのタイプ。選択したライセンスタイプによって異なります。Explore：[`Standard_DS3_v2`]、Standard：[`Standard_DS4_v2,Standard_DS13_v2,Standard_L8s_v2`]、Premium：]、[`Standard_DS5_v2`,`Standard_DS14_v2`BYOL：従量課金制用に定義されたすべてのインスタンスタイプ。サポートされるインスタンスタイプの詳細については、 Cloud Volumes ONTAP リリースノートを参照してください。デフォルトはです `Standard_DS4_v2`。 
 
 
-| * AZ_CVF_LICENSE_TYPE * | 文字列 | （必須）使用するライセンスのタイプ。シングルノードの場合： [`azure-CO-EXPLORT-paygo`,`azure-CO-standard-paygo`,azure-CO-Premium-paygo`,`azure-paygo`]HA の場合 : [`azure-HA-COT -standard-paygo`, azure-HA-COT -Premium-paygo`, azure-HA-COT -Premium-BYOL `, HA-capacity-paygo`]デフォルトは「 azure-CO-standard-paygo 」です。「 Capacity-paygo 」または「 HA-Capacity-paygo 」を使用して、「 Bring Your Own License Type Capacity Based 」または「 Freemium 」を選択します。「 Bring Your Own License Type Node-Based 」を選択した場合は、「 azure-CO-Premium-BYOL 」または「 azure-HA-CO-Premium-BYOL 」を使用します。 
+| * AZ_CVF_LICENSE_TYPE * | 文字列 | （必須）使用するライセンスのタイプ。シングルノードの場合：[`azure-cot-explore-paygo`、 `azure-cot-standard-paygo`、 `azure-cot-premium-paygo`、、 `azure-cot-premium-byol` `capacity-paygo`]。HA:[`azure-ha-cot-standard-paygo`、 `azure-ha-cot-premium-paygo`、 `azure-ha-cot-premium-byol` `ha-capacity-paygo`]の場合。デフォルトはです `azure-cot-standard-paygo`。HAの場合は、またはを `ha-capacity-paygo`使用して、Bring Your Own Licenseタイプ（Capacity-BasedまたはFreemium）を選択します `capacity-paygo`。HAの場合は、またはを `azure-ha-cot-premium-byol`使用し `azure-cot-premium-byol`て[Bring Your Own License]タイプ[Node-Based]を選択します。 
 
 
-| * AZ_CVF_NSS_ACCOUNT * | 文字列 | （必須）この Cloud Volumes ONTAP システムで使用するネットアップサポートサイトのアカウント ID 。ライセンスタイプが BYOL で、 NSS アカウントが指定されていない場合、 Cloud Manager は最初の既存の NSS アカウントの使用を試みます。 
+| * AZ_CVF_NSS_ACCOUNT * | 文字列 | （必須）この Cloud Volumes ONTAP システムで使用するNetApp Support Siteのアカウント ID 。ライセンスタイプが BYOL で、 NSS アカウントが指定されていない場合、 Cloud Manager は最初の既存の NSS アカウントの使用を試みます。 
 
 
 | * AZ_tenant_id * | 文字列 | （必須） Azure に登録されているアプリケーション / サービスプリンシパルのテナント ID 。 
@@ -702,7 +702,7 @@ Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/ne
 .AzureにCVO HAを導入するための構成ファイルがTerraformに用意されています
 このセクションでは、 Azure 上で CVO （ Cloud Volumes ONTAP ） HA （ハイアベイラビリティ）を導入 / 構成するためのさまざまな Terraform 構成ファイルを取り上げます。
 
-Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
+Terraformドキュメント： https://registry.terraform.io/providers/NetApp/netapp-cloudmanager/latest/docs[]
 
 .手順
 テンプレートを実行するには、次の手順を実行します。
@@ -725,7 +725,7 @@ Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/ne
 ----
     az login
 ----
-. 変数 \azure_CVF_HA_deployment.tfvars の変数を更新します。
+. の変数を更新し `vars\azure_cvo_ha_deployment.tfvars`ます。
 . Terraform リポジトリを初期化して、すべての前提条件をインストールし、導入の準備をします。
 +
 [source, cli]
@@ -759,7 +759,7 @@ Terraform ドキュメント : https://registry.terraform.io/providers/NetApp/ne
   terraform destroy
 ----
 .降水量：
-HA ペア・インスタンス
+`HA Pair Instance`
 
 HA ペアの Cloud Volumes ONTAP （ CVO ）の変数は Terraform です。
 
@@ -798,7 +798,7 @@ HA ペアの Cloud Volumes ONTAP （ CVO ）の変数は Terraform です。
 | * AZ_Connector_associate_public_IP_address * | 文字列 | （必須）仮想マシンにパブリック IP アドレスを関連付けるかどうかを指定します。 
 
 
-| * AZ_Connector_account_id * | 文字列 | （必須）コネクタを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウント ID は、 Cloud Manager のアカウントタブにあります https://cloudmanager.netapp.com[]。 
+| * AZ_Connector_account_id * | 文字列 | （必須）コネクタを関連付けるネットアップアカウントの ID 。指定しない場合、 Cloud Manager は最初のアカウントを使用します。アカウントが存在しない場合、 Cloud Manager は新しいアカウントを作成します。アカウントIDは、Cloud Managerの[Account]タブで確認できます https://cloudmanager.netapp.com[]。 
 
 
 | * AZ_Connector_admin_password * | 文字列 | （必須）コネクタのパスワード。 
@@ -822,34 +822,34 @@ HA ペアの Cloud Volumes ONTAP （ CVO ）の変数は Terraform です。
 | * AZ_CVO-vnet_resource_group * | 文字列 | （必須）仮想ネットワークに関連付けられた Azure 内のリソースグループ。 
 
 
-| * AZ_CVO-data_encryption_type* | 文字列 | （必須）作業環境に使用する暗号化のタイプ： [Azure] 、 [none] 。デフォルトは「 azure 」です。 
+| * AZ_CVO-data_encryption_type* | 文字列 | （必須）作業環境で使用する暗号化のタイプ： `AZURE`、 `NONE`]。デフォルトはです `AZURE`。 
 
 
-| * AZ_CVO-storage_type * | 文字列 | （必須）最初のデータ・アグリゲートのストレージ・タイプ： ['Premium_LRS'Standard_LRS'StandardSSD_LRS]デフォルトは 'Premium_LRS' です 
+| * AZ_CVO-storage_type * | 文字列 | （必須）最初のデータアグリゲートのストレージのタイプ： `Premium_LRS`、 `Standard_LRS`、 `StandardSSD_LRS`]。デフォルトはです。 `Premium_LRS` 
 
 
 | * AZ_CVO-svm_svm_svm_name * をクリックします | 文字列 | （必須） Cloud Volumes ONTAP の管理パスワード。 
 
 
-| * AZ_CVO-workspace_id * | 文字列 | （必須） Cloud Volumes ONTAP を導入する Cloud Manager ワークスペースの ID 。指定しない場合、 Cloud Manager は最初のワークスペースを使用します。ID は、の [ ワークスペース（ Workspace ） ] タブで確認できます https://cloudmanager.netapp.com[]。 
+| * AZ_CVO-workspace_id * | 文字列 | （必須） Cloud Volumes ONTAP を導入する Cloud Manager ワークスペースの ID 。指定しない場合、 Cloud Manager は最初のワークスペースを使用します。IDは、の[ワークスペース]タブから確認できます https://cloudmanager.netapp.com[]。 
 
 
-| * AZ_CVF_capacity _tier * | 文字列 | （必須）最初のデータ・アグリゲートのデータ階層化を有効にするかどうかを指定します（ [`lob`,'none`] ）デフォルトは「 BLOB 」です。 
+| * AZ_CVF_capacity _tier * | 文字列 | （必須）最初のデータアグリゲートでデータ階層化を有効にするかどうか：[`Blob`、 `NONE`]。デフォルトはです `BLOB`。 
 
 
-| * AZ_CVF_Writing _speed_state * | 文字列 | （必須） Cloud Volumes ONTAP の書き込み速度設定： [`normal`,`high`]デフォルトは「 normal 」です。この引数は HA ペアには関係ありません。 
+| * AZ_CVF_Writing _speed_state * | 文字列 | （必須）Cloud Volumes ONTAP：、 `HIGH`]の書き込み速度設定 `NORMAL`。デフォルトはです `NORMAL`。この引数は HA ペアには関係ありません。 
 
 
 | * AZ_CVF_ONTAP_VERSION * | 文字列 | （必須）必要な ONTAP のバージョン。「 use_latest_version 」が true に設定されている場合は無視されます。デフォルトでは最新バージョンが使用されます。 
 
 
-| * AZ_CVF_INSTANY_TYPE * | 文字列 | （必須）選択したライセンスタイプに応じて使用するインスタンスのタイプ。 Explore ： [`Standard_DS3_v2'Standard ： [`Standard_DS4_v2'Standard_DS13_v2'Standard_L8s_v2'Premium ： [`Standard_DS5_v2', 'Standard_DS14_v2''BYOL ： PAYGO 用に定義されたすべてのインスタンス・タイプサポートされるインスタンスタイプの詳細については、 Cloud Volumes ONTAP リリースノートを参照してください。デフォルトは 'Standard_DS4_v2' です 
+| * AZ_CVF_INSTANY_TYPE * | 文字列 | （必須）使用するインスタンスのタイプ。選択したライセンスタイプによって異なります。Explore：[`Standard_DS3_v2`]、Standard：[`Standard_DS4_v2, Standard_DS13_v2, Standard_L8s_v2`]、Premium： `Standard_DS14_v2`、]、[`Standard_DS5_v2`BYOL：従量課金制用に定義されたすべてのインスタンスタイプ。サポートされるインスタンスタイプの詳細については、 Cloud Volumes ONTAP リリースノートを参照してください。デフォルトはです `Standard_DS4_v2`。 
 
 
-| * AZ_CVF_LICENSE_TYPE * | 文字列 | （必須）使用するライセンスのタイプ。シングルノードの場合： [`azure-CO-EXPLOR-paygo, azure-CO-standard-paygo, azure-CO-Premium-pole-BYOL 、 capacity-paygo`]HA の場合： [`azure-HA-COT-standard-paygo, azure-HA-CO-Premium-paygo, azure-HA-CO-Premium-BYOL 、 HA-capacity-paygo`]デフォルトは「 azure-CO-standard-paygo 」です。「 Capacity-paygo 」または「 HA-Capacity-paygo 」を使用して、「 Bring Your Own License Type Capacity Based 」または「 Freemium 」を選択します。「 Bring Your Own License Type Node-Based 」を選択した場合は、「 azure-CO-Premium-BYOL 」または「 azure-HA-CO-Premium-BYOL 」を使用します。 
+| * AZ_CVF_LICENSE_TYPE * | 文字列 | （必須）使用するライセンスのタイプ。シングルノードの場合[`azure-cot-explore-paygo, azure-cot-standard-paygo, azure-cot-premium-paygo, azure-cot-premium-byol, capacity-paygo`：]。略称はHA:][`azure-ha-cot-standard-paygo, azure-ha-cot-premium-paygo, azure-ha-cot-premium-byol, ha-capacity-paygo`。デフォルトはです `azure-cot-standard-paygo`。HAの場合は、またはを `ha-capacity-paygo`使用して、Bring Your Own Licenseタイプ（Capacity-BasedまたはFreemium）を選択します `capacity-paygo`。HAの場合は、またはを `azure-ha-cot-premium-byol`使用し `azure-cot-premium-byol`て[Bring Your Own License]タイプ[Node-Based]を選択します。 
 
 
-| * AZ_CVF_NSS_ACCOUNT * | 文字列 | （必須）この Cloud Volumes ONTAP システムで使用するネットアップサポートサイトのアカウント ID 。ライセンスタイプが BYOL で、 NSS アカウントが指定されていない場合、 Cloud Manager は最初の既存の NSS アカウントの使用を試みます。 
+| * AZ_CVF_NSS_ACCOUNT * | 文字列 | （必須）この Cloud Volumes ONTAP システムで使用するNetApp Support Siteのアカウント ID 。ライセンスタイプが BYOL で、 NSS アカウントが指定されていない場合、 Cloud Manager は最初の既存の NSS アカウントの使用を試みます。 
 
 
 | * AZ_tenant_id * | 文字列 | （必須） Azure に登録されているアプリケーション / サービスプリンシパルのテナント ID 。 

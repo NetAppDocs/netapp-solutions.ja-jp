@@ -35,7 +35,7 @@ Oracleデータベースの運用コストを削減したいと考えていて�
 
 
 
-== 対象者
+== 対象読者
 
 この解決策 は、次のユーザーを対象としています。
 
@@ -68,7 +68,7 @@ image:azure_ora_anf_data_guard_architecture.png["この画像は、ANF上のAzur
 3+| * ハードウェア * 
 
 
-| Azure NetApp Files の特長 | Microsoftが提供する最新バージョン | 3TiB容量プール×2、Standardサービスレベル、自動QoS 
+| Azure NetApp Files | Microsoftが提供する最新バージョン | 3TiB容量プール×2、Standardサービスレベル、自動QoS 
 
 
 | DBサーバ用Azure VM | 標準B4ミリ秒（vCPU×4、メモリ：16GiB） | 3つのDB VM（1つはプライマリDBサーバ、1つはスタンバイDBサーバ、3つ目はクローンDBサーバ） 
@@ -80,7 +80,7 @@ image:azure_ora_anf_data_guard_architecture.png["この画像は、ANF上のAzur
 | Red Hat Linux | Red Hat Enterprise Linux 8.6（LVM）- x64 Gen2 | テスト用にRedHatサブスクリプションを導入 
 
 
-| Oracle データベース | バージョン19.18 | RUパッチp34765931_190000_Linux-x86-64.zipを適用しました 
+| Oracleデータベース | バージョン19.18 | RUパッチp34765931_190000_Linux-x86-64.zipを適用しました 
 
 
 | Oracle OPatchの略 | バージョン12.2.0.1.36 | 最新のパッチp6880880_190000_Linux-x86-64.zip 
@@ -89,7 +89,7 @@ image:azure_ora_anf_data_guard_architecture.png["この画像は、ANF上のAzur
 | SnapCenter | バージョン6.0.1 | ビルド6.0.1.4487 
 
 
-| NFS | バージョン 3.0 以降 | OracleでDNFSが有効 
+| NFS | バージョン3.0 | OracleでDNFSが有効 
 |===
 
 
@@ -115,9 +115,9 @@ image:azure_ora_anf_data_guard_architecture.png["この画像は、ANF上のAzur
 === 導入にあたって考慮すべき主な要因
 
 * *スタンバイデータベースクローン*プライマリデータベースからトランザクションログを受信して適用する際に、物理スタンバイデータベースのクローンを作成してDB VMにマウントすることで、開発、テスト、レポートなどの他のワークロードをサポートできます。クローンは、シンクローンでもシッククローンでもかまいません。現時点では、ANFでサポートされるのは、スタンバイデータベースのフルコピーであるシッククローンのみです。ANFシンクローンオプションはまもなくリリースされます。データベースボリュームのシンクローニングコピーの場合、スタンバイデータベースの同じDBボリュームを共有し、copy-on-writeテクノロジを使用して書き込みI/Oに対応します。そのため、クローンは非常にストレージ効率に優れているため、新しい書き込みI/Oに最小限の容量を追加して新しいストレージを割り当てるだけで、他の多くのユースケースにも使用できます。これにより、Active Data Guardストレージの設置面積が大幅に削減され、ストレージコストを大幅に削減できます。NetAppでは、データベースがプライマリストレージからスタンバイANFストレージに切り替わった場合にFlexCloneの処理を最小限に抑えて、高いレベルのパフォーマンスを維持することを推奨しています。
-* * Oracleソフトウェア要件。*一般に、物理スタンバイデータベースは、パッチセット例外(PSE)、重要なパッチアップデート(CPU)など、プライマリデータベースと同じバージョンのDatabase Homeを使用する必要があります。 Oracle Data Guard Standby-First Patch Applyプロセスが進行中でない場合（My Oracle Support note 1265700.1 link:http://support.oracle.com.["support.oracle.com"^]
-* *スタンバイデータベースディレクトリ構造に関する考慮事項*可能であれば、プライマリシステムとスタンバイシステムのデータファイル、ログファイル、および制御ファイルは同じ名前とパス名を使用し、最適なFlexible Architecture（OFA）命名規則を使用する必要があります。スタンバイデータベースのアーカイブディレクトリも、サイズや構造など、サイト間で同一である必要があります。この戦略により、バックアップ、スイッチオーバー、フェイルオーバーなどの他の操作でも同じ手順を実行できるため、メンテナンスの複雑さが軽減されます。
-* *強制ログモード。*スタンバイデータベースに伝播できないプライマリデータベースのログされていない直接書き込みから保護するには、スタンバイ作成のデータファイルバックアップを実行する前に、プライマリデータベースで強制ログをオンにします。
+* * Oracleのソフトウェア要件*一般に、Oracle Data Guard Standby-First Patch Applyプロセスが進行中でない限り（My Oracle Support note 1265700.1を参照）、Patch Set Exceptions（PSE）、Critical Patch Updates（CPU）、およびPatch Set Updates（PSU）を含む、物理スタンバイデータベースのDatabase Homeバージョンがプライマリデータベースと同じである必要があります。link:http://support.oracle.com.["support.oracle.com"^]
+* *スタンバイデータベースディレクトリ構造に関する考慮事項*可能であれば、プライマリシステムとスタンバイシステムのデータファイル、ログファイル、および制御ファイルには同じ名前とパス名を付け、Optimal Flexible Architecture（OFA）の命名規則を使用する必要があります。スタンバイデータベースのアーカイブディレクトリも、サイズや構造など、サイト間で同一である必要があります。この戦略により、バックアップ、スイッチオーバー、フェイルオーバーなどの他の操作でも同じ手順を実行できるため、メンテナンスの複雑さが軽減されます。
+* *強制ログモード。*スタンバイデータベースに伝播できないプライマリデータベースのログに記録されていない直接書き込みから保護するには、スタンバイ作成用のデータファイルバックアップを実行する前に、プライマリデータベースで強制ロギングをオンにします。
 * * Azure VMのサイジング*今回のテストと検証では、4つのvCPUと16GiBメモリを搭載したAzure VM-Standard_B4msを使用しました。実際のワークロード要件に基づいて、vCPUの数とRAMの容量に合わせてAzure DB VMのサイズを適切に設定する必要があります。
 * * Azure NetApp Files構成*Azure NetApp Filesは、Azure NetAppストレージアカウントでとして割り当てられ `Capacity Pools`ます。今回のテストと検証では、東部リージョンでOracleプライマリをホストし、西部2リージョンでスタンバイデータベースをホストするために3TiBの容量プールを導入しました。ANF容量プールには、Standard、Premium、Ultraという3つのサービスレベルがあります。  ANF容量プールのIO容量は、容量プールのサイズとそのサービスレベルに基づきます。本番環境ではNetApp、Oracleデータベースのスループット要件を完全に評価し、それに応じてデータベース容量プールをサイジングすることを推奨します。容量プールの作成時に、QoSを[Auto]または[Manual]に設定し、保存データの暗号化を[Single]または[Double]に設定できます。  
 * * dNFS構成*ANFストレージを備えたAzure仮想マシンで実行されるOracleデータベースでは、dNFSを使用することで、ネイティブのNFSクライアントに比べて大幅に多くのI/Oを処理できます。NetApp Automation Toolkitを使用したOracleの自動導入で、NFSv3ではdNFSが自動的に設定されます。
@@ -798,7 +798,7 @@ SQL> alter database recover managed standby database disconnect from session;
 Database altered.
 
 ....
-. スタンバイデータベースのリカバリステータスを検証します。ここで、 `recovery logmerger` インチ `APPLYING_LOG` アクション。
+. スタンバイデータベースのリカバリステータスを検証します。が `APPLYING_LOG`動作していることを確認し `recovery logmerger`ます。
 +
 [source, cli]
 ----
@@ -1063,7 +1063,7 @@ image:azure_ora_anf_dg_snapctr_clone_06_1.png["GUIでのこの手順を示すス
 +
 image:azure_ora_anf_dg_snapctr_clone_07.png["GUIでのこの手順を示すスクリーンショット。"]
 
-. 概要を確認し、 `Finish` をクリックしてクローンを開始します。
+. 概要を確認し、をクリックし `Finish`てクローニングを開始します。
 +
 image:azure_ora_anf_dg_snapctr_clone_08.png["GUIでのこの手順を示すスクリーンショット。"]
 
@@ -1071,7 +1071,7 @@ image:azure_ora_anf_dg_snapctr_clone_08.png["GUIでのこの手順を示すス�
 +
 image:azure_ora_anf_dg_snapctr_clone_09.png["GUIでのこの手順を示すスクリーンショット。"]
 
-. にすぐに登録されているSnapCenterからクローンデータベースを検証します。 `Resources` タブをクリックします。
+. クローン処理の直後にタブに登録されているSnapCenterからクローンデータベースを検証します `Resources`。
 +
 image:azure_ora_anf_dg_snapctr_clone_10.png["GUIでのこの手順を示すスクリーンショット。"]
 
@@ -1141,11 +1141,11 @@ net
 ====
 
 
-== 追加情報の参照先
+== 詳細情報の入手方法
 
 このドキュメントに記載されている情報の詳細については、以下のドキュメントや Web サイトを参照してください。
 
-* Azure NetApp Files の特長
+* Azure NetApp Files
 +
 link:https://azure.microsoft.com/en-us/products/netapp["https://azure.microsoft.com/en-us/products/netapp"^]
 

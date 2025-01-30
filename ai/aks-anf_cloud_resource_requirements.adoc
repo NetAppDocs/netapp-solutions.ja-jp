@@ -20,13 +20,13 @@ summary: このページでは、 Azure NetApp Files のクラウドリソース
 
 == Azure NetApp Files を設定します
 
-の説明に従って、 Azure NetApp Files を設定します https://docs.microsoft.com/azure/azure-netapp-files/azure-netapp-files-quickstart-set-up-account-create-volumes?tabs=azure-portal["クイックスタート： Azure NetApp Files をセットアップし、 NFS ボリュームを作成します"^]。
+の説明に従って、Azure NetApp Filesを設定します https://docs.microsoft.com/azure/azure-netapp-files/azure-netapp-files-quickstart-set-up-account-create-volumes?tabs=azure-portal["クイックスタート： Azure NetApp Files をセットアップし、 NFS ボリュームを作成します"^]。
 
 「 Azure NetApp Files 用 NFS ボリュームの作成」のセクションを過ぎても、 Trident を使用してボリュームを作成できます。続行する前に、次の手順を実行します。
 
-. Azure NetApp Files とネットアップのリソースプロバイダに（ Azure Shell を使用）登録します https://docs.microsoft.com/azure/azure-netapp-files/azure-netapp-files-register["リンク"^]）。
-. Azure NetApp Files でアカウントを作成します（ https://docs.microsoft.com/azure/azure-netapp-files/azure-netapp-files-create-netapp-account["リンク"^]）。
-. 容量プール（必要に応じて、 4TB 以上の Standard または Premium ）をセットアップします（ https://docs.microsoft.com/azure/azure-netapp-files/azure-netapp-files-set-up-capacity-pool["リンク"^]）。次の表に、クラウドでのセットアップに必要なネットワーク構成を示します。Dask クラスタと Azure NetApp Files は同じ Azure Virtual Network （ VNet ）またはピア関係にある VNet に配置されている必要があります。
+. Azureシェルを使用してAzure NetApp FilesおよびNetAppリソースプロバイダに登録します（ https://docs.microsoft.com/azure/azure-netapp-files/azure-netapp-files-register["リンク"^]）。
+. Azure NetApp Files（）でアカウントを作成します https://docs.microsoft.com/azure/azure-netapp-files/azure-netapp-files-create-netapp-account["リンク"^]。
+. 容量プール（必要に応じて4TB以上のStandardまたはPremium）をセットアップします（ https://docs.microsoft.com/azure/azure-netapp-files/azure-netapp-files-set-up-capacity-pool["リンク"^]）。次の表に、クラウドでセットアップするためのネットワーク構成要件を示します。Dask クラスタと Azure NetApp Files は同じ Azure Virtual Network （ VNet ）またはピア関係にある VNet に配置されている必要があります。
 
 
 |===
@@ -39,11 +39,11 @@ summary: このページでは、 Azure NetApp Files のクラウドリソース
 | エージェントノード | 3x Standard_DS2_v2 
 
 
-| GPU ノード | 3x Standard_NC6s_v3 
+| GPUノード | 3x Standard_NC6s_v3 
 
 
-| Azure NetApp Files の特長 | 標準的な容量のプールがある 
+| Azure NetApp Files | 標準的な容量のプールがある 
 
 
-| 容量（ TB ） | 4. 
+| 容量（ TB ） | 4 
 |===

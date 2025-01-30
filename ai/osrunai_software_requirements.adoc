@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-この解決策は、 Run ： AI オペレータがインストールされた基本的な Kubernetes 環境で検証されました。Kubernetes はを使用して導入されました https://github.com/NVIDIA/deepops["NVIDIA DeepOps のことです"^] 導入エンジン：本番環境に必要なすべてのコンポーネントを導入します。DeepOps は自動的に導入されます https://netapp.io/persistent-storage-provisioner-for-kubernetes/["NetApp Trident"^] Kubernetes 環境との永続的なストレージ統合のために、デフォルトのストレージクラスが作成されました。これにより、コンテナは AFF A800 ストレージシステムのストレージを活用できます。Trident と ONTAP AI の Kubernetes の詳細については、を参照してください https://www.netapp.com/us/media/tr-4798.pdf["TR-4798"^]。
+この解決策は、 Run ： AI オペレータがインストールされた基本的な Kubernetes 環境で検証されました。KubernetesはDeployment Engineを使用して導入され、本番環境に必要なすべてのコンポーネントが導入されました https://github.com/NVIDIA/deepops["NVIDIA DeepOps のことです"^]。Kubernetes環境との永続的ストレージ統合のためにDeepOpsが自動的に導入され https://netapp.io/persistent-storage-provisioner-for-kubernetes/["NetApp Trident"^]、コンテナがAFF A800ストレージシステムのストレージを利用するようにデフォルトのストレージクラスが作成されました。ONTAP AIでのTrident with Kubernetesの詳細については、を参照してください https://www.netapp.com/us/media/tr-4798.pdf["TR-4798"^]。
 
  The following table lists the software components that are required to implement the solution as tested.
 |===
@@ -24,7 +24,7 @@ summary:
 | NetApp ONTAP データ管理ソフトウェア | 9.6p4 
 
 
-| Cisco NX-OS スイッチのファームウェア | 7.0 （ 3 ） I6 （ 1 ） 
+| Cisco NX-OS スイッチのファームウェア | 7.0（3）I6（1） 
 
 
 | NVIDIA DGX OS | 4.0.4 - Ubuntu 18.04 LTS 
@@ -44,4 +44,4 @@ summary:
 
 | Docker コンテナプラットフォーム | 18.06.1-CE [e68fc7a] 
 |===
-実行に必要なその他のソフトウェア要件： AI は、から入手できます https://docs.run.ai/Administrator/Cluster-Setup/Run-AI-GPU-Cluster-Prerequisites/["AI GPU クラスタの前提条件を実行します"^]。
+Run：AIのその他のソフトウェア要件については、を参照してください https://docs.run.ai/Administrator/Cluster-Setup/Run-AI-GPU-Cluster-Prerequisites/["AI GPU クラスタの前提条件を実行します"^]。

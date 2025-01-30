@@ -14,13 +14,13 @@ summary: ビッグデータクラスタでは、 MapR -FS 、 Windows Azure Stor
 
 
 [role="lead"]
-ビッグデータクラスタでは、 MapR -FS 、 Windows Azure Storage Blob 、 S3 、 Google ファイルシステムなどの HDFS または HCFS にデータが格納されます。ソース側で「 hadoop distcp 」コマンドを使用し、データを NIPAM の助けを得て NetApp ONTAP NFS エクスポートにコピーするソースとして、 HDFS 、 MapR FS 、および S3 を使用してテストを実施しました。
+ビッグデータクラスタでは、 MapR -FS 、 Windows Azure Storage Blob 、 S3 、 Google ファイルシステムなどの HDFS または HCFS にデータが格納されます。NIPAMの助けを借りて、HDFS、MapR-FS、S3をソースとしてテストを実行し、ソースからコマンドを使用してNetApp ONTAP NFSエクスポートにデータをコピーしました `hadoop distcp`。
 
 次の図は、 HDFS ストレージで稼働している Spark クラスタから、 NVIDIA が AI 処理を行えるようにするための NetApp ONTAP NFS ボリュームへの、一般的なデータ移動を示しています。
 
 image:bda-ai-image3.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-「 hadoop distcp 」コマンドは、 MapReduce プログラムを使用してデータをコピーします。NIPAM は MapReduce と連携して、データをコピーする際の Hadoop クラスタのドライバとして機能します。NIPAM では、 1 つのエクスポートのために複数のネットワークインターフェイスに負荷を分散できます。このプロセスにより、 HDFS または HCFS から NFS にデータをコピーするときに、複数のネットワークインターフェイスにデータを分散させることにより、ネットワークスループットが最大になります。
+コマンドは `hadoop distcp`、MapReduceプログラムを使用してデータをコピーします。NIPAM は MapReduce と連携して、データをコピーする際の Hadoop クラスタのドライバとして機能します。NIPAM では、 1 つのエクスポートのために複数のネットワークインターフェイスに負荷を分散できます。このプロセスにより、 HDFS または HCFS から NFS にデータをコピーするときに、複数のネットワークインターフェイスにデータを分散させることにより、ネットワークスループットが最大になります。
 
 
 NOTE: NIPAM は MapR でサポートまたは認定されていません。

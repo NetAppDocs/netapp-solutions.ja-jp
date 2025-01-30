@@ -4,7 +4,7 @@ permalink: rhhc/rhhc-sm-setup.html
 keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP 
 summary:  
 ---
-= AWSにRed Hat OpenShift Containerプラットフォームを導入して設定します
+= AWSでのRed Hat OpenShift Containerプラットフォームの導入と設定
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -34,31 +34,31 @@ image:rhhc-self-managed-aws.png["入力/出力ダイアログを示す図、ま�
 * VPC用にRoute 53プライベートホストゾーンとDNSリゾルバを作成します。
 
 
-Advanced Cluster Management（ACM）ウィザードを使用して、AWSにOpenShiftクラスタを作成します。手順を参照してください link:https://docs.openshift.com/dedicated/osd_install_access_delete_cluster/creating-an-aws-cluster.html["こちらをご覧ください"]。
+Advanced Cluster Management（ACM）ウィザードを使用して、AWSにOpenShiftクラスタを作成します。手順を参照してくださいlink:https://docs.openshift.com/dedicated/osd_install_access_delete_cluster/creating-an-aws-cluster.html["ここをクリック"]。
 
 
-NOTE: AWSでは、OpenShift Hybrid Cloudコンソールからクラスタを作成することもできます。を参照してください link:https://docs.openshift.com/container-platform/4.10/installing/installing_aws/installing-aws-default.html["こちらをご覧ください"] 手順については、を参照し
+NOTE: AWSでは、OpenShift Hybrid Cloudコンソールからクラスタを作成することもできます。手順についてはを参照してくださいlink:https://docs.openshift.com/container-platform/4.10/installing/installing_aws/installing-aws-default.html["ここをクリック"]。
 
 
 TIP: ACMを使用してクラスタを作成する場合は、フォームビューで詳細を入力した後でYAMLファイルを編集してインストールをカスタマイズできます。クラスタが作成されたら、トラブルシューティングや追加の手動設定のために、クラスタのノードにSSHログインできます。インストール時に指定したsshキーとユーザ名coreを使用してログインします。
 
 ====
-.BlueXPを使用してAWSにCloud Volumes ONTAP を導入
+.BlueXPを使用してAWSにCloud Volumes ONTAPを導入
 [%collapsible]
 ====
-* オンプレミスのVMware環境にコネクタをインストールします。手順を参照してください link:https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-install-connector-on-prem.html#install-the-connector["こちらをご覧ください"]。
-* コネクタを使用してAWSにCVOインスタンスを導入します。手順を参照してください link:https://docs.netapp.com/us-en/cloud-manager-cloud-volumes-ontap/task-getting-started-aws.html["こちらをご覧ください"]。
+* オンプレミスのVMware環境にコネクタをインストールします。手順を参照してくださいlink:https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-install-connector-on-prem.html#install-the-connector["ここをクリック"]。
+* コネクタを使用してAWSにCVOインスタンスを導入します。手順を参照してくださいlink:https://docs.netapp.com/us-en/cloud-manager-cloud-volumes-ontap/task-getting-started-aws.html["ここをクリック"]。
 
 
 
-NOTE: コネクタはクラウド環境にも設置できます。を参照してください link:https://docs.netapp.com/us-en/cloud-manager-setup-admin/concept-connectors.html["こちらをご覧ください"] 追加情報 の場合。
+NOTE: コネクタはクラウド環境にも設置できます。詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/cloud-manager-setup-admin/concept-connectors.html["ここをクリック"]。
 
 ====
 .OCPクラスタへのTridentのインストール
 [%collapsible]
 ====
-* Helmを使用してTrident Operatorを導入します。手順を参照してください link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy-helm.html["こちらをご覧ください"]
-* バックエンドとストレージクラスを作成手順を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-use/backends.html["こちらをご覧ください"]。
+* Helmを使用してTrident Operatorを導入します。手順を参照link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy-helm.html["ここをクリック"]
+* バックエンドとストレージクラスを作成手順を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-use/backends.html["ここをクリック"]。
 
 
 ====
@@ -69,7 +69,7 @@ AWSのOCPクラスタをAstra Control Centerに追加します。
 
 ====
 .マルチゾーンアーキテクチャにTridentのCSIトポロジ機能を使用
-今日のクラウドプロバイダは、Kubernetes / OpenShiftのクラスタ管理者がゾーンベースのクラスタのノードを生成できるようにしています。ノードは、リージョンによって異なるアベイラビリティゾーンに配置することも、リージョンによって配置することもできます。マルチゾーンアーキテクチャでワークロード用のボリュームのプロビジョニングを容易にするために、TridentではCSIトポロジを使用しています。CSI トポロジ機能を使用すると、領域およびアベイラビリティゾーンに基づいて、ボリュームへのアクセスをノードのサブセットに制限できます。詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-use/csi-topology.html["こちらをご覧ください"]。
+今日のクラウドプロバイダは、Kubernetes / OpenShiftのクラスタ管理者がゾーンベースのクラスタのノードを生成できるようにしています。ノードは、リージョンによって異なるアベイラビリティゾーンに配置することも、リージョンによって配置することもできます。マルチゾーンアーキテクチャでワークロード用のボリュームのプロビジョニングを容易にするために、TridentではCSIトポロジを使用しています。CSI トポロジ機能を使用すると、領域およびアベイラビリティゾーンに基づいて、ボリュームへのアクセスをノードのサブセットに制限できます。詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-use/csi-topology.html["ここをクリック"]。
 
 
-NOTE: Kubernetesは2つのボリュームバインドモードをサポートします。-**_VolumeBindingMode_が_Immediate_**（デフォルト）に設定されている場合、Tridentはトポロジを認識せずにボリュームを作成します。永続ボリュームは、要求側ポッドのスケジュール要件に依存せずに作成されます。-**_VolumeBindingMode_が_WaitForFirstConsumer_**に設定されている場合、PVCの永続ボリュームの作成とバインドは、そのPVCを使用するポッドがスケジュールされて作成されるまで遅延します。これにより、トポロジの要件に応じたスケジュールの制約を満たすようにボリュームが作成されます。Tridentストレージバックエンドは、アベイラビリティゾーン（トポロジ対応バックエンド）に基づいて選択的にボリュームをプロビジョニングするように設計できます。ストレージクラスがそのようなバックエンドを使用する場合、ボリュームは、サポートされているリージョン / ゾーンでスケジュールされているアプリケーションから要求された場合にのみ作成されます。（Topology-Aware StorageClass）詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-use/csi-topology.html["こちらをご覧ください"]。
+NOTE: Kubernetesは2つのボリュームバインドモードをサポートします。-**_VolumeBindingMode_が_Immediate_**（デフォルト）に設定されている場合、Tridentはトポロジを認識せずにボリュームを作成します。永続ボリュームは、要求側ポッドのスケジュール要件に依存せずに作成されます。-**_VolumeBindingMode_が_WaitForFirstConsumer_**に設定されている場合、PVCの永続ボリュームの作成とバインドは、そのPVCを使用するポッドがスケジュールされて作成されるまで遅延します。これにより、トポロジの要件に応じたスケジュールの制約を満たすようにボリュームが作成されます。Tridentストレージバックエンドは、アベイラビリティゾーン（トポロジ対応バックエンド）に基づいて選択的にボリュームをプロビジョニングするように設計できます。ストレージクラスがそのようなバックエンドを使用する場合、ボリュームは、サポートされているリージョン / ゾーンでスケジュールされているアプリケーションから要求された場合にのみ作成されます。（Topology-Aware StorageClass）詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-use/csi-topology.html["ここをクリック"]。

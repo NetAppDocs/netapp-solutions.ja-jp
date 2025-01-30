@@ -35,7 +35,7 @@ VMware vSphere Virtual Volumes（VVOL）は、SAN / NASの管理および統合�
 
 
 
-== 対象者
+== 対象読者
 
 この解決策 は、次のユーザーを対象としています。
 
@@ -80,19 +80,19 @@ image:vcf_ora_si_vvols_architecture.png["このイメージは、iSCSIとASMを�
 | Red Hat Linux | RHEL-8.6、4.18.0-372.9.1.el8.x86_64カーネル | Oracle DBサーバをホストし、テスト用にRedHatサブスクリプションを導入 
 
 
-| Windows Serverの場合 | 2022 Standard、10.0.20348ビルド20348 | SnapCenterサアハノホスト 
+| Windows Server | 2022 Standard、10.0.20348ビルド20348 | SnapCenterサアハノホスト 
 
 
 | CentOS Linuxの場合 | CentOS Linuxリリース8.5.2111 | Ansibleコントローラのホスト 
 
 
-| Oracle データベース | バージョン19.18 | RUパッチp34765931_190000_Linux-x86-64.zipを適用しました 
+| Oracleデータベース | バージョン19.18 | RUパッチp34765931_190000_Linux-x86-64.zipを適用しました 
 
 
 | Oracle OPatchの略 | バージョン12.2.0.1.36 | 最新のパッチp6880880_190000_Linux-x86-64.zip 
 
 
-| SnapCenter サーバ | バージョン6.0 | ワークグループの導入 
+| SnapCenterサーバ | バージョン6.0 | ワークグループの導入 
 
 
 | SnapCenter Plug-in for VMware vSphere | バージョン6.0 | vSphereクラスタにOVA VMとして導入 
@@ -149,7 +149,7 @@ image:vcf_ora_si_vvols_architecture.png["このイメージは、iSCSIとASMを�
 
 . VMware VCFがセットアップされました。VCFの作成方法については、VMwareのドキュメントを参照してください link:https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["VMware Cloud Foundationのドキュメント"^]。
 . VCFワークロードドメイン内で、3台のLinux VM（Oracleデータベース用に2台、Ansibleコントローラ用に1台）をプロビジョニングします。NetApp SnapCenterサーバを実行するためのWindowsサーバVMを1つプロビジョニングします。Oracleデータベースを自動導入するためのAnsibleコントローラのセットアップについては、次の資料を参照して link:../automation/getting-started.html["NetApp解決策 自動化の導入"^]ください。
-. VCFには、SnapCenterプラグインバージョン6.0 for VMware vSphereが導入されています。プラグインの配置については、次のリソースを参照してください。 link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/["SnapCenter Plug-in for VMware vSphere のドキュメント"^]
+. VCFには、SnapCenterプラグインバージョン6.0 for VMware vSphereが導入されています。プラグインの配置については、次のリソースを参照してください。 link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/["SnapCenter Plug-in for VMware vSphereのドキュメント"^]
 . VMware vSphere向けのONTAPツールがVCFに導入されている。VMware vSphere導入のためのONTAPツールについては、次のリソースを参照してください。 link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["ONTAP Tools for VMware vSphereのドキュメント"^]
 
 
@@ -503,7 +503,7 @@ ansible-playbook -i hosts 5-destroy.yml -u admin -e @vars/vars.yml
 
 [%collapsible]
 ====
-SnapCenterバージョン6では、VMware vVolデータストアのサポートなど、バージョン5よりも多くの機能拡張が行われています。SnapCenterは、データベースVM上のホスト側プラグインを使用して、アプリケーション対応のデータ保護管理アクティビティを実行します。Oracle向けNetApp SnapCenterプラグインの詳細については、このドキュメントを参照して link:https://docs.netapp.com/us-en/snapcenter/protect-sco/concept_what_you_can_do_with_the_snapcenter_plug_in_for_oracle_database.html["Plug-in for Oracle Database の機能"^]ください。次に、VCFでOracleデータベースのバックアップ、リカバリ、およびクローン用にSnapCenterバージョン6をセットアップする手順の概要を示します。
+SnapCenterバージョン6では、VMware vVolデータストアのサポートなど、バージョン5よりも多くの機能拡張が行われています。SnapCenterは、データベースVM上のホスト側プラグインを使用して、アプリケーション対応のデータ保護管理アクティビティを実行します。Oracle向けNetApp SnapCenterプラグインの詳細については、このドキュメントを参照して link:https://docs.netapp.com/us-en/snapcenter/protect-sco/concept_what_you_can_do_with_the_snapcenter_plug_in_for_oracle_database.html["Plug-in for Oracle Databaseの機能"^]ください。次に、VCFでOracleデータベースのバックアップ、リカバリ、およびクローン用にSnapCenterバージョン6をセットアップする手順の概要を示します。
 
 . NetAppサポートサイトからSnapCenterソフトウェアのバージョン6をダウンロードします link:https://mysupport.netapp.com/site/downloads["ネットアップサポートのダウンロードページ"^]。
 . Windows VMをホストしているSnapCenterに管理者としてログインします。SnapCenter 6.0のインストールの前提条件
@@ -523,7 +523,7 @@ image:vcf_ora_vvol_snapctr_deploy_01.png["SnapCenterの設定を示すスクリ�
 +
 image:vcf_ora_vvol_snapctr_deploy_02.png["SnapCenterの設定を示すスクリーンショット。"]
 
-. 更新 `Hypervisor Settings` をクリックします。
+. グローバル設定で更新し `Hypervisor Settings`ます。
 +
 image:aws_ora_fsx_vmc_snapctr_01.png["SnapCenterの設定を示すスクリーンショット。"]
 
@@ -561,7 +561,7 @@ NOTE: SnapCenterサーバ名をDB VMおよびvSphereプラグインVMからIPア
 ====
 SnapCenterは、ONTAPボリュームスナップショットを活用して、従来のRMANベースの方法と比較して、データベースのバックアップ、リストア、クローン作成にかかる時間を大幅に短縮します。Snapshotの作成前にデータベースがOracleバックアップモードになるため、Snapshotはアプリケーションと整合性があります。
 
-. から `Resources` タブをクリックします。VMがSnapCenterに追加されると、VM上のすべてのデータベースが自動検出されます。初期状態では、データベースのステータスは `Not protected`。
+. タブでは、 `Resources`VMがSnapCenterに追加されると、VM上のすべてのデータベースが自動検出されます。初期状態では、データベースのステータスはと表示され `Not protected`ます。
 +
 image:vcf_ora_vvol_snapctr_bkup_01.png["SnapCenterの設定を示すスクリーンショット。"]
 
@@ -585,7 +585,7 @@ image:vcf_ora_vvol_snapctr_bkup_06.png["SnapCenterの設定を示すスクリー
 +
 image:vcf_ora_vvol_snapctr_bkup_07.png["SnapCenterの設定を示すスクリーンショット。"] image:vcf_ora_vvol_snapctr_bkup_08.png["SnapCenterの設定を示すスクリーンショット。"]
 
-. バックアップジョブは、 `Monitor` タブをクリックして実行中のジョブをクリックします。
+. タブで実行中のジョブをクリックすると、バックアップジョブを監視でき `Monitor`ます。
 +
 image:vcf_ora_vvol_snapctr_bkup_09.png["SnapCenterの設定を示すスクリーンショット。"]
 
@@ -683,11 +683,11 @@ image:vcf_ora_vvol_snapctr_restore_05.png["SnapCenterの設定を示すスクリ
 +
 image:vcf_ora_vvol_snapctr_restore_06.png["SnapCenterの設定を示すスクリーンショット。"]
 
-. 概要を確認し、 `Finish` リストアとリカバリを開始します。
+. 概要を確認し、をクリックし `Finish`てリストアとリカバリを開始します。
 +
 image:vcf_ora_vvol_snapctr_restore_07.png["SnapCenterの設定を示すスクリーンショット。"]
 
-. 移動元 `Monitor` タブでジョブを開き、詳細を確認します。
+.  `Monitor`タブでジョブを開き、詳細を確認します。
 +
 image:vcf_ora_vvol_snapctr_restore_08.png["SnapCenterの設定を示すスクリーンショット。"]
 
@@ -765,7 +765,7 @@ image:vcf_ora_vvol_snapctr_clone_04.png["SnapCenterの設定を示すスクリ�
 +
 image:vcf_ora_vvol_snapctr_clone_05.png["SnapCenterの設定を示すスクリーンショット。"]
 
-. リカバリ範囲を選択します。 `Until Cancel` バックアップセット内で使用可能な最後のログファイルまでクローンをリカバリします。
+. リカバリ範囲を選択します。 `Until Cancel`バックアップセット内で使用可能な最後のログファイルまでクローンをリカバリします。
 +
 image:vcf_ora_vvol_snapctr_clone_06.png["SnapCenterの設定を示すスクリーンショット。"]
 
@@ -773,7 +773,7 @@ image:vcf_ora_vvol_snapctr_clone_06.png["SnapCenterの設定を示すスクリ�
 +
 image:vcf_ora_vvol_snapctr_clone_08.png["SnapCenterの設定を示すスクリーンショット。"]
 
-. クローンジョブの実行を監視します。 `Monitor` タブ。
+. タブからクローニングジョブの実行を監視します `Monitor`。
 +
 image:vcf_ora_vvol_snapctr_clone_09.png["SnapCenterの設定を示すスクリーンショット。"]
 
@@ -848,7 +848,7 @@ SQL>
 ====
 
 
-== 追加情報の参照先
+== 詳細情報の入手方法
 
 このドキュメントに記載されている情報の詳細については、以下のドキュメントや Web サイトを参照してください。
 

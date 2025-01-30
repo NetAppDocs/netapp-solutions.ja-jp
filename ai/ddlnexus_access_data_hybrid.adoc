@@ -14,30 +14,24 @@ summary: Domino Data LabとNetAppによるハイブリッドマルチクラウ�
 
 
 [role="lead"]
-このセクションでは、異なるコンピューティング環境間で同じデータにアクセスするために実行する必要があるタスクについて説明します。Domino MLOpsプラットフォームでは、コンピューティング環境を「データプレーン」と呼びます。 データがあるデータプレーンのNetAppボリュームに格納されていて、別のデータプレーンでアクセスする必要がある場合は、このセクションで説明するタスクを実行します。このタイプのシナリオは、「バースト」またはデスティネーション環境がクラウドの場合は「クラウドバースト」と呼ばれます。 この機能は、限られたコンピューティングリソースやオーバーサブスクライブされたコンピューティングリソースを扱うときに必要になることがよくあります。たとえば、オンプレミスのコンピューティングクラスタがオーバーサブスクライブされている場合、ワークロードをすぐに開始できるクラウドにスケジュールすることができます。
+このセクションでは、異なるコンピューティング環境間で同じデータにアクセスするために実行する必要があるタスクについて説明します。Domino MLOpsプラットフォームでは、コンピューティング環境を「データプレーン」と呼びます。データがあるデータプレーンのNetAppボリュームに格納されていて、別のデータプレーンでアクセスする必要がある場合は、このセクションで説明するタスクを実行します。このタイプのシナリオは、「バースト」またはデスティネーション環境がクラウドの場合は「クラウドバースト」と呼ばれます。この機能は、限られたコンピューティングリソースやオーバーサブスクライブされたコンピューティングリソースを扱うときに必要になることがよくあります。たとえば、オンプレミスのコンピューティングクラスタがオーバーサブスクライブされている場合、ワークロードをすぐに開始できるクラウドにスケジュールすることができます。
 
 別のデータプレーンにあるNetAppボリュームにアクセスする場合に推奨される方法は2つあります。これらのオプションについては、次のサブセクションで説明します。特定の要件に応じて、これらのオプションのいずれかを選択します。次の表に、2つのオプションの利点と欠点を示します。
 
 |===
-| オプション | 利点 | 欠点 
+| オプション | メリット | 欠点 
 
 
-| オプション1 -キャッシュ | -シンプルなワークフロー
--ニーズに基づいてデータのサブセットをキャッシュする機能
--ソースにデータを書き戻す機能
--管理するリモートコピーがない | -キャッシュがハイドレーションされると、初期データアクセスのレイテンシが増加します。 
+| オプション1 -キャッシュ | -シンプルなワークフロー-ニーズに基づいてデータのサブセットをキャッシュ-ソースにデータを書き戻す機能-管理するリモートコピーが不要 | -キャッシュがハイドレーションされると、初期データアクセスのレイテンシが増加します。 
 
 
-| オプション2 -ミラーリング | -ソースボリュームのフルコピー
--キャッシュハイドレーションによるレイテンシ増加なし（ミラー処理完了後） | -データにアクセスする前にミラー処理が完了するまで待つ必要がある
--リモートコピーの管理が必要
--ソースに書き戻す機能がない 
+| オプション2 -ミラーリング | -ソースボリュームのフルコピー-キャッシュハイドレーションによるレイテンシの増加なし（ミラー処理完了後） | -ミラー処理が完了してからデータにアクセスする必要がある-リモートコピーを管理する必要がある-ソースにライトバックできない 
 |===
 
 
 == オプション1 -別のデータプレーンに存在するボリュームのキャッシュを作成する
 
-を使用 link:https://docs.netapp.com/us-en/ontap/flexcache/accelerate-data-access-concept.html["NetApp FlexCache テクノロジ"]では、別のデータプレーンにあるNetAppボリュームのキャッシュを作成できます。たとえば、オンプレミスのデータプレーンにNetAppボリュームがあり、そのボリュームにAWSデータプレーンでアクセスする必要がある場合は、AWSにボリュームのキャッシュを作成できます。このセクションでは、別のデータプレーンにあるNetAppボリュームのキャッシュを作成するために実行する必要があるタスクの概要を説明します。
+を使用するとlink:https://docs.netapp.com/us-en/ontap/flexcache/accelerate-data-access-concept.html["NetApp FlexCache テクノロジ"]、別のデータプレーンにあるNetAppボリュームのキャッシュを作成できます。たとえば、オンプレミスのデータプレーンにNetAppボリュームがあり、そのボリュームにAWSデータプレーンでアクセスする必要がある場合は、AWSにボリュームのキャッシュを作成できます。このセクションでは、別のデータプレーンにあるNetAppボリュームのキャッシュを作成するために実行する必要があるタスクの概要を説明します。
 
 
 
@@ -48,11 +42,11 @@ NOTE: デスティネーション環境がオンプレミスのデータセン�
 
 最初に、デスティネーション環境にFlexCacheボリュームを作成する必要があります。
 
-FlexCacheボリュームの作成にはBlueXPを使用することを推奨します。BlueXPでFlexCacheボリュームを作成するには、 link:https://docs.netapp.com/us-en/bluexp-volume-caching/["BlueXPのボリュームキャッシュに関するドキュメント"]。
+FlexCacheボリュームの作成にはBlueXPを使用することを推奨します。BlueXP  を使用してFlexCacheボリュームを作成するには、に記載されている手順に従いますlink:https://docs.netapp.com/us-en/bluexp-volume-caching/["BlueXPのボリュームキャッシュに関するドキュメント"]。
 
-BlueXPを使用しない場合は、ONTAPシステムマネージャまたはONTAP CLIを使用してFlexCacheボリュームを作成できます。System ManagerでFlexCacheボリュームを作成する手順については、 link:https://docs.netapp.com/us-en/ontap/task_nas_flexcache.html["ONTAP のドキュメント"]。ONTAP CLIを使用してFlexCacheボリュームを作成するには、 link:https://docs.netapp.com/us-en/ontap/flexcache/index.html["ONTAP のドキュメント"]。
+BlueXPを使用しない場合は、ONTAPシステムマネージャまたはONTAP CLIを使用してFlexCacheボリュームを作成できます。System ManagerでFlexCacheボリュームを作成する手順については、を参照してくださいlink:https://docs.netapp.com/us-en/ontap/task_nas_flexcache.html["ONTAPのドキュメント"]。ONTAP CLIを使用してFlexCacheボリュームを作成する場合は、に記載されている手順を参照してlink:https://docs.netapp.com/us-en/ontap/flexcache/index.html["ONTAPのドキュメント"]ください。
 
-このプロセスを自動化するには、 link:https://docs.netapp.com/us-en/bluexp-automation/["BlueXP API"]、 link:https://devnet.netapp.com/restapi.php["ONTAP REST API"]または link:https://docs.ansible.com/ansible/latest/collections/netapp/ontap/index.html["ONTAP Ansibleコレクション"]。
+このプロセスを自動化するにはlink:https://docs.netapp.com/us-en/bluexp-automation/["BlueXPのAPI"]、、link:https://devnet.netapp.com/restapi.php["ONTAP REST API"]またはを使用しlink:https://docs.ansible.com/ansible/latest/collections/netapp/ontap/index.html["ONTAP Ansibleコレクション"]ます。
 
 
 NOTE: System ManagerはAmazon FSx ONTAPでは使用できません。
@@ -81,19 +75,19 @@ image:ddlnexus_image5.png["入力/出力ダイアログを示す図、または�
 
 == オプション2 -別のデータプレーンに存在するボリュームをレプリケートする
 
-を使用 link:https://www.netapp.com/cyber-resilience/data-protection/data-backup-recovery/snapmirror-data-replication/["NetApp SnapMirrorデータレプリケーションテクノロジ"]では、別のデータプレーンにあるNetAppボリュームのコピーを作成できます。たとえば、オンプレミスのデータプレーンにNetAppボリュームがあり、AWSデータプレーンでそのボリュームにアクセスする必要がある場合は、AWSでボリュームのコピーを作成できます。このセクションでは、別のデータプレーンにあるNetAppボリュームのコピーを作成するために実行する必要があるタスクの概要を説明します。
+を使用するとlink:https://www.netapp.com/cyber-resilience/data-protection/data-backup-recovery/snapmirror-data-replication/["NetApp SnapMirrorデータレプリケーションテクノロジ"]、別のデータプレーンにあるNetAppボリュームのコピーを作成できます。たとえば、オンプレミスのデータプレーンにNetAppボリュームがあり、AWSデータプレーンでそのボリュームにアクセスする必要がある場合は、AWSでボリュームのコピーを作成できます。このセクションでは、別のデータプレーンにあるNetAppボリュームのコピーを作成するために実行する必要があるタスクの概要を説明します。
 
 
 
-=== SnapMirror 関係を作成
+=== SnapMirror関係の作成
 
 まず、ソースボリュームとデスティネーション環境の新しいデスティネーションボリュームの間にSnapMirror関係を作成する必要があります。デスティネーションボリュームは、SnapMirror関係の作成プロセスの一環として作成されます。
 
-SnapMirror関係の作成にはBlueXPを使用することを推奨します。BlueXPを使用してSnapMirror関係を作成するには、 link:https://docs.netapp.com/us-en/bluexp-replication/["BlueXPのレプリケーションに関するドキュメント"]。
+SnapMirror関係の作成にはBlueXPを使用することを推奨します。BlueXP  とのSnapMirror関係を作成するには、に記載されている手順に従いますlink:https://docs.netapp.com/us-en/bluexp-replication/["BlueXPのレプリケーションに関するドキュメント"]。
 
-BlueXPを使用しない場合は、ONTAPシステムマネージャまたはONTAP CLIを使用してSnapMirror関係を作成できます。System ManagerとのSnapMirror関係を作成するには、 link:https://docs.netapp.com/us-en/ontap/task_dp_configure_mirror.html["ONTAP のドキュメント"]。ONTAP CLIを使用してSnapMirror関係を作成するには、 link:https://docs.netapp.com/us-en/ontap/data-protection/snapmirror-replication-workflow-concept.html["ONTAP のドキュメント"]。
+BlueXPを使用しない場合は、ONTAPシステムマネージャまたはONTAP CLIを使用してSnapMirror関係を作成できます。System ManagerとのSnapMirror関係を作成するには、で説明されている手順を参照してlink:https://docs.netapp.com/us-en/ontap/task_dp_configure_mirror.html["ONTAPのドキュメント"]ください。ONTAP CLIを使用してSnapMirror関係を作成するには、で説明されている手順を参照してlink:https://docs.netapp.com/us-en/ontap/data-protection/snapmirror-replication-workflow-concept.html["ONTAPのドキュメント"]ください。
 
-このプロセスを自動化するには、 link:https://docs.netapp.com/us-en/bluexp-automation/["BlueXP API"]、 link:https://devnet.netapp.com/restapi.php["ONTAP REST API"]または link:https://docs.ansible.com/ansible/latest/collections/netapp/ontap/index.html["ONTAP Ansibleコレクション"]。
+このプロセスを自動化するにはlink:https://docs.netapp.com/us-en/bluexp-automation/["BlueXPのAPI"]、、link:https://devnet.netapp.com/restapi.php["ONTAP REST API"]またはを使用しlink:https://docs.ansible.com/ansible/latest/collections/netapp/ontap/index.html["ONTAP Ansibleコレクション"]ます。
 
 
 NOTE: System ManagerはAmazon FSx ONTAPでは使用できません。
@@ -107,11 +101,11 @@ NOTE: System ManagerはAmazon FSx ONTAPでは使用できません。
 
 NOTE: レプリケーションが完了したかどうかは、BlueXP、ONTAPシステムマネージャ、またはONTAP CLIでミラー状態を確認することで確認できます。レプリケーションが完了すると、ミラー状態は「snapmirrored」になります。
 
-SnapMirror関係の解除にはBlueXPを使用することを推奨します。BlueXPとのSnapMirror関係を解除するには、 link:https://docs.netapp.com/us-en/bluexp-replication/task-managing-replication.html["BlueXPのレプリケーションに関するドキュメント"]。
+SnapMirror関係の解除にはBlueXPを使用することを推奨します。BlueXP  とのSnapMirror関係を解除するには、に記載されている手順に従いますlink:https://docs.netapp.com/us-en/bluexp-replication/task-managing-replication.html["BlueXPのレプリケーションに関するドキュメント"]。
 
-BlueXPを使用しない場合は、ONTAP System ManagerまたはONTAP CLIを使用してSnapMirror関係を解除できます。System ManagerとのSnapMirror関係を解除するには、 link:https://docs.netapp.com/us-en/ontap/task_dp_serve_data_from_destination.html["ONTAP のドキュメント"]。ONTAP CLIとのSnapMirror関係を解除するには、 link:https://docs.netapp.com/us-en/ontap/data-protection/make-destination-volume-writeable-task.html["ONTAP のドキュメント"]。
+BlueXPを使用しない場合は、ONTAP System ManagerまたはONTAP CLIを使用してSnapMirror関係を解除できます。System ManagerとのSnapMirror関係を解除するには、で説明されている手順を参照してlink:https://docs.netapp.com/us-en/ontap/task_dp_serve_data_from_destination.html["ONTAPのドキュメント"]ください。ONTAP CLIとのSnapMirror関係を解除するには、に記載されている手順を参照してlink:https://docs.netapp.com/us-en/ontap/data-protection/make-destination-volume-writeable-task.html["ONTAPのドキュメント"]ください。
 
-このプロセスを自動化するには、 link:https://docs.netapp.com/us-en/bluexp-automation/["BlueXP API"]、 link:https://devnet.netapp.com/restapi.php["ONTAP REST API"]または link:https://docs.ansible.com/ansible/latest/collections/netapp/ontap/index.html["ONTAP Ansibleコレクション"]。
+このプロセスを自動化するにはlink:https://docs.netapp.com/us-en/bluexp-automation/["BlueXPのAPI"]、、link:https://devnet.netapp.com/restapi.php["ONTAP REST API"]またはを使用しlink:https://docs.ansible.com/ansible/latest/collections/netapp/ontap/index.html["ONTAP Ansibleコレクション"]ます。
 
 
 

@@ -34,7 +34,7 @@ image:dro-vmc-image1.png["この図は、オンプレミスのデータセンタ
 
 === AWSにVMware Cloudを導入して設定
 
-link:https://www.vmware.com/products/vmc-on-aws.html["AWS 上の VMware Cloud"^] AWSエコシステム内のVMwareベースのワークロードにクラウドネイティブなエクスペリエンスを提供します。各VMware Software-Defined Data Center（SDDC）はAmazon Virtual Private Cloud（VPC）内で動作し、フルVMwareスタック（vCenter Serverを含む）、NSXベースのSoftware-Defined Networking、VSANソフトウェア定義ストレージ、およびワークロードにコンピューティングリソースとストレージリソースを提供する1つ以上のESXiホストを提供します。AWSでVMC環境を設定するには、次の手順を実行します link:aws-setup.html["リンク"^]。パイロットライトクラスタはDRにも使用できます。
+link:https://www.vmware.com/products/vmc-on-aws.html["AWS 上の VMware Cloud"^]AWSエコシステムでVMwareベースのワークロードにクラウドネイティブなエクスペリエンスを提供します。各VMware Software-Defined Data Center（SDDC）はAmazon Virtual Private Cloud（VPC）内で動作し、フルVMwareスタック（vCenter Serverを含む）、NSXベースのSoftware-Defined Networking、VSANソフトウェア定義ストレージ、およびワークロードにコンピューティングリソースとストレージリソースを提供する1つ以上のESXiホストを提供します。AWSでVMC環境を設定するには、次の手順を実行しlink:aws-setup.html["リンク"^]ます。パイロットライトクラスタはDRにも使用できます。
 
 
 NOTE: 初期リリースでは、DROは既存のパイロットライトクラスタをサポートします。オンデマンドのSDDC作成は、今後のリリースで提供される予定です。
@@ -80,17 +80,17 @@ DROを開始するには、指定されたEC2インスタンスまたは仮想�
 * Ubuntu 20.04（LTS）：2GB以上、vCPU×4
 * 指定されたエージェントVMに次のパッケージがインストールされている必要があります。
 +
-** Docker です
+** Docker
 ** docker -構成
 ** Jq
 
 
 
 
-の権限を変更します `docker.sock`： `sudo chmod 666 /var/run/docker.sock`。
+次の `sudo chmod 666 /var/run/docker.sock`権限を変更し `docker.sock`ます。
 
 
-NOTE: 。 `deploy.sh` スクリプトは必要な前提条件をすべて実行します。
+NOTE:  `deploy.sh`スクリプトは、必要なすべての前提条件を実行します。
 
 
 
@@ -273,7 +273,7 @@ DROは、利用可能な任意の時点からシステムを回復できるよ�
 
 
 
-== 利点
+== メリット
 
 * 効率性と耐障害性に優れたSnapMirrorレプリケーションの使用：
 * Snapshotコピーの保持により、任意の時点までのリカバリが可能

@@ -42,7 +42,7 @@ summary: このページでは、 VMware vSphere 環境に NetApp ONTAP スト�
 * ネットワークスイッチ
 +
 ** FCoE のサポート
-** DCB のサポート
+** DCBサポート
 ** link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.dot-cm-sanag/GUID-16DEF659-E9C8-42B0-9B94-E5C5E2FEFF9C.html++["FCoE のジャンボフレーム"]
 
 
@@ -53,8 +53,8 @@ summary: このページでは、 VMware vSphere 環境に NetApp ONTAP スト�
 
 == VMFS データストアをプロビジョニングする
 
-* との互換性を確認します https://mysupport.netapp.com/matrix["Interoperability Matrix Tool （ IMT ）"]。
-* link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-7D444A0D-02CE-4A21-8017-CB1DC99EFD9A.html++["FCoE 構成がサポートされていることを確認します"]。
+* との互換性を確認します https://mysupport.netapp.com/matrix["Interoperability Matrix Tool（IMT）"]。
+* link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-7D444A0D-02CE-4A21-8017-CB1DC99EFD9A.html++["FCoE 構成がサポートされていることを確認します"]です。
 
 
 
@@ -63,8 +63,8 @@ summary: このページでは、 VMware vSphere 環境に NetApp ONTAP スト�
 
 . link:https://docs.netapp.com/us-en/ontap-cli-98/system-license-show.html["FCP の ONTAP ライセンスを確認します。"]
 +
-.. 「 system license show 」コマンドを使用して、 FCP が一覧表示されていることを確認します。
-.. ライセンスを追加するには 'license add-license-code <license code> を使用します
+.. コマンドを使用し `system license show`て、FCPが表示されていることを確認します。
+.. ライセンスを追加する場合に使用し `license add -license-code <license code>`ます。
 
 
 . SVM で FCP プロトコルが有効になっていることを確認します。
@@ -76,18 +76,18 @@ summary: このページでは、 VMware vSphere 環境に NetApp ONTAP スト�
 
 . FCP 論理インターフェイスが SVM で使用可能になっていることを確認します。
 +
-.. 「 Network Interface show 」を使用して、 FCP アダプタを確認します。
+.. FCPアダプタの確認に使用し `Network Interface show`ます。
 .. GUI を使用して SVM を作成する場合、論理インターフェイスはそのプロセスの一部です。
-.. ネットワーク・インターフェイスの名前を変更するには ' Network Interface modify を使用します
+.. ネットワークインターフェイスの名前を変更するには、を使用し `Network Interface modify`ます。
 
 
-. link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.dot-cm-sanag/GUID-D4DAC7DB-A6B0-4696-B972-7327EE99FD72.html++["LUN を作成してマッピングします"]； VMware vSphere 用の ONTAP ツールを使用する場合は、この手順を省略してください。
+. link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.dot-cm-sanag/GUID-D4DAC7DB-A6B0-4696-B972-7327EE99FD72.html++["LUN を作成してマッピングします"]；ONTAP tools for VMware vSphereを使用している場合は、この手順を省略してください。
 
 
 
 
 == VMware vSphere タスク
 
-. HBA ドライバがインストールされていることを確認しますVMware がサポートする HBA には、すぐに使用できるドライバとが付属しています は、に表示されている必要があります link:++https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-ED20B7BE-0D1C-4BF7-85C9-631D45D96FEC.html++["ストレージアダプタ情報"]。
-. link:++https://docs.netapp.com/vapp-98/topic/com.netapp.doc.vsc-iag/GUID-D7CAD8AF-E722-40C2-A4CB-5B4089A14B00.html++["ONTAP ツールを使用して VMFS データストアをプロビジョニングする"]。
+. HBA ドライバがインストールされていることを確認しますVMwareがサポートするHBAにはドライバがあらかじめ導入されているため、に表示されます。link:++https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-ED20B7BE-0D1C-4BF7-85C9-631D45D96FEC.html++["ストレージアダプタ情報"]
+. link:++https://docs.netapp.com/vapp-98/topic/com.netapp.doc.vsc-iag/GUID-D7CAD8AF-E722-40C2-A4CB-5B4089A14B00.html++["ONTAP ツールを使用して VMFS データストアをプロビジョニングする"]です。
 

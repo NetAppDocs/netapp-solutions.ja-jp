@@ -43,7 +43,7 @@ summary:
 VMware vSphereは、物理リソースをコンピューティング、ネットワーク、ストレージのプールに変換して、お客様のワークロードやアプリケーションの要件を満たす仮想化プラットフォームです。VMware vSphereの主なコンポーネントは次のとおりです。
 
 * * ESXi *- VMwareのハイパーバイザー。コンピューティングプロセッサ、メモリ、ネットワーク、その他のリソースを抽象化し、仮想マシンやコンテナワークロードで使用できるようにします。
-* * vCenter *- VMware vCenterは、仮想インフラストラクチャの一部としてコンピューティングリソース、ネットワーク、およびストレージとやり取りするための一元管理プラットフォームです。vCenterは、仮想インフラの管理を簡易化するうえで重要な役割を果たします。
+* * vCenter *- VMware vCenterは、仮想インフラストラクチャの一部としてコンピューティングリソース、ネットワーク、およびストレージとやり取りするための一元管理プラットフォームです。vCenterは、仮想インフラストラクチャの管理を簡素化するうえで重要な役割を果たします。
 
 
 
@@ -64,7 +64,7 @@ vSphere 8.0では、次のような新しい機能強化が導入されていま
 
 *統合されたKubernetes Runtime *- vSphere 8.0にはTanzuが含まれているため、コンテナオーケストレーションが簡素化されます。
 
-詳細については、ブログを参照してください。 https://core.vmware.com/resource/whats-new-vsphere-8/["vSphere 8の新機能"]。
+詳細については、ブログを参照してください https://core.vmware.com/resource/whats-new-vsphere-8/["vSphere 8の新機能"]。
 
 
 
@@ -74,7 +74,7 @@ VVOLは、vSphereクラスタのストレージ管理に対する革新的な新
 
 VVOLは、ストレージ管理を簡易化したアプローチであり、ユースケースによっては推奨されます。
 
-VVOLの詳細については、を参照してください。 https://core.vmware.com/resource/vvols-getting-started-guide["vVolスタートガイド"]。
+VVOLの詳細については、を参照してください https://core.vmware.com/resource/vvols-getting-started-guide["vVolスタートガイド"]。
 
 
 
@@ -82,7 +82,7 @@ VVOLの詳細については、を参照してください。 https://core.vmwar
 
 vSphere 8.0リリースでは、NVMe-TCPおよびNVMe-FCでVVOLが完全にサポートされるようになり、NVMeがエンドツーエンドでサポートされるようになりました。
 
-vSphereでのNVMeの使用の詳細については、を参照してください。 https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-storage/GUID-2A80F528-5B7D-4BE9-8EF6-52E2301DC423.html["VMware NVMe Storageについて"] を参照してください。
+vSphereでのNVMeの使用の詳細については、vSphere Storageのドキュメントのを参照してください https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-storage/GUID-2A80F528-5B7D-4BE9-8EF6-52E2301DC423.html["VMware NVMe Storageについて"]。
 
 '''
 
@@ -112,8 +112,7 @@ NetApp Snapshotコピー：VMまたはデータストアのSnapshotコピー。S
 
 NetApp ONTAPは、VMware環境向けの堅牢なディザスタリカバリソリューションを提供します。これらのソリューションでは、プライマリストレージシステムとセカンダリストレージシステム間のSnapMirrorレプリケーションテクノロジを活用して、障害発生時のフェイルオーバーと迅速なリカバリを実現します。
 
-* Storage Replication Adapter：*
-NetApp Storage Replication Adapter（SRA）は、NetAppストレージシステムとVMware Site Recovery Manager（SRM）を統合するソフトウェアコンポーネントです。NetAppストレージアレイ間での仮想マシン（VM）データのレプリケーションを簡易化し、堅牢なデータ保護機能とディザスタリカバリ機能を提供します。SRAは、SnapMirrorとSnapVaultを使用して、異なるストレージシステムや地理的な場所間でVMデータのレプリケーションを実現します。
+* Storage Replication Adapter：* NetApp Storage Replication Adapter（SRA）は、NetAppストレージシステムとVMware Site Recovery Manager（SRM）を統合するソフトウェアコンポーネントです。NetAppストレージアレイ間での仮想マシン（VM）データのレプリケーションを簡易化し、堅牢なデータ保護機能とディザスタリカバリ機能を提供します。SRAは、SnapMirrorとSnapVaultを使用して、異なるストレージシステムや地理的な場所間でVMデータのレプリケーションを実現します。
 
 このアダプタは、SnapMirrorテクノロジを使用してStorage Virtual Machine（SVM）レベルで非同期レプリケーションを提供し、SANストレージ環境（iSCSIおよびFC）のVMFSとNASストレージ環境のNFSの両方のサポートを拡張します。
 
@@ -121,17 +120,15 @@ NetApp SRAは、ONTAP Tools for VMware vSphereの一部としてインストー�
 
 image:vmware-asa-image3.png["幅= 800"]
 
-SRM用NetApp Storage Replication Adapterの詳細については、を参照してください。 https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-srm-overview.html["VMware Site Recovery ManagerとNetApp ONTAP"]。
+SRM用NetApp Storage Replication Adapterの詳細については、を参照してください https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-srm-overview.html["VMware Site Recovery ManagerとNetApp ONTAP"]。
 
-* SnapMirrorビジネス継続性：*
-SnapMirrorは、ストレージシステム間でデータの同期レプリケーションを提供するNetAppのデータレプリケーションテクノロジです。データの複数のコピーを別 々 の場所に作成できるため、災害やデータ損失が発生した場合にデータをリカバリできます。SnapMirrorでは、レプリケーション頻度の点で柔軟性が高く、バックアップとリカバリの目的でデータのポイントインタイムコピーを作成できます。SM-BCは、整合グループレベルでデータをレプリケートします。
+* SnapMirrorビジネス継続性：* SnapMirrorは、ストレージシステム間でデータの同期レプリケーションを提供するNetAppデータレプリケーションテクノロジです。データの複数のコピーを別 々 の場所に作成できるため、災害やデータ損失が発生した場合にデータをリカバリできます。SnapMirrorでは、レプリケーション頻度の点で柔軟性が高く、バックアップとリカバリの目的でデータのポイントインタイムコピーを作成できます。SM-BCは、整合グループレベルでデータをレプリケートします。
 
 image:vmware-asa-image4.png["幅= 800"]
 
-詳細については、SnapMirrorを参照してください。 https://docs.netapp.com/us-en/ontap/smbc/["ビジネス継続性の概要"]。
+詳細については、『SnapMirror』を参照して https://docs.netapp.com/us-en/ontap/smbc/["ビジネス継続性の概要"]ください。
 
-* NetApp MetroCluster：*
-NetApp MetroClusterは、地理的に分散した2つのNetAppストレージシステム間で同期データレプリケーションを提供する、高可用性とディザスタリカバリの解決策です。サイト全体で障害が発生した場合でも、データの可用性と保護を継続的に確保できるように設計されています。
+* NetApp MetroCluster：* NetApp MetroClusterは、地理的に分散した2つのNetAppストレージシステム間で同期データレプリケーションを提供する、高可用性およびディザスタリカバリソリューションです。サイト全体で障害が発生した場合でも、データの可用性と保護を継続的に確保できるように設計されています。
 
 MetroClusterは、SyncMirrorを使用して、RAIDレベルのすぐ上でデータを同期的にレプリケートします。SyncMirrorは、同期モードと非同期モードを効率的に移行するように設計されています。これにより、セカンダリサイトに一時的にアクセスできなくなった場合でも、プライマリストレージクラスタはレプリケートされない状態で動作し続けることができます。また、接続がリストアされると、SyncMirrorはRPO=0の状態にレプリケートされます。
 
@@ -139,7 +136,7 @@ MetroClusterは、IPベースのネットワークまたはファイバチャネ
 
 image:vmware-asa-image5.png["幅= 800"]
 
-MetroClusterのアーキテクチャと構成の詳細については、 https://docs.netapp.com/us-en/ontap-metrocluster["MetroClusterドキュメントサイト"]。
+MetroClusterのアーキテクチャと構成の詳細については、を参照してください https://docs.netapp.com/us-en/ontap-metrocluster["MetroClusterドキュメントサイト"]。
 
 
 
@@ -184,7 +181,7 @@ CシリーズQLCフラッシュアレイは、大容量のユースケースを�
 
 image:vmware-asa-image2.png["幅= 800"]
 
-詳細については、 https://www.netapp.com/data-storage/all-flash-san-storage-array["NetApp ASAランディングページ"]。
+詳細については、を参照してください https://www.netapp.com/data-storage/all-flash-san-storage-array["NetApp ASAランディングページ"]。
 
 
 
@@ -216,11 +213,11 @@ iSCSI構成の設計ガイダンスについては、を参照してください
 
 *ファイバ・チャネル*- NetApp ASAは'SAN（ストレージ・エリア・ネットワーク）で一般的に使用される高速ネットワーク・テクノロジーであるファイバ・チャネル（FC）を包括的にサポートしますONTAPはFCインフラとシームレスに統合されるため、ストレージデバイスへの信頼性と効率性に優れたブロックレベルアクセスが実現します。ゾーニング、マルチパス、ファブリックログイン（FLOGI）などの機能を使用して、FC環境でのパフォーマンスの最適化、セキュリティの強化、シームレスな接続の確保を実現します。
 
-ファイバチャネル構成の設計ガイダンスについては、を参照してください。 https://docs.netapp.com/us-en/ontap/san-config/fc-config-concept.html["SAN構成のリファレンスドキュメント"]。
+ファイバチャネル構成の設計ガイダンスについては、を参照してください https://docs.netapp.com/us-en/ontap/san-config/fc-config-concept.html["SAN構成のリファレンスドキュメント"]。
 
 * NVMe over Fabrics *- NetApp ONTAPおよびASAはNVMe over Fabricsをサポートします。NVMe/FCでは、Fibre Channelインフラ経由のNVMeストレージデバイスと、NVMe/TCP over Storage IPネットワークを使用できます。
 
-NVMeに関する設計ガイダンスについては、を参照してください。 https://docs.netapp.com/us-en/ontap/nvme/support-limitations.html["NVMeの構成、サポート、制限事項"]。
+NVMeに関する設計ガイダンスについては、を参照してください https://docs.netapp.com/us-en/ontap/nvme/support-limitations.html["NVMeの構成、サポート、制限事項"]。
 
 
 
@@ -246,7 +243,7 @@ NetAppでは、NetAppオールフラッシュSANアレイ独自のストレー�
 
 *ランサムウェアからのリカバリ保証：*ランサムウェア攻撃が発生した場合のデータリカバリが保証されます。
 
-を参照してください https://www.netapp.com/data-storage/all-flash-san-storage-array/["NetApp ASA製品ポータル"] を参照してください。
+詳細については、を参照してください https://www.netapp.com/data-storage/all-flash-san-storage-array/["NetApp ASA製品ポータル"]。
 
 '''
 
@@ -257,10 +254,9 @@ NetAppストレージサービスは、次のプラグインを使用するこ�
 
 
 
-==== VMware vSphere 向け ONTAP ツール
+==== VMware vSphere向けONTAPツール
 
-ONTAP Tools for VMwareを使用すると、管理者はvSphere Clientから直接NetAppストレージを管理できます。ONTAPツールを使用すると、データストアの導入と管理、およびVVOLデータストアのプロビジョニングを行うことができます。
-ONTAPツールを使用すると、ストレージシステムの一連の属性を決定するストレージ機能プロファイルにデータストアをマッピングできます。これにより、ストレージのパフォーマンスやQoSなどの特定の属性を持つデータストアを作成できます。
+ONTAP Tools for VMwareを使用すると、管理者はvSphere Clientから直接NetAppストレージを管理できます。ONTAPツールを使用すると、データストアの導入と管理、およびVVOLデータストアのプロビジョニングを行うことができます。ONTAPツールを使用すると、ストレージシステムの一連の属性を決定するストレージ機能プロファイルにデータストアをマッピングできます。これにより、ストレージのパフォーマンスやQoSなどの特定の属性を持つデータストアを作成できます。
 
 ONTAPツールには、次のコンポーネントが含まれています。
 
@@ -270,7 +266,7 @@ ONTAPツールには、次のコンポーネントが含まれています。
 
 * Storage Replication Adapter（SRA）：* VMware Site Recovery Manager（SRM）で有効にして使用すると、障害発生時にvCenter Serverのデータストアと仮想マシンを簡単にリカバリできるため、ディザスタリカバリ用に保護対象サイトとリカバリサイトを設定できます。
 
-NetApp ONTAP Tools for VMwareの詳細については、を参照してください。 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["VMware vSphere ドキュメント用の ONTAP ツール"]。
+NetApp ONTAP tools for VMwareの詳細については、を参照してください https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["VMware vSphere ドキュメント用の ONTAP ツール"]。
 
 
 
@@ -290,11 +286,11 @@ SnapCenter Plug-in for VMware vSphereは、vSphere Clientと統合されたユ�
 
 SnapCenter Plug-inは、NetAppストレージアレイ上のハードウェアベースのスナップショットと連携して、仮想マシンの休止をオーケストレーションします。SnapMirrorテクノロジは、クラウドを含むセカンダリストレージシステムにバックアップのコピーをレプリケートするために使用されます。
 
-詳細については、を参照してください https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere["SnapCenter Plug-in for VMware vSphere のドキュメント"]。
+詳細については、を参照して https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere["SnapCenter Plug-in for VMware vSphereのドキュメント"]ください。
 
 BlueXPとの統合により、データのコピーをクラウド上のオブジェクトストレージに拡張する3-2-1ルールのバックアップ戦略が実現します。
 
-BlueXPを使用した3-2-1バックアップ戦略の詳細については、 https://community.netapp.com/t5/Tech-ONTAP-Blogs/3-2-1-Data-Protection-for-VMware-with-SnapCenter-Plug-in-and-BlueXP-backup-and/ba-p/446180["3-2-1 SnapCenterプラグインとBlueXPによるVMのバックアップとリカバリによるVMwareのデータ保護"]。
+BlueXP  を使用した3-2-1バックアップ戦略の詳細については、を参照してください https://community.netapp.com/t5/Tech-ONTAP-Blogs/3-2-1-Data-Protection-for-VMware-with-SnapCenter-Plug-in-and-BlueXP-backup-and/ba-p/446180["3-2-1 SnapCenterプラグインとBlueXPによるVMのバックアップとリカバリによるVMwareのデータ保護"]。
 
 '''
 
@@ -309,4 +305,4 @@ Cloud Insightsには、特定のタイプの問題領域やデータカテゴリ
 
 Cloud Insightsは、さまざまなデバイスからデータを収集するために設計された異機種混在ツールです。ただし、ONTAP Essentialsと呼ばれるテンプレートのライブラリがあり、NetAppのお客様はすぐに使い始めることができます。
 
-Cloud Insightsの使用を開始する方法の詳細については、 https://bluexp.netapp.com/cloud-insights["NetApp BlueXPとCloud Insightsのランディングページ"]。
+Cloud Insightsの使用を開始する方法の詳細については、を参照してください https://bluexp.netapp.com/cloud-insights["NetApp BlueXPとCloud Insightsのランディングページ"]。

@@ -65,7 +65,7 @@ test.binary.task.timeout.sec=3600
 producer.timeout.sec=3600
 consumer.timeout.sec=3600
 ....
-検証にはHTTPプロトコルにONTAP を使用しましたが、HTTPSも使用しました。アクセスキーとシークレットキーは、「 confliclus.tir.s3.cred.file.path 」パラメータで指定したファイル名に格納されます。
+検証にはHTTPプロトコルにONTAP を使用しましたが、HTTPSも使用しました。アクセスキーとシークレットキーは、パラメータで指定したファイル名に格納され `confluent.tier.s3.cred.file.path`ます。
 
 
 
@@ -111,4 +111,4 @@ image:kafka-sc-image8.png["この図は、検証用に単一のHAペアとして
 
 このテストでは、トピックの保持ワークロードが多い場合のオブジェクトストレージの削除パフォーマンスを確認しました。保存ワークロードは、テストトピックと並行して多数のメッセージを生成するTOCCスクリプトを使用して生成されました。テストトピックでは、サイズベースおよび時間ベースの強力な保持設定を使用してイベントストリームをオブジェクトストアから継続的にパージするように設定しました。その後、セグメントがアーカイブされました。その結果、ブローカーによるオブジェクトストレージの削除や、オブジェクトストアの削除処理のパフォーマンス収集が行われ、多くの削除が発生していました。
 
-検証の詳細については、を参照してください https://docs.confluent.io/platform/current/kafka/tiered-storage.html["矛盾する"^] Webサイト。
+確認の詳細については、Webサイトを参照して https://docs.confluent.io/platform/current/kafka/tiered-storage.html["矛盾する"^]ください。

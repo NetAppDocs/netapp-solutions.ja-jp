@@ -28,9 +28,9 @@ Oracleは、シングルインスタンスデータベースのフェーズア�
 
 次の手順では、1つのインスタンスデータベースをプラグイン可能なデータベースまたはPDBとしてコンテナデータベースに接続します。
 
-. シングルインスタンスデータベースと同じホスト上に別のホスト内にシェルコンテナデータベースを構築します `ORACLE_HOME`。
+. シングルインスタンスデータベースと同じホスト上にシェルコンテナデータベースを別のに構築し `ORACLE_HOME`ます。
 . シングルインスタンスデータベースをシャットダウンし、読み取り専用モードで再起動します。
-. を実行します `DBMS_PDB.DESCRIBE` 手順 を使用してデータベースメタデータを生成します。
+. 手順を実行し `DBMS_PDB.DESCRIBE`て、データベースメタデータを生成します。
 +
 [source, cli]
 ----
@@ -42,7 +42,7 @@ END;
 ----
 . シングルインスタンスデータベースをシャットダウンします。
 . コンテナデータベースを起動します。
-. を実行します `DBMS_PDB.CHECK_PLUG_COMPATIBILITY` 非CDBがCDBと互換性があるかどうかを判断する関数です。
+. 関数を実行し `DBMS_PDB.CHECK_PLUG_COMPATIBILITY`て、非CDBがCDBと互換性があるかどうかを確認します。
 +
 [source, cli]
 ----
@@ -64,7 +64,7 @@ END;
 出力がYESの場合は、CDB以外の互換性があるため、次の手順に進むことができます。
 
 +
-出力がnoの場合は、CDB以外の互換性がないため、を確認できます `PDB_PLUG_IN_VIOLATIONS` 互換性がない理由については、を参照してください。続行する前にすべての違反を修正する必要があります。たとえば、バージョンまたはパッチの不一致は、アップグレードユーティリティまたはopatchユーティリティを実行して解決する必要があります。違反を修正したら、を実行します `DBMS_PDB.CHECK_PLUG_COMPATIBILITY` この場合も、CDB以外のファイルがCDBと互換性があることを確認してください。
+出力がNOの場合、非CDBは互換性がないため、ビューで互換性がない理由を確認できます。 `PDB_PLUG_IN_VIOLATIONS`続行する前にすべての違反を修正する必要があります。たとえば、バージョンまたはパッチの不一致は、アップグレードユーティリティまたはopatchユーティリティを実行して解決する必要があります。違反を修正したら、を再度実行して、 `DBMS_PDB.CHECK_PLUG_COMPATIBILITY`非CDBがCDBと互換性があることを確認します。
 
 . 単一インスタンスの非CDBを接続します。
 +
@@ -77,7 +77,7 @@ CREATE PLUGGABLE DATABASE ncdb USING '/home/oracle/ncdb.xml'
 ----
 +
 
-NOTE: ホストに十分なスペースがない場合は、を実行します `NOCOPY` オプションを使用してPDBを作成できます。この場合、元のデータファイルがPDBに使用されているため、PDBとしてプラグインしたあとは、単一インスタンスの非CDBは使用できません。変換前にバックアップを作成し、何か問題が発生したときに元に戻す必要があるものがあることを確認してください。
+NOTE: ホストに十分なスペースがない場合は、 `NOCOPY`オプションを使用してPDBを作成できます。この場合、元のデータファイルがPDBに使用されているため、PDBとしてプラグインしたあとは、単一インスタンスの非CDBは使用できません。変換前にバックアップを作成し、何か問題が発生したときに元に戻す必要があるものがあることを確認してください。
 
 . ソースのシングルインスタンス非CDBとターゲットCDBとの間のバージョンが異なる場合は、変換後にPDBアップグレードを開始してください。バージョンが同じ場合は、この手順をスキップできます。
 +
@@ -90,7 +90,7 @@ exit;
 dbupgrade -c ncdb -l /home/oracle
 ----
 +
-のアップグレードログファイルを確認します `/home/oracle` ディレクトリ。
+ディレクトリのアップグレードログファイルを確認します `/home/oracle`。
 
 . プラグイン可能なデータベースを開き、PDBプラグイン違反がないかどうかを確認し、無効なオブジェクトを再コンパイルします。
 +
@@ -101,7 +101,7 @@ alter session set container=ncdb;
 select message from pdb_plug_in_violations where type like '%ERR%' and status <> 'RESOLVED';
 $ORACLE_HOME/perl/bin/perl $ORACLE_HOME/rdbms/admin/catcon.pl -n 1 -c 'ncdb' -e -b utlrp -d $ORACLE_HOME/rdbms/admin utlrp.sql
 ----
-. 実行 `noncdb_to_pdb.sql` データディクショナリを更新します。
+. を実行し `noncdb_to_pdb.sql`てデータディクショナリを更新します。
 +
 [source, cli]
 ----
@@ -162,4 +162,4 @@ NOTE: Ansibleコントローラは、オンプレミスとAzureクラウドの�
 
 == その他のOracleデータベース移行オプション
 
-その他の移行オプションについては、Microsoftのドキュメントを参照してください。 link:https://learn.microsoft.com/en-us/azure/architecture/example-scenario/oracle-migrate/oracle-migration-overview["Oracleデータベースの移行を決定するプロセス"^]。
+その他の移行オプションについては、Microsoftのドキュメントを参照してください。link:https://learn.microsoft.com/en-us/azure/architecture/example-scenario/oracle-migrate/oracle-migration-overview["Oracleデータベースの移行を決定するプロセス"^]

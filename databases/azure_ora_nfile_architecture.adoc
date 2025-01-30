@@ -4,7 +4,7 @@ permalink: databases/azure_ora_nfile_architecture.html
 summary: このセクションでは、Azure仮想マシンとAzure NetApp Files ストレージを使用するOracleデータベースの導入とデータ保護の解決策 アーキテクチャについて説明します。 
 keywords: architecture, database, Oracle, Azure, Azure NetApp Files 
 ---
-= 解決策アーキテクチャ
+= ソリューションアーキテクチャ
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -28,4 +28,4 @@ image:db_ora_azure_anf_architecture.png["この図は、プライマリサイト
 
 image:db_ora_azure_anf_architecture2.png["この図は、VNetピアリングを備えた単一のAzure VMを構成し、2つの独立した仮想ネットワークを構成したものです。"]
 
-Azure Oracle環境は、ネットアップが提供するツールキットを使用して、Ansibleコントローラノードで管理して、データベースの導入、バックアップ、リカバリ、データベースの移行を実行できます。Oracle Azure VMインスタンスのオペレーティングシステムカーネルやOracleパッチの適用を更新するたびに、プライマリとスタンバイの同期を維持するために、更新を並行して実行することができます。実際、初期ツールキットを簡単に拡張して、必要に応じて日 々 のOracleタスクを実行できます。CLIのAnsibleコントローラのセットアップに関するヘルプが必要な場合は、を参照してください link:../automation/automation_introduction.html["NetApp 解決策の自動化"^] をダウンロードしてご確認ください。
+Azure Oracle環境は、ネットアップが提供するツールキットを使用して、Ansibleコントローラノードで管理して、データベースの導入、バックアップ、リカバリ、データベースの移行を実行できます。Oracle Azure VMインスタンスのオペレーティングシステムカーネルやOracleパッチの適用を更新するたびに、プライマリとスタンバイの同期を維持するために、更新を並行して実行することができます。実際、初期ツールキットを簡単に拡張して、必要に応じて日 々 のOracleタスクを実行できます。CLI Ansibleコントローラのセットアップについてサポートが必要な場合は、を参照して開始してくださいlink:../automation/automation_introduction.html["NetApp 解決策の自動化"^]。

@@ -25,11 +25,11 @@ NOTE: 作業を簡単に進めるために、 AWS への導入に基づいて本
 
 
 
-=== 1. 事前フライトチェック
+=== 1.フライト前チェック
 
 導入前に、次の段階で導入できるようにインフラが設置されていることを確認してください。これには次のものが含まれます。
 
-* AWS アカウント
+* AWSアカウント
 * 選択した地域の VPC
 * パブリックインターネットにアクセスできるサブネット
 * AWS アカウントに IAM ロールを追加する権限
@@ -38,16 +38,16 @@ NOTE: 作業を簡単に進めるために、 AWS への導入に基づいて本
 
 
 
-=== 2. AWS に Cloud Manager と Cloud Volumes ONTAP を導入する手順
+=== 2.AWS に Cloud Manager と Cloud Volumes ONTAP を導入する手順
 
 
-NOTE: Cloud Manager と Cloud Volumes ONTAP を導入する方法は多数あります。最もシンプルですが、最も多くの権限が必要です。お使いの AWS 環境にこの方法が適していない場合は、を参照してください https://docs.netapp.com/us-en/occm/task_creating_connectors_aws.html["ネットアップのクラウドに関するドキュメント"^]。
+NOTE: Cloud Manager と Cloud Volumes ONTAP を導入する方法は多数あります。最もシンプルですが、最も多くの権限が必要です。この方法がAWS環境に適していない場合は、を参照してください https://docs.netapp.com/us-en/occm/task_creating_connectors_aws.html["ネットアップのクラウドに関するドキュメント"^]。
 
 
 
 ==== Cloud Manager Connector を導入します
 
-. に移動します https://cloud.netapp.com/cloud-manager["NetApp Cloud Central"^] ログインまたはサインアップします。
+. に移動し https://cloud.netapp.com/cloud-manager["NetApp Cloud Central"^]てログインするか、サインアップします。
 +
 image:cloud_central_login_page.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
@@ -67,11 +67,11 @@ image:cloud_central_add_conn_1.png["入力/出力ダイアログを示す図、�
 +
 image:cloud_central_add_conn_3.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-. シークレットキーとアクセスキーを入力します。ユーザに、で概説されている正しい権限があることを確認します https://mysupport.netapp.com/site/info/cloud-manager-policies["ネットアップのポリシーのページ"^]。
+. シークレットキーとアクセスキーを入力します。で説明されている正しい権限がユーザに割り当てられていることを確認し https://mysupport.netapp.com/site/info/cloud-manager-policies["ネットアップのポリシーのページ"^]ます。
 +
 image:cloud_central_add_conn_4.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-. コネクタに名前を付け、の説明に従って事前定義されたロールを使用する https://mysupport.netapp.com/site/info/cloud-manager-policies["ネットアップのポリシーのページ"^] または、 Cloud Manager にロールの作成を依頼してください。
+. コネクタに名前を付け、の説明に従って事前定義されたロールを使用する https://mysupport.netapp.com/site/info/cloud-manager-policies["ネットアップのポリシーのページ"^]か、Cloud Managerにロールの作成を依頼します。
 +
 image:cloud_central_add_conn_5.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
@@ -153,7 +153,7 @@ image:cloud_central_add_we_10.png["入力/出力ダイアログを示す図、�
 
 
 
-. 導入する追加サービスを選択します。これらのサービスの詳細については、を参照してください https://cloud.netapp.com["ネットアップクラウドのホームページ"^]。
+. 導入する追加サービスを選択します。これらのサービスの詳細については、を参照して https://cloud.netapp.com["ネットアップクラウドのホームページ"^]ください。
 +
 image:cloud_central_add_we_11.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
@@ -174,7 +174,7 @@ image:cloud_central_add_we_14.png["入力/出力ダイアログを示す図、�
 
 TIP: メディエーターは AWS API との通信を必要とします。メディエーター EC2 インスタンスを導入したあとで API にアクセスできる場合は、パブリック IP アドレスは必要ありません。
 
-. フローティング IP アドレスは、クラスタ管理 IP やデータサービス IP など、 Cloud Volumes ONTAP で使用されるさまざまな IP アドレスへのアクセスを許可するために使用されます。これらのアドレスは、ネットワーク内でルーティングされていないアドレスである必要があり、 AWS 環境のルーティングテーブルに追加されます。これらのアドレスは、フェイルオーバー時に HA ペアの一貫した IP アドレスを有効にするために必要です。フローティング IP アドレスの詳細については、を参照してください https://docs.netapp.com/us-en/occm/reference_networking_aws.html#requirements-for-ha-pairs-in-multiple-azs["ネットアップのクラウドに関するドキュメント"^]。
+. フローティング IP アドレスは、クラスタ管理 IP やデータサービス IP など、 Cloud Volumes ONTAP で使用されるさまざまな IP アドレスへのアクセスを許可するために使用されます。これらのアドレスは、ネットワーク内でルーティングされていないアドレスである必要があり、 AWS 環境のルーティングテーブルに追加されます。これらのアドレスは、フェイルオーバー時に HA ペアの一貫した IP アドレスを有効にするために必要です。フローティングIPアドレスの詳細については、を参照し https://docs.netapp.com/us-en/occm/reference_networking_aws.html#requirements-for-ha-pairs-in-multiple-azs["ネットアップのクラウドに関するドキュメント"^]てください。
 +
 image:cloud_central_add_we_15.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
@@ -226,7 +226,7 @@ image:cloud_central_add_we_25.png["入力/出力ダイアログを示す図、�
 
 ソース ONTAP システムとデスティネーション ONTAP システムが導入されたので、データベースデータを含むボリュームをクラウドにレプリケートできます。
 
-互換性のある SnapMirror の ONTAP バージョンに関するガイドについては、を参照してください https://docs.netapp.com/ontap-9/index.jsp?topic=%2Fcom.netapp.doc.pow-dap%2FGUID-0810D764-4CEA-4683-8280-032433B1886B.html["SnapMirror Compatibility Matrix を参照してください"^]。
+SnapMirrorと互換性のあるONTAPバージョンのガイドについては、を参照してください https://docs.netapp.com/ontap-9/index.jsp?topic=%2Fcom.netapp.doc.pow-dap%2FGUID-0810D764-4CEA-4683-8280-032433B1886B.html["SnapMirror Compatibility Matrix を参照してください"^]。
 
 . ソース ONTAP システム（オンプレミス）をクリックし、宛先にドラッグアンドドロップするか、 Replication （レプリケーション） > Enable （有効）を選択するか、 Replication （レプリケーション） > Menu （メニュー） > Replicate （複製）を選択します。
 +
@@ -262,7 +262,7 @@ image:cloud_central_replication_6.png["入力/出力ダイアログを示す図�
 +
 image:cloud_central_replication_7.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-. デスティネーション・ボリューム名を選択します [source_volume_name] _dr] を選択します
+. デスティネーションボリューム名を選択します：を選択しました `[source_volume_name]_dr`。
 +
 image:cloud_central_replication_8.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
@@ -292,16 +292,16 @@ image:cloud_central_replication_13.png["入力/出力ダイアログを示す図
 
 
 
-=== 3. データベースワークロードの EC2 コンピューティングインスタンスを導入します
+=== 3.データベースワークロードの EC2 コンピューティングインスタンスを導入します
 
-AWS では、さまざまなワークロードに対して EC2 コンピューティングインスタンスが事前に設定されていますインスタンスタイプの選択によって、 CPU コア数、メモリ容量、ストレージタイプと容量、およびネットワークパフォーマンスが決まります。OS パーティションを除き、データベースワークロードを実行するメインストレージは、 CVO または FSX ONTAP ストレージエンジンから割り当てられます。したがって、考慮すべき主な要因は、 CPU コア、メモリ、およびネットワークパフォーマンスレベルの選択です。一般的な AWS EC2 インスタンスタイプは次のとおりです。 https://us-east-2.console.aws.amazon.com/ec2/v2/home?region=us-east-2#InstanceTypes:["EC2 インスタンスタイプ"]。
+AWS では、さまざまなワークロードに対して EC2 コンピューティングインスタンスが事前に設定されていますインスタンスタイプの選択によって、 CPU コア数、メモリ容量、ストレージタイプと容量、およびネットワークパフォーマンスが決まります。OS パーティションを除き、データベースワークロードを実行するメインストレージは、 CVO または FSX ONTAP ストレージエンジンから割り当てられます。したがって、考慮すべき主な要因は、 CPU コア、メモリ、およびネットワークパフォーマンスレベルの選択です。一般的なAWS EC2インスタンスタイプについては、を参照してください。 https://us-east-2.console.aws.amazon.com/ec2/v2/home?region=us-east-2#InstanceTypes:["EC2 インスタンスタイプ"]
 
 
 
 ==== コンピューティングインスタンスのサイズを決定します
 
 . 必要なワークロードに基づいて適切なインスタンスタイプを選択します。考慮すべき要因としては、サポートされるビジネストランザクションの数、同時ユーザの数、データセットのサイジングなどがあります。
-. EC2 インスタンスの導入は、 EC2 ダッシュボードから実行できます。具体的な導入手順については、この解決策では説明していません。を参照してください https://aws.amazon.com/pm/ec2/?trk=ps_a134p000004f2ZGAAY&trkCampaign=acq_paid_search_brand&sc_channel=PS&sc_campaign=acquisition_US&sc_publisher=Google&sc_category=Cloud%20Computing&sc_country=US&sc_geo=NAMER&sc_outcome=acq&sc_detail=%2Bec2%20%2Bcloud&sc_content=EC2%20Cloud%20Compute_bmm&sc_matchtype=b&sc_segment=536455698896&sc_medium=ACQ-P|PS-GO|Brand|Desktop|SU|Cloud%20Computing|EC2|US|EN|Text&s_kwcid=AL!4422!3!536455698896!b!!g!!%2Bec2%20%2Bcloud&ef_id=EAIaIQobChMIua378M-p8wIVToFQBh0wfQhsEAMYASAAEgKTzvD_BwE:G:s&s_kwcid=AL!4422!3!536455698896!b!!g!!%2Bec2%20%2Bcloud["Amazon EC2"] を参照してください。
+. EC2 インスタンスの導入は、 EC2 ダッシュボードから実行できます。具体的な導入手順については、この解決策では説明していません。詳細は、を参照してください https://aws.amazon.com/pm/ec2/?trk=ps_a134p000004f2ZGAAY&trkCampaign=acq_paid_search_brand&sc_channel=PS&sc_campaign=acquisition_US&sc_publisher=Google&sc_category=Cloud%20Computing&sc_country=US&sc_geo=NAMER&sc_outcome=acq&sc_detail=%2Bec2%20%2Bcloud&sc_content=EC2%20Cloud%20Compute_bmm&sc_matchtype=b&sc_segment=536455698896&sc_medium=ACQ-P|PS-GO|Brand|Desktop|SU|Cloud%20Computing|EC2|US|EN|Text&s_kwcid=AL!4422!3!536455698896!b!!g!!%2Bec2%20%2Bcloud&ef_id=EAIaIQobChMIua378M-p8wIVToFQBh0wfQhsEAMYASAAEgKTzvD_BwE:G:s&s_kwcid=AL!4422!3!536455698896!b!!g!!%2Bec2%20%2Bcloud["Amazon EC2"]。
 
 
 
@@ -313,7 +313,7 @@ AWS では、さまざまなワークロードに対して EC2 コンピュー�
 . SnapCenter 管理ドメイン内で名前解決のために、 Oracle スタンバイインスタンスを DNS サーバに追加します。
 . パスワードなしの sudo 権限で SnapCenter OS のクレデンシャルとして Linux 管理ユーザ ID を追加します。EC2 インスタンスで SSH パスワード認証を使用する ID を有効にします。（デフォルトでは、 EC2 インスタンスで SSH パスワード認証とパスワードなしの sudo は無効になっています）。
 . OS パッチ、 Oracle のバージョン、パッチなど、オンプレミスの Oracle インストールと一致するように Oracle インストールを設定します。
-. NetApp Ansible DB 自動化ロールを使用して、データベースの開発 / テストとディザスタリカバリのユースケース用に EC2 インスタンスを設定できます。自動化コードは、 NetApp パブリックの GitHub サイトからダウンロードできます。 https://github.com/NetApp-Automation/na_oracle19c_deploy["Oracle 19C 自動導入"^]。目的は、データベースソフトウェアスタックを EC2 インスタンスにインストールして設定し、オンプレミスの OS とデータベースの設定を一致させることです。
+. NetApp Ansible DB 自動化ロールを使用して、データベースの開発 / テストとディザスタリカバリのユースケース用に EC2 インスタンスを設定できます。自動化コードは、NetAppのパブリックGitHubサイトからダウンロードできます https://github.com/NetApp-Automation/na_oracle19c_deploy["Oracle 19C 自動導入"^]。目的は、データベースソフトウェアスタックを EC2 インスタンスにインストールして設定し、オンプレミスの OS とデータベースの設定を一致させることです。
 
 
 
@@ -326,5 +326,5 @@ AWS では、さまざまなワークロードに対して EC2 コンピュー�
 . Windows ファイアウォールを無効にし、ホストを Windows SnapCenter ドメインに追加し、名前解決のために DNS サーバにインスタンスを追加します。
 . SQL Server ログファイルを格納する SnapCenter ログボリュームをプロビジョニングします。
 . Windows ホストで iSCSI を構成し、ボリュームをマウントしてディスクドライブをフォーマットします。
-. 繰り返しになりますが、これまでのタスクの多くは、 NetApp Automation 解決策 for SQL Server を使用して自動化することができます。NetApp Automation のパブリック GitHub サイトで、新たに公開されたロールとソリューションを確認できます。 https://github.com/NetApp-Automation["NetApp の自動化"^]。
+. 繰り返しになりますが、これまでのタスクの多くは、 NetApp Automation 解決策 for SQL Server を使用して自動化することができます。新しく公開された役割とソリューションについては、NetAppオートメーションのパブリックGitHubサイトを参照してください。 https://github.com/NetApp-Automation["NetApp の自動化"^]
 

@@ -25,7 +25,7 @@ ONTAPデータストアでホストされるVMは、SnapCenter Plugin for VMware
 お客様は、ONTAP Tools vCenter Plug-inを使用してデータストアを簡単にプロビジョニングできます。また、そのAPIとVMは、電源がオンの状態でもONTAPデータストアに移行できます。
 
 
-NOTE: ARIA AutomationやTanzu（またはその他のKubernetesフレーバー）などの外部管理ツールを使用して導入されるVMの中には、通常、VMストレージポリシーに依存するものがあります。同じVMストレージポリシー内のデータストア間で移行する場合は、アプリケーションへの影響は小さくなります。これらのVMを新しいデータストアに適切に移行するには、アプリケーションの所有者に確認してください。vSphere 8の導入 https://core.vmware.com/resource/vsphere-vmotion-notifications["VMotion通知"] をクリックしてvMotion用のアプリケーションを準備します。
+NOTE: ARIA AutomationやTanzu（またはその他のKubernetesフレーバー）などの外部管理ツールを使用して導入されるVMの中には、通常、VMストレージポリシーに依存するものがあります。同じVMストレージポリシー内のデータストア間で移行する場合は、アプリケーションへの影響は小さくなります。これらのVMを新しいデータストアに適切に移行するには、アプリケーションの所有者に確認してください。vMotion用のアプリケーションを準備するために、vSphere 8が導入されました。 https://core.vmware.com/resource/vsphere-vmotion-notifications["VMotion通知"]
 
 
 
@@ -55,7 +55,7 @@ TIP: vMotionおよびProvisioning VMkernelインターフェイスで使用す�
 VMotionは、電源状態に関係なくVMを移行するためによく使用されます。以下では、特定のシナリオに対するその他の考慮事項と移行の手順について説明します。
 
 
-NOTE: 理解する https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-vcenter-esxi-management/GUID-0540DF43-9963-4AF9-A4DB-254414DC00DA.html["vSphere vMotionのVMの条件と制限事項"] VMの移行オプションを実行する前に、
+NOTE: VMの移行オプションを開始する前に理解しておく https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-vcenter-esxi-management/GUID-0540DF43-9963-4AF9-A4DB-254414DC00DA.html["vSphere vMotionのVMの条件と制限事項"]必要があります。
 
 .特定のvSphereデータストアからのVMの移行
 [%collapsible]
@@ -74,7 +74,7 @@ image:migrate-vms-to-ontap-image04.png["移行するVM"]
 +
 image:migrate-vms-to-ontap-image05.png["ストレージのみの変更"]
 
-. 目的のVMストレージポリシーを選択し、互換性があるデータストアを選択します。次へをクリックします。
+. 目的のVMストレージポリシーを選択し、互換性があるデータストアを選択します。[Next]をクリックします。
 +
 image:migrate-vms-to-ontap-image06.png["VMストレージポリシーを満たすデータストア"]
 
@@ -127,7 +127,7 @@ image:migrate-vms-to-ontap-image04.png["移行するVM"]
 +
 image:migrate-vms-to-ontap-image05.png["ストレージのみの変更"]
 
-. 目的のVMストレージポリシーを選択し、互換性があるデータストアを選択します。次へをクリックします。
+. 目的のVMストレージポリシーを選択し、互換性があるデータストアを選択します。[Next]をクリックします。
 +
 image:migrate-vms-to-ontap-image06.png["VMストレージポリシーを満たすデータストア"]
 
@@ -170,7 +170,7 @@ TIP: データストアクラスタが完全に自動化されたStorage DRS（D
 [%collapsible]
 ====
 
-NOTE: を参照してください https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-vcenter-esxi-management/GUID-03E7E5F9-06D9-463F-A64F-D4EC20DAF22E.html["CPUの互換性とvSphere Enhanced vMotionの互換性"] ソースホストとターゲットホストのCPUファミリーまたはモデルが異なる場合。
+NOTE: ソースホストとターゲットホストのCPUファミリーまたはモデルが異なる場合を参照してください https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-vcenter-esxi-management/GUID-03E7E5F9-06D9-463F-A64F-D4EC20DAF22E.html["CPUの互換性とvSphere Enhanced vMotionの互換性"]。
 
 次の手順に従って、UIを使用してVMを新しいデータストアに移行します。
 
@@ -190,7 +190,7 @@ image:migrate-vms-to-ontap-image09.png["コンピューティングとストレ�
 +
 image:migrate-vms-to-ontap-image12.png["ターゲットクラスタを選択"]
 
-. 目的のVMストレージポリシーを選択し、互換性があるデータストアを選択します。次へをクリックします。
+. 目的のVMストレージポリシーを選択し、互換性があるデータストアを選択します。[Next]をクリックします。
 +
 image:migrate-vms-to-ontap-image13.png["VMストレージポリシーを満たすデータストア"]
 
@@ -261,7 +261,7 @@ image:migrate-vms-to-ontap-image09.png["コンピューティングとストレ�
 +
 image:migrate-vms-to-ontap-image12.png["ターゲットクラスタを選択"]
 
-. 目的のVMストレージポリシーを選択し、互換性があるデータストアを選択します。次へをクリックします。
+. 目的のVMストレージポリシーを選択し、互換性があるデータストアを選択します。[Next]をクリックします。
 +
 image:migrate-vms-to-ontap-image13.png["VMストレージポリシーを満たすデータストア"]
 
@@ -330,7 +330,7 @@ image:migrate-vms-to-ontap-image11.png["vCenter Server間エクスポート"]
 
 +
 
-TIP: VMはターゲットのvCenterサーバからインポートすることもできます。その手順について、 https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-vcenter-esxi-management/GUID-ED703E35-269C-48E0-A34D-CCBB26BFD93E.html["vCenter間の高度なvMotionを使用した仮想マシンのインポートまたはクローンの作成"]
+TIP: VMはターゲットのvCenterサーバからインポートすることもできます。この手順については、次を点検します： https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-vcenter-esxi-management/GUID-ED703E35-269C-48E0-A34D-CCBB26BFD93E.html["vCenter間の高度なvMotionを使用した仮想マシンのインポートまたはクローンの作成"]
 
 . vCenterクレデンシャルの詳細を入力し、[Login]をクリック
 +
@@ -395,27 +395,27 @@ $targetvm, $targetvmdisk | Get-SPBMEntityConfiguration
 [%collapsible]
 ====
 * NSXフェデレーションまたはその他のオプションを使用してレイヤ2トラフィックをデータセンター間で拡張する場合は、手順に従ってvCenterサーバ間でVMを移行します。
-* HCxは、 https://docs.vmware.com/en/VMware-HCX/4.8/hcx-user-guide/GUID-8A31731C-AA28-4714-9C23-D9E924DBB666.html["イコウノタイフ"] Replication Assisted vMotionをデータセンター全体に組み込み、ダウンタイムなしでVMを移動できます。
-* https://docs.vmware.com/en/Site-Recovery-Manager/index.html["Site Recovery Manager （ SRM ）"] 通常はディザスタリカバリを目的としたもので、ストレージアレイベースのレプリケーションを利用した計画的な移行にもよく使用されます。
-* 継続的なデータ保護（CDP）製品の使用 https://core.vmware.com/resource/vmware-vsphere-apis-io-filtering-vaio#section1["vSphere API for IO（VAIO）"] データを傍受し、RPO解決策をほぼゼロにするために、コピーをリモートサイトに送信します。
+* HCxは、データセンター全体でレプリケーションアシストvMotionを含むさまざまな機能を提供し https://docs.vmware.com/en/VMware-HCX/4.8/hcx-user-guide/GUID-8A31731C-AA28-4714-9C23-D9E924DBB666.html["イコウノタイフ"]、ダウンタイムなしでVMを移動します。
+* https://docs.vmware.com/en/Site-Recovery-Manager/index.html["Site Recovery Manager（SRM）"]通常はディザスタリカバリを目的としたもので、ストレージアレイベースのレプリケーションを利用した計画的な移行にもよく使用されます。
+* CDP（継続的データ保護）製品は、 https://core.vmware.com/resource/vmware-vsphere-apis-io-filtering-vaio#section1["vSphere API for IO（VAIO）"]データを傍受してリモートサイトにコピーを送信し、ほぼゼロのRPOソリューションを実現します。
 * バックアップ/リカバリ製品も利用できます。しかし、RTOが長くなることがよくあります。
-* https://docs.netapp.com/us-en/bluexp-disaster-recovery/get-started/dr-intro.html["BlueXPディザスタリカバリサービス（DRaaS）"] ストレージアレイベースのレプリケーションを利用し、特定のタスクを自動化してターゲットサイトでVMをリカバリします。
+* https://docs.netapp.com/us-en/bluexp-disaster-recovery/get-started/dr-intro.html["BlueXPディザスタリカバリサービス（DRaaS）"]ストレージアレイベースのレプリケーションを利用し、特定のタスクを自動化してターゲットサイトでVMをリカバリします。
 
 
 ====
 .ハイブリッドクラウド環境でのVMの移行
 [%collapsible]
 ====
-* https://docs.vmware.com/en/VMware-Cloud/services/vmware-cloud-gateway-administration/GUID-91C57891-4D61-4F4C-B580-74F3000B831D.html["ハイブリッドリンクモードの設定"] 『手順of link:#vmotion-same-sso["同じSSOドメイン内のvCenterサーバ間でのVMの移行"]
-* HCxは、 https://docs.vmware.com/en/VMware-HCX/4.8/hcx-user-guide/GUID-8A31731C-AA28-4714-9C23-D9E924DBB666.html["イコウノタイフ"] VMの電源をオンにしたままVMを移動するために、データセンター全体にReplication Assisted vMotionを組み込みます。
+* https://docs.vmware.com/en/VMware-Cloud/services/vmware-cloud-gateway-administration/GUID-91C57891-4D61-4F4C-B580-74F3000B831D.html["ハイブリッドリンクモードの設定"]次の手順に従います。link:#vmotion-same-sso["同じSSOドメイン内のvCenterサーバ間でのVMの移行"]
+* HCxは、VMの電源をオンにしたままVMを移動するために、データセンター間でレプリケーションアシストvMotionを含むさまざまな機能を提供します https://docs.vmware.com/en/VMware-HCX/4.8/hcx-user-guide/GUID-8A31731C-AA28-4714-9C23-D9E924DBB666.html["イコウノタイフ"]。
 +
 ** リンク：../EHC/ aws-migrate-vmware-hcx.html [TR 4942：VMware HCXを使用したFSx ONTAPデータストアへのワークロードの移行]
 ** link：../EHC/ azure-migrate-vmware-hcx.html [TR-4940：VMware HCXを使用したAzure NetApp Filesデータストアへのワークロードの移行-クイックスタートガイド]
 ** リンク：../EHC/ gcp-migrate-vmware-hcx.html [VMware HCXを使用したGoogle Cloud VMware Engine上のGoogle Cloud NetApp Volumeデータストアへのワークロードの移行-クイックスタートガイド]
 
 
-* https://docs.netapp.com/us-en/bluexp-disaster-recovery/get-started/dr-intro.html["BlueXPディザスタリカバリサービス（DRaaS）"] ストレージアレイベースのレプリケーションを利用し、特定のタスクを自動化してターゲットサイトでVMをリカバリします。
-* サポートされているCDP（継続的データ保護）製品で、 https://core.vmware.com/resource/vmware-vsphere-apis-io-filtering-vaio#section1["vSphere API for IO（VAIO）"] データを傍受し、RPO解決策をほぼゼロにするために、コピーをリモートサイトに送信します。
+* https://docs.netapp.com/us-en/bluexp-disaster-recovery/get-started/dr-intro.html["BlueXPディザスタリカバリサービス（DRaaS）"]ストレージアレイベースのレプリケーションを利用し、特定のタスクを自動化してターゲットサイトでVMをリカバリします。
+* を使用してデータを傍受し、リモートサイトにコピーを送信し、ほぼゼロRPOソリューションを実現する、サポートされている継続的データ保護（CDP）製品 https://core.vmware.com/resource/vmware-vsphere-apis-io-filtering-vaio#section1["vSphere API for IO（VAIO）"]。
 
 
 
@@ -521,7 +521,7 @@ NOTE: コンテンツライブラリのVMテンプレートの詳細について
 * インプレースアップグレードが不可能な場合、は新しい環境を起動し、上記の移行オプションを使用できます。
 +
 
-TIP: vCenter間の移行オプションで、エクスポートオプションがソースで使用できない場合はターゲットからインポートします。その手順について、 https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-vcenter-esxi-management/GUID-ED703E35-269C-48E0-A34D-CCBB26BFD93E.html["vCenter間の高度なvMotionを使用した仮想マシンのインポートまたはクローンの作成"]
+TIP: vCenter間の移行オプションで、エクスポートオプションがソースで使用できない場合はターゲットからインポートします。この手順については、次を点検します： https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-vcenter-esxi-management/GUID-ED703E35-269C-48E0-A34D-CCBB26BFD93E.html["vCenter間の高度なvMotionを使用した仮想マシンのインポートまたはクローンの作成"]
 
 
 

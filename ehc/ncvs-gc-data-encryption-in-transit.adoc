@@ -36,7 +36,7 @@ NFSおよびSMB NASプロトコルは、プロトコルレイヤでオプショ�
 
 === SMB暗号化
 
-https://docs.microsoft.com/en-us/windows-server/storage/file-server/smb-security["SMB暗号化"^] SMBデータをエンドツーエンドで暗号化し、信頼されていないネットワーク上での盗聴からデータを保護します。クライアント/サーバのデータ接続（smb3.x対応クライアントでのみ使用可能）とサーバ/ドメインコントローラの認証の両方に対して暗号化を有効にできます。
+https://docs.microsoft.com/en-us/windows-server/storage/file-server/smb-security["SMB暗号化"^]SMBデータをエンドツーエンドで暗号化し、信頼されていないネットワークでの盗聴からデータを保護します。クライアント/サーバのデータ接続（smb3.x対応クライアントでのみ使用可能）とサーバ/ドメインコントローラの認証の両方に対して暗号化を有効にできます。
 
 SMB暗号化が有効な場合、暗号化をサポートしていないクライアントは共有にアクセスできません。
 
@@ -52,7 +52,7 @@ Kerberosで現在使用可能な最も強力な暗号化タイプは、AES-256�
 
 Kerberosでは、NFSマウントに対する3つの異なるセキュリティレベルが提供され、Kerberosセキュリティの強固な設定を選択できます。
 
-RedHatの場合と同様です https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/storage_administration_guide/s1-nfs-client-config-options["Common Mount Options（共通マウントオプション）"^] マニュアル：
+RedHatのマニュアルによると https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/storage_administration_guide/s1-nfs-client-config-options["Common Mount Options（共通マウントオプション）"^]、次のようになります。
 
 ....
 sec=krb5 uses Kerberos V5 instead of local UNIX UIDs and GIDs to authenticate users.
@@ -67,7 +67,7 @@ sec=krb5p uses Kerberos V5 for user authentication, integrity checking, and encr
 | セキュリティレベル | セキュリティ | パフォーマンス 
 
 
-| NFSv3：sys  a| 
+| NFSv3 - sys  a| 
 * 最小のセキュリティ。数値のユーザIDまたはグループIDを含むプレーンテキスト
 * UID、GID、クライアントIPアドレス、エクスポートパス、ファイル名を表示できる パケットキャプチャの権限
 

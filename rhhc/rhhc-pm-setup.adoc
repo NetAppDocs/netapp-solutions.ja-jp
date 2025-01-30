@@ -27,12 +27,12 @@ NOTE: この解決策 は、AWSの2つのVPCで2つのROSAクラスタを使用�
 
 .ROSAクラスタをインストールします
 * 2つのVPCを作成し、VPC間にVPCピアリング接続を設定します。
-* を参照してください link:https://docs.openshift.com/rosa/welcome/index.html["こちらをご覧ください"] ROSAクラスタのインストール手順については、を参照してください。
+* ROSAクラスタのインストール手順については、を参照してくださいlink:https://docs.openshift.com/rosa/welcome/index.html["ここをクリック"]。
 
 
 .FSx ONTAPのインストール
-* BlueXP  からVPCにFSx ONTAPをインストールします。BlueXP  アカウントの作成と使用方法については、を参照してくださいlink:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html["こちらをご覧ください"]。FSx ONTAPのインストールについて詳しくは、こちらをご覧くださいlink:https://docs.netapp.com/us-en/cloud-manager-fsx-ontap/index.html["こちらをご覧ください"]。AWSでコネクタを作成してFSx ONTAPを管理する方法を参照してlink:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html["こちらをご覧ください"]ください。
-* AWSを使用してFSx ONTAPを導入します。AWSコンソールを使用した導入については、を参照してくださいlink:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/getting-started-step1.html["こちらをご覧ください"]
+* BlueXP  からVPCにFSx ONTAPをインストールします。BlueXP  アカウントの作成と使用方法については、を参照してくださいlink:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html["ここをクリック"]。FSx ONTAPのインストールについて詳しくは、こちらをご覧くださいlink:https://docs.netapp.com/us-en/cloud-manager-fsx-ontap/index.html["ここをクリック"]。AWSでコネクタを作成してFSx ONTAPを管理する方法を参照してlink:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html["ここをクリック"]ください。
+* AWSを使用してFSx ONTAPを導入します。AWSコンソールを使用した導入については、を参照してくださいlink:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/getting-started-step1.html["ここをクリック"]
 
 
 .ROSAクラスタへのTridentのインストール（Helmチャートを使用）
@@ -47,15 +47,15 @@ NOTE: OpenShift GitOpsを使用すると、ApplicationSetを使用してArgoCD�
 image:rhhc-trident-helm.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 .Tridentを使用してバックエンドとストレージクラスを作成（FSx ONTAPの場合）
-* バックエンドとストレージクラスの作成の詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-use/backends.html["こちらをご覧ください"]。
+* バックエンドとストレージクラスの作成の詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-use/backends.html["ここをクリック"]。
 * OpenShiftコンソールから、Trident CSIを使用してFsxN用に作成したストレージクラスをデフォルトで作成します。下のスクリーンショットを参照：
 
 
 image:rhhc-default-storage-class.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 .OpenShift GitOpsを使用したアプリケーションの導入（Argo CD）
-* クラスタにOpenShift GitOpsオペレータをインストールします。手順を参照してください link:https://docs.openshift.com/container-platform/4.10/cicd/gitops/installing-openshift-gitops.html["こちらをご覧ください"]。
-* クラスタ用の新しいArgo CDインスタンスをセットアップします。手順を参照してください link:https://docs.openshift.com/container-platform/4.10/cicd/gitops/setting-up-argocd-instance.html["こちらをご覧ください"]。
+* クラスタにOpenShift GitOpsオペレータをインストールします。手順を参照してくださいlink:https://docs.openshift.com/container-platform/4.10/cicd/gitops/installing-openshift-gitops.html["ここをクリック"]。
+* クラスタ用の新しいArgo CDインスタンスをセットアップします。手順を参照してくださいlink:https://docs.openshift.com/container-platform/4.10/cicd/gitops/setting-up-argocd-instance.html["ここをクリック"]。
 
 
 Argo CDのコンソールを開き、アプリをデプロイします。たとえば、Argo CDとHelm Chartを使用してJenkins Appをデプロイできます。プロジェクト:デフォルトクラスタ:'https://kubernetes.default.svc'[](引用符なし)名前空間: Jenkins Helm ChartのURL :(引用符なし)'https://charts.bitnami.com/bitnami'[]

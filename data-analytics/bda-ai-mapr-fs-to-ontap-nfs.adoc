@@ -19,7 +19,7 @@ summary: このセクションでは、 NetApp XCP を使用して MapR FS デ�
 . MapR ノードごとに 3 つの LUN をプロビジョニングし、すべての MapR ノードの LUN の所有権を付与します。
 . インストール時に、 MapR FS に使用されている MapR クラスタディスク用に新しく追加された LUN を選択します。
 . MapR 6.1のマニュアルに従って、MapRクラスタをインストールします。
-. 「 hadoop jar xxx 」などの MapReduce コマンドを使用して、基本的な Hadoop 動作をチェックします。
+. などのMapReduceコマンドを使用してHadoopの基本的な処理を確認します `hadoop jar xxx`。
 . MapR - FS で顧客データを保持します。たとえば、 Teragen を使用して MapR -FS に約 1 テラバイトのサンプルデータを生成しました。
 . MapR - FS を NFS エクスポートとして設定します。
 +
@@ -52,7 +52,7 @@ root@workr-138: ~$
 root@workr-138: ~$ rpcinfo -d 100021 3
 root@workr-138: ~$ rpcinfo -d 100021 4
 ....
-.. MapR から特定のフォルダをエクスポートします。これは、「 /opt/MapR /conf/exports 」ファイルのすべての MapR ノードにあります。サブフォルダをエクスポートするときは、異なる権限を持つ親フォルダをエクスポートしないでください。
+.. ファイル内のすべてのMapRノード上のMapR-FSから特定のフォルダをエクスポートし `/opt/mapr/conf/exports`ます。サブフォルダをエクスポートするときは、異なる権限を持つ親フォルダをエクスポートしないでください。
 +
 ....
 [mapr@workr-138 ~]$ cat /opt/mapr/conf/exports
@@ -208,7 +208,7 @@ root@workr-138: tmp$
 #catalog =  10.63.150.51:/gpfs1
 catalog =  10.63.150.213:/nc_volume1
 ....
-.. ライセンスファイルを「 /opt/NetApp/xFiles/XCP 」にコピーします。
+.. ライセンスファイルをにコピーし `/opt/NetApp/xFiles/xcp/`ます。
 +
 ....
 root@workr-138: src$ cd /opt/NetApp/xFiles/xcp/
@@ -222,7 +222,7 @@ drwxr-xr-x 2 root   root     59 Dec  5 19:04 .
 -rw-r--r-- 1 root   root   236K Dec 17 14:12 xcp.log
 root@workr-138: xcp$
 ....
-.. XCP activate コマンドを使用して XCP をアクティブにします。
+.. コマンドを使用してXCPをアクティブにし `xcp activate`ます。
 .. ソースで NFS エクスポートを確認します。
 +
 ....

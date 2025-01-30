@@ -24,7 +24,7 @@ summary:
 
 オンプレミスのストレージシステムとクラウドストレージサービスの機能の違いによって、アプリケーションをオンプレミスからクラウドに移行したいと考えている企業は少なくありません。このギャップが解消されたことで、Microsoft SQL Serverなどのエンタープライズアプリケーションの移行で問題が生じていました。特に、堅牢なスナップショット、Storage Efficiency機能、高可用性、信頼性、一貫性のあるパフォーマンスなどのエンタープライズアプリケーションを実行するために必要なサービスが不足しているため、設計のトレードオフやアプリケーションの移行が必要になりました。FSx ONTAPを使用すれば、妥協する必要がなくなります。FSx ONTAPは、AWSが販売、サポート、請求、フルマネージドのネイティブ（ファーストパーティ）AWSサービスです。NetApp ONTAP の機能を活用して、エンタープライズクラスのストレージとデータ管理機能を提供します。ネットアップは、AWSで30年にわたってマネージドサービスとしてオンプレミスで提供してきたのと同じ機能を提供します。
 
-EC2インスタンス上のSQL Serverを使用すると、データベース管理者は、自身のデータベース環境と基盤となるオペレーティングシステムにアクセスしてカスタマイズできます。EC2インスタンス上のSQL Serverをと組み合わせて使用する必要があります https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html["AWS FSX ONTAP の略"^] データベースファイルを格納するために、ブロックレベルのレプリケーションを使用して、高パフォーマンス、データ管理、およびシンプルで簡単な移行パスを実現できます。そのため、AWS VPC上で複雑なデータベースを簡単に移行して、クリック回数を減らすことができ、スキーマの変換も不要です。
+EC2インスタンス上のSQL Serverを使用すると、データベース管理者は、自身のデータベース環境と基盤となるオペレーティングシステムにアクセスしてカスタマイズできます。SQL Server on EC2インスタンスをと組み合わせ https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html["AWS FSX ONTAP の略"^]てデータベースファイルを格納することで、パフォーマンスの向上、データ管理、ブロックレベルのレプリケーションを使用したシンプルで簡単な移行パスを実現できます。そのため、AWS VPC上で複雑なデータベースを簡単に移行して、クリック回数を減らすことができ、スキーマの変換も不要です。
 
 
 
@@ -49,7 +49,7 @@ Amazon FSx ONTAPは、AWSにSQL Serverを導入するための理想的なファ
 
 
 
-== 作業を開始する前に
+== 開始する前に
 
 Amazon FSx ONTAPとSQL Server on EC2インスタンスを組み合わせることで、今日の最も厳しいアプリケーション要件を満たすエンタープライズレベルのデータベースストレージ設計を作成できます。両方のテクノロジを最適化するには、SQL ServerのI/Oパターンと特性を理解することが重要です。SQL Serverデータベース用の適切に設計されたストレージレイアウトは、SQL ServerのパフォーマンスとSQL Serverインフラの管理をサポートします。また、ストレージレイアウトを適切に設定すれば、初期導入を成功させ、ビジネスの成長に合わせて環境をスムーズに拡張できます。
 
@@ -78,7 +78,7 @@ FSX ONTAP では、ストレージの調達が最も簡単な作業であり、�
 |===
 
 
-| 設定 | 設定 
+| 設定 | 構成 
 
 
 | ボリュームギャランティ | なし（デフォルトで設定） 
@@ -99,13 +99,13 @@ FSX ONTAP では、ストレージの調達が最も簡単な作業であり、�
 | オートサイズ | オン 
 
 
-| 最初に試行してください | 自動拡張 
+| 最初に試す | 自動拡張 
 
 
 | ボリューム階層化ポリシー | Snapshotのみ 
 
 
-| スナップショットポリシー | なし 
+| Snapshotポリシー | なし 
 |===
 この構成では、ボリュームの合計サイズは、ファイルシステムで実際に使用可能なストレージよりも大きくなる可能性があります。LUNまたはSnapshotコピーがボリューム内の使用可能なスペースよりも多くのスペースを必要とする場合、ボリュームは、包含ファイルシステムからより多くのスペースを取得して自動的に拡張します。自動拡張では、FSX ONTAP によって、ボリュームのサイズが事前に決めた最大サイズまで自動的に拡張されます。ボリュームの自動拡張をサポートするには、使用可能なスペースを包含ファイルシステムに確保する必要があります。そのため、自動拡張を有効にした状態でファイルシステムの空きスペースを監視し、必要に応じてファイルシステムを更新してください。
 
@@ -144,7 +144,7 @@ SnapCenter でSQL Serverの処理を実行するには、まずSQL Server用の�
 ====
 SQL Server用のボリュームとLUNを作成するには、次の手順を実行します。
 
-. でAmazon FSXコンソールを開きます https://console.aws.amazon.com/fsx/[]
+. Amazon FSxコンソールを開きます。 https://console.aws.amazon.com/fsx/[]
 . CreationメソッドのStandard Createオプションを使用して、NetApp ONTAP ファイルシステムのAmazon FSXを作成します。これにより、FSxadminとvsadminの資格情報を定義できます。
 +
 image:sql-awsec2-image1.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
@@ -164,8 +164,8 @@ image:sql-awsec2-image3.png["入力/出力ダイアログを示す図、また�
 +
 ** ストレージの Snapshot コピーのスケジュールと保持ポリシーを無効にします。代わりに、NetApp SnapCenter を使用して、SQL ServerのデータボリュームとログボリュームのSnapshotコピーを調整します。
 ** 高速できめ細かなリストア機能を利用するために、別 々 のボリューム上の個 々 のLUNにデータベースを設定します。
-** ランダムな読み取り/書き込みワークロードであるため、ユーザデータファイル（.mdf）を別 々 のボリュームに配置します。トランザクションログバックアップは、データベースバックアップよりも頻繁に作成するのが一般的です。このため、トランザクションログファイル（.ldf）をデータファイルとは別のボリュームに配置して、それぞれに個別のバックアップスケジュールを作成できるようにします。この分離により、ログファイルのシーケンシャルライトI/Oがデータファイルのランダムリード/ライトI/Oから分離され、SQL Serverのパフォーマンスが大幅に向上します。
-** tempdbは、Microsoft SQL Serverで一時的なワークスペースとして使用されるシステムデータベースです。特に、I/Oを大量に消費するDBCC CHECKDB操作に使用されます。したがって、このデータベースは専用ボリュームに配置してください。ボリューム数が課題となる大規模な環境では、慎重に計画を立てたあと、tempdbを少数のボリュームに統合し、他のシステムデータベースと同じボリュームに格納できます。tempdbのデータ保護は、Microsoft SQL Serverを再起動するたびに、このデータベースが再作成されるため、優先度が高くありません。
+** ランダムな読み取り/書き込みワークロードであるため、ユーザデータファイル（.mdf）を別 々 のボリュームに配置します。トランザクションログバックアップは、データベースバックアップよりも頻繁に作成するのが一般的です。このため、トランザクションログファイル（.ldf）をデータファイルとは別のボリュームに配置して、それぞれに個別のバックアップスケジュールを作成できるようにします。また、この分離により、ログファイルのシーケンシャルライトI/Oとデータファイルのランダムリード/ライトI/Oが分離され、SQL Serverのパフォーマンスが大幅に向上します。
+** tempdbは、Microsoft SQL Serverで一時的なワークスペースとして使用されるシステムデータベースです。特に、I/Oを大量に消費するDBCC CHECKDB操作に使用されます。したがって、このデータベースは専用ボリュームに配置してください。ボリューム数が課題となる大規模な環境では、慎重に計画したあとで、tempdbを少数のボリュームに統合し、他のシステムデータベースと同じボリュームに格納できます。tempdbのデータ保護は、Microsoft SQL Serverを再起動するたびに、このデータベースが再作成されるため、優先度が高くありません。
 
 
 . 次のSSHコマンドを使用してボリュームを作成します。
@@ -208,7 +208,7 @@ lun create -path /vol/vol_awssqlprod01_data/lun_awssqlprod01_data -size 700GB -o
 +
 image:sql-awsec2-image5.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-. OSのパーティショニングスキームを使用してI/Oアライメントを実行するには、推奨されるLUNタイプとしてwindows_2008を使用してください。を参照してください https://docs.netapp.com/us-en/ontap/san-admin/io-misalignments-properly-aligned-luns-concept.html["こちらをご覧ください"^] 追加情報 の場合。
+. OSのパーティショニングスキームを使用してI/Oアライメントを実行するには、推奨されるLUNタイプとしてwindows_2008を使用してください。詳細については、を参照してください https://docs.netapp.com/us-en/ontap/san-admin/io-misalignments-properly-aligned-luns-concept.html["ここをクリック"^]。
 . 次のSSHコマンドを使用して、作成したLUNにigroupをマッピングします。
 +
 ....
@@ -282,12 +282,12 @@ Format-Volume -DriveLetter G -FileSystem NTFS -AllocationUnitSize 65536
 
 
 
-付録BのPowerShellスクリプトを使用すると、ボリュームおよびLUNの作成を自動化できますLUNは、SnapCenter を使用して作成することもできます。
+付録BのPowerShellスクリプトを使用して、ボリュームおよびLUNの作成を自動化できます。LUNは、SnapCenterを使用して作成することもできます。
 
 ====
 ボリュームとLUNを定義したら、SnapCenter を設定してデータベース処理を実行できるようにする必要があります。
 
-.SnapCenter の概要
+.SnapCenterの概要
 [%collapsible]
 ====
 NetApp SnapCenter は、ティア1エンタープライズアプリケーション向けの次世代データ保護ソフトウェアです。SnapCenter は、一元管理インターフェイスを備えているため、複数のデータベースやその他のアプリケーションワークロードのバックアップ、リカバリ、クローニングに関連する、複雑で時間のかかる手動プロセスを自動化して簡易化できます。SnapCenter は、ネットアップのSnapshot、NetApp SnapMirror、SnapRestore 、NetApp FlexCloneなどのネットアップテクノロジを活用しています。この統合により、IT部門は、ストレージインフラを拡張し、厳しいSLAコミットメントを満たし、企業全体の管理者の生産性を向上させることができます。
@@ -304,7 +304,7 @@ NetApp SnapCenter は、ティア1エンタープライズアプリケーショ�
 
 
  a| 
-最小 CPU 数
+最小CPU数
  a| 
 4つのコア/ vCPU
 
@@ -335,14 +335,14 @@ NetApp SnapCenter は、ティア1エンタープライズアプリケーショ�
 
 | ソフトウェアパッケージ  a| 
 * .NET 4.5.2以降
-* Windows Management Framework （ WMF ） 4.0 以降
-* PowerShell 4.0 以降
+* Windows Management Framework（WMF）4.0以降
+* PowerShell 4.0以降
 
 
 |===
-詳細については、を参照してください。 link:https://docs.netapp.com/us-en/snapcenter/install/reference_space_and_sizing_requirements.html["スペースとサイジングの要件"]。
+詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/snapcenter/install/reference_space_and_sizing_requirements.html["スペースとサイジングの要件"]。
 
-バージョンの互換性については、を参照してください https://mysupport.netapp.com/matrix/["NetApp Interoperability Matrix Tool で確認できます"^]。
+バージョンの互換性については、を参照してください https://mysupport.netapp.com/matrix/["NetApp Interoperability Matrix Tool"^]。
 
 ====
 .データベースストレージレイアウト
@@ -377,7 +377,7 @@ NOTE: 新しいデータベースを作成するときは、データとログ�
 .SnapCenter のインストールとセットアップ
 [%collapsible]
 ====
-に従ってください https://docs.netapp.com/us-en/snapcenter/install/task_install_the_snapcenter_server_using_the_install_wizard.html["SnapCenter サーバをインストールします"^] および https://docs.netapp.com/us-en/snapcenter/protect-scsql/task_add_hosts_and_install_snapcenter_plug_ins_package_for_windows.html["SnapCenter Plug-in for Microsoft SQL Serverをインストールしています"^] SnapCenter をインストールしてセットアップするには、次の手順
+と https://docs.netapp.com/us-en/snapcenter/protect-scsql/task_add_hosts_and_install_snapcenter_plug_ins_package_for_windows.html["SnapCenter Plug-in for Microsoft SQL Serverをインストールしています"^]に従って、 https://docs.netapp.com/us-en/snapcenter/install/task_install_the_snapcenter_server_using_the_install_wizard.html["SnapCenterサーバのインストール"^]SnapCenterをインストールしてセットアップします。
 
 SnapCenter をインストールしたら、次の手順を実行してセットアップします。
 
@@ -389,7 +389,7 @@ image:sql-awsec2-image14.png["入力/出力ダイアログを示す図、また�
 +
 image:sql-awsec2-image15.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-. [*Hosts*>*Add*]を選択してホストを追加し、ホスト情報を入力します。SnapCenter によって、WindowsおよびSQL Serverプラグインが自動的にインストールされます。この処理には時間がかかることがあります。
+. [*Hosts*>*Add*]を選択してホストを追加し、ホスト情報を入力します。SnapCenterは、WindowsおよびSQL Serverプラグインを自動的にインストールします。このプロセスには時間がかかることがあります。
 +
 image:sql-awsec2-image16.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
@@ -398,7 +398,7 @@ image:sql-awsec2-image16.png["入力/出力ダイアログを示す図、また�
 すべてのプラグインをインストールしたら、ログディレクトリを設定する必要があります。トランザクションログバックアップが格納された場所を指定します。ホストを選択してログディレクトリを設定し、[ログディレクトリを設定]を選択します。
 
 
-NOTE: SnapCenter は、ホストログディレクトリを使用してトランザクションログバックアップデータを格納します。これはホストおよびインスタンスレベルです。SnapCenter で使用する各SQL Serverホストには、ログバックアップを実行するように設定されたホストログディレクトリが必要です。SnapCenter にはデータベースリポジトリがあるため、バックアップ、リストア、クローニングの処理に関連するメタデータは中央のデータベースリポジトリに格納されます。
+NOTE: SnapCenterは、ホストログディレクトリを使用してトランザクションログバックアップデータを格納します。これはホストおよびインスタンスレベルです。SnapCenter で使用する各SQL Serverホストには、ログバックアップを実行するように設定されたホストログディレクトリが必要です。SnapCenterにはデータベースリポジトリがあるため、バックアップ、リストア、クローニングの処理に関連するメタデータは中央のデータベースリポジトリに格納されます。
 
 ホストログディレクトリのサイズは、次のように計算します。
 
@@ -406,7 +406,7 @@ NOTE: SnapCenter は、ホストログディレクトリを使用してトラン
 
 ホストログディレクトリのサイジングの計算式では、次のことを前提としています。
 
-* tempdbデータベースを含まないシステムデータベースバックアップ
+* tempdbデータベースを含まないシステムデータベースのバックアップ
 * 10%のLUNオーバーヘッド・スペースホスト・ログ・ディレクトリを専用のボリュームまたはLUNに配置しますホストログディレクトリのデータ量は、バックアップのサイズとバックアップを保持する日数によって異なります。
 +
 image:sql-awsec2-image17.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
@@ -577,7 +577,7 @@ AWSコンソールのクラウド形成テンプレートでは、次の.yamlフ
 * https://github.com/NetApp/fsxn-iscsisetup-cft["https://github.com/NetApp/fsxn-iscsisetup-cft"^]
 
 
-PowerShellを使用してiSCSI LUNの作成やNetApp SnapCenter のインストールを自動化するには、からリポジトリをクローニングします https://github.com/NetApp/fsxn-iscsisetup-ps["このGitHubリンク"^]。
+PowerShellを使用してiSCSI LUNの作成とNetApp SnapCenterのインストールを自動化するには、からリポジトリのクローンを作成 https://github.com/NetApp/fsxn-iscsisetup-ps["このGitHubリンク"^]します。
 
 ====
 .付録B：ボリュームおよびLUNをプロビジョニングするためのPowerShellスクリプト
@@ -698,12 +698,12 @@ UnregisterTask
 Remove-Item -Path $MyInvocation.MyCommand.Source
 ....
 ----
-ファイルを実行します `EnableMPIO.ps1` 1番目のスクリプトと2番目のスクリプトは'サーバの再起動後に自動的に実行されますこれらのPowerShellスクリプトは、SVMのクレデンシャルアクセスが原因で実行されたあとで削除できます。
+ファイルを最初に実行する `EnableMPIO.ps1`と、サーバのリブート後に2番目のスクリプトが自動的に実行されます。これらのPowerShellスクリプトは、SVMのクレデンシャルアクセスが原因で実行されたあとで削除できます。
 
 ====
 
 
-== 追加情報の参照先
+== 詳細情報の入手方法
 
 * Amazon FSx ONTAP
 

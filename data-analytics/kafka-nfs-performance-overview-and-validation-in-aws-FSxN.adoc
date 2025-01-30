@@ -181,8 +181,7 @@ FSx ONTAPでは、ボリュームをシンプロビジョニングできます�
 [root@ip-172-31-33-69 ~]# aws fsx update-file-system --region us-east-1  --storage-capacity 5120 --ontap-configuration 'ThroughputCapacity=4096,DiskIopsConfiguration={Mode=USER_PROVISIONED,Iops=160000}' --file-system-id fs-02ff04bab5ce01c7c
 ....
 +
-FSx「update-file-system」の詳細なコマンドライン構文は、次のとおりです。
-https://docs.aws.amazon.com/cli/latest/reference/fsx/update-file-system.html[]
+FSx「update-file-system」の詳細なコマンドライン構文は、次のとおりです。https://docs.aws.amazon.com/cli/latest/reference/fsx/update-file-system.html[]
 
 . FSx ONTAPボリュームは、Kafkaブローカーでnconnectとデフォルトのオプションを使用してマウントされます。
 +
@@ -203,8 +202,7 @@ image:aws-fsx-kafka-arch1.png["この図は、FSx ONTAPベースのKafkaクラ�
 
 ==== OpenMessageベンチマーク設定。
 
-NetApp Cloud Volumes ONTAPと同じ構成を使用しました。詳細はこちらをご覧ください。
-リンク：kafka-nfs-performance-overview-and-validation-in-aws.html#architecture-setup
+使用した構成はNetApp Cloud Volumes ONTAPと同じで、詳細はこちらです。link：kafka-nfs-performance-overview-and-validation-in-aws.html#architecture-setup
 
 
 
@@ -231,14 +229,14 @@ NFSで実行されるKafkaインスタンスのパフォーマンスをベンチ
 
 Kafkaレプリケーションファクタ1とFSx ONTAPの場合：
 
-* Syncドライバで一貫して生成された総スループット：最大3218 Mbps、最大パフォーマンス（最大3652 Mbps）
+* Syncドライバで一貫して生成される合計スループット：最大3218 Mbps、最大3652 Mbps。
 * スループットドライバによって一貫して生成された総スループット：最大3679 Mbps、最大3908 Mbpsのパフォーマンス。
 
 
 レプリケーションファクタ3のKafkaとFSx ONTAPの場合：
 
 * Syncドライバで一貫して生成される合計スループット：最大1252 Mbps、最大1382 Mbps。
-* スループットドライバによって一貫して生成される総スループット：最大1218 Mbps、最大パフォーマンス（最大1328 Mbps）
+* スループットドライバによって一貫して生成された総スループット：最大1218 Mbps、最大1328 Mbpsのパフォーマンス。
 
 
 Kafkaレプリケーションファクタ3では、FSx ONTAPで読み取りと書き込みの処理が3回行われました。Kafkaレプリケーションファクタ1では、読み取りと書き込みの処理がFSx ONTAPで1回行われたため、どちらの検証でも最大スループットである4GB/秒に到達できました。

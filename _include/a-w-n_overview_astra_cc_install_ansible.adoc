@@ -2,20 +2,20 @@
 :allow-uri-read: 
 
 
-. Ansibleプレイブックを使用してAstra Control Centerを導入するには、AnsibleがインストールされたUbuntu / RHELマシンが必要です。説明に従って、手順 に従います link:../automation/automation_ubuntu_debian_setup.html["こちらをご覧ください"] Ubuntuおよびの場合 link:../automation/automation_rhel_centos_setup.html["こちらをご覧ください"] RHEL の場合：
+. Ansibleプレイブックを使用してAstra Control Centerを導入するには、AnsibleがインストールされたUbuntu / RHELマシンが必要です。Ubuntuおよびlink:../automation/automation_rhel_centos_setup.html["ここをクリック"]RHELの場合は説明されている手順に従いますlink:../automation/automation_ubuntu_debian_setup.html["ここをクリック"]。
 . Ansible コンテンツをホストする GitHub リポジトリをクローニングします。
 +
 [source, cli]
 ----
 git clone https://github.com/NetApp-Automation/na_astra_control_suite.git
 ----
-. ネットアップサポートサイトにログインし、最新バージョンの NetApp Astra Control Center をダウンロードします。そのためには、ネットアップアカウントにライセンスを関連付ける必要があります。tar ファイルをダウンロードしたら、ワークステーションに転送します。
+. NetApp Support Siteにログインし、最新バージョンの NetApp Astra Control Center をダウンロードします。そのためには、ネットアップアカウントにライセンスを関連付ける必要があります。tar ファイルをダウンロードしたら、ワークステーションに転送します。
 +
 
-NOTE: Astra Control の試用版ライセンスの使用を開始するには、にアクセスしてください https://cloud.netapp.com/astra-register["Astra 登録サイト"^]。
+NOTE: Astra Controlの試用版ライセンスの使用を開始するには、にアクセスして https://cloud.netapp.com/astra-register["Astra 登録サイト"^]ください。
 
 . Astra Control Center をインストールする OpenShift クラスタに管理者としてアクセスできる kubeconfig ファイルを作成または取得します。
-. ディレクトリを'na_Astra_control_siteに変更します
+. ディレクトリをに変更します `na_astra_control_suite`。
 +
 [source, cli]
 ----

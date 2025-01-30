@@ -64,8 +64,8 @@ AWS S3は、データベースの移動と移行のステージングストレ�
 
 まず、オンプレミスから移行するPDBをホストするための十分なストレージを備えたAWS FSX/EC2にCDBを作成します。複数のオンプレミスPDBを一度に1つずつ再配置できます。
 
-. マルチテナントのPDB / CDBモデルではなく単一のインスタンスにオンプレミスデータベースを導入している場合は、の手順に従います link:azure_ora_nfile_migration.html#converting-a-single-instance-non-cdb-to-a-pdb-in-a-multitenant-cdb["マルチテナントCDBで単一インスタンスの非CDBをPDBに変換します"^] 単一のインスタンスをマルチテナントPDB / CDBに変換します。次に、変換したPDBをAWS FSX/EC2内のCDBに移行する手順を実行します。
-. マルチテナントのPDB / CDBモデルにオンプレミスデータベースがすでに導入されている場合は、の手順に従います link:azure_ora_nfile_migration.html#migrate-on-premises-oracle-databases-to-azure-with-pdb-relocation["PDBの再配置で、オンプレミスのOracleデータベースをクラウドに移行"^] 移行を実行します。
+. オンプレミスデータベースがマルチテナントPDB / CDBモデルではなく単一インスタンスに導入されている場合は、の手順に従って、link:azure_ora_nfile_migration.html#converting-a-single-instance-non-cdb-to-a-pdb-in-a-multitenant-cdb["マルチテナントCDBで単一インスタンスの非CDBをPDBに変換します"^]単一インスタンスをマルチテナントPDB / CDBに変換します。次に、変換したPDBをAWS FSX/EC2内のCDBに移行する手順を実行します。
+. オンプレミスデータベースがすでにマルチテナントPDB / CDBモデルに導入されている場合は、の手順に従ってlink:azure_ora_nfile_migration.html#migrate-on-premises-oracle-databases-to-azure-with-pdb-relocation["PDBの再配置で、オンプレミスのOracleデータベースをクラウドに移行"^]移行を実行します。
 
 
 次のビデオでは、PDB（Oracle Database）を、最大限の可用性を備えたPDBの再配置を使用してFSX/EC2に移行する方法について説明します。

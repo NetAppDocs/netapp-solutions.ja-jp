@@ -16,7 +16,7 @@ summary: Google Cloud NetApp Volumesを使用すると、Google Cloud NetApp Vol
 [role="lead"]
 Google Cloud NetApp Volumesを使用すると、Google Cloud NetApp Volumesインスタンスを外部のActive Directoryサーバに接続して、SMBユーザとUNIXユーザの両方のIDを管理できます。Google Cloud NetApp VolumeでSMBを使用するには、Active Directory接続を作成する必要があります。
 
-この構成には、セキュリティについて考慮する必要があるいくつかのオプションがあります。外部Active Directoryサーバは、オンプレミスインスタンスでもクラウドネイティブでもかまいません。オンプレミスのActive Directoryサーバを使用している場合は、ドメインを外部ネットワーク（DMZや外部IPアドレスなど）に公開しないでください。代わりに、を使用して、セキュアなプライベートトンネルまたはVPN、一方向フォレストトラスト、またはオンプレミスネットワークへの専用ネットワーク接続を使用します https://cloud.google.com/vpc/docs/private-google-access["プライベート Google アクセス"^]。詳細については、Google Cloudのドキュメントを参照してください https://cloud.google.com/managed-microsoft-ad/docs/best-practices["Google CloudでActive Directoryを使用する際のベストプラクティス"^]。
+この構成には、セキュリティについて考慮する必要があるいくつかのオプションがあります。外部Active Directoryサーバは、オンプレミスインスタンスでもクラウドネイティブでもかまいません。オンプレミスのActive Directoryサーバを使用している場合は、ドメインを外部ネットワーク（DMZや外部IPアドレスなど）に公開しないでください。代わりに、セキュアなプライベートトンネルまたはVPN、一方向フォレストの信頼、またはを使用したオンプレミスネットワークへの専用ネットワーク接続を使用します https://cloud.google.com/vpc/docs/private-google-access["プライベート Google アクセス"^]。の詳細については、Google Cloudのドキュメントを参照して https://cloud.google.com/managed-microsoft-ad/docs/best-practices["Google CloudでActive Directoryを使用する際のベストプラクティス"^]ください。
 
 
 NOTE: NetApp Volumes-SWでは、Active Directoryサーバが同じリージョンに配置されている必要があります。NetApp Volumes-SWで別のリージョンへのDC接続を試行すると、接続は失敗します。NetApp Volumes-SWを使用する場合は、Active Directory DCを含むActive Directoryサイトを作成してから、Google Cloud NetApp Volumeでサイトを指定して、リージョン間でのDC接続の試行を回避してください。
@@ -50,14 +50,14 @@ NOTE: Active Directoryドメインに渡されるユーザ名とパスワード�
 
 == Active Directory接続の詳細
 
-。 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/creating-smb-volumes["Active Directory接続の詳細"^] 管理者がマシンアカウントの配置に関する特定のActive Directoryスキーマ情報を指定するためのフィールドを指定します。次に例を示します。
+には、 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/creating-smb-volumes["Active Directory接続の詳細"^]管理者がマシンアカウントの配置に関する特定のActive Directoryスキーマ情報を指定するためのフィールドが用意されています。たとえば、次のようなフィールドがあります。
 
 * * Active Directory接続タイプ*サービスタイプがGoogle Cloud NetApp VolumeまたはNetApp Volumes-Performanceのボリュームに対して、リージョン内のActive Directory接続を使用するかどうかを指定します。既存の接続で正しく設定しないと、使用または編集時に正しく機能しないことがあります。
-* *ドメイン。* Active Directoryドメイン名。
+* *ドメイン。*Active Directoryドメイン名。
 * *サイト。*セキュリティとパフォーマンスを確保するために、Active Directoryサーバを特定のサイトに制限します https://cloud.google.com/architecture/partners/netapp-cloud-volumes/managing-active-directory-connections["考慮事項"^]。これは、複数のActive Directoryサーバがリージョンにまたがっている場合に必要です。これは、Google Cloud NetApp NetApp Volumesインスタンスとは異なるリージョンにあるActive DirectoryサーバへのActive Directory認証要求の許可が現在サポートされていないためです。（たとえば、Active Directoryドメインコントローラが、NetApp Volumes-Performanceでのみサポートされるリージョンにあり、NetApp Volumes-SWインスタンスにはSMB共有が必要です）。
 * * DNSサーバ。*名前検索で使用するDNSサーバ。
 * * NetBIOS名（オプション）。*必要に応じて、サーバのNetBIOS名を指定します。これは、Active Directory接続を使用して新しいマシンアカウントを作成するときに使用されます。たとえば、NetBIOS名がNetApp Volumes-Eastに設定されている場合、マシンアカウント名はNetApp Volumes-East-｛1234｝になります。詳細については、を参照してくださいlink:ncvs-gc-considerations-creating-active-directory-connections.html#how-cloud-volumes-service-shows-up-in-active-directory["Google Cloud NetApp VolumeがActive Directoryに表示される仕組み"]。
-* *組織単位(OU)。*コンピュータアカウントを作成するための特定のOU。この機能は、マシンアカウントの制御を特定のOUに委任する場合に便利です。
+* *組織単位（OU）。*コンピュータアカウントを作成するための特定のOU。この機能は、マシンアカウントの制御を特定のOUに委任する場合に便利です。
 * * AES暗号化。*[Enable AES Encryption for AD Authentication]チェックボックスをオンまたはオフにすることもできます。Active Directory認証のAES暗号化を有効にすると、Google Cloud NetApp VolumeからActive Directoryへのユーザおよびグループの検索時の通信のセキュリティが強化されます。このオプションを有効にする前に、ドメイン管理者に問い合わせて、Active DirectoryドメインコントローラがAES認証をサポートしていることを確認してください。
 
 
@@ -79,7 +79,7 @@ NOTE: Windows以外のKDCをGoogle Cloud NetApp Volumeで使用することは�
 
 リージョンを使用すると、Active Directory接続が存在する場所を指定できます。このリージョンは、Google Cloud NetApp Volumeボリュームと同じリージョンである必要があります。
 
-* *このセクションでは、LDAPを使用するローカルNFSユーザを許可するオプションもあります。*このセクションでは、LDAPを使用するローカルNFSユーザを許可するオプションもあります。NFS（拡張グループ）の16グループの制限を超えてUNIXユーザグループメンバーシップのサポートを拡張する場合は、このオプションを選択しないでください。ただし、拡張グループを使用するには、UNIX ID用のLDAPサーバを設定する必要があります。LDAPサーバがない場合は、このオプションを選択しないでください。LDAPサーバがあり、ローカルUNIXユーザ（rootなど）も使用する場合は、このオプションを選択します。
+* * LDAPを使用するローカルNFSユーザ*このセクションには、LDAPでローカルNFSユーザを許可するオプションもあります。NFS（拡張グループ）の16グループの制限を超えてUNIXユーザグループメンバーシップのサポートを拡張する場合は、このオプションを選択しないでください。ただし、拡張グループを使用するには、UNIX ID用のLDAPサーバを設定する必要があります。LDAPサーバがない場合は、このオプションを選択しないでください。LDAPサーバがあり、ローカルUNIXユーザ（rootなど）も使用する場合は、このオプションを選択します。
 
 
 
@@ -107,10 +107,10 @@ Google Cloud NetApp Volumeは、Active Directoryに通常のマシンアカウ�
 * CIFS/SMBおよびNFS Kerberosでは、個別のマシンアカウントオブジェクトが作成されます。
 * NFSでLDAPが有効になっている場合、Kerberos LDAPバインド用にActive Directoryにマシンアカウントが作成されます。
 * LDAPを使用したデュアルプロトコルボリュームでは、LDAPとSMBのCIFS / SMBマシンアカウントが共有されます。
-* CIFS / SMBマシンアカウントでは、マシンアカウントの名前付け規則として、name-1234（ランダムな4桁のIDに10文字未満の名前をハイフンで付加）を使用します。Active Directory接続では、NetBIOS名の設定で名前を定義できます（「」を参照）<<Active Directory接続の詳細>>」）をクリックします。
+* CIFS / SMBマシンアカウントでは、マシンアカウントの名前付け規則として、name-1234（ランダムな4桁のIDに10文字未満の名前をハイフンで付加）を使用します。Active Directory接続のNetBIOS名設定で名前を定義できます（を参照<<Active Directory接続の詳細>>）。
 * NFS Kerberosでは、命名規則としてnfs-name-1234を使用します（最大15文字）。15文字を超える文字が使用されている場合、名前はnfs-truncated-name-1234になります。
 * NFSのみのNetAppボリューム- LDAPが有効なパフォーマンスインスタンスでは、CIFS / SMBインスタンスと同じ命名規則で、LDAPサーバにバインドするためのSMBマシンアカウントが作成されます。
-* SMBマシンアカウントを作成すると、デフォルトの非表示の管理共有が表示されます（を参照） link:ncvs-gc-smb.html#default-hidden-shares["「デフォルトの非表示共有」"]）も作成されます（c$、admin$、ipc$）が、ACLが割り当てられておらず、アクセスできない共有です。
+* SMBマシンアカウントを作成すると、非表示のデフォルトの管理共有（セクションを参照link:ncvs-gc-smb.html#default-hidden-shares["「デフォルトの非表示共有」"]）も作成されますが（c$、admin$、ipc$）、これらの共有にはACLが割り当てられておらず、アクセスできません。
 * マシンアカウントオブジェクトはデフォルトではCN=Computersに配置されますが、必要に応じて別のOUを指定できます。Google Cloud NetApp Volumeのマシンアカウントオブジェクトを追加/削除するために必要なアクセス権については、を参照して<<SMBマシンアカウントの作成に必要な権限>>ください。
 
 
@@ -130,19 +130,19 @@ Google Cloud NetApp VolumesがSMBマシンアカウントをActive Directoryに�
 | msDs-SupportedEncryptionTypesの値 | 暗号化タイプが有効です 
 
 
-| 2. | des_cbc_md5 
+| 2 | des_cbc_md5 
 
 
-| 4. | RC4_HMAC 
+| 4 | RC4_HMAC 
 
 
-| 8. | AES128_CTS_HMAC_SHA1 96のみ 
+| 8 | AES128_CTS_HMAC_SHA1 96のみ 
 
 
-| 16 | AES256_CTS_HMAC_SHA1_96のみ 
+| 16 | AES256_CTS_HMAC_SHA1_96 のみ 
 
 
-| 24 | AES128_CTS_HMAC_SHA1_96およびAES256_CTS_HMAC_SHA1_96です 
+| 24 | AES128_CTS_HMAC_SHA1_96およびAES256_CTS_HMAC_SHA1_96 
 
 
 | 30 | DES_CBC_MD5、RC4_HMAC、AES128_CTS_HMAC_SHA1 96およびAES256_CTS_HMAC_SHA1 96 

@@ -59,7 +59,7 @@ NetApp Volumes - Performanceサービスタイプでは、リージョンで障�
 
 Google Cloud NetApp Volumeでは、更新はクラウドプロバイダチームによって処理されます。そのため、プロセスを自動化して完全にテストした設定やアップグレードに精通したエキスパートが提供されるため、管理者チームのリスクにさらされることはありません。アップグレードはシステムを停止することなく行われ、Google Cloud NetApp Volumesでは最新の更新が維持され、全体的に最適な結果が得られます。
 
-これらのサービスのアップグレードを実行する管理者チームの詳細については、を参照してください link:ncvs-gc-service-operation.html["「サービスオペレーション」"]
+これらのサービスアップグレードを実行する管理者チームの詳細については、を参照してください。link:ncvs-gc-service-operation.html["「サービスオペレーション」"]
 
 
 
@@ -87,7 +87,7 @@ Google Cloud NetApp Volumeボリュームのレプリケーションでは、AES
 
 TelnetやNDMPなどのセキュアでないインフライトプロトコルのほとんどは、デフォルトで無効になっています。ただし、DNSはGoogle Cloud NetApp Volumeでは暗号化されず（DNSセキュリティはサポートされません）、可能な場合は外部ネットワーク暗号化を使用して暗号化する必要があります。転送中のデータの保護の詳細については、を参照してくださいlink:ncvs-gc-data-encryption-in-transit.html["「転送中のデータ暗号化」"]。
 
-NASプロトコルの暗号化については、を参照してください link:ncvs-gc-data-encryption-in-transit.html#nas-protocols["「NASプロトコル」。"]
+NASプロトコルの暗号化については、を参照してください。link:ncvs-gc-data-encryption-in-transit.html#nas-protocols["「NASプロトコル」。"]
 
 
 
@@ -108,7 +108,7 @@ NOTE: 現在、Google Cloud NetApp Volume for LDAP機能でサポートされて
 
 現時点では、Google Cloud NetApp Volumeには、ウイルス対策保護やなどのネイティブの検出または防止対策は含まれていませ https://www.netapp.com/blog/prevent-ransomware-spread-ONTAP/["ランサムウェアの自動検出"^]んが、定期的なSnapshotスケジュールを有効にしてランサムウェアイベントから迅速にリカバリする方法はあります。Snapshotコピーは変更不可で、ファイルシステム内の変更されたブロックへの読み取り専用ポインタであり、ほぼ瞬時に作成されます。パフォーマンスへの影響は最小限で、データが変更または削除された場合にのみスペースを消費します。Snapshotコピーのスケジュールは、許容されるRecovery Point Objective（RPO；目標復旧時点）やRecovery Time Objective（RTO；目標復旧時間）に合わせて設定できます。また、ボリュームあたり最大1、024個のSnapshotコピーを保持できます。
 
-Google Cloud NetApp Volumeでは、Snapshotのサポートが追加コストなし（変更されたブロックやSnapshotコピーによって保持されたデータに対するデータストレージ料金を超える）で提供され、ランサムウェア攻撃が発生した場合は、攻撃が発生する前にSnapshotコピーにロールバックするために使用できます。Snapshotのリストアは完了までに数秒しかかかりませんが、リストア完了後は通常どおりデータを提供できます。詳細については、を参照してください https://www.netapp.com/pdf.html?item=/media/16716-sb-3938pdf.pdf&v=202093745["『NetApp解決策 for Ransomware』"^]。
+Google Cloud NetApp Volumeでは、Snapshotのサポートが追加コストなし（変更されたブロックやSnapshotコピーによって保持されたデータに対するデータストレージ料金を超える）で提供され、ランサムウェア攻撃が発生した場合は、攻撃が発生する前にSnapshotコピーにロールバックするために使用できます。Snapshotのリストアは完了までに数秒しかかかりませんが、リストア完了後は通常どおりデータを提供できます。詳細については、を参照してください https://www.netapp.com/pdf.html?item=/media/16716-sb-3938pdf.pdf&v=202093745["NetApp Solution for Ransomware"^]。
 
 ランサムウェアによるビジネスへの影響を回避するには、次のようなマルチレイヤアプローチが必要です。
 

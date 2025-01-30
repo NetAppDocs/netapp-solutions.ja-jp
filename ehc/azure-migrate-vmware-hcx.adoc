@@ -48,16 +48,16 @@ NOTE: VMware HCXはVMレベルで移行されるため、どのデータスト�
 .前提条件
 [%collapsible]
 ====
-作業を開始する前に、次の前提条件が満たされていることを確認してください。詳細については、を参照してください https://docs.microsoft.com/en-us/azure/azure-vmware/configure-vmware-hcx["リンク"^]。接続などの前提条件が整ったら、Azure VMware解決策 ポータルからライセンスキーを生成して、HCXを設定してアクティブにします。OVAインストーラをダウンロードしたら、次の手順に従ってインストールプロセスを実行します。
+作業を開始する前に、次の前提条件が満たされていることを確認してください。詳細については、こちらを参照して https://docs.microsoft.com/en-us/azure/azure-vmware/configure-vmware-hcx["リンク"^]ください。接続などの前提条件が整ったら、Azure VMware解決策 ポータルからライセンスキーを生成して、HCXを設定してアクティブにします。OVAインストーラをダウンロードしたら、次の手順に従ってインストールプロセスを実行します。
 
 
 NOTE: HCx advancedはデフォルトオプションであり、VMware HCX Enterprise Editionはサポートチケットを通じても利用でき、追加料金なしでサポートされます。
 
-* 既存のAzure VMware解決策 Software-Defined Data Center（SDDC）を使用するか、またはこれを使用してプライベートクラウドを作成します link:azure-setup.html["ネットアップのリンク"^] またはこれ https://docs.microsoft.com/en-us/azure/azure-vmware/deploy-azure-vmware-solution?tabs=azure-portal["Microsoftのリンク"^]。
-* オンプレミスのVMware vSphere対応データセンターからVMと関連データを移行するには、データセンターからSDDC環境へのネットワーク接続が必要です。ワークロードを移行する前に、 https://docs.microsoft.com/en-us/azure/azure-vmware/tutorial-expressroute-global-reach-private-cloud["サイト間VPNまたはエクスプレスルートグローバルリーチ接続をセットアップします"^] オンプレミス環境とそれぞれのプライベートクラウドの間。
+* 既存のAzure VMwareソリューションのSoftware-Defined Data Center（SDDC）を使用するか、またはこれ https://docs.microsoft.com/en-us/azure/azure-vmware/deploy-azure-vmware-solution?tabs=azure-portal["Microsoftのリンク"^]を使用してプライベートクラウドを作成しlink:azure-setup.html["ネットアップのリンク"^]ます。
+* オンプレミスのVMware vSphere対応データセンターからVMと関連データを移行するには、データセンターからSDDC環境へのネットワーク接続が必要です。オンプレミス環境とそれぞれのプライベートクラウド間でワークロードを移行する前に、 https://docs.microsoft.com/en-us/azure/azure-vmware/tutorial-expressroute-global-reach-private-cloud["サイト間VPNまたはエクスプレスルートグローバルリーチ接続をセットアップします"^]
 * オンプレミスのVMware vCenter Server環境からAzure VMware解決策 プライベートクラウドへのネットワークパスで、vMotionを使用したVMの移行がサポートされている必要があります。
 * オンプレミスのvCenter ServerとSDDC vCenterの間のvMotionトラフィックに必要なが許可されていることを確認し https://learn.microsoft.com/en-us/azure/azure-vmware/tutorial-network-checklist?source=recommendations["ファイアウォールルールとポート"^]ます。プライベートクラウドでは、vMotionネットワーク上のルーティングはデフォルトで設定されます。
-* Azure NetApp Files NFSボリュームは、Azure VMware解決策 でデータストアとしてマウントする必要があります。詳細な手順を実行します https://learn.microsoft.com/en-us/azure/azure-vmware/attach-azure-netapp-files-to-azure-vmware-solution-hosts?tabs=azure-portal["リンク"^] を使用して、Azure NetApp Files データストアをAzure VMwareソリューションホストに接続します。
+* Azure NetApp Files NFSボリュームは、Azure VMware解決策 でデータストアとしてマウントする必要があります。Azure NetApp FilesデータストアをAzure VMwareソリューションホストに接続するには、次の手順を実行 https://learn.microsoft.com/en-us/azure/azure-vmware/attach-azure-netapp-files-to-azure-vmware-solution-hosts?tabs=azure-portal["リンク"^]します。
 
 
 ====
@@ -135,7 +135,7 @@ NOTE: 仮想アプライアンスの電源を手動でオンにします。
 
 
 
-手順については、を参照してください https://docs.vmware.com/en/VMware-HCX/services/user-guide/GUID-BFD7E194-CFE5-4259-B74B-991B26A51758.html["VMware HCXユーザーガイド"^]。
+詳細な手順については、を参照してください https://docs.vmware.com/en/VMware-HCX/services/user-guide/GUID-BFD7E194-CFE5-4259-B74B-991B26A51758.html["VMware HCXユーザーガイド"^]。
 
 ====
 .手順3：ライセンスキーを使用してHCXコネクタをアクティブにします
@@ -152,7 +152,7 @@ image:anfd-hcx-image7.png["HCXキーを追加するためのスクリーンシ�
 
 NOTE: 導入されているオンプレミスのHCXコネクタごとに別々のキーが必要です。
 
-. オンプレミスのVMware HCX Managerにログインします `"https://hcxmanagerIP:9443"` 管理者のクレデンシャルを使用
+. 管理者のクレデンシャルを使用して、オンプレミスのVMware HCX Managerにログインし `"https://hcxmanagerIP:9443"`ます。
 +
 
 NOTE: OVAの導入時に定義されたパスワードを使用します。
@@ -334,7 +334,7 @@ NOTE: 移行先のANFデータストアには、移行を処理するための�
 
 
 
-== 追加情報の参照先
+== 詳細情報の入手方法
 
 このドキュメントに記載されている情報の詳細については、次の Web サイトのリンクを参照してください。
 

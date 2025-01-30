@@ -16,7 +16,7 @@ summary: このページでは、Azure NetApp Filesの委任サブネットを�
 [role="lead"]
 Azure NetApp Files の委任されたサブネットを作成するには、次の手順を実行します。
 
-. Azure ポータル内の仮想ネットワークに移動します。新しく作成した仮想ネットワークを検索します。「 AKs-vnet 」などのプレフィックスが必要です。
+. Azure ポータル内の仮想ネットワークに移動します。新しく作成した仮想ネットワークを検索します。プレフィックスは、などにする必要があります `aks-vnet`。
 . VNet の名前をクリックします。
 +
 image:aks-anf_image5.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
@@ -25,7 +25,7 @@ image:aks-anf_image5.png["入力/出力ダイアログを示す図、または�
 +
 image:aks-anf_image6.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-. サブネットに「 ANF 」などの名前を付け、「サブネットの委任」見出しの下にある「 M icrosoft.Netapp/volumes` 」を選択します。他のものは変更しないでください。[OK] をクリックします。
+. サブネットに、やなどの名前を指定します。 `ANF.sn`[Subnet Delegation]見出しでを選択します `Microsoft.Netapp/volumes`。他のものは変更しないでください。[OK]をクリックします。
 +
 image:aks-anf_image7.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 

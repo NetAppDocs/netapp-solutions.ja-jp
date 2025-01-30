@@ -2,10 +2,10 @@
 :allow-uri-read: 
 
 
-. ネットアップサポートサイトにログインし、最新バージョンの NetApp Astra Control Center をダウンロードします。そのためには、ネットアップアカウントにライセンスを関連付ける必要があります。tarball をダウンロードしたら、 admin ワークステーションに転送します。
+. NetApp Support Siteにログインし、最新バージョンの NetApp Astra Control Center をダウンロードします。そのためには、ネットアップアカウントにライセンスを関連付ける必要があります。tarball をダウンロードしたら、 admin ワークステーションに転送します。
 +
 
-NOTE: Astra Control の試用版ライセンスの使用を開始するには、にアクセスしてください https://cloud.netapp.com/astra-register["Astra 登録サイト"^]。
+NOTE: Astra Controlの試用版ライセンスの使用を開始するには、にアクセスして https://cloud.netapp.com/astra-register["Astra 登録サイト"^]ください。
 
 . tar ボールを開梱し、作業ディレクトリを作成されたフォルダに変更します。
 +
@@ -38,7 +38,7 @@ NOTE: この手順では、 Docker または Podman のいずれかを使用し�
 ----
 +
 
-NOTE: 「 kubeadmin 」ユーザを使用してプライベートレジストリにログインしている場合は、「 podman login -u OCP -user -p token --tls-verify=false astra-registry.apps.ocp-vmw.cie.netapp.com` 」の代わりにトークンを使用します。
+NOTE: ユーザーを使用してプライベートレジストリにログインする場合は `kubeadmin`、password-の代わりにトークンを使用します `podman login -u ocp-user -p token --tls-verify=false astra-registry.apps.ocp-vmw.cie.netapp.com`。
 
 +
 
@@ -58,7 +58,7 @@ done
 ----
 +
 
-NOTE: レジストリに信頼されていない証明書を使用している場合は、シェルスクリプトを編集し、 podman push コマンドに「 --tls-verify=false 」を使用します。「 podman push $registry/ $ 」（ echo $astraalImage | sed's /^[^\\/]\\/'/')--tls-verify=false 」）。
+NOTE: レジストリに信頼されていない証明書を使用している場合は、シェルスクリプトを編集し、podman pushコマンドに `podman push $registry/$(echo $astraImage | sed 's/^[^\/]\+\///') --tls-verify=false`を使用し `--tls-verify=false`ます。
 
 . ファイルを実行可能にします
 +
@@ -90,7 +90,7 @@ NOTE: レジストリに信頼されていない証明書を使用している�
 ----
 +
 
-NOTE: 「 kubeadmin 」ユーザを使用してプライベートレジストリにログインする場合は、「 password - `d Occker login -u OCP-user-p token astra-registry.apps.ocp-vmw.cie.netapp.com` 」の代わりにトークンを使用します。
+NOTE: ユーザーを使用してプライベートレジストリにログインする場合は `kubeadmin`、password-の代わりにトークンを使用します `docker login -u ocp-user -p token astra-registry.apps.ocp-vmw.cie.netapp.com`。
 
 +
 
@@ -135,22 +135,22 @@ done
 ----
 +
 
-NOTE: ルートとともに入力オペレータからのデフォルト TLS 証明書を含む OpenShift 内部レジストリを使用している場合は、前の手順に従って、ルートホスト名に証明書をパッチする必要があります。入力オペレータから証明書を抽出するには、コマンド「 oc extract secret/router-ca --keys=tls.crt-n OpenShift ingress-operator 」を使用します。
+NOTE: ルートとともに入力オペレータからのデフォルト TLS 証明書を含む OpenShift 内部レジストリを使用している場合は、前の手順に従って、ルートホスト名に証明書をパッチする必要があります。入力演算子から証明書を抽出するには、コマンドを使用し `oc extract secret/router-ca --keys=tls.crt -n openshift-ingress-operator`ます。
 
-. Astra Control Center Operator をインストールするための名前空間 NetApp-acc-operator を作成します。
+. Astra Control Centerのオペレータをインストールするためのネームスペースを作成します `netapp-acc-operator`。
 +
 [listing]
 ----
 [netapp-user@rhel7 ~]$ oc create ns netapp-acc-operator
 ----
-. NetApp-acc-operator ネームスペースのイメージレジストリにログインするためのクレデンシャルを含むシークレットを作成します。
+. ネームスペースのイメージレジストリにログインするためのクレデンシャルを使用してシークレットを作成し `netapp-acc-operator`ます。
 +
 [listing]
 ----
 [netapp-user@rhel7 ~]$ oc create secret docker-registry astra-registry-cred --docker-server=astra-registry.apps.ocp-vmw.cie.netapp.com --docker-username=ocp-user --docker-password=password -n netapp-acc-operator
 secret/astra-registry-cred created
 ----
-. Astra Control Center Operator CR 'Astra_control_center_deployment.yaml ' を編集します Astra Control Center は ' すべてのリソースを配備しますオペレータ CR で 'acc-operator-controller-managor' の配備定義を検索し ' イメージをレジストリにプッシュする際に指定した組織名とともに ' レジストリの FQDN を入力します ( この例では astra-registry.apps.ocp-vmw.cie.netapp.com/netapp-astra` ) テキスト 'Astra_image_registry' を置き換えて 'imagePullSecret' セクションで作成したシークレットの名前を指定しますオペレータのその他の詳細を確認し、保存して閉じます。
+. Astra Control Center Operator CRを編集します `astra_control_center_operator_deploy.yaml`。これは、Astra Control Centerが導入するすべてのリソースのセットです。オペレータCRで、の展開定義を見つけ `acc-operator-controller-manager`、レジストリにイメージをプッシュするときに指定した組織名とともにレジストリのFQDNを入力します（この例では `astra-registry.apps.ocp-vmw.cie.netapp.com/netapp-astra`）。テキストを置き換えて `ASTRA_IMAGE_REGISTRY`、セクションで作成したシークレットの名前を指定し `imagePullSecrets`ます。オペレータのその他の詳細を確認し、保存して閉じます。
 +
 [listing]
 ----
@@ -243,7 +243,7 @@ namespace/netapp-astra-cc created
 
 secret/astra-registry-cred created
 ----
-. Astra Control Center CRD ファイル 'Astra_control_center_min.yaml を編集し 'FQDN' イメージレジストリの詳細 ' 管理者の電子メールアドレスなどの詳細を入力します
+. Astra Control CenterのCRDファイルを編集し `astra_control_center_min.yaml`、FQDN、イメージレジストリの詳細、管理者のEメールアドレスなどの詳細を入力します。
 +
 [listing]
 ----
@@ -276,4 +276,4 @@ astracontrolcenter.astra.netapp.io/astra created
 
 
 
-NOTE: 前のファイル「 Astra_control_center_min YAML 」は、 Astra Control Center CRD の最小バージョンです。PVC 作成時のデフォルト以外のストレージクラスを定義したり、メール通知用の SMTP の詳細を提供したりするなど、より詳細な制御を伴う CRD を作成する場合は、ファイル「 Astra_control_center.yaml 」を編集して必要な詳細を入力し、それを使用して CRD を作成します。
+NOTE: 上記のファイル `astra_control_center_min.yaml`は、Astra Control Center CRDの最小バージョンです。PVCの作成にデフォルト以外のストレージクラスを定義したり、メール通知にSMTPの詳細を指定したりするなど、より詳細な制御を使用してCRDを作成する場合は、ファイルを編集して必要な詳細を入力し、それを使用してCRDを作成できます `astra_control_center.yaml`。

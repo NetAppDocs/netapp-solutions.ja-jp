@@ -58,7 +58,7 @@ image:rhhc-onprem-dp-br.png["Astra Control Centerのリストアオプション"
 
 Astra Controlでは、実行フックと呼ばれるカスタムスクリプトとしてコード化されたアプリケーション固有の手順を実行できます。
 
-https://github.com/NetApp/Verda["NetApp Verda GitHubプロジェクト"] 一般的なクラウドネイティブアプリケーションの実行フックを提供し、アプリケーションを簡単に保護し、堅牢で、オーケストレーションを容易にします。リポジトリにないアプリケーションに十分な情報がある場合は、そのプロジェクトに貢献してください。
+https://github.com/NetApp/Verda["NetApp Verda GitHubプロジェクト"]一般的なクラウドネイティブアプリケーションの実行フックを提供し、アプリケーションを簡単に保護し、堅牢で、オーケストレーションを容易にします。リポジトリにないアプリケーションに十分な情報がある場合は、そのプロジェクトに貢献してください。
 
 
 
@@ -73,9 +73,9 @@ image:rhhc-onprem-dp-br-hook.png["Astra Control Centerの実行フック"]
 リージョンを保護する場合や、RPOとRTOの低い解決策 を実現する場合は、別のサイト（できれば別のリージョン）で実行されている別のKubernetesインスタンスにアプリケーションをレプリケートできます。ACCは、最短5分でRPOを実現するONTAP 非同期SnapMirrorを利用します。レプリケーションはONTAP にレプリケートすることで実行され、フェイルオーバーによってデスティネーションクラスタにKubernetesリソースが作成されます。
 
 
-NOTE: レプリケーションは、バックアップがS3に保存され、S3からリストアが実行されるバックアップとリストアとは異なります。2種類のデータ保護の違いの詳細については、https://docs.netapp.com/us-en/astra-control-center/concepts/data-protection.html#replication-to-a-remote-cluster[here]を参照してください。
+NOTE: レプリケーションは、バックアップがS3に保存され、S3からリストアが実行されるバックアップとリストアとは異なります。この2種類のデータ保護の違いの詳細については、https://docsを参照してください。NetApp .com /us-ja/astra-control-center/concepts/data-protection.html# replication-to-a-remote-cluster [こちら]
 
-を参照してください link:https://docs.netapp.com/us-en/astra-control-center/use/replicate_snapmirror.html["こちらをご覧ください"] SnapMirrorのセットアップ手順を参照してください。
+SnapMirrorのセットアップ手順については、を参照してlink:https://docs.netapp.com/us-en/astra-control-center/use/replicate_snapmirror.html["ここをクリック"]ください。
 
 
 
@@ -84,7 +84,7 @@ NOTE: レプリケーションは、バックアップがS3に保存され、S3�
 image:rhhc-onprem-dp-rep.png["Astra Control Centerのレプリケーション"]
 
 
-NOTE: SANエコノミーおよびNASエコノミーのストレージドライバは、レプリケーション機能をサポートしていません。を参照してください link:https://docs.netapp.com/us-en/astra-control-center/get-started/requirements.html#astra-trident-requirements["こちらをご覧ください"] を参照してください。
+NOTE: SANエコノミーおよびNASエコノミーのストレージドライバは、レプリケーション機能をサポートしていません。詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/astra-control-center/get-started/requirements.html#astra-trident-requirements["ここをクリック"]。
 
 
 
@@ -100,7 +100,7 @@ video::0cec0c90-4c6f-4018-9e4f-b09700eefb3a[panopto,width=360]
 
 ONTAP 用のハードウェアプラットフォームのほとんどは、デバイス障害から保護するための高可用性機能を備えており、ダイヤスターリカバリを実行する必要はありません。しかし、火災やその他の災害からデータを保護し、RPOゼロとRTOを低く抑えてビジネスを継続するためには、多くの場合MetroCluster 解決策 が使用されます。
 
-現在ONTAP システムをお持ちのお客様は、ゾーンレベルのディザスタリカバリを実現するために、距離の制限内にサポート対象のONTAP システムを追加することで、MetroCluster に拡張できます。Trident、CSI（コンテナストレージインターフェイス）は、MetroCluster構成のほか、Cloud Volumes ONTAP、Azure NetApp Files、AWS FSx ONTAPなどの他のオプションを含むNetApp ONTAPをサポートします。Tridentには、ONTAP用の5つのストレージドライバオプションがあり、すべてMetroCluster構成でサポートされます。TridentでサポートされるONTAPストレージドライバの詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-use/backends.html["こちらをご覧ください"]。
+現在ONTAP システムをお持ちのお客様は、ゾーンレベルのディザスタリカバリを実現するために、距離の制限内にサポート対象のONTAP システムを追加することで、MetroCluster に拡張できます。Trident、CSI（コンテナストレージインターフェイス）は、MetroCluster構成のほか、Cloud Volumes ONTAP、Azure NetApp Files、AWS FSx ONTAPなどの他のオプションを含むNetApp ONTAPをサポートします。Tridentには、ONTAP用の5つのストレージドライバオプションがあり、すべてMetroCluster構成でサポートされます。TridentでサポートされるONTAPストレージドライバの詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-use/backends.html["ここをクリック"]。
 
 MetroCluster 解決策 には、両方のフォールトドメインから同じネットワークアドレスにアクセスするためのレイヤ2ネットワーク拡張または機能が必要です。MetroCluster を設定すると、MetroCluster SVM内のすべてのボリュームが保護され、SyncMirror （RPOゼロ）のメリットが得られるため、解決策 はアプリケーション所有者に対して透過的に実行されます。
 
@@ -109,4 +109,4 @@ image:rhhc-onprem-dp-bc.png["Business Continuity解決策 with MetroCluster の�
 
 TIP: Tridentバックエンド構成（TBC）の場合は、MetroCluster 構成を使用する際にデータLIFとSVMを指定しないでください。管理LIF用のSVM管理IPを指定し、vsadminロールのクレデンシャルを使用してください。
 
-Astra Control Centerのデータ保護機能の詳細を確認できます link:https://docs.netapp.com/us-en/astra-control-center/concepts/data-protection.html["こちらをご覧ください"]
+Astra Control Centerのデータ保護機能の詳細をご確認いただけますlink:https://docs.netapp.com/us-en/astra-control-center/concepts/data-protection.html["ここをクリック"]

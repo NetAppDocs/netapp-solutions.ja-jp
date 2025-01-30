@@ -30,7 +30,7 @@ summary: このセクションでは、手順 の詳細なテスト結果につ�
 sync ; sudo /sbin/sysctl vm.drop_caches=3
 ....
 . ベンチマークスクリプトを実行し、サーバストレージ（ローカルSSDストレージ）とNetApp AFF ストレージシステムのImageNetデータセットを使用しました。
-. を使用してネットワークとローカルストレージのパフォーマンスを検証しました `dd` コマンドを実行します
+. コマンドを使用して、ネットワークとローカルストレージのパフォーマンスを検証しました `dd`。
 . シングルノードの実行では、次のコマンドを使用しました。
 +
 ....
@@ -43,7 +43,7 @@ python train_imagenet.py --gpus 0,1,2,3,4,5,6,7 --batch-size 408 --kv-store horo
 
 == データの読み取り速度：ローカルストレージとネットワークストレージの比較
 
-読み取り速度は、を使用してテストしました `dd` ImageNetデータセットのいずれかのファイルに対してコマンドを実行します。具体的には、ローカルデータとネットワークデータに対して次のコマンドを実行しました。
+読み取り速度は、ImageNetデータセット用のファイルの1つでコマンドを使用してテストしました `dd`。具体的には、ローカルデータとネットワークデータに対して次のコマンドを実行しました。
 
 ....
 sync ; sudo /sbin/sysctl vm.drop_caches=3dd if=/a400-100g/netapp-ra/resnet/data/preprocessed_data/train.rec of=/dev/null bs=512k count=2048Results (average of 5 runs):

@@ -34,7 +34,7 @@ summary: このソリューションでは、AzureクラウドでOracle Data Gua
 
 
 
-== 対象者
+== 対象読者
 
 この解決策 は、次のユーザーを対象としています。
 
@@ -67,7 +67,7 @@ image:azure_ora_anf_vldb_dg_architecture.png["この画像は、ANF上のAzure�
 3+| * ハードウェア * 
 
 
-| Azure NetApp Files の特長 | Microsoftが提供する最新バージョン | 4TiB容量プール×2、Premiumサービスレベル、自動QoS 
+| Azure NetApp Files | Microsoftが提供する最新バージョン | 4TiB容量プール×2、Premiumサービスレベル、自動QoS 
 
 
 | DBサーバ用Azure VM | 標準B4ミリ秒（vCPU×4、メモリ：16GiB） | 3つのDB VM（1つはプライマリDBサーバ、1つはスタンバイDBサーバ、3つ目はクローンDBサーバ） 
@@ -82,7 +82,7 @@ image:azure_ora_anf_vldb_dg_architecture.png["この画像は、ANF上のAzure�
 | Oracle Grid Infrastructureの略 | バージョン19.18 | RUパッチp34762026_190000_Linux-x86-64.zipを適用しました 
 
 
-| Oracle データベース | バージョン19.18 | RUパッチp34765931_190000_Linux-x86-64.zipを適用しました 
+| Oracleデータベース | バージョン19.18 | RUパッチp34765931_190000_Linux-x86-64.zipを適用しました 
 
 
 | DNFS OneOffパッチ | p32931941_190000_Linux-x86-64.zip | グリッドとデータベースの両方に適用 
@@ -94,7 +94,7 @@ image:azure_ora_anf_vldb_dg_architecture.png["この画像は、ANF上のAzure�
 | Ansible | バージョンコア2.16.2 | Pythonバージョン- 3.10.13 
 
 
-| NFS | バージョン 3.0 以降 | OracleでDNFSが有効 
+| NFS | バージョン3.0 | OracleでDNFSが有効 
 |===
 
 
@@ -755,7 +755,7 @@ SQL> select group#, type, member from v$logfile order by 2, 1;
 
 
 ....
-. スタンバイデータベースのリカバリステータスを検証します。ここで、 `recovery logmerger` インチ `APPLYING_LOG` アクション。
+. スタンバイデータベースのリカバリステータスを検証します。が `APPLYING_LOG`動作していることを確認し `recovery logmerger`ます。
 +
 ....
 
@@ -927,7 +927,7 @@ DGMGRL>
 ====
 
 
-== 追加情報の参照先
+== 詳細情報の入手方法
 
 このドキュメントに記載されている情報の詳細については、以下のドキュメントや Web サイトを参照してください。
 
@@ -939,7 +939,7 @@ link:https://docs.netapp.com/us-en/netapp-solutions/databases/azure_ora_anf_data
 +
 link:https://docs.netapp.com/us-en/netapp-solutions/databases/aws_ora_fsx_ec2_nfs_asm.html#purpose["https://docs.netapp.com/us-en/netapp-solutions/databases/aws_ora_fsx_ec2_nfs_asm.html#purpose"^]
 
-* Azure NetApp Files の特長
+* Azure NetApp Files
 +
 link:https://azure.microsoft.com/en-us/products/netapp["https://azure.microsoft.com/en-us/products/netapp"^]
 

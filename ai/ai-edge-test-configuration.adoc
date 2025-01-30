@@ -37,7 +37,7 @@ summary: このセクションでは、テスト構成、ネットワークイ�
 | エントリレベルの NetApp AFF ストレージシステム（ HA ペア）  a| 
 * NetApp ONTAP 9 ソフトウェア
 * 960GB SSD × 24
-* NFS プロトコル
+* NFSプロトコル
 * コントローラごとに 1 つのインターフェイスグループ。マウントポイント用に 4 つの論理 IP アドレスが割り当てられます
 
 
@@ -47,13 +47,13 @@ image:ai-edge-image10.png["入力/出力ダイアログを示す図、または�
 次の表に、 AFF C190 と 2RU 、 24 ドライブスロットのストレージ構成を示します。
 
 |===
-| コントローラ | アグリゲート | FlexGroup ボリューム | Aggregatesize を実行します | ボリュームサイズ | オペレーティングシステムのマウントポイント 
+| コントローラ | アグリゲート | FlexGroupボリューム | Aggregatesize を実行します | ボリュームサイズ | オペレーティングシステムのマウントポイント 
 
 
-| コントローラ 1 | aggr1 | /netappleenov_AI_fg | 8.42TiB | 15TB | /NetApp_Lenovo _ fg 
+| コントローラ1 | Aggr1 | /netappleenov_AI_fg | 8.42TiB | 15 TB | /NetApp_Lenovo _ fg 
 
 
-| コントローラ 2 | aggr2 |  | 8.42TiB |  |  
+| Controller2 | Aggr2 |  | 8.42TiB |  |  
 |===
 /netappLenovo_AI_fg フォルダには、モデルの検証に使用するデータセットが含まれています。
 
@@ -65,9 +65,9 @@ image:ai-edge-image10.png["入力/出力ダイアログを示す図、または�
 | コントローラ | ボリュームグループ | ボリューム | ボリュームサイズ | DDPsize | 接続方法 
 
 
-| コントローラ 1 | DDP1 | ボリューム 1 | 8.42TiB | 16TB | SE350-1 から iSCSI LUN 0 
+| コントローラ1 | DDP1 | 巻1 | 8.42TiB | 16 TB | SE350-1 から iSCSI LUN 0 へ 
 
 
-| コントローラ 2 |  | ボリューム 2 | 8.42TiB |  | SE350-2 から iSCSI LUN 1 へ 
+| Controller2 |  | 巻2 | 8.42TiB |  | SE350-2 から iSCSI LUN 1 へ 
 |===
 image:ai-edge-image11.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]

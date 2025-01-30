@@ -2,26 +2,26 @@
 :allow-uri-read: 
 
 
-. Astra Control Centerを導入するAnsibleプレイブックを使用するには、AnsibleがインストールされたUbuntu / RHELマシンが必要です。手順に従います link:../automation/getting-started.html["こちらをご覧ください"] UbuntuおよびRHELの場合。
+. Astra Control Centerを導入するAnsibleプレイブックを使用するには、AnsibleがインストールされたUbuntu / RHELマシンが必要です。UbuntuおよびRHELの手順に従いますlink:../automation/getting-started.html["ここをクリック"]。
 . Ansible コンテンツをホストする GitHub リポジトリをクローニングします。
 +
 [source, cli]
 ----
 git clone https://github.com/NetApp-Automation/na_astra_control_suite.git
 ----
-. ネットアップサポートサイトにログインし、最新バージョンの NetApp Astra Control Center をダウンロードします。そのためには、ネットアップアカウントにライセンスを関連付ける必要があります。tar ファイルをダウンロードしたら、ワークステーションに転送します。
+. NetApp Support Siteにログインし、最新バージョンの NetApp Astra Control Center をダウンロードします。そのためには、ネットアップアカウントにライセンスを関連付ける必要があります。tar ファイルをダウンロードしたら、ワークステーションに転送します。
 +
 
-NOTE: Astra Control の試用版ライセンスの使用を開始するには、にアクセスしてください https://cloud.netapp.com/astra-register["Astra 登録サイト"^]。
+NOTE: Astra Controlの試用版ライセンスの使用を開始するには、にアクセスして https://cloud.netapp.com/astra-register["Astra 登録サイト"^]ください。
 
 . Astra Control Centerをインストールする｛k8s_usercluster_name｝クラスタへの管理者アクセスがあるkubeconfigファイルを作成または取得します。
-. ディレクトリを'na_Astra_control_siteに変更します
+. ディレクトリをに変更します `na_astra_control_suite`。
 +
 [source, cli]
 ----
 cd na_astra_control_suite
 ----
-. 「vars/vars.yml」ファイルを編集し、必要な情報を変数に入力します。
+. ファイルを編集し `vars/vars.yml`、必要な情報を変数に入力します。
 +
 [source, cli]
 ----

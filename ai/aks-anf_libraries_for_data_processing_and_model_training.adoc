@@ -17,15 +17,15 @@ summary: このページには、このタスクの構築に使用されたラ�
 次の表に、このタスクの構築に使用されたライブラリとフレームワークを示します。これらのコンポーネントはすべて、 Azure の役割ベースのアクセスおよびセキュリティ制御と完全に統合されています。
 
 |===
-| ライブラリ / フレームワーク | 説明 
+| ライブラリ / フレームワーク | 製品説明 
 
 
-| Dask cuML | ML を GPU で動作させるには、を使用します https://github.com/rapidsai/cuml/tree/main/python/cuml/dask["cuML ライブラリ"^] Dask を使用して Rapids cuML パッケージにアクセスできます。Rapids cuML は、クラスタリング、寸法縮小、回帰アプローチなどの一般的な ML アルゴリズムを高性能 GPU ベースの実装で実装し、 CPU ベースのアプローチで最大 100 倍のスピードアップを実現します。 
+| Dask cuML | MLがGPUで動作するために、は https://github.com/rapidsai/cuml/tree/main/python/cuml/dask["cuML ライブラリ"^]Daskを使用してRapids cuMLパッケージにアクセスできます。Rapids cuML は、クラスタリング、寸法縮小、回帰アプローチなどの一般的な ML アルゴリズムを高性能 GPU ベースの実装で実装し、 CPU ベースのアプローチで最大 100 倍のスピードアップを実現します。 
 
 
-| Dask cuDF | cuDF には、データのサブ設定、変換、ワンホットエンコーディングなど、 GPU アクセラレーションによる抽出、変換、読み込み（ ETL ）をサポートするその他のさまざまな機能があります。Rapids チームはを維持する https://github.com/rapidsai/cudf/tree/main/python/dask_cudf["dask -cudf ライブラリ"^] これには、 Dask および cuDF を使用するためのヘルパーメソッドが含まれています。 
+| Dask cuDF | cuDF には、データのサブ設定、変換、ワンホットエンコーディングなど、 GPU アクセラレーションによる抽出、変換、読み込み（ ETL ）をサポートするその他のさまざまな機能があります。Rapidsチームは、DaskとcuDFを使用するためのヘルパーメソッドを含むを維持してい https://github.com/rapidsai/cudf/tree/main/python/dask_cudf["dask -cudf ライブラリ"^]ます。 
 
 
-| Scikit learn | Scikit-Learn には、数十の機械学習アルゴリズムとモデルが組み込まれています。これらは、試算ツールと呼ばれます。各 https://scikit-learn.org/stable/glossary.html#term-estimators["エスティメータ"^] は、を使用して一部のデータに装着できます https://scikit-learn.org/stable/glossary.html#term-fit["フィット"^] メソッド 
+| Scikit learn | Scikit-Learn には、数十の機械学習アルゴリズムとモデルが組み込まれています。これらは、試算ツールと呼ばれます。それぞれは https://scikit-learn.org/stable/glossary.html#term-estimators["エスティメータ"^]、その方法を使用していくつかのデータに適合させることができます https://scikit-learn.org/stable/glossary.html#term-fit["フィット"^]。 
 |===
 2 つのノートブックを使用して、比較のための ML パイプラインを構築しました。 1 つは従来の Pandas の坐骨坐骨学習アプローチで、もう 1 つは Rapids および Dask との分散トレーニングです。各ノートブックを個別にテストして、パフォーマンスを時間と規模の観点から確認できます。各ノートブックについて個別に説明し、 Rapids および Dask を使用した分散型トレーニングの利点を示します。

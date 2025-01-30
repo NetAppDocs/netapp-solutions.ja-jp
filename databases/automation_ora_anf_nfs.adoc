@@ -34,7 +34,7 @@ summary: 解決策では、NFSプロトコルを使用したプライマリデ�
 
 
 
-== 対象者
+== 対象読者
 
 この解決策 は、次のユーザーを対象としています。
 
@@ -48,7 +48,7 @@ summary: 解決策では、NFSプロトコルを使用したプライマリデ�
 
 == 解決策 のテストおよび検証環境
 
-この解決策のテストと検証は、最終的な導入環境とは一致しない可能性があるラボ環境で実行しました。を参照してください <<導入にあたって考慮すべき主な要因>> を参照してください。
+この解決策のテストと検証は、最終的な導入環境とは一致しない可能性があるラボ環境で実行しました。詳細については、を参照してください<<導入にあたって考慮すべき主な要因>>。
 
 
 
@@ -67,7 +67,7 @@ image:automation_ora_anf_nfs_archit.png["このイメージは、iSCSIとASMを�
 3+| * ハードウェア * 
 
 
-| Azure NetApp Files の特長 | Azure by Microsoftで提供中のサービス | Premiumサービスレベルの容量プール×1 
+| Azure NetApp Files | Azure by Microsoftで提供中のサービス | Premiumサービスレベルの容量プール×1 
 
 
 | DBサーバ用Azure VM | STANDARD_B4ms-4 vCPU、16GiB | 2つのLinux仮想マシンインスタンスによる同時導入 
@@ -82,22 +82,22 @@ image:automation_ora_anf_nfs_archit.png["このイメージは、iSCSIとASMを�
 | Red Hat Linux | RHEL Linux 8.6（LVM）- x64 Gen2 | テスト用にRedHatサブスクリプションを導入 
 
 
-| Windows Serverの場合 | 2022 Datacenter、Azure Edition Hotpatch-x64 Gen2 | SnapCenterサアハノホスト 
+| Windows Server | 2022 Datacenter、Azure Edition Hotpatch-x64 Gen2 | SnapCenterサアハノホスト 
 
 
-| Oracle データベース | バージョン19.18 | RUパッチp34765931_190000_Linux-x86-64.zipを適用しました 
+| Oracleデータベース | バージョン19.18 | RUパッチp34765931_190000_Linux-x86-64.zipを適用しました 
 
 
 | Oracle OPatchの略 | バージョン12.2.0.1.36 | 最新のパッチp6880880_190000_Linux-x86-64.zip 
 
 
-| SnapCenter サーバ | バージョン5.0 | ワークグループの導入 
+| SnapCenterサーバ | バージョン5.0 | ワークグループの導入 
 
 
 | JDKを開く | バージョンjava-11-openjdk | DB VMでのSnapCenterプラグインの要件 
 
 
-| NFS | バージョン 3.0 以降 | Oracle dNFSが有効 
+| NFS | バージョン3.0 | Oracle dNFSが有効 
 
 
 | Ansible | コア2.16.2 | Python 3.6.8 
@@ -125,11 +125,11 @@ image:automation_ora_anf_nfs_archit.png["このイメージは、iSCSIとASMを�
 
 === 導入にあたって考慮すべき主な要因
 
-* * Oracleデータベースのストレージレイアウト。*この自動化されたOracle導入では、Oracleのバイナリ、データ、ログをホストするために、各データベースに3つのデータベースボリュームをデフォルトでプロビジョニングします。ボリュームは、NFS経由で/u01-binary、/u02-data、/u03-logsとしてOracle DBサーバにマウントされます。冗長性を確保するために、/u02と/u03のマウントポイントにデュアル制御ファイルが設定されています。
-* *複数のDBサーバの導入。*自動化解決策では、1回のAnsibleプレイブック実行でOracleコンテナデータベースを複数のDBサーバに導入できます。DBサーバの数に関係なく、プレイブックの実行は変わりません。複数のコンテナデータベースを1つのVMインスタンスに導入するには、別 々 のデータベースインスタンスID（Oracle SID）を使用して同じ環境を繰り返します。ただし、導入したデータベースをサポートするのに十分なメモリがホストにあることを確認してください。
-* * dNFS構成。* dNFS（Oracle 11g以降で利用可能）を使用すると、Azure仮想マシンで実行されるOracleデータベースは、ネイティブのNFSクライアントよりも大幅に多くのI/Oを処理できます。Oracleの自動導入では、NFSv3にdNFSがデフォルトで設定されます。
-* *導入時間を短縮するために、大きなサイズのボリュームを割り当てます。* ANFファイルシステムのIOスループットは、ボリュームのサイズに基づいて調整されます。初期導入では、大容量のボリュームを割り当てることで導入時間を短縮できます。ボリュームのサイズを動的に縮小しても、アプリケーションに影響はありません。
-* *データベースのバックアップ。* NetAppは、データベースのバックアップ、リストア、クローニングを実行するためのSnapCenterソフトウェアスイートで、使いやすいUIインターフェイスを備えています。NetAppでは、このような管理ツールを実装して、高速（1分未満）のSnapshotバックアップ、高速（数分）のデータベースリストア、データベースクローンを実現することを推奨しています。
+* * Oracleデータベースのストレージレイアウト*このOracleの自動導入では、各データベースに3つのデータベースボリュームをプロビジョニングし、Oracleのバイナリ、データ、ログをデフォルトでホストします。ボリュームは、NFS経由で/u01-binary、/u02-data、/u03-logsとしてOracle DBサーバにマウントされます。冗長性を確保するために、/u02と/u03のマウントポイントにデュアル制御ファイルが設定されています。
+* *複数のDBサーバの導入*この自動化ソリューションでは、Oracleコンテナデータベースを1回のAnsible Playbookで複数のDBサーバに導入できます。DBサーバの数に関係なく、プレイブックの実行は変わりません。複数のコンテナデータベースを1つのVMインスタンスに導入するには、別 々 のデータベースインスタンスID（Oracle SID）を使用して同じ環境を繰り返します。ただし、導入したデータベースをサポートするのに十分なメモリがホストにあることを確認してください。
+* * dNFS設定*Oracle 11g以降で使用可能なdNFSを使用したAzure Virtual Machineで実行されるOracleデータベースは、ネイティブのNFSクライアントよりも大幅に多くのI/Oを処理できます。Oracleの自動導入では、NFSv3にdNFSがデフォルトで設定されます。
+* *導入時間を短縮するために、大容量のボリュームを割り当てます。*ANFファイルシステムのIOスループットは、ボリュームのサイズに基づいて調整されます。初期導入では、大容量のボリュームを割り当てることで導入時間を短縮できます。ボリュームのサイズを動的に縮小しても、アプリケーションに影響はありません。
+* *データベースのバックアップ。*NetAppは、データベースのバックアップ、リストア、クローニングを実行するためのSnapCenterソフトウェアスイートで、使いやすいUIインターフェイスを備えています。NetAppでは、このような管理ツールを実装して、高速（1分未満）のSnapshotバックアップ、高速（数分）のデータベースリストア、データベースクローンを実現することを推奨しています。
 
 
 
@@ -147,7 +147,7 @@ image:automation_ora_anf_nfs_archit.png["このイメージは、iSCSIとASMを�
 導入には、次の前提条件が必要です。
 
 . Azureアカウントがセットアップされ、必要なVNetセグメントとネットワークセグメントがAzureアカウント内に作成されている。
-. Azureクラウドポータルから、Azure Linux VMをOracle DBサーバとして導入します。Oracleデータベース用のAzure NetApp Files容量プールとデータベースボリュームを作成します。azureuserからDBサーバへのVM SSH秘密鍵/公開鍵認証を有効にします。環境のセットアップの詳細については、前のセクションのアーキテクチャ図を参照してください。参照先 link:azure_ora_nfile_procedures.html["Azure VMおよびAzure NetApp Files へのOracleの導入手順を順を追って説明します"^] を参照してください。
+. Azureクラウドポータルから、Azure Linux VMをOracle DBサーバとして導入します。Oracleデータベース用のAzure NetApp Files容量プールとデータベースボリュームを作成します。azureuserからDBサーバへのVM SSH秘密鍵/公開鍵認証を有効にします。環境のセットアップの詳細については、前のセクションのアーキテクチャ図を参照してください。詳細については、も参照してlink:azure_ora_nfile_procedures.html["Azure VMおよびAzure NetApp Files へのOracleの導入手順を順を追って説明します"^]ください。
 +
 
 NOTE: ローカルディスクの冗長性を使用して導入されたAzure VMの場合は、VMのルートディスクに少なくとも128Gが割り当てられ、OracleインストールファイルをステージングしてOSスワップファイルを追加するための十分なスペースが確保されていることを確認してください。必要に応じて、/tmplvおよび/rootlv OSパーティションを展開します。rootvg-homelvが1G未満の場合は、1Gの空き容量をrootvg-homelvに追加します。データベースボリュームの命名規則がVMname-u01、VMname-u02、およびVMname-u03に準拠していることを確認します。
@@ -167,10 +167,10 @@ sudo lvresize -r -L +10G /dev/mapper/rootvg-tmplv
 ----
 sudo lvresize -r -L +1G /dev/mapper/rootvg-homelv
 ----
-. Azureクラウドポータルで、NetApp SnapCenter UIツールを最新バージョンで実行するためのWindowsサーバをプロビジョニングします。詳細については、次のリンクを参照してください。 link:https://docs.netapp.com/us-en/snapcenter/install/task_install_the_snapcenter_server_using_the_install_wizard.html["SnapCenter サーバをインストールします"^]
-. 最新バージョンのAnsibleとGitがインストールされたAnsibleコントローラノードとしてLinux VMをプロビジョニングします。詳細については、次のリンクを参照してください。 link:../automation/getting-started.html["NetApp解決策 自動化の導入"^] セクション-
-`Setup the Ansible Control Node for CLI deployments on RHEL / CentOS` または
-`Setup the Ansible Control Node for CLI deployments on Ubuntu / Debian`。
+. Azureクラウドポータルで、NetApp SnapCenter UIツールを最新バージョンで実行するためのWindowsサーバをプロビジョニングします。詳細については、次のリンクを参照してください。link:https://docs.netapp.com/us-en/snapcenter/install/task_install_the_snapcenter_server_using_the_install_wizard.html["SnapCenterサーバのインストール"^]
+. 最新バージョンのAnsibleとGitがインストールされたAnsibleコントローラノードとしてLinux VMをプロビジョニングします。詳細については、セクション-または
+`Setup the Ansible Control Node for CLI deployments on Ubuntu / Debian`の
+`Setup the Ansible Control Node for CLI deployments on RHEL / CentOS`リンクを参照してください。link:../automation/getting-started.html["NetApp解決策 自動化の導入"^]
 +
 
 NOTE: Ansibleコントローラノードは、SSHポートを介してAzure DB VMにアクセスできるかぎり、オンプレミスまたはAzureクラウドに配置できます。
@@ -218,7 +218,7 @@ Ansible Playbookは、事前定義されたパラメータを使用してデー�
 
 [%collapsible]
 ====
-. Ansibleターゲット `hosts` ファイル構成：
+. Ansibleターゲット `hosts`ファイル構成：
 +
 [source, shell]
 ----
@@ -228,7 +228,7 @@ ora_01 ansible_host=10.61.180.21 ansible_ssh_private_key_file=ora_01.pem
 ora_02 ansible_host=10.61.180.23 ansible_ssh_private_key_file=ora_02.pem
 
 ----
-. グローバル `vars/vars.yml` ファイル構成
+. グローバル `vars/vars.yml`ファイル構成
 +
 [source, shell]
 ----
@@ -267,7 +267,7 @@ db_domain: solutions.netapp.com
 initial_pwd_all: XXXXXXXX
 
 ----
-. ローカルDBサーバ `host_vars/host_name.yml` ora_01.yml、ora_02.ymlなどの構成
+. ora_01.yml、ora_02.ymlなどのローカルDBサーバ `host_vars/host_name.yml`構成
 +
 [source, shell]
 ----
@@ -593,7 +593,7 @@ image:automation_ora_anf_nfs_em_01.png["このイメージは、Oracle Enterpris
 
 [%collapsible]
 ====
-オンプレミスからクラウドへのOracleデータベースの移行は、面倒な作業です。適切な戦略と自動化を使用することで、プロセスを円滑化し、サービスの中断やダウンタイムを最小限に抑えることができます。この詳細な手順に従います。 link:azure_ora_nfile_migration.html#converting-a-single-instance-non-cdb-to-a-pdb-in-a-multitenant-cdb["オンプレミスからAzureクラウドへのデータベース移行"^] を参照してください。
+オンプレミスからクラウドへのOracleデータベースの移行は、面倒な作業です。適切な戦略と自動化を使用することで、プロセスを円滑化し、サービスの中断やダウンタイムを最小限に抑えることができます。以下の詳細な手順に従って、link:azure_ora_nfile_migration.html#converting-a-single-instance-non-cdb-to-a-pdb-in-a-multitenant-cdb["オンプレミスからAzureクラウドへのデータベース移行"^]データベース移行を進めてください。
 
 ====
 
@@ -602,12 +602,12 @@ image:automation_ora_anf_nfs_em_01.png["このイメージは、Oracle Enterpris
 
 [%collapsible]
 ====
-NetAppは、Azureクラウドに導入されたOracleデータベースを管理するために、SnapCenter UIツールを推奨しています。詳細については、『TR-4988： link:snapctr_ora_azure_anf.html["SnapCenterを使用したANFでのOracleデータベースのバックアップ、リカバリ、クローン"^] を参照してください。
+NetAppは、Azureクラウドに導入されたOracleデータベースを管理するために、SnapCenter UIツールを推奨しています。詳細については、TR-4988を参照してくださいlink:snapctr_ora_azure_anf.html["SnapCenterを使用したANFでのOracleデータベースのバックアップ、リカバリ、クローン"^]。
 
 ====
 
 
-== 追加情報の参照先
+== 詳細情報の入手方法
 
 このドキュメントに記載されている情報の詳細については、以下のドキュメントや Web サイトを参照してください。
 
@@ -615,7 +615,7 @@ NetAppは、Azureクラウドに導入されたOracleデータベースを管理
 +
 link:snapctr_ora_azure_anf.html["SnapCenterを使用したANFでのOracleデータベースのバックアップ、リカバリ、クローン"^]
 
-* Azure NetApp Files の特長
+* Azure NetApp Files
 +
 link:https://azure.microsoft.com/en-us/products/netapp["https://azure.microsoft.com/en-us/products/netapp"^]
 

@@ -20,7 +20,7 @@ summary: NetApp ONTAP を使用した Red Hat OpenShift Virtualization
 
 == 前提条件
 
-* Red Hat OpenShift クラスタ（バージョン 4.6 以降） RHCOS ワーカーノードを使用するベアメタルインフラストラクチャにインストールします
+* RHCOSワーカーノードを含むベアメタルインフラにインストールされたRed Hat OpenShiftクラスタ（バージョン4.6以降）
 * OpenShift クラスタは、インストーラでプロビジョニングされたインフラを介してインストールする必要があります （ IPI ）
 * VM の HA を維持するには、マシンの健全性チェックを導入します
 * NetApp ONTAP クラスタ
@@ -32,8 +32,8 @@ summary: NetApp ONTAP を使用した Red Hat OpenShift Virtualization
 * tridentctl および OC ツールがインストールされている管理ワークステーション $PATH に追加されました
 
 
-OpenShift Virtualization は、 OpenShift クラスタにインストールされたオペレータによって管理されるため、メモリ、 CPU 、およびストレージに追加のオーバーヘッドが発生します。このオーバーヘッドは、クラスタのハードウェア要件を計画する際に考慮する必要があります。のドキュメントを参照してください https://docs.openshift.com/container-platform/4.7/virt/install/preparing-cluster-for-virt.html#virt-cluster-resource-requirements_preparing-cluster-for-virt["こちらをご覧ください"] 詳細：
+OpenShift Virtualization は、 OpenShift クラスタにインストールされたオペレータによって管理されるため、メモリ、 CPU 、およびストレージに追加のオーバーヘッドが発生します。このオーバーヘッドは、クラスタのハードウェア要件を計画する際に考慮する必要があります。詳細については、のドキュメントを参照してください https://docs.openshift.com/container-platform/4.7/virt/install/preparing-cluster-for-virt.html#virt-cluster-resource-requirements_preparing-cluster-for-virt["ここをクリック"]。
 
-ノード配置ルールを設定して、 OpenShift Virtualization オペレータ、コントローラ、 VM をホストする OpenShift クラスタノードのサブセットを指定することもできます。OpenShift Virtualization のノード配置ルールを設定するには、のドキュメントに従ってください https://docs.openshift.com/container-platform/4.7/virt/install/virt-specifying-nodes-for-virtualization-components.html["こちらをご覧ください"]。
+ノード配置ルールを設定して、 OpenShift Virtualization オペレータ、コントローラ、 VM をホストする OpenShift クラスタノードのサブセットを指定することもできます。OpenShift仮想化のノード配置ルールを設定するには、のドキュメントに従って https://docs.openshift.com/container-platform/4.7/virt/install/virt-specifying-nodes-for-virtualization-components.html["ここをクリック"]ください。
 
 OpenShift Virtualization を基盤とするストレージについては、特定の Trident バックエンドからストレージを要求する専用のストレージクラスを用意し、そのストレージクラスを専用の SVM でバックアップすることを推奨します。これにより、 OpenShift クラスタ上で VM ベースのワークロードに提供されるデータに関して、レベルのマルチテナンシーが維持されます。

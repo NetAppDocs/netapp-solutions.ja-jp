@@ -24,12 +24,12 @@ summary: このセクションでは、検証を完了するために必要な�
 
 * Kubectl（既存のKubernetesクラスタへのアクセスを設定）
 +
-** インストールと設定の手順については、を参照してください https://kubernetes.io/docs/tasks/tools/["こちらをご覧ください"^]。
+** インストールと設定の手順については、こちらを参照して https://kubernetes.io/docs/tasks/tools/["ここをクリック"^]ください。
 
 
 * Kubernetes向けNetApp DataOpsツールキット
 +
-** インストール手順が記載されています https://github.com/NetApp/netapp-dataops-toolkit/tree/main/netapp_dataops_k8s["こちらをご覧ください"^]。
+** インストール手順については、こちらを https://github.com/NetApp/netapp-dataops-toolkit/tree/main/netapp_dataops_k8s["ここをクリック"^]参照してください。
 
 
 
@@ -52,9 +52,9 @@ Creating PersistentVolumeClaim (PVC) 'inference-data' in namespace 'inference'.
 PersistentVolumeClaim (PVC) 'inference-data' created. Waiting for Kubernetes to bind volume to PVC.
 Volume successfully created and bound to PersistentVolumeClaim (PVC) 'inference-data' in namespace 'inference'.
 ....
-. NetApp DataOpsツールキットを使用して、JupyterLabの新しいワークスペースを作成します。前の手順で作成した永続ボリュームを'--mount-pvcオプションを使用してマウントします必要に応じて'--nvidia -GPU'オプションを使用して'NVIDIA GPUをワークスペースに割り当てます
+. NetApp DataOpsツールキットを使用して、JupyterLabの新しいワークスペースを作成します。オプションを使用して、前の手順で作成した永続ボリュームをマウントします `--mount- pvc`。必要に応じて、オプションを使用してNVIDIA GPUをワークスペースに割り当て `-- nvidia-gpu`ます。
 +
-次の例では'永続ボリュームinerial-data'が'/home/jovyan/data'のJupyterLabワークスペースコンテナにマウントされています公式のProject Jupyterコンテナイメージを使用する場合、「/home/jovyan」はJupyterLab Webインターフェイス内の最上位ディレクトリとして表示されます。
+次の例では、永続ボリュームが `inference-data`にあるJupyterLabワークスペースコンテナにマウントされてい `/home/jovyan/data`ます。公式のProject Jupyterコンテナイメージを使用する場合、 `/home/jovyan`はJupyterLab Webインターフェイス内の最上位ディレクトリとして表示されます。
 
 +
 ....
@@ -75,11 +75,11 @@ Deployment successfully created.
 Workspace successfully created.
 To access workspace, navigate to http://192.168.0.152:32721
 ....
-. 「create jupyterlab」コマンドの出力で指定したURLを使用して、JupyterLabワークスペースにアクセスします。データディレクトリは、ワークスペースにマウントされた永続ボリュームを表します。
+. コマンドの出力で指定したURLを使用して、JupyterLabワークスペースにアクセスします `create jupyterlab`。データディレクトリは、ワークスペースにマウントされた永続ボリュームを表します。
 +
 image:ai-protopia-image3.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-. 「data」ディレクトリを開き、推論を実行するファイルをアップロードします。ファイルがデータディレクトリにアップロードされると、ワークスペースにマウントされた永続ボリュームに自動的に保存されます。ファイルをアップロードするには、次の図に示すように、[ファイルのアップロード]アイコンをクリックします。
+. ディレクトリを開き `data`、推論を実行するファイルをアップロードします。ファイルがデータディレクトリにアップロードされると、ワークスペースにマウントされた永続ボリュームに自動的に保存されます。ファイルをアップロードするには、次の図に示すように、[ファイルのアップロード]アイコンをクリックします。
 +
 image:ai-protopia-image4.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
@@ -123,7 +123,7 @@ Volume successfully created and bound to PersistentVolumeClaim (PVC) 'inference-
 ....
 . 新しい永続ボリュームに、推論を実行するデータを入力します。
 +
-PVCにデータをロードする方法はいくつかあります。データがNetApp StorageGRID やAmazon S3などのS3互換オブジェクトストレージプラットフォームに現在格納されている場合は、を使用できます https://github.com/NetApp/netapp-dataops-toolkit/blob/main/netapp_dataops_k8s/docs/data_movement.md["NetApp DataOpsツールキットS3 Data Moverの機能"^]。また、JupyterLabワークスペースを作成し、JupyterLab Webインターフェイスを使用してファイルをアップロードする方法も簡単です。手順3～5を参照してください<<シナリオ1–JupyterLabにおけるオンデマンド推論>>」
+PVCにデータをロードする方法はいくつかあります。データがNetApp StorageGRIDやAmazon S3などのS3互換オブジェクトストレージプラットフォームに格納されている場合は、を使用できます https://github.com/NetApp/netapp-dataops-toolkit/blob/main/netapp_dataops_k8s/docs/data_movement.md["NetApp DataOpsツールキットS3 Data Moverの機能"^]。もう1つの簡単な方法は、JupyterLabワークスペースを作成し、JupyterLab Webインターフェイスを使用してファイルをアップロードする方法です。手順3～5については、を参照してください<<シナリオ1–JupyterLabにおけるオンデマンド推論>>。
 
 . バッチ推論タスク用のKubernetesジョブを作成します。次の例は、イメージ検出のユースケースに対するバッチ推論ジョブを示しています。このジョブは、一連のイメージ内の各イメージに対して推論を実行し、stdoutに推論の精度の指標を書き込みます。
 +
@@ -186,7 +186,7 @@ mAP: 0.9337148153739079
 ....
 . 推測ジョブにProtopia難読化を追加します。Protopiaの難読化を追加する手順は、このテクニカルレポートでは説明していませんが、Protopiaから直接追加できます。次の例は、アルファ値0.8を使用してProtopia難読化を行った場合のフェース検出のバッチ推論ジョブを示しています。このジョブは、一連のイメージ内の各イメージに対して推論を実行する前にProtopia難読化を適用し、stdoutに推論の精度指標を書き込みます。
 +
-このステップは、アルファ値0.05、0.1、0.2、0.4、0.6について繰り返しました。 0.8、0.9、および0.95。結果はに表示されます link:ai-protopia-inferencing-accuracy-comparison.html["「推論の精度比較」"]
+このステップは、アルファ値0.05、0.1、0.2、0.4、0.6について繰り返しました。 0.8、0.9、および0.95。結果は次のように表示されます。link:ai-protopia-inferencing-accuracy-comparison.html["「推論の精度比較」"]
 
 +
 ....
@@ -269,9 +269,9 @@ Creating PersistentVolumeClaim (PVC) 'triton-model-repo' in namespace 'inference
 PersistentVolumeClaim (PVC) 'triton-model-repo' created. Waiting for Kubernetes to bind volume to PVC.
 Volume successfully created and bound to PersistentVolumeClaim (PVC) 'triton-model-repo' in namespace 'inference'.
 ....
-. の新しい永続ボリュームにモデルを保存します https://github.com/triton-inference-server/server/blob/main/docs/user_guide/model_repository.md["の形式で入力し"^] これはNVIDIA Triton Inference Serverによって認識されます。
+. NVIDIA Triton Inference Serverで認識されるの新しい永続ボリュームにモデルを格納します https://github.com/triton-inference-server/server/blob/main/docs/user_guide/model_repository.md["の形式で入力し"^]。
 +
-PVCにデータをロードする方法はいくつかあります。簡単な方法としては、「」の手順3～5で説明しているように、JupyterLabワークスペースを作成し、JupyterLab Webインターフェイスを使用してファイルをアップロードする方法があります<<シナリオ1–JupyterLabにおけるオンデマンド推論>>。」
+PVCにデータをロードする方法はいくつかあります。簡単な方法は、JupyterLabワークスペースを作成し、JupyterLab Webインターフェイスを使用してファイルをアップロードする方法です（「」の手順3～5を参照<<シナリオ1–JupyterLabにおけるオンデマンド推論>>）。」
 
 . NetApp DataOpsツールキットを使用して、新しいNVIDIA Triton Inference Serverインスタンスを導入します。
 +

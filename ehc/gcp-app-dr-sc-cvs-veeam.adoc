@@ -22,9 +22,7 @@ summary: クラウドへのディザスタリカバリは、耐障害性と対�
 
 == 概要
 
-多くのお客様は、VMware vSphereでホストされているアプリケーションVMに対して、効果的なディザスタリカバリ解決策を求めています。それらの多くは、既存のバックアップ解決策を使用して、ダイヤル中に回復を実行します。
-多くの場合、解決策はRTOを高め、期待に応えられません。RPOとRTOを短縮するために、適切な権限を持つネットワーク接続と環境が利用可能であれば、オンプレミスからGCVEへのVeeam VMレプリケーションを利用できます。
-注: Veeam VM Replicationでは、ゲストVM内のiSCSIマウントやNFSマウントなどのVMゲスト接続ストレージデバイスは保護されません。それらを別 々 に保護する必要があります。
+多くのお客様は、VMware vSphereでホストされているアプリケーションVMに対して、効果的なディザスタリカバリ解決策を求めています。それらの多くは、既存のバックアップ解決策を使用して、ダイヤル中に回復を実行します。多くの場合、解決策はRTOを高め、期待に応えられません。RPOとRTOを短縮するために、適切な権限を持つネットワーク接続と環境が利用可能であれば、オンプレミスからGCVEへのVeeam VMレプリケーションを利用できます。注: Veeam VM Replicationでは、ゲストVM内のiSCSIマウントやNFSマウントなどのVMゲスト接続ストレージデバイスは保護されません。それらを別 々 に保護する必要があります。
 
 SQL VMでアプリケーションと整合性のあるレプリケーションを実現し、RTOを短縮するために、SnapCenterを使用してSQLデータベースとログボリュームのSnapMirror処理をオーケストレーションしました。
 
@@ -73,16 +71,16 @@ NOTE: オンプレミスのデータセンターをGoogle Cloudに接続する�
 
 
 
-=== 展開の詳細
+=== 導入の詳細
 
 .Google CloudでCVOを構成し、ボリュームをCVOにレプリケート
 [%collapsible]
 ====
-最初のステップは、Google CloudでCloud Volumes ONTAPを設定することです（link:gcp-guest.html["CVOを確認して"^]）をクリックし、必要なボリュームを、必要な頻度とSnapshotの保持を使用してCloud Volumes ONTAP にレプリケートします。
+最初の手順では、Google CloudでCloud Volumes ONTAPを設定し（link:gcp-guest.html["CVOを確認して"^]）、必要な頻度とSnapshotの保持期間を指定して、必要なボリュームをCloud Volumes ONTAPにレプリケートします。
 
 image:dr-cvo-gcve-image2.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-SnapCenter を設定してデータを複製する手順の例については、を参照してください link:aws-guest-dr-solution-overview.html#config-snapmirror["SnapCenter を使用してレプリケーションを設定する"]
+SnapCenterを設定してデータを複製する手順の例については、を参照してください。link:aws-guest-dr-solution-overview.html#config-snapmirror["SnapCenter を使用してレプリケーションを設定する"]
 
 .SnapCenterを使用したSQL VMの保護の確認
 video::395e33db-0d63-4e48-8898-b01200f006ca[panopto]
@@ -94,7 +92,7 @@ SDDCを導入する際に考慮すべき2つの重要な要素は、GCVE解決�
 
 Google Cloud NetApp Volume for NFS DatastoreおよびCloud Volumes ONTAP for SQLデータベースとログを任意のVPCに導入できます。GCVEは、NFSデータストアをマウントしてVMをiSCSI LUNに接続するために、そのVPCにプライベート接続を確立する必要があります。
 
-GCVE SDDCを設定するには、を参照してください link:gcp-setup.html["Google Cloud Platform （ GCP ）への仮想化環境の導入と構成"^]。前提条件として、接続が確立された後で、GCVEホストに存在するゲストVMがCloud Volumes ONTAP からデータを使用できることを確認します。
+GCVE SDDCを設定するには、を参照してくださいlink:gcp-setup.html["Google Cloud Platform （ GCP ）への仮想化環境の導入と構成"^]。前提条件として、接続が確立された後で、GCVEホストに存在するゲストVMがCloud Volumes ONTAP からデータを使用できることを確認します。
 
 Cloud Volumes ONTAP とGCVEを適切に設定したら、Veeamのレプリケーション機能を使用して、Cloud Volumes ONTAP へのアプリケーションボリュームコピーにSnapMirrorを利用することで、オンプレミスのワークロードのGCVE（アプリケーションVMDKおよびゲストストレージを搭載したVM）へのリカバリを自動化するようにVeeamを設定します。
 
@@ -102,15 +100,13 @@ Cloud Volumes ONTAP とGCVEを適切に設定したら、Veeamのレプリケー
 .Veeamコンポーネントをインストールします
 [%collapsible]
 ====
-導入シナリオに基づいて、Veeamバックアップサーバ、バックアップリポジトリ、およびバックアッププロキシを導入する必要があります。このユースケースでは、Veeam用のオブジェクトストアとスケールアウトリポジトリも必要ありません。
-https://helpcenter.veeam.com/docs/backup/vsphere/replication_components.html?ver=120["インストール手順 については、Veeamの製品ドキュメントを参照してください"]
-追加情報については、を参照してください link:gcp-migrate-veeam.html["Veeam Replicationによる移行"]
+導入シナリオに基づいて、Veeamバックアップサーバ、バックアップリポジトリ、およびバックアッププロキシを導入する必要があります。このユースケースでは、Veeam用のオブジェクトストアとスケールアウトリポジトリも必要ありません。https://helpcenter.veeam.com/docs/backup/vsphere/replication_components.html?ver=120["インストール手順 については、Veeamの製品ドキュメントを参照してください"]詳細については、link:gcp-migrate-veeam.html["Veeam Replicationによる移行"]
 
 ====
 .VMレプリケーションをVeeamとセットアップする
 [%collapsible]
 ====
-オンプレミスのvCenterとGCVEのvCenterをVeeamに登録する必要があります。 https://helpcenter.veeam.com/docs/backup/vsphere/replica_job.html?ver=120["vSphere VMレプリケーションジョブをセットアップします"] ウィザードの[ゲスト処理]ステップで、[アプリケーション対応のバックアップとリカバリにSnapCenter を使用するので、アプリケーション処理を無効にする]を選択します。
+オンプレミスのvCenterとGCVE vCenterの両方をVeeamに登録する必要があります。 https://helpcenter.veeam.com/docs/backup/vsphere/replica_job.html?ver=120["vSphere VMレプリケーションジョブをセットアップします"]ウィザードの[ゲスト処理]ステップで、[アプリケーション対応のバックアップとリカバリにSnapCenter を使用するので、アプリケーション処理を無効にする]を選択します。
 
 video::8b7e4a9b-7de1-4d48-a8e2-b01200f00692[panopto,width=360]
 ====

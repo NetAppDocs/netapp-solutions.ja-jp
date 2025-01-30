@@ -16,13 +16,9 @@ summary: 解決策検証の概要- VECTOR DATABASE解決策for NetApp
 [role="lead"]
 当社は、以下の5つの主要分野に焦点を当てた包括的な解決策検証を実施しました。各セクションでは、お客様が直面している課題、NetAppが提供するソリューション、その後お客様にもたらされるメリットについて詳しく説明します。
 
-. link:./vector-database-milvus-cluster-setup.html["オンプレミスでのKubernetesを使用したMilvusクラスタセットアップ"]
-ストレージとコンピューティングの個別拡張、効果的なインフラ管理、データ管理に関するお客様の課題このセクションでは、クラスタデータと顧客データの両方にNetAppストレージコントローラを利用して、KubernetesにMilvusクラスタをインストールするプロセスを詳しく説明します。
+. link:./vector-database-milvus-cluster-setup.html["オンプレミスでのKubernetesを使用したMilvusクラスタセットアップ"]ストレージとコンピューティングの個別拡張、効果的なインフラ管理、データ管理に関するお客様の課題このセクションでは、クラスタデータと顧客データの両方にNetAppストレージコントローラを利用して、KubernetesにMilvusクラスタをインストールするプロセスを詳しく説明します。
 . link :./ vector-database-milvus-with-amazon-fsx ONTAP for NetApp - ONTAP .html[Amazon FSx ONTAP for NetApp ONTAPを使用したMilvus–ファイルとオブジェクトの二重性]このセクションでは、クラウドにベクターデータベースをデプロイする必要がある理由と、Dockerコンテナ内のAmazon FSx ONTAP for NetApp ONTAPにベクターデータベース(Milvusスタンドアロン)をデプロイする手順について説明します。
-. link:./vector-database-protection-using-snapcenter.html["NetApp SnapCenterを使用したベクターデータベース保護。"]
-このセクションでは、SnapCenterがONTAPに存在するベクターデータベースデータとMilvusデータをどのように保護するかについて詳しく説明します。この例では、顧客データ用にNFS ONTAPボリューム（vol1）から派生したNASバケット（milvusdbvol1）を使用し、Milvusクラスタ構成データ用に別のNFSボリューム（vectordbpv）を使用しました。
-. link:./vector-database-disaster-recovery-using-netapp-snapmirror.html["NetApp SnapMirrorを使用したディザスタリカバリ"]
-このセクションでは、ベクターデータベースに対するディザスタリカバリ（DR）の重要性と、NetAppディザスタリカバリ製品のSnapMirrorがベクターデータベースに対するDR解決策をどのように提供するかについて説明します。
-. link:./vector-database-performance-validation.html["パフォーマンスの検証"]
-このセクションでは、Milvusやpgvecto.RSなどのベクターデータベースのパフォーマンス検証について、LLMライフサイクル内でのRAGおよび推論ワークロードをサポートする際のI/OプロファイルやNetAppストレージコントローラの動作などのストレージパフォーマンス特性に焦点を当てて詳しく説明します。これらのデータベースをONTAPストレージ解決策と組み合わせた場合のパフォーマンスの差別化要因を評価し、特定します。分析は、1秒あたりに処理されるクエリ数（QPS）などの主要パフォーマンス指標に基づいて行われます。
+. link:./vector-database-protection-using-snapcenter.html["NetApp SnapCenterを使用したベクターデータベース保護。"]このセクションでは、SnapCenterがONTAPに存在するベクターデータベースデータとMilvusデータをどのように保護するかについて詳しく説明します。この例では、顧客データ用にNFS ONTAPボリューム（vol1）から派生したNASバケット（milvusdbvol1）を使用し、Milvusクラスタ構成データ用に別のNFSボリューム（vectordbpv）を使用しました。
+. link:./vector-database-disaster-recovery-using-netapp-snapmirror.html["NetApp SnapMirrorを使用したディザスタリカバリ"]このセクションでは、ベクターデータベースに対するディザスタリカバリ(DR)の重要性と、NetAppディザスタリカバリ製品SnapMirrorがベクターデータベースに対するDRソリューションをどのように提供するかについて説明します。
+. link:./vector-database-performance-validation.html["パフォーマンスの検証"]このセクションでは、Milvusやpgvecto.RSなどのベクターデータベースのパフォーマンス検証について、LLMライフサイクル内でのRAGおよび推論ワークロードをサポートする際のI/OプロファイルやNetAppストレージコントローラの動作などのストレージパフォーマンス特性に焦点を当てて詳しく説明します。これらのデータベースをONTAPストレージ解決策と組み合わせた場合のパフォーマンスの差別化要因を評価し、特定します。分析は、1秒あたりに処理されるクエリ数（QPS）などの主要パフォーマンス指標に基づいて行われます。
 

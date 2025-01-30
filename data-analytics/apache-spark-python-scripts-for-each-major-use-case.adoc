@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-以下の3つのPythonスクリプトは、テストした3つの主なユースケースに対応しています。1つ目は'ecimation_analysis _sparknlp.pyです
+以下の3つのPythonスクリプトは、テストした3つの主なユースケースに対応しています。まず第一に `sentiment_analysis_sparknlp.py`
 
 ....
 # TR-4570 Refresh NLP testing by Rick Huang
@@ -193,7 +193,7 @@ def process_hdfs_dir(dir_name):
         process_hdfs_dir(str(argv[1]))
     print(f"[OK!] All done. Number of files processed = {numfiles}")
 ....
-2番目のスクリプトは'kers_spark_horovod_Rossmann _ estimator.pyです
+2番目のスクリプトはです `keras_spark_horovod_rossmann_estimator.py`。
 
 ....
 # Copyright 2022 NetApp, Inc.
@@ -544,7 +544,7 @@ if __name__ == '__main__':
     print('Saved predictions to %s' % args.local_submission_csv)
     spark.stop()
 ....
-3番目のスクリプトは'run_classification_Crito_spark.pyです
+3番目のスクリプトはです `run_classification_criteo_spark.py`。
 
 ....
 import tempfile, string, random, os, uuid

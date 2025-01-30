@@ -94,9 +94,9 @@ image:kafka-nfs-image28.png["このイメージは、ボリュームプロパテ
 
 次の図は、NASベースのKafkaクラスタのアーキテクチャを示しています。
 
-* *コンピューティング。* 3ノードのKafkaクラスタを使用し、3ノードのZookeeperアンサンブルを専用サーバ上で実行しました。各ブローカーには、専用のLIFを介してCloud Volumes ONTAP インスタンス上の単一のボリュームへのNFSマウントポイントが2つあります。
-* *監視。* Prometheus-Grafanaの組み合わせには2つのノードを使用しました。ワークロードの生成には、独立した3ノードクラスタを使用し、このKafkaクラスタを生成して使用しました。
-* *ストレージ。* HAペアCloud Volumes ONTAP インスタンスを使用し、インスタンスに6TB gp3 AWS-EBSボリュームを1つマウントしました。その後、ボリュームはNFSマウントを使用してKafkaブローカーにエクスポートされました。
+* *コンピューティング*3ノードのKafkaクラスタを使用し、専用サーバで3ノードのZookeeperアンサンブルを実行しました。各ブローカーには、専用のLIFを介してCloud Volumes ONTAP インスタンス上の単一のボリュームへのNFSマウントポイントが2つあります。
+* *監視。*Prometheus-Grafanaの組み合わせには2つのノードを使用しました。ワークロードの生成には、独立した3ノードクラスタを使用し、このKafkaクラスタを生成して使用しました。
+* *ストレージ*HAペアCloud Volumes ONTAPインスタンスを使用し、インスタンスに6TB gp3 AWS-EBSボリュームを1つマウントしました。その後、ボリュームはNFSマウントを使用してKafkaブローカーにエクスポートされました。
 
 
 image:kafka-nfs-image29.png["この図は、NASベースのKafkaクラスタのアーキテクチャを示しています。"]
@@ -195,7 +195,7 @@ kafka_nfs_cvo_sn-01 2315762679 svm_kafka_nfs_cvo_sn 172.30.0.223
  
 kafka_nfs_cvo_sn::>
 ....
-. 以下のKafkaを使用します `server.properties` Cloud Volumes ONTAP HAペアのすべてのKafkaブローカー。 `log.dirs` プロパティはブローカーごとに異なり、残りのプロパティはブローカーに共通です。broker1の場合は `log.dirs` 値は次のとおりです。
+. Cloud Volumes ONTAP HAペアのすべてのKafkaブローカーで次のKafkaを使用し `server.properties`ます。 `log.dirs`プロパティはブローカーごとに異なり、残りのプロパティはブローカーに共通です。broker1の場合、 `log.dirs`値は次のようになります。
 +
 ....
 [root@ip-172-30-0-121 ~]# cat /opt/kafka/config/server.properties
@@ -221,38 +221,38 @@ num.replica.fetchers=20
 [root@ip-172-30-0-121 ~]#
 ....
 +
-** 仲介業者2の場合は、 `log.dirs` プロパティ値は次のとおりです。
+** broker2の場合、 `log.dirs`プロパティ値は次のようになります。
 +
 ....
 log.dirs=/kafka_aggr3_vol1/broker2,/kafka_aggr3_vol2/broker2,/kafka_aggr3_vol3/broker2,/kafka_aggr22_vol1/broker2,/kafka_aggr22_vol2/broker2,/kafka_aggr22_vol3/broker2
 ....
-** 仲介業者3の場合は、 `log.dirs` プロパティ値は次のとおりです。
+** broker3の場合、 `log.dirs`プロパティ値は次のようになります。
 +
 ....
 log.dirs=/kafka_aggr3_vol1/broker3,/kafka_aggr3_vol2/broker3,/kafka_aggr3_vol3/broker3,/kafka_aggr22_vol1/broker3,/kafka_aggr22_vol2/broker3,/kafka_aggr22_vol3/broker3
 ....
 
 
-. 単一のCloud Volumes ONTAP ノードの場合は、Kafka `servers.properties` は、を除き、Cloud Volumes ONTAP HAペアと同じです `log.dirs` プロパティ。
+. 単一のCloud Volumes ONTAPノードの場合、プロパティを除き、Kafkaは `servers.properties`Cloud Volumes ONTAP HAペアと同じ `log.dirs`です。
 +
-** broker1の場合は `log.dirs` 値は次のとおりです。
+** broker1の場合、 `log.dirs`値は次のようになります。
 +
 ....
 log.dirs=/kafka_aggr2_vol1/broker1,/kafka_aggr2_vol2/broker1,/kafka_aggr2_vol3/broker1,/kafka_aggr2_vol4/broker1,/kafka_aggr2_vol5/broker1,/kafka_aggr2_vol6/broker1
 ....
-** 仲介業者2の場合は、 `log.dirs` 値は次のとおりです。
+** broker2の場合、 `log.dirs`値は次のようになります。
 +
 ....
 log.dirs=/kafka_aggr2_vol1/broker2,/kafka_aggr2_vol2/broker2,/kafka_aggr2_vol3/broker2,/kafka_aggr2_vol4/broker2,/kafka_aggr2_vol5/broker2,/kafka_aggr2_vol6/broker2
 ....
-** 仲介業者3の場合は、 `log.dirs` プロパティ値は次のとおりです。
+** broker3の場合、 `log.dirs`プロパティ値は次のようになります。
 +
 ....
 log.dirs=/kafka_aggr2_vol1/broker3,/kafka_aggr2_vol2/broker3,/kafka_aggr2_vol3/broker3,/kafka_aggr2_vol4/broker3,/kafka_aggr2_vol5/broker3,/kafka_aggr2_vol6/broker3
 ....
 
 
-. OMB内のワークロードには、次のプロパティが設定されます。 `(/opt/benchmark/workloads/1-topic-100-partitions-1kb.yaml)`。
+. OMB内のワークロードには、次のプロパティが設定されます。 `(/opt/benchmark/workloads/1-topic-100-partitions-1kb.yaml)`
 +
 ....
 topics: 4
@@ -269,13 +269,13 @@ consumerBacklogSizeGB: 0
 testDurationMinutes: 5
 ....
 +
-。 `messageSize` はユースケースごとに異なる場合があります。パフォーマンステストでは、3Kを使用しました。
+は `messageSize`ユースケースごとに異なります。パフォーマンステストでは、3Kを使用しました。
 
 +
 OMBのSyncまたはThroughputという2つのドライバを使用して、Kafkaクラスタでワークロードを生成しました。
 
 +
-** 同期ドライバのプロパティに使用されるYAMLファイルは次のとおりです `(/opt/benchmark/driver- kafka/kafka-sync.yaml)`：
+** 同期ドライバのプロパティに使用されるYAMLファイルは次のとおりです `(/opt/benchmark/driver- kafka/kafka-sync.yaml)`。
 +
 ....
 name: Kafka
@@ -297,7 +297,7 @@ consumerConfig: |
   enable.auto.commit=false
   max.partition.fetch.bytes=10485760
 ....
-** スループットドライバのプロパティに使用されるYAMLファイルは次のとおりです `(/opt/benchmark/driver- kafka/kafka-throughput.yaml)`：
+** スループットドライバのプロパティに使用されるYAMLファイルは次のとおりです `(/opt/benchmark/driver- kafka/kafka-throughput.yaml)`。
 +
 ....
 name: Kafka

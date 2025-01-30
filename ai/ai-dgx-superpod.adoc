@@ -51,12 +51,12 @@ image:EF_SuperPOD_HighLevel.png["図は、NVIDIA DGX SuperPODを使用したNetA
 
 * NetApp BeeGFSビルディングブロックは、2台のNetApp EF600アレイと2台のx86サーバで構成されます。
 +
-** NetApp EF600オールフラッシュアレイを基盤とするNVIDIA DGX SuperPODにより、99.9999%のアップタイムを支える信頼性の高いストレージ基盤が実現します。
+** NetApp EF600オールフラッシュアレイを基盤とするNVIDIA DGX SuperPODは、99.9999%のアップタイムによって裏打ちされた信頼性の高いストレージ基盤をお客様に提供します。
 ** NetApp EF600システムとNVIDIA DGXシステムの間のファイルシステムレイヤは、BeeGFS並列ファイルシステムです。BeeGFSは、ドイツのFraunhofer Center for High-Performance Computingによって、従来の並列ファイルシステムの課題を解決するために開発されました。その結果、最新のユーザスペースアーキテクチャを備えたファイルシステムが誕生しました。現在はThinkParQによって開発、提供され、多くのスーパーコンピューティング環境で使用されています。
-** NetAppによるBeeGFSのサポートにより、ネットアップの優れたサポート部門は、パフォーマンスとアップタイムに関するお客様の要件に沿ったものになります。お客様は、優れたサポートリソース、BeeGFSリリースへの早期アクセス、クォータの適用や高可用性（HA）など、BeeGFSの一部のエンタープライズ機能へのアクセスを利用できます。
+** NetAppはBeeGFSに対応しているため、NetAppの優れたサポート組織は、パフォーマンスとアップタイムに関するお客様の要件に合わせて調整できます。お客様は、優れたサポートリソース、BeeGFSリリースへの早期アクセス、クォータの適用や高可用性（HA）など、BeeGFSの一部のエンタープライズ機能へのアクセスを利用できます。
 
 
-* NVIDIA SuperPOD SUSとNetApp BeeGFSビルディングブロックを組み合わせることで、コンピューティングやストレージを簡単かつシームレスに拡張できる即応性に優れたAI解決策を実現できます。
+* NVIDIA SuperPOD SUSとNetApp BeeGFSビルディングブロックを組み合わせることで、コンピューティングやストレージを簡単かつシームレスに拡張できる即応性に優れたAIソリューションを実現できます。
 
 
 NetApp BeeGFSビルディングブロック_
@@ -87,32 +87,31 @@ image:EF_SuperPOD_buildingblock.png["単一のNetApp BeeGFSビルディングブ
 
 == テクノロジ要件
 
-このセクションでは、NVIDIA DGX SuperPOD with NetApp 解決策 のテクノロジ要件について説明します。
+このセクションでは、NVIDIA DGX SuperPOD with NetAppソリューションのテクノロジ要件について説明します。
 
 
 
 === ハードウェア要件
 
-次の表1に、単一のSUに解決策を実装するために必要なハードウェアコンポーネントを示します。解決策のサイジングは、32台のNVIDIA DGX H100システムと2つまたは3つのNetApp BeeGFSビルディングブロックで始まります。
-NetApp BeeGFSビルディングブロックは、2台のNetApp EF600アレイと2台のx86サーバで構成されます。お客様は、導入規模の拡大に合わせてビルディングブロックを追加できます。詳細については、を参照してください https://docs.nvidia.com/dgx-superpod/reference-architecture-scalable-infrastructure-h100/latest/dgx-superpod-components.html["NVIDIA DGX H100 SuperPODリファレンスアーキテクチャ"^] および https://fieldportal.netapp.com/content/1792438["NVA-1164-DESIGN：BeeGFS on NetApp NVA Design"^]。
+次の表1に、単一のSUにソリューションを実装するために必要なハードウェアコンポーネントを示します。ソリューションのサイジングは、32台のNVIDIA DGX H100システムと2つまたは3つのNetApp BeeGFSビルディングブロックから開始します。NetApp BeeGFSビルディングブロックは、2台のNetApp EF600アレイと2台のx86サーバで構成されます。お客様は、導入規模の拡大に合わせてビルディングブロックを追加できます。詳細については、および https://fieldportal.netapp.com/content/1792438["NVA-1164-DESIGN：BeeGFS on NetApp NVA Design"^]を参照して https://docs.nvidia.com/dgx-superpod/reference-architecture-scalable-infrastructure-h100/latest/dgx-superpod-components.html["NVIDIA DGX H100 SuperPODリファレンスアーキテクチャ"^]ください。
 
 |===
 | ハードウェア | 数量 
 
 
-| NVIDIA DGX H100またはH200 | 32だ 
+| NVIDIA DGX H100またはH200 | 32 
 
 
 | NVIDIA Quantum QM9700スイッチ | リーフ8枚、脊椎4枚 
 
 
-| NetApp BeeGFSビルディングブロック | 3. 
+| NetApp BeeGFSビルディングブロック | 3 
 |===
 
 
 === ソフトウェア要件
 
-次の表2に、解決策の実装に必要なソフトウェアコンポーネントを示します。解決策の特定の実装で使用されるソフトウェアコンポーネントは、お客様の要件に応じて異なる場合があります。
+次の表2に、このソリューションの実装に必要なソフトウェアコンポーネントを示します。解決策の特定の実装で使用されるソフトウェアコンポーネントは、お客様の要件に応じて異なる場合があります。
 
 |===
 | ソフトウェア 
@@ -130,17 +129,17 @@ NetApp BeeGFSビルディングブロックは、2台のNetApp EF600アレイと
 
 == 解決策の検証
 
-NVIDIA DGX SuperPODとNetAppは、NetApp BeeGFSビルディングブロックを使用して、NVIDIAの専用受け入れクラスタで検証されました。受け入れ基準は、NVIDIAが実施した一連のアプリケーション、パフォーマンス、ストレステストに基づいています。詳細については、を参照してください https://nvidia-gpugenius.highspot.com/viewer/62915e2ef093f1a97b2d1fe6?iid=62913b14052a903cff46d054&source=email.62915e2ef093f1a97b2d1fe7.4["NVIDIA DGX SuperPOD：NetApp EF600とBeeGFSリファレンスアーキテクチャ"^]。
+NVIDIA DGX SuperPODとNetAppは、NVIDIAの専用受け入れクラスタでNetApp BeeGFSビルディングブロックを使用して検証されました。受け入れ基準は、NVIDIAが実施した一連のアプリケーション、パフォーマンス、およびストレステストに基づいています。詳細については、を参照して https://nvidia-gpugenius.highspot.com/viewer/62915e2ef093f1a97b2d1fe6?iid=62913b14052a903cff46d054&source=email.62915e2ef093f1a97b2d1fe7.4["NVIDIA DGX SuperPOD：NetApp EF600とBeeGFSリファレンスアーキテクチャ"^]ください。
 
 
 
 == まとめ
 
-NetAppとNVIDIAは、AIソリューションのポートフォリオを市場に提供するための長いコラボレーションの歴史を持っています。NVIDIA DGX SuperPODとNetApp EF600オールフラッシュアレイは、実績ある検証済みの解決策であり、お客様は安心して導入できます。完全に統合されたターンキーアーキテクチャにより、導入時のリスクが軽減され、誰もがAIリーダーとしての競争を勝ち抜くことができます。
+NetAppとNVIDIAは、AIソリューションのポートフォリオを市場に提供するための長いコラボレーションの歴史を持っています。NVIDIA DGX SuperPODとNetApp EF600オールフラッシュアレイは、お客様が安心して導入できる実証済みの検証済みソリューションです。完全に統合されたターンキーアーキテクチャにより、導入時のリスクが軽減され、誰もがAIリーダーとしての競争を勝ち抜くことができます。
 
 
 
-== 追加情報の参照先
+== 詳細情報の入手方法
 
 このドキュメントに記載されている情報の詳細については、以下のドキュメントや Web サイトを参照してください。
 

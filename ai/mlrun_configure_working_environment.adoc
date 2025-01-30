@@ -14,17 +14,17 @@ summary:
 
 
 [role="lead"]
-「 Notebook `````````s_env-example.ipynb` を 'et_env.ipynb` としてコピーします。「 et_env.ipynb 」を開き、編集します。このノートブックでは、資格情報、ファイルの場所、および実行ドライバの変数を設定します。
+ASを `set_env.ipynb`コピーします `Notebook` `set_env-Example.ipynb`。を開いて編集し `set_env.ipynb`ます。このノートブックでは、資格情報、ファイルの場所、および実行ドライバの変数を設定します。
 
 上記の手順を実行すると、次の手順だけが変更されます。
 
-. この値は、 Iguazio サービスダッシュボード「 dOcker_registry 」から取得します
+. Iguazioのサービスダッシュボードから次の値を取得します。 `docker_registry`
 +
-例：「 ocker-registry.default-tenant.app.clusterq.iguaziodev.com:80` 」
+例： `docker-registry.default-tenant.app.clusterq.iguaziodev.com:80`
 
-. 「 admin 」を Iguazio のユーザ名に変更します。
+. Iguazioのユーザー名に変更し `admin`ます。
 +
-'IGZ_container_path='/users/admin'
+`IGZ_CONTAINER_PATH = '/users/admin'`
 
 +
 ONTAP システムの接続の詳細を次に示します。Trident のインストール時に生成されたボリューム名も指定します。オンプレミスの ONTAP クラスタの場合、次の設定が適用されます。
@@ -53,16 +53,16 @@ volume=sourceVolumeName
 
 == ベースとなる Docker イメージを作成
 
-ML パイプラインの構築に必要なものはすべて、 Iguazio プラットフォームに含まれています。開発者は、パイプラインの実行に必要な Docker イメージの仕様を定義し、 Jupyter Notebook からイメージの作成を実行できます。ノートブック 'create-images .ipynb' を開き、すべてのセルを実行します。
+ML パイプラインの構築に必要なものはすべて、 Iguazio プラットフォームに含まれています。開発者は、パイプラインの実行に必要な Docker イメージの仕様を定義し、 Jupyter Notebook からイメージの作成を実行できます。ノートブックを開き `create- images.ipynb`、[すべてのセルを実行]をクリックします。
 
 このノートブックでは、パイプラインで使用する 2 つのイメージが作成されます。
 
-* 「 iguazio/NetApp. 」を参照してください ML タスクの処理に使用されます。
+* `iguazio/netapp.`MLタスクの処理に使用されます。
 
 
 image:mlrun_image13.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-* 「 NetApp/pipeline. 」。NetApp Snapshot コピーを処理するユーティリティが含まれています。
+* `netapp/pipeline`です。NetApp Snapshot コピーを処理するユーティリティが含まれています。
 
 
 image:mlrun_image14.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
@@ -74,7 +74,7 @@ image:mlrun_image14.png["入力/出力ダイアログを示す図、または書
 次の表に、このタスクの構築に使用したライブラリとフレームワークを示します。これらのコンポーネントはすべて、 Iguazio のロールベースアクセスおよびセキュリティ制御と完全に統合されています。
 
 |===
-| ライブラリ / フレームワーク | 説明 
+| ライブラリ / フレームワーク | 製品説明 
 
 
 | MLRun （ MLRun ） | Iguazio によって管理され、 ML / AI パイプラインのアセンブリ、実行、および監視を可能にします。 
@@ -86,7 +86,7 @@ image:mlrun_image14.png["入力/出力ダイアログを示す図、または書
 | クビフロー | パイプラインを導入するための Kubernetes ベースのフレームワーク。これは、イグアスが寄与するオープンソースのプロジェクトでもあります。Iguazio と統合されているため、他のインフラストラクチャとのセキュリティおよび統合が強化されています。 
 
 
-| Docker です | Iguazio プラットフォームでは、 Docker レジストリがサービスとして実行されます。レジストリに接続するように変更することもできます。 
+| Docker | Iguazio プラットフォームでは、 Docker レジストリがサービスとして実行されます。レジストリに接続するように変更することもできます。 
 
 
 | NetApp Cloud Volume の略 | AWS で Cloud Volume を実行すると、大量のデータにアクセスでき、トレーニングに使用するデータセットのバージョンに Snapshot コピーを作成することもできます。 
@@ -106,9 +106,9 @@ image:mlrun_image15.png["入力/出力ダイアログを示す図、または書
 
 このセクションでは、ネットワークデバイスデータの生成に Nuclio サーバーレス関数を使用する方法について説明します。この使用例は、パイプラインを展開し、イグアスのサービスを使用してネットワークデバイスの障害を監視および予測する Iguazio クライアントに適しています。
 
-ネットワークデバイスからのデータをシミュレートしました。Jupyter ノートブック「 d ata-generator.ipynb 」を実行すると、 10 分ごとに実行されるサーバーレス関数が作成され、新しいデータが保存された寄木細工のファイルが生成されます。この機能を配備するには、このノートブックのすべてのセルを実行します。を参照してください https://nuclio.io/["Nuclio の Web サイト"^] このノートブックの構成部品を確認します。
+ネットワークデバイスからのデータをシミュレートしました。Jupyterノートブックを実行する `data- generator.ipynb`と、10分ごとに実行されるサーバーレス関数が作成され、新しいデータを含む寄木細工ファイルが生成されます。この機能を配備するには、このノートブックのすべてのセルを実行します。このノートブックのコンポーネントを確認するには、を参照してください https://nuclio.io/["Nuclio の Web サイト"^]。
 
-関数の生成時に、次のコメントを持つセルは無視されます。ノートブック内のすべてのセルは、機能の一部であると見なされます。Nuclio モジュールをインポートして '%nuclio magic を有効にします
+関数の生成時に、次のコメントを持つセルは無視されます。ノートブック内のすべてのセルは、機能の一部であると見なされます。Nuclioモジュールをインポートして有効にし `%nuclio magic`ます。
 
 ....
 # nuclio: ignore
@@ -122,7 +122,7 @@ spec = nuclio.ConfigSpec(config={"spec.triggers.inference.kind":"cron",
                                 "spec.readinessTimeoutSeconds" : 60,
                                 "spec.minReplicas" : 1},……
 ....
-「 init_context 」関数は、関数の初期化時に Nuclio フレームワークによって呼び出されます。
+この `init_context`関数は、関数の初期化時にNuclioフレームワークによって呼び出されます。
 
 ....
 def init_context(context):
@@ -177,7 +177,7 @@ context.log_result('snapVolumeDetails',snap_path)
 
 モデルのトレーニングを有効にするには、生の指標を機能に変換する必要があります。このノートでは、 Snapshot ディレクトリから生の指標を読み取り、モデルトレーニングの機能をネットアップボリュームに書き込みます。
 
-パイプラインのコンテキストで実行する場合、「 Data ATA_DIR 」という入力には Snapshot コピーの場所が含まれます。
+パイプラインのコンテキストで実行する場合は、Snapshotコピーの場所が入力 `DATA_DIR`に含まれます。
 
 ....
 metrics_table = os.path.join(str(mlruncontext.get_input('DATA_DIR', os.getenv('DATA_DIR','/netpp'))),
@@ -198,7 +198,7 @@ context.log_artifact(PlotArtifact("correlation",  body=plt.gcf()), local_path="p
 
 === deploy-feature-function.ipynb
 
-ネットアップでは、異常を検出している指標を継続的に監視してこのノートブックは、受信メトリックの予測を実行するために必要な機能を生成するサーバーレス機能を作成します。このノートブックは関数の作成を呼び出します。ファンクションコードはノートブック「 ata-prep . ipynb 」にあります。この目的のために、パイプラインのステップとして同じノートブックを使用していることに注意してください。
+ネットアップでは、異常を検出している指標を継続的に監視してこのノートブックは、受信メトリックの予測を実行するために必要な機能を生成するサーバーレス機能を作成します。このノートブックは関数の作成を呼び出します。ファンクションコードはノートブックにあり `data- prep.ipynb`ます。この目的のために、パイプラインのステップとして同じノートブックを使用していることに注意してください。
 
 
 
@@ -215,13 +215,13 @@ context.log_result(‘accuracy’,score)
 
 === deploy-inion-function.ipynb を展開します
 
-パイプラインの最後のステップは、継続的な推論のためのサーバーレス機能としてモデルを導入することです。このノートブックでは、「 nuclio-increation-function.ipynb 」で定義されたサーバーレス関数の作成を呼び出します。
+パイプラインの最後のステップは、継続的な推論のためのサーバーレス機能としてモデルを導入することです。このノートブックは、で定義されているサーバーレス関数の作成を呼び出し `nuclio-inference- function.ipynb`ます。
 
 
 
 == パイプラインのレビューと構築
 
-パイプラインですべてのノートブックを実行するという組み合わせにより ' テストを継続的に実行して ' モデルの精度を新しいメトリックと比較して再評価することができますまず 'pipeline.ipynb' ノートブックを開きますネットアップと Iguazio が ML パイプラインの導入をどのように簡易化しているかを詳しく説明します。
+パイプラインですべてのノートブックを実行するという組み合わせにより ' テストを継続的に実行して ' モデルの精度を新しいメトリックと比較して再評価することができますまず、ノートブックを開き `pipeline.ipynb`ます。ネットアップと Iguazio が ML パイプラインの導入をどのように簡易化しているかを詳しく説明します。
 
 MLRun を使用して、パイプラインの各ステップにコンテキストを提供し、リソースの割り当てを処理します。MLRun API サービスは、 Iguazio プラットフォームで動作し、 Kubernetes リソースとのやり取りのポイントです。各開発者はリソースを直接要求できません。 API は要求を処理し、アクセス制御を有効にします。
 
@@ -256,10 +256,10 @@ snapfn.spec.volume_mounts = [snapfn.spec.volume_mounts[0],netapp_volume_mounts]
 Jupyter ノートブックを Kubeflow ステップにするために必要な最初のアクションは、コードを関数に変換することです。関数には、ノートブックを実行するために必要なすべての仕様が含まれています。ノートブックを下にスクロールすると、パイプラインのすべてのステップに対応する関数が定義されていることがわかります。
 
 |===
-| ノートブックの一部 | 説明 
+| ノートブックの一部 | 製品説明 
 
 
-| <code_to _function> （ MLRun モジュールの一部） | 関数の名前：プロジェクト名。すべてのプロジェクトアーティファクトの編成に使用されます。これは MLRun UI に表示されます。種類：この場合は Kubernetes ジョブ。これには、 Dask 、 MPI 、 spark8s などがあります。詳細については、 MLRun のマニュアルを参照してください。ファイル。ノートブックの名前。これは Git （ HTTP ）の場所にすることもできます。 
+| <code_to _function> （ MLRun モジュールの一部） | 関数の名前:プロジェクト名。すべてのプロジェクトアーティファクトを整理するために使用されます。これは MLRun UI に表示されます。種類：この場合は Kubernetes ジョブ。これには、 Dask 、 MPI 、 spark8s などがあります。詳細については、 MLRun のマニュアルを参照してください。ファイル。ノートブックの名前。これは Git （ HTTP ）の場所にすることもできます。 
 
 
 | イメージ（ Image ） | この手順で使用する Docker イメージの名前。先ほど 'create-image.ipynb ノートブックを作成しました 
@@ -289,9 +289,9 @@ params={   "FEATURES_TABLE":FEATURES_TABLE,
            'IGZ_MOUNT_PATH' : IGZ_MOUNT_PATH
             }
 ....
-すべてのステップの関数定義が完了したら、パイプラインを構築できます。この定義には 'kfp' モジュールを使用しますMLRun を使用することと、独自に構築することの違いは、コーディングの簡素化と短縮です。
+すべてのステップの関数定義が完了したら、パイプラインを構築できます。モジュールを使って `kfp`この定義を行います。MLRun を使用することと、独自に構築することの違いは、コーディングの簡素化と短縮です。
 
-定義した関数は、 MLRun の「 As _ step 」関数を使用してステップコンポーネントになります。
+定義した関数は、MLRunの関数を使用してSTEPコンポーネントに変換され `as_step`ます。
 
 
 
@@ -310,10 +310,10 @@ name='NetApp_Cloud_Volume_Snapshot',outputs=['snapVolumeDetails','training_parqu
 | 新しいタスクです | newtask は、実行される関数の定義です。 
 
 
-| （ MLRun モジュール） | ハンドラ。呼び出す Python 関数の名前。ノートブックでは name ハンドラーを使用しましたが、必須ではありません。パラメータ実行に渡されたパラメータ。このコードでは、 context.get_param （「パラメータ」）を使用して値を取得します。 
+| （ MLRun モジュール） | ハンドラ。呼び出す Python 関数の名前。ノートブックではnameハンドラを使用しましたが、必須ではありません。params。実行に渡されたパラメータ。このコードでは、 context.get_param （「パラメータ」）を使用して値を取得します。 
 
 
-| ステップとして（ _STEP. ） | 名前Kubeflow パイプラインステップの名前。出力：これらは、完了時にステップが辞書に追加する値です。SNAP_CV.ipynb ノートブックを参照してください。mount_v3io()これにより、パイプラインを実行しているユーザーの /User をマウントするステップが構成されます。 
+| ステップとして（ _STEP. ） | 名前Kubeflowパイプラインstep.outputsの名前。これらは、完了時にステップが辞書に追加する値です。snap_cv.ipynbノートブック.mount_v3io()を見てみましょう。これにより、パイプラインを実行しているユーザーの /User をマウントするステップが構成されます。 
 |===
 ....
 prep = data_prep.as_step(name='data-prep', handler='handler',params=params,
@@ -329,7 +329,7 @@ prep = data_prep.as_step(name='data-prep', handler='handler',params=params,
 
 | out_path | MLRun モジュール LOG_Artifacts を使用して生成するアーティファクトを配置する場所。 
 |===
-上から下に 'pipeline.ipynb' を実行できます次に、 Iguazio ダッシュボードの Pipelines タブに移動して、 Iguazio ダッシュボードの Pipelines タブに示すように、進捗状況を監視できます。
+上から下へ走ることができます `pipeline.ipynb`。次に、 Iguazio ダッシュボードの Pipelines タブに移動して、 Iguazio ダッシュボードの Pipelines タブに示すように、進捗状況を監視できます。
 
 image:mlrun_image16.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 

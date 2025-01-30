@@ -22,7 +22,7 @@ summary: 『解決策』では、AWSのVMware CloudでのOracleの導入と保�
 
 == 目的
 
-企業は、数十年にわたり、プライベートデータセンターでVMware上でOracleを実行してきました。VMware Cloud（VMC）on AWSは、ボタンを押すだけの解決策を提供し、VMwareのエンタープライズクラスのSoftware-Defined Data Center（SDDC）ソフトウェアをAWSクラウド専用の柔軟性に優れたベアメタルインフラで使用できるようにします。AWS FSx ONTAPは、VMC SDDCとデータファブリックにプレミアムストレージを提供します。これにより、OracleなどのビジネスクリティカルなアプリケーションをvSphere®ベースのプライベートクラウド、パブリッククラウド、ハイブリッドクラウド環境で実行し、AWSサービスへのアクセスを最適化できます。既存のOracleワークロードであろうと新規のOracleワークロードであろうと、VMC on AWSは、VMware上で使い慣れたシンプルで自己管理型のOracle環境を提供し、AWSクラウドのすべてのメリットを活用できます。プラットフォームの管理と最適化はすべてVMwareに任せられます。
+企業は、数十年にわたり、プライベートデータセンターでVMware上でOracleを実行してきました。VMware Cloud（VMC）on AWSは、ボタン1つでVMwareのエンタープライズクラスのSoftware-Defined Data Center（SDDC）ソフトウェアをAWSクラウド専用の柔軟性に優れたベアメタルインフラで使用できるようにするソリューションです。AWS FSx ONTAPは、VMC SDDCとデータファブリックにプレミアムストレージを提供します。これにより、OracleなどのビジネスクリティカルなアプリケーションをvSphere®ベースのプライベートクラウド、パブリッククラウド、ハイブリッドクラウド環境で実行し、AWSサービスへのアクセスを最適化できます。既存のOracleワークロードであろうと新規のOracleワークロードであろうと、VMC on AWSは、VMware上で使い慣れたシンプルで自己管理型のOracle環境を提供し、AWSクラウドのすべてのメリットを活用できます。プラットフォームの管理と最適化はすべてVMwareに任せられます。
 
 このドキュメントでは、Amazon FSx ONTAPをプライマリデータベースストレージとして使用するVMC環境にOracleデータベースを導入して保護する方法について説明します。Oracleデータベースは、直接VMゲストマウントLUNまたはNFSマウントVMware VMDKデータストアディスクとして、FSxストレージ上のVMCに導入できます。本テクニカルレポートでは、iSCSIプロトコルとOracle ASMを使用したVMCクラスタ内のVMへの直接ゲストマウントFSxストレージとしてのOracleデータベースの導入について説明します。また、NetApp SnapCenter UIツールを使用して、開発とテスト用にOracleデータベースをバックアップ、リストア、クローニングする方法や、AWS上のVMCでのストレージ効率に優れたデータベース処理のためのその他のユースケースについて説明します。
 
@@ -35,7 +35,7 @@ summary: 『解決策』では、AWSのVMware CloudでのOracleの導入と保�
 
 
 
-== 対象者
+== 対象読者
 
 この解決策 は、次のユーザーを対象としています。
 
@@ -80,25 +80,25 @@ image:aws_ora_fsx_vmc_architecture.png["このイメージは、iSCSIとASMを�
 | Red Hat Linux | RHEL-8.6、4.18.0-372.9.1.el8.x86_64カーネル | テスト用にRedHatサブスクリプションを導入 
 
 
-| Windows Serverの場合 | 2022 Standard、10.0.20348ビルド20348 | SnapCenterサアハノホスト 
+| Windows Server | 2022 Standard、10.0.20348ビルド20348 | SnapCenterサアハノホスト 
 
 
 | Oracle Grid Infrastructureの略 | バージョン19.18 | RUパッチp34762026_190000_Linux-x86-64.zipを適用しました 
 
 
-| Oracle データベース | バージョン19.18 | RUパッチp34765931_190000_Linux-x86-64.zipを適用しました 
+| Oracleデータベース | バージョン19.18 | RUパッチp34765931_190000_Linux-x86-64.zipを適用しました 
 
 
 | Oracle OPatchの略 | バージョン12.2.0.1.36 | 最新のパッチp6880880_190000_Linux-x86-64.zip 
 
 
-| SnapCenter サーバ | バージョン4.9P1 | ワークグループの導入 
+| SnapCenterサーバ | バージョン4.9P1 | ワークグループの導入 
 
 
 | BlueXPによるVMのバックアップとリカバリ | リリース1.0 | OVA vSphereプラグインVMとして導入 
 
 
-| VMware vSphere の場合 | バージョン8.0.1.00300 | VMware Tools、バージョン：11365-Linux、12352-Windows 
+| VMware vSphere | バージョン8.0.1.00300 | VMware Tools、バージョン：11365-Linux、12352-Windows 
 
 
 | JDKを開く | バージョンjava-1.8.0-openjdk.x86_64 | DB VMでのSnapCenterプラグインの要件 
@@ -136,9 +136,9 @@ image:aws_ora_fsx_vmc_architecture.png["このイメージは、iSCSIとASMを�
 * * FSxストレージHAクラスタのシングルゾーンまたはマルチゾーン導入*今回のテストと検証では、1つのAWSアベイラビリティゾーンにFSx HAクラスタを導入しました。また、NetAppでは、パフォーマンスを向上させ、アベイラビリティゾーン間でのデータ転送料金を回避するために、FSx ONTAPとVMware Cloud on AWSを同じアベイラビリティゾーンに導入することを推奨しています。
 * * FSxストレージクラスタのサイジング*Amazon FSx ONTAPストレージファイルシステムは、SSDの最大16万IOPS、最大4GBpsのスループット、最大192TiBの容量を提供します。ただし、プロビジョニングされたIOPS、スループット、およびストレージ制限（最小1、024GiB）を基準にしてクラスタのサイズを設定することもできます。アプリケーションの可用性に影響を与えることなく、容量をオンザフライで動的に調整できます。
 * * Oracleデータとログのレイアウト*テストと検証では、データ用とログ用にそれぞれ2つのASMディスクグループを導入しました。+DATA ASMディスクグループ内で、データボリュームに4つのLUNをプロビジョニングしました。+logs ASMディスクグループ内で、ログボリュームに2つのLUNをプロビジョニングしました。一般に、Amazon FSx ONTAPボリューム内に複数のLUNをレイアウトすると、パフォーマンスが向上します。
-* * iSCSI構成。* VMC SDDC内のデータベースVMは、iSCSIプロトコルを使用してFSxストレージに接続します。Oracle AWRレポートを慎重に分析してアプリケーションとiSCSIのトラフィックスループットの要件を特定することにより、OracleデータベースのI/Oピークスループットの要件を測定することが重要です。また、マルチパスが適切に設定されている両方のFSx iSCSIエンドポイントに4つのiSCSI接続を割り当てることを推奨します。
-* *作成するOracle ASMディスクグループごとに使用するOracle ASM冗長性レベル。* FSx ONTAPはすでにFSxクラスタレベルでストレージをミラーリングしているため、External Redundancy（外部冗長性）を使用する必要があります。つまり、このオプションでは、Oracle ASMがディスクグループの内容をミラーリングできません。
-* *データベースのバックアップ。* NetAppは、データベースのバックアップ、リストア、クローニングを実行するためのSnapCenterソフトウェアスイートで、使いやすいUIインターフェイスを備えています。NetAppでは、このような管理ツールを実装して、高速（1分未満）のSnapshotバックアップ、高速（数分）のデータベースリストア、データベースクローンを実現することを推奨しています。
+* * iSCSI構成*VMC SDDC内のデータベースVMは、iSCSIプロトコルを使用してFSxストレージに接続します。Oracle AWRレポートを慎重に分析してアプリケーションとiSCSIのトラフィックスループットの要件を特定することにより、OracleデータベースのI/Oピークスループットの要件を測定することが重要です。また、マルチパスが適切に設定されている両方のFSx iSCSIエンドポイントに4つのiSCSI接続を割り当てることを推奨します。
+* *作成する各Oracle ASMディスクグループに使用するOracle ASM冗長性レベル*FSx ONTAPはすでにFSxクラスタレベルでストレージをミラーリングしているため、外部冗長性を使用する必要があります。つまり、このオプションでは、Oracle ASMがディスクグループの内容をミラーリングすることを許可しません。
+* *データベースのバックアップ。*NetAppは、データベースのバックアップ、リストア、クローニングを実行するためのSnapCenterソフトウェアスイートで、使いやすいUIインターフェイスを備えています。NetAppでは、このような管理ツールを実装して、高速（1分未満）のSnapshotバックアップ、高速（数分）のデータベースリストア、データベースクローンを実現することを推奨しています。
 
 
 
@@ -155,7 +155,7 @@ image:aws_ora_fsx_vmc_architecture.png["このイメージは、iSCSIとASMを�
 ====
 導入には、次の前提条件が必要です。
 
-. VMware Cloud on AWSを使用したSoftware-Defined Data Center（SDDC）が作成されている。VMCでSDDCを作成する方法の詳細については、VMwareのドキュメントを参照してください。 link:https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws.getting-started/GUID-3D741363-F66A-4CF9-80EA-AA2866D1834E.html["AWSでのVMware Cloudの導入"^]
+. VMware Cloud on AWSを使用したSoftware-Defined Data Center（SDDC）が作成されている。VMCでSDDCを作成する方法の詳細については、VMwareのドキュメントを参照してください。link:https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws.getting-started/GUID-3D741363-F66A-4CF9-80EA-AA2866D1834E.html["AWSでのVMware Cloudの導入"^]
 . AWSアカウントが設定され、必要なVPCとネットワークセグメントがAWSアカウント内に作成されている。AWSアカウントはVMC SDDCにリンクされています。
 . AWS EC2コンソールから、Amazon FSx ONTAPストレージHAクラスタを導入してOracleデータベースボリュームをホストします。FSxストレージの導入に慣れていない場合は、ステップバイステップの手順についてドキュメントを参照してくださいlink:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-file-systems.html["FSx ONTAPファイルシステムの作成"^]。
 . 上記の手順は、次のTerraform自動化ツールキットを使用して実行できます。このツールキットでは、SSHとFSxファイルシステムを介したVMCアクセスのSDDCのジャンプホストとしてEC2インスタンスを作成します。実行する前に、手順をよく確認し、環境に合わせて変数を変更してください。
@@ -167,7 +167,7 @@ git clone https://github.com/NetApp-Automation/na_aws_fsx_ec2_deploy.git
 +
 image:aws_ora_fsx_vmc_vm_08.png["VMC SDDCテスト環境を示すスクリーンショット。"]
 
-. 必要に応じて、NetAppには、Oracleの導入と設定を実行するためのいくつかの自動化ツールキットも用意されています。を参照してください link:index.html["DB自動化ツールキット"^] を参照してください。
+. 必要に応じて、NetAppには、Oracleの導入と設定を実行するためのいくつかの自動化ツールキットも用意されています。詳細については、を参照してください link:index.html["DB自動化ツールキット"^] 。
 
 
 
@@ -182,7 +182,7 @@ NOTE: Oracleインストールファイルをステージングするための�
 ====
 前提条件をプロビジョニングした状態で、SSHを使用してOracle VMに管理者ユーザとしてログインし、rootユーザにsudoを実行して、Oracleインストール用のLinuxカーネルを設定します。Oracleのインストールファイルは、AWS S3バケットにステージングしてVMに転送できます。
 
-. ステージングディレクトリを作成します `/tmp/archive` フォルダに移動し、を設定します `777` 許可。
+. ステージングディレクトリフォルダを作成し `/tmp/archive`、権限を設定し `777`ます。
 +
 [source, cli]
 ----
@@ -193,9 +193,9 @@ mkdir /tmp/archive
 ----
 chmod 777 /tmp/archive
 ----
-. Oracleバイナリインストールファイルおよびその他の必要なrpmファイルをにダウンロードしてステージングします `/tmp/archive` ディレクトリ。
+. Oracleバイナリインストールファイルおよびその他の必要なrpmファイルをダウンロードして、ディレクトリにステージングし `/tmp/archive`ます。
 +
-に記載されているインストールファイルのリストを参照してください `/tmp/archive` DB VM上。
+DB VMのに記載されている次のインストールファイルのリストを参照してください `/tmp/archive`。
 
 +
 ....
@@ -220,7 +220,7 @@ total 10539364
 ----
 yum install /tmp/archive/oracle-database-preinstall-19c-1.0-2.el8.x86_64.rpm
 ----
-. 不足しているをダウンロードしてインストールします `compat-libcap1` Linux 8の場合。
+. Linux 8で不足しているをダウンロードしてインストールし `compat-libcap1`ます。
 +
 [source, cli]
 ----
@@ -232,7 +232,7 @@ yum install /tmp/archive/compat-libcap1-1.10-7.el7.x86_64.rpm
 ----
 yum install /tmp/archive/netapp_linux_unified_host_utilities-7-1.x86_64.rpm
 ----
-. をインストールします `policycoreutils-python-utils`。
+. をインストールし `policycoreutils-python-utils`ます。
 +
 [source, cli]
 ----
@@ -273,7 +273,7 @@ echo never > /sys/kernel/mm/transparent_hugepage/enabled
 ----
 echo never > /sys/kernel/mm/transparent_hugepage/defrag
 ----
-. に次の行を追加します `/etc/rc.local` 無効にします `transparent_hugepage` 再起動後。
+. リブート後に無効にするには、 `transparent_hugepage`に次の行を追加し `/etc/rc.local`ます。
 +
 [source, cli]
 ----
@@ -289,13 +289,13 @@ vi /etc/rc.local
             echo never > /sys/kernel/mm/transparent_hugepage/defrag
           fi
 ....
-. を変更してSELinuxを無効にします `SELINUX=enforcing` 終了： `SELINUX=disabled`。変更を有効にするには、ホストをリブートする必要があります。
+. に `SELINUX=disabled`変更してSELinuxを無効にします `SELINUX=enforcing`。変更を有効にするには、ホストをリブートする必要があります。
 +
 [source, cli]
 ----
 vi /etc/sysconfig/selinux
 ----
-. に次の行を追加します `limit.conf` ファイル記述子の制限とスタックサイズを設定します。
+. ファイル記述子の制限とスタックサイズを設定するには、に次の行を追加し `limit.conf`ます。
 +
 [source, cli]
 ----
@@ -307,8 +307,8 @@ vi /etc/security/limits.conf
 *               hard    nofile          65536
 *               soft    stack           10240
 ....
-. 次の手順でスワップ領域が設定されていない場合は、DB VMにスワップ領域を追加します。 link:https://aws.amazon.com/premiumsupport/knowledge-center/ec2-memory-swap-file/["スワップファイルを使用して、Amazon EC2インスタンスのスワップスペースとして機能するようにメモリを割り当てるにはどうすればよいですか。"^] 追加するスペースの正確な量は、最大16GのRAMのサイズによって異なります。
-. 変更 `node.session.timeo.replacement_timeout` を参照してください `iscsi.conf` 設定ファイルは120～5秒です。
+. DB VMにスワップ領域を追加するこの命令でスワップ領域が設定されていない場合:追加する正確な容量は、最大16GのRAMのサイズによって異なります。link:https://aws.amazon.com/premiumsupport/knowledge-center/ec2-memory-swap-file/["スワップファイルを使用して、Amazon EC2インスタンスのスワップスペースとして機能するようにメモリを割り当てるにはどうすればよいですか。"^]
+.  `iscsi.conf`設定ファイルを120秒から5秒に変更し `node.session.timeo.replacement_timeout`ます。
 +
 [source, cli]
 ----
@@ -374,7 +374,7 @@ systemctl stop firewalld
 ----
 systemctl disable firewalld
 ----
-. コメントを解除して、adminユーザに対してパスワードを使用しないsudoを有効にする `# %wheel  ALL=(ALL)       NOPASSWD: ALL` /etc/sudoersファイルの行。ファイル権限を変更して編集します。
+. /etc/sudoersファイルの行をコメント解除して、adminユーザに対してパスワードなしのsudoを有効にします `# %wheel  ALL=(ALL)       NOPASSWD: ALL`。ファイル権限を変更して編集します。
 +
 [source, cli]
 ----
@@ -605,7 +605,7 @@ nim                           /vol/ora_02_data/ora_02_u02_01                 /de
 nim                           /vol/ora_02_biny/ora_02_u01_01                 /dev/sdb        host33     iSCSI      40g     cDOT
 
 ....
-. を設定します `multipath.conf` 次のデフォルトエントリとブラックリストエントリを持つファイル。
+. 次のデフォルトエントリとブラックリストエントリを使用してファイルを設定し `multipath.conf`ます。
 +
 [source, cli]
 ----
@@ -634,7 +634,7 @@ blacklist {
 sudo systemctl start multipathd
 ----
 +
-マルチパスデバイスがに表示されます `/dev/mapper` ディレクトリ。
+ディレクトリにマルチパスデバイスが表示されます `/dev/mapper`。
 
 +
 ....
@@ -672,7 +672,7 @@ svm_ora /vol/ora_02_logs/ora_02_logs_01 6c574235472455534e685145
 svm_ora /vol/ora_02_logs/ora_02_logs_02 6c574235472455534e685146
 7 entries were displayed.
 ....
-. を更新します `/dev/multipath.conf` Fileを使用して、マルチパスデバイスのフレンドリ名を追加します。
+. ファイルを更新し `/dev/multipath.conf`て、マルチパスデバイスのフレンドリ名を追加します。
 +
 [source, cli]
 ----
@@ -714,14 +714,14 @@ multipaths {
         }
 }
 ....
-. マルチパスサービスをリブートして、のデバイスが正しいことを確認します `/dev/mapper` LUN名とシリアル16進数のIDが変更されました。
+. マルチパスサービスをリブートして、のデバイスがLUN名とシリアル16進数のIDに変更されたことを確認します `/dev/mapper`。
 +
 [source, cli]
 ----
 sudo systemctl restart multipathd
 ----
 +
-チェックしてください `/dev/mapper` 次のように戻ります。
+ `/dev/mapper`次のように戻ります。
 
 +
 ....
@@ -748,7 +748,7 @@ sudo fdisk /dev/mapper/ora_02_biny_01
 ----
 sudo mkfs.xfs /dev/mapper/ora_02_biny_01p1
 ----
-. バイナリLUNをにマウントします `/u01`。
+. バイナリLUNをにマウントし `/u01`ます。
 +
 [source, cli]
 ----
@@ -759,7 +759,7 @@ sudo mkdir /u01
 ----
 sudo mount -t xfs /dev/mapper/ora_02_biny_01p1 /u01
 ----
-. 変更 `/u01` Oracleユーザーおよび関連づけられているプライマリグループに対するマウントポイントの所有権
+. マウントポイントの所有権をOracleユーザおよび関連付けられているプライマリグループに変更します `/u01`。
 +
 [source, cli]
 ----
@@ -771,7 +771,7 @@ sudo chown oracle:oinstall /u01
 ----
 sudo blkid /dev/mapper/ora_02_biny_01p1
 ----
-. にマウントポイントを追加します `/etc/fstab`。
+. にマウントポイントを追加し `/etc/fstab`ます。
 +
 [source, cli]
 ----
@@ -825,7 +825,7 @@ systemctl restart multipathd
 
 [%collapsible]
 ====
-. SSHを使用してDB VMにadminユーザとしてログインし、コメントを解除してパスワード認証を有効にします。 `PasswordAuthentication yes` コメントすることができます `PasswordAuthentication no`。
+. SSHを使用してDB VMにadminユーザとしてログインし、コメントを解除してコメントアウトし、 `PasswordAuthentication no`パスワード認証を有効にします。 `PasswordAuthentication yes`
 +
 [source, cli]
 ----
@@ -877,25 +877,25 @@ cd /u01/app/oracle/product/19.0.0/grid
 ----
 unzip -q /tmp/archive/LINUX.X64_193000_grid_home.zip
 ----
-. グリッドホームからを削除します `OPatch` ディレクトリ。
+. grid homeからディレクトリを削除し `OPatch`ます。
 +
 [source, cli]
 ----
 rm -rf OPatch
 ----
-. grid homeから解凍します。 `p6880880_190000_Linux-x86-64.zip`。
+. グリッドホームから解凍し `p6880880_190000_Linux-x86-64.zip`ます。
 +
 [source, cli]
 ----
 unzip -q /tmp/archive/p6880880_190000_Linux-x86-64.zip
 ----
-. グリッドホームから、修正してください `cv/admin/cvu_config`をクリックし、コメントを解除して置換します `CV_ASSUME_DISTID=OEL5` を使用 `CV_ASSUME_DISTID=OL7`。
+. グリッドホームから、修正 `cv/admin/cvu_config`、コメント解除、および置換を `CV_ASSUME_DISTID=OEL5` `CV_ASSUME_DISTID=OL7`行います。
 +
 [source, cli]
 ----
 vi cv/admin/cvu_config
 ----
-. を準備します `gridsetup.rsp` サイレントインストール用のファイルを作成し、にRSPファイルを配置します `/tmp/archive` ディレクトリ。RSPファイルは、次の情報を含むセクションA、B、およびGをカバーする必要があります。
+. サイレントインストール用のファイルを準備し `gridsetup.rsp`、RSPファイルをディレクトリに配置し `/tmp/archive`ます。RSPファイルは、次の情報を含むセクションA、B、およびGをカバーする必要があります。
 +
 ....
 INVENTORY_LOCATION=/u01/app/oraInventory
@@ -913,7 +913,7 @@ oracle.install.asm.diskGroup.diskDiscoveryString=/dev/mapper/*
 oracle.install.asm.monitorPassword="SetPWD"
 oracle.install.asm.configureAFD=true
 ....
-. EC2インスタンスにrootユーザとしてログインし、を設定します `ORACLE_HOME` および `ORACLE_BASE`。
+. EC2インスタンスにrootユーザとしてログインし、と `ORACLE_BASE`を設定します `ORACLE_HOME`。
 +
 [source, cli]
 ----
@@ -960,25 +960,25 @@ cd /u01/app/oracle/product/19.0.0/grid/bin
 ----
  ./asmcmd afd_label LOGS02 /dev/mapper/ora_02_logs_02 --init
 ----
-. をインストールします `cvuqdisk-1.0.10-1.rpm`。
+. をインストールし `cvuqdisk-1.0.10-1.rpm`ます。
 +
 [source, cli]
 ----
 rpm -ivh /u01/app/oracle/product/19.0.0/grid/cv/rpm/cvuqdisk-1.0.10-1.rpm
 ----
-. 設定解除（Unset） `$ORACLE_BASE`。
+. 設定解除（Unset） `$ORACLE_BASE`：
 +
 [source, cli]
 ----
 unset ORACLE_BASE
 ----
-. EC2インスタンスにOracleユーザとしてログインし、でパッチを展開します `/tmp/archive` フォルダ。
+. EC2インスタンスにOracleユーザーとしてログインし、フォルダにパッチを展開し `/tmp/archive`ます。
 +
 [source, cli]
 ----
 unzip -q /tmp/archive/p34762026_190000_Linux-x86-64.zip -d /tmp/archive
 ----
-. grid home/u01/app/oracle/product/19.0.0/gridからOracleユーザーとしてを起動します `gridSetup.sh` グリッドインフラのインストールに使用します。
+. grid home/u01/app/oracle/product/19.0.0/gridから、をOracleユーザーとして起動し、grid infrastructureのインストールを開始し `gridSetup.sh`ます。
 +
 [source, cli]
 ----
@@ -1086,7 +1086,7 @@ CRS-4638: Oracle High Availability Services is online
 
 [%collapsible]
 ====
-. Oracleユーザとしてログインし、設定を解除します `$ORACLE_HOME` および `$ORACLE_SID` 設定されている場合。
+. Oracleユーザとしてログインし、設定を解除します `$ORACLE_HOME`（設定されている場合）。 `$ORACLE_SID`
 +
 [source, cli]
 ----
@@ -1114,31 +1114,31 @@ cd /u01/app/oracle/product/19.0.0/cdb3
 ----
 unzip -q /tmp/archive/LINUX.X64_193000_db_home.zip
 ----
-. DBホームからを削除します `OPatch` ディレクトリ。
+. DBホームから、ディレクトリを削除し `OPatch`ます。
 +
 [source, cli]
 ----
 rm -rf OPatch
 ----
-. DBホームから、解凍します。 `p6880880_190000_Linux-x86-64.zip`。
+. DBホームから解凍します `p6880880_190000_Linux-x86-64.zip`。
 +
 [source, cli]
 ----
 unzip -q /tmp/archive/p6880880_190000_Linux-x86-64.zip
 ----
-. DBホームから、を修正します `cv/admin/cvu_config` コメントを解除して `CV_ASSUME_DISTID=OEL5` を使用 `CV_ASSUME_DISTID=OL7`。
+. DBホームから、修正し `cv/admin/cvu_config`てコメントを解除し、で `CV_ASSUME_DISTID=OL7`置換します `CV_ASSUME_DISTID=OEL5`。
 +
 [source, cli]
 ----
 vi cv/admin/cvu_config
 ----
-. から `/tmp/archive` ディレクトリで、DB 19.18 RUパッチを解凍します。
+. ディレクトリから `/tmp/archive`、DB 19.18 RUパッチを解凍します。
 +
 [source, cli]
 ----
 unzip -q /tmp/archive/p34765931_190000_Linux-x86-64.zip -d /tmp/archive
 ----
-. でDBサイレントインストールRSPファイルを準備します `/tmp/archive/dbinstall.rsp` 次の値を持つディレクトリ：
+. 次の値を使用して、ディレクトリ内のDBサイレントインストールRSPファイルを準備します `/tmp/archive/dbinstall.rsp`。
 +
 ....
 oracle.install.option=INSTALL_DB_SWONLY
@@ -1161,13 +1161,13 @@ oracle.install.db.rootconfig.executeRootScript=false
 ----
  ./runInstaller -applyRU /tmp/archive/34765931/ -silent -ignorePrereqFailure -responseFile /tmp/archive/dbinstall.rsp
 ----
-. rootユーザとして、を実行します `root.sh` ソフトウェアのみのインストール後にスクリプトを作成します。
+. ソフトウェアのみのインストール後にrootユーザとしてスクリプトを実行し `root.sh`ます。
 +
 [source, cli]
 ----
 /u01/app/oracle/product/19.0.0/db1/root.sh
 ----
-. Oracleユーザーとして、 `dbca.rsp` 次のエントリを含むファイル：
+. Oracleユーザとして、次のエントリを含むファイルを作成し `dbca.rsp`ます。
 +
 ....
 gdbName=cdb3.demo.netapp.com
@@ -1477,16 +1477,16 @@ alter database open;
 
 [%collapsible]
 ====
-SnapCenterは、データベースVM上のホスト側プラグインを使用して、アプリケーション対応のデータ保護管理アクティビティを実行します。Oracle用NetApp SnapCenterプラグインの詳細については、このドキュメントを参照してください。 link:https://docs.netapp.com/us-en/snapcenter/protect-sco/concept_what_you_can_do_with_the_snapcenter_plug_in_for_oracle_database.html["Plug-in for Oracle Database の機能"^]。次に、Oracleデータベースのバックアップ、リカバリ、およびクローン用にSnapCenterをセットアップする手順の概要を示します。
+SnapCenterは、データベースVM上のホスト側プラグインを使用して、アプリケーション対応のデータ保護管理アクティビティを実行します。Oracle用NetApp SnapCenterプラグインの詳細については、このドキュメントを参照してlink:https://docs.netapp.com/us-en/snapcenter/protect-sco/concept_what_you_can_do_with_the_snapcenter_plug_in_for_oracle_database.html["Plug-in for Oracle Databaseの機能"^]ください。次に、Oracleデータベースのバックアップ、リカバリ、およびクローン用にSnapCenterをセットアップする手順の概要を示します。
 
-. NetApp Support SiteからSnapCenterソフトウェアの最新バージョンをダウンロードします。 link:https://mysupport.netapp.com/site/downloads["ネットアップサポートのダウンロードページ"^]。
-. 管理者として、最新のJava JDKを link:https://www.java.com/en/["デスクトップアプリケーション用Javaの取得"^] SnapCenterサーバのWindowsホスト。
+. NetAppサポートサイトからSnapCenterソフトウェアの最新バージョンをダウンロードしますlink:https://mysupport.netapp.com/site/downloads["ネットアップサポートのダウンロードページ"^]。
+. 管理者として、SnapCenterサーバのWindowsホストにから最新のJava JDKをインストールしますlink:https://www.java.com/en/["デスクトップアプリケーション用Javaの取得"^]。
 +
 
 NOTE: Windowsサーバがドメイン環境に導入されている場合は、ドメインユーザをSnapCenterサーバのローカル管理者グループに追加し、ドメインユーザを指定してSnapCenterのインストールを実行します。
 
 . インストールユーザとしてHTTPSポート8846を使用してSnapCenter UIにログインし、SnapCenter for Oracleを設定します。
-. 更新 `Hypervisor Settings` をクリックします。
+. グローバル設定で更新し `Hypervisor Settings`ます。
 +
 image:aws_ora_fsx_vmc_snapctr_01.png["SnapCenterの設定を示すスクリーンショット。"]
 
@@ -1494,15 +1494,15 @@ image:aws_ora_fsx_vmc_snapctr_01.png["SnapCenterの設定を示すスクリー�
 +
 image:aws_ora_fsx_vmc_snapctr_02.png["SnapCenterの設定を示すスクリーンショット。"]
 
-. データベースサーバの追加 `Credential` DB VMへのSnapCenterアクセス用。このクレデンシャルには、Linux VMの場合はsudo権限、Windows VMの場合は管理者権限が必要です。
+. DB VMへのSnapCenterアクセス用のデータベースサーバを追加します `Credential`。このクレデンシャルには、Linux VMの場合はsudo権限、Windows VMの場合は管理者権限が必要です。
 +
 image:aws_ora_fsx_vmc_snapctr_03.png["SnapCenterの設定を示すスクリーンショット。"]
 
-. FSx ONTAPストレージクラスタを `Storage Systems` クラスタ管理IPを使用し、fsxadminユーザIDで認証
+. FSx ONTAPストレージクラスタをクラスタ管理IPでに追加し、fsxadminユーザIDで認証します `Storage Systems`。
 +
 image:aws_ora_fsx_vmc_snapctr_04.png["SnapCenterの設定を示すスクリーンショット。"]
 
-. VMC内のOracleデータベースVMの追加先： `Hosts` 前の手順6で作成したサーバクレデンシャルを使用します。
+. 前の手順6で作成したサーバクレデンシャルを使用して、VMCのOracleデータベースVMをに追加します `Hosts`。
 +
 image:aws_ora_fsx_vmc_snapctr_05.png["SnapCenterの設定を示すスクリーンショット。"]
 
@@ -1520,7 +1520,7 @@ NOTE: SnapCenterサーバ名をDB VMからIPアドレスに解決できること
 ====
 SnapCenterはFSx ONTAPボリュームスナップショットを活用することで、従来のRMANベースの方法と比較して、データベースのバックアップ、リストア、クローニングにかかる時間を大幅に短縮します。Snapshotの作成前にデータベースがOracleバックアップモードになるため、Snapshotはアプリケーションと整合性があります。
 
-. から `Resources` タブをクリックします。VMがSnapCenterに追加されると、VM上のすべてのデータベースが自動検出されます。初期状態では、データベースのステータスは `Not protected`。
+. タブでは、 `Resources`VMがSnapCenterに追加されると、VM上のすべてのデータベースが自動検出されます。初期状態では、データベースのステータスはと表示され `Not protected`ます。
 +
 image:aws_ora_fsx_vmc_snapctr_06.png["SnapCenterの設定を示すスクリーンショット。"]
 
@@ -1528,11 +1528,11 @@ image:aws_ora_fsx_vmc_snapctr_06.png["SnapCenterの設定を示すスクリー�
 +
 image:aws_ora_fsx_vmc_snapctr_07.png["SnapCenterの設定を示すスクリーンショット。"]
 
-. リソースグループのバックアップは、 `Back up Now` リソースグループに定義されているポリシーを使用してバックアップを実行します。
+. リソースグループのバックアップは、をクリックし、リソースグループで定義されたポリシーを使用して実行することで手動で開始することもできます `Back up Now`。
 +
 image:aws_ora_fsx_vmc_snapctr_08.png["SnapCenterの設定を示すスクリーンショット。"]
 
-. バックアップジョブは、 `Monitor` タブをクリックして実行中のジョブをクリックします。
+. タブで実行中のジョブをクリックすると、バックアップジョブを監視でき `Monitor`ます。
 +
 image:aws_ora_fsx_vmc_snapctr_09.png["SnapCenterの設定を示すスクリーンショット。"]
 
@@ -1649,7 +1649,7 @@ ERROR at line 1:
 ORA-00942: table or view does not exist
 
 ....
-. 前の手順で作成したバックアップセットで、ログバックアップのSCN数をメモします。をクリックします `Restore` をクリックして、リストア-リカバリワークフローを起動します。
+. 前の手順で作成したバックアップセットで、ログバックアップのSCN数をメモします。をクリックし `Restore` てrestore-recoverワークフローを起動します。
 +
 image:aws_ora_fsx_vmc_snapctr_12.png["SnapCenterの設定を示すスクリーンショット。"]
 
@@ -1673,7 +1673,7 @@ image:aws_ora_fsx_vmc_snapctr_16.png["SnapCenterの設定を示すスクリー�
 +
 image:aws_ora_fsx_vmc_snapctr_17.png["SnapCenterの設定を示すスクリーンショット。"]
 
-. 概要を確認し、 `Finish` リストアとリカバリを開始します。
+. 概要を確認し、をクリックし `Finish`てリストアとリカバリを開始します。
 +
 image:aws_ora_fsx_vmc_snapctr_18.png["SnapCenterの設定を示すスクリーンショット。"]
 
@@ -1681,7 +1681,7 @@ image:aws_ora_fsx_vmc_snapctr_18.png["SnapCenterの設定を示すスクリー�
 +
 image:aws_ora_fsx_vmc_snapctr_19.png["SnapCenterの設定を示すスクリーンショット。"]
 
-. 移動元 `Monitor` タブでジョブを開き、詳細を確認します。
+.  `Monitor`タブでジョブを開き、詳細を確認します。
 +
 image:aws_ora_fsx_vmc_snapctr_20.png["SnapCenterの設定を示すスクリーンショット。"]
 
@@ -1752,7 +1752,7 @@ SQL>
 ====
 この例では、同じバックアップセットを使用して、別のORACLE_HOMEにある同じVM上のデータベースをクローニングします。バックアップからVMC内の別のVMにデータベースをクローニングする場合も、必要に応じて同じ手順を実行できます。
 
-. データベースcdb3バックアップリストを開きます。任意のデータバックアップから、 `Clone` ボタンをクリックしてデータベースクローンワークフローを起動します。
+. データベースcdb3バックアップリストを開きます。任意のデータバックアップから、ボタンをクリックし `Clone`てデータベースクローニングワークフローを起動します。
 +
 image:aws_ora_fsx_vmc_snapctr_21.png["SnapCenterの設定を示すスクリーンショット。"]
 
@@ -1772,7 +1772,7 @@ image:aws_ora_fsx_vmc_snapctr_24.png["SnapCenterの設定を示すスクリー�
 +
 image:aws_ora_fsx_vmc_snapctr_25.png["SnapCenterの設定を示すスクリーンショット。"]
 
-. リカバリ範囲を選択します。 `Until Cancel` バックアップセット内で使用可能な最後のログファイルまでクローンをリカバリします。
+. リカバリ範囲を選択します。 `Until Cancel`バックアップセット内で使用可能な最後のログファイルまでクローンをリカバリします。
 +
 image:aws_ora_fsx_vmc_snapctr_26.png["SnapCenterの設定を示すスクリーンショット。"]
 
@@ -1780,7 +1780,7 @@ image:aws_ora_fsx_vmc_snapctr_26.png["SnapCenterの設定を示すスクリー�
 +
 image:aws_ora_fsx_vmc_snapctr_27.png["SnapCenterの設定を示すスクリーンショット。"]
 
-. クローンジョブの実行を監視します。 `Monitor` タブ。
+. タブからクローニングジョブの実行を監視します `Monitor`。
 +
 image:aws_ora_fsx_vmc_snapctr_28.png["SnapCenterの設定を示すスクリーンショット。"]
 
@@ -1891,7 +1891,7 @@ SQL>
 ====
 
 
-== 追加情報の参照先
+== 詳細情報の入手方法
 
 このドキュメントに記載されている情報の詳細については、以下のドキュメントや Web サイトを参照してください。
 

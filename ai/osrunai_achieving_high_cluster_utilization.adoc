@@ -14,12 +14,12 @@ summary:
 
 
 [role="lead"]
-このセクションでは、 4 つのデータサイエンスチームがそれぞれ独自のワークロードを送信して実行： AI オーケストレーション解決策を実証する現実的なシナリオをエミュレートしています。このシナリオでは、 GPU リソースの優先順位付けとバランシングを維持しながら、クラスタの利用率を高めることができますまず、で説明した ResNet-50 ベンチマークを使用します セクション link:osrunai_resnet-50_with_imagenet_dataset_benchmark_summary.html["ResNet-50 と ImageNet データセットベンチマークの概要"]：
+このセクションでは、 4 つのデータサイエンスチームがそれぞれ独自のワークロードを送信して実行： AI オーケストレーション解決策を実証する現実的なシナリオをエミュレートしています。このシナリオでは、 GPU リソースの優先順位付けとバランシングを維持しながら、クラスタの利用率を高めることができますまず、link:osrunai_resnet-50_with_imagenet_dataset_benchmark_summary.html["ResNet-50 と ImageNet データセットベンチマークの概要"]次のセクションで説明したResNet-50ベンチマークを使用します。
 
 ....
 $ runai submit netapp1 -i netapp/tensorflow-tf1-py3:20.01.0 --local-image --large-shm  -v /mnt:/mnt -v /tmp:/tmp --command python --args "/netapp/scripts/run.py" --args "--dataset_dir=/mnt/mount_0/dataset/imagenet/imagenet_original/" --args "--num_mounts=2"  --args "--dgx_version=dgx1" --args "--num_devices=1" -g 1
 ....
-私たちは、と同じResNet-50ベンチマークを実行しまし https://www.netapp.com/pdf.html?item=/media/7677-nva1121designpdf.pdf["NVA-1121."^]た。 `--local-image`パブリックDockerリポジトリに存在しないコンテナにフラグを使用しました。 `/mnt` `/tmp`ホストDGX-1ノードのディレクトリとを `/mnt`、 `/tmp`それぞれコンテナにマウントしました。データセットはNetApp AFFA800にあり、 `dataset_dir`引数はディレクトリを指しています。 `--num_devices=1`と `-g 1`は、このジョブに1つのGPUを割り当てることを意味します。前者は `run.py`スクリプトの引数であり、後者は `runai submit`コマンドのフラグです。
+私たちは、と同じResNet-50ベンチマークを実行しまし https://www.netapp.com/pdf.html?item=/media/7677-nva1121designpdf.pdf["NVA-1121"^]た。 `--local-image`パブリックDockerリポジトリに存在しないコンテナにフラグを使用しました。 `/mnt` `/tmp`ホストDGX-1ノードのディレクトリとを `/mnt`、 `/tmp`それぞれコンテナにマウントしました。データセットはNetApp AFFA800にあり、 `dataset_dir`引数はディレクトリを指しています。 `--num_devices=1`と `-g 1`は、このジョブに1つのGPUを割り当てることを意味します。前者は `run.py`スクリプトの引数であり、後者は `runai submit`コマンドのフラグです。
 
 次の図は、 97% の GPU 利用率を備え、 16 個の使用可能な GPU が割り当てられたシステム概要ダッシュボードを示しています。GPU / プロジェクトの棒グラフでは、各チームに割り当てられている GPU の数を簡単に確認できます。[ 実行中のジョブ ] ウィンドウ枠には、現在実行中のジョブ名、プロジェクト、ユーザー、タイプ、ノード、 GPU の消費、実行時間、進捗状況、利用率の詳細。キューに登録されているワークロードとその待機時間のリストが「保留中のジョブ」に表示されます。さらに、 Nodes ボックスは、クラスタ内の個々の DGX-1 ノードの GPU 番号と利用率を表示します。
 

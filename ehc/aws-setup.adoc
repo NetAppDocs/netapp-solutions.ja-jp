@@ -26,7 +26,7 @@ NOTE: 現在、Cloud Volumes ONTAP （CVO）をAWS VMCに接続する方法と�
 .VMware Cloud for AWS を導入して設定
 [%collapsible]
 ====
-link:https://www.vmware.com/products/vmc-on-aws.html["AWS 上の VMware Cloud"] AWS エコシステム内の VMware ベースのワークロードにクラウドネイティブのエクスペリエンスを提供します。各 VMware Software-Defined Data Center （ SDDC ）は Amazon Virtual Private Cloud （ VPC ）内で動作し、フル VMware スタック（ vCenter Server を含む）、 NSX ベースの Software-Defined Networking 、 VSAN ソフトウェア定義ストレージ、およびワークロードにコンピューティングリソースとストレージリソースを提供する 1 つ以上の ESXi ホストを提供します。
+link:https://www.vmware.com/products/vmc-on-aws.html["AWS 上の VMware Cloud"]AWSエコシステム内のVMwareベースのワークロードにクラウドネイティブなエクスペリエンスを提供します。各 VMware Software-Defined Data Center （ SDDC ）は Amazon Virtual Private Cloud （ VPC ）内で動作し、フル VMware スタック（ vCenter Server を含む）、 NSX ベースの Software-Defined Networking 、 VSAN ソフトウェア定義ストレージ、およびワークロードにコンピューティングリソースとストレージリソースを提供する 1 つ以上の ESXi ホストを提供します。
 
 このセクションでは、VMware Cloud on AWSをセットアップおよび管理し、Amazon FSx ONTAPやCloud Volumes ONTAP on AWSと組み合わせてゲスト内ストレージで使用する方法について説明します。
 
@@ -38,17 +38,17 @@ NOTE: 現在、Cloud Volumes ONTAP （CVO）をAWS VMCに接続する方法と�
 .AWSアカウントを登録
 [%collapsible]
 =====
-に登録します link:https://aws.amazon.com/["Amazon Web Services アカウント"]。
+に登録しますlink:https://aws.amazon.com/["Amazon Web Services アカウント"]。
 
-まだ作成していない場合は、 AWS アカウントが必要です。新規または既存の手順では、多くの手順を実行するためにアカウント内で管理者権限が必要です。を参照してください link:https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html["リンク"] をクリックしてください。
+まだ作成していない場合は、 AWS アカウントが必要です。新規または既存の手順では、多くの手順を実行するためにアカウント内で管理者権限が必要です。AWSクレデンシャルの詳細については、こちらを参照してくださいlink:https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html["リンク"]。
 
 =====
 .My VMwareアカウントに登録します
 [%collapsible]
 =====
-に登録します link:https://customerconnect.vmware.com/home["マイ VMware"] アカウント：
+アカウントを登録しlink:https://customerconnect.vmware.com/home["マイ VMware"]ます。
 
-VMware のクラウドポートフォリオ（ AWS 上の VMware Cloud を含む）にアクセスするには、 VMware の顧客アカウントまたは My VMware アカウントが必要です。VMware アカウントをまだ作成していない場合は作成します link:https://customerconnect.vmware.com/account-registration["こちらをご覧ください"]。
+VMware のクラウドポートフォリオ（ AWS 上の VMware Cloud を含む）にアクセスするには、 VMware の顧客アカウントまたは My VMware アカウントが必要です。VMwareアカウントを作成します（まだ作成していない場合）link:https://customerconnect.vmware.com/account-registration["ここをクリック"]。
 
 =====
 .VMware Cloud で SDDC をプロビジョニングします
@@ -96,7 +96,7 @@ image:aws-config-11.png["入力/出力ダイアログを示す図、または書
 
 
 
-SDDC の導入の詳細な手順については、を参照してください link:https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-EF198D55-03E3-44D1-AC48-6E2ABA31FF02.html["VMC コンソールから SDDC を展開します"]。
+SDDC導入のステップバイステップガイドについては、を参照してくださいlink:https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-EF198D55-03E3-44D1-AC48-6E2ABA31FF02.html["VMC コンソールから SDDC を展開します"]。
 
 =====
 ====
@@ -120,7 +120,7 @@ image:aws-connect-fsx-2.png["入力/出力ダイアログを示す図、また�
 +
 image:aws-connect-fsx-5.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"] image:aws-connect-fsx-6.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-. 外部 VPC プロセスの一環として、 AWS コンソールから Resource Access Manager を使用して新しい共有リソースにアクセスするように求められます。共有リソースはです link:https://aws.amazon.com/transit-gateway["AWS 転送ゲートウェイ"] VMware Transit Connect によって管理されます。
+. 外部 VPC プロセスの一環として、 AWS コンソールから Resource Access Manager を使用して新しい共有リソースにアクセスするように求められます。共有リソースは、link:https://aws.amazon.com/transit-gateway["AWS 転送ゲートウェイ"]VMware Transit Connectによって管理されます。
 +
 image:aws-connect-fsx-7.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"] image:aws-connect-fsx-8.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 

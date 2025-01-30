@@ -49,10 +49,10 @@ image:kafka-nfs-image1.png["この図は、Producer Swarm、Kafkaクラスタ、
 
 == アーキテクチャの流れ
 
-* *コンピューティング。* 4ノードのKafkaクラスタを使用し、3ノードのZookeeperアンサンブルを専用サーバ上で実行しました。
-* *監視。* Prometheus-Grafanaの組み合わせには2つのノードを使用しました。
-* *ワークロード。*ワークロードの生成には、このKafkaクラスタとの間でやり取り可能な3ノードクラスタを使用しました。
-* *ストレージ。*シングルノードのNetApp Cloud Volumes ONTAP インスタンスを使用し、2つの500GB gp2 AWS-EBSボリュームをインスタンスに接続しました。これらのボリュームは、LIFを介して単一のNFSv4.1ボリュームとしてKafkaクラスタに公開されました。
+* *コンピューティング*4ノードのKafkaクラスタを使用し、専用サーバで3ノードのZookeeperアンサンブルを実行しました。
+* *監視。*Prometheus-Grafanaの組み合わせには2つのノードを使用しました。
+* *ワークロード*ワークロードの生成には、独立した3ノードクラスタを使用し、このKafkaクラスタとの間でデータを生成したり消費したりしました。
+* *ストレージ*シングルノードNetApp Cloud Volumes ONTAPインスタンスを使用し、500GB gp2のAWS-EBSボリュームを2つインスタンスに接続しました。これらのボリュームは、LIFを介して単一のNFSv4.1ボリュームとしてKafkaクラスタに公開されました。
 
 
 Kafkaのデフォルトプロパティは、すべてのサーバーに対して選択されています。動物園の群れについても同じことが行われました。
@@ -61,7 +61,7 @@ Kafkaのデフォルトプロパティは、すべてのサーバーに対して
 
 == テストの方法論
 
-. 更新 `-is-preserve-unlink-enabled true` 次のようにKafkaボリュームに追加します。
+. Kafkaボリュームを次のように更新し `-is-preserve-unlink-enabled true`ます。
 +
 ....
 aws-shantanclastrecall-aws::*> volume create -vserver kafka_svm -volume kafka_fg_vol01 -aggregate kafka_aggr -size 3500GB -state online -policy kafka_policy -security-style unix -unix-permissions 0777 -junction-path /kafka_fg_vol01 -type RW -is-preserve-unlink-enabled true
@@ -69,8 +69,8 @@ aws-shantanclastrecall-aws::*> volume create -vserver kafka_svm -volume kafka_fg
 ....
 . 似たような2つのKafkaクラスタが作成されましたが、次の違いがあります。
 +
-** *クラスタ1。*本番環境対応のONTAP バージョン9.12.1を実行しているバックエンドNFS v4.1サーバは、NetApp CVOインスタンスによってホストされていました。ブローカーにRHEL 8.7 / RHEL 9.1をインストールしました。
-** *クラスタ2。*バックエンドNFSサーバは、手動で作成した汎用Linux NFSv3サーバです。
+** *クラスタ1。*本番環境向けのONTAPバージョン9.12.1を実行するバックエンドのNFS v4.1サーバは、NetApp CVOインスタンスでホストされていました。ブローカーにRHEL 8.7 / RHEL 9.1をインストールしました。
+** *クラスタ2。*バックエンドのNFSサーバは、手動で作成した汎用のLinux NFSv3サーバです。
 
 
 . 両方のKafkaクラスタでデモトピックを作成しました。

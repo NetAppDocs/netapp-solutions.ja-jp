@@ -65,7 +65,7 @@ source      1.23TB    1.10TB   11% online       6 CLUSTER-01       raid_dp,
 3 entries were displayed.
 ....
 +
-データアグリゲートがない場合は、「 storage aggr create 」コマンドを使用して新しいアグリゲートを作成します。
+データアグリゲートがない場合は、コマンドを使用して新しいアグリゲートを作成し `storage aggr create`ます。
 
 . ターゲットクラスタシステムに Storage Virtual Machine （ SVM ）を作成します。
 +
@@ -102,7 +102,7 @@ CLUSTER::> vserver show -vserver dest
                                 Config Lock: false
                                IPspace Name: Default
 ....
-. ターゲット SVM から FCP 、 iSCSI 、 NDMP 、 CIDS の各プロトコルを削除します。
+. ターゲット SVM から FCP 、 iSCSI 、 NDMP 、および CIDS の各プロトコルを削除します。
 +
 ....
 CLUSTER::> vserver remove-protocols -vserver dest -protocols fcp,iscsi,ndmp,cifs
@@ -123,7 +123,7 @@ dest    nfs
 CLUSTER::> vol create -vserver dest -volume dest_nfs -aggregate poc -size 150g -type RW -state online -security-style mixed
 [Job 648] Job succeeded: Successful
 ....
-. データ LIF を作成して NFS クライアントの要求に対応します。
+. NFS クライアント要求を処理するデータ LIF を作成します。
 +
 ....
 CLUSTER::> network interface create -vserver dest -lif dest_lif -address 10.61.73.115 -netmask 255.255.255.0 -role data -data-protocol nfs -home-node CLUSTER-01 -home-port e0l
@@ -176,7 +176,7 @@ dest    dest_root
 2 entries were displayed.
 ....
 +
-volume create コマンドを使用して ' ボリューム・マウント・オプション（ジャンクション・パス）を指定することもできます
+コマンドでボリュームのマウントオプション（ジャンクションパス）を指定することもできます `volume create`。
 
 . ターゲット SVM で NFS サービスを開始します。
 +
@@ -263,7 +263,7 @@ Path                          Policy     Owner     Owner Type  Index Access
 [root@localhost /]# cd /mnt
 [root@localhost mnt]# mkdir dest
 ....
-. このマウントポイントに、ターゲットの NFSv3 エクスポートボリュームをマウントします。
+. ターゲットの NFSv3 エクスポートボリュームをこのマウントポイントにマウントします。
 +
 
 NOTE: NFSv3 ボリュームはエクスポートする必要がありますが、 NFS サーバでマウントする必要はありません。マウント可能な場合は、 XCP Linux ホストクライアントでこれらのボリュームをマウントします。
@@ -299,7 +299,7 @@ NOTE: 読み取り / 書き込みテストが完了したら、ターゲット�
 [root@localhost ~]# cd /linux/
 [root@localhost linux]#
 ....
-. XCP Linux クライアントホストシステムで「 XCP show 」コマンドを実行して、ソースの 7-Mode NFSv3 エクスポートを照会します。
+. XCP Linuxクライアントホストシステムでコマンドを実行して、ソースの7-Mode NFSv3エクスポートを照会します `xcp show`。
 +
 ....
 [root@localhost]#./xcp show 10.61.82.215
@@ -321,7 +321,7 @@ drwxr-xr-x --- root wheel 4KiB 4KiB  4d0h 10.61.82.215:/vol/vol0
 ....
 . ソースの NFSv3 エクスポートパスをスキャンし、ファイル構造の統計を出力します。
 +
-XCP では、ソースの NFSv3 エクスポートは「 can 」、「 copy 」、「 sync 」の各処理で読み取り専用モードにすることを推奨します。
+NetAppでは、XCP、、 `copy`、の `sync`各処理でソースNFSv3エクスポートを読み取り専用モードにすることを推奨しています `scan`。
 
 +
 ....
@@ -353,7 +353,7 @@ nfsvol/catalog
 Sending statistics...
 44 scanned, 43 copied, 1.46 GiB in (47.6 MiB/s), 1.45 GiB out (47.6 MiB/s), 31s.
 ....
-. コピーが完了したら、ソースとデスティネーションの NFSv3 エクスポートに同一のデータがあることを確認します。「 XCP verify 」コマンドを実行します。
+. コピーが完了したら、ソースとデスティネーションの NFSv3 エクスポートに同一のデータがあることを確認します。コマンドを実行します `xcp verify`。
 +
 ....
 [root@localhost /]# ./xcp verify 10.61.82.215:/vol/nfsvol 10.61.73.115:/dest_nfs
@@ -362,9 +362,9 @@ Sending statistics...
 44 scanned, 100% found (43 have data), 43 compared, 100% verified (data, attrs, mods), 2.90 GiB in (92.6 MiB/s), 7.53 MiB out (240 KiB/s), 32s.
 ....
 +
-送信元データと宛先データの間に相違がある場合 'XCP verify' はサマリーにエラー NO such file or directory を報告しますこの問題を修正するには、「 XCP sync 」コマンドを実行して、ソースの変更を宛先にコピーします。
+がソースデータとデスティネーションデータの違いを検出した場合は `xcp verify`、概要にエラーが `no such file or directory`報告されます。この問題を修正するには、コマンドを実行し `xcp sync`てソースの変更をデスティネーションにコピーします。
 
-. カットオーバーの前後に、もう一度「ライフル」を実行します。ソースに新規または更新されたデータがある場合は、差分更新を実行します。「 XCP sync 」コマンドを実行します。
+. カットオーバーの実行前と実行中に、を再度実行し `verify`ます。ソースに新規または更新されたデータがある場合は、差分更新を実行します。コマンドを実行します `xcp sync`。
 +
 ....
 For this operation, the previous copy index name or number is required.
@@ -377,7 +377,7 @@ xcp: sync '3': Rereading the 1 modified directory to find what's new...
 xcp: sync '3': Deep scanning the 1 directory that changed...
 11 scanned, 11 copied, 12.6KiB in (6.19KiBps), 9.50 KiB out (4.66KiBps), 2s.
 ....
-. 以前に中断されたコピー操作を再開するには 'XCP RESUME コマンドを実行します
+. 以前に中断したコピー処理を再開するには、コマンドを実行し `xcp resume`ます。
 +
 ....
 [root@localhost /]# ./xcp resume -id 4
@@ -403,7 +403,7 @@ Sending statistics...
 20 scanned, 20 copied, 21 indexed, 1.77 GiB in (33.5 MiB/s), 1.77 GiB out (33.4 MiB/s), 54s.
 ....
 +
-「ファイルのコピーが完了したら、「グリフィ」を再度実行して、ソースストレージとデスティネーションストレージのデータが同一になるようにします。
+ファイルのコピーが完了したら `resume`、を再度実行して、 `verify`ソースストレージとデスティネーションストレージのデータが同一になるようにします。
 
 . NFSv3 クライアントホストは、 7-Mode ストレージからプロビジョニングされたソースの NFSv3 エクスポートをアンマウントし、ターゲットの NFSv3 エクスポートを ONTAP からマウントする必要があります。カットオーバーには停止が必要です。
 
@@ -415,7 +415,7 @@ Sending statistics...
 このセクションでは、ソースの 7-Mode ボリュームの NetApp Snapshot コピーを ONTAP に移行する手順について説明します。
 
 
-NOTE: ソースの 7-Mode ボリュームがクライアントシステムにエクスポートされてマウントされ、 XCP が Linux システムにすでにインストールされていることを前提としています。Snapshot コピーはボリュームのポイントインタイムイメージであり、前回の Snapshot コピー作成後の差分変更を記録します。7-Mode システムをソースとして「 snap 」オプションを使用します。
+NOTE: ソースの 7-Mode ボリュームがクライアントシステムにエクスポートされてマウントされ、 XCP が Linux システムにすでにインストールされていることを前提としています。Snapshot コピーはボリュームのポイントインタイムイメージであり、前回の Snapshot コピー作成後の差分変更を記録します。7-Modeシステムをソースとしてオプションを使用します `-snap`。
 
 * 警告： * ベースの Snapshot コピーを保持します。ベースラインコピーが完了したあとにベース Snapshot コピーを削除しないでください。以降の同期処理にはベースの Snapshot コピーが必要です。
 
@@ -460,7 +460,7 @@ source      1.23TB    1.10TB   11% online       6 CLUSTER-01       raid_dp,
 3 entries were displayed.
 ....
 +
-データアグリゲートがない場合は、「 storage aggr create 」コマンドを使用して新しいアグリゲートを作成します。
+データアグリゲートがない場合は、コマンドを使用して新しいアグリゲートを作成し `storage aggr create`ます。
 
 . ターゲットクラスタシステムに SVM を作成します。
 +
@@ -513,7 +513,7 @@ dest    nfs
 CLUSTER::> vol create -vserver dest -volume dest_nfs -aggregate poc -size 150g -type RW -state online -security-style mixed
 [Job 648] Job succeeded: Successful
 ....
-. データ LIF を作成して NFS クライアントの要求に対応します。
+. NFS クライアント要求を処理するデータ LIF を作成します。
 +
 ....
 CLUSTER::> network interface create -vserver dest -lif dest_lif -address 10.61.73.115 -netmask 255.255.255.0 -role data -data-protocol nfs -home-node CLUSTER-01 -home-port e0l
@@ -566,7 +566,7 @@ dest    dest_root
 2 entries were displayed.
 ....
 +
-volume create コマンドを使用して ' ボリューム・マウント・オプション（ジャンクション・パス）を指定することもできます
+コマンドでボリュームのマウントオプション（ジャンクションパス）を指定することもできます `volume create`。
 
 . ターゲット SVM で NFS サービスを開始します。
 +
@@ -653,7 +653,7 @@ Path                          Policy     Owner     Owner Type  Index Access
 [root@localhost /]# cd /mnt
 [root@localhost mnt]# mkdir dest
 ....
-. このマウントポイントに、ターゲットの NFSv3 エクスポートボリュームをマウントします。
+. ターゲットの NFSv3 エクスポートボリュームをこのマウントポイントにマウントします。
 +
 
 NOTE: NFSv3 ボリュームはエクスポートする必要がありますが、 NFS サーバでマウントする必要はありません。マウント可能な場合は、 XCP Linux ホストクライアントでこれらのボリュームをマウントします。
@@ -689,7 +689,7 @@ NOTE: 読み取り / 書き込みテストが完了したら、ターゲット�
 [root@localhost ~]# cd /linux/
 [root@localhost linux]#
 ....
-. XCP Linux クライアントホストシステムで「 XCP show 」コマンドを実行して、ソースの 7-Mode NFSv3 エクスポートを照会します。
+. XCP Linuxクライアントホストシステムでコマンドを実行して、ソースの7-Mode NFSv3エクスポートを照会します `xcp show`。
 +
 ....
 [root@localhost]#./xcp show 10.61.82.215
@@ -711,7 +711,7 @@ drwxr-xr-x --- root wheel 4KiB 4KiB  4d0h 10.61.82.215:/vol/vol0
 ....
 . ソースの NFSv3 エクスポートパスをスキャンし、ファイル構造の統計を出力します。
 +
-ソースの NFSv3 エクスポートは、 XCP スキャン、「 copy 」、および「 sync 」処理の間に読み取り専用モードにすることを推奨します。'sync' 操作では '-snap' オプションに対応する値を渡す必要があります
+NetAppでは、 `copy`、、の `sync`処理中にソースのNFSv3エクスポートを読み取り専用モードにすることを推奨しています `xcp scan`。操作では `sync`、対応する値を持つオプションを渡す必要があり `-snap`ます。
 
 +
 ....
@@ -744,7 +744,7 @@ Sending statistics...
 
 NOTE: このベース Snapshot は今後の同期処理用に保持します。
 
-. コピーが完了したら、ソースとデスティネーションの NFSv3 エクスポートに同一のデータがあることを確認します。「 XCP verify 」コマンドを実行します。
+. コピーが完了したら、ソースとデスティネーションの NFSv3 エクスポートに同一のデータがあることを確認します。コマンドを実行します `xcp verify`。
 +
 ....
 [root@localhost /]# ./xcp verify 10.61.82.215:/vol/nfsvol 10.61.73.115:/dest_nfs
@@ -753,11 +753,11 @@ NOTE: このベース Snapshot は今後の同期処理用に保持します。
 44 scanned, 100% found (43 have data), 43 compared, 100% verified (data, attrs, mods), 2.90 GiB in (92.6 MiB/s), 7.53 MiB out (240 KiB/s), 32s.
 ....
 +
-「 ve rify 」でソース・データとデスティネーション・データの違いが検出された場合、「 No such file or directory 」というエラーが要約に報告されます。この問題を修正するには、「 XCP sync 」コマンドを実行して、ソースの変更を宛先にコピーします。
+ `verify`がソースデータとデスティネーションデータの違いを検出した場合、ソースをコピーするためのエラーコマンドが `no such file or directory `is reported in the summary. To fix that issue, run the `xcp sync`デスティネーションに変更されます。
 
-. カットオーバーの前後に、もう一度「ライフル」を実行します。ソースに新規または更新されたデータがある場合は、差分更新を実行します。増分変更がある場合は、これらの変更の新しい Snapshot コピーを作成し、そのスナップショットパスを sync 操作のための「 -snap' 」オプションで渡します。
+. カットオーバーの実行前と実行中に、を再度実行し `verify`ます。ソースに新規または更新されたデータがある場合は、差分更新を実行します。増分変更がある場合は、それらの変更に対応する新しいSnapshotコピーを作成し、同期処理のオプションを指定してそのSnapshotパスを渡します `-snap`。
 +
---snap オプションとスナップショット・パスを指定して 'XCP sync コマンドを実行します
+オプションとSnapshotパスを指定してコマンドを `-snap`実行し `xcp sync`ます。
 
 +
 ....
@@ -775,7 +775,7 @@ xcp: sync '3': Deep scanning the 1 directory that changed...
 
 NOTE: この処理にはベース Snapshot が必要です。
 
-. 以前に中断されたコピー操作を再開するには 'XCP RESUME コマンドを実行します
+. 以前に中断したコピー処理を再開するには、コマンドを実行し `xcp resume`ます。
 +
 ....
 [root@scspr1202780001 534h_dest_vol]# ./xcp resume -id 3
@@ -812,7 +812,7 @@ NOTE: ソースの NFSv4 ボリュームがクライアントシステムにエ�
 
 * デスティネーションシステムで NFSv4 を設定しておく必要があります。
 * NFSv4 のソースとターゲットが XCP ホストにマウントされている必要があります。NFS v4.0 を選択してソースストレージとターゲットストレージを照合し、ソースシステムとターゲットシステムで ACL が有効になっていることを確認します。
-* XCP は、 ACL 処理のために、 XCP ホストにソース / ターゲットパスをマウントする必要があります。次の例では、「 vol1 (10.63.5.56:/vol1) 」が「 /mnt/vol1 」パスにマウントされています。
+* XCPでは、ACL処理のためにソース/ターゲットパスをXCPホストにマウントする必要があります。次の例では、がパスにマウントされてい `/mnt/vol1`ます。 `vol1(10.63.5.56:/vol1)`
 
 
 ....
@@ -837,7 +837,7 @@ drwxr-xr-x --- root root 4KiB 4KiB 17m43s vol1/DIR1/DIR11/DIR2/DIR22
 
 サブディレクトリを操作するには、次の 2 つのオプションがあります。
 
-* サブディレクトリ（ /vol1/dir1/DIR11` ）で XCP を動作させるには、 XCP ホストに完全なパス（「 10.63.5.56 ： /vol1/dir1/DIR11` ）をマウントします。
+* XCPがサブディレクトリで動作するようにするには `(/vol1/DIR1/DIR11`、完全パスをマウントし(`10.63.5.56:/vol1/DIR1/DIR11`ます）をXCPホストにマウントします。
 +
 完全なパスがマウントされていない場合、 XCP で次のエラーが報告されます。
 
@@ -848,7 +848,7 @@ drwxr-xr-x --- root root 4KiB 4KiB 17m43s vol1/DIR1/DIR11/DIR2/DIR22
 XCP <version>; (c) 2020 NetApp, Inc.; Licensed to XXX [NetApp Inc] until Sun Mar 31 00:00:00 2029
 xcp: ERROR: For xcp to process ACLs, please mount 10.63.5.56:/vol1/DIR1/DIR11 using the OS nfs4 client.
 ....
-* 次の例に示すように、サブディレクトリ構文 (`m ount: subdirectory/qtree/.snapshot ') を使用します。
+* (`mount: subdirectory/qtree/.snapshot`次の例に示すように、サブディレクトリ構文を使用します。
 
 
 ....
@@ -904,7 +904,7 @@ source      1.23TB    1.10TB   11% online       6 CLUSTER-01       raid_dp,
 3 entries were displayed.
 ....
 +
-データアグリゲートがない場合は、「 storage aggr create 」コマンドを使用して新しいアグリゲートを作成します。
+データアグリゲートがない場合は、コマンドを使用して新しいアグリゲートを作成し `storage aggr create`ます。
 
 . ターゲットクラスタシステムに SVM を作成します。
 +
@@ -966,7 +966,7 @@ dest    nfs
 CLUSTER::> vol create -vserver dest -volume dest_nfs -aggregate poc -size 150g -type RW -state online -security-style mixed
 [Job 648] Job succeeded: Successful
 ....
-. データ LIF を作成して NFS クライアントの要求に対応します。
+. NFS クライアント要求を処理するデータ LIF を作成します。
 +
 ....
 CLUSTER::> network interface create -vserver dest -lif dest_lif -address 10.61.73.115 -netmask 255.255.255.0 -role data -data-protocol nfs -home-node CLUSTER-01 -home-port e0l
@@ -1019,7 +1019,7 @@ dest    dest_root
 2 entries were displayed.
 ....
 +
-volume create コマンドを使用して ' ボリューム・マウント・オプション（ジャンクション・パス）を指定することもできます
+コマンドでボリュームのマウントオプション（ジャンクションパス）を指定することもできます `volume create`。
 
 . ターゲット SVM で NFS サービスを開始します。
 +
@@ -1153,7 +1153,7 @@ NOTE: 読み取り / 書き込みテストが完了したら、ターゲット�
 [root@localhost ~]# cd /linux/
 [root@localhost linux]#
 ....
-. XCP Linux クライアント・ホスト・システムで XCP show コマンドを実行して、ソース NFSv4 エクスポートを照会します。
+. XCP Linuxクライアントホストシステムでコマンドを実行して、ソースNFSv4エクスポートを照会します `xcp show`。
 +
 ....
 root@localhost]# ./xcp show 10.63.5.56
@@ -1186,7 +1186,7 @@ drwxr-xr-x --- root root 4KiB 4KiB 9d4h 10.63.5.56:/vol4
 ....
 . ソースの NFSv4 エクスポートパスをスキャンし、ファイル構造の統計を出力します。
 +
-ネットアップでは、「 XCP scan 」、「 copy 」、および「 sync 」の処理中に、ソースの NFSv4 エクスポートを読み取り専用モードにすることを推奨しています。
+NetAppでは、、 `copy`、および `sync`の処理中に、ソースのNFSv4エクスポートを読み取り専用モードにすることを推奨しています `xcp scan`。
 
 +
 ....
@@ -1204,7 +1204,7 @@ vol1/test
 XCP <version>; (c) 2020 NetApp, Inc.; Licensed to xxx [NetApp Inc] until Mon Dec 31 00:00:00 2029
 3 scanned, 2 copied, 3 indexed, 3 getacls, 3 v3perms, 1 setacl, 14.7 KiB in (11.7 KiB/s), 61 KiB out (48.4 KiB/s), 1s..
 ....
-. 「 copy 」が完了したら、ソースおよびデスティネーションの NFSv4 エクスポートに同一のデータがあることを確認します。「 XCP verify 」コマンドを実行します。
+. の完了後 `copy`、ソースとデスティネーションのNFSv4エクスポートのデータが同一であることを確認します。コマンドを実行します `xcp verify`。
 +
 ....
 [root@localhost]# ./xcp verify -acl4 -noid 10.63.5.56:/vol1 10.63.5.56:/vol2
@@ -1212,9 +1212,9 @@ XCP <version>; (c) 2020 NetApp, Inc.; Licensed to xxx [NetApp Inc] until Mon Dec
 3 scanned, 100% found (0 have data), 100% verified (data, attrs, mods, acls), 6 getacls, 6 v3perms, 2.90 KiB in (4.16 KiB/s), 2.94 KiB out (4.22 KiB/s), 0s.
 ....
 +
-「 ve rify 」でソース・データとデスティネーション・データの違いが検出された場合、「 No such file or directory 」というエラーが要約に報告されます。この問題を修正するには、「 XCP sync 」コマンドを実行して、ソースの変更を宛先にコピーします。
+がソースデータとデスティネーションデータの違いを検出した場合は `verify`、概要にエラーが `no such file or directory`報告されます。この問題を修正するには、コマンドを実行し `xcp sync`てソースの変更をデスティネーションにコピーします。
 
-. カットオーバーの前後に、もう一度「ライフル」を実行します。ソースに新規または更新されたデータがある場合は、差分更新を実行します。「 XCP sync 」コマンドを実行します。
+. カットオーバーの実行前と実行中に、を再度実行し `verify`ます。ソースに新規または更新されたデータがある場合は、差分更新を実行します。コマンドを実行します `xcp sync`。
 +
 ....
 [root@ root@localhost]# ./xcp sync -id id1
@@ -1226,7 +1226,7 @@ xcp: Index: {source: 10.63.5.56:/vol1, target: 10.63.5.56:/vol2}
 
 NOTE: この処理を実行するには、前のコピーインデックス名またはインデックス番号が必要です。
 
-. 以前に中断された「 copy 」操作を再開するには、「 XCP resume 」コマンドを実行します。
+. 以前に中断した処理を再開するには `copy`、コマンドを実行し `xcp resume`ます。
 +
 ....
 [root@localhost]# ./xcp resume -id id1
@@ -1245,7 +1245,7 @@ xcp: resume 'id1': Values marked with a * include operations before resume
 1.00M scanned, 100% found (1M have data), 1M compared, 100% verified (data, attrs, mods, acls), 2.00M getacls, 202 v3perms, 1.00M same acls, 2.56 GiB in (2.76 MiB/s), 485 MiB out (524 KiB/s), 15m48s.
 ....
 +
-「ファイルのコピーが完了したら、「グリフィ」を再度実行して、ソースストレージとデスティネーションストレージのデータが同一になるようにします。
+ファイルのコピーが完了したら `resume`、を再度実行して、 `verify`ソースストレージとデスティネーションストレージのデータが同一になるようにします。
 
 
 
@@ -1323,7 +1323,7 @@ XCP SMB 1.6; (c) 2020 NetApp, Inc.; Licensed to xxxx xxxx[NetApp Inc] until Mon 
 ....
 +
 
-NOTE: データ・アグリゲートが存在しない場合は 'storage 'aggr create ' コマンドを使用して新しいアグリゲートを作成します
+NOTE: データアグリゲートがない場合は、storageコマンドを使用して新しいアグリゲートを作成し `aggr create`ます。
 
 . ソースとデスティネーションのファイルを同期します。
 +

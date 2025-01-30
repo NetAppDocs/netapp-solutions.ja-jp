@@ -18,27 +18,21 @@ summary: Red Hat OpenShift仮想化でのVMに対するCloud Insightsを使用�
 [role="lead"]
 このセクションでは、NetApp Cloud InsightsとRed Hat OpenShiftクラスタを統合してOpenShift仮想化VMを監視する方法について詳しく説明します。
 
-NetApp Cloud Insights は、インフラ全体を可視化できるクラウドインフラ監視ツールです。Cloud Insights を使用すると、パブリッククラウドやプライベートデータセンターなど、すべてのリソースの監視、トラブルシューティング、最適化を行うことができます。NetApp Cloud Insightsの詳細については、 https://docs.netapp.com/us-en/cloudinsights["Cloud Insights のドキュメント"]。
+NetApp Cloud Insights は、インフラ全体を可視化できるクラウドインフラ監視ツールです。Cloud Insightsを使用すると、パブリッククラウドやプライベートデータセンターを含む、すべてのリソースの監視、トラブルシューティング、最適化を実行できます。NetApp Cloud Insightsの詳細については、を参照して https://docs.netapp.com/us-en/cloudinsights["Cloud Insights のドキュメント"]ください。
 
-Cloud Insightsの使用を開始するには、NetApp BlueXPポータルで登録する必要があります。詳細については、を参照してください link:https://docs.netapp.com/us-en/cloudinsights/task_cloud_insights_onboarding_1.html["Cloud Insights オンボーディング"]
+Cloud Insightsの使用を開始するには、NetApp BlueXPポータルで登録する必要があります。詳細については、link:https://docs.netapp.com/us-en/cloudinsights/task_cloud_insights_onboarding_1.html["Cloud Insights オンボーディング"]
 
-Cloud Insightsには、データの迅速かつ簡単な検索、問題のトラブルシューティング、環境に関する分析情報の提供を可能にする複数の機能があります。強力なクエリを使用してデータを簡単に検索したり、ダッシュボードでデータを視覚化したり、設定したデータのしきい値に関するEメールアラートを送信したりできます。を参照してください link:https://docs.netapp.com/us-en/cloudinsights/concept_feature_tutorials.html#introduction["ビデオチュートリアル"] これらの機能を理解するのに役立ちます。
+Cloud Insightsには、データの迅速かつ簡単な検索、問題のトラブルシューティング、環境に関する分析情報の提供を可能にする複数の機能があります。強力なクエリを使用してデータを簡単に検索したり、ダッシュボードでデータを視覚化したり、設定したデータのしきい値に関するEメールアラートを送信したりできます。これらの機能を理解するには、を参照してlink:https://docs.netapp.com/us-en/cloudinsights/concept_feature_tutorials.html#introduction["ビデオチュートリアル"]ください。
 
 Cloud Insightsでデータの収集を開始するには、次の情報が必要です。
 
-**データコレクタ**
-データコレクタには、次の3種類があります。
-*インフラストラクチャ（ストレージデバイス、ネットワークスイッチ、コンピューティングインフラストラクチャ）
-*オペレーティング・システム（VMwareやWindowsなど）
-*サービス（Kafkaなど）
+**データコレクタ**次の3種類のデータコレクタがあります。*インフラストラクチャ（ストレージデバイス、ネットワークスイッチ、コンピューティングインフラストラクチャ）*オペレーティングシステム（VMware、Windowsなど）*サービス（Kafkaなど）
 
 データコレクタは、ONTAPストレージデバイス（インフラストラクチャデータコレクタ）などのデータソースから情報を検出します。収集された情報は、分析、検証、監視、トラブルシューティングに使用されます。
 
-** Acquisition Unit **
-インフラストラクチャData Collectorを使用している場合は、Cloud Insightsにデータを注入するAcquisition Unitも必要です。Acquisition Unitは、データコレクタ（通常は仮想マシン）をホストする専用のコンピュータです。このコンピュータは通常、監視対象項目と同じデータセンター/VPCに配置されます。
+** Acquisition Unit **インフラストラクチャData Collectorを使用している場合は、Cloud Insightsにデータを注入するAcquisition Unitも必要です。Acquisition Unitは、データコレクタ（通常は仮想マシン）をホストする専用のコンピュータです。このコンピュータは通常、監視対象項目と同じデータセンター/VPCに配置されます。
 
-**テレグラフエージェント**
-Cloud Insightsは、統合データ収集のエージェントとしてTelegrafもサポートしています。Telegraf はプラグインベースのサーバエージェントで、指標、イベント、ログの収集とレポートに使用できます。
+** Telegrafエージェント** Cloud Insightsは、統合データ収集のエージェントとしてTelegrafをサポートしています。Telegraf はプラグインベースのサーバエージェントで、指標、イベント、ログの収集とレポートに使用できます。
 
 Cloud Insightsのアーキテクチャ
 

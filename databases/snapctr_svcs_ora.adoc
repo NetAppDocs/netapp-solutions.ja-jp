@@ -35,7 +35,7 @@ SnapCenter サービスは、従来のSnapCenter データベース管理UIツ�
 
 
 
-== 対象者
+== 対象読者
 
 この解決策 の対象読者は次のとおりです。
 
@@ -86,7 +86,7 @@ image:snapctr_svcs_architecture.png["この画像は、管理するUI、コネ�
 | Oracle Grid Infrastructureの略 | バージョン19.18 | RUパッチp34762026_190000_Linux-x86-64.zipを適用しました 
 
 
-| Oracle データベース | バージョン19.18 | RUパッチp34765931_190000_Linux-x86-64.zipを適用しました 
+| Oracleデータベース | バージョン19.18 | RUパッチp34765931_190000_Linux-x86-64.zipを適用しました 
 
 
 | Oracle OPatchの略 | バージョン12.2.0.1.36 | 最新のパッチp6880880_190000_Linux-x86-64.zip 
@@ -98,11 +98,11 @@ image:snapctr_svcs_architecture.png["この画像は、管理するUI、コネ�
 
 === 導入にあたって考慮すべき主な要因
 
-* *コネクタは、データベースとFSxと同じVPCに導入します。*可能な場合は、同じAWS VPCに導入する必要があります。これにより、FSxストレージとEC2コンピューティングインスタンスへの接続が可能になります。
-* * SnapCenter Connector用に作成されたAWS IAMポリシー。* JSON形式のポリシーは、詳細なSnapCenter サービスドキュメントに記載されています。BlueXPコンソールを使用してコネクタの導入を起動すると、前提条件と必要な権限の詳細をJSON形式で設定するように求められます。このポリシーは、コネクタを所有するAWSユーザアカウントに割り当てる必要があります。
-* * AWSアカウントアクセスキーとAWSアカウントで作成されたSSHキーペア。* SSHキーペアは、コネクタホストにログインし、EC2 DBサーバホストにデータベースプラグインを導入するためにEC2ユーザに割り当てられます。アクセスキーは、上記のIAMポリシーを使用して必要なコネクタをプロビジョニングする権限を付与します。
+* *コネクタは、データベースやFSxと同じVPCに導入する必要があります。*可能であれば、同じAWS VPCにコネクタを導入し、FSxストレージとEC2コンピューティングインスタンスへの接続を可能にします。
+* * SnapCenter Connector用に作成されたAWS IAMポリシー*JSON形式のポリシーについては、SnapCenterサービスの詳細なドキュメントを参照してください。BlueXPコンソールを使用してコネクタの導入を起動すると、前提条件と必要な権限の詳細をJSON形式で設定するように求められます。このポリシーは、コネクタを所有するAWSユーザアカウントに割り当てる必要があります。
+* * AWSアカウントのアクセスキーとSSHキーのペアがAWSアカウントに作成されます。*SSHキーペアは、コネクタホストにログインし、EC2 DBサーバホストにデータベースプラグインを導入するためにEC2ユーザに割り当てられます。アクセスキーは、上記のIAMポリシーを使用して必要なコネクタをプロビジョニングする権限を付与します。
 * * BlueXP  コンソール設定にクレデンシャルが追加されました。*Amazon FSx ONTAPをBlueXP  作業環境に追加するには、Amazon FSx ONTAPにアクセスするためのBlueXP  権限を付与するクレデンシャルが、BlueXP  コンソールの設定で設定されます。
-* *EC2データベースインスタンスホストにjava-11-openjdkがインストールされています。* SnapCenterサービスのインストールにはJavaバージョン11が必要です。プラグインを導入する前に、アプリケーションホストにインストールする必要があります。
+* *EC2データベースインスタンスホストにjava-11-openjdkがインストールされている。*SnapCenterサービスのインストールにはJavaバージョン11が必要です。プラグインを導入する前に、アプリケーションホストにインストールする必要があります。
 
 
 
@@ -140,7 +140,7 @@ video::4b0fd212-7641-46b8-9e55-b01200f9383a[panopto]
 
 [%collapsible]
 ====
-. リンクを使用してください link:https://console.bluexp.netapp.com/["NetApp BlueXP"] をクリックして、BlueXPコンソールにアクセスしてください。
+. リンクを使用してlink:https://console.bluexp.netapp.com/["NetApp BlueXP"]BlueXP  コンソールアクセスにサインアップします。
 . AWSアカウントにログインして適切な権限を持つIAMポリシーを作成し、BlueXP Connectorの導入に使用するAWSアカウントにポリシーを割り当てます。
 +
 image:snapctr_svcs_connector_01-policy.png["GUIでのこの手順を示すスクリーンショット。"]
@@ -172,7 +172,7 @@ image:snapctr_svcs_connector_03-add.png["GUIでのこの手順を示すスクリ
 
 image:snapctr_svcs_connector_04-aws.png["GUIでのこの手順を示すスクリーンショット。"]
 
-. AWSアカウントですでに設定されている場合は、* Permission *、* Authentication *、* Networking *の各手順はスキップしてください。設定されていない場合は、先に進む前に設定する必要があります。ここから、前のセクションで参照しているAWSポリシーの権限を取得することもできます。<<BlueXPへのオンボーディング>>. 」
+. AWSアカウントですでに設定されている場合は、* Permission *、* Authentication *、* Networking *の各手順はスキップしてください。設定されていない場合は、先に進む前に設定する必要があります。ここから、前のセクションで参照しているAWSポリシーの権限を取得することもできます<<BlueXPへのオンボーディング>>。
 
 
 image:snapctr_svcs_connector_05-remind.png["GUIでのこの手順を示すスクリーンショット。"]

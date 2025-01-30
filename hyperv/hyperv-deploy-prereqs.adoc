@@ -30,7 +30,7 @@ summary: 解決策には、Hyper-VをNetAppストレージに導入するため�
 * SMB共有を共有ストレージとして使用する場合は、SMB共有に対する権限を設定して、クラスタ内のすべてのHyper-Vノードのコンピュータアカウントにアクセスを許可する必要があります。
 
 
-詳細については、を参照してください
+詳細については、次を参照してください。
 
 * link:https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/system-requirements-for-hyper-v-on-windows#how-to-check-for-hyper-v-requirements["Windows Server上のHyper-Vのシステム要件"]
 * link:https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/jj134244(v=ws.11)#step-1-prepare-to-validate-hardware-for-a-failover-cluster["フェールオーバークラスタのハードウェアの検証"]
@@ -47,7 +47,7 @@ summary: 解決策には、Hyper-VをNetAppストレージに導入するため�
 
 . 指定されたすべてのノードで、必要な更新とデバイスドライバを使用してWindows OS 2022を準備します。
 . インストール時に入力した管理者パスワードを使用して、各Hyper-Vノードにログインします。
-. タスクバーのPowerShellアイコンを右クリックし、 `Run as Administrator`。
+. タスクバーのPowerShellアイコンを右クリックしてを選択し、PowerShellプロンプトを起動します `Run as Administrator`。
 . Hyper-V、MPIO、およびクラスタリング機能を追加します。
 +
 [source, cli]
@@ -75,7 +75,7 @@ Add-WindowsFeature Hyper-V, Failover-Clustering, Multipath-IO `-IncludeManagemen
 
 *注*：Hyper-Vネットワークのベストプラクティスでも、Hyper-V環境でSMB 3.0ストレージネットワークにNICチーミングを使用することは推奨されません。
 
-追加情報については、を参照してください。 link:https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/plan/plan-hyper-v-networking-in-windows-server["Windows ServerでのHyper-Vネットワークの計画"]
+詳細については、を参照してください。link:https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/plan/plan-hyper-v-networking-in-windows-server["Windows ServerでのHyper-Vネットワークの計画"]
 
 
 
@@ -102,11 +102,11 @@ iSCSI / FCではなくSMB3を使用するかどうかは、現在導入されて
 
 === NetApp Windows iSCSI Host Utilitiesのインストール
 
-次のセクションでは、NetApp Windows iSCSI Host Utilitiesの無人インストール方法について説明します。インストールの詳細については、を参照してください。 link:https://docs.netapp.com/us-en/ontap-sanhost/hu_wuhu_72.html["Windows Unified Host Utilities 7.2（またはサポート対象の最新バージョン）をインストールする"]
+次のセクションでは、NetApp Windows iSCSI Host Utilitiesの無人インストール方法について説明します。インストールの詳細については、を参照してください。link:https://docs.netapp.com/us-en/ontap-sanhost/hu_wuhu_72.html["Windows Unified Host Utilities 7.2（またはサポート対象の最新バージョン）をインストールする"]
 
 *すべてのホスト*
 
-. ダウンロード link:https://mysupport.netapp.com/site/products/all/details/hostutilities/downloads-tab/download/61343/7.2["Windows iSCSI Host Utilities"]
+. ダウンロードlink:https://mysupport.netapp.com/site/products/all/details/hostutilities/downloads-tab/download/61343/7.2["Windows iSCSI Host Utilities"]
 . ダウンロードしたファイルのブロックを解除します。
 +
 [source, cli]
@@ -186,7 +186,7 @@ Get-IscsiTarget | Connect-IscsiTarget -IsPersistent $true -IsMultipathEnabled $t
 
 *サーバ1台のみ*
 
-. PowerShellアイコンを右クリックし、 `Run as Administrator``。
+. PowerShellアイコンを右クリックしてを選択し、管理者権限でPowerShellプロンプトを起動します。 `Run as Administrator``
 . 新しいクラスタを作成します。
 +
 [source, cli]
@@ -211,7 +211,7 @@ image:hyperv-deploy-image01.png["クラスタ管理インターフェイスを�
 ----
 start-ClusterGroup "Available Storage"| Move-ClusterGroup -Node $env:COMPUTERNAME
 ----
-.. フェイルオーバークラスタマネージャで、 `Configure Cluster Quorum Settings`。
+.. フェイルオーバークラスタマネージャで、を選択し `Configure Cluster Quorum Settings`ます。
 +
 image:hyperv-deploy-image02.png["クラスタクォーラム設定の構成の画像"]
 
@@ -221,7 +221,7 @@ image:hyperv-deploy-image02.png["クラスタクォーラム設定の構成の�
 .. 使用可能なストレージから[Disk W:]を選択し、[Next]をクリックします。
 .. 確認ページで[Next]をクリックし、概要ページで[Finish]をクリックします。
 +
-クォーラムと監視の詳細については、を参照してください。 link:https://learn.microsoft.com/en-us/windows-server/failover-clustering/manage-cluster-quorum#general-recommendations-for-quorum-configuration["クォーラムの設定と管理"]
+クォーラムと監視の詳細については、を参照してください。link:https://learn.microsoft.com/en-us/windows-server/failover-clustering/manage-cluster-quorum#general-recommendations-for-quorum-configuration["クォーラムの設定と管理"]
 
 
 

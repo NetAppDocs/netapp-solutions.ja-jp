@@ -14,7 +14,7 @@ summary: このセクションでは、Tridentが提供する永続的ストレ�
 
 
 [role="lead"]
-Red Hat OpenShift の導入では、のようなパブリックレジストリを使用します https://quay.io["キー・ IO"] または https://hub.docker.com["DockerHub"] お客様のほとんどのニーズに対応ただし、お客様が独自のプライベートイメージまたはカスタマイズされたイメージをホストしたい場合があります。
+Red Hat OpenShiftのほとんどの環境では、または https://hub.docker.com["DockerHub"]のようなパブリックレジストリを使用して、 https://quay.io["キー・ IO"]ほとんどのお客様のニーズを満たしています。ただし、お客様が独自のプライベートイメージまたはカスタマイズされたイメージをホストしたい場合があります。
 
 この手順では、TridentおよびNetApp ONTAPが提供する永続ボリュームによってバックアップされるプライベートイメージレジストリの作成について説明します。
 
@@ -35,7 +35,7 @@ storageclass.storage.k8s.io/thin patched
 [netapp-user@rhel7 ~]$ oc patch storageclass ocp-trident -p '{"metadata": {"annotations": {"storageclass.kubernetes.io/is-default-class": "true"}}}'
 storageclass.storage.k8s.io/ocp-trident patched
 ----
-. 「 PEC 」セクションに以下の保管パラメータを入力して、 imagegeistry のオペレータを編集します。
+. セクションで次のストレージパラメータを入力して、imageregistry演算子を編集します `spec`。
 +
 [listing]
 ----
@@ -45,7 +45,7 @@ storage:
   pvc:
     claim:
 ----
-. カスタムホスト名を使用して OpenShift ルートを作成するには、「 PEC 」セクションに次のパラメータを入力します。保存して終了します。
+. カスタムホスト名を使用してOpenShiftルートを作成する場合は、セクションに次のパラメータを入力し `spec`ます。保存して終了します。
 +
 [listing]
 ----
@@ -55,7 +55,7 @@ routes:
 ----
 +
 
-NOTE: 上記のルート設定は、ルートのカスタムホスト名が必要な場合に使用されます。OpenShift でデフォルトのホスト名を持つルートを作成するには、「 PEC 」セクションに「 defaultRoute ： true 」というパラメータを追加します。
+NOTE: 上記のルート設定は、ルートのカスタムホスト名が必要な場合に使用されます。OpenShiftでデフォルトのホスト名を使用してルートを作成する場合は、セクションに次のパラメータを追加し `spec`ます。 `defaultRoute: true`
 
 +
 .カスタム TLS 証明書
@@ -68,7 +68,7 @@ NOTE: 上記のルート設定は、ルートのカスタムホスト名が必�
 ----
 [netapp-user@rhel7 ~]$ oc create secret tls astra-route-tls -n openshift-image-registry –cert/home/admin/netapp-astra/tls.crt --key=/home/admin/netapp-astra/tls.key
 ----
-.. imageregistry 演算子を編集して 'PEC' セクションに次のパラメータを追加します
+.. imageregistry演算子を編集し、セクションに次のパラメータを追加し `spec`ます。
 +
 [listing]
 ----
@@ -82,7 +82,7 @@ routes:
 
 
 ****
-. このような場合は、すべての管理者をもう一度編集し、管理状態を「管理状態」に変更してください。保存して終了します。
+. imageregistry演算子を再度編集し、演算子の管理状態を状態に変更し `Managed`ます。保存して終了します。
 +
 [listing]
 ----
@@ -145,7 +145,7 @@ route.route.openshift.io/public-routes   astra-registry.apps.ocp-vmw.cie.netapp.
 ----
 [netapp-user@rhel7 ~]$ oc extract secret/router-ca --keys=tls.crt -n openshift-ingress-operator
 ----
-. OpenShift ノードがレジストリにアクセスしてイメージをプルできるようにするには、 OpenShift ノード上の Docker クライアントに証明書を追加します。TLS 証明書を使用して「 OpenShift -config 」ネームスペースに ConfigMap を作成し、証明書を信頼できるようにクラスタイメージ設定にパッチします。
+. OpenShift ノードがレジストリにアクセスしてイメージをプルできるようにするには、 OpenShift ノード上の Docker クライアントに証明書を追加します。TLS証明書を使用してネームスペースにConfigMapを作成し `openshift-config`、クラスタイメージの構成にパッチを適用して証明書を信頼できるようにします。
 +
 [listing]
 ----
@@ -187,7 +187,7 @@ route.route.openshift.io/public-routes   astra-registry.apps.ocp-vmw.cie.netapp.
 ----
 [netapp-user@rhel7 ~]$ oc secrets link <service_account_name> astra-registry-credentials --for=pull
 ----
-.. ポッド定義でプルシークレットを参照するには、「 PEC 」セクションに次のパラメータを追加します。
+.. ポッド定義のプルシークレットを参照するには、セクションに次のパラメータを追加し `spec`ます。
 +
 [listing]
 ----
@@ -222,7 +222,7 @@ imagePullSecrets:
 ----
 [netapp-user@rhel7 ~]$ podman login astra-registry.apps.ocp-vmw.cie.netapp.com -u kubeadmin -p $(oc whoami -t) --tls-verify=false
 ----
-+ 注 : 「 kubeadmin 」ユーザを使用してプライベートレジストリにログインする場合は、パスワードの代わりにトークンを使用します。
++注:ユーザーを使用してプライベートレジストリにログインしている場合は `kubeadmin`、パスワードの代わりにトークンを使用してください。
 
 --
 .Docker です
@@ -231,7 +231,7 @@ imagePullSecrets:
 ----
 [netapp-user@rhel7 ~]$ docker login astra-registry.apps.ocp-vmw.cie.netapp.com -u kubeadmin -p $(oc whoami -t)
 ----
-+ 注 : 「 kubeadmin 」ユーザを使用してプライベートレジストリにログインする場合は、パスワードの代わりにトークンを使用します。
++注:ユーザーを使用してプライベートレジストリにログインしている場合は `kubeadmin`、パスワードの代わりにトークンを使用してください。
 
 --
 ====

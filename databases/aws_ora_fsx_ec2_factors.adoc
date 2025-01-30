@@ -20,7 +20,7 @@ keywords: HA, DR, database, Oracle, RDS, AWS, SnapCenter
 
 
 
-== VM パフォーマンス
+== VMパフォーマンス
 
 パブリッククラウドのリレーショナルデータベースのパフォーマンスを最適化するには、適切な VM サイズを選択することが重要です。パフォーマンスを高めるために、Oracle環境にはEC2 M5シリーズインスタンスを使用することを推奨します。このインスタンスはデータベースワークロードに最適化されています。AWSでOracleのRDSインスタンスを提供する際にも、同じインスタンスタイプが使用される。
 
@@ -54,9 +54,9 @@ image:aws_ora_fsx_ec2_stor_13.png["入力/出力ダイアログを示す図、�
 
 
 
-== NFS の設定
+== NFSの設定
 
-最も一般的なオペレーティングシステムであるLinuxには、ネイティブのNFS機能が含まれています。Oracleは、Oracleにネイティブに統合されたDirect NFS（dNFS）クライアントを提供しています。Oracleは20年以上にわたってNFSv3をサポートしています。DNFSは、OracleのすべてのバージョンでNFSv3でサポートされています。NFSv4は、NFSv4標準に準拠するすべてのOSでサポートされます。NFSv4のDNFSサポートには、Oracle 12.1.0.2以降が必要です。NFSv4.1では、特定のOSサポートが必要です。サポート対象のOSについては、NetApp Interoperability Matrix Tool（IMT ）を参照してください。NFSv4.1のDNFSサポートには、Oracleバージョン19.3.0.0以降が必要です。
+最も一般的なオペレーティングシステムであるLinuxには、ネイティブのNFS機能が含まれています。Oracleは、Oracleにネイティブに統合されたDirect NFS（dNFS）クライアントを提供しています。Oracleは20年以上にわたってNFSv3をサポートしています。dNFSは、すべてのバージョンのOracleでNFSv3でサポートされています。NFSv4は、NFSv4標準に準拠するすべてのOSでサポートされます。NFSv4のdNFSサポートには、Oracle 12.1.0.2以降が必要です。NFSv4.1では、特定のOSサポートが必要です。サポート対象のOSについては、NetApp Interoperability Matrix Tool（IMT）を参照してください。NFSv4.1でのNFSのサポートには、Oracleバージョン19.3.0.0以降が必要です。
 
 NetApp Automation Toolkitを使用したOracleの自動導入で、NFSv3ではdNFSが自動的に設定されます。
 

@@ -32,7 +32,7 @@ Azure NetApp Files（ANF）ボリュームベースのNFSデータストアを�
 
 この記事では、Azure NetApp FilesデータストアとVeeam Backup and Replicationを使用して、Veeam VMレプリケーションソフトウェア機能を使用してオンプレミスのVMware VMから（AVS）へのディザスタリカバリを設定する方法について説明します。
 
-Veeam Backup & Replicationは、仮想環境向けのバックアップおよびレプリケーションアプリケーションです。仮想マシンがレプリケートされると、Veeam Backup & ReplicationがAVS上からレプリケートされます。ソフトウェアは、ターゲットAVS SDDCクラスタに、ネイティブのVMware vSphere形式でVMの正確なコピーを作成します。  Veeam Backup & Replicationは、コピーと元のVMの同期を維持します。DRサイトにはVMのコピーがすぐにマウントされているため、レプリケーションによって最適なRecovery Time Objective（RTO；目標復旧時間）が実現します。
+Veeam Backup & Replicationは、仮想環境向けのバックアップおよびレプリケーションアプリケーションです。仮想マシンがレプリケートされると、Veeam Backup & ReplicationがAVS上からレプリケートされます。ソフトウェアは、ターゲットAVS SDDCクラスタに、ネイティブのVMware vSphere形式でVMの正確なコピーを作成します。Veeam Backup & Replicationは、コピーと元のVMの同期を維持します。DRサイトにはVMのコピーがすぐにマウントされているため、レプリケーションによって最適なRecovery Time Objective（RTO；目標復旧時間）が実現します。
 
 このレプリケーションメカニズムにより、災害発生時にAVS SDDCでワークロードを迅速に開始できます。Veeam Backup & Replicationソフトウェアは、WAN経由のレプリケーションや低速接続のトラフィック転送も最適化します。また、重複データブロック、ゼロデータブロック、スワップファイル、「除外VMゲストOSファイル」も除外されます。ソフトウェアはレプリカトラフィックも圧縮します。レプリケーションジョブがネットワーク帯域幅全体を消費しないようにするには、WANアクセラレータとネットワークスロットリングルールを使用します。
 
@@ -49,7 +49,7 @@ image:dr-veeam-anf-image1.png["入力/出力ダイアログを示す図、また
 === 手順の概要
 
 . Veeam Backup & Replicationソフトウェアは、適切なネットワーク接続を備えたオンプレミス環境で実行されます。
-. link:https://learn.microsoft.com/en-us/azure/azure-vmware/deploy-azure-vmware-solution?tabs=azure-portal["Azure VMware解決策（AVS）の導入"] プライベートクラウドと link:https://learn.microsoft.com/en-us/azure/azure-vmware/attach-azure-netapp-files-to-azure-vmware-solution-hosts?tabs=azure-portal["Azure NetApp Filesデータストアの接続"] Azure VMware解決策ホストに接続します。
+. link:https://learn.microsoft.com/en-us/azure/azure-vmware/deploy-azure-vmware-solution?tabs=azure-portal["Azure VMware解決策（AVS）の導入"]プライベートクラウドとlink:https://learn.microsoft.com/en-us/azure/azure-vmware/attach-azure-netapp-files-to-azure-vmware-solution-hosts?tabs=azure-portal["Azure NetApp Filesデータストアの接続"]Azure VMware Solutionホストに接続できます。
 +
 最小限の構成でセットアップされたパイロットライト環境は、DR目的で使用できます。インシデントが発生した場合、VMはこのクラスタにフェイルオーバーし、ノードを追加できます）。
 
@@ -67,11 +67,11 @@ image:dr-veeam-anf-image1.png["入力/出力ダイアログを示す図、また
 . ターゲットのAzure NetApp Filesデータストアに、レプリケートされたVMのVMDKを格納できるだけの十分な空きスペースが必要です。
 
 
-追加情報については、「考慮事項と制限事項」を参照してください。 link:https://helpcenter.veeam.com/docs/backup/vsphere/replica_limitations.html?ver=120["こちらをご覧ください"]。
+詳細については、「考慮事項と制限事項」を参照してくださいlink:https://helpcenter.veeam.com/docs/backup/vsphere/replica_limitations.html?ver=120["ここをクリック"]。
 
 
 
-=== 展開の詳細
+=== 導入の詳細
 
 .ステップ1：VMのレプリケート
 [%collapsible]
@@ -82,10 +82,9 @@ VMをレプリケートするには、次の手順を実行します。
 
 . Veeam Backup & Replicationコンソールを開きます。
 . をクリックします。ジョブノードを右クリックし、[Replication Job]>[Virtual machine]を選択します。
-. ジョブ名を指定し、適切な詳細制御チェックボックスを選択します。次へをクリックします。
+. ジョブ名を指定し、適切な詳細制御チェックボックスを選択します。[Next]をクリックします。
 +
-** オンプレミスとAzure間の接続で帯域幅が制限されている場合は、[Replica seeding]チェックボックスをオンにします。
-* Azure VMware解決策SDDCのセグメントがオンプレミスサイトネットワークのセグメントと一致しない場合は、[ネットワークの再マッピング(AVS SDDCサイトと異なるネットワークの場合)]チェックボックスをオンにします。
+** オンプレミスとAzure間の接続で帯域幅が制限されている場合は、[Replica seeding]チェックボックスをオンにします。* Azure VMware解決策SDDCのセグメントがオンプレミスサイトネットワークのセグメントと一致しない場合は、[ネットワークの再マッピング(AVS SDDCサイトと異なるネットワークの場合)]チェックボックスをオンにします。
 ** オンプレミスの本番サイトのIPアドレス指定方式がターゲットAVSサイトのIPアドレス指定方式と異なる場合は、Replica Re-IP（異なるIPアドレス指定方式を使用するDRサイトの場合）チェックボックスを選択します。
 +
 image:dr-veeam-anf-image2.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
@@ -124,7 +123,7 @@ image:dr-veeam-anf-image8.png["入力/出力ダイアログを示す図、また
 
 image:dr-veeam-anf-image9.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-追加情報によるVeeamレプリケーションについては、 link:https://helpcenter.veeam.com/docs/backup/vsphere/replication_process.html?ver=120["レプリケーションの仕組み"]
+Veeamレプリケーションの詳細については、link:https://helpcenter.veeam.com/docs/backup/vsphere/replication_process.html?ver=120["レプリケーションの仕組み"]
 
 ====
 .手順2：フェイルオーバープランを作成する
@@ -159,7 +158,7 @@ image:dr-veeam-anf-image12.png["入力/出力ダイアログを示す図、ま�
 
 
 
-レプリケーションジョブを作成するための追加情報については、を参照してください。 link:https://helpcenter.veeam.com/docs/backup/vsphere/replica_job.html?ver=120["レプリケーションジョブの作成"]。
+レプリケーションジョブの作成の詳細については、を参照してくださいlink:https://helpcenter.veeam.com/docs/backup/vsphere/replica_job.html?ver=120["レプリケーションジョブの作成"]。
 
 ====
 .手順3：フェイルオーバープランを実行する
@@ -187,7 +186,7 @@ image:dr-veeam-anf-image16.png["入力/出力ダイアログを示す図、ま�
 
 NOTE: Veeam Backup & Replicationは、レプリカがReady状態に戻るまで、ソースVMのすべてのレプリケーションアクティビティを停止します。
 
-フェイルオーバープランの詳細については、を参照してください。 link:https://helpcenter.veeam.com/docs/backup/vsphere/failover_plan.html?ver=120["フェイルオーバープラン"]。
+フェイルオーバープランの詳細については、を参照してくださいlink:https://helpcenter.veeam.com/docs/backup/vsphere/failover_plan.html?ver=120["フェイルオーバープラン"]。
 
 ====
 .手順4：本番サイトへのフェイルバック
@@ -217,7 +216,7 @@ image:dr-veeam-anf-image20.png["入力/出力ダイアログを示す図、ま�
 
 フェイルバックコミットは、フェイルバック操作を完了する方法の1つです。フェイルバックがコミットされると、フェイルバックされたVM（本番VM）に送信された変更が想定どおりに機能していることが確認されます。コミット処理が完了すると、Veeam Backup & Replicationは本番用VMのレプリケーションアクティビティを再開します。
 
-フェイルバックプロセスの詳細については、次のVeeamのドキュメントを参照してください： link:https://helpcenter.veeam.com/docs/backup/vsphere/failover_failback.html?ver=120["レプリケーションのフェイルオーバーとフェイルバック"]。
+フェイルバックプロセスの詳細については、Veeamのドキュメントを参照してくださいlink:https://helpcenter.veeam.com/docs/backup/vsphere/failover_failback.html?ver=120["レプリケーションのフェイルオーバーとフェイルバック"]。
 
 image:dr-veeam-anf-image21.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 

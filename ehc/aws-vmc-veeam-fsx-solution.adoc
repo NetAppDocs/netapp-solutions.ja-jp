@@ -78,7 +78,7 @@ VMware Cloud（AWS）では、NFSデータストアを補助ストレージと�
 
 . OracleデータベースVMとVMDKおよびアプリケーションデータがFSx ONTAP NFSデータストアに格納されている。
 . FSx ONTAP NFSデータストア上に配置されたVMDKを使用したLinuxおよびWindowsのファイルサーバVM。
-. Veeamには、バックアップ環境のサーバとコンポーネント間の通信に特定のTCPポートが必要です。Veeamバックアップインフラコンポーネントでは、必要なファイアウォールルールが自動的に作成されます。ネットワークポート要件の詳細なリストについては、の「ポート」のセクションを参照してください https://helpcenter.veeam.com/docs/backup/vsphere/used_ports.html?zoom_highlight=network+ports&ver=120["Veeam Backup and Replication User Guide for VMware vSphereを参照してください"]。
+. Veeamには、バックアップ環境のサーバとコンポーネント間の通信に特定のTCPポートが必要です。Veeamバックアップインフラコンポーネントでは、必要なファイアウォールルールが自動的に作成されます。ネットワークポート要件の詳細なリストについては、の「ポート」のセクションを参照して https://helpcenter.veeam.com/docs/backup/vsphere/used_ports.html?zoom_highlight=network+ports&ver=120["Veeam Backup and Replication User Guide for VMware vSphereを参照してください"]ください。
 
 
 ====
@@ -116,7 +116,7 @@ FSx ONTAPファイルシステムの作成、バックアップリポジトリ�
 
 FSx ONTAPの詳細については、を参照してください https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html["FSx ONTAPユーザガイド"^]。
 
-Veeam Backup and Replicationの詳細については、を参照してください https://www.veeam.com/documentation-guides-datasheets.html?productId=8&version=product%3A8%2F221["Veeam Help Centerテクニカルドキュメント"^] サイト
+Veeam Backup and Replicationの詳細については、サイトを参照して https://www.veeam.com/documentation-guides-datasheets.html?productId=8&version=product%3A8%2F221["Veeam Help Centerテクニカルドキュメント"^]ください。
 
 Veeam Backup and ReplicationをVMware Cloud on AWSで使用する場合の考慮事項と制限事項については、を参照してください https://www.veeam.com/kb2414["VMware Cloud on AWSおよびVMware Cloud on Dell EMCサポート考慮事項および制限事項"]。
 
@@ -132,7 +132,7 @@ Veeamプロキシサーバの設計を選択する際には、同時に実行す
 
 Veeam Data MoverはVeeam Proxy Serverのコンポーネントであり、ソースからVMデータを取得してターゲットに転送する方法としてトランスポートモードを使用します。転送モードは、バックアップジョブの設定時に指定します。ストレージへの直接アクセスを使用することで、NFSデータストアからのバックアップ効率を高めることができます。
 
-トランスポートモードの詳細については、を参照してください https://helpcenter.veeam.com/docs/backup/vsphere/transport_modes.html?ver=120["Veeam Backup and Replication User Guide for VMware vSphereを参照してください"]。
+トランスポートモードの詳細については、を参照して https://helpcenter.veeam.com/docs/backup/vsphere/transport_modes.html?ver=120["Veeam Backup and Replication User Guide for VMware vSphereを参照してください"]ください。
 
 次の手順では、VMware Cloud SDDC内のWindows VMにVeeam Proxy Serverを導入します。
 
@@ -282,7 +282,7 @@ image:aws-vmc-veeam-16.png["[Mount server]を選択します"]
 
 === Veeamバックアップジョブを設定します
 
-バックアップジョブは、前のセクションのバックアップリポジトリを使用して作成します。バックアップジョブの作成は、ストレージ管理者の業務の通常の一部であり、ここで紹介するすべての手順を網羅しているわけではありません。Veeamでのバックアップジョブの作成の詳細については、を参照してください https://www.veeam.com/documentation-guides-datasheets.html?productId=8&version=product%3A8%2F221["Veeam Help Centerテクニカルドキュメント"^]。
+バックアップジョブは、前のセクションのバックアップリポジトリを使用して作成します。バックアップジョブの作成は、ストレージ管理者の業務の通常の一部であり、ここで紹介するすべての手順を網羅しているわけではありません。Veeamでのバックアップジョブの作成の詳細については、を参照して https://www.veeam.com/documentation-guides-datasheets.html?productId=8&version=product%3A8%2F221["Veeam Help Centerテクニカルドキュメント"^]ください。
 
 この解決策 では、次の項目に対して個別のバックアップジョブが作成されました。
 
@@ -313,7 +313,7 @@ image:aws-vmc-veeam-18.png["長期保持ポリシー"]
 
 アプリケーションのリストアを実行する最初のステップは、Veeamを使用したフルリストアの実行です。VMのフルリストアの電源がオンになっており、すべてのサービスが正常に実行されていることを確認しました。
 
-サーバのリストアは、ストレージ管理者の業務の通常の一部であり、ここで説明するすべての手順を説明するわけではありません。Veeamでのフルリストアの実行の詳細については、を参照してください https://www.veeam.com/documentation-guides-datasheets.html?productId=8&version=product%3A8%2F221["Veeam Help Centerテクニカルドキュメント"^]。
+サーバのリストアは、ストレージ管理者の業務の通常の一部であり、ここで説明するすべての手順を説明するわけではありません。Veeamでのフルリストアの実行の詳細については、を参照して https://www.veeam.com/documentation-guides-datasheets.html?productId=8&version=product%3A8%2F221["Veeam Help Centerテクニカルドキュメント"^]ください。
 
 
 
@@ -358,7 +358,7 @@ image:aws-vmc-veeam-24.png["SQL Serverのリカバリプロセスを監視しま
 
 
 ====
-Veeam Explorerを使用してSQL Serverのリストア処理を実行する方法の詳細については、のMicrosoft SQL Serverの項を参照してください https://helpcenter.veeam.com/docs/backup/explorers/vesql_user_guide.html?ver=120["Veeam Explorers User Guideを参照してください"]。
+Veeam Explorerを使用してSQL Serverのリストア処理を実行する方法の詳細については、のMicrosoft SQL Serverの項を参照して https://helpcenter.veeam.com/docs/backup/explorers/vesql_user_guide.html?ver=120["Veeam Explorers User Guideを参照してください"]ください。
 
 
 
@@ -366,7 +366,7 @@ Veeam Explorerを使用してSQL Serverのリストア処理を実行する方�
 
 Veeam Explorer for Oracle databaseでは、Instant Recoveryを使用して、Oracleデータベースの標準リストアまたは中断のないリストアを実行できます。また、データベースのパブリッシュをサポートしているため、高速アクセス、Data Guardデータベースのリカバリ、RMANバックアップからのリストアが可能です。
 
-Veeam Explorerを使用してOracleデータベースのリストア処理を実行する方法の詳細については、のOracleのセクションを参照してください https://helpcenter.veeam.com/docs/backup/explorers/veor_user_guide.html?ver=120["Veeam Explorers User Guideを参照してください"]。
+Veeam Explorerを使用してOracleデータベースのリストア処理を実行する方法の詳細については、のOracleのセクションを参照して https://helpcenter.veeam.com/docs/backup/explorers/veor_user_guide.html?ver=120["Veeam Explorers User Guideを参照してください"]ください。
 
 .Veeam Explorerを使用してOracleデータベースをリストアします
 [%collapsible]

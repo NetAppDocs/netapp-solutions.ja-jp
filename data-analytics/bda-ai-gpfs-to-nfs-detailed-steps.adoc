@@ -18,7 +18,7 @@ summary: このセクションでは、 NetApp XCP を使用して GPFS を設�
 
 
 
-== GPFS を設定します
+== GPFSの設定
 
 . いずれかのサーバに Linux 用 Spectrum Scale Data Access をダウンロードしてインストールします。
 +
@@ -238,21 +238,21 @@ setenforce: SELinux is disabled
 [root@mastr-51 installer]#
 Profiles options: default [gpfsProtocolDefaults], random I/O [gpfsProtocolsRandomIO], sequential I/O [gpfsProtocolDefaults], random I/O [gpfsProtocolRandomIO]
 ....
-. GPFS で使用するリモートシェルバイナリを指定します。引数には -r を使用します。
+. GPFSが使用するリモートシェルバイナリを指定します。を使用します。 `-r argument`
 +
 ....
 [root@mastr-51 installer]# ./spectrumscale config gpfs -r /usr/bin/ssh
 [ INFO  ] Setting Remote shell command to /usr/bin/ssh
 [root@mastr-51 installer]#
 ....
-. GPFS で使用するリモートファイルコピーバイナリを指定します。「 -rc 引数」を使用します。
+. GPFSで使用するリモートファイルコピーバイナリを指定します。を使用します。 `-rc argument`
 +
 ....
 [root@mastr-51 installer]# ./spectrumscale config gpfs -rc /usr/bin/scp
 [ INFO  ] Setting Remote file copy command to /usr/bin/scp
 [root@mastr-51 installer]#
 ....
-. すべての GPFS ノードに設定するポート範囲を指定します。「 -e 引数」を使用します。
+. すべてのGPFSノードに設定するポート範囲を指定します。を使用します。 `-e argument`
 +
 ....
 [root@mastr-51 installer]# ./spectrumscale config gpfs -e 60000-65000
@@ -399,7 +399,7 @@ mmcrnsd: Propagating the cluster configuration data to all
 
 [root@mastr-51 cluster-test]#
 ....
-. GPFS を作成します。
+. GPFSを作成
 +
 ....
 [root@mastr-51 cluster-test]# mmcrfs gpfs1 -F disk.1st -B 1M -T /gpfs1
@@ -445,7 +445,7 @@ workr-136.netapp.com
 workr-138.netapp.com
 [root@mastr-51 cluster-test]#
 ....
-. 「 dd 」コマンドを実行して、 GPFS の読み取りと書き込みを確認します。
+. コマンドを実行して、GPFSの読み取りと書き込みを確認します `dd`。
 +
 ....
 [root@mastr-51 cluster-test]# dd if=/dev/zero of=/gpfs1/testfile bs=1024M count=5
@@ -475,7 +475,7 @@ total 5.0G
 
 GPFS を NFS にエクスポートするには、次の手順を実行します。
 
-. GPFS を /etc/exports ファイルを使用して NFS としてエクスポートします。
+. ファイルを使用して、GPFSをNFSとしてエクスポートし `/etc/exports`ます。
 +
 ....
 [root@mastr-51 gpfs1]# cat /etc/exports

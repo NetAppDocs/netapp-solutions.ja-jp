@@ -44,7 +44,7 @@ summary: 解決策には、Hyper-VをNetAppストレージに導入するため�
 
 == SMB3.0の設計と検討事項
 
-SMB 3.0ファイル共有をHyper-V用の共有ストレージとして使用できます。ONTAPでは、Hyper-VのSMB共有を介したノンストップオペレーションがサポートされます。Hyper-Vでは、SMBファイル共有を使用して、構成、スナップショット、仮想ハードディスク（VHD）ファイルなどの仮想マシンファイルを格納できます。Hyper-VのSMB3.0ベースの共有には専用のONTAP CIFS SVMを使用します。仮想マシンファイルの格納に使用するボリュームは、NTFSセキュリティ形式のボリュームで作成する必要があります。10GBのネットワークがある場合は、Hyper-VホストとNetAppアレイの間の接続を推奨します。1GBのネットワーク接続の場合、NetAppでは、複数の1GBポートで構成されるインターフェイスグループを作成することを推奨します。SMBマルチチャネルを提供する各NICを専用のIPサブネットに接続し、各サブネットがクライアントとサーバの間に単一のパスを提供するようにします。
+SMB 3.0ファイル共有は、Hyper-Vの共有ストレージとして使用できます。ONTAPでは、Hyper-VのSMB共有を介したノンストップオペレーションがサポートされます。Hyper-Vでは、SMBファイル共有を使用して、構成、Snapshot、仮想ハードディスク（VHD）ファイルなどの仮想マシンファイルを格納できます。Hyper-Vでは、SMB3.0ベースの共有に専用のONTAP CIFS SVMを使用します。仮想マシンファイルの格納に使用するボリュームは、NTFSセキュリティ形式のボリュームを使用して作成する必要があります。10GBのネットワークがある場合は、Hyper-VホストとNetAppアレイの間の接続を推奨します。1GBのネットワーク接続の場合、NetAppでは、複数の1GBポートで構成されるインターフェイスグループを作成することを推奨します。SMBマルチチャネルを提供する各NICを専用のIPサブネットに接続し、各サブネットがクライアントとサーバの間に単一のパスを提供するようにします。
 
 *キーポイント*
 
@@ -83,10 +83,9 @@ image:hyperv-deploy-image05.png["NTFS権限設定の画像"]
 
 
 
-ベストプラクティスの詳細なガイダンスについては、を参照してください。 link:https://docs.netapp.com/us-en/ontap-apps-dbs/microsoft/win_overview.html["Hyper-Vの導入ガイドラインとベストプラクティス"]。
+ベストプラクティスの詳細なガイダンスについては、を参照してくださいlink:https://docs.netapp.com/us-en/ontap-apps-dbs/microsoft/win_overview.html["Hyper-Vの導入ガイドラインとベストプラクティス"]。
 
-追加情報については、を参照してください。 link:https://docs.netapp.com/us-en/ontap/smb-hyper-v-sql/server-volume-requirements-hyper-v-concept.html["Hyper-V over SMB 用の SMB サーバとボリュームの要件
-"]。
+詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/ontap/smb-hyper-v-sql/server-volume-requirements-hyper-v-concept.html["Hyper-V over SMB用のSMBサーバとボリュームの要件"]。
 
 
 
@@ -123,7 +122,7 @@ iSCSIボリュームをプロビジョニングするには、次の前提条件
 * 手順 *
 
 . System Managerを使用して[LUN]ウィンドウに移動します（ONTAP CLIも同じ処理に使用できます）。
-. Create をクリックします。 .
+. 作成をクリックします。
 . 指定したLUNを作成するSVMを参照して選択し、LUN作成ウィザードが表示されます。
 . [General Properties]ページで、Hyper-V仮想マシンの仮想ハードディスク（VHD）を含むLUNの場合は[Hyper-V]を選択します。
 +
@@ -151,7 +150,7 @@ image:hyperv-deploy-image07.png["[Add to Cluster Shared Volumes]インターフ�
 . これで、ディスクがクラスタ内のクラスタ共有ボリュームグループに割り当てられました。ディスクは、%SystemDrive%ClusterStorageフォルダの下の番号付きボリューム（マウントポイント）として各クラスタノードに公開されます。ボリュームがCSVFSファイルシステムに表示されます。
 
 
-追加情報については、を参照してください。 link:https://learn.microsoft.com/en-us/windows-server/failover-clustering/failover-cluster-csvs#add-a-disk-to-csv-on-a-failover-cluster["フェイルオーバークラスタでのクラスタ共有ボリュームの使用"]。
+詳細については、を参照してくださいlink:https://learn.microsoft.com/en-us/windows-server/failover-clustering/failover-cluster-csvs#add-a-disk-to-csv-on-a-failover-cluster["フェイルオーバークラスタでのクラスタ共有ボリュームの使用"]。
 
 *高可用性仮想マシンの作成：*
 
@@ -159,7 +158,7 @@ image:hyperv-deploy-image07.png["[Add to Cluster Shared Volumes]インターフ�
 
 . フェイルオーバークラスタマネージャで、目的のクラスタを選択または指定します。クラスタの下のコンソールツリーが展開されていることを確認します。
 . [Roles]をクリックします。
-. [操作]ペインで、[仮想マシン]をクリックし、[新しい仮想マシン]をクリックします。[New Virtual Machine Wizard]が表示されます。次へをクリックします。
+. [操作]ペインで、[仮想マシン]をクリックし、[新しい仮想マシン]をクリックします。[New Virtual Machine Wizard]が表示されます。[Next]をクリックします。
 . [Specify Name and Location]ページで、仮想マシンの名前（nimdemoなど）を指定します。[Store the virtual machine in a different location]をクリックして完全パスを入力するか、[Browse]をクリックして共有ストレージに移動します。
 . 物理ネットワークアダプタに関連付けられた仮想スイッチにメモリを割り当て、ネットワークアダプタを設定します。
 . [Connect Virtual Hard Disk]ページで、[Create a virtual hard disk]をクリックします。
@@ -175,7 +174,7 @@ ONTAPのODX機能を使用すると、ONTAPストレージシステムでホス�
 
 *注*：ONTAPでは、SMBプロトコルとSANプロトコルの両方でODXがサポートされます。
 
-*注*：Hyper-VでのODXコピーオフロードのパススルーのユースケースを利用するには、ゲストオペレーティングシステムでODXがサポートされている必要があります。また、ゲストオペレーティングシステムのディスクは、ODXをサポートするストレージ（SMBまたはSAN）から作成されたSCSIディスクである必要があります。ゲストオペレーティングシステムのディスクが IDE ディスクの場合、 ODX のパススルーはサポートされません。
+*注*：Hyper-VでのODXコピーオフロードのパススルーのユースケースを利用するには、ゲストオペレーティングシステムでODXがサポートされている必要があります。また、ゲストオペレーティングシステムのディスクは、ODXをサポートするストレージ（SMBまたはSAN）から作成されたSCSIディスクである必要があります。ゲストオペレーティングシステムのIDEディスクは、ODXパススルーをサポートしていません。
 
 
 
@@ -193,7 +192,7 @@ CSVあたりの推奨VM数は主観的なものですが、CSVまたはSMBの各
 
 
 
-== データ移行
+== 移行
 
 現在の市場状況で最も一般的なユースケースの1つは、移行です。VMMファブリックまたはその他のサードパーティの移行ツールを使用して、VMを移行できます。これらのツールでは、ホストレベルのコピーを使用して、ソースプラットフォームからデスティネーションプラットフォームにデータを移動します。移行の対象となる仮想マシンの数によっては、時間がかかる場合があります。
 
@@ -205,4 +204,4 @@ CSVあたりの推奨VM数は主観的なものですが、CSVまたはSMBの各
 
 .ESXからHyper-Vへのゼロタッチ移行
 video::f4bd0e96-9517-465a-be53-b16d00e305fe[panopto]
-追加情報でFlexCloneとPowerShellを使用した移行については、を参照してください。 link:hyperv-deploy-script.html["イコウヨウノPowerShellスクリフト"]。
+FlexCloneとPowerShellを使用した移行の詳細については、を参照してくださいlink:hyperv-deploy-script.html["イコウヨウノPowerShellスクリフト"]。

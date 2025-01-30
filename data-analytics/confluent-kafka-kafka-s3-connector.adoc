@@ -26,7 +26,7 @@ Amazon S3 Sink Connector は、 Apache Kafka のトピックから Avro 、 JSON
 Export CONFLUENT_HOME=/data/confluent/confluent-6.2.0
 export PATH=$PATH:/data/confluent/confluent-6.2.0/bin
 ....
-. スタンドアロンの ConFluent Kafka セットアップの場合、クラスタは「 /tmp 」に一時的なルートフォルダを作成します。Zookeeper 、 Kafka 、スキーマレジストリ、 connect 、 ksql-server 、 とコントロールセンターのフォルダを作成し、それぞれの構成ファイルを「 $confliclus_home 」からコピーします。次の例を参照してください。
+. スタンドアロンのConfluent Kafkaセットアップの場合、クラスタはに一時ルートフォルダを作成し `/tmp`ます。また、Zookeeper、Kafka、スキーマレジストリ、connect、ksql-server、およびcontrol-centerフォルダを作成し、それぞれの構成ファイルをからコピーします `$CONFLUENT_HOME`。次の例を参照してください。
 +
 ....
 root@stlrx2540m1-108:~# ls -ltr /tmp/confluent.406980/
@@ -55,9 +55,9 @@ server.179=controlcenter:2888:3888
 root@stlrx2540m1-108:~#
 ....
 +
-上記の設定では、サーバを更新しました。xxx ’プロパティ。デフォルトでは、 Kafka リーダーの選択に 3 名の Zookeepers が必要です。
+上記の構成では、プロパティを更新しまし `server. xxx`た。デフォルトでは、 Kafka リーダーの選択に 3 名の Zookeepers が必要です。
 
-. myid ファイルを tmp/conflicluent .406980/zookeeper /data に一意の ID で作成しました。
+. に一意のIDを持つmyidファイルを作成しまし `/tmp/confluent.406980/zookeeper/data`た。
 +
 ....
 root@stlrx2540m1-108:~# cat /tmp/confluent.406980/zookeeper/data/myid
@@ -87,7 +87,7 @@ root@stlrx2540m1-108:/data/confluent/confluent-6.2.0/bin#
 +
 構成ごとにログフォルダがあり、問題のトラブルシューティングに役立ちます。場合によっては、サービスの開始に時間がかかることがあります。すべてのサービスが稼働中であることを確認します。
 
-. 「 confliclue-hub 」を使用して Kafka connect をインストールします。
+. を使用してKafka connectをインストールします `confluent-hub`。
 +
 ....
 root@stlrx2540m1-108:/data/confluent/confluent-6.2.0/bin# ./confluent-hub install confluentinc/kafka-connect-s3:latest
@@ -123,10 +123,10 @@ Completed
 root@stlrx2540m1-108:/data/confluent/confluent-6.2.0/bin#
 ....
 +
-また、「 conflicluent -hub install conflicentinc / Kafka-connect-s3 ： 10.0.3` を使用して、特定のバージョンをインストールすることもできます。
+を使用して特定のバージョンをインストールすることもできます `confluent-hub install confluentinc/kafka-connect-s3:10.0.3`。
 
-. デフォルトでは、「 confluentinc - Kafka-connect-s3 」は「 /data/luent confin/conflicluent - 6.2.0/conflicluent -huber-components/conflicentinc - Kafka-connect-s3 」にインストールされています。
-. 新しい「 confluentinc - Kafka -connect-s3` でプラグインパスを更新します。
+. デフォルトでは、 `confluentinc-kafka-connect-s3`はにインストールされてい `/data/confluent/confluent-6.2.0/share/confluent-hub-components/confluentinc-kafka-connect-s3`ます。
+. プラグインパスを新しいで更新し `confluentinc-kafka-connect-s3`ます。
 +
 ....
 root@stlrx2540m1-108:~# cat /data/confluent/confluent-6.2.0/etc/kafka/connect-distributed.properties | grep plugin.path
@@ -153,7 +153,7 @@ Schema Registry is [UP]
 ZooKeeper is [UP]
 root@stlrx2540m1-108:/data/confluent/confluent-6.2.0/bin#
 ....
-. アクセス ID とシークレットキーを「 /root/.AWS/credentials 」ファイルに設定します。
+. ファイルでアクセスIDとシークレットキーを設定し `/root/.aws/credentials`ます。
 +
 ....
 root@stlrx2540m1-108:~# cat /root/.aws/credentials
@@ -294,7 +294,7 @@ root@stlrx2540m1-108:~# aws s3 --endpoint-url http://kafkasgd.rtpppe.netapp.com:
 download: s3://kafkasgdbucket1-2/topics/s3_testtopic/partition=0/s3_testtopic+0+0000000000.avro to ./tes.avro
 root@stlrx2540m1-108:~#
 ....
-. レコードを印刷するには、 avro-tools-1.11.0.1.jar を使用します（『』で入手できます） http://mirror.metrocast.net/apache/avro/stable/java/["Apache アーカイブ"^]）。
+. レコードを印刷するには、avro-tools-1.11.0.1.jar（で使用可能）を使用し http://mirror.metrocast.net/apache/avro/stable/java/["Apache アーカイブ"^]ます。
 +
 ....
 root@stlrx2540m1-108:~# java -jar /usr/src/avro-tools-1.11.0.1.jar tojson tes.avro

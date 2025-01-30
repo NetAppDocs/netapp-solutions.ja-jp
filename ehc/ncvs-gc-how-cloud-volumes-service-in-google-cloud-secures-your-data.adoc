@@ -44,7 +44,7 @@ Google Cloud NetApp Volumeの設定を行うコントロールプレーンでは
 
 ITセキュリティの考え方は、これまでは信頼されていましたが、その信頼性は確認されており、脅威を軽減するために外部メカニズム（ファイアウォールや侵入検知システムなど）のみに依存していることが明示されてきました。しかし、攻撃や侵害は、フィッシング、ソーシャルエンジニアリング、内部の脅威など、ネットワークに侵入したり破壊的になったりするための検証を提供する方法によって、環境内での検証をバイパスするように進化しています。
 
-ゼロ・トラストは、セキュリティの新しい方法論になりました。現在のテーマは「すべてを検証しながらは何も信頼しない」です。 したがって、デフォルトではアクセスは許可されません。この問題は、標準ファイアウォールや侵入検知システム（IDS）など、さまざまな方法で実施されています。また、次の方法も適用されています。
+ゼロトラストはセキュリティの新しい方法論となり、現在のモットーは「すべてを検証しながら何も信頼しない」ことです。したがって、デフォルトでは何もアクセスが許可されていません。この問題は、標準ファイアウォールや侵入検知システム（IDS）など、さまざまな方法で実施されています。また、次の方法も適用されています。
 
 * 強力な認証方法（AESで暗号化されたKerberosトークンやJWTトークンなど）
 * 単一の強力なアイデンティティソース（Windows Active Directory、Lightweight Directory Access Protocol（LDAP）、Google IAMなど）
@@ -59,7 +59,7 @@ Google Cloudで実行されるGoogle Cloud NetApp Volumeは、「Trust Nothing�
 
 == 暗号化
 
-保存データを暗号化する（を参照） link:ncvs-gc-data-encryption-at-rest.html["「保存データの暗号化」"]）転送には、NetApp Volume Encryption（NVE）および転送中のXTS-AES-256暗号を使用します link:ncvs-gc-data-encryption-in-transit.html#smb-encryption["「SMB暗号化」"] またはNFS Kerberos 5pをサポート。リージョン間レプリケーション転送はTLS 1.2暗号化によって保護されているため、安心してご利用いただけます（link：ncvs-gc-security-considerations-and-attack-surfaces.html#ランサムウェア、マルウェア、ウイルスの検出、防止、軽減#リージョン間レプリケーション[「リージョン間レプリケーション」]を参照）。さらに、Googleネットワークは暗号化された通信も提供します（を参照） link:ncvs-gc-data-encryption-in-transit.html["「転送中のデータ暗号化」"]）を使用してください。転送暗号化の詳細については、を参照してください link:ncvs-gc-data-encryption-in-transit.html#google-cloud-network["「Google Cloudネットワーク」"]。
+link:ncvs-gc-data-encryption-at-rest.html["「保存データの暗号化」"]XTS-AES-256暗号とNetApp Volume Encryption（NVE）および転送中（またはNFS Kerberos 5pをサポート）を使用して、保存データを暗号化します（を参照）link:ncvs-gc-data-encryption-in-transit.html#smb-encryption["「SMB暗号化」"]。リージョン間レプリケーション転送はTLS 1.2暗号化によって保護されているため、安心してご利用いただけます（link：ncvs-gc-security-considerations-and-attack-surfaces.html#ランサムウェア、マルウェア、ウイルスの検出、防止、軽減#リージョン間レプリケーション[「リージョン間レプリケーション」]を参照）。さらに、Googleネットワーキングはlink:ncvs-gc-data-encryption-in-transit.html["「転送中のデータ暗号化」"]、攻撃に対する保護レイヤを追加するために、暗号化された通信（を参照）も提供します。トランスポート暗号化の詳細については、を参照してくださいlink:ncvs-gc-data-encryption-in-transit.html#google-cloud-network["「Google Cloudネットワーク」"]。
 
 
 

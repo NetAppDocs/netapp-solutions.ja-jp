@@ -30,7 +30,7 @@ image:aks-anf_image10.png["入力/出力ダイアログを示す図、または�
 +
 image:aks-anf_image11.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-. [OK] をクリックします。
+. [OK]をクリックします。
 
 
 
@@ -39,13 +39,13 @@ image:aks-anf_image11.png["入力/出力ダイアログを示す図、または�
 
 パフォーマンス階層の変更を自動化するには、次のオプションを使用できます。
 
-* 現在も動的サービスレベルの変更はパブリックプレビューで有効になっており、デフォルトでは有効になっていません。Azure サブスクリプションでこの機能を有効にする方法については、このドキュメントを参照してください https://docs.microsoft.com/azure/azure-netapp-files/dynamic-change-volume-service-level["ボリュームのサービスレベルを動的に変更する"^]。
-* Azure CLI の volume pool change コマンドについては、を参照してください https://docs.microsoft.com/en-us/cli/azure/netappfiles/volume?view=azure-cli-latest&viewFallbackFrom=azure-cli-latest%20-%20az_netappfiles_volume_pool_change["ボリュームプールの変更に関するドキュメント"^] 次に例を示します。
+* 現在も動的サービスレベルの変更はパブリックプレビューで有効になっており、デフォルトでは有効になっていません。Azureサブスクリプションでこの機能を有効にするには、の方法に関するドキュメントを参照してください https://docs.microsoft.com/azure/azure-netapp-files/dynamic-change-volume-service-level["ボリュームのサービスレベルを動的に変更する"^]。
+* 次の例では、Azure CLIのボリュームプール変更コマンドをおよびに https://docs.microsoft.com/en-us/cli/azure/netappfiles/volume?view=azure-cli-latest&viewFallbackFrom=azure-cli-latest%20-%20az_netappfiles_volume_pool_change["ボリュームプールの変更に関するドキュメント"^]示します。
 +
 ....
 az netappfiles volume pool-change -g mygroup --account-name myaccname --pool-name mypoolname --name myvolname --new-pool-resource-id mynewresourceid
 ....
-* PowerShell https://docs.microsoft.com/powershell/module/az.netappfiles/set-aznetappfilesvolumepool?view=azps-5.8.0["set-AzNetAppFilesVolumePool コマンドレット"^] Azure NetApp Files ボリュームのプールを変更し、次の例に示すようにします。
+* PowerShell：では、 https://docs.microsoft.com/powershell/module/az.netappfiles/set-aznetappfilesvolumepool?view=azps-5.8.0["set-AzNetAppFilesVolumePool コマンドレット"^]Azure NetApp Filesボリュームのプールが変更されます。次の例を参照してください。
 +
 ....
 Set-AzNetAppFilesVolumePool

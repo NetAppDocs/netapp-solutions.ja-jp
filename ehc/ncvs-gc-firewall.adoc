@@ -20,7 +20,7 @@ Google Cloud NetApp Volumeは、NFS共有とSMB共有を提供するために複
 * https://cloud.google.com/architecture/partners/netapp-cloud-volumes/security-considerations?hl=en_US["SMBアクセスに必要なポート"^]
 
 
-さらに、Kerberosを含むLDAPを使用するSMB、NFS、およびデュアルプロトコル構成では、Windows Active Directoryドメインへのアクセスが必要になります。Active Directory接続はである必要があります https://cloud.google.com/architecture/partners/netapp-cloud-volumes/creating-smb-volumes?hl=en_US["を設定します"^] 地域単位で指定します。Active Directoryドメインコントローラ（DC）は、で識別できます https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-adts/7fcdce70-5205-44d6-9c3a-260e616a2f04["DNSベースのDC検出"^] 指定したDNSサーバを使用しています。返されるDCはすべて使用されます。対象となるDCのリストは、Active Directoryサイトを指定することによって制限できます。
+さらに、Kerberosを含むLDAPを使用するSMB、NFS、およびデュアルプロトコル構成では、Windows Active Directoryドメインへのアクセスが必要になります。Active Directory接続はリージョン単位で行う必要があり https://cloud.google.com/architecture/partners/netapp-cloud-volumes/creating-smb-volumes?hl=en_US["を設定します"^]ます。Active Directoryドメインコントローラ（DC）は、指定したDNSサーバを使用して識別され https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-adts/7fcdce70-5205-44d6-9c3a-260e616a2f04["DNSベースのDC検出"^]ます。返されるDCはすべて使用されます。対象となるDCのリストは、Active Directoryサイトを指定することによって制限できます。
 
 Google Cloud NetApp Volumeは、コマンド https://cloud.google.com/architecture/partners/netapp-cloud-volumes/setting-up-private-services-access?hl=en_US["Google Cloud NetApp Volumeのオンボーディング"^]で割り当てられたCIDR範囲のIPアドレスで通信し `gcloud compute address`ます。このCIDRをソースアドレスとして使用して、Active Directoryドメインコントローラへのインバウンドファイアウォールを設定できます。
 

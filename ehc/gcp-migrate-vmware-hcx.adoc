@@ -48,16 +48,16 @@ NOTE: VMware HCXはVMレベルで移行されるため、どのデータスト�
 .前提条件
 [%collapsible]
 ====
-作業を開始する前に、次の前提条件が満たされていることを確認してください。詳細については、を参照してください https://cloud.google.com/vmware-engine/docs/workloads/howto-migrate-vms-using-hcx["リンク"^]。接続などの前提条件が整ったら、Google Cloud VMware EngineポータルからHCXライセンスキーをダウンロードします。OVAインストーラをダウンロードしたら、次の手順に従ってインストールプロセスを実行します。
+作業を開始する前に、次の前提条件が満たされていることを確認してください。詳細については、こちらを参照して https://cloud.google.com/vmware-engine/docs/workloads/howto-migrate-vms-using-hcx["リンク"^]ください。接続などの前提条件が整ったら、Google Cloud VMware EngineポータルからHCXライセンスキーをダウンロードします。OVAインストーラをダウンロードしたら、次の手順に従ってインストールプロセスを実行します。
 
 
-NOTE: HCx advancedはデフォルトオプションであり、VMware HCX Enterprise Editionはサポートチケットを通じても利用でき、追加料金なしでサポートされます。を参照してください https://cloud.google.com/blog/products/compute/whats-new-with-google-cloud-vmware-engine["リンクをクリックしてください"^]
+NOTE: HCx advancedはデフォルトオプションであり、VMware HCX Enterprise Editionはサポートチケットを通じても利用でき、追加料金なしでサポートされます。参照先 https://cloud.google.com/blog/products/compute/whats-new-with-google-cloud-vmware-engine["リンクをクリックしてください"^]
 
-* 既存のGoogle Cloud VMware Engine Software-Defined Data Center（SDDC）を使用するか、このツールを使用してプライベートクラウドを作成します link:gcp-setup.html["ネットアップのリンク"^] またはこれ https://cloud.google.com/vmware-engine/docs/create-private-cloud["Googleリンク"^]。
-* オンプレミスのVMware vSphere対応データセンターからVMと関連データを移行するには、データセンターからSDDC環境へのネットワーク接続が必要です。ワークロードを移行する前に、 https://cloud.google.com/vmware-engine/docs/networking/howto-connect-to-onpremises["Cloud VPN接続またはCloud Interconnect接続をセットアップします"^] オンプレミス環境とそれぞれのプライベートクラウドの間。
+* 既存のGoogle Cloud VMware Engine Software-Defined Data Center（SDDC）を使用するか、またはこれ https://cloud.google.com/vmware-engine/docs/create-private-cloud["Googleリンク"^]を使用してプライベートクラウドを作成しますlink:gcp-setup.html["ネットアップのリンク"^]。
+* オンプレミスのVMware vSphere対応データセンターからVMと関連データを移行するには、データセンターからSDDC環境へのネットワーク接続が必要です。オンプレミス環境とそれぞれのプライベートクラウド間でワークロードを移行する前に、 https://cloud.google.com/vmware-engine/docs/networking/howto-connect-to-onpremises["Cloud VPN接続またはCloud Interconnect接続をセットアップします"^]
 * オンプレミスのVMware vCenter Server環境からGoogle Cloud VMware Engineプライベートクラウドへのネットワークパスで、vMotionを使用したVMの移行がサポートされている必要があります。
-* 必要なを確認します https://ports.esp.vmware.com/home/VMware-HCX["ファイアウォールルールとポート"^] オンプレミスのvCenter ServerとSDDC vCenter間のvMotionトラフィックに許可されます。
-* Cloud Volume Service NFSボリュームは、Google Cloud VMware Engineでデータストアとしてマウントする必要があります。詳細な手順を実行します https://cloud.google.com/vmware-engine/docs/vmware-ecosystem/howto-cloud-volumes-service-datastores["リンク"^] をクリックして、Cloud Volume ServiceデータストアをGoogle Cloud VMware Engineホストに接続します。
+* オンプレミスのvCenter ServerとSDDC vCenterの間のvMotionトラフィックに必要なが許可されていることを確認し https://ports.esp.vmware.com/home/VMware-HCX["ファイアウォールルールとポート"^]ます。
+* Cloud Volume Service NFSボリュームは、Google Cloud VMware Engineでデータストアとしてマウントする必要があります。Cloud Volume ServiceデータストアをGoogle Cloud VMware Engineホストに接続するには、次の手順を実行 https://cloud.google.com/vmware-engine/docs/vmware-ecosystem/howto-cloud-volumes-service-datastores["リンク"^]します。
 
 
 ====
@@ -120,7 +120,7 @@ NOTE: 仮想アプライアンスの電源を手動でオンにします。
 VMware HCX Connector OVAをオンプレミスに導入してアプライアンスを起動したら、次の手順を実行してHCX Connectorをアクティブにします。Google Cloud VMware Engineポータルからライセンスキーを生成し、VMware HCX Managerでアクティブ化します。
 
 . VMware Engineポータルで、Resources（リソース）をクリックし、プライベートクラウドを選択して、* HCX Manager Cloud Version（HCXマネージャクラウドバージョン）の下にあるdownload（ダウンロード）アイコンをクリックします。*image:gcpd-hcx-image6.png["HCXライセンスをダウンロードします"] ダウンロードしたファイルを開き、ライセンスキー文字列をコピーします。
-. オンプレミスのVMware HCX Managerにログインします `"https://hcxmanagerIP:9443"` 管理者のクレデンシャルを使用
+. 管理者のクレデンシャルを使用して、オンプレミスのVMware HCX Managerにログインし `"https://hcxmanagerIP:9443"`ます。
 +
 
 NOTE: OVAの導入時に定義したhcxmanagerIPとパスワードを使用します。
@@ -312,7 +312,7 @@ NOTE: 移行先のGoogle Cloud NetApp Volume（NetApp Volume）NFSデータス�
 ====
 
 
-== 追加情報の参照先
+== 詳細情報の入手方法
 
 このドキュメントに記載されている情報の詳細については、次の Web サイトのリンクを参照してください。
 

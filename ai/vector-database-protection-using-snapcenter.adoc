@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: ai/vector-database-protection-using-snapcenter.html 
 keywords: vector database 
-summary: SnapCenterを使用したベクターデータベース保護- VECTOR DATABASE解決策for NetApp 
+summary: NetApp向けSnapCenterベクターデータベースソリューションを使用したベクターデータベース保護 
 ---
 = SnapCenterを使用したベクターデータベース保護
 :hardbreaks:
@@ -20,14 +20,13 @@ summary: SnapCenterを使用したベクターデータベース保護- VECTOR D
 
 == NetApp SnapCenterを使用したベクターデータベース保護。
 
-たとえば、映画制作業界では、顧客はビデオファイルやオーディオファイルなどの重要な埋め込みデータを所有していることがよくあります。ハードドライブの故障などの問題が原因でこのデータが失われると、業務に大きな影響を与え、数百万ドル規模のベンチャーが危険にさらされる可能性があります。ネットアップでは、貴重なコンテンツが失われ、多大な混乱と財務上の損失を引き起こしている事例が発生しています。したがって、この業界では、この重要なデータのセキュリティと整合性を確保することが最も重要です。
-このセクションでは、SnapCenterがONTAPに存在するベクターデータベースデータとMilvusデータをどのように保護するかについて詳しく説明します。この例では、顧客データ用にNFS ONTAPボリューム（vol1）から派生したNASバケット（milvusdbvol1）を使用し、Milvusクラスタ構成データ用に別のNFSボリューム（vectordbpv）を使用しました。次を確認してください： link:https://docs.netapp.com/us-en/snapcenter-47/protect-sco/backup-workflow.html["こちらをご覧ください"] SnapCenterバックアップワークフロー
+たとえば、映画制作業界では、顧客はビデオファイルやオーディオファイルなどの重要な埋め込みデータを所有していることがよくあります。ハードドライブの故障などの問題が原因でこのデータが失われると、業務に大きな影響を与え、数百万ドル規模のベンチャーが危険にさらされる可能性があります。ネットアップでは、貴重なコンテンツが失われ、多大な混乱と財務上の損失を引き起こしている事例が発生しています。したがって、この業界では、この重要なデータのセキュリティと整合性を確保することが最も重要です。このセクションでは、SnapCenterがONTAPに存在するベクターデータベースデータとMilvusデータをどのように保護するかについて詳しく説明します。この例では、顧客データ用にNFS ONTAPボリューム（vol1）から派生したNASバケット（milvusdbvol1）を使用し、Milvusクラスタ構成データ用に別のNFSボリューム（vectordbpv）を使用しました。SnapCenterバックアップワークフローについては、を参照してください。link:https://docs.netapp.com/us-en/snapcenter-47/protect-sco/backup-workflow.html["ここをクリック"]
 
 . SnapCenterコマンドの実行に使用するホストを設定します。
 +
 image:sc_host_setup.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
-. ストレージプラグインをインストールして設定します。追加したホストから、[その他のオプション]を選択します。ダウンロードしたストレージプラグインに移動してから選択します。 link:https://automationstore.netapp.com/snap-detail.shtml?packUuid=Storage&packVersion=1.0["NetApp Automation Store の略"]。プラグインをインストールし、設定を保存します。
+. ストレージプラグインをインストールして設定します。追加したホストから、[その他のオプション]を選択します。からダウンロードしたストレージプラグインに移動して選択しますlink:https://automationstore.netapp.com/snap-detail.shtml?packUuid=Storage&packVersion=1.0["NetApp Automation Store の略"]。プラグインをインストールし、設定を保存します。
 +
 image:sc_storage_plugin.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
@@ -81,7 +80,7 @@ node6
 sync executed
 root@node2:~#
 ----
-. S3 NASバケット内のデータを確認します。この例では、タイムスタンプ「2024-04-08 21：22」のファイルが「prepare_data_netapp.py」スクリプトによって作成されています。
+. S3 NASバケット内のデータを確認します。この例では、タイムスタンプ「2024-04-08 21:22」のファイルは、「prepare_data_py.py NetApp」スクリプトによって作成されています。
 +
 [source, bash]
 ----

@@ -20,7 +20,7 @@ summary: NetApp ONTAP を使用した Red Hat OpenShift Virtualization
 
 == VM ライブマイグレーション
 
-ライブマイグレーションは、 OpenShift クラスタ内の 1 つのノードから別のノードに VM インスタンスをダウンタイムなしで移行するプロセスです。OpenShift クラスタでライブマイグレーションを実行するには、 VM を共有 ReadWriteAny アクセスモードの PVC にバインドする必要があります。ONTAP NASドライバを使用して構成されたTridentバックエンドは、ファイルシステムプロトコルNFSおよびSMBのRWXアクセスモードをサポートします。ドキュメントを参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-use/ontap-nas.html["こちらをご覧ください"]。ONTAP SANドライバを使用して構成されたTridentバックエンドは、iSCSIおよびNVMe/TCPプロトコルでブロックボリュームモードのRWXアクセスモードをサポートします。ドキュメントを参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-use/ontap-san.html["こちらをご覧ください"]。
+ライブマイグレーションは、 OpenShift クラスタ内の 1 つのノードから別のノードに VM インスタンスをダウンタイムなしで移行するプロセスです。OpenShift クラスタでライブマイグレーションを実行するには、 VM を共有 ReadWriteAny アクセスモードの PVC にバインドする必要があります。ONTAP NASドライバを使用して構成されたTridentバックエンドは、ファイルシステムプロトコルNFSおよびSMBのRWXアクセスモードをサポートします。ドキュメントを参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-use/ontap-nas.html["ここをクリック"]。ONTAP SANドライバを使用して構成されたTridentバックエンドは、iSCSIおよびNVMe/TCPプロトコルでブロックボリュームモードのRWXアクセスモードをサポートします。ドキュメントを参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-use/ontap-san.html["ここをクリック"]。
 
 そのため、ライブマイグレーションを成功させるには、ONTAP-NASまたはONTAP-SAN（volumeMode：Block）ストレージクラスを使用して、PVCを含むVMをディスク（ブートディスクと追加のホットプラグディスク）でプロビジョニングする必要があります。PVCが作成されると、TridentはNFS対応またはiSCSI対応のSVMにONTAPボリュームを作成します。
 

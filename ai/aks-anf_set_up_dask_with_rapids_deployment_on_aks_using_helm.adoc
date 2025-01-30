@@ -45,19 +45,19 @@ kubectl -n rapids-dask apply -f <your yaml file>
 ....
 
 
-. rapidsai git リポジトリを複製します ( https://github.com/rapidsai/helm-chart["https://github.com/rapidsai/helm-chart"^]）。
+. リポジトリのクローンを作成し `rapidsai git`ます https://github.com/rapidsai/helm-chart["https://github.com/rapidsai/helm-chart"^]（）。
 +
 ....
 git clone https://github.com/rapidsai/helm-chart helm-chart
 ....
-. 値 .yaml を変更し、作業者および Jupyter ワークスペース用に前に作成した PVC を含めます。
+. 作業者とJupyterワークスペース用に以前に作成したPVCを修正し `values.yaml`て含めます。
 +
-.. リポジトリの 'rapidsai' ディレクトリに移動します
+.. リポジトリのディレクトリに移動し `rapidsai`ます。
 +
 ....
 cd helm-chart/rapidsai
 ....
-.. 「 values] .yaml ファイルを更新し、 PVC を使用してボリュームをマウントします。
+.. ファイルを更新し `values.yaml`、PVCを使用してボリュームをマウントします。
 +
 ....
 dask:

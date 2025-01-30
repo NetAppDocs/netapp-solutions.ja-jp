@@ -14,21 +14,21 @@ summary:
 
 
 [role="lead"]
-ここでは、のテストの詳細について説明します link:osrunai_achieving_high_cluster_utilization_with_over-uota_gpu_allocation.html["オーバークォータの GPU 割り当てによる高いクラスタ利用率の達成"]。
+ここでは、セクションのテストの詳細について説明しlink:osrunai_achieving_high_cluster_utilization_with_over-uota_gpu_allocation.html["オーバークォータの GPU 割り当てによる高いクラスタ利用率の達成"]ます。
 
 次の順序でジョブを送信します。
 
 |===
-| プロジェクト | イメージ（ Image ） | GPU の数 | 合計 | コメント（ Comment ） 
+| プロジェクト | イメージ | GPU の数 | 合計 | コメント 
 
 
-| チーム A | Jupyter | 1. | 1/4 | – 
+| チーム A | Jupyter | 1 | 1/4 | – 
 
 
-| チーム A | ネットアップ | 1. | 2/4 | – 
+| チーム A | NetApp | 1 | 2/4 | – 
 
 
-| チーム A | 実行： AI | 2. | 4 月 4 日 | すべてのクォータを使用しています 
+| チーム A | 実行： AI | 2 | 4/4 | すべてのクォータを使用しています 
 
 
 | チーム - b | 実行： AI | 0.6 | 0.6/2 | フラクショナル GPU 
@@ -37,28 +37,28 @@ summary:
 | チーム - b | 実行： AI | 0.4 | 1/2 | フラクショナル GPU 
 
 
-| チーム - b | ネットアップ | 1. | 2/2. | – 
+| チーム - b | NetApp | 1 | 2/2 | – 
 
 
-| チーム - b | ネットアップ | 2. | 4 月 2 日 | クォータに 2 つ 
+| チーム - b | NetApp | 2 | 4/2 | クォータに 2 つ 
 
 
 | チーム -c | 実行： AI | 0.5 | 0.5/2 | フラクショナル GPU 
 
 
-| チーム -c | 実行： AI | 0.3 | 0.8/2. | フラクショナル GPU 
+| チーム -c | 実行： AI | 0.3 | 0.8/2 | フラクショナル GPU 
 
 
 | チーム -c | 実行： AI | 0.2 | 1/2 | フラクショナル GPU 
 
 
-| チーム -c | ネットアップ | 2. | 3/2 | クォータに 1 つ 
+| チーム -c | NetApp | 2 | 3/2 | クォータに 1 つ 
 
 
-| チーム -c | ネットアップ | 1. | 4 月 2 日 | クォータに 2 つ 
+| チーム -c | NetApp | 1 | 4/2 | クォータに 2 つ 
 
 
-| チーム -d | ネットアップ | 4. | 4/8 | クォータの半分を使用します 
+| チーム -d | NetApp | 4 | 4/8 | クォータの半分を使用します 
 |===
 コマンドの構造：
 
@@ -93,12 +93,12 @@ $ runai submit d-1-gggg -i gcr.io/run-ai-demo/quickstart -g 4 -p team-d
 | チーム A | 4/4 （ソフトクォータ / 実際の割り当て） | なし 
 
 
-| チーム - b | 4 月 2 日 | なし 
+| チーム - b | 4/2 | なし 
 
 
-| チーム -c | 4 月 2 日 | なし 
+| チーム -c | 4/2 | なし 
 
 
 | チーム -d | 4/8 | なし 
 |===
-を参照してください link:osrunai_achieving_high_cluster_utilization_with_over-uota_gpu_allocation.html["「 Achieving High Cluster Utilization With over-uota 」 GPU 割り当て"] 進行中のテストシナリオについてのディスカッションにご参加ください。
+進行中のテストシナリオの詳細については、の項を参照してくださいlink:osrunai_achieving_high_cluster_utilization_with_over-uota_gpu_allocation.html["「 Achieving High Cluster Utilization With over-uota 」 GPU 割り当て"]。

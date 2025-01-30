@@ -41,18 +41,18 @@ summary:
 * VCF管理ドメインの導入が完了し、vSphereクライアントにアクセスできるようになります。
 
 
-NetAppでは、iSCSIに対して完全に冗長なネットワーク設計を推奨しています。次の図は、ストレージシステム、スイッチ、ネットワークアダプタ、およびホストシステムにフォールトトレランスを提供する冗長構成の例を示しています。『NetApp』を参照してください。 link:https://docs.netapp.com/us-en/ontap/san-config/index.html["SAN 構成リファレンス"] 追加情報 の場合。
+NetAppでは、iSCSIに対して完全に冗長なネットワーク設計を推奨しています。次の図は、ストレージシステム、スイッチ、ネットワークアダプタ、およびホストシステムにフォールトトレランスを提供する冗長構成の例を示しています。詳細については、『NetApp』を参照してlink:https://docs.netapp.com/us-en/ontap/san-config/index.html["SAN構成のリファレンス"]ください。
 
 image:vmware-vcf-asa-image74.png["iSCSIネットワークの設計"]｛nbsp｝
 
 複数のパスをまたいだマルチパスとフェイルオーバーを実現するために、NetAppでは、iSCSI構成のすべてのSVMについて、ストレージノードごとに少なくとも2つのLIFを別 々 のイーサネットネットワークに配置することを推奨しています。
 
-このドキュメントでは、新しいSVMを作成し、IPアドレス情報を指定してiSCSIトラフィック用に複数のLIFを作成するプロセスについて説明します。既存のSVMに新しいLIFを追加する方法については、を参照してください。 link:https://docs.netapp.com/us-en/ontap/networking/create_a_lif.html["LIFを作成する（ネットワークインターフェイス）"]。
+このドキュメントでは、新しいSVMを作成し、IPアドレス情報を指定してiSCSIトラフィック用に複数のLIFを作成するプロセスについて説明します。既存のSVMに新しいLIFを追加する方法については、を参照してくださいlink:https://docs.netapp.com/us-en/ontap/networking/create_a_lif.html["LIFを作成する（ネットワークインターフェイス）"]。
 
-VMwareでVMFS iSCSIデータストアを使用する場合の追加情報については、を参照してください。 link:vsphere_ontap_auto_block_iscsi.html["vSphere VMFS データストア - iSCSI ストレージバックエンド（ ONTAP を使用）"]。
+VMwareでのVMFS iSCSIデータストアの使用の詳細については、を参照してくださいlink:vsphere_ontap_auto_block_iscsi.html["vSphere VMFS データストア - iSCSI ストレージバックエンド（ ONTAP を使用）"]。
 
 
-TIP: 同じIPネットワーク上に複数のVMkernelアダプタが設定されている場合は、ESXiホストでソフトウェアiSCSIポートバインドを使用して、アダプタ間でロードバランシングが行われるようにすることを推奨します。技術情報アーティクルを参照 link:https://kb.vmware.com/s/article/2038869["ESX / ESXiでソフトウェアiSCSIポートバインドを使用する場合の考慮事項（2038869）"]。
+TIP: 同じIPネットワーク上に複数のVMkernelアダプタが設定されている場合は、ESXiホストでソフトウェアiSCSIポートバインドを使用して、アダプタ間でロードバランシングが行われるようにすることを推奨します。技術情報アーティクルを参照してくださいlink:https://kb.vmware.com/s/article/2038869["ESX / ESXiでソフトウェアiSCSIポートバインドを使用する場合の考慮事項（2038869）"]。
 
 
 
@@ -207,7 +207,7 @@ ONTAP Tools for VMware vSphere（OTV）はVMアプライアンスとして導入
 
 次の手順を実行して、ONTAP Tools for VMware vSphereを導入します。
 
-. ONTAP toolsのOVAイメージをから取得します。 link:https://mysupport.netapp.com/site/products/all/details/otv/downloads-tab["NetApp Support Site"] ローカルフォルダにダウンロードします。
+. からONTAP toolsのOVAイメージを取得しlink:https://mysupport.netapp.com/site/products/all/details/otv/downloads-tab["NetAppサポートサイト"]、ローカルフォルダにダウンロードします。
 . VCF管理ドメインのvCenterアプライアンスにログインします。
 . vCenterアプライアンスのインターフェイスで管理クラスタを右クリックし、* Deploy OVF Template…*を選択します。
 +
@@ -336,9 +336,9 @@ image:vmware-vcf-asa-image21.png["vSphere Clientの[最近のタスク]ペイン
 
 == 追加情報
 
-ONTAPストレージシステムの構成については、 link:https://docs.netapp.com/us-en/ontap["ONTAP 9ドキュメント"] 中央（Center）：
+ONTAPストレージシステムの構成については、センターを参照してlink:https://docs.netapp.com/us-en/ontap["ONTAP 9ドキュメント"]ください。
 
-VCFの設定については、を参照してください。 link:https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["VMware Cloud Foundationのドキュメント"]。
+VCFの設定については、を参照してくださいlink:https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["VMware Cloud Foundationのドキュメント"]。
 
 
 

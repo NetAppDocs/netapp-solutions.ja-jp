@@ -14,11 +14,9 @@ summary: この記事では、自動モデル再トレーニング、導入、�
 
 
 [role="lead"]
-この記事では、自動モデル再トレーニング、導入、コスト最適化に焦点を当てて、AWSサービスを使用してMLOpsパイプラインを構築するためのガイドを提供します。
-- - -
+この記事では、自動モデル再トレーニング、導入、コスト最適化に焦点を当てて、AWSサービスを使用してMLOpsパイプラインを構築するためのガイドを提供します。--
 
-*作成者：*
-NetAppシニアデータ&アプリケーションサイエンティスト、Jian Jian（Ken）
+*著者：* Jian Jian（Ken）、NetAppシニアデータおよび応用科学者
 
 
 
@@ -31,7 +29,7 @@ NetAppシニアデータ&アプリケーションサイエンティスト、Jian
 == マニフェスト
 
 |===
-| 機能性 | 名前 | コメント（ Comment ） 
+| 機能 | 名前 | コメント 
 
 
 | データストレージ | AWS FSX ONTAP の略 | を参照してください link:./mlops_fsxn_s3_integration.html["パート1 - Amazon FSx for NetApp ONTAP（FSx ONTAP）をプライベートS3バケットとしてAWS SageMakerに統合する"]。 
@@ -170,7 +168,7 @@ image:mlops_fsxn_cictcd_9.png["導入"]
 +
 image:mlops_fsxn_cictcd_10.png["AWS Functionトリガーの追加"]
 
-. ドロップダウンメニューから[EventBridge]を選択し、[Create a new rule]というラベルの付いたラジオボタンをクリックします。[スケジュール式]フィールドに、次のように入力します。 `rate(1 day)`をクリックし、[追加]ボタンをクリックして、この新しいcronジョブルールを作成し、AWS Lambda関数に適用します。
+. ドロップダウンメニューから[EventBridge]を選択し、[Create a new rule]というラベルの付いたラジオボタンをクリックします。[Schedule expression]フィールドにと入力して `rate(1 day)`[Add]ボタンをクリックし、この新しいcronジョブルールを作成してAWS Lambda関数に適用します。
 +
 image:mlops_fsxn_cictcd_11.png["finalizeトリガ"]
 

@@ -22,7 +22,7 @@ image:redhat_openshift_image2.png["入力/出力ダイアログを示す図、�
 
 Tridentは開発サイクルが速く、Kubernetesと同様に年4回リリースされています。
 
-どのKubernetesディストリビューションでテストされたTridentのバージョンのサポートマトリックス https://docs.netapp.com/us-en/trident/trident-get-started/requirements.html#supported-frontends-orchestrators["こちらをご覧ください"]です。
+どのKubernetesディストリビューションでテストされたTridentのバージョンのサポートマトリックス https://docs.netapp.com/us-en/trident/trident-get-started/requirements.html#supported-frontends-orchestrators["ここをクリック"]です。
 
 インストールと設定の詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/trident/index.html["Trident製品ドキュメント"]。
 
@@ -32,7 +32,7 @@ Tridentは開発サイクルが速く、Kubernetesと同様に年4回リリー�
 
 導入したユーザクラスタに Trident をインストールし、永続ボリュームをプロビジョニングするには、次の手順を実行します。
 
-. インストールアーカイブを管理ワークステーションにダウンロードし、内容を展開します。Trident の最新バージョンは 22.01 で、ダウンロードできます https://github.com/NetApp/trident/releases/download/v22.01.0/trident-installer-22.01.0.tar.gz["こちらをご覧ください"]。
+. インストールアーカイブを管理ワークステーションにダウンロードし、内容を展開します。Tridentの現在のバージョンは22.01で、ダウンロードできます https://github.com/NetApp/trident/releases/download/v22.01.0/trident-installer-22.01.0.tar.gz["ここをクリック"]。
 . ダウンロードしたバンドルから Trident のインストールを解凍します。
 +
 [listing]
@@ -47,7 +47,7 @@ Tridentは開発サイクルが速く、Kubernetesと同様に年4回リリー�
 
 == Helm を使用して Trident Operator をインストールします
 
-. Trident にはこのファイルを渡すオプションがないため、まず、ユーザクラスタの「 kubeconfig 」ファイルの場所を環境変数として設定します。
+. 最初に、ユーザクラスタのファイルの場所を環境変数として設定し、 `kubeconfig`参照する必要がないようにします。これは、Tridentにはこのファイルを渡すオプションがないためです。
 +
 [listing]
 ----
@@ -108,13 +108,13 @@ NOTE: 場合によっては、お客様の環境で Trident の導入のカス�
 
 == Trident Operator を手動でインストールします
 
-. Trident にはこのファイルを渡すオプションがないため、まず、ユーザクラスタの「 kubeconfig 」ファイルの場所を環境変数として設定します。
+. まず、ユーザクラスタのファイルの場所を環境変数として設定し、 `kubeconfig`参照する必要がないようにします。これは、Tridentにはこのファイルを渡すオプションがないためです。
 +
 [listing]
 ----
 [netapp-user@rhel7 trident-installer]$ export KUBECONFIG=~/ocp-install/auth/kubeconfig
 ----
-. 'trident-installer' ディレクトリには ' 必要なすべてのリソースを定義するマニフェストが含まれています適切なマニフェストを使用して、「 TridentOrchestrator 」カスタムリソース定義を作成します。
+.  `trident-installer`ディレクトリには、必要なすべてのリソースを定義するためのマニフェストが含まれています。適切なマニフェストを使用して、カスタムリソース定義を作成し `TridentOrchestrator`ます。
 +
 [listing]
 ----
@@ -128,7 +128,7 @@ customresourcedefinition.apiextensions.k8s.io/tridentorchestrators.trident.netap
 [netapp-user@rhel7 trident-installer]$ oc apply -f deploy/namespace.yaml
 namespace/trident created
 ----
-. トライデントオペレータの配備に必要なリソースを作成しますたとえば ' オペレータ用のサービスアカウント 'ClusterRole' および 'ClusterRoleBind' を 'ServiceAccount' 専用の 'PodSecurityPolicy' またはオペレータ自体に割り当てます
+. オペレータ用の `ClusterRole`、および、 `ClusterRoleBinding` `ServiceAccount`専用の、 `PodSecurityPolicy`オペレータ自体など、Tridentオペレータの導入に必要なリソースを作成します。 `ServiceAccount`
 +
 [listing]
 ----
@@ -150,7 +150,7 @@ trident-operator   1/1     1            1           23s
 NAME                                READY   STATUS    RESTARTS   AGE
 trident-operator-66f48895cc-lzczk   1/1     Running   0          41s
 ----
-. オペレータが導入したら、 Trident をインストールできます。これには 'TridentOrchestrator を作成する必要があります
+. オペレータが導入したら、 Trident をインストールできます。これにはを作成する必要があり `TridentOrchestrator`ます。
 +
 [listing]
 ----
@@ -296,7 +296,7 @@ spec:
           mode: 420
           path: /etc/modprobe.d/sunrpc.conf
 ----
-. MCO が作成されたら、すべてのワーカーノードに設定を適用し、 1 つずつ再起動する必要があります。プロセス全体には約 20~30 分かかります。「 OC GET MCP 」を使用してマシン構成が適用されているかどうかを確認し、ワーカーのマシン構成プールが更新されていることを確認します。
+. MCO が作成されたら、すべてのワーカーノードに設定を適用し、 1 つずつ再起動する必要があります。プロセス全体には約 20~30 分かかります。を使用してマシン構成が適用されているかどうかを確認し、ワーカー用のマシン構成プールが更新されていることを確認し `oc get mcp`ます。
 +
 [listing]
 ----
@@ -375,7 +375,7 @@ spec:
           state: started
   osImageURL: ""
 ----
-. 構成の作成後、約 20~30 分で設定がワーカーノードに適用され、再ロードされます。「 OC GET MCP 」を使用してマシン構成が適用されているかどうかを確認し、ワーカーのマシン構成プールが更新されていることを確認します。ワーカーノードにログインして、 iscsid サービスが実行されている（マルチパスを使用している場合、 multipathd サービスが実行されている）ことを確認することもできます。
+. 構成の作成後、約 20~30 分で設定がワーカーノードに適用され、再ロードされます。を使用してマシン構成が適用されているかどうかを確認し、ワーカー用のマシン構成プールが更新されていることを確認し `oc get mcp`ます。ワーカーノードにログインして、 iscsid サービスが実行されている（マルチパスを使用している場合、 multipathd サービスが実行されている）ことを確認することもできます。
 +
 [listing]
 ----
@@ -412,7 +412,7 @@ worker   rendered-worker-de321b36eeba62df41feb7bc   True      False      False
 ----
 +
 
-NOTE: また、適切なフラグを指定して「 OC debug 」コマンドを実行することにより、 MachineConfig が正常に適用され、サービスが正常に開始されたことを確認することもできます。
+NOTE: 適切なフラグを指定してコマンドを実行することで、MachineConfigが正常に適用され、サービスが正常に開始されたことを確認することもできます `oc debug`。
 
 
 

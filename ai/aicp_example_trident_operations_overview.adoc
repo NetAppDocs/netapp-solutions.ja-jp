@@ -22,9 +22,9 @@ summary: NetAppを使用したオープンソースのMLOps - Tridentの運用�
 
 ネットアップストレージシステム / プラットフォーム上に Kubernetes クラスタ内のコンテナにマウントする必要のある既存のボリュームがあり、クラスタ内の PVC に関連付けられていない場合は、それらのボリュームをインポートする必要があります。これらのボリュームは、 Trident のボリュームインポート機能を使用してインポートできます。
 
-次のコマンド例は、という名前のボリュームのインポートを示しています。 `pb_fg_all`。PVC の詳細については、を参照してください https://kubernetes.io/docs/concepts/storage/persistent-volumes/["Kubernetes の公式ドキュメント"^]。ボリュームインポート機能の詳細については、を参照してください https://docs.netapp.com/us-en/trident/index.html["Trident のドキュメント"^]。
+次のコマンド例は、という名前のボリュームをインポートする例を示してい `pb_fg_all`ます。PVCの詳細については、を参照してください https://kubernetes.io/docs/concepts/storage/persistent-volumes/["Kubernetes の公式ドキュメント"^]。ボリュームインポート機能の詳細については、を参照して https://docs.netapp.com/us-en/trident/index.html["Trident のドキュメント"^]ください。
 
-「 accessModes 」の値「 ReadOnlyMany 」は、 PVC 仕様ファイルの例で指定されています。「 accessMode 」フィールドの詳細については、を参照してください https://kubernetes.io/docs/concepts/storage/persistent-volumes/["Kubernetes の公式ドキュメント"^]。
+ `accessModes`PVC仕様ファイルの例では、の値が `ReadOnlyMany`指定されています。フィールドの詳細については `accessMode`、を参照して https://kubernetes.io/docs/concepts/storage/persistent-volumes/["Kubernetes の公式ドキュメント"^]ください。
 
 ....
 $ cat << EOF > ./pvc-import-pb_fg_all-iface1.yaml
@@ -66,7 +66,7 @@ Trident を使用して、ネットアップストレージシステムまたは
 
 次のコマンド例は、kubectlを使用した新しいFlexVolボリュームのプロビジョニングを示しています。
 
-次の PVC 定義ファイル例では 'accessModes' の値 ReadWriteMany が指定されています「 accessMode 」フィールドの詳細については、を参照してください https://kubernetes.io/docs/concepts/storage/persistent-volumes/["Kubernetes の公式ドキュメント"^]。
+ `accessModes`次のPVC定義ファイル例では、の値を `ReadWriteMany`指定しています。フィールドの詳細については `accessMode`、を参照して https://kubernetes.io/docs/concepts/storage/persistent-volumes/["Kubernetes の公式ドキュメント"^]ください。
 
 ....
 $ cat << EOF > ./pvc-tensorflow-results.yaml
@@ -93,4 +93,4 @@ tensorflow-results                Bound     default-tensorflow-results-2fd60   1
 
 === NetApp DataOps Toolkitを使用した新しいボリュームのプロビジョニング
 
-NetApp DataOps Toolkit for Kubernetesを使用して、NetAppストレージシステムまたはプラットフォームに新しいボリュームをプロビジョニングすることもできます。NetApp DataOps Toolkit for Kubernetesでは、Tridentを使用してボリュームをプロビジョニングしますが、ユーザのプロセスは簡易化されます。を参照してください link:https://github.com/NetApp/netapp-dataops-toolkit/blob/main/netapp_dataops_k8s/docs/volume_management.md["ドキュメント"] を参照してください。
+NetApp DataOps Toolkit for Kubernetesを使用して、NetAppストレージシステムまたはプラットフォームに新しいボリュームをプロビジョニングすることもできます。NetApp DataOps Toolkit for Kubernetesでは、Tridentを使用してボリュームをプロビジョニングしますが、ユーザのプロセスは簡易化されます。詳細については、を参照して link:https://github.com/NetApp/netapp-dataops-toolkit/blob/main/netapp_dataops_k8s/docs/volume_management.md["ドキュメント"] ください。
