@@ -14,18 +14,34 @@ summary: NetApp ONTAP を使用した Red Hat OpenShift Virtualization
 
 
 [role="lead"]
-このセクションでは、Red Hat OpenShift Virtualizationマイグレーションツールキットを使用して、VMwareからOpenShiftクラスタに仮想マシンを移行する方法について説明します。
+このセクションでは、Red Hat OpenShift Virtualizationマイグレーションツールキットを使用して、VMwareからOpenShiftクラスタに仮想マシンを移行する方法を説明します。次のタイプの移行について説明します。
 
+.コールドマイグレーション
+[%collapsible]
+====
+これがデフォルトの移行タイプです。データのコピー中は、ソース仮想マシンがシャットダウンされます。
+
+====
+.ウォームマイグレーション
+[%collapsible]
+====
+このタイプの移行では、ほとんどのデータは、ソース仮想マシン（VM）の実行中にコピーされます。その後、VMがシャットダウンされ、残りのデータがカットオーバー段階でコピーされます。
+
+====
+
+
+== ビデオデモ
+
+次のビデオでは、永続的ストレージ用のONTAP SANストレージクラスを使用して、VMwareからOpenShiftによる仮想化にRHEL VMをコールド移行するデモを示します。
+
+.Red Hat MTVを使用したNetApp ONTAPストレージによるOpenShift仮想化へのVMの移行
+video::bac58645-dd75-4e92-b5fe-b12b015dc199[panopto,width=360]
 
 
 == 仮想化向け移行ツールキットを使用したVMwareからOpenShiftによる仮想化へのVMの移行
 
 このセクションでは、仮想化移行ツールキット（MTV）を使用して、VMwareからOpenShift Containerプラットフォーム上で実行されるOpenShift仮想化に仮想マシンを移行し、Tridentを使用してNetApp ONTAPストレージと統合する方法について説明します。
 
-次のビデオでは、永続的ストレージ用のONTAP-SANストレージクラスを使用して、VMwareからOpenShiftによる仮想化にRHEL VMを移行するデモを示します。
-
-.Red Hat MTVを使用したNetApp ONTAPストレージによるOpenShift仮想化へのVMの移行
-video::bac58645-dd75-4e92-b5fe-b12b015dc199[panopto,width=360]
 次の図は、VMwareからRed Hat OpenShift VirtualizationへのVMの移行の概要を示しています。
 
 image:rh-os-n_use_case_vm_migration_using_mtv.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
@@ -176,7 +192,7 @@ allowVolumeExpansion: true
 ----
 
 
-=== * MTVのインストール*
+=== MTVのインストール
 
 これで、Migration Toolkit for Virtualization（MTV）をインストールできます。インストールのヘルプについては、提供されている手順を参照してlink:https://access.redhat.com/documentation/en-us/migration_toolkit_for_virtualization/2.5/html/installing_and_using_the_migration_toolkit_for_virtualization/installing-the-operator["ここをクリック"]ください。
 
@@ -219,6 +235,10 @@ OpenShift仮想化プロバイダがソースプロバイダであるため、�
 
 image:rh-os-n_use_case_vm_migration_using_mtv_plan_ready.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
+
+
+=== コールド移行を実行
+
 [Start]*をクリックすると、VMの移行が完了するまでの一連の手順が実行されます。
 
 image:rh-os-n_use_case_vm_migration_using_mtv_plan_complete.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
@@ -226,3 +246,40 @@ image:rh-os-n_use_case_vm_migration_using_mtv_plan_complete.png["入力/出力�
 すべての手順が完了したら、左側のナビゲーションメニューの*[仮想化]*の*[仮想マシン]*をクリックすると、移行されたVMが表示されます。仮想マシンへのアクセス手順が記載されていlink:https://docs.openshift.com/container-platform/4.13/virt/virtual_machines/virt-accessing-vm-consoles.html["ここをクリック"]ます。
 
 仮想マシンにログインして、posgresqlデータベースの内容を検証できます。データベース、テーブル、およびテーブル内のエントリは、ソースVMで作成されたものと同じである必要があります。
+
+
+
+=== ウォーム移行の実行
+
+ウォーム移行を実行するには、上記のように移行計画を作成した後、計画設定を編集してデフォルトの移行タイプを変更する必要があります。コールド移行の横にある編集アイコンをクリックし、ボタンを切り替えてウォーム移行に設定します。**保存**をクリックします。次に、** Start **をクリックして移行を開始します。
+
+
+NOTE: VMwareのブロックストレージから移行するときは、OpenShift仮想化VM用にブロックストレージクラスが選択されていることを確認してください。また、あとでVMのライブマイグレーションを実行できるように、volumeModeをblockに設定し、アクセスモードをrwxに設定する必要があります。
+
+image:rh-os-n_use_case_vm_migration_using_mtv_plan_warm1.png["1"]
+
+[*0 of 1 VMs Completed*]をクリックし、VMを展開すると、移行の進行状況が表示されます。
+
+image:rh-os-n_use_case_vm_migration_using_mtv_plan_warm2.png["2"]
+
+しばらくするとディスク転送が完了し、移行はカットオーバー状態に進むのを待機します。dataVolumeがPaused状態です。プランに戻り、[**カットオーバー*]ボタンをクリックします。
+
+image:rh-os-n_use_case_vm_migration_using_mtv_plan_warm3.png["3"]
+
+image:rh-os-n_use_case_vm_migration_using_mtv_plan_warm4.png["4"]
+
+ダイアログボックスに現在の時刻が表示されます。カットオーバーをあとの時間にスケジュールする場合は、時間を未来の時間に変更します。そうでない場合は、カットオーバーを今すぐ実行するには、[**Set Cutover*]をクリックします。
+
+image:rh-os-n_use_case_vm_migration_using_mtv_plan_warm5.png["5"]
+
+カットオーバーフェーズが開始されると、数秒後にdataVolumeの状態がpausedからImportScheduledからImportInProgressに変わります。
+
+image:rh-os-n_use_case_vm_migration_using_mtv_plan_warm6.png["6"]
+
+カットオーバーフェーズが完了すると、dataVolumeはsucceeded状態になり、PVCがバインドされます。
+
+image:rh-os-n_use_case_vm_migration_using_mtv_plan_warm7.png["7"]
+
+移行計画はImageConversionフェーズを完了し、最後にVirtualMachineCreationフェーズを完了します。OpenShift仮想化では、VMがRunning状態になります。
+
+image:rh-os-n_use_case_vm_migration_using_mtv_plan_warm8.png["8"]
