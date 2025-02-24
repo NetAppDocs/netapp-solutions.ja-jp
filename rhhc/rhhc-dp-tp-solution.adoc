@@ -1,0 +1,355 @@
+---
+sidebar: sidebar 
+permalink: rhhc/rhhc-dp-tp-solution.html 
+keywords: OpenShift, OCP, Trident, Trident-protect, NetApp ONTAP, Red Hat OpenShift, app data protection, Containers 
+summary: NetApp ONTAPによるTrident保護を使用したRed Hat OpenShiftコンテナアプリケーションのデータ保護 
+---
+= Trident PROTECTを使用したOpenShift Container Platformのコンテナアプリケーションのデータ保護
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+作成者：Banu Sundhar、NetApp
+
+[role="lead"]
+リファレンスドキュメントのこのセクションでは、Trident保護を使用してコンテナアプリケーションのスナップショットとバックアップを作成する方法について詳しく説明します。NetApp Trident Protectは、NetApp ONTAPストレージシステムとNetApp Trident CSIストレージプロビジョニングツールを基盤とするステートフルなKubernetesアプリケーションの機能と可用性を強化する、高度なアプリケーションデータ管理機能を提供します。Trident保護では、アプリケーションのSnapshotとバックアップが作成されます。つまり、永続ボリューム内のアプリケーションデータのSnapshotとバックアップが作成されるだけでなく、アプリケーションメタデータのSnapshotとバックアップも作成されます。Trident保護で作成されたSnapshotとバックアップは、次のいずれかのオブジェクトストレージに格納して、あとでリストアできます。
+
+* AWS S3
+* Azure BLOBストレージ
+* Google Cloud Storage
+* ONTAP S3
+* StorageGRID
+* その他のS3互換ストレージ
+
+
+Trident保護では、KubernetesモデルのRole-Based Access Control（RBAC；ロールベースアクセス制御）が使用されます。デフォルトでは、Trident protectは、Trident protectと呼ばれる単一のシステムネームスペースとそれに関連付けられたデフォルトのサービスアカウントを提供します。多数のユーザがいる組織や、特定のセキュリティニーズがある組織では、Trident保護のRBAC機能を使用して、リソースやネームスペースへのアクセスをより細かく制御できます。
+
+Trident保護のRBACの詳細については、を参照してください。link:https://docs.netapp.com/us-en/trident/trident-protect/manage-authorization-access-control.html["Trident保護に関するドキュメント"]
+
+
+NOTE: クラスタ管理者は、デフォルトのTrident保護ネームスペース内のリソースにアクセスできます。また、他のすべてのネームスペース内のリソースにもアクセスできます。SnapshotやバックアップCRSなどのアプリケーションデータ管理カスタムリソース（CRS）をTrident保護ネームスペースに作成することはできません。ベストプラクティスとして、アプリケーションネームスペースにCRSを作成する必要があります。
+
+Trident protectをインストールできますこのセクションでは、コンテナアプリのデータ保護とアプリの復元のワークフローを示します。1.スナップショットの作成(スケジュールに応じてオンデマンドで) 2.Snapshotからのリストア（同じ別のネームスペースへのリストア）3.バックアップの作成4.バックアップからリストア
+
+.前提条件
+[%collapsible]
+====
+アプリケーションのSnapshotとバックアップを作成する前に、Trident保護でオブジェクトストレージを設定してSnapshotとバックアップを格納する必要があります。これにはバケットCRを使用します。バケットCRを作成して設定できるのは管理者だけです。バケットCRは、Trident保護ではAppVaultと呼ばれています。AppVaultオブジェクトは、ストレージバケットの宣言型Kubernetesワークフロー表現です。AppVault CRには、バックアップ、Snapshot、リストア処理、SnapMirrorレプリケーションなど、保護処理でバケットを使用するために必要な設定が含まれています。
+
+この例では、ONTAP S3をオブジェクトストレージとして使用しています。ONTAP S3用のAppVault CRを作成するためのワークフローは次のとおりです。1.ONTAPクラスタのSVMにS3オブジェクトストアサーバを作成します。2.オブジェクトストアサーバにバケットを作成します。3.SVMにS3ユーザを作成します。アクセスキーとシークレットキーは安全な場所に保管してください。4.OpenShiftで、ONTAP S3クレデンシャルを格納するシークレットを作成します。5.ONTAP S3用のAppVaultオブジェクトの作成
+
+** ONTAP S3用のTrident保護AppVaultの構成**
+
+*** ONTAP S3をAppVaultとしてTrident保護を設定するためのサンプルYAMLファイル***
+
+[source, yaml]
+----
+# alias tp='tridentctl-protect'
+
+appvault-secret.yaml
+
+apiVersion: v1
+stringData:
+  accessKeyID: "<access key id created for a user to access ONTAP S3 bucket>"
+  secretAccessKey: "corresponding Secret Access Key"
+#data:
+# base 64 encoded values
+#  accessKeyID: <base64 access key id created for a user to access ONTAP S3 bucket>
+#  secretAccessKey: <base 64  Secret Access Key>
+kind: Secret
+metadata:
+  name: appvault-secret
+  namespace: trident-protect
+type: Opaque
+
+appvault.yaml
+
+apiVersion: protect.trident.netapp.io/v1
+kind: AppVault
+metadata:
+  name: ontap-s3-appvault
+  namespace: trident-protect
+spec:
+  providerConfig:
+    azure:
+      accountName: ""
+      bucketName: ""
+      endpoint: ""
+    gcp:
+      bucketName: ""
+      projectID: ""
+    s3:
+      bucketName: <bucket-name for storing the snapshots and backups>
+      endpoint: <endpoint IP for S3>
+      secure: "false"
+      skipCertValidation: "true"
+  providerCredentials:
+    accessKeyID:
+      valueFromSecret:
+        key: accessKeyID
+        name: appvault-secret
+    secretAccessKey:
+      valueFromSecret:
+        key: secretAccessKey
+        name: appvault-secret
+  providerType: OntapS3
+
+# oc create -f appvault-secret.yaml -n trident-protect
+# oc create -f appvault.yaml -n trident-protect
+----
+image:rhhc_dp_tp_solution_container_image1.png["AppVaultを作成しました"]
+
+*** PostgreSQLアプリケーションをインストールするためのサンプルYAMLファイル***
+
+[source, yaml]
+----
+postgres.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:14
+        env:
+        - name: POSTGRES_USER
+          #value: "myuser"
+          value: "admin"
+        - name: POSTGRES_PASSWORD
+          #value: "mypassword"
+          value: "adminpass"
+        - name: POSTGRES_DB
+          value: "mydb"
+        - name: PGDATA
+          value: "/var/lib/postgresql/data/pgdata"
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - name: postgres-storage
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: postgres-storage
+        persistentVolumeClaim:
+          claimName: postgres-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+spec:
+  selector:
+    app: postgres
+  ports:
+  - protocol: TCP
+    port: 5432
+    targetPort: 5432
+  type: ClusterIP
+
+Now create the Trident protect application CR for the postgres app. Include the objects in the namespace postgres and create it in the postgres namespace.
+# tp create app postgres-app --namespaces postgres -n postgres
+
+----
+image:rhhc_dp_tp_solution_container_image2.png["作成されたアプリケーション"]
+
+====
+.Snapshotの作成
+[%collapsible]
+====
+**オンデマンドスナップショットの作成**
+
+[source, yaml]
+----
+
+# tp create snapshot postgres-snap1 --app postgres-app --appvault ontap-s3-appvault -n postgres
+Snapshot "postgres-snap1" created.
+
+----
+image:rhhc_dp_tp_solution_container_image3.png["Snapshotの作成"]
+
+image:rhhc_dp_tp_solution_container_image4.png["Snapshot - PVCが作成されました"]
+
+**スケジュールの作成**次のコマンドを使用すると、毎日15時33分にスナップショットが作成され、2つのスナップショットとバックアップが保持されます。
+
+[source, yaml]
+----
+# tp create schedule schedule1 --app postgres-app --appvault ontap-s3-appvault --backup-retention 2 --snapshot-retention 2 --granularity Daily --hour 15 --minute 33 --data-mover Restic -n postgres
+Schedule "schedule1" created.
+----
+image:rhhc_dp_tp_solution_container_image5.png["スケジュール1が作成されました"]
+
+** YAMLを使用したスケジュールの作成**
+
+[source, yaml]
+----
+# tp create schedule schedule2 --app postgres-app --appvault ontap-s3-appvault --backup-retention 2 --snapshot-retention 2 --granularity Daily --hour 15 --minute 33 --data-mover Restic -n postgres --dry-run > hourly-snapshotschedule.yaml
+
+cat hourly-snapshotschedule.yaml
+
+apiVersion: protect.trident.netapp.io/v1
+kind: Schedule
+metadata:
+  creationTimestamp: null
+  name: schedule2
+  namespace: postgres
+spec:
+  appVaultRef: ontap-s3-appvault
+  applicationRef: postgres-app
+  backupRetention: "2"
+  dataMover: Restic
+  dayOfMonth: ""
+  dayOfWeek: ""
+  enabled: true
+  granularity: Hourly
+  #hour: "15"
+  minute: "33"
+  recurrenceRule: ""
+  snapshotRetention: "2"
+status: {}
+----
+image:rhhc_dp_tp_solution_container_image6.png["スケジュール2が作成されました"]
+
+このスケジュールで作成されたSnapshotを表示できます。
+
+image:rhhc_dp_tp_solution_container_image7.png["Snapshotがスケジュールに従って作成されました"]
+
+ボリュームSnapshotも作成されます。
+
+image:rhhc_dp_tp_solution_container_image8.png["PVC Snapがスケジュールどおりに作成されました"]
+
+====
+.アプリケーションを削除してアプリケーションの損失をシミュレートする
+[%collapsible]
+====
+[source, yaml]
+----
+# oc delete deployment/postgres -n postgres
+# oc get pod,pvc -n postgres
+No resources found in postgres namespace.
+----
+====
+.Snapshotから同じネームスペースへのリストア
+[%collapsible]
+====
+[source, yaml]
+----
+# tp create sir postgres-sir --snapshot postgres/hourly-3f1ee-20250214183300 -n postgres
+SnapshotInplaceRestore "postgres-sir" created.
+----
+image:rhhc_dp_tp_solution_container_image9.png["Sir作成済み"]
+
+アプリケーションとそのPVCが同じネームスペースにリストアされます。
+
+image:rhhc_dp_tp_solution_container_image10.png["アプリが復旧しました"]
+
+====
+.Snapshotから別のネームスペースへのリストア
+[%collapsible]
+====
+[source, yaml]
+----
+# tp create snapshotrestore postgres-restore --snapshot postgres/hourly-3f1ee-20250214183300 --namespace-mapping postgres:postgres-restore -n postgres-restore
+SnapshotRestore "postgres-restore" created.
+----
+image:rhhc_dp_tp_solution_container_image11.png["SnapRestore作成済み"]
+
+アプリケーションが新しいネームスペースにリストアされたことがわかります。
+
+image:rhhc_dp_tp_solution_container_image12.png["アプリケーションのリストア、SnapRestore"]
+
+====
+.バックアップを作成します
+[%collapsible]
+====
+**オンデマンドバックアップの作成**
+
+[source, yaml]
+----
+# tp create backup postgres-backup1 --app postgres-app --appvault ontap-s3-appvault -n postgres
+Backup "postgres-backup1" created.
+----
+image:rhhc_dp_tp_solution_container_image13.png["作成されたバックアップ"]
+
+**バックアップスケジュールの作成**
+
+上記のリストに含まれる日単位および時間単位のバックアップは、以前に設定したスケジュールに基づいて作成されます。
+
+[source, yaml]
+----
+# tp create schedule schedule1 --app postgres-app --appvault ontap-s3-appvault --backup-retention 2 --snapshot-retention 2 --granularity Daily --hour 15 --minute 33 --data-mover Restic -n postgres
+Schedule "schedule1" created.
+----
+image:rhhc_dp_tp_solution_container_image13a.png["以前に作成されたスケジュール"]
+
+====
+.バックアップからリストア
+[%collapsible]
+====
+**データ損失をシミュレートするには、アプリケーションとPVCを削除します。**
+
+image:rhhc_dp_tp_solution_container_image14.png["以前に作成されたスケジュール"]
+
+**同じネームスペースにリストア**#tp create bir postgres-bir --backup postgres/hourly-3f1ee-20250224023300 -n postgres BackupInplaceRestore "postgres-bir"が作成されました。
+
+image:rhhc_dp_tp_solution_container_image15.png["同じネームスペースにリストア"]
+
+アプリケーションとPVCが同じネームスペースにリストアされます。
+
+image:rhhc_dp_tp_solution_container_image16.png["アプリケーションとPVCを同じネームスペースにリストア"]
+
+**別の名前空間に復元**新しい名前空間を作成します。バックアップから新しいネームスペースにリストアします。
+
+image:rhhc_dp_tp_solution_container_image17.png["別のネームスペースへのリストア"]
+
+====
+.アプリケーションの移行
+[%collapsible]
+====
+アプリケーションを別のクラスタにクローニングまたは移行する（クラスタ間クローニングを実行する）には、ソースクラスタでバックアップを作成し、そのバックアップを別のクラスタにリストアします。デスティネーションクラスタにTrident protectがインストールされていることを確認します。
+
+ソースクラスタで、次の図に示す手順を実行します。
+
+image:rhhc_dp_tp_solution_container_image18.png["別のネームスペースへのリストア"]
+
+ソースクラスタから、コンテキストをデスティネーションクラスタに切り替えます。次に、AppVaultがデスティネーションクラスタコンテキストからアクセス可能であることを確認し、AppVaultのコンテンツをデスティネーションクラスタから取得します。
+
+image:rhhc_dp_tp_solution_container_image19.png["コンテキストを宛先に切り替え"]
+
+リストからバックアップパスを指定し、以下のコマンドのようにBackupRestore CRオブジェクトを作成します。
+
+[source, yaml]
+----
+# tp create backuprestore backup-restore-cluster2 --namespace-mapping postgres:postgres --appvault ontap-s3-appvault --path postgres-app_4d798ed5-cfa8-49ff-a5b6-c5e2d89aeb89/backups/postgres-backup-cluster1_ec0ed3f3-5500-4e72-afa8-117a04a0b1c3 -n postgres
+BackupRestore "backup-restore-cluster2" created.
+----
+image:rhhc_dp_tp_solution_container_image20.png["デスティネーションへのリストア"]
+
+これで、アプリケーションポッドとPVCがデスティネーションクラスタに作成されたことがわかります。
+
+image:rhhc_dp_tp_solution_container_image21.png["デスティネーションクラスタのアプリケーション"]
+
+====
