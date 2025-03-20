@@ -1,0 +1,233 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_openshift_virtualization_tp_dr.html 
+keywords: OpenShift, OCP, Trident, Trident protect, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, ROSA, Red Hat OpenShift Virtualization 
+summary: ROSAでのRed Hat OpenShift仮想化 
+---
+= Trident保護を使用して、OpenShift仮想化でVMのフェイルオーバーとフェイルバックを実装する
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+
+
+== 概要
+
+このセクションでは、Trident保護を使用したOpenShift仮想化でのVMのフェイルオーバーとフェイルバックの実装について詳しく説明します。手順は、VMがオンプレミスのOpenShiftクラスタであるか、ROSAクラスタであるかに関係なく同じです。このセクションでは、Trident保護のappvaultとして使用するONTAP s3オブジェクトストレージを作成し、アプリケーションミラーのスケジュールを作成する手順を示します。その後、アプリのミラー関係を作成する方法を示します。最後に、フェイルオーバーとフェイルバックを実行するためにアプリミラー関係の状態を変更する方法を示します。
+
+
+
+== 前提条件
+
+* Tridentをインストールする必要があります。OpenShift Virtualizationオペレータを使用してOpenShift Virtualizationをクラスタにインストールする前に、バックエンドクラスとストレージクラスを作成する必要があります。
+* OpenShift VMのフェイルオーバーおよびフェイルバック処理を実装するには、Trident保護をインストールする必要があります。ここに記載されている手順を参照して、link:https://docs.netapp.com/us-en/trident/trident-protect/trident-protect-installation.html["Tridentプロテクトのインストール"]
+
+
+image:redhat_openshift_ocpv_tp_image1.png["OCP-V Trident protectがTrident protectネームスペースにインストールされている"]
+
+VMがOpenShift Virtualizationで使用可能である必要があります。新しいVMの導入や既存のVMのOpenShift Virtualizationへの移行の詳細については、のドキュメントの該当するセクションを参照してください。
+
+image:redhat_openshift_ocpv_tp_image3.png["source-nsネームスペースにOCP-V VMをインストール"]
+
+
+
+== ONTAP S3を使用してアプリケーションボールトを作成
+
+このセクションでは、ONTAP S3オブジェクトストレージを使用してTrident protectでアプリボールトをセットアップする方法を説明します。
+
+OCコマンドと以下に示すYAMLファイルを使用して、ONTAP s3のシークレットとappvaultカスタムリソースを作成します。Trident保護ネームスペースに作成してください。
+
+[source, cli]
+----
+oc create -f app-vault-secret.yaml -n trident-protect
+oc create -f app-vault.yaml -n trident-protect
+----
+[source, yaml]
+----
+apiVersion: v1
+# You can provide the keys either as stringData or base 64 encoded data
+stringData:
+  accessKeyID: "<access key id as obtained from ONTAP>"
+  secretAccessKey: "<secret access key as obtained from ONTAP>"
+#data:
+  #accessKeyID: <base 64 encoded value of access key>
+  #secretAccessKey: <base 64 encoded value of secret access key>
+kind: Secret
+metadata:
+  name: appvault-secret
+  namespace: trident-protect
+type: Opaque
+----
+[source, yaml]
+----
+apiVersion: protect.trident.netapp.io/v1
+kind: AppVault
+metadata:
+  name: ontap-s3-appvault
+  namespace: trident-protect
+spec:
+  providerConfig:
+    azure:
+      accountName: ""
+      bucketName: ""
+      endpoint: ""
+    gcp:
+      bucketName: ""
+      projectID: ""
+    s3:
+      bucketName: trident-protect
+      endpoint: <data lif to use to access S3>
+      secure: "false"
+      skipCertValidation: "true"
+  providerCredentials:
+    accessKeyID:
+      valueFromSecret:
+        key: accessKeyID
+        name: appvault-secret
+    secretAccessKey:
+      valueFromSecret:
+        key: secretAccessKey
+        name: appvault-secret
+  providerType: OntapS3
+----
+ONTAP S3バックアップが作成され、available状態になっていることを確認する
+
+image:redhat_openshift_ocpv_tp_image2.png["Tridentでのocp-v appvault - protect namespace"]
+
+
+
+== VM用のTrident保護アプリケーションを作成する
+
+VMが配置されているネームスペースにアプリケーションのカスタムリソースを作成します。
+
+image:redhat_openshift_ocpv_tp_image4.png["source-ns名前空間のOCP-Vアプリ"]
+
+[source, CLI]
+----
+tridentctl-protect create app source-vm -n source-ns --namespaces source-ns
+----
+image:redhat_openshift_ocpv_tp_image4.png["source-ns名前空間のOCP-Vアプリ"]
+
+
+
+== ディザスタリカバリVM用のTrident保護アプリケーションを新しいネームスペースに作成する
+
+[source, CLI]
+----
+oc create ns dr-ns
+tridentctl-protect create app dr-vm -n dr-ns --namespaces dr-ns
+----
+image:redhat_openshift_ocpv_tp_image5.png["source-ns名前空間のOCP-Vアプリ"]
+
+
+
+== ソースネームスペースでAppMirrorスケジュールを作成する
+
+図に示すように、YAMLを使用してAppMirrorのスケジュールを作成します。スケジュールを使用して（5分ごとに）Snapshotが作成され、2つのSnapshotが保持されます。
+
+[source, CLI]
+----
+oc create -f appmirror-schedule.yaml -n source-ns
+----
+[source, yaml]
+----
+apiVersion: protect.trident.netapp.io/v1
+kind: Schedule
+metadata:
+  name: appmirror-sched1
+spec:
+  appVaultRef: ontap-s3-appvault
+  applicationRef: source-vm
+  backupRetention: "0"
+  enabled: true
+  granularity: Custom
+  recurrenceRule: |-
+    DTSTART:20240901T000200Z
+    RRULE:FREQ=MINUTELY;INTERVAL=5
+  snapshotRetention: "2"
+----
+image:redhat_openshift_ocpv_tp_image6.png["app mirror Schedule source-ns namespace"]
+
+image:redhat_openshift_ocpv_tp_image7.png["Snapshotの作成"]
+
+
+
+== DRネームスペースにappMirror関係を作成する
+
+Disaster RecoveryネームスペースにAppmirror関係を作成します。desiredStateをestablishedに設定します。
+
+[source, yaml]
+----
+apiVersion: protect.trident.netapp.io/v1
+kind: AppMirrorRelationship
+metadata:
+  name: amr1
+spec:
+  desiredState: Established
+  destinationAppVaultRef: ontap-s3-appvault
+  destinationApplicationRef: dr-vm
+  namespaceMapping:
+  - destination: dr-ns
+    source: source-ns
+  recurrenceRule: |-
+    DTSTART:20240901T000200Z
+    RRULE:FREQ=MINUTELY;INTERVAL=5
+  sourceAppVaultRef: ontap-s3-appvault
+  sourceApplicationName: source-vm
+  sourceApplicationUID: "<application UID of the source VM>"
+  storageClassName: "ontap-nas"
+----
+
+NOTE: ソースVMのアプリケーションUIDは、次のようにソースアプリのJSON出力から取得できます。
+
+image:redhat_openshift_ocpv_tp_image8.png["作成されたアプリUID"]
+
+image:redhat_openshift_ocpv_tp_image9.png["アプリミラー関係を作成"]
+
+AppMirror関係が確立されると、最新のSnapshotがデスティネーションネームスペースに転送されます。PVCはDRネームスペース内にVM用に作成されますが、VMポッドはまだDRネームスペースに作成されていません。
+
+image:redhat_openshift_ocpv_tp_image10.png["アプリミラー関係を作成が確立されました"]
+
+image:redhat_openshift_ocpv_tp_image11.png["アプリケーションミラーの状態の変更"]
+
+image:redhat_openshift_ocpv_tp_image12.png["PVCが宛先ネームスペースに作成される"]
+
+
+
+== 関係をフェイルオーバーに昇格
+
+DRネームスペースにVMを作成するには、関係の目的の状態を「promoted」に変更します。VMはソースネームスペースで引き続き実行されています。
+
+[source, CLI]
+----
+oc patch amr amr1 -n dr-ns --type=merge -p '{"spec":{"desiredState":"Promoted"}}'
+----
+image:redhat_openshift_ocpv_tp_image13.png["AppMirror関係のパッチ適用"]
+
+image:redhat_openshift_ocpv_tp_image14.png["AppMirror関係は昇格状態です"]
+
+image:redhat_openshift_ocpv_tp_image15.png["DRネームスペースにVMを作成"]
+
+image:redhat_openshift_ocpv_tp_image16.png["ソースns内のVMがまだ実行中"]
+
+
+
+== フェイルバックとの関係を再度確立する
+
+関係の目的の状態を「確立済み」に変更します。DRネームスペース内のVMが削除されます。PVCはDRネームスペースにまだ存在します。VMはソースネームスペースで引き続き実行されています。ソースネームスペースからDR nsへの元の関係が確立されます。です。
+
+[source, CLI]
+----
+oc patch amr amr1 -n dr-ns --type=merge -p '{"spec":{"desiredState":"Established"}}'
+----
+image:redhat_openshift_ocpv_tp_image17.png["確立された状態へのパッチ"]
+
+image:redhat_openshift_ocpv_tp_image18.png["確立された状態のアプリケーションミラー"]
+
+image:redhat_openshift_ocpv_tp_image19.png["DR nsのPVCはまだ残っている"]
+
+image:redhat_openshift_ocpv_tp_image20.png["ソースnsのポッドとPVCはまだ残っている"]

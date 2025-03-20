@@ -1,0 +1,518 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_openshift_virtualization_tp_dp_overview.html 
+keywords: OpenShift, OCP, Trident, Trident protect, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization,Data Protection, Data Management for VMs, VM protection 
+summary: NetApp ONTAPを使用したRed Hat OpenShift仮想化によるデータ保護 
+---
+= Trident Protectを使用したOpenShift仮想化でのVMのデータ保護
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+作成者：Banu Sundhar、NetApp
+
+[role="lead"]
+このセクションでは、Trident保護を使用してVMのスナップショットとバックアップを作成する方法について詳しく説明します。
+
+OpenShift仮想化環境の仮想マシンは、OpenShift Containerプラットフォームのワーカーノードで実行されるコンテナ化されたアプリケーションです。VMメタデータとVMの永続ディスクを保護して、VMが失われたり破損したりした場合にリカバリできるようにすることが重要です。
+
+OpenShift仮想化VMの永続ディスクは、を使用してOpenShiftクラスタに統合されたONTAPストレージによってバックアップできますlink:https://docs.netapp.com/us-en/trident/["Trident CSI"]。このセクションでは、を使用して、link:https://docs.netapp.com/us-en/trident/trident-protect/learn-about-trident-protect.html["Trident保護"]ONTAPオブジェクトストレージへのVM（データボリュームを含む）のSnapshotとバックアップを作成します。
+
+その後、必要に応じてスナップショットまたはバックアップからリストアします。
+
+Trident保護を使用すると、OpenShiftクラスタ上のアプリケーションとVMのSnapshot、バックアップ、リストア、ディザスタリカバリを実行できます。OpenShift仮想化VMの場合、Trident保護で保護できるデータには、VMに関連付けられたKubernetesリソースオブジェクト、永続ボリューム、内部イメージが含まれます。
+
+**このセクションの例で使用されている各種コンポーネントのバージョンは次のとおりです**
+
+* link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.17/html/installing_on_bare_metal/index["OpenShiftクラスタ4.17"]
+* link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.17/html/virtualization/getting-started#tours-quick-starts_virt-getting-started["Red Hatが提供するOpenShift Virtualization OperatorによってインストールされるOpenShift Virtualization"]
+* link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["Trident 25.02"]
+* link:https://docs.netapp.com/us-en/trident/trident-protect/trident-protect-installation.html["Trident保護25.02"]
+* link:https://docs.netapp.com/us-en/ontap/["ONTAP 9.16"]
+
+
+.AppVaultの作成
+[%collapsible]
+====
+アプリケーションまたはVMのSnapshotとバックアップを作成する前に、Trident保護でオブジェクトストレージを設定してSnapshotとバックアップを格納する必要があります。これにはバケットCRを使用します。バケットCRを作成して設定できるのは管理者だけです。バケットCRは、Trident保護ではAppVaultと呼ばれています。AppVaultオブジェクトは、ストレージバケットの宣言型Kubernetesワークフロー表現です。AppVault CRには、バックアップ、Snapshot、リストア処理、SnapMirrorレプリケーションなど、保護処理でバケットを使用するために必要な設定が含まれています。
+
+この例では、ONTAP S3をオブジェクトストレージとして使用しています。ONTAP S3用のAppVault CRを作成するためのワークフローは次のとおりです。1.ONTAPクラスタのSVMにS3オブジェクトストアサーバを作成します。2.オブジェクトストアサーバにバケットを作成します。3.SVMにS3ユーザを作成します。アクセスキーとシークレットキーは安全な場所に保管してください。4.OpenShiftで、ONTAP S3クレデンシャルを格納するシークレットを作成します。5.ONTAP S3用のAppVaultオブジェクトの作成
+
+** ONTAP S3用のTrident保護AppVaultの構成**
+
+[source, yaml]
+----
+# alias tp='tridentctl-protect'
+
+# cat appvault-secret.yaml
+apiVersion: v1
+stringData:
+  accessKeyID: "<access key of S3>"
+  secretAccessKey: "<secret access key of S3>"
+# you can also provide base 64 encoded values instead of string values
+#data:
+# base 64 encoded values
+#  accessKeyID: < base 64 encoded access key>
+#  secretAccessKey: <base 64 encoded secretAccess key>
+kind: Secret
+metadata:
+  name: appvault-secret
+  namespace: trident-protect
+type: Opaque
+
+# cat appvault.yaml
+apiVersion: protect.trident.netapp.io/v1
+kind: AppVault
+metadata:
+  name: ontap-s3-appvault
+  namespace: trident-protect
+spec:
+  providerConfig:
+    azure:
+      accountName: ""
+      bucketName: ""
+      endpoint: ""
+    gcp:
+      bucketName: ""
+      projectID: ""
+    s3:
+      bucketName: trident-protect
+      endpoint: <lif for S3 access>
+      secure: "false"
+      skipCertValidation: "true"
+  providerCredentials:
+    accessKeyID:
+      valueFromSecret:
+        key: accessKeyID
+        name: appvault-secret
+    secretAccessKey:
+      valueFromSecret:
+        key: secretAccessKey
+        name: appvault-secret
+  providerType: OntapS3
+
+# oc create -f appvault-secret.yaml -n trident-protect
+# oc create -f appvault.yaml -n trident-protect
+----
+image:rh-os-n_use_case_ocpv_tp_dp_8.png["ONTAP S3 Appvaultが作成されました"]
+
+====
+.OpenShift仮想化でのVMの作成
+[%collapsible]
+====
+次のスクリーンショットは、テンプレートを使用してコンソールからVM（demo-Fedora in namespace demo）を作成する様子を示しています。デフォルトのストレージクラスはルートディスクによって自動的に選択されるため、デフォルトのストレージクラスが適切に設定されていることを確認します。このセットアップでは、デフォルトのストレージクラスは**sc-zonea-san**です。追加ディスクを作成するときは、ストレージクラスsc-zonea-sanを選択し、[**Apply optimized storage settings**]チェックボックスをオンにします。これにより、アクセスモードがRWXに、ボリュームモードがBlockに設定されます。
+
+
+NOTE: Tridentは、SAN（iSCSI、NVMe/TCP、FC）のブロックボリュームモードでRWXアクセスモードをサポートしています。（NASのデフォルトのアクセスモードです）。後でVMのライブマイグレーションを実行する必要がある場合は、rwxアクセスモードが必要です。
+
+image:rh-os-n_use_case_ocpv_tp_dp_1.png["デフォルトのストレージクラス"]
+
+image:rh-os-n_use_case_ocpv_tp_dp_2.png["Fedora VMの作成"]
+
+image:rh-os-n_use_case_ocpv_tp_dp_3.png["テンプレートのデフォルト"]
+
+image:rh-os-n_use_case_ocpv_tp_dp_4.png["カスタマイズ"]
+
+image:rh-os-n_use_case_ocpv_tp_dp_5.png["ディスクの追加"]
+
+image:rh-os-n_use_case_ocpv_tp_dp_6.png["追加されたディスク"]
+
+image:rh-os-n_use_case_ocpv_tp_dp_7.png["VM、ポッド、PVCの作成"]
+
+====
+.アプリケーションの作成
+[%collapsible]
+====
+** VM用のTrident保護アプリの作成**
+
+この例では、デモネームスペースにVMが1つあり、ネームスペースのすべてのリソースがアプリケーションの作成時に含まれています。
+
+[source, yaml]
+----
+# alias tp='tridentctl-protect'
+# tp create app demo-vm --namespaces demo -n demo --dry-run > app.yaml
+
+# cat app.yaml
+apiVersion: protect.trident.netapp.io/v1
+kind: Application
+metadata:
+  creationTimestamp: null
+  name: demo-vm
+  namespace: demo
+spec:
+  includedNamespaces:
+  - namespace: demo
+# oc create -f app.yaml -n demo
+----
+image:rh-os-n_use_case_ocpv_tp_dp_9.png["作成されたアプリケーション"]
+
+====
+.バックアップを作成します
+[%collapsible]
+====
+**オンデマンドバックアップの作成**
+
+前の手順で作成したアプリケーション（demo-VM）のバックアップを作成します。このバックアップには、demoネームスペースのすべてのリソースが含まれます。バックアップを保存するappvaultの名前を指定します。
+
+[source, yaml]
+----
+# tp create backup demo-vm-backup-on-demand --app demo-vm --appvault ontap-s3-appvault -n demo
+Backup "demo-vm-backup-on-demand" created.
+----
+image:rh-os-n_use_case_ocpv_tp_dp_15.png["オンデマンドバックアップが作成されました"]
+
+**スケジュールに基づくバックアップの作成**
+
+保持するバックアップの単位と数を指定して、バックアップのスケジュールを作成します。
+
+[source, yaml]
+----
+# tp create schedule backup-schedule1 --app demo-vm --appvault ontap-s3-appvault --granularity Hourly --minute 45 --backup-retention 1 -n demo --dry-run>backup-schedule-demo-vm.yaml
+schedule.protect.trident.netapp.io/backup-schedule1 created
+
+#cat backup-schedule-demo-vm.yaml
+apiVersion: protect.trident.netapp.io/v1
+kind: Schedule
+metadata:
+  creationTimestamp: null
+  name: backup-schedule1
+  namespace: demo
+spec:
+  appVaultRef: ontap-s3-appvault
+  applicationRef: demo-vm
+  backupRetention: "1"
+  dayOfMonth: ""
+  dayOfWeek: ""
+  enabled: true
+  granularity: Hourly
+  hour: ""
+  minute: "45"
+  recurrenceRule: ""
+  snapshotRetention: "0"
+status: {}
+# oc create -f backup-schedule-demo-vm.yaml -n demo
+----
+image:rh-os-n_use_case_ocpv_tp_dp_16.png["バックアップスケジュールを作成しました"]
+
+image:rh-os-n_use_case_ocpv_tp_dp_17.png["バックアップはオンデマンドでスケジュールどおりに作成"]
+
+====
+.バックアップからのリストア
+[%collapsible]
+====
+** VMを同じネームスペースにリストア**
+
+この例では、バックアップdemo-vm-backup-on-demandに、Fedora VMのdemo-appを使用したバックアップが含まれています。
+
+まず、VMを削除し、PVC、POD、およびVMオブジェクトがネームスペース「demo」から削除されていることを確認します。
+
+image:rh-os-n_use_case_ocpv_tp_dp_19.png["Fedora - VMが削除されました"]
+
+次に、Backup-in-Placeリストアオブジェクトを作成します。
+
+[source, yaml]
+----
+# tp create bir demo-fedora-restore --backup demo/demo-vm-backup-on-demand -n demo --dry-run>vm-demo-bir.yaml
+
+# cat vm-demo-bir.yaml
+apiVersion: protect.trident.netapp.io/v1
+kind: BackupInplaceRestore
+metadata:
+  annotations:
+    protect.trident.netapp.io/max-parallel-restore-jobs: "25"
+  creationTimestamp: null
+  name: demo-fedora-restore
+  namespace: demo
+spec:
+  appArchivePath: demo-vm_cc8adc7a-0c28-460b-a32f-0a7b3d353e13/backups/demo-vm-backup-on-demand_f6af3513-9739-480e-88c7-4cca45808a80
+  appVaultRef: ontap-s3-appvault
+  resourceFilter: {}
+status:
+  postRestoreExecHooksRunResults: null
+  state: ""
+
+# oc create -f vm-demo-bir.yaml -n demo
+backupinplacerestore.protect.trident.netapp.io/demo-fedora-restore created
+----
+image:rh-os-n_use_case_ocpv_tp_dp_20.png["BIR作成済み"]
+
+VM、ポッド、PVCがリストアされたことを確認
+
+image:rh-os-n_use_case_ocpv_tp_dp_21.png["リストアされたVMの作成"]
+
+** VMを別のネームスペースにリストア**
+
+最初に、アプリの復元先となる新しい名前空間を作成します。この例では、demo2を使用します。次に、バックアップリストアオブジェクトを作成します。
+
+[source, yaml]
+----
+# tp create br demo2-fedora-restore --backup demo/hourly-4c094-20250312154500 --namespace-mapping demo:demo2 -n demo2 --dry-run>vm-demo2-br.yaml
+
+# cat vm-demo2-br.yaml
+apiVersion: protect.trident.netapp.io/v1
+kind: BackupRestore
+metadata:
+  annotations:
+    protect.trident.netapp.io/max-parallel-restore-jobs: "25"
+  creationTimestamp: null
+  name: demo2-fedora-restore
+  namespace: demo2
+spec:
+  appArchivePath: demo-vm_cc8adc7a-0c28-460b-a32f-0a7b3d353e13/backups/hourly-4c094-20250312154500_aaa14543-a3fa-41f1-a04c-44b1664d0f81
+  appVaultRef: ontap-s3-appvault
+  namespaceMapping:
+  - destination: demo2
+    source: demo
+  resourceFilter: {}
+status:
+  conditions: null
+  postRestoreExecHooksRunResults: null
+  state: ""
+# oc create -f vm-demo2-br.yaml -n demo2
+----
+image:rh-os-n_use_case_ocpv_tp_dp_22.png["BRの作成"]
+
+VM、ポッド、PVCが新しいネームスペースdemo2に作成されていることを確認します。
+
+image:rh-os-n_use_case_ocpv_tp_dp_23.png["新しいネームスペース内のVM"]
+
+====
+.Snapshotの作成
+[%collapsible]
+====
+**オンデマンドスナップショットの作成**アプリケーションのスナップショットを作成し、保存する必要があるappvaultを指定します。
+
+[source, yaml]
+----
+# tp create snapshot demo-vm-snapshot-ondemand --app demo-vm --appvault ontap-s3-appvault -n demo --dry-run
+# cat demo-vm-snapshot-on-demand.yaml
+apiVersion: protect.trident.netapp.io/v1
+kind: Snapshot
+metadata:
+  creationTimestamp: null
+  name: demo-vm-snapshot-ondemand
+  namespace: demo
+spec:
+  appVaultRef: ontap-s3-appvault
+  applicationRef: demo-vm
+  completionTimeout: 0s
+  volumeSnapshotsCreatedTimeout: 0s
+  volumeSnapshotsReadyToUseTimeout: 0s
+status:
+  conditions: null
+  postSnapshotExecHooksRunResults: null
+  preSnapshotExecHooksRunResults: null
+  state: ""
+
+# oc create -f demo-vm-snapshot-on-demand.yaml
+snapshot.protect.trident.netapp.io/demo-vm-snapshot-ondemand created
+
+----
+image:rh-os-n_use_case_ocpv_tp_dp_23.png["OnDemandのスナップショット"]
+
+**スナップショットのスケジュールを作成**スナップショットのスケジュールを作成します。保持するスナップショットの粒度と数を指定します。
+
+[source, yaml]
+----
+# tp create Schedule snapshot-schedule1 --app demo-vm --appvault ontap-s3-appvault --granularity Hourly --minute 50 --snapshot-retention 1 -n demo --dry-run>snapshot-schedule-demo-vm.yaml
+
+# cat snapshot-schedule-demo-vm.yaml
+apiVersion: protect.trident.netapp.io/v1
+kind: Schedule
+metadata:
+  creationTimestamp: null
+  name: snapshot-schedule1
+  namespace: demo
+spec:
+  appVaultRef: ontap-s3-appvault
+  applicationRef: demo-vm
+  backupRetention: "0"
+  dayOfMonth: ""
+  dayOfWeek: ""
+  enabled: true
+  granularity: Hourly
+  hour: ""
+  minute: "50"
+  recurrenceRule: ""
+  snapshotRetention: "1"
+status: {}
+
+# oc create -f snapshot-schedule-demo-vm.yaml
+schedule.protect.trident.netapp.io/snapshot-schedule1 created
+----
+image:rh-os-n_use_case_ocpv_tp_dp_25.png["Snapshotのスケジュール"]
+
+image:rh-os-n_use_case_ocpv_tp_dp_26.png["スケジュールされたSnapshot"]
+
+====
+.Snapshotからリストア
+[%collapsible]
+====
+**スナップショットから同じネームスペースにVMをリストア** demo2ネームスペースからVM demo-Fedoraを削除します。
+
+image:rh-os-n_use_case_ocpv_tp_dp_30.png["VMの削除"]
+
+VMのSnapshotからsnapshot-in-place-restoreオブジェクトを作成します。
+
+[source, yaml]
+----
+# tp create sir demo-fedora-restore-from-snapshot --snapshot demo/demo-vm-snapshot-ondemand -n demo --dry-run>vm-demo-sir.yaml
+
+# cat vm-demo-sir.yaml
+apiVersion: protect.trident.netapp.io/v1
+kind: SnapshotInplaceRestore
+metadata:
+  creationTimestamp: null
+  name: demo-fedora-restore-from-snapshot
+  namespace: demo
+spec:
+  appArchivePath: demo-vm_cc8adc7a-0c28-460b-a32f-0a7b3d353e13/snapshots/20250318132959_demo-vm-snapshot-ondemand_e3025972-30c0-4940-828a-47c276d7b034
+  appVaultRef: ontap-s3-appvault
+  resourceFilter: {}
+status:
+  conditions: null
+  postRestoreExecHooksRunResults: null
+  state: ""
+
+# oc create -f vm-demo-sir.yaml
+snapshotinplacerestore.protect.trident.netapp.io/demo-fedora-restore-from-snapshot created
+----
+image:rh-os-n_use_case_ocpv_tp_dp_27.png["サー"]
+
+VMとそのPVCがデモネームスペースに作成されていることを確認します。
+
+image:rh-os-n_use_case_ocpv_tp_dp_31.png["同じネームスペースにVMをリストア"]
+
+**スナップショットから別のネームスペースにVMをリストア**
+
+バックアップからリストアしたdemo2ネームスペース内のVMを削除します。
+
+image:rh-os-n_use_case_ocpv_tp_dp_28.png["VM、PVCの削除"]
+
+SnapshotからSnapshotリストアオブジェクトを作成し、ネームスペースマッピングを指定します。
+
+[source, yaml]
+----
+# tp create sr demo2-fedora-restore-from-snapshot --snapshot demo/demo-vm-snapshot-ondemand --namespace-mapping demo:demo2 -n demo2 --dry-run>vm-demo2-sr.yaml
+
+# cat vm-demo2-sr.yaml
+apiVersion: protect.trident.netapp.io/v1
+kind: SnapshotRestore
+metadata:
+  creationTimestamp: null
+  name: demo2-fedora-restore-from-snapshot
+  namespace: demo2
+spec:
+  appArchivePath: demo-vm_cc8adc7a-0c28-460b-a32f-0a7b3d353e13/snapshots/20250318132959_demo-vm-snapshot-ondemand_e3025972-30c0-4940-828a-47c276d7b034
+  appVaultRef: ontap-s3-appvault
+  namespaceMapping:
+  - destination: demo2
+    source: demo
+  resourceFilter: {}
+status:
+  postRestoreExecHooksRunResults: null
+  state: ""
+
+# oc create -f vm-demo2-sr.yaml
+snapshotrestore.protect.trident.netapp.io/demo2-fedora-restore-from-snapshot created
+----
+image:rh-os-n_use_case_ocpv_tp_dp_29.png["SR作成済み"]
+
+VMとそのPVCが新しいネームスペースdemo2にリストアされたことを確認します。
+
+image:rh-os-n_use_case_ocpv_tp_dp_32.png["新しいネームスペースにVMをリストア"]
+
+====
+.スナップショット/バックアップおよびリストアを作成するためのネームスペース内の特定のVMの選択
+[%collapsible]
+====
+前の例では、ネームスペース内にVMが1つしかありませんでした。バックアップにネームスペース全体を含めることで、そのVMに関連付けられているすべてのリソースがキャプチャされました。次の例では、同じネームスペースに別のVMを追加し、ラベルセレクタを使用してこの新しいVM専用のアプリケーションを作成します。
+
+**デモネームスペースに新しいVM（demo-CentOS VM）を作成**
+
+image:rh-os-n_use_case_ocpv_tp_dp_10.png["demo - demoネームスペース内のCentOS VM"]
+
+***デモ用CentOS VMとその関連リソースにラベルを付ける***
+
+image:rh-os-n_use_case_ocpv_tp_dp_11.png["ラベルdemo - CentOS VM、PVC"]
+
+***デモCentOS VMおよびPVCにラベルが付いていることを確認します***
+
+image:rh-os-n_use_case_ocpv_tp_dp_12.png["デモ- CentOS VMのラベル"]
+
+image:rh-os-n_use_case_ocpv_tp_dp_13.png["DEMO-CentOS PVCラベルを取得"]
+
+**ラベルセレクタを使用して、特定のVM（demo-CentOS）専用のアプリケーションを作成**
+
+[source, yaml]
+----
+# tp create app demo-centos-app --namespaces 'demo(category=protect-demo-centos)' -n demo --dry-run>demo-centos-app.yaml
+
+# cat demo-centos-app.yaml
+
+apiVersion: protect.trident.netapp.io/v1
+kind: Application
+metadata:
+  creationTimestamp: null
+  name: demo-centos-app
+  namespace: demo
+spec:
+  includedNamespaces:
+  - labelSelector:
+      matchLabels:
+        category: protect-demo-centos
+    namespace: demo
+status:
+  conditions: null
+
+# oc create -f demo-centos-app.yaml -n demo
+application.protect.trident.netapp.io/demo-centos-app created
+----
+image:rh-os-n_use_case_ocpv_tp_dp_14.png["DEMO-CentOS PVCラベルを取得"]
+
+バックアップとSnapshotをオンデマンドでスケジュールに従って作成する方法は、前述の方法と同じです。スナップショットまたはバックアップの作成に使用されているTrident保護アプリにはネームスペースの特定のVMのみが含まれているため、それらからリストアすると特定のVMのみがリストアされます。バックアップ/リストア処理の例を次に示します。
+
+**対応するアプリケーションを使用して、ネームスペース内の特定のVMのバックアップを作成**
+
+前の手順では、デモネームスペースにCentOS VMのみを含めるために、ラベルセレクタを使用してアプリを作成しました。このアプリケーションのバックアップ（この例ではオンデマンドバックアップ）を作成します。
+
+[source, yaml]
+----
+# tp create backup demo-centos-backup-on-demand --app demo-centos-app --appvault ontap-s3-appvault -n demo
+Backup "demo-centos-backup-on-demand" created.
+----
+image:rh-os-n_use_case_ocpv_tp_dp_18.png["作成された特定のVMのバックアップ"]
+
+**特定のVMを同じネームスペースにリストア**特定のVM（CentOS）のバックアップは、対応するアプリを使用して作成されました。ここでbackup-in-place-restoreまたはbackup-restoreを作成すると、指定したVMのみがリストアされます。CentOS VMを削除します
+
+image:rh-os-n_use_case_ocpv_tp_dp_33["CentOS VMが存在"]
+
+image:rh-os-n_use_case_ocpv_tp_dp_34["CentOS VMノサクシヨ"]
+
+demo-centos-backup-on-demandからIn Placeリストアのバックアップを作成し、CentOS VMが再作成されたことを確認します。
+
+[source, yaml]
+----
+#tp create bir demo-centos-restore --backup demo/demo-centos-backup-on-demand -n demo
+BackupInplaceRestore "demo-centos-restore" created.
+----
+image:rh-os-n_use_case_ocpv_tp_dp_35["CentOS VM BIRの作成"]
+
+image:rh-os-n_use_case_ocpv_tp_dp_36["CentOS VMが作成されました"]
+
+**特定のVMを別のネームスペースにリストア** demo-centos-backup-on-demandから別のネームスペース（demo3）にバックアップリストアを作成し、CentOS VMが再作成されたことを確認します。
+
+[source, yaml]
+----
+# tp create br demo2-centos-restore --backup demo/demo-centos-backup-on-demand --namespace-mapping demo:demo3 -n demo3
+BackupRestore "demo2-centos-restore" created.
+----
+image:rh-os-n_use_case_ocpv_tp_dp_37["CentOS VM BIRの作成"]
+
+image:rh-os-n_use_case_ocpv_tp_dp_38["CentOS VMが作成されました"]
+
+====
