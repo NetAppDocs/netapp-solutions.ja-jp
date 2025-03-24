@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-このセクションでは、OpenShiftクラスタをセットアップおよび管理し、クラスタ上でステートフルアプリケーションを管理する方法の大まかなワークフローについて説明します。ここでは、NetApp ONTAPストレージアレイとTridentを使用して永続ボリュームを提供する方法について説明します。ステートフルアプリケーションに対してデータ保護と移行のアクティビティを実行するためのAstra Control Centerの使用方法について詳しく説明します。
+このセクションでは、OpenShiftクラスタをセットアップおよび管理し、クラスタ上でステートフルアプリケーションを管理する方法の大まかなワークフローについて説明します。ここでは、NetApp ONTAPストレージアレイとTridentを使用して永続ボリュームを提供する方法について説明します。
 
 
 NOTE: Red Hat OpenShift Containerプラットフォームクラスタは、いくつかの方法で導入できます。このセットアップの概要概要 には、使用した具体的な方法のドキュメントへのリンクが記載されています。その他の方法については、に記載されている関連リンクを参照して link:rhhc-resources.html["リソースセクション"]ください。
@@ -49,14 +49,6 @@ TIP: 次の点に注意してください。-インストーラに提供するss
 これは、ハブクラスタのAdvanced Cluster Management Operatorを使用してインストールします。手順を参照してlink:https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.7/html/install/installing#doc-wrapper["ここをクリック"]ください。
 
 ====
-.ハブクラスタに内部Red Hat Quayレジストリをインストールします。
-[%collapsible]
-====
-* Astraイメージをプッシュするには内部レジストリが必要です。Quay内部レジストリは、HubクラスタのOperatorを使用してインストールされます。
-* 取扱説明書を参照してください。link:https://access.redhat.com/documentation/en-us/red_hat_quay/2.9/html-single/deploy_red_hat_quay_on_openshift/index#installing_red_hat_quay_on_openshift["ここをクリック"]
-
-
-====
 .2つのOCPクラスタ（ソースとデスティネーション）を追加でインストール
 [%collapsible]
 ====
@@ -85,26 +77,10 @@ TIP: 次の点に注意してください。-インストーラに提供するss
 
 
 ====
-.NetApp Astra Control Centerをインストール
-[%collapsible]
-====
-* NetApp Astra Control Centerは、ハブクラスタでAstra Operatorを使用してインストールします。
-* 手順を参照してlink:https://docs.netapp.com/us-en/astra-control-center/get-started/acc_operatorhub_install.html["ここをクリック"]ください。
-
-
-覚えておくべきポイント：*サポートサイトからNetApp Astra Control Centerのイメージをダウンロード*イメージを内部レジストリにプッシュします。*こちらの手順を参照してください。
-
-====
 .ソースクラスタにアプリケーションを導入します
 [%collapsible]
 ====
 OpenShift GitOpsを使用してアプリケーションを導入します。（Postgres、Ghostなど）
 
 ====
-.ソースクラスタとデスティネーションクラスタをAstra Control Centerに追加
-[%collapsible]
-====
-Astra Controlの管理にクラスタを追加したら、（Astra Control以外の）クラスタにアプリケーションをインストールし、Astra Controlの[Applications]ページに移動してアプリケーションとそのリソースを定義できます。を参照してください link:https://docs.netapp.com/us-en/astra-control-center/use/manage-apps.html["Astra Control Centerのアプリケーションの管理セクションを開始します"]。
-
-====
-次の手順では、Astra Control Centerを使用して、ソースクラスタからデスティネーションクラスタへのデータ保護とデータ移行を行います。
+次の手順では、Trident Protectを使用してデータ保護とソースクラスタからデスティネーションクラスタへのデータ移行を行います。手順についてはを参照してくださいlink:rhhc/rhhc-dp-tp-solution.html["ここをクリック"]。

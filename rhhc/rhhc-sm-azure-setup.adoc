@@ -13,7 +13,7 @@ summary:
 == AzureでのRed Hat OpenShift Containerプラットフォームの導入と設定
 
 [role="lead"]
-このセクションでは、AzureでOpenShiftクラスタをセットアップおよび管理し、それらにステートフルアプリケーションを導入する方法の概要的なワークフローについて説明します。ここでは、Trident / Astra Control Provisionerを使用して、NetApp Cloud Volumes ONTAPストレージを使用して永続ボリュームを提供する方法を示します。ステートフルアプリケーションに対してデータ保護と移行のアクティビティを実行するためのAstra Control Centerの使用方法について詳しく説明します。
+このセクションでは、AzureでOpenShiftクラスタをセットアップおよび管理し、それらにステートフルアプリケーションを導入する方法の概要的なワークフローについて説明します。ここでは、Tridentを使用してNetApp Cloud Volumes ONTAPストレージを使用し、永続ボリュームを提供しています。ステートフルアプリケーションに対してデータ保護と移行のアクティビティを実行するためのAstra Control Centerの使用方法について詳しく説明します。
 
 次の図は、Azureに導入され、VPNを使用してデータセンターに接続されたクラスタを示しています。
 
@@ -109,29 +109,8 @@ pullSecret:
 
 
 ====
-.AzureのOCPクラスタへのAstra Control Provisionerのインストール
-[%collapsible]
-====
-* このプロジェクトでは、すべてのクラスタ（オンプレミスクラスタ、Astra Control Centerが導入されているオンプレミスクラスタ、およびAzureのクラスタ）にAstra Control Provisioner（ACP）をインストールしました。Astra Control Provisionerの詳細をlink:https://docs.netapp.com/us-en/astra-control-center/release-notes/whats-new.html#7-november-2023-23-10-0["ここをクリック"]ご確認ください。
-* バックエンドとストレージクラスを作成手順を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-use/backends.html["ここをクリック"]。
-
-
-====
-.AzureのOCPクラスタをAstra Control Centerに追加します。
-[%collapsible]
-====
-* クラスタの管理に必要な最小限の権限を含むクラスタロールを含むKubeConfigファイルを別途作成します。手順を見つけることができlink:https://docs.netapp.com/us-en/astra-control-center/get-started/setup_overview.html#create-a-cluster-role-kubeconfig["ここをクリック"]ます。
-* 手順に従ってクラスタをAstra Control Centerに追加link:https://docs.netapp.com/us-en/astra-control-center/get-started/setup_overview.html#add-cluster["ここをクリック"]
-
-
-====
 .マルチゾーンアーキテクチャにTridentのCSIトポロジ機能を使用
 今日のクラウドプロバイダは、Kubernetes / OpenShiftのクラスタ管理者がゾーンベースのクラスタのノードを生成できるようにしています。ノードは、リージョンによって異なるアベイラビリティゾーンに配置することも、リージョンによって配置することもできます。マルチゾーンアーキテクチャでワークロード用のボリュームのプロビジョニングを容易にするために、TridentではCSIトポロジを使用しています。CSI トポロジ機能を使用すると、領域およびアベイラビリティゾーンに基づいて、ボリュームへのアクセスをノードのサブセットに制限できます。詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-use/csi-topology.html["ここをクリック"]。
 
 
 NOTE: Kubernetesは2つのボリュームバインドモードをサポートします。-**_VolumeBindingMode_が_Immediate_**（デフォルト）に設定されている場合、Tridentはトポロジを認識せずにボリュームを作成します。永続ボリュームは、要求側ポッドのスケジュール要件に依存せずに作成されます。-**_VolumeBindingMode_が_WaitForFirstConsumer_**に設定されている場合、PVCの永続ボリュームの作成とバインドは、そのPVCを使用するポッドがスケジュールされて作成されるまで遅延します。これにより、トポロジの要件に応じたスケジュールの制約を満たすようにボリュームが作成されます。Tridentストレージバックエンドは、アベイラビリティゾーン（トポロジ対応バックエンド）に基づいて選択的にボリュームをプロビジョニングするように設計できます。ストレージクラスがそのようなバックエンドを使用する場合、ボリュームは、サポートされているリージョン / ゾーンでスケジュールされているアプリケーションから要求された場合にのみ作成されます。（Topology-Aware StorageClass）詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-use/csi-topology.html["ここをクリック"]。
-
-[下線]#*デモビデオ*#
-
-.Astra Controlを使用したアプリケーションのフェイルオーバーとフェイルバック
-video::1546191b-bc46-42eb-ac34-b0d60142c58d[panopto,width=360]

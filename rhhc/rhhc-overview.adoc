@@ -61,6 +61,6 @@ image:rhhc-trident-features.png["入力/出力ダイアログを示す図、ま�
 
 NOTE: アプリケーションデータには、ユーザデータに加えてKubernetesオブジェクトが含まれます。例を次に示します。 -ポッド仕様、PVC、デプロイ、サービスなどのKubernetesオブジェクト-設定マップやシークレットなどのカスタム設定オブジェクト- Snapshotコピー、バックアップ、クローンなどの永続的データ- CRSやCRDなどのカスタムリソース
 
-** NetApp Astra Control **は、フルマネージドと自己管理型の両方のソフトウェアとして提供され、堅牢なアプリケーションデータ管理のためのオーケストレーションを提供します。Astra製品ファミリーの詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/astra-family/["Astra のドキュメント"]。
+** Protect**は、NetAppが管理するオープンソースのフリーソフトウェアであり、NetApp ONTAPストレージシステムとNetApp Trident CSIストレージプロビジョニングツールによってサポートされるステートフルなNetApp Tridentアプリケーションの機能と可用性を強化する、高度なアプリケーションデータ管理機能を提供します。Trident Protectは、パブリッククラウドとオンプレミス環境にわたるコンテナ化されたワークロードの管理、保護、移動を簡易化します。また、APIとCLIを使用した自動化機能も提供します。
 
-このリファレンスドキュメントでは、NetApp Astra Control Centerを使用して、Red Hat OpenShiftコンテナプラットフォームに導入されたコンテナベースアプリケーションの移行と保護について検証します。また、解決策 では、コンテナプラットフォームを管理するためのRed Hat Advanced Cluster Management（ACM）の導入と使用に関する詳細についても説明しています。また、Trident CSIプロビジョニングツールを使用したNetAppストレージとRed Hat OpenShiftコンテナプラットフォームの統合の詳細についても説明します。Astra Control Centerはハブクラスタに導入され、コンテナアプリケーションとその永続的ストレージライフサイクルの管理に使用されます。最後に、Amazon FSx for NetApp ONTAP（FSx ONTAP）を永続的ストレージとして使用し、AWS（ROSA）のマネージドRed Hat OpenShiftクラスタ上のコンテナワークロードのレプリケーション、フェイルオーバー、フェイルバックのためのソリューションを提供します。
+このリファレンスドキュメントでは、Trident Protectを使用してRedHat OpenShiftプラットフォームにデプロイされたコンテナベースのアプリケーションのデータ保護の検証について説明します。また、解決策 では、コンテナプラットフォームを管理するためのRed Hat Advanced Cluster Management（ACM）の導入と使用に関する詳細についても説明しています。また、Trident CSIプロビジョニングツールを使用したNetAppストレージとRed Hat OpenShiftコンテナプラットフォームの統合の詳細についても説明します。
