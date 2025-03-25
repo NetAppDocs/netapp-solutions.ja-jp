@@ -17,7 +17,11 @@ summary: ROSAでのRed Hat OpenShift仮想化
 
 == 概要
 
-このセクションでは、FSx for NetApp ONTAPをROSAクラスタのデフォルトのストレージクラスとして設定し、FSx ONTAPストレージをボリュームに活用する仮想マシンを作成する方法について詳しく説明します。また、ゲストクレデンシャルを使用して仮想マシンに接続し、仮想マシンを再起動する方法についても説明します。最後に、現在のノードから新しいノードへの仮想マシンのライブマイグレーションを実行します。VMの再起動とライブマイグレーション後に、ディスクストレージの内容を確認します。
+このセクションでは、FSx for NetApp ONTAPをROSAクラスタのデフォルトのストレージクラスとして設定し、FSx ONTAPストレージをボリュームに活用する仮想マシンを作成する方法について詳しく説明します。
+
+また、ゲストクレデンシャルを使用して仮想マシンに接続し、仮想マシンを再起動する方法についても説明します。最後に、現在のノードから新しいノードへの仮想マシンのライブマイグレーションを実行します。VMの再起動とライブマイグレーション後に、ディスクストレージの内容を確認します。
+
+その他のリソースについては、ブログをご覧ください。link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Unlock-Seamless-iSCSI-Storage-Integration-A-Guide-to-FSxN-on-ROSA-Clusters-for/ba-p/459124["『Unlock Seamless iSCSI Storage Integration：A Guide to FSxN on ROSA Clusters for iSCSI』"]
 
 
 
@@ -33,7 +37,19 @@ summary: ROSAでのRed Hat OpenShift仮想化
 * link:https://docs.openshift.com/rosa/rosa_hcp/rosa-hcp-sts-creating-a-cluster-quickly.html["HCP ROSAクラスタ"]（少なくとも3つのベアメタルワーカーノードを使用）
 * link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.17/html/virtualization/installing#virt-aws-bm_preparing-cluster-for-virt["ROSAクラスタにインストールされたOpenShift Virtualization"]
 * link:https://console.redhat.com/openshift/overview["Red Hat OpenShift Webコンソールへのアクセス"]
+* Trident 25.02以降Trident 25.02以降のリリースを利用すると、FSxNストレージでiSCSI操作を実行するためのROSAクラスタのワーカーノードを簡単に設定できます。node-prep-flagを使用してTrident 25.02以降をROSAクラスタにインストールする
 
+
+....
+#./tridentctl install trident -n trident --node-prep=iscsi
+....
+これにより、iscsidサービスとmultipathdサービスを開始し、/etc/multipath.confファイルに次のように設定して、iSCSI用のROSAクラスタワーカーノードが準備されます。
+
+image:rh-os-n_use_case_iscsi_node_prep1.png["iscsidアクティブ"]
+
+image:rh-os-n_use_case_iscsi_node_prep2.png["multipathd active"]
+
+image:rh-os-n_use_case_iscsi_node_prep3.png["multipath.confフアイル"]
 
 
 
@@ -112,3 +128,5 @@ $ dd if=/dev/urandom of=random.dat bs=1M count=10240 (to create a file called ra
 このディスクには11GBのデータが格納されています。image:redhat_openshift_ocpv_rosa_image18.png["OCP-V VMがディスクをいっぱいにする"]
 
 viを使用して、テストに使用するサンプルテキストファイルを作成します。image:redhat_openshift_ocpv_rosa_image19.png["OCP-Vファイルの作成"]
+
+その他のリソースについては、ブログをご覧ください。link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Unlock-Seamless-iSCSI-Storage-Integration-A-Guide-to-FSxN-on-ROSA-Clusters-for/ba-p/459124["『Unlock Seamless iSCSI Storage Integration：A Guide to FSxN on ROSA Clusters for iSCSI』"]
