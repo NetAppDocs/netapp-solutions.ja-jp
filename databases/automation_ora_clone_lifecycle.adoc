@@ -1,8 +1,8 @@
 ---
 sidebar: sidebar 
 permalink: databases/automation_ora_clone_lifecycle.html 
-keywords: Oracle, AWS, FSx ONTAP, Database, Oracle 19c, HA, DR 
-summary: 解決策にはAnsibleベースの自動化ツールキットが用意されており、AWS FSx ONTAPをOracleデータベースストレージとして、EC2インスタンスをAWSのコンピューティングインスタンスとして使用して、Oracleデータベースの高可用性とディザスタリカバリ（HA / DR）を構成できます。 
+keywords: Database, Oracle, DataGuard, AWS, FSx ONTAP, Azure, ANF, 
+summary: このソリューションには、プライマリデータベースからOracleクローンデータベースを設定、クローニング、更新するためのAnsibleベースの自動化ツールキットが用意されています。Oracle Data Guard構成では、プライマリデータベースを物理スタンバイDBにすることができます。このソリューションは、プライベートデータセンターまたはAWSクラウド（NFSまたはASM構成のFSx ONTAPストレージを使用）、またはAzureクラウド（NFS構成のAzure NetApp Filesストレージを使用）に適用できます。 
 ---
 = SnapCenterによるOracleクローンライフサイクルの自動化
 :hardbreaks:
@@ -16,13 +16,13 @@ summary: 解決策にはAnsibleベースの自動化ツールキットが用意�
 ネットアップ、Niyaz Mohamed、Allen Cao氏
 
 [role="lead"]
-この解決策にはAnsibleベースの自動化ツールキットが用意されており、AWS FSx ONTAPをOracleデータベースストレージとして、EC2インスタンスをAWSのコンピューティングインスタンスとして使用して、Oracleデータベースの高可用性とディザスタリカバリ（HA / DR）を構成できます。
+このソリューションには、プライマリデータベースからOracleクローンデータベースを設定、クローニング、更新するためのAnsibleベースの自動化ツールキットが用意されています。Oracle Data Guard構成では、プライマリデータベースを物理スタンバイDBにすることができます。このソリューションは、プライベートデータセンターまたはAWSクラウド（NFSまたはASM構成のFSx ONTAPストレージを使用）、またはAzureクラウド（NFS構成のAzure NetApp Filesストレージを使用）に適用できます。
 
 
 
 == 目的
 
-NetApp ONTAPストレージのFlexClone機能は、ストレージコストを大幅に削減できるデータベースに最適です。このAnsibleベースのツールキットは、NetApp SnapCenterコマンドラインユーティリティを使用して、クローニングされたOracleデータベースのセットアップ、クローニング、更新をスケジュールどおりに自動化することで、ライフサイクル管理を合理化します。このツールキットは、オンプレミスまたはパブリッククラウドのいずれかのONTAPストレージに導入され、NetApp SnapCenter UIツールで管理されるOracleデータベースに適用できます。
+プライベートデータセンターやパブリッククラウドの特定のストレージ製品でシンクローン機能が有効になっていれば、NetApp ONTAPストレージのFlexClone機能を利用して大規模データベースのクローンをすばやく（分単位で）作成したり、ストレージをさらに節約したりすることができます。このAnsibleベースのツールキットでは、NetApp SnapCenterコマンドラインユーティリティを使用して、クローニングされたOracleデータベースのセットアップ、クローニング、更新をスケジュールどおりに自動化し、ライフサイクル管理を合理化します。このツールキットは、オンプレミスまたはパブリッククラウド（AWSまたはAzure）のONTAPストレージに導入され、NetApp SnapCenter UIツールで管理されるOracleデータベースに適用されます。
 
 この解決策 は、次のユースケースに対応します。
 
@@ -74,16 +74,18 @@ Ansible controller:
 ....
 ....
 SnapCenter server:
-  version 5.0
+  version 5.0 and up, 6.1 for Azure NetApp Files
   backup policy configured
   Source database protected with a backup policy
 ....
 ....
 Oracle servers:
-  Source server managed by SnapCenter
-  Target server managed by SnapCenter
-  Target server with identical Oracle software stack as source server installed and configured
+  Source server managed by SnapCenter (In Data Guard, this would be the physical standby serer)
+  Target server managed by SnapCenter (clone DB host)
 ....
+
+NOTE: わかりやすくするために、クローンターゲットOracleサーバは、OracleソフトウェアスタックやOracle Homeのディレクトリレイアウトなど、スタンバイOracleサーバと同じように構成する必要があります。
+
 ====
 
 
@@ -95,6 +97,9 @@ Oracle servers:
 ----
 git clone https://bitbucket.ngage.netapp.com/scm/ns-bb/na_oracle_clone_lifecycle.git
 ----
+
+NOTE: このツールキットにアクセスできるのは、現時点でビットバケットアクセス権を持つNetApp内部ユーザーのみです。ご興味のある外部ユーザーの方は、アカウントチームにアクセス権をリクエストするか、NetAppソリューションエンジニアリングチームにお問い合わせください。
+
 ====
 
 
@@ -102,7 +107,7 @@ git clone https://bitbucket.ngage.netapp.com/scm/ns-bb/na_oracle_clone_lifecycle
 
 [%collapsible]
 ====
-このツールキットには、Ansible Playbookを実行するターゲットを定義するhostsファイルが含まれています。通常は、ターゲットのOracleクローンホストです。ファイルの例を次に示します。ホストエントリには、ターゲットホストのIPアドレスとsshキーが含まれており、管理者ユーザがクローンまたは更新コマンドを実行するホストにアクセスする際に使用します。
+このツールキットには、Ansible Playbookの実行対象を定義するhostsファイルが含まれています。通常は、ターゲットのOracleクローンホストです。ファイルの例を次に示します。ホストエントリには、ターゲットホストのIPアドレスとsshキーが含まれており、管理者ユーザがクローンまたは更新コマンドを実行するホストにアクセスする際に使用します。
 
 Oracleクローンホスト数
 
@@ -199,6 +204,9 @@ ansible-playbook -i hosts clone_1_setup.yml -u admin -e @vars/vars.yml
 0 */4 * * * /home/admin/na_oracle_clone_lifecycle/clone_1_refresh.sh
 ----
 
+
+
+NOTE: SnapCenter設定のユーザ名をsudoユーザに変更します。
 
 クローンデータベースを追加する場合は、clone_n_setup.ymlとclone_n_refresh.yml、およびclone_n_refresh.shを個別に作成します。必要に応じて、Ansibleターゲットホストとhostname.ymlファイルをhost_varsディレクトリに構成します。
 
