@@ -1,0 +1,113 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-viwld-principal-fc.html 
+keywords: netapp, vmware, cloud, foundation, vcf, asa, all-flash, array, ontap tools, otv, sddc, fc 
+summary:  
+---
+= VIワークロードドメインのプリンシパルストレージとしてのFC上のVMFS
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+このシナリオでは、VCFにVIワークロードドメインを導入するためのプリンシパルストレージとしてファイバチャネル（FC）を使用してVMFSデータストアを構成する方法を確認します。必要に応じて、VCFのSDDC Managerで実行する必要がある手順について外部ドキュメントを参照し、ストレージ構成の部分に固有の手順について説明します。
+
+
+
+== ファイバ・チャネルのメリット
+
+*高性能：* FCは高速なデータ転送速度を提供するため、大量データへの高速かつ信頼性の高いアクセスを必要とするアプリケーションに最適です。
+
+*低レイテンシ：*非常に低レイテンシ。これは、データベースや仮想環境など、パフォーマンスの影響を受けやすいアプリケーションに不可欠です。
+
+*信頼性：* FCネットワークは、内蔵冗長性やエラー訂正などの機能を備えた堅牢性と信頼性で知られています。
+
+*専用帯域幅：* FCはストレージトラフィック専用の帯域幅を提供し、ネットワーク輻輳のリスクを軽減します。
+
+NetAppストレージ・システムでのファイバ・チャネルの使用の詳細については、を参照してください https://docs.netapp.com/us-en/ontap/san-admin/san-provisioning-fc-concept.html["FCを使用したSANプロビジョニング"]。
+
+
+
+== シナリオの概要
+
+このシナリオでは、次の手順の概要を説明します。
+
+* FCトラフィック用の論理インターフェイス（LIF）を備えたStorage Virtual Machine（SVM）を作成します。
+* 導入するホストのWWPN情報を収集し、ONTAPストレージシステムに対応するイニシエータグループを作成します。
+* ONTAPストレージシステムにFCボリュームを作成します。
+* イニシエータグループをマッピングしてFCボリュームを作成
+* FCスイッチで単一のイニシエータとターゲットのゾーニングを使用します。イニシエータごとにゾーンを 1 つ作成します（単一のイニシエータゾーン）。
++
+** 各ゾーンに、 SVM の ONTAP FC 論理インターフェイス（ WWPN ）であるターゲットを含めます。SVM ごとに、ノードごとに少なくとも 2 つの論理インターフェイスが必要です。物理ポートの WWPN は使用しないでください。
+
+
+* SDDC ManagerでvMotionトラフィック用のネットワークプールを作成します。
+* VIワークロードドメインで使用するためのVCF内のコミッションホスト。
+* FCデータストアをプリンシパルストレージとして使用し、VCFにVIワークロードドメインを導入します。
+
+
+
+NOTE: このソリューションは、NetApp AFFやFASなど、NFSストレージをサポートするONTAPプラットフォームに適しています。
+
+
+
+== 前提条件
+
+このシナリオでは、次のコンポーネントと構成を使用します。
+
+* FCポートがFCスイッチに接続されたONTAP AFFまたはASAストレージシステム。
+* SVMをFC LIFで作成
+* FC HBAをFCスイッチに接続したvSphere
+* 単一のイニシエータとターゲットのゾーニングがFCスイッチに設定されます。
+
+
+
+NOTE: NetAppではFC LUNにマルチパスを推奨しています。
+
+
+
+== 導入手順
+
+
+
+=== 管理ドメイン-デフォルトクラスタ
+
+初期クラスタのFCプリンシパルストレージは、VCFブラウンフィールドインポートツールでのみサポートされます。Cloudbuilderツールを使用してVCFを導入した場合（バージョン5.2.xまで）、VSANのみがサポートされます。詳細については、を参照してください https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/map-for-administering-vcf-5-2/importing-existing-vsphere-environments-admin/convert-or-import-a-vsphere-environment-into-vmware-cloud-foundation-admin.html["既存のvSphere環境から管理ドメインへの変換"]。
+
+
+
+=== 管理ドメイン-追加クラスタ
+
+管理ドメイン上の追加のvSphereクラスタは、次のオプションを使用して導入できます。* vSphere環境に追加のクラスタがあり、VCFブラウンフィールドインポートツールを使用してvSphere環境を管理ドメインに変換します。 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/create-vvols-datastore.html["VMware vSphere向けONTAPツール"]を https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["System ManagerまたはONTAP API"]使用して、VMFSデータストアをvSphereクラスタに導入できます。* SDDC APIを使用して、追加のクラスタを導入します。vSphereホストにVMFSデータストアが設定されている必要があります。vSphereホストにLUNを導入するために使用し https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["System ManagerまたはONTAP API"]ます。* SDDC Manager UIを使用して、追加のクラスタを導入します。ただし、このオプションで作成されるのは、バージョン5.2.xまでのVSANデータストアのみです。
+
+
+
+=== VIワークロードドメイン-デフォルトクラスタ
+
+管理ドメインが起動して実行されたら、VI Workloadドメインを作成できます。
+
+* SDDC Manager UIを使用する。vSphereホストにVMFSデータストアが設定されている必要があります。System ManagerまたはONTAP APIを使用して、vSphereホストにLUNを導入します。
+* 既存のvSphere環境を新しいVIワークロードドメインとしてインポートします。ONTAP Tools for VMware vSphere、System Manager、またはONTAP APIを使用して、VMFSデータストアをvSphereクラスタに導入できます。
+
+
+
+
+=== VIワークロードドメイン-追加クラスタ
+
+VIワークロードの運用が開始されたら、次のオプションを使用して、VMFSとともに追加のクラスタをFC LUNに導入できます。
+
+* VCFブラウンフィールドインポートツールを使用してインポートされたvSphere環境の追加のクラスタ。ONTAP Tools for VMware vSphere、System Manager、またはONTAP APIを使用して、VMFSデータストアをvSphereクラスタに導入できます。
+* SDDC ManagerのUIまたはAPIを使用して追加のクラスタを導入する。vSphereホストにVMFSデータストアが設定されている必要があります。System ManagerまたはONTAP APIを使用して、vSphereホストにLUNを導入します。
+
+
+
+
+== 追加情報
+
+ONTAPストレージシステムの構成については、センターを参照してlink:https://docs.netapp.com/us-en/ontap["ONTAP 9ドキュメント"]ください。
+
+VCFの設定については、を参照してくださいlink:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2.html["VMware Cloud Foundationのドキュメント"]。

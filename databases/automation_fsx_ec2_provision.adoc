@@ -59,7 +59,7 @@ NOTE: このGitHubリポジトリ内のコンテンツとの派生物の作成�
 
 === 導入の前提条件
 
-[%collapsible]
+[%collapsible%open]
 ====
 導入には、次の前提条件が必要です。
 
@@ -86,7 +86,7 @@ Network configuration
 
 === ツールキットをダウンロード
 
-[%collapsible]
+[%collapsible%open]
 ====
 [source, cli]
 ----
@@ -97,7 +97,7 @@ git clone https://github.com/NetApp/na_aws_fsx_ec2_deploy.git
 
 === 接続と認証
 
-[%collapsible]
+[%collapsible%open]
 ====
 このツールキットはAWSクラウドシェルから実行されることになっています。AWSクラウドシェルは、AWSリソースの安全な管理、探索、操作を容易にするブラウザベースのシェルです。CloudShellは、コンソールのクレデンシャルで事前に認証されます。一般的な開発ツールと運用ツールが事前にインストールされているため、ローカルでのインストールや設定は必要ありません。
 
@@ -106,7 +106,7 @@ git clone https://github.com/NetApp/na_aws_fsx_ec2_deploy.git
 
 === Terraformプロバイダの.tfファイルとmain.tfファイルの構成
 
-[%collapsible]
+[%collapsible%open]
 ====
 provider.tfは、TerraformがAPI呼び出しを介してリソースをプロビジョニングするプロバイダを定義します。main.tfは、プロビジョニングされるリソースのリソースと属性を定義します。以下に詳細を示します。
 
@@ -143,7 +143,7 @@ main.tf:
 
 === Terraform変数.tfおよびterraform.tfvarsの設定
 
-[%collapsible]
+[%collapsible%open]
 ====
 variables.tfは、main.tfで使用する変数を宣言します。terraform.tfvarsには、変数の実際の値が含まれています。次に例を示します。
 
@@ -182,7 +182,7 @@ root_volume_size        = 30
 
 === ステップバイステップのプロシージャ-順番に実行
 
-[%collapsible]
+[%collapsible%open]
 ====
 . AWSクラウドシェルにTerraformをインストールする。
 +

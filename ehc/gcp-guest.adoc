@@ -33,7 +33,7 @@ CVOを使用すれば、エッジ、データセンター、クラウド間で�
 === Cloud Volumes ONTAP （ CVO ）をゲスト接続ストレージとして活用
 
 .Cloud Volumes ONTAP を Google Cloud に導入（自分で導入）
-[%collapsible]
+[%collapsible%open]
 ====
 Cloud Volumes ONTAP 共有と LUN は、 GCVE プライベートクラウド環境で作成された VM からマウントできます。Cloud Volumes ONTAP は iSCSI 、 SMB 、 NFS の各プロトコルをサポートしているため、 iSCSI 経由でマウントしたボリュームを Linux クライアントや Windows クライアントにマウントし、 LUN に Linux クライアントや Windows クライアントからブロックデバイスとしてアクセスすることもできます。Cloud Volumes ONTAP ボリュームは、いくつかの簡単な手順で設定できます。
 
@@ -88,7 +88,7 @@ image:gcve-cvo-guest-9.png["入力/出力ダイアログを示す図、または
 
 ====
 .SMB ボリューム用の追加の設定
-[%collapsible]
+[%collapsible%open]
 ====
 . 作業環境の準備ができたら、 CIFS サーバに適切な DNS および Active Directory 設定パラメータが設定されていることを確認します。この手順は、 SMB ボリュームを作成する前に実行する必要があります。
 +
@@ -126,7 +126,7 @@ image:gcve-cvo-guest-15.png["入力/出力ダイアログを示す図、また�
 
 ====
 .Cloud Volumes ONTAP 上の LUN をホストに接続します
-[%collapsible]
+[%collapsible%open]
 ====
 Cloud Volumes ONTAP LUN をホストに接続するには、次の手順を実行します。
 
@@ -181,7 +181,7 @@ image:gcve-cvo-guest-21.png["入力/出力ダイアログを示す図、また�
 
 ====
 .Cloud Volumes ONTAP NFS ボリュームを Linux クライアントにマウント
-[%collapsible]
+[%collapsible%open]
 ====
 Cloud Volumes ONTAP (DIY) ファイルシステムを Google Cloud VMware Engine 内の VM からマウントするには、次の手順に従います。
 
@@ -227,7 +227,7 @@ Google Cloud NetApp Volumes（NetApp Volumes）は、高度なクラウドソリ
 === ゲスト接続ストレージとしてのGoogle Cloud NetApp Volume（NetApp Volume）
 
 .VMware Engineを使用したNetApp Volumeの設定
-[%collapsible]
+[%collapsible%open]
 ====
 Google Cloud NetApp Volume共有は、VMware Engine環境で作成されたVMからマウントできます。Google Cloud NetApp VolumeはSMBプロトコルとNFSプロトコルをサポートしているため、ボリュームをLinuxクライアントにマウントしてWindowsクライアントにマッピングすることもできます。Google Cloud NetApp Volumeボリュームは、簡単な手順でセットアップできます。
 
@@ -237,7 +237,7 @@ Google Cloud MarketplaceからGoogle Cloud NetApp Volumes for Google Cloudを購
 
 ====
 .GCVEプライベートクラウドへのNetApp Volume NFSボリュームの作成
-[%collapsible]
+[%collapsible%open]
 ====
 NFS ボリュームを作成してマウントするには、次の手順を実行します。
 
@@ -291,7 +291,7 @@ image:gcve-cvs-guest-10.png["入力/出力ダイアログを示す図、また�
 
 ====
 .VMware Engine で実行されている VM に NFS エクスポートをマウントする
-[%collapsible]
+[%collapsible%open]
 ====
 NFS ボリュームのマウントを準備する前に、プライベート接続のピアステータスが Active と表示されていることを確認してください。ステータスが Active になったら、 mount コマンドを使用します。
 
@@ -332,7 +332,7 @@ image:gcve-cvs-guest-21.png["入力/出力ダイアログを示す図、また�
 
 ====
 .VMware Engine で実行されている VM に SMB 共有を作成してマウントします
-[%collapsible]
+[%collapsible%open]
 ====
 SMB ボリュームの場合は、 SMB ボリュームを作成する前に、 Active Directory 接続が設定されていることを確認してください。
 

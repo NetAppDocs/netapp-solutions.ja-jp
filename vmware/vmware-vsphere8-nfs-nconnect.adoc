@@ -17,7 +17,7 @@ summary:
 VMware vSphere 8.0 U1以降（テクニカルプレビュー版）では、nconnect機能を使用してNFS v3データストアボリュームに複数のTCP接続を確立し、スループットを向上させることができます。NFSデータストアを使用しているお客様は、NFSサーバへの接続数を増やすことで、高速ネットワークインターフェイスカードの利用率を最大限に高めることができます。
 
 
-NOTE: この機能は、8.0 U2を搭載したNFS v3で一般に使用できます。のストレージに関するセクションを参照してください。link:https://docs.vmware.com/en/VMware-vSphere/8.0/rn/vsphere-esxi-802-release-notes/index.html["VMware vSphere 8.0 Update 2のリリースノート"]vSphere 8.0 U3では、NFS v4.1のサポートが追加されました。詳細については、link:https://docs.vmware.com/en/VMware-vSphere/8.0/rn/vsphere-vcenter-server-803-release-notes/index.html["vSphere 8.0 Update 3リリースノート"]
+NOTE: この機能は、8.0 U2を搭載したNFS v3で一般に使用できます。のストレージに関するセクションを参照してください。link:https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/release-notes/esxi-update-and-patch-release-notes/vsphere-esxi-802-release-notes.html["VMware vSphere 8.0 Update 2のリリースノート"]vSphere 8.0 U3では、NFS v4.1のサポートが追加されました。詳細については、link:https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/release-notes/esxi-update-and-patch-release-notes/vsphere-esxi-803-release-notes.html["vSphere 8.0 Update 3リリースノート"]
 
 
 
@@ -137,7 +137,7 @@ govc host.esxcli storage nfs list
 
 ONTAPでサポートされる最大接続数は、ストレージプラットフォームモデルによって異なります。詳細については、exec_ctx onを参照してくださいlink:https://www.netapp.com/media/10720-tr-4067.pdf["NFSベストプラクティスおよび実装ガイド"]。
 
-NFSv3データストアあたりの接続数が増えるにつれて、そのvSphereホストにマウントできるNFSデータストアの数が減少します。vSphereホストごとにサポートされる合計接続数は256です。vSphereホストごとにデータストア制限がないかどうかを確認しますlink:https://kb.vmware.com/s/article/91481["VMwareの技術情報アーティクル91481"]。
+NFSv3データストアあたりの接続数が増えるにつれて、そのvSphereホストにマウントできるNFSデータストアの数が減少します。vSphereホストごとにサポートされる合計接続数は256です。vSphereホストごとにデータストア制限がないかどうかを確認しますlink:https://knowledge.broadcom.com/external/article?legacyId=91481["VMwareの技術情報アーティクル91481"]。
 
 
 NOTE: VVolデータストアではnconnect機能がサポートされません。ただし、プロトコルエンドポイントは接続制限にカウントされます。VVOLデータストアの作成時に、SVMのデータLIFごとにプロトコルエンドポイントが作成されます。

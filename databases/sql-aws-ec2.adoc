@@ -16,8 +16,6 @@ summary:
 [role="lead"]
 このソリューションには、Amazon FSx ONTAPを使用したAWS EC2へのSQL Serverの導入が含まれています。
 
-執筆者：Pat Sinthusan and Niyaz Mohamed、NetApp
-
 
 
 == はじめに
@@ -70,7 +68,7 @@ Amazon FSx ONTAPとSQL Server on EC2インスタンスを組み合わせるこ�
 また、ネットアップのSQL Server環境向けベストプラクティスを参照して、ストレージ構成が最適であることを確認してください。
 
 .EC2上のSQL Server環境向けのベストプラクティス構成
-[%collapsible]
+[%collapsible%open]
 ====
 FSX ONTAP では、ストレージの調達が最も簡単な作業であり、ファイルシステムを更新することで実行できます。このシンプルなプロセスにより、必要に応じてコストとパフォーマンスを動的に最適化し、SQLワークロードのバランスを取ることができます。また、シンプロビジョニングも有効になります。FSX ONTAP シンプロビジョニングは、ファイルシステムでプロビジョニングされているものよりも、SQL Serverを実行しているEC2インスタンスに、より多くの論理ストレージを提供するように設計されています。スペースを事前に割り当てるのではなく、データの書き込み時にストレージスペースが動的に各ボリュームまたはLUNに割り当てられます。ほとんどの構成では、ボリュームまたはLUN内のデータが削除される（Snapshotコピーに保持されていない）と、空きスペースも解放されます。次の表に、ストレージを動的に割り当てるための設定を示します。
 
@@ -140,7 +138,7 @@ NOTE: ストレージのオーバーコミットメントは、最小限のシ�
 SnapCenter でSQL Serverの処理を実行するには、まずSQL Server用のボリュームとLUNを作成する必要があります。
 
 .SQL Server用のボリュームとLUNを作成します
-[%collapsible]
+[%collapsible%open]
 ====
 SQL Server用のボリュームとLUNを作成するには、次の手順を実行します。
 
@@ -288,13 +286,13 @@ Format-Volume -DriveLetter G -FileSystem NTFS -AllocationUnitSize 65536
 ボリュームとLUNを定義したら、SnapCenter を設定してデータベース処理を実行できるようにする必要があります。
 
 .SnapCenterの概要
-[%collapsible]
+[%collapsible%open]
 ====
 NetApp SnapCenter は、ティア1エンタープライズアプリケーション向けの次世代データ保護ソフトウェアです。SnapCenter は、一元管理インターフェイスを備えているため、複数のデータベースやその他のアプリケーションワークロードのバックアップ、リカバリ、クローニングに関連する、複雑で時間のかかる手動プロセスを自動化して簡易化できます。SnapCenter は、ネットアップのSnapshot、NetApp SnapMirror、SnapRestore 、NetApp FlexCloneなどのネットアップテクノロジを活用しています。この統合により、IT部門は、ストレージインフラを拡張し、厳しいSLAコミットメントを満たし、企業全体の管理者の生産性を向上させることができます。
 
 ====
 .SnapCenter サーバの要件
-[%collapsible]
+[%collapsible%open]
 ====
 次の表に、Microsoft Windows ServerにSnapCenter Serverとプラグインをインストールするための最小要件を示します。
 
@@ -346,7 +344,7 @@ NetApp SnapCenter は、ティア1エンタープライズアプリケーショ�
 
 ====
 .データベースストレージレイアウト
-[%collapsible]
+[%collapsible%open]
 ====
 次の図に、SnapCenter でバックアップする場合のMicrosoft SQL Serverデータベースストレージレイアウトの作成に関する考慮事項を示します。
 
@@ -375,7 +373,7 @@ NOTE: 新しいデータベースを作成するときは、データとログ�
 
 ====
 .SnapCenter のインストールとセットアップ
-[%collapsible]
+[%collapsible%open]
 ====
 と https://docs.netapp.com/us-en/snapcenter/protect-scsql/task_add_hosts_and_install_snapcenter_plug_ins_package_for_windows.html["SnapCenter Plug-in for Microsoft SQL Serverをインストールしています"^]に従って、 https://docs.netapp.com/us-en/snapcenter/install/task_install_the_snapcenter_server_using_the_install_wizard.html["SnapCenterサーバのインストール"^]SnapCenterをインストールしてセットアップします。
 
@@ -423,7 +421,7 @@ image:sql-awsec2-image18.png["入力/出力ダイアログを示す図、また�
 これで、SQL Serverのバックアップ、リストア、クローニングの処理を実行する準備ができました。
 
 .SnapCenter を使用してデータベースをバックアップする
-[%collapsible]
+[%collapsible%open]
 ====
 データベースとログファイルをFSX ONTAP LUNに配置したら、SnapCenter を使用してデータベースをバックアップできます。フルバックアップを作成するには、次のプロセスを使用します。
 
@@ -465,7 +463,7 @@ image:sql-awsec2-image23.png["入力/出力ダイアログを示す図、また�
 
 ====
 .SnapCenter を使用してデータベースをリストアします
-[%collapsible]
+[%collapsible%open]
 ====
 FSX ONTAP をEC2上のSQL Serverとともに使用する主な利点の1つは'各データベース・レベルで迅速かつ詳細なリストアを実行できることです
 
@@ -485,7 +483,7 @@ image:sql-awsec2-image25.png["入力/出力ダイアログを示す図、また�
 
 ====
 .小規模から大規模までのデータベースが多数あるインスタンスの場合の考慮事項
-[%collapsible]
+[%collapsible%open]
 ====
 SnapCenter では、リソースグループ内のインスタンスまたはインスタンスのグループに含まれる、サイズの大きなデータベースをバックアップできます。データベースのサイズは、バックアップ時間の主要な要因ではありません。バックアップの所要時間は、ボリュームあたりのLUN数、Microsoft SQL Serverの負荷、インスタンスあたりのデータベースの総数、および具体的にはI/O帯域幅と使用量によって異なります。インスタンスまたはリソースグループからデータベースをバックアップするようにポリシーを設定する際には、Snapshotコピーごとにバックアップするデータベースの最大数をホストあたり100に制限することを推奨します。Snapshotコピーの総数が、1、023個のコピー制限を超えないようにしてください。
 
@@ -516,7 +514,7 @@ SnapCenter では、リソースグループ内のインスタンスまたはイ
 
 ====
 .SnapCenter を使用して、データベースをクローニングする
-[%collapsible]
+[%collapsible%open]
 ====
 開発/テスト環境の別の場所にデータベースをリストアしたり、ビジネス分析目的でコピーを作成したりする場合、ネットアップのベストプラクティスは、クローニング方法論を利用して同じインスタンスまたは代替インスタンス上にデータベースのコピーを作成することです。
 
@@ -527,7 +525,7 @@ FSx ONTAP環境でホストされたiSCSIディスクに500GBのデータベー�
 SnapCenter を使用すると、必要なディスクにクローンコピーをマウントして、セカンダリインスタンスのフォルダ構造の形式を維持し、引き続きバックアップジョブのスケジュールを設定できます。
 
 .同じインスタンス内の新しいデータベース名でデータベースをクローニングします
-[%collapsible]
+[%collapsible%open]
 =====
 EC2で実行されている同じSQL Serverインスタンス内の新しいデータベース名にデータベースをクローニングするには、次の手順を実行します。
 
@@ -539,7 +537,7 @@ EC2で実行されている同じSQL Serverインスタンス内の新しいデ�
 
 =====
 .EC2で実行されている新しいSQL Serverインスタンスにデータベースをクローニングします
-[%collapsible]
+[%collapsible%open]
 =====
 EC2で実行する新しいSQL Serverインスタンスにデータベースをクローニングするには、次の手順を実行します。
 
@@ -570,7 +568,7 @@ video::27f28284-433d-4273-8748-b01200fb3cd7[panopto]
 == 付録
 
 .付録A：クラウド形成テンプレートで使用するYAMLファイル
-[%collapsible]
+[%collapsible%open]
 ====
 AWSコンソールのクラウド形成テンプレートでは、次の.yamlファイルを使用できます。
 
@@ -581,7 +579,7 @@ PowerShellを使用してiSCSI LUNの作成とNetApp SnapCenterのインスト�
 
 ====
 .付録B：ボリュームおよびLUNをプロビジョニングするためのPowerShellスクリプト
-[%collapsible]
+[%collapsible%open]
 ====
 次のスクリプトを使用して、ボリュームとLUNをプロビジョニングし、上記の手順に基づいてiSCSIをセットアップします。PowerShellスクリプトには次の2つがあります。
 

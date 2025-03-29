@@ -146,7 +146,7 @@ image:vcf_orarac_vvol_architecture.png["このイメージは、iSCSIとASMを�
 
 === 導入の前提条件
 
-[%collapsible]
+[%collapsible%open]
 ====
 導入には、次の前提条件が必要です。
 
@@ -165,7 +165,7 @@ NOTE: Oracleインストールファイルをステージングするための�
 
 === ストレージ機能プロファイルの作成
 
-[%collapsible]
+[%collapsible%open]
 ====
 最初に、VVOLデータストアをホストする下線のONTAPストレージ用のカスタムストレージ機能プロファイルを作成します。
 
@@ -204,7 +204,7 @@ image:vcf_ora_vvol_scp_07.png["カスタムのストレージ機能プロファ�
 
 === vVolデータストアの作成と設定
 
-[%collapsible]
+[%collapsible%open]
 ====
 前提条件が完了したら、vSphere Clientから管理者ユーザとしてVCFにログインし、ワークロードドメインに移動します。VVOLの作成には、組み込みのVMwareストレージオプションを使用しないでください。代わりに、NetApp ONTAPツールを使用してVVOLを作成してください。次に、VVOLを作成および設定する手順を示します。
 
@@ -258,7 +258,7 @@ image:vcf_orarac_vvol_datastore_07.png["vVolデータストアの設定を示す
 
 === ストレージ機能プロファイルに基づいてVMストレージポリシーを作成する
 
-[%collapsible]
+[%collapsible%open]
 ====
 vVolデータストアからデータベースVMにストレージをプロビジョニングする前に、前の手順で作成したストレージ機能プロファイルに基づいてVMストレージポリシーを追加してください。手順は次のとおりです。
 
@@ -301,7 +301,7 @@ image:vcf_ora_vvol_vm_policy_07.png["VMストレージポリシーの設定を�
 
 === vVolデータストアからRAC VMへのディスクの割り当てとDBストレージの設定
 
-[%collapsible]
+[%collapsible%open]
 ====
 vSphere Clientで、VMの設定を編集して、vVolデータストアの必要なディスクをデータベースVMに追加します。次に、VMにログインしてフォーマットし、バイナリディスクをマウントポイント/u01にマウントします。具体的な手順とタスクを以下に示します。
 
@@ -469,7 +469,7 @@ UUID=aff942c4-b224-4b62-807d-6a5c22f7b623 /boot                   xfs     defaul
 
 === VCFでのOracle RACの導入
 
-[%collapsible]
+[%collapsible%open]
 ====
 VVOLを使用するVCFにOracle RACを導入するには、NetApp自動化ツールキットを活用することを推奨します。付属の指示（readme）をよく読み、ツールキットの指示に従って、展開ターゲットファイルホスト、グローバル変数ファイル-vars/vars.yml、ローカルDB VM変数ファイル-host_vars/host_name .ymlなどの展開パラメータファイルを構成します。次に、ステップバイステップの手順を示します。
 
@@ -628,7 +628,7 @@ ansible-playbook -i hosts 0-all_playbook.yml -u admin -e @vars/vars.yml
 
 === VCFでのOracle RAC導入の検証
 
-[%collapsible]
+[%collapsible%open]
 ====
 このセクションでは、すべてのOracle RACリソースが完全に導入され、設定され、期待どおりに機能していることを確認するための、VCFでのOracle RAC導入の検証について詳しく説明します。
 
@@ -945,7 +945,7 @@ image:vcf_orarac_vvol_em_01.png["Oracle EM Expressの構成を示すスクリー
 
 ==== SnapCenterセットアップ
 
-[%collapsible]
+[%collapsible%open]
 ====
 SnapCenterバージョン6では、VMware vVolデータストアのサポートなど、バージョン5よりも多くの機能拡張が行われています。SnapCenterは、データベースVM上のホスト側プラグインを使用して、アプリケーション対応のデータ保護管理アクティビティを実行します。Oracle向けNetApp SnapCenterプラグインの詳細については、このドキュメントを参照して link:https://docs.netapp.com/us-en/snapcenter/protect-sco/concept_what_you_can_do_with_the_snapcenter_plug_in_for_oracle_database.html["Plug-in for Oracle Databaseの機能"^]ください。次に、VCFでOracle RACデータベースのバックアップとリカバリ用にSnapCenterバージョン6をセットアップする手順の概要を示します。
 
@@ -1001,7 +1001,7 @@ NOTE: SnapCenterサーバ名をDB VMおよびvSphereプラグインVMからIPア
 
 ==== データベースバックアップ
 
-[%collapsible]
+[%collapsible%open]
 ====
 SnapCenterは、ONTAPボリュームスナップショットを活用して、従来のRMANベースの方法と比較して、データベースのバックアップ、リストア、クローン作成にかかる時間を大幅に短縮します。Snapshotの作成前にデータベースがOracleバックアップモードになるため、Snapshotはアプリケーションと整合性があります。
 
@@ -1044,7 +1044,7 @@ image:vcf_ora_vvol_snapctr_bkup_10.png["SnapCenterの設定を示すスクリー
 
 ==== データベースのリストア/リカバリ
 
-[%collapsible]
+[%collapsible%open]
 ====
 SnapCenterには、SnapshotバックアップからのOracle RACデータベースのリストアとリカバリのオプションが多数用意されています。この例では、古いSnapshotバックアップからリストアし、使用可能な最後のログにデータベースをロールフォワードします。
 

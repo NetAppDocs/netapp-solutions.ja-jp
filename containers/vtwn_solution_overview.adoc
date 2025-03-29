@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: containers/vtwn_solution_overview.html 
-keywords: VMware Tanzu, Tanzu, DevOps, Netapp, Trident, Astra Control, Astra 
+keywords: VMware Tanzu, Tanzu, DevOps, Netapp, Trident, Trident Protect 
 summary: このリファレンスガイドでは、Tanzu Kubernetes Grid（TKG）、Tanzu Kubernetes Grid Service（TKGS）、またはTanzu Kubernetes Grid Integrated（TKGI）のいずれかとして、ネットアップによって検証済みの複数のデータセンター環境に導入された、さまざまなVMware Tanzu Kubernetesソリューションの導入方法を検証します。 
 ---
 = NVA-1166：ネットアップを使用したVMware Tanzuの評価
@@ -16,7 +16,7 @@ summary: このリファレンスガイドでは、Tanzu Kubernetes Grid（TKG�
 ネットアップ、 Alan Cowles 氏と Nikhil M Kulkarni 氏
 
 [role="lead"]
-このリファレンスガイドでは、Tanzu Kubernetes Grid（TKG）、Tanzu Kubernetes Grid Service（TKGS）、またはTanzu Kubernetes Grid Integrated（TKGI）のいずれかとして、ネットアップによって検証済みの複数のデータセンター環境に導入された、さまざまなVMware Tanzu Kubernetesソリューションの導入方法を検証します。また、NetAppストレージシステムとのストレージ統合や、永続的ストレージを管理するためのTridentストレージオーケストレーションツール、永続的ストレージを使用するステートフルアプリケーションのバックアップとクローニングを行うためのAstra Control Centerについても説明します。最後に、解決策 の統合と検証のビデオデモを紹介します。
+このリファレンスガイドでは、Tanzu Kubernetes Grid（TKG）、Tanzu Kubernetes Grid Service（TKGS）、またはTanzu Kubernetes Grid Integrated（TKGI）のいずれかとして、ネットアップによって検証済みの複数のデータセンター環境に導入された、さまざまなVMware Tanzu Kubernetesソリューションの導入方法を検証します。また、NetAppストレージシステムとのストレージ統合や、永続的ストレージの管理のためのTridentストレージオーケストレーションツール、永続的ストレージを使用するステートフルアプリケーションのバックアップとクローニングのためのTrident Protectについても説明します。最後に、解決策 の統合と検証のビデオデモを紹介します。
 
 
 
@@ -26,8 +26,8 @@ NetApp解決策 を搭載したVMware Tanzuは、次のユースケースにお�
 
 * VMware vSphereに導入され、ネットアップストレージシステムと統合されたVMware Tanzu Kubernetes Gridサービスの導入と管理が簡単です。
 * VMware Tanzu Kubernetes Gridソリューションは、エンタープライズコンテナと仮想化ワークロードの機能を統合したものです。
-* VMware Tanzuの機能にネットアップのストレージやネットアップのAstra製品スイートを使用した実際の構成とユースケース
-* VMware Tanzu Kubernetes Gridクラスタに導入されたコンテナ化ワークロードを、Astra Control Centerを使用してネットアップストレージシステムにアプリケーションと整合性のある方法で保護または移行
+* NetAppストレージおよびNetApp Trident製品スイートと組み合わせて使用した場合の、VMware Tanzuの機能に焦点を当てた実際の構成とユースケース。
+* Trident Protectを使用してNetAppストレージシステム上にデータが存在するVMware Tanzu Kubernetesグリッドクラスタに導入されたコンテナ化ワークロードを、アプリケーションと整合性のある保護または移行します。
 
 
 
@@ -116,10 +116,6 @@ VMware Tanzuには、ネットアップのソリューションエンジニア�
 
 === ネットアップとストレージの統合
 
-NetApp Astra Control Centerは、ステートフルKubernetesワークロード向けの充実したストレージおよびアプリケーション対応のデータ管理サービスを提供します。オンプレミス環境に導入され、信頼できるネットアップのデータ保護テクノロジを基盤としています。
-
-詳細については、NetApp AstraのWebサイトをご覧 https://cloud.netapp.com/astra["ここをクリック"]ください。
-
 Tridentは、VMware Tanzuを含むコンテナとKubernetesディストリビューション向けのオープンソースで完全サポートされているストレージオーケストレーションツールです。
 
 詳細については、TridentのWebサイトを参照して https://docs.netapp.com/us-en/trident/index.html["ここをクリック"]ください。
@@ -135,9 +131,6 @@ Tridentは、VMware Tanzuを含むコンテナとKubernetesディストリビュ
 
 
 | NetApp ONTAP | ストレージ | 9.9.1 
-
-
-| ネットアップアストラコントロールセンター | アプリケーション対応のデータ管理 | 22.04 
 
 
 | NetApp Trident | ストレージオーケストレーション | 22.04.0 

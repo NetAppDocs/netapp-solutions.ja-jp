@@ -16,8 +16,6 @@ summary:
 [role="lead"]
 Veeam Backup & Replicationは、VMware Cloud内のデータを保護するための効果的で信頼性の高い解決策 です。このソリューションでは、Veeam Backup and Replicationを使用して、VMware CloudのFSx ONTAP NFSデータストアにあるアプリケーションVMをバックアップおよびリストアするための適切なセットアップと構成について説明します。
 
-作成者：Josh Powell -ネットアップソリューションエンジニアリングチーム
-
 
 
 == 概要
@@ -47,7 +45,7 @@ VMware Cloud（AWS）では、NFSデータストアを補助ストレージと�
 
 
 .解決策 の導入の概要
-[%collapsible]
+[%collapsible%open]
 ====
 このリストには、Veeam Backup & Replicationの設定、バックアップリポジトリとしてFSx ONTAPを使用したバックアップジョブとリストアジョブの実行、SQL ServerとOracleのVMとデータベースのリストアに必要な手順の概要が記載されています。
 
@@ -60,7 +58,7 @@ VMware Cloud（AWS）では、NFSデータストアを補助ストレージと�
 
 ====
 .前提条件
-[%collapsible]
+[%collapsible%open]
 ====
 このソリューションの目的は、VMware Cloudで実行され、FSx ONTAPでホストされるNFSデータストア上に配置された仮想マシンのデータ保護を実証することです。この解決策 は、次のコンポーネントが構成され、使用可能な状態にあることを前提としています。
 
@@ -91,7 +89,7 @@ VMware Cloud（AWS）では、NFSデータストアを補助ストレージと�
 image:aws-vmc-veeam-00.png["解決策 アーキテクチャ図"]
 
 .ハードウェア/ソフトウェアコンポーネント
-[%collapsible]
+[%collapsible%open]
 ====
 このソリューションの目的は、VMware Cloudで実行され、FSx ONTAPでホストされるNFSデータストア上に配置された仮想マシンのデータ保護を実証することです。この解決策 では、次のコンポーネントが設定済みで、使用可能な状態であることを前提としています。
 
@@ -137,7 +135,7 @@ Veeam Data MoverはVeeam Proxy Serverのコンポーネントであり、ソー�
 次の手順では、VMware Cloud SDDC内のWindows VMにVeeam Proxy Serverを導入します。
 
 .Veeam Proxyを導入してバックアップワークロードを分散
-[%collapsible]
+[%collapsible%open]
 ====
 この手順では、Veeamプロキシを既存のWindows VMに導入します。これにより、プライマリVeeam Backup ServerとVeeam Proxyの間でバックアップジョブを分散させることができます。
 
@@ -185,7 +183,7 @@ image:aws-vmc-veeam-10.png["ネットワークトラフィックルールを設�
 プライマリVeeam BackupサーバとVeeam Proxyサーバは、直接接続されたストレージ形式のバックアップリポジトリにアクセスできます。このセクションでは、FSx ONTAPファイルシステムの作成、VeeamサーバへのiSCSI LUNのマウント、バックアップリポジトリの作成について説明します。
 
 .FSx ONTAPファイルシステムの作成
-[%collapsible]
+[%collapsible%open]
 ====
 Veeamバックアップリポジトリ用のiSCSIボリュームのホストに使用するFSx ONTAPファイルシステムを作成します。
 
@@ -206,7 +204,7 @@ image:aws-vmc-veeam-03.png["ファイルシステム情報を入力します"]
 
 ====
 .iSCSI LUNを設定してマウントします
-[%collapsible]
+[%collapsible%open]
 ====
 FSx ONTAPでiSCSI LUNを作成して設定し、Veeamバックアップサーバとプロキシサーバにマウントします。これらのLUNは、あとでVeeamバックアップリポジトリの作成に使用されます。
 
@@ -257,7 +255,7 @@ image:aws-vmc-veeam-13.png["Windowsディスクの管理"]
 
 ====
 .Veeamバックアップリポジトリを作成します
-[%collapsible]
+[%collapsible%open]
 ====
 Veeam Backup and Replicationコンソールで、Veeam BackupサーバとVeeam Proxyサーバのバックアップリポジトリを作成します。これらのリポジトリは、仮想マシンのバックアップのバックアップターゲットとして使用されます。
 
@@ -293,7 +291,7 @@ image:aws-vmc-veeam-16.png["[Mount server]を選択します"]
 
 
 .Veeamバックアップジョブを設定する際の一般的な考慮事項
-[%collapsible]
+[%collapsible%open]
 ====
 . アプリケーション対応の処理で整合性のあるバックアップを作成し、トランザクションログ処理を実行できます。
 . アプリケーション対応の処理を有効にした後、ゲストOSのクレデンシャルとは異なる可能性があるため、管理者権限を持つ正しいクレデンシャルをアプリケーションに追加します。
@@ -329,7 +327,7 @@ Veeam Backup & Replicationには、SQL Serverデータベースをリストア�
 
 
 .Veeam Explorer Instant Recoveryを使用してSQL Serverデータベースをリストアします
-[%collapsible]
+[%collapsible%open]
 ====
 . Veeam Backup & Replicationコンソールで、SQL Serverバックアップのリストに移動し、サーバを右クリックして*[アプリケーション項目のリストア]*を選択し、*[Microsoft SQL Serverデータベース...]*を選択します。
 +
@@ -369,7 +367,7 @@ Veeam Explorer for Oracle databaseでは、Instant Recoveryを使用して、Ora
 Veeam Explorerを使用してOracleデータベースのリストア処理を実行する方法の詳細については、のOracleのセクションを参照して https://helpcenter.veeam.com/docs/backup/explorers/veor_user_guide.html?ver=120["Veeam Explorers User Guideを参照してください"]ください。
 
 .Veeam Explorerを使用してOracleデータベースをリストアします
-[%collapsible]
+[%collapsible%open]
 ====
 このセクションでは、Veeam Explorerを使用して、別のサーバへのOracleデータベースのリストアについて説明します。
 
@@ -406,7 +404,7 @@ image:aws-vmc-veeam-31.png["ターゲットの場所を指定します"]
 
 ====
 .Oracleデータベースを代替サーバにパブリッシュします
-[%collapsible]
+[%collapsible%open]
 ====
 このセクションでは、フルリストアを起動せずに高速アクセスできるように、データベースを代替サーバにパブリッシュします。
 

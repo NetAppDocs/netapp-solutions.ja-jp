@@ -101,7 +101,7 @@ NOTE: Veeam Backup & ReplicationのインベントリにGCVE vCenterサーバを
 NetApp Volumeを使用してGCVE用のNFSデータストアを作成して使用するには、次の手順を実行します。
 
 .NetApp Volume NFSボリュームの作成
-[%collapsible]
+[%collapsible%open]
 ====
 Google Cloud NetApp Volumeには、Google Cloud Platform（GCP）コンソールからアクセスできます。
 
@@ -152,7 +152,7 @@ image::dr-veeam-gcnv-image05.png[ボリュームプロパティ]
 
 ====
 .GCVEにNFSデータストアをマウント
-[%collapsible]
+[%collapsible%open]
 ====
 本書の執筆時点でGCVEでデータストアをマウントするプロセスでは、ボリュームをNFSデータストアとしてマウントするためにGCPサポートチケットを開く必要があります。
 
@@ -164,7 +164,7 @@ image::dr-veeam-gcnv-image05.png[ボリュームプロパティ]
 === VMをGCVEにレプリケートし、フェイルオーバープランとフェイルバックを実行
 
 .GCVE内のNFSデータストアへのVMのレプリケート
-[%collapsible]
+[%collapsible%open]
 ====
 Veeam Backup & Replicationはレプリケーション時にVMware vSphereスナップショット機能を活用し、Veeam Backup & ReplicationはVMware vSphereにVMスナップショットの作成を要求します。VMスナップショットは、仮想ディスク、システムの状態、設定、メタデータを含むVMのポイントインタイムコピーです。Veeam Backup & Replicationでは、Snapshotをレプリケーションのデータソースとして使用します。
 
@@ -257,7 +257,7 @@ Veeamレプリケーションの詳細については、link:https://helpcenter.
 
 ====
 .フェイルオーバープランの作成
-[%collapsible]
+[%collapsible%open]
 ====
 最初のレプリケーションまたはシードが完了したら、フェイルオーバープランを作成します。フェイルオーバープランは、依存するVMのフェイルオーバーを1つずつ、またはグループとして自動的に実行するのに役立ちます。フェイルオーバープランは、ブート遅延を含むVMの処理順序の青写真です。フェイルオーバープランは、重要な依存VMがすでに実行されていることを確認するのにも役立ちます。
 
@@ -313,7 +313,7 @@ image::dr-veeam-gcnv-image19.png[起動順序と遅延]
 
 ====
 .フェイルオーバープランの実行
-[%collapsible]
+[%collapsible%open]
 ====
 フェイルオーバー時には、本番サイトのソースVMがディザスタリカバリサイトのレプリカにスイッチオーバーします。このプロセスの一環として、Veeam Backup & ReplicationはVMレプリカを必要なリストアポイントにリストアし、すべてのI/OアクティビティをソースVMからそのレプリカに転送します。レプリカは、実際の災害だけでなく、DRドリルのシミュレーションにも使用されます。フェイルオーバーシミュレーションでは、ソースVMは引き続き実行されます。必要なテストが完了したら、フェイルオーバーを元に戻して正常な動作に戻すことができます。
 
@@ -345,7 +345,7 @@ NOTE: Veeam Backup & Replicationは、レプリカがReady状態に戻るまで�
 
 ====
 .業務用サイトへのフェイルバック
-[%collapsible]
+[%collapsible%open]
 ====
 フェイルオーバーの実行は中間ステップとみなされ、要件に基づいて完了する必要があります。オプションには次のものがあります。
 

@@ -114,7 +114,7 @@ image:aws_ora_fsx_ec2_iscsi_asm_architecture.png["このイメージは、iSCSI�
 
 === 導入の前提条件
 
-[%collapsible]
+[%collapsible%open]
 ====
 導入には、次の前提条件が必要です。
 
@@ -136,7 +136,7 @@ NOTE: Oracleインストールファイルをステージングするための�
 
 === EC2インスタンスのカーネル設定
 
-[%collapsible]
+[%collapsible%open]
 ====
 前提条件をプロビジョニングした状態で、ec2-userとしてec2インスタンスにログインし、rootユーザにsudoを実行して、Oracleインストール用のLinuxカーネルを設定します。
 
@@ -277,7 +277,7 @@ systemctl disable firewalld
 
 === データベースボリュームとLUNをプロビジョニングし、EC2インスタンスホストにマッピングします
 
-[%collapsible]
+[%collapsible%open]
 ====
 コマンドラインから3つのボリュームをプロビジョニングします。fsxadminユーザとしてssh経由でFSxクラスタにログインし、FSxクラスタ管理IPを使用してOracleデータベースのバイナリファイル、データファイル、ログファイルをホストします。
 
@@ -369,7 +369,7 @@ svm_ora    /vol/ora_01_logs/ora_01_logs_02           ora_01        6  iscsi
 
 === データベースストレージの構成
 
-[%collapsible]
+[%collapsible%open]
 ====
 次に、Oracleグリッドインフラ用のFSxストレージとEC2インスタンスホストへのデータベースインストールをインポートしてセットアップします。
 
@@ -640,7 +640,7 @@ systemctl restart multipathd
 
 === Oracleグリッドインフラのインストール
 
-[%collapsible]
+[%collapsible%open]
 ====
 . SSH経由でEC2インスタンスにEC2-userとしてログインし、コメントを解除してからコメントアウトし `PasswordAuthentication no`てパスワード認証を有効にします。 `PasswordAuthentication yes`
 +
@@ -818,7 +818,7 @@ ASMCMD-9526: The AFD state is 'LOADED' and filtering is 'ENABLED' on host 'ip-17
 
 === Oracleデータベースのインストール
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Oracleユーザとしてログインし、設定を解除します `$ORACLE_HOME`（設定されている場合）。 `$ORACLE_SID`
 +

@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-このセクションでは、AWSでOpenShiftクラスタをセットアップおよび管理し、それらにステートフルアプリケーションを導入する方法の大まかなワークフローについて説明します。ここでは、Tridentを使用してNetApp Cloud Volumes ONTAPストレージを使用し、永続ボリュームを提供しています。ステートフルアプリケーションに対してデータ保護と移行のアクティビティを実行するためのAstra Control Centerの使用方法について詳しく説明します。
+このセクションでは、AWSでOpenShiftクラスタをセットアップおよび管理し、それらにステートフルアプリケーションを導入する方法の大まかなワークフローについて説明します。ここでは、Tridentを使用してNetApp Cloud Volumes ONTAPストレージを使用し、永続ボリュームを提供しています。Trident Protectを使用してステートフルアプリケーションのデータ保護と移行のアクティビティを実行する方法について詳しく説明します。
 
 
 NOTE: Red Hat OpenShift ContainerプラットフォームクラスタをAWSに導入する方法はいくつかあります。このセットアップの概要概要 には、使用した具体的な方法のドキュメントへのリンクが記載されています。その他の方法については、に記載されている関連リンクを参照して link:rhhc-resources.html["リソースセクション"]ください。
@@ -26,7 +26,7 @@ image:rhhc-self-managed-aws.png["入力/出力ダイアログを示す図、ま�
 セットアッププロセスは、次の手順に分けることができます。
 
 .Advanced Cluster ManagementからAWSにOCPクラスタをインストールします。
-[%collapsible]
+[%collapsible%open]
 ====
 * サイト間VPN接続（pfsenseを使用）を使用してVPCを作成し、オンプレミスネットワークに接続します。
 * オンプレミスネットワークはインターネットに接続されています。
@@ -44,7 +44,7 @@ TIP: ACMを使用してクラスタを作成する場合は、フォームビュ
 
 ====
 .BlueXPを使用してAWSにCloud Volumes ONTAPを導入
-[%collapsible]
+[%collapsible%open]
 ====
 * オンプレミスのVMware環境にコネクタをインストールします。手順を参照してくださいlink:https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-install-connector-on-prem.html#install-the-connector["ここをクリック"]。
 * コネクタを使用してAWSにCVOインスタンスを導入します。手順を参照してくださいlink:https://docs.netapp.com/us-en/cloud-manager-cloud-volumes-ontap/task-getting-started-aws.html["ここをクリック"]。
@@ -55,7 +55,7 @@ NOTE: コネクタはクラウド環境にも設置できます。詳細につ�
 
 ====
 .OCPクラスタへのTridentのインストール
-[%collapsible]
+[%collapsible%open]
 ====
 * Helmを使用してTrident Operatorを導入します。手順を参照link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy-helm.html["ここをクリック"]
 * バックエンドとストレージクラスを作成手順を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-use/backends.html["ここをクリック"]。

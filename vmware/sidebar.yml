@@ -3,146 +3,120 @@ section: vmware
 title: VMware 仮想化
 url: "/vmware/index.html"
 entries:
-- title: VMware Virtualization for ONTAP の略
-  pdf-filename: VMware Virtualization for ONTAP の略
-  url: "/vmware/vmware-for-ontap.html"
-- title: VMware vSphereの基盤
+- title: NetAppとVMwareの導入
+  pdf-filename: NetAppとVMwareの導入
   entries:
-  - title: vSphere 8向けNFSリファレンスガイド
-    pdf-filename: vSphere 8向けNFSリファレンスガイド
-    entries:
-    - title: 概要
-      url: "/vmware/vmware_nfs_overview.html"
-    - title: NetAppおよびVMwareでのNFS nconnect機能
-      url: "/vmware/vmware-vsphere8-nfs-nconnect.html"
-    - title: OTVによるNFSデータストアの管理10
-      url: "/vmware/vmware_nfs_otv10.html"
-    - title: VMware Site Recovery Managerを使用したNFSデータストアのディザスタリカバリ
-      url: "/vmware/vmware_nfs_vlsr.html"
-    - title: NFSストレージ向けの自律型ランサムウェア対策
-      url: "/vmware/vmware_nfs_arp.html"
-  - title: "『VVols Reference Guide for vSphere 8』"
-    pdf-filename: "『VVols Reference Guide for vSphere 8』"
-    url: "/vmware/vmware-vvol-overview.html"
-  - title: vSphere 8向けVMFS導入ガイド
-    pdf-filename: vSphere 8向けVMFS導入ガイド
-    url: "/vmware/vmfs-deployment.html"
-  - title: NetAppオールフラッシュSANアレイとVMware vSphere 8
-    pdf-filename: NetAppオールフラッシュSANアレイとVMware vSphere 8
-    entries:
-    - title: 概要
-      url: "/vmware/vsphere_ontap_asa_overview.html"
-    - title: VMware vSphere向けONTAPツール
-      url: "/vmware/vsphere_ontap_asa_otv.html"
-    - title: Cloud Insights
-      url: "/vmware/vsphere_ontap_asa_insights.html"
-    - title: SnapMirrorアクティブ同期を使用したVMware vSphere Metroストレージクラスタ
-      url: "/vmware/vmware-vmsc-with-smas.html"
-- title: VMware Cloud Foundationの場合
+  - title: 概要
+    url: "/vmware/vmw-getting-started-overview.html"
+  - title: ネットアップストレージオプション
+    url: "/vmware/vmw-getting-started-netapp-storage-options.html"
+  - title: vSphere Metro Storage Cluster
+    url: "/vmware/vmw-getting-started-metro-storage-cluster.html"
+  - title: VMware向けONTAPツール（OTV）
+    url: "/vmware/vmw-getting-started-ontap-tools-for-vmware.html"
+  - title: ONTAPによるVMware自動化
+    url: "/vmware/vmw-getting-started-ontap-apis-automation.html"
+  - title: SnapCenter
+    url: "/vmware/vmw-getting-started-snapcenter.html"
+  - title: ハイブリッドマルチクラウド
+    url: "/vmware/vmw-getting-started-hybrid-multicloud.html"
+  - title: VMwareワークロードのセキュリティとランサムウェアに対応
+    url: "/vmware/vmw-getting-started-security-ransomware.html"
+  - title: ONTAPへのVMワークロードの移行
+    url: "/vmware/vmw-getting-started-migration.html"
+  - title: BlueXP  ディザスタリカバリ（DRaaS）
+    url: "/vmware/vmw-getting-started-bluexp-disaster-recovery.html"
+  - title: Data Infrastructure Insights（DII）
+    url: "/vmware/vmw-getting-started-data-infrastructure-insights.html"
+  - title: VMデータコレクタ（VMDC）
+    url: "/vmware/vmw-getting-started-vm-data-collector.html"
+- title: NetApp上のVMware Cloud Foundation（VCF）
+  pdf-filename: NetApp上のVMware Cloud Foundation（VCF）
   entries:
-  - title: VMware Cloud Foundationを使用したNetAppストレージ
-    pdf-filename: VMware Cloud Foundationを使用したNetAppストレージ
-    url: "/vmware/vmware-vcf-overview.html"
-  - title: VCFとNetApp ASAアレイ
-    pdf-filename: VCFとNetApp ASAアレイ
+  - title: 概要
+    url: "/vmware/vmw-vcf-overview.html"
+  - title: 既存のインフラストラクチャをVCFに移行
     entries:
-    - title: 概要
-      url: "/vmware/vmware_vcf_asa_overview.html"
-    - title: 管理ドメイン上のストレッチクラスタ（FC / iSCSI）
-      url: "/vmware/vmware_vcf_asa_mgmt_stretchcluster.html"
-    - title: VIワークロードドメイン上のストレッチクラスタ（FC / iSCSI）
-      url: "/vmware/vmware_vcf_asa_wkld_stretchcluster.html"
-    - title: 管理ドメイン用の補助ストレージとしてのiSCSI
-      url: "/vmware/vmware_vcf_asa_supp_mgmt_iscsi.html"
-    - title: ワークロードドメイン用の補助ストレージとしてのVVOL
-      url: "/vmware/vmware_vcf_asa_supp_wkld_vvols.html"
-    - title: FCをプリンシパルストレージとして使用
-      url: "/vmware/vmware_vcf_asa_prin_fc.html"
-    - title: 補助ストレージとしてのFC
-      url: "/vmware/vmware_vcf_asa_supp_fc.html"
-    - title: ワークロードドメイン用の補助ストレージとしてのNVMe/TCP
-      url: "/vmware/vmware_vcf_asa_supp_wkld_nvme.html"
-    - title: SnapCenter Plug-in for VMware vSphereによるワークロードドメインの保護
-      url: "/vmware/vmware_vcf_asa_scv_wkld.html"
-  - title: VCFとNetApp AFFアレイ
-    pdf-filename: VCFとNetApp AFFアレイ
+    - title: 既存のvCenterインスタンスをVCF管理ドメイン（NFS）に変換
+      url: "/vmware/vmw-vcf-mgmt-nfs.html"
+    - title: vCenterインスタンス（FCデータストア）からVCF管理ドメインへの変換
+      url: "/vmware/vmw-vcf-mgmt-fc.html"
+  - title: プリンシパルストレージを使用したVCF環境のプロビジョニング
     entries:
-    - title: 概要
-      url: "/vmware/vmware_vcf_aff_overview.html"
-    - title: ワークロードドメインのプリンシパルストレージとしてのNFS
-      url: "/vmware/vmware_vcf_aff_principal_nfs."
-    - title: 管理ドメイン上のストレッチクラスタ（FC / iSCSI）
-      url: "/vmware/vmware_vcf_asa_mgmt_stretchcluster.html"
-    - title: VIワークロードドメイン上のストレッチクラスタ（FC / iSCSI）
-      url: "/vmware/vmware_vcf_asa_wkld_stretchcluster.html"
-    - title: ワークロードドメイン用の補助ストレージとしてのNFSとVVOL
-      url: "/vmware/vmware_vcf_aff_supp_wkld_nfs.html"
-    - title: FCをプリンシパルストレージとして使用
-      url: "/vmware/vmware_vcf_aff_prin_fc.html"
-    - title: 補助ストレージとしてのFC
-      url: "/vmware/vmware_vcf_aff_supp_fc.html"
-    - title: vSphereクラスタ（NFSデータストア）からVCF管理ドメインへの変換
-      url: "/vmware/vmware_vcf_import_nfs.html"
-    - title: 管理ドメイン上のストレッチクラスタ（FC / iSCSI）
-      url: "/vmware/vmware_vcf_asa_mgmt_stretchcluster.html"
-    - title: VIワークロードドメイン上のストレッチクラスタ（FC / iSCSI）
-      url: "/vmware/vmware_vcf_asa_wkld_stretchcluster.html"
+    - title: FCを使用する管理ドメイン
+      url: "/vmware/vmw-vcf-mgmt-principal-fc.html"
+    - title: NFSを使用する管理ドメイン
+      url: "/vmware/vmw-vcf-mgmt-principal-nfs.html"
+    - title: FCを使用する仮想インフラストラクチャワークロードドメイン
+      url: "/vmware/vmw-vcf-viwld-principal-fc.html"
+    - title: NFSを使用する仮想インフラストラクチャワークロードドメイン
+      url: "/vmware/vmw-vcf-viwld-principal-nfs.html"
+  - title: 補完的ストレージでVCF環境を拡張
+    entries:
+    - title: iSCSIによる管理ドメイン
+      url: "/vmware/vmw-vcf-mgmt-supplemental-iscsi.html"
+    - title: FCを使用する管理ドメイン
+      url: "/vmware/vmw-vcf-mgmt-supplemental-fc.html"
+    - title: VVOLを使用する仮想インフラワークロードドメイン（iSCSI）
+      url: "/vmware/vmw-vcf-viwld-supplemental-vvols.html"
+    - title: VVOL（NFS）を使用する仮想インフラワークロードドメイン
+      url: "/vmware/vmw-vcf-viwld-supplemental-nfs-vvols.html"
+    - title: NVMe/TCPを使用した仮想インフラワークロードドメイン
+      url: "/vmware/vmw-vcf-viwld-supplemental-nvme.html"
+    - title: FCを使用する仮想インフラストラクチャワークロードドメイン
+      url: "/vmware/vmw-vcf-viwld-supplemental-fc.html"
+  - title: NetApp SnapCenterでワークロードを保護
+    entries:
+    - title: VCFワークロードドメインの保護
+      url: "/vmware/vmw-vcf-scv-wkld.html"
+    - title: VCFの複数ワークロードドメインの保護
+      url: "/vmware/vmw-vcf-scv-multiwkld.html"
+    - title: NVMeでVCFワークロードドメインを保護
+      url: "/vmware/vmw-vcf-scv-nvme.html"
+    - title: 3-2-1 SnapCenterプラグインとBlueXPによるVMのバックアップとリカバリによるVMwareのデータ保護
+      url: "/vmware/vmw-vcf-scv-321.html"
+  - title: VMware vSphere Metro Storage Cluster（vMSC）による高可用性
+    entries:
+    - title: SnapMirrorアクティブ同期を使用した管理ドメイン用のストレッチクラスタ
+      url: "/vmware/vmw-vcf-vmsc-mgmt-smas.html"
     - title: MetroClusterを使用した管理ドメイン用のストレッチクラスタ
       url: "/vmware/vmw-vcf-vmsc-mgmt-mcc.html"
+    - title: SnapMirrorアクティブ同期を使用したVIワークロードドメイン用のストレッチクラスタ
+      url: "/vmware/vmw-vcf-vmsc-viwld-smas.html"
     - title: MetroClusterを使用したVIワークロードドメイン用のストレッチクラスタ
       url: "/vmware/vmw-vcf-vmsc-viwld-mcc.html"
-    - title: NetApp SnapCenterによるワークロードドメインの保護
-      url: "/vmware/vmware_vcf_aff_multi_wkld_scv.html"
-    - title: NVMeベースのNetAppストレージを使用した、VMware VCF向けの効率的で拡張性に優れたシンプルなデータ保護
-      url: "/vmware/vmware_vcf_nvme_scv.html"
-- title: VMの移行
-  entries:
-  - title: ONTAPデータストアへのVMの移行
-    pdf-filename: ONTAPデータストアへのVMの移行
+  - title: VMの移行
     url: "/vmware/migrate-vms-to-ontap-datastore.html"
-  - title: Amazon FSx for ONTAPを使用してVMをAmazon EC2に移行
-    pdf-filename: Amazon FSx for ONTAPを使用してVMをAmazon EC2に移行
+  - title: BlueXP  DRaaSによるディザスタリカバリ
     entries:
-    - title: 概要
-      url: "/vmware/migrate-vms-to-ec2-fsxn.html"
-    - title: アーキテクチャと前提条件
-      url: "/vmware/migrate-vms-to-ec2-fsxn-arch.html"
-    - title: Deployment手順
-      url: "/vmware/migrate-vms-to-ec2-fsxn-deploy.html"
-    - title: まとめ
-      url: "/vmware/migrate-vms-to-ec2-fsxn-wrapup.html"
-- title: パブリッククラウド向け VMware
-  url: "/ehc/index.html"
-- title: VMwareハイブリッドマルチクラウドのユースケース
+    - title: BlueXP  DRaaS for VMFSデータストアを使用したDR
+      url: "/vmware/vmw-dr-draas-vmfs.html"
+    - title: BlueXP  DRaaS for NFSデータストアを使用したDR
+      url: "/vmware/vmw-dr-draas-nfs.html"
+  - title: ランサムウェアからの保護
+    url: "/vmware/vmware_nfs_arp.html"
+  - title: Data Infrastructure Insights（DII）でワークロードを監視
+    url: "/vmware/vmw-dii.html"
+- title: NetApp上のVMware vSphere Foundation（VVF）
+  pdf-filename: NetApp上のVMware vSphere Foundation（VVF）
   entries:
-  - title: ユースケースの概要
-    url: "/ehc/ehc-use-cases.html"
-- title: VMware vSphere の自動化
+  - title: 概要
+    url: "/vmware/vmware_nfs_overview.html"
+  - title: VMware Virtualization for ONTAP：ベストプラクティス
+    url: "/vmware/vmware-for-ontap.html"
+  - title: vSphere 8向けVMFS導入ガイド
+    url: "/vmware/vmfs-deployment.html"
+  - title: NetAppおよびVMwareでのNFS nconnect機能
+    url: "/vmware/vmware-vsphere8-nfs-nconnect.html"
+  - title: OTVによるNFSデータストアの管理10
+    url: "/vmware/vmware_nfs_otv10.html"
+  - title: VMware Site Recovery Managerを使用したNFSデータストアのディザスタリカバリ
+    url: "/vmware/vmware_nfs_vlsr.html"
+- title: NetApp上のVMware仮想ボリューム（vVol）
+  pdf-filename: NetApp上のVMware仮想ボリューム（vVol）
   entries:
-  - title: はじめに
-    url: "/vmware/vsphere_auto_introduction.html"
-  - title: 従来のブロックストレージプロビジョニング
-    entries:
-    - title: 概要
-      url: "/vmware/vsphere_ontap_auto_block.html"
-    - title: VMFS-Fibre Channel （ VMFS - ファイバチャネル）
-      url: "/vmware/vsphere_ontap_auto_block_fc.html"
-    - title: VMFS- Fibre Channel over Ethernet （ Fibre Channel over Ethernet ）
-      url: "/vmware/vsphere_ontap_auto_block_fcoe.html"
-    - title: VMFS-5 - iSCSI
-      url: "/vmware/vsphere_ontap_auto_block_iscsi.html"
-    - title: VMFS-5 - NVMe over Fabric
-      url: "/vmware/vsphere_ontap_auto_block_nvmeof.html"
-  - title: 従来のファイルストレージプロビジョニング
-    entries:
-    - title: 概要
-      url: "/vmware/vsphere_ontap_auto_file.html"
-    - title: v3 に対応しています
-      url: "/vmware/vsphere_ontap_auto_file_nfs.html"
-    - title: v4.1 に対応しています
-      url: "/vmware/vsphere_ontap_auto_file_nfs41.html"
-  - title: VM Data Collector （ JVM データ収集）
-    url: "/vmware/vmdc.html"
+  - title: ONTAP でVVOLを使用する
+    url: "/vmware/vmware-vvol-overview.html"
 - title: デモとチュートリアル
   entries:
   - title: ビデオ

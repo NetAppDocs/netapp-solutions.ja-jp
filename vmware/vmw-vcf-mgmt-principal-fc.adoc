@@ -1,0 +1,77 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-mgmt-principal-fc.html 
+keywords: netapp, vmware, cloud, foundation, vcf, asa, all-flash, array, ontap tools, otv, sddc, fc 
+summary:  
+---
+= FC上のVMFSを管理ドメインのプリンシパルストレージとして使用
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+このシナリオでは、ONTAPで既存のFCベースのVMFSデータストアを使用して、VMware Cloud Foundation（VCF）管理ドメインのプリンシパルストレージとして使用するユースケースを確認します。
+
+
+
+== はじめに
+
+必要に応じて、VCFのSDDC Managerで実行する必要がある手順について外部ドキュメントを参照し、ストレージ構成の部分に固有の手順を参照します。
+
+ONTAPを使用して既存のFCベースのvSphere環境を変換する方法については、を参照してくださいlink:vmw-vcf-mgmt-fc.html["vSphere環境（FCデータストア）からVCF管理ドメインへの変換"]。
+
+
+NOTE: VCFリリース5.2では、既存のvSphere 8環境をVCF管理ドメインに変換したり、VCF VIワークロードドメインとしてインポートしたりする機能が導入されました。このリリースより前は、VCF管理ドメインのプリンシパルストレージにはVMware vSANしか使用できませんでした。
+
+
+NOTE: このソリューションは、NetApp ASA、AFF、FASなどのFCストレージをサポートするONTAPプラットフォームに適しています。
+
+
+
+== 前提条件
+
+このシナリオでは、次のコンポーネントと構成を使用します。
+
+* FCトラフィックを許可するようにStorage Virtual Machine（SVM）が設定されているNetAppストレージシステム。
+* FCトラフィックを伝送するFCファブリック上に論理インターフェイス（LIF）が作成されており、SVMに関連付けられている。
+* ゾーニングは、ホストHBAとストレージターゲット用にFCスイッチ上の単一のイニシエータとターゲットのゾーニングを使用するように設定されています。
+
+
+ONTAPストレージシステムの構成については、センターを参照してlink:https://docs.netapp.com/us-en/ontap["ONTAP 9ドキュメント"]ください。
+
+VCFの設定については、を参照してくださいlink:https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["VMware Cloud Foundationのドキュメント"]。
+
+
+
+== 導入手順
+
+
+
+=== 管理ドメイン-デフォルトクラスタ
+
+初期クラスタのFCプリンシパルストレージは、VCFブラウンフィールドインポートツールでのみサポートされます。VCFがCloud Builderツールを使用して展開されている場合（リリース5.2.xに先行）、VSANのみがサポートされます。
+
+既存のvSphere環境の使用方法の詳細については、を参照してください https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/map-for-administering-vcf-5-2/importing-existing-vsphere-environments-admin/convert-or-import-a-vsphere-environment-into-vmware-cloud-foundation-admin.html["既存のvSphere環境から管理ドメインへの変換"]。
+
+
+
+=== 管理ドメイン-追加クラスタ
+
+管理ドメイン上の追加のvSphereクラスタは、次のオプションを使用して導入できます。
+
+* vSphere環境にクラスタを追加し、VCFブラウンフィールドインポートツールを使用してvSphere環境を管理ドメインに変換します。 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/create-vvols-datastore.html["VMware vSphere向けONTAPツール"] https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["System ManagerまたはONTAP API"]VMFSデータストアをvSphereクラスタに導入するために使用できます。
+* SDDC APIを使用して追加のクラスタを導入vSphereホストにVMFSデータストアが設定されている必要があります。vSphereホストにLUNを導入するために使用し https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["System ManagerまたはONTAP API"]ます。
+* SDDC Manager UIを使用して追加のクラスタを導入します。ただし、このオプションで作成されるのは、バージョン5.2.xまでのVSANデータストアのみです。
+
+
+
+
+== 追加情報
+
+ONTAPストレージシステムの構成については、センターを参照してlink:https://docs.netapp.com/us-en/ontap["ONTAP 9ドキュメント"]ください。
+
+VCFの設定については、を参照してくださいlink:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2.html["VMware Cloud Foundationのドキュメント"]。

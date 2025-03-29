@@ -25,7 +25,7 @@ FSx ONTAPは、AWSで利用できるファーストパーティのエンター�
 FSx ONTAPは、シームレスな導入と管理のエクスペリエンスを提供します。ストレージの専門知識は必要ありません。監視を簡易化するために、AWSラムダ機能（しきい値に基づいて合計ストレージ容量、ボリュームサイズ、LUNサイズのサイズを自動変更）を使用できます。  このドキュメントでは、FSx ONTAPを定期的に監視し、ユーザ指定のしきい値を超えたときに通知とサイズ変更を行い、サイズ変更アクティビティを管理者に通知する自動セットアップを作成するためのステップバイステップのガイドを提供します。
 
 .特徴
-[%collapsible]
+[%collapsible%open]
 ====
 解決策 には次の機能があります。
 
@@ -48,7 +48,7 @@ FSx ONTAPは、シームレスな導入と管理のエクスペリエンスを�
 
 ====
 .前提条件
-[%collapsible]
+[%collapsible%open]
 ====
 作業を開始する前に、次の前提条件を満たしていることを確認してください。
 
@@ -59,7 +59,7 @@ FSx ONTAPは、シームレスな導入と管理のエクスペリエンスを�
 
 ====
 .アーキテクチャの概要
-[%collapsible]
+[%collapsible%open]
 ====
 * AWS Lambda関数は、ストレージ容量、ボリューム、LUNのサイズを取得および更新するために、FSx ONTAPへのAPI呼び出しを行います。
 * 「fsxadmin」パスワードは、セキュリティレイヤを追加するためにAWS SSMパラメータストアにセキュアな文字列として保存されます。
@@ -84,7 +84,7 @@ NOTE: 単一のFSx ONTAPファイルシステムに対応
 一連の手順に従って、この解決策 の自動導入を完了します。
 
 .ステップ1: GitHubリポジトリのクローンを作成します
-[%collapsible]
+[%collapsible%open]
 ====
 ローカルシステム上のGitHubリポジトリのクローンを作成します。
 
@@ -94,7 +94,7 @@ git clone https://github.com/NetApp/fsxn-monitoring-auto-resizing.git
 ----
 ====
 .ステップ2：AWS S3バケットをセットアップする
-[%collapsible]
+[%collapsible%open]
 ====
 . [AWS Console]>* S3 *に移動し、*[Create bucket]*をクリックします。デフォルトの設定でバケットを作成します。
 . バケット内で、* Upload *>* Add files *をクリックし、システム上のクローンされたGitHubリポジトリから* Utilities.zip *を選択します。
@@ -105,7 +105,7 @@ image:fsxn-monitoring-resizing-s3-upload-zip-files.png["この図は、S3ウィ�
 
 ====
 .手順3：AWS SES SMTPのセットアップ（インターネットアクセスがない場合は必須）
-[%collapsible]
+[%collapsible%open]
 ====
 インターネットアクセスなしで解決策を導入する場合は、次の手順を実行します（注：VPCエンドポイントのセットアップに関連するコストが発生します）。
 
@@ -122,7 +122,7 @@ image:fsxn-monitoring-resizing-ses-smtp-creds-addition.png["この図は、AWS S
 
 ====
 .ステップ4：AWS CloudFormationの導入
-[%collapsible]
+[%collapsible%open]
 ====
 . AWS Console >* CloudFormation *> Create stack > With New Resources（Standard）に移動します。
 +
@@ -176,7 +176,7 @@ NOTE: 1つのVPCで複数のFSx ONTAPファイルシステムを監視できま�
 一連の手順に従って、この解決策 の手動導入を完了します。
 
 .ステップ1: GitHubリポジトリのクローンを作成します
-[%collapsible]
+[%collapsible%open]
 ====
 ローカルシステム上のGitHubリポジトリのクローンを作成します。
 
@@ -186,7 +186,7 @@ git clone https://github.com/NetApp/fsxn-monitoring-auto-resizing.git
 ----
 ====
 .手順2：AWS SES SMTPのセットアップ（インターネットアクセスがない場合は必須）
-[%collapsible]
+[%collapsible%open]
 ====
 インターネットアクセスなしで解決策を導入する場合は、次の手順を実行します（注：VPCエンドポイントのセットアップに関連するコストが発生します）。
 
@@ -199,7 +199,7 @@ image:fsxn-monitoring-resizing-ses-smtp-creds-addition.png["この図は、AWS S
 
 ====
 .手順3：fsxadminパスワードのSSMパラメータを作成します
-[%collapsible]
+[%collapsible%open]
 ====
 [AWS Console]>*[Parameter Store]*に移動し、*[Create Parameter]*をクリックします。
 
@@ -220,7 +220,7 @@ image:fsxn-monitoring-resizing-ssm-parameter.png["この図は、AWSコンソー
 
 ====
 .ステップ4:電子メールサービスをセットアップします
-[%collapsible]
+[%collapsible%open]
 ====
 [AWS Console]>*[Simple Email Service（SES）]*に移動し、*[Create Identity]*をクリックします。
 
@@ -237,7 +237,7 @@ image:fsxn-monitoring-resizing-ses.png["この図は、AWSコンソールのSES 
 
 ====
 .手順5：VPCエンドポイントをセットアップする（インターネットアクセスを使用できない場合は必須）
-[%collapsible]
+[%collapsible%open]
 ====
 
 NOTE: インターネットアクセスなしで展開されている場合にのみ必要です。VPCエンドポイントに関連する追加コストが発生します。
@@ -268,7 +268,7 @@ image:fsxn-monitoring-resizing-vpc-endpoint-create-2.png["この図は、VPCエ�
 
 ====
 .ステップ6: AWS Lambda関数を作成してセットアップします
-[%collapsible]
+[%collapsible%open]
 ====
 . AWSコンソール>* AWS Lambda *>* Functions *に移動し、FSx ONTAPと同じリージョンの* Create Function *をクリックします。
 . デフォルトの*Author from scratch*を使用して、次のフィールドを更新します。

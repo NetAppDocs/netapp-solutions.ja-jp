@@ -1,0 +1,91 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-viwld-supplemental-fc.html 
+keywords: netapp, vmware, cloud, foundation, vcf, asa, all-flash, array, ontap tools, otv, sddc, fc 
+summary:  
+---
+= ONTAP Tools for VMwareを使用したVIワークロードおよび管理ドメインの補助ストレージとしてのVMFS on FC
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+このシナリオでは、ONTAPツールを使用して、管理ドメインとワークロードドメイン用にファイバチャネル（FC）バックエンドでVMFSデータストアを導入する方法を説明します。
+
+
+
+== ファイバ・チャネルのメリット
+
+*高性能：* FCは高速なデータ転送速度を提供するため、大量データへの高速かつ信頼性の高いアクセスを必要とするアプリケーションに最適です。
+
+*低レイテンシ：*非常に低レイテンシ。これは、データベースや仮想環境など、パフォーマンスの影響を受けやすいアプリケーションに不可欠です。
+
+*信頼性：* FCネットワークは、内蔵冗長性やエラー訂正などの機能を備えた堅牢性と信頼性で知られています。
+
+*専用帯域幅：* FCはストレージトラフィック専用の帯域幅を提供し、ネットワーク輻輳のリスクを軽減します。
+
+NetAppストレージ・システムでのファイバ・チャネルの使用の詳細については、を参照してください https://docs.netapp.com/us-en/ontap/san-admin/san-provisioning-fc-concept.html["FCを使用したSANプロビジョニング"]。
+
+
+
+== シナリオの概要
+
+VCFサプリメンタルデータストアは、vCenterを使用した2日目の操作の一部として提供されます。このシナリオでは、次の手順の概要を説明します。
+
+* 管理ドメインへのONTAP toolsの導入
+* VIワークロードのvCenterサーバをONTAPツールに登録
+* VMware vSphere用ONTAP toolsプラグインでのストレージバックエンドの定義
+* FC転送でのVMFSのプロビジョニング
+
+
+
+
+== 前提条件
+
+このシナリオでは、次のコンポーネントと構成が必要です。
+
+* FCポートがFCスイッチに接続されたONTAP AFFまたはASAストレージシステム。
+* SVMをFC LIFで作成
+* FC HBAをFCスイッチに接続したvSphere
+* 単一のイニシエータとターゲットのゾーニングがFCスイッチに設定されます。
++
+
+NOTE: ONTAPシステムの物理FCポートではなく、ゾーン構成でSVM FC論理インターフェイスを使用してください。
+
+
+
+NetAppではFC LUNにマルチパスを推奨しています。
+
+ONTAPストレージシステムでのファイバチャネルの設定の詳細については、ONTAP 9のドキュメントのを参照してください https://docs.netapp.com/us-en/ontap/san-management/index.html["SANストレージ管理"]。
+
+ONTAPストレージシステムでVMFSを使用する方法の詳細については、を参照して https://docs.netapp.com/us-en/netapp-solutions/vmware/vmfs-deployment.html["VMFSの導入ガイド"]ください。
+
+
+
+== VIワークロードドメインの導入手順
+
+ONTAPツールを導入し、それを使用してVCF VIワークロードドメインにVMFSデータストアを作成するには、次の手順を実行します。
+
+* link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-vcenter.html["VIワークロードvCenterを登録してvCenterプラグインを有効にする"]
+* link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-storage-backend.html["vSphere Clientインターフェイスを使用したストレージバックエンドの定義"]
+* link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/create-vvols-datastore.html["FCでのVMFSのプロビジョニング"]
+
+
+
+
+== 追加情報
+
+ONTAPストレージシステムの構成については、センターを参照してlink:https://docs.netapp.com/us-en/ontap["ONTAP 9ドキュメント"]ください。
+
+VCFの設定については、を参照してくださいlink:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2.html["VMware Cloud Foundationのドキュメント"]。
+
+
+
+== この解決策のビデオデモ
+
+.VCF管理ドメインの補助ストレージとしてのVMFS（FC）データストア
+video::3135c36f-3a13-4c95-aac9-b2a0001816dc[panopto,width=360]

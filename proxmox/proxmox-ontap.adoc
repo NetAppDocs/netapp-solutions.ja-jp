@@ -145,7 +145,7 @@ NOTE: パスワードはクリアテキストファイルに保存され、root�
 .ONTAPを使用したSMB共有ストレージプール
 video::5b4ae54a-08d2-4f7d-95ec-b22d015f6035[panopto,width=360]
 .<strong>ストレージ管理タスク</strong>
-[%collapsible]
+[%collapsible%open]
 ====
 ONTAPを初めて使用する場合は、System Managerインターフェイスを使用してこれらのタスクを実行してください。
 
@@ -171,7 +171,7 @@ image:proxmox-ontap-image03.png["SMB共有情報"]
 
 ====
 .<strong>仮想化管理タスク</strong>
-[%collapsible]
+[%collapsible%open]
 ====
 . 共有の認証に使用するSMBサーバ、共有名、およびクレデンシャルを収集します。
 . 少なくとも2つのインターフェイスが（フォールトトレランスのために）異なるVLANに設定されており、NICがRSSをサポートしていることを確認してください。
@@ -205,7 +205,7 @@ ONTAPを初めて使用する場合は、System Managerインターフェイス�
 .ONTAPでのNFS nconnectオプション
 video::f6c9aba3-b070-45d6-8048-b22e001acfd4[panopto,width=360]
 .<strong>ストレージ管理タスク</strong>
-[%collapsible]
+[%collapsible%open]
 ====
 . SVMでNFSが有効になっていることを確認します。を参照して link:https://docs.netapp.com/us-en/ontap/nfs-config/verify-protocol-enabled-svm-task.html["ONTAP 9 のドキュメント"]
 . コントローラごとに少なくとも2つのLIFが必要です。上記のリンクの手順に従います。ここでは、ラボで使用するLIFのスクリーンショットを参照してください。
@@ -226,7 +226,7 @@ image:proxmox-ontap-image08.png["NFSボリュームの情報"]
 
 ====
 .<strong>仮想化管理タスク</strong>
-[%collapsible]
+[%collapsible%open]
 ====
 . 少なくとも2つのインターフェイスが異なるVLANに設定されていることを確認します（フォールトトレランス用）。NICボンディングを使用します。
 . 管理UIを使用している場合は `https:<proxmox-node>:8006`、データセンターをクリックし、ストレージを選択して、[Add]をクリックして[NFS]を選択します。
@@ -257,7 +257,7 @@ video::d66ef67f-bcc2-4ced-848e-b22e01588e8c[panopto,width=360]
 Proxmoxホスト間で共有ストレージ用の論理ボリュームマネージャを構成するには、次のタスクでを実行します。
 
 .<strong>仮想化管理タスク</strong>
-[%collapsible]
+[%collapsible%open]
 ====
 . 2つのLinux VLANインターフェイスが使用可能であることを確認します。
 . すべてのProxmox VEホストにmultipath-toolsがインストールされていることを確認します。起動時に起動することを確認します。
@@ -279,7 +279,7 @@ cat /etc/iscsi/initiator.name
 
 ====
 .<strong>ストレージ管理タスク</strong>
-[%collapsible]
+[%collapsible%open]
 ====
 ONTAPを初めて使用する場合は、System Managerを使用して操作性を向上させてください。
 
@@ -298,7 +298,7 @@ image:proxmox-ontap-image14.png["iSCSI LUNの詳細"]
 
 ====
 .<strong>仮想化管理タスク</strong>
-[%collapsible]
+[%collapsible%open]
 ====
 . 管理UIに移動し `https:<proxmox node>:8006`、データセンターをクリックしてストレージを選択し、追加をクリックしてiSCSIを選択します。
 +
@@ -332,7 +332,7 @@ video::80164fe4-06db-4c21-a25d-b22e0179c3d2[panopto,width=360]
 Proxmoxホスト間で共有ストレージ用に論理ボリュームマネージャを構成するには、次のタスクを実行します。
 
 .<strong>仮想化管理タスク</strong>
-[%collapsible]
+[%collapsible%open]
 ====
 . 2つのLinux VLANインターフェイスが使用可能であることを確認します。
 . クラスタ上のすべてのProxmoxホストで、次のコマンドを実行してホストイニシエータ情報を収集します。
@@ -346,7 +346,7 @@ nvme show-hostnqn
 
 ====
 .<strong>ストレージ管理タスク</strong>
-[%collapsible]
+[%collapsible%open]
 ====
 ONTAPを初めて使用する場合は、System Managerを使用して操作性を向上させてください。
 
@@ -361,7 +361,7 @@ image:proxmox-ontap-image20.png["NVMeネームスペースの作成"]
 
 ====
 .<strong>仮想化管理タスク</strong>
-[%collapsible]
+[%collapsible%open]
 ====
 . クラスタ内の各Proxmox VEホストでshellに移動し、/etc/nvme/discovery.confファイルを作成して、環境に固有のコンテンツを更新します。
 +

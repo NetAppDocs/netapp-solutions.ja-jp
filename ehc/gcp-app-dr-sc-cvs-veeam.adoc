@@ -16,8 +16,6 @@ summary: クラウドへのディザスタリカバリは、耐障害性と対�
 [role="lead"]
 クラウドへのディザスタリカバリは、耐障害性と対費用効果に優れた方法で、サイトの停止やランサムウェアなどのデータ破損からワークロードを保護します。NetApp SnapMirrorを使用すると、ゲスト接続ストレージを使用するオンプレミスのVMwareワークロードを、Google Cloudで実行されているNetApp Cloud Volumes ONTAP にレプリケートできます。
 
-執筆者：ネットアップSuresh Thoppay
-
 
 
 == 概要
@@ -74,7 +72,7 @@ NOTE: オンプレミスのデータセンターをGoogle Cloudに接続する�
 === 導入の詳細
 
 .Google CloudでCVOを構成し、ボリュームをCVOにレプリケート
-[%collapsible]
+[%collapsible%open]
 ====
 最初の手順では、Google CloudでCloud Volumes ONTAPを設定し（link:gcp-guest.html["CVOを確認して"^]）、必要な頻度とSnapshotの保持期間を指定して、必要なボリュームをCloud Volumes ONTAPにレプリケートします。
 
@@ -86,7 +84,7 @@ SnapCenterを設定してデータを複製する手順の例については、�
 video::395e33db-0d63-4e48-8898-b01200f006ca[panopto]
 ====
 .GCVEホストとCVOデータアクセスを設定する
-[%collapsible]
+[%collapsible%open]
 ====
 SDDCを導入する際に考慮すべき2つの重要な要素は、GCVE解決策 のSDDCクラスタのサイズと、SDDCの稼働時間です。ディザスタリカバリ解決策 に関する以下の2つの重要な考慮事項は、全体的な運用コストの削減に役立ちます。SDDCは、3台のホストの規模に対応し、フルスケールの導入ではマルチホストクラスタにまで対応できます。
 
@@ -98,20 +96,20 @@ Cloud Volumes ONTAP とGCVEを適切に設定したら、Veeamのレプリケー
 
 ====
 .Veeamコンポーネントをインストールします
-[%collapsible]
+[%collapsible%open]
 ====
 導入シナリオに基づいて、Veeamバックアップサーバ、バックアップリポジトリ、およびバックアッププロキシを導入する必要があります。このユースケースでは、Veeam用のオブジェクトストアとスケールアウトリポジトリも必要ありません。https://helpcenter.veeam.com/docs/backup/vsphere/replication_components.html?ver=120["インストール手順 については、Veeamの製品ドキュメントを参照してください"]詳細については、link:gcp-migrate-veeam.html["Veeam Replicationによる移行"]
 
 ====
 .VMレプリケーションをVeeamとセットアップする
-[%collapsible]
+[%collapsible%open]
 ====
 オンプレミスのvCenterとGCVE vCenterの両方をVeeamに登録する必要があります。 https://helpcenter.veeam.com/docs/backup/vsphere/replica_job.html?ver=120["vSphere VMレプリケーションジョブをセットアップします"]ウィザードの[ゲスト処理]ステップで、[アプリケーション対応のバックアップとリカバリにSnapCenter を使用するので、アプリケーション処理を無効にする]を選択します。
 
 video::8b7e4a9b-7de1-4d48-a8e2-b01200f00692[panopto,width=360]
 ====
 .Microsoft SQL Server VMのフェイルオーバー
-[%collapsible]
+[%collapsible%open]
 ====
 video::9762dc99-081b-41a2-ac68-b01200f00ac0[panopto,width=360]
 ====

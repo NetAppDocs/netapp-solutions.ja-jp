@@ -1,0 +1,479 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-scv-wkld.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, vvol, vvols, array, ontap tools, otv, sddc, scv, snapcenter, plug-in 
+summary:  
+---
+= VCFワークロードドメインの保護
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+このシナリオでは、SnapCenter Plug-in for VMware vSphere（SCV）を導入して使用し、VCFワークロードドメイン上のVMとデータストアをバックアップおよびリストアする方法を説明します。SCVは、ONTAPスナップショットテクノロジを使用して、vSphereデータストアをホストするONTAPストレージボリュームの高速かつ効率的なバックアップコピーを作成します。SnapMirrorテクノロジとSnapVaultテクノロジを使用すると、別のストレージシステムにセカンダリバックアップを作成できます。保持ポリシーは、元のボリュームをそのまま使用することも、長期保持用に元のボリュームから独立して使用することもできます。
+
+* iSCSI *は、この解決策でVMFSデータストアのストレージプロトコルとして使用されます。
+
+
+
+== シナリオの概要
+
+このシナリオでは、次の手順の概要を説明します。
+
+* SnapCenter Plug-in for VMware vSphere（SCV）をVIワークロードドメインに導入します。
+* ストレージシステムをSCVに追加します。
+* SCVでバックアップポリシーを作成します。
+* SCVでリソースグループを作成します。
+* SCVを使用してデータストアまたは特定のVMをバックアップします。
+* SCVを使用して、VMをクラスタ内の別の場所にリストアします。
+* SCVを使用して、Windowsファイルシステムにファイルをリストアします。
+
+
+
+
+== 前提条件
+
+このシナリオでは、次のコンポーネントと構成が必要です。
+
+* ワークロードドメインクラスタに割り当てられたiSCSI VMFSデータストアを備えたONTAP ASAストレージシステム。
+* SnapMirrorを使用してセカンダリバックアップを受信するように設定されたセカンダリONTAPストレージシステム。
+* VCF管理ドメインの導入が完了し、vSphereクライアントにアクセスできるようになります。
+* VIワークロードドメインは以前に導入されています。
+* 保護対象のクラスタSCVに仮想マシンが存在する。
+
+
+iSCSI VMFSデータストアを補助ストレージとして構成する方法については、このドキュメントのを参照してくださいlink:vmw-vcf-mgmt-supplemental-iscsi.html["* ONTAP Tools for VMware*を使用した管理ドメイン用の補助ストレージとしてのiSCSI"]。OTVを使用してデータストアを導入するプロセスは、管理ドメインとワークロードドメインで同じです。
+
+
+TIP: SCVで作成されたバックアップをセカンダリストレージにレプリケートすることに加えて、VMのNetApp BlueXPバックアップ/リカバリを使用して、大手3社のクラウドプロバイダのいずれかのオブジェクトストレージにデータのオフサイトコピーを作成できます。詳細については、ソリューションを参照してlink:vmw-vcf-scv-321.html["3-2-1 SnapCenterプラグインとBlueXPによるVMのバックアップとリカバリによるVMwareのデータ保護"]ください。
+
+image:vmware-vcf-asa-image108.png["3-2-1バックアップ戦略"]
+
+
+
+== 導入手順
+
+SnapCenter Plug-inを導入して、バックアップの作成、VMとデータストアのリストアに使用するには、次の手順を実行します。
+
+
+
+=== SCVを導入して使用し、VIワークロードドメインのデータを保護
+
+SCVを導入、構成、使用してVIワークロードドメインのデータを保護するには、次の手順を実行します。
+
+.SnapCenter Plug-in for VMware vSphereの導入
+[%collapsible%open]
+====
+SnapCenter Plug-inはVCF管理ドメインでホストされますが、VIワークロードドメインのvCenterに登録されます。vCenterインスタンスごとに1つのSCVインスタンスが必要です。また、ワークロードドメインには、1つのvCenterインスタンスで管理される複数のクラスタを含めることができることに注意してください。
+
+vCenterクライアントで次の手順を実行して、SCVをVIワークロードドメインに導入します。
+
+. NetAppサポートサイトのダウンロード領域から、SCV導入用のOVAファイルをダウンロードしますlink:https://mysupport.netapp.com/site/products/all/details/scv/downloads-tab["*ここ*"]。
+. 管理ドメインの[vCenter Client]で、*[Deploy OVF Template...]*を選択します。
++
+image:vmware-vcf-asa-image46.png["OVFテンプレートの導入..."]
+
++
+｛nbsp｝
+
+. [Deploy OVF Template]ウィザードで、*[Local file]*ラジオボタンをクリックし、以前にダウンロードしたOVFテンプレートのアップロードを選択します。[次へ]*をクリックして続行します。
++
+image:vmware-vcf-asa-image47.png["OVFテンプレートの選択"]
+
++
+｛nbsp｝
+
+. [名前とフォルダの選択]*ページで、SCVデータブローカーVMの名前と管理ドメイン上のフォルダを指定します。[次へ]*をクリックして続行します。
+. [コンピューティングリソースの選択]*ページで、VMのインストール先となる管理ドメインクラスタまたはクラスタ内の特定のESXiホストを選択します。
+. OVFテンプレートに関する情報を*[Review details]*ページで確認し、*[Licensing agreements]*ページのライセンス条項に同意します。
+. [ストレージの選択]*ページで、VMをインストールするデータストアを選択し、*仮想ディスクの形式*と* VMストレージポリシー*を選択します。この解決策では、このドキュメントの別のセクションで以前に導入したONTAPストレージシステム上のiSCSI VMFSデータストアにVMをインストールします。[次へ]*をクリックして続行します。
++
+image:vmware-vcf-asa-image48.png["OVFテンプレートの選択"]
+
++
+｛nbsp｝
+
+. [ネットワークの選択]*ページで、ワークロードドメインvCenterアプライアンスおよびプライマリとセカンダリの両方のONTAPストレージシステムと通信できる管理ネットワークを選択します。
++
+image:vmware-vcf-asa-image49.png["管理ネットワークを選択"]
+
++
+｛nbsp｝
+
+. [Customize template*（テンプレートのカスタマイズ）]ページで、導入に必要なすべての情報を入力します。
++
+** FQDNまたはIP、およびワークロードドメインvCenterアプライアンスのクレデンシャル。
+** SCV管理アカウントのクレデンシャル。
+** SCVメンテナンスアカウントのクレデンシャル。
+** IPv4ネットワークプロパティの詳細（IPv6を使用することもできます）。
+** 日付と時刻の設定。
++
+[次へ]*をクリックして続行します。
+
++
+image:vmware-vcf-asa-image50.png["管理ネットワークを選択"]
+
++
+image:vmware-vcf-asa-image51.png["管理ネットワークを選択"]
+
++
+image:vmware-vcf-asa-image52.png["管理ネットワークを選択"]
+
++
+｛nbsp｝
+
+
+
+. 最後に、[Ready to Complete]ページ*ですべての設定を確認し、[Finish]をクリックして導入を開始します。
+
+
+====
+.SCVへのストレージシステムの追加
+[%collapsible%open]
+====
+SnapCenter Plug-inをインストールしたら、次の手順を実行してSCVにストレージシステムを追加します。
+
+. SCVには、vSphere Clientのメインメニューからアクセスできます。
++
+image:vmware-vcf-asa-image53.png["SnapCenterプラグインを開く"]
+
++
+｛nbsp｝
+
+. SCV UIインターフェイスの上部で、保護するvSphereクラスタに一致する正しいSCVインスタンスを選択します。
++
+image:vmware-vcf-asa-image54.png["正しいインスタンスを選択してください"]
+
++
+｛nbsp｝
+
+. 左側のメニューで*[ストレージシステム]*に移動し、*[追加]*をクリックして開始します。
++
+image:vmware-vcf-asa-image55.png["新しいストレージシステムの追加"]
+
++
+｛nbsp｝
+
+. [ストレージシステムの追加]*フォームで、追加するONTAPストレージシステムのIPアドレスとクレデンシャルを入力し、*[追加]*をクリックして操作を完了します。
++
+image:vmware-vcf-asa-image56.png["ストレージシステムのクレデンシャルの入力"]
+
++
+｛nbsp｝
+
+. セカンダリバックアップターゲットとして使用するすべてのシステムを含め、管理する追加のストレージシステムについて、この手順を繰り返します。
+
+
+====
+.SCVでのバックアップポリシーの設定
+[%collapsible%open]
+====
+SCVバックアップポリシーの作成の詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_create_backup_policies_for_vms_and_datastores.html["VMとデータストアのバックアップポリシーの作成"]。
+
+新しいバックアップポリシーを作成するには、次の手順を実行します。
+
+. 左側のメニューから*[Policies]*を選択し、*[Create]*をクリックして開始します。
++
+image:vmware-vcf-asa-image57.png["新しいポリシーを作成する"]
+
++
+｛nbsp｝
+
+. [新しいバックアップポリシー]*フォームで、ポリシーの*[名前]*と*[概要]*、バックアップを実行する*頻度*、および*保持期間を指定する*保持*期間を指定します。
++
+*ロック期間* ONTAP SnapLock機能を有効にして、改ざん防止スナップショットを作成し、ロック期間を設定できます。
+
++
+[レプリケーション]*では、ONTAPストレージボリュームの基盤となるSnapMirror関係またはSnapVault関係を更新する場合に選択します。
+
++
+
+TIP: SnapMirrorとSnapVaultのレプリケーションは、どちらもONTAPのSnapMirrorテクノロジを使用してストレージボリュームをセカンダリストレージシステムに非同期でレプリケートするという点で似ています。これにより、保護とセキュリティが強化されます。SnapMirror関係の場合、SCVバックアップポリシーで指定された保持スケジュールによって、プライマリボリュームとセカンダリボリュームの両方の保持が制御されます。SnapVault関係では、セカンダリストレージシステムに長期的な保持スケジュールや異なる保持スケジュールを設定するために、別の保持スケジュールを設定できます。この場合、SCVバックアップポリシーおよびセカンダリボリュームに関連付けられたポリシーでSnapshotラベルが指定され、独立した保持スケジュールを適用するボリュームが特定されます。
+
++
+その他の詳細オプションを選択し、*[追加]*をクリックしてポリシーを作成します。
+
++
+image:vmware-vcf-asa-image58.png["ポリシーの詳細を入力"]
+
+
+
+====
+.SCVでのリソースグループの作成
+[%collapsible%open]
+====
+SCVリソースグループの作成の詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_create_resource_groups_for_vms_and_datastores.html["リソースグループの作成"]。
+
+新しいリソースグループを作成するには、次の手順を実行します。
+
+. 左側のメニューから*[リソースグループ]*を選択し、*[作成]*をクリックして開始します。
++
+image:vmware-vcf-asa-image59.png["新しいリソースグループを作成する"]
+
++
+｛nbsp｝
+
+. [General info & notification]*ページで、リソースグループの名前、通知設定、およびSnapshotの命名に関するその他のオプションを指定します。
+. [リソース]ページで、リソースグループで保護するデータストアとVMを選択します。[次へ]*をクリックして続行します。
++
+
+TIP: 特定のVMだけを選択した場合でも、データストア全体が常にバックアップされます。これは、ONTAPがデータストアをホストしているボリュームのSnapshotを作成するためです。ただし、バックアップに特定のVMのみを選択すると、そのVMのみにリストアする機能が制限されることに注意してください。
+
++
+image:vmware-vcf-asa-image60.png["バックアップするリソースを選択"]
+
++
+｛nbsp｝
+
+. [スパニングディスク]ページで、複数のデータストアにまたがるVMDKを使用したVMの処理方法を選択します。[次へ]*をクリックして続行します。
++
+image:vmware-vcf-asa-image61.png["[スパニングデータストア]オプションを選択"]
+
++
+｛nbsp｝
+
+. [ポリシー]*ページで、以前に作成したポリシーを1つ以上選択し、このリソースグループで使用します。[次へ]*をクリックして続行します。
++
+image:vmware-vcf-asa-image62.png["ポリシーの選択"]
+
++
+｛nbsp｝
+
+. [スケジュール]ページで、スケジュールと時刻を設定してバックアップを実行するタイミングを設定します。[次へ]*をクリックして続行します。
++
+image:vmware-vcf-asa-image63.png["スケジュールの選択"]
+
++
+｛nbsp｝
+
+. 最後に、*[Summary]*を確認し、*[Finish]*をクリックしてリソースグループを作成します。
++
+image:vmware-vcf-asa-image64.png["概要を確認してリソースグループを作成"]
+
++
+｛nbsp｝
+
+. リソースグループが作成されたら、*[Run Now]*ボタンをクリックして最初のバックアップを実行します。
++
+image:vmware-vcf-asa-image65.png["概要を確認してリソースグループを作成"]
+
++
+｛nbsp｝
+
+. [Dashboard]*に移動し、*[Recent Job Activities]*で*[Job ID]*の横にある数字をクリックしてジョブモニタを開き、実行中のジョブの進捗状況を表示します。
++
+image:vmware-vcf-asa-image66.png["バックアップジョブの進捗状況の表示"]
+
+
+
+====
+
+
+==== SCVを使用してVM、VMDK、およびファイルをリストア
+
+SnapCenter Plug-inでは、プライマリバックアップまたはセカンダリバックアップからVM、VMDK、ファイル、フォルダをリストアできます。
+
+VMは、元のホスト、同じvCenter Server内の代替ホスト、または同じvCenterまたはリンクモードの任意のvCenterで管理される代替ESXiホストにリストアできます。
+
+VVol VMを元のホストにリストアできます。
+
+従来のVM内のVMDKは、元のデータストアまたは別のデータストアにリストアできます。
+
+VVOL VMのVMDKを元のデータストアにリストアできます。
+
+ゲストファイルリストアセッション内の個 々 のファイルおよびフォルダをリストアできます。これにより、仮想ディスクのバックアップコピーが添付され、選択したファイルまたはフォルダがリストアされます。
+
+VM、VMDK、または個 々 のフォルダをリストアするには、次の手順を実行します。
+
+.SnapCenterプラグインを使用したVMのリストア
+[%collapsible%open]
+====
+SCVを使用してVMをリストアするには、次の手順を実行します。
+
+. vSphere ClientでリストアするVMに移動し、右クリックして* SnapCenter Plug-in for VMware vSphere *に移動します。サブメニューから*[リストア]*を選択します。
++
+image:vmware-vcf-asa-image67.png["VMをリストアする場合に選択"]
+
++
+
+TIP: または、インベントリ内のデータストアに移動し、*[設定]*タブで* SnapCenter Plug-in for VMware vSphere >[バックアップ]*に移動します。選択したバックアップから、リストアするVMを選択します。
+
++
+image:vmware-vcf-asa-image68.png["データストアからのバックアップのナビゲート"]
+
++
+｛nbsp｝
+
+. [リストア]*ウィザードで、使用するバックアップを選択します。[次へ]*をクリックして続行します。
++
+image:vmware-vcf-asa-image69.png["使用するバックアップを選択"]
+
++
+｛nbsp｝
+
+. [Select scope]ページで、すべての必須フィールドに入力します。
++
+** *スコープのリストア*-仮想マシン全体をリストアする場合に選択します。
+** * VMの再起動*-リストア後にVMを起動するかどうかを選択します。
+** *リストア先*-元の場所にリストアするか、別の場所にリストアするかを選択します。代替保存場所を選択する場合は、各フィールドからオプションを選択します。
++
+*** *デスティネーションvCenter Server *-ローカルvCenterまたはリンクモードの代替vCenter
+*** *デスティネーションESXiホスト*
+*** * ネットワーク *
+*** *リストア後のVM名*
+*** *データストアの選択：*
++
+image:vmware-vcf-asa-image70.png["リストア範囲のオプションを選択"]
+
++
+｛nbsp｝
+
++
+[次へ]*をクリックして続行します。
+
+
+
+
+
+. [Select location]*ページで、VMをプライマリまたはセカンダリのONTAPストレージシステムからリストアするかどうかを選択します。[次へ]*をクリックして続行します。
++
+image:vmware-vcf-asa-image71.png["保存場所の選択"]
+
++
+｛nbsp｝
+
+. 最後に、*[Summary]*を確認し、*[Finish]*をクリックしてリストア・ジョブを開始します。
++
+image:vmware-vcf-asa-image72.png["[完了]をクリックしてリストアジョブを開始します"]
+
++
+｛nbsp｝
+
+. リストアジョブの進捗状況は、vSphere Clientの*[最近のタスク]*ペインおよびSCVのジョブモニタで監視できます。
++
+image:vmware-vcf-asa-image73.png["リストアジョブの監視"]
+
+
+
+====
+.SnapCenterプラグインを使用したVMDKのリストア
+[%collapsible%open]
+====
+ONTAPツールを使用すると、VMDKを元の場所に完全にリストアしたり、VMDKを新しいディスクとしてホストシステムに接続したりできます。このシナリオでは、ファイルシステムにアクセスするためにVMDKをWindowsホストに接続します。
+
+バックアップからVMDKを接続するには、次の手順を実行します。
+
+. vSphere ClientでVMに移動し、*[操作]*メニューから* SnapCenter Plug-in for VMware vSphere >仮想ディスクの接続*を選択します。
++
+image:vmware-vcf-asa-image80.png["[Attach Virtual Disks（s）]を選択します。"]
+
++
+｛nbsp｝
+
+. [仮想ディスクの接続]*ウィザードで、使用するバックアップインスタンスと接続する特定のVMDKを選択します。
++
+image:vmware-vcf-asa-image81.png["仮想ディスク設定の接続を選択します。"]
+
++
+
+TIP: フィルタオプションを使用すると、バックアップを検索し、プライマリとセカンダリの両方のストレージシステムのバックアップを表示できます。
+
++
+image:vmware-vcf-asa-image82.png["仮想ディスクフィルタの接続"]
+
++
+｛nbsp｝
+
+. すべてのオプションを選択したら、*[接続]*ボタンをクリックしてリストアプロセスを開始し、VMDKをホストに接続します。
+. 接続手順が完了すると、ホストシステムのOSからディスクにアクセスできるようになります。この場合、SCVがNTFSファイルシステムを含むディスクをWindows SQL ServerのE：ドライブに接続し、ファイルシステム上のSQLデータベースファイルには、エクスプローラを使用してアクセスできます。
++
+image:vmware-vcf-asa-image83.png["Windowsフアイルシステムヘノアクセス"]
+
+
+
+====
+.SnapCenterプラグインを使用したゲストファイルシステムのリストア
+[%collapsible%open]
+====
+ONTAPツールには、WindowsサーバOS上のVMDKからのゲストファイルシステムのリストア機能があります。これは、SnapCenterプラグインインターフェイスから一元的に実行されます。
+
+詳細については、SCVのドキュメントサイトにあるを参照してくださいlink:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_restore_guest_files_and_folders_overview.html["ゲストファイルとフォルダのリストア"]。
+
+Windowsシステムでゲストファイルシステムのリストアを実行するには、次の手順を実行します。
+
+. 最初に、Windowsホストシステムへのアクセスを提供するRun Asクレデンシャルを作成します。vSphere Clientで、CSVプラグインインターフェイスに移動し、メインメニューの*[Guest File Restore]*をクリックします。
++
+image:vmware-vcf-asa-image84.png["ゲストファイルのリストアを開く"]
+
++
+｛nbsp｝
+
+. [Run As Credentials]*で、*+*アイコンをクリックして*[Run As Credentials]*ウィンドウを開きます。
+. クレデンシャルレコードの名前、Windowsシステムの管理者のユーザ名とパスワードを入力し、*[Select VM]*ボタンをクリックしてリストアに使用するオプションのプロキシVMを選択します。image:vmware-vcf-asa-image85.png["[Run As Credentials]ウィンドウ"]
++
+｛nbsp｝
+
+. [Proxy VM]ページでVMの名前を指定し、ESXiホストまたは名前で検索します。選択したら、*[保存]*をクリックします。
++
+image:vmware-vcf-asa-image86.png["[Proxy VM]ページでのVMの検索"]
+
++
+｛nbsp｝
+
+. [Run As Credentials]ウィンドウでもう一度[Save]*をクリックして、レコードの保存を完了します。
+. 次に、インベントリ内のVMに移動します。[操作]メニューから、またはVMを右クリックして* SnapCenter Plug-in for VMware vSphere >[ゲストファイルのリストア]*を選択します。
++
+image:vmware-vcf-asa-image87.png["[Open Guest File Restore]ウィザード"]
+
++
+｛nbsp｝
+
+. [Guest File Restore]*ウィザードの*[Restore Scope]*ページで、リストアするバックアップ、特定のVMDK、およびVMDKのリストア元の場所（プライマリまたはセカンダリ）を選択します。[次へ]*をクリックして続行します。
++
+image:vmware-vcf-asa-image88.png["ゲストファイルのリストア対象"]
+
++
+｛nbsp｝
+
+. [Guest Details]ページで、リストアに*[Guest VM]*または*[Use Gues File Restore proxy VM]*を選択します。また、必要に応じてEメール通知の設定をここに入力します。[次へ]*をクリックして続行します。
++
+image:vmware-vcf-asa-image89.png["ゲストファイルの詳細"]
+
++
+｛nbsp｝
+
+. 最後に、*[Summary]*ページを確認し、*[Finish]*をクリックしてゲストファイルシステムのリストアセッションを開始します。
+. SnapCenterプラグインのインターフェイスに戻り、*[ゲストファイルのリストア]*にもう一度移動し、*[ゲストセッションモニタ]*で実行中のセッションを表示します。[ファイルの参照]*の下のアイコンをクリックして続行します。
++
+image:vmware-vcf-asa-image90.png["ゲストセッションモニタ"]
+
++
+｛nbsp｝
+
+. [Guest File Browse（ゲストファイルの参照）]ウィザードで、リストアするフォルダ（複数可）とリストア先のファイルシステムの場所を選択します。最後に、*[リストア]*をクリックして*[リストア]*プロセスを開始します。
++
+image:vmware-vcf-asa-image91.png["ゲストファイル参照1"]
+
++
+image:vmware-vcf-asa-image92.png["ゲストファイル参照2"]
+
++
+｛nbsp｝
+
+. リストアジョブは、vSphere Clientのタスクペインで監視できます。
+
+
+====
+
+
+== 追加情報
+
+VCFの設定については、を参照してください https://techdocs.broadcom.com/us/en/vmware-cis/vcf.html["VMware Cloud Foundationのドキュメント"]。
+
+ONTAPストレージシステムの構成については、センターを参照して https://docs.netapp.com/us-en/ontap["ONTAP 9ドキュメント"]ください。
+
+SnapCenter Plug-in for VMware vSphereの使用方法については、を参照して https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/["SnapCenter Plug-in for VMware vSphereのドキュメント"]ください。

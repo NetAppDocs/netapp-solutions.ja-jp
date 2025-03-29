@@ -13,8 +13,6 @@ summary: NetApp ONTAPを使用したRed Hat OpenShift仮想化によるデータ
 :imagesdir: ../media/
 
 
-作成者：Banu Sundhar、NetApp
-
 [role="lead"]
 このセクションでは、Trident保護を使用してVMのスナップショットとバックアップを作成する方法について詳しく説明します。
 
@@ -36,7 +34,7 @@ Trident保護を使用すると、OpenShiftクラスタ上のアプリケーシ�
 
 
 .AppVaultの作成
-[%collapsible]
+[%collapsible%open]
 ====
 アプリケーションまたはVMのSnapshotとバックアップを作成する前に、Trident保護でオブジェクトストレージを設定してSnapshotとバックアップを格納する必要があります。これにはバケットCRを使用します。バケットCRを作成して設定できるのは管理者だけです。バケットCRは、Trident保護ではAppVaultと呼ばれています。AppVaultオブジェクトは、ストレージバケットの宣言型Kubernetesワークフロー表現です。AppVault CRには、バックアップ、Snapshot、リストア処理、SnapMirrorレプリケーションなど、保護処理でバケットを使用するために必要な設定が含まれています。
 
@@ -102,7 +100,7 @@ image:rh-os-n_use_case_ocpv_tp_dp_8.png["ONTAP S3 Appvaultが作成されまし�
 
 ====
 .OpenShift仮想化でのVMの作成
-[%collapsible]
+[%collapsible%open]
 ====
 次のスクリーンショットは、テンプレートを使用してコンソールからVM（demo-Fedora in namespace demo）を作成する様子を示しています。デフォルトのストレージクラスはルートディスクによって自動的に選択されるため、デフォルトのストレージクラスが適切に設定されていることを確認します。このセットアップでは、デフォルトのストレージクラスは**sc-zonea-san**です。追加ディスクを作成するときは、ストレージクラスsc-zonea-sanを選択し、[**Apply optimized storage settings**]チェックボックスをオンにします。これにより、アクセスモードがRWXに、ボリュームモードがBlockに設定されます。
 
@@ -125,7 +123,7 @@ image:rh-os-n_use_case_ocpv_tp_dp_7.png["VM、ポッド、PVCの作成"]
 
 ====
 .アプリケーションの作成
-[%collapsible]
+[%collapsible%open]
 ====
 ** VM用のTrident保護アプリの作成**
 
@@ -152,7 +150,7 @@ image:rh-os-n_use_case_ocpv_tp_dp_9.png["作成されたアプリケーション
 
 ====
 .バックアップを作成します
-[%collapsible]
+[%collapsible%open]
 ====
 **オンデマンドバックアップの作成**
 
@@ -202,7 +200,7 @@ image:rh-os-n_use_case_ocpv_tp_dp_17.png["バックアップはオンデマン�
 
 ====
 .バックアップからのリストア
-[%collapsible]
+[%collapsible%open]
 ====
 ** VMを同じネームスペースにリストア**
 
@@ -282,7 +280,7 @@ image:rh-os-n_use_case_ocpv_tp_dp_23.png["新しいネームスペース内のVM
 
 ====
 .Snapshotの作成
-[%collapsible]
+[%collapsible%open]
 ====
 **オンデマンドスナップショットの作成**アプリケーションのスナップショットを作成し、保存する必要があるappvaultを指定します。
 
@@ -350,7 +348,7 @@ image:rh-os-n_use_case_ocpv_tp_dp_26.png["スケジュールされたSnapshot"]
 
 ====
 .Snapshotからリストア
-[%collapsible]
+[%collapsible%open]
 ====
 **スナップショットから同じネームスペースにVMをリストア** demo2ネームスペースからVM demo-Fedoraを削除します。
 
@@ -428,7 +426,7 @@ image:rh-os-n_use_case_ocpv_tp_dp_32.png["新しいネームスペースにVMを
 
 ====
 .スナップショット/バックアップおよびリストアを作成するためのネームスペース内の特定のVMの選択
-[%collapsible]
+[%collapsible%open]
 ====
 前の例では、ネームスペース内にVMが1つしかありませんでした。バックアップにネームスペース全体を含めることで、そのVMに関連付けられているすべてのリソースがキャプチャされました。次の例では、同じネームスペースに別のVMを追加し、ラベルセレクタを使用してこの新しいVM専用のアプリケーションを作成します。
 
@@ -489,9 +487,9 @@ image:rh-os-n_use_case_ocpv_tp_dp_18.png["作成された特定のVMのバック
 
 **特定のVMを同じネームスペースにリストア**特定のVM（CentOS）のバックアップは、対応するアプリを使用して作成されました。ここでbackup-in-place-restoreまたはbackup-restoreを作成すると、指定したVMのみがリストアされます。CentOS VMを削除します
 
-image:rh-os-n_use_case_ocpv_tp_dp_33["CentOS VMが存在"]
+image:rh-os-n_use_case_ocpv_tp_dp_33.png["CentOS VMが存在"]
 
-image:rh-os-n_use_case_ocpv_tp_dp_34["CentOS VMノサクシヨ"]
+image:rh-os-n_use_case_ocpv_tp_dp_34.png["CentOS VMノサクシヨ"]
 
 demo-centos-backup-on-demandからIn Placeリストアのバックアップを作成し、CentOS VMが再作成されたことを確認します。
 
@@ -500,9 +498,9 @@ demo-centos-backup-on-demandからIn Placeリストアのバックアップを�
 #tp create bir demo-centos-restore --backup demo/demo-centos-backup-on-demand -n demo
 BackupInplaceRestore "demo-centos-restore" created.
 ----
-image:rh-os-n_use_case_ocpv_tp_dp_35["CentOS VM BIRの作成"]
+image:rh-os-n_use_case_ocpv_tp_dp_35.png["CentOS VM BIRの作成"]
 
-image:rh-os-n_use_case_ocpv_tp_dp_36["CentOS VMが作成されました"]
+image:rh-os-n_use_case_ocpv_tp_dp_36.png["CentOS VMが作成されました"]
 
 **特定のVMを別のネームスペースにリストア** demo-centos-backup-on-demandから別のネームスペース（demo3）にバックアップリストアを作成し、CentOS VMが再作成されたことを確認します。
 
@@ -511,8 +509,8 @@ image:rh-os-n_use_case_ocpv_tp_dp_36["CentOS VMが作成されました"]
 # tp create br demo2-centos-restore --backup demo/demo-centos-backup-on-demand --namespace-mapping demo:demo3 -n demo3
 BackupRestore "demo2-centos-restore" created.
 ----
-image:rh-os-n_use_case_ocpv_tp_dp_37["CentOS VM BIRの作成"]
+image:rh-os-n_use_case_ocpv_tp_dp_37.png["CentOS VM BIRの作成"]
 
-image:rh-os-n_use_case_ocpv_tp_dp_38["CentOS VMが作成されました"]
+image:rh-os-n_use_case_ocpv_tp_dp_38.png["CentOS VMが作成されました"]
 
 ====

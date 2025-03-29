@@ -139,7 +139,7 @@ image:aws_ora_fsx_ec2_pcs_architecture.png["この画像は、Pacemaker Clusteri
 
 === 導入の前提条件
 
-[%collapsible]
+[%collapsible%open]
 ====
 導入には、次の前提条件が必要です。
 
@@ -157,7 +157,7 @@ AnsibleコントローラとEC2インスタンスのDB VM間でSSH公開鍵/秘�
 
 === EC2インスタンスとAmazon FSx ONTAPストレージクラスタのプロビジョニング
 
-[%collapsible]
+[%collapsible%open]
 ====
 EC2インスタンスとAmazon FSx ONTAPはAWSコンソールから手動でプロビジョニングできますが、NetApp Terraformベースの自動化ツールキットを使用してEC2インスタンスとFSx ONTAPストレージクラスタのプロビジョニングを自動化することを推奨します。詳細な手順は次のとおりです。
 
@@ -253,7 +253,7 @@ terraform apply main.plan
 
 === Pacemakerクラスタのセットアップ
 
-[%collapsible]
+[%collapsible%open]
 ====
 RHELのハイアベイラビリティアドオンは、Oracleデータベースサービスなどの重要な本番サービスに信頼性、拡張性、可用性を提供するクラスタシステムです。この使用例のデモでは、アクティブ/パッシブクラスタリングシナリオでOracleデータベースの高可用性をサポートするように、2ノードのPacemakerクラスタがセットアップおよび構成されます。  
 
@@ -486,7 +486,7 @@ Daemon Status:
 
 === Pacemakerクラスタフェンシングの設定
 
-[%collapsible]
+[%collapsible%open]
 ====
 Pacemakerフェンシングの設定は、本番クラスタでは必須です。これにより、AWS EC2クラスタ上の正常に動作しないノードが自動的に分離されるため、ノードがクラスタのリソースを消費したり、クラスタの機能が損なわれたり、共有データが破損したりするのを防ぐことができます。このセクションでは、FENCE_AWSフェンシングエージェントを使用したクラスタフェンシングの設定について説明します。
 
@@ -599,7 +599,7 @@ NOTE:  `pcs stonith refresh`停止したStonithフェンスエージェントを
 
 === PCSクラスタへのOracleデータベースの導入
 
-[%collapsible]
+[%collapsible%open]
 ====
 NetAppが提供するAnsible Playbookを活用して、PCSクラスタで事前定義されたパラメータを使用してデータベースのインストールタスクと設定タスクを実行することを推奨します。このOracleの自動導入では、プレイブックを実行する前に3つのユーザ定義パラメータファイルをユーザ入力する必要があります。
 
@@ -1026,7 +1026,7 @@ The command completed successfully
 
 === PCS管理用のOracleリソースの構成
 
-[%collapsible]
+[%collapsible%open]
 ====
 Pacemakerクラスタリングを構成する目的は、AWS EC2およびFSx ONTAP環境でOracleを実行するためのアクティブ/パッシブ高可用性ソリューションをセットアップし、障害発生時のユーザの操作を最小限に抑えることです。以下に、PCS管理用のOracleリソースのコンフィグレーションを示します。
 
@@ -1382,7 +1382,7 @@ Daemon Status:
 
 === 導入後のHA検証
 
-[%collapsible]
+[%collapsible%open]
 ====
 導入後、テストと検証を実行して、PCS Oracleデータベースフェイルオーバークラスタが正しく設定され、期待どおりに機能することを確認することが重要です。テスト検証には、管理フェイルオーバー、想定外のリソース障害のシミュレーション、クラスタ保護メカニズムによるリカバリが含まれます。
 
@@ -1816,7 +1816,7 @@ SQL>
 
 === SnapCenterによるOracleのバックアップ、リストア、クローニング
 
-[%collapsible]
+[%collapsible%open]
 ====
 NetAppは、AWS EC2とAmazon FSx ONTAPに導入されたOracleデータベースを管理するためのSnapCenter UIツールを推奨しています。link:aws_ora_fsx_vmc_guestmount.html#oracle-backup-restore-and-clone-with-snapcenter["ゲストマウント型FSx ONTAPにより、VMware Cloud on AWSでシンプルな自己管理型Oracleを実現"^] `Oracle backup, restore, and clone with SnapCenter`SnapCenterのセットアップとデータベースのバックアップ、リストア、クローニングのワークフローの実行については、TR-4979を参照してください。
 

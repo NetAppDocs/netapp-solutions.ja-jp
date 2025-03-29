@@ -140,7 +140,7 @@ image:automation_ora_asa_iscsi_archit.png["このイメージは、iSCSIおよ�
 
 === 導入の前提条件
 
-[%collapsible]
+[%collapsible%open]
 ====
 導入には、次の前提条件が必要です。
 
@@ -178,7 +178,7 @@ video::79095731-6b02-41d5-9fa1-b0c00100d055[panopto,width=360]
 
 === 自動化パラメータファイル
 
-[%collapsible]
+[%collapsible%open]
 ====
 Ansible Playbookは、事前定義されたパラメータを使用してデータベースのインストールと設定のタスクを実行します。このOracle自動化解決策では、プレイブックを実行する前にユーザ入力が必要な3つのユーザ定義パラメータファイルがあります。
 
@@ -194,7 +194,7 @@ Ansible Playbookは、事前定義されたパラメータを使用してデー�
 
 === パラメータファイルの設定
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Ansibleターゲット `hosts`ファイル構成：
 +
@@ -285,7 +285,7 @@ memory_limit: 8192
 
 === Playbookの実施
 
-[%collapsible]
+[%collapsible%open]
 ====
 自動化ツールキットには、合計6つのプレイブックが用意されています。それぞれが異なるタスクブロックを実行し、さまざまな目的に対応します。
 
@@ -360,7 +360,7 @@ ansible-playbook -i hosts 5-destroy.yml -u admin -e @vars/vars.yml
 
 === 実行後の検証
 
-[%collapsible]
+[%collapsible%open]
 ====
 Playbookの実行後、Oracle DBサーバにOracleユーザとしてログインし、Oracleグリッドインフラとデータベースが正常に作成されたことを確認します。次に、ホストora_01でのOracleデータベース検証の例を示します。
 
@@ -494,7 +494,7 @@ image:automation_ora_asa_em_03.png["この画像は、Oracle Enterprise Manager 
 
 === SnapCenterによるOracleのバックアップ、リストア、クローニング
 
-[%collapsible]
+[%collapsible%open]
 ====
 link:aws_ora_fsx_vmc_guestmount.html#oracle-backup-restore-and-clone-with-snapcenter["ゲストマウント型FSx ONTAPにより、VMware Cloud on AWS上のシンプルで自己管理型のOracleを実現"^] `Oracle backup, restore, and clone with SnapCenter`SnapCenterのセットアップとデータベースのバックアップ、リストア、クローニングのワークフローの実行については、TR-4979を参照してください。
 

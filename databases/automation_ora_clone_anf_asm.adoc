@@ -58,7 +58,7 @@ NOTE: このGitHubリポジトリ内のコンテンツとの派生物の作成�
 
 === 導入の前提条件
 
-[%collapsible]
+[%collapsible%open]
 ====
 導入には、次の前提条件が必要です。
 
@@ -85,7 +85,7 @@ NOTE: わかりやすくするために、クローンターゲットOracleサ�
 
 === ツールキットをダウンロード
 
-[%collapsible]
+[%collapsible%open]
 ====
 [source, cli]
 ----
@@ -99,7 +99,7 @@ NOTE: このツールキットにアクセスできるのは、現時点でビ�
 
 === Ansibleのソースホストとターゲットホストのファイル構成
 
-[%collapsible]
+[%collapsible%open]
 ====
 このツールキットには、Ansible Playbookを実行するソースとターゲットのOracleホストを定義するhostsファイルが含まれています。通常、Data GuardセットアップのスタンバイDBホストと、ターゲットのOracleクローンホストが含まれます。ファイルの例を次に示します。ホストエントリには、ターゲットホストのIPアドレスと、クローンまたは更新コマンドを実行するためのホストへのユーザアクセス用のsshキーが含まれます。Azure NetApp FilesストレージはAPIを使用して設定します。そのため、ANF接続はHTTPプロトコルを介したローカルホストを介して行われます。
 
@@ -120,7 +120,7 @@ localhost ansible_connection=local
 
 === グローバル変数の設定
 
-[%collapsible]
+[%collapsible%open]
 ====
 次に、グローバルレベルで適用可能な変数を含む一般的なグローバル変数ファイルvars.ymlの例を示します。
 
@@ -196,7 +196,7 @@ sys_pwd: "xxxxxxxx"
 
 === ホスト変数の設定
 
-[%collapsible]
+[%collapsible%open]
 ====
 ホスト変数は、特定のホストにのみ適用される｛｛host_name｝｝.ymlという名前のhost_varsディレクトリに定義されています。このソリューションでは、ターゲットのクローンDBホストパラメータファイルのみが設定されます。OracleスタンバイDBパラメータは、グローバル変数ファイルで設定されます。以下は、一般的な構成を示すOracleクローンDBのターゲットホスト変数ファイルorac.ymlの例です。
 
@@ -219,7 +219,7 @@ asm_sid: +ASM
 
 === クローンターゲットの追加のOracleサーバ構成
 
-[%collapsible]
+[%collapsible%open]
 ====
 クローンターゲットOracleサーバには、ソースOracleサーバと同じOracleソフトウェアスタックがインストールされ、パッチが適用されている必要があります。Oracle user.bash_profileに$ORACLE_BASEと$ORACLE_HOMEが設定されています。また、$ORACLE_HOME変数はソースOracleサーバ設定と一致する必要があります。ターゲットのORACLE_HOME設定がスタンバイのOracleサーバ構成と異なる場合は'相違点を回避するためのシンボリック・リンクを作成します次に例を示します。
 
@@ -242,7 +242,7 @@ alias asm='export ORACLE_HOME=$GRID_HOME;export PATH=$PATH:$GRID_HOME/bin;export
 
 === Playbookの実施
 
-[%collapsible]
+[%collapsible%open]
 ====
 Oracleデータベースのクローンライフサイクルを実行するには、合計で2つのプレイブックがあります。DBのクローンまたは更新は、オンデマンドで実行することも、crontabジョブとしてスケジュール設定することもできます。
 

@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: vmware/vmware_nfs_arp.html 
-keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, ransomeware 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, ransomware 
 summary:  
 ---
 = NFSストレージ向けの自律型ランサムウェア対策
@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-ランサムウェアの拡散を防ぎ、コストのかかるダウンタイムを回避するには、ランサムウェアをできるだけ早く検出することが重要です。効果的なランサムウェア検出戦略には、ESXiホストレベルとゲストVMレベルで複数の保護レイヤを組み込む必要があります。ランサムウェア攻撃に対する包括的な防御を構築するために複数のセキュリティ対策が実装されていますが、ONTAPを使用すると、防御アプローチ全体に保護レイヤを追加できます。いくつかの機能には、まずSnapshot、自律型ランサムウェア対策、改ざん防止スナップショットなどがあります。
+ランサムウェアの拡散を防ぎ、コストのかかるダウンタイムを回避するには、ランサムウェアをできるだけ早く検出することが重要です。効果的なランサムウェア検出戦略には、ESXiホストレベルとゲストVMレベルで複数の保護レイヤを組み込む必要があります。ランサムウェア攻撃に対する包括的な防御を構築するために複数のセキュリティ対策が実装されていますが、ONTAPを使用すると、防御アプローチ全体に保護レイヤを追加できます。いくつかの機能には、まずSnapshot、自律型ランサムウェア対策、改ざん防止Snapshotなどがあります。
 
 前述の機能がVMwareとどのように連携してランサムウェアからデータを保護、リカバリするかを見てみましょう。vSphere VMとゲストVMを攻撃から保護するには、エンドポイントのセグメント化、EDR/XDR/SIEMの利用、セキュリティ更新プログラムのインストール、適切なセキュリティ強化ガイドラインの遵守など、いくつかの対策を講じることが重要です。データストア上の各仮想マシンは、標準のオペレーティングシステムもホストします。エンタープライズサーバのマルウェア対策製品スイートがインストールされ、定期的に更新されていることを確認します。これは、多層的なランサムウェア対策戦略に不可欠なコンポーネントです。これに加えて、データストアに電力を供給するNFSボリュームでAutonomous Ransomware Protection（ARP）を有効にします。ARPは、ボリュームワークロードのアクティビティとデータエントロピーを監視する組み込みのオンボックスMLを活用して、ランサムウェアを自動的に検出します。ARPは、ONTAPの組み込みの管理インターフェイスまたはSystem Managerを使用して設定でき、ボリューム単位で有効になります。
 
@@ -34,7 +34,7 @@ image:nfs-arp-image2.png["入力/出力ダイアログを示す図、または�
 
 詳細については、の「ARPおよび仮想マシン」の項を参照してlink:https://docs.netapp.com/us-en/ontap/anti-ransomware/use-cases-restrictions-concept.html#supported-configurations["ARPの使用と考慮事項"]ください。
 
-ファイルからバックアップデータに移行するランサムウェア攻撃では、ファイルの暗号化を開始する前にバックアップやスナップショットのリカバリポイントを削除しようとする攻撃が増えています。ただし、ONTAPでは、を使用してプライマリシステムまたはセカンダリシステムに改ざん防止スナップショットを作成することで、これを防ぐことができます。link:https://docs.netapp.com/us-en/ontap/snaplock/snapshot-lock-concept.html["NetApp Snapshot™コピーロック"]
+ファイルからバックアップデータに移行するランサムウェア攻撃では、ファイルの暗号化を開始する前にバックアップやスナップショットのリカバリポイントを削除しようとする攻撃が増えています。ただし、ONTAPを使用すると、を使用してプライマリシステムまたはセカンダリシステムに改ざんされないスナップショットを作成することで、これを防ぐことができます。link:https://docs.netapp.com/us-en/ontap/snaplock/snapshot-lock-concept.html["NetApp Snapshot™コピーロック"]
 
 image:nfs-arp-image3.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 

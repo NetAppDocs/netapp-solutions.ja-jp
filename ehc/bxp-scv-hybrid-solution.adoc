@@ -16,8 +16,6 @@ summary:
 [role="lead"]
 3-2-1バックアップ戦略は、業界で受け入れられているデータ保護方法であり、重要なデータを保護するための包括的なアプローチを提供します。この戦略は信頼性が高く、予期せぬ災害が発生した場合でも、データのコピーを確実に利用できるようにします。
 
-作成者：Josh Powell -ネットアップソリューションエンジニアリングチーム
-
 
 
 == 概要
@@ -84,7 +82,7 @@ image:bxp-scv-hybrid-03.png["カスケードトポロジ"]
 また、オブジェクトストレージのバックアップターゲットとしてNetApp StorageGRIDを使用することもできます。StorageGRIDの詳細については、を参照して https://www.netapp.com/data-storage/storagegrid["StorageGRIDランディングページ"]ください。
 
 .解決策 の導入の概要
-[%collapsible]
+[%collapsible%open]
 ====
 以下に、この解決策を設定し、SCVおよびBlueXPのバックアップとリカバリからバックアップとリストアの処理を実行するために必要な手順の概要を示します。
 
@@ -111,7 +109,7 @@ image:bxp-scv-hybrid-03.png["カスケードトポロジ"]
 
 ====
 .前提条件
-[%collapsible]
+[%collapsible%open]
 ====
 この解決策の目的は、VMware vSphereで実行され、NetApp ONTAPでホストされるNFSデータストアに配置された仮想マシンのデータ保護を実証することです。この解決策 は、次のコンポーネントが構成され、使用可能な状態にあることを前提としています。
 
@@ -163,7 +161,7 @@ SnapMirror関係のセットアップは、多くの手順が自動化されたB
 BlueXPのWebコンソールで次の手順を実行する必要があります。
 
 .プライマリおよびセカンダリONTAPストレージシステムのレプリケーションセットアップ
-[%collapsible]
+[%collapsible%open]
 ====
 まず、BlueXP Webコンソールにログインし、Canvasに移動します。
 
@@ -208,7 +206,7 @@ image:bxp-scv-hybrid-48.png["確認して実行"]
 SnapMirror関係を確立するために必要なすべての手順は、System ManagerまたはONTAP CLIで実行できます。次のセクションでは、両方の方法の詳細について説明します。
 
 .ソースとデスティネーションのクラスタ間論理インターフェイスを記録します
-[%collapsible]
+[%collapsible%open]
 ====
 ソースとデスティネーションのONTAPクラスタの場合、System ManagerまたはCLIからクラスタ間LIFの情報を取得できます。
 
@@ -225,7 +223,7 @@ ONTAP-Dest::> network interface show -role intercluster
 
 ====
 .ONTAPクラスタ間にクラスタピアリングを確立
-[%collapsible]
+[%collapsible%open]
 ====
 ONTAP クラスタ間のクラスタピアリングを確立するには、開始側のONTAP クラスタで入力した一意のパスフレーズを、もう一方のピアクラスタで確認する必要があります。
 
@@ -260,7 +258,7 @@ ONTAP-Dest::> cluster peer show
 
 ====
 .SVMピア関係を確立する
-[%collapsible]
+[%collapsible%open]
 ====
 次の手順では、SnapMirror関係にあるボリュームを含むデスティネーションとソースのStorage Virtual Machineの間にSVM関係をセットアップします。
 
@@ -289,7 +287,7 @@ image:dr-vmc-aws-image16.png["入力/出力ダイアログを示す図、また�
 
 ====
 .Snapshot保持ポリシーを作成します
-[%collapsible]
+[%collapsible%open]
 ====
 SnapCenter は、プライマリストレージシステムにSnapshotコピーとして存在するバックアップの保持スケジュールを管理します。これは、SnapCenter でポリシーを作成するときに確立されます。SnapCenter では、セカンダリストレージシステムに保持されるバックアップの保持ポリシーは管理されません。これらのポリシーは、セカンダリFSXクラスタで作成されたSnapMirrorポリシーを使用して個別に管理され、ソースボリュームとSnapMirror関係にあるデスティネーションボリュームに関連付けられます。
 
@@ -331,7 +329,7 @@ NOTE: SnapMirrorラベルごとに追加のルールを作成し、保持するS
 
 ====
 .デスティネーションボリュームを作成
-[%collapsible]
+[%collapsible%open]
 ====
 ソースボリュームのSnapshotコピーを受け取るデスティネーションボリュームをONTAPに作成するには、デスティネーションONTAPクラスタで次のコマンドを実行します。
 
@@ -340,7 +338,7 @@ ONTAP-Dest::> volume create -vserver DestSVM -volume DestVolName -aggregate Dest
 ....
 ====
 .ソースボリュームとデスティネーションボリューム間にSnapMirror関係を作成します
-[%collapsible]
+[%collapsible%open]
 ====
 ソースボリュームとデスティネーションボリューム間にSnapMirror関係を作成するには、デスティネーションONTAPクラスタで次のコマンドを実行します。
 
@@ -349,7 +347,7 @@ ONTAP-Dest::> snapmirror create -source-path OnPremSourceSVM:OnPremSourceVol -de
 ....
 ====
 .SnapMirror関係を初期化
-[%collapsible]
+[%collapsible%open]
 ====
 SnapMirror関係を初期化このプロセスにより、ソースボリュームから生成された新しいSnapshotが開始され、デスティネーションボリュームにコピーされます。
 
@@ -370,7 +368,7 @@ ONTAP-Dest::> snapmirror initialize -destination-path DestSVM:DestVol
 仮想マシンとデータストアのバックアップを設定するには、プラグインインターフェイスから次の手順を実行する必要があります。
 
 .Discovery ONTAPストレージシステム
-[%collapsible]
+[%collapsible%open]
 ====
 プライマリバックアップとセカンダリバックアップの両方に使用するONTAPストレージクラスタを検出します。
 
@@ -387,7 +385,7 @@ image:bxp-scv-hybrid-06.png["ストレージシステムの追加"]
 
 ====
 .SCVバックアップポリシーの作成
-[%collapsible]
+[%collapsible%open]
 ====
 ポリシーは、SCVで管理されるバックアップの保持期間、頻度、およびレプリケーションオプションを指定します。
 
@@ -416,7 +414,7 @@ NOTE: Snapshotラベルは、セカンダリONTAPクラスタにレプリケー�
 
 ====
 .リソースグループの作成
-[%collapsible]
+[%collapsible%open]
 ====
 リソースグループには、バックアップジョブに含めるデータストアと仮想マシンのほか、関連付けられているポリシーとバックアップスケジュールが含まれます。
 
@@ -462,7 +460,7 @@ image:bxp-scv-hybrid-13.png["リソースグループポリシー"]
 
 ====
 .バックアップジョブの実行
-[%collapsible]
+[%collapsible%open]
 ====
 この最後の手順では、バックアップジョブを実行して進捗状況を監視します。BlueXPのバックアップとリカバリからリソースを検出するには、SCVで少なくとも1つのバックアップジョブが完了している必要があります。
 
@@ -491,7 +489,7 @@ BlueXP  Connectorの詳細については、BlueXP  のマニュアルのを�
 オンプレミスのSCVで管理されるデータをバックアップするようにBlueXPのバックアップとリカバリを設定するには、次の手順を実行します。
 
 .Canvasへの作業環境の追加
-[%collapsible]
+[%collapsible%open]
 ====
 最初のステップは、オンプレミスのONTAPストレージシステムをBlueXPに追加することです。
 
@@ -511,7 +509,7 @@ image:bxp-scv-hybrid-18.png["ストレージシステムのクレデンシャル
 
 ====
 .オンプレミスのSCVアプライアンスとvCenterを検出
-[%collapsible]
+[%collapsible%open]
 ====
 オンプレミスのデータストアと仮想マシンのリソースを検出するには、SCVデータブローカーの情報とvCenter管理アプライアンスのクレデンシャルを追加します。
 
@@ -539,7 +537,7 @@ image:bxp-scv-hybrid-23.png["使用可能なリソースを表示"]
 
 ====
 .BlueXPバックアップポリシーの作成
-[%collapsible]
+[%collapsible%open]
 ====
 仮想マシンのBlueXPバックアップ/リカバリで、保持期間、バックアップソース、アーカイブポリシーを指定するポリシーを作成します。
 
@@ -569,7 +567,7 @@ NOTE: ここで入力したSnapMirrorラベルは、ポリシーを適用する�
 
 ====
 .Amazon Web Servicesへのデータストアのバックアップ
-[%collapsible]
+[%collapsible%open]
 ====
 最後に、個 々 のデータストアおよび仮想マシンのデータ保護をアクティブ化します。次の手順は、AWSへのバックアップをアクティブ化する方法の概要です。
 
@@ -623,7 +621,7 @@ NetAppは、柔軟性に優れた3-2-1戦略を提供し、プライマリ、セ
 この解決策仮想マシンは、元の場所と別の場所にリストアされました。SCVのデータリストア機能のすべての側面がこの解決策でカバーされるわけではありません。SCVが提供するすべての詳細については、製品マニュアルのを参照してください https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_restore_vms_from_backups.html["バックアップからのVMのリストア"]。
 
 .SCVからの仮想マシンのリストア
-[%collapsible]
+[%collapsible%open]
 ====
 プライマリストレージまたはセカンダリストレージから仮想マシンをリストアするには、次の手順を実行します。
 
@@ -657,7 +655,7 @@ BlueXPでは、仮想マシンのバックアップとリカバリ機能を使�
 詳細については、を参照してください https://docs.netapp.com/us-en/bluexp-backup-recovery/task-restore-vm-data.html["仮想マシンのデータをクラウドからリストア"]。
 
 .BlueXPのバックアップとリカバリから仮想マシンをリストア
-[%collapsible]
+[%collapsible%open]
 ====
 BlueXPのバックアップとリカバリから仮想マシンをリストアするには、次の手順を実行します。
 

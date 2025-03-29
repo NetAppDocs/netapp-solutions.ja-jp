@@ -16,7 +16,11 @@ summary:
 [role="lead"]
 VCF上のワークロードは、vSphere Metro Storage Cluster（vMSC）によって保護されます。通常、FCまたはIPを使用したONTAP MetroClusterは、VMFSデータストアとNFSデータストアのフォールトトレランスを実現するために使用されます。
 
-image:vmw-vcf-vmsc-viwld-mcc-image01.png["vMSCを使用したVCF VIワークロードドメイン"]
+image:vmw-vcf-vmsc-viwld-mcc-image01.png["vMSCを使用したVCF VIワークロードドメイン、幅= 500"]
+
+
+
+== はじめに
 
 このソリューションでは、ONTAP MetroClusterを使用してNFSをプリンシパルデータストアとして使用し、Stetched VCF VI Workload Domainを実装する方法を説明します。VI Workload Domainは、SDDC Managerを使用して導入することも、既存のvSphere環境をVI Workload Domainとしてインポートすることもできます。
 
@@ -97,7 +101,7 @@ NFSをプリンシパルデータストアとして使用し、VCFストレッ�
 BroadcomサポートポータルからダウンロードしたISOを使用してホストにvSphereを導入するか、vSphereホストに既存の導入オプションを使用します。
 
 .ホストVMへのNFSデータストアのマウント
-[%collapsible]
+[%collapsible%open]
 ====
 この手順では、NFSボリュームを作成し、データストアとしてマウントしてVMをホストします。
 
@@ -137,7 +141,7 @@ VMwareのBroadcom製VCFインポートツールは、vCenterアプライアン�
 詳細については、を参照してください https://docs.vmware.com/en/VMware-Cloud-Foundation/5.2/vcf-admin/GUID-44CBCB85-C001-41B2-BBB4-E71928B8D955.html["VCFインポートツールのオプションとパラメータ"]。
 
 .VCFインポートツールのコピーと抽出
-[%collapsible]
+[%collapsible%open]
 ====
 VCFインポートツールは、vSphereクラスタがVCF変換またはインポートプロセスの正常な状態であることを検証するためにvCenterアプライアンスで使用します。
 
@@ -153,7 +157,7 @@ tar -xvf vcf-brownfield-import-<buildnumber>.tar.gz
 
 ====
 .vCenterアプライアンスの検証
-[%collapsible]
+[%collapsible%open]
 ====
 VCFインポートツールを使用して、VIワークロードドメインとしてインポートする前にvCenterアプライアンスを検証します。
 
@@ -162,7 +166,7 @@ VCFインポートツールを使用して、VIワークロードドメインと
 
 ====
 .NSX導入用のJSONファイルの作成
-[%collapsible]
+[%collapsible%open]
 ====
 vSphere環境をVMware Cloud Foundationにインポートまたは変換する際にNSX Managerを導入するには、NSX導入仕様を作成します。NSXを導入するには、最低3台のホストが必要です。
 
@@ -206,7 +210,7 @@ JSONファイルをSDDC ManagerのVCFユーザーホームフォルダにコピ�
 
 ====
 .SDDC Managerへのソフトウェアのアップロード
-[%collapsible]
+[%collapsible%open]
 ====
 VCFインポートツールをVCFユーザのホームフォルダにコピーし、NSX展開バンドルをSDDCマネージャの/nfs/vmware/vcf/nfs-mount/bundle/フォルダにコピーします。
 
@@ -214,7 +218,7 @@ VCFインポートツールをVCFユーザのホームフォルダにコピー�
 
 ====
 .変換前のvCenterでの詳細なチェック
-[%collapsible]
+[%collapsible%open]
 ====
 管理ドメインの変換処理またはVIワークロードドメインのインポート処理を実行する前に、詳細なチェックを実行して、既存のvSphere環境の構成が変換またはインポートでサポートされていることを確認する必要があります。です。ユーザVCFとしてSDDC ManagerアプライアンスにSSH接続します。です。VCFインポートツールをコピーしたディレクトリに移動します。です。次のコマンドを実行して、vSphere環境が変換可能であることを確認します。
 
@@ -225,7 +229,7 @@ image:vmw-vcf-vmsc-viwld-mcc-image08.png["VCFチェックVC"]
 
 ====
 .vSphereクラスタからVCF VIワークロードドメインへの変換
-[%collapsible]
+[%collapsible%open]
 ====
 VCFインポートツールは、変換プロセスを実行するために使用します。
 
@@ -246,7 +250,7 @@ SDDC Managerに、指定した名前で作成されたVI Workloadドメインが
 
 ====
 .VCFへのライセンスの追加
-[%collapsible]
+[%collapsible%open]
 ====
 変換が完了したら、ライセンスを環境に追加する必要があります。
 

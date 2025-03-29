@@ -13,8 +13,6 @@ summary: NetApp ONTAPによるTrident保護を使用したRed Hat OpenShiftコ�
 :imagesdir: ../media/
 
 
-作成者：Banu Sundhar、NetApp
-
 [role="lead"]
 リファレンスドキュメントのこのセクションでは、Trident保護を使用してコンテナアプリケーションのスナップショットとバックアップを作成する方法について詳しく説明します。NetApp Trident Protectは、NetApp ONTAPストレージシステムとNetApp Trident CSIストレージプロビジョニングツールを基盤とするステートフルなKubernetesアプリケーションの機能と可用性を強化する、高度なアプリケーションデータ管理機能を提供します。Trident保護では、アプリケーションのSnapshotとバックアップが作成されます。つまり、永続ボリューム内のアプリケーションデータのSnapshotとバックアップが作成されるだけでなく、アプリケーションメタデータのSnapshotとバックアップも作成されます。Trident保護で作成されたSnapshotとバックアップは、次のいずれかのオブジェクトストレージに格納して、あとでリストアできます。
 
@@ -36,7 +34,7 @@ NOTE: クラスタ管理者は、デフォルトのTrident保護ネームスペ�
 Trident protectは、ドキュメントに記載されている手順に従ってインストールできlink:https://docs.netapp.com/us-en/trident/trident-protect/trident-protect-installation.html["ここをクリック"]ます。このセクションでは、コンテナアプリケーションのデータ保護と、Trident protectを使用したアプリケーションのリストアのワークフローを示します。1.スナップショットの作成(スケジュールに応じてオンデマンドで) 2.Snapshotからのリストア（同じ別のネームスペースへのリストア）3.バックアップの作成4.バックアップからリストア
 
 .前提条件
-[%collapsible]
+[%collapsible%open]
 ====
 アプリケーションのSnapshotとバックアップを作成する前に、Trident保護でオブジェクトストレージを設定してSnapshotとバックアップを格納する必要があります。これにはバケットCRを使用します。バケットCRを作成して設定できるのは管理者だけです。バケットCRは、Trident保護ではAppVaultと呼ばれています。AppVaultオブジェクトは、ストレージバケットの宣言型Kubernetesワークフロー表現です。AppVault CRには、バックアップ、Snapshot、リストア処理、SnapMirrorレプリケーションなど、保護処理でバケットを使用するために必要な設定が含まれています。
 
@@ -178,7 +176,7 @@ image:rhhc_dp_tp_solution_container_image2.png["作成されたアプリケー�
 
 ====
 .Snapshotの作成
-[%collapsible]
+[%collapsible%open]
 ====
 **オンデマンドスナップショットの作成**
 
@@ -243,7 +241,7 @@ image:rhhc_dp_tp_solution_container_image8.png["PVC Snapがスケジュールど
 
 ====
 .アプリケーションを削除してアプリケーションの損失をシミュレートする
-[%collapsible]
+[%collapsible%open]
 ====
 [source, yaml]
 ----
@@ -253,7 +251,7 @@ No resources found in postgres namespace.
 ----
 ====
 .Snapshotから同じネームスペースへのリストア
-[%collapsible]
+[%collapsible%open]
 ====
 [source, yaml]
 ----
@@ -268,7 +266,7 @@ image:rhhc_dp_tp_solution_container_image10.png["アプリが復旧しました"
 
 ====
 .Snapshotから別のネームスペースへのリストア
-[%collapsible]
+[%collapsible%open]
 ====
 [source, yaml]
 ----
@@ -283,7 +281,7 @@ image:rhhc_dp_tp_solution_container_image12.png["アプリケーションのリ�
 
 ====
 .バックアップを作成します
-[%collapsible]
+[%collapsible%open]
 ====
 **オンデマンドバックアップの作成**
 
@@ -307,7 +305,7 @@ image:rhhc_dp_tp_solution_container_image13a.png["以前に作成されたスケ
 
 ====
 .バックアップからリストア
-[%collapsible]
+[%collapsible%open]
 ====
 **データ損失をシミュレートするには、アプリケーションとPVCを削除します。**
 
@@ -327,7 +325,7 @@ image:rhhc_dp_tp_solution_container_image17.png["別のネームスペースへ�
 
 ====
 .アプリケーションの移行
-[%collapsible]
+[%collapsible%open]
 ====
 アプリケーションを別のクラスタにクローニングまたは移行する（クラスタ間クローニングを実行する）には、ソースクラスタでバックアップを作成し、そのバックアップを別のクラスタにリストアします。デスティネーションクラスタにTrident protectがインストールされていることを確認します。
 

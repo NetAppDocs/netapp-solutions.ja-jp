@@ -58,7 +58,7 @@ NOTE: このGitHubリポジトリ内のコンテンツとの派生物の作成�
 
 === 導入の前提条件
 
-[%collapsible]
+[%collapsible%open]
 ====
 導入には、次の前提条件が必要です。
 
@@ -91,7 +91,7 @@ NOTE: わかりやすくするために、クローンターゲットOracleサ�
 
 === ツールキットをダウンロード
 
-[%collapsible]
+[%collapsible%open]
 ====
 [source, cli]
 ----
@@ -105,7 +105,7 @@ NOTE: このツールキットにアクセスできるのは、現時点でビ�
 
 === Ansibleターゲットホストのファイル構成
 
-[%collapsible]
+[%collapsible%open]
 ====
 このツールキットには、Ansible Playbookの実行対象を定義するhostsファイルが含まれています。通常は、ターゲットのOracleクローンホストです。ファイルの例を次に示します。ホストエントリには、ターゲットホストのIPアドレスとsshキーが含まれており、管理者ユーザがクローンまたは更新コマンドを実行するホストにアクセスする際に使用します。
 
@@ -122,7 +122,7 @@ ora_04.cie.netapp.com ansible_host=10.61.180.29 ansible_ssh_private_key_file=ora
 
 === グローバル変数の設定
 
-[%collapsible]
+[%collapsible%open]
 ====
 Ansibleプレイブックは、複数の変数ファイルから変数を入力します。次に、グローバル変数ファイルvars.ymlの例を示します。
 
@@ -140,7 +140,7 @@ snapctr_pwd: 'xxxxxxxx'
 
 === ホスト変数の設定
 
-[%collapsible]
+[%collapsible%open]
 ====
 ホスト変数は、｛｛host_name｝｝.ymlという名前のhost_varsディレクトリに定義されています。次に、一般的な構成を示すターゲットOracleホスト変数ファイルora_04.cie.netapp.com.ymlの例を示します。
 
@@ -160,7 +160,7 @@ clone_db_sid: NTAP1DEV
 
 === クローンターゲットの追加のOracleサーバ構成
 
-[%collapsible]
+[%collapsible%open]
 ====
 クローンターゲットOracleサーバには、ソースOracleサーバと同じOracleソフトウェアスタックがインストールされ、パッチが適用されている必要があります。Oracle user.bash_profileに$ORACLE_BASEと$ORACLE_HOMEが設定されています。また、$ORACLE_HOME変数はソースOracleサーバ設定と一致する必要があります。次に例を示します。
 
@@ -181,7 +181,7 @@ export ORACLE_HOME=/u01/app/oracle/product/19.0.0/NTAP1
 
 === Playbookの実施
 
-[%collapsible]
+[%collapsible%open]
 ====
 SnapCenter CLIユーティリティを使用してOracleデータベースのクローンライフサイクルを実行するためのプレイブックは合計3つあります。
 

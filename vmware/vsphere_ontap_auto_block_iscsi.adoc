@@ -85,19 +85,19 @@ TIP: ノードごとに 2 つの iSCSI ネットワークインターフェイ�
 == VMware vSphere タスク
 
 . iSCSI VLAN で少なくとも 1 つの NIC が使用可能であることを確認します。パフォーマンスとフォールトトレランスを向上させるために、 2 枚の NIC を推奨します。
-. link:++https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.networking.doc/GUID-B2AA3EEE-2334-45FE-9A0F-1172FDDCC6A8.html++["vSphere ホストで使用可能な物理 NIC の数を特定します。"]
-. link:++https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-C476065E-C02F-47FA-A5F7-3B3F2FD40EA8.html++["iSCSI イニシエータを設定します。"]一般的なユースケースは、ソフトウェアiSCSIイニシエータです。
-. link:++https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.networking.doc/GUID-660423B1-3D35-4F85-ADE5-FE1D6BF015CF.html++["iSCSI 用 TCP / IP スタックが利用可能であることを確認します"]です。
-. link:++https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-0D31125F-DC9D-475B-BC3D-A3E131251642.html++["iSCSI ポートグループが使用可能であることを確認します"]です。
+. link:++https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/7-0/vsphere-single-host-management-vmware-host-client-7-0/networking-in-the-vsphere-host-client-vSphereSingleHostManagementVMwareHostClient/managing-physical-network-adapters-in-the-vsphere-host-client-vSphereSingleHostManagementVMwareHostClient/view-physical-network-adapter-information-in-the-vsphere-host-client-vSphereSingleHostManagementVMwareHostClient.html++["vSphere ホストで使用可能な物理 NIC の数を特定します。"]
+. link:++https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-storage-8-0/configuring-iscsi-and-iser-adapters-and-storage-with-esxi/configure-the-software-iscsi-adapter-with-esxi.html++["iSCSI イニシエータを設定します。"]一般的なユースケースは、ソフトウェアiSCSIイニシエータです。
+. link:++https://techdocs.broadcom.com/us/en/vmware-cis/vsan/vsan/8-0/vsan-network-design/ip-network-transport-configuration/vsphere-tcp-ip-stacks.html++["iSCSI 用 TCP / IP スタックが利用可能であることを確認します"]です。
+. link:++https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/assign-a-port-group-or-network-to-a-network-protocol-profile.html++["iSCSI ポートグループが使用可能であることを確認します"]です。
 +
 ** 通常、複数のアップリンクポートを持つ単一の仮想スイッチを使用します。
 ** 1:1 のアダプタマッピングを使用します。
 
 
 . iSCSI VMkernel アダプタが有効になっていて NIC の数が一致していて、 IP が割り当てられていることを確認します。
-. link:++https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-D9B862DF-476A-4BCB-8CA5-DE6DB2A1A981.html++["iSCSI ソフトウェアアダプタを iSCSI VMkernel アダプタにバインド"]
+. link:++https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-storage-8-0/configuring-iscsi-and-iser-adapters-and-storage-with-esxi/configure-the-software-iscsi-adapter-with-esxi.html++["iSCSI ソフトウェアアダプタを iSCSI VMkernel アダプタにバインド"]
 . link:++https://docs.netapp.com/vapp-98/topic/com.netapp.doc.vsc-iag/GUID-D7CAD8AF-E722-40C2-A4CB-5B4089A14B00.html++["ONTAP Tools を使用して VMFS データストアをプロビジョニングします"]です。すべてのデータストアについて、同じ手順を繰り返します。
-. link:++https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-0520FD37-D7AD-4FBA-9A2E-E5F8211FCBBB.html++["ハードウェアアクセラレーションのサポートを確認します。"]
+. link:++https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/7-0/vsphere-storage-7-0/storage-hardware-acceleration-in-vsphere/vsphere-hardware-acceleration-on-block-storage/managing-hardware-acceleration-filter-and-plug-ins/verify-hardware-acceleration-support-status.html++["ハードウェアアクセラレーションのサポートを確認します。"]
 
 
 

@@ -136,7 +136,7 @@ image:snapctr_psql_brc_architecture.png["このイメージは、SnapCenterを�
 
 === 導入の前提条件
 
-[%collapsible]
+[%collapsible%open]
 ====
 . 導入環境では、ONTAPストレージ上で2つの既存のPostgreSQLデータベースが実行されている必要があります。1つはプライマリDBサーバとして、もう1つはクローンDBサーバとして実行されます。ONTAPへのPostgreSQLデータベースの導入については、TR-4956：『link:aws_postgres_fsx_ec2_hadr.html["AWS FSX/EC2におけるPostgreSQL高可用性導入とディザスタリカバリの自動化"^]looking for the PostgreSQL automated deployment playbook on primary instance』を参照してください。
 . NetApp SnapCenter UIツールを最新バージョンで実行するようにWindowsサーバをプロビジョニングします。詳細については、次のリンクを参照してください。link:https://docs.netapp.com/us-en/snapcenter/install/task_install_the_snapcenter_server_using_the_install_wizard.html["SnapCenterサーバのインストール"^]
@@ -147,7 +147,7 @@ image:snapctr_psql_brc_architecture.png["このイメージは、SnapCenterを�
 
 === SnapCenterのインストールとセットアップ
 
-[%collapsible]
+[%collapsible%open]
 ====
 SnapCenterのインストールと設定に進む前に、オンラインを使用することをお勧めしlink:https://docs.netapp.com/us-en/snapcenter/index.html["SnapCenterソフトウェアのドキュメント"^]ます。ONTAPでPostgreSQL用SnapCenterソフトウェアをインストールしてセットアップする手順の概要を以下に示します。
 
@@ -207,7 +207,7 @@ image:snapctr_psql_bkup_01.png["この画像は、SnapCenterサーバの設定-�
 
 === データベースバックアップ
 
-[%collapsible]
+[%collapsible%open]
 ====
 最初に自動検出されたPostgreSQLクラスタでは、クラスタ名の横に赤いロックが表示されます。前のセクションでSnapCenterのセットアップ中に作成されたPostgreSQLデータベースクレデンシャルを使用してロックを解除する必要があります。次に、バックアップポリシーを作成して適用し、データベースを保護する必要があります。最後に、手動またはスケジューラによるバックアップを実行して、Snapshotバックアップを作成します。次のセクションでは、ステップバイステップの手順を示します。
 
@@ -298,7 +298,7 @@ image:snapctr_psql_bkup_19.png["このイメージは、SnapCenterサーバの�
 
 === データベースリカバリ
 
-[%collapsible]
+[%collapsible%open]
 ====
 このデータベースリカバリのデモでは、PostgreSQLデータベースクラスタのポイントインタイムリカバリを紹介します。まず、SnapCenterを使用して、ONTAPストレージ上にデータベースボリュームのSnapshotバックアップを作成します。次に、データベースにログインし、テストテーブルを作成し、タイムスタンプを書き留めて、テストテーブルをドロップします。次に、削除されたテーブルをリカバリするためにテストテーブルが作成されたときのタイムスタンプまで、バックアップからリカバリを開始します。次に、SnapCenter UIを使用したPostgreSQLデータベースのポイントインタイムリカバリのワークフローと検証の詳細を示します。
 
@@ -406,7 +406,7 @@ postgres=# select now();
 
 === データベースクローン
 
-[%collapsible]
+[%collapsible%open]
 ====
 SnapCenterを使用したPostgreSQLデータベースクラスタクローンでは、ソースデータベースデータボリュームのSnapshotバックアップから新しいシンクローンボリュームを作成します。さらに重要なのは、他の方法と比べて短時間（数分）で本番環境のデータベースのクローンコピーを作成して開発やテストに役立てることです。これにより、ストレージコストが大幅に削減され、データベースアプリケーションのライフサイクル管理が向上します。次のセクションでは、SnapCenter UIを使用したPostgreSQLデータベースクローンのワークフローについて説明します。
 

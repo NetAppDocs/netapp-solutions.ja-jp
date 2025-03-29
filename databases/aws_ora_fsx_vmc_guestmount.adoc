@@ -151,7 +151,7 @@ image:aws_ora_fsx_vmc_architecture.png["このイメージは、iSCSIとASMを�
 
 === 導入の前提条件
 
-[%collapsible]
+[%collapsible%open]
 ====
 導入には、次の前提条件が必要です。
 
@@ -178,7 +178,7 @@ NOTE: Oracleインストールファイルをステージングするための�
 
 === DB VMカーネル設定
 
-[%collapsible]
+[%collapsible%open]
 ====
 前提条件をプロビジョニングした状態で、SSHを使用してOracle VMに管理者ユーザとしてログインし、rootユーザにsudoを実行して、Oracleインストール用のLinuxカーネルを設定します。Oracleのインストールファイルは、AWS S3バケットにステージングしてVMに転送できます。
 
@@ -398,7 +398,7 @@ chmod 440 /etc/sudoers
 
 === FSx ONTAP LUNをプロビジョニングしてDB VMにマッピング
 
-[%collapsible]
+[%collapsible%open]
 ====
 sshおよびFSxクラスタ管理IP経由でfsxadminユーザとしてFSxクラスタにログインし、コマンドラインから3つのボリュームをプロビジョニングします。ボリューム内にLUNを作成し、Oracleデータベースのバイナリファイル、データファイル、ログファイルをホストします。
 
@@ -530,7 +530,7 @@ nim        /vol/ora_02_logs/ora_02_u03_02            ora_02        6  iscsi
 
 === DB VMストレージ構成
 
-[%collapsible]
+[%collapsible%open]
 ====
 次に、Oracleグリッドインフラ用のFSx ONTAPストレージをインポートしてセットアップし、VMCデータベースVMにデータベースをインストールします。
 
@@ -823,7 +823,7 @@ systemctl restart multipathd
 
 === Oracleグリッドインフラのインストール
 
-[%collapsible]
+[%collapsible%open]
 ====
 . SSHを使用してDB VMにadminユーザとしてログインし、コメントを解除してコメントアウトし、 `PasswordAuthentication no`パスワード認証を有効にします。 `PasswordAuthentication yes`
 +
@@ -1084,7 +1084,7 @@ CRS-4638: Oracle High Availability Services is online
 
 === Oracleデータベースのインストール
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Oracleユーザとしてログインし、設定を解除します `$ORACLE_HOME`（設定されている場合）。 `$ORACLE_SID`
 +
@@ -1475,7 +1475,7 @@ alter database open;
 
 ==== SnapCenterセットアップ
 
-[%collapsible]
+[%collapsible%open]
 ====
 SnapCenterは、データベースVM上のホスト側プラグインを使用して、アプリケーション対応のデータ保護管理アクティビティを実行します。Oracle用NetApp SnapCenterプラグインの詳細については、このドキュメントを参照してlink:https://docs.netapp.com/us-en/snapcenter/protect-sco/concept_what_you_can_do_with_the_snapcenter_plug_in_for_oracle_database.html["Plug-in for Oracle Databaseの機能"^]ください。次に、Oracleデータベースのバックアップ、リカバリ、およびクローン用にSnapCenterをセットアップする手順の概要を示します。
 
@@ -1516,7 +1516,7 @@ NOTE: SnapCenterサーバ名をDB VMからIPアドレスに解決できること
 
 ==== データベースバックアップ
 
-[%collapsible]
+[%collapsible%open]
 ====
 SnapCenterはFSx ONTAPボリュームスナップショットを活用することで、従来のRMANベースの方法と比較して、データベースのバックアップ、リストア、クローニングにかかる時間を大幅に短縮します。Snapshotの作成前にデータベースがOracleバックアップモードになるため、Snapshotはアプリケーションと整合性があります。
 
@@ -1551,7 +1551,7 @@ image:aws_ora_fsx_vmc_snapctr_11.png["SnapCenterの設定を示すスクリー�
 
 ==== データベースリカバリ
 
-[%collapsible]
+[%collapsible%open]
 ====
 SnapCenterには、SnapshotバックアップからのOracleデータベースのリストアとリカバリのオプションが多数用意されています。この例では、誤ってドロップされたテーブルをリカバリするためのポイントインタイムリストアを示します。VM ora_02では、2つのデータベースcdb3、cdb4が同じ+dataおよび+logsディスクグループを共有しています。一方のデータベースをリストアしても、もう一方のデータベースの可用性には影響しません。
 
@@ -1748,7 +1748,7 @@ SQL>
 
 ==== データベースクローン
 
-[%collapsible]
+[%collapsible%open]
 ====
 この例では、同じバックアップセットを使用して、別のORACLE_HOMEにある同じVM上のデータベースをクローニングします。バックアップからVMC内の別のVMにデータベースをクローニングする場合も、必要に応じて同じ手順を実行できます。
 

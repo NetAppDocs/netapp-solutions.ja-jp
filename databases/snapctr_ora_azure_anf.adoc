@@ -142,7 +142,7 @@ image:automation_ora_anf_nfs_archit.png["このイメージは、iSCSIとASMを�
 
 === 導入の前提条件
 
-[%collapsible]
+[%collapsible%open]
 ====
 導入には、AzureのANFで既存のOracleデータベースを実行する必要があります。そうでない場合は、次の手順に従って、解決策検証用に2つのOracleデータベースを作成します。AzureクラウドでのANFへのOracleデータベースの導入と自動化の詳細については、『TR-4987：link:automation_ora_anf_nfs.html["NFSを使用したAzure NetApp FilesへのOracleの導入を簡易化、自動化"^]
 
@@ -196,7 +196,7 @@ video::960fb370-c6e0-4406-b6d5-b110014130e8[panopto,width=360]
 
 === SnapCenterのインストールとセットアップ
 
-[%collapsible]
+[%collapsible%open]
 ====
 SnapCenterのインストールと設定に進む前に、オンラインを使用することをお勧めしlink:https://docs.netapp.com/us-en/snapcenter/index.html["SnapCenterソフトウェアのドキュメント"^]ます。Azure ANFにOracle向けのSnapCenterソフトウェアをインストールしてセットアップする手順の概要を以下に示します。
 
@@ -249,7 +249,7 @@ image:snapctr_ora_azure_anf_setup_05.png["この画像は、SnapCenterサーバ�
 
 === データベースバックアップ
 
-[%collapsible]
+[%collapsible%open]
 ====
 NetAppのSnapshotバックアップでは、データベースボリュームのポイントインタイムイメージが作成されます。このイメージを使用して、システム障害やデータ損失が発生した場合にリストアできます。Snapshotバックアップの所要時間はごくわずかで、通常は1分未満です。バックアップイメージにはSnapshotコピーが最後に作成されてからのファイルへの変更のみが記録されるため、ストレージスペースは最小限しか消費されず、パフォーマンスのオーバーヘッドもわずかです。次のセクションでは、SnapCenterでのOracleデータベースバックアップ用のスナップショットの実装について説明します。
 
@@ -308,7 +308,7 @@ image:snapctr_ora_azure_anf_bkup_13.png["このイメージは、SnapCenterサ�
 
 === データベースリカバリ
 
-[%collapsible]
+[%collapsible%open]
 ====
 SnapCenterによるデータベースリカバリでは、データベースボリュームイメージのポイントインタイムSnapshotコピーがリストアされます。次に、SCN /タイムスタンプ、またはバックアップセット内の使用可能なアーカイブログで許可されているポイントまで、データベースがロールフォワードされます。次のセクションでは、SnapCenter UIを使用したデータベースリカバリのワークフローについて説明します。
 
@@ -351,7 +351,7 @@ image:snapctr_ora_azure_anf_restore_08.png["このイメージは、SnapCenter�
 
 === データベースクローン
 
-[%collapsible]
+[%collapsible%open]
 ====
 SnapCenterを使用したデータベースクローンは、ボリュームのSnapshotから新しいボリュームを作成することによって実行されます。システムは、Snapshot情報を使用して、Snapshotの作成時にボリューム上のデータを使用して新しいボリュームをクローニングします。さらに重要なのは、他の方法と比べて短時間（数分）で本番環境のデータベースのクローンコピーを作成して開発やテストに役立てることです。これにより、データベースアプリケーションのライフサイクル管理が大幅に向上します。次のセクションでは、SnapCenter UIを使用したデータベースクローンのワークフローについて説明します。
 

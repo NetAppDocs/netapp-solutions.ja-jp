@@ -62,7 +62,7 @@ image:vmware-nfs-srm-image05.png["アプライアンスを設定する"]｛nbsp�
 
 NetAppでは、ストレージシステム、スイッチ、ネットワークアダプタ、およびホストシステムにフォールトトレランスを提供する、NFSに冗長なネットワーク設計を推奨しています。NFSは、アーキテクチャの要件に応じて、単一のサブネットまたは複数のサブネットを使用して導入するのが一般的です。
 
-についてVMware vSphere固有の詳細、を参照してください https://core.vmware.com/resource/best-practices-running-nfs-vmware-vsphere["VMware vSphereでNFSを実行するためのベストプラクティス"]は。
+についてVMware vSphere固有の詳細、を参照してください https://www.vmware.com/docs/vmw-best-practices-running-nfs-vmware-vsphere["VMware vSphereでNFSを実行するためのベストプラクティス"]は。
 
 VMware vSphereでのONTAPの使用に関するネットワークガイダンスについては、NetAppエンタープライズアプリケーションのドキュメントのセクションを参照して https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-network.html#nfs["ネットワーク設定- NFS"]ください。
 
@@ -91,7 +91,7 @@ VMware SRMでのONTAPストレージの使用に関するNetAppのドキュメ�
 SRMアプライアンスとSRAアダプタを設定するには、次の手順を実行します。
 
 .プライマリサイトとセカンダリサイトのSRMアプライアンスを接続します。
-[%collapsible]
+[%collapsible%open]
 ====
 プライマリサイトとセカンダリサイトの両方で、次の手順を実行する必要があります。
 
@@ -122,7 +122,7 @@ image:vmware-nfs-srm-image03.png["アプライアンスを設定する"]
 
 ====
 .SRMアプライアンスでSRAを設定する
-[%collapsible]
+[%collapsible%open]
 ====
 SRMアプライアンスでSRAを設定するには、次の手順を実行します。
 
@@ -145,7 +145,7 @@ image:vmware-nfs-srm-image04.png["新しいSRMアダプタの追加"]
 サイトペアリングを設定し、保護グループを作成するには、次の手順を実行します。
 
 .SRMのサイトペアリングの設定
-[%collapsible]
+[%collapsible%open]
 ====
 プライマリサイトのvCenterクライアントで次の手順を実行します。
 
@@ -193,7 +193,7 @@ image:vmware-nfs-srm-image11.png["サイトペアの概要"]
 
 ====
 .SRMのアレイペアの追加
-[%collapsible]
+[%collapsible%open]
 ====
 プライマリサイトのSite Recoveryインターフェイスで、次の手順を実行します。
 
@@ -237,7 +237,7 @@ image:vmware-nfs-srm-image16.png["アレイペア"]
 
 ====
 .SRMの保護グループの設定
-[%collapsible]
+[%collapsible%open]
 ====
 プライマリサイトのSite Recoveryインターフェイスで、次の手順を実行します。
 
@@ -284,7 +284,7 @@ image:vmware-nfs-srm-image22.png["リカバリプラン"]
 
 ====
 .SRMのリカバリプランの設定
-[%collapsible]
+[%collapsible%open]
 ====
 プライマリサイトのSite Recoveryインターフェイスで、次の手順を実行します。
 
@@ -329,7 +329,7 @@ image:vmware-nfs-srm-image26.png["テストネットワーク"]
  https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-srm-operational_best_practices.html["運用上のベストプラクティス"]ONTAPストレージとSRMディザスタリカバリ処理の使用方法の詳細については、を参照してください。
 
 .SRMによるフェイルオーバーのテスト
-[%collapsible]
+[%collapsible%open]
 ====
 Site Recoveryインターフェイスで次の手順を実行します。
 
@@ -362,7 +362,7 @@ image:vmware-nfs-srm-image30.png["新しくマウントされたデータスト�
 
 ====
 .SRMでリカバリプランを実行
-[%collapsible]
+[%collapsible%open]
 ====
 セカンダリサイトへのフルリカバリとフェイルオーバーを実行します。
 
@@ -394,4 +394,4 @@ VMware SRMでのONTAPストレージの使用に関するNetAppのドキュメ�
 
 ONTAPストレージシステムの構成については、センターを参照してlink:https://docs.netapp.com/us-en/ontap["ONTAP 9ドキュメント"]ください。
 
-VCFの設定については、を参照してくださいlink:https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["VMware Cloud Foundationのドキュメント"]。
+VCFの設定については、を参照してくださいlink:https://techdocs.broadcom.com/us/en/vmware-cis/vcf.html["VMware Cloud Foundationのドキュメント"]。

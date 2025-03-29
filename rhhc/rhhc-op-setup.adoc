@@ -26,16 +26,16 @@ image:rhhc-on-premises.png["入力/出力ダイアログを示す図、または
 セットアッププロセスは、次の手順に分けることができます。
 
 .CentOS VMを導入、設定
-[%collapsible]
+[%collapsible%open]
 ====
 * VMware vSphere環境に導入されます。
-* このVMは、NetApp TridentやNetApp Astra Control Centerなど、ソリューション用の一部のコンポーネントの導入に使用されます。
+* このVMは、ソリューション用のNetApp TridentやNetApp Trident Protectなどの一部のコンポーネントの導入に使用されます。
 * このVMにはインストール時にrootユーザが設定されます。
 
 
 ====
 .VMware vSphere（ハブクラスタ）にOpenShift Container Platformクラスタを導入して設定
-[%collapsible]
+[%collapsible%open]
 ====
 の手順を参照してくださいlink:https://docs.openshift.com/container-platform/4.17/installing/installing_vsphere/installing-vsphere-assisted-installer.html["支援された展開"]OCPクラスタを導入する方法。
 
@@ -44,13 +44,13 @@ TIP: 次の点に注意してください。-インストーラに提供するss
 
 ====
 .ハブクラスタにAdvanced Cluster Managementをインストールします
-[%collapsible]
+[%collapsible%open]
 ====
 これは、ハブクラスタのAdvanced Cluster Management Operatorを使用してインストールします。手順を参照してlink:https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.7/html/install/installing#doc-wrapper["ここをクリック"]ください。
 
 ====
 .2つのOCPクラスタ（ソースとデスティネーション）を追加でインストール
-[%collapsible]
+[%collapsible%open]
 ====
 * 追加のクラスタは、ハブクラスタのACMを使用して展開できます。
 * 手順を参照してlink:https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.7/html/clusters/cluster_mce_overview#vsphere_prerequisites["ここをクリック"]ください。
@@ -58,7 +58,7 @@ TIP: 次の点に注意してください。-インストーラに提供するss
 
 ====
 .NetApp ONTAP ストレージの設定
-[%collapsible]
+[%collapsible%open]
 ====
 * VMware環境のOCP VMに接続されたONTAP クラスタをインストールします。
 * SVMを作成
@@ -67,7 +67,7 @@ TIP: 次の点に注意してください。-インストーラに提供するss
 
 ====
 .OCPクラスタにNetApp Tridentをインストール
-[%collapsible]
+[%collapsible%open]
 ====
 * ハブ、ソース、デスティネーションの3つのクラスタすべてにNetApp Tridentをインストール
 * 手順を参照してlink:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy-operator.html["ここをクリック"]ください。
@@ -78,9 +78,9 @@ TIP: 次の点に注意してください。-インストーラに提供するss
 
 ====
 .ソースクラスタにアプリケーションを導入します
-[%collapsible]
+[%collapsible%open]
 ====
 OpenShift GitOpsを使用してアプリケーションを導入します。（Postgres、Ghostなど）
 
 ====
-次の手順では、Trident Protectを使用してデータ保護とソースクラスタからデスティネーションクラスタへのデータ移行を行います。手順についてはを参照してくださいlink:rhhc/rhhc-dp-tp-solution.html["ここをクリック"]。
+次の手順では、Trident Protectを使用してデータ保護とソースクラスタからデスティネーションクラスタへのデータ移行を行います。手順についてはを参照してくださいlink:rhhc-dp-tp-solution.html["ここをクリック"]。

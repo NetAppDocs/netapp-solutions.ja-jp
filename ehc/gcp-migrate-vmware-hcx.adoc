@@ -16,8 +16,6 @@ summary:
 [role="lead"]
 Google Cloud VMware EngineおよびCloud Volume Serviceデータストアの最も一般的なユースケースの1つは、VMwareワークロードの移行です。VMware HCXは推奨されるオプションであり、オンプレミスの仮想マシン（VM）とそのデータをCloud Volume Service NFSデータストアに移動するためのさまざまな移行メカニズムを提供します。
 
-執筆者：NetApp Solutions Engineering
-
 
 
 == 概要：VMware HCX、Google Cloud NetApp Volumesデータストア、Google Cloud VMware Engine（GCVE）を使用した仮想マシンの移行
@@ -30,7 +28,7 @@ VMware HCXは、主に移行プラットフォームであり、クラウド間�
 NOTE: VMware HCXはVMレベルで移行されるため、どのデータストアタイプでも動作します。このドキュメントは、対費用効果の高いVMwareクラウド導入のためにGoogle Cloud VMware Engineを使用したCloud Volume Serviceの導入を計画している既存のネットアップのお客様およびネットアップ以外のお客様を対象としています。
 
 .手順の概要
-[%collapsible]
+[%collapsible%open]
 ====
 次のリストは、オンプレミスのHCX ConnectorからGoogle Cloud VMware Engine側のHCX Cloud ManagerにVMをペアリングして移行するために必要な手順の概要を示しています。
 
@@ -46,7 +44,7 @@ NOTE: VMware HCXはVMレベルで移行されるため、どのデータスト�
 
 ====
 .前提条件
-[%collapsible]
+[%collapsible%open]
 ====
 作業を開始する前に、次の前提条件が満たされていることを確認してください。詳細については、こちらを参照して https://cloud.google.com/vmware-engine/docs/workloads/howto-migrate-vms-using-hcx["リンク"^]ください。接続などの前提条件が整ったら、Google Cloud VMware EngineポータルからHCXライセンスキーをダウンロードします。OVAインストーラをダウンロードしたら、次の手順に従ってインストールプロセスを実行します。
 
@@ -62,7 +60,7 @@ NOTE: HCx advancedはデフォルトオプションであり、VMware HCX Enterp
 
 ====
 .アーキテクチャの概要
-[%collapsible]
+[%collapsible%open]
 ====
 テスト目的で、この検証に使用したオンプレミスのラボ環境は、Cloud VPNを介して接続されています。これにより、オンプレミスからGoogle Cloud VPCへの接続が可能になります。
 
@@ -78,7 +76,7 @@ GoogleでVMware HCXを使用する方法の詳細については、 https://clou
 一連の手順に従って、この解決策 の導入を完了します。
 
 .ステップ1：Google VMware Engine Portalを使用してHCXを準備する
-[%collapsible]
+[%collapsible%open]
 ====
 VMware Engineでプライベートクラウドをプロビジョニングすると、HCx Cloud Managerコンポーネントが自動的にインストールされます。サイトペアリングを準備するには、次の手順を実行します。
 
@@ -93,7 +91,7 @@ HCX Consoleにログインするには、[HCX version]リンクをimage:gcpd-hcx
 
 ====
 .手順2：オンプレミスのvCenter ServerにインストーラOVAを導入する
-[%collapsible]
+[%collapsible%open]
 ====
 Google Cloud VMware EngineのHCX Managerにオンプレミスコネクタを接続するには、オンプレミス環境で適切なファイアウォールポートが開いていることを確認します。
 
@@ -115,7 +113,7 @@ NOTE: 仮想アプライアンスの電源を手動でオンにします。
 
 ====
 .手順3：ライセンスキーを使用してHCXコネクタをアクティブにします
-[%collapsible]
+[%collapsible%open]
 ====
 VMware HCX Connector OVAをオンプレミスに導入してアプライアンスを起動したら、次の手順を実行してHCX Connectorをアクティブにします。Google Cloud VMware Engineポータルからライセンスキーを生成し、VMware HCX Managerでアクティブ化します。
 
@@ -156,7 +154,7 @@ image:gcpd-hcx-image7.png["完了したプロセスを示すスクリーンシ�
 
 ====
 .手順4：オンプレミスのVMware HCX ConnectorとGoogle Cloud VMware Engine HCX Cloud Managerをペアリングします
-[%collapsible]
+[%collapsible%open]
 ====
 オンプレミスのvCenterにHCX Connectorを導入して設定したら、このペアリングを追加してCloud Managerへの接続を確立します。サイトペアリングを設定するには、次の手順を実行します。
 
@@ -185,7 +183,7 @@ image:gcpd-hcx-image10.png["HCXダッシュボードで完了したプロセス�
 
 ====
 .手順5：ネットワークプロファイル、コンピューティングプロファイル、およびサービスメッシュを設定します
-[%collapsible]
+[%collapsible%open]
 ====
 VMware HCX Interconnectサービスアプライアンスは、インターネットを介したレプリケーションおよびvMotionベースの移行機能を提供し、ターゲットサイトへのプライベート接続を提供します。インターコネクトは、暗号化、トラフィックエンジニアリング、VMモビリティを提供します。インターコネクトサービスアプライアンスを作成するには、次の手順を実行します。
 
@@ -226,7 +224,7 @@ image:gcpd-hcx-image14.png["vSphere Client InterconnectページのHCXアプラ�
 
 ====
 .手順6：ワークロードを移行する
-[%collapsible]
+[%collapsible%open]
 ====
 さまざまなVMware HCX移行テクノロジを使用して、オンプレミスとGCVEのSDDC間でワークロードを双方向に移行できます。VMは、HCXバルク移行、HCX vMotion、HCXコールド移行、HCX Replication Assisted vMotion（HCX Enterprise Editionで利用可能）、HCX OS Assisted Migration（HCX Enterprise Editionで利用可能）などの複数の移行テクノロジーを使用して、VMware HCXでアクティブ化されたエンティティとの間で移動できます。
 
@@ -293,7 +291,7 @@ NOTE: 移行先のGoogle Cloud NetApp Volume（NetApp Volume）NFSデータス�
 == 参考として、GoogleとVMwareのビデオをご用意しています
 
 .Googleから
-[%collapsible]
+[%collapsible%open]
 ====
 * link:https://www.youtube.com/watch?v=xZOtqiHY5Uw["GCVEを使用してHCXコネクタを展開します"]
 * link:https://youtu.be/2ObPvekMlqA["GCVEを使用してHCX ServiceMeshを設定します"]
@@ -302,7 +300,7 @@ NOTE: 移行先のGoogle Cloud NetApp Volume（NetApp Volume）NFSデータス�
 
 ====
 .VMwareを使用
-[%collapsible]
+[%collapsible%open]
 ====
 * link:https://youtu.be/EFE5ZYFit3M["GCVEのHCxコネクタ配置"]
 * link:https://youtu.be/uwRFFqbezIE["GCVEのHCx ServiceMesh設定"]

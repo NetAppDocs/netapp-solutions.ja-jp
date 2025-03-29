@@ -142,7 +142,7 @@ image:automation_ora_c-series_nfs_archit.png["このイメージは、iSCSIとAS
 
 === 導入の前提条件
 
-[%collapsible]
+[%collapsible%open]
 ====
 導入には、次の前提条件が必要です。
 
@@ -176,7 +176,7 @@ installer_archives:
 
 === Cシリーズfor OracleでのネットワークとSVMの設定
 
-[%collapsible]
+[%collapsible%open]
 ====
 このセクションでは、ONTAP System ManagerのUIを使用して、NFSプロトコルを使用するOracleワークロード向けにCシリーズコントローラのネットワークとStorage Virtual Machine（SVM）を設定するためのベストプラクティスについて説明します。
 
@@ -276,7 +276,7 @@ NOTE: 自動化が正しく機能するように、DBボリュームの命名規
 
 === 自動化パラメータファイル
 
-[%collapsible]
+[%collapsible%open]
 ====
 Ansible Playbookは、事前定義されたパラメータを使用してデータベースのインストールと設定のタスクを実行します。このOracle自動化解決策では、プレイブックを実行する前にユーザ入力が必要な3つのユーザ定義パラメータファイルがあります。
 
@@ -292,7 +292,7 @@ Ansible Playbookは、事前定義されたパラメータを使用してデー�
 
 === パラメータファイルの設定
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Ansibleターゲット `hosts`ファイル構成：
 +
@@ -366,7 +366,7 @@ nfs_lif: 172.30.136.68
 
 === Playbookの実施
 
-[%collapsible]
+[%collapsible%open]
 ====
 自動化ツールキットには、合計5つのプレイブックが用意されています。それぞれが異なるタスクブロックを実行し、さまざまな目的に対応します。
 
@@ -430,7 +430,7 @@ ansible-playbook -i hosts 5-destroy.yml -u admin -e @vars/vars.yml
 
 === 実行後の検証
 
-[%collapsible]
+[%collapsible%open]
 ====
 Playbookの実行後、Oracle DBサーバVMにログインして、Oracleがインストールおよび設定され、コンテナデータベースが正常に作成されたことを確認します。次に、DB VM ora_01またはora_02でのOracleデータベース検証の例を示します。
 
@@ -662,7 +662,7 @@ image:automation_ora_c-series_nfs_em_01.png["このイメージは、Oracle Ente
 
 === SnapCenterによるOracleのバックアップ、リストア、クローニング
 
-[%collapsible]
+[%collapsible%open]
 ====
 NetAppでは、Cシリーズに導入されたOracleデータベースを管理するために、SnapCenter UIツールを推奨しています。link:aws_ora_fsx_vmc_guestmount.html#oracle-backup-restore-and-clone-with-snapcenter["ゲストマウント型FSx ONTAPにより、VMware Cloud on AWSでシンプルな自己管理型Oracleを実現"^] `Oracle backup, restore, and clone with SnapCenter`SnapCenterのセットアップとデータベースのバックアップ、リストア、クローニングのワークフローの実行については、TR-4979を参照してください。
 

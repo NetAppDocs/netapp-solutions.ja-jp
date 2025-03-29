@@ -1,0 +1,34 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-getting-started-ontap-tools-for-vmware.html 
+keywords: vmware, getting, started, overview, netapp, otv, ontap, tools 
+summary:  
+---
+= VMware向けONTAPツール（OTV）
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+ONTAP Tools for VMware vSphereは、NetAppストレージシステムを使用するVMware環境で、仮想マシンのエンドツーエンドのライフサイクル管理機能を提供します。
+
+
+
+== はじめに
+
+管理者はvCenter Server内のストレージを直接管理し、VMware環境のストレージとデータの管理を簡易化できます。VMware vSphere Clientプラグインツールは、vCenter Server内で実行することなく、プラグイン機能をvSphere Clientに統合するように設計されています。これにより、プラグインが分離され、大規模なvSphere環境で動作するプラグインをスケールアウトできます。
+
+
+
+== ONTAPツールのコンポーネント
+
+* * Virtual Storage Console（VSC）* VSCにはvSphere Clientに統合されたインターフェイスが含まれており、ストレージコントローラの追加、データストアのプロビジョニング、データストアのパフォーマンスの監視、ESXiホストの設定の表示と更新を行うことができます。
+* * VASA Provider * VMware vSphere APIs for Storage Awareness（VASA）Provider for ONTAPは、VMware vSphereで使用されるストレージに関する情報をvCenter Serverに送信します。これにより、VMware Virtual Volume（VVOL）データストアのプロビジョニング、ストレージ機能プロファイルの作成と使用、コンプライアンスの検証、パフォーマンスの監視が可能になります。
+* * Storage Replication Adapter（SRA）* VMware Site Recovery Manager（SRM）を有効にして使用すると、障害発生時にvCenter Serverのデータストアと仮想マシンを簡単にリカバリできるため、ディザスタリカバリ用に保護対象サイトとリカバリサイトを設定できます。
+
+
+NetApp ONTAP tools for VMwareの詳細については、を参照してください https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["VMware vSphere ドキュメント用の ONTAP ツール"]。

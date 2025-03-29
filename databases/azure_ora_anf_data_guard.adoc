@@ -13,8 +13,6 @@ summary: このソリューションでは、AzureクラウドでOracle Data Gua
 :imagesdir: ../media/
 
 
-ネットアップ、Niyaz Mohamed、Allen Cao氏
-
 [role="lead"]
 このソリューションでは、AzureクラウドでOracle Data Guard HA / DRソリューションのライセンスコストと運用コストを削減するために、Microsoft Azure NetApp Files（ANF）をプライマリおよびスタンバイデータベースストレージとして使用してOracle Data Guardを設定する方法の概要と詳細について説明します。
 
@@ -115,7 +113,7 @@ image:azure_ora_anf_data_guard_architecture.png["この画像は、ANF上のAzur
 === 導入にあたって考慮すべき主な要因
 
 * *スタンバイデータベースクローン*プライマリデータベースからトランザクションログを受信して適用する際に、物理スタンバイデータベースのクローンを作成してDB VMにマウントすることで、開発、テスト、レポートなどの他のワークロードをサポートできます。クローンは、シンクローンでもシッククローンでもかまいません。現時点では、ANFでサポートされるのは、スタンバイデータベースのフルコピーであるシッククローンのみです。ANFシンクローンオプションはまもなくリリースされます。データベースボリュームのシンクローニングコピーの場合、スタンバイデータベースの同じDBボリュームを共有し、copy-on-writeテクノロジを使用して書き込みI/Oに対応します。そのため、クローンは非常にストレージ効率に優れているため、新しい書き込みI/Oに最小限の容量を追加して新しいストレージを割り当てるだけで、他の多くのユースケースにも使用できます。これにより、Active Data Guardストレージの設置面積が大幅に削減され、ストレージコストを大幅に削減できます。NetAppでは、データベースがプライマリストレージからスタンバイANFストレージに切り替わった場合にFlexCloneの処理を最小限に抑えて、高いレベルのパフォーマンスを維持することを推奨しています。
-* * Oracleのソフトウェア要件*一般に、Oracle Data Guard Standby-First Patch Applyプロセスが進行中でない限り（My Oracle Support note 1265700.1を参照）、Patch Set Exceptions（PSE）、Critical Patch Updates（CPU）、およびPatch Set Updates（PSU）を含む、物理スタンバイデータベースのDatabase Homeバージョンがプライマリデータベースと同じである必要があります。link:http://support.oracle.com.["support.oracle.com"^]
+* * Oracleのソフトウェア要件*一般に、Oracle Data Guard Standby-First Patch Applyプロセスが進行中でない限り（のMy Oracle Support note 1265700.1を参照）、Patch Set Exceptions（PSE）、Critical Patch Updates（CPU）、およびPatch Set Updates（PSU）link:https://support.oracle.com["support.oracle.com"^]を含む、物理スタンバイデータベースのDatabase Homeバージョンがプライマリデータベースと同じである必要があります。
 * *スタンバイデータベースディレクトリ構造に関する考慮事項*可能であれば、プライマリシステムとスタンバイシステムのデータファイル、ログファイル、および制御ファイルには同じ名前とパス名を付け、Optimal Flexible Architecture（OFA）の命名規則を使用する必要があります。スタンバイデータベースのアーカイブディレクトリも、サイズや構造など、サイト間で同一である必要があります。この戦略により、バックアップ、スイッチオーバー、フェイルオーバーなどの他の操作でも同じ手順を実行できるため、メンテナンスの複雑さが軽減されます。
 * *強制ログモード。*スタンバイデータベースに伝播できないプライマリデータベースのログに記録されていない直接書き込みから保護するには、スタンバイ作成用のデータファイルバックアップを実行する前に、プライマリデータベースで強制ロギングをオンにします。
 * * Azure VMのサイジング*今回のテストと検証では、4つのvCPUと16GiBメモリを搭載したAzure VM-Standard_B4msを使用しました。実際のワークロード要件に基づいて、vCPUの数とRAMの容量に合わせてAzure DB VMのサイズを適切に設定する必要があります。
@@ -135,7 +133,7 @@ image:azure_ora_anf_data_guard_architecture.png["この画像は、ANF上のAzur
 
 === 導入の前提条件
 
-[%collapsible]
+[%collapsible%open]
 ====
 導入には、次の前提条件が必要です。
 
@@ -174,7 +172,7 @@ VNetゲートウェイの接続ステータス：image:azure_ora_anf_dg_vnet_03.
 
 === Data Guardのプライマリデータベースの準備
 
-[%collapsible]
+[%collapsible%open]
 ====
 このデモでは、プライマリAzure DBサーバにNTAPという名前のプライマリOracleデータベースをセットアップし、3つのNFSマウントポイント（Oracleバイナリ用に/u01、Oracleデータファイル用に/u02、Oracle制御ファイル用に/u03、Oracleのアクティブログ、アーカイブログファイル、冗長Oracle制御ファイル用に/u03）を設定します。次に、Oracle Data Guard保護用にプライマリデータベースを設定するための詳細な手順を示します。すべての手順は、Oracleデータベースの所有者またはデフォルトのユーザとして実行する必要があります `oracle`。
 
@@ -484,7 +482,7 @@ log_archive_dest_21                  string
 
 === スタンバイデータベースの準備とData Guardのアクティブ化
 
-[%collapsible]
+[%collapsible%open]
 ====
 Oracle Data Guardを使用するには、OSカーネル構成とOracleソフトウェアスタック（スタンバイDBサーバにパッチセットを含む）がプライマリDBサーバと一致する必要があります。管理を簡易化するためには、データベースディレクトリのレイアウトやNFSマウントポイントのサイズなど、スタンバイDBサーバのデータベースストレージ構成もプライマリDBサーバと同じにすることが理想的です。次に、スタンバイOracle DBサーバのセットアップとOracle DataGuardのアクティブ化によるHA/DR保護の詳細な手順を示します。すべてのコマンドは、デフォルトのOracle所有者ユーザIDとして実行する必要があります `oracle`。
 
@@ -846,7 +844,7 @@ SQL>
 
 === Data Guardブローカーのセットアップ
 
-[%collapsible]
+[%collapsible%open]
 ====
 Oracle Data Guardブローカーは、Oracle Data Guard構成の作成、メンテナンス、監視を自動化して一元化する分散管理フレームワークです。次のセクションでは、Data Guard環境を管理するためのData Guardブローカーのセットアップ方法を示します。
 
@@ -943,7 +941,7 @@ DGMGRL>
 
 === 他のユースケースでのスタンバイデータベースのクローニング
 
-[%collapsible]
+[%collapsible%open]
 ====
 Oracle Data Guard環境でANFでOracleスタンバイデータベースをホストする主なメリットは、クローンを迅速に作成して他の多くのユースケースに対応できることです。シンクローンが有効になっていれば、最小限の追加ストレージ投資で対応できます。NetAppでは、SnapCenter UIツールを使用してOracle DataGuardデータベースを管理することを推奨しています。次のセクションでは、NetApp SnapCenterツールを使用して、マウント済みおよびリカバリ対象のスタンバイデータベースボリュームを開発、テスト、レポートなどの他の目的に使用するために、ANF上のSnapshotおよびクローニングを実行する方法を説明します。
 

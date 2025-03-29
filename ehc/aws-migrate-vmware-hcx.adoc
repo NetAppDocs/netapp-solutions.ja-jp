@@ -16,8 +16,6 @@ summary:
 [role="lead"]
 Amazon Web Services（AWS）上のVMware Cloud（VMC）と、Amazon FSx ONTAP上の補完的なNFSデータストアの一般的なユースケースとして、VMwareワークロードの移行があります。VMware HCXは推奨されるオプションであり、VMwareがサポートする任意のデータストアで実行されているオンプレミスの仮想マシン（VM）とそのデータを、FSx ONTAP上の補完的なNFSデータストアを含むVMCデータストアに移動するためのさまざまな移行方法を提供します。
 
-執筆者：NetApp Solutions Engineering
-
 
 
 == 概要：VMware HCX、FSX ONTAP 補足データストア、およびVMware Cloudを使用した仮想マシンの移行
@@ -29,7 +27,7 @@ VMware HCXは、主に、クラウド間でのワークロードの移行、ワ�
 詳細については、および https://techdocs.broadcom.com/us/en/vmware-cis/hcx/vmware-hcx/4-10/getting-started-with-vmware-hcx-4-10/install-checklist-b-hcx-with-a-vmc-sddc-instance.html["チェックリストB-HCXとVMware CloudをAWS SDDCデスティネーション環境にインストールします"^]を参照して https://techdocs.broadcom.com/us/en/vmware-cis/hcx/vmware-hcx/4-10/vmware-hcx-user-guide-4-10.html["VMware HCXユーザーガイド"^]ください。
 
 .手順の概要
-[%collapsible]
+[%collapsible%open]
 ====
 VMware HCXのインストールと構成の手順の概要を次に示します。
 
@@ -45,7 +43,7 @@ VMware HCXのインストールと構成の手順の概要を次に示します�
 
 ====
 .前提条件
-[%collapsible]
+[%collapsible%open]
 ====
 作業を開始する前に、次の前提条件が満たされていることを確認してください。詳細については、を参照してください https://techdocs.broadcom.com/us/en/vmware-cis/hcx/vmware-hcx/4-10/vmware-hcx-user-guide-4-10/preparing-for-hcx-installations.html["インストールの準備"^]。接続性を含む前提条件を満たした後、VMCのVMware HCXコンソールからライセンスキーを生成して、HCXを構成してアクティブ化します。HCXがアクティブ化されると、vCenter Plug-inが展開され、管理にvCenterコンソールを使用してアクセスできるようになります。
 
@@ -59,7 +57,7 @@ HCXのアクティベーションと展開を行う前に、次のインスト�
 
 ====
 .アーキテクチャの概要
-[%collapsible]
+[%collapsible%open]
 ====
 テスト目的では、この検証に使用したオンプレミスのラボ環境をサイト間VPNを介してAWS VPCに接続しました。これにより、オンプレミスでAWSに接続し、さらに外部の中継ゲートウェイ経由でVMwareクラウドSDDCに接続できるようになりました。HCx移行およびネットワーク拡張トラフィックは、オンプレミスとVMwareクラウドのデスティネーションSDDC間でインターネットを介して送信されます。このアーキテクチャは、Direct Connectプライベート仮想インターフェイスを使用するように変更できます。
 
@@ -75,7 +73,7 @@ image:fsx-hcx-image1.png["入力/出力ダイアログを示す図、または�
 一連の手順に従って、この解決策 の導入を完了します。
 
 .手順1：アドオンオプションを使用してVMC SDDC経由でHCXをアクティブにします
-[%collapsible]
+[%collapsible%open]
 ====
 インストールを実行するには、次の手順を実行します。
 
@@ -95,7 +93,7 @@ image:fsx-hcx-image2.png["入力/出力ダイアログを示す図、または�
 
 ====
 .手順2：オンプレミスのvCenter ServerにインストーラOVAを導入する
-[%collapsible]
+[%collapsible%open]
 ====
 オンプレミスコネクタがVMCのHCXマネージャと通信するためには、適切なファイアウォールポートがオンプレミス環境で開いていることを確認します。
 
@@ -110,7 +108,7 @@ image:fsx-hcx-image5.png["入力/出力ダイアログを示す図、または�
 
 ====
 .手順3：ライセンスキーを使用してHCXコネクタをアクティブにします
-[%collapsible]
+[%collapsible%open]
 ====
 VMware HCX Connector OVAをオンプレミスに導入してアプライアンスを起動したら、次の手順を実行してHCX Connectorをアクティブにします。VMCのVMware HCXコンソールからライセンスキーを生成し、VMware HCX Connectorのセットアップ中にライセンスを入力します。
 
@@ -158,7 +156,7 @@ image:fsx-hcx-image8.png["入力/出力ダイアログを示す図、または�
 
 ====
 .手順4：オンプレミスのVMware HCXコネクタをVMC HCX Cloud Managerとペアリングします
-[%collapsible]
+[%collapsible%open]
 ====
 . オンプレミスのvCenter ServerとVMC SDDCの間にサイトペアを作成するには、オンプレミスのvCenter Serverにログインして、HCX vSphere Web Clientプラグインにアクセスします。
 +
@@ -188,7 +186,7 @@ NOTE: VMware HCX Connectorは、ポート443経由でHCX Cloud Manager IPと通�
 
 ====
 .手順5：ネットワークプロファイル、コンピューティングプロファイル、およびサービスメッシュを設定します
-[%collapsible]
+[%collapsible%open]
 ====
 VMware HCX Interconnect（HCX-IX）アプライアンスは、インターネットを介したセキュアなトンネル機能と、レプリケーションおよびvMotionベースの機能を実現するターゲットサイトへのプライベート接続を提供します。インターコネクトは、暗号化、トラフィックエンジニアリング、SD-WANを提供します。HCI IX Interconnect Applianceを作成するには、次の手順を実行します。
 
@@ -250,7 +248,7 @@ image:fsx-hcx-image18.png["入力/出力ダイアログを示す図、または�
 
 ====
 .手順6：ワークロードを移行する
-[%collapsible]
+[%collapsible%open]
 ====
 HCxは、オンプレミスやVMC SDDCなど、2つ以上の異なる環境間で双方向の移行サービスを提供します。HCXバルク移行、HCX vMotion、HCXコールド移行、HCX Replication Assisted vMotion（HCX Enterprise Editionで利用可能）、HCX OS Assisted Migration（HCX Enterprise Editionで利用可能）などのさまざまな移行テクノロジーを使用して、HCXでアクティブ化されたサイトとの間でアプリケーションワークロードを移行できます。
 
@@ -264,7 +262,7 @@ NOTE: HCX-IXアプライアンスは、Mobility AgentサービスをvCenter Serv
 image:fsx-hcx-image19.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 .VMware HCX vMotion
-[%collapsible]
+[%collapsible%open]
 =====
 このセクションでは、HCX vMotionメカニズムについて説明します。この移行テクノロジは、VMware vMotionプロトコルを使用してVMをVMC SDDCに移行します。vMotion移行オプションは、一度に1つのVMのVM状態を移行するために使用します。このマイグレーション方式では、サービスは中断されません。
 
@@ -296,7 +294,7 @@ image:fsx-hcx-image23.png["入力/出力ダイアログを示す図、または�
 
 =====
 .VMware Replication Assisted vMotionの場合
-[%collapsible]
+[%collapsible%open]
 =====
 VMwareのドキュメントに気づいたように、VMware HCX Replication Assisted vMotion（RAV）は、バルク移行とvMotionのメリットを組み合わせています。一括移行では、vSphere Replicationを使用して複数のVMが同時に移行されます。これは、スイッチオーバー中にVMがリブートされるためです。HCx vMotionはダウンタイムなしで移行を行いますが、レプリケーショングループで一度に1つのVMが順次実行されます。RAVは、VMを並行して複製し、スイッチオーバーウィンドウまで同期させます。スイッチオーバープロセスでは、VMを停止することなく一度に1つずつ移行します。
 

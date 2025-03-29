@@ -63,7 +63,7 @@ NOTE: このGitHubリポジトリ内のコンテンツとの派生物の作成�
 
 === 導入の前提条件
 
-[%collapsible]
+[%collapsible%open]
 ====
 導入には、次の前提条件が必要です。
 
@@ -88,7 +88,7 @@ AWS EC2 Instance
 
 === ツールキットをダウンロード
 
-[%collapsible]
+[%collapsible%open]
 ====
 [source, cli]
 ----
@@ -99,7 +99,7 @@ git clone https://github.com/NetApp/na_ora_hadr_failover_resync.git
 
 === グローバル変数の設定
 
-[%collapsible]
+[%collapsible%open]
 ====
 Ansibleのプレイブックは可変式です。一般的な構成を示すために、グローバル変数ファイルfsx_vars_example.ymlの例が含まれています。主な考慮事項は次のとおりです。
 
@@ -129,7 +129,7 @@ Linux and DB specific global variables - keep it as is.
 
 === ホスト変数の設定
 
-[%collapsible]
+[%collapsible%open]
 ====
 ホスト変数は、｛｛host_name｝｝.ymlという名前のhost_varsディレクトリに定義されています。一般的な設定を示すために、ホスト変数ファイルhost_name.ymlの例が含まれています。主な考慮事項は次のとおりです。
 
@@ -153,7 +153,7 @@ Linux - define host specific variables at Linux level
 
 === DBサーバのホストファイル構成
 
-[%collapsible]
+[%collapsible%open]
 ====
 AWS EC2インスタンスは、デフォルトでホスト名にIPアドレスを使用します。Ansibleのhostsファイルに異なる名前を使用する場合は、ソースサーバとターゲットサーバの両方について、/etc/hostsファイルにホストの名前解決を設定します。次に例を示します。
 
@@ -168,7 +168,7 @@ AWS EC2インスタンスは、デフォルトでホスト名にIPアドレス�
 
 === Playbookの実行-順番に実行
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Ansibleコントローラの前提条件をインストールします。
 +

@@ -20,8 +20,6 @@ summary: お客様は、Google Cloud NetApp VolumeでNFSの補完的データス
 
 == 概要
 
-執筆者：ネットアップSuresh Thoppay
-
 Google Cloud VMware Engine（GCVE）環境で追加のストレージ容量が必要な場合は、NetApp Cloud Volume Serviceを使用して補完的なNFSデータストアとしてマウントできます。Google Cloud NetApp Volumeにデータを格納することで、リージョン間でレプリケーションを実行して災害からデータを保護できます。
 
 image:gcp_ncvs_ds01.png["GCVE上のGoogle Cloud NetApp Volumes NFSデータストア"]
@@ -31,25 +29,25 @@ image:gcp_ncvs_ds01.png["GCVE上のGoogle Cloud NetApp Volumes NFSデータス�
 == Google Cloud NetApp Volume（NetApp Volume）からGCVEにNFSデータストアをマウントする導入手順
 
 .NetAppボリュームのプロビジョニング-パフォーマンスボリューム
-[%collapsible]
+[%collapsible%open]
 ====
 Google Cloud NetApp Volumeボリュームは、次のいずれかの方法でプロビジョニングできます。link:https://cloud.google.com/architecture/partners/netapp-cloud-volumes/workflow["Google Cloud Consoleを使用"] link:https://docs.netapp.com/us-en/cloud-manager-cloud-volumes-service-gcp/task-create-volumes.html["NetApp BlueXPポータルまたはAPIを使用"]
 
 ====
 .NetApp Volumeを削除不可としてマークします。
-[%collapsible]
+[%collapsible%open]
 ====
 VMの実行中に誤ってボリュームが削除されないように、下のスクリーンショットに示すように、ボリュームが削除不可とマークされていることを確認してください。image:gcp_ncvs_ds02.png["NetApp Volume削除不可オプション"]詳細については、link:https://cloud.google.com/architecture/partners/netapp-cloud-volumes/creating-nfs-volumes#creating_an_nfs_volume["NFSボリュームを作成しています"]ドキュメントを参照してください。
 
 ====
 .NetApp VolumeテナントVPC用のGCVE上のプライベート接続が存在することを確認します。
-[%collapsible]
+[%collapsible%open]
 ====
 NFSデータストアをマウントするには、GCVEとNetApp Volumeプロジェクトの間にプライベート接続が確立されている必要があります。詳細については、link:https://cloud.google.com/vmware-engine/docs/networking/howto-setup-private-service-access["プライベートサービスアクセスのセットアップ方法"]
 
 ====
 .NFSデータストアをマウント
-[%collapsible]
+[%collapsible%open]
 ====
 GCVEにNFSデータストアをマウントする方法については、link:https://cloud.google.com/vmware-engine/docs/vmware-ecosystem/howto-cloud-volumes-service-datastores["NetApp Volumeを使用してNFSデータストアを作成する方法"]
 

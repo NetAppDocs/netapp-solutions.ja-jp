@@ -52,7 +52,7 @@ image:vmware-nfs-otv10-image29.png["otv10アーキテクチャ"]
 
 NetAppでは、ストレージシステム、スイッチ、ネットワークアダプタ、およびホストシステムにフォールトトレランスを提供する、NFSに冗長なネットワーク設計を推奨しています。NFSは、アーキテクチャの要件に応じて、単一のサブネットまたは複数のサブネットを使用して導入するのが一般的です。
 
-についてVMware vSphere固有の詳細、を参照してください https://core.vmware.com/resource/best-practices-running-nfs-vmware-vsphere["VMware vSphereでNFSを実行するためのベストプラクティス"]は。
+についてVMware vSphere固有の詳細、を参照してください https://www.vmware.com/docs/vmw-best-practices-running-nfs-vmware-vsphere["VMware vSphereでNFSを実行するためのベストプラクティス"]は。
 
 VMware vSphereでのONTAPの使用に関するネットワークガイダンスについては、NetAppエンタープライズアプリケーションのドキュメントのセクションを参照して https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-network.html#nfs["ネットワーク設定- NFS"]ください。
 
@@ -71,7 +71,7 @@ ONTAP tools 10を導入し、そのツールを使用してVCF管理ドメイン
 ONTAPシステムマネージャで次の手順を実行します。
 
 .Storage VMとLIFを作成
-[%collapsible]
+[%collapsible%open]
 ====
 NFSトラフィック用の複数のLIFを含むSVMを作成するには、次の手順を実行します。
 
@@ -111,7 +111,7 @@ image:vmware-vcf-asa-image04.png["SVMアカウントを有効にして終了"]
 次の手順は、vSphere Clientを使用してVI Workload Domainクラスタで実行します。この例では、vCenter Single Sign-Onを使用しているため、vSphere Clientは管理ドメインとワークロードドメイン全体で共通です。
 
 .NFSトラフィック用の分散ポートグループの作成
-[%collapsible]
+[%collapsible%open]
 ====
 次の手順を実行して、NFSトラフィックを伝送するネットワーク用の新しい分散ポートグループを作成します。
 
@@ -150,7 +150,7 @@ image:vmware-nfs-otv10-image02.png["DPGチームアップリンク"]
 
 ====
 .各ESXiホストにVMkernelアダプタを作成する
-[%collapsible]
+[%collapsible%open]
 ====
 ワークロードドメイン内の各ESXiホストでこのプロセスを繰り返します。
 
@@ -199,7 +199,7 @@ image:vmware-nfs-otv10-image06.png["VMkernelの選択内容の確認"]
 ONTAP Tools for VMware vSphere 10の導入と使用に関する完全なドキュメントについては、を参照してください https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/deploy/ontap-tools-deployment.html["ONTAP Tools for VMware vSphereの導入"]。
 
 .ONTAP Tools for VMware vSphere 10の導入
-[%collapsible]
+[%collapsible%open]
 ====
 ONTAP Tools for VMware vSphere 10はVMアプライアンスとして導入され、統合されたvCenter UIを使用してONTAPストレージを管理できます。ONTAP tools 10には、複数のvCenterサーバおよびONTAPストレージバックエンドへの接続を管理するための新しいグローバル管理ポータルが搭載されています。
 
@@ -282,7 +282,7 @@ image:vmware-nfs-otv10-image12.png["OTVテンプレートのカスタマイズ2"
 
 ====
 .ストレージバックエンドとvCenter ServerをONTAP toolsに接続する10.
-[%collapsible]
+[%collapsible%open]
 ====
 ONTAPツールマネージャは、ONTAPツール10のグローバル設定を構成するために使用します。
 
@@ -360,7 +360,7 @@ image:vmware-nfs-otv10-image22.png["ONTAP Toolsダッシュボード"]
 
 ====
 .ONTAP toolsを使用したNFSデータストアの作成10
-[%collapsible]
+[%collapsible%open]
 ====
 ONTAP tools 10を使用して、NFSで実行されているONTAPデータストアを導入するには、次の手順を実行します。
 
@@ -407,7 +407,7 @@ image:vmware-nfs-otv10-image28.png["概要を確認して終了"]
 
 ====
 .ONTAP toolsを使用したNFSデータストアのサイズ変更10
-[%collapsible]
+[%collapsible%open]
 ====
 ONTAP tools 10を使用して既存のNFSデータストアのサイズを変更するには、次の手順を実行します。
 

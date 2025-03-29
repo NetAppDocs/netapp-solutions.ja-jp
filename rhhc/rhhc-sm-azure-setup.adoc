@@ -13,7 +13,7 @@ summary:
 == AzureでのRed Hat OpenShift Containerプラットフォームの導入と設定
 
 [role="lead"]
-このセクションでは、AzureでOpenShiftクラスタをセットアップおよび管理し、それらにステートフルアプリケーションを導入する方法の概要的なワークフローについて説明します。ここでは、Tridentを使用してNetApp Cloud Volumes ONTAPストレージを使用し、永続ボリュームを提供しています。ステートフルアプリケーションに対してデータ保護と移行のアクティビティを実行するためのAstra Control Centerの使用方法について詳しく説明します。
+このセクションでは、AzureでOpenShiftクラスタをセットアップおよび管理し、それらにステートフルアプリケーションを導入する方法の概要的なワークフローについて説明します。ここでは、Tridentを使用してNetApp Cloud Volumes ONTAPストレージを使用し、永続ボリュームを提供しています。Trident Protectを使用してステートフルアプリケーションのデータ保護と移行のアクティビティを実行する方法について詳しく説明します。
 
 次の図は、Azureに導入され、VPNを使用してデータセンターに接続されたクラスタを示しています。
 
@@ -25,7 +25,7 @@ NOTE: Red Hat OpenShift ContainerプラットフォームクラスタをAzureに
 セットアッププロセスは、次の手順に分けることができます。
 
 .CLIを使用してAzureにOCPクラスタをインストールします。
-[%collapsible]
+[%collapsible%open]
 ====
 * 記載されているすべての前提条件を満たしていることを確認しlink:https://docs.openshift.com/container-platform/4.13/installing/installing_azure/installing-azure-vnet.html["ここをクリック"]ます。
 * VPN、サブネット、ネットワークセキュリティグループ、およびプライベートDNSゾーンを作成します。VPNゲートウェイおよびサイト間VPN接続を作成します。
@@ -102,7 +102,7 @@ pullSecret:
 ....
 ====
 .BlueXPを使用してAzureにCloud Volumes ONTAPを導入
-[%collapsible]
+[%collapsible%open]
 ====
 * Azureにコネクタをインストールします。手順を参照してください https://docs.netapp.com/us-en/bluexp-setup-admin/task-install-connector-azure-bluexp.html["ここをクリック"]。
 * コネクタを使用してAzureにCVOインスタンスを導入します。手順リンク：https://docs.netapp.com/us-en/bluexp-cloud-volumes-ontap/task-getting-started-azure.html [こちら]を参照してください。

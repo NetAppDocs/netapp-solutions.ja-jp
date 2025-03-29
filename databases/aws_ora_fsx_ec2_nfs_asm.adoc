@@ -114,7 +114,7 @@ image:aws_ora_fsx_ec2_nfs_asm_architecture.png["このイメージは、iSCSIと
 
 === 導入の前提条件
 
-[%collapsible]
+[%collapsible%open]
 ====
 導入には、次の前提条件が必要です。
 
@@ -136,7 +136,7 @@ NOTE: Oracleインストールファイルをステージングするための�
 
 === EC2インスタンスのカーネル設定
 
-[%collapsible]
+[%collapsible%open]
 ====
 前提条件をプロビジョニングした状態で、ec2-userとしてec2インスタンスにログインし、rootユーザにsudoを実行して、Oracleインストール用のLinuxカーネルを設定します。
 
@@ -245,7 +245,7 @@ usermod -a -G asm oracle
 
 === EC2インスタンスホストにマウントするNFSボリュームをプロビジョニングおよびエクスポートします
 
-[%collapsible]
+[%collapsible%open]
 ====
 コマンドラインから3つのボリュームをプロビジョニングします。fsxadminユーザとしてssh経由でFSxクラスタにログインし、FSxクラスタ管理IPを使用してOracleデータベースのバイナリファイル、データファイル、ログファイルをホストします。
 
@@ -297,7 +297,7 @@ svm_ora   svm_ora_root aggr1        online     RW          1GB    972.1MB    0%
 
 === データベースストレージの構成
 
-[%collapsible]
+[%collapsible%open]
 ====
 次に、Oracleグリッドインフラ用のFSxストレージとEC2インスタンスホストへのデータベースインストールをインポートしてセットアップします。
 
@@ -406,7 +406,7 @@ chmod 640 /oralogs/asm/*
 
 === Oracleグリッドインフラのインストール
 
-[%collapsible]
+[%collapsible%open]
 ====
 . SSH経由でEC2インスタンスにEC2-userとしてログインし、コメントを解除してからコメントアウトし `PasswordAuthentication no`てパスワード認証を有効にします。 `PasswordAuthentication yes`
 +
@@ -542,7 +542,7 @@ ora.evmd            ONLINE  ONLINE       ip-172-30-15-58          STABLE
 
 === Oracleデータベースのインストール
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Oracleユーザとしてログインし、設定を解除します `$ORACLE_HOME`（設定されている場合）。 `$ORACLE_SID`
 +

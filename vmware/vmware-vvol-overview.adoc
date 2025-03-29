@@ -14,7 +14,13 @@ summary:
 
 
 [role="lead"]
-VMware Virtual Volumes（VVol）を使用すると、ストレージアレイが提供する豊富な機能セットを活用しながら、アプリケーション固有の要件に応じてストレージプロビジョニングの判断を下すことができます。vSphere API for Storage Awareness（VASA）を使用すると、VM管理者は、ストレージチームとやり取りすることなく、VMのプロビジョニングに必要なストレージ機能を簡単に使用できます。VASAがリリースされるまではVM管理者はVMストレージポリシーを定義できましたが、適切なデータストアを特定するためにはストレージ管理者と協力しなければなりませんでした。多くの場合、ドキュメントや命名規則を使用していました。VASAを使用すると、適切な権限を持つvCenter管理者は、vCenterユーザがVMのプロビジョニングに使用できる一連のストレージ機能を定義できます。VMストレージポリシーとデータストアストレージ機能プロファイルのマッピングにより、vCenterで互換性のあるデータストアのリストを表示して選択できるほか、ARIA（旧vRealize）AutomationやTanzu Kubernetes Gridなどの他のテクノロジを有効にして、割り当てられたポリシーからストレージを自動的に選択できます。このアプローチは、ストレージポリシーベースの管理と呼ばれます。ストレージ機能プロファイルとポリシーは従来のデータストアでも使用できますが、ここではVVOLデータストアに焦点を当てます。VASA Provider for ONTAPは、ONTAP Tools for VMware vSphereに含まれています。
+VMware Virtual Volumes（VVol）を使用すると、ストレージアレイが提供する豊富な機能セットを活用しながら、アプリケーション固有の要件に応じてストレージプロビジョニングの判断を下すことができます。
+
+
+
+== 概要
+
+vSphere API for Storage Awareness（VASA）を使用すると、VM管理者は、ストレージチームとやり取りすることなく、VMのプロビジョニングに必要なストレージ機能を簡単に使用できます。VASAがリリースされるまではVM管理者はVMストレージポリシーを定義できましたが、適切なデータストアを特定するためにはストレージ管理者と協力しなければなりませんでした。多くの場合、ドキュメントや命名規則を使用していました。VASAを使用すると、適切な権限を持つvCenter管理者は、vCenterユーザがVMのプロビジョニングに使用できる一連のストレージ機能を定義できます。VMストレージポリシーとデータストアストレージ機能プロファイルのマッピングにより、vCenterで互換性のあるデータストアのリストを表示して選択できるほか、ARIA（旧vRealize）AutomationやTanzu Kubernetes Gridなどの他のテクノロジを有効にして、割り当てられたポリシーからストレージを自動的に選択できます。このアプローチは、ストレージポリシーベースの管理と呼ばれます。ストレージ機能プロファイルとポリシーは従来のデータストアでも使用できますが、ここではVVOLデータストアに焦点を当てます。VASA Provider for ONTAPは、ONTAP Tools for VMware vSphereに含まれています。
 
 VASA Providerをストレージアレイから除外する利点は次のとおりです。
 
@@ -84,7 +90,9 @@ VMware Virtual Volumes（VVOL）には次のようなメリットがあります
 
 一般に、ストレージネットワークでは、高可用性、パフォーマンス、フォールトトレランスに対応するために、デュアルファブリック環境が推奨されます。VVOLは、iSCSI、FC、NFSv3、NVMe/FCでサポートされています。注：link:https://imt.netapp.com/matrix["Interoperability Matrix Tool（IMT）"]サポートされているONTAPツールのバージョンについては、
 
-接続オプションは、VMFSデータストアまたはNFSデータストアのオプションと同じです。iSCSIとNFSのvSphereネットワークの例を次に示します。image:vmware-vvol-overview-image03.png["iSCSIネットワーク"]
+接続オプションは、VMFSデータストアまたはNFSデータストアのオプションと同じです。iSCSIとNFSのvSphereネットワークの例を次に示します。
+
+image:vmware-vvol-overview-image03.png["iSCSIネットワーク"]
 
 image:vmware-vvol-overview-image04.png["NFSネットワーク"]
 

@@ -20,8 +20,6 @@ summary: クラウドへのディザスタリカバリは、耐障害性と対�
 
 == 概要
 
-著者：Ravi BCBとNiyaz Mohamedネットアップ
-
  This covers application data; however, what about the actual VMs themselves. Disaster recovery should cover all dependent components, including virtual machines, VMDKs, application data, and more. To accomplish this, SnapMirror along with Jetstream can be used to seamlessly recover workloads replicated from on-premises to Cloud Volumes ONTAP while using vSAN storage for VM VMDKs.
 本ドキュメントでは、NetApp SnapMirror、JetStream、およびAzure VMware解決策 （AVS）を使用してディザスタリカバリを設定および実行するためのステップバイステップ形式のアプローチを紹介します。
 
@@ -71,7 +69,7 @@ NOTE: オンプレミスのデータセンターをAzureに接続する方法は
 === 導入の詳細
 
 .AzureでCVOを構成し、ボリュームをCVOにレプリケート
-[%collapsible]
+[%collapsible%open]
 ====
 まず、AzureでCloud Volumes ONTAPを設定し（link:azure-guest.html["リンク"^]）、必要な頻度とSnapshotの保持期間を指定して、必要なボリュームをCloud Volumes ONTAPにレプリケートします。
 
@@ -79,7 +77,7 @@ image:dr-cvo-avs-image2.png["入力/出力ダイアログを示す図、また�
 
 ====
 .AVSホストとCVOデータアクセスを設定する
-[%collapsible]
+[%collapsible%open]
 ====
 SDDCを導入する際に考慮すべき2つの重要な要素は、Azure VMware解決策 内のSDDCクラスタのサイズと、SDDCの稼働期間です。ディザスタリカバリ解決策 に関する以下の2つの重要な考慮事項は、全体的な運用コストの削減に役立ちます。SDDCは、3台のホストの規模に対応し、フルスケールの導入ではマルチホストクラスタにまで対応できます。
 
@@ -93,7 +91,7 @@ Cloud Volumes ONTAP とAVSを適切に設定したら、VAIOメカニズムを�
 
 ====
 .JetStream DRをオンプレミスデータセンターにインストールします
-[%collapsible]
+[%collapsible%open]
 ====
 Jetstream DRソフトウェアは、JetStream DR Management Server Virtual Appliance（MSA）、DR Virtual Appliance（DRVA）、およびホストコンポーネント（I/Oフィルタパッケージ）の3つの主要コンポーネントで構成されています。MSAは、コンピューティングクラスタにホストコンポーネントをインストールおよび構成し、JetStream DRソフトウェアを管理するために使用されます。インストールプロセスは次のとおりです。
 
@@ -201,7 +199,7 @@ image:dr-cvo-avs-image20.png["入力/出力ダイアログを示す図、また�
 
 ====
 .プライベートクラウドでAVS向けJetStream DRをインストールします
-[%collapsible]
+[%collapsible%open]
 ====
 リカバリサイト（AVS）では、3ノードのパイロットライトクラスタを事前に作成することを推奨します。これにより、以下を含むリカバリサイトのインフラを事前に設定できます。
 
@@ -274,7 +272,7 @@ image:dr-cvo-avs-image26.png["入力/出力ダイアログを示す図、また�
 
 ====
 .フェイルオーバーとフェイルバック
-[%collapsible]
+[%collapsible%open]
 ====
 . オンプレミス環境の保護対象クラスタで障害が発生した場合（部分的または完全な障害）、該当するアプリケーションボリュームのSnapMirror関係を解除したあと、Jetstreamを使用してVMのフェイルオーバーをトリガーできます。
 +

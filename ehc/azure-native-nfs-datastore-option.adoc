@@ -89,7 +89,7 @@ NOTE: 最適なパフォーマンスを実現するには、プライベート�
 Azure NetApp FileボリュームをAzure VMware解決策 プライベートクラウドのVMwareデータストアとして接続するには、次の前提条件を満たしていることを確認します。
 
 .前提条件
-[%collapsible]
+[%collapsible%open]
 ====
 . AZログインを使用し、サブスクリプションがMicrosoft.AVSネームスペースのCloudSanExperience機能に登録されていることを確認します。
 
@@ -146,7 +146,7 @@ az extension add --name vmware
 ....
 ====
 .Azure NetApp Files ボリュームを作成してマウント
-[%collapsible]
+[%collapsible%open]
 ====
 . Azureポータルにログインして、Azure NetApp Files にアクセスします。コマンドを使用して、Azure NetApp Filesサービスへのアクセスを確認し、Azure NetApp Filesリソースプロバイダを登録し `az provider register` `--namespace Microsoft.NetApp –wait`ます。登録が完了したら、ネットアップアカウントを作成します。詳細な手順については、こちらを参照して https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-create-netapp-account["リンク"^]ください。
 
@@ -178,7 +178,7 @@ image:vmware-dr-image4.png["入力/出力ダイアログを示す図、または
 
 ====
 .Azure NetApp Files データストアをプライベートクラウドに追加する
-[%collapsible]
+[%collapsible%open]
 ====
 
 NOTE: Azure NetApp Files ボリュームは、Azureポータルを使用してプライベートクラウドに接続できます。Azureポータルを使用してAzure NetApp Filesデータストアをマウントする方法については、こちらをlink:https://learn.microsoft.com/en-us/azure/azure-vmware/attach-azure-netapp-files-to-azure-vmware-solution-hosts?tabs=azure-portal["Microsoftからのリンク"]参照してください。
@@ -287,13 +287,13 @@ Azure NetApp Files ボリュームで使用可能な帯域幅を増やすには�
 == ワークロード
 
 .移行
-[%collapsible]
+[%collapsible%open]
 ====
 最も一般的なユースケースの1つはマイグレーションです。VMware HCXまたはvMotionを使用して、オンプレミスのVMを移動します。また、Rivermeadowを使用してAzure NetApp Files データストアにVMを移行することもできます。
 
 ====
 .データ保護
-[%collapsible]
+[%collapsible%open]
 ====
 VMのバックアップと迅速なリカバリは、ANFデータストアの大きなメリットの1つです。Snapshotコピーを使用すると、パフォーマンスに影響を与えることなくVMやデータストアのコピーをすばやく作成し、Azureストレージに送信して長期的なデータ保護を実現したり、ディザスタリカバリ目的でリージョン間レプリケーションを使用してセカンダリリージョンに送信したりできます。このアプローチでは、変更された情報のみを格納することで、ストレージスペースとネットワーク帯域幅を最小限に抑えます。
 
@@ -303,7 +303,7 @@ VMのバックアップと迅速なリカバリは、ANFデータストアの大
 NOTE: ANFデータストアでは、Restore to New Volumeオプションを使用してデータストアボリューム全体をクローニングし、リストアしたボリュームを、AVS SDDC内のホストに別のデータストアとしてマウントできます。マウントされたデータストア内のVMは、個別にクローニングされたVMと同様に登録、再設定、およびカスタマイズできます。
 
 .BlueXPによる仮想マシンのバックアップとリカバリ
-[%collapsible]
+[%collapsible%open]
 =====
 BlueXPの仮想マシン向けバックアップ/リカバリは、vCenter上のvSphere WebクライアントGUIを使用して、Azure VMware解決策仮想マシンとAzure NetApp Filesデータストアをバックアップポリシーで保護します。スケジュール、保持、その他の機能はポリシーで定義できます。BlueXPの仮想マシンのバックアップとリカバリ機能は、Runコマンドを使用して導入できます。
 
@@ -323,7 +323,7 @@ image:vmware-dr-image7.png["入力/出力ダイアログを示す図、または
 
 =====
 .Azure NetApp Files 、JetStream DR、およびAzure VMware解決策 を使用したディザスタリカバリ
-[%collapsible]
+[%collapsible%open]
 =====
 クラウドへのディザスタリカバリは、耐障害性に優れた対費用効果の高い方法で、サイトの停止やデータ破損からワークロードを保護します（ランサムウェアなど）。VMware VAIOフレームワークを使用すると、オンプレミスのVMwareワークロードをAzure Blobストレージにレプリケートしてリカバリできるため、データ損失を最小限に抑えたり、ほぼゼロのRTOを実現できます。Jetstream DRを使用すると、オンプレミスからAVS、特にAzure NetApp Files に複製されたワークロードをシームレスにリカバリできます。ディザスタリカバリサイトにある最小限のリソースと対費用効果の高いクラウドストレージを使用して、対費用効果の高いディザスタリカバリを実現します。Jetstream DRは、Azure Blob Storageを介したANFデータストアへのリカバリを自動化します。Jetstream DRは、独立したVMまたは関連するVMのグループを、ネットワークマッピングに従ってリカバリサイトインフラストラクチャにリカバリし、ランサムウェアからの保護のためのポイントインタイムリカバリを提供します。
 

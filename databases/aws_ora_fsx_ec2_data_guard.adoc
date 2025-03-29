@@ -137,7 +137,7 @@ image:aws_ora_fsx_data_guard_architecture.png["この画像は、AWSでFSx ONTAP
 
 === 導入の前提条件
 
-[%collapsible]
+[%collapsible%open]
 ====
 導入には、次の前提条件が必要です。
 
@@ -160,7 +160,7 @@ NOTE: Oracleインストールファイルをステージングするための�
 
 === Data Guardのプライマリデータベースの準備
 
-[%collapsible]
+[%collapsible%open]
 ====
 このデモでは、プライマリEC2 DBインスタンスにdb1というプライマリOracleデータベースをセットアップし、2つのASMディスクグループをスタンドアロンで使用します。ASMディスクグループ+データおよびASMディスクグループ+ログのフラッシュリカバリ領域にデータファイルを使用して構成を再起動します。次に、Data Guardのプライマリデータベースを設定するための詳細な手順を示します。すべての手順は、データベース所有者（Oracleユーザ）として実行する必要があります。
 
@@ -404,7 +404,7 @@ srvctl start database -d db1
 
 === スタンバイデータベースの準備とData Guardのアクティブ化
 
-[%collapsible]
+[%collapsible%open]
 ====
 Oracle Data Guardを使用するには、OSカーネル構成とOracleソフトウェアスタック（スタンバイEC2 DBインスタンスにパッチセットを含む）がプライマリEC2 DBインスタンスと一致する必要があります。管理と簡易性を容易にするために、スタンバイEC2 DBインスタンスデータベースのストレージ構成は、ASMディスクグループの名前、数、サイズなど、プライマリEC2 DBインスタンスと同じにすることが理想的です。以下は、Data GuardのスタンバイEC2 DBインスタンスを設定するための詳細な手順です。すべてのコマンドは、Oracleの所有者ユーザIDとして実行する必要があります。
 
@@ -704,7 +704,7 @@ SQL>
 
 === Data Guardブローカーのセットアップ
 
-[%collapsible]
+[%collapsible%open]
 ====
 Oracle Data Guardブローカーは、Oracle Data Guard構成の作成、メンテナンス、監視を自動化して一元化する分散管理フレームワークです。次のセクションでは、Data Guard環境を管理するためのData Guardブローカーのセットアップ方法を示します。
 
@@ -799,7 +799,7 @@ DGMGRL>
 
 === 他のユースケースでのスタンバイデータベースのクローニング
 
-[%collapsible]
+[%collapsible%open]
 ====
 Data GuardのAWS FSx ONTAPでスタンバイデータベースをステージングする主なメリットは、最小限の追加ストレージ投資で他の多くのユースケースに対応できることです。次のセクションでは、FSx ONTAPで、マウントされたスタンバイデータベースボリュームとリカバリ対象スタンバイデータベースボリュームを、開発、テスト、レポートなどの他の目的のためにスナップショット作成およびクローニングする方法を説明します。 NetApp SnapCenterツールを使用する。
 

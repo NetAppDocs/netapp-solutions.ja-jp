@@ -1,0 +1,48 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-getting-started-ontap-apis-automation.html 
+keywords:  
+summary:  
+---
+= NetApp APIを使用したVMware管理の強化
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+API（アプリケーションプログラミングインターフェイス）は、仮想環境の自動化、統合、合理化された管理を可能にすることで、VMwareの管理において重要な役割を果たします。
+
+
+
+== はじめに
+
+VMwareは、管理者がさまざまなVMware製品やサービスをプログラムで操作できるようにするさまざまなAPIを提供しています。これにより、運用の効率性と一貫性が向上します。さらに、NetApp ONTAP APIには、特にVMwareワークロードと連携してストレージ環境の管理を自動化、統合、最適化するための強力なツールセットが用意されています。これらのAPIは、ONTAPストレージシステムとVMware間のシームレスなやり取りを促進し、効率性、パフォーマンス、データ保護を強化します。
+
+
+
+== VMwareベースのAPI
+
+* * VMware vSphere API：* vSphere APIは、管理者がVMware vSphere環境を管理および自動化できる包括的なAPIです。仮想マシンのプロビジョニング、設定、監視、ライフサイクル管理など、vSphereのさまざまな機能にアクセスできます。
+* * VMware vCenter Server REST API：vCenter Server REST APIは、vCenter Serverとその関連コンポーネントを管理するための最新のRESTfulインターフェイスを提供します。自動化が容易になり、他のシステムやツールとの統合も容易になります。
+* * VMware Cloud Foundation API：* VMware Software-Defined Data Center（SDDC）APIは、VMware SDDC環境内のさまざまなコンポーネントやサービスへのプログラムによるアクセスを提供します。管理者や開発者は、これらのAPIを使用して、コンピューティング、ストレージ、ネットワーク、管理サービスなど、データセンターのさまざまな要素を自動化、管理、統合できます。
+* * VMware vSphere Storage APIs - Storage Awareness：* VASAは、管理と管理のためにストレージアレイとvCenterを統合するためのAPIセットです。このアーキテクチャは、VMware vSphereとストレージシステムの間の通信を処理するVASA Providerなど、複数のコンポーネントに基づいています。ONTAPでは、プロバイダはONTAP Tools for VMware vSphereの一部として実装されます。
+* * VMware vSphere Storage APIs - Array Integration：* VAAIは、VMware vSphere ESXiホストとストレージデバイス間の通信を可能にする一連のAPIです。このAPIには、ストレージ処理をアレイにオフロードするためにホストが使用する一連の基本処理が含まれています。VAAIは、ストレージを大量に消費するタスクのパフォーマンスを大幅に向上させることができます。
+
+
+
+
+== ONTAPベースのAPI
+
+* * NetApp ONTAP REST API：* ONTAP REST APIは、ONTAPストレージシステムを管理するための最新のRESTfulインターフェイスを提供します。プロビジョニング、監視、設定などのストレージタスクを簡単に自動化できます。VMware vSphereやその他のVMware管理ツールと簡単に統合できるため、VMware環境から直接ストレージ運用を自動化できます。基本的なストレージ管理から高度なデータ保護およびレプリケーションタスクまで、幅広い操作をサポートし、拡張性と柔軟性に優れたストレージ管理を実現します。
+* * ONTAP Tools for VMware vSphere：* ONTAP Tools for VMware vSphereは、ONTAPとvSphereを統合するための一連のツールです。VASA APIフレームワークのプロバイダ機能を実装します。ONTAP Toolsには、vCenterプラグイン、VMware Site Recovery Manager用のStorage Replication Adapter（SRA）、自動化アプリケーションの構築に使用できるREST APIサーバも含まれています。
+
+
+
+
+== 概要
+
+つまり、ONTAP APIを使用すると、VMware環境でデータストアの作成と設定をスクリプト化して、一貫した迅速なストレージプロビジョニングを実現できます。さらに、VMware仮想マシンのスナップショットの作成、スケジュール設定、削除を自動化して、効率的なデータ保護とリカバリのオプションを提供します。SnapMirror APIは、レプリケーション関係のセットアップと管理を自動化し、VMwareワークロード向けの堅牢なディザスタリカバリソリューションを実現します。また、スクリプトを実装してストレージパフォーマンスの指標を監視し、パフォーマンスしきい値を超えた場合にアラートや自動アクションをトリガーして、VMwareワークロードに最適なストレージパフォーマンスを確保することもできます。ONTAP APIをvSphereやvRealizeなどのVMware APIと統合することで、管理者はシームレスで高度に自動化された管理エクスペリエンスを実現し、仮想インフラの全体的な効率性と信頼性を強化できます。

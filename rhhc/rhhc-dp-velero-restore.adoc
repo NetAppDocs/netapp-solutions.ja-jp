@@ -25,7 +25,7 @@ summary: NetApp ONTAPを使用したRed Hat OpenShiftコンテナアプリケー
 image:redhat_openshift_OADP_app_deleted_image1.png["アプリの削除"]
 
 .同じネームスペースにリストア
-[%collapsible]
+[%collapsible%open]
 ====
 作成したバックアップからリストアするには、Restore Custom Resource（CR）を作成する必要があります。名前とリストア元のバックアップの名前を指定し、restorePVをtrueに設定する必要があります。に示すように、追加のパラメータを設定できます link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/restoring-applications.html["ドキュメント"]。[作成]ボタンをクリックします。
 
@@ -48,7 +48,7 @@ image:redhat_openshift_OADP_restore_image2.jpg["リストア完了"] image:redha
 
 ====
 .別のネームスペースへのリストア
-[%collapsible]
+[%collapsible%open]
 ====
 アプリを別の名前空間に復元するには、Restore CRのYAML定義でnamespaceMappingを指定します。
 
@@ -74,7 +74,7 @@ image:redhat_openshift_OADP_restore_image3.png["新しいネームスペース�
 
 ====
 .別のストレージクラスへのリストア
-[%collapsible]
+[%collapsible%open]
 ====
 Veleroには、JSONパッチを指定してリストア時にリソースを変更する一般的な機能が用意されています。JSONのパッチは、リストア前にリソースに適用されます。JSONパッチはConfigMapで指定され、ConfigMapはrestoreコマンドで参照されます。この機能を使用すると、別のストレージクラスを使用してリストアを実行できます。
 
