@@ -96,6 +96,76 @@ link:https://docs.netapp.com/us-en/snapcenter/install/concept_snapcenter_license
 
 Ansible コントローラの自動化機能を使用して、 SnapMirror インスタンスの解除などの特定のタスクで SnapCenter を補強し、本番環境で DR データコピーをアクティブ化することもできます。
 
-RedHatまたはCentOSマシン用のAnsibleコントロールノードをセットアップするには、次の手順に従います。include ::_include /automation_rhel_centos_setup.adoc []
+以下の手順に従って、 RedHat または CentOS マシン用の Ansible コントロールノードをセットアップします。
 
-UbuntuまたはDebianマシン用のAnsibleコントロールノードをセットアップするには、次の手順に従います。include ::_include/automation_ubuntu_debian_setup.adoc []
+. Ansible コントロールノードの要件：
++
+.. 次のパッケージがインストールされた RHEL / CentOS マシン：
++
+... Python3
+... Pip3
+... Ansible （バージョン 2.10.0 より前）
+... Git
+
+
+
+
+
+
+上記の要件がインストールされていない新しい RHEL / CentOS マシンがある場合は、次の手順に従ってそのマシンを Ansible の制御ノードとしてセットアップします。
+
+. RHEL-8/RHEL-7 の Ansible リポジトリを有効にします
++
+.. RHEL-8 （ root として次のコマンドを実行）
++
+[source, cli]
+----
+subscription-manager repos --enable ansible-2.9-for-rhel-8-x86_64-rpms
+----
+.. RHEL-7 （ root として次のコマンドを実行）
++
+[source, cli]
+----
+subscription-manager repos --enable rhel-7-server-ansible-2.9-rpms
+----
+
+
+. 以下の内容をターミナルに貼り付けます
++
+[source, cli]
+----
+sudo yum -y install python3 >> install.log
+sudo yum -y install python3-pip >> install.log
+python3 -W ignore -m pip --disable-pip-version-check install ansible >> install.log
+sudo yum -y install git >> install.log
+----
+
+
+Ubuntu または Debian マシン用の Ansible の制御ノードをセットアップするには、次の手順に従います。
+
+. Ansible コントロールノードの要件：
++
+.. 次のパッケージがインストールされた Ubuntu / Debian マシン：
++
+... Python3
+... Pip3
+... Ansible （バージョン 2.10.0 より前）
+... Git
+
+
+
+
+
+
+上記の要件がインストールされていない新しい Ubuntu / Debian マシンを使用している場合は、次の手順に従ってそのマシンを Ansible の制御ノードとしてセットアップします。
+
+. 以下の内容を端末に貼り付けます
++
+[source, cli]
+----
+sudo apt-get -y install python3 >> outputlog.txt
+sudo apt-get -y install python3-pip >> outputlog.txt
+python3 -W ignore -m pip --disable-pip-version-check install ansible >> outputlog.txt
+sudo apt-get -y install git >> outputlog.txt
+----
+
