@@ -1,0 +1,374 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_openshift_virtualization_trident_install.html 
+keywords: OpenShift, OCP, Trident, Trident protect, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, Red Hat OpenShift Virtualization 
+summary: NetApp ONTAP を使用した Red Hat OpenShift Virtualization 
+---
+= TridentのインストールとTridentオブジェクトの作成。
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+このセクションでは、ブロックアクセス用にワーカーノードを準備するためにTridentをインストールする方法について説明します。Tridentバックエンドオブジェクトとストレージクラスオブジェクトを作成する手順を順を追って説明します。Tridentバックエンドオブジェクトには、バックエンドONTAPストレージシステムに接続し、指定したプロトコル用にONTAPでボリュームを動的にプロビジョニングするために必要なすべての詳細情報が含まれています。ストレージクラスオブジェクトを使用すると、コンテナアプリケーションとVMは、タイプと容量だけを使用してストレージを要求でき、接続やその他のバックエンドの詳細は必要ありません。
+
+
+NOTE: OpenShift仮想化でVMを作成する必要がある場合は、OpenShift仮想化をクラスタにインストールする前に、Tridentをインストールし、バックエンドオブジェクトとストレージクラスオブジェクトをOpenShiftクラスタに作成しておく必要があります。デフォルトのストレージクラスとデフォルトのボリュームSnapshotクラスは、クラスタ内のTridentストレージとSnapshotクラスに設定する必要があります。これが設定されている場合にのみ、OpenShift仮想化はゴールデンイメージをダウンロードし、テンプレートを使用してVMの作成に使用できるようにします。
+
+** Tridentのインストール**
+
+.Red Hat認定オペレータを使用したTridentのインストール
+[%collapsible%open]
+====
+このセクションでは、Red Hat認定Tridentオペレータを使用したTridentのインストールの詳細について説明します。link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["Tridentのドキュメントを参照"]Tridentの他のインストール方法については、を参照してください。Trident 25.02のリリースにより、オンプレミスとクラウドのRed Hat OpenShiftにおけるTridentのユーザーと、AWS上のRed Hat OpenShiftサービスのようなマネージドサービスは、オペレーターハブからTrident認定オペレーターを使用してTridentをインストールできるようになりました。Tridentは以前はコミュニティオペレータとしてのみ利用可能であったため、これはOpenShiftのユーザーコミュニティにとって重要です。
+
+Red Hat認定Tridentオペレータの利点は、（オンプレミス、クラウド、マネージドサービスのいずれであっても）OpenShiftで使用する場合、オペレータとコンテナの基盤がNetAppによって完全にサポートされることです。さらに、NetApp Tridentはお客様に無償で提供されるため、Red Hat OpenShiftとシームレスに連携することが確認され、ライフサイクル管理が容易なパッケージ化された認定オペレータを使用してインストールするだけです。
+
+オペレーターを使用してTridentをインストールするには、オペレーターハブをクリックし、Certified NetApp Tridentを選択します。[Install]ページでは、デフォルトで最新バージョンが選択されています。[インストール]をクリックします。image:rh-os-n_use_case_openshift_virtualization_trident_install_img1.png["オペレータハブ"]
+
+image:rh-os-n_use_case_openshift_virtualization_trident_install_img2.png["インストール"]
+
+Operatorをインストールしたら、[View Operator]をクリックし、Trident Orchestratorのインスタンスを作成します。iSCSIストレージアクセス用にワーカーノードを準備する場合は、YAMLビューに移動し、iSCSIを追加してnodePrepパラメータを変更します。
+
+image:rh-os-n_use_case_openshift_virtualization_trident_install_img3.png["ノードの準備用にiSCSIを追加"]
+
+これで、クラスタですべてのTridentポッドが実行されます。image:rh-os-n_use_case_openshift_virtualization_trident_install_img4.png["Tridentインストール済み"]
+
+OpenShiftクラスタのワーカーノードでiSCSIツールが有効になっていることを確認するには、ワーカーノードにログインし、iscsid、multipathd active、およびmultipath.confファイルのエントリが次のように表示されていることを確認します。
+
+image:rh-os-n_use_case_openshift_virtualization_trident_install_img5.png["iscsid実行中"]
+
+image:rh-os-n_use_case_openshift_virtualization_trident_install_img6.png["multipathd running"]
+
+image:rh-os-n_use_case_openshift_virtualization_trident_install_img7.png["multipathconfフアイルノシツコウ"]
+
+====
+**オンプレミスOpenShiftクラスタ向けのTrident構成**
+
+.NAS向けのTridentバックエンドとストレージクラス
+[%collapsible%open]
+====
+[source, yaml]
+----
+cat tbc-nas.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tbc-nas-secret
+type: Opaque
+stringData:
+  username: <cluster admin username>
+  password: <cluster admin password>
+---
+apiVersion: trident.netapp.io/v1
+kind: TridentBackendConfig
+metadata:
+  name: tbc-nas
+spec:
+  version: 1
+  storageDriverName: ontap-nas
+  managementLIF: <cluster management lif>
+  backendName: tbc-nas
+  svm: zoneb
+  storagePrefix: testzoneb
+  defaults:
+    nameTemplate: "{{ .config.StoragePrefix }}_{{ .volume.Namespace }}_{{ .volume.RequestName }}"
+  credentials:
+    name: tbc-nas-secret
+----
+[source, yaml]
+----
+cat sc-nas.yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: sc-nas
+provisioner: csi.trident.netapp.io
+parameters:
+  backendType: "ontap-nas"
+  media: "ssd"
+  provisioningType: "thin"
+  snapshots: "true"
+allowVolumeExpansion: true
+----
+====
+.iSCSI用のTridentバックエンドおよびストレージクラス
+[%collapsible%open]
+====
+[source, yaml]
+----
+# cat tbc-iscsi.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backend-tbc-ontap-iscsi-secret
+type: Opaque
+stringData:
+  username: <cluster admin username>
+  password: <cluster admin password>
+---
+apiVersion: trident.netapp.io/v1
+kind: TridentBackendConfig
+metadata:
+  name: ontap-iscsi
+spec:
+  version: 1
+  storageDriverName: ontap-san
+  managementLIF: <management LIF>
+  backendName: ontap-iscsi
+  svm: <SVM name>
+  credentials:
+    name: backend-tbc-ontap-iscsi-secret
+----
+[source, yaml]
+----
+# cat sc-iscsi.yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: sc-iscsi
+provisioner: csi.trident.netapp.io
+parameters:
+  backendType: "ontap-san"
+  media: "ssd"
+  provisioningType: "thin"
+  fsType: ext4
+  snapshots: "true"
+allowVolumeExpansion: true
+----
+====
+.NVMe/TCP用のTridentバックエンドとストレージクラス
+[%collapsible%open]
+====
+[source, yaml]
+----
+# cat tbc-nvme.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backend-tbc-ontap-nvme-secret
+type: Opaque
+stringData:
+  username: <cluster admin password>
+  password: <cluster admin password>
+---
+apiVersion: trident.netapp.io/v1
+kind: TridentBackendConfig
+metadata:
+  name: backend-tbc-ontap-nvme
+spec:
+  version: 1
+  storageDriverName: ontap-san
+  managementLIF: <cluster management LIF>
+  backendName: backend-tbc-ontap-nvme
+  svm: <SVM name>
+  credentials:
+    name: backend-tbc-ontap-nvme-secret
+----
+[source, yaml]
+----
+# cat sc-nvme.yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: sc-nvme
+provisioner: csi.trident.netapp.io
+parameters:
+  backendType: "ontap-san"
+  media: "ssd"
+  provisioningType: "thin"
+  fsType: ext4
+  snapshots: "true"
+allowVolumeExpansion: true
+----
+====
+.FC用のTridentバックエンドとストレージクラス
+[%collapsible%open]
+====
+[source, yaml]
+----
+# cat tbc-fc.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tbc-fc-secret
+type: Opaque
+stringData:
+  username: <cluster admin password>
+  password: <cluster admin password>
+---
+apiVersion: trident.netapp.io/v1
+kind: TridentBackendConfig
+metadata:
+  name: tbc-fc
+spec:
+  version: 1
+  storageDriverName: ontap-san
+  managementLIF: <cluster mgmt lif>
+  backendName: tbc-fc
+  svm: openshift-fc
+  sanType: fcp
+  storagePrefix: demofc
+  defaults:
+    nameTemplate: "{{ .config.StoragePrefix }}_{{ .volume.Namespace }}_{{ .volume.RequestName }}"
+  credentials:
+    name: tbc-fc-secret
+----
+[source, yaml]
+----
+# cat sc-fc.yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: sc-fc
+provisioner: csi.trident.netapp.io
+parameters:
+  backendType: "ontap-san"
+  media: "ssd"
+  provisioningType: "thin"
+  fsType: ext4
+  snapshots: "true"
+allowVolumeExpansion: true
+----
+====
+** FSxNストレージを使用したROSAクラスタのTrident構成**
+
+.FSxN NAS用のTridentバックエンドとストレージクラス
+[%collapsible%open]
+====
+[source, yaml]
+----
+#cat tbc-fsx-nas.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backend-fsx-ontap-nas-secret
+  namespace: trident
+type: Opaque
+stringData:
+  username: <cluster admin lif>
+  password: <cluster admin passwd>
+---
+apiVersion: trident.netapp.io/v1
+kind: TridentBackendConfig
+metadata:
+  name: backend-fsx-ontap-nas
+  namespace: trident
+spec:
+  version: 1
+  backendName: fsx-ontap
+  storageDriverName: ontap-nas
+  managementLIF: <Management DNS name>
+  dataLIF: <NFS DNS name>
+  svm: <SVM NAME>
+  credentials:
+    name: backend-fsx-ontap-nas-secret
+----
+[source, yaml]
+----
+# cat sc-fsx-nas.yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: trident-csi
+provisioner: csi.trident.netapp.io
+parameters:
+  backendType: "ontap-nas"
+  fsType: "ext4"
+allowVolumeExpansion: True
+reclaimPolicy: Retain
+----
+====
+.FSxN iSCSI用のTridentバックエンドとストレージクラス
+[%collapsible%open]
+====
+[source, yaml]
+----
+# cat tbc-fsx-iscsi.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backend-tbc-fsx-iscsi-secret
+type: Opaque
+stringData:
+  username: <cluster admin username>
+  password: <cluster admin password>
+---
+apiVersion: trident.netapp.io/v1
+kind: TridentBackendConfig
+metadata:
+  name: fsx-iscsi
+spec:
+  version: 1
+  storageDriverName: ontap-san
+  managementLIF: <management LIF>
+  backendName: fsx-iscsi
+  svm: <SVM name>
+  credentials:
+    name: backend-tbc-ontap-iscsi-secret
+----
+[source, yaml]
+----
+# cat sc-fsx-iscsi.yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: sc-fsx-iscsi
+provisioner: csi.trident.netapp.io
+parameters:
+  backendType: "ontap-san"
+  media: "ssd"
+  provisioningType: "thin"
+  fsType: ext4
+  snapshots: "true"
+allowVolumeExpansion: true
+----
+====
+** TridentボリュームのSnapshotクラス**
+
+.TridentボリュームSnapshotクラス
+[%collapsible%open]
+====
+[source, yaml]
+----
+# cat snapshot-class.yaml
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: trident-snapshotclass
+driver: csi.trident.netapp.io
+deletionPolicy: Retain
+----
+====
+バックエンド構成、ストレージクラス構成、およびスナップショット構成に必要なYAMLファイルを準備したら、次のコマンドを使用して、Tridentバックエンド、ストレージクラス、およびスナップショットクラスオブジェクトを作成できます。
+
+[source, yaml]
+----
+oc create -f <backend-filename.yaml> -n trident
+oc create -f < storageclass-filename.yaml>
+oc create -f <snapshotclass-filename.yaml>
+----
+** Tridentストレージとスナップショットクラスをデフォルトに設定**
+
+.TridentストレエシトSnapshotクラステノテフオルトノセツテイ
+[%collapsible%open]
+====
+必要なTridentストレージクラスとボリュームSnapshotクラスをOpenShiftクラスタでデフォルトとして設定できるようになりました。前述したように、OpenShift Virtualizationでゴールデンイメージソースを使用してデフォルトのテンプレートからVMを作成できるようにするには、ストレージクラスとボリュームスナップショットクラスを設定する必要があります。
+
+ストレージクラスとSnapshotクラスをデフォルトとして設定するには、コンソールからアノテーションを編集するか、コマンドラインで次のコマンドを使用してパッチを適用します。
+
+[source, yaml]
+----
+storageclass.kubernetes.io/is-default-class:true
+or
+kubectl patch storageclass standard -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+
+storageclass.kubevirt.io/is-default-virt-class: true
+or
+kubectl patch storageclass standard -p '{"metadata": {"annotations":{"storageclass.kubevirt.io/is-default-virt-class": "true"}}}'
+----
+====

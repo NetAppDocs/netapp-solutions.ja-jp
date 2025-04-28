@@ -33,60 +33,20 @@ summary: ROSAでのRed Hat OpenShift仮想化
 * link:https://console.redhat.com/openshift/downloads["OpenShiftコマンドラインインターフェイス"]（OC）
 * link:https://docs.aws.amazon.com/eks/latest/userguide/helm.html["Helm 3のドキュメント"]
 * link:https://docs.openshift.com/rosa/rosa_hcp/rosa-hcp-sts-creating-a-cluster-quickly.html["HCP ROSAクラスタ"]（少なくとも3つのベアメタルワーカーノードを使用）
-* link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.17/html/virtualization/installing#virt-aws-bm_preparing-cluster-for-virt["ROSAクラスタにインストールされたOpenShift Virtualization"]
 * link:https://console.redhat.com/openshift/overview["Red Hat OpenShift Webコンソールへのアクセス"]
-* Trident 25.02以降Trident 25.02リリース以降では、FSxNストレージでiSCSI操作を実行するためのROSAクラスタ(または任意のOpenShiftクラスタ)のワーカーノードを簡単に準備できます。Trident 25.02（またはそれ以降）をインストールする簡単な方法は2つあります。この方法を使用すると、iSCSIのワーカーノードの準備を自動化できます。
-+
-.. tridentctlツールを使用してコマンドラインからnode-prep-flagを使用する。
-.. オペレータハブからRed Hat認定のTridentオペレータを使用してカスタマイズします。
-.. Helmの使用
+* Trident 25.02以降
+* link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.17/html/virtualization/installing#virt-aws-bm_preparing-cluster-for-virt["ROSAクラスタにインストールされたOpenShift Virtualization"]
 
 
-
-
-**方法1: tridentctlツールを使用**
-
-node-prepフラグを使用してTridentをインストールします（図を参照）。インストールコマンドを実行する前に、インストーラパッケージをダウンロードしておく必要があります。を参照してください link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy-tridentctl.html#step-1-download-the-trident-installer-package["ドキュメントはこちら"]。
-
-[source, yaml]
-----
-#./tridentctl install trident -n trident --node-prep=iscsi
-----
-**方法2: Red Hat認定Tridentオペレータを使用してカスタマイズ** OperatorHubから、Red Hat認定Tridentオペレータを見つけてインストールします。
-
-image:rh-os-n_use_case_operator_img1.png["Operator HubのOperator"]
-
-image:rh-os-n_use_case_operator_img2.png["オペレータ1のインストール"]
-
-image:rh-os-n_use_case_operator_img3.png["オペレータ2のインストール"]
-
-image:rh-os-n_use_case_operator_img4.png["オペレータによるインストール"]
-
-次に、Trident Orchestratorインスタンスを作成します。YAMLビューを使用してカスタム値を設定するか、インストール時にiSCSIノードの準備を有効にします。
-
-image:rh-os-n_use_case_operator_img5.png["Orchestratorの作成"]
-
-image:rh-os-n_use_case_operator_img6.png["NodePrepを有効にする"]
-
-image:rh-os-n_use_case_operator_img7.png["Orchestratorをインストール"]
-
-image:rh-os-n_use_case_operator_img8.png["Tridentインストール済み"]
-
-上記のいずれかの方法を使用してTridentをインストールすると、iscsidサービスとmultipathdサービスを開始し、/etc/multipath.confファイルに次のように設定することで、iSCSI用のROSAクラスタワーカーノードが準備されます。
-
-image:rh-os-n_use_case_iscsi_node_prep1.png["iscsidアクティブ"]
-
-image:rh-os-n_use_case_iscsi_node_prep2.png["multipathd active"]
-
-image:rh-os-n_use_case_iscsi_node_prep3.png["multipath.confフアイル"]
+Trident 25.02リリース以降では、FSxNストレージでiSCSI操作を実行するためのROSAクラスタ(または任意のOpenShiftクラスタ)のワーカーノードを簡単に準備できます。Trident 25.02（またはそれ以降）をインストールする簡単な方法は2つあります。この方法を使用すると、iSCSIのワーカーノードの準備を自動化できます。OpenShift仮想化をインストールする前に、Tridentバックエンド、ストレージクラス、およびボリュームSnapshotクラスオブジェクトを作成し、デフォルトとしてセットアップしておく必要があります。詳細については、を参照してlink:rh-os-n_use_case_openshift_virtualization_trident_install.html["Tridentのインストールセクション"]ください。
 
 
 
 == 初期セットアップ
 
-このセクションでは、Tridentバックエンドとデフォルトのストレージクラス、およびデフォルトのVolumeSnapshotClassをセットアップする方法を示します。次に、テンプレートからVMを作成し、ゲストクレデンシャルを使用して接続してログインする方法について説明します。
+Tridentバックエンド、ストレージクラス、およびVolumeSnapshotClassをセットアップします。詳細については、を参照してlink:rh-os-n_use_case_openshift_virtualization_trident_install.html["Tridentのインストールセクション"]ください。
 
-次のコマンドを使用して、Tridentバックエンドオブジェクトを作成します。
+Tridentバックエンドオブジェクトを作成するYAMLの例
 
 [source, yaml]
 ----
@@ -138,16 +98,8 @@ deletionPolicy: Retain
 #oc create -f sc.yaml
 #oc create -f snapshot-class.yaml
 ----
-ストレージクラスと上記で作成したvolumeSnapshotクラスは、コンソールまたはコマンドラインを使用してデフォルトとして設定できます。
+OpenShift仮想化をインストールする前に、ストレージクラスとボリュームSnapshotクラスがデフォルトとして設定されていることを確認してください。デフォルトの設定方法の詳細については、を参照してくださいlink:rh-os-n_use_case_openshift_virtualization_trident_install.html["TridentストレージトSnapshotクラスセクシヨンテノデフォルトノセッテイ"]。
 
-[source]
-----
-$ oc patch storageclass trident-csi -p '{"metadata": {"annotations": {"storageclass.kubernetes.io/is-default-class": "true"}}}'
-----
-[source]
-----
-$ oc patch VolumeSnapshotClasses fsx-snapclass -p '{"metadata": {"annotations": {"snapshot.storage.kubernetes.io/is-default-class": "true"}}}'
-----
 デフォルトのストレージクラスがTrident - CSIに設定されていることを確認image:redhat_openshift_ocpv_rosa_image1.png["OCP-Vのデフォルトのストレージクラス"]
 
 デフォルトのVolumeSnapShotClassesが図のように設定されていることを確認するimage:redhat_openshift_ocpv_rosa_image2.png["OCP-VのデフォルトのVolumeSnapshotクラス"]
