@@ -4,7 +4,7 @@ permalink: containers/rh-os-n_use_case_openshift_virtualization_trident_install.
 keywords: OpenShift, OCP, Trident, Trident protect, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, Red Hat OpenShift Virtualization 
 summary: NetApp ONTAP を使用した Red Hat OpenShift Virtualization 
 ---
-= TridentのインストールとTridentオブジェクトの作成。
+= TridentのインストールとTridentオブジェクトの作成
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,19 +14,33 @@ summary: NetApp ONTAP を使用した Red Hat OpenShift Virtualization
 
 
 [role="lead"]
-このセクションでは、ブロックアクセス用にワーカーノードを準備するためにTridentをインストールする方法について説明します。Tridentバックエンドオブジェクトとストレージクラスオブジェクトを作成する手順を順を追って説明します。Tridentバックエンドオブジェクトには、バックエンドONTAPストレージシステムに接続し、指定したプロトコル用にONTAPでボリュームを動的にプロビジョニングするために必要なすべての詳細情報が含まれています。ストレージクラスオブジェクトを使用すると、コンテナアプリケーションとVMは、タイプと容量だけを使用してストレージを要求でき、接続やその他のバックエンドの詳細は必要ありません。
+このセクションでは、OpenShiftクラスタにRed Hat認定Tridentオペレータを使用してTridentをインストールし、（Tridentのインストール時に）ワーカーノードをブロックアクセス用に準備する方法について説明します。手順は、オンプレミス、クラウドのOpenShiftクラスタと、FSx for NetApp ONTAP（FSxN）ストレージを使用するAWSのマネージドRed OpenShiftクラスタ（ROSA）で同じです。また、OpenShiftクラスタ内のコンテナとVMのバッキングストアとしてONTAPまたはFSxNを使用する場合に、Tridentバックエンドオブジェクトとストレージクラスオブジェクトを作成する手順についても説明します。Tridentバックエンドオブジェクトには、バックエンドONTAPまたはFSxNストレージシステムに接続し、指定したプロトコルを使用してボリュームを動的にプロビジョニングするために必要なすべての詳細情報が含まれます。ストレージクラスオブジェクトを使用すると、コンテナアプリケーションとVMは、タイプと容量だけを使用してストレージを要求でき、接続やその他のバックエンドの詳細は必要ありません。
 
 
-NOTE: OpenShift仮想化でVMを作成する必要がある場合は、OpenShift仮想化をクラスタにインストールする前に、Tridentをインストールし、バックエンドオブジェクトとストレージクラスオブジェクトをOpenShiftクラスタに作成しておく必要があります。デフォルトのストレージクラスとデフォルトのボリュームSnapshotクラスは、クラスタ内のTridentストレージとSnapshotクラスに設定する必要があります。これが設定されている場合にのみ、OpenShift仮想化はゴールデンイメージをダウンロードし、テンプレートを使用してVMの作成に使用できるようにします。
+NOTE: OpenShift仮想化でVMを作成する必要がある場合は、OpenShift仮想化をクラスタ（オンプレミスとROSA）にインストールする前に、Tridentをインストールし、バックエンドオブジェクトとストレージクラスオブジェクトをOpenShiftクラスタに作成する必要があります。デフォルトのストレージクラスとデフォルトのボリュームSnapshotクラスは、クラスタ内のTridentストレージとSnapshotクラスに設定する必要があります。これが構成されている場合にのみ、OpenShift Virtualizationは、テンプレートを使用して仮想マシンを作成するためにゴールデンイメージをローカルで使用できるようにします。
+
+
+NOTE: Tridentのインストール前にOpenShift仮想化オペレータがインストールされている場合は、次のコマンドを使用して別のストレージクラスを使用して作成されたゴールデンイメージを削除し、TridentストレージクラスとボリュームSnapshotクラスのデフォルトが設定されていることを確認して、OpenShift仮想化でTridentストレージクラスを使用してゴールデンイメージを作成できます。
+
+[source, yaml]
+----
+oc delete dv,VolumeSnapshot -n openshift-virtualization-os-images --selector=cdi.kubevirt.io/dataImportCron
+----
+
+NOTE: サンプルYAMLファイルを取得してROSAクラスタ用のFSxNストレージ用のTridentオブジェクトを作成し、VolumeSnapshotClass用のサンプルYAMLファイルを取得するには、このページを下にスクロールします。
 
 ** Tridentのインストール**
 
 .Red Hat認定オペレータを使用したTridentのインストール
 [%collapsible%open]
 ====
-このセクションでは、Red Hat認定Tridentオペレータを使用したTridentのインストールの詳細について説明します。link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["Tridentのドキュメントを参照"]Tridentの他のインストール方法については、を参照してください。Trident 25.02のリリースにより、オンプレミスとクラウドのRed Hat OpenShiftにおけるTridentのユーザーと、AWS上のRed Hat OpenShiftサービスのようなマネージドサービスは、オペレーターハブからTrident認定オペレーターを使用してTridentをインストールできるようになりました。Tridentは以前はコミュニティオペレータとしてのみ利用可能であったため、これはOpenShiftのユーザーコミュニティにとって重要です。
+このセクションでは、他の方法でTridentをインストールするために、Red Hat認定Tridentオペレータを使用してTridentをインストールする方法について詳しく説明しlink:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["Tridentのドキュメントを参照"]ます。Trident 25.02のリリースにより、オンプレミスとクラウドのRed Hat OpenShiftにおけるTridentのユーザーと、AWS上のRed Hat OpenShiftサービスのようなマネージドサービスは、オペレーターハブからTrident認定オペレーターを使用してTridentをインストールできるようになりました。Tridentは以前はコミュニティオペレータとしてのみ利用可能であったため、これはOpenShiftのユーザーコミュニティにとって重要です。
 
-Red Hat認定Tridentオペレータの利点は、（オンプレミス、クラウド、マネージドサービスのいずれであっても）OpenShiftで使用する場合、オペレータとコンテナの基盤がNetAppによって完全にサポートされることです。さらに、NetApp Tridentはお客様に無償で提供されるため、Red Hat OpenShiftとシームレスに連携することが確認され、ライフサイクル管理が容易なパッケージ化された認定オペレータを使用してインストールするだけです。
+Red Hat認定Tridentオペレータの利点は、オペレータとコンテナの基盤が、OpenShiftで使用される場合（オンプレミス、クラウド、またはROSAを使用したマネージドサービスとして使用される場合）、NetAppによって完全にサポートされることです。さらに、NetApp Tridentはお客様に無償で提供されるため、Red Hat OpenShiftとシームレスに連携することが確認され、ライフサイクル管理が容易なパッケージ化された認定オペレータを使用してインストールするだけです。
+
+さらに、Trident 25.02オペレータ（および将来のバージョン）は、ワーカーノードをiSCSI用に準備するオプションの利点を提供します。これは、ワークロードをROSAクラスタに導入し、FSxNでiSCSIプロトコルを使用する場合、特にOpenShift Virtualization VMワークロードに適しています。FSxNを使用するROSAクラスタでのiSCSIに対するワーカーノードの準備の課題は、クラスタにTridentをインストールするときにこの機能によって軽減されました。
+
+オペレータを使用したインストール手順は、オンプレミスクラスタにインストールする場合でもROSAにインストールする場合でも同じです。
 
 オペレーターを使用してTridentをインストールするには、オペレーターハブをクリックし、Certified NetApp Tridentを選択します。[Install]ページでは、デフォルトで最新バージョンが選択されています。[インストール]をクリックします。image:rh-os-n_use_case_openshift_virtualization_trident_install_img1.png["オペレータハブ"]
 
@@ -47,7 +61,17 @@ image:rh-os-n_use_case_openshift_virtualization_trident_install_img6.png["multip
 image:rh-os-n_use_case_openshift_virtualization_trident_install_img7.png["multipathconfフアイルノシツコウ"]
 
 ====
-**オンプレミスOpenShiftクラスタ向けのTrident構成**
+
+
+== ビデオデモ
+
+次のビデオでは、Red Hat認定Tridentオペレータを使用したTridentのインストールのデモを示します。
+
+.OpenShiftで認定されたTridentオペレータを使用したTrident 25.02.1のインストール
+video::15c225f3-13ef-41ba-b255-b2d500f927c0[panopto,width=360]
+
+
+== オンプレミスOpenShiftクラスタ向けのTridentの設定
 
 .NAS向けのTridentバックエンドとストレージクラス
 [%collapsible%open]
@@ -235,7 +259,9 @@ parameters:
 allowVolumeExpansion: true
 ----
 ====
-** FSxNストレージを使用したROSAクラスタのTrident構成**
+
+
+== FSxNストレージを使用したROSAクラスタ用のTrident設定
 
 .FSxN NAS用のTridentバックエンドとストレージクラス
 [%collapsible%open]
@@ -328,7 +354,9 @@ parameters:
 allowVolumeExpansion: true
 ----
 ====
-** TridentボリュームのSnapshotクラス**
+
+
+== TridentボリュームのSnapshotクラスを作成しています
 
 .TridentボリュームSnapshotクラス
 [%collapsible%open]
@@ -352,14 +380,16 @@ oc create -f <backend-filename.yaml> -n trident
 oc create -f < storageclass-filename.yaml>
 oc create -f <snapshotclass-filename.yaml>
 ----
-** Tridentストレージとスナップショットクラスをデフォルトに設定**
+
+
+== TridentストレエシトSnapshotクラステノテフオルトノセツテイ
 
 .TridentストレエシトSnapshotクラステノテフオルトノセツテイ
 [%collapsible%open]
 ====
-必要なTridentストレージクラスとボリュームSnapshotクラスをOpenShiftクラスタでデフォルトとして設定できるようになりました。前述したように、OpenShift Virtualizationでゴールデンイメージソースを使用してデフォルトのテンプレートからVMを作成できるようにするには、ストレージクラスとボリュームスナップショットクラスを設定する必要があります。
+必要なTridentストレージクラスとボリュームSnapshotクラスをOpenShiftクラスタでデフォルトとして設定できるようになりました。前述したように、OpenShift Virtualizationでゴールデンイメージソースを使用してデフォルトのテンプレートからVMを作成できるようにするには、デフォルトのストレージクラスとボリュームスナップショットクラスを設定する必要があります。
 
-ストレージクラスとSnapshotクラスをデフォルトとして設定するには、コンソールからアノテーションを編集するか、コマンドラインで次のコマンドを使用してパッチを適用します。
+Tridentストレージクラスとsnapshotクラスをデフォルトとして設定するには、コンソールからアノテーションを編集するか、コマンドラインで次のコマンドを使用してパッチを適用します。
 
 [source, yaml]
 ----
@@ -370,5 +400,11 @@ kubectl patch storageclass standard -p '{"metadata": {"annotations":{"storagecla
 storageclass.kubevirt.io/is-default-virt-class: true
 or
 kubectl patch storageclass standard -p '{"metadata": {"annotations":{"storageclass.kubevirt.io/is-default-virt-class": "true"}}}'
+----
+これを設定すると、次のコマンドを使用して、既存のdvオブジェクトとVolumeSnapShotオブジェクトを削除できます。
+
+[source, yaml]
+----
+oc delete dv,VolumeSnapshot -n openshift-virtualization-os-images --selector=cdi.kubevirt.io/dataImportCron
 ----
 ====

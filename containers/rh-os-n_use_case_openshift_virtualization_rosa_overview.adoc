@@ -34,7 +34,7 @@ summary: ROSAでのRed Hat OpenShift仮想化
 * link:https://docs.aws.amazon.com/eks/latest/userguide/helm.html["Helm 3のドキュメント"]
 * link:https://docs.openshift.com/rosa/rosa_hcp/rosa-hcp-sts-creating-a-cluster-quickly.html["HCP ROSAクラスタ"]（少なくとも3つのベアメタルワーカーノードを使用）
 * link:https://console.redhat.com/openshift/overview["Red Hat OpenShift Webコンソールへのアクセス"]
-* Trident 25.02以降
+* Trident 25.02以降上記のTridentの前提条件については、を参照してくださいlink:rh-os-n_use_case_openshift_virtualization_trident_install.html["Tridentのインストールセクション"]。
 * link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.17/html/virtualization/installing#virt-aws-bm_preparing-cluster-for-virt["ROSAクラスタにインストールされたOpenShift Virtualization"]
 
 
@@ -99,10 +99,6 @@ deletionPolicy: Retain
 #oc create -f snapshot-class.yaml
 ----
 OpenShift仮想化をインストールする前に、ストレージクラスとボリュームSnapshotクラスがデフォルトとして設定されていることを確認してください。デフォルトの設定方法の詳細については、を参照してくださいlink:rh-os-n_use_case_openshift_virtualization_trident_install.html["TridentストレージトSnapshotクラスセクシヨンテノデフォルトノセッテイ"]。
-
-デフォルトのストレージクラスがTrident - CSIに設定されていることを確認image:redhat_openshift_ocpv_rosa_image1.png["OCP-Vのデフォルトのストレージクラス"]
-
-デフォルトのVolumeSnapShotClassesが図のように設定されていることを確認するimage:redhat_openshift_ocpv_rosa_image2.png["OCP-VのデフォルトのVolumeSnapshotクラス"]
 
 
 
