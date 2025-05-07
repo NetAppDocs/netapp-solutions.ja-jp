@@ -1,0 +1,287 @@
+---
+sidebar: sidebar 
+permalink: databases/automation_ora_clone_gcnv_asm.html 
+keywords: Oracle, GCP, GCNV, Database, clone 
+summary: このソリューションには、Ansibleベースの自動化ツールキットが用意されています。このツールキットを使用すると、Google Cloud NetApp Volumeストレージ（ASM構成）上のGoogle Cloud Data Guardの物理スタンバイデータベースから、Oracleクローンデータベースをセットアップ、クローニング、更新できます。 
+---
+= ASMを使用したGCNVでのOracleクローンライフサイクルの自動化
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+ネットアップ、Niyaz Mohamed、Allen Cao氏
+
+[role="lead"]
+このソリューションには、Ansibleベースの自動化ツールキットが用意されています。このツールキットを使用すると、Google Cloud NetApp Volumeストレージ（ASM構成）上のGoogle Cloud Data Guardの物理スタンバイデータベースから、Oracleクローンデータベースをセットアップ、クローニング、更新できます。
+
+
+
+== 目的
+
+Oracle Data Guard構成内の物理スタンバイOracleデータベースの迅速なクローンを他のユースケースに活用することは、さまざまな目的に役立ちます。これは、ほぼリアルタイムのレポートデータベースと、開発またはUAT目的で本番データベースの書き込み可能なコピーを提供します。そのため、短時間（10~15分）のレポート作成が許容される場合は、Active Data Guardの高価なライセンスコストを削減できます。これにより、ストレージコストを削減できます。特に、プライマリデータボリュームのシンクローンを選択することができます。このAnsibleベースの自動化ツールキットを使用すると、Oracleデータベースのクローンをユーザのスケジュールに従って設定、クローニング、更新し、ライフサイクル管理を合理化できます。このツールキットは、Google Cloud NetApp Volumes（GCNV）ストレージとData Guard構成でのOracleデータベースのセットアップを使用してGoogleパブリッククラウドに導入されたOracleデータベースに適用されます。
+
+この解決策 は、次のユースケースに対応します。
+
+* Ansibleの自動化用にOracleスタンバイデータベースクローンの構成ファイルをセットアップします。
+* Ansible Playbookを使用して、クローンOracleデータベースをData Guardスタンバイからユーザ定義のスケジュールで作成または更新します。
+
+
+
+
+== 対象読者
+
+この解決策 は、次のユーザーを対象としています。
+
+* Google CloudでOracleデータベースを管理するDBA。
+* Google NetApp Volumeのストレージを管理するストレージ管理者。
+* 他のユースケースに備えて、Data GuardからOracleデータベースのクローンを作成したいアプリケーション所有者。
+
+
+
+
+== ライセンス
+
+このGitHubリポジトリのコンテンツにアクセス、ダウンロード、インストール、または使用することで、に記載されているライセンスの条件に同意したことになりlink:https://github.com/NetApp/na_ora_hadr_failover_resync/blob/master/LICENSE.TXT["ライセンスファイル"^]ます。
+
+
+NOTE: このGitHubリポジトリ内のコンテンツとの派生物の作成および/または共有には、一定の制限があります。コンテンツを使用する前に、必ずライセンスの条件をお読みください。すべての条件に同意しない場合は、このリポジトリ内のコンテンツにアクセス、ダウンロード、または使用しないでください。
+
+
+
+== 解決策 の導入
+
+
+
+=== 導入の前提条件
+
+[%collapsible%open]
+====
+導入には、次の前提条件が必要です。
+
+....
+Ansible controller:
+  Ansible v.2.10 and higher
+  ONTAP collection 21.19.1
+  Python 3
+  Python libraries:
+    netapp-lib
+    xmltodict
+    jmespath
+....
+....
+Oracle servers:
+  Physical standby Oracle servers in Data Guard configuration
+  Clone target Oracle servers with ASM configuration
+....
+
+NOTE: わかりやすくするために、クローンターゲットOracleサーバは、OracleソフトウェアスタックやOracle Homeのディレクトリレイアウトなど、スタンバイOracleサーバと同じように構成する必要があります。
+
+====
+
+
+=== ツールキットをダウンロード
+
+[%collapsible%open]
+====
+[source, cli]
+----
+https://bitbucket.ngage.netapp.com/projects/NS-BB/repos/na_oracle_clone_gcnv/browse
+----
+
+NOTE: このツールキットにアクセスできるのは、現時点でビットバケットアクセス権を持つNetApp内部ユーザーのみです。ご興味のある外部ユーザーの方は、アカウントチームにアクセス権をリクエストするか、NetAppソリューションエンジニアリングチームにお問い合わせください。
+
+====
+
+
+=== Ansibleのソースホストとターゲットホストのファイル構成
+
+[%collapsible%open]
+====
+このツールキットには、Ansible Playbookを実行するソースとターゲットのOracleホストを定義するhostsファイルが含まれています。通常、Data GuardセットアップのスタンバイDBホストと、ターゲットのOracleクローンホストが含まれます。ファイルの例を次に示します。ホストエントリには、ターゲットホストのIPアドレスと、クローンまたは更新コマンドを実行するためのホストへのユーザアクセス用のsshキーが含まれます。Google Cloud NetApp Volumesストレージへのアクセスと管理には、gcloud CLIを使用します。
+
+....
+[ora_stdby]
+oras ansible_host=172.179.119.75 ansible_ssh_private_key_file=oras.pem
+....
+....
+[ora_clone]
+orac ansible_host=52.148.142.212 ansible_ssh_private_key_file=orac.pem
+....
+....
+[gcp]
+localhost ansible_connection=local
+....
+====
+
+
+=== グローバル変数の設定
+
+[%collapsible%open]
+====
+次に、グローバルレベルで適用可能な変数を含む一般的なグローバル変数ファイルvars.ymlの例を示します。
+
+....
+######################################################################
+###### Oracle DB clone on GCNV user configuration variables     ######
+###### Consolidate all variables from GCNV, linux and oracle    ######
+######################################################################
+....
+....
+############################################
+### ONTAP/GCNV specific config variables ###
+############################################
+....
+....
+# GCNV credential
+key_file: /home/admin/google-cloud-sdk/service_key.json
+....
+....
+# Cloned DB volumes from standby DB
+project_id: cvs-pm-host-1p
+location: us-west4
+protocol: nfsv3
+data_vols:
+  - "{{ groups.ora_stdby[0] }}-u02"
+  - "{{ groups.ora_stdby[0] }}-u03"
+  - "{{ groups.ora_stdby[0] }}-u04"
+  - "{{ groups.ora_stdby[0] }}-u05"
+  - "{{ groups.ora_stdby[0] }}-u06"
+  - "{{ groups.ora_stdby[0] }}-u07"
+  - "{{ groups.ora_stdby[0] }}-u08"
+....
+....
+nfs_lifs:
+  - 10.165.128.197
+  - 10.165.128.196
+  - 10.165.128.197
+  - 10.165.128.197
+  - 10.165.128.197
+  - 10.165.128.197
+  - 10.165.128.197
+....
+ nfs_client: 0.0.0.0/0
+....
+###########################################
+### Linux env specific config variables ###
+###########################################
+....
+....
+####################################################
+### DB env specific install and config variables ###
+####################################################
+....
+....
+# Standby DB configuration
+oracle_user: oracle
+oracle_base: /u01/app/oracle
+oracle_sid: NTAP
+db_unique_name: NTAP_LA
+oracle_home: '{{ oracle_base }}/product/19.0.0/{{ oracle_sid }}'
+spfile: '+DATA/{{ db_unique_name }}/PARAMETERFILE/spfile.289.1198520783'
+adump: '{{ oracle_base }}/admin/{{ db_unique_name }}/adump'
+grid_home: /u01/app/oracle/product/19.0.0/grid
+asm_disk_groups:
+  - DATA
+  - LOGS
+....
+....
+# Clond DB configuration
+clone_sid: NTAPDEV
+sys_pwd: "XXXXXXXX"
+....
+....
+# Data Guard mode - MaxAvailability or MaxPerformance
+dg_mode: MaxAvailability
+....
+====
+
+
+=== ホスト変数の設定
+
+[%collapsible%open]
+====
+ホスト変数は、特定のホストにのみ適用される｛｛host_name｝｝.ymlという名前のhost_varsディレクトリに定義されています。このソリューションでは、ターゲットのクローンDBホストパラメータファイルのみが設定されます。OracleスタンバイDBパラメータは、グローバル変数ファイルで設定されます。以下は、一般的な構成を示すOracleクローンDBのターゲットホスト変数ファイルorac.ymlの例です。
+
+ # User configurable Oracle clone host specific parameters
+....
+# Database SID - clone DB SID
+oracle_base: /u01/app/oracle
+oracle_user: oracle
+clone_sid: NTAPDEV
+oracle_home: '{{ oracle_base }}/product/19.0.0/{{ oracle_sid }}'
+clone_adump: '{{ oracle_base }}/admin/{{ clone_sid }}/adump'
+....
+....
+grid_user: oracle
+grid_home: '{{ oracle_base }}/product/19.0.0/grid'
+asm_sid: +ASM
+....
+====
+
+
+=== クローンターゲットの追加のOracleサーバ構成
+
+[%collapsible%open]
+====
+クローンターゲットOracleサーバには、ソースOracleサーバと同じOracleソフトウェアスタックがインストールされ、パッチが適用されている必要があります。Oracle user.bash_profileに$ORACLE_BASEと$ORACLE_HOMEが設定されています。また、$ORACLE_HOME変数はソースOracleサーバ設定と一致する必要があります。ターゲットのORACLE_HOME設定がスタンバイのOracleサーバ構成と異なる場合は'相違点を回避するためのシンボリック・リンクを作成します次に例を示します。
+
+ # .bash_profile
+....
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+       . ~/.bashrc
+fi
+....
+ # User specific environment and startup programs
+....
+export ORACLE_BASE=/u01/app/oracle
+export GRID_HOME=/u01/app/oracle/product/19.0.0/grid
+export ORACLE_HOME=/u01/app/oracle/product/19.0.0/NTAP
+alias asm='export ORACLE_HOME=$GRID_HOME;export PATH=$PATH:$GRID_HOME/bin;export ORACLE_SID=+ASM'
+....
+
+NOTE: DBクローンホストのasm_diskstring設定パラメータに、クローンボリュームのNFSマウントポイントとディスクデバイスへのディレクトリパスがすべて含まれていることを確認します。
+
+====
+
+
+=== Playbookの実施
+
+[%collapsible%open]
+====
+Oracleデータベースのクローンライフサイクルを実行するには、合計で2つのプレイブックがあります。DBのクローンまたは更新は、オンデマンドで実行することも、crontabジョブとしてスケジュール設定することもできます。
+
+. Ansibleコントローラの前提条件をインストール- 1回のみ。
++
+[source, cli]
+----
+ansible-playbook -i hosts ansible_requirements.yml
+----
+. クローンデータベースの作成と更新は、クローンまたは更新プレイブックを呼び出すシェルスクリプトを使用して、オンデマンドまたは定期的にcrontabから実行します。
++
+[source, cli]
+----
+ansible-playbook -i oracle_clone_asm_gcnv.yml -u admin -e @vars/vars.yml
+----
++
+[source, cli]
+----
+0 */2 * * * /home/admin/na_oracle_clone_gcnv/oracle_clone_asm_gcnv.sh
+----
+
+
+追加データベースのクローンを作成するには、別のoracle_clone_n_asm_gcnv.ymlおよびoracle_clone_n_asm_gcnv.shを作成します。必要に応じて、host_varsディレクトリにAnsibleターゲットホスト、グローバルvars.yml、およびhostname.ymlファイルを構成します。
+
+
+NOTE: ツールキットの実行は、特定のタスクを完了するために、さまざまな段階で一時停止します。たとえば、DBボリュームのクローンを完了するために2分間一時停止します。一般に、デフォルトで十分ですが、タイミングは固有の状況や実装に合わせて調整する必要があります。
+
+====
+
+
+== 詳細情報の入手方法
+
+NetAppソリューションの自動化の詳細については、次のWebサイトを参照してください。link:../automation/automation_introduction.html["NetApp 解決策の自動化"^]
