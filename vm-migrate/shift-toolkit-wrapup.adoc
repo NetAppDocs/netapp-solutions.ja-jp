@@ -1,0 +1,161 @@
+---
+sidebar: sidebar 
+permalink: vm-migrate/shift-toolkit-wrapup.html 
+keywords: netapp, vmware, esxi, vm, migration, openshift, virtualization, hyper-v, proxmox 
+summary:  
+---
+= まとめと追加情報
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+このセクションでは、Shift Toolkitを使用するための次の手順とトラブルシューティングについて説明します。
+
+
+
+== まとめ
+
+NetApp Shiftツールキットを使用すると、管理者はVMをVMwareからHyper-Vに迅速かつシームレスに変換できます。また、異なるハイパーバイザー間で仮想ディスクだけを変換することもできます。そのため、Shift Toolkitを使用すると、ハイパーバイザー間でワークロードを移動するたびに数時間の労力を節約できます。ワークロードが単一のハイパーバイザーに固定されているかどうかを気にすることなく、マルチハイパーバイザー環境をホストできるようになりました。この機能により柔軟性が向上し、ライセンスコスト、ロックイン、単一ベンダーへのコミットメントが削減されます。
+
+
+
+== 次のステップ
+
+Shiftツールキットパッケージをダウンロードすることで、Data ONTAPの可能性を最大限に引き出し、仮想マシンやディスクファイルの移行や変換を開始して移行を簡素化および合理化します。
+
+このプロセスの詳細については、次の詳細なチュートリアルに従ってください。
+
+.Shiftツールキットのチュートリアル
+video::dc0d9627-0399-45d9-a843-b1d8010fff80[panopto,width=360]
+
+
+== トラブルシューティングと既知の問題
+
+. Windows VMでIPアドレスを設定して削除するトリガースクリプトが次のエラーで失敗する：The credential is invalid
++
+[listing]
+----
+Error message:
+
+Enter-PSSession : The credential is invalid.
+
+Potential causes:
+
+The guest credentials couldn't be validated
+
+a. The supplied credentials were incorrect
+b. There are no user accounts in the guest
+----
+. Windows仮想マシンでBSODエラーが発生する
++
+*注：*これはShiftツールキットの問題ではありませんが、環境に関連しています。
+
++
+[listing]
+----
+Error message:
+
+Bluescreen error during initial boot after migration.
+
+Potential cause:
+
+Local group policy setup to block the installation of applications including new drivers for Microsoft Hyper-V.
+
+a. Update the policy to allow installation of drivers.
+----
+. リソースグループの作成時にデータストアが表示されない
++
+[listing]
+----
+Error message:
+
+Mount paths are empty while getting volumes for mountpaths for site.
+
+Potential causes:
+
+The NFS volume used as a datastore is using v4.1
+
+a. Shift toolkit filters out NFS v3 datastores during the resource group creation. NFS 4.1 or 4.2 is not supported in the current release.
+----
+. SSLを有効にした後、ShiftツールキットUIにアクセスできません。
++
+[listing]
+----
+Error message:
+
+Login failed, Network error
+
+Potential causes:
+
+MongoDB service not running
+Using Firefox browser to access Shift UI
+
+a. Ensure Mongo service is running
+b. Use Google Chrome or IE to access Shift UI.
+----
+. 暗号化が有効なVMを移行できません。
++
+[listing]
+----
+Error message:
+
+Boot failure on Hyper-V side
+
+Potential causes:
+
+VMDK encrytped using vSphere encryption
+
+a. Decrypt the VMDK inside VMware and retry the operation.
+----
+
+
+
+
+== 付録
+
+
+
+=== Shiftツールキット用のカスタムONTAPロール
+
+Shiftツールキットで操作を実行するためにONTAP adminロールを使用する必要がないように、最小Privilegesを持つONTAPロールを作成します。これらの最小ロールは、ONTAPストレージ側のSVMレベルで必要です。
+
+
+NOTE: vsadminも使用できます。
+
+image:shift-toolkit-image84.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
+
+ONTAP System Managerを使用してロールを作成します。
+
+ONTAPシステムマネージャで、次の手順を実行します。
+
+*カスタムロールの作成：*
+
+* SVMレベルでカスタムロールを作成するには、[ストレージ]>[Storage VM]>[必要なSVM ]>[設定]>[ユーザとロール]を選択します。
+* [Users and Roles]の横にある矢印アイコン（→）を選択します。
+* [Roles]で[+Add]を選択します。
+* ロールのルールを定義し、[Save]をクリックします。
+
+
+*役割をShiftツールキットユーザーにマッピングします。*
+
+[Users and Roles]ページで、次の手順を実行します。
+
+* [ユーザー]の下の[追加]アイコン+を選択します
+* 必要なユーザ名を選択し、前の手順で作成したロールを[Role]ドロップダウンメニューで選択します。
+* 保存をクリックします。
+
+
+完了したら、ShiftツールキットUIでソースサイトとデスティネーションサイトを設定するときに、上記で作成したユーザを使用します。
+
+
+
+=== VMwareテヒツヨウナサイシヨウケンケンロオル
+
+Shiftツールキットを使用してVMware vSphereから仮想マシンを移行するには、[Administration]>[Access Control]>[Roles]を使用して、以下のPrivilegesでRBACユーザを作成します。
+
+image:shift-toolkit-image85.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]

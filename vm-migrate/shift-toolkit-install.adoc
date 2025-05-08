@@ -1,0 +1,279 @@
+---
+sidebar: sidebar 
+permalink: vm-migrate/shift-toolkit-install.html 
+keywords: netapp, vmware, esxi, vm, migration, openshift, virtualization, hyper-v, proxmox 
+summary:  
+---
+= Shift Toolkitのインストールとセットアップ
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+ツールキットの使用を開始するには、指定した仮想マシンでWindowsオペレーティングシステムを使用し、前提条件を満たしていることを確認してから、パッケージをインストールします。
+
+
+
+== インストールの準備
+
+Shift Toolkitは、Windows 2019および2022バージョンで実行できます。
+
+* Shift Toolkitパッケージを次のサイトからダウンロードします。link:https://mysupport.netapp.com/site/tools/tool-eula/netapp-shift-toolkit["NetAppツールチェスト"]
+* パッケージを解凍します。
+* exeを実行してサービスをインストールし、開始します。
+
+
+Shift Toolkitには次の2つのパッケージがあります。
+
+* オンライン（サイズは約130MB）、および
+* オフライン（最大1.1GB）。
+
+
+名前が示すように、オンラインインストーラパッケージは、Shift Toolkit所有のS3バケットからインターネット経由で必要な前提条件をダウンロードしてインストールします。
+
+image:shift-toolkit-image3.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
+
+オンラインインストールでは便利ですが、オフラインインストールではインストールプロセスをより細かく制御できます。オフラインインストールパッケージでは、Shiftツールキットをインストールするために必要なすべての前提条件がパッケージにバンドルされています。オフラインインストールの主な利点の1つは、インターネット接続なしで仮想マシンにShift Toolkitをインストールできることです。
+
+
+TIP: 展開に適切なパッケージを使用します。オフラインモードでは、必要な前提条件とファイルがすべてバンドルされているため、プロキシ設定を変更する必要はありません。
+
+Shiftツールキットは、ソース環境とターゲット環境が接続されているかぎり、VMwareまたはMicrosoft Hyper-Vサーバを実行する仮想マシンにインストールできます。Shiftツールキットは専用のVMにインストールすることを推奨します。このアプローチでは、単一のShiftツールキットサーバを使用して、さまざまなMicrosoft Hyper-VサーバまたはVMware ESXiサーバをターゲットにすることができます。
+
+
+NOTE: Shiftツールキットを専用のVMにインストールします。
+
+
+
+== インストールの前提条件
+
+
+
+=== ハードウェア要件
+
+Shiftサーバホストがハードウェアの最小要件を満たしていることを確認します。
+
+ハードウェア要件：
+
+* CPU：vCPU×4
+* メモリ：8GB以上
+* ディスクスペース：100GB以上
+
+
+
+NOTE: インストールに使用できる650MBのディスクスペースが必要です。
+
+
+
+=== 接続要件
+
+* Shiftツールキットが環境内のすべてのコンポーネントと適切に連携できるように、ハイパーバイザーとストレージの環境が設定されていることを確認してください。
+* Shift Toolkitは、スタンドアロンのWindowsサーバ（物理または仮想）にインストールする必要があります。
+* Shiftサーバ、Data ONTAP CIFSサーバ、およびHyper-Vサーバは、同じWindows Active Directoryドメインに配置する必要があります。
+* CIFS用とNFS用の複数のLIFは、VMの変換時にStorage Virtual Machineで使用できます。Hyper-VサーバおよびESXiホストは、これらのLIFのIPアドレスでStorage Virtual Machine（SVM）にアクセスします。
+* CIFS操作の場合は、WindowsドメインコントローラとNetAppストレージコントローラの時間設定が同期されている必要があります。
+
+
+
+
+== ONTAPストレージ構成
+
+
+
+=== 新しいSVMを作成（推奨）
+
+Shiftツールキットでは既存のSVMを使用できますが、NetApp新しいSVMを作成することを推奨します。Storage vMotionを使用して、移行または変換するVMを専用のData ONTAP Storage Virtual Machine（SVM）上にある新しいNFS v3データストアに移動します。このsvmotionベースの移行は、VMのダウンタイムなしで実行されます。この方法では、移行対象として指定されたVMは本番用SVMに配置されません。ONTAP CLI、NetApp PowerShellツールキット、またはSystem Managerを使用して、新しいSVMを作成します。
+
+以下の手順に従って、link:https://docs.netapp.com/us-en/ontap/networking/create_svms.html["リンク"]NFSプロトコルとSMBプロトコルの両方を許可する新しいSVMをプロビジョニングします。
+
+
+NOTE: 新しいSVMを作成して、そのSVMがShiftツールキットの要件を満たしていることを確認することを推奨します。業務の中断を招く可能性がある方法で本番用SVMを変更する必要はありません。
+
+
+NOTE: Hyper-Vを移行する場合は、新しいSVMでNFSプロトコルとSMBプロトコルの両方を有効にする必要があります。プロビジョニングするボリュームでも、NFSとSMBの両方が有効になっている必要があります。ターゲットがKVMベースのハイパーバイザーの場合は、SVMでNFSプロトコルを有効にする必要があります。
+
+
+
+=== qtreeの要件
+
+VHDXファイル、またはVMDKから変換されるqcow2ファイルまたはVHDXファイルを分離して格納するために、VMwareからHyper-Vに変換するVMのホストに使用するボリュームにqtreeを作成する必要があります。
+
+* ESXからHyper-Vへの変換の場合、Shiftツールキットは、変換されたVHDXを同じボリューム内のqtree（NTFSセキュリティ形式）に配置します。
+* ESX VMDKからQCOW2への変換では、UNIXセキュリティ形式のqtreeを使用する必要があります。
+
+
+Shiftツールキットでは、qtreeのセキュリティ形式は検証されません。そのため、ターゲットのハイパーバイザーとディスクタイプに基づいて、適切なセキュリティ形式のqtreeを作成することが重要です。
+
+
+NOTE: デスティネーションパスは、ソースVMの同じボリューム上にある必要があります。
+
+
+NOTE: ターゲットのハイパーバイザータイプとディスク形式に基づいて、正しいセキュリティ形式をqtreeに割り当てます。
+
+
+NOTE: 変換されたqcow2ファイルがOpenShiftの仮想化で使用される場合は、例外があります。これらのファイルはqtreeを使用せずにボリュームに直接配置できます。そのためには、ShiftツールキットAPIを使用してVMDKファイルをqcow2形式に変換し、ボリューム内に直接配置します。
+
+以下の手順に従って、link:https://docs.netapp.com/us-en/ontap/nfs-config/create-qtree-task.html["リンク"]適切なセキュリティ形式のqtreeを作成します。
+
+image:shift-toolkit-image4.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
+
+
+
+=== CIFS共有の要件：
+
+Hyper-V移行の場合は、変換したVMデータを格納する共有を作成します。NFS共有（変換するVMの格納に使用）とデスティネーション共有（変換後のVMの格納に使用）が同じボリューム上にあることを確認します。Shift Toolkitでは、複数のボリュームでのスパニングはサポートされていません。
+
+以下の手順に従って、link:https://docs.netapp.com/us-en/ontap/smb-config/create-share-task.html["リンク"]適切なプロパティを指定して共有を作成します。他のデフォルトのプロパティと一緒に、継続的可用性プロパティを選択してください。
+
+image:shift-toolkit-image5.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
+
+image:shift-toolkit-image6.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
+
+
+NOTE: SMB 3.0が有効になっている必要があります。これはデフォルトで有効になっています。
+
+
+NOTE: 継続的可用性プロパティが有効になっていることを確認します
+
+
+NOTE: Storage Virtual Machine（SVM）でSMBのエクスポートポリシーが無効になっている必要がある
+
+
+NOTE: CIFS サーバと Hyper-V サーバが属するドメインで、 Kerberos 認証と NTLMv2 認証の両方を許可する必要があります。
+
+
+NOTE: ONTAPによって、Windowsのデフォルトの共有権限であるEveryone / Full Controlが設定された共有が作成されます。
+
+
+
+== サポートされているオペレーティングシステム
+
+サポートされているバージョンのWindowsおよびLinuxゲストオペレーティングシステムが変換に使用されていること、およびShiftツールキットがONTAPのバージョンをサポートしていることを確認します。
+
+*サポートされているVMゲストOS *
+
+VM変換のゲストオペレーティングシステムとしてサポートされるWindowsのバージョンは次のとおりです。
+
+* Windows 10
+* Windows 11
+* Windows Server 2016
+* Windows Server 2019
+* Windows Server 2022
+* Windows Server 2025
+
+
+VMを変換するゲストオペレーティングシステムとしてサポートされるLinuxのバージョンは次のとおりです。
+
+* CentOS Linux 7.x
+* Red Hat Enterprise Linux 6.7以降
+* Red Hat Enterprise Linux 7.2以降
+* Red Hat Enterprise Linux 8.x
+* Red Hat Enterprise Linux 9.x
+* Ubuntu 2018.
+* Ubuntu 2022.
+* Ubuntu 2024.
+* Debian 10
+* Debian 11
+* Debian 12
+* SUSE 12
+* SUSE 15
+
+
+
+NOTE: CentOS Linux/RedHat for Red Hat Enterprise Linux 5はサポートされていません。
+
+
+NOTE: Windows Server 2008はサポートされていませんが、変換プロセスは正常に動作します。移行は自己責任で行ってください。ただし、Shiftツールキットを使用してWindows 2008 VMを正常に変換したお客様から報告を受けています。IP割り当ての自動化に使用されるPowerShellバージョンは、Windows Server 2008で実行されている古いバージョンと互換性がないため、移行後にIPアドレスを更新することが重要です。
+
+*サポートされているONTAPのバージョン*
+
+Shiftツールキットは、ONTAP 9.14.1以降を実行しているプラットフォームをサポートします。
+
+*サポートされているハイパーバイザーのバージョン*
+
+VMware：Shift ToolkitはvSphere 7.0.3以降のHyper-Vに対して検証されています。Shift Toolkitは、Windows Server 2019、Windows Server 2022、およびWindows Server 2025で実行されるHyper-Vの役割に対して検証されています。
+
+
+NOTE: 現在のリリースでは、仮想マシンのエンドツーエンドの移行はHyper-Vでのみサポートされています。
+
+
+NOTE: 現在のリリースでは、KVMをデスティネーションとしてサポートされるワークフローはVMDKからqcow2への変換のみです。そのため、ドロップダウンから[KVM]を選択した場合、ハイパーバイザーの詳細は必要ありません。qcow2ディスクは、KVMバージョンでの仮想マシンのプロビジョニングに使用できます。
+
+
+
+== インストール
+
+. ダウンロードしlink:https://mysupport.netapp.com/site/tools/tool-eula/netapp-shift-toolkit["Shiftツールキットパッケージ"]て解凍します。
++
+image:shift-toolkit-image7.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
+
+. ダウンロードした.exeファイルをダブルクリックして、Shiftツールキットのインストールを開始します。
++
+image:shift-toolkit-image8.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
+
++
+
+NOTE: すべての事前チェックが実行され、最小要件を満たしていない場合は、該当するエラーまたは警告メッセージが表示されます。
+
+. インストーラがインストールプロセスを開始します。適切な場所を選択するか、デフォルトの配置を使用して、[次へ]をクリックします。
++
+image:shift-toolkit-image9.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
+
+. Shift Toolkit UIへのアクセスに使用するIPアドレスの選択を求めるプロンプトが表示されます。
++
+image:shift-toolkit-image10.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
+
++
+
+NOTE: VMに複数のNICが割り当てられている場合は、セットアッププロセスでドロップダウンオプションを使用して適切なIPアドレスを選択できます。
+
+. このステップでは、プロセスの一部として自動的にダウンロードおよびインストールされる必要なすべてのコンポーネントがインストーラに表示されます。Shiftツールキットが正常に機能するためにインストールする必要がある必須コンポーネントは、MongoDB、Windows PowerShell 7、NetApp ONTAP PowerShell Toolkit、ポリシーファイルエディタ、クレデンシャル管理、vmware.powerCLIパッケージ、およびJava OpenJDKです。これらはすべてパッケージに含まれています。
++
+「 * 次へ * 」をクリックします
+
++
+image:shift-toolkit-image11.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
+
+. Java OpenJDK GNUライセンス情報を確認します。[Next]をクリックします。
++
+image:shift-toolkit-image12.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
+
+. デスクトップショートカットを作成する場合はデフォルトのままにして、[次へ]をクリックします。
++
+image:shift-toolkit-image13.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
+
+. これで、インストールを続行する準備ができました。インストールをクリックします。
++
+image:shift-toolkit-image14.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
+
+. インストールが開始され、必要なコンポーネントがダウンロードされてインストールされます。完了したら、[Finish]をクリックします。
++
+image:shift-toolkit-image15.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
+
+
+
+
+NOTE: Shift Toolkit VMにインターネットがない場合、オフラインインストーラは同じ手順を実行しますが、実行可能ファイルに含まれているパッケージを使用してコンポーネントをインストールします。
+
+image:shift-toolkit-image16.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
+
+
+NOTE: インストールには8～10分かかることがあります。
+
+
+
+== アップグレードの実行
+
+「update」からをダウンロードしlink:https://mysupport.netapp.com/site/tools/tool-eula/netapp-shift-toolkit/download["パッケージのアップグレード"]、次の手順を実行します。
+
+image:shift-toolkit-image17.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
+
+. 指定したフォルダにファイルを展開します。
+. 抽出後、NetAppシフトサービスを停止します。
+. 展開したフォルダからインストールディレクトリにすべてのファイルをコピーし、プロンプトが表示されたらファイルを上書きします。
+. 完了したら、[Run as administrator]オプションを使用してUpdate.batを実行し、プロンプトが表示されたらShift Toolkit VMのIPアドレスを入力します。
+. このプロセスでは、Shiftサービスがアップグレードされて開始されます。
+
