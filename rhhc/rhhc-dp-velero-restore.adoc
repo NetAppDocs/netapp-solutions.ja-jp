@@ -29,7 +29,7 @@ image:redhat_openshift_OADP_app_deleted_image1.png["アプリの削除"]
 ====
 作成したバックアップからリストアするには、Restore Custom Resource（CR）を作成する必要があります。名前とリストア元のバックアップの名前を指定し、restorePVをtrueに設定する必要があります。に示すように、追加のパラメータを設定できます link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/restoring-applications.html["ドキュメント"]。[作成]ボタンをクリックします。
 
-image:redhat_openshift_OADP_restore_image1.jpg["リストアCRの作成"]
+image:redhat_openshift_OADP_restore_image1.png["リストアCRの作成"]
 
 ....
 apiVersion: velero.io/v1
@@ -44,7 +44,7 @@ spec:
 ....
 フェーズが完了と表示されると、アプリケーションがスナップショットが取得されたときの状態に復元されたことがわかります。アプリが同じ名前空間に復元されます。
 
-image:redhat_openshift_OADP_restore_image2.jpg["リストア完了"] image:redhat_openshift_OADP_restore_image2a.png["同じネームスペースにリストア"]
+image:redhat_openshift_OADP_restore_image2.png["リストア完了"] image:redhat_openshift_OADP_restore_image2a.png["同じネームスペースにリストア"]
 
 ====
 .別のネームスペースへのリストア

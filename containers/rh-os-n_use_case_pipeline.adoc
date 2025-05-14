@@ -24,7 +24,7 @@ Jenkins アプリケーションの導入に必要なリソースを作成する
 
 . Jenkins という名前の新しいプロジェクトを作成します。
 +
-image:redhat_openshift_image15.jpeg["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
+image:redhat_openshift_image15.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . この例では、永続的ストレージを使用して Jenkins を導入しています。Jenkins ビルドをサポートするには、 PVC を作成します。[ ストレージ ] > [ 永続的ボリューム要求 ] の順に選択し、 [ 永続的ボリューム要求の作成 ] をクリックします。作成したストレージクラスを選択し、永続ボリューム要求名が Jenkins であることを確認し、適切なサイズとアクセスモードを選択して、作成をクリックします。
 
@@ -47,7 +47,7 @@ image:redhat_openshift_image18.png["入力/出力ダイアログを示す図、�
 
 . デフォルトでは、 Jenkins アプリケーションの詳細が入力されます。要件に基づいてパラメータを変更し、 [ 作成（ Create ） ] をクリックします。このプロセスでは、 OpenShift で Jenkins をサポートするために必要なリソースがすべて作成されます。
 +
-image:redhat_openshift_image19.jpeg["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
+image:redhat_openshift_image19.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . Jenkins ポッドが「 Ready 」状態になるまでに約 10 ～ 12 分かかります。
 +
@@ -59,11 +59,11 @@ image:redhat_openshift_image21.png["入力/出力ダイアログを示す図、�
 
 . Jenkins アプリケーションの作成時に OpenShift OAuth が使用されていたため、「 OpenShift でログイン」をクリックします。
 +
-image:redhat_openshift_image22.jpeg["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
+image:redhat_openshift_image22.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . Jenkins サービスアカウントに OpenShift ユーザへのアクセスを許可します。
 +
-image:redhat_openshift_image23.jpeg["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
+image:redhat_openshift_image23.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . Jenkins のようこそページが表示されます。Maven ビルドを使用しているので、まず Maven のインストールを完了します。Manage Jenkins > Global Tool Configuration に移動し、 Maven サブヘッドで Add Maven をクリックします。任意の名前を入力し、 [ 自動的にインストール ] オプションが選択されていることを確認します。保存をクリックします。
 +
@@ -71,7 +71,7 @@ image:redhat_openshift_image24.png["入力/出力ダイアログを示す図、�
 
 . CI / CD のワークフローを示すパイプラインを作成できるようになりました。ホームページで、左側のメニューから [ 新規ジョブの作成 ] または [ 新規アイテム ] をクリックします。
 +
-image:redhat_openshift_image25.jpeg["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
+image:redhat_openshift_image25.png["入力/出力ダイアログを示す図、または書き込まれた内容を表す図"]
 
 . [ 項目の作成 ] ページで、任意の名前を入力し、 [ パイプライン ] を選択して、 [OK] をクリックします。
 +

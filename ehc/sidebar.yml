@@ -22,24 +22,32 @@ entries:
       url: "/ehc/azure-setup.html"
     - title: GCVEをGCPに設定します
       url: "/ehc/gcp-setup.html"
-  - title: ハイパースケーラクラウドにおけるネットアップストレージ
+  - title: パブリッククラウドのNetAppストレージ
     entries:
     - title: はじめに
       url: "/ehc/ehc-datastore-intro.html"
-    - title: VMC向けの補完的NFSデータストア
+    - title: AWSのVMのストレージオプション
+      url: "/ehc/aws-storage-options.html"
+    - title: VMC向けNFSデータストア（概要）
       url: "/ehc/aws-native-overview.html"
+    - title: AWSでの補完的NFSデータストアの作成
+      url: "/ehc/aws-native-nfs-datastore-option.html"
     - title: VMC対応のゲスト接続ストレージ
       url: "/ehc/aws-guest.html"
-    - title: AVS向けの補完的NFSデータストア
+    - title: AzureでのAVSのストレージオプション
+      url: "/ehc/azure-storage-options.html"
+    - title: AVS対応NFSデータストア（概要）
       url: "/ehc/azure-native-overview.html"
+    - title: Azureでの補完的NFSデータストアの作成
+      url: "/ehc/azure-native-nfs-datastore-option.html"
     - title: AVS対応のゲスト接続ストレージ
       url: "/ehc/azure-guest.html"
+    - title: Google CloudでのGCVEのストレージオプション
+      url: "/ehc/gcp-storage-options.html"
     - title: GCVE向けの補完的NFSデータストア
       url: "/ehc/gcp-ncvs-datastore.html"
     - title: GCVE対応のゲスト接続ストレージ
       url: "/ehc/gcp-guest.html"
-    - title: リージョンによるNFSデータストアのサポート
-      url: "/ehc/ehc-regions.html"
   - title: まとめ
     url: "/ehc/ehc-summary.html"
 - title: VMware ハイブリッドクラウドのユースケース
@@ -47,6 +55,8 @@ entries:
   entries:
   - title: ユースケースの概要
     url: "/ehc/ehc-use-cases.html"
+  - title: ソリューションの概要
+    url: "/ehc/ehc-solutions.html"
   - title: AWS/VMC向けのソリューション
     url: "/ehc/aws-solutions.html"
   - title: AzureとAVS向けのソリューション
@@ -77,8 +87,6 @@ entries:
     - title: VMware HCXを使用したFSx ONTAPデータストアへのワークロードの移行
       pdf-filename: VMware HCXを使用したFSx ONTAPデータストアへのワークロードの移行
       url: "/ehc/aws-migrate-vmware-hcx.html"
-  - title: リージョンによるNFSデータストアのサポート
-    url: "/ehc/aws-regions.html"
 - title: NetApp for Azure / AVS
   entries:
   - title: 概要
@@ -103,8 +111,6 @@ entries:
     - title: VMware HCXを使用してワークロードをANFデータストアに移行する
       pdf-filename: VMware HCXを使用してワークロードをANFデータストアに移行する
       url: "/ehc/azure-migrate-vmware-hcx.html"
-  - title: リージョンによるNFSデータストアのサポート
-    url: "/ehc/azure-regions.html"
 - title: NetApp for GCP / GCVE
   entries:
   - title: 概要
@@ -129,8 +135,46 @@ entries:
     - title: Veeamレプリケーションを使用したGoogle Cloud NetApp Volumes NFSデータストアへのVMワークロードの移行
       pdf-filename: Veeamレプリケーションを使用したGoogle Cloud NetApp Volumes NFSデータストアへのVMワークロードの移行
       url: "/ehc/gcp-migrate-veeam.html"
-  - title: NetApp Volume NFSデータストアのリージョンでのサポート
-    url: "/ehc/gcp-regions.html"
+  - title: セキュリティの概要- Google CloudでのGoogle Cloud NetApp Volume（GCNV）
+    entries:
+    - title: 概要
+      url: "/ehc/ncvs-gc-overview.html"
+    - title: Google CloudのGoogle Cloud NetApp Volumeでデータを保護する方法
+      url: "/ehc/ncvs-gc-how-cloud-volumes-service-in-google-cloud-secures-your-data.html"
+    - title: セキュリティに関する考慮事項と攻撃対象
+      url: "/ehc/ncvs-gc-security-considerations-and-attack-surfaces.html"
+    - title: アーキテクチャの概要
+      url: "/ehc/ncvs-gc-architecture_overview.html"
+    - title: Google Cloud NetApp Volumeのアーキテクチャ
+      url: "/ehc/ncvs-gc-cloud-volumes-service-architecture.html"
+    - title: コントロールプレーンのアーキテクチャ
+      url: "/ehc/ncvs-gc-control-plane-architecture.html"
+    - title: データプレーンアーキテクチャ
+      url: "/ehc/ncvs-gc-data-plane-architecture.html"
+    - title: 転送中のデータ暗号化
+      url: "/ehc/ncvs-gc-data-encryption-in-transit.html"
+    - title: 保存データの暗号化
+      url: "/ehc/ncvs-gc-data-encryption-at-rest.html"
+    - title: ファイアウォール：
+      url: "/ehc/ncvs-gc-firewall.html"
+    - title: NASプロトコルの概要
+      url: "/ehc/ncvs-gc-nas-protocols_overview.html"
+    - title: NASプロトコルの基本
+      url: "/ehc/ncvs-gc-basics-of-nas-protocols.html"
+    - title: NFS
+      url: "/ehc/ncvs-gc-nfs.html"
+    - title: SMB
+      url: "/ehc/ncvs-gc-smb.html"
+    - title: デュアルプロトコル/マルチプロトコル
+      url: "/ehc/ncvs-gc-dual-protocol-multiprotocol.html"
+    - title: Active Directory接続の作成に関する考慮事項
+      url: "/ehc/ncvs-gc-considerations-creating-active-directory-connections.html"
+    - title: その他のNASインフラストラクチャサービスの依存関係（KDC、LDAP、DNS）
+      url: "/ehc/ncvs-gc-other-nas-infrastructure-service-dependencies.html"
+    - title: サービスの処理
+      url: "/ehc/ncvs-gc-service-operation.html"
+    - title: 追加情報
+      url: "/ehc/ncvs-gc-additional-information.html"
   - title: セキュリティの概要- Google CloudでのGoogle Cloud NetApp Volume（GCNV）
     entries:
     - title: 概要

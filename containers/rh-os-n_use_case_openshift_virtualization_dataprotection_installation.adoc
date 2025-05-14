@@ -42,11 +42,11 @@ NOTE: 実行状態のVMのバックアップを作成する場合は、その仮
 . クラスタのOperator Hubに移動し、Red Hat OADP operatorを選択します。[Install]ページで、デフォルトの設定をすべて使用し、[install]をクリックします。次のページで、すべてのデフォルト値を使用して[インストール]をクリックします。OADP演算子は、ネームスペースOpenShift-ADPにインストールされます。
 
 
-image:redhat_openshift_OADP_install_image1.jpg["Operator Hubのデータ保護用OpenShift API"]
+image:redhat_openshift_OADP_install_image1.png["Operator Hubのデータ保護用OpenShift API"]
 
-image:redhat_openshift_OADP_install_image2.jpg["OpenShift API for Data Protection Operatorのインストール"]
+image:redhat_openshift_OADP_install_image2.png["OpenShift API for Data Protection Operatorのインストール"]
 
-image:redhat_openshift_OADP_install_image3.jpg["OpenShift API for Data Protection Operatorをインストール済み"]
+image:redhat_openshift_OADP_install_image3.png["OpenShift API for Data Protection Operatorをインストール済み"]
 
 
 
@@ -90,11 +90,11 @@ image:redhat_openshift_OADP_install_image6.png["CLIを使用したS3ユーザク
 * 次に、Veleroを設定するには、[Operators]の下のメニュー項目から[Installed Operators]を選択し、[OADP Operator]をクリックして、[DataProtectionApplication]タブを選択します。
 
 
-image:redhat_openshift_OADP_install_image7.jpg["DataProtectionApplication"]
+image:redhat_openshift_OADP_install_image7.png["DataProtectionApplication"]
 
 [Create DataProtectionApplication]をクリックします。フォームビューで、DataProtectionアプリケーションの名前を指定するか、デフォルトの名前を使用します。
 
-image:redhat_openshift_OADP_install_image8.jpg["DataProtectionApplicationの作成"]
+image:redhat_openshift_OADP_install_image8.png["DataProtectionApplicationの作成"]
 
 次に、YAMLビューに移動し、以下のYAMLファイルの例に示すように仕様情報を置き換えます。
 
@@ -173,7 +173,7 @@ YAMLファイルのspecセクションは、上記の例のように、次のパ
 * 次のように、Tridentスナップショットクラスのラベルを編集し、** velero.io/csi-volumesnapshot-class=true**に設定します。
 
 
-image:redhat_openshift_OADP_install_image9.jpg["Trident Snapshotクラスのラベル"]
+image:redhat_openshift_OADP_install_image9.png["Trident Snapshotクラスのラベル"]
 
 VolumeSnapshotオブジェクトが削除された場合でも、Snapshotが保持されることを確認します。これを行うには、* deletionPolicy *をRetainに設定します。そうでない場合、ネームスペースを削除すると、そのネームスペースにバックアップされたすべてのPVCが完全に失われます。
 
@@ -185,12 +185,12 @@ metadata:
 driver: csi.trident.netapp.io
 deletionPolicy: Retain
 ....
-image:redhat_openshift_OADP_install_image10.jpg["VolumeSnapshotClass削除ポリシーをRetainに設定する必要があります"]
+image:redhat_openshift_OADP_install_image10.png["VolumeSnapshotClass削除ポリシーをRetainに設定する必要があります"]
 
 DataProtectionApplicationが作成され、Conciled状態になっていることを確認します。
 
-image:redhat_openshift_OADP_install_image11.jpg["DataProtectionApplicationオブジェクトが作成されました"]
+image:redhat_openshift_OADP_install_image11.png["DataProtectionApplicationオブジェクトが作成されました"]
 
 OADPオペレータが対応するBackupStorageLocationを作成します。これはバックアップの作成時に使用されます。
 
-image:redhat_openshift_OADP_install_image12.jpg["BackupStorageLocationが作成されました"]
+image:redhat_openshift_OADP_install_image12.png["BackupStorageLocationが作成されました"]

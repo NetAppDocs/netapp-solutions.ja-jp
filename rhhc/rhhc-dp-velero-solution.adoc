@@ -26,11 +26,11 @@ summary: NetApp ONTAPを使用したRed Hat OpenShiftコンテナアプリケー
 
 OADPを使用すると、OpenShiftクラスタ上のアプリケーションのバックアップ、リストア、ディザスタリカバリを実行できます。OADPで保護できるデータには、Kubernetesリソースオブジェクト、永続ボリューム、内部イメージなどがあります。
 
-image:redhat_openshift_OADP_image1.jpg["データ保護のためのOpenShift API"]
+image:redhat_openshift_OADP_image1.png["データ保護のためのOpenShift API"]
 
 Red Hat OpenShiftは、OpenSourceコミュニティが開発したソリューションをデータ保護に活用しています。link:https://velero.io/["ベレロカプセル"]は、安全なバックアップとリストア、ディザスタリカバリの実行、Kubernetesクラスタリソースと永続ボリュームの移行を行うためのオープンソースツールです。Veleroを簡単に使用するために、OpenShiftはCSIストレージドライバーと統合するためのOADPオペレーターとVeleroプラグインを開発しました。公開されるOADP APIのコアは、Velero APIに基づいています。OADPオペレータをインストールして設定すると、Velero APIで公開されている操作に基づいて実行できるバックアップ/リストア操作が実行されます。
 
-image:redhat_openshift_OADP_image2.jpg["データ保護のためのOpenShift API"]
+image:redhat_openshift_OADP_image2.png["データ保護のためのOpenShift API"]
 
 OADP 1.3は、OpenShiftクラスタ4.12以降のOperator Hubから利用できます。CSIボリュームのスナップショットをリモートオブジェクトストアに移動できるData Moverが組み込まれています。これにより、バックアップ時にSnapshotをオブジェクトストレージの場所に移動することで、データのモビリティと保持性が向上します。作成したSnapshotは、災害後のリストアに使用できます。
 

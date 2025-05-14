@@ -27,7 +27,7 @@ summary: NetApp ONTAP を使用した Red Hat OpenShift Virtualization
 ====
 作成したバックアップからリストアするには、Restore Custom Resource（CR）を作成する必要があります。名前とリストア元のバックアップの名前を指定し、restorePVをtrueに設定する必要があります。に示すように、追加のパラメータを設定できます link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/restoring-applications.html["ドキュメント"]。[作成]ボタンをクリックします。
 
-image:redhat_openshift_OADP_restore_image1.jpg["リストアCRの作成"]
+image:redhat_openshift_OADP_restore_image1.png["リストアCRの作成"]
 
 ....
 apiVersion: velero.io/v1
@@ -41,7 +41,7 @@ spec:
 ....
 フェーズが完了と表示されると、仮想マシンがスナップショット作成時の状態にリストアされたことがわかります。（VMの実行中にバックアップが作成された場合、バックアップからVMをリストアすると、リストアされたVMが起動して実行状態になります）。VMが同じネームスペースにリストアされます。
 
-image:redhat_openshift_OADP_restore_image2.jpg["リストア完了"]
+image:redhat_openshift_OADP_restore_image2.png["リストア完了"]
 
 ====
 .別のネームスペースへのリストア
@@ -67,7 +67,7 @@ spec:
 ....
 フェーズが完了と表示されると、仮想マシンがスナップショット作成時の状態にリストアされたことがわかります。（VMの実行中にバックアップが作成された場合、バックアップからVMをリストアすると、リストアされたVMが起動して実行状態になります）。YAMLで指定された別のネームスペースにVMがリストアされます。
 
-image:redhat_openshift_OADP_restore_image3.jpg["新しいネームスペースへのリストアが完了しました"]
+image:redhat_openshift_OADP_restore_image3.png["新しいネームスペースへのリストアが完了しました"]
 
 ====
 .別のストレージクラスへのリストア
@@ -77,9 +77,9 @@ Veleroには、JSONパッチを指定してリストア時にリソースを変�
 
 次の例では、仮想マシンの作成時にONTAP-NASをディスクのストレージクラスとして使用しています。backup1という名前の仮想マシンのバックアップが作成されます。
 
-image:redhat_openshift_OADP_restore_image4.jpg["ONTAP-NASを使用するVM"]
+image:redhat_openshift_OADP_restore_image4.png["ONTAP-NASを使用するVM"]
 
-image:redhat_openshift_OADP_restore_image5.jpg["VMバックアップONTAP-NAS"]
+image:redhat_openshift_OADP_restore_image5.png["VMバックアップONTAP-NAS"]
 
 VMを削除して、VMの損失をシミュレートします。
 
@@ -102,11 +102,11 @@ version: v1
         path: "/spec/storageClassName"
         value: "ontap-nas-eco"
 ....
-image:redhat_openshift_OADP_restore_image6.jpg["構成マップUI"]
+image:redhat_openshift_OADP_restore_image6.png["構成マップUI"]
 
 設定マップオブジェクトは次のようになります（CLI）。
 
-image:redhat_openshift_OADP_restore_image7.jpg["設定マップCLIセッテイマップCLI"]
+image:redhat_openshift_OADP_restore_image7.png["設定マップCLIセッテイマップCLI"]
 
 この設定マップは、リストアの作成時にリソース修飾子ルールを適用します。RHELで始まるすべての永続ボリューム要求に対して、ストレージクラス名をontap-nas-ecoに置き換えるパッチを適用します。
 
@@ -119,6 +119,6 @@ VMをリストアするには、Velero CLIから次のコマンドを使用し�
 ....
 VMが、ストレージクラスontap-nas-ecoを使用して作成されたディスクと同じネームスペースにリストアされます。
 
-image:redhat_openshift_OADP_restore_image8.jpg["VMリストアontap-nas-eco"]
+image:redhat_openshift_OADP_restore_image8.png["VMリストアontap-nas-eco"]
 
 ====
