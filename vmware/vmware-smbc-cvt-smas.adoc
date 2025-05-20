@@ -1,0 +1,92 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware-smbc-cvt-smas.html 
+keywords: NetApp Solutions, vMSC, Metro Storage Cluster, SnapMirror active sync, Business Continuity, SMBC, ONTAP Tools, AFD, SCV, iSCSI, backup, restore 
+summary:  
+---
+= VMware vSphere Metro Storage Clusterを使用して、SMのアクティブ同期を非対称から対称アクティブ/アクティブに変換
+:allow-uri-read: 
+
+
+link:https://docs.netapp.com/us-en/ontap/snapmirror-active-sync/["NetApp SnapMirrorアクティブ同期（SMアクティブ同期）"]は、仮想環境で目標復旧時間（RTO）ゼロと目標復旧時点（RPO）ゼロを達成するための堅牢なソリューションです。link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware_vmsc_overview.html["VMware vSphere Metro Storage Cluster （ vMSC ）"]は、複数のフォールトドメインにまたがるクラスタソリューションです。地理的に離れた2つのサイトに仮想マシン（VM）を分散できるため、1つのサイトで障害が発生した場合でも継続的な可用性が実現します。vMSCとSMアクティブ同期を組み合わせることで、2つのサイト間のデータの整合性と即時フェイルオーバー機能が確保されます。この設定は、データ損失やダウンタイムが許容できないミッションクリティカルなアプリケーションで特に重要です。
+
+SMアクティブ同期は、以前はSnapMirrorビジネス継続性（SMBC）と呼ばれていました。これにより、サイト全体に障害が発生してもビジネスサービスの運用を継続でき、アプリケーションがセカンダリコピーを使用して透過的にフェイルオーバーできるようになります。ONTAP 9.15.1以降では、SMアクティブ同期で対称アクティブ/アクティブ機能がサポートされます。対称アクティブ/アクティブを使用すると、保護されたLUNの両方のコピーからの読み取りおよび書き込みI/O処理が双方向同期レプリケーションによって可能になり、両方のLUNコピーがローカルでI/O処理に対応できるようになります。このドキュメントでは、VMwareストレッチクラスタ環境でSMアクティブ同期非対称アクティブ/アクティブをSMアクティブ同期対称アクティブ/アクティブに変換する手順について説明します。つまり、SMアクティブ同期を自動フェイルオーバーポリシーから自動フェイルオーバーデュプレックスポリシーに変換します。System ManagerおよびONTAPツールを使用して、SnapMirrorアクティブ同期（SM-AS）でvMSCをセットアップする方法の詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/netapp-solutions/vmware/vmware-vmsc-with-smas.html["SnapMirrorアクティブ同期を使用したVMware vSphere Metroストレージクラスタ"]。
+
+
+
+== 前提条件
+
+* NetAppストレージシステム：SnapMirrorライセンスが設定された2つのNetAppストレージクラスタ（ソースとデスティネーション）があることを確認します。
+* ネットワーク接続：ソースシステムとデスティネーションシステム間の低レイテンシのネットワーク接続を確認します。
+* クラスタとSVMのピアリング：ソースクラスタとデスティネーションクラスタの間にクラスタピアリングとStorage Virtual Machine（SVM）ピアリングを設定します。
+* ONTAPバージョン：両方のクラスタで同期レプリケーションをサポートするバージョンのONTAPが実行されていることを確認します。SMアクティブ同期には、ONTAP 9.15.1以降が必要です。
+* VMware vMSCインフラ：拡張されたクラスタを使用すると、サブシステムを複数の地域にまたがることができ、両方のサイトのvSphereクラスタにリソースの単一の共通の基本インフラセットが提供されます。サイト間でネットワークとストレージを拡張します。
+* ONTAPツール10.2以降を使用してNetApp SnapMirrorを使いやすくします。詳細はこちらをご覧ください。link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/release-notes/ontap-tools-9-ontap-tools-10-feature-comparison.html["VMware vSphere 10向けONTAPツール"]
+* プライマリクラスタとセカンダリクラスタの間に、RPOゼロのSnapMirror同期関係が存在している必要があります。
+* RTOゼロのSnapMirror関係を作成するには、デスティネーションボリューム上のすべてのLUNのマッピングを解除する必要があります。
+* SnapMirrorアクティブ同期でサポートされるのはSANプロトコルのみです（NFS / CIFSはサポートされません）。整合性グループのコンスティチュエントがNASアクセス用にマウントされていないことを確認します。
+
+
+
+
+== 非対称から対称SMアクティブ同期への変換手順
+
+次の例では、selectrz1がプライマリサイトで、selectrz2がセカンダリサイトです。
+
+. セカンダリサイトで、既存の関係に対してSnapMirror更新を実行します。
++
+....
+selectrz2::> snapmirror update -destination-path site2:/cg/CGsite1_dest
+....
+. SnapMirrorの更新が正常に完了したことを確認します。
++
+....
+selectrz2::> snapmirror show
+....
+. RPOゼロの各同期関係を一時停止します。
++
+....
+ selectrz2::> snapmirror quiesce -destination-path site2:/cg/CGsite1_dest
+....
+. RPOゼロの各同期関係を削除します。
++
+....
+selectrz2::> snapmirror delete -destination-path site2:/cg/CGsite1_dest
+....
+. ソースのSnapMirror関係を解放しますが、共通のSnapshotは保持します。
++
+....
+selectrz1::> snapmirror release -relationship-info-only  true -destination-path svm0.1:/cg/CGsite1_dest                                           ".
+....
+. AutomatedFailoverDuplexポリシーを使用して、RTOゼロのSnapMirror同期関係を作成します。
++
+....
+selectrz2::> snapmirror create -source-path svm0.1:/cg/CGsite1 -destination-path site2:/cg/CGsite1_dest -cg-item-mappings site1lun1:@site1lun1_dest -policy AutomatedFailOverDuplex
+....
+. 既存のホストがローカルのプライマリクラスタの場合は、ホストをセカンダリクラスタに追加し、各クラスタへのそれぞれのアクセスとの接続を確立します。
+. セカンダリサイトで、リモートホストに関連付けられたigroupのLUNマップを削除します。
++
+....
+selectrz2::> lun mapping delete -vserver svm0 -igroup wlkd01 -path  /vol/wkld01/wkld01
+....
+. プライマリサイトで、既存のホストのイニシエータ設定を変更して、ローカルクラスタのイニシエータの近接パスを設定します。
++
+....
+selectrz1::> set -privilege advanced
+selectrz1::*> igroup initiator add-proximal-vserver -vserver site1  -initiator iqn.1998-01.com.vmware:vcf-wkld-esx01.sddc.netapp.com:575556728:67 -proximal-vserver site1
+....
+. 新しいホスト用の新しいigroupとイニシエータを追加し、ホストとローカルサイトのアフィニティを設定します。igroupレプリケーションを有効にして設定をレプリケートし、リモートクラスタのホストローカル性を反転します。
++
+....
+selectrz1::*> igroup modify -vserver site1  -igroup smbc2smas -replication-peer svm0.1
+selectrz1::*> igroup initiator add-proximal-vserver -vserver site1 -initiator iqn.1998-01.com.vmware:vcf-wkld-esx01.sddc.netapp.com:575556728:67 -proximal-vserver svm0.1
+....
+. ホスト上のパスを検出し、優先クラスタのストレージLUNへのアクティブ/最適化パスがホストにあることを確認します。
+. アプリケーションを導入し、VMワークロードをクラスタ間に分散します。
+. 整合グループを再同期します。
++
+....
+selectrz2::> snapmirror resync -destination-path site2:/cg/CGsite1_dest
+....
+. ホストのLUN I/Oパスを再スキャンして、LUNへのすべてのパスをリストアします。
+
