@@ -20,7 +20,7 @@ SnapCenter ハイブリッドクラウドデータベースワークロード環
 
 == SnapCenter のインストールと設定
 
-NetApp SnapCenter ツールは Windows ベースのアプリケーションで、通常は Windows ドメイン環境で実行されますが、ワークグループ導入も可能です。これは、集中管理サーバー（ SnapCenter サーバー）とデータベースワークロード用のデータベースサーバーホスト上の SnapCenter プラグインを含む多層アーキテクチャに基づいています。ここでは、ハイブリッドクラウドの導入に関する主な考慮事項をいくつか示します。
+NetApp SnapCenter ツールは Windows ベースのアプリケーションで、通常は Windows ドメイン環境で実行されますが、ワークグループ導入も可能です。これは、集中管理サーバー (SnapCenter サーバー) と、データベース ワークロード用のデータベース サーバー ホスト上の SnapCenter プラグインを含む多層アーキテクチャに基づいています。ここでは、ハイブリッドクラウドの導入に関する主な考慮事項をいくつか示します。
 
 * *シングルインスタンスまたはHA構成*HA構成では、単一のSnapCenterインスタンスサーバに障害が発生した場合に冗長性が確保されます。
 * *名前解決。*フォワードルックアップとリバースルックアップのためにすべてのデータベースホストおよびストレージSVMでDNSが解決されるように、SnapCenterサーバでDNSが設定されている必要があります。フォワードルックアップとリバースルックアップの両方で SnapCenter サーバとストレージ SVM を解決するためには、データベースサーバで DNS も設定する必要があります。
@@ -30,7 +30,7 @@ NetApp SnapCenter ツールは Windows ベースのアプリケーションで�
 * *オンプレミスとパブリッククラウド間のSnapMirrorトラフィックを許可するには、ポートが開いている必要があります。*SnapCenterサーバは、ONTAP SnapMirrorを使用して、オンサイトのSnapshotバックアップをクラウドCVOストレージSVMにレプリケートします。
 
 
-インストール前の計画と検討を慎重に行った後、このボタンをクリックすると、link:https://docs.netapp.com/us-en/snapcenter/install/install_workflow.html["SnapCenter の設置ワークフロー"^]SnapCenterのインストールと設定の詳細が表示されます。
+インストール前の計画と検討を慎重に行った後、このボタンをクリックすると、link:https://docs.netapp.com/us-en/snapcenter/install/requirements-to-install-snapcenter-server.html["SnapCenter インストールの前提条件"^]SnapCenterのインストールと設定の詳細が表示されます。
 
 
 
@@ -69,7 +69,7 @@ Oracle データベースの再配置を容易にするには、通常のバッ�
 
 SnapCenter は、ネットアップが提供するライセンスソフトウェアです。これは通常、オンプレミスの ONTAP ライセンスに含まれています。ただし、ハイブリッドクラウドの導入の場合は、 SnapCenter に CVO をターゲットデータレプリケーションのデスティネーションとして追加するために、 SnapCenter のクラウドライセンスも必要です。詳細については、次のリンク先で SnapCenter の標準容量ベースのライセンスを確認してください。
 
-link:https://docs.netapp.com/us-en/snapcenter/install/concept_snapcenter_licenses.html["SnapCenter の容量単位の標準ライセンスです"^]
+link:https://docs.netapp.com/us-en/snapcenter/install/concept_snapcenter_standard_controller_based_licenses.html["SnapCenter の容量単位の標準ライセンスです"^]
 
 
 

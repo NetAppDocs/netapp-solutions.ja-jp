@@ -43,7 +43,7 @@ Amazon FSx ONTAPは、AWSにSQL Serverを導入するための理想的なファ
 * メジャーリリースまたはパッチの更新後にルート原因 を検出することで、MTTRを短縮できます
 
 
-一般的にオンプレミスで使用されているように、FSX ONTAP にSQL Serverデータベースを導入すると、優れたパフォーマンス、ストレージ効率、データ管理機能を備えた理想的なデータベースストレージ環境が実現します。ワークセットサイズが5%であると仮定して複数のiSCSIセッションを使用した場合、Flash Cacheを配置すると、FSX ONTAP サービスでは10万IOPSを超えることがあります。この構成では、非常に要件の厳しいアプリケーションのパフォーマンスを完全に制御できます。FSx ONTAPに接続された小規模なEC2インスタンスで実行されるSQL Serverは、はるかに大規模なEC2インスタンスで実行されるSQL Serverと同じパフォーマンスを発揮します。これは、FSx ONTAPにはネットワーク帯域幅の制限のみが適用されるためです。インスタンスのサイズを縮小することでコンピューティングコストも削減され、TCOを最適化して導入できます。iSCSIを使用するSQLと、FSx ONTAP上のマルチチャネルの継続的可用性共有を組み合わせたSMB3.0は、SQLワークロードに大きなメリットをもたらします。
+一般的にオンプレミスで使用されているように、FSX ONTAP にSQL Serverデータベースを導入すると、優れたパフォーマンス、ストレージ効率、データ管理機能を備えた理想的なデータベースストレージ環境が実現します。ワークセットサイズが5%であると仮定して複数のiSCSIセッションを使用した場合、Flash Cacheを配置すると、FSX ONTAP サービスでは10万IOPSを超えることがあります。この構成では、非常に要件の厳しいアプリケーションのパフォーマンスを完全に制御できます。FSx ONTAPに接続された小規模なEC2インスタンスで実行されるSQL Serverは、はるかに大規模なEC2インスタンスで実行されるSQL Serverと同じパフォーマンスを発揮します。これは、FSx ONTAPにはネットワーク帯域幅の制限のみが適用されるためです。インスタンスのサイズを縮小するとコンピューティング コストも削減され、TCO が最適化された展開が実現します。iSCSIを使用するSQLと、FSx ONTAP上のマルチチャネルの継続的可用性共有を組み合わせたSMB3.0は、SQLワークロードに大きなメリットをもたらします。
 
 
 
@@ -338,7 +338,7 @@ NetApp SnapCenter は、ティア1エンタープライズアプリケーショ�
 
 
 |===
-詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/snapcenter/install/reference_space_and_sizing_requirements.html["スペースとサイジングの要件"]。
+詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/snapcenter/protect-scsql/task_install_snapcenter_plug_in_for_microsoft_sql_server_database.html["スペースとサイジングの要件"]。
 
 バージョンの互換性については、を参照してください https://mysupport.netapp.com/matrix/["NetApp Interoperability Matrix Tool"^]。
 

@@ -32,7 +32,7 @@ image:dr-vmc-aws-image1.png["入力/出力ダイアログを示す図、また�
 
 この解決策 を導入する前に、コンポーネントの概要、解決策 を導入するための前提条件、およびこの解決策 のドキュメント化に記載した前提条件を確認してください。
 
-link:aws-guest-dr-solution-prereqs.html["DR解決策 の要件、事前要件、計画"]
+link:aws-guest-dr-solution-prereqs.html["DRソリューションの要件、前提条件、および計画"]
 
 
 
@@ -222,7 +222,7 @@ FSx-Dest::> snapmirror initialize -destination-path DestSVM:DestVol
 ====
 この解決策 では、NetApp SnapCenter を使用して、アプリケーションと整合性のあるSQL Serverデータベースのバックアップを作成します。仮想マシンのVMDKをバックアップするVeeam Backup & Replicationと併用することで、オンプレミスのデータセンターとクラウドベースのデータセンター向けに包括的なディザスタリカバリ解決策 を実現できます。
 
-SnapCenter ソフトウェアはNetApp Support Siteから入手でき、ドメインまたはワークグループ内にあるMicrosoft Windowsシステムにインストールできます。詳細な計画ガイドとインストール手順については、を参照し https://docs.netapp.com/us-en/snapcenter/install/install_workflow.html["ネットアップドキュメントセンター"^]てください。
+SnapCenter ソフトウェアはNetApp Support Siteから入手でき、ドメインまたはワークグループ内にあるMicrosoft Windowsシステムにインストールできます。詳細な計画ガイドとインストール手順については、を参照し https://docs.netapp.com/us-en/snapcenter/install/requirements-to-install-snapcenter-server.html["ネットアップドキュメントセンター"^]てください。
 
 SnapCenterソフトウェアは、から入手できます https://mysupport.netapp.com["リンクをクリックしてください"^]。
 
@@ -430,7 +430,7 @@ Veeamを設定する最後の手順は、新しく作成したバックアップ
 ====
 SnapCenter サーバは、VMware Cloud SDDCに導入するか、VPC内のEC2インスタンスにインストールし、VMware Cloud環境にネットワーク接続します。
 
-SnapCenter ソフトウェアはNetApp Support Siteから入手でき、ドメインまたはワークグループ内にあるMicrosoft Windowsシステムにインストールできます。詳細な計画ガイドとインストール手順については、を参照し https://docs.netapp.com/us-en/snapcenter/install/install_workflow.html["ネットアップドキュメントセンター"^]てください。
+SnapCenter ソフトウェアはNetApp Support Siteから入手でき、ドメインまたはワークグループ内にあるMicrosoft Windowsシステムにインストールできます。詳細な計画ガイドとインストール手順については、を参照し https://docs.netapp.com/us-en/snapcenter/install/requirements-to-install-snapcenter-server.html["ネットアップドキュメントセンター"^]てください。
 
 SnapCenterソフトウェアは、から入手でき https://mysupport.netapp.com["リンクをクリックしてください"^]ます。
 
@@ -476,7 +476,7 @@ Veeamを使用したVMのリストアの詳細については、セクション�
 
 === ディザスタリカバリに備えたSnapCenter データベースバックアップ
 
-SnapCenter を使用すると、災害発生時にSnapCenter サーバをリカバリできるように、基盤となるMySQLデータベースおよび設定データのバックアップとリカバリを行うことができます。解決策 では、VPC内のAWS EC2インスタンスでSnapCenter データベースと設定をリカバリしました。SnapCenterのディザスタリカバリの詳細については、を参照してください https://docs.netapp.com/us-en/snapcenter/concept/concept_disaster_recovery.html["リンクをクリックしてください"^]。
+SnapCenter を使用すると、災害発生時にSnapCenter サーバをリカバリできるように、基盤となるMySQLデータベースおよび設定データのバックアップとリカバリを行うことができます。解決策 では、VPC内のAWS EC2インスタンスでSnapCenter データベースと設定をリカバリしました。SnapCenterのディザスタリカバリの詳細については、を参照してください https://docs.netapp.com/us-en/snapcenter/index.html["リンクをクリックしてください"^]。
 
 .SnapCenter バックアップの前提条件
 [%collapsible%open]
@@ -509,7 +509,7 @@ SnapCenter バックアップを実行するには、次の前提条件が必要
 .SnapCenter データベースと設定をバックアップします
 [%collapsible%open]
 ====
-SnapCenter は、REST APIコマンドを実行するためのWebクライアントインターフェイスを提供します。Swaggerを使用したREST APIへのアクセスについては、SnapCenterのドキュメントを参照してください https://docs.netapp.com/us-en/snapcenter/concept/concept_snapcenter_rest_apis.html["リンクをクリックしてください"^]。
+SnapCenter は、REST APIコマンドを実行するためのWebクライアントインターフェイスを提供します。Swaggerを使用したREST APIへのアクセスについては、SnapCenterのドキュメントを参照してください https://docs.netapp.com/us-en/snapcenter/sc-automation/overview_rest_apis.html["リンクをクリックしてください"^]。
 
 .Swaggerにログインし、認証トークンを取得します
 [%collapsible%open]

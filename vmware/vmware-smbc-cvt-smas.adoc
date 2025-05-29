@@ -5,12 +5,30 @@ keywords: NetApp Solutions, vMSC, Metro Storage Cluster, SnapMirror active sync,
 summary:  
 ---
 = VMware vSphere Metro Storage Clusterを使用して、SMのアクティブ同期を非対称から対称アクティブ/アクティブに変換
+:hardbreaks:
 :allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
 
 
-link:https://docs.netapp.com/us-en/ontap/snapmirror-active-sync/["NetApp SnapMirrorアクティブ同期（SMアクティブ同期）"]は、仮想環境で目標復旧時間（RTO）ゼロと目標復旧時点（RPO）ゼロを達成するための堅牢なソリューションです。link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware_vmsc_overview.html["VMware vSphere Metro Storage Cluster （ vMSC ）"]は、複数のフォールトドメインにまたがるクラスタソリューションです。地理的に離れた2つのサイトに仮想マシン（VM）を分散できるため、1つのサイトで障害が発生した場合でも継続的な可用性が実現します。vMSCとSMアクティブ同期を組み合わせることで、2つのサイト間のデータの整合性と即時フェイルオーバー機能が確保されます。この設定は、データ損失やダウンタイムが許容できないミッションクリティカルなアプリケーションで特に重要です。
+[role="lead"]
+この記事では、VMware vSphere Metro Storage Cluster (VMSC) を使用して、SnapMirror アクティブ同期を非対称から対称アクティブ/アクティブに変換する方法について詳しく説明します。
 
-SMアクティブ同期は、以前はSnapMirrorビジネス継続性（SMBC）と呼ばれていました。これにより、サイト全体に障害が発生してもビジネスサービスの運用を継続でき、アプリケーションがセカンダリコピーを使用して透過的にフェイルオーバーできるようになります。ONTAP 9.15.1以降では、SMアクティブ同期で対称アクティブ/アクティブ機能がサポートされます。対称アクティブ/アクティブを使用すると、保護されたLUNの両方のコピーからの読み取りおよび書き込みI/O処理が双方向同期レプリケーションによって可能になり、両方のLUNコピーがローカルでI/O処理に対応できるようになります。このドキュメントでは、VMwareストレッチクラスタ環境でSMアクティブ同期非対称アクティブ/アクティブをSMアクティブ同期対称アクティブ/アクティブに変換する手順について説明します。つまり、SMアクティブ同期を自動フェイルオーバーポリシーから自動フェイルオーバーデュプレックスポリシーに変換します。System ManagerおよびONTAPツールを使用して、SnapMirrorアクティブ同期（SM-AS）でvMSCをセットアップする方法の詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/netapp-solutions/vmware/vmware-vmsc-with-smas.html["SnapMirrorアクティブ同期を使用したVMware vSphere Metroストレージクラスタ"]。
+
+
+== 概要
+
+link:https://docs.netapp.com/us-en/ontap/snapmirror-active-sync/["NetApp SnapMirrorアクティブ同期（SMアクティブ同期）"]は、仮想環境で目標復旧時間（RTO）ゼロと目標復旧時点（RPO）ゼロを達成するための堅牢なソリューションです。
+
+link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware_vmsc_overview.html["VMware vSphere Metro Storage Cluster （ vMSC ）"]は、複数のフォールトドメインにまたがるクラスタソリューションです。地理的に離れた2つのサイトに仮想マシン（VM）を分散できるため、1つのサイトで障害が発生した場合でも継続的な可用性が実現します。
+
+vMSCとSMアクティブ同期を組み合わせることで、2つのサイト間のデータの整合性と即時フェイルオーバー機能が確保されます。この設定は、データ損失やダウンタイムが許容できないミッションクリティカルなアプリケーションで特に重要です。
+
+SMアクティブ同期は、以前はSnapMirrorビジネス継続性（SMBC）と呼ばれていました。これにより、サイト全体に障害が発生してもビジネスサービスの運用を継続でき、アプリケーションがセカンダリコピーを使用して透過的にフェイルオーバーできるようになります。ONTAP 9.15.1以降では、SMアクティブ同期で対称アクティブ/アクティブ機能がサポートされます。対称アクティブ/アクティブを使用すると、保護されたLUNの両方のコピーからの読み取りおよび書き込みI/O処理が双方向同期レプリケーションによって可能になり、両方のLUNコピーがローカルでI/O処理に対応できるようになります。
+
+このドキュメントでは、VMwareストレッチクラスタ環境でSMアクティブ同期非対称アクティブ/アクティブをSMアクティブ同期対称アクティブ/アクティブに変換する手順について説明します。つまり、SMアクティブ同期を自動フェイルオーバーポリシーから自動フェイルオーバーデュプレックスポリシーに変換します。System ManagerおよびONTAPツールを使用して、SnapMirrorアクティブ同期（SM-AS）でvMSCをセットアップする方法の詳細については、を参照してくださいlink:https://docs.netapp.com/us-en/netapp-solutions/vmware/vmware-vmsc-with-smas.html["SnapMirrorアクティブ同期を使用したVMware vSphere Metroストレージクラスタ"]。
 
 
 
