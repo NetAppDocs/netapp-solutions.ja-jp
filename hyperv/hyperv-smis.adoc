@@ -73,7 +73,8 @@ SMI-Sプロバイダの導入を開始する前に、
 
 . NetAppダウンロードサイトからSMI-Sを入手し、サポートされているバージョンのWindowsサーバにインストールします。
 . SMI-Sサーバが実行されていることを確認します。image:hyperv-smis-image3.png["SMI-Sサーバが実行されていることを確認します。"]
-. NetAppストレージシステムを追加するには、Storage Virtual Machine（SVM）の管理IPアドレスのホスト名とvsadminユーザのクレデンシャルを確認してください。image:hyperv-smis-image4.png["SVMの登録"]
+. CIM サーバー ユーザーを追加します。この SIM ユーザーは Windows SMIS サーバーの管理者権限を持っている必要があり、このユーザーを使用して SCVMM に登録する必要があります。 image:hyperv-smis-image13.png["CIMユーザーの追加"]
+. NetAppストレージシステムを追加するには、ストレージ仮想マシン（SVM）のホスト名または管理IPアドレスと、vsadminユーザーの認証情報が必要です。注：SMI-SはSVM管理IPアドレスをサポートしておらず、ホスト名のみをサポートしています。 image:hyperv-smis-image4.png["SVMの登録"]
 
 
 

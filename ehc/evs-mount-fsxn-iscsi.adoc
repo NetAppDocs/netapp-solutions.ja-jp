@@ -1,0 +1,232 @@
+---
+sidebar: sidebar 
+permalink: ehc/evs-mount-fsxn-iscsi.html 
+keywords: Amazon, AWS, EVS, Elastic VMware Service, ONTAP, FSx, iscsi 
+summary: このセクションでは、FSx for ONTAP を使用して iSCSI データストアを構成する手順について説明します。 
+---
+= FSx for ONTAP を iSCSI データストアとして使用するための導入手順
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+このセクションでは、FSx for ONTAP を使用して iSCSI データストアを構成する手順について説明します。
+
+
+
+== 前提条件
+
+FSx for ONTAP を iSCSI データストアとしてプロビジョニングおよびアタッチする前に、まず Amazon EVS 仮想化環境をデプロイする必要があります。詳細については、「Amazon EVS 入門ガイド」のドキュメントをご覧ください。このセクションでは、FSx for ONTAP ファイルシステムがデプロイ済みであることを前提としています。適切な手順については、上記の「詳細なアプローチ」セクションをご覧ください。
+
+
+
+== 大まかな展開手順
+
+Amazon EVS の iSCSI データストアとして使用するために FSx for ONTAP ファイルシステムをデプロイし、2 つのサービス間の接続を確立するには、次の手順を実行します。
+
+* 各 ESXi ホストに iSCSI ネットワーク アダプタを設定します。
+* FSx for ONTAP ファイル システム、ボリューム、LUN などの作成と構成。
+* ESXi ホストを FSx for ONTAP ファイル システム サーバーに接続します。
+* iSCSI データストア仮想マシン ファイル システム (VMFS) を作成します。
+
+
+
+
+== iSCSIネットワークアダプタを追加する
+
+環境内の各 ESXi ホストで次の手順を実行する必要があります。
+
+. vSphereクライアントを起動し、ESXiホストを選択します。「構成」タブで「ソフトウェアアダプタの追加」を選択し、ドロップダウンメニューから「iSCSIアダプタの追加」を選択します（下図参照）。
++
+image:evs-mount-fsxn-25.png["上記の手順のダイアログを表す図"]
+
+. インストールが完了すると、「ストレージアダプタ」画面が表示されます。メニューバーから「アダプタの再スキャン」を選択します。iSCSIアダプタのIQN（iqn.xxxx）を記録してください。この値は、後ほどLUNマッピングの手順で使用します。
++
+image:evs-mount-fsxn-26.png["上記の手順のダイアログを表す図"]
+
+
+
+
+
+== FSx for ONTAPボリュームの作成
+
+. AWS コンソールに移動し、FSx for ONTAP ファイルシステムのページにアクセスして、「ボリュームの作成」をクリックします。
++
+image:evs-mount-fsxn-27.png["上記の手順のダイアログを表す図"]
+
+. ボリュームを作成する SVM を選択します。
++
+image:evs-mount-fsxn-28.png["上記の手順のダイアログを表す図"]
+
+. 「ボリュームの詳細」ページで、以下のスクリーンショットに示すように詳細を入力します。完了したら、「作成」をクリックしてボリュームを設定します。「有効」を選択して、ONTAPストレージ効率化機能（圧縮、重複排除、コンパクション）を有効にします。
++
+image:evs-mount-fsxn-29.png["上記の手順のダイアログを表す図"]
+
+. ストレージ階層化オプションでは、ドロップダウンメニューから「スナップショットのみ」を選択し、階層化ポリシーの冷却期間を設定します。デフォルトは31日間ですが、この例では2日間の冷却期間を設定しています。
++
+image:evs-mount-fsxn-30.png["上記の手順のダイアログを表す図"]
+
+. ボリュームが作成されたら、ONTAP CLI を使用して次の値を設定します。
++
+[cols="50%, 50%"]
+|===
+| *設定* | * コンフィグレーション * 
+
+
+| ボリュームギャランティ | なし（シンプロビジョニング） 
+
+
+| fractional_reserve | 0% 
+
+
+| スナップリザーブ | 0% 
+
+
+| オートサイズ | grow_shrink 
+
+
+| Storage Efficiency | 有効 
+
+
+| ボリューム階層化ポリシー | Snapshotのみ 
+
+
+| アクセス時間の更新（ -atime-update ） | 正しくない 
+
+
+| 最小限の先読み（ -min-readahead ） | 正しくない 
+
+
+| Snapshotポリシー | なし 
+
+
+| LUN のスペースリザベーション | 無効 
+
+
+| LUN スペースの割り当て | 有効 
+|===
+
+
+
+
+== LUN、igroup、およびLUNのマッピングを作成する
+
+このセクションでは、vSphere でディスクとして表示される LUN を作成する方法を説明します。また、LUN にアクセスできるイニシエータのリストであるイニシエータグループ (igroup) の作成方法も説明します。igroupは、vSphere ESXi ホストから LUN へのアクセスを許可します。最後に、igroup を LUN にマッピングする方法を説明します。
+
+. ONTAP CLI にアクセスするには、次のコマンドを実行して、FSx for ONTAP ファイルシステムまたは SVM の管理ポートで SSH セッションを確立します。
++
+....
+[~]$ ssh fsxadmin@management_endpoint_ip
+....
+. LUNを作成スペース割り当てとスペース予約は必ず有効にしてください。サイズはボリュームサイズの最大90%にする必要があります。
++
+....
+Fsxid::> lun create -vserver fsx -path /vol/DemoDS02/lun_name -size 1.8T -ostype vmware -space-allocation enabled -space-reservation disabled
+....
+. igroup を作成し、クラスタ内のすべての ESXi ホストの IQN を追加します。
++
+....
+Fsxid::> lun igroup create -vserver fsx -igroup evs1 -protocol iscsi -ostype vmware -initiator iqn.1998-01.com.vmware:esxi01.evs.local:1060882244:64,iqn.1998-01.com.vmware:esxi02.evs.local:1911302492:64,iqn.1998-01.com.vmware:esxi03.evs.local:2069609753:64,iqn.1998-01.com.vmware:esxi04.evs.local:1165297648:64
+....
+. 次のコードを使用して LUN をマップします。
++
+....
+Fsxid::> lun mapping create -vserver fsx -path /vol/DemoDS02/lun1 -igroup evs1 -lun-id 2
+....
+. LUN マッピングを確認し、状態が「マップ済み」に変更されていることを確認します。これは、LUN がマップ済み状態であることを確認するために必要な二重チェックです。
++
+....
+Fsxid::> lun show
+Vserver   Path                            State   Mapped   Type        Size
+--------- ------------------------------- ------- -------- -------- --------
+fsx       /vol/DemoDS02/lun1              online  mapped   vmware     1.80TB
+....
+
+
+
+
+== SVMからiSCSI構成情報を取得する
+
+. iSCSI show を実行し、ターゲット名を記録します。これは、FSx for ONTAP ディスクの vSphere 検出で使用されます（注: このターゲット名は SVM ごとに異なります）。
++
+....
+Fsxid::> iscsi show -vserver fsx
+                 Vserver: fsx
+             Target Name: iqn.1992-08.com.netapp:sn.c083e374f1b711ef9d9f8123a3ebcf46:vs.3
+            Target Alias: fsx
+   Administrative Status: up
+....
+. iSCSI IP アドレスを記録します。
++
+....
+Fsxid::> network interface show -vserver fsx -data-protocol iscsi -fields address
+vserver lif       address
+------- -------   -----------
+fsx     iscsi_1   10.0.10.134
+fsx     iscsi_2   10.0.10.227
+....
+
+
+
+
+== FSx for ONTAP iSCSIサーバの検出
+
+LUN がマッピングされたので、SVM の FSx for ONTAP iSCSI サーバーを検出できます。SDDC内に存在する各 ESXi ホストごとに、ここに記載されている手順を繰り返す必要があることに注意してください。
+
+. まず、FSx for ONTAP ファイル システムにリンクされているセキュリティ グループ (つまり、ENI に接続されているセキュリティ グループ) が iSCSI ポートを許可していることを確認します。
++
+iSCSIプロトコルポートの完全なリストとその適用方法については、以下を参照してください。 link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/limit-access-security-groups.html["Amazon VPCによるファイルシステムアクセス制御"] 。
+
+. vSphere Client で、ESXi ホスト > ストレージ アダプタ > 静的検出に移動し、「追加」をクリックします。
+. 上記からiSCSIサーバーのIPアドレス（ポートは3260）を入力してください。iSCSIターゲット名は、iSCSI showコマンドで取得したIQNです。「OK」をクリックして続行してください。
++
+image:evs-mount-fsxn-31.png["上記の手順のダイアログを表す図"]
+
+. ウィザードが閉じ、データストアの静的検出画面が表示されます。このページの表で、ターゲットが検出されたかどうかを確認できます。
++
+image:evs-mount-fsxn-32.png["上記の手順のダイアログを表す図"]
+
+
+
+
+
+== iSCSIデータストアを作成する
+
+iSCSI サーバーを検出したので、iSCSI データストアを作成できます。
+
+. vSphereクライアントで「データストア」タブに移動し、データストアを展開するSDDCを選択します。右クリックしてストレージアイコン（下のスクリーンショットでは緑色の矢印で示されています）を選択し、ドロップダウンメニューから「新しいデータストア」を選択します。
++
+image:evs-mount-fsxn-33.png["上記の手順のダイアログを表す図"]
+
+. 新規データストアウィザードが起動します。「タイプ」のステップで、VMFSオプションを選択します。
+. 「名前とデバイスの選択」の手順:
++
+.. データストアの名前を指定します。
+.. データストアに接続する ESXi ホストを選択します。
+.. 検出されたディスク (LUN) を選択し、「次へ」をクリックします。
++
+image:evs-mount-fsxn-34.png["上記の手順のダイアログを表す図"]
+
+
+
+. 「VMFS バージョン」の手順で、「VMFS 6」を選択します。
++
+image:evs-mount-fsxn-35.png["上記の手順のダイアログを表す図"]
+
+. 「パーティション構成」のステップでは、「利用可能なすべてのパーティションを使用する」オプションを含め、デフォルト設定のままにしておきます。「次へ」をクリックして続行します。
++
+image:evs-mount-fsxn-36.png["上記の手順のダイアログを表す図"]
+
+. 「完了準備完了」のステップで、設定が正しいことを確認してください。完了したら、「完了」をクリックしてセットアップを完了します。
++
+image:evs-mount-fsxn-37.png["上記の手順のダイアログを表す図"]
+
+. デバイス ページに戻り、データストアが接続されていることを確認します。
++
+image:evs-mount-fsxn-38.png["上記の手順のダイアログを表す図"]
+
+
