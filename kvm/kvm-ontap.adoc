@@ -1,0 +1,353 @@
+---
+sidebar: sidebar 
+permalink: kvm/kvm-ontap.html 
+keywords: netapp, kvm, libvirt, all-flash, nfs, iscsi, ontap, storage, aff 
+summary: KVMホストの共有ストレージは、VMのライブマイグレーション時間を短縮し、環境全体でバックアップや一貫したテンプレートの適切なターゲットを実現します。ONTAPストレージは、KVMホスト環境のニーズだけでなく、ゲストのファイル、ブロック、オブジェクトストレージの需要にも対応できます。 
+---
+= ONTAP による KVM 仮想化
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+KVMホストの共有ストレージは、VMのライブマイグレーション時間を短縮し、環境全体でバックアップや一貫したテンプレートの適切なターゲットを実現します。ONTAPストレージは、KVMホスト環境のニーズだけでなく、ゲストのファイル、ブロック、オブジェクトストレージの需要にも対応できます。
+
+KVM ホストには、スイッチにケーブル接続された FC、イーサネット、またはその他のサポートされているインターフェイスがあり、ONTAP 論理インターフェイスと通信できる必要があります。
+
+常に確認して https://mysupport.netapp.com/matrix/#welcome["Interoperability Matrix Tool"]サポートされている構成をください。
+
+
+
+== ONTAPの機能の概要
+
+*共通機能*
+
+* スケールアウトクラスタ
+* セキュア認証とRBACのサポート
+* ゼロトラストマルチ管理サポート
+* セキュアマルチテナンシー
+* SnapMirrorを使用してデータをレプリケートします。
+* Snapshotによるポイントインタイムコピー。
+* スペース効率に優れたクローン：
+* 重複排除、圧縮などのStorage Efficiency機能
+* Kubernetes向けのTrident CSIサポート
+* SnapLock
+* 改ざん防止Snapshotコピーロック
+* 暗号化のサポート
+* FabricPoolを使用してコールドデータをオブジェクトストアに階層化します。
+* BlueXP と Data Infrastructure Insights の統合。
+* Microsoftオフロードデータ転送（ODX）
+
+
+* NAS *
+
+* FlexGroupボリュームはスケールアウトNASコンテナであり、ハイパフォーマンス、負荷分散、拡張性を提供します。
+* FlexCacheを使用すると、データをグローバルに分散しながら、データに対するローカルの読み取り/書き込みアクセスを提供できます。
+* マルチプロトコルのサポートにより、NFSと同様にSMB経由でも同じデータにアクセスできます。
+* NFS nconnectでは、TCP接続ごとに複数のTCPセッションを確立できるため、ネットワークスループットが向上します。これにより、最新のサーバで利用可能な高速NICの使用率が向上します。
+* NFSセッショントランキングにより、データ転送速度、高可用性、フォールトトレランスが向上します。
+* 最適化されたデータパス接続のための pNFS。
+* SMBマルチチャネルにより、データ転送速度、高可用性、フォールトトレランスが向上します。
+* ファイル権限のためのActive Directory / LDAPとの統合。
+* TLS経由のNFSとのセキュアな接続。
+* NFS Kerberosのサポート。
+* NFS over RDMAの略。
+* Windows IDとUNIX ID間のネームマッピング。
+* 自律型ランサムウェア対策：
+* ファイルシステム分析：
+
+
+* SAN*
+
+* SnapMirrorアクティブ同期により、フォールトドメイン間でクラスタを拡張します。
+* ASAモデルは、アクティブ/アクティブマルチパスとファストパスフェイルオーバーを提供します。
+* FC、iSCSI、NVMe-oFプロトコルをサポート
+* iSCSI CHAP相互認証のサポート。
+* 選択的LUNマップとポートセット。
+
+
+
+
+== ONTAP ストレージを使用した Libvirt
+
+Libvirtは、ディスクイメージとデータにNetApp ONTAPストレージを利用する仮想マシンの管理に使用できます。この統合により、Libvirtベースの仮想化環境において、データ保護、ストレージ効率、パフォーマンス最適化といったONTAPの高度なストレージ機能を活用できます。LibvirtとONTAPの連携方法と、その機能について以下に説明します。
+
+. ストレージプール管理:
++
+** ONTAP ストレージを Libvirt ストレージ プールとして定義します。NFS、iSCSI、ファイバ チャネルなどのプロトコルを介して ONTAP ボリュームまたは LUN を指すように Libvirt ストレージ プールを設定できます。
+** Libvirt はプール内のボリュームを管理します。ストレージ プールが定義されると、Libvirt は、ONTAP LUN またはファイルに対応するそのプール内のボリュームの作成、削除、クローン作成、スナップショットを管理できます。
++
+*** 例: NFS ストレージ プール: Libvirt ホストが ONTAP から NFS 共有をマウントする場合、Libvirt で NFS ベースのストレージ プールを定義すると、共有内のファイルが VM ディスクに使用できるボリュームとして一覧表示されます。
+
+
+
+
+. 仮想マシンのディスクストレージ:
++
+** VM ディスク イメージを ONTAP に保存: ONTAP ストレージによってサポートされる Libvirt ストレージ プール内に仮想マシン ディスク イメージ (qcow2、raw など) を作成できます。
+** ONTAP のストレージ機能のメリット: VM ディスクを ONTAP ボリュームに保存すると、ONTAP のデータ保護 (スナップショット、SnapMirror、SnapVault)、ストレージ効率 (重複排除、圧縮)、およびパフォーマンス機能のメリットが自動的に得られます。
+
+
+. データ保護:
++
+** 自動データ保護: ONTAP は、スナップショットや SnapMirror などの機能を備えた自動データ保護を提供します。これにより、オンプレミス、リモート サイト、クラウドなど、他の ONTAP ストレージにデータを複製して貴重なデータを保護できます。
+** RPO と RTO: ONTAP のデータ保護機能を使用すると、低いリカバリポイント目標 (RPO) と高速なリカバリ時間目標 (RTO) を達成できます。
+** MetroCluster/SnapMirror アクティブ同期: 自動化されたゼロ RPO (リカバリポイント目標) とサイト間の可用性のために、サイト間のストレッチ クラスタを可能にする ONTAP MetroCluster または SMas を使用できます。
+
+
+. パフォーマンスと効率:
++
+** Virtio ドライバー：ゲスト VM で Virtio ネットワークおよびディスクデバイスドライバーを使用すると、パフォーマンスが向上します。これらのドライバーはハイパーバイザーと連携し、準仮想化の利点を提供するように設計されています。
+** Virtio-SCSI: スケーラビリティと高度なストレージ機能を実現するには、SCSI LUN に直接接続し、多数のデバイスを処理する機能を提供する Virtio-SCSI を使用します。
+** ストレージ効率: 重複排除、圧縮、コンパクト化などの ONTAP のストレージ効率機能は、VM ディスクのストレージ フットプリントを削減し、コスト削減につながります。
+
+
+. ONTAP Select 統合:
++
+** KVM 上の ONTAP Select: NetApp のソフトウェア定義ストレージ ソリューションである ONTAP Select は、KVM ホストに導入でき、Libvirt ベースの VM に柔軟でスケーラブルなストレージ プラットフォームを提供します。
+** ONTAP Select Deploy：ONTAP Select Deployは、ONTAP Selectクラスタの作成と管理に使用するツールです。KVMまたはVMware ESXi上の仮想マシンとして実行できます。
+
+
+
+
+本質的には、Libvirt を ONTAP と併用することで、Libvirt ベースの仮想化の柔軟性と拡張性を ONTAP のエンタープライズ クラスのデータ管理機能と組み合わせることができ、仮想化環境に堅牢で効率的なソリューションを提供できます。
+
+
+
+== ファイルベースのストレージプール（SMB または NFS を使用）
+
+dir および netfs タイプのストレージ プールは、ファイル ベースのストレージに適用できます。
+
+[cols="20% 10% 10% 10% 10% 10% 10% 10%"]
+|===
+| ストレージ プロトコル | ディレクター | フェス | ネットファイル | 論理的 | ディスク | iSCSI | iSCSIダイレクト | mpath 
+
+
+| SMB / CIFS | はい | いいえ | はい | いいえ | いいえ | いいえ | いいえ | いいえ 
+
+
+| NFS | はい | いいえ | はい | いいえ | いいえ | いいえ | いいえ | いいえ 
+|===
+netfs では、libvirt がファイルシステムをマウントしますが、サポートされるマウントオプションは限られています。dirストレージプールでは、ファイルシステムのマウントはホスト上で外部的に処理する必要があります。そのためには、fstab または automounter を利用できます。automounterを使用するには、autofs パッケージをインストールする必要があります。autofsは、ネットワーク共有をオンデマンドでマウントする場合に特に便利で、fstab での静的マウントと比較して、システムパフォーマンスとリソース使用率を向上させることができますは、一定時間操作が行われないと、共有を自動的にアンマウントします。
+
+使用されるストレージ プロトコルに基づいて、必要なパッケージがホストにインストールされていることを検証します。
+
+[cols="40% 20% 20% 20%"]
+|===
+| ストレージ プロトコル | フェドーラ | Debian | パックマン 
+
+
+| SMB / CIFS | sambaクライアント/cifs-utils | smbclient/cifs-utils | smbclient/cifs-utils 
+
+
+| NFS | nfs-utils | nfs-共通 | nfs-utils 
+|===
+NFSはLinuxでのネイティブサポートとパフォーマンスから人気があり、SMBはMicrosoft環境との統合に適した選択肢です。本番環境で使用する前に、必ずサポートマトリックスをご確認ください。
+
+選択したプロトコルに基づいて、適切な手順に従って SMB 共有または NFS エクスポートを作成します。 https://docs.netapp.com/us-en/ontap-system-manager-classic/smb-config/index.html["SMB共有の作成"]https://docs.netapp.com/us-en/ontap-system-manager-classic/nfs-config/index.html["NFSエクスポートの作成"]
+
+fstabまたは自動マウント設定ファイルにマウントオプションを追加します。例えばautofsの場合、auto.kvmfs01とauto.kvmsmb01ファイルを使用して直接マッピングを行うには、/etc/auto.masterに次の行を追加します。
+
+/- /etc/auto.kvmnfs01 --timeout=60 /- /etc/auto.kvmsmb01 --timeout=60 --ghost
+
+/etc/auto.kvmnfs01ファイルには、/mnt/kvmnfs01 -trunkdiscovery,nconnect=4 172.21.35.11,172.21.36.11(100):/kvmnfs01と記述されています。
+
+smb の場合、/etc/auto.kvmsmb01 に /mnt/kvmsmb01 -fstype=cifs,credentials=/root/smbpass,multichannel,max_channels=8 ://kvmfs01.sddc.netapp.com/kvmsmb01 がありました。
+
+プール タイプ dir の virsh を使用してストレージ プールを定義します。
+
+[source, shell]
+----
+virsh pool-define-as --name kvmnfs01 --type dir --target /mnt/kvmnfs01
+virsh pool-autostart kvmnfs01
+virsh pool-start kvmnfs01
+----
+既存のVMディスクは、
+
+[source, shell]
+----
+virsh vol-list kvmnfs01
+----
+NFSマウントベースのLibvirtストレージプールのパフォーマンスを最適化するには、セッショントランキング、pNFS、nconnectマウントオプションの3つのオプションすべてが役立ちますが、その効果は具体的なニーズと環境によって異なります。最適なアプローチを選択できるよう、以下に詳細を説明します。
+
+. nconnect:
++
+** 最適な用途: 複数の TCP 接続を使用して、NFS マウント自体をシンプルかつ直接的に最適化します。
+** 仕組み：nconnect マウントオプションを使用すると、NFS クライアントが NFS エンドポイント（サーバー）との間に確立する TCP 接続の数を指定できます。これにより、複数の同時接続を必要とするワークロードのスループットを大幅に向上させることができます。
+** 利点：
++
+*** 設定は簡単: NFS マウント オプションに nconnect=<number_of_connections> を追加するだけです。
+*** スループットの向上: NFS トラフィックの「パイプ幅」を増やします。
+*** さまざまなワークロードに効果的: 汎用仮想マシンのワークロードに役立ちます。
+
+
+** 制限事項：
++
+*** クライアント/サーバー サポート: クライアント (Linux カーネル) と NFS サーバー (ONTAP など) の両方で nconnect のサポートが必要です。
+*** 飽和: nconnect 値を非常に高く設定すると、ネットワーク回線が飽和する可能性があります。
+*** マウントごとの設定: nconnect 値は最初のマウントに対して設定され、同じサーバーおよびバージョンへの後続のすべてのマウントはこの値を継承します。
+
+
+
+
+. セッショントランキング:
++
+** 最適な用途: NFS サーバーへの複数のネットワーク インターフェイス (LIF) を活用してスループットを向上させ、ある程度の回復力を実現します。
+** 仕組み: セッション トランキングにより、NFS クライアントは NFS サーバー上の異なる LIF への複数の接続を開くことができ、複数のネットワーク パスの帯域幅を効果的に集約できます。
+** 利点：
++
+*** データ転送速度の向上: 複数のネットワーク パスを活用します。
+*** 回復力: 1 つのネットワーク パスに障害が発生した場合、他のパスは引き続き使用できますが、障害が発生したパスで進行中の操作は、接続が再確立されるまで停止する可能性があります。
+
+
+** 制限事項: 依然として単一の NFS セッション: 複数のネットワーク パスを使用しますが、従来の NFS の基本的な単一セッションの性質は変わりません。
+** 構成の複雑さ：ONTAPサーバ上でトランキンググループとLIFを構成する必要があります。ネットワーク設定：マルチパスをサポートするには適切なネットワークインフラストラクチャが必要です。
+** nConnect オプションを使用する場合：最初のインターフェースのみに nConnect オプションが適用されます。残りのインターフェースは単一の接続となります。
+
+
+. pNFS:
++
+** 最適な用途: 並列データ アクセスとストレージ デバイスへの直接 I/O のメリットを享受できる、高パフォーマンスのスケールアウト ワークロード。
+** 仕組み: pNFS はメタデータとデータ パスを分離し、クライアントがストレージから直接データにアクセスできるようにすることで、データ アクセスに NFS サーバーをバイパスする可能性があります。
+** 利点：
++
+*** スケーラビリティとパフォーマンスの向上: 並列 I/O のメリットを享受できる HPC や AI/ML などの特定のワークロード向け。
+*** 直接データ アクセス: クライアントがストレージから直接データを読み書きできるようにすることで、待ち時間が短縮され、パフォーマンスが向上します。
+*** nConnect オプションを使用: すべての接続に nConnect が適用され、ネットワーク帯域幅が最大化されます。
+
+
+** 制限事項：
++
+*** 複雑さ: pNFS は、従来の NFS や nconnect よりもセットアップと管理が複雑です。
+*** ワークロード固有: すべてのワークロードが pNFS から大きなメリットを得られるわけではありません。
+*** クライアント サポート: クライアント側で pNFS のサポートが必要です。
+
+
+
+
+
+
+推奨事項: * NFS 上の汎用 Libvirt ストレージ プールの場合: nconnect マウント オプションから始めてください。これは比較的簡単に実装でき、接続数を増やすことでパフォーマンスを大幅に向上させることができます。* より高いスループットと耐障害性が必要な場合: nconnect に加えて、または nconnect の代わりに、セッション トランキングを検討してください。これは、Libvirt ホストと ONTAP システム間に複数のネットワーク インターフェイスがある環境で役立ちます。* 並列 I/O のメリットが期待できる要求の厳しいワークロードの場合: 並列データ アクセスを活用できる HPC や AI/ML などのワークロードを実行している場合は、pNFS が最適なオプションである可能性があります。ただし、セットアップと構成の複雑さが増すことに注意してください。常にさまざまなマウント オプションと設定で NFS パフォーマンスをテストおよび監視し、特定の Libvirt ストレージ プールとワークロードに最適な構成を決定してください。
+
+
+
+== ブロックベースのストレージプール（iSCSI、FC、NVMe-oF 対応）
+
+dir プール タイプは、共有 LUN または名前空間上の OCFS2 や GFS2 などのクラスター ファイル システム上でよく使用されます。
+
+使用されているストレージ プロトコルに基づいて、ホストに必要なパッケージがインストールされていることを確認します。
+
+[cols="40% 20% 20% 20%"]
+|===
+| ストレージ プロトコル | フェドーラ | Debian | パックマン 
+
+
+| iSCSI | iscsi-initiator-utils、device-mapper-multipath、ocfs2-tools/gfs2-utils | open-iscsi、マルチパスツール、ocfs2-tools/gfs2-utils | open-iscsi、マルチパスツール、ocfs2-tools/gfs2-utils 
+
+
+| FC | デバイスマッパーマルチパス、ocfs2ツール/gfs2ユーティリティ | マルチパスツール、ocfs2ツール/gfs2ユーティリティ | マルチパスツール、ocfs2ツール/gfs2ユーティリティ 
+
+
+| NVMe-oF | nvme-cli、ocfs2-tools/gfs2-utils | nvme-cli、ocfs2-tools/gfs2-utils | nvme-cli、ocfs2-tools/gfs2-utils 
+|===
+ホストの iqn/wwpn/nqn を収集します。
+
+[source, shell]
+----
+# To view host iqn
+cat /etc/iscsi/initiatorname.iscsi
+# To view wwpn
+systool -c fc_host -v
+# or if you have ONTAP Linux Host Utility installed
+sanlun fcp show adapter -v
+# To view nqn
+sudo nvme show-hostnqn
+----
+LUN または名前空間を作成するには、適切なセクションを参照してください。
+
+https://docs.netapp.com/us-en/ontap-system-manager-classic/iscsi-config-rhel/index.html["iSCSIホスト用のLUN作成"] https://docs.netapp.com/us-en/ontap-system-manager-classic/fc-config-rhel/index.html["FCホスト用のLUN作成"] https://docs.netapp.com/us-en/ontap/san-admin/create-nvme-namespace-subsystem-task.html["NVMe-oFホスト用の名前空間の作成"]
+
+FC ゾーニングまたはイーサネット デバイスが ONTAP 論理インターフェイスと通信するように設定されていることを確認します。
+
+iSCSIの場合、
+
+[source, shell]
+----
+# Register the target portal
+iscsiadm -m discovery -t st -p 172.21.37.14
+# Login to all interfaces
+iscsiadm -m node -L all
+# Ensure iSCSI service is enabled
+sudo systemctl enable iscsi.service
+# Verify the multipath device info
+multipath -ll
+# OCFS2 configuration we used.
+o2cb add-cluster kvmcl01
+o2cb add-node kvm02.sddc.netapp.com
+o2cb cluster-status
+mkfs.ocfs2 -L vmdata -N 4  --cluster-name=kvmcl01 --cluster-stack=o2cb -F /dev/mapper/3600a098038314c57312b58387638574f
+mount -t ocfs2 /dev/mapper/3600a098038314c57312b58387638574f1 /mnt/kvmiscsi01/
+mounted.ocfs2 -d
+# For libvirt storage pool
+virsh pool-define-as --name kvmiscsi01 --type dir --target /mnt/kvmiscsi01
+virsh pool-autostart kvmiscsi01
+virsh pool-start kvmiscsi01
+----
+NVMe/TCPでは、
+
+[source, shell]
+----
+# Listing the NVMe discovery
+cat /etc/nvme/discovery.conf
+# Used for extracting default parameters for discovery
+#
+# Example:
+# --transport=<trtype> --traddr=<traddr> --trsvcid=<trsvcid> --host-traddr=<host-traddr> --host-iface=<host-iface>
+-t tcp -l 1800 -a 172.21.37.16
+-t tcp -l 1800 -a 172.21.37.17
+-t tcp -l 1800 -a 172.21.38.19
+-t tcp -l 1800 -a 172.21.38.20
+# Login to all interfaces
+nvme connect-all
+nvme list
+# Verify the multipath device info
+nvme show-topology
+# OCFS2 configuration we used.
+o2cb add-cluster kvmcl01
+o2cb add-node kvm02.sddc.netapp.com
+o2cb cluster-status
+mkfs.ocfs2 -L vmdata1 -N 4  --cluster-name=kvmcl01 --cluster-stack=o2cb -F /dev/nvme2n1
+mount -t ocfs2 /dev/nvme2n1 /mnt/kvmns01/
+mounted.ocfs2 -d
+# To change label
+tunefs.ocfs2 -L tme /dev/nvme2n1
+# For libvirt storage pool
+virsh pool-define-as --name kvmns01 --type dir --target /mnt/kvmns01
+virsh pool-autostart kvmns01
+virsh pool-start kvmns01
+----
+FC の場合
+
+[source, shell]
+----
+# Verify the multipath device info
+multipath -ll
+# OCFS2 configuration we used.
+o2cb add-cluster kvmcl01
+o2cb add-node kvm02.sddc.netapp.com
+o2cb cluster-status
+mkfs.ocfs2 -L vmdata2 -N 4  --cluster-name=kvmcl01 --cluster-stack=o2cb -F /dev/mapper/3600a098038314c57312b583876385751
+mount -t ocfs2 /dev/mapper/3600a098038314c57312b583876385751 /mnt/kvmfc01/
+mounted.ocfs2 -d
+# For libvirt storage pool
+virsh pool-define-as --name kvmfc01 --type dir --target /mnt/kvmfc01
+virsh pool-autostart kvmfc01
+virsh pool-start kvmfc01
+----
+注意: デバイスのマウントは /etc/fstab に含めるか、自動マウント マップ ファイルを使用する必要があります。
+
+Libvirtは、クラスタ化されたファイルシステム上で仮想ディスク（ファイル）を管理します。基盤となる共有ブロックへのアクセスとデータの整合性は、クラスタ化されたファイルシステム（OCFS2またはGFS2）に依存しています。OCFS2またはGFS2は、Libvirtホストと共有ブロックストレージ間の抽象化レイヤーとして機能し、共有ストレージに保存されている仮想ディスクイメージへの安全な同時アクセスを可能にするために必要なロックと調整を提供します。
