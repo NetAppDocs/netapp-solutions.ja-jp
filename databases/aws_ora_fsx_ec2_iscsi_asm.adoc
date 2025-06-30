@@ -694,7 +694,7 @@ unzip -q /tmp/archive/p6880880_190000_Linux-x86-64.zip
 ....
 vi cv/admin/cvu_config
 ....
-. サイレントインストール用のファイルを準備し `gridsetup.rsp`、RSPファイルをディレクトリに配置し `/tmp/archive`ます。RSPファイルは、セクションA、B、およびGを次の情報でカバーする必要があります。
+. 更新 `gridsetup.rsp`サイレントインストール用のファイルを作成し、rspファイルを `/tmp/archive`ディレクトリ。RSPファイルは、セクションA、B、およびGを次の情報でカバーする必要があります。
 +
 ....
 INVENTORY_LOCATION=/u01/app/oraInventory
@@ -774,7 +774,7 @@ systemctl restart multipathd
 ....
 /u01/app/oracle/product/19.0.0/grid/gridSetup.sh -executeConfigTools -responseFile /tmp/archive/gridsetup.rsp -silent
 ....
-. Oracleユーザとして、logsディスクグループを作成します。
+. Oracle ユーザーとして、$GRID_HOME から LOGS ディスク グループを作成します。
 +
 ....
 bin/asmca -silent -sysAsmPassword 'yourPWD' -asmsnmpPassword 'yourPWD' -createDiskGroup -diskGroupName LOGS -disk 'AFD:LOGS*' -redundancy EXTERNAL -au_size 4
@@ -857,7 +857,7 @@ vi cv/admin/cvu_config
 ....
 unzip p34765931_190000_Linux-x86-64.zip
 ....
-. 次の値を使用して、ディレクトリ内のDBサイレントインストールRSPファイルを準備します `/tmp/archive/dbinstall.rsp`。
+. DBサイレントインストールの標準rspファイルを更新します `/tmp/archive/dbinstall.rsp`関連するセクションに次の値を持つディレクトリ:
 +
 ....
 oracle.install.option=INSTALL_DB_SWONLY
@@ -884,7 +884,7 @@ oracle.install.db.rootconfig.executeRootScript=false
 ....
 /u01/app/oracle/product/19.0.0/db1/root.sh
 ....
-. Oracleユーザとして、次のエントリを含むファイルを作成し `dbca.rsp`ます。
+. Oracleユーザーとして標準を更新 `dbca.rsp`関連するセクションに次のエントリを含むファイルを作成します。
 +
 ....
 gdbName=db1.demo.netapp.com
@@ -909,7 +909,7 @@ databaseType=MULTIPURPOSE
 automaticMemoryManagement=false
 totalMemory=8192
 ....
-. Oracleユーザとして、dbcaを使用してDB作成を起動します。
+. Oracle ユーザーとして、$ORACLE_HOME ディレクトリから dbca を使用して DB 作成を開始します。
 +
 ....
 bin/dbca -silent -createDatabase -responseFile /tmp/archive/dbca.rsp
@@ -984,7 +984,7 @@ alias asm='export ORACLE_HOME=/u01/app/oracle/product/19.0.0/grid;export ORACLE_
 . 作成したCDB/PDBを検証します。
 +
 ....
-/home/oracle/.bash_profile
+source /home/oracle/.bash_profile
 
 sqlplus / as sysdba
 

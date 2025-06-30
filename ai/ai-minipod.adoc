@@ -1,0 +1,538 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-minipod.html 
+keywords: netapp, aipod, RAG, ai solution, design 
+summary: 本稿では、Intel® Xeon® 6プロセッサーとNetAppデータ管理ソリューションのテクノロジーと機能を組み合わせた、NetApp® AIPod for Enterprise RAGの検証済みリファレンスデザインを紹介します。このソリューションは、大規模言語モデルを活用し、同時接続ユーザーに正確かつ文脈的に適切な応答を提供する下流ChatQnAアプリケーションを実証します。応答は、エアギャップRAG推論パイプラインを通じて組織内のナレッジリポジトリから取得されます。 
+---
+= NetApp AIPod Mini - NetAppとIntelによるエンタープライズRAG推論
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本稿では、Intel® Xeon® 6プロセッサーとNetAppデータ管理ソリューションのテクノロジーと機能を組み合わせた、NetApp® AIPod for Enterprise RAGの検証済みリファレンスデザインを紹介します。このソリューションは、大規模言語モデルを活用し、同時接続ユーザーに正確かつ文脈的に適切な応答を提供する下流ChatQnAアプリケーションを実証します。応答は、エアギャップRAG推論パイプラインを通じて組織内のナレッジリポジトリから取得されます。
+
+image:aipod-mini-image01.png["100,100"]
+
+Sathish Thyagarajan、Michael Oglesby、NetApp
+
+
+
+== エグゼクティブサマリー
+
+生産性とビジネス価値の向上を目指し、検索拡張生成（RAG）アプリケーションと大規模言語モデル（LLM）を活用し、ユーザーのプロンプトを解釈して応答を生成する組織が増えています。これらのプロンプトと応答には、組織の内部ナレッジベース、データレイク、コードリポジトリ、ドキュメントリポジトリから取得したテキスト、コード、画像、さらには治療用タンパク質構造などが含まれます。本書では、NetApp AFFストレージとIntel Xeon 6プロセッサーを搭載したサーバーで構成されるNetApp® AIPod™ Miniソリューションのリファレンス設計について説明します。このソリューションには、NetApp ONTAP®データ管理ソフトウェアとIntel® Advanced Matrix Extensions（Intel® AMX）、Open Platform for Enterprise AI（OPEA）上に構築されたIntel® AI for Enterprise Retrieval-augmented Generation（RAG）ソフトウェアが含まれます。NetAppAIPod Mini for enterprise RAGを使用すると、組織はパブリックLLMをプライベートな生成AI（GenAI）推論ソリューションに拡張できます。このソリューションは、信頼性を高め、独自の情報をより適切に制御できるように設計された、エンタープライズ規模での効率的でコスト効率の高い RAG 推論を実現します。
+
+
+
+== Intel ストレージ パートナーの検証
+
+インテル Xeon 6 プロセッサーを搭載したサーバーは、要求の厳しいAI推論ワークロードに対応できるよう設計されており、インテル AMX によって最大限のパフォーマンスが発揮されます。最適なストレージパフォーマンスと拡張性を実現するため、このソリューションはNetApp ONTAP を用いた検証に成功しており、企業はRAGアプリケーションのニーズを満たすことができます。この検証は、インテル Xeon 6 プロセッサーを搭載したサーバーで実施されました。インテルとネットアップは、最適化され、拡張性に優れ、顧客のビジネス要件に適合したAIソリューションの提供に重点を置いた強固なパートナーシップを築いています。
+
+
+
+== NetAppでRAGシステムを実行する利点
+
+RAGアプリケーションは、PDF、テキスト、CSV、Excel、ナレッジグラフなど、様々な形式の企業のドキュメントリポジトリからナレッジを取得することを伴います。これらのデータは通常、S3オブジェクトストレージやオンプレミスのNFSなどのソリューションにデータソースとして保存されます。NetAppは、エッジ、データセンター、クラウドのエコシステム全体にわたるデータ管理、データモビリティ、データガバナンス、データセキュリティ技術のリーダーです。NetAppONTAPデータ管理は、バッチ処理やリアルタイム推論など、様々なタイプのAIワークロードをサポートするエンタープライズグレードのストレージを提供し、次のようなメリットをもたらします。
+
+* 速度とスケーラビリティ。パフォーマンスと容量を個別に拡張できるため、大規模なデータセットを高速に処理してバージョン管理できます。
+* データアクセス。マルチプロトコルサポートにより、クライアントアプリケーションはS3、NFS、SMBファイル共有プロトコルを使用してデータを読み取ることができます。ONTAPS3 NASバケットは、マルチモーダルLLM推論シナリオにおけるデータアクセスを容易にします。
+* 信頼性と機密性。ONTAPは、データ保護、NetApp Autonomous Ransomware Protection（ARP）の組み込み機能、ストレージの動的プロビジョニングを提供し、ソフトウェアベースとハードウェアベースの暗号化により機密性とセキュリティを強化します。ONTAPは、すべてのSSL接続においてFIPS 140-2に準拠しています。
+
+
+
+
+== 対象者
+
+このドキュメントは、エンタープライズRAGおよびGenAIソリューションを提供するために構築されたインフラストラクチャを活用したいAI意思決定者、データエンジニア、ビジネスリーダー、および部門幹部を対象としています。AI推論、LLM、Kubernetes、ネットワークとそのコンポーネントに関する事前の知識は、実装フェーズで役立ちます。
+
+
+
+== テクノロジ要件
+
+
+
+=== ハードウェア
+
+
+
+==== インテルAIテクノロジー
+
+Xeon 6をホストCPUとして採用することで、高速化されたシステムは、高いシングルスレッド性能、メモリ帯域幅の拡大、信頼性、可用性、保守性（RAS）の向上、そしてI/Oレーン数の増加といったメリットを享受できます。IntelAMXは、INT8およびBF16の推論を高速化し、FP16トレーニング済みモデルをサポートします。INT8ではコアあたり1サイクルあたり最大2,048回の浮動小数点演算、BF16/FP16ではコアあたり1サイクルあたり最大1,024回の浮動小数点演算が可能です。Xeon6プロセッサーを使用してRAGソリューションを展開するには、通常、最低250GBのRAMと500GBのディスク容量が推奨されます。ただし、これはLLMモデルのサイズに大きく依存します。詳細については、Intel  https://www.intel.com/content/dam/www/central-libraries/us/en/documents/2024-05/intel-xeon-6-product-brief.pdf["Xeon 6プロセッサ"^]製品概要。
+
+図1 - Intel Xeon 6プロセッサを搭載したコンピューティングサーバーimage:aipod-mini-image02.png["300,300"]
+
+
+
+==== NetApp AFFストレージ
+
+エントリーレベルおよびミッドレベルのNetApp AFF Aシリーズシステムは、より強力なパフォーマンス、密度、そして優れた効率性を提供します。NetAppAFF A20、AFF A30、AFF A50システムは、ブロック、ファイル、オブジェクトをサポートする真の統合ストレージを提供します。単一のOSを基盤とし、RAGアプリケーションのデータをシームレスに管理、保護、そしてモバイル化することで、ハイブリッドクラウド全体を通して最も低コストを実現します。
+
+図 2 - NetApp AFF A シリーズ システム。 image:aipod-mini-image03.png["300,300"]
+
+|===
+| * ハードウェア * | *量* | * コメント * 
+
+
+| Intel Xeon 6ベースのサーバー | 2 | RAG 推論ノード - デュアル ソケット Intel Xeon 6900 シリーズまたは Intel Xeon 6700 シリーズ プロセッサと、DDR5 (6400 MHz) または MRDIMM (8800 MHz) を搭載した 250 GB ～ 3 TB の RAM を搭載。2U サーバー。 
+
+
+| Intel プロセッサを搭載したコントロール プレーン サーバー | 1 | Kubernetes コントロール プレーン/1U サーバー。 
+
+
+| 100Gbイーサネットスイッチの選択 | 1 | データセンタースイッチ。 
+
+
+| NetApp AFF A20（またはAFF A30、AFF A50） | 1 | 最大ストレージ容量: 9.3PB。注: ネットワーク: 10/25/100 GbE ポート。 
+|===
+このリファレンス デザインの検証には、Supermicro の Intel Xeon 6 プロセッサ (222HA-TN-OTO-37) を搭載したサーバーと Arista の 100GbE スイッチ (7280R3A) が使用されました。
+
+
+
+=== ソフトウェア
+
+
+
+==== エンタープライズAI向けオープンプラットフォーム
+
+Open Platform for Enterprise AI（OPEA）は、Intelがエコシステムパートナーと共同で主導するオープンソースイニシアチブです。OPEAは、RAGに重点を置いた最先端の生成AIシステムの開発を加速するために設計された、構成可能なビルディングブロックのモジュール式プラットフォームを提供します。OPEAには、LLM、データストア、プロンプトエンジン、RAGアーキテクチャブループリント、そしてパフォーマンス、機能、信頼性、エンタープライズ対応性に基づいて生成AIシステムを評価する4段階の評価手法を備えた包括的なフレームワークが含まれています。
+
+OPEA は、主に次の 2 つの主要コンポーネントで構成されています。
+
+* GenAIComps: マイクロサービスコンポーネントで構成されたサービスベースのツールキット
+* GenAIExamples: ChatQnAのような、実用的なユースケースを示すすぐに導入できるソリューション
+
+
+詳細については、  https://opea-project.github.io/latest/index.html["OPEAプロジェクトドキュメント"^]
+
+
+
+==== OPEA を搭載した Intel AI for Enterprise 推論
+
+Intel AI for Enterprise RAGのOPEAは、エンタープライズデータから実用的なインサイトへの変換を簡素化します。IntelXeonプロセッサーを搭載し、業界パートナーのコンポーネントを統合することで、エンタープライズソリューションの導入を効率化します。実績のあるオーケストレーションフレームワークとシームレスに連携し、エンタープライズに必要な柔軟性と選択肢を提供します。
+
+OPEAを基盤とするIntel AI for Enterprise RAGは、スケーラビリティ、セキュリティ、ユーザーエクスペリエンスを向上させる重要な機能によって、この基盤を拡張します。これらの機能には、最新のサービスベース・アーキテクチャーとのシームレスな統合を実現するサービスメッシュ機能、パイプラインの信頼性を検証するための本番環境対応検証、ワークフローの管理と監視を容易にするRAG as a Service向けの機能豊富なUIが含まれます。さらに、Intelとパートナーのサポートにより、幅広いソリューション・エコシステムへのアクセスが提供され、UIとアプリケーションを備えた統合されたアイデンティティーおよびアクセス管理（IAM）と組み合わせることで、安全でコンプライアンスに準拠した運用が可能になります。プログラム可能なガードレールにより、パイプラインの動作をきめ細かく制御し、セキュリティとコンプライアンスの設定をカスタマイズできます。
+
+
+
+==== NetApp ONTAP
+
+NetApp ONTAPは、NetAppの重要なデータストレージソリューションを支える基盤テクノロジーです。ONTAP、サイバー攻撃に対する自動ランサムウェア保護、組み込みのデータ転送機能、ストレージ効率化機能など、様々なデータ管理およびデータ保護機能が搭載されています。これらのメリットは、オンプレミスからハイブリッドマルチクラウドまで、NAS、SAN、オブジェクト、LLM導入のためのソフトウェア定義ストレージに至るまで、幅広いアーキテクチャに適用されます。ONTAPクラスタ内のONTAP S3オブジェクトストレージサーバを使用してRAGアプリケーションを導入することで、承認されたユーザーとクライアントアプリケーションを通じて提供されるONTAPのストレージ効率とセキュリティを活用できます。詳細については、を参照してください。 https://docs.netapp.com/us-en/ontap/s3-config/index.html["ONTAP S3設定の詳細"^]
+
+
+
+==== NetApp Trident
+
+NetApp Trident™ソフトウェアは、Red Hat OpenShiftを含むコンテナおよびKubernetesディストリビューション向けのオープンソースでフルサポートのストレージオーケストレーターです。Tridentは、NetApp ONTAPを含むNetAppストレージポートフォリオ全体で動作し、NFSおよびiSCSI接続もサポートしています。詳細については、を参照してください。 https://github.com/NetApp/trident["Git 上の NetApp Trident"^]
+
+|===
+| *ソフトウェア* | * バージョン * | * コメント * 
+
+
+| エンタープライズ RAG 向けインテル AI の OPEA | 1.1.2 | OPEAマイクロサービスに基づくエンタープライズRAGプラットフォーム 
+
+
+| コンテナ ストレージ インターフェース (CSI ドライバー) | NetApp トライデント 25.02 | 動的プロビジョニング、NetApp Snapshot™ コピー、ボリュームを有効にします。 
+
+
+| Ubuntu | 22.04.5 | 2ノードクラスタ上のOS 
+
+
+| コンテナオーケストレーション | Kubernetes 1.31.4 | RAGフレームワークを実行する環境 
+
+
+| ONTAP | ONTAP 9.16.1P4 | AFF A20上のストレージOS。VscanとARPを搭載。 
+|===
+
+
+== 解決策 の導入
+
+
+
+=== ソフトウェアスタック
+
+このソリューションは、Intel Xeonベースのアプリケーションノードで構成されるKubernetesクラスター上にデプロイされます。Kubernetesコントロールプレーンの基本的な高可用性を実現するには、少なくとも3つのノードが必要です。このソリューションは、以下のクラスターレイアウトを使用して検証されました。
+
+表3 - Kubernetesクラスタのレイアウト
+
+|===
+| ノード | ロール | 数量 
+
+
+| Intel Xeon 6プロセッサと1TB RAMを搭載したサーバー | アプリノード、コントロールプレーンノード | 2 
+
+
+| 汎用サーバー | コントロールプレーンノード | 1 
+|===
+次の図は、ソリューションの「ソフトウェア スタック ビュー」を示しています。 image:aipod-mini-image04.png["600,600"]
+
+
+
+=== 導入手順
+
+
+
+==== ONTAPストレージアプライアンスを導入する
+
+NetApp ONTAP ストレージ アプライアンスを導入およびプロビジョニングします。詳細については、を参照して https://docs.netapp.com/us-en/ontap-systems-family/["ONTAPハードウェアシステムのドキュメント"^] ください。
+
+
+
+==== NFSおよびS3アクセス用にONTAP SVMを構成する
+
+Kubernetes ノードからアクセス可能なネットワーク上で、NFS および S3 アクセス用の ONTAP ストレージ仮想マシン (SVM) を構成します。
+
+ONTAP System Managerを使用してSVMを作成するには、「ストレージ」>「ストレージVM」に移動し、「+追加」ボタンをクリックします。SVMのS3アクセスを有効にする際は、システム生成証明書ではなく、外部CA（証明機関）署名証明書を使用するオプションを選択してください。自己署名証明書または公的に信頼されたCAによって署名された証明書のいずれかを使用できます。詳細については、  https://docs.netapp.com/us-en/ontap/index.html["ONTAPのドキュメント"^]
+
+次のスクリーンショットは、ONTAP System Manager を使用して SVM を作成する様子を示しています。環境に応じて必要に応じて詳細を変更してください。
+
+図 4 - ONTAP System Manager を使用した SVM の作成。 image:aipod-mini-image05.png["600,600"]image:aipod-mini-image06.png["600,600"]
+
+
+
+==== S3の権限を設定する
+
+前の手順で作成したSVMのS3ユーザー/グループ設定を構成します。そのSVMのすべてのS3 API操作へのフルアクセス権を持つユーザーがいることを確認してください。詳細については、ONTAP S3のドキュメントを参照してください。
+
+注：このユーザーは、Intel AI for Enterprise RAGアプリケーションのデータ取り込みサービスに必要になります。ONTAPSystem Managerを使用してSVMを作成した場合、System Managerによって自動的に次のユーザーが作成されます。  `sm_s3_user`そして、  `FullAccess` SVMを作成したときに権限が割り当てられていないため、  `sm_s3_user` 。
+
+このユーザーの権限を編集するには、「ストレージ」>「ストレージVM」に移動し、前の手順で作成したSVMの名前をクリックして「設定」をクリックし、「S3」の横にある鉛筆アイコンをクリックします。  `sm_s3_user`すべてのS3 API操作へのフルアクセスを付与するには、関連付ける新しいグループを作成します。  `sm_s3_user`と `FullAccess`次のスクリーンショットに示すようなポリシーです。
+
+図 5 - S3 のアクセス許可。
+
+image:aipod-mini-image07.png["600,600"]
+
+
+
+==== S3 バケットを作成します。
+
+先ほど作成したSVM内にS3バケットを作成します。ONTAPSystem Managerを使用してSVMを作成するには、「ストレージ」>「バケット」に移動し、「+追加」ボタンをクリックします。詳細については、ONTAP S3のドキュメントをご覧ください。
+
+次のスクリーンショットは、ONTAP System Manager を使用して S3 バケットを作成する様子を示しています。
+
+図 6 - S3 バケットを作成する。 image:aipod-mini-image08.png["600,600"]
+
+
+
+==== S3バケットの権限を設定する
+
+前の手順で作成したS3バケットの権限を設定します。前の手順で設定したユーザーに以下の権限があることを確認してください。  `GetObject, PutObject, DeleteObject, ListBucket, GetBucketAcl, GetObjectAcl, ListBucketMultipartUploads, ListMultipartUploadParts, GetObjectTagging, PutObjectTagging, DeleteObjectTagging, GetBucketLocation, GetBucketVersioning, PutBucketVersioning, ListBucketVersions, GetBucketPolicy, PutBucketPolicy, DeleteBucketPolicy, PutLifecycleConfiguration, GetLifecycleConfiguration, GetBucketCORS, PutBucketCORS.`
+
+ONTAP System Managerを使用してS3バケットの権限を編集するには、「ストレージ」>「バケット」に移動し、バケット名をクリックして「権限」をクリックし、「編集」をクリックします。  https://docs.netapp.com/us-en/ontap/object-storage-management/index.html["ONTAP S3のドキュメント"^]詳細については、こちらをご覧ください。
+
+次のスクリーンショットは、ONTAP System Manager で必要なバケット権限を示しています。
+
+図 7 - S3 バケットのアクセス許可。 image:aipod-mini-image09.png["600,600"]
+
+
+
+==== バケットのクロスオリジンリソース共有ルールを作成する
+
+ONTAP CLI を使用して、前の手順で作成したバケットのバケット クロスオリジン リソース共有 (CORS) ルールを作成します。
+
+[source, cli]
+----
+ontap::> bucket cors-rule create -vserver erag -bucket erag-data -allowed-origins *erag.com -allowed-methods GET,HEAD,PUT,DELETE,POST -allowed-headers *
+----
+このルールにより、OPEA for Intel AI for Enterprise RAG Web アプリケーションは、Web ブラウザー内からバケットと対話できるようになります。
+
+
+
+==== サーバーの展開
+
+サーバーを展開し、各サーバーにUbuntu 22.04 LTSをインストールします。Ubuntuのインストール後、各サーバーにNFSユーティリティをインストールします。NFSユーティリティをインストールするには、以下のコマンドを実行します。
+
+[source, cli]
+----
+ apt-get update && apt-get install nfs-common
+----
+
+
+==== Kubernetesをインストールする
+
+Kubespray を使用してサーバーに Kubernetes をインストールします。詳細については、を参照して https://kubespray.io/["Kubespray ドキュメント"^] ください。
+
+
+
+==== Trident CSIドライバをインストールする
+
+Kubernetes クラスターに NetApp Trident CSI ドライバーをインストールします。詳細については、を参照して https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["Trident インストール ドキュメント"^] ください。
+
+
+
+==== Tridentバックエンドを作成する
+
+先ほど作成したSVM用のTridentバックエンドを作成します。バックエンドを作成する際は、  `ontap-nas`ドライバ。詳細については、を参照して https://docs.netapp.com/us-en/trident/trident-use/ontap-nas.html["Trident バックエンドドキュメント"^] ください。
+
+
+
+==== ストレージクラスを作成する。
+
+前の手順で作成したTridentバックエンドに対応するKubernetesストレージクラスを作成します。詳細については、Tridentストレージクラスのドキュメントを参照してください。
+
+
+
+==== エンタープライズ RAG 向けインテル AI の OPEA
+
+Intel AI for Enterprise RAG用のOPEAをインストールします。 https://github.com/opea-project/Enterprise-RAG/blob/release-1.2.0/deployment/README.md["エンタープライズ向けインテル AI RAG 展開"^]詳細については、ドキュメントをご覧ください。このホワイトペーパーの後半で説明する必要な構成ファイルの変更に注意してください。IntelAI for Enterprise RAGアプリケーションをONTAPストレージシステムで正しく動作させるには、インストールプレイブックを実行する前にこれらの変更を行う必要があります。
+
+
+
+=== ONTAP S3の使用を有効にする
+
+Intel AI for Enterprise RAG 用の OPEA をインストールするときは、メイン構成ファイルを編集して、ONTAP S3 をソース データ リポジトリとして使用できるようにします。
+
+ONTAP S3の使用を有効にするには、  `edp`セクション。
+
+注: デフォルトでは、Intel AI for Enterprise RAGアプリケーションはSVM内の既存のすべてのバケットからデータを取り込みます。SVMに複数のバケットがある場合は、  `bucketNameRegexFilter`特定のバケットからのみデータが取り込まれるようにフィールドを設定します。
+
+[source, cli]
+----
+edp:
+  enabled: true
+  namespace: edp
+  dpGuard:
+    enabled: false
+  storageType: s3compatible
+  s3compatible:
+    region: "us-east-1"
+    accessKeyId: "<your_access_key>"
+    secretAccessKey: "<your_secret_key>"
+    internalUrl: "https://<your_ONTAP_S3_interface>"
+    externalUrl: "https://<your_ONTAP_S3_interface>"
+    bucketNameRegexFilter: ".*"
+----
+
+
+=== スケジュールされた同期設定を構成する
+
+OPEA for Intel AI for Enterprise RAGアプリケーションをインストールするときは、  `scheduledSync`アプリケーションが S3 バケットから新しいファイルや更新されたファイルを自動的に取り込むようになります。
+
+いつ `scheduledSync`有効にすると、アプリケーションはソースS3バケットに新規ファイルまたは更新されたファイルがあるかどうかを自動的に確認します。この同期プロセスで見つかった新規ファイルまたは更新されたファイルは自動的に取り込まれ、RAGナレッジベースに追加されます。アプリケーションは、事前に設定された時間間隔に基づいてソースバケットをチェックします。デフォルトの時間間隔は60秒で、アプリケーションは60秒ごとに変更をチェックします。この間隔は、特定のニーズに合わせて変更できます。
+
+有効にするには `scheduledSync`同期間隔を設定するには、次の値を設定します。  `deployment/components/edp/values.yaml:`
+
+[source, cli]
+----
+celery:
+  config:
+    scheduledSync:
+      enabled: true
+      syncPeriodSeconds: "60"
+----
+
+
+=== ボリュームアクセスモードを変更する
+
+で `deployment/components/gmc/microservices-connector/helm/values.yaml` 、各巻ごとに `pvc`リストを変更する `accessMode`に `ReadWriteMany` 。
+
+[source, cli]
+----
+pvc:
+  modelLlm:
+    name: model-volume-llm
+    accessMode: ReadWriteMany
+    storage: 100Gi
+  modelEmbedding:
+    name: model-volume-embedding
+    accessMode: ReadWriteMany
+    storage: 20Gi
+  modelReranker:
+    name: model-volume-reranker
+    accessMode: ReadWriteMany
+    storage: 10Gi
+  vectorStore:
+    name: vector-store-data
+    accessMode: ReadWriteMany
+    storage: 20Gi
+----
+
+
+=== （オプション）SSL証明書の検証を無効にする
+
+SVM の S3 アクセスを有効にする際に自己署名証明書を使用した場合は、SSL 証明書の検証を無効にする必要があります。公的に信頼された CA によって署名された証明書を使用した場合は、この手順をスキップできます。
+
+SSL証明書の検証を無効にするには、次の値を設定します。  `deployment/components/edp/values.yaml:`
+
+[source, cli]
+----
+edpExternalUrl: "https://s3.erag.com"
+edpExternalSecure: "true"
+edpExternalCertVerify: "false"
+edpInternalUrl: "edp-minio:9000"
+edpInternalSecure: "true"
+edpInternalCertVerify: "false"
+----
+
+
+==== Enterprise RAG UI 向けインテル AI の OPEA にアクセスする
+
+Intel AI for Enterprise RAG UI の OPEA にアクセスします。詳細については、を参照して https://github.com/opea-project/Enterprise-RAG/blob/release-1.1.2/deployment/README.md#interact-with-chatqna["Intel AI for Enterprise RAG 導入ドキュメント"^] ください。
+
+図 8 - Enterprise RAG UI 用インテル AI の OPEA。 image:aipod-mini-image10.png["600,600"]
+
+
+
+==== RAGのデータを取り込む
+
+RAGベースのクエリ拡張に含めるファイルを取り込むことができるようになりました。ファイルの取り込みには複数のオプションがあります。ニーズに合わせて適切なオプションを選択してください。
+
+注: ファイルが取り込まれた後、OPEA for Intel AI for Enterprise RAG アプリケーションはファイルの更新を自動的にチェックし、それに応じて更新を取り込みます。
+
+*オプション 1: S3 バケットに直接アップロードする 一度に多数のファイルを取り込むには、お好みの S3 クライアントを使用して、S3 バケット（事前に作成したバケット）にファイルをアップロードすることをお勧めします。一般的な S3 クライアントには、AWS CLI、Amazon SDK for Python (Boto3)、s3cmd、S3 Browser、Cyberduck、Commander One などがあります。ファイルがサポートされているタイプであれば、S3 バケットにアップロードしたファイルは、OPEA for Intel AI for Enterprise RAG アプリケーションによって自動的に取り込まれます。
+
+注: この文書の執筆時点では、PDF、HTML、TXT、DOC、DOCX、PPT、PPTX、MD、XML、JSON、JSONL、YAML、XLS、XLSX、CSV、TIFF、JPG、JPEG、PNG、SVG のファイル タイプがサポートされています。
+
+Intel AI for Enterprise の OPEA RAG UI を使用して、ファイルが正しく取り込まれたことを確認できます。詳細については、Intel AI for Enterprise RAG UI のドキュメントをご覧ください。アプリケーションが多数のファイルを取り込むには、時間がかかる場合がありますのでご注意ください
+
+*オプション2：UIを使用してアップロードする 少数のファイルのみを取り込む場合は、OPEA for Intel AI for Enterprise RAG UIを使用して取り込むことができます。詳細については、Intel AI for Enterprise RAG UIのドキュメントをご覧ください。
+
+図 9 - データ取り込み UI。 image:aipod-mini-image11.png["600,600"]
+
+
+
+==== チャットクエリを実行する
+
+付属のチャットUIを使用して、OPEA for Intel AI for Enterprise RAGアプリケーションと「チャット」できるようになりました。クエリに応答する際、アプリケーションは取り込んだファイルを使用してRAGを実行します。つまり、アプリケーションは取り込んだファイル内の関連情報を自動的に検索し、クエリに応答する際にその情報を組み込みます。
+
+
+
+== サイジングガイダンス
+
+検証の一環として、Intelと連携してパフォーマンステストを実施しました。このテストの結果、以下の表に示すサイジングガイドラインが得られました。
+
+|===
+| 特徴づけ | 値 | コメント 
+
+
+| モデルサイズ | 200億のパラメータ | ラマ-8B、ラマ-13B、ミストラル7B、クウェン14B、ディープシーク・ディスティル8B 
+
+
+| 入力サイズ | 約2,000トークン | 約4ページ 
+
+
+| 出力サイズ | 約2,000トークン | 約4ページ 
+
+
+| 同時ユーザー数 | 32 | 「同時ユーザー」とは、同時にクエリを送信しているプロンプト要求を指します。 
+|===
+_注：上記のサイジングガイダンスは、96コアのIntel Xeon 6プロセッサーを使用したパフォーマンス検証およびテスト結果に基づいています。同様のI/Oトークンとモデルサイズ要件を持つお客様には、96コアまたは128コアのXeon 6プロセッサーを搭載したサーバーのご利用をお勧めします。_
+
+
+
+== まとめ
+
+エンタープライズRAGシステムとLLMは、連携して機能するテクノロジーであり、組織が正確でコンテキストに応じたレスポンスを提供できるようにします。これらのレスポンスには、膨大なプライベートデータと社内データに基づく情報検索が含まれます。RAG、API、ベクター埋め込み、高性能ストレージシステムを使用して、企業データを含むドキュメントリポジトリをクエリすることで、データはより高速かつ安全に処理されます。NetAppAIPod Miniは、NetAppのインテリジェントなデータインフラストラクチャと、ONTAPデータ管理機能、Intel Xeon 6プロセッサー、Intel AI for Enterprise RAG、そしてOPEAソフトウェアスタックを組み合わせることで、高性能なRAGアプリケーションの導入を支援し、組織をAI主導の道へと導きます。
+
+
+
+== 確認応答
+
+このドキュメントは、NetAppソリューションエンジニアリングチームのメンバーであるSathish ThyagarajanとMichael Ogelsbyによって作成されました。著者は、このソリューションの検証中に継続的なサポートと協力をいただいたIntelのエンタープライズAI製品チーム（Ajay Mungara、Mikolaj Zyczynski、Igor Konopko、Ramakrishna Karamsetty、Michal Prostko、Shreejan Mistry、Ned Fiori）と、NetAppの他のチームメンバー（Lawrence Bunka、Bobby Oommen、Jeff Liborio）にも感謝の意を表します。
+
+
+
+== 部品表
+
+以下は、このソリューションの機能検証に使用したBOMであり、参考としてご利用いただけます。以下の構成に適合する任意のサーバーまたはネットワークコンポーネント（または、100GbE帯域幅が望ましい既存のネットワーク）を使用できます。
+
+アプリサーバーの場合:
+
+|===
+| *部品番号* | *製品説明* | *量* 
+
+
+| 222HA-TN-OTO-37 | ハイパースーパーサーバー SYS-222HA-TN /2U | 2 
+
+
+| P4X-GNR6972P-SRPL2-UCC | インテル Xeon 6972P 2P 128C 2G 504M 500W SGX512 | 2 
+
+
+| RAM | MEM-DR564MC-ER64(x16)64GB DDR5-6400 2RX4 (16Gb) ECC RDIMM | 32 
+
+
+|  | HDS-M2N4-960G0-E1-TXD-NON-080(x2) SSD M.2 NVMe PCIe4 960GB 1DWPD TLC D、80mm | 2 
+
+
+|  | WS-1K63A-1R(x2)1U 692W/1600W冗長シングル出力電源。発熱量2361 BTU/時、最高温度59℃（約） | 4 
+|===
+制御サーバーの場合:
+
+|===
+
+
+| *部品番号* | *製品説明* | *量* 
+
+
+| 511R-M-OTO-17 | 1U X13SCH-SYS、CSE-813MF2TS-R0RCNBP、PWS-602A-1Rまで最適化 | 1 
+
+
+| P4X-GNR6972P-SRPL2-UCC | P4D-G7400-SRL66(x1) ADL ペンティアム G7400 | 1 
+
+
+| RAM | MEM-DR516MB-EU48(x2)16GB DDR5-4800 1Rx8 (16Gb) ECC UDIMM | 1 
+
+
+|  | HDS-M2N4-960G0-E1-TXD-NON-080(x2) SSD M.2 NVMe PCIe4 960GB 1DWPD TLC D、80mm | 2 
+|===
+ネットワーク スイッチの場合:
+
+|===
+
+
+| *部品番号* | *製品説明* | *量* 
+
+
+| DCS-7280CR3A | アリスタ 7280R3A 28x100 GbE | 1 
+|===
+NetApp AFF ストレージ:
+
+|===
+
+
+| *部品番号* | *製品説明* | *量* 
+
+
+| AFF-A20A-100-C | AFF A20 HAシステム、-C | 1 
+
+
+| X800-42U-R6-C | ジャンパーカード、インキャブ、C13-C14、-C | 2 
+
+
+| X97602A-C | 電源、1600W、チタン、-C | 2 
+
+
+| X66211B-2-NC | ケーブル、100GbE、QSFP28-QSFP28、Cu、2m、-C | 4 
+
+
+| X66240A-05-NC | ケーブル、25GbE、SFP28-SFP28、Cu、0.5m、-C | 2 
+
+
+| X5532A-NC | レール、4ポスト、薄型、Rnd/Sq-Hole、Sm、Adj、24-32、-C | 1 
+
+
+| X4024A-2-AC | ドライブ パック 2X1.92TB、NVMe4、SED、-C | 6 
+
+
+| X60130A-C | IOモジュール、2PT、100GbE、-C | 2 
+
+
+| X60132A-C | IOモジュール、4PT、10/25GbE、-C | 2 
+
+
+| SW-ONTAPB-FLASH-A20-C | SW、ONTAP ベース パッケージ、TB 単位、フラッシュ、A20、-C | 23 
+|===
+
+
+== 詳細情報の入手方法
+
+このドキュメントに記載されている情報の詳細については、以下のドキュメントや Web サイトを参照してください。
+
+https://www.netapp.com/support-and-training/documentation/ONTAP%20S3%20configuration%20workflow/["ネットアップの製品マニュアル"^]
+
+link:https://github.com/opea-project/Enterprise-RAG/tree/main["OPEA プロジェクト"]
+
+https://github.com/opea-project/Enterprise-RAG/tree/main/deployment/playbooks["OPEA エンタープライズ RAG 導入プレイブック"^]
